@@ -4,6 +4,8 @@
 #include <QWidget>
 
 #include "widgets/toptoolbar.h"
+#include "widgets/canvaswidget.h"
+
 class MainWidget: public QWidget {
     Q_OBJECT
 public:
@@ -12,7 +14,7 @@ public:
 
 private:
     TopToolbar* m_topToolbar;
-    QWidget* m_mainWidget;
+    CanvasWidget* m_mainWidget;
 };
 
 #endif // MAINWIDGET_H
