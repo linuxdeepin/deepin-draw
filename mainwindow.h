@@ -5,6 +5,8 @@
 
 #include <QWidget>
 
+#include "mainwidget.h"
+
 DWIDGET_USE_NAMESPACE
 
 class MainWindow: public DMainWindow {
@@ -13,6 +15,8 @@ public:
     MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
+private:
+    MainWidget* m_mainWidget;
 };
 
 #endif // MAINWINDOW_H

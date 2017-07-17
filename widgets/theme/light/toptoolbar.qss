@@ -1,0 +1,35 @@
+QLabel#LogoLabel {
+    background-color: red;
+    border-image: url(:/theme/light/deepin-draw.png);
+}
+
+QPushButton#CutBtn {
+    border-image: url(:/theme/light/palette.png);
+}
+
+QPushButton#PicBtn {
+    border-image: url(:/theme/light/pic.png);
+}
+
+QPushButton#RectBtn {
+    border-image: url(:/theme/light/rect.png);
+}
+
+QPushButton#OvalBtn {
+    border-image: url(:/theme/light/oval.png);
+}
+
+QPushButton#LineBtn {
+    border-image: url(:/theme/light/line.png);
+}
+
+QPushButton#TextBtn {
+    border-image: url(:/theme/light/text.png);
+}
+
+QPushButton#BlurBtn {
+    border-image: url(:/theme/light/blur.png);
+}
+QPushButton#UploadBtn {
+    border-image: url(:/theme/light/upload.png);
+}

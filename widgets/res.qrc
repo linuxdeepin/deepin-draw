@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>theme/dark/toptoolbar.qss</file>
+        <file>theme/light/toptoolbar.qss</file>
+        <file>theme/light/blur.png</file>
+        <file>theme/light/deepin-draw.png</file>
+        <file>theme/light/line.png</file>
+        <file>theme/light/oval.png</file>
+        <file>theme/light/palette.png</file>
+        <file>theme/light/pic.png</file>
+        <file>theme/light/rect.png</file>
+        <file>theme/light/text.png</file>
+        <file>theme/light/upload.png</file>
+    </qresource>
+</RCC>
