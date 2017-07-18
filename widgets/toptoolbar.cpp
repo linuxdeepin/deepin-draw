@@ -7,6 +7,7 @@
 #include <QSlider>
 
 #include "utils/baseutils.h"
+#include "widgets/seperatorline.h"
 
 #include <DTitlebar>
 
@@ -15,15 +16,14 @@ DWIDGET_USE_NAMESPACE
 TopToolbar::TopToolbar(QWidget* parent)
 : QWidget(parent) {
     setStyleSheet(getFileContent(":/theme/light/toptoolbar.qss"));
-
     QLabel* logoLabel = new QLabel(this);
-    logoLabel->setFixedSize(62, 62);
+    logoLabel->setFixedSize(24, 25);
     logoLabel->setObjectName("LogoLabel");
 
-    ToolButton* cutBtn = new ToolButton(this);
-    cutBtn->setObjectName("CutBtn");
-    ToolButton* picBtn = new ToolButton(this);
-    picBtn->setObjectName("PicBtn");
+    ToolButton* artBoardBtn = new ToolButton(this);
+    artBoardBtn->setObjectName("ArtBoardBtn");
+    ToolButton* importBtn = new ToolButton(this);
+    importBtn->setObjectName("ImportBtn");
 
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
@@ -38,30 +38,26 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     initStackWidget();
 
-    ToolButton* uploadBtn = new ToolButton(this);
-    uploadBtn->setObjectName("UploadBtn");
-
-    DTitlebar* m_titlebar = new DTitlebar(this);
-    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
-                               Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
-//    m_titlebar->setMenu(m_menu);
-//    QWidget *customWidget = new QWidget();
-//    customWidget->setFixedWidth(0);
-//    m_titlebar->setCustomWidget(customWidget, false);
+    ToolButton* exportBtn = new ToolButton(this);
+    exportBtn->setObjectName("ExportBtn");
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
-    mLayout->setSpacing(0);
+    mLayout->setSpacing(10);
     mLayout->addWidget(logoLabel);
-    mLayout->addWidget(cutBtn);
+    mLayout->addSpacing(100);
+    mLayout->addWidget(artBoardBtn);
+    mLayout->addWidget(importBtn);
     mLayout->addWidget(rectBtn);
     mLayout->addWidget(ovalBtn);
     mLayout->addWidget(lineBtn);
     mLayout->addWidget(textBtn);
     mLayout->addWidget(blurBtn);
+    mLayout->addStretch(1);
     mLayout->addWidget(m_stackWidget);
-    mLayout->addWidget(uploadBtn);
-    mLayout->addWidget(m_titlebar);
+    mLayout->addStretch(1);
+    mLayout->addWidget(exportBtn);
+    mLayout->addSpacing(100);
     setLayout(mLayout);
 }
 
@@ -95,16 +91,25 @@ void TopToolbar::initStackWidget() {
     //drawShapeWidget
     m_drawShapeWidget = new QWidget(this);
     ToolButton* borderColBtn = new ToolButton(this);
+    QLabel* borderColLabel = new QLabel(this);
+    borderColLabel->setObjectName("BorderStrokeLabel");
+    borderColLabel->setText(tr("Stroke"));
+
+    SeperatorLine* sep1Line = new SeperatorLine(this);
     QLabel* borderStyleLabel = new QLabel(this);
     borderStyleLabel->setObjectName("BorderStyleLabel");
+    borderStyleLabel->setText(tr("Style"));
     ToolButton* sLineBtn = new ToolButton(this);
     sLineBtn->setObjectName("StraightLineBtn");
     ToolButton* arbiLineBtn = new ToolButton(this);
     arbiLineBtn->setObjectName("ArbiLineBtn");
     ToolButton* arrowBtn = new ToolButton(this);
     arrowBtn->setObjectName("ArrowBtn");
+    SeperatorLine* sep2Line = new SeperatorLine(this);
+
     QLabel* borderLWLabel = new QLabel(this);
     borderLWLabel->setObjectName("BorderLWLabel");
+    borderLWLabel->setText(tr("Width"));
     ToolButton* finerLineBtn = new ToolButton(this);
     finerLineBtn->setObjectName("FinerLineBtn");
     ToolButton* fineLineBtn = new ToolButton(this);
@@ -113,12 +118,18 @@ void TopToolbar::initStackWidget() {
     mediumLineBtn->setObjectName("MediumLineBtn");
     ToolButton* boldLineBtn = new ToolButton(this);
     boldLineBtn->setObjectName("BoldLineBtn");
+
     QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawShapeWidget);
+    drawHbLayout->setMargin(0);
+    drawHbLayout->setSpacing(10);
     drawHbLayout->addWidget(borderColBtn);
+    drawHbLayout->addWidget(borderColLabel);
+    drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderStyleLabel);
     drawHbLayout->addWidget(sLineBtn);
     drawHbLayout->addWidget(arbiLineBtn);
     drawHbLayout->addWidget(arrowBtn);
+    drawHbLayout->addWidget(sep2Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderLWLabel);
     drawHbLayout->addWidget(finerLineBtn);
     drawHbLayout->addWidget(fineLineBtn);
@@ -182,7 +193,7 @@ void TopToolbar::initStackWidget() {
     m_blurWidget->setLayout(blurHbLayout);
     m_stackWidget->addWidget(m_blurWidget);
 
-    m_stackWidget->setCurrentWidget(m_drawShapeWidget);
+    m_stackWidget->setCurrentWidget(m_cutWidget);
 }
 
 TopToolbar::~TopToolbar() {}

@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include "mainwidget.h"
+#include "widgets/toptoolbar.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -16,6 +17,7 @@ public:
     ~MainWindow();
 
 private:
+    TopToolbar* m_topToolbar;
     MainWidget* m_mainWidget;
 };
 

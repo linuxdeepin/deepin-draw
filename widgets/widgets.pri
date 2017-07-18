@@ -1,6 +1,7 @@
 HEADERS += \
     $$PWD/toptoolbar.h \
-    $$PWD/canvaswidget.h
+    $$PWD/canvaswidget.h \
+    $$PWD/seperatorline.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
