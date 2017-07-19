@@ -16,9 +16,14 @@ public:
     MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 private:
     TopToolbar* m_topToolbar;
     MainWidget* m_mainWidget;
+
+    int m_titlebarWidth;
 };
 
 #endif // MAINWINDOW_H

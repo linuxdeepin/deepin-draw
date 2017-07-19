@@ -21,6 +21,7 @@ dist
 build*/
 include*/
 
+*.pro.user
 *.pro.user*
 *.DS_Store
 *.qm

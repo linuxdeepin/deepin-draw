@@ -1,3 +1,7 @@
+QWidget#TopToolbar {
+    background-color: transparent;
+}
+
 QLabel#LogoLabel {
 border-image: url(:/theme/light/images/logo.png);
 }

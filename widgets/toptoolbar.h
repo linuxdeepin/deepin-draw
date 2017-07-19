@@ -22,13 +22,16 @@ public:
     ~ToolButton() {}
 };
 
-class TopToolbar : public QWidget {
+class TopToolbar : public QFrame{
     Q_OBJECT
 public:
     TopToolbar(QWidget* parent = 0);
     ~TopToolbar();
 
     void initStackWidget();
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 private:
     QStackedWidget* m_stackWidget;

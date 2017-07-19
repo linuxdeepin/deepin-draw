@@ -14,8 +14,9 @@
 DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
-: QWidget(parent) {
+: QFrame(parent) {
     setStyleSheet(getFileContent(":/theme/light/toptoolbar.qss"));
+    setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
     logoLabel->setFixedSize(24, 25);
     logoLabel->setObjectName("LogoLabel");
@@ -194,6 +195,10 @@ void TopToolbar::initStackWidget() {
     m_stackWidget->addWidget(m_blurWidget);
 
     m_stackWidget->setCurrentWidget(m_cutWidget);
+}
+
+void TopToolbar::resizeEvent(QResizeEvent *event) {
+    this->updateGeometry();
 }
 
 TopToolbar::~TopToolbar() {}
