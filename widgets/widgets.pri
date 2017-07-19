@@ -2,14 +2,14 @@ HEADERS += \
     $$PWD/toptoolbar.h \
     $$PWD/canvaswidget.h \
     $$PWD/seperatorline.h \
-    $$PWD/iconbutton.h \
-    $$PWD/drawthememanager.h
+    $$PWD/drawthememanager.h \
+    $$PWD/pushbutton.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
     $$PWD/canvaswidget.cpp \
-    $$PWD/iconbutton.cpp \
-    $$PWD/drawthememanager.cpp
+    $$PWD/drawthememanager.cpp \
+    $$PWD/pushbutton.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

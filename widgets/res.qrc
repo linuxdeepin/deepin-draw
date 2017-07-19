@@ -78,5 +78,7 @@
         <file>theme/light/images/action/line_normal.png</file>
         <file>theme/light/TopToolbar.qss</file>
         <file>theme/dark/TopToolbar.qss</file>
+        <file>theme/dark/IconButton.qss</file>
+        <file>theme/light/PushButton.qss</file>
     </qresource>
 </RCC>

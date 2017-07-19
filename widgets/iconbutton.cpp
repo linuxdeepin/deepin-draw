@@ -5,7 +5,7 @@
 IconButton::IconButton(const QString &normalPic, const QString &hoverPic, const QString
     &pressPic, const QString &text, QWidget *parent) : QPushButton(parent) {
 
-    setStyleSheet("QPushButton {outline: none; background-color: transparent; border: none;}");
+    setStyleSheet("");
     if (!normalPic.isEmpty())
         m_normalPic = normalPic;
     if (!hoverPic.isEmpty())

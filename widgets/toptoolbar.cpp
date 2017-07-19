@@ -9,7 +9,8 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "widgets/seperatorline.h"
-
+#include "widgets/iconbutton.h"
+#include "widgets/pushbutton.h"
 #include <DTitlebar>
 
 DWIDGET_USE_NAMESPACE
@@ -56,9 +57,9 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addWidget(lineBtn);
     mLayout->addWidget(textBtn);
     mLayout->addWidget(blurBtn);
-    mLayout->addStretch(1);
+    mLayout->addStretch();
     mLayout->addWidget(m_stackWidget);
-    mLayout->addStretch(1);
+    mLayout->addStretch();
     mLayout->addWidget(exportBtn);
     mLayout->addSpacing(100);
     setLayout(mLayout);
@@ -69,16 +70,25 @@ void TopToolbar::initStackWidget() {
 
 //    //cutWidget
     m_cutWidget = new QWidget(this);
-    ToolButton* leftRotateBtn = new ToolButton(this);
+    PushButton* leftRotateBtn = new PushButton();
     leftRotateBtn->setObjectName("LeftRotate");
-    ToolButton* rightRotateBtn = new ToolButton(this);
+    leftRotateBtn->setText(tr("Rotate 90° CCW"));
+
+    PushButton* rightRotateBtn = new PushButton(this);
     rightRotateBtn->setObjectName("RightRotate");
-    ToolButton* cutBtn = new ToolButton(this);
+    rightRotateBtn->setText(tr("Rotate 90° CW"));
+
+    PushButton* cutBtn = new PushButton(this);
     cutBtn->setObjectName("CutButton");
-    ToolButton* horiFlipBtn = new ToolButton(this);
+    cutBtn->setText(tr("Clip"));
+
+    PushButton* horiFlipBtn = new PushButton(this);
     horiFlipBtn->setObjectName("FlipHorizontalBtn");
-    ToolButton* verticaFlipBtn = new ToolButton(this);
+    horiFlipBtn->setText(tr("Flip horizontally"));
+
+    PushButton* verticaFlipBtn = new PushButton(this);
     verticaFlipBtn->setObjectName("FlipVerticalBtn");
+    verticaFlipBtn->setText("Flip vertically");
 
     QHBoxLayout* cutHbLayout = new QHBoxLayout(m_cutWidget);
     cutHbLayout->setMargin(0);

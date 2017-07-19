@@ -6,6 +6,8 @@ QLabel#LogoLabel {
 border-image: url(:/theme/light/images/logo.png);
 }
 
+
+
 QPushButton#ArtBoardBtn {
 border-image: url(:/theme/light/images/action/artboard_normal.png);
 }
@@ -247,82 +249,37 @@ QPushButton#BoldLineBtn:checked {
 border-image: url(:/theme/light/images/draw/line_border_4_active.png);
 }
 
-QPushButton#LeftRotate {
-border-image: url(:/theme/light/images/cut/rotate_left_normal.png);
+PushButton#LeftRotate {
+    qproperty-normalPic: url(:/theme/light/images/cut/rotate_left_normal.png);
+    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_left_hover.png);
+    qproperty-pressPic: url(:/theme/light/images/cut/rotate_left_active.png);
+    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_left_active.png);
 }
 
-QPushButton#LeftRotate:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/cut/rotate_left_hover.png);
-}
-
-QPushButton#LeftRotate:checked {
-border-image: url(:/theme/light/images/cut/rotate_left_active.png);
-}
-
-QPushButton#RightRotate {
-border-image: url(:/theme/light/images/cut/rotate_right_normal.png);
-}
-
-QPushButton#RightRotate:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/cut/rotate_right_hover.png);
-}
-
-QPushButton#RightRotate:checked {
-border-image: url(:/theme/light/images/cut/rotate_right_active.png);
+PushButton#RightRotate {
+    qproperty-normalPic: url(:/theme/light/images/cut/rotate_right_normal.png);
+    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_right_hover.png);
+    qproperty-pressPic: url(:/theme/light/images/cut/rotate_right_active.png);
+    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_right_active.png);
 }
 
 QPushButton#CutButton {
-border-image: url(:/theme/light/images/cut/cut_normal.png);
-}
-
-QPushButton#CutButton:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/cut/cut_hover.png);
-}
-
-QPushButton#CutButton:checked {
-border-image: url(:/theme/light/images/cut/cut_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/cut_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/cut/cut_hover.png);
+qproperty-pressPic: url(:/theme/light/images/cut/cut_active.png);
+qproperty-checkedPic: url(:/theme/light/images/cut/cut_active.png);
 }
 
 QPushButton#FlipHorizontalBtn {
-border-image: url(:/theme/light/images/cut/flip_horizontal_normal.png);
-}
-
-QPushButton#FlipHorizontalBtn:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/cut/flip_horizontal_hover.png);
-}
-
-QPushButton#FlipHorizontalBtn:checked {
-border-image: url(:/theme/light/images/cut/flip_horizontal_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/flip_horizontal_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/cut/flip_horizontal_hover.png);
+qproperty-pressPic: url(:/theme/light/images/cut/flip_horizontal_active.png);
+qproperty-checkedPic: url(:/theme/light/images/cut/flip_horizontal_active.png);
 }
 
 QPushButton#FlipVerticalBtn {
-border-image: url(:/theme/light/images/cut/filp_vertical_normal.png);
-}
-
-QPushButton#FlipVerticalBtn:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/cut/filp_vertical_hover.png);
-}
-
-QPushButton#FlipVerticalBtn:checked {
-border-image: url(:/theme/light/images/cut/filp_vertical_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/filp_vertical_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/cut/filp_vertical_hover.png);
+qproperty-pressPic: url(:/theme/light/images/cut/filp_vertical_active.png);
+qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.png);
 }
