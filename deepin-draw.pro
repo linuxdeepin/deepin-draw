@@ -21,6 +21,7 @@ SOURCES += main.cpp \
 
 include(widgets/widgets.pri)
 include(utils/utils.pri)
+include(controller/controller.pri)
 
 RESOURCES += \
     resource.qrc

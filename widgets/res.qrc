@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>theme/dark/toptoolbar.qss</file>
-        <file>theme/light/toptoolbar.qss</file>
         <file>theme/light/images/action/artboard_active.png</file>
         <file>theme/light/images/action/artboard_hover.png</file>
         <file>theme/light/images/action/artboard_normal.png</file>
@@ -78,5 +76,7 @@
         <file>theme/light/images/action/import_hover.png</file>
         <file>theme/light/images/action/import_normal.png</file>
         <file>theme/light/images/action/line_normal.png</file>
+        <file>theme/light/TopToolbar.qss</file>
+        <file>theme/dark/TopToolbar.qss</file>
     </qresource>
 </RCC>

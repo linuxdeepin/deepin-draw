@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QSlider>
 
+#include "utils/global.h"
 #include "utils/baseutils.h"
 #include "widgets/seperatorline.h"
 
@@ -15,7 +16,8 @@ DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent) {
-    setStyleSheet(getFileContent(":/theme/light/toptoolbar.qss"));
+
+    DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
     logoLabel->setFixedSize(24, 25);
