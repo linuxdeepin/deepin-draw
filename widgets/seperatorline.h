@@ -8,8 +8,8 @@ class SeperatorLine : public QLabel {
 public:
     SeperatorLine(QWidget* parent = 0) {
         Q_UNUSED(parent);
-        setFixedSize(1, 20);
-        setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.3);");
+        setFixedSize(1, 18);
+        setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
     }
     ~SeperatorLine() {}
 

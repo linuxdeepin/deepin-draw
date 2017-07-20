@@ -9,8 +9,9 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "widgets/seperatorline.h"
-#include "widgets/iconbutton.h"
+#include "widgets/bordercolorbutton.h"
 #include "widgets/pushbutton.h"
+
 #include <DTitlebar>
 
 DWIDGET_USE_NAMESPACE
@@ -104,10 +105,11 @@ void TopToolbar::initStackWidget() {
 
     //drawShapeWidget
     m_drawShapeWidget = new QWidget(this);
-    ToolButton* borderColBtn = new ToolButton(this);
+
     QLabel* borderColLabel = new QLabel(this);
     borderColLabel->setObjectName("BorderStrokeLabel");
     borderColLabel->setText(tr("Stroke"));
+    BorderColorButton* borderCButton = new BorderColorButton(this);
 
     SeperatorLine* sep1Line = new SeperatorLine(this);
     QLabel* borderStyleLabel = new QLabel(this);
@@ -136,8 +138,8 @@ void TopToolbar::initStackWidget() {
     QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawShapeWidget);
     drawHbLayout->setMargin(0);
     drawHbLayout->setSpacing(10);
-    drawHbLayout->addWidget(borderColBtn);
     drawHbLayout->addWidget(borderColLabel);
+    drawHbLayout->addWidget(borderCButton);
     drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderStyleLabel);
     drawHbLayout->addWidget(sLineBtn);
@@ -207,7 +209,7 @@ void TopToolbar::initStackWidget() {
     m_blurWidget->setLayout(blurHbLayout);
     m_stackWidget->addWidget(m_blurWidget);
 
-    m_stackWidget->setCurrentWidget(m_cutWidget);
+    m_stackWidget->setCurrentWidget(m_drawShapeWidget);
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *event) {

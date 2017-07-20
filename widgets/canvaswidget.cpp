@@ -8,7 +8,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     : QWidget(parent) {
     m_canvasLabel = new QLabel(this);
     m_canvasLabel->setMinimumSize(400, 400);
-    m_canvasLabel->setStyleSheet("border: 2px solid blue;");
+    m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setContentsMargins(MARGIN, MARGIN, MARGIN, MARGIN);
     mLayout->addSpacing(0);
