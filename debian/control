@@ -2,7 +2,8 @@ Source: deepin-draw
 Section: utils
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>=9), qt5-qmake, qt5-default, qtbase5-dev, pkg-config
+Build-Depends: debhelper (>=9), qt5-qmake, qt5-default, qtbase5-dev, pkg-config,
+ libdtkbase-dev, libdtkwidget-dev
 Standards-Version: 3.9.6
 Homepage: http://www.deepin.org
 
