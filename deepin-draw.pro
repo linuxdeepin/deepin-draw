@@ -23,8 +23,7 @@ include(widgets/widgets.pri)
 include(utils/utils.pri)
 include(controller/controller.pri)
 
-RESOURCES += \
-    resource.qrc
+RESOURCES +=
 
 
 BINDIR = $$PREFIX/bin
@@ -40,10 +39,10 @@ target.path = $$BINDIR
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-draw.desktop
 
-#manual.path = $$MANDIR
+manual.path = $$MANDIR
 #manual.files = doc/*
-#manual_icon.path = $$MANICONDIR
-#manual_icon.files = doc/common/deepin-draw.svg
+manual_icon.path = $$MANICONDIR
+manual_icon.files = logo/deepin-draw.svg
 
 app_icon.path = $$APPICONDIR
 app_icon.files = logo/deepin-draw.svg
@@ -59,8 +58,8 @@ app_icon.files = logo/deepin-draw.svg
 
 #translations.path = $$APPSHAREDIR/translations
 #translations.files = translations/*.qm
-!exists(app_icon.files) {
-    message("app_icon  not exists")
+exists(app_icon.files) {
+    message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon #manual manual_icon  translations
+INSTALLS = target desktop  app_icon manual_icon #manual   translations
