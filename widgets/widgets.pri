@@ -4,14 +4,16 @@ HEADERS += \
     $$PWD/seperatorline.h \
     $$PWD/drawthememanager.h \
     $$PWD/pushbutton.h \
-    $$PWD/bordercolorbutton.h
+    $$PWD/bordercolorbutton.h \
+    $$PWD/colorpanel.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
     $$PWD/canvaswidget.cpp \
     $$PWD/drawthememanager.cpp \
     $$PWD/pushbutton.cpp \
-    $$PWD/bordercolorbutton.cpp
+    $$PWD/bordercolorbutton.cpp \
+    $$PWD/colorpanel.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

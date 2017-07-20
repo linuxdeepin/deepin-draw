@@ -11,6 +11,7 @@
 #include "widgets/seperatorline.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/pushbutton.h"
+#include "widgets/colorpanel.h"
 
 #include <DTitlebar>
 
@@ -65,6 +66,9 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addWidget(exportBtn);
     mLayout->addSpacing(30);
     setLayout(mLayout);
+
+//    ColorPanel* colPanel = new ColorPanel();
+//    colPanel->show();
 }
 
 void TopToolbar::initStackWidget() {
