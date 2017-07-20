@@ -5,7 +5,9 @@ HEADERS += \
     $$PWD/drawthememanager.h \
     $$PWD/pushbutton.h \
     $$PWD/bordercolorbutton.h \
-    $$PWD/colorpanel.h
+    $$PWD/colorpanel.h \
+    $$PWD/sliderlabel.h \
+    $$PWD/editlabel.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -13,7 +15,9 @@ SOURCES += \
     $$PWD/drawthememanager.cpp \
     $$PWD/pushbutton.cpp \
     $$PWD/bordercolorbutton.cpp \
-    $$PWD/colorpanel.cpp
+    $$PWD/colorpanel.cpp \
+    $$PWD/sliderlabel.cpp \
+    $$PWD/editlabel.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

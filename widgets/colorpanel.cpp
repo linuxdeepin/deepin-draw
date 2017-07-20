@@ -1,6 +1,7 @@
 #include "colorpanel.h"
 
 #include <QPainter>
+#include <QHBoxLayout>
 #include <QGridLayout>
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
@@ -45,8 +46,8 @@ ColorPanel::ColorPanel(QWidget *parent)
             << QString("#626262") << QString("#404040") << QString("#000000");
 
     QList<ColorButton*> cButtonList;
-
-    QGridLayout* gLayout = new QGridLayout(this);
+    QGridLayout* gLayout = new QGridLayout;
+    gLayout->setSpacing(3);
 
     for(int i = 1; i < colList.length(); i++) {
         ColorButton* cb = new ColorButton(QColor(colList[i]), this);
@@ -54,7 +55,27 @@ ColorPanel::ColorPanel(QWidget *parent)
         gLayout->addWidget(cb, i/10, i%10);
     }
 
-    setLayout(gLayout);
+    m_sliderLabel = new SliderLabel("Alpha", this);
+
+    m_editLabel = new EditLabel(this);
+    m_editLabel->setTitle(tr("Color"));
+    m_editLabel->setEditText("#FF0000");
+    m_colorfulBtn = new PushButton(this);
+    m_colorfulBtn->setObjectName("ColorFulButton");
+
+     QHBoxLayout* colorLayout = new QHBoxLayout;
+    colorLayout->setMargin(0);
+    colorLayout->setSpacing(0);
+    colorLayout->addWidget(m_editLabel);
+    colorLayout->addWidget(m_colorfulBtn);
+
+    QVBoxLayout* mLayout = new QVBoxLayout(this);
+    mLayout->setMargin(0);
+    mLayout->setSpacing(0);
+    mLayout->addLayout(gLayout);
+    mLayout->addWidget(m_sliderLabel);
+    mLayout->addLayout(colorLayout);
+    setLayout(mLayout);
 }
 
 ColorPanel::~ColorPanel() {}

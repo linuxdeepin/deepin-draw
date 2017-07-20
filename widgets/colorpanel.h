@@ -6,6 +6,10 @@
 #include <QColor>
 #include <QPaintEvent>
 
+#include "sliderlabel.h"
+#include "editlabel.h"
+#include "pushbutton.h"
+
 class ColorButton : public QPushButton {
     Q_OBJECT
 public:
@@ -26,7 +30,9 @@ public:
     ~ColorPanel();
 
 private:
-
+    SliderLabel* m_sliderLabel;
+    EditLabel* m_editLabel;
+    PushButton* m_colorfulBtn;
 };
 
 #endif // COLORPANEL_H
