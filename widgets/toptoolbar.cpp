@@ -49,19 +49,20 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->setMargin(0);
     mLayout->setSpacing(10);
     mLayout->addWidget(logoLabel);
-    mLayout->addSpacing(100);
+    mLayout->addSpacing(15);
     mLayout->addWidget(artBoardBtn);
+    mLayout->addSpacing(20);
     mLayout->addWidget(importBtn);
     mLayout->addWidget(rectBtn);
     mLayout->addWidget(ovalBtn);
     mLayout->addWidget(lineBtn);
     mLayout->addWidget(textBtn);
     mLayout->addWidget(blurBtn);
-    mLayout->addStretch();
+    mLayout->addStretch(1);
     mLayout->addWidget(m_stackWidget);
-    mLayout->addStretch();
+    mLayout->addStretch(1);
     mLayout->addWidget(exportBtn);
-    mLayout->addSpacing(100);
+    mLayout->addSpacing(30);
     setLayout(mLayout);
 }
 
