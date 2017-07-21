@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/bordercolorbutton.h \
     $$PWD/colorpanel.h \
     $$PWD/sliderlabel.h \
-    $$PWD/editlabel.h
+    $$PWD/editlabel.h \
+    $$PWD/colorlabel.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     $$PWD/bordercolorbutton.cpp \
     $$PWD/colorpanel.cpp \
     $$PWD/sliderlabel.cpp \
-    $$PWD/editlabel.cpp
+    $$PWD/editlabel.cpp \
+    $$PWD/colorlabel.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

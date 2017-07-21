@@ -80,5 +80,7 @@
         <file>theme/dark/TopToolbar.qss</file>
         <file>theme/dark/IconButton.qss</file>
         <file>theme/light/PushButton.qss</file>
+        <file>theme/light/ColorPanel.qss</file>
+        <file>theme/light/images/draw/colorful_line.png</file>
     </qresource>
 </RCC>

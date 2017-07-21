@@ -4,6 +4,10 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 
+#include "utils/baseutils.h"
+#include "utils/global.h"
+#include "colorlabel.h"
+
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent) {
     m_color = color;
@@ -28,6 +32,8 @@ ColorButton::~ColorButton() {}
 
 ColorPanel::ColorPanel(QWidget *parent)
     : QWidget(parent) {
+    DRAW_THEME_INIT_WIDGET("ColorPanel");
+//    setMinimumHeight(400);
     QStringList colList;
     colList << QString("#ff0c0c") << QString("#fe3c3b") << QString("#fd6867") << QString("#fd9694")
             << QString("#fcc4c1") << QString("#f8e0d6") << QString("#e4c299") << QString("#f2aa46")
@@ -69,12 +75,27 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->addWidget(m_editLabel);
     colorLayout->addWidget(m_colorfulBtn);
 
+    QSlider* colorfulSlider = new QSlider(Qt::Horizontal, this);
+    colorfulSlider->setObjectName("ColorfulSlider");
+    colorfulSlider->setFixedSize(222, 20);
+    colorfulSlider->setMinimum(0);
+    colorfulSlider->setMaximum(360);
+
+
+    ColorLabel* pickColorLabel = new ColorLabel(this);
+    pickColorLabel->setFixedSize(200, 200);
+    connect(colorfulSlider, &QSlider::valueChanged, pickColorLabel, &ColorLabel::setHue);
+
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
     mLayout->addLayout(gLayout);
     mLayout->addWidget(m_sliderLabel);
     mLayout->addLayout(colorLayout);
+    mLayout->addSpacing(20);
+    mLayout->addWidget(pickColorLabel);
+    mLayout->addWidget(colorfulSlider);
+
     setLayout(mLayout);
 }
 

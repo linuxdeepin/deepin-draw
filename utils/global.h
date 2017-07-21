@@ -3,6 +3,10 @@
 
 #include "widgets/drawthememanager.h"
 
+#include <QMetaObject>
+#include <QMetaProperty>
+#include <QStyle>
+
 #define DRAW_THEME_INIT_WIDGET(className, ...) do {\
     DrawThemeManager * manager = DrawThemeManager::instance(); \
     this->setStyleSheet(this->styleSheet() + manager->getQssForWidget(className)); \

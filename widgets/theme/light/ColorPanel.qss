@@ -1,0 +1,16 @@
+PushButton#ColorFulButton {
+    qproperty-normalPic: url(:/theme/light/images/draw/color_more_normal.png);
+    qproperty-hoverPic: url(:/theme/light/images/draw/color_more_hover.png);
+    qproperty-pressPic: url(:/theme/light/images/draw/color_more_active.png);
+    qproperty-checkedPic: url(:/theme/light/images/draw/color_more_active.png);
+}
+
+QSlider#ColorfulSlider::groove:horizontal {
+    margin: 5px 0px 5px 0px;
+    border-image: url(":/theme/light/images/draw/colorful_line.png");
+}
+
+QSlider#ColorfulSlider::handle:horizontal {
+    background: red;
+    margin: 0px 0px 1px 0px;
+}

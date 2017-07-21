@@ -13,10 +13,6 @@
 #include "widgets/pushbutton.h"
 #include "widgets/colorpanel.h"
 
-#include <DTitlebar>
-
-DWIDGET_USE_NAMESPACE
-
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent) {
 
@@ -67,8 +63,8 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
-//    ColorPanel* colPanel = new ColorPanel();
-//    colPanel->show();
+    ColorPanel* colPanel = new ColorPanel();
+    colPanel->show();
 }
 
 void TopToolbar::initStackWidget() {
