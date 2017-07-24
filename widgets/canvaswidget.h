@@ -1,10 +1,10 @@
 #ifndef CANVASWIDGET_H
 #define CANVASWIDGET_H
 
-#include <QWidget>
+#include <QScrollArea>
 #include <QLabel>
 
-class CanvasWidget : public QWidget {
+class CanvasWidget : public QScrollArea {
     Q_OBJECT
 public:
     CanvasWidget(QWidget* parent = 0);

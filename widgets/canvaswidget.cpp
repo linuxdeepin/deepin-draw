@@ -5,22 +5,21 @@
 const int MARGIN = 20;
 
 CanvasWidget::CanvasWidget(QWidget *parent)
-    : QWidget(parent) {
+    : QScrollArea(parent) {
     m_canvasLabel = new QLabel(this);
     m_canvasLabel->setMinimumSize(400, 400);
     m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
 
-    QHBoxLayout* mLayout = new QHBoxLayout(this);
-    mLayout->setContentsMargins(MARGIN, MARGIN, MARGIN, MARGIN);
-    mLayout->addSpacing(0);
-    mLayout->addWidget(m_canvasLabel);
-
-    setLayout(mLayout);
+    this->setWidget(m_canvasLabel);
 }
 
 void CanvasWidget::setImage(QString filename) {
     m_currentFile = filename;
-    m_canvasLabel->setPixmap(QPixmap(m_currentFile));
+    QPixmap currentImage(m_currentFile);
+    if (!currentImage.isNull()) {
+        m_canvasLabel->setPixmap(QPixmap(m_currentFile));
+        m_canvasLabel->setFixedSize(currentImage.size());
+    }
 }
 
 CanvasWidget::~CanvasWidget() {
