@@ -2,9 +2,10 @@
 
 #include <QHBoxLayout>
 
+
 Slider::Slider(QWidget *parent)
     : QLabel(parent) {
-    m_slider = new QSlider(Qt::Horizontal, this);
+    m_slider = new QSlider(Qt::Horizontal,this);
     m_valueLabel = new QLabel(this);
     m_valueLabel->setText("100%");
 

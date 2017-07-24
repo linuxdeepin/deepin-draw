@@ -6,11 +6,10 @@ PushButton#ColorFulButton {
 }
 
 QSlider#ColorfulSlider::groove:horizontal {
-    margin: 5px 0px 5px 0px;
-    border-image: url(":/theme/light/images/draw/colorful_line.png");
+    border-image: url(:/theme/light/images/draw/slider_bg.png);
 }
 
 QSlider#ColorfulSlider::handle:horizontal {
-    background: red;
-    margin: 0px 0px 1px 0px;
+    background: white;
+    margin: 1px 5px 1px 5px;
 }

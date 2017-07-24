@@ -7,6 +7,7 @@
 #include "utils/baseutils.h"
 #include "utils/global.h"
 #include "colorlabel.h"
+#include "colorslider.h"
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent) {
@@ -75,12 +76,11 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->addWidget(m_editLabel);
     colorLayout->addWidget(m_colorfulBtn);
 
-    QSlider* colorfulSlider = new QSlider(Qt::Horizontal, this);
+    ColorSlider* colorfulSlider = new ColorSlider(this);
     colorfulSlider->setObjectName("ColorfulSlider");
     colorfulSlider->setFixedSize(222, 20);
     colorfulSlider->setMinimum(0);
     colorfulSlider->setMaximum(360);
-
 
     ColorLabel* pickColorLabel = new ColorLabel(this);
     pickColorLabel->setFixedSize(200, 200);

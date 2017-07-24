@@ -6,6 +6,8 @@
 
 #include <QWidget>
 
+#include "colorslider.h"
+
 class Slider : public QLabel {
     Q_OBJECT
 public:
