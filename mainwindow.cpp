@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_mainWidget = new MainWidget(this);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_mainWidget);
+
+    connect(m_topToolbar, &TopToolbar::openImage,
+                    m_mainWidget, &MainWidget::setImageInCanvas);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

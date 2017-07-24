@@ -37,7 +37,7 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/action/import_hover.png);
 }
 
-QPushButton#ImportBtn:checked {
+QPushButton#ImportBtn:pressed{
 border-image: url(:/theme/light/images/action/import_active.png);
 }
 

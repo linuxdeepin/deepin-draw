@@ -19,6 +19,10 @@ MainWidget::MainWidget(QWidget *parent)
     setLayout(m_vLayout);
 }
 
+void MainWidget::setImageInCanvas(QString imageFileName) {
+    m_canvas->setImage(imageFileName);
+}
+
 void MainWidget::resizeEvent(QResizeEvent *event) {
     qDebug() << "MainWidget sssssss" << this->width() << this->height();
     m_seperatorLine->setMinimumWidth(this->width());

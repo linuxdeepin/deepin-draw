@@ -13,6 +13,7 @@ public:
         setFixedSize(24, 24);
         setCheckable(true);
     }
+
     ToolButton(QString text, QWidget* parent = 0) {
         Q_UNUSED(parent);
         setFixedSize(24, 24);
@@ -22,13 +23,19 @@ public:
     ~ToolButton() {}
 };
 
-class TopToolbar : public QFrame{
+class TopToolbar : public QFrame {
     Q_OBJECT
+
 public:
     TopToolbar(QWidget* parent = 0);
     ~TopToolbar();
 
+signals:
+    void openImage(QString imageFileName);
+
+public slots:
     void initStackWidget();
+    void importImage();
 
 protected:
     void resizeEvent(QResizeEvent *event);

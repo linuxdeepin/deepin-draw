@@ -10,8 +10,11 @@ public:
     CanvasWidget(QWidget* parent = 0);
     ~CanvasWidget();
 
+    void setImage(QString filename);
+
 private:
     QLabel* m_canvasLabel;
+    QString m_currentFile;
 };
 
 #endif // CANVASWIDGET_H

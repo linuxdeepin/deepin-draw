@@ -5,6 +5,9 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QSlider>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QDebug>
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
@@ -26,6 +29,8 @@ TopToolbar::TopToolbar(QWidget* parent)
     artBoardBtn->setObjectName("ArtBoardBtn");
     ToolButton* importBtn = new ToolButton(this);
     importBtn->setObjectName("ImportBtn");
+    importBtn->setCheckable(false);
+    connect(importBtn, &ToolButton::clicked, this, &TopToolbar::importImage);
 
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
@@ -63,8 +68,21 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
-    ColorPanel* colPanel = new ColorPanel();
-    colPanel->show();
+//    ColorPanel* colPanel = new ColorPanel();
+//    colPanel->show();
+}
+
+void TopToolbar::importImage() {
+    QFileDialog *dialog = new QFileDialog(this);
+    dialog->setWindowTitle(tr("Import Image"));
+    dialog->setAcceptMode(QFileDialog::AcceptOpen);
+
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"),
+             QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+             tr("Image Files (*.png *.jpg *.bmp)"));
+
+    emit openImage(fileName);
 }
 
 void TopToolbar::initStackWidget() {

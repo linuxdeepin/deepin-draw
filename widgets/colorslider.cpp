@@ -64,6 +64,7 @@ void ColorSlider::paintEvent(QPaintEvent *ev) {
             backgroundImage.setPixelColor(int(s), rect.height() - int(v), penColor);
         }
     }
+
     backgroundImage.save(":/theme/light/images/draw/slider_bg.png", "PNG");
     painter.drawImage(rect, backgroundImage);
     QSlider::paintEvent(ev);

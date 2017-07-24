@@ -13,6 +13,8 @@ public:
     MainWidget(QWidget* parent = 0);
     ~MainWidget();
 
+    void setImageInCanvas(QString imageFileName);
+
 protected:
     void resizeEvent(QResizeEvent *event);
 
