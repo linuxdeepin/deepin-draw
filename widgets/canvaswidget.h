@@ -12,9 +12,16 @@ public:
 
     void setImage(QString filename);
 
+    bool overWindowSize();
+
+    QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
+
 private:
     QLabel* m_canvasLabel;
     QString m_currentFile;
+
+    qreal m_scaleValue;
+    QSize m_scaledSize;
 };
 
 #endif // CANVASWIDGET_H

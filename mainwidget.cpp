@@ -11,11 +11,15 @@ MainWidget::MainWidget(QWidget *parent)
     m_seperatorLine->setFixedHeight(1);
     m_seperatorLine->setStyleSheet("border: 1px solid rgba(0, 0, 0, 30);");
 
+
+
     m_vLayout = new QVBoxLayout(this);
     m_vLayout->setMargin(0);
     m_vLayout->setSpacing(0);
     m_vLayout->addWidget(m_seperatorLine);
-    m_vLayout->addWidget(m_canvas, 0, Qt::AlignCenter);
+    m_vLayout->addStretch();
+    m_vLayout->addWidget(m_canvas, 0, Qt::AlignHCenter);
+    m_vLayout->addStretch();
     setLayout(m_vLayout);
 }
 
