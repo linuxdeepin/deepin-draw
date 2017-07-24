@@ -16,11 +16,14 @@ public:
     ColorButton(const QColor &color, QWidget* parent = 0);
     ~ColorButton();
 
+    void setDisableColor(bool disable);
+
 protected:
     void paintEvent(QPaintEvent *);
 
 private:
     QColor m_color;
+    bool      m_disable;
 };
 
 class ColorPanel : public QWidget {

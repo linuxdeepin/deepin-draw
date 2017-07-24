@@ -5,6 +5,13 @@ PushButton#ColorFulButton {
     qproperty-checkedPic: url(:/theme/light/images/draw/color_more_active.png);
 }
 
+PushButton#DisableColorButton {
+qproperty-normalPic: url(:/theme/light/images/draw/color_disable_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/draw/color_disable_hover.png);
+qproperty-pressPic: url(:/theme/light/images/draw/color_disable_active.png);
+qproperty-checkedPic: url(:/theme/light/images/draw/color_disable_active.png);
+}
+
 QSlider#ColorfulSlider::groove:horizontal {
     border-image: url(:/theme/light/images/draw/slider_bg.png);
 }

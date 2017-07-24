@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QDebug>
 
 #include "utils/baseutils.h"
 #include "utils/global.h"
@@ -10,9 +11,10 @@
 #include "colorslider.h"
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
-    : QPushButton(parent) {
+    : QPushButton(parent), m_disable(false) {
     m_color = color;
     setFixedSize(20, 20);
+    setCheckable(true);
 }
 
 void ColorButton::paintEvent(QPaintEvent *) {
@@ -20,13 +22,32 @@ void ColorButton::paintEvent(QPaintEvent *) {
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(m_color);
 
+    if (m_disable) {
+        painter.drawPixmap(QRect(2, 2, this->width() - 4, this->height() - 4),
+            QPixmap(":/theme/light/images/draw/color_disable_active.png"));
+        return;
+    }
+
     painter.setBrush(QBrush(m_color));
 
     QPen pen;
-    pen.setWidth(2);
-    pen.setColor(m_color);
+    pen.setWidth(1);
+    pen.setColor(QColor(0, 0, 0, 51));
     painter.setPen(pen);
-    painter.drawRoundedRect(this->rect(), 4, 4);
+    painter.drawRoundedRect(QRect(2, 2, this->width() - 4, this->height() - 4), 4, 4);
+
+    if (isChecked()) {
+        painter.setBrush(QBrush());
+        QPen borderPen;
+        borderPen.setWidth(1);
+        borderPen.setColor("#01bdff");
+        painter.setPen(borderPen);
+        painter.drawRoundedRect(this->rect(), 4, 4);
+    }
+}
+
+void ColorButton::setDisableColor(bool disable) {
+    m_disable = disable;
 }
 
 ColorButton::~ColorButton() {}
@@ -34,9 +55,10 @@ ColorButton::~ColorButton() {}
 ColorPanel::ColorPanel(QWidget *parent)
     : QWidget(parent) {
     DRAW_THEME_INIT_WIDGET("ColorPanel");
-//    setMinimumHeight(400);
+    setFixedSize(232, 416);
+
     QStringList colList;
-    colList << QString("#ff0c0c") << QString("#fe3c3b") << QString("#fd6867") << QString("#fd9694")
+    colList << QString("") << QString("#ff0c0c") << QString("#fe3c3b") << QString("#fd6867") << QString("#fd9694")
             << QString("#fcc4c1") << QString("#f8e0d6") << QString("#e4c299") << QString("#f2aa46")
             << QString("#fd9d0f") << QString("#f6b443") << QString("#eecb77") << QString("#f0ee4e")
             << QString("#f4fb00") << QString("#f6f96d") << QString("#f4f6a6") << QString("f3f3d6")
@@ -54,15 +76,20 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     QList<ColorButton*> cButtonList;
     QGridLayout* gLayout = new QGridLayout;
-    gLayout->setSpacing(3);
+    gLayout->setVerticalSpacing(3);
+    gLayout->setHorizontalSpacing(3);
 
-    for(int i = 1; i < colList.length(); i++) {
+    for(int i = 0; i < colList.length(); i++) {
         ColorButton* cb = new ColorButton(QColor(colList[i]), this);
+        if (i == 0)
+            cb->setDisableColor(true);
         cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
+        qDebug() << "~~~" << i/10 << i%10;
     }
 
     m_sliderLabel = new SliderLabel("Alpha", this);
+    m_sliderLabel->setFixedHeight(25);
 
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
@@ -78,22 +105,24 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     ColorSlider* colorfulSlider = new ColorSlider(this);
     colorfulSlider->setObjectName("ColorfulSlider");
-    colorfulSlider->setFixedSize(222, 20);
+    colorfulSlider->setFixedSize(222, 10);
     colorfulSlider->setMinimum(0);
     colorfulSlider->setMaximum(360);
 
     ColorLabel* pickColorLabel = new ColorLabel(this);
-    pickColorLabel->setFixedSize(200, 200);
+    pickColorLabel->setFixedSize(222, 136);
     connect(colorfulSlider, &QSlider::valueChanged, pickColorLabel, &ColorLabel::setHue);
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
-    mLayout->setMargin(0);
+    mLayout->setContentsMargins(4, 4, 4, 4);
     mLayout->setSpacing(0);
     mLayout->addLayout(gLayout);
     mLayout->addWidget(m_sliderLabel);
+    mLayout->addSpacing(2);
     mLayout->addLayout(colorLayout);
-    mLayout->addSpacing(20);
+    mLayout->addSpacing(5);
     mLayout->addWidget(pickColorLabel);
+    mLayout->addSpacing(2);
     mLayout->addWidget(colorfulSlider);
 
     setLayout(mLayout);
