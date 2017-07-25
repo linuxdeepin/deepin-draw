@@ -4,18 +4,34 @@
 
 CanvasLabel::CanvasLabel(QWidget *parent)
     : QLabel(parent) {
-
+    setMouseTracking(true);
 }
 
 void CanvasLabel::setCanvasPixmap(QString imageFile) {
     m_currentFile = imageFile;
     m_currentPixmap = QPixmap(m_currentFile);
-    repaint();
+    if (!m_currentPixmap.isNull()) {
+        update();
+    } else {
+        qWarning() << "m_currentPixmap is null";
+    }
 }
 
 void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
     m_currentPixmap = pixmap;
-    repaint();
+    if (!m_currentPixmap.isNull()) {
+        update();
+    } else {
+        qWarning() << "m_currentPixmap is null";
+    }
+}
+
+void CanvasLabel::initShapesWidget() {
+    m_shapesWidget = new ShapesWidget(this);
+    m_shapesWidget->resize(this->size());
+    m_shapesWidget->move(0, 0);
+    m_shapesWidget->show();
+    qDebug() << "CanvasLabel initShapesWidget.." << m_shapesWidget->geometry();
 }
 
 void CanvasLabel::paintEvent(QPaintEvent *e) {
@@ -24,6 +40,9 @@ void CanvasLabel::paintEvent(QPaintEvent *e) {
         return ;
     } else {
         setFixedSize(m_currentPixmap.size());
+        if (m_shapesWidgetExist) {
+            m_shapesWidget->resize(this->size());
+        }
     }
 
     QPainter painter(this);

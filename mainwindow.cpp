@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent) {
     setMinimumSize(1050, 850);
-
+    setMouseTracking(false);
     m_topToolbar = new TopToolbar(this);
     titlebar()->setCustomWidget(m_topToolbar, Qt::AlignCenter);
     m_titlebarWidth = titlebar()->width();
@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::openImage,
                     m_mainWidget, &MainWidget::setImageInCanvas);
+    connect(m_topToolbar, &TopToolbar::initShapeWidgetAction,
+            m_mainWidget, &MainWidget::prepareInitShapesWidget);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

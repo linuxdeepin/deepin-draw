@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 #include "mainwidget.h"
 #include "widgets/toptoolbar.h"

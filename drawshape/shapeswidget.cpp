@@ -29,8 +29,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setMouseTracking(true);
     setAcceptDrops(true);
 
-//    m_penColor = colorIndexOf(ConfigSettings::instance()->value(
-//                                  "common", "color_index").toInt());
+    m_penColor = QColor(Qt::red);//colorIndexOf(ConfigSettings::instance()->value(
+                                 // "common", "color_index").toInt());
 
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
@@ -87,8 +87,8 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 }
 
 void ShapesWidget::updatePenColor() {
-//    setPenColor(colorIndexOf(ConfigSettings::instance()->value(
-//                                 "common", "color_index").toInt()));
+    setPenColor(QColor(Qt::red));//colorIndexOf(ConfigSettings::instance()->value(
+                                // "common", "color_index").toInt()));
 }
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
@@ -884,7 +884,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             m_selectedOrder = -1;
             m_selectedShape.type = "";
             update();
-            QFrame::mousePressEvent(e);
+//            QFrame::mousePressEvent(e);
             return;
         }
     }
@@ -892,7 +892,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     if (e->button() == Qt::RightButton) {
         qDebug() << "RightButton clicked!";
 //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
-        QFrame::mousePressEvent(e);
+//        QFrame::mousePressEvent(e);
         return;
     }
 
@@ -905,10 +905,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
 
         m_currentShape.type = m_currentType;
-//        m_currentShape.colorIndex = ConfigSettings::instance()->value(
-//                    m_currentType, "color_index").toInt();
-//        m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
-//                   m_currentType, "linewidth_index").toInt());
+        m_currentShape.colorIndex = 3;//ConfigSettings::instance()->value(
+                    //m_currentType, "color_index").toInt();
+        m_currentShape.lineWidth = 3;//LINEWIDTH(ConfigSettings::instance()->value(
+                   //m_currentType, "linewidth_index").toInt());
 
         m_selectedIndex = -1;
         m_shapesIndex += 1;
@@ -923,19 +923,19 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 m_currentShape.index = m_currentIndex;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.points.append(m_pos1);
-//                m_currentShape.isStraight = ConfigSettings::instance()->value(
+                m_currentShape.isStraight = false;//ConfigSettings::instance()->value(
 //                                                                    "arrow", "is_straight").toBool();
                 if (m_currentShape.isStraight) {
-//                    m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
+                    m_currentShape.lineWidth = 3;//LINEWIDTH(ConfigSettings::instance()->value(
 //                                                             "arrow", "straightline_linewidth_index").toInt());
                 } else {
-//                    m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
+                    m_currentShape.lineWidth = 3;//LINEWIDTH(ConfigSettings::instance()->value(
 //                                                             "arrow", "arrow_linewidth_index").toInt());
                 }
             } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-//                m_currentShape.isBlur = ConfigSettings::instance()->value(
+                m_currentShape.isBlur = false;//ConfigSettings::instance()->value(
 //                            "effect", "is_blur").toBool();
-//                m_currentShape.isMosaic = ConfigSettings::instance()->value(
+                m_currentShape.isMosaic = false;//ConfigSettings::instance()->value(
 //                            "effect", "is_mosaic").toBool();
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.index = m_currentIndex;
@@ -999,7 +999,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         update();
     }
 
-    QFrame::mousePressEvent(e);
+//    QFrame::mousePressEvent(e);
 }
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
@@ -1050,7 +1050,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_pos2 = QPointF(0, 0);
 
     update();
-    QFrame::mouseReleaseEvent(e);
+//    QFrame::mouseReleaseEvent(e);
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
@@ -1199,7 +1199,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         }
     }
 
-    QFrame::mouseMoveEvent(e);
+//    QFrame::mouseMoveEvent(e);
 }
 
 void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
@@ -1464,7 +1464,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         qDebug() << "hoveredShape type:" << m_hoveredShape.type;
     }
 
-    QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
+    QPixmap resizePointImg(":/images/size/resize_handle_big.png");
     if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
         paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
         paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);
@@ -1490,7 +1490,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                 paintRect(painter,  m_selectedShape.mainPoints, -1);
             }
 
-            QPixmap rotatePointImg(":/resources/images/size/rotate.png");
+            QPixmap rotatePointImg(":/images/size/rotate.png");
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);
 
             for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
@@ -1545,7 +1545,7 @@ void ShapesWidget::undoDrawShapes()
     qDebug() << "undoDrawShapes m_selectedIndex:" << m_selectedIndex << m_shapes.length();
     if (m_selectedOrder < m_shapes.length() && m_selectedIndex != -1)
     {
-            deleteCurrentShape();
+        deleteCurrentShape();
     } else if (m_shapes.length() > 0) {
         int tmpIndex = m_shapes[m_shapes.length() - 1].index;
         if (m_shapes[m_shapes.length() - 1].type == "text" && m_editMap.contains(tmpIndex) ) {

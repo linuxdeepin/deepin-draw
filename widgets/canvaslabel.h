@@ -4,6 +4,8 @@
 #include <QLabel>
 #include <QPaintEvent>
 
+#include "drawshape/shapeswidget.h"
+
 class CanvasLabel : public QLabel {
     Q_OBJECT
 public:
@@ -12,15 +14,17 @@ public:
 
     void setCanvasPixmap(QString imageFile);
     void setCanvasPixmap(QPixmap pixmap);
-    void zoomOutImage();
-    void zoomInImage();
+    void initShapesWidget();
 
 protected:
     void paintEvent(QPaintEvent* e);
 
 private:
+    bool m_shapesWidgetExist;
     QString m_currentFile;
     QPixmap m_currentPixmap;
+
+    ShapesWidget* m_shapesWidget;
 };
 
 #endif // CANVASLABEL_H

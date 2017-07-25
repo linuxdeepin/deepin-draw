@@ -20,6 +20,7 @@ public:
         Hovered,
         Normal,
     };
+
     enum ClickedKey {
         First,
         Second,

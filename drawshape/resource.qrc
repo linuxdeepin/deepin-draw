@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/mouse_style/shape/arrow_mouse.png</file>
+        <file>images/mouse_style/shape/ellipse_mouse.png</file>
+        <file>images/mouse_style/shape/line_mouse.png</file>
+        <file>images/mouse_style/shape/rect_ellipse.png</file>
+        <file>images/mouse_style/shape/rect_mouse.png</file>
+        <file>images/mouse_style/shape/rotate_mouse.png</file>
+        <file>images/mouse_style/shape/start_mouse.png</file>
+        <file>images/mouse_style/shape/text_mouse.png</file>
+        <file>images/size/resize_handle_big.png</file>
+        <file>images/size/rotate.png</file>
+    </qresource>
+</RCC>

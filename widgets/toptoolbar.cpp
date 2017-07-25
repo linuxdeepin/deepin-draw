@@ -18,8 +18,7 @@
 #include "widgets/colorpanel.h"
 
 TopToolbar::TopToolbar(QWidget* parent)
-: QFrame(parent) {
-
+: QFrame(parent), m_shapesWidgetExist(false) {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
@@ -35,6 +34,7 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
+    connect(rectBtn, &ToolButton::clicked, this, &TopToolbar::drawShapes);
     ToolButton* ovalBtn = new ToolButton(this);
     ovalBtn->setObjectName("OvalBtn");
     ToolButton* lineBtn = new ToolButton(this);
@@ -244,6 +244,17 @@ void TopToolbar::initStackWidget() {
     m_stackWidget->addWidget(m_blurWidget);
 
     m_stackWidget->setCurrentWidget(m_drawShapeWidget);
+}
+
+void TopToolbar::drawShapes() {
+    if (!m_shapesWidgetExist) {
+        emit initShapeWidgetAction();
+        m_shapesWidgetExist = true;
+    }
+}
+
+bool TopToolbar::shapesWidgetExist() {
+    return m_shapesWidgetExist;
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *event) {

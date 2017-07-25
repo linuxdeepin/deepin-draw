@@ -21,6 +21,9 @@ public:
     void zoomOutImage();
     void zoomInImage();
 
+signals:
+    void requestInitShapeWidget();
+
 private:
     CanvasLabel* m_canvasLabel;
     QString m_currentFile;

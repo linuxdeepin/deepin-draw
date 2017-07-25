@@ -5,3 +5,6 @@ HEADERS += \
 SOURCES += \
     $$PWD/shapeswidget.cpp \
     $$PWD/textedit.cpp
+
+RESOURCES += \
+    $$PWD/resource.qrc

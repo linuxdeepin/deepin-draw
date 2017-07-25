@@ -37,15 +37,19 @@ public:
 
 signals:
     void openImage(QString imageFileName);
+    void  initShapeWidgetAction();
 
 public slots:
     void initStackWidget();
     void importImage();
+    void drawShapes();
+    bool shapesWidgetExist();
 
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
+    bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
 
     QWidget* m_cutWidget;

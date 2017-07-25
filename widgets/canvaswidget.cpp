@@ -10,6 +10,7 @@
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QScrollArea(parent), m_scaleValue(1) {
     setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
     m_canvasLabel = new CanvasLabel(this);
     m_canvasLabel->setMinimumSize(10, 10);
     m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
@@ -17,7 +18,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     this->setWidget(m_canvasLabel);
     setAlignment(Qt::AlignCenter);
 
-    installEventFilter(this);
+    connect(this, &CanvasWidget::requestInitShapeWidget, m_canvasLabel, &CanvasLabel::initShapesWidget);
 }
 
 bool CanvasWidget::overWindowSize() {
@@ -49,8 +50,11 @@ void CanvasWidget::setImage(QString filename) {
             m_canvasLabel->setCanvasPixmap(m_currentFile);
         } else {
             QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize, Qt::KeepAspectRatio);
-            m_canvasLabel->setCanvasPixmap(tmpImage);
-            m_canvasLabel->setFixedSize(tmpImage.size());
+            if (!tmpImage.isNull()) {
+                m_canvasLabel->setCanvasPixmap(tmpImage);
+            } else {
+                qWarning() << "The current image is null!";
+            }
         }
     }
 }
@@ -69,7 +73,7 @@ void CanvasWidget::zoomOutImage() {
     QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
     m_canvasLabel->setCanvasPixmap(tmpImage);
     qDebug() << "zoomOutImage:" << m_canvasLabel->size() << tmpImage.size()
-                     << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
+                      << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
 }
 
 CanvasWidget::~CanvasWidget() {
