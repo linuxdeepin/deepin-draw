@@ -251,7 +251,4 @@ void TopToolbar::resizeEvent(QResizeEvent *event) {
 }
 
 TopToolbar::~TopToolbar() {
-//    qDebug() << "....cvcvcvcv";
-//    m_strokeARect->hide();
-//    delete m_strokeARect;
 }
