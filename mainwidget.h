@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QKeyEvent>
 
 #include "widgets/toptoolbar.h"
 #include "widgets/canvaswidget.h"

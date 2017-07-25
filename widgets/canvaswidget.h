@@ -3,6 +3,9 @@
 
 #include <QScrollArea>
 #include <QLabel>
+#include <QKeyEvent>
+
+#include "canvaslabel.h"
 
 class CanvasWidget : public QScrollArea {
     Q_OBJECT
@@ -15,9 +18,14 @@ public:
     bool overWindowSize();
 
     QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
+    void zoomOutImage();
+    void zoomInImage();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
-    QLabel* m_canvasLabel;
+    CanvasLabel* m_canvasLabel;
     QString m_currentFile;
 
     qreal m_scaleValue;

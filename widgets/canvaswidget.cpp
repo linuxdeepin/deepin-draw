@@ -3,17 +3,23 @@
 #include <QHBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QDebug>
+
+#include <cmath>
 
 const int MARGIN = 20;
 
 CanvasWidget::CanvasWidget(QWidget *parent)
-    : QScrollArea(parent) {
-    m_canvasLabel = new QLabel(this);
+    : QScrollArea(parent), m_scaleValue(1) {
+    setFocusPolicy(Qt::StrongFocus);
+    m_canvasLabel = new CanvasLabel(this);
     m_canvasLabel->setMinimumSize(10, 10);
     m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
 
     this->setWidget(m_canvasLabel);
     setAlignment(Qt::AlignCenter);
+
+    installEventFilter(this);
 }
 
 bool CanvasWidget::overWindowSize() {
@@ -29,9 +35,10 @@ bool CanvasWidget::overWindowSize() {
 
 QSize CanvasWidget::fitWindowScaledSize(QSize windowSize, QSize imgSize) {
         QSize tmpImgSize = QPixmap(m_currentFile).scaled(windowSize/2, Qt::KeepAspectRatio).size();
-        qreal wS = tmpImgSize.width()/(windowSize.width()/2);
-        qreal hS = tmpImgSize.height()/(windowSize.height()/2);
+        qreal wS = qreal(tmpImgSize.width())/qreal(windowSize.width()/2);
+        qreal hS = qreal(tmpImgSize.height())/qreal(windowSize.height()/2);
         m_scaleValue = std::min(wS, hS);
+        qDebug() << wS << hS << m_scaleValue;
         return tmpImgSize;
 }
 
@@ -40,15 +47,53 @@ void CanvasWidget::setImage(QString filename) {
     QPixmap currentImage(m_currentFile);
     if (!currentImage.isNull()) {
         if (!overWindowSize()) {
-            m_canvasLabel->setPixmap(QPixmap(m_currentFile));
-            m_canvasLabel->setFixedSize(currentImage.size());
+            m_canvasLabel->setCanvasPixmap(m_currentFile);
         } else {
             QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize, Qt::KeepAspectRatio);
-            m_canvasLabel->setPixmap(QPixmap(tmpImage));
+            m_canvasLabel->setCanvasPixmap(tmpImage);
             m_canvasLabel->setFixedSize(tmpImage.size());
         }
+    }
+}
 
+void CanvasWidget::zoomInImage() {
+    m_scaleValue  = m_scaleValue*(1-0.1);
+    m_scaleValue = std::max(m_scaleValue, 0.02);
+    QSize originSize = QPixmap(m_currentFile).size();
+    QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
+    m_canvasLabel->setCanvasPixmap(tmpImage);
+}
 
+void CanvasWidget::zoomOutImage() {
+    m_scaleValue = m_scaleValue*(1+0.1);
+    m_scaleValue = std::min(m_scaleValue, qreal(20));
+    QSize originSize = QPixmap(m_currentFile).size();
+    QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
+    m_canvasLabel->setCanvasPixmap(tmpImage);
+    qDebug() << "zoomOutImage:" << m_canvasLabel->size() << tmpImage.size()
+                     << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
+}
+
+bool CanvasWidget::eventFilter(QObject *obj, QEvent *event) {
+    if (obj == this) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->modifiers() == Qt::ShiftModifier && keyEvent->key() == Qt::Key_Plus) {
+                qDebug() << "kePressEvent ...";
+                zoomOutImage();
+                return true;
+            } else if (keyEvent->key() == Qt::Key_Minus){
+                zoomInImage();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        // pass the event on to the parent class
+        return QScrollArea::eventFilter(obj, event);
     }
 }
 

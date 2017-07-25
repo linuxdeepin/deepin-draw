@@ -31,6 +31,15 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     this->update();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+
+    if (event->modifiers() == Qt::ShiftModifier && event->key() == Qt::Key_Plus) {
+        qDebug() << "MainWindow keyPlus...";
+    }
+
+    DMainWindow::keyPressEvent(event);
+}
+
 MainWindow::~MainWindow() {
 
 }

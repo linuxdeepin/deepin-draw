@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QStackedWidget>
 #include <QPushButton>
+#include <QKeyEvent>
 
 class ToolButton : public QPushButton {
     Q_OBJECT

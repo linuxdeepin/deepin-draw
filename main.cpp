@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     Dtk::Util::DLogManager::registerFileAppender();
 
     MainWindow w;
+    w.activateWindow();
     w.show();
 
     return a.exec();

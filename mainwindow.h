@@ -4,6 +4,7 @@
 #include <DMainWindow>
 
 #include <QWidget>
+#include <QKeyEvent>
 
 #include "mainwidget.h"
 #include "widgets/toptoolbar.h"
@@ -18,6 +19,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     TopToolbar* m_topToolbar;
