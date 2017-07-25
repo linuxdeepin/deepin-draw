@@ -7,8 +7,6 @@
 
 #include <cmath>
 
-const int MARGIN = 20;
-
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QScrollArea(parent), m_scaleValue(1) {
     setFocusPolicy(Qt::StrongFocus);
@@ -29,6 +27,7 @@ bool CanvasWidget::overWindowSize() {
         m_scaledSize = fitWindowScaledSize(windowSize, imageSize);
         return true;
     } else {
+        m_scaledSize = imageSize;
         return false;
     }
 }
@@ -59,7 +58,6 @@ void CanvasWidget::setImage(QString filename) {
 void CanvasWidget::zoomInImage() {
     m_scaleValue  = m_scaleValue*(1-0.1);
     m_scaleValue = std::max(m_scaleValue, 0.02);
-    QSize originSize = QPixmap(m_currentFile).size();
     QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
     m_canvasLabel->setCanvasPixmap(tmpImage);
 }
@@ -72,29 +70,6 @@ void CanvasWidget::zoomOutImage() {
     m_canvasLabel->setCanvasPixmap(tmpImage);
     qDebug() << "zoomOutImage:" << m_canvasLabel->size() << tmpImage.size()
                      << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
-}
-
-bool CanvasWidget::eventFilter(QObject *obj, QEvent *event) {
-    if (obj == this) {
-        if (event->type() == QEvent::KeyPress) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-            if (keyEvent->modifiers() == Qt::ShiftModifier && keyEvent->key() == Qt::Key_Plus) {
-                qDebug() << "kePressEvent ...";
-                zoomOutImage();
-                return true;
-            } else if (keyEvent->key() == Qt::Key_Minus){
-                zoomInImage();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        // pass the event on to the parent class
-        return QScrollArea::eventFilter(obj, event);
-    }
 }
 
 CanvasWidget::~CanvasWidget() {

@@ -22,6 +22,9 @@ MainWidget::MainWidget(QWidget *parent)
     m_vLayout->addWidget(m_canvas, 0, Qt::AlignHCenter);
     m_vLayout->addStretch();
     setLayout(m_vLayout);
+
+    connect(this, &MainWidget::zoomOutAction, m_canvas, &CanvasWidget::zoomOutImage);
+    connect(this, &MainWidget::zoomInAction, m_canvas, &CanvasWidget::zoomInImage);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

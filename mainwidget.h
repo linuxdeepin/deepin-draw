@@ -16,8 +16,12 @@ public:
 
     void setImageInCanvas(QString imageFileName);
 
+signals:
+    void zoomOutAction();
+    void zoomInAction();
+
 protected:
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
 private:
     TopToolbar* m_topToolbar;

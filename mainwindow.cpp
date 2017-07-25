@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_topToolbar->setFixedWidth(this->width() - m_titlebarWidth);
 
     m_mainWidget = new MainWidget(this);
+    m_mainWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_mainWidget);
 
@@ -24,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
-
     DMainWindow::resizeEvent(event);
     m_topToolbar->setFixedWidth(this->width() -  m_titlebarWidth);
 
@@ -34,7 +34,9 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 void MainWindow::keyPressEvent(QKeyEvent *event) {
 
     if (event->modifiers() == Qt::ShiftModifier && event->key() == Qt::Key_Plus) {
-        qDebug() << "MainWindow keyPlus...";
+        emit m_mainWidget->zoomOutAction();
+    } else if (event->key() == Qt::Key_Minus) {
+        emit m_mainWidget->zoomInAction();
     }
 
     DMainWindow::keyPressEvent(event);

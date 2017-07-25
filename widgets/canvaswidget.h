@@ -21,9 +21,6 @@ public:
     void zoomOutImage();
     void zoomInImage();
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-
 private:
     CanvasLabel* m_canvasLabel;
     QString m_currentFile;
