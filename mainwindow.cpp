@@ -5,6 +5,7 @@
 #include <DTitlebar>
 #include <QCheckBox>
 #include <QDebug>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent) {
@@ -32,7 +33,6 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-
     if (event->modifiers() == Qt::ShiftModifier && event->key() == Qt::Key_Plus) {
         emit m_mainWidget->zoomOutAction();
     } else if (event->key() == Qt::Key_Minus) {

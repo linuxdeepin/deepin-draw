@@ -6,6 +6,10 @@
 #include <QPushButton>
 #include <QKeyEvent>
 
+#include <darrowrectangle.h>
+
+DWIDGET_USE_NAMESPACE
+
 class ToolButton : public QPushButton {
     Q_OBJECT
 public:
@@ -50,6 +54,7 @@ private:
     QWidget* m_textWidget;
     QWidget* m_blurWidget;
 
+    DArrowRectangle* m_strokeARect;
 };
 
 #endif // TOPTOOLBAR_H

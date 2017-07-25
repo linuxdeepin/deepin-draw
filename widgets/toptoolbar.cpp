@@ -7,6 +7,7 @@
 #include <QSlider>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QApplication>
 #include <QDebug>
 
 #include "utils/global.h"
@@ -68,8 +69,6 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
-//    ColorPanel* colPanel = new ColorPanel();
-//    colPanel->show();
 }
 
 void TopToolbar::importImage() {
@@ -128,11 +127,28 @@ void TopToolbar::initStackWidget() {
     borderColLabel->setObjectName("BorderStrokeLabel");
     borderColLabel->setText(tr("Stroke"));
     BorderColorButton* borderCButton = new BorderColorButton(this);
+    ColorPanel* colPanel = new ColorPanel();
+
+    m_strokeARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
+    m_strokeARect->setArrowX(25);
+    m_strokeARect->setArrowWidth(30);
+    m_strokeARect->setContent(colPanel);
+    m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
+
+    connect(borderCButton, &BorderColorButton::clicked, this, [=]{
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(borderCButton->x() + this->x() + this->width()/3 + 120,
+                                  borderCButton->y() + this->height() + 15);
+        } else {
+            m_strokeARect->hide();
+        }
+    });
 
     SeperatorLine* sep1Line = new SeperatorLine(this);
     QLabel* borderStyleLabel = new QLabel(this);
     borderStyleLabel->setObjectName("BorderStyleLabel");
     borderStyleLabel->setText(tr("Style"));
+
     ToolButton* sLineBtn = new ToolButton(this);
     sLineBtn->setObjectName("StraightLineBtn");
     ToolButton* arbiLineBtn = new ToolButton(this);
@@ -234,4 +250,8 @@ void TopToolbar::resizeEvent(QResizeEvent *event) {
     this->updateGeometry();
 }
 
-TopToolbar::~TopToolbar() {}
+TopToolbar::~TopToolbar() {
+//    qDebug() << "....cvcvcvcv";
+//    m_strokeARect->hide();
+//    delete m_strokeARect;
+}

@@ -1,6 +1,7 @@
 #include "colorlabel.h"
 
 #include <QPainter>
+#include <QDebug>
 
 #include <cmath>
 
@@ -24,7 +25,7 @@ QColor ColorLabel::getColor(qreal h, qreal s, qreal v) {
     } else if(hi == 2) {
         return QColor(std::min(int(255*p), 255), std::min(int(255*v), 255), std::min(int(255*t), 255));
     } else if (hi == 3) {
-        return QColor(std::min(int(255*t), 255), std::min(int(255*p), 255), std::min(int(255*v), 255));
+        return QColor(std::min(int(255*p), 255), std::min(int(255*q), 255), std::min(int(255*v), 255));
     } else if(hi == 4) {
         return QColor(std::min(int(255*t), 255), std::min(int(255*p), 255), std::min(int(255*v), 255));
     } else {
@@ -42,6 +43,8 @@ void ColorLabel::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing);
 
     QImage backgroundImage(this->width(), this->height(), QImage::Format_ARGB32);
+    qDebug() << "paintEvent:" << this->width() << this->height();
+
     for(qreal s = 0; s <= this->width(); s++) {
         for(qreal v = 0; v <= this->height(); v++) {
             QColor penColor = getColor(m_hue, s/this->width(), v/this->height());

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("deepin-draw");
     a.setApplicationVersion("1.0");
     a.setTheme("light");
-    a.setQuitOnLastWindowClosed(false);
+    a.setQuitOnLastWindowClosed(true);
 
     using namespace Dtk::Util;
     Dtk::Util::DLogManager::registerConsoleAppender();

@@ -33,7 +33,7 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v) {
     } else if(hi == 2) {
         return QColor(std::min(int(255*p), 255), std::min(int(255*v), 255), std::min(int(255*t), 255));
     } else if (hi == 3) {
-        return QColor(std::min(int(255*t), 255), std::min(int(255*p), 255), std::min(int(255*v), 255));
+        return QColor(std::min(int(255*p), 255), std::min(int(255*q), 255), std::min(int(255*v), 255));
     } else if(hi == 4) {
         return QColor(std::min(int(255*t), 255), std::min(int(255*p), 255), std::min(int(255*v), 255));
     } else {
@@ -58,8 +58,8 @@ void ColorSlider::paintEvent(QPaintEvent *ev) {
     painter.setRenderHint(QPainter::Antialiasing);
 
     QImage backgroundImage(rect.width(), rect.height(), QImage::Format_ARGB32);
-    for(qreal s = 0; s <= rect.width(); s++) {
-        for(qreal v = 0; v <= rect.height(); v++) {
+    for(qreal s = 1; s <= rect.width(); s++) {
+        for(qreal v = 1; v <= rect.height(); v++) {
             QColor penColor = getColor(qreal(int(s/rect.width()*360)), 1, 1);
             backgroundImage.setPixelColor(int(s), rect.height() - int(v), penColor);
         }
