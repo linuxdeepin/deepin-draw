@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent) {
     setMinimumSize(1050, 850);
-    setMouseTracking(false);
+
     m_topToolbar = new TopToolbar(this);
     titlebar()->setCustomWidget(m_topToolbar, Qt::AlignCenter);
     m_titlebarWidth = titlebar()->width();
@@ -45,5 +45,4 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 MainWindow::~MainWindow() {
-
 }

@@ -4,6 +4,7 @@
 #include <QScrollArea>
 #include <QLabel>
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 #include "canvaslabel.h"
 

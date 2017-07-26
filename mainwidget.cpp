@@ -5,8 +5,6 @@
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent) {
-    setFocusPolicy(Qt::StrongFocus);
-    setMouseTracking(true);
     m_canvas = new CanvasWidget(this);
     m_seperatorLine = new QLabel(this);
     m_seperatorLine->setMinimumWidth(this->width());

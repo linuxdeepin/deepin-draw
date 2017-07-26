@@ -9,8 +9,6 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QScrollArea(parent), m_scaleValue(1) {
-    setFocusPolicy(Qt::StrongFocus);
-    setMouseTracking(true);
     m_canvasLabel = new CanvasLabel(this);
     m_canvasLabel->setMinimumSize(10, 10);
     m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
@@ -34,12 +32,12 @@ bool CanvasWidget::overWindowSize() {
 }
 
 QSize CanvasWidget::fitWindowScaledSize(QSize windowSize, QSize imgSize) {
-        QSize tmpImgSize = QPixmap(m_currentFile).scaled(windowSize/2, Qt::KeepAspectRatio).size();
-        qreal wS = qreal(tmpImgSize.width())/qreal(windowSize.width()/2);
-        qreal hS = qreal(tmpImgSize.height())/qreal(windowSize.height()/2);
-        m_scaleValue = std::min(wS, hS);
-        qDebug() << wS << hS << m_scaleValue;
-        return tmpImgSize;
+    QSize tmpImgSize = QPixmap(m_currentFile).scaled(windowSize/2, Qt::KeepAspectRatio).size();
+    qreal wS = qreal(tmpImgSize.width())/qreal(windowSize.width()/2);
+    qreal hS = qreal(tmpImgSize.height())/qreal(windowSize.height()/2);
+    m_scaleValue = std::min(wS, hS);
+    qDebug() << wS << hS << m_scaleValue;
+    return tmpImgSize;
 }
 
 void CanvasWidget::setImage(QString filename) {
@@ -73,9 +71,8 @@ void CanvasWidget::zoomOutImage() {
     QPixmap tmpImage = QPixmap(m_currentFile).scaled(m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
     m_canvasLabel->setCanvasPixmap(tmpImage);
     qDebug() << "zoomOutImage:" << m_canvasLabel->size() << tmpImage.size()
-                      << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
+             << tmpImage.isNull() << originSize*m_scaleValue << originSize << m_scaleValue;
 }
 
 CanvasWidget::~CanvasWidget() {
-
 }

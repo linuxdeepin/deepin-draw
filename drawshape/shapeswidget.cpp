@@ -1101,7 +1101,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
             // resize function
             handleResize(QPointF(e->pos()), m_clickedKey);
             update();
-            QFrame::mouseMoveEvent(e);
+//            QFrame::mouseMoveEvent(e);
             return;
         }
 
@@ -1223,13 +1223,13 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
 }
 
 void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize) {
-        if (isResize) {
-                painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
+    if (isResize) {
+        painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
                                   pos.y() - DRAG_BOUND_RADIUS), img);
-        } else {
-            painter.drawPixmap(QPoint(pos.x() - 12,
-                              pos.y() - 12), img);
-        }
+    } else {
+        painter.drawPixmap(QPoint(pos.x() - 12,
+                                  pos.y() - 12), img);
+    }
 }
 
 void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int index,

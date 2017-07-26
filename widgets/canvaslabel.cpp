@@ -4,7 +4,6 @@
 
 CanvasLabel::CanvasLabel(QWidget *parent)
     : QLabel(parent) {
-    setMouseTracking(true);
 }
 
 void CanvasLabel::setCanvasPixmap(QString imageFile) {
@@ -28,7 +27,7 @@ void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
 
 void CanvasLabel::initShapesWidget() {
     m_shapesWidget = new ShapesWidget(this);
-    m_shapesWidget->resize(this->size());
+    m_shapesWidget->resize(this->width(), this->height());
     m_shapesWidget->move(0, 0);
     m_shapesWidget->show();
     qDebug() << "CanvasLabel initShapesWidget.." << m_shapesWidget->geometry();
@@ -40,9 +39,9 @@ void CanvasLabel::paintEvent(QPaintEvent *e) {
         return ;
     } else {
         setFixedSize(m_currentPixmap.size());
-        if (m_shapesWidgetExist) {
-            m_shapesWidget->resize(this->size());
-        }
+//        if (m_shapesWidgetExist) {
+//            m_shapesWidget->resize(this->width(), this->height());
+//        }
     }
 
     QPainter painter(this);
