@@ -1,6 +1,6 @@
 #include <DApplication>
 #include <DLog>
-#include <dutility.h>
+#include <DWidgetUtil>
 
 #include "mainwindow.h"
 
@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
     a.setTheme("light");
     a.setQuitOnLastWindowClosed(true);
 
-    using namespace Dtk::Util;
-    Dtk::Util::DLogManager::registerConsoleAppender();
-    Dtk::Util::DLogManager::registerFileAppender();
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     MainWindow w;
     w.activateWindow();
