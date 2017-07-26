@@ -14,7 +14,7 @@ public:
 
     void setCanvasPixmap(QString imageFile);
     void setCanvasPixmap(QPixmap pixmap);
-    void initShapesWidget();
+    void initShapesWidget(QString shape, bool needInited);
 
 protected:
     void paintEvent(QPaintEvent* e);

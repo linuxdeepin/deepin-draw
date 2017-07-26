@@ -34,13 +34,28 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
-    connect(rectBtn, &ToolButton::clicked, this, &TopToolbar::drawShapes);
+    connect(rectBtn, &ToolButton::clicked, this,  [=]{
+        drawShapes("rectangle");
+    });
+
     ToolButton* ovalBtn = new ToolButton(this);
     ovalBtn->setObjectName("OvalBtn");
+    connect(ovalBtn, &ToolButton::clicked, this, [=]{
+        drawShapes("oval");
+    });
+
     ToolButton* lineBtn = new ToolButton(this);
     lineBtn->setObjectName("LineBtn");
+    connect(lineBtn, &ToolButton::clicked, this, [=]{
+        drawShapes("line");
+    });
+
     ToolButton* textBtn = new ToolButton(this);
     textBtn->setObjectName("TextBtn");
+    connect(textBtn, &ToolButton::clicked, this, [=]{
+        drawShapes("text");
+    });
+
     ToolButton* blurBtn = new ToolButton(this);
     blurBtn->setObjectName("BlurBtn");
 
@@ -246,10 +261,12 @@ void TopToolbar::initStackWidget() {
     m_stackWidget->setCurrentWidget(m_drawShapeWidget);
 }
 
-void TopToolbar::drawShapes() {
+void TopToolbar::drawShapes(QString shape) {
     if (!m_shapesWidgetExist) {
-        emit initShapeWidgetAction();
+        emit initShapeWidgetAction(shape, true);
         m_shapesWidgetExist = true;
+    } else {
+        emit initShapeWidgetAction(shape, false);
     }
 }
 

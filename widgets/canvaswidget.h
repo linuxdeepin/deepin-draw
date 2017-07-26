@@ -23,7 +23,7 @@ public:
     void zoomInImage();
 
 signals:
-    void requestInitShapeWidget();
+    void requestInitShapeWidget(QString shape, bool needInited);
 
 private:
     CanvasLabel* m_canvasLabel;

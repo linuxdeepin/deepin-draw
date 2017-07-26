@@ -37,12 +37,12 @@ public:
 
 signals:
     void openImage(QString imageFileName);
-    void  initShapeWidgetAction();
+    void  initShapeWidgetAction(QString shape, bool needInited);
 
 public slots:
     void initStackWidget();
     void importImage();
-    void drawShapes();
+    void drawShapes(QString shape);
     bool shapesWidgetExist();
 
 protected:

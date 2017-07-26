@@ -16,7 +16,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     this->setWidget(m_canvasLabel);
     setAlignment(Qt::AlignCenter);
 
-    connect(this, &CanvasWidget::requestInitShapeWidget, m_canvasLabel, &CanvasLabel::initShapesWidget);
+    connect(this, &CanvasWidget::requestInitShapeWidget,
+                    m_canvasLabel, &CanvasLabel::initShapesWidget);
 }
 
 bool CanvasWidget::overWindowSize() {

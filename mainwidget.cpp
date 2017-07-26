@@ -25,7 +25,7 @@ MainWidget::MainWidget(QWidget *parent)
     connect(this, &MainWidget::zoomOutAction, m_canvas, &CanvasWidget::zoomOutImage);
     connect(this, &MainWidget::zoomInAction, m_canvas, &CanvasWidget::zoomInImage);
     connect(this, &MainWidget::prepareInitShapesWidget,
-            m_canvas, &CanvasWidget::requestInitShapeWidget);
+                    m_canvas, &CanvasWidget::requestInitShapeWidget);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

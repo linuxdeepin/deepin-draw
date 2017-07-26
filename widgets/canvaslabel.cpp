@@ -25,8 +25,11 @@ void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
     }
 }
 
-void CanvasLabel::initShapesWidget() {
-    m_shapesWidget = new ShapesWidget(this);
+void CanvasLabel::initShapesWidget(QString shape, bool needInited) {
+    if (needInited) {
+        m_shapesWidget = new ShapesWidget(this);
+    }
+    m_shapesWidget->setCurrentShape(shape);
     m_shapesWidget->resize(this->width(), this->height());
     m_shapesWidget->move(0, 0);
     m_shapesWidget->show();

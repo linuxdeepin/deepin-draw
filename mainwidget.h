@@ -19,7 +19,7 @@ public:
 signals:
     void zoomOutAction();
     void zoomInAction();
-    void prepareInitShapesWidget();
+    void prepareInitShapesWidget(QString shape, bool needInited);
 
 protected:
     void resizeEvent(QResizeEvent* event);
