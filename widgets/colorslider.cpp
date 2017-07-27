@@ -9,7 +9,7 @@ ColorSlider::ColorSlider(QWidget *parent)
     : QSlider(parent) {
     setMinimum(0);
     setMaximum(360);
-    setMinimumHeight(15);
+    setFixedHeight(15);
     setFixedWidth(222);
     setOrientation(Qt::Horizontal);
 }
@@ -57,11 +57,11 @@ void ColorSlider::paintEvent(QPaintEvent *ev) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    QImage backgroundImage(rect.width(), rect.height(), QImage::Format_ARGB32);
-    for(qreal s = 1; s <= rect.width(); s++) {
-        for(qreal v = 1; v <= rect.height(); v++) {
-            QColor penColor = getColor(qreal(int(s/rect.width()*360)), 1, 1);
-            backgroundImage.setPixelColor(int(s), rect.height() - int(v), penColor);
+    QImage backgroundImage(222, 15, QImage::Format_ARGB32);
+    for(qreal s = 0; s < 222; s++) {
+        for(qreal v = 0; v < 15; v++) {
+            QColor penColor = getColor(qreal(int(s/222*360)), 1, 1);
+            backgroundImage.setPixelColor(std::min(int(s), 221), 14 - int(v), penColor);
         }
     }
 

@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/colorlabel.h \
     $$PWD/colorslider.h \
     $$PWD/canvaslabel.h \
-    $$PWD/bigcolorbutton.h
+    $$PWD/bigcolorbutton.h \
+    $$PWD/pickcolorwidget.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -25,7 +26,8 @@ SOURCES += \
     $$PWD/colorlabel.cpp \
     $$PWD/colorslider.cpp \
     $$PWD/canvaslabel.cpp \
-    $$PWD/bigcolorbutton.cpp
+    $$PWD/bigcolorbutton.cpp \
+    $$PWD/pickcolorwidget.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

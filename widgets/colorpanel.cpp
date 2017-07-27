@@ -9,6 +9,7 @@
 #include "utils/global.h"
 #include "colorlabel.h"
 #include "colorslider.h"
+#include "pickcolorwidget.h"
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent), m_disable(false) {
@@ -97,21 +98,13 @@ ColorPanel::ColorPanel(QWidget *parent)
     m_colorfulBtn = new PushButton(this);
     m_colorfulBtn->setObjectName("ColorFulButton");
 
-     QHBoxLayout* colorLayout = new QHBoxLayout;
+    QHBoxLayout* colorLayout = new QHBoxLayout;
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(m_editLabel);
     colorLayout->addWidget(m_colorfulBtn);
 
-    ColorSlider* colorfulSlider = new ColorSlider(this);
-    colorfulSlider->setObjectName("ColorfulSlider");
-    colorfulSlider->setFixedSize(222, 10);
-    colorfulSlider->setMinimum(0);
-    colorfulSlider->setMaximum(360);
-
-    ColorLabel* pickColorLabel = new ColorLabel(this);
-    pickColorLabel->setFixedSize(222, 136);
-    connect(colorfulSlider, &QSlider::valueChanged, pickColorLabel, &ColorLabel::setHue);
+    PickColorWidget* pickColWidget = new PickColorWidget(this);
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);
@@ -121,9 +114,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     mLayout->addSpacing(2);
     mLayout->addLayout(colorLayout);
     mLayout->addSpacing(5);
-    mLayout->addWidget(pickColorLabel);
-    mLayout->addSpacing(2);
-    mLayout->addWidget(colorfulSlider);
+    mLayout->addWidget(pickColWidget);
 
     setLayout(mLayout);
 }

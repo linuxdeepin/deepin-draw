@@ -102,13 +102,37 @@ void TopToolbar::importImage() {
 void TopToolbar::initStackWidget() {
     m_stackWidget = new QStackedWidget(this);
 
+    //colorPanel.
+    m_colorPanel = new ColorPanel();
+    m_strokeARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
+    m_strokeARect->setArrowX(25);
+    m_strokeARect->setArrowWidth(30);
+    m_strokeARect->setContent(m_colorPanel);
+    m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
+
     //draw rectangle, and oval.
     m_fillShapeWidget = new QWidget(this);
     BigColorButton* fillColorBtn = new BigColorButton(this);
     QLabel* fillColLabel = new QLabel(this);
     fillColLabel->setText(tr("Fill"));
+    connect(fillColorBtn, &BigColorButton::clicked, this, [=]{
+        QPoint curPos = this->cursor().pos();
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
+        } else {
+            m_strokeARect->hide();
+        }
+    });
     BorderColorButton* fillShapeStrokeBtn = new BorderColorButton(this);
     fillShapeStrokeBtn->setObjectName("FillStrokeButton");
+    connect(fillShapeStrokeBtn, &BorderColorButton::clicked, this, [=]{
+        QPoint curPos = this->cursor().pos();
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
+        } else {
+            m_strokeARect->hide();
+        }
+    });
     QLabel* strokeLabel = new QLabel(this);
     strokeLabel->setText(tr("Stroke"));
     SeperatorLine* fillShapeSepLine = new SeperatorLine();
@@ -173,15 +197,6 @@ void TopToolbar::initStackWidget() {
     cutHbLayout->addWidget(verticaFlipBtn);
     m_cutWidget->setLayout(cutHbLayout);
     m_stackWidget->addWidget(m_cutWidget);
-
-    //colorPanel.
-    m_colorPanel = new ColorPanel();
-
-    m_strokeARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
-    m_strokeARect->setArrowX(25);
-    m_strokeARect->setArrowWidth(30);
-    m_strokeARect->setContent(m_colorPanel);
-    m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
 
     //draw line.
     m_drawShapeWidget = new QWidget(this);

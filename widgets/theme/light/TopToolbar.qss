@@ -283,3 +283,10 @@ qproperty-hoverPic: url(:/theme/light/images/cut/filp_vertical_hover.png);
 qproperty-pressPic: url(:/theme/light/images/cut/filp_vertical_active.png);
 qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.png);
 }
+
+PushButton#PickerBtn {
+qproperty-normalPic: url(:/theme/light/images/draw/color_draw_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/draw/color_draw_hover.png);
+qproperty-pressPic: url(:/theme/light/images/draw/color_draw_active.png);
+qproperty-checkedPic: url(:/theme/light/images/draw/color_draw_active.png);
+}
