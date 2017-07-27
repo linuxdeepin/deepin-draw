@@ -210,7 +210,7 @@ void PushButton::enterEvent(QEvent *e)
     m_isHovered = true;
     m_currentPic = hoverPic();
     m_currentColor = hoverColor();
-    setCursor(Qt::PointingHandCursor);
+//    setCursor(Qt::PointingHandCursor);
     this->update();
 }
 
@@ -220,7 +220,7 @@ void PushButton::leaveEvent(QEvent *e)
     m_isHovered = false;
     m_currentColor = normalColor();
     m_currentPic = normalPic();
-    setCursor(Qt::ArrowCursor);
+//    setCursor(Qt::ArrowCursor);
     this->update();
 
     emit mouseLeave();
@@ -235,6 +235,7 @@ void PushButton::mousePressEvent(QMouseEvent *e)
     if (m_isCheckable) {
         setChecked(!m_checked);
     }
+
     this->update();
 }
 

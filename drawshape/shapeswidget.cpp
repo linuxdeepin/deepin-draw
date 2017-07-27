@@ -167,7 +167,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
                 currentOnShape = true;
             }
         }
-
         if (m_shapes[i].type == "text") {
             if (clickedOnText(m_shapes[i].mainPoints, pos)) {
                 currentOnShape = true;
@@ -359,7 +358,7 @@ bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isB
         m_resizeDirection = Rotate;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointOnEllipse(mainPoints, pos)) {
+    } else if (pointOnEllipse(mainPoints, pos)) {
             m_isSelected = true;
             m_isResize = false;
 
@@ -884,7 +883,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             m_selectedOrder = -1;
             m_selectedShape.type = "";
             update();
-//            QFrame::mousePressEvent(e);
             return;
         }
     }
@@ -892,7 +890,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     if (e->button() == Qt::RightButton) {
         qDebug() << "RightButton clicked!";
 //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
-//        QFrame::mousePressEvent(e);
         return;
     }
 

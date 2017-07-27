@@ -12,10 +12,10 @@
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
-#include "widgets/seperatorline.h"
-#include "widgets/bordercolorbutton.h"
 #include "widgets/pushbutton.h"
-#include "widgets/colorpanel.h"
+#include "widgets/seperatorline.h"
+#include "widgets/bigcolorbutton.h"
+#include "widgets/bordercolorbutton.h"
 
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent), m_shapesWidgetExist(false) {
@@ -102,7 +102,46 @@ void TopToolbar::importImage() {
 void TopToolbar::initStackWidget() {
     m_stackWidget = new QStackedWidget(this);
 
-//    //cutWidget
+    //draw rectangle, and oval.
+    m_fillShapeWidget = new QWidget(this);
+    BigColorButton* fillColorBtn = new BigColorButton(this);
+    QLabel* fillColLabel = new QLabel(this);
+    fillColLabel->setText(tr("Fill"));
+    BorderColorButton* fillShapeStrokeBtn = new BorderColorButton(this);
+    fillShapeStrokeBtn->setObjectName("FillStrokeButton");
+    QLabel* strokeLabel = new QLabel(this);
+    strokeLabel->setText(tr("Stroke"));
+    SeperatorLine* fillShapeSepLine = new SeperatorLine();
+    QLabel* fillShapeLWLabel = new QLabel(this);
+    fillShapeLWLabel->setObjectName("BorderLabel");
+    fillShapeLWLabel->setText(tr("Width"));
+    ToolButton* lineBtn0 = new ToolButton(this);
+    lineBtn0->setObjectName("FinerLineBtn");
+    ToolButton* lineBtn1 = new ToolButton(this);
+    lineBtn1->setObjectName("FineLineBtn");
+    ToolButton* lineBtn2 = new ToolButton(this);
+    lineBtn2->setObjectName("MediumLineBtn");
+    ToolButton* lineBtn3 = new ToolButton(this);
+    lineBtn3->setObjectName("BoldLineBtn");
+    QHBoxLayout* fillHLayout = new QHBoxLayout(this);
+    fillHLayout->setMargin(0);
+    fillHLayout->setSpacing(6);
+    fillHLayout->addStretch();
+    fillHLayout->addWidget(fillColorBtn);
+    fillHLayout->addWidget(fillColLabel);
+    fillHLayout->addWidget(fillShapeStrokeBtn);
+    fillHLayout->addWidget(strokeLabel);
+    fillHLayout->addWidget(fillShapeSepLine);
+    fillHLayout->addWidget(fillShapeLWLabel);
+    fillHLayout->addWidget(lineBtn0);
+    fillHLayout->addWidget(lineBtn1);
+    fillHLayout->addWidget(lineBtn2);
+    fillHLayout->addWidget(lineBtn3);
+    fillHLayout->addStretch();
+    m_fillShapeWidget->setLayout(fillHLayout);
+    m_stackWidget->addWidget(m_fillShapeWidget);
+
+    //process image.
     m_cutWidget = new QWidget(this);
     PushButton* leftRotateBtn = new PushButton();
     leftRotateBtn->setObjectName("LeftRotate");
@@ -135,25 +174,25 @@ void TopToolbar::initStackWidget() {
     m_cutWidget->setLayout(cutHbLayout);
     m_stackWidget->addWidget(m_cutWidget);
 
-    //drawShapeWidget
-    m_drawShapeWidget = new QWidget(this);
-
-    QLabel* borderColLabel = new QLabel(this);
-    borderColLabel->setObjectName("BorderStrokeLabel");
-    borderColLabel->setText(tr("Stroke"));
-    BorderColorButton* borderCButton = new BorderColorButton(this);
-    ColorPanel* colPanel = new ColorPanel();
+    //colorPanel.
+    m_colorPanel = new ColorPanel();
 
     m_strokeARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
     m_strokeARect->setArrowX(25);
     m_strokeARect->setArrowWidth(30);
-    m_strokeARect->setContent(colPanel);
+    m_strokeARect->setContent(m_colorPanel);
     m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
 
+    //draw line.
+    m_drawShapeWidget = new QWidget(this);
+    QLabel* borderColLabel = new QLabel(this);
+    borderColLabel->setObjectName("BorderStrokeLabel");
+    borderColLabel->setText(tr("Stroke"));
+    BorderColorButton* borderCButton = new BorderColorButton(this);
     connect(borderCButton, &BorderColorButton::clicked, this, [=]{
+        QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(borderCButton->x() + this->x() + this->width()/3 + 120,
-                                  borderCButton->y() + this->height() + 15);
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
         } else {
             m_strokeARect->hide();
         }
@@ -203,7 +242,7 @@ void TopToolbar::initStackWidget() {
     m_drawShapeWidget->setLayout(drawHbLayout);
     m_stackWidget->addWidget(m_drawShapeWidget);
 
-    //pictureWidget
+    //process  artboard's size.
     m_picWidget = new QWidget(this);
     QLabel* casLengthLabel = new QLabel(this);
     casLengthLabel->setObjectName("CasLengthLabel");
@@ -225,7 +264,7 @@ void TopToolbar::initStackWidget() {
     m_picWidget->setLayout(picHbLayout);
     m_stackWidget->addWidget(m_picWidget);
 
-    //textWidget
+    //draw text.
     m_textWidget = new QWidget(this);
     ToolButton* colBtn = new ToolButton(this);
     QLabel* fontsizeLabel = new QLabel(this);
@@ -244,7 +283,7 @@ void TopToolbar::initStackWidget() {
     m_textWidget->setLayout(textHbLayout);
     m_stackWidget->addWidget(m_textWidget);
 
-    //blurWidget
+    //draw blur widget.
     m_blurWidget = new QWidget(this);
     QLabel* penLabel = new QLabel(this);
     ToolButton* fineBtn = new ToolButton(this);
@@ -258,7 +297,7 @@ void TopToolbar::initStackWidget() {
     m_blurWidget->setLayout(blurHbLayout);
     m_stackWidget->addWidget(m_blurWidget);
 
-    m_stackWidget->setCurrentWidget(m_drawShapeWidget);
+    m_stackWidget->setCurrentWidget(m_fillShapeWidget);
 }
 
 void TopToolbar::drawShapes(QString shape) {

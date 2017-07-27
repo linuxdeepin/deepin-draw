@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/editlabel.h \
     $$PWD/colorlabel.h \
     $$PWD/colorslider.h \
-    $$PWD/canvaslabel.h
+    $$PWD/canvaslabel.h \
+    $$PWD/bigcolorbutton.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -23,7 +24,8 @@ SOURCES += \
     $$PWD/editlabel.cpp \
     $$PWD/colorlabel.cpp \
     $$PWD/colorslider.cpp \
-    $$PWD/canvaslabel.cpp
+    $$PWD/canvaslabel.cpp \
+    $$PWD/bigcolorbutton.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

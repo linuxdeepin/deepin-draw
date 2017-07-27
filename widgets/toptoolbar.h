@@ -8,6 +8,8 @@
 
 #include <darrowrectangle.h>
 
+#include "widgets/colorpanel.h"
+
 DWIDGET_USE_NAMESPACE
 
 class ToolButton : public QPushButton {
@@ -52,6 +54,7 @@ private:
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
 
+    QWidget* m_fillShapeWidget;
     QWidget* m_cutWidget;
     QWidget* m_drawShapeWidget;
     QWidget* m_picWidget;
@@ -59,6 +62,7 @@ private:
     QWidget* m_blurWidget;
 
     DArrowRectangle* m_strokeARect;
+    ColorPanel* m_colorPanel;
 };
 
 #endif // TOPTOOLBAR_H
