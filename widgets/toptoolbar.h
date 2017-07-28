@@ -37,6 +37,16 @@ public:
     TopToolbar(QWidget* parent = 0);
     ~TopToolbar();
 
+    enum Status {
+        Empty,
+        Cut,
+        DrawLine,
+        FillShape,
+        DrawText,
+        DrawBlur,
+        AdjustSize,
+    };
+
 signals:
     void openImage(QString imageFileName);
     void  initShapeWidgetAction(QString shape, bool needInited);
@@ -46,6 +56,7 @@ public slots:
     void importImage();
     void drawShapes(QString shape);
     bool shapesWidgetExist();
+    void setMiddleStackWidget(Status status);
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -54,12 +65,13 @@ private:
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
 
-    QWidget* m_fillShapeWidget;
+    QWidget* m_emptyWidget;
     QWidget* m_cutWidget;
-    QWidget* m_drawShapeWidget;
-    QWidget* m_picWidget;
-    QWidget* m_textWidget;
-    QWidget* m_blurWidget;
+    QWidget* m_drawLineWidget;
+    QWidget* m_fillShapeWidget;
+    QWidget* m_drawTextWidget;
+    QWidget* m_drawBlurWidget;
+    QWidget* m_adjustsizeWidget;
 
     DArrowRectangle* m_strokeARect;
     ColorPanel* m_colorPanel;

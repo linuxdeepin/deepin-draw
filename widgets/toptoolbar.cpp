@@ -101,6 +101,41 @@ void TopToolbar::importImage() {
 
 void TopToolbar::initStackWidget() {
     m_stackWidget = new QStackedWidget(this);
+    //empty widget
+    m_emptyWidget = new QWidget(this);
+    m_stackWidget->addWidget(m_emptyWidget);
+    //cutwidget.
+    m_cutWidget = new QWidget(this);
+    PushButton* leftRotateBtn = new PushButton();
+    leftRotateBtn->setObjectName("LeftRotate");
+    leftRotateBtn->setText(tr("Rotate 90° CCW"));
+
+    PushButton* rightRotateBtn = new PushButton(this);
+    rightRotateBtn->setObjectName("RightRotate");
+    rightRotateBtn->setText(tr("Rotate 90° CW"));
+
+    PushButton* cutBtn = new PushButton(this);
+    cutBtn->setObjectName("CutButton");
+    cutBtn->setText(tr("Clip"));
+
+    PushButton* horiFlipBtn = new PushButton(this);
+    horiFlipBtn->setObjectName("FlipHorizontalBtn");
+    horiFlipBtn->setText(tr("Flip horizontally"));
+
+    PushButton* verticaFlipBtn = new PushButton(this);
+    verticaFlipBtn->setObjectName("FlipVerticalBtn");
+    verticaFlipBtn->setText("Flip vertically");
+
+    QHBoxLayout* cutHbLayout = new QHBoxLayout(m_cutWidget);
+    cutHbLayout->setMargin(0);
+    cutHbLayout->setSpacing(0);
+    cutHbLayout->addWidget(leftRotateBtn);
+    cutHbLayout->addWidget(rightRotateBtn);
+    cutHbLayout->addWidget(cutBtn);
+    cutHbLayout->addWidget(horiFlipBtn);
+    cutHbLayout->addWidget(verticaFlipBtn);
+    m_cutWidget->setLayout(cutHbLayout);
+    m_stackWidget->addWidget(m_cutWidget);
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
@@ -110,7 +145,66 @@ void TopToolbar::initStackWidget() {
     m_strokeARect->setContent(m_colorPanel);
     m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
 
-    //draw rectangle, and oval.
+    //draw line.
+    m_drawLineWidget = new QWidget(this);
+    QLabel* borderColLabel = new QLabel(this);
+    borderColLabel->setObjectName("BorderStrokeLabel");
+    borderColLabel->setText(tr("Stroke"));
+    BorderColorButton* borderCButton = new BorderColorButton(this);
+    connect(borderCButton, &BorderColorButton::clicked, this, [=]{
+        QPoint curPos = this->cursor().pos();
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
+        } else {
+            m_strokeARect->hide();
+        }
+    });
+
+    SeperatorLine* sep1Line = new SeperatorLine(this);
+    QLabel* borderStyleLabel = new QLabel(this);
+    borderStyleLabel->setObjectName("BorderStyleLabel");
+    borderStyleLabel->setText(tr("Style"));
+
+    ToolButton* sLineBtn = new ToolButton(this);
+    sLineBtn->setObjectName("StraightLineBtn");
+    ToolButton* arbiLineBtn = new ToolButton(this);
+    arbiLineBtn->setObjectName("ArbiLineBtn");
+    ToolButton* arrowBtn = new ToolButton(this);
+    arrowBtn->setObjectName("ArrowBtn");
+    SeperatorLine* sep2Line = new SeperatorLine(this);
+
+    QLabel* borderLWLabel = new QLabel(this);
+    borderLWLabel->setObjectName("BorderLWLabel");
+    borderLWLabel->setText(tr("Width"));
+    ToolButton* finerLineBtn = new ToolButton(this);
+    finerLineBtn->setObjectName("FinerLineBtn");
+    ToolButton* fineLineBtn = new ToolButton(this);
+    fineLineBtn->setObjectName("FineLineBtn");
+    ToolButton* mediumLineBtn = new ToolButton(this);
+    mediumLineBtn->setObjectName("MediumLineBtn");
+    ToolButton* boldLineBtn = new ToolButton(this);
+    boldLineBtn->setObjectName("BoldLineBtn");
+
+    QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawLineWidget);
+    drawHbLayout->setMargin(0);
+    drawHbLayout->setSpacing(10);
+    drawHbLayout->addWidget(borderColLabel);
+    drawHbLayout->addWidget(borderCButton);
+    drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
+    drawHbLayout->addWidget(borderStyleLabel);
+    drawHbLayout->addWidget(sLineBtn);
+    drawHbLayout->addWidget(arbiLineBtn);
+    drawHbLayout->addWidget(arrowBtn);
+    drawHbLayout->addWidget(sep2Line, 0, Qt::AlignCenter);
+    drawHbLayout->addWidget(borderLWLabel);
+    drawHbLayout->addWidget(finerLineBtn);
+    drawHbLayout->addWidget(fineLineBtn);
+    drawHbLayout->addWidget(mediumLineBtn);
+    drawHbLayout->addWidget(boldLineBtn);
+    m_drawLineWidget->setLayout(drawHbLayout);
+    m_stackWidget->addWidget(m_drawLineWidget);
+
+    //fill rectangle, and oval.
     m_fillShapeWidget = new QWidget(this);
     BigColorButton* fillColorBtn = new BigColorButton(this);
     QLabel* fillColLabel = new QLabel(this);
@@ -165,100 +259,41 @@ void TopToolbar::initStackWidget() {
     m_fillShapeWidget->setLayout(fillHLayout);
     m_stackWidget->addWidget(m_fillShapeWidget);
 
-    //process image.
-    m_cutWidget = new QWidget(this);
-    PushButton* leftRotateBtn = new PushButton();
-    leftRotateBtn->setObjectName("LeftRotate");
-    leftRotateBtn->setText(tr("Rotate 90° CCW"));
+    //draw text.
+    m_drawTextWidget = new QWidget(this);
+    ToolButton* colBtn = new ToolButton(this);
+    QLabel* fontsizeLabel = new QLabel(this);
+    QLineEdit* fontsizeEdit = new QLineEdit(this);
+    fontsizeEdit->setObjectName("FontsizeEdit");
+    ToolButton* addFontsizeBtn = new ToolButton(this);
+    addFontsizeBtn->setObjectName("AddFontsizeButton");
+    ToolButton* reduceFontsizeBtn = new ToolButton(this);
+    reduceFontsizeBtn->setObjectName("ReduceFontsizeButton");
+    QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
+    textHbLayout->addWidget(colBtn);
+    textHbLayout->addWidget(fontsizeLabel);
+    textHbLayout->addWidget(fontsizeEdit);
+    textHbLayout->addWidget(addFontsizeBtn);
+    textHbLayout->addWidget(reduceFontsizeBtn);
+    m_drawTextWidget->setLayout(textHbLayout);
+    m_stackWidget->addWidget(m_drawTextWidget);
 
-    PushButton* rightRotateBtn = new PushButton(this);
-    rightRotateBtn->setObjectName("RightRotate");
-    rightRotateBtn->setText(tr("Rotate 90° CW"));
-
-    PushButton* cutBtn = new PushButton(this);
-    cutBtn->setObjectName("CutButton");
-    cutBtn->setText(tr("Clip"));
-
-    PushButton* horiFlipBtn = new PushButton(this);
-    horiFlipBtn->setObjectName("FlipHorizontalBtn");
-    horiFlipBtn->setText(tr("Flip horizontally"));
-
-    PushButton* verticaFlipBtn = new PushButton(this);
-    verticaFlipBtn->setObjectName("FlipVerticalBtn");
-    verticaFlipBtn->setText("Flip vertically");
-
-    QHBoxLayout* cutHbLayout = new QHBoxLayout(m_cutWidget);
-    cutHbLayout->setMargin(0);
-    cutHbLayout->setSpacing(0);
-    cutHbLayout->addWidget(leftRotateBtn);
-    cutHbLayout->addWidget(rightRotateBtn);
-    cutHbLayout->addWidget(cutBtn);
-    cutHbLayout->addWidget(horiFlipBtn);
-    cutHbLayout->addWidget(verticaFlipBtn);
-    m_cutWidget->setLayout(cutHbLayout);
-    m_stackWidget->addWidget(m_cutWidget);
-
-    //draw line.
-    m_drawShapeWidget = new QWidget(this);
-    QLabel* borderColLabel = new QLabel(this);
-    borderColLabel->setObjectName("BorderStrokeLabel");
-    borderColLabel->setText(tr("Stroke"));
-    BorderColorButton* borderCButton = new BorderColorButton(this);
-    connect(borderCButton, &BorderColorButton::clicked, this, [=]{
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
-
-    SeperatorLine* sep1Line = new SeperatorLine(this);
-    QLabel* borderStyleLabel = new QLabel(this);
-    borderStyleLabel->setObjectName("BorderStyleLabel");
-    borderStyleLabel->setText(tr("Style"));
-
-    ToolButton* sLineBtn = new ToolButton(this);
-    sLineBtn->setObjectName("StraightLineBtn");
-    ToolButton* arbiLineBtn = new ToolButton(this);
-    arbiLineBtn->setObjectName("ArbiLineBtn");
-    ToolButton* arrowBtn = new ToolButton(this);
-    arrowBtn->setObjectName("ArrowBtn");
-    SeperatorLine* sep2Line = new SeperatorLine(this);
-
-    QLabel* borderLWLabel = new QLabel(this);
-    borderLWLabel->setObjectName("BorderLWLabel");
-    borderLWLabel->setText(tr("Width"));
-    ToolButton* finerLineBtn = new ToolButton(this);
-    finerLineBtn->setObjectName("FinerLineBtn");
-    ToolButton* fineLineBtn = new ToolButton(this);
-    fineLineBtn->setObjectName("FineLineBtn");
-    ToolButton* mediumLineBtn = new ToolButton(this);
-    mediumLineBtn->setObjectName("MediumLineBtn");
-    ToolButton* boldLineBtn = new ToolButton(this);
-    boldLineBtn->setObjectName("BoldLineBtn");
-
-    QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawShapeWidget);
-    drawHbLayout->setMargin(0);
-    drawHbLayout->setSpacing(10);
-    drawHbLayout->addWidget(borderColLabel);
-    drawHbLayout->addWidget(borderCButton);
-    drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
-    drawHbLayout->addWidget(borderStyleLabel);
-    drawHbLayout->addWidget(sLineBtn);
-    drawHbLayout->addWidget(arbiLineBtn);
-    drawHbLayout->addWidget(arrowBtn);
-    drawHbLayout->addWidget(sep2Line, 0, Qt::AlignCenter);
-    drawHbLayout->addWidget(borderLWLabel);
-    drawHbLayout->addWidget(finerLineBtn);
-    drawHbLayout->addWidget(fineLineBtn);
-    drawHbLayout->addWidget(mediumLineBtn);
-    drawHbLayout->addWidget(boldLineBtn);
-    m_drawShapeWidget->setLayout(drawHbLayout);
-    m_stackWidget->addWidget(m_drawShapeWidget);
+    //draw blur widget.
+    m_drawBlurWidget = new QWidget(this);
+    QLabel* penLabel = new QLabel(this);
+    ToolButton* fineBtn = new ToolButton(this);
+    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
+    ToolButton* boldBtn = new ToolButton(this);
+    QHBoxLayout* blurHbLayout = new QHBoxLayout(m_drawBlurWidget);
+    blurHbLayout->addWidget(penLabel);
+    blurHbLayout->addWidget(fineBtn);
+    blurHbLayout->addWidget(lineWidthSlider);
+    blurHbLayout->addWidget(boldBtn);
+    m_drawBlurWidget->setLayout(blurHbLayout);
+    m_stackWidget->addWidget(m_drawBlurWidget);
 
     //process  artboard's size.
-    m_picWidget = new QWidget(this);
+    m_adjustsizeWidget = new QWidget(this);
     QLabel* casLengthLabel = new QLabel(this);
     casLengthLabel->setObjectName("CasLengthLabel");
     QLineEdit* lengthLEdit = new QLineEdit(this);
@@ -270,49 +305,29 @@ void TopToolbar::initStackWidget() {
     widthLEdit->setObjectName("WidthLineEdit");
     QLineEdit* cutTransAreaLEdit = new QLineEdit(this);
     cutTransAreaLEdit->setObjectName("CutAreaLineEdit");
-    QHBoxLayout* picHbLayout = new QHBoxLayout(m_picWidget);
+    QHBoxLayout* picHbLayout = new QHBoxLayout(m_adjustsizeWidget);
     picHbLayout->addWidget(casLengthLabel);
     picHbLayout->addWidget(lengthLEdit);
     picHbLayout->addWidget(casWidthLabel);
     picHbLayout->addWidget(widthLEdit);
     picHbLayout->addWidget(cutTransAreaLEdit);
-    m_picWidget->setLayout(picHbLayout);
-    m_stackWidget->addWidget(m_picWidget);
+    m_adjustsizeWidget->setLayout(picHbLayout);
+    m_stackWidget->addWidget(m_adjustsizeWidget);
 
-    //draw text.
-    m_textWidget = new QWidget(this);
-    ToolButton* colBtn = new ToolButton(this);
-    QLabel* fontsizeLabel = new QLabel(this);
-    QLineEdit* fontsizeEdit = new QLineEdit(this);
-    fontsizeEdit->setObjectName("FontsizeEdit");
-    ToolButton* addFontsizeBtn = new ToolButton(this);
-    addFontsizeBtn->setObjectName("AddFontsizeButton");
-    ToolButton* reduceFontsizeBtn = new ToolButton(this);
-    reduceFontsizeBtn->setObjectName("ReduceFontsizeButton");
-    QHBoxLayout* textHbLayout = new QHBoxLayout(m_textWidget);
-    textHbLayout->addWidget(colBtn);
-    textHbLayout->addWidget(fontsizeLabel);
-    textHbLayout->addWidget(fontsizeEdit);
-    textHbLayout->addWidget(addFontsizeBtn);
-    textHbLayout->addWidget(reduceFontsizeBtn);
-    m_textWidget->setLayout(textHbLayout);
-    m_stackWidget->addWidget(m_textWidget);
+    m_stackWidget->setCurrentWidget(m_emptyWidget);
+}
 
-    //draw blur widget.
-    m_blurWidget = new QWidget(this);
-    QLabel* penLabel = new QLabel(this);
-    ToolButton* fineBtn = new ToolButton(this);
-    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
-    ToolButton* boldBtn = new ToolButton(this);
-    QHBoxLayout* blurHbLayout = new QHBoxLayout(m_blurWidget);
-    blurHbLayout->addWidget(penLabel);
-    blurHbLayout->addWidget(fineBtn);
-    blurHbLayout->addWidget(lineWidthSlider);
-    blurHbLayout->addWidget(boldBtn);
-    m_blurWidget->setLayout(blurHbLayout);
-    m_stackWidget->addWidget(m_blurWidget);
-
-    m_stackWidget->setCurrentWidget(m_fillShapeWidget);
+void TopToolbar::setMiddleStackWidget(Status status) {
+    switch (status) {
+    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
+    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
+    case DrawLine: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
+    case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
+    case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
+    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
+    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
+    default: break;
+    }
 }
 
 void TopToolbar::drawShapes(QString shape) {
