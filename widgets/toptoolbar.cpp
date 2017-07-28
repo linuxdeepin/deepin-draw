@@ -84,6 +84,27 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
+    connect(importBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_cutWidget);
+    });
+    connect(rectBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_fillShapeWidget);
+    });
+    connect(ovalBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_fillShapeWidget);
+    });
+    connect(lineBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+    });
+    connect(textBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+    });
+    connect(blurBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+    });
+    connect(artBoardBtn, &ToolButton::clicked, this, [=]{
+        m_stackWidget->setCurrentWidget(m_adjustsizeWidget);
+    });
 }
 
 void TopToolbar::importImage() {
