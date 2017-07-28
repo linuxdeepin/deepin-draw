@@ -2,11 +2,20 @@
 
 #include <QPainter>
 #include <QDebug>
-
+#include <QApplication>
+#include <QImage>
 #include <cmath>
 
+#include "utils/baseutils.h"
+
 ColorLabel::ColorLabel(QWidget *parent)
-    : QLabel(parent) {
+    : QLabel(parent), m_picking(true), m_pressed(false) {
+
+    connect(this, &ColorLabel::clicked, this, [=]{
+        if (m_picking) {
+            pickColor(m_clickedPos);
+        }
+    });
 }
 
 //h∈(0, 360), s∈(0, 1), v∈(0, 1)
@@ -38,12 +47,30 @@ void ColorLabel::setHue(int hue) {
     update();
 }
 
+void ColorLabel::pickColor(QPoint pos) {
+    QPixmap pickPixmap;
+    pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
+
+    QImage pickImg = pickPixmap.toImage();
+    if (!pickImg.isNull()) {
+        QRgb pickRgb = pickImg.pixel(pos);
+        m_pickedColor = QColor(qRed(pickRgb), qGreen(pickRgb), qBlue(pickRgb));
+    } else {
+        m_pickedColor = QColor(0, 0, 0);
+    }
+
+    emit pickedColor(m_pickedColor);
+}
+
+QColor ColorLabel::getPickedColor() {
+    return m_pickedColor;
+}
+
 void ColorLabel::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
     QImage backgroundImage(this->width(), this->height(), QImage::Format_ARGB32);
-    qDebug() << "paintEvent:" << this->width() << this->height();
 
     for(qreal s = 0; s < this->width(); s++) {
         for(qreal v = 0; v < this->height(); v++) {
@@ -53,6 +80,31 @@ void ColorLabel::paintEvent(QPaintEvent *) {
     }
 
     painter.drawImage(this->rect(), backgroundImage);
+}
+
+void ColorLabel::enterEvent(QEvent *e) {
+    qApp->setOverrideCursor(setCursorShape("pickcolor"));
+    QLabel::enterEvent(e);
+}
+
+void ColorLabel::leaveEvent(QEvent *) {
+    this->setCursor(Qt::ArrowCursor);
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+}
+
+void ColorLabel::mousePressEvent(QMouseEvent *e) {
+    m_pressed = true;
+
+    QLabel::mousePressEvent(e);
+}
+
+void ColorLabel::mouseReleaseEvent(QMouseEvent *e) {
+    if (m_pressed) {
+        emit clicked();
+    }
+
+    m_clickedPos = e->pos();
+    QLabel::mouseReleaseEvent(e);
 }
 
 ColorLabel::~ColorLabel() {

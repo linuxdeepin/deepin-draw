@@ -23,12 +23,15 @@ QCursor setCursorShape(QString cursorName, int colorIndex) {
     } else if (cursorName == "text") {
         customShape = QCursor(QPixmap(
                       ":/images/mouse_style/shape/text_mouse.png"), 5, 5);
-    } else if  (cursorName == "line") {
+    }/* else if  (cursorName == "line") {
         customShape = QCursor(QPixmap(QString(
                    ":/images/mouse_style/color_pen/color%1.png").arg(colorIndex)), 0, 25);
-    } else if (cursorName == "straightLine") {
+    } */else if (cursorName == "straightLine") {
         customShape = QCursor(QPixmap(QString(
                     ":/images/mouse_style/shape/line_mouse.png")), 2, 9);
+    } else if (cursorName == "pickcolor") {
+        customShape = QCursor(QPixmap(QString(
+                    ":/images/mouse_style/shape/pickcolor_mouse.png")), 2, 9);
     }
 
     return customShape;

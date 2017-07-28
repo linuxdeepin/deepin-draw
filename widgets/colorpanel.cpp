@@ -95,6 +95,8 @@ ColorPanel::ColorPanel(QWidget *parent)
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
     m_editLabel->setEditText("#FF0000");
+
+
     m_colorfulBtn = new PushButton(this);
     m_colorfulBtn->setObjectName("ColorFulButton");
 
@@ -105,6 +107,10 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->addWidget(m_colorfulBtn);
 
     PickColorWidget* pickColWidget = new PickColorWidget(this);
+
+    connect(pickColWidget, &PickColorWidget::pickedColor, this, [=](QColor color){
+        m_editLabel->setEditText(color.name());
+    });
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);

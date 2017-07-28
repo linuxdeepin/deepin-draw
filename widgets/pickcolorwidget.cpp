@@ -46,6 +46,7 @@ PickColorWidget::PickColorWidget(QWidget *parent)
         qDebug() << "pickColorLabel:" << val;
         m_colorLabel->setHue(val);
     });
+    connect(m_colorLabel, &ColorLabel::pickedColor, this, &PickColorWidget::setRgbValue);
 
     QVBoxLayout* mLayout = new QVBoxLayout;
     mLayout->setMargin(0);
@@ -54,6 +55,14 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     mLayout->addWidget(m_colorLabel);
     mLayout->addWidget(m_colorSlider);
     setLayout(mLayout);
+}
+
+void PickColorWidget::setRgbValue(QColor color) {
+    m_redEditLabel->setEditText(QString("%1").arg(color.red()));
+    m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
+    m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
+
+    emit pickedColor(color);
 }
 
 PickColorWidget::~PickColorWidget() {

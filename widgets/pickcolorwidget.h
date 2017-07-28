@@ -14,6 +14,11 @@ public:
     PickColorWidget(QWidget* parent);
     ~PickColorWidget();
 
+    void setRgbValue(QColor color);
+
+signals:
+    void pickedColor(QColor color);
+
 private:
     EditLabel* m_redEditLabel;
     EditLabel* m_greenEditLabel;
