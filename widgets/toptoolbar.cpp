@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QPushButton>
+#include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QSlider>
@@ -127,34 +128,47 @@ void TopToolbar::initStackWidget() {
     m_stackWidget->addWidget(m_emptyWidget);
     //cutwidget.
     m_cutWidget = new QWidget(this);
-    PushButton* leftRotateBtn = new PushButton();
-    leftRotateBtn->setObjectName("LeftRotate");
-    leftRotateBtn->setText(tr("Rotate 90° CCW"));
+    QMap<int, QString> btnInfoMap;
+    btnInfoMap.insert(0, "LeftRotate");
+    btnInfoMap.insert(1, "RightRotate");
+    btnInfoMap.insert(2, "CutButton");
+    btnInfoMap.insert(3, "FlipHorizontalBtn");
+    btnInfoMap.insert(4, "FlipVerticalBtn");
+    QStringList btnTextList;
+    btnTextList << tr("Rotate 90° CCW") << tr("Rotate 90° CW") << tr("Clip")
+                          << tr("Flip horizontally") << tr("FlipVertically");
+    QList<PushButton*> btnList;
+    QMap<int, QString>::const_iterator i = btnInfoMap.constBegin();
+    while (i != btnInfoMap.constEnd()) {
+        PushButton* btn = new PushButton();
+        btnList.append(btn);
+        btn->setObjectName(i.value());
+        btn->setText(btnTextList[i.key()]);
+        ++i;
+    }
 
-    PushButton* rightRotateBtn = new PushButton(this);
-    rightRotateBtn->setObjectName("RightRotate");
-    rightRotateBtn->setText(tr("Rotate 90° CW"));
+    for(int k = 0; k < btnList.length(); k++) {
+        connect(btnList[k], &PushButton::clicked, this, [=]{
+            if (btnList[k]->getChecked()) {
+                 for (int j = 0; j < k; j++) {
+                     btnList[j]->setChecked(false);
+                 }
 
-    PushButton* cutBtn = new PushButton(this);
-    cutBtn->setObjectName("CutButton");
-    cutBtn->setText(tr("Clip"));
-
-    PushButton* horiFlipBtn = new PushButton(this);
-    horiFlipBtn->setObjectName("FlipHorizontalBtn");
-    horiFlipBtn->setText(tr("Flip horizontally"));
-
-    PushButton* verticaFlipBtn = new PushButton(this);
-    verticaFlipBtn->setObjectName("FlipVerticalBtn");
-    verticaFlipBtn->setText("Flip vertically");
+                 for(int p = k + 1; p < btnList.length(); p++) {
+                     btnList[p]->setChecked(false);
+                 }
+            } else {
+                qDebug() << "Btn exclusive failed" << k;
+            }
+        });
+    }
 
     QHBoxLayout* cutHbLayout = new QHBoxLayout(m_cutWidget);
     cutHbLayout->setMargin(0);
     cutHbLayout->setSpacing(0);
-    cutHbLayout->addWidget(leftRotateBtn);
-    cutHbLayout->addWidget(rightRotateBtn);
-    cutHbLayout->addWidget(cutBtn);
-    cutHbLayout->addWidget(horiFlipBtn);
-    cutHbLayout->addWidget(verticaFlipBtn);
+    for(int j = 0; j < btnList.length(); j++) {
+        cutHbLayout->addWidget(btnList[j]);
+    }
     m_cutWidget->setLayout(cutHbLayout);
     m_stackWidget->addWidget(m_cutWidget);
 

@@ -11,6 +11,7 @@ void CanvasLabel::setCanvasPixmap(QString imageFile) {
     m_currentPixmap = QPixmap(m_currentFile);
     if (!m_currentPixmap.isNull()) {
         update();
+        qDebug() << "CanvasLabel:" << imageFile;
     } else {
         qWarning() << "m_currentPixmap is null";
     }
@@ -38,16 +39,27 @@ void CanvasLabel::initShapesWidget(QString shape, bool needInited) {
 
 void CanvasLabel::paintEvent(QPaintEvent *e) {
     QLabel::paintEvent(e);
+    QPainter painter(this);
+
+#ifdef QT_DEBUG
+    QPixmap drawTestPixmap = QPixmap("/home/ph/Pictures/ddddddddddd.png");
+    if (!drawTestPixmap.isNull()) {
+        setFixedSize(drawTestPixmap.size());
+        painter.drawPixmap(this->rect(), drawTestPixmap);
+    }
+
+#endif
     if (m_currentPixmap.isNull()) {
         return ;
     } else {
         setFixedSize(m_currentPixmap.size());
+        /* update shapesWidget's size, app crash!
 //        if (m_shapesWidgetExist) {
 //            m_shapesWidget->resize(this->width(), this->height());
 //        }
+        */
     }
 
-    QPainter painter(this);
     painter.drawPixmap(this->rect(), m_currentPixmap);
 }
 

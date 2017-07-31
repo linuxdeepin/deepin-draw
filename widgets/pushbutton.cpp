@@ -160,7 +160,6 @@ void PushButton::setCheckedPic(QString checkedPic)
 void PushButton::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
-
     QPainter painter(this);
 
     QMargins m = contentsMargins();

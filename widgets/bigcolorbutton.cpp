@@ -42,24 +42,13 @@ void BigColorButton::paintEvent(QPaintEvent *) {
     painter.setPen(Qt::transparent);
 
     painter.setBrush(QBrush(QColor(0, 0, 0, 20.4)));
-    if (m_isHover) {
+    if (m_isHover || m_isChecked) {
         painter.drawRoundedRect(rect(), 4, 4);
     }
 
     painter.setBrush(QBrush(QColor(m_color)));
     painter.drawEllipse(QPointF(12, 12),
                         COLOR_RADIUS, COLOR_RADIUS);
-
-    if (m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(
-                               ":/resources/images/action/colors_checked.png"));
-    } else if (m_isHover && !m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(
-                               ":/resources/images/action/colors_hover.png"));
-    } else {
-         painter.drawPixmap(rect(), QPixmap(
-                                ":/resources/images/action/colors_normal.png"));
-    }
 }
 
 void BigColorButton::setColor(QColor color) {
