@@ -26,6 +26,7 @@ public:
 signals:
     void requestInitShapeWidget(QString shape, bool needInited);
     void changeShapeColor(DrawStatus drawstatus, QColor color);
+    void changeShapeLineWidth(int linewidth);
 
 private:
     CanvasLabel* m_canvasLabel;

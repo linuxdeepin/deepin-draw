@@ -20,6 +20,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
                     m_canvasLabel, &CanvasLabel::initShapesWidget);
     connect(this, &CanvasWidget::changeShapeColor,
             m_canvasLabel, &CanvasLabel::setShapeColor);
+    connect(this, &CanvasWidget::changeShapeLineWidth,
+            m_canvasLabel, &CanvasLabel::setShapeLineWidth);
 }
 
 bool CanvasWidget::overWindowSize() {

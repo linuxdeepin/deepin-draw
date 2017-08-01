@@ -227,6 +227,9 @@ void TopToolbar::initStackWidget() {
         lwBtn->setObjectName(lwBtnNameList[i]);
         lwBtnList.append(lwBtn);
         lwBtnGroup->addButton(lwBtn);
+        connect(lwBtn, &ToolButton::clicked, this, [=]{
+            emit shapesLineWidthChanged((i+1)*2);
+        });
     }
 
     QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawLineWidget);
@@ -296,6 +299,9 @@ void TopToolbar::initStackWidget() {
         fillShapeBtn->setObjectName(lwBtnNameList[k]);
         fillShapeLwBtnList.append(fillShapeBtn);
         fillShapeBtnGroup->addButton(fillShapeBtn);
+        connect(fillShapeBtn, &ToolButton::clicked, this, [=]{
+            emit shapesLineWidthChanged((k+1)*2);
+        });
     }
     QHBoxLayout* fillHLayout = new QHBoxLayout(this);
     fillHLayout->setMargin(0);

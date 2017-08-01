@@ -17,6 +17,7 @@ public:
     void setCanvasPixmap(QPixmap pixmap);
     void initShapesWidget(QString shape, bool needInited);
     void setShapeColor(DrawStatus drawstatus, QColor color);
+    void setShapeLineWidth(int linewidth);
 
 protected:
     void paintEvent(QPaintEvent* e);

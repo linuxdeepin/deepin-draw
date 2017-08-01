@@ -50,6 +50,10 @@ void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color) {
     }
 }
 
+void CanvasLabel::setShapeLineWidth(int linewidth) {
+    m_shapesWidget->setLineWidth(linewidth);
+}
+
 void CanvasLabel::paintEvent(QPaintEvent *e) {
     QLabel::paintEvent(e);
     QPainter painter(this);

@@ -52,6 +52,7 @@ signals:
     void openImage(QString imageFileName);
     void  initShapeWidgetAction(QString shape, bool needInited);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
+    void shapesLineWidthChanged(int lineWidth);
 
 public slots:
     void initStackWidget();

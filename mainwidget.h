@@ -22,6 +22,7 @@ signals:
     void zoomInAction();
     void prepareInitShapesWidget(QString shape, bool needInited);
     void changeShapesColor(DrawStatus drawstatus, QColor color);
+    void changeShapesLineWidth(int linewidth);
 
 protected:
     void resizeEvent(QResizeEvent* event);

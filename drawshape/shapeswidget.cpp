@@ -32,6 +32,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     m_penColor = QColor(Qt::red);//colorIndexOf(ConfigSettings::instance()->value(
     // "common", "color_index").toInt());
     m_brushColor = QColor(Qt::red);
+    m_linewidth = 2;
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
 //    connect(m_menuController, &MenuController::saveBtnPressed,
@@ -109,6 +110,10 @@ void ShapesWidget::setPenColor(QColor color) {
 
 void ShapesWidget::setBrushColor(QColor color) {
     m_brushColor = color;
+}
+
+void ShapesWidget::setLineWidth(int linewidth) {
+    m_linewidth = linewidth;
 }
 
 void ShapesWidget::clearSelected() {
@@ -1243,7 +1248,10 @@ void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int inde
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
 
     qDebug() << "ShapesWidget:::" << m_penColor;
-    painter.setPen(QPen(m_penColor));
+    QPen rectPen;
+    rectPen.setColor(m_penColor);
+    rectPen.setWidth(m_linewidth);
+    painter.setPen(rectPen);
     painter.drawPath(rectPath);
     painter.fillPath(rectPath, QBrush(m_brushColor));
 //    using namespace utils;
