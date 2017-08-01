@@ -1,6 +1,5 @@
 #include "bordercolorbutton.h"
 
-
 #include <QPainter>
 #include <QDebug>
 
@@ -15,10 +14,7 @@ BorderColorButton::BorderColorButton(QWidget *parent)
     setFixedSize(24, 24);
     setCheckable(true);
 
-
-    connect(this, &QPushButton::clicked, this,
-            &BorderColorButton::setCheckedStatus);
-
+    connect(this, &QPushButton::clicked, this, &BorderColorButton::setCheckedStatus);
 }
 
 void BorderColorButton::updateConfigColor(const QString &shape, const QString &key, int index)
@@ -29,7 +25,6 @@ void BorderColorButton::updateConfigColor(const QString &shape, const QString &k
 }
 
 BorderColorButton::~BorderColorButton() {
-
 }
 
 void BorderColorButton::paintEvent(QPaintEvent *) {
@@ -37,8 +32,7 @@ void BorderColorButton::paintEvent(QPaintEvent *) {
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(Qt::transparent);
 
-
-    if (m_isHover) {
+    if (m_isHover || m_isChecked) {
         painter.setBrush(QBrush(QColor(0, 0, 0, 20.4)));
         painter.drawRoundedRect(rect(), 4, 4);
     } else {

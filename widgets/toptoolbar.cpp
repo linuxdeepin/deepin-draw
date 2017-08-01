@@ -200,25 +200,33 @@ void TopToolbar::initStackWidget() {
     borderStyleLabel->setObjectName("BorderStyleLabel");
     borderStyleLabel->setText(tr("Style"));
 
-    ToolButton* sLineBtn = new ToolButton(this);
-    sLineBtn->setObjectName("StraightLineBtn");
-    ToolButton* arbiLineBtn = new ToolButton(this);
-    arbiLineBtn->setObjectName("ArbiLineBtn");
-    ToolButton* arrowBtn = new ToolButton(this);
-    arrowBtn->setObjectName("ArrowBtn");
+    QList<ToolButton*> lineBtnList;
+    QStringList lineBtnNameList;
+    lineBtnNameList << "StraightLineBtn" << "ArbiLineBtn" << "ArrowBtn";
+    QButtonGroup* btnGroup = new QButtonGroup(this);
+    btnGroup->setExclusive(true);
+    for(int k = 0; k < lineBtnNameList.length(); k++) {
+        ToolButton* lineBtn = new ToolButton(this);
+        lineBtn->setObjectName(lineBtnNameList[k]);
+        lineBtnList.append(lineBtn);
+        btnGroup->addButton(lineBtn);
+    }
     SeperatorLine* sep2Line = new SeperatorLine(this);
 
     QLabel* borderLWLabel = new QLabel(this);
     borderLWLabel->setObjectName("BorderLWLabel");
     borderLWLabel->setText(tr("Width"));
-    ToolButton* finerLineBtn = new ToolButton(this);
-    finerLineBtn->setObjectName("FinerLineBtn");
-    ToolButton* fineLineBtn = new ToolButton(this);
-    fineLineBtn->setObjectName("FineLineBtn");
-    ToolButton* mediumLineBtn = new ToolButton(this);
-    mediumLineBtn->setObjectName("MediumLineBtn");
-    ToolButton* boldLineBtn = new ToolButton(this);
-    boldLineBtn->setObjectName("BoldLineBtn");
+    QList<ToolButton*> lwBtnList;
+    QStringList lwBtnNameList;
+    lwBtnNameList << "FinerLineBtn" << "FineLineBtn" << "MediumLineBtn" << "BoldLineBtn";
+    QButtonGroup* lwBtnGroup = new QButtonGroup(this);
+    lwBtnGroup->setExclusive(true);
+    for (int i = 0; i < lwBtnNameList.length(); i++) {
+        ToolButton* lwBtn = new ToolButton(this);
+        lwBtn->setObjectName(lwBtnNameList[i]);
+        lwBtnList.append(lwBtn);
+        lwBtnGroup->addButton(lwBtn);
+    }
 
     QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawLineWidget);
     drawHbLayout->setMargin(0);
@@ -227,15 +235,15 @@ void TopToolbar::initStackWidget() {
     drawHbLayout->addWidget(borderCButton);
     drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderStyleLabel);
-    drawHbLayout->addWidget(sLineBtn);
-    drawHbLayout->addWidget(arbiLineBtn);
-    drawHbLayout->addWidget(arrowBtn);
+    qDebug() << "KKK" << lineBtnList.length();
+    for(int h = 0; h < lineBtnList.length(); h++) {
+        drawHbLayout->addWidget(lineBtnList[h]);
+    }
     drawHbLayout->addWidget(sep2Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderLWLabel);
-    drawHbLayout->addWidget(finerLineBtn);
-    drawHbLayout->addWidget(fineLineBtn);
-    drawHbLayout->addWidget(mediumLineBtn);
-    drawHbLayout->addWidget(boldLineBtn);
+    for(int j = 0; j < lwBtnList.length(); j++) {
+        drawHbLayout->addWidget(lwBtnList[j]);
+    }
     m_drawLineWidget->setLayout(drawHbLayout);
     m_stackWidget->addWidget(m_drawLineWidget);
 
@@ -268,14 +276,15 @@ void TopToolbar::initStackWidget() {
     QLabel* fillShapeLWLabel = new QLabel(this);
     fillShapeLWLabel->setObjectName("BorderLabel");
     fillShapeLWLabel->setText(tr("Width"));
-    ToolButton* lineBtn0 = new ToolButton(this);
-    lineBtn0->setObjectName("FinerLineBtn");
-    ToolButton* lineBtn1 = new ToolButton(this);
-    lineBtn1->setObjectName("FineLineBtn");
-    ToolButton* lineBtn2 = new ToolButton(this);
-    lineBtn2->setObjectName("MediumLineBtn");
-    ToolButton* lineBtn3 = new ToolButton(this);
-    lineBtn3->setObjectName("BoldLineBtn");
+    QList<ToolButton*> fillShapeLwBtnList;
+    QButtonGroup* fillShapeBtnGroup = new QButtonGroup(this);
+    fillShapeBtnGroup->setExclusive(true);
+    for (int k = 0; k < lwBtnNameList.length(); k++) {
+        ToolButton* fillShapeBtn = new ToolButton(this);
+        fillShapeBtn->setObjectName(lwBtnNameList[k]);
+        fillShapeLwBtnList.append(fillShapeBtn);
+        fillShapeBtnGroup->addButton(fillShapeBtn);
+    }
     QHBoxLayout* fillHLayout = new QHBoxLayout(this);
     fillHLayout->setMargin(0);
     fillHLayout->setSpacing(6);
@@ -286,10 +295,9 @@ void TopToolbar::initStackWidget() {
     fillHLayout->addWidget(strokeLabel);
     fillHLayout->addWidget(fillShapeSepLine);
     fillHLayout->addWidget(fillShapeLWLabel);
-    fillHLayout->addWidget(lineBtn0);
-    fillHLayout->addWidget(lineBtn1);
-    fillHLayout->addWidget(lineBtn2);
-    fillHLayout->addWidget(lineBtn3);
+    for(int j = 0; j < fillShapeLwBtnList.length(); j++) {
+        fillHLayout->addWidget(fillShapeLwBtnList[j]);
+    }
     fillHLayout->addStretch();
     m_fillShapeWidget->setLayout(fillHLayout);
     m_stackWidget->addWidget(m_fillShapeWidget);
