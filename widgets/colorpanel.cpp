@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QButtonGroup>
 #include <QDebug>
 
 #include "utils/baseutils.h"
@@ -16,6 +17,15 @@ ColorButton::ColorButton(const QColor &color, QWidget *parent)
     m_color = color;
     setFixedSize(20, 20);
     setCheckable(true);
+
+    connect(this, &ColorButton::clicked, this, [=]{
+        qDebug() << "ColorButton LLLLLLLL" << m_color;
+        if (m_disable) {
+            emit colorButtonClicked(Qt::transparent);
+        } else {
+            emit colorButtonClicked(m_color);
+        }
+    });
 }
 
 void ColorButton::paintEvent(QPaintEvent *) {
@@ -24,8 +34,16 @@ void ColorButton::paintEvent(QPaintEvent *) {
     painter.setPen(m_color);
 
     if (m_disable) {
-        painter.drawPixmap(QRect(2, 2, this->width() - 4, this->height() - 4),
+        painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
             QPixmap(":/theme/light/images/draw/color_disable_active.png"));
+        if (isChecked()) {
+            painter.setBrush(QBrush());
+            QPen borderPen;
+            borderPen.setWidth(1);
+            borderPen.setColor("#01bdff");
+            painter.setPen(borderPen);
+            painter.drawRoundedRect(this->rect(), 4, 4);
+        }
         return;
     }
 
@@ -76,6 +94,9 @@ ColorPanel::ColorPanel(QWidget *parent)
             << QString("#626262") << QString("#404040") << QString("#000000");
 
     QList<ColorButton*> cButtonList;
+    QButtonGroup* colorsButtonGroup = new QButtonGroup(this);
+    colorsButtonGroup->setExclusive(true);
+
     QGridLayout* gLayout = new QGridLayout;
     gLayout->setVerticalSpacing(3);
     gLayout->setHorizontalSpacing(3);
@@ -86,7 +107,9 @@ ColorPanel::ColorPanel(QWidget *parent)
             cb->setDisableColor(true);
         cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
+        colorsButtonGroup->addButton(cb);
         qDebug() << "~~~" << i/10 << i%10;
+        connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::colorChanged);
     }
 
     m_sliderLabel = new SliderLabel("Alpha", this);
@@ -111,6 +134,8 @@ ColorPanel::ColorPanel(QWidget *parent)
     connect(pickColWidget, &PickColorWidget::pickedColor, this, [=](QColor color){
         m_editLabel->setEditText(color.name());
     });
+
+    connect(pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::colorChanged);
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);

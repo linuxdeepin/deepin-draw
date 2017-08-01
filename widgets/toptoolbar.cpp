@@ -179,6 +179,7 @@ void TopToolbar::initStackWidget() {
     m_strokeARect->setArrowWidth(30);
     m_strokeARect->setContent(m_colorPanel);
     m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
+    connect(m_colorPanel, &ColorPanel::colorChanged, this, &TopToolbar::setShapesColor);
 
     //draw line.
     m_drawLineWidget = new QWidget(this);
@@ -252,30 +253,41 @@ void TopToolbar::initStackWidget() {
     BigColorButton* fillColorBtn = new BigColorButton(this);
     QLabel* fillColLabel = new QLabel(this);
     fillColLabel->setText(tr("Fill"));
-    connect(fillColorBtn, &BigColorButton::clicked, this, [=]{
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
+
     BorderColorButton* fillShapeStrokeBtn = new BorderColorButton(this);
     fillShapeStrokeBtn->setObjectName("FillStrokeButton");
-    connect(fillShapeStrokeBtn, &BorderColorButton::clicked, this, [=]{
+
+    connect(fillColorBtn, &BigColorButton::clicked, this, [=]{
+        fillShapeStrokeBtn->setChecked(false);
         QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
             m_strokeARect->show(curPos.x(), curPos.y() + 20);
         } else {
             m_strokeARect->hide();
         }
+        qDebug() << "BigColorButton:" << DrawStatus::Fill;
+        setDrawStatus(DrawStatus::Fill);
     });
+
+    connect(fillShapeStrokeBtn, &BorderColorButton::clicked, this, [=]{
+        fillColorBtn->setChecked(false);
+        QPoint curPos = this->cursor().pos();
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
+        } else {
+            m_strokeARect->hide();
+        }
+        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
+        setDrawStatus(DrawStatus::Stroke);
+    });
+
     QLabel* strokeLabel = new QLabel(this);
     strokeLabel->setText(tr("Stroke"));
     SeperatorLine* fillShapeSepLine = new SeperatorLine();
     QLabel* fillShapeLWLabel = new QLabel(this);
     fillShapeLWLabel->setObjectName("BorderLabel");
     fillShapeLWLabel->setText(tr("Width"));
+
     QList<ToolButton*> fillShapeLwBtnList;
     QButtonGroup* fillShapeBtnGroup = new QButtonGroup(this);
     fillShapeBtnGroup->setExclusive(true);
@@ -373,12 +385,25 @@ void TopToolbar::setMiddleStackWidget(Status status) {
     }
 }
 
+void TopToolbar::setDrawStatus(DrawStatus drawstatus) {
+    m_drawStatus = drawstatus;
+}
+
 void TopToolbar::drawShapes(QString shape) {
     if (!m_shapesWidgetExist) {
         emit initShapeWidgetAction(shape, true);
         m_shapesWidgetExist = true;
     } else {
         emit initShapeWidgetAction(shape, false);
+    }
+}
+
+void TopToolbar::setShapesColor(QColor color) {
+    qDebug() << "TopToolbar:" << color;
+    if (m_drawStatus == DrawStatus::Fill) {
+        emit shapesColorChanged(DrawStatus::Fill, color);
+    } else {
+        emit shapesColorChanged(DrawStatus::Stroke, color);
     }
 }
 

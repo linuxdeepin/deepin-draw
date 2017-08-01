@@ -9,6 +9,7 @@
 #include <darrowrectangle.h>
 
 #include "widgets/colorpanel.h"
+#include "utils/baseutils.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -50,6 +51,7 @@ public:
 signals:
     void openImage(QString imageFileName);
     void  initShapeWidgetAction(QString shape, bool needInited);
+    void shapesColorChanged(DrawStatus drawstatus, QColor);
 
 public slots:
     void initStackWidget();
@@ -57,6 +59,8 @@ public slots:
     void drawShapes(QString shape);
     bool shapesWidgetExist();
     void setMiddleStackWidget(Status status);
+    void setDrawStatus(DrawStatus drawstatus);
+    void setShapesColor(QColor color);
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -75,6 +79,9 @@ private:
 
     DArrowRectangle* m_strokeARect;
     ColorPanel* m_colorPanel;
+
+    Status            m_middleWidgetStatus;
+    DrawStatus  m_drawStatus;
 };
 
 #endif // TOPTOOLBAR_H

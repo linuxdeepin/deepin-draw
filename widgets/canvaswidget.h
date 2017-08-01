@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 
 #include "canvaslabel.h"
+#include "utils/baseutils.h"
 
 class CanvasWidget : public QScrollArea {
     Q_OBJECT
@@ -24,6 +25,7 @@ public:
 
 signals:
     void requestInitShapeWidget(QString shape, bool needInited);
+    void changeShapeColor(DrawStatus drawstatus, QColor color);
 
 private:
     CanvasLabel* m_canvasLabel;

@@ -7,6 +7,7 @@
 
 #include "widgets/toptoolbar.h"
 #include "widgets/canvaswidget.h"
+#include "utils/baseutils.h"
 
 class MainWidget: public QWidget {
     Q_OBJECT
@@ -20,6 +21,7 @@ signals:
     void zoomOutAction();
     void zoomInAction();
     void prepareInitShapesWidget(QString shape, bool needInited);
+    void changeShapesColor(DrawStatus drawstatus, QColor color);
 
 protected:
     void resizeEvent(QResizeEvent* event);

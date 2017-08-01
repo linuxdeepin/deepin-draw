@@ -24,6 +24,8 @@ MainWidget::MainWidget(QWidget *parent)
     connect(this, &MainWidget::zoomInAction, m_canvas, &CanvasWidget::zoomInImage);
     connect(this, &MainWidget::prepareInitShapesWidget,
                     m_canvas, &CanvasWidget::requestInitShapeWidget);
+    connect(this, &MainWidget::changeShapesColor,
+            m_canvas, &CanvasWidget::changeShapeColor);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

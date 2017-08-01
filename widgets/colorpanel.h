@@ -18,6 +18,9 @@ public:
 
     void setDisableColor(bool disable);
 
+signals:
+    void colorButtonClicked(QColor color);
+
 protected:
     void paintEvent(QPaintEvent *);
 
@@ -31,6 +34,9 @@ class ColorPanel : public QWidget {
 public:
     ColorPanel(QWidget* parent = 0);
     ~ColorPanel();
+
+signals:
+    void colorChanged(QColor color);
 
 private:
     SliderLabel* m_sliderLabel;

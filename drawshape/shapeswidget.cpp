@@ -30,8 +30,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setAcceptDrops(true);
 
     m_penColor = QColor(Qt::red);//colorIndexOf(ConfigSettings::instance()->value(
-                                 // "common", "color_index").toInt());
-
+    // "common", "color_index").toInt());
+    m_brushColor = QColor(Qt::red);
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
 //    connect(m_menuController, &MenuController::saveBtnPressed,
@@ -50,7 +50,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key, int index) {
     qDebug() << "updateSelectedShapes" << m_selectedIndex << m_shapes.length() << m_selectedOrder;
     if ((group == m_currentShape.type || "common" == group) && key == "color_index") {
-        m_penColor = colorIndexOf(index);
+//        m_penColor = colorIndexOf(index);
     }
 
     if (m_selectedIndex != -1 && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length()) {
@@ -97,14 +97,18 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
 }
 
 void ShapesWidget::setPenColor(QColor color) {
-    int colorNum = colorIndex(color);
     m_penColor = color;
+    qDebug() << "ShapesWidget:" << m_penColor;
     if ( !m_currentType.isEmpty()) {
         qDebug() << "ShapesWidget setPenColor:" << m_currentType;
 //        ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
     }
 
     update();
+}
+
+void ShapesWidget::setBrushColor(QColor color) {
+    m_brushColor = color;
 }
 
 void ShapesWidget::clearSelected() {
@@ -1232,31 +1236,28 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bo
 void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int index,
                                                 ShapeBlurStatus rectStatus, bool isBlur, bool isMosaic) {
     QPainterPath rectPath;
-    if (rectStatus  == Hovered || ((isBlur||isMosaic) && index == m_selectedIndex)) {
-        painter.setPen(QColor("#01bdff"));
-    } else if (rectStatus == Drawing || ((isBlur | isMosaic) && index != m_selectedIndex)) {
-        painter.setPen(Qt::transparent);
-    }
-
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
     rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
     rectPath.lineTo(rectFPoints[3].x(),rectFPoints[3].y());
     rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
-    painter.drawPath(rectPath);
 
+    qDebug() << "ShapesWidget:::" << m_penColor;
+    painter.setPen(QPen(m_penColor));
+    painter.drawPath(rectPath);
+    painter.fillPath(rectPath, QBrush(m_brushColor));
 //    using namespace utils;
-    if (isBlur) {
-        painter.setClipPath(rectPath);
+//    if (isBlur) {
+//        painter.setClipPath(rectPath);
 //        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
-        painter.drawPath(rectPath);
-    }
-    if (isMosaic) {
-        painter.setClipPath(rectPath);
+//        painter.drawPath(rectPath);
+//    }
+//    if (isMosaic) {
+//        painter.setClipPath(rectPath);
 //        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
-        painter.drawPath(rectPath);
-    }
-    painter.setClipping(false);
+//        painter.drawPath(rectPath);
+//    }
+//    painter.setClipping(false);
 }
 
 void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index,
@@ -1276,19 +1277,19 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints, in
     ellipsePath.cubicTo(eightControlPoints[6], eightControlPoints[7], minorPoints[3]);
     ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints[0]);
     painter.drawPath(ellipsePath);
-
+    painter.fillPath(ellipsePath, QBrush(m_brushColor));
 //    using namespace utils;
-    if (isBlur) {
-        painter.setClipPath(ellipsePath);
+//    if (isBlur) {
+//        painter.setClipPath(ellipsePath);
 //        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
-        painter.drawPath(ellipsePath);
-    }
-    if (isMosaic) {
-        painter.setClipPath(ellipsePath);
+//        painter.drawPath(ellipsePath);
+//    }
+//    if (isMosaic) {
+//        painter.setClipPath(ellipsePath);
 //        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
-        painter.drawPath(ellipsePath);
-    }
-    painter.setClipping(false);
+//        painter.drawPath(ellipsePath);
+//    }
+//    painter.setClipping(false);
 }
 
 void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
@@ -1347,7 +1348,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     QPen pen;
 
     for(int i = 0; i < m_shapes.length(); i++) {
-        pen.setColor(colorIndexOf(m_shapes[i].colorIndex));
+        pen.setColor(m_penColor);
         pen.setWidthF(m_shapes[i].lineWidth - 0.5);
 
         if (m_shapes[i].type == "rectangle") {

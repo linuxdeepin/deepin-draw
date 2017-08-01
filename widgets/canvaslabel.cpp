@@ -3,7 +3,7 @@
 #include <QPainter>
 
 CanvasLabel::CanvasLabel(QWidget *parent)
-    : QLabel(parent) {
+    : QLabel(parent), m_shapesWidgetExist(false) {
 }
 
 void CanvasLabel::setCanvasPixmap(QString imageFile) {
@@ -29,12 +29,25 @@ void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
 void CanvasLabel::initShapesWidget(QString shape, bool needInited) {
     if (needInited) {
         m_shapesWidget = new ShapesWidget(this);
+        m_shapesWidgetExist = true;
     }
     m_shapesWidget->setCurrentShape(shape);
     m_shapesWidget->resize(this->width(), this->height());
     m_shapesWidget->move(0, 0);
     m_shapesWidget->show();
     qDebug() << "CanvasLabel initShapesWidget.." << m_shapesWidget->geometry();
+}
+
+void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color) {
+    qDebug() << "CanvasLabel setShapeColor:" << color;
+    if (!m_shapesWidgetExist)
+        return;
+
+    if (drawstatus == DrawStatus::Fill) {
+        m_shapesWidget->setBrushColor(color);
+    } else {
+        m_shapesWidget->setPenColor(color);
+    }
 }
 
 void CanvasLabel::paintEvent(QPaintEvent *e) {

@@ -10,6 +10,7 @@
 
 class ShapesWidget : public QFrame {
     Q_OBJECT
+
 public:
     ShapesWidget(QWidget* parent = 0);
     ~ShapesWidget();
@@ -45,6 +46,7 @@ public slots:
     void setCurrentShape(QString shapeType);
     void updatePenColor();
     void setPenColor(QColor color);
+    void setBrushColor(QColor color);
     void clearSelected();
     void setAllTextEditReadOnly();
     void saveActionTriggered();
@@ -104,6 +106,7 @@ private:
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
+    QString m_currentType = "rectangle";
 
     int m_shapesIndex;
     int m_selectedIndex;
@@ -112,9 +115,10 @@ private:
     int m_selectedOrder;
     bool m_blurEffectExist = false;
     bool m_mosaicEffectExist = false;
-    QString m_currentType = "rectangle";
-    QColor m_penColor;
     bool m_clearAllTextBorder = false;
+
+    QColor m_penColor;
+    QColor m_brushColor;
 
     Toolshape m_currentShape;
     Toolshape m_selectedShape;

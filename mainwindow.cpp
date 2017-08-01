@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
                     m_mainWidget, &MainWidget::setImageInCanvas);
     connect(m_topToolbar, &TopToolbar::initShapeWidgetAction,
             m_mainWidget, &MainWidget::prepareInitShapesWidget);
+    connect(m_topToolbar, &TopToolbar::shapesColorChanged,
+            m_mainWidget, &MainWidget::changeShapesColor);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

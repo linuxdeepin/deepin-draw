@@ -21,6 +21,11 @@ enum ResizeDirection {
     Outting,
 };
 
+enum DrawStatus {
+    Fill,
+    Stroke,
+};
+
 QCursor setCursorShape(QString cursorName, int colorIndex = 0);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
