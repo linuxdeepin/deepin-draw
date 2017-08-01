@@ -33,33 +33,40 @@ TopToolbar::TopToolbar(QWidget* parent)
     importBtn->setCheckable(false);
     connect(importBtn, &ToolButton::clicked, this, &TopToolbar::importImage);
 
+    QButtonGroup* shapesBtnGroup = new QButtonGroup(this);
+    shapesBtnGroup->setExclusive(true);
+
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
+    shapesBtnGroup->addButton(rectBtn);
     connect(rectBtn, &ToolButton::clicked, this,  [=]{
         drawShapes("rectangle");
     });
 
     ToolButton* ovalBtn = new ToolButton(this);
     ovalBtn->setObjectName("OvalBtn");
+    shapesBtnGroup->addButton(ovalBtn);
     connect(ovalBtn, &ToolButton::clicked, this, [=]{
         drawShapes("oval");
     });
 
     ToolButton* lineBtn = new ToolButton(this);
     lineBtn->setObjectName("LineBtn");
+    shapesBtnGroup->addButton(lineBtn);
     connect(lineBtn, &ToolButton::clicked, this, [=]{
         drawShapes("line");
     });
 
     ToolButton* textBtn = new ToolButton(this);
     textBtn->setObjectName("TextBtn");
+    shapesBtnGroup->addButton(textBtn);
     connect(textBtn, &ToolButton::clicked, this, [=]{
         drawShapes("text");
     });
 
     ToolButton* blurBtn = new ToolButton(this);
     blurBtn->setObjectName("BlurBtn");
-
+    shapesBtnGroup->addButton(blurBtn);
     initStackWidget();
 
     ToolButton* exportBtn = new ToolButton(this);
@@ -211,6 +218,9 @@ void TopToolbar::initStackWidget() {
         lineBtn->setObjectName(lineBtnNameList[k]);
         lineBtnList.append(lineBtn);
         btnGroup->addButton(lineBtn);
+        if (k == 1) {
+            lineBtn->setChecked(true);
+        }
     }
     SeperatorLine* sep2Line = new SeperatorLine(this);
 
@@ -230,6 +240,9 @@ void TopToolbar::initStackWidget() {
         connect(lwBtn, &ToolButton::clicked, this, [=]{
             emit shapesLineWidthChanged((i+1)*2);
         });
+        if (i == 0) {
+            lwBtn->setChecked(true);
+        }
     }
 
     QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawLineWidget);
@@ -302,6 +315,9 @@ void TopToolbar::initStackWidget() {
         connect(fillShapeBtn, &ToolButton::clicked, this, [=]{
             emit shapesLineWidthChanged((k+1)*2);
         });
+        if (k == 0) {
+            fillShapeBtn->setChecked(true);
+        }
     }
     QHBoxLayout* fillHLayout = new QHBoxLayout(this);
     fillHLayout->setMargin(0);
