@@ -24,6 +24,8 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.index<<","
             << obj.lineWidth << ","
             << obj.colorIndex <<","
+            << obj.fillColor << ","
+            << obj.strokeColor << ","
             << obj.isBlur << ","
             << obj.isMosaic << ","
             << obj.isStraight << ","
@@ -40,6 +42,8 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.isBlur;
     in >> obj.isMosaic;
     in >> obj.isStraight;
+    in >> obj.fillColor;
+    in >> obj.strokeColor;
     in >> obj.colorIndex;
     in >> obj.lineWidth;
     in >> obj.index;
@@ -55,6 +59,8 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     index = obj.index;
     lineWidth = obj.lineWidth;
     colorIndex = obj.colorIndex;
+    fillColor = obj.fillColor;
+    strokeColor = obj.strokeColor;
     isBlur = obj.isBlur;
     isMosaic = obj.isMosaic;
     isStraight = obj.isStraight;
@@ -68,6 +74,7 @@ Toolshape Toolshape::operator=(Toolshape obj) {
 bool Toolshape::operator==(const Toolshape &other) const {
     if (this->mainPoints == other.mainPoints && this->index == other.index
             && this->colorIndex == other.colorIndex && this->fontSize == other.fontSize
+            && this->fillColor == other.fillColor && this->strokeColor == other.strokeColor
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isShiftPressed == other.isShiftPressed
             && this->isStraight == other.isStraight && this->points == other.points) {

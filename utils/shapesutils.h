@@ -15,6 +15,8 @@ public:
      int index = -1;
      int lineWidth;
      int colorIndex;
+     QColor fillColor;
+     QColor strokeColor;
      bool isBlur = false;
      bool isMosaic = false;
      bool isStraight = false;
