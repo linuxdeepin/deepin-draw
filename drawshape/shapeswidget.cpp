@@ -1402,6 +1402,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0)) || m_currentShape.type == "text") {
         FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
         pen.setColor(m_currentShape.strokeColor);
+        painter.setBrush(QBrush(m_currentShape.fillColor));
         pen.setWidthF(m_currentShape.lineWidth - 0.5);
 
         if (m_currentType == "rectangle") {
