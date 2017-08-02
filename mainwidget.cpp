@@ -28,6 +28,8 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::changeShapeColor);
     connect(this, &MainWidget::changeShapesLineWidth,
             m_canvas, &CanvasWidget::changeShapeLineWidth);
+    connect(this, &MainWidget::lineShapeChanged,
+            m_canvas, &CanvasWidget::changeLineShape);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

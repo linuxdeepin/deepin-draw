@@ -134,8 +134,11 @@ private:
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints, int index);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index);
+
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
-                                  int lineWidth, bool isStraight = false);
+                    int lineWidth, bool isStraight = false);
+    void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints, int lineWidth);
+
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);
 };

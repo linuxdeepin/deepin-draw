@@ -12,7 +12,6 @@
 #include <QDebug>
 
 #include "utils/global.h"
-#include "utils/baseutils.h"
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
@@ -54,7 +53,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     lineBtn->setObjectName("LineBtn");
     shapesBtnGroup->addButton(lineBtn);
     connect(lineBtn, &ToolButton::clicked, this, [=]{
-        drawShapes("line");
+        drawShapes("arbitraryCurve");
     });
 
     ToolButton* textBtn = new ToolButton(this);
@@ -201,6 +200,7 @@ void TopToolbar::initStackWidget() {
         } else {
             m_strokeARect->hide();
         }
+        setDrawStatus(DrawStatus::Stroke);
     });
 
     SeperatorLine* sep1Line = new SeperatorLine(this);
@@ -221,6 +221,9 @@ void TopToolbar::initStackWidget() {
         if (k == 1) {
             lineBtn->setChecked(true);
         }
+        connect(lineBtn, &ToolButton::clicked, this, [=]{
+            setLineShape(k);
+        });
     }
     SeperatorLine* sep2Line = new SeperatorLine(this);
 
@@ -426,6 +429,16 @@ void TopToolbar::setShapesColor(QColor color) {
         emit shapesColorChanged(DrawStatus::Fill, color);
     } else {
         emit shapesColorChanged(DrawStatus::Stroke, color);
+    }
+}
+
+void TopToolbar::setLineShape(int lineIndex) {
+    qDebug() << "TopToolbar: setLineShape lineIndex:" << lineIndex;
+    switch (lineIndex) {
+    case 0: { emit lineShapeChanged("straightLine"); break;}
+    case 1: { emit lineShapeChanged("arbitraryCurve"); break;}
+    case 2: { emit lineShapeChanged("arrow"); break;}
+    default: break;
     }
 }
 

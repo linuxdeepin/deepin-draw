@@ -8,6 +8,7 @@
 
 #include "canvaslabel.h"
 #include "utils/baseutils.h"
+#include "utils/shapesutils.h"
 
 class CanvasWidget : public QScrollArea {
     Q_OBJECT
@@ -27,6 +28,7 @@ signals:
     void requestInitShapeWidget(QString shape, bool needInited);
     void changeShapeColor(DrawStatus drawstatus, QColor color);
     void changeShapeLineWidth(int linewidth);
+    void changeLineShape(QString lineshape);
 
 private:
     CanvasLabel* m_canvasLabel;

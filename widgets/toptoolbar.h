@@ -53,6 +53,7 @@ signals:
     void  initShapeWidgetAction(QString shape, bool needInited);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
+    void lineShapeChanged(QString lineShape);
 
 public slots:
     void initStackWidget();
@@ -62,6 +63,7 @@ public slots:
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
     void setShapesColor(QColor color);
+    void setLineShape(int lineIndex);
 
 protected:
     void resizeEvent(QResizeEvent *event);

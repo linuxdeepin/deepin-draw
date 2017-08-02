@@ -94,6 +94,8 @@ void ShapesWidget::updatePenColor() {
 void ShapesWidget::setCurrentShape(QString shapeType) {
     if (shapeType != "saveList")
         m_currentType = shapeType;
+
+    qDebug() << "setCurrentShape:" << shapeType;
 }
 
 void ShapesWidget::setPenColor(QColor color) {
@@ -920,33 +922,26 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
-            if (m_currentType == "line") {
+            if (m_currentType == "arbitraryCurve") {
                 m_currentShape.index = m_currentIndex;
                 m_currentShape.points.append(m_pos1);
-            } else if (m_currentType == "arrow") {
+            } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
+                qDebug() << "Really straightLine";
                 m_currentShape.index = m_currentIndex;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.points.append(m_pos1);
-                m_currentShape.isStraight = false;
-                if (m_currentShape.isStraight) {
-                    m_currentShape.lineWidth = m_linewidth;
-                } else {
-                    m_currentShape.lineWidth = m_linewidth;
-                }
             } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-                m_currentShape.isBlur = false;//ConfigSettings::instance()->value(
-//                            "effect", "is_blur").toBool();
-                m_currentShape.isMosaic = false;//ConfigSettings::instance()->value(
-//                            "effect", "is_mosaic").toBool();
+                m_currentShape.isBlur = false;
+                m_currentShape.isMosaic = false;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.index = m_currentIndex;
-                if (m_currentShape.isBlur && !m_blurEffectExist) {
-                    emit reloadEffectImg("blur");
-                    m_blurEffectExist = true;
-                } else if (m_currentShape.isMosaic &&  !m_mosaicEffectExist){
-                    emit reloadEffectImg("mosaic");
-                    m_mosaicEffectExist = true;
-                }
+//                if (m_currentShape.isBlur && !m_blurEffectExist) {
+//                    emit reloadEffectImg("blur");
+//                    m_blurEffectExist = true;
+//                } else if (m_currentShape.isMosaic &&  !m_mosaicEffectExist){
+//                    emit reloadEffectImg("mosaic");
+//                    m_mosaicEffectExist = true;
+//                }
             } else if (m_currentType == "text") {
                 if (!m_editing) {
                     setAllTextEditReadOnly();
@@ -1010,7 +1005,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     qDebug() << m_isRecording << m_isSelected << m_pos2;
 
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
-        if (m_currentType == "arrow") {
+        if (m_currentType == "arrow" || m_currentType == "straightLine") {
             if (m_currentShape.points.length() == 2) {
                 if (m_isShiftPressed) {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()), std::abs(m_pos2.x() - m_pos1.x()))
@@ -1025,7 +1020,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
                 m_currentShape.mainPoints = getMainPoints(m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
             }
-        } else if (m_currentType == "line") {
+        } else if (m_currentType == "arbitraryCurve") {
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
@@ -1061,15 +1056,15 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
 
-        if (m_currentShape.type == "arrow") {
+        if (m_currentShape.type == "arrow" || m_currentShape.type == "straightLine") {
             if (m_currentShape.points.length() <= 1) {
                 if (m_isShiftPressed) {
-                        if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                       std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
-                            m_currentShape.points.append(QPointF(m_pos2.x(), m_pos1.y()));
-                        } else {
-                            m_currentShape.points.append(QPointF(m_pos1.x(), m_pos2.y()));
-                        }
+                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
+                        m_currentShape.points.append(QPointF(m_pos2.x(), m_pos1.y()));
+                    } else {
+                        m_currentShape.points.append(QPointF(m_pos1.x(), m_pos2.y()));
+                    }
                 } else {
                     m_currentShape.points.append(m_pos2);
                 }
@@ -1086,7 +1081,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                 }
             }
         }
-        if (m_currentShape.type == "line") {
+        if (m_currentShape.type == "arbitraryCurve") {
             if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3) {
                 m_currentShape.points.append(m_pos2);
             }
@@ -1207,7 +1202,6 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
     int index = edit->getIndex();
     qDebug() << "updateTextRect:" << newRect << index;
     for (int j = 0; j < m_shapes.length(); j++) {
-        qDebug() << "updateTextRect  updating:" << j << m_shapes[j].index << index;
         if (m_shapes[j].type == "text" && m_shapes[j].index == index) {
             m_shapes[j].mainPoints[0] = QPointF(newRect.x(), newRect.y());
             m_shapes[j].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
@@ -1283,6 +1277,11 @@ void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
     }
 }
 
+void ShapesWidget::paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints,
+                                     int lineWidth) {
+    paintArrow(painter, lineFPoints, lineWidth, true);
+}
+
 void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
     QPainterPath linePaths;
     if (lineFPoints.length() >= 1)
@@ -1340,10 +1339,16 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
             paintArrow(painter, m_shapes[i].points, pen.width(), m_shapes[i].isStraight);
-        } else if (m_shapes[i].type == "line") {
+        } else if (m_shapes[i].type == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
+            painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_shapes[i].points);
+        } else if (m_shapes[i].type == "straightLine") {
+            pen.setJoinStyle(Qt::RoundJoin);
+            painter.setPen(pen);
+            painter.setBrush(QBrush(Qt::transparent));
+            paintStraightLine(painter, m_shapes[i].points, 2/*pen.width()*/);
         } else if (m_shapes[i].type == "text" && !m_clearAllTextBorder) {
             qDebug() << "*&^" << m_shapes[i].type << m_shapes[i].index << m_selectedIndex << i;
             QMap<int, TextEdit*>::iterator m = m_editMap.begin();
@@ -1377,9 +1382,14 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
             paintArrow(painter, m_currentShape.points, pen.width(), m_currentShape.isStraight);
-        } else if (m_currentType == "line") {
+        } else if (m_currentType == "straightLine") {
+            pen.setJoinStyle(Qt::MiterJoin);
+            painter.setPen(pen);
+            paintArrow(painter, m_currentShape.points, pen.width(), true);
+        } else if (m_currentType == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
+            painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text" && !m_clearAllTextBorder) {
             if (m_editing) {
@@ -1406,9 +1416,10 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
             paintArrow(painter, m_hoveredShape.points, pen.width(), true);
-        } else if (m_hoveredShape.type == "line") {
+        } else if (m_hoveredShape.type == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
+            painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_hoveredShape.points);
         }
     } else {
@@ -1432,7 +1443,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             painter.setPen(QColor("#01bdff"));
             painter.drawLine(rotatePoint, middlePoint);
 
-            if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
+            if (m_selectedShape.type == "oval" || m_selectedShape.type == "arbitraryCurve") {
                 pen.setJoinStyle(Qt::MiterJoin);
                 pen.setWidth(1);
                 pen.setColor(QColor("#01bdff"));
@@ -1459,7 +1470,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
 void ShapesWidget::enterEvent(QEvent *e) {
     Q_UNUSED(e);
-    if (m_currentType != "line") {
+    if (m_currentType != "arbitraryCurve") {
         qApp->setOverrideCursor(setCursorShape(m_currentType));
     } else {
         int colIndex = 3;//ConfigSettings::instance()->value(m_currentType, "color_index").toInt();
@@ -1533,7 +1544,7 @@ void ShapesWidget::microAdjust(QString direction) {
             m_shapes[m_selectedOrder].mainPoints = pointResizeMicro(m_shapes[m_selectedOrder].mainPoints, direction, true);
         }
 
-        if (m_shapes[m_selectedOrder].type == "line" || m_shapes[m_selectedOrder].type == "arrow") {
+        if (m_shapes[m_selectedOrder].type == "arbitraryCurve" || m_shapes[m_selectedOrder].type == "arrow") {
             if (m_shapes[m_selectedOrder].portion.length() == 0) {
                 for(int k = 0; k < m_shapes[m_selectedOrder].points.length(); k++) {
                     m_shapes[m_selectedOrder].portion.append(relativePosition(m_shapes[m_selectedOrder].mainPoints,

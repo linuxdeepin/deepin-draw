@@ -29,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_mainWidget, &MainWidget::changeShapesColor);
     connect(m_topToolbar, &TopToolbar::shapesLineWidthChanged,
             m_mainWidget, &MainWidget::changeShapesLineWidth);
+    connect(m_topToolbar, &TopToolbar::lineShapeChanged,
+            m_mainWidget, &MainWidget::lineShapeChanged);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

@@ -8,6 +8,7 @@
 #include "widgets/toptoolbar.h"
 #include "widgets/canvaswidget.h"
 #include "utils/baseutils.h"
+#include "utils/shapesutils.h"
 
 class MainWidget: public QWidget {
     Q_OBJECT
@@ -23,6 +24,7 @@ signals:
     void prepareInitShapesWidget(QString shape, bool needInited);
     void changeShapesColor(DrawStatus drawstatus, QColor color);
     void changeShapesLineWidth(int linewidth);
+    void lineShapeChanged(QString lineShape);
 
 protected:
     void resizeEvent(QResizeEvent* event);

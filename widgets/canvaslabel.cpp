@@ -54,6 +54,10 @@ void CanvasLabel::setShapeLineWidth(int linewidth) {
     m_shapesWidget->setLineWidth(linewidth);
 }
 
+void CanvasLabel::setLineShape(QString lineshape) {
+    m_shapesWidget->setCurrentShape(lineshape);
+}
+
 void CanvasLabel::paintEvent(QPaintEvent *e) {
     QLabel::paintEvent(e);
     QPainter painter(this);

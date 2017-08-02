@@ -6,6 +6,7 @@
 
 #include "drawshape/shapeswidget.h"
 #include "utils/baseutils.h"
+#include "utils/shapesutils.h"
 
 class CanvasLabel : public QLabel {
     Q_OBJECT
@@ -18,6 +19,7 @@ public:
     void initShapesWidget(QString shape, bool needInited);
     void setShapeColor(DrawStatus drawstatus, QColor color);
     void setShapeLineWidth(int linewidth);
+    void setLineShape(QString lineshape);
 
 protected:
     void paintEvent(QPaintEvent* e);
