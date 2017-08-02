@@ -132,10 +132,8 @@ private:
 //    MenuController* m_menuController;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter, FourPoints rectFPoints, int index,
-                   ShapeBlurStatus  rectStatus = Normal, bool isBlur = false, bool isMosaic = false);
-    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index,
-                  ShapeBlurStatus  ovalStatus = Normal, bool isBlur = false, bool isMosaic = false);
+    void paintRect(QPainter &painter, FourPoints rectFPoints, int index);
+    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                                   int lineWidth, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
