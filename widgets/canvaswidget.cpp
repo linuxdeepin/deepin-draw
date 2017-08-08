@@ -24,6 +24,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_canvasLabel, &CanvasLabel::setShapeLineWidth);
     connect(this, &CanvasWidget::changeLineShape,
             m_canvasLabel, &CanvasLabel::setLineShape);
+    connect(this, &CanvasWidget::changeTextFontsize,
+            m_canvasLabel, &CanvasLabel::setTextFontsize);
 }
 
 bool CanvasWidget::overWindowSize() {

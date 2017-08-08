@@ -20,6 +20,7 @@ public:
     void setShapeColor(DrawStatus drawstatus, QColor color);
     void setShapeLineWidth(int linewidth);
     void setLineShape(QString lineshape);
+    void setTextFontsize(int fontsize);
 
 protected:
     void paintEvent(QPaintEvent* e);

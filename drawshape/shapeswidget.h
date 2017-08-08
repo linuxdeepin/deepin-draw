@@ -48,6 +48,7 @@ public slots:
     void setPenColor(QColor color);
     void setBrushColor(QColor color);
     void setLineWidth(int linewidth);
+    void setTextFontsize(int fontsize);
     void clearSelected();
     void setAllTextEditReadOnly();
     void saveActionTriggered();
@@ -121,6 +122,7 @@ private:
     QColor m_penColor;
     QColor m_brushColor;
     int m_linewidth;
+    int m_textFontsize = 12;
 
     Toolshape m_currentShape;
     Toolshape m_selectedShape;

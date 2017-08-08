@@ -25,6 +25,7 @@ signals:
     void changeShapesColor(DrawStatus drawstatus, QColor color);
     void changeShapesLineWidth(int linewidth);
     void lineShapeChanged(QString lineShape);
+    void textFontsizeChanged(int fontsize);
 
 protected:
     void resizeEvent(QResizeEvent* event);

@@ -54,7 +54,7 @@ signals:
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
     void lineShapeChanged(QString lineShape);
-    void textFontsizeChanged();
+    void textFontsizeChanged(int fontsize);
 
 public slots:
     void initStackWidget();

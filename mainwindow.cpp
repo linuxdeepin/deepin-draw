@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_mainWidget, &MainWidget::changeShapesLineWidth);
     connect(m_topToolbar, &TopToolbar::lineShapeChanged,
             m_mainWidget, &MainWidget::lineShapeChanged);
+     connect(m_topToolbar, &TopToolbar::textFontsizeChanged,
+             m_mainWidget, &MainWidget::textFontsizeChanged);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

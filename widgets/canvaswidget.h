@@ -29,6 +29,7 @@ signals:
     void changeShapeColor(DrawStatus drawstatus, QColor color);
     void changeShapeLineWidth(int linewidth);
     void changeLineShape(QString lineshape);
+    void changeTextFontsize(int fontsize);
 
 private:
     CanvasLabel* m_canvasLabel;

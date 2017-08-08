@@ -58,6 +58,10 @@ void CanvasLabel::setLineShape(QString lineshape) {
     m_shapesWidget->setCurrentShape(lineshape);
 }
 
+void CanvasLabel::setTextFontsize(int fontsize) {
+    m_shapesWidget->setTextFontsize(fontsize);
+}
+
 void CanvasLabel::paintEvent(QPaintEvent *e) {
     QLabel::paintEvent(e);
     QPainter painter(this);

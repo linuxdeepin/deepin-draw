@@ -117,6 +117,10 @@ void ShapesWidget::setLineWidth(int linewidth) {
     m_linewidth = linewidth;
 }
 
+void ShapesWidget::setTextFontsize(int fontsize) {
+    m_textFontsize = fontsize;
+}
+
 void ShapesWidget::clearSelected() {
     for(int j = 0; j < m_selectedShape.mainPoints.length(); j++) {
         m_selectedShape.mainPoints[j] = QPointF(0, 0);
@@ -950,9 +954,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     qDebug() << "new textedit:" << m_currentIndex;
                     TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
-                    int defaultFontSize =12;// ConfigSettings::instance()->value("text", "fontsize").toInt();
-                    m_currentShape.fontSize = defaultFontSize;
+                    m_currentShape.fontSize =  m_textFontsize;
                     edit->setFocus();
+                    edit->setColor(m_brushColor);
+                    edit->setFontSize(m_textFontsize);
                     edit->move(m_pos1.x(), m_pos1.y());
                     edit->show();
                     m_currentShape.mainPoints[0] = m_pos1;

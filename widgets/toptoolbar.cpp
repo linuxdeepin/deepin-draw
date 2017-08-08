@@ -342,6 +342,17 @@ void TopToolbar::initStackWidget() {
     //draw text.
     m_drawTextWidget = new QWidget(this);
     BigColorButton* fillBtn = new BigColorButton(this);
+    connect(fillBtn, &BigColorButton::clicked, this, [=]{
+        QPoint curPos = this->cursor().pos();
+        if (m_strokeARect->isHidden()) {
+            m_strokeARect->show(curPos.x(), curPos.y() + 20);
+        } else {
+            m_strokeARect->hide();
+        }
+        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
+        setDrawStatus(DrawStatus::Fill);
+    });
+
     QLabel* colBtnLabel = new QLabel(this);
     colBtnLabel->setText(tr("Fill"));
 
@@ -360,7 +371,7 @@ void TopToolbar::initStackWidget() {
     addBtn->setObjectName("AddFontsizeBtn");
     connect(addBtn, &ToolButton::clicked, this, [=]{
         m_textFontsize += 1;
-        emit textFontsizeChanged();
+        emit textFontsizeChanged(m_textFontsize);
     });
 
     ToolButton* reduceBtn = new ToolButton(this);
@@ -368,7 +379,7 @@ void TopToolbar::initStackWidget() {
     connect(reduceBtn, &ToolButton::clicked, this, [=]{
         m_textFontsize -=1;
         m_textFontsize = std::max(8, m_textFontsize);
-        emit textFontsizeChanged();
+        emit textFontsizeChanged(m_textFontsize);
     });
 
     QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
