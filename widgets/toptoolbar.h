@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QKeyEvent>
 
-#include <darrowrectangle.h>
+#include  <darrowrectangle.h>
 
 #include "widgets/colorpanel.h"
 #include "utils/baseutils.h"
@@ -54,6 +54,7 @@ signals:
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
     void lineShapeChanged(QString lineShape);
+    void textFontsizeChanged();
 
 public slots:
     void initStackWidget();
@@ -71,6 +72,7 @@ protected:
 private:
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
+    int m_textFontsize = 12;
 
     QWidget* m_emptyWidget;
     QWidget* m_cutWidget;
