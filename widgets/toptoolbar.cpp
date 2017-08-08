@@ -396,13 +396,18 @@ void TopToolbar::initStackWidget() {
     //draw blur widget.
     m_drawBlurWidget = new QWidget(this);
     QLabel* penLabel = new QLabel(this);
+    penLabel->setText(tr("Width"));
     ToolButton* fineBtn = new ToolButton(this);
+    fineBtn->setObjectName("LineMostThinBtn");
     QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
     ToolButton* boldBtn = new ToolButton(this);
+    boldBtn->setObjectName("LineThickLineBtn");
     QHBoxLayout* blurHbLayout = new QHBoxLayout(m_drawBlurWidget);
     blurHbLayout->addWidget(penLabel);
+    blurHbLayout->addSpacing(4);
     blurHbLayout->addWidget(fineBtn);
     blurHbLayout->addWidget(lineWidthSlider);
+    blurHbLayout->addSpacing(4);
     blurHbLayout->addWidget(boldBtn);
     m_drawBlurWidget->setLayout(blurHbLayout);
     m_stackWidget->addWidget(m_drawBlurWidget);

@@ -290,3 +290,35 @@ qproperty-hoverPic: url(:/theme/light/images/draw/color_draw_hover.png);
 qproperty-pressPic: url(:/theme/light/images/draw/color_draw_active.png);
 qproperty-checkedPic: url(:/theme/light/images/draw/color_draw_active.png);
 }
+
+ToolButton#LineMostThinBtn {
+border-image: url(:/theme/light/images/draw/blur_slim_normal.png);
+}
+
+ToolButton#LineMostThinBtn:hover {
+outline: none;
+background-color: rgba(0, 0, 0, 0.05);
+border: solid 1px transparent;
+border-radius: 3px;
+border-image: url(:/theme/light/images/draw/blur_slim_hover.png);
+}
+
+ToolButton#LineMostThinBtn:checked {
+border-image: url(:/theme/light/images/draw/blur_slim_active.png);
+}
+
+ToolButton#LineThickLineBtn {
+border-image: url(:/theme/light/images/draw/blur_thick_normal.png);
+}
+
+ToolButton#LineThickLineBtn:hover {
+outline: none;
+background-color: rgba(0, 0, 0, 0.05);
+border: solid 1px transparent;
+border-radius: 3px;
+border-image: url(:/theme/light/images/draw/blur_thick_hover.png);
+}
+
+ToolButton#LineThickLineBtn:checked {
+border-image: url(:/theme/light/images/draw/blur_thick_active.png);
+}
