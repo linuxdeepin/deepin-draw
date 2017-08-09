@@ -44,6 +44,9 @@ void CanvasLabel::initShapesWidget(QString shape, bool needInited)
     m_shapesWidget->move(0, 0);
     m_shapesWidget->show();
     qDebug() << "CanvasLabel initShapesWidget.." << m_shapesWidget->geometry();
+
+    connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
+            &CanvasLabel::createBlurEffect);
 }
 
 void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color)
@@ -81,13 +84,21 @@ void CanvasLabel::setBlurLinewidth(int linewidth)
 
 void CanvasLabel::createBlurEffect(const QString &type)
 {
-    qDebug() << "______________";
     if (type == "blur")
     {
         QPixmap tmpPixmap;
         tmpPixmap = this->grab(rect());
-        qDebug() << "JKL:" << TempFile::instance()->getBlurFileName();
-        tmpPixmap.save(TempFile::instance()->getBlurFileName(), "PNG");
+
+        const int radius = 10;
+        int imgWidth = tmpPixmap.width();
+        int imgHeight = tmpPixmap.height();
+        if (!tmpPixmap.isNull()) {
+            tmpPixmap = tmpPixmap.scaled(imgWidth/radius, imgHeight/radius,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeight,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpPixmap.save(TempFile::instance()->getBlurFileName(), "PNG");
+        }
     }
 }
 

@@ -66,6 +66,10 @@ TopToolbar::TopToolbar(QWidget* parent)
     ToolButton* blurBtn = new ToolButton(this);
     blurBtn->setObjectName("BlurBtn");
     shapesBtnGroup->addButton(blurBtn);
+    connect(blurBtn, &ToolButton::clicked, this, [=]{
+        drawShapes("blur");
+    });
+
     initStackWidget();
 
     ToolButton* exportBtn = new ToolButton(this);

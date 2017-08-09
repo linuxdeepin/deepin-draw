@@ -1,7 +1,7 @@
 ﻿#include "shapeswidget.h"
 
 #include "utils/calculaterect.h"
-//#include "utils/tempfile.h"
+#include "utils/tempfile.h"
 
 #include <cmath>
 
@@ -952,8 +952,10 @@ void ShapesWidget::handleResize(QPointF pos, int key)
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "ShapesWidget mousePressEvent@@@:" << e->pos();
-    if (m_selectedIndex != -1) {
-        if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1) {
+    if (m_selectedIndex != -1)
+    {
+        if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1)
+        {
             clearSelected();
             setAllTextEditReadOnly();
             m_editing = false;
@@ -965,7 +967,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         }
     }
 
-    if (e->button() == Qt::RightButton) {
+    if (e->button() == Qt::RightButton)
+    {
         qDebug() << "RightButton clicked!";
 //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
         return;
@@ -975,7 +978,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     m_isPressed = true;
     qDebug() << "mouse pressed!" << m_pressedPoint;
 
-    if (!clickedOnShapes(m_pressedPoint)) {
+    if (!clickedOnShapes(m_pressedPoint))
+    {
         m_isRecording = true;
         qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
 
@@ -1007,6 +1011,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                m_blurEffectExist = true;
                m_currentShape.isBlur = true;
                m_currentShape.index = m_currentIndex;
+               m_currentShape.lineWidth = m_blurLinewidth;
+               m_currentShape.points.append(m_pos1);
                emit reloadEffectImg("blur");
             } else if (m_currentType == "text") {
                 if (!m_editing) {
@@ -1090,7 +1096,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                             m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
             }
-        } else if (m_currentType == "arbitraryCurve") {
+        } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur") {
+            qDebug() << ".... m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
@@ -1152,7 +1159,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 }
             }
         }
-        if (m_currentShape.type == "arbitraryCurve") {
+        if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur") {
             if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3) {
                 m_currentShape.points.append(m_pos2);
             }
@@ -1394,6 +1401,7 @@ void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints)
 
 void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
 {
+    qDebug() << "PaintBlur..." << lineFPoints.length();
     QPainterPath linePaths;
     if (lineFPoints.length() >= 1)
         linePaths.moveTo(lineFPoints[0]);
@@ -1403,7 +1411,15 @@ void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
     for (int k = 1; k < lineFPoints.length() - 2; k++) {
         linePaths.quadTo(lineFPoints[k], lineFPoints[k+1]);
     }
+//    painter.setClipPath(linePaths);
+    painter.drawPath(linePaths);
+
     painter.setClipPath(linePaths);
+    painter.drawPixmap(0, 0, width(), height(),
+                       TempFile::instance()->getBlurFileName());
+    painter.drawPath(linePaths);
+
+    painter.setClipping(false);
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *) {
@@ -1442,6 +1458,11 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_shapes[i].points);
+        } else if (m_shapes[i].type == "blur") {
+            pen.setJoinStyle(Qt::RoundJoin);
+            painter.setPen(QPen(Qt::transparent));
+            painter.setBrush(QBrush(Qt::transparent));
+            paintBlur(painter, m_shapes[i].points);
         } else if (m_shapes[i].type == "straightLine") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
@@ -1491,7 +1512,13 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_currentShape.points);
-        } else if (m_currentType == "text" && !m_clearAllTextBorder) {
+        } else if (m_currentType == "blur") {
+            pen.setJoinStyle(Qt::RoundJoin);
+            painter.setPen(QColor(Qt::transparent));
+            painter.setBrush(QBrush(Qt::transparent));
+            paintBlur(painter, m_currentShape.points);
+        }
+        else if (m_currentType == "text" && !m_clearAllTextBorder) {
             if (m_editing) {
                 paintText(painter, m_currentShape.mainPoints);
             }
@@ -1524,6 +1551,11 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
             paintLine(painter, m_hoveredShape.points);
+        } else if (m_hoveredShape.type == "blur") {
+            pen.setJoinStyle(Qt::RoundJoin);
+            painter.setPen(QColor(Qt::transparent));
+            painter.setBrush(QBrush(Qt::transparent));
+            paintLine(painter, m_hoveredShape.points);
         }
     } else {
         qDebug() << "hoveredShape type:" << m_hoveredShape.type;
@@ -1548,8 +1580,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             painter.setPen(QColor("#01bdff"));
             painter.drawLine(rotatePoint, middlePoint);
 
-            if (m_selectedShape.type == "oval" ||
-                    m_selectedShape.type == "arbitraryCurve") {
+            if (m_selectedShape.type == "oval" ||m_selectedShape.type ==
+                    "arbitraryCurve"|| m_selectedShape.type == "blur") {
                 pen.setJoinStyle(Qt::MiterJoin);
                 pen.setWidth(1);
                 pen.setColor(QColor("#01bdff"));
