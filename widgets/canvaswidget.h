@@ -30,6 +30,7 @@ signals:
     void changeShapeLineWidth(int linewidth);
     void changeLineShape(QString lineshape);
     void changeTextFontsize(int fontsize);
+    void changedBlurLinewidth(int linewidth);
 
 private:
     CanvasLabel* m_canvasLabel;

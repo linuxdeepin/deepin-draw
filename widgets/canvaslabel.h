@@ -21,6 +21,10 @@ public:
     void setShapeLineWidth(int linewidth);
     void setLineShape(QString lineshape);
     void setTextFontsize(int fontsize);
+    void setBlurLinewidth(int linewidth);
+
+public slots:
+    void createBlurEffect(const QString &type);
 
 protected:
     void paintEvent(QPaintEvent* e);

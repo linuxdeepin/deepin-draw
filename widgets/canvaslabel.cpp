@@ -2,14 +2,20 @@
 
 #include <QPainter>
 
+#include "utils/tempfile.h"
+
 CanvasLabel::CanvasLabel(QWidget *parent)
-    : QLabel(parent), m_shapesWidgetExist(false) {
+    : QLabel(parent),
+      m_shapesWidgetExist(false)
+{
 }
 
-void CanvasLabel::setCanvasPixmap(QString imageFile) {
+void CanvasLabel::setCanvasPixmap(QString imageFile)
+{
     m_currentFile = imageFile;
     m_currentPixmap = QPixmap(m_currentFile);
-    if (!m_currentPixmap.isNull()) {
+    if (!m_currentPixmap.isNull())
+    {
         update();
         qDebug() << "CanvasLabel:" << imageFile;
     } else {
@@ -17,7 +23,8 @@ void CanvasLabel::setCanvasPixmap(QString imageFile) {
     }
 }
 
-void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
+void CanvasLabel::setCanvasPixmap(QPixmap pixmap)
+{
     m_currentPixmap = pixmap;
     if (!m_currentPixmap.isNull()) {
         update();
@@ -26,7 +33,8 @@ void CanvasLabel::setCanvasPixmap(QPixmap pixmap) {
     }
 }
 
-void CanvasLabel::initShapesWidget(QString shape, bool needInited) {
+void CanvasLabel::initShapesWidget(QString shape, bool needInited)
+{
     if (needInited) {
         m_shapesWidget = new ShapesWidget(this);
         m_shapesWidgetExist = true;
@@ -38,7 +46,8 @@ void CanvasLabel::initShapesWidget(QString shape, bool needInited) {
     qDebug() << "CanvasLabel initShapesWidget.." << m_shapesWidget->geometry();
 }
 
-void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color) {
+void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color)
+{
     qDebug() << "CanvasLabel setShapeColor:" << color;
     if (!m_shapesWidgetExist)
         return;
@@ -50,19 +59,40 @@ void CanvasLabel::setShapeColor(DrawStatus drawstatus, QColor color) {
     }
 }
 
-void CanvasLabel::setShapeLineWidth(int linewidth) {
+void CanvasLabel::setShapeLineWidth(int linewidth)
+{
     m_shapesWidget->setLineWidth(linewidth);
 }
 
-void CanvasLabel::setLineShape(QString lineshape) {
+void CanvasLabel::setLineShape(QString lineshape)
+{
     m_shapesWidget->setCurrentShape(lineshape);
 }
 
-void CanvasLabel::setTextFontsize(int fontsize) {
+void CanvasLabel::setTextFontsize(int fontsize)
+{
     m_shapesWidget->setTextFontsize(fontsize);
 }
 
-void CanvasLabel::paintEvent(QPaintEvent *e) {
+void CanvasLabel::setBlurLinewidth(int linewidth)
+{
+    m_shapesWidget->setBlurLinewidth(linewidth);
+}
+
+void CanvasLabel::createBlurEffect(const QString &type)
+{
+    qDebug() << "______________";
+    if (type == "blur")
+    {
+        QPixmap tmpPixmap;
+        tmpPixmap = this->grab(rect());
+        qDebug() << "JKL:" << TempFile::instance()->getBlurFileName();
+        tmpPixmap.save(TempFile::instance()->getBlurFileName(), "PNG");
+    }
+}
+
+void CanvasLabel::paintEvent(QPaintEvent *e)
+{
     QLabel::paintEvent(e);
     QPainter painter(this);
 
@@ -71,6 +101,7 @@ void CanvasLabel::paintEvent(QPaintEvent *e) {
     if (!drawTestPixmap.isNull()) {
         setFixedSize(drawTestPixmap.size());
         painter.drawPixmap(this->rect(), drawTestPixmap);
+
     }
 
 #endif
@@ -86,6 +117,9 @@ void CanvasLabel::paintEvent(QPaintEvent *e) {
     }
 
     painter.drawPixmap(this->rect(), m_currentPixmap);
+    createBlurEffect("blur");
 }
 
-CanvasLabel::~CanvasLabel() {}
+CanvasLabel::~CanvasLabel()
+{
+}

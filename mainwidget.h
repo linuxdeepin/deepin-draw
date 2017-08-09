@@ -26,6 +26,7 @@ signals:
     void changeShapesLineWidth(int linewidth);
     void lineShapeChanged(QString lineShape);
     void textFontsizeChanged(int fontsize);
+    void blurLinewidthChanged(int linewidth);
 
 protected:
     void resizeEvent(QResizeEvent* event);

@@ -32,6 +32,9 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::changeLineShape);
     connect(this, &MainWidget::textFontsizeChanged,
             m_canvas, &CanvasWidget::changeTextFontsize);
+    connect(this, &MainWidget::blurLinewidthChanged,
+            m_canvas, &CanvasWidget::changedBlurLinewidth);
+
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

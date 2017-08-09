@@ -26,6 +26,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_canvasLabel, &CanvasLabel::setLineShape);
     connect(this, &CanvasWidget::changeTextFontsize,
             m_canvasLabel, &CanvasLabel::setTextFontsize);
+    connect(this, &CanvasWidget::changedBlurLinewidth,
+            m_canvasLabel, &CanvasLabel::setBlurLinewidth);
 }
 
 bool CanvasWidget::overWindowSize() {

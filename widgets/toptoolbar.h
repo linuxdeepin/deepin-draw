@@ -55,6 +55,7 @@ signals:
     void shapesLineWidthChanged(int lineWidth);
     void lineShapeChanged(QString lineShape);
     void textFontsizeChanged(int fontsize);
+    void blurLineWidthChanged(int lineWidth);
 
 public slots:
     void initStackWidget();

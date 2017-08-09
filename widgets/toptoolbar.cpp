@@ -399,7 +399,15 @@ void TopToolbar::initStackWidget() {
     penLabel->setText(tr("Width"));
     ToolButton* fineBtn = new ToolButton(this);
     fineBtn->setObjectName("LineMostThinBtn");
+
     QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
+    lineWidthSlider->setMinimum(20);
+    lineWidthSlider->setMaximum(160);
+    connect(lineWidthSlider, &QSlider::valueChanged, this, [=]{
+        qDebug() << "lineWidth Slider:" << lineWidthSlider->value();
+        emit blurLineWidthChanged(lineWidthSlider->value());
+    });
+
     ToolButton* boldBtn = new ToolButton(this);
     boldBtn->setObjectName("LineThickLineBtn");
     QHBoxLayout* blurHbLayout = new QHBoxLayout(m_drawBlurWidget);

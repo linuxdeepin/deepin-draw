@@ -49,6 +49,7 @@ public slots:
     void setBrushColor(QColor color);
     void setLineWidth(int linewidth);
     void setTextFontsize(int fontsize);
+    void setBlurLinewidth(int linewidth);
     void clearSelected();
     void setAllTextEditReadOnly();
     void saveActionTriggered();
@@ -123,6 +124,7 @@ private:
     QColor m_brushColor;
     int m_linewidth;
     int m_textFontsize = 12;
+    int m_blurLinewidth = 20;
 
     Toolshape m_currentShape;
     Toolshape m_selectedShape;
@@ -143,5 +145,6 @@ private:
 
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);
+    void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
 };
 #endif // SHAPESWIDGET_H
