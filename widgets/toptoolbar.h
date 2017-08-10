@@ -13,24 +13,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-class ToolButton : public QPushButton {
-    Q_OBJECT
-public:
-    ToolButton(QWidget* parent = 0) {
-        Q_UNUSED(parent);
-        setFixedSize(24, 24);
-        setCheckable(true);
-    }
-
-    ToolButton(QString text, QWidget* parent = 0) {
-        Q_UNUSED(parent);
-        setFixedSize(24, 24);
-        setCheckable(true);
-        setText(text);
-    }
-    ~ToolButton() {}
-};
-
 class TopToolbar : public QFrame {
     Q_OBJECT
 

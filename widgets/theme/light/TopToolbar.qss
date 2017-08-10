@@ -322,3 +322,4 @@ border-image: url(:/theme/light/images/draw/blur_thick_hover.png);
 ToolButton#LineThickLineBtn:checked {
 border-image: url(:/theme/light/images/draw/blur_thick_active.png);
 }
+

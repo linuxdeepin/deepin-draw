@@ -16,9 +16,14 @@
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
+#include "widgets/toolbutton.h"
+
+#include "textfontlabel.h"
 
 TopToolbar::TopToolbar(QWidget* parent)
-: QFrame(parent), m_shapesWidgetExist(false) {
+: QFrame(parent),
+  m_shapesWidgetExist(false)
+{
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
@@ -364,36 +369,16 @@ void TopToolbar::initStackWidget() {
 
     QLabel* fontsizeLabel = new QLabel(this);
     fontsizeLabel->setText(tr("Font size"));
-    QLineEdit* fontsizeEdit = new QLineEdit(this);
-    fontsizeEdit->setObjectName("FontsizeEdit");
-    fontsizeEdit->setText(QString("%1").arg(m_textFontsize));
-    connect(this, &TopToolbar::textFontsizeChanged, this, [=]{
-        fontsizeEdit->setText(QString("%1").arg(m_textFontsize));
-    });
-
-    ToolButton* addBtn = new ToolButton(this);
-    addBtn->setObjectName("AddFontsizeBtn");
-    connect(addBtn, &ToolButton::clicked, this, [=]{
-        m_textFontsize += 1;
-        emit textFontsizeChanged(m_textFontsize);
-    });
-
-    ToolButton* reduceBtn = new ToolButton(this);
-    reduceBtn->setObjectName("ReduceFontsizeBtn");
-    connect(reduceBtn, &ToolButton::clicked, this, [=]{
-        m_textFontsize -=1;
-        m_textFontsize = std::max(8, m_textFontsize);
-        emit textFontsizeChanged(m_textFontsize);
-    });
+    TextFontLabel* fontLabel = new TextFontLabel(this);
+    connect(fontLabel, &TextFontLabel::textFontsizeChanged, this,
+            &TopToolbar::textFontsizeChanged);
 
     QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
     textHbLayout->addWidget(fillBtn);
     textHbLayout->addWidget(colBtnLabel);
     textHbLayout->addWidget(textSeperatorLine);
     textHbLayout->addWidget(fontsizeLabel);
-    textHbLayout->addWidget(fontsizeEdit);
-    textHbLayout->addWidget(addBtn);
-    textHbLayout->addWidget(reduceBtn);
+    textHbLayout->addWidget(fontLabel);
     m_drawTextWidget->setLayout(textHbLayout);
     m_stackWidget->addWidget(m_drawTextWidget);
 

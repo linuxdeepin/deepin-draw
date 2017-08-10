@@ -82,5 +82,12 @@
         <file>theme/light/PushButton.qss</file>
         <file>theme/light/ColorPanel.qss</file>
         <file>theme/light/images/draw/colorful_line.png</file>
+        <file>theme/light/images/draw/add_hover.png</file>
+        <file>theme/light/images/draw/add_normal.png</file>
+        <file>theme/light/images/draw/add_press.png</file>
+        <file>theme/light/images/draw/reduce_press.png</file>
+        <file>theme/light/images/draw/reduce_normal.png</file>
+        <file>theme/light/images/draw/reduce_hover.png</file>
+        <file>theme/light/TextFontLabel.qss</file>
     </qresource>
 </RCC>
