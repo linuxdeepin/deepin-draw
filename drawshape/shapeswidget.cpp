@@ -1403,6 +1403,7 @@ void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
 {
     qDebug() << "PaintBlur..." << lineFPoints.length();
     QPainterPath linePaths;
+
     if (lineFPoints.length() >= 1)
         linePaths.moveTo(lineFPoints[0]);
     else
@@ -1412,9 +1413,10 @@ void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
         linePaths.quadTo(lineFPoints[k], lineFPoints[k+1]);
     }
 //    painter.setClipPath(linePaths);
-    painter.drawPath(linePaths);
 
+    painter.drawPath(linePaths);
     painter.setClipPath(linePaths);
+
     painter.drawPixmap(0, 0, width(), height(),
                        TempFile::instance()->getBlurFileName());
     painter.drawPath(linePaths);

@@ -7,6 +7,9 @@
 #include "toolbutton.h"
 #include "utils/global.h"
 
+const int LINEEDIT_WIDTH = 190;
+const int BUTTON_ICON = 24;
+
 TextFontLabel::TextFontLabel(QWidget *parent)
     : QLabel(parent),
       m_fontsize(12)
@@ -14,10 +17,11 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("TextFontLabel");
 
     this->setObjectName("TextFontLabel");
-    this->setFixedHeight(26);
+    this->setFixedSize(LINEEDIT_WIDTH+BUTTON_ICON*2,
+                                      BUTTON_ICON+2);
     QLineEdit* fontEdit = new QLineEdit(this);
     fontEdit->setObjectName("FontEdit");
-    fontEdit->setFixedSize(190, 24);
+    fontEdit->setFixedSize(LINEEDIT_WIDTH, 24);
     fontEdit->setObjectName("FontsizeEdit");
     fontEdit->setText(QString("%1").arg(m_fontsize));
 
@@ -29,14 +33,11 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-    hLayout->addStretch();
     hLayout->addWidget(fontEdit, 0, Qt::AlignCenter);
     hLayout->addSpacing(0);
     hLayout->addWidget(addBtn, 0, Qt::AlignCenter);
     hLayout->addSpacing(0);
     hLayout->addWidget(reduceBtn, 0, Qt::AlignCenter);
-    hLayout->addSpacing(0);
-    hLayout->addStretch();
     setLayout(hLayout);
 
     connect(addBtn, &ToolButton::clicked, this, [=]{

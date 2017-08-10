@@ -93,9 +93,9 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addWidget(lineBtn);
     mLayout->addWidget(textBtn);
     mLayout->addWidget(blurBtn);
-    mLayout->addStretch(1);
+    mLayout->addStretch();
     mLayout->addWidget(m_stackWidget);
-    mLayout->addStretch(1);
+    mLayout->addStretch();
     mLayout->addWidget(exportBtn);
     mLayout->addSpacing(30);
     setLayout(mLayout);
@@ -374,11 +374,15 @@ void TopToolbar::initStackWidget() {
             &TopToolbar::textFontsizeChanged);
 
     QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
+    textHbLayout->setMargin(0);
+    textHbLayout->setSpacing(6);
+    textHbLayout->addStretch();
     textHbLayout->addWidget(fillBtn);
     textHbLayout->addWidget(colBtnLabel);
     textHbLayout->addWidget(textSeperatorLine);
     textHbLayout->addWidget(fontsizeLabel);
     textHbLayout->addWidget(fontLabel);
+    textHbLayout->addStretch();
     m_drawTextWidget->setLayout(textHbLayout);
     m_stackWidget->addWidget(m_drawTextWidget);
 
