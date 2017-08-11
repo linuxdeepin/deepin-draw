@@ -47,6 +47,7 @@ void MainWidget::resizeEvent(QResizeEvent *event) {
     m_seperatorLine->setMinimumWidth(this->width());
     m_canvas->setMinimumSize(this->width(), this->height() - 1);
     this->updateGeometry();
+    QWidget::resizeEvent(event);
 }
 
 MainWidget::~MainWidget() {

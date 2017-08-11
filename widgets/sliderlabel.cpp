@@ -37,7 +37,6 @@ SliderLabel::SliderLabel(QString text, QWidget* parent)
     mLayout->addWidget(m_titleLabel);
     mLayout->addWidget(m_slider);
     setLayout(mLayout);
-
 }
 
 void SliderLabel::setTitle(const QString &text) {
