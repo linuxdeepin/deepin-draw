@@ -166,7 +166,7 @@ void ImageView::paintEvent(QPaintEvent *event)
     }
 }
 
-void ImageView::wheelEvent(QWheelEvent *event)
+void ImageView:: wheelEvent(QWheelEvent *event)
 {
     qreal factor = qPow(1.2, event->delta() / 240.0);
     scale(factor, factor);
