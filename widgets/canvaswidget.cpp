@@ -8,26 +8,29 @@
 #include <cmath>
 
 CanvasWidget::CanvasWidget(QWidget *parent)
-    : QScrollArea(parent), m_scaleValue(1) {
-    m_canvasLabel = new CanvasLabel(this);
-    m_canvasLabel->setMinimumSize(10, 10);
-    m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
+    : QWidget(parent), m_scaleValue(1) {
+//    m_canvasLabel = new CanvasLabel(this);
+//    m_canvasLabel->setMinimumSize(10, 10);
+//    m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
+    m_view = new ImageView(this);
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->addWidget(m_view);
+    setLayout(layout);
 
-    this->setWidget(m_canvasLabel);
-    setAlignment(Qt::AlignCenter);
-
-    connect(this, &CanvasWidget::requestInitShapeWidget,
-                    m_canvasLabel, &CanvasLabel::initShapesWidget);
-    connect(this, &CanvasWidget::changeShapeColor,
-            m_canvasLabel, &CanvasLabel::setShapeColor);
-    connect(this, &CanvasWidget::changeShapeLineWidth,
-            m_canvasLabel, &CanvasLabel::setShapeLineWidth);
-    connect(this, &CanvasWidget::changeLineShape,
-            m_canvasLabel, &CanvasLabel::setLineShape);
-    connect(this, &CanvasWidget::changeTextFontsize,
-            m_canvasLabel, &CanvasLabel::setTextFontsize);
-    connect(this, &CanvasWidget::changedBlurLinewidth,
-            m_canvasLabel, &CanvasLabel::setBlurLinewidth);
+//    connect(this, &CanvasWidget::requestInitShapeWidget,
+//                    m_canvasLabel, &CanvasLabel::initShapesWidget);
+//    connect(this, &CanvasWidget::changeShapeColor,
+//            m_canvasLabel, &CanvasLabel::setShapeColor);
+//    connect(this, &CanvasWidget::changeShapeLineWidth,
+//            m_canvasLabel, &CanvasLabel::setShapeLineWidth);
+//    connect(this, &CanvasWidget::changeLineShape,
+//            m_canvasLabel, &CanvasLabel::setLineShape);
+//    connect(this, &CanvasWidget::changeTextFontsize,
+//            m_canvasLabel, &CanvasLabel::setTextFontsize);
+//    connect(this, &CanvasWidget::changedBlurLinewidth,
+//            m_canvasLabel, &CanvasLabel::setBlurLinewidth);
 }
 
 bool CanvasWidget::overWindowSize() {
@@ -57,20 +60,22 @@ QSize CanvasWidget::fitWindowScaledSize(QSize windowSize, QSize imgSize)
 
 void CanvasWidget::setImage(QString filename) {
     m_currentFile = filename;
-    QPixmap currentImage(m_currentFile);
-    if (!currentImage.isNull()) {
-        if (!overWindowSize()) {
-            m_canvasLabel->setCanvasPixmap(m_currentFile);
-        } else {
-            QPixmap tmpImage = QPixmap(m_currentFile).scaled(
-                        m_scaledSize, Qt::KeepAspectRatio);
-            if (!tmpImage.isNull()) {
-                m_canvasLabel->setCanvasPixmap(tmpImage);
-            } else {
-                qWarning() << "The current image is null!";
-            }
-        }
-    }
+//    QPixmap currentImage(m_currentFile);
+//    if (!currentImage.isNull()) {
+        m_view->setImage(filename);
+//        if (!overWindowSize()) {
+////            m_canvasLabel->setCanvasPixmap(m_currentFile);
+//            m_view->setImage(m_currentFile);
+//        } else {
+//            QPixmap tmpImage = QPixmap(m_currentFile).scaled(
+//                        m_scaledSize, Qt::KeepAspectRatio);
+//            if (!tmpImage.isNull()) {
+////                m_canvasLabel->setCanvasPixmap(tmpImage);
+//            } else {
+//                qWarning() << "The current image is null!";
+//            }
+//        }
+//    }
 }
 
 void CanvasWidget::zoomInImage() {
@@ -81,7 +86,7 @@ void CanvasWidget::zoomInImage() {
                 m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
 
     if (!tmpImage.isNull()) {
-        m_canvasLabel->setCanvasPixmap(tmpImage);
+//        m_canvasLabel->setCanvasPixmap(tmpImage);
     }
 }
 
@@ -93,7 +98,7 @@ void CanvasWidget::zoomOutImage() {
                 m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
 
     if (!tmpImage.isNull()) {
-        m_canvasLabel->setCanvasPixmap(tmpImage);
+//        m_canvasLabel->setCanvasPixmap(tmpImage);
     }
 }
 

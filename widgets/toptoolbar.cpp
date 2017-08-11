@@ -131,7 +131,7 @@ void TopToolbar::importImage() {
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"),
              QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-             tr("Image Files (*.png *.jpg *.bmp)"));
+             tr("Image Files (*.png *.jpg *.bmp, *svg)"));
 
     emit openImage(fileName);
 }

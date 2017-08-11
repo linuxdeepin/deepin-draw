@@ -1,7 +1,7 @@
 #ifndef CANVASWIDGET_H
 #define CANVASWIDGET_H
 
-#include <QScrollArea>
+#include <QWidget>
 #include <QLabel>
 #include <QKeyEvent>
 #include <QMouseEvent>
@@ -9,8 +9,9 @@
 #include "canvaslabel.h"
 #include "utils/baseutils.h"
 #include "utils/shapesutils.h"
+#include "scen/imageview.h"
 
-class CanvasWidget : public QScrollArea {
+class CanvasWidget : public QWidget {
     Q_OBJECT
 public:
     CanvasWidget(QWidget* parent = 0);
@@ -33,7 +34,8 @@ signals:
     void changedBlurLinewidth(int linewidth);
 
 private:
-    CanvasLabel* m_canvasLabel;
+//    CanvasLabel* m_canvasLabel;
+    ImageView* m_view;
     QString m_currentFile;
 
     qreal m_scaleValue;

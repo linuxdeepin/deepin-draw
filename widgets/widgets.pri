@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/bigcolorbutton.h \
     $$PWD/pickcolorwidget.h \
     $$PWD/textfontlabel.h \
-    $$PWD/toolbutton.h
+    $$PWD/toolbutton.h \
+    $$PWD/scen/imageview.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     $$PWD/canvaslabel.cpp \
     $$PWD/bigcolorbutton.cpp \
     $$PWD/pickcolorwidget.cpp \
-    $$PWD/textfontlabel.cpp
+    $$PWD/textfontlabel.cpp \
+    $$PWD/scen/imageview.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
