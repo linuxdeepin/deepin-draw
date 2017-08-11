@@ -133,7 +133,6 @@ private:
     QMap<int, TextEdit*> m_editMap;
     void updateTextRect(TextEdit* edit, QRectF newRect);
     Toolshapes m_shapes;
-//    MenuController* m_menuController;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints, int index);

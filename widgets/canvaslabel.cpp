@@ -16,8 +16,9 @@ void CanvasLabel::setCanvasPixmap(QString imageFile)
     m_currentPixmap = QPixmap(m_currentFile);
     if (!m_currentPixmap.isNull())
     {
-        update();
         qDebug() << "CanvasLabel:" << imageFile;
+        resize(m_currentPixmap.size());
+        setPixmap(m_currentPixmap);
     } else {
         qWarning() << "m_currentPixmap is null";
     }
@@ -27,7 +28,9 @@ void CanvasLabel::setCanvasPixmap(QPixmap pixmap)
 {
     m_currentPixmap = pixmap;
     if (!m_currentPixmap.isNull()) {
-        update();
+        qDebug() << "currentPixmap:" << m_currentPixmap.size();
+        resize(m_currentPixmap.size());
+        setPixmap(m_currentPixmap);
     } else {
         qWarning() << "m_currentPixmap is null";
     }
@@ -102,33 +105,9 @@ void CanvasLabel::createBlurEffect(const QString &type)
     }
 }
 
-void CanvasLabel::paintEvent(QPaintEvent *e)
+void CanvasLabel::updateSize(QSize size)
 {
-    QLabel::paintEvent(e);
-    QPainter painter(this);
-
-#ifdef QT_DEBUG
-    QPixmap drawTestPixmap = QPixmap("/home/ph/Pictures/ddddddddddd.png");
-    if (!drawTestPixmap.isNull()) {
-        setFixedSize(drawTestPixmap.size());
-        painter.drawPixmap(this->rect(), drawTestPixmap);
-
-    }
-
-#endif
-    if (m_currentPixmap.isNull()) {
-        return ;
-    } else {
-        setFixedSize(m_currentPixmap.size());
-        /* update shapesWidget's size, app crash!
-//        if (m_shapesWidgetExist) {
-//            m_shapesWidget->resize(this->width(), this->height());
-//        }
-        */
-    }
-
-    painter.drawPixmap(this->rect(), m_currentPixmap);
-    createBlurEffect("blur");
+    setFixedSize(size);
 }
 
 CanvasLabel::~CanvasLabel()

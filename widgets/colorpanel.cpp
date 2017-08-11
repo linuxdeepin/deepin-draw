@@ -19,7 +19,7 @@ ColorButton::ColorButton(const QColor &color, QWidget *parent)
     setCheckable(true);
 
     connect(this, &ColorButton::clicked, this, [=]{
-        qDebug() << "ColorButton LLLLLLLL" << m_color;
+        qDebug() << "ColorButton:" << m_color;
         if (m_disable) {
             emit colorButtonClicked(Qt::transparent);
         } else {

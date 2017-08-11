@@ -1412,7 +1412,6 @@ void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
     for (int k = 1; k < lineFPoints.length() - 2; k++) {
         linePaths.quadTo(lineFPoints[k], lineFPoints[k+1]);
     }
-//    painter.setClipPath(linePaths);
 
     painter.drawPath(linePaths);
     painter.setClipPath(linePaths);

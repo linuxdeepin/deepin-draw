@@ -42,7 +42,8 @@ void MainWidget::setImageInCanvas(QString imageFileName) {
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event) {
-    qDebug() << "MainWidget sssssss" << this->width() << this->height();
+    qDebug() << "MainWidget  resizeEvent:"
+                     << this->width() << this->height();
     m_seperatorLine->setMinimumWidth(this->width());
     m_canvas->setMinimumSize(this->width(), this->height() - 1);
     this->updateGeometry();

@@ -241,7 +241,8 @@ void TopToolbar::initStackWidget() {
     borderLWLabel->setText(tr("Width"));
     QList<ToolButton*> lwBtnList;
     QStringList lwBtnNameList;
-    lwBtnNameList << "FinerLineBtn" << "FineLineBtn" << "MediumLineBtn" << "BoldLineBtn";
+    lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
+                                 << "MediumLineBtn" << "BoldLineBtn";
     QButtonGroup* lwBtnGroup = new QButtonGroup(this);
     lwBtnGroup->setExclusive(true);
     for (int i = 0; i < lwBtnNameList.length(); i++) {
@@ -264,7 +265,7 @@ void TopToolbar::initStackWidget() {
     drawHbLayout->addWidget(borderCButton);
     drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
     drawHbLayout->addWidget(borderStyleLabel);
-    qDebug() << "KKK" << lineBtnList.length();
+
     for(int h = 0; h < lineBtnList.length(); h++) {
         drawHbLayout->addWidget(lineBtnList[h]);
     }

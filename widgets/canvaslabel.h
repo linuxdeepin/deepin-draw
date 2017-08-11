@@ -25,9 +25,7 @@ public:
 
 public slots:
     void createBlurEffect(const QString &type);
-
-protected:
-    void paintEvent(QPaintEvent* e);
+    void updateSize(QSize size);
 
 private:
     bool m_shapesWidgetExist;
