@@ -3,6 +3,8 @@
 
 #include <QGraphicsView>
 
+#include "drawshape/shapeswidget.h"
+
 class QWheelEvent;
 class QPaintEvent;
 class QFile;
@@ -25,6 +27,8 @@ public slots:
     void setViewBackground(bool enable);
     void setViewOutline(bool enable);
 
+    void initShapesWidget(QString shape);
+
 protected:
     void wheelEvent(QWheelEvent *event);
     void paintEvent(QPaintEvent *event);
@@ -38,5 +42,8 @@ private:
     QGraphicsRectItem *m_outlineItem;
 
     QImage m_image;
+
+    bool m_shapesWidgetExist;
+    ShapesWidget* m_shapesWidget;
 };
 #endif // IMAGEVIEW_H

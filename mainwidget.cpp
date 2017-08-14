@@ -20,8 +20,6 @@ MainWidget::MainWidget(QWidget *parent)
     m_vLayout->addStretch();
     setLayout(m_vLayout);
 
-    connect(this, &MainWidget::zoomOutAction, m_canvas, &CanvasWidget::zoomOutImage);
-    connect(this, &MainWidget::zoomInAction, m_canvas, &CanvasWidget::zoomInImage);
     connect(this, &MainWidget::prepareInitShapesWidget,
                     m_canvas, &CanvasWidget::requestInitShapeWidget);
     connect(this, &MainWidget::changeShapesColor,

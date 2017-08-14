@@ -9,9 +9,6 @@
 
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QWidget(parent), m_scaleValue(1) {
-//    m_canvasLabel = new CanvasLabel(this);
-//    m_canvasLabel->setMinimumSize(10, 10);
-//    m_canvasLabel->setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
     m_view = new ImageView(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -19,8 +16,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     layout->addWidget(m_view);
     setLayout(layout);
 
-//    connect(this, &CanvasWidget::requestInitShapeWidget,
-//                    m_canvasLabel, &CanvasLabel::initShapesWidget);
+    connect(this, &CanvasWidget::requestInitShapeWidget,
+                   m_view, &ImageView::initShapesWidget);
 //    connect(this, &CanvasWidget::changeShapeColor,
 //            m_canvasLabel, &CanvasLabel::setShapeColor);
 //    connect(this, &CanvasWidget::changeShapeLineWidth,
@@ -76,30 +73,6 @@ void CanvasWidget::setImage(QString filename) {
 //            }
 //        }
 //    }
-}
-
-void CanvasWidget::zoomInImage() {
-    m_scaleValue  = m_scaleValue*(1-0.1);
-    m_scaleValue = std::max(m_scaleValue, 0.02);
-//    QSize originSize = QPixmap(m_currentFile).size();
-    QPixmap tmpImage = QPixmap(m_currentFile).scaled(
-                m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
-
-    if (!tmpImage.isNull()) {
-//        m_canvasLabel->setCanvasPixmap(tmpImage);
-    }
-}
-
-void CanvasWidget::zoomOutImage() {
-    m_scaleValue = m_scaleValue*(1+0.1);
-    m_scaleValue = std::min(m_scaleValue, qreal(20));
-//    QSize originSize = QPixmap(m_currentFile).size();
-    QPixmap tmpImage = QPixmap(m_currentFile).scaled(
-                m_scaledSize*m_scaleValue, Qt::KeepAspectRatio);
-
-    if (!tmpImage.isNull()) {
-//        m_canvasLabel->setCanvasPixmap(tmpImage);
-    }
 }
 
 CanvasWidget::~CanvasWidget() {

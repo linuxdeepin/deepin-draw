@@ -458,10 +458,10 @@ void TopToolbar::setDrawStatus(DrawStatus drawstatus) {
 
 void TopToolbar::drawShapes(QString shape) {
     if (!m_shapesWidgetExist) {
-        emit initShapeWidgetAction(shape, true);
+        emit initShapeWidgetAction(shape);
         m_shapesWidgetExist = true;
     } else {
-        emit initShapeWidgetAction(shape, false);
+        emit initShapeWidgetAction(shape);
     }
 }
 

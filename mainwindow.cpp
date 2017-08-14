@@ -45,12 +45,6 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->modifiers() == Qt::ShiftModifier && event->key() == Qt::Key_Plus) {
-        emit m_mainWidget->zoomOutAction();
-    } else if (event->key() == Qt::Key_Minus) {
-        emit m_mainWidget->zoomInAction();
-    }
-
     DMainWindow::keyPressEvent(event);
 }
 

@@ -86,6 +86,7 @@ void ImageView::setImage(const QString &path)
         m_outlineItem = new QGraphicsRectItem(m_pixmapItem->boundingRect());
     }
 
+
     m_backgroundItem->setBrush(Qt::white);
     m_backgroundItem->setPen(Qt::NoPen);
     m_backgroundItem->setVisible(drawBackground);
@@ -145,6 +146,20 @@ void ImageView::setViewOutline(bool enable)
         return;
 
     m_outlineItem->setVisible(enable);
+}
+
+void ImageView::initShapesWidget(QString shape) {
+    if (!m_shapesWidgetExist) {
+        m_shapesWidget = new ShapesWidget(this);
+    }
+
+    m_shapesWidget->setCurrentShape(shape);
+
+    m_shapesWidget->resize(m_backgroundItem->rect().width(),
+                                                    m_backgroundItem->rect().height());
+    m_shapesWidget->move((width() - m_backgroundItem->rect().width())/2,
+                                                   (height() - m_backgroundItem->rect().height())/2);
+    m_shapesWidget->show();
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

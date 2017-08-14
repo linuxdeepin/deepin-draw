@@ -22,11 +22,9 @@ public:
     bool overWindowSize();
 
     QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
-    void zoomOutImage();
-    void zoomInImage();
 
 signals:
-    void requestInitShapeWidget(QString shape, bool needInited);
+    void requestInitShapeWidget(QString shape);
     void changeShapeColor(DrawStatus drawstatus, QColor color);
     void changeShapeLineWidth(int linewidth);
     void changeLineShape(QString lineshape);
