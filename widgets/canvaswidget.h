@@ -24,12 +24,12 @@ public:
     QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
 
 signals:
-    void requestInitShapeWidget(QString shape);
-    void changeShapeColor(DrawStatus drawstatus, QColor color);
-    void changeShapeLineWidth(int linewidth);
-    void changeLineShape(QString lineshape);
-    void changeTextFontsize(int fontsize);
-    void changedBlurLinewidth(int linewidth);
+    void initShapeWidget(QString shape);
+    void shapeColorChanged(DrawStatus drawstatus, QColor color);
+    void shapeLineWidthChanged(int linewidth);
+    void lineShapeChanged(QString lineshape);
+    void textFontsizeChanged(int fontsize);
+    void blurLinewidthChanged(int linewidth);
 
 private:
 //    CanvasLabel* m_canvasLabel;

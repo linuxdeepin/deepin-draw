@@ -23,16 +23,22 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::openImage,
                     m_mainWidget, &MainWidget::setImageInCanvas);
+
     connect(m_topToolbar, &TopToolbar::initShapeWidgetAction,
-            m_mainWidget, &MainWidget::prepareInitShapesWidget);
+            m_mainWidget, &MainWidget::initShapesWidget);
+
     connect(m_topToolbar, &TopToolbar::shapesColorChanged,
-            m_mainWidget, &MainWidget::changeShapesColor);
+            m_mainWidget, &MainWidget::shapesColorChanged);
+
     connect(m_topToolbar, &TopToolbar::shapesLineWidthChanged,
-            m_mainWidget, &MainWidget::changeShapesLineWidth);
+            m_mainWidget, &MainWidget::shapesLineWidthChanged);
+
     connect(m_topToolbar, &TopToolbar::lineShapeChanged,
             m_mainWidget, &MainWidget::lineShapeChanged);
+
      connect(m_topToolbar, &TopToolbar::textFontsizeChanged,
              m_mainWidget, &MainWidget::textFontsizeChanged);
+
      connect(m_topToolbar, &TopToolbar::blurLineWidthChanged,
              m_mainWidget, &MainWidget::blurLinewidthChanged);
 }

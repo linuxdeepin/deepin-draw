@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 
 #include "drawshape/shapeswidget.h"
+#include "utils/baseutils.h"
 
 class QWheelEvent;
 class QPaintEvent;
@@ -28,6 +29,11 @@ public slots:
     void setViewOutline(bool enable);
 
     void initShapesWidget(QString shape);
+    void updateShapesColor(DrawStatus drawstatus, QColor color);
+    void updateShapesLineWidth(int linewidth);
+    void updateLineShapes(QString lineShape);
+    void updateTextFontsize(int fontsize);
+    void updateBlurLinewidth(int linewidth);
 
 protected:
     void wheelEvent(QWheelEvent *event);

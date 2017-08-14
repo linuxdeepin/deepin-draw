@@ -20,19 +20,20 @@ MainWidget::MainWidget(QWidget *parent)
     m_vLayout->addStretch();
     setLayout(m_vLayout);
 
-    connect(this, &MainWidget::prepareInitShapesWidget,
-                    m_canvas, &CanvasWidget::requestInitShapeWidget);
-    connect(this, &MainWidget::changeShapesColor,
-            m_canvas, &CanvasWidget::changeShapeColor);
-    connect(this, &MainWidget::changeShapesLineWidth,
-            m_canvas, &CanvasWidget::changeShapeLineWidth);
-    connect(this, &MainWidget::lineShapeChanged,
-            m_canvas, &CanvasWidget::changeLineShape);
-    connect(this, &MainWidget::textFontsizeChanged,
-            m_canvas, &CanvasWidget::changeTextFontsize);
-    connect(this, &MainWidget::blurLinewidthChanged,
-            m_canvas, &CanvasWidget::changedBlurLinewidth);
+    connect(this, &MainWidget::initShapesWidget,
+                    m_canvas, &CanvasWidget::initShapeWidget);
 
+    connect(this, &MainWidget::shapesColorChanged,
+            m_canvas, &CanvasWidget::shapeColorChanged);
+
+    connect(this, &MainWidget::shapesLineWidthChanged,
+            m_canvas, &CanvasWidget::shapeLineWidthChanged);
+    connect(this, &MainWidget::lineShapeChanged,
+            m_canvas, &CanvasWidget::lineShapeChanged);
+    connect(this, &MainWidget::textFontsizeChanged,
+            m_canvas, &CanvasWidget::textFontsizeChanged);
+    connect(this, &MainWidget::blurLinewidthChanged,
+            m_canvas, &CanvasWidget::blurLinewidthChanged);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

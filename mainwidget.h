@@ -21,9 +21,9 @@ public:
 signals:
     void zoomOutAction();
     void zoomInAction();
-    void prepareInitShapesWidget(QString shape);
-    void changeShapesColor(DrawStatus drawstatus, QColor color);
-    void changeShapesLineWidth(int linewidth);
+    void initShapesWidget(QString shape);
+    void shapesColorChanged(DrawStatus drawstatus, QColor color);
+    void shapesLineWidthChanged(int linewidth);
     void lineShapeChanged(QString lineShape);
     void textFontsizeChanged(int fontsize);
     void blurLinewidthChanged(int linewidth);

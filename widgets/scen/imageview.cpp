@@ -149,7 +149,8 @@ void ImageView::setViewOutline(bool enable)
     m_outlineItem->setVisible(enable);
 }
 
-void ImageView::initShapesWidget(QString shape) {
+void ImageView::initShapesWidget(QString shape)
+{
     if (!m_imageLoaded)
         return;
 
@@ -165,6 +166,31 @@ void ImageView::initShapesWidget(QString shape) {
     m_shapesWidget->move((width() - m_backgroundItem->rect().width())/2,
                                                    (height() - m_backgroundItem->rect().height())/2);
     m_shapesWidget->show();
+}
+
+void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
+{
+    if (!m_shapesWidgetExist)
+        return;
+
+    if (drawstatus == DrawStatus::Fill) {
+        m_shapesWidget->setBrushColor(color);
+    } else {
+        m_shapesWidget->setPenColor(color);
+    }
+}
+
+void ImageView::updateShapesLineWidth(int linewidth) {
+    m_shapesWidget->setLineWidth(linewidth);
+}
+void ImageView::updateLineShapes(QString lineShape) {
+      m_shapesWidget->setCurrentShape(lineShape);
+}
+void ImageView::updateTextFontsize(int fontsize) {
+    m_shapesWidget->setTextFontsize(fontsize);
+}
+void ImageView::updateBlurLinewidth(int linewidth) {
+    m_shapesWidget->setBlurLinewidth(linewidth);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

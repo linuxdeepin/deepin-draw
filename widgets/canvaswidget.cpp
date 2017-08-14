@@ -16,18 +16,23 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     layout->addWidget(m_view);
     setLayout(layout);
 
-    connect(this, &CanvasWidget::requestInitShapeWidget,
+    connect(this, &CanvasWidget::initShapeWidget,
                    m_view, &ImageView::initShapesWidget);
-//    connect(this, &CanvasWidget::changeShapeColor,
-//            m_canvasLabel, &CanvasLabel::setShapeColor);
-//    connect(this, &CanvasWidget::changeShapeLineWidth,
-//            m_canvasLabel, &CanvasLabel::setShapeLineWidth);
-//    connect(this, &CanvasWidget::changeLineShape,
-//            m_canvasLabel, &CanvasLabel::setLineShape);
-//    connect(this, &CanvasWidget::changeTextFontsize,
-//            m_canvasLabel, &CanvasLabel::setTextFontsize);
-//    connect(this, &CanvasWidget::changedBlurLinewidth,
-//            m_canvasLabel, &CanvasLabel::setBlurLinewidth);
+
+    connect(this, &CanvasWidget::shapeColorChanged,
+            m_view, &ImageView::updateShapesColor);
+
+    connect(this, &CanvasWidget::shapeLineWidthChanged,
+           m_view, &ImageView::updateShapesLineWidth);
+
+    connect(this, &CanvasWidget::lineShapeChanged,
+            m_view, &ImageView::updateLineShapes);
+
+    connect(this, &CanvasWidget::textFontsizeChanged,
+            m_view, &ImageView::updateTextFontsize);
+
+    connect(this, &CanvasWidget::blurLinewidthChanged,
+            m_view, &ImageView::updateBlurLinewidth);
 }
 
 bool CanvasWidget::overWindowSize() {
