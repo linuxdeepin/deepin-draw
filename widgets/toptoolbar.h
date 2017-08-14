@@ -32,7 +32,7 @@ public:
 
 signals:
     void openImage(QString imageFileName);
-    void  initShapeWidgetAction(QString shape);
+    void  initShapeWidgetAction(const QString &shape);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
     void lineShapeChanged(QString lineShape);

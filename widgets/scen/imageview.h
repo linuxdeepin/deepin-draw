@@ -18,7 +18,7 @@ public:
 
     ImageView(QWidget *parent = 0);
 
-    void setImage(const QString &path);
+    void setImage(const QString  &path);
     void setRenderer(RendererType type = Native);
     void drawBackground(QPainter *p, const QRectF &rect);
 
@@ -43,6 +43,7 @@ private:
 
     QImage m_image;
 
+    bool m_imageLoaded;
     bool m_shapesWidgetExist;
     ShapesWidget* m_shapesWidget;
 };

@@ -25,7 +25,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_selectedOrder(-1)//,
 //      m_menuController(new MenuController)
 {
-    setStyleSheet("background-color: rgba(255, 0, 0, 100);");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);

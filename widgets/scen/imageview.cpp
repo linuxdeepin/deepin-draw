@@ -23,6 +23,7 @@ ImageView::ImageView(QWidget *parent)
     , m_svgItem(0)
     , m_backgroundItem(0)
     , m_outlineItem(0)
+    , m_imageLoaded(false)
 {
     setScene(new QGraphicsScene(this));
     setTransformationAnchor(AnchorUnderMouse);
@@ -86,7 +87,7 @@ void ImageView::setImage(const QString &path)
         m_outlineItem = new QGraphicsRectItem(m_pixmapItem->boundingRect());
     }
 
-
+    m_imageLoaded = true;
     m_backgroundItem->setBrush(Qt::white);
     m_backgroundItem->setPen(Qt::NoPen);
     m_backgroundItem->setVisible(drawBackground);
@@ -149,8 +150,12 @@ void ImageView::setViewOutline(bool enable)
 }
 
 void ImageView::initShapesWidget(QString shape) {
+    if (!m_imageLoaded)
+        return;
+
     if (!m_shapesWidgetExist) {
         m_shapesWidget = new ShapesWidget(this);
+        m_shapesWidgetExist = true;
     }
 
     m_shapesWidget->setCurrentShape(shape);
