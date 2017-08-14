@@ -191,12 +191,12 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 currentOnShape = true;
             }
         }
-        if (m_shapes[i].type == "arrow") {
+        if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine") {
             if (clickedOnArrow(m_shapes[i].points, pos)) {
                 currentOnShape = true;
             }
         }
-        if (m_shapes[i].type == "line") {
+        if (m_shapes[i].type == "arbitraryCurve") {
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
                 currentOnShape = true;
             }
@@ -674,7 +674,7 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points,
     }
 }
 
-bool ShapesWidget::hoverOnLine(FourPoints mainPoints,
+bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
                                QList<QPointF> points, QPointF pos)
 {
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
@@ -743,10 +743,10 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos)
         return hoverOnRect(toolShape.mainPoints, pos);
     } else if (toolShape.type == "oval") {
         return hoverOnEllipse(toolShape.mainPoints, pos);
-    }  else if (toolShape.type == "arrow") {
+    }  else if (toolShape.type == "arrow" || toolShape.type == "straightLine") {
         return hoverOnArrow(toolShape.points, pos);
-    } else if (toolShape.type == "line") {
-        return hoverOnLine(toolShape.mainPoints, toolShape.points, pos);
+    } else if (toolShape.type == "arbitraryCurve") {
+        return hoverOnArbitraryCurve(toolShape.mainPoints, toolShape.points, pos);
     } else if (toolShape.type == "text") {
         return hoverOnText(toolShape.mainPoints, pos);
     }
@@ -1369,7 +1369,7 @@ void ShapesWidget::paintStraightLine(QPainter &painter,
     paintArrow(painter, lineFPoints, lineWidth, true);
 }
 
-void ShapesWidget::paintLine(QPainter &painter,
+void ShapesWidget::paintArbitraryCurve(QPainter &painter,
                              QList<QPointF> lineFPoints)
 {
     QPainterPath linePaths;
@@ -1458,7 +1458,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
-            paintLine(painter, m_shapes[i].points);
+            paintArbitraryCurve(painter, m_shapes[i].points);
         } else if (m_shapes[i].type == "blur") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(QPen(Qt::transparent));
@@ -1512,7 +1512,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
-            paintLine(painter, m_currentShape.points);
+            paintArbitraryCurve(painter, m_currentShape.points);
         } else if (m_currentType == "blur") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(QColor(Qt::transparent));
@@ -1551,12 +1551,12 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
             painter.setBrush(QBrush(Qt::transparent));
-            paintLine(painter, m_hoveredShape.points);
+            paintArbitraryCurve(painter, m_hoveredShape.points);
         } else if (m_hoveredShape.type == "blur") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(QColor(Qt::transparent));
             painter.setBrush(QBrush(Qt::transparent));
-            paintLine(painter, m_hoveredShape.points);
+            paintArbitraryCurve(painter, m_hoveredShape.points);
         }
     } else {
         qDebug() << "hoveredShape type:" << m_hoveredShape.type;
@@ -1616,7 +1616,7 @@ void ShapesWidget::enterEvent(QEvent *e) {
     } else {
         int colIndex = 3;//ConfigSettings::instance()->value(m_currentType, "color_index").toInt();
         qDebug() << "enterEvent:" << colIndex << colorIndex(m_penColor);
-        qApp->setOverrideCursor(setCursorShape("line",  colIndex));
+        qApp->setOverrideCursor(setCursorShape("straightLine",  colIndex));
     }
 }
 
@@ -1710,7 +1710,7 @@ void ShapesWidget::setShiftKeyPressed(bool isShift) {
 }
 
 void ShapesWidget::updateCursorShape() {
-    if (m_currentType == "line") {
+    if (m_currentType == "arbitraryCurve") {
         qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
     } else if (m_currentType == "arrow" && false/*ConfigSettings::instance()->value("arrow", "is_straight").toBool()*/){
         qApp->setOverrideCursor(setCursorShape("straightLine"));

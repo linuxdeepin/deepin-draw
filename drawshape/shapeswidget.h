@@ -70,7 +70,7 @@ public slots:
     bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
-    bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
@@ -142,7 +142,7 @@ private:
                     int lineWidth, bool isStraight = false);
     void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints, int lineWidth);
 
-    void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
+    void paintArbitraryCurve(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);
     void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
 };
