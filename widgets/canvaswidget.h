@@ -30,6 +30,7 @@ signals:
     void lineShapeChanged(QString lineshape);
     void textFontsizeChanged(int fontsize);
     void blurLinewidthChanged(int linewidth);
+    void rotateImage(const QString &path, int degree);
 
 private:
 //    CanvasLabel* m_canvasLabel;

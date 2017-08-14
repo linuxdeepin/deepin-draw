@@ -41,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 
      connect(m_topToolbar, &TopToolbar::blurLineWidthChanged,
              m_mainWidget, &MainWidget::blurLinewidthChanged);
+
+     connect(m_topToolbar, &TopToolbar::rotateImage,
+             m_mainWidget, &MainWidget::rotateImage);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

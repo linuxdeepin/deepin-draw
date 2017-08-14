@@ -34,6 +34,9 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::textFontsizeChanged);
     connect(this, &MainWidget::blurLinewidthChanged,
             m_canvas, &CanvasWidget::blurLinewidthChanged);
+
+    connect(this, &MainWidget::rotateImage,
+            m_canvas, &CanvasWidget::rotateImage);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

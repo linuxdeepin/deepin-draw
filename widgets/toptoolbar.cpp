@@ -129,11 +129,11 @@ void TopToolbar::importImage() {
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"),
+    m_path = QFileDialog::getOpenFileName(this, tr("Open Image"),
              QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
              tr("Image Files (*.png *.jpg *.bmp, *svg)"));
 
-    emit openImage(fileName);
+    emit openImage(m_path);
 }
 
 void TopToolbar::initStackWidget() {
@@ -159,6 +159,18 @@ void TopToolbar::initStackWidget() {
         btnList.append(btn);
         btn->setObjectName(i.value());
         btn->setText(btnTextList[i.key()]);
+
+        if (i.key() == 0) {
+            connect(btn, &PushButton::clicked, this, [=]{
+                emit rotateImage(m_path, -90);
+                qDebug() << "topToolbar rotateImage:" << m_path;
+            });
+        }
+        if (i.key() == 1) {
+            connect(btn, &PushButton::clicked, this, [=]{
+                emit rotateImage(m_path, 90);
+            });
+        }
         ++i;
     }
 

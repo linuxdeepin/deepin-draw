@@ -33,6 +33,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
     connect(this, &CanvasWidget::blurLinewidthChanged,
             m_view, &ImageView::updateBlurLinewidth);
+
+    connect(this, &CanvasWidget::rotateImage,
+            m_view, &ImageView::rotateImage);
 }
 
 bool CanvasWidget::overWindowSize() {
@@ -62,22 +65,7 @@ QSize CanvasWidget::fitWindowScaledSize(QSize windowSize, QSize imgSize)
 
 void CanvasWidget::setImage(QString filename) {
     m_currentFile = filename;
-//    QPixmap currentImage(m_currentFile);
-//    if (!currentImage.isNull()) {
-        m_view->setImage(filename);
-//        if (!overWindowSize()) {
-////            m_canvasLabel->setCanvasPixmap(m_currentFile);
-//            m_view->setImage(m_currentFile);
-//        } else {
-//            QPixmap tmpImage = QPixmap(m_currentFile).scaled(
-//                        m_scaledSize, Qt::KeepAspectRatio);
-//            if (!tmpImage.isNull()) {
-////                m_canvasLabel->setCanvasPixmap(tmpImage);
-//            } else {
-//                qWarning() << "The current image is null!";
-//            }
-//        }
-//    }
+    m_view->setImage(filename);
 }
 
 CanvasWidget::~CanvasWidget() {

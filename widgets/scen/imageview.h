@@ -35,6 +35,8 @@ public slots:
     void updateTextFontsize(int fontsize);
     void updateBlurLinewidth(int linewidth);
 
+    void rotateImage(const QString &path, int degree);
+
 protected:
     void wheelEvent(QWheelEvent *event);
     void paintEvent(QPaintEvent *event);

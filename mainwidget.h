@@ -27,6 +27,7 @@ signals:
     void lineShapeChanged(QString lineShape);
     void textFontsizeChanged(int fontsize);
     void blurLinewidthChanged(int linewidth);
+    void rotateImage(const QString &path, int degree);
 
 protected:
     void resizeEvent(QResizeEvent* event);

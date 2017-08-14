@@ -32,6 +32,7 @@ public:
 
 signals:
     void openImage(QString imageFileName);
+    void rotateImage(const QString &imagePath, int degree);
     void  initShapeWidgetAction(const QString &shape);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
@@ -53,6 +54,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
+    QString m_path;
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
     int m_textFontsize = 12;

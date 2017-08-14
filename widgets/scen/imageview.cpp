@@ -12,6 +12,7 @@
 #include <qmath.h>
 
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -180,17 +181,31 @@ void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
     }
 }
 
-void ImageView::updateShapesLineWidth(int linewidth) {
+void ImageView::updateShapesLineWidth(int linewidth)
+{
     m_shapesWidget->setLineWidth(linewidth);
 }
-void ImageView::updateLineShapes(QString lineShape) {
+
+void ImageView::updateLineShapes(QString lineShape)
+{
       m_shapesWidget->setCurrentShape(lineShape);
 }
-void ImageView::updateTextFontsize(int fontsize) {
+
+void ImageView::updateTextFontsize(int fontsize)
+{
     m_shapesWidget->setTextFontsize(fontsize);
 }
-void ImageView::updateBlurLinewidth(int linewidth) {
+
+void ImageView::updateBlurLinewidth(int linewidth)
+{
     m_shapesWidget->setBlurLinewidth(linewidth);
+}
+
+void ImageView::rotateImage(const QString &path, int degree)
+{
+    qDebug() << "imageview rotateImage:" << path;
+    utils::image::rotate(path, degree);
+    setImage(path);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
