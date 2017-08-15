@@ -112,11 +112,6 @@ void ImageView::setImage(const QString &path)
     }
     s->addItem(m_outlineItem);
 
-    connect(this, &ImageView::shapesWidgetInited, this, [=]{
-        m_shapesWidget->resize(s->itemsBoundingRect().width(), s->itemsBoundingRect().height());
-        QGraphicsProxyWidget *proxy = s->addWidget(m_shapesWidget);
-        Q_UNUSED(proxy);
-    });
     s->setSceneRect(m_outlineItem->boundingRect().adjusted(-10, -10, 10, 10));
 }
 
@@ -164,12 +159,17 @@ void ImageView::initShapesWidget(QString shape)
         return;
 
     if (!m_shapesWidgetExist) {
-        m_shapesWidget = new ShapesWidget();
+        m_shapesWidget = new ShapesWidget(this);
         m_shapesWidgetExist = true;
     }
 
     m_shapesWidget->setCurrentShape(shape);
-    emit shapesWidgetInited();
+
+    m_shapesWidget->resize(m_backgroundItem->rect().width(),
+                                                    m_backgroundItem->rect().height());
+    m_shapesWidget->move((width() - m_backgroundItem->rect().width())/2,
+                                                   (height() - m_backgroundItem->rect().height())/2);
+    m_shapesWidget->show();
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
             &ImageView::generateBlurEffect);
@@ -251,7 +251,6 @@ void ImageView::mirroredImage(bool horizontal, bool vertical) /*const*/
 
 void ImageView::paintEvent(QPaintEvent *event)
 {
-    setRenderHints(QPainter::Antialiasing);
     if (m_renderer == Image) {
         if (m_image.size() != viewport()->size()) {
             m_image = QImage(viewport()->size(), QImage::Format_ARGB32_Premultiplied);
