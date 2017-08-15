@@ -37,6 +37,7 @@ public slots:
 
     void rotateImage(const QString &path, int degree);
     void generateBlurEffect(const QString &type);
+    void mirroredImage(bool horizontal = false, bool vertical = true) /*const*/;
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -51,6 +52,7 @@ private:
     QGraphicsRectItem *m_outlineItem;
 
     QImage m_image;
+    QString m_currentPath;
 
     bool m_imageLoaded;
     bool m_shapesWidgetExist;

@@ -36,6 +36,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
     connect(this, &CanvasWidget::rotateImage,
             m_view, &ImageView::rotateImage);
+
+    connect(this, &CanvasWidget::mirroredImage,
+            m_view, &ImageView::mirroredImage);
 }
 
 bool CanvasWidget::overWindowSize() {

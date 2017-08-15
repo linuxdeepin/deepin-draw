@@ -171,6 +171,16 @@ void TopToolbar::initStackWidget() {
                 emit rotateImage(m_path, 90);
             });
         }
+        if (i.key() == 3) {
+            connect(btn, &PushButton::clicked, this, [=]{
+                emit mirroredImage(true, false);
+            });
+        }
+        if (i.key() == 4) {
+            connect(btn, &PushButton::clicked, this, [=]{
+                emit mirroredImage(false, true);
+            });
+        }
         ++i;
     }
 

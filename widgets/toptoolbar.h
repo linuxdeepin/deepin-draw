@@ -33,6 +33,7 @@ public:
 signals:
     void openImage(QString imageFileName);
     void rotateImage(const QString &imagePath, int degree);
+    void mirroredImage(bool horizonta, bool vertical);
     void  initShapeWidgetAction(const QString &shape);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);

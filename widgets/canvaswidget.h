@@ -31,6 +31,7 @@ signals:
     void textFontsizeChanged(int fontsize);
     void blurLinewidthChanged(int linewidth);
     void rotateImage(const QString &path, int degree);
+    void mirroredImage(bool horizontal, bool vertical);
 
 private:
 //    CanvasLabel* m_canvasLabel;

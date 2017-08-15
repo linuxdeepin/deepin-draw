@@ -44,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
 
      connect(m_topToolbar, &TopToolbar::rotateImage,
              m_mainWidget, &MainWidget::rotateImage);
+
+     connect(m_topToolbar, &TopToolbar::mirroredImage,
+             m_mainWidget, &MainWidget::mirroredImage);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

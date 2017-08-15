@@ -69,7 +69,8 @@ void ImageView::setImage(const QString &path)
 
     bool loadSvg = false;
 
-    if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path)) {
+    if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path))
+    {
         m_svgItem = new QGraphicsSvgItem(path);
         m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
         m_svgItem->setCacheMode(QGraphicsItem::NoCache);
@@ -90,6 +91,7 @@ void ImageView::setImage(const QString &path)
     }
 
     m_imageLoaded = true;
+    m_currentPath = path;
     m_backgroundItem->setBrush(Qt::white);
     m_backgroundItem->setPen(Qt::NoPen);
     m_backgroundItem->setVisible(drawBackground);
@@ -233,6 +235,16 @@ void ImageView::generateBlurEffect(const QString &type)
             tmpPixmap.save(TempFile::instance()->getBlurFileName(), "PNG");
         }
     }
+}
+
+void ImageView::mirroredImage(bool horizontal, bool vertical) /*const*/
+{
+    qDebug() << "mirror image:" << horizontal << vertical;
+    QImage originImage(m_currentPath);
+
+    originImage = originImage.mirrored(horizontal,vertical);
+    originImage.save("/tmp/abc.png", "PNG");
+    this->setImage("/tmp/abc.png");
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
