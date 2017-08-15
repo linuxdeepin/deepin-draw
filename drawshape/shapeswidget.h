@@ -144,6 +144,12 @@ private:
 
     void paintArbitraryCurve(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);
+
+    QPainterPath drawPair(QPainter &p,
+                          QPointF p1, QSizeF size1, QColor c1,
+                          QPointF p2, QSizeF size2, QColor c2,
+                          QPainterPath oldpath);
+    void paintPointList(QPainter &p, QList<QPointF> points);
     void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
 };
 #endif // SHAPESWIDGET_H

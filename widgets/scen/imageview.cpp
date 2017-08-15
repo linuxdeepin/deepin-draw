@@ -13,6 +13,7 @@
 
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/tempfile.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -167,6 +168,9 @@ void ImageView::initShapesWidget(QString shape)
     m_shapesWidget->move((width() - m_backgroundItem->rect().width())/2,
                                                    (height() - m_backgroundItem->rect().height())/2);
     m_shapesWidget->show();
+
+    connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
+            &ImageView::generateBlurEffect);
 }
 
 void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
@@ -206,6 +210,29 @@ void ImageView::rotateImage(const QString &path, int degree)
     qDebug() << "imageview rotateImage:" << path;
     utils::image::rotate(path, degree);
     setImage(path);
+}
+
+void ImageView::generateBlurEffect(const QString &type)
+{
+    if (!m_imageLoaded)
+        return ;
+
+    if (type == "blur")
+    {
+        QPixmap tmpPixmap;
+        tmpPixmap = this->grab(m_shapesWidget->rect());
+
+        const int radius = 10;
+        int imgWidth = tmpPixmap.width();
+        int imgHeight = tmpPixmap.height();
+        if (!tmpPixmap.isNull()) {
+            tmpPixmap = tmpPixmap.scaled(imgWidth/radius, imgHeight/radius,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeight,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpPixmap.save(TempFile::instance()->getBlurFileName(), "PNG");
+        }
+    }
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

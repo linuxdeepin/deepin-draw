@@ -36,6 +36,7 @@ public slots:
     void updateBlurLinewidth(int linewidth);
 
     void rotateImage(const QString &path, int degree);
+    void generateBlurEffect(const QString &type);
 
 protected:
     void wheelEvent(QWheelEvent *event);

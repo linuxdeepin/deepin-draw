@@ -19,8 +19,6 @@ public:
     void setImageInCanvas(QString imageFileName);
 
 signals:
-    void zoomOutAction();
-    void zoomInAction();
     void initShapesWidget(QString shape);
     void shapesColorChanged(DrawStatus drawstatus, QColor color);
     void shapesLineWidthChanged(int linewidth);

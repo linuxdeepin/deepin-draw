@@ -1401,26 +1401,110 @@ void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints)
 
 void ShapesWidget::paintBlur(QPainter &painter, QList<QPointF> lineFPoints)
 {
-    qDebug() << "PaintBlur..." << lineFPoints.length();
-    QPainterPath linePaths;
+    paintPointList(painter, lineFPoints);
+}
 
-    if (lineFPoints.length() >= 1)
-        linePaths.moveTo(lineFPoints[0]);
-    else
+QPainterPath ShapesWidget::drawPair(QPainter &p,
+                      QPointF p1, QSizeF size1, QColor c1,
+                      QPointF p2, QSizeF size2, QColor c2,
+                      QPainterPath oldpath)
+{
+
+    QPainterPath path;
+    QRectF rect1(p1.x() - size1.width() / 2, p1.y() - size1.height() / 2,
+                 size1.width(), size1.width());
+
+    QRectF rect2(p2.x() - size2.width() / 2, p2.y() - size2.height() / 2,
+                 size2.width(), size2.width());
+
+    auto x1 = p1.x();
+    auto y1 = p1.y();
+    auto x2 = p2.x();
+    auto y2 = p2.y();
+    auto dx = x2 - x1;
+    auto dy = y2 - y1;
+
+    auto r1 = qSqrt(size1.width() * size1.width() * 2 / 4);
+    r1 = size1.width() / 2;
+    auto r2 = qSqrt(size2.width() * size2.width() * 2 / 4);
+    r2 = size2.width() / 2;
+    auto R = qSqrt(dx * dx + dy * dy);
+
+    auto xp1 = x1 + r1 * (y2 - y1) / R;
+    auto yp1 = y1 - r1 * (x2 - x1) / R;
+    path.moveTo(xp1, yp1);
+
+    auto xp2 = x2 + r2 * (y2 - y1) / R;
+    auto yp2 = y2 - r2 * (x2 - x1) / R;
+    path.lineTo(xp2, yp2);
+
+    auto xp3 = x2 - r2 * (y2 - y1) / R;
+    auto yp3 = y2 + r2 * (x2 - x1) / R;
+    path.lineTo(xp3, yp3);
+
+    auto xp4 = x1 - r1 * (y2 - y1) / R;
+    auto yp4 = y1 + r1 * (x2 - x1) / R;
+    path.lineTo(xp4, yp4);
+
+    path.closeSubpath();
+
+    path.setFillRule(Qt::WindingFill);
+    path.addRoundedRect(rect1, r1, r1);
+
+    path.addRoundedRect(rect2, r2, r2);
+
+    QLinearGradient lg(p1, p2);
+    lg.setColorAt(0, c1);
+    lg.setColorAt(1, c2);
+    p.setBrush(lg);
+
+    auto com = path.subtracted(oldpath);
+    p.setClipPath(com);
+    p.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
+    p.setClipping(false);
+
+    return path;
+}
+
+void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
+{
+    if (points.size() < 2) {
         return;
-
-    for (int k = 1; k < lineFPoints.length() - 2; k++) {
-        linePaths.quadTo(lineFPoints[k], lineFPoints[k+1]);
     }
 
-    painter.drawPath(linePaths);
-    painter.setClipPath(linePaths);
+    QList<QSizeF> sizes;
+    double maxSize = 12.0;
+    double minSize = 12;/*maxSize / 3;*/
+    double dsize = (maxSize - minSize) / points.size();
 
-    painter.drawPixmap(0, 0, width(), height(),
-                       TempFile::instance()->getBlurFileName());
-    painter.drawPath(linePaths);
+    QList<QColor> colors;
+    int maxA = 200;
+    int minA = 64;
+    int dA = (maxA - minA) / points.size();
 
-    painter.setClipping(false);
+//    static QColor DefaultPenColor = QColor("#24b1ff");
+    for (int i = 0; i < points.size(); ++i) {
+        auto size = maxSize - dsize * i;
+        sizes << QSizeF(size, size);
+
+        auto A = maxA - dA * i;
+        colors << QColor(0x24, 0xB1, 0xFF, A);
+    }
+
+    QPainterPath op;
+    for (int i = 0 ; i < points.size() - 1; ++i) {
+        auto point1 = points.at(i);
+        auto point2 = points.at(i + 1);
+        auto size1 = sizes.at(i);
+        auto size2 = sizes.at(i + 1);
+        auto c1 = colors.at(i);
+        auto c2 = colors.at(i + 1);
+
+        op = drawPair(p, point1, size1, c1,
+                      point2, size2, c2,
+                      op);
+//        qDebug() << size1 << size2;
+    }
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *) {
