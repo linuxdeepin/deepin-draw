@@ -23,6 +23,9 @@ public:
     void setRenderer(RendererType type = Native);
     void drawBackground(QPainter *p, const QRectF &rect);
 
+signals:
+    void shapesWidgetInited();
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void setViewBackground(bool enable);
