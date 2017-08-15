@@ -222,7 +222,9 @@ void ImageView::generateBlurEffect(const QString &type)
     if (type == "blur")
     {
         QPixmap tmpPixmap;
-        tmpPixmap = this->grab(m_shapesWidget->rect());
+        tmpPixmap = this->grab(
+                    QRect(m_shapesWidget->x(), m_shapesWidget->y(),
+                                m_shapesWidget->width(), m_shapesWidget->height()));
 
         const int radius = 10;
         int imgWidth = tmpPixmap.width();
