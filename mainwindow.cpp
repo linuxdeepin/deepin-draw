@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     setMinimumSize(1050, 850);
 
     m_topToolbar = new TopToolbar(this);
+
     titlebar()->setCustomWidget(m_topToolbar, Qt::AlignCenter);
+    titlebar()->setMenu(m_topToolbar->mainMenu());
+
     m_titlebarWidth = titlebar()->width();
     m_topToolbar->setFixedWidth(this->width() - m_titlebarWidth);
 

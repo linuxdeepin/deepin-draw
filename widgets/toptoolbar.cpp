@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QApplication>
+#include <QMenu>
 #include <QDebug>
 
 #include "utils/global.h"
@@ -499,6 +500,21 @@ void TopToolbar::setLineShape(int lineIndex) {
 
 bool TopToolbar::shapesWidgetExist() {
     return m_shapesWidgetExist;
+}
+
+QMenu* TopToolbar::mainMenu() {
+    QMenu* menu = new QMenu(this);
+    QAction* importAc = menu->addAction(tr("Import"));
+    QAction* importFScannerAc = menu->addAction(tr("Import from scanner"));
+    QAction* saveAc = menu->addAction(tr("Save"));
+    QAction* saveAsAc = menu->addAction(tr("Save as"));
+    QAction* printAc = menu->addAction(tr("Print"));
+    QAction* themeAc = menu->addAction(tr("Dark theme"));
+    QAction* helpAc = menu->addAction(tr("Help"));
+
+   connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
+
+    return menu;
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *event) {

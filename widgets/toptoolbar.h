@@ -30,6 +30,11 @@ public:
         AdjustSize,
     };
 
+    void initStackWidget();
+    bool shapesWidgetExist();
+
+    QMenu* mainMenu();
+
 signals:
     void openImage(QString imageFileName);
     void rotateImage(const QString &imagePath, int degree);
@@ -42,10 +47,8 @@ signals:
     void blurLineWidthChanged(int lineWidth);
 
 public slots:
-    void initStackWidget();
     void importImage();
     void drawShapes(QString shape);
-    bool shapesWidgetExist();
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
     void setShapesColor(QColor color);
