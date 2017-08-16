@@ -174,6 +174,7 @@ void TopToolbar::initStackWidget()
         if (i.key() == 2) {
             connect(btn, &PushButton::clicked, this, [=]{
                 emit cutImage();
+                emit drawShapes("cutImage");
             });
         }
         if (i.key() == 3) {

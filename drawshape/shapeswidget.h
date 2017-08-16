@@ -7,6 +7,7 @@
 #include "utils/shapesutils.h"
 #include "utils/baseutils.h"
 #include "textedit.h"
+#include "cutimagetips.h"
 
 class ShapesWidget : public QFrame {
     Q_OBJECT
@@ -22,6 +23,13 @@ public:
         Normal,
     };
 
+    enum CutRation {
+        Ration4_3,
+        Ration8_5,
+        Ration16_9,
+        Ration1_1,
+        FreeRation,
+    };
     enum ClickedKey {
         First,
         Second,
@@ -40,7 +48,7 @@ signals:
     void saveBtnPressed(int index);
     void requestExit();
     void menuNoFocus();
-    void cutImage();
+    void finishedCut();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);
@@ -82,7 +90,9 @@ public slots:
     QString  getCurrentType();
     void microAdjust(QString direction);
     void setShiftKeyPressed(bool isShift);
+    void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
+    void cutImage();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -120,6 +130,7 @@ private:
     bool m_blurEffectExist = false;
     bool m_mosaicEffectExist = false;
     bool m_clearAllTextBorder = false;
+    bool m_imageCutting = false;
 
     QColor m_penColor;
     QColor m_brushColor;
@@ -127,6 +138,7 @@ private:
     int m_textFontsize = 12;
     int m_blurLinewidth = 20;
 
+    Toolshape m_cutShape;
     Toolshape m_currentShape;
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
@@ -134,6 +146,7 @@ private:
     QMap<int, TextEdit*> m_editMap;
     void updateTextRect(TextEdit* edit, QRectF newRect);
     Toolshapes m_shapes;
+    CutImageTips* m_cutImageTips;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints, int index);
@@ -152,5 +165,7 @@ private:
                           QPainterPath oldpath);
     void paintPointList(QPainter &p, QList<QPointF> points);
     void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
+    void paintCutImageRect(QPainter &painter, FourPoints rectFPoints,
+                                                  CutRation ration, int index);
 };
 #endif // SHAPESWIDGET_H

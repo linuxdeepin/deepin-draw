@@ -186,9 +186,9 @@ void ImageView::initShapesWidget(QString shape)
     }
 
     m_shapesWidget->setCurrentShape(shape);
-    QRect coordinateRect = calculateImageScaledGeometry();
-    m_shapesWidget->resize(coordinateRect.width(), coordinateRect.height());
-    m_shapesWidget->move(coordinateRect.x(), coordinateRect.y());
+//    QRect coordinateRect = calculateImageScaledGeometry();
+    m_shapesWidget->resize(/*coordinateRect.*/width(), /*coordinateRect.*/height());
+    m_shapesWidget->move(0, 0);
     m_shapesWidget->show();
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,

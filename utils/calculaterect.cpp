@@ -4115,3 +4115,55 @@ FourPoints getMainPoints(QPointF point1, QPointF point2, bool isShift) {
 
     return fourPoints;
 }
+
+/**************** divie the rectangle into nine parts ********************/
+QList<QPointF> trisectionPoints(FourPoints fourPoints)
+{
+    QList<QPointF> pointsList;
+    QPointF point0 =  QPointF(
+                (fourPoints[0].x()*2 + fourPoints[1].x())/3,
+                (fourPoints[0].y()*2 + fourPoints[1].y())/3
+            );
+    QPointF point1 = QPointF(
+                (fourPoints[0].x() + fourPoints[1].x()*2)/3,
+                (fourPoints[0].y() + fourPoints[1].y()*2)/3
+            );
+
+    QPointF point2 = QPointF(
+                (fourPoints[1].x()*2 + fourPoints[3].x())/3,
+                (fourPoints[1].y()*2 + fourPoints[3].y())/3
+            );
+    QPointF point3 = QPointF(
+                (fourPoints[1].x() + fourPoints[3].x()*2)/3,
+                (fourPoints[1].y() + fourPoints[3].y()*2)/3
+            );
+
+    QPointF point4 = QPointF(
+                (fourPoints[3].x()*2 + fourPoints[2].x())/3,
+                (fourPoints[3].y()*2 + fourPoints[2].y())/3
+            );
+    QPointF point5 = QPointF(
+                (fourPoints[3].x() + fourPoints[2].x()*2)/3,
+                (fourPoints[3].y() + fourPoints[2].y()*2)/3
+            );
+
+    QPointF point6 = QPointF(
+                (fourPoints[2].x()*2 + fourPoints[0].x())/3,
+                (fourPoints[2].y()*2 + fourPoints[0].y())/3
+            );
+    QPointF point7 = QPointF(
+                (fourPoints[2].x() + fourPoints[0].x()*2)/3,
+                (fourPoints[2].y() + fourPoints[0].y()*2)/3
+            );
+
+    pointsList.append(point0);
+    pointsList.append(point1);
+    pointsList.append(point2);
+    pointsList.append(point3);
+    pointsList.append(point4);
+    pointsList.append(point5);
+    pointsList.append(point6);
+    pointsList.append(point7);
+
+    return pointsList;
+}
