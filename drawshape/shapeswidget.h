@@ -40,6 +40,7 @@ signals:
     void saveBtnPressed(int index);
     void requestExit();
     void menuNoFocus();
+    void cutImage();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);

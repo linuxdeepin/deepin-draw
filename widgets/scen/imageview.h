@@ -23,6 +23,8 @@ public:
     void setRenderer(RendererType type = Native);
     void drawBackground(QPainter *p, const QRectF &rect);
 
+    QRect calculateImageScaledGeometry();
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void setViewBackground(bool enable);
@@ -53,6 +55,11 @@ private:
 
     QImage m_image;
     QString m_currentPath;
+
+    QRectF m_imageRect;
+    QRect m_originRect;
+    qreal m_sx;
+    qreal m_sy;
 
     bool m_imageLoaded;
     bool m_shapesWidgetExist;

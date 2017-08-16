@@ -69,6 +69,8 @@ void ImageView::setImage(const QString &path)
 
     bool loadSvg = false;
 
+    m_originRect = this->viewport()->rect();
+
     if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path))
     {
         m_svgItem = new QGraphicsSvgItem(path);
@@ -76,6 +78,7 @@ void ImageView::setImage(const QString &path)
         m_svgItem->setCacheMode(QGraphicsItem::NoCache);
         m_svgItem->setZValue(0);
         loadSvg = true;
+        m_imageRect = m_svgItem->boundingRect();
 
         m_backgroundItem = new QGraphicsRectItem(m_svgItem->boundingRect());
         m_outlineItem = new QGraphicsRectItem(m_svgItem->boundingRect());
@@ -85,10 +88,13 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem = new QGraphicsPixmapItem(pixmap);
         m_pixmapItem->setZValue(0);
         loadSvg = false;
+        m_imageRect = m_pixmapItem->boundingRect();
 
+        qDebug() << "image size:" << pixmap.size() << m_pixmapItem->boundingRect() << this->viewport()->rect();
         m_backgroundItem = new QGraphicsRectItem(m_pixmapItem->boundingRect());
         m_outlineItem = new QGraphicsRectItem(m_pixmapItem->boundingRect());
     }
+
 
     m_imageLoaded = true;
     m_currentPath = path;
@@ -128,6 +134,22 @@ void ImageView::setRenderer(RendererType type)
     }
 }
 
+QRect ImageView::calculateImageScaledGeometry()
+{
+    m_sx = 1;
+    m_sy = 1;
+    const QTransform viewTransform = this->viewportTransform();
+    m_sx = viewTransform.m11();
+    m_sy = viewTransform.m22();
+
+    qreal scaledWidth = m_originRect.width()*m_sx;
+    qreal scaledHeight = m_originRect.height()*m_sx;
+    qreal width = qreal(m_imageRect.width()/m_originRect.width())*scaledWidth;
+    qreal height = qreal(m_imageRect.height()/m_originRect.height())*scaledHeight;
+
+    return QRect(viewTransform.m31(), viewTransform.m32(), int(width), int(height));
+}
+
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 {
 #ifndef QT_NO_OPENGL
@@ -164,15 +186,19 @@ void ImageView::initShapesWidget(QString shape)
     }
 
     m_shapesWidget->setCurrentShape(shape);
-
-    m_shapesWidget->resize(m_backgroundItem->rect().width(),
-                                                    m_backgroundItem->rect().height());
-    m_shapesWidget->move((width() - m_backgroundItem->rect().width())/2,
-                                                   (height() - m_backgroundItem->rect().height())/2);
+    QRect coordinateRect = calculateImageScaledGeometry();
+    m_shapesWidget->resize(coordinateRect.width(), coordinateRect.height());
+    m_shapesWidget->move(coordinateRect.x(), coordinateRect.y());
     m_shapesWidget->show();
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
             &ImageView::generateBlurEffect);
+    connect(m_shapesWidget, &ShapesWidget::cutImage, this, [=]{
+        QPixmap cutPixmap = this->grab(QRect(
+             m_pixmapItem->boundingRect().x(), m_pixmapItem->boundingRect().y(),
+             m_pixmapItem->boundingRect().width(), m_pixmapItem->boundingRect().height()));
+        cutPixmap.save("/tmp/cut.png", "PNG");
+    });
 }
 
 void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
@@ -272,5 +298,6 @@ void ImageView:: wheelEvent(QWheelEvent *event)
 {
     qreal factor = qPow(1.2, event->delta() / 240.0);
     scale(factor, factor);
+
     event->accept();
 }
