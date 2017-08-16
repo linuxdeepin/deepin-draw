@@ -434,23 +434,30 @@ void TopToolbar::initStackWidget() {
 
     //process  artboard's size.
     m_adjustsizeWidget = new QWidget(this);
-    QLabel* casLengthLabel = new QLabel(this);
-    casLengthLabel->setObjectName("CasLengthLabel");
+    QLabel* casWidthLabel = new QLabel(this);
+    casWidthLabel->setObjectName("CasWidthLabel");
+    casWidthLabel->setText(tr("Canvas width"));
+
     QLineEdit* lengthLEdit = new QLineEdit(this);
     lengthLEdit->setObjectName("LengthLineEdit");
     lengthLEdit->setStyleSheet("background-color: red;");
-    QLabel* casWidthLabel = new QLabel(this);
-    casWidthLabel->setObjectName("CasWidthLabel");
+
+    QLabel* casHeightLabel = new QLabel(this);
+    casHeightLabel->setObjectName("CasHeightLabel");
+    casHeightLabel->setText(tr("Canvas height"));
     QLineEdit* widthLEdit = new QLineEdit(this);
     widthLEdit->setObjectName("WidthLineEdit");
-    QLineEdit* cutTransAreaLEdit = new QLineEdit(this);
-    cutTransAreaLEdit->setObjectName("CutAreaLineEdit");
+
+    ToolButton* cutTransAreaBtn = new ToolButton(this);
+    cutTransAreaBtn->setFixedWidth(100);
+    cutTransAreaBtn->setObjectName("CutAreaLineEdit");
+    cutTransAreaBtn->setText(tr("裁剪透明区域"));
     QHBoxLayout* picHbLayout = new QHBoxLayout(m_adjustsizeWidget);
-    picHbLayout->addWidget(casLengthLabel);
-    picHbLayout->addWidget(lengthLEdit);
     picHbLayout->addWidget(casWidthLabel);
+    picHbLayout->addWidget(lengthLEdit);
+    picHbLayout->addWidget(casHeightLabel);
     picHbLayout->addWidget(widthLEdit);
-    picHbLayout->addWidget(cutTransAreaLEdit);
+    picHbLayout->addWidget(cutTransAreaBtn);
     m_adjustsizeWidget->setLayout(picHbLayout);
     m_stackWidget->addWidget(m_adjustsizeWidget);
 
