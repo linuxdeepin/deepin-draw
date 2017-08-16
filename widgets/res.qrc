@@ -72,9 +72,6 @@
         <file>theme/light/images/draw/straight_line_hover.png</file>
         <file>theme/light/images/draw/straight_line_normal.png</file>
         <file>theme/light/images/logo.png</file>
-        <file>theme/light/images/action/import_active.png</file>
-        <file>theme/light/images/action/import_hover.png</file>
-        <file>theme/light/images/action/import_normal.png</file>
         <file>theme/light/images/action/line_normal.png</file>
         <file>theme/light/TopToolbar.qss</file>
         <file>theme/dark/TopToolbar.qss</file>
@@ -89,5 +86,8 @@
         <file>theme/light/images/draw/reduce_normal.png</file>
         <file>theme/light/images/draw/reduce_hover.png</file>
         <file>theme/light/TextFontLabel.qss</file>
+        <file>theme/light/images/action/picture_active.png</file>
+        <file>theme/light/images/action/picture_normal.png</file>
+        <file>theme/light/images/action/picture_hover.png</file>
     </qresource>
 </RCC>

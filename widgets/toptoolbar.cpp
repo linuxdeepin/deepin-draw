@@ -30,50 +30,36 @@ TopToolbar::TopToolbar(QWidget* parent)
     logoLabel->setFixedSize(24, 25);
     logoLabel->setObjectName("LogoLabel");
 
-    ToolButton* artBoardBtn = new ToolButton(this);
-    artBoardBtn->setObjectName("ArtBoardBtn");
-    ToolButton* importBtn = new ToolButton(this);
-    importBtn->setObjectName("ImportBtn");
-    importBtn->setCheckable(false);
-    connect(importBtn, &ToolButton::clicked, this, &TopToolbar::importImage);
-
     QButtonGroup* shapesBtnGroup = new QButtonGroup(this);
     shapesBtnGroup->setExclusive(true);
+
+    ToolButton* artBoardBtn = new ToolButton(this);
+    artBoardBtn->setObjectName("ArtBoardBtn");
+    shapesBtnGroup->addButton(artBoardBtn);
+
+    ToolButton* picBtn = new ToolButton(this);
+    picBtn->setObjectName("PictureBtn");
+    shapesBtnGroup->addButton(picBtn);
 
     ToolButton* rectBtn = new ToolButton(this);
     rectBtn->setObjectName("RectBtn");
     shapesBtnGroup->addButton(rectBtn);
-    connect(rectBtn, &ToolButton::clicked, this,  [=]{
-        drawShapes("rectangle");
-    });
 
     ToolButton* ovalBtn = new ToolButton(this);
     ovalBtn->setObjectName("OvalBtn");
     shapesBtnGroup->addButton(ovalBtn);
-    connect(ovalBtn, &ToolButton::clicked, this, [=]{
-        drawShapes("oval");
-    });
 
     ToolButton* lineBtn = new ToolButton(this);
     lineBtn->setObjectName("LineBtn");
     shapesBtnGroup->addButton(lineBtn);
-    connect(lineBtn, &ToolButton::clicked, this, [=]{
-        drawShapes("arbitraryCurve");
-    });
 
     ToolButton* textBtn = new ToolButton(this);
     textBtn->setObjectName("TextBtn");
     shapesBtnGroup->addButton(textBtn);
-    connect(textBtn, &ToolButton::clicked, this, [=]{
-        drawShapes("text");
-    });
 
     ToolButton* blurBtn = new ToolButton(this);
     blurBtn->setObjectName("BlurBtn");
     shapesBtnGroup->addButton(blurBtn);
-    connect(blurBtn, &ToolButton::clicked, this, [=]{
-        drawShapes("blur");
-    });
 
     initStackWidget();
 
@@ -87,7 +73,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(15);
     mLayout->addWidget(artBoardBtn);
     mLayout->addSpacing(20);
-    mLayout->addWidget(importBtn);
+    mLayout->addWidget(picBtn);
     mLayout->addWidget(rectBtn);
     mLayout->addWidget(ovalBtn);
     mLayout->addWidget(lineBtn);
@@ -100,26 +86,31 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
-    connect(importBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_cutWidget);
+    connect(picBtn, &ToolButton::clicked, this, [=]{
+        setMiddleStackWidget(Status::Cut);
     });
     connect(rectBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_fillShapeWidget);
+         setMiddleStackWidget(Status::FillShape);
+         drawShapes("rectangle");
     });
     connect(ovalBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_fillShapeWidget);
+        setMiddleStackWidget(Status::FillShape);
+        drawShapes("oval");
     });
     connect(lineBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+        setMiddleStackWidget(Status::DrawLine);
+        drawShapes("arbitraryCurve");
     });
     connect(textBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+        setMiddleStackWidget(Status::DrawText);
+        drawShapes("text");
     });
     connect(blurBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+        setMiddleStackWidget(Status::DrawBlur);
+        drawShapes("blur");
     });
     connect(artBoardBtn, &ToolButton::clicked, this, [=]{
-        m_stackWidget->setCurrentWidget(m_adjustsizeWidget);
+        setMiddleStackWidget(Status::AdjustSize);
     });
 }
 

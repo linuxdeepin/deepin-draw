@@ -6,8 +6,6 @@ QLabel#LogoLabel {
 border-image: url(:/theme/light/images/logo.png);
 }
 
-
-
 QPushButton#ArtBoardBtn {
 border-image: url(:/theme/light/images/action/artboard_normal.png);
 }
@@ -25,20 +23,20 @@ border-image: url(:/theme/light/images/action/artboard_active.png);
 }
 
 
-QPushButton#ImportBtn {
-    border-image: url(:/theme/light/images/action/import_normal.png);
+QPushButton#PictureBtn {
+    border-image: url(:/theme/light/images/action/picture_normal.png);
 }
 
-QPushButton#ImportBtn:hover {
+QPushButton#PictureBtn:hover {
 outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/action/import_hover.png);
+border-image: url(:/theme/light/images/action/picture_hover.png);
 }
 
-QPushButton#ImportBtn:pressed{
-border-image: url(:/theme/light/images/action/import_active.png);
+QPushButton#PictureBtn:checked{
+border-image: url(:/theme/light/images/action/picture_active.png);
 }
 
 QPushButton#RectBtn {
