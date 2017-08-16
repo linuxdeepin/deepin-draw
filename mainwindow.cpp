@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
 
      connect(m_topToolbar, &TopToolbar::mirroredImage,
              m_mainWidget, &MainWidget::mirroredImage);
+     connect(m_topToolbar, &TopToolbar::cutImage,
+             m_mainWidget, &MainWidget::cutImage);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

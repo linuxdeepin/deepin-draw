@@ -71,6 +71,8 @@ TopToolbar::TopToolbar(QWidget* parent)
     ToolButton* exportBtn = new ToolButton(this);
     exportBtn->setObjectName("ExportBtn");
 
+    initMenu();
+
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(10);
@@ -95,8 +97,8 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(Status::Cut);
     });
     connect(rectBtn, &ToolButton::clicked, this, [=]{
-         setMiddleStackWidget(Status::FillShape);
-         drawShapes("rectangle");
+        setMiddleStackWidget(Status::FillShape);
+        drawShapes("rectangle");
     });
     connect(ovalBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::FillShape);
@@ -119,20 +121,22 @@ TopToolbar::TopToolbar(QWidget* parent)
     });
 }
 
-void TopToolbar::importImage() {
+void TopToolbar::importImage()
+{
     QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
 
     m_path = QFileDialog::getOpenFileName(this, tr("Open Image"),
-             QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-             tr("Image Files (*.png *.jpg *.bmp, *svg)"));
+                                          QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                          tr("Image Files (*.png *.jpg *.bmp, *svg)"));
 
     emit openImage(m_path);
 }
 
-void TopToolbar::initStackWidget() {
+void TopToolbar::initStackWidget()
+{
     m_stackWidget = new QStackedWidget(this);
     //empty widget
     m_emptyWidget = new QWidget(this);
@@ -147,7 +151,7 @@ void TopToolbar::initStackWidget() {
     btnInfoMap.insert(4, "FlipVerticalBtn");
     QStringList btnTextList;
     btnTextList << tr("Rotate 90° CCW") << tr("Rotate 90° CW") << tr("Clip")
-                          << tr("Flip horizontally") << tr("FlipVertically");
+                << tr("Flip horizontally") << tr("FlipVertically");
     QList<PushButton*> btnList;
     QMap<int, QString>::const_iterator i = btnInfoMap.constBegin();
     while (i != btnInfoMap.constEnd()) {
@@ -167,6 +171,11 @@ void TopToolbar::initStackWidget() {
                 emit rotateImage(m_path, 90);
             });
         }
+        if (i.key() == 2) {
+            connect(btn, &PushButton::clicked, this, [=]{
+                emit cutImage();
+            });
+        }
         if (i.key() == 3) {
             connect(btn, &PushButton::clicked, this, [=]{
                 emit mirroredImage(true, false);
@@ -183,13 +192,13 @@ void TopToolbar::initStackWidget() {
     for(int k = 0; k < btnList.length(); k++) {
         connect(btnList[k], &PushButton::clicked, this, [=]{
             if (btnList[k]->getChecked()) {
-                 for (int j = 0; j < k; j++) {
-                     btnList[j]->setChecked(false);
-                 }
+                for (int j = 0; j < k; j++) {
+                    btnList[j]->setChecked(false);
+                }
 
-                 for(int p = k + 1; p < btnList.length(); p++) {
-                     btnList[p]->setChecked(false);
-                 }
+                for(int p = k + 1; p < btnList.length(); p++) {
+                    btnList[p]->setChecked(false);
+                }
             } else {
                 qDebug() << "Btn exclusive failed" << k;
             }
@@ -260,7 +269,7 @@ void TopToolbar::initStackWidget() {
     QList<ToolButton*> lwBtnList;
     QStringList lwBtnNameList;
     lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
-                                 << "MediumLineBtn" << "BoldLineBtn";
+                  << "MediumLineBtn" << "BoldLineBtn";
     QButtonGroup* lwBtnGroup = new QButtonGroup(this);
     lwBtnGroup->setExclusive(true);
     for (int i = 0; i < lwBtnNameList.length(); i++) {
@@ -407,20 +416,18 @@ void TopToolbar::initStackWidget() {
 
     //draw blur widget.
     m_drawBlurWidget = new QWidget(this);
-    QLabel* penLabel = new QLabel(this);
+    QLabel* penLabel = new QLabel;
     penLabel->setText(tr("Width"));
-    ToolButton* fineBtn = new ToolButton(this);
+    ToolButton* fineBtn = new ToolButton;
     fineBtn->setObjectName("LineMostThinBtn");
 
-    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
+    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal);
     lineWidthSlider->setMinimum(20);
     lineWidthSlider->setMaximum(160);
-    connect(lineWidthSlider, &QSlider::valueChanged, this, [=]{
-        qDebug() << "lineWidth Slider:" << lineWidthSlider->value();
-        emit blurLineWidthChanged(lineWidthSlider->value());
-    });
+    connect(lineWidthSlider, &QSlider::valueChanged, this,
+            &TopToolbar::blurLineWidthChanged);
 
-    ToolButton* boldBtn = new ToolButton(this);
+    ToolButton* boldBtn = new ToolButton;
     boldBtn->setObjectName("LineThickLineBtn");
     QHBoxLayout* blurHbLayout = new QHBoxLayout(m_drawBlurWidget);
     blurHbLayout->addWidget(penLabel);
@@ -438,15 +445,21 @@ void TopToolbar::initStackWidget() {
     casWidthLabel->setObjectName("CasWidthLabel");
     casWidthLabel->setText(tr("Canvas width"));
 
-    QLineEdit* lengthLEdit = new QLineEdit(this);
-    lengthLEdit->setObjectName("LengthLineEdit");
-    lengthLEdit->setStyleSheet("background-color: red;");
+    QLineEdit* widthLEdit = new QLineEdit(this);
+    widthLEdit->setObjectName("WidthLineEdit");
+    widthLEdit->setFixedWidth(80);
+    widthLEdit->setStyleSheet("background-color: red;");
+    QLabel* unitWLabel = new QLabel(this);
+    unitWLabel->setText("px");
 
     QLabel* casHeightLabel = new QLabel(this);
     casHeightLabel->setObjectName("CasHeightLabel");
     casHeightLabel->setText(tr("Canvas height"));
-    QLineEdit* widthLEdit = new QLineEdit(this);
-    widthLEdit->setObjectName("WidthLineEdit");
+    QLineEdit* heightLEdit = new QLineEdit(this);
+    heightLEdit->setObjectName("HeightLineEdit");
+    heightLEdit->setFixedWidth(80);
+    QLabel* unitHLabel = new QLabel(this);
+    unitHLabel->setText("px");
 
     ToolButton* cutTransAreaBtn = new ToolButton(this);
     cutTransAreaBtn->setFixedWidth(100);
@@ -454,9 +467,12 @@ void TopToolbar::initStackWidget() {
     cutTransAreaBtn->setText(tr("裁剪透明区域"));
     QHBoxLayout* picHbLayout = new QHBoxLayout(m_adjustsizeWidget);
     picHbLayout->addWidget(casWidthLabel);
-    picHbLayout->addWidget(lengthLEdit);
-    picHbLayout->addWidget(casHeightLabel);
     picHbLayout->addWidget(widthLEdit);
+    picHbLayout->addWidget(unitWLabel);
+    picHbLayout->addSpacing(6);
+    picHbLayout->addWidget(casHeightLabel);
+    picHbLayout->addWidget(heightLEdit);
+    picHbLayout->addWidget(unitHLabel);
     picHbLayout->addWidget(cutTransAreaBtn);
     m_adjustsizeWidget->setLayout(picHbLayout);
     m_stackWidget->addWidget(m_adjustsizeWidget);
@@ -464,66 +480,18 @@ void TopToolbar::initStackWidget() {
     m_stackWidget->setCurrentWidget(m_emptyWidget);
 }
 
-void TopToolbar::setMiddleStackWidget(Status status) {
-    switch (status) {
-    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
-    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
-    case DrawLine: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
-    case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
-    case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
-    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
-    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
-    default: break;
-    }
-}
+void TopToolbar::initMenu()
+{
+    m_mainMenu = new QMenu(this);
+    QAction* importAc = m_mainMenu->addAction(tr("Import"));
+//    QAction* importFScannerAc = m_mainMenu->addAction(tr("Import from scanner"));
+    QAction* saveAc = m_mainMenu->addAction(tr("Save"));
+    QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
+    QAction* printAc = m_mainMenu->addAction(tr("Print"));
+    QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
+    QAction* helpAc = m_mainMenu->addAction(tr("Help"));
 
-void TopToolbar::setDrawStatus(DrawStatus drawstatus) {
-    m_drawStatus = drawstatus;
-}
-
-void TopToolbar::drawShapes(QString shape) {
-    if (!m_shapesWidgetExist) {
-        emit initShapeWidgetAction(shape);
-        m_shapesWidgetExist = true;
-    } else {
-        emit initShapeWidgetAction(shape);
-    }
-}
-
-void TopToolbar::setShapesColor(QColor color) {
-    qDebug() << "TopToolbar:" << color;
-    if (m_drawStatus == DrawStatus::Fill) {
-        emit shapesColorChanged(DrawStatus::Fill, color);
-    } else {
-        emit shapesColorChanged(DrawStatus::Stroke, color);
-    }
-}
-
-void TopToolbar::setLineShape(int lineIndex) {
-    qDebug() << "TopToolbar: setLineShape lineIndex:" << lineIndex;
-    switch (lineIndex) {
-    case 0: { emit lineShapeChanged("straightLine"); break;}
-    case 1: { emit lineShapeChanged("arbitraryCurve"); break;}
-    case 2: { emit lineShapeChanged("arrow"); break;}
-    default: break;
-    }
-}
-
-bool TopToolbar::shapesWidgetExist() {
-    return m_shapesWidgetExist;
-}
-
-QMenu* TopToolbar::mainMenu() {
-    QMenu* menu = new QMenu(this);
-    QAction* importAc = menu->addAction(tr("Import"));
-    QAction* importFScannerAc = menu->addAction(tr("Import from scanner"));
-    QAction* saveAc = menu->addAction(tr("Save"));
-    QAction* saveAsAc = menu->addAction(tr("Save as"));
-    QAction* printAc = menu->addAction(tr("Print"));
-    QAction* themeAc = menu->addAction(tr("Dark theme"));
-    QAction* helpAc = menu->addAction(tr("Help"));
-
-    Q_UNUSED(importFScannerAc);
+//    Q_UNUSED(importFScannerAc);
     Q_UNUSED(saveAc);
     Q_UNUSED(saveAsAc);
     Q_UNUSED(printAc);
@@ -534,14 +502,75 @@ QMenu* TopToolbar::mainMenu() {
                 " You can freely draw on the layer or simplely edit images. "
                 "Deepin Draw is released under GPL v3."));
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
-
-    return menu;
 }
 
-void TopToolbar::resizeEvent(QResizeEvent *event) {
+void TopToolbar::setMiddleStackWidget(Status status)
+{
+    switch (status)
+    {
+    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
+    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
+    case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
+    case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
+    case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
+    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
+    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
+    default: break;
+    }
+}
+
+void TopToolbar::setDrawStatus(DrawStatus drawstatus)
+{
+    m_drawStatus = drawstatus;
+}
+
+void TopToolbar::drawShapes(QString shape)
+{
+    if (!m_shapesWidgetExist) {
+        emit initShapeWidgetAction(shape);
+        m_shapesWidgetExist = true;
+    } else {
+        emit initShapeWidgetAction(shape);
+    }
+}
+
+void TopToolbar::setShapesColor(QColor color)
+{
+    qDebug() << "TopToolbar:" << color;
+    if (m_drawStatus == DrawStatus::Fill) {
+        emit shapesColorChanged(DrawStatus::Fill, color);
+    } else {
+        emit shapesColorChanged(DrawStatus::Stroke, color);
+    }
+}
+
+void TopToolbar::setLineShape(int lineIndex)
+{
+    qDebug() << "TopToolbar: setLineShape lineIndex:" << lineIndex;
+    switch (lineIndex) {
+    case 0: { emit lineShapeChanged("straightLine"); break;}
+    case 1: { emit lineShapeChanged("arbitraryCurve"); break;}
+    case 2: { emit lineShapeChanged("arrow"); break;}
+    default: break;
+    }
+}
+
+bool TopToolbar::shapesWidgetExist()
+{
+    return m_shapesWidgetExist;
+}
+
+QMenu* TopToolbar::mainMenu()
+{
+    return m_mainMenu;
+}
+
+void TopToolbar::resizeEvent(QResizeEvent *event)
+{
     this->updateGeometry();
     Q_UNUSED(event);
 }
 
-TopToolbar::~TopToolbar() {
+TopToolbar::~TopToolbar()
+{
 }

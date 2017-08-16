@@ -31,6 +31,7 @@ public:
     };
 
     void initStackWidget();
+    void initMenu();
     bool shapesWidgetExist();
 
     QMenu* mainMenu();
@@ -39,6 +40,7 @@ signals:
     void openImage(QString imageFileName);
     void rotateImage(const QString &imagePath, int degree);
     void mirroredImage(bool horizonta, bool vertical);
+    void cutImage();
     void  initShapeWidgetAction(const QString &shape);
     void shapesColorChanged(DrawStatus drawstatus, QColor);
     void shapesLineWidthChanged(int lineWidth);
@@ -76,6 +78,8 @@ private:
 
     Status            m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
+
+    QMenu* m_mainMenu;
 };
 
 #endif // TOPTOOLBAR_H

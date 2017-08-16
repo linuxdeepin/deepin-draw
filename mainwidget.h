@@ -27,6 +27,7 @@ signals:
     void blurLinewidthChanged(int linewidth);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
+    void cutImage();
 
 protected:
     void resizeEvent(QResizeEvent* event);

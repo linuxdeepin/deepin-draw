@@ -39,7 +39,8 @@ public slots:
 
     void rotateImage(const QString &path, int degree);
     void generateBlurEffect(const QString &type);
-    void mirroredImage(bool horizontal = false, bool vertical = true) /*const*/;
+    void mirroredImage(bool horizontal = false, bool vertical = true);
+    void cutImage();
 
 protected:
     void wheelEvent(QWheelEvent *event);

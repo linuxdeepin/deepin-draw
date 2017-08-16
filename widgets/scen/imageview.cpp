@@ -215,21 +215,33 @@ void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
 
 void ImageView::updateShapesLineWidth(int linewidth)
 {
+    if (!m_shapesWidgetExist)
+        return;
+
     m_shapesWidget->setLineWidth(linewidth);
 }
 
 void ImageView::updateLineShapes(QString lineShape)
 {
-      m_shapesWidget->setCurrentShape(lineShape);
+    if (!m_shapesWidgetExist)
+        return;
+
+    m_shapesWidget->setCurrentShape(lineShape);
 }
 
 void ImageView::updateTextFontsize(int fontsize)
 {
+    if (!m_shapesWidgetExist)
+        return;
+
     m_shapesWidget->setTextFontsize(fontsize);
 }
 
 void ImageView::updateBlurLinewidth(int linewidth)
 {
+    if (m_shapesWidgetExist)
+        return;
+
     m_shapesWidget->setBlurLinewidth(linewidth);
 }
 
@@ -273,6 +285,14 @@ void ImageView::mirroredImage(bool horizontal, bool vertical) /*const*/
     originImage = originImage.mirrored(horizontal,vertical);
     originImage.save("/tmp/abc.png", "PNG");
     this->setImage("/tmp/abc.png");
+}
+
+void ImageView::cutImage()
+{
+    if (m_currentPath.isEmpty())
+        return;
+
+
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
