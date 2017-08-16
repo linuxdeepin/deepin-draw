@@ -12,6 +12,8 @@
 #include <QMenu>
 #include <QDebug>
 
+#include <DApplication>
+
 #include "utils/global.h"
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
@@ -20,6 +22,8 @@
 #include "widgets/toolbutton.h"
 
 #include "textfontlabel.h"
+
+DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent),
@@ -512,6 +516,16 @@ QMenu* TopToolbar::mainMenu() {
     QAction* themeAc = menu->addAction(tr("Dark theme"));
     QAction* helpAc = menu->addAction(tr("Help"));
 
+    Q_UNUSED(importFScannerAc);
+    Q_UNUSED(saveAc);
+    Q_UNUSED(saveAsAc);
+    Q_UNUSED(printAc);
+    Q_UNUSED(themeAc);
+    Q_UNUSED(helpAc);
+   qApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw.png"));
+   qApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
+                " You can freely draw on the layer or simplely edit images. "
+                "Deepin Draw is released under GPL v3."));
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
 
     return menu;
@@ -519,6 +533,7 @@ QMenu* TopToolbar::mainMenu() {
 
 void TopToolbar::resizeEvent(QResizeEvent *event) {
     this->updateGeometry();
+    Q_UNUSED(event);
 }
 
 TopToolbar::~TopToolbar() {

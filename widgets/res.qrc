@@ -89,5 +89,6 @@
         <file>theme/light/images/action/picture_active.png</file>
         <file>theme/light/images/action/picture_normal.png</file>
         <file>theme/light/images/action/picture_hover.png</file>
+        <file>theme/common/images/deepin-draw.png</file>
     </qresource>
 </RCC>
