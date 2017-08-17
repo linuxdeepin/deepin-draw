@@ -9,5 +9,7 @@
         <file>theme/light/images/mouse_style/shape/start_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/text_mouse.png</file>
         <file>theme/light/CutImageTips.qss</file>
+        <file>theme/light/images/size/resize_handle_big.png</file>
+        <file>theme/light/images/size/rotate.png</file>
     </qresource>
 </RCC>

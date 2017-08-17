@@ -13,6 +13,8 @@
 
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
+const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.png";
+const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
@@ -33,6 +35,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     m_brushColor = QColor(Qt::red);
     m_linewidth = 2;
     m_cutImageTips = new CutImageTips(this);
+
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
 //    connect(m_menuController, &MenuController::saveBtnPressed,
@@ -110,7 +113,8 @@ void ShapesWidget::setPenColor(QColor color)
 {
     m_penColor = color;
     qDebug() << "ShapesWidget:" << m_penColor;
-    if ( !m_currentType.isEmpty()) {
+    if ( !m_currentType.isEmpty())
+    {
         qDebug() << "ShapesWidget setPenColor:" << m_currentType;
 //        ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
     }
@@ -182,13 +186,13 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         bool currentOnShape = false;
         if (m_shapes[i].type == "rectangle") {
             if (clickedOnRect(m_shapes[i].mainPoints, pos,
-                              m_shapes[i].isBlur || m_shapes[i].isMosaic)) {
+                              m_shapes[i].fillColor != QColor(Qt::transparent))) {
                 currentOnShape = true;
             }
         }
         if (m_shapes[i].type == "oval") {
             if (clickedOnEllipse(m_shapes[i].mainPoints, pos,
-                                 m_shapes[i].isBlur || m_shapes[i].isMosaic)) {
+                                 m_shapes[i].fillColor != QColor(Qt::transparent))) {
                 currentOnShape = true;
             }
         }
@@ -227,7 +231,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     //TODO: selectUnique
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
-         QPointF pos, bool isBlurMosaic)
+         QPointF pos, bool isFilled)
 {
     m_isSelected = false;
     m_isResize = false;
@@ -310,7 +314,7 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
         m_resizeDirection = Moving;
         m_pressedPoint = pos;
         return true;
-    } else if(isBlurMosaic && pointInRect(rectPoints, pos)) {
+    } else if(isFilled && pointInRect(rectPoints, pos)) {
         m_isSelected = true;
         m_isResize = false;
         m_resizeDirection = Moving;
@@ -326,7 +330,7 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
 }
 
 bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints,
-                                    QPointF pos, bool isBlurMosaic)
+                                    QPointF pos, bool isFilled)
 {
     m_isSelected = false;
     m_isResize = false;
@@ -404,7 +408,7 @@ bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints,
             m_resizeDirection = Moving;
             m_pressedPoint = pos;
             return true;
-    } else if(isBlurMosaic && pointInRect(mainPoints, pos)) {
+    } else if(isFilled && pointInRect(mainPoints, pos)) {
         m_isSelected = true;
         m_isResize = false;
         m_resizeDirection = Moving;
@@ -1679,7 +1683,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         qDebug() << "hoveredShape type:" << m_hoveredShape.type;
     }
 
-    QPixmap resizePointImg(":/images/size/resize_handle_big.png");
+    QPixmap resizePointImg(RESIZE_POINT_IMG);
     if (m_selectedShape.type == "arrow" &&
             m_selectedShape.points.length() == 2) {
         paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
@@ -1709,7 +1713,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
                 paintRect(painter,  m_selectedShape.mainPoints, -1);
             }
 
-            QPixmap rotatePointImg(":/images/size/rotate.png");
+            QPixmap rotatePointImg(ROTATE_POINT_IMG);
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);
 
             for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {

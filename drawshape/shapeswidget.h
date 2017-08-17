@@ -44,6 +44,33 @@ signals:
     void finishedCut();
     void cutImage(QRect cutRect);
 
+public:
+    void clearSelected();
+    void setAllTextEditReadOnly();
+
+    void handleDrag(QPointF oldPoint, QPointF newPoint);
+    void handleRotate(QPointF pos);
+    void handleResize(QPointF pos, int key);
+
+    bool clickedOnShapes(QPointF pos);
+    bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
+    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
+    bool clickedOnArrow(QList<QPointF> points, QPointF pos);
+    bool clickedOnLine(FourPoints mainPoints,
+                                         QList<QPointF> points, QPointF pos);
+    bool clickedOnText(FourPoints mainPoints, QPointF pos);
+    bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
+
+    bool hoverOnShapes(Toolshape toolShape, QPointF pos);
+    bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+    bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
+    bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool hoverOnArrow(QList<QPointF> points, QPointF pos);
+    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool hoverOnText(FourPoints mainPoints, QPointF pos);
+    void deleteCurrentShape();
+    QString  getCurrentType();
+
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);
     void setCurrentShape(QString shapeType);
@@ -53,35 +80,11 @@ public slots:
     void setLineWidth(int linewidth);
     void setTextFontsize(int fontsize);
     void setBlurLinewidth(int linewidth);
-    void clearSelected();
-    void setAllTextEditReadOnly();
+
     void saveActionTriggered();
-
-    void handleDrag(QPointF oldPoint, QPointF newPoint);
-    void handleRotate(QPointF pos);
-    void handleResize(QPointF pos, int key);
-
-    bool clickedOnShapes(QPointF pos);
-    bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isBlurMosaic = false);
-    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isBlurMosaic = false);
-    bool clickedOnArrow(QList<QPointF> points, QPointF pos);
-    bool clickedOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
-    bool clickedOnText(FourPoints mainPoints, QPointF pos);
-    bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
-
-    bool hoverOnShapes(Toolshape toolShape, QPointF pos);
-    bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
-    bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
-    bool hoverOnArrow(QList<QPointF> points, QPointF pos);
-    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
-    bool hoverOnText(FourPoints mainPoints, QPointF pos);
-
-    bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
     bool textEditIsReadOnly();
 
     void undoDrawShapes();
-    void deleteCurrentShape();
-    QString  getCurrentType();
     void microAdjust(QString direction);
     void setShiftKeyPressed(bool isShift);
     void updateCursorDirection(ResizeDirection direction);
@@ -147,7 +150,7 @@ private:
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index);
 
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
-                    int lineWidth, bool isStraight = false);
+                                    int lineWidth, bool isStraight = false);
     void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints, int lineWidth);
 
     void paintArbitraryCurve(QPainter &painter, QList<QPointF> lineFPoints);
