@@ -1,0 +1,26 @@
+QLabel#RationLabel {
+    background-color: rgba(255, 255, 255, 25);
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+RationButton{
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: white;
+}
+
+RationButton:hover {
+    background-color: rgba(255, 255, 255, 50);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: white;
+}
+
+RationButton:checked {
+    background-color: rgba(255, 255, 255, 100);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: rgb(25, 169, 255);
+}

@@ -70,6 +70,7 @@ void ImageView::setImage(const QString &path)
     bool loadSvg = false;
 
     m_originRect = this->viewport()->rect();
+    qDebug() << "origin Rect:" << m_originRect;
 
     if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path))
     {
@@ -134,7 +135,7 @@ void ImageView::setRenderer(RendererType type)
     }
 }
 
-QRect ImageView::calculateImageScaledGeometry()
+void ImageView::calculateImageScaledGeometry()
 {
     m_sx = 1;
     m_sy = 1;
@@ -146,8 +147,10 @@ QRect ImageView::calculateImageScaledGeometry()
     qreal scaledHeight = m_originRect.height()*m_sx;
     qreal width = qreal(m_imageRect.width()/m_originRect.width())*scaledWidth;
     qreal height = qreal(m_imageRect.height()/m_originRect.height())*scaledHeight;
+    qDebug() << m_sx << m_sy << width << height;
 
-    return QRect(viewTransform.m31(), viewTransform.m32(), int(width), int(height));
+    m_imageScaledRect = QRect(viewTransform.m31(),
+                                                         viewTransform.m32(), int(width), int(height));
 }
 
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
@@ -186,19 +189,27 @@ void ImageView::initShapesWidget(QString shape)
     }
 
     m_shapesWidget->setCurrentShape(shape);
-//    QRect coordinateRect = calculateImageScaledGeometry();
+    calculateImageScaledGeometry();
     m_shapesWidget->resize(/*coordinateRect.*/width(), /*coordinateRect.*/height());
     m_shapesWidget->move(0, 0);
     m_shapesWidget->show();
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
             &ImageView::generateBlurEffect);
-    connect(m_shapesWidget, &ShapesWidget::cutImage, this, [=]{
-        QPixmap cutPixmap = this->grab(QRect(
-             m_pixmapItem->boundingRect().x(), m_pixmapItem->boundingRect().y(),
-             m_pixmapItem->boundingRect().width(), m_pixmapItem->boundingRect().height()));
+
+    connect(m_shapesWidget, &ShapesWidget::cutImage, this, [=](QRect cutAreaRect){
+        QRect coordinateRect =  m_imageScaledRect;
+        QRect cutRect = coordinateRect.intersected(cutAreaRect);
+
+        qDebug() << "imageview cutRect:" << coordinateRect << cutAreaRect << cutRect;
+
+        QPixmap cutPixmap = this->grab(cutRect);
         cutPixmap.save("/tmp/cut.png", "PNG");
+        m_shapesWidget->hide();
+        qDebug() << "cutPixmap:" << cutPixmap.size();
     });
+
+
 }
 
 void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)

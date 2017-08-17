@@ -1,30 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/mouse_style/shape/arrow_mouse.png</file>
-        <file>images/mouse_style/shape/ellipse_mouse.png</file>
-        <file>images/mouse_style/shape/line_mouse.png</file>
-        <file>images/mouse_style/shape/rect_mouse.png</file>
-        <file>images/mouse_style/shape/rotate_mouse.png</file>
-        <file>images/mouse_style/shape/start_mouse.png</file>
-        <file>images/mouse_style/shape/text_mouse.png</file>
-        <file>images/size/resize_handle_big.png</file>
-        <file>images/size/rotate.png</file>
-        <file>images/mouse_style/color_pen/color0.png</file>
-        <file>images/mouse_style/color_pen/color1.png</file>
-        <file>images/mouse_style/color_pen/color2.png</file>
-        <file>images/mouse_style/color_pen/color3.png</file>
-        <file>images/mouse_style/color_pen/color4.png</file>
-        <file>images/mouse_style/color_pen/color5.png</file>
-        <file>images/mouse_style/color_pen/color6.png</file>
-        <file>images/mouse_style/color_pen/color7.png</file>
-        <file>images/mouse_style/color_pen/color8.png</file>
-        <file>images/mouse_style/color_pen/color9.png</file>
-        <file>images/mouse_style/color_pen/color10.png</file>
-        <file>images/mouse_style/color_pen/color11.png</file>
-        <file>images/mouse_style/color_pen/color12.png</file>
-        <file>images/mouse_style/color_pen/color13.png</file>
-        <file>images/mouse_style/color_pen/color14.png</file>
-        <file>images/mouse_style/color_pen/color15.png</file>
-        <file>images/mouse_style/shape/pickcolor_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/arrow_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/ellipse_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/line_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/pickcolor_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/rect_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/rotate_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/start_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/text_mouse.png</file>
+        <file>theme/light/CutImageTips.qss</file>
     </qresource>
 </RCC>

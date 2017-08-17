@@ -21,6 +21,14 @@ enum ResizeDirection {
     Outting,
 };
 
+enum CutRation {
+    Ration4_3,
+    Ration8_5,
+    Ration16_9,
+    Ration1_1,
+    FreeRation,
+};
+
 enum DrawStatus {
     Fill,
     Stroke,

@@ -1208,16 +1208,16 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             for (int i = 0; i < m_shapes.length(); i++) {
                 m_hoveredIndex = m_shapes[i].index;
 
-                 if (hoverOnShapes(m_shapes[i],  e->pos())) {
-                     m_isHovered = true;
-                     m_hoveredShape = m_shapes[i];
-                     updateCursorDirection(m_resizeDirection);
-                     update();
-                     break;
-                 } else {
-                     updateCursorShape();
-                     update();
-                 }
+                if (hoverOnShapes(m_shapes[i],  e->pos())) {
+                    m_isHovered = true;
+                    m_hoveredShape = m_shapes[i];
+                    updateCursorDirection(m_resizeDirection);
+                    update();
+                    break;
+                } else {
+                    updateCursorShape();
+                    update();
+                }
             }
 
             if (m_cutShape.type == "cutImage" && hoverOnRect(
@@ -1506,11 +1506,24 @@ void ShapesWidget::paintCutImageRect(QPainter &painter,
         painter.drawLine(cutPoints[2], cutPoints[7]);
         painter.drawLine(cutPoints[3], cutPoints[6]);
     } else {
-        qDebug() << "xxxxxx:" << cutPoints.length();
+        qDebug() << "cutPoints length:" << cutPoints.length();
     }
     QPoint tipPos = QPoint(rectFPoints[3].x(), rectFPoints[3].y());
 
     m_cutImageTips->showTips(mapToGlobal(tipPos));
+    connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
+        qDebug() << "cutImageTips hide...";
+        m_cutImageTips->hide();
+        m_cutShape.points.clear();
+        m_cutShape.type = "";
+    });
+    QRect cutAreaRect = QRect(int(rectFPoints[0].x()), int(rectFPoints[0].y()),
+                                              std::abs(rectFPoints[2].x() - rectFPoints[0].x()),
+                                              std::abs(rectFPoints[3].y() - rectFPoints[2].y()));
+    connect(m_cutImageTips, &CutImageTips::cutAction, this, [=]{
+        emit cutImage(cutAreaRect);
+        m_cutImageTips->hide();
+    });
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *)
@@ -1884,7 +1897,7 @@ void ShapesWidget::updateCursorShape()
        }
 }
 
-void ShapesWidget::cutImage()
+void ShapesWidget::setImageCutting(bool cutting)
 {
-    m_imageCutting = true;
+    m_imageCutting = cutting;
 }

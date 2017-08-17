@@ -23,13 +23,6 @@ public:
         Normal,
     };
 
-    enum CutRation {
-        Ration4_3,
-        Ration8_5,
-        Ration16_9,
-        Ration1_1,
-        FreeRation,
-    };
     enum ClickedKey {
         First,
         Second,
@@ -49,6 +42,7 @@ signals:
     void requestExit();
     void menuNoFocus();
     void finishedCut();
+    void cutImage(QRect cutRect);
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);
@@ -92,7 +86,7 @@ public slots:
     void setShiftKeyPressed(bool isShift);
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
-    void cutImage();
+    void setImageCutting(bool cutting);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
