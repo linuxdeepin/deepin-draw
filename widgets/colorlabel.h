@@ -5,6 +5,7 @@
 #include <QPaintEvent>
 #include <QEnterEvent>
 #include <QMouseEvent>
+#include <QCursor>
 
 class ColorLabel : public QLabel {
     Q_OBJECT
@@ -32,7 +33,7 @@ protected:
 private:
     //calculate the color's rgb value in pos.
     QColor calColorAtPoint(QPointF pos);
-
+    QCursor m_lastCursor;
     int m_hue =  0;
     bool m_picking;
     bool m_pressed;

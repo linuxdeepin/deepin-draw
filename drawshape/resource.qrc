@@ -3,13 +3,13 @@
         <file>theme/light/images/mouse_style/shape/arrow_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/ellipse_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/line_mouse.png</file>
-        <file>theme/light/images/mouse_style/shape/pickcolor_mouse.png</file>
-        <file>theme/light/images/mouse_style/shape/rect_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/rotate_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/start_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/text_mouse.png</file>
         <file>theme/light/CutImageTips.qss</file>
         <file>theme/light/images/size/resize_handle_big.png</file>
         <file>theme/light/images/size/rotate.png</file>
+        <file>theme/light/images/mouse_style/shape/rectangle_mouse.png</file>
+        <file>theme/light/images/mouse_style/shape/pen_mouse.png</file>
     </qresource>
 </RCC>

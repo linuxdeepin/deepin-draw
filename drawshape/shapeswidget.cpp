@@ -103,8 +103,7 @@ void ShapesWidget::updatePenColor()
 
 void ShapesWidget::setCurrentShape(QString shapeType)
 {
-    if (shapeType != "saveList")
-        m_currentType = shapeType;
+    m_currentType = shapeType;
 
     qDebug() << "setCurrentShape:" << shapeType;
 }
@@ -1224,18 +1223,18 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 }
             }
 
-            if (m_cutShape.type == "cutImage" && hoverOnRect(
-                        m_cutShape.mainPoints, e->pos())) {
-                qDebug() << "hover cutShape";
-                m_isHovered = true;
-                m_hoveredShape = m_cutShape;
-                updateCursorDirection(m_resizeDirection);
-                update();
-            } else {
-                qDebug() << "not hover cutShape";
-                updateCursorShape();
-                update();
-            }
+//            if (m_cutShape.type == "cutImage" && hoverOnRect(
+//                        m_cutShape.mainPoints, e->pos())) {
+//                qDebug() << "hover cutShape";
+//                m_isHovered = true;
+//                m_hoveredShape = m_cutShape;
+//                updateCursorDirection(m_resizeDirection);
+//                update();
+//            } else {
+//                qDebug() << "not hover cutShape";
+//                updateCursorShape();
+//                update();
+//            }
 
             if (!m_isHovered) {
                 for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++) {
@@ -1733,13 +1732,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 void ShapesWidget::enterEvent(QEvent *e)
 {
     Q_UNUSED(e);
-    if (m_currentType != "arbitraryCurve") {
-        qApp->setOverrideCursor(setCursorShape(m_currentType));
-    } else {
-        int colIndex = 3;//ConfigSettings::instance()->value(m_currentType, "color_index").toInt();
-        qDebug() << "enterEvent:" << colIndex << colorIndex(m_penColor);
-        qApp->setOverrideCursor(setCursorShape("straightLine",  colIndex));
-    }
+    qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 
 void ShapesWidget::deleteCurrentShape()
@@ -1891,14 +1884,7 @@ void ShapesWidget::updateCursorDirection(ResizeDirection direction)
 
 void ShapesWidget::updateCursorShape()
 {
-    if (m_currentType == "arbitraryCurve")
-       {
-           qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
-       } else if (m_currentType == "arrow" && false/*ConfigSettings::instance()->value("arrow", "is_straight").toBool()*/){
-           qApp->setOverrideCursor(setCursorShape("straightLine"));
-       } else {
-           qApp->setOverrideCursor(setCursorShape(m_currentType));
-       }
+    qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 
 void ShapesWidget::setImageCutting(bool cutting)

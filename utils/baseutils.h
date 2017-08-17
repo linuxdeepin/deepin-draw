@@ -34,7 +34,7 @@ enum DrawStatus {
     Stroke,
 };
 
-QCursor setCursorShape(QString cursorName, int colorIndex = 0);
+QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
 QColor       colorIndexOf(int index);

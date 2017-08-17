@@ -7,34 +7,33 @@
 #include <QDebug>
 #include <QImageReader>
 
-QCursor setCursorShape(QString cursorName, int colorIndex) {
+QCursor setCursorShape(QString cursorName) {
     QCursor customShape = QCursor();
     if (cursorName == "rotate") {
         customShape = QCursor(QPixmap(
-                      ":/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
+                      ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
     } else if (cursorName == "rectangle") {
+        qDebug() << "rectangle ...";
         customShape = QCursor(QPixmap(
-                      ":/images/mouse_style/shape/rect_mouse.png"), 0, 4);
+                      ":/theme/light/images/mouse_style/shape/rectangle_mouse.png"), 0, 4);
     } else if (cursorName == "oval") {
         customShape = QCursor(QPixmap(
-                      ":/images/mouse_style/shape/ellipse_mouse.png"), 0, 4);
+                      ":/theme/light/images/mouse_style/shape/ellipse_mouse.png"), 0, 4);
     } else if (cursorName == "arrow") {
         customShape = QCursor(QPixmap(
-                      ":/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
+                      ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
     } else if (cursorName == "text") {
         customShape = QCursor(QPixmap(
-                      ":/images/mouse_style/shape/text_mouse.png"), 5, 5);
-    }/* else if  (cursorName == "line") {
-        customShape = QCursor(QPixmap(QString(
-                   ":/images/mouse_style/color_pen/color%1.png").arg(colorIndex)), 0, 25);
-    } */else if (cursorName == "straightLine") {
+                      ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
+    } else if (cursorName == "straightLine") {
         customShape = QCursor(QPixmap(QString(
                     ":/images/mouse_style/shape/line_mouse.png")), 2, 9);
-    } else if (cursorName == "pickcolor") {
+    } else if (cursorName == "arbitraryCurve") {
         customShape = QCursor(QPixmap(QString(
-                    ":/images/mouse_style/shape/pickcolor_mouse.png")), 2, 9);
+                    ":/theme/light/images/mouse_style/shape/pen_mouse.png")), 2, 9);
     }
 
+    qDebug() << "custom cursor shape:" << cursorName << customShape;
     return customShape;
 }
 

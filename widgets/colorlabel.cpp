@@ -83,13 +83,13 @@ void ColorLabel::paintEvent(QPaintEvent *) {
 }
 
 void ColorLabel::enterEvent(QEvent *e) {
+    m_lastCursor = this->cursor();
     qApp->setOverrideCursor(setCursorShape("pickcolor"));
     QLabel::enterEvent(e);
 }
 
 void ColorLabel::leaveEvent(QEvent *) {
-    this->setCursor(Qt::ArrowCursor);
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    qApp->setOverrideCursor(m_lastCursor);
 }
 
 void ColorLabel::mousePressEvent(QMouseEvent *e) {
