@@ -1446,21 +1446,9 @@ void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
 
     QList<QSizeF> sizes;
     double maxSize = 12.0;
-    double minSize = 12;/*maxSize / 3;*/
-    double dsize = (maxSize - minSize) / points.size();
-
-    QList<QColor> colors;
-    int maxA = 200;
-    int minA = 64;
-    int dA = (maxA - minA) / points.size();
-
-//    static QColor DefaultPenColor = QColor("#24b1ff");
     for (int i = 0; i < points.size(); ++i) {
-        auto size = maxSize - dsize * i;
+        auto size = maxSize - /*dsize * i*/0;
         sizes << QSizeF(size, size);
-
-        auto A = maxA - dA * i;
-        colors << QColor(0x24, 0xB1, 0xFF, A);
     }
 
     QPainterPath op;
@@ -1469,8 +1457,8 @@ void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
         auto point2 = points.at(i + 1);
         auto size1 = sizes.at(i);
         auto size2 = sizes.at(i + 1);
-        auto c1 = colors.at(i);
-        auto c2 = colors.at(i + 1);
+        auto c1 = Qt::transparent;
+        auto c2 = Qt::transparent;
 
         op = drawPair(p, point1, size1, c1,
                       point2, size2, c2,

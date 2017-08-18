@@ -27,7 +27,7 @@ QCursor setCursorShape(QString cursorName) {
                       ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
     } else if (cursorName == "straightLine") {
         customShape = QCursor(QPixmap(QString(
-                    ":/images/mouse_style/shape/line_mouse.png")), 2, 9);
+                    ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
     } else if (cursorName == "arbitraryCurve") {
         customShape = QCursor(QPixmap(QString(
                     ":/theme/light/images/mouse_style/shape/pen_mouse.png")), 2, 9);
