@@ -149,9 +149,8 @@ private:
     void paintRect(QPainter &painter, FourPoints rectFPoints, int index);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index);
 
-    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
-                                    int lineWidth, bool isStraight = false);
-    void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints, int lineWidth);
+    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
+    void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints);
 
     void paintArbitraryCurve(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);

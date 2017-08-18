@@ -1,13 +1,13 @@
 #include "shapeswidget.h"
 
-#include "utils/calculaterect.h"
-#include "utils/tempfile.h"
-
-#include <cmath>
-
 #include <QApplication>
 #include <QPainter>
 #include <QDebug>
+
+#include <cmath>
+
+#include "utils/calculaterect.h"
+#include "utils/tempfile.h"
 
 #define LINEWIDTH(index) (index*2+3)
 
@@ -1004,13 +1004,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 m_currentShape.index = m_currentIndex;
                 m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
-                qDebug() << "Really straightLine";
+                qDebug() << "straightLine";
                 m_currentShape.index = m_currentIndex;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-                m_currentShape.isBlur = false;
-                m_currentShape.isMosaic = false;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.index = m_currentIndex;
                 qDebug() << "mousePressEvent:" << m_currentType;
@@ -1137,7 +1135,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pos2 = QPointF(0, 0);
 
     update();
-//    QFrame::mouseReleaseEvent(e);
+    //    QFrame::mouseReleaseEvent(e);
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
@@ -1318,12 +1316,12 @@ void ShapesWidget::paintEllipse(QPainter &painter,
 }
 
 void ShapesWidget::paintArrow(QPainter &painter,
-    QList<QPointF> lineFPoints, int lineWidth, bool isStraight)
+    QList<QPointF> lineFPoints, bool isStraight)
 {
     if (lineFPoints.length() == 2) {
         if (!isStraight) {
             QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0],
-                                                         lineFPoints[1], 8+(lineWidth - 1)*2);
+                                                         lineFPoints[1], 8+(painter.pen().widthF() - 1)*2);
             QPainterPath path;
             const QPen oldPen = painter.pen();
             if (arrowPoints.length() >=3) {
@@ -1342,9 +1340,9 @@ void ShapesWidget::paintArrow(QPainter &painter,
 }
 
 void ShapesWidget::paintStraightLine(QPainter &painter,
-    QList<QPointF> lineFPoints, int lineWidth)
+    QList<QPointF> lineFPoints)
 {
-    paintArrow(painter, lineFPoints, lineWidth, true);
+    paintArrow(painter, lineFPoints, true);
 }
 
 void ShapesWidget::paintArbitraryCurve(QPainter &painter,
@@ -1547,7 +1545,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         } else if (m_shapes[i].type == "arrow") {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
-            paintArrow(painter, m_shapes[i].points, pen.width(),
+            paintArrow(painter, m_shapes[i].points,
                        m_shapes[i].isStraight);
         } else if (m_shapes[i].type == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
@@ -1562,8 +1560,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         } else if (m_shapes[i].type == "straightLine") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
-            painter.setBrush(QBrush(Qt::transparent));
-            paintStraightLine(painter, m_shapes[i].points, 2/*pen.width()*/);
+            paintStraightLine(painter, m_shapes[i].points);
         } else if (m_shapes[i].type == "text" && !m_clearAllTextBorder) {
             qDebug() << "*&^" << m_shapes[i].type
                               << m_shapes[i].index << m_selectedIndex << i;
@@ -1591,7 +1588,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0)) || m_currentShape.type == "text") {
         FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
         pen.setColor(m_currentShape.strokeColor);
-        painter.setBrush(QBrush(/*m_currentShape.fillColor*/Qt::transparent));
+        painter.setBrush(QBrush(m_currentShape.fillColor));
         pen.setWidthF(m_currentShape.lineWidth - 0.5);
 
         if (m_currentType == "rectangle") {
@@ -1611,11 +1608,11 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
             paintArrow(painter, m_currentShape.points,
-                                   pen.width(), m_currentShape.isStraight);
+                                   m_currentShape.isStraight);
         } else if (m_currentType == "straightLine") {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
-            paintArrow(painter, m_currentShape.points, pen.width(), true);
+            paintArrow(painter, m_currentShape.points, true);
         } else if (m_currentType == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
@@ -1654,7 +1651,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         } else if (m_hoveredShape.type == "arrow") {
             pen.setJoinStyle(Qt::MiterJoin);
             painter.setPen(pen);
-            paintArrow(painter, m_hoveredShape.points, pen.width(), true);
+            paintArrow(painter, m_hoveredShape.points, true);
         } else if (m_hoveredShape.type == "arbitraryCurve") {
             pen.setJoinStyle(Qt::RoundJoin);
             painter.setPen(pen);
@@ -1865,7 +1862,7 @@ void ShapesWidget::updateCursorDirection(ResizeDirection direction)
         }
     } else if (direction == Rotate) {
         qApp->setOverrideCursor(setCursorShape("rotate"));
-    } else if (direction == Moving) {
+    } else {
         qApp->setOverrideCursor(Qt::ClosedHandCursor);
     }
 }
