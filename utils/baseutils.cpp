@@ -153,7 +153,8 @@ QVariantList cachePixmap(const QString &path)
 
 // For more information about image file extension, see:
 // https://en.wikipedia.org/wiki/Image_file_formats
-QString DetectImageFormat(const QString &filepath) {
+QString DetectImageFormat(const QString &filepath)
+{
     QFile file(filepath);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "DetectImageFormat() failed to open file:" << filepath;

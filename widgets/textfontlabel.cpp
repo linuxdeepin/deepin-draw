@@ -6,6 +6,7 @@
 
 #include "toolbutton.h"
 #include "utils/global.h"
+#include "utils/configsettings.h"
 
 const int LINEEDIT_WIDTH = 190;
 const int BUTTON_ICON = 24;
@@ -18,11 +19,12 @@ TextFontLabel::TextFontLabel(QWidget *parent)
 
     this->setObjectName("TextFontLabel");
     this->setFixedSize(LINEEDIT_WIDTH+BUTTON_ICON*2,
-                                      BUTTON_ICON+2);
+                                      BUTTON_ICON + 2);
     QLineEdit* fontEdit = new QLineEdit(this);
     fontEdit->setObjectName("FontEdit");
     fontEdit->setFixedSize(LINEEDIT_WIDTH, 24);
     fontEdit->setObjectName("FontsizeEdit");
+    m_fontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     fontEdit->setText(QString("%1").arg(m_fontsize));
 
     ToolButton* addBtn = new ToolButton(this);
@@ -42,20 +44,18 @@ TextFontLabel::TextFontLabel(QWidget *parent)
 
     connect(addBtn, &ToolButton::clicked, this, [=]{
         m_fontsize += 1;
-        emit textFontsizeChanged(m_fontsize);
+        fontEdit->setText(QString("%1").arg(m_fontsize));
+        ConfigSettings::instance()->setValue("text", "fontsize", m_fontsize);
     });
 
     connect(reduceBtn, &ToolButton::clicked, this, [=]{
-        m_fontsize -=1;
+        m_fontsize -= 1;
         m_fontsize = std::max(8, m_fontsize);
-        emit textFontsizeChanged(m_fontsize);
-    });
-    connect(this, &TextFontLabel::textFontsizeChanged, this, [=]{
         fontEdit->setText(QString("%1").arg(m_fontsize));
+        ConfigSettings::instance()->setValue("text", "fontsize", m_fontsize);
     });
 }
 
 TextFontLabel::~TextFontLabel()
 {
-
 }

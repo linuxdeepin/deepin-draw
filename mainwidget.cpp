@@ -22,22 +22,16 @@ MainWidget::MainWidget(QWidget *parent)
 
     connect(this, &MainWidget::initShapesWidget,
                     m_canvas, &CanvasWidget::initShapeWidget);
-
     connect(this, &MainWidget::shapesColorChanged,
             m_canvas, &CanvasWidget::shapeColorChanged);
-
     connect(this, &MainWidget::shapesLineWidthChanged,
             m_canvas, &CanvasWidget::shapeLineWidthChanged);
     connect(this, &MainWidget::lineShapeChanged,
             m_canvas, &CanvasWidget::lineShapeChanged);
-    connect(this, &MainWidget::textFontsizeChanged,
-            m_canvas, &CanvasWidget::textFontsizeChanged);
     connect(this, &MainWidget::blurLinewidthChanged,
             m_canvas, &CanvasWidget::blurLinewidthChanged);
-
     connect(this, &MainWidget::rotateImage,
             m_canvas, &CanvasWidget::rotateImage);
-
     connect(this, &MainWidget::mirroredImage,
             m_canvas, &CanvasWidget::mirroredImage);
 }

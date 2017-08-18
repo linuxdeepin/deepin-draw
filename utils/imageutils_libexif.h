@@ -31,7 +31,8 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
     return QString();
 }
 
-QSize size(const QString &path) {
+QSize size(const QString &path)
+{
     ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
     if (ed) {
         int w = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_WIDTH).toInt();

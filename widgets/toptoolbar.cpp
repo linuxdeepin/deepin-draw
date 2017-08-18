@@ -14,6 +14,7 @@
 
 #include <DApplication>
 
+#include "utils/configsettings.h"
 #include "utils/global.h"
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
@@ -137,6 +138,7 @@ void TopToolbar::importImage()
 
 void TopToolbar::initStackWidget()
 {
+    ConfigSettings* configSettings = ConfigSettings::instance();
     m_stackWidget = new QStackedWidget(this);
     //empty widget
     m_emptyWidget = new QWidget(this);
@@ -231,13 +233,14 @@ void TopToolbar::initStackWidget()
     borderColLabel->setText(tr("Stroke"));
     BorderColorButton* borderCButton = new BorderColorButton(this);
     connect(borderCButton, &BorderColorButton::clicked, this, [=]{
+        setDrawStatus(DrawStatus::Stroke);
+        m_colorPanel->setDrawStatus(m_drawStatus);
         QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
             m_strokeARect->show(curPos.x(), curPos.y() + 20);
         } else {
             m_strokeARect->hide();
         }
-        setDrawStatus(DrawStatus::Stroke);
     });
 
     SeperatorLine* sep1Line = new SeperatorLine(this);
@@ -315,6 +318,9 @@ void TopToolbar::initStackWidget()
     fillShapeStrokeBtn->setObjectName("FillStrokeButton");
 
     connect(fillColorBtn, &BigColorButton::clicked, this, [=]{
+        qDebug() << "BigColorButton:" << DrawStatus::Fill;
+        setDrawStatus(DrawStatus::Fill);
+        m_colorPanel->setDrawStatus(m_drawStatus);
         fillShapeStrokeBtn->setChecked(false);
         QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
@@ -322,20 +328,20 @@ void TopToolbar::initStackWidget()
         } else {
             m_strokeARect->hide();
         }
-        qDebug() << "BigColorButton:" << DrawStatus::Fill;
-        setDrawStatus(DrawStatus::Fill);
     });
 
     connect(fillShapeStrokeBtn, &BorderColorButton::clicked, this, [=]{
         fillColorBtn->setChecked(false);
+        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
+        setDrawStatus(DrawStatus::Stroke);
+        m_colorPanel->setDrawStatus(m_drawStatus);
+
         QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
             m_strokeARect->show(curPos.x(), curPos.y() + 20);
         } else {
             m_strokeARect->hide();
         }
-        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
-        setDrawStatus(DrawStatus::Stroke);
     });
 
     QLabel* strokeLabel = new QLabel(this);
@@ -381,14 +387,15 @@ void TopToolbar::initStackWidget()
     m_drawTextWidget = new QWidget(this);
     BigColorButton* fillBtn = new BigColorButton(this);
     connect(fillBtn, &BigColorButton::clicked, this, [=]{
+        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
+        setDrawStatus(DrawStatus::Fill);
+        m_colorPanel->setDrawStatus(m_drawStatus);
         QPoint curPos = this->cursor().pos();
         if (m_strokeARect->isHidden()) {
             m_strokeARect->show(curPos.x(), curPos.y() + 20);
         } else {
             m_strokeARect->hide();
         }
-        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
-        setDrawStatus(DrawStatus::Fill);
     });
 
     QLabel* colBtnLabel = new QLabel(this);
@@ -399,8 +406,6 @@ void TopToolbar::initStackWidget()
     QLabel* fontsizeLabel = new QLabel(this);
     fontsizeLabel->setText(tr("Font size"));
     TextFontLabel* fontLabel = new TextFontLabel(this);
-    connect(fontLabel, &TextFontLabel::textFontsizeChanged, this,
-            &TopToolbar::textFontsizeChanged);
 
     QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
     textHbLayout->setMargin(0);

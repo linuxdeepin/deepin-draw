@@ -39,9 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::lineShapeChanged,
             m_mainWidget, &MainWidget::lineShapeChanged);
 
-     connect(m_topToolbar, &TopToolbar::textFontsizeChanged,
-             m_mainWidget, &MainWidget::textFontsizeChanged);
-
      connect(m_topToolbar, &TopToolbar::blurLineWidthChanged,
              m_mainWidget, &MainWidget::blurLinewidthChanged);
 

@@ -9,6 +9,7 @@
 #include "sliderlabel.h"
 #include "editlabel.h"
 #include "pushbutton.h"
+#include "utils/baseutils.h"
 
 class ColorButton : public QPushButton {
     Q_OBJECT
@@ -35,6 +36,9 @@ public:
     ColorPanel(QWidget* parent = 0);
     ~ColorPanel();
 
+    void setColor(QColor color);
+    void setDrawStatus(DrawStatus status);
+
 signals:
     void colorChanged(QColor color);
 
@@ -42,6 +46,10 @@ private:
     SliderLabel* m_sliderLabel;
     EditLabel* m_editLabel;
     PushButton* m_colorfulBtn;
+
+    QStringList m_colList;
+    QList<ColorButton*> m_cButtonList;
+    DrawStatus m_drawstatus;
 };
 
 #endif // COLORPANEL_H

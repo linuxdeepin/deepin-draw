@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "utils/calculaterect.h"
+#include "utils/configsettings.h"
 #include "utils/tempfile.h"
 
 #define LINEWIDTH(index) (index*2+3)
@@ -31,8 +32,15 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setMouseTracking(true);
     setAcceptDrops(true);
 
-    m_penColor = QColor(Qt::red);
-    m_brushColor = QColor(Qt::red);
+    m_penColor = QColor(ConfigSettings::instance()->value(
+        "common", "strokeColor").toString());
+
+    m_brushColor = QColor(ConfigSettings::instance()->value(
+        "common", "fillColor").toString());
+
+    m_textFontsize = ConfigSettings::instance()->value("text",
+          "fontsize").toInt();
+
     m_linewidth = 2;
     m_cutImageTips = new CutImageTips(this);
 

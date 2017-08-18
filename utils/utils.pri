@@ -6,11 +6,13 @@ HEADERS += \
     $$PWD/tempfile.h \
     $$PWD/imageutils_freeimage.h \
     $$PWD/imageutils_libexif.h \
-    $$PWD/imageutils.h
+    $$PWD/imageutils.h \
+    $$PWD/configsettings.h
 
 SOURCES += \
     $$PWD/baseutils.cpp \
     $$PWD/calculaterect.cpp \
     $$PWD/shapesutils.cpp \
     $$PWD/tempfile.cpp \
-    $$PWD/imageutils.cpp
+    $$PWD/imageutils.cpp \
+    $$PWD/configsettings.cpp

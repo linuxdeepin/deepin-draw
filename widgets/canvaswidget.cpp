@@ -28,9 +28,6 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     connect(this, &CanvasWidget::lineShapeChanged,
             m_view, &ImageView::updateLineShapes);
 
-    connect(this, &CanvasWidget::textFontsizeChanged,
-            m_view, &ImageView::updateTextFontsize);
-
     connect(this, &CanvasWidget::blurLinewidthChanged,
             m_view, &ImageView::updateBlurLinewidth);
 

@@ -12,9 +12,6 @@ public:
     TextFontLabel(QWidget* parent = 0);
     ~TextFontLabel();
 
-signals:
-    void textFontsizeChanged(int fontsize);
-
 private:
     int m_fontsize;
 };

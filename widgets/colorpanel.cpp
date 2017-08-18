@@ -6,8 +6,8 @@
 #include <QButtonGroup>
 #include <QDebug>
 
-#include "utils/baseutils.h"
 #include "utils/global.h"
+#include "utils/configsettings.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
@@ -55,7 +55,8 @@ void ColorButton::paintEvent(QPaintEvent *) {
     painter.setPen(pen);
     painter.drawRoundedRect(QRect(2, 2, this->width() - 4, this->height() - 4), 4, 4);
 
-    if (isChecked()) {
+    if (isChecked())
+    {
         painter.setBrush(QBrush());
         QPen borderPen;
         borderPen.setWidth(1);
@@ -76,24 +77,30 @@ ColorPanel::ColorPanel(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("ColorPanel");
     setFixedSize(232, 416);
 
-    QStringList colList;
-    colList << QString("") << QString("#ff0c0c") << QString("#fe3c3b") << QString("#fd6867") << QString("#fd9694")
-            << QString("#fcc4c1") << QString("#f8e0d6") << QString("#e4c299") << QString("#f2aa46")
-            << QString("#fd9d0f") << QString("#f6b443") << QString("#eecb77") << QString("#f0ee4e")
-            << QString("#f4fb00") << QString("#f6f96d") << QString("#f4f6a6") << QString("f3f3d6")
-            << QString("#e9eedc") << QString("#dde8cb") << QString("#ccdfb0") << QString("#9cd972")
-            << QString("#4ec918") << QString("#5cc850") << QString("#6bc989") << QString("#53ac6d")
-            << QString("#72b88e") << QString("#7cc8cd") << QString("#97d1d4") << QString("#c9e1e1")
-            << QString("#c1dee7") << QString("#93ceed") << QString("#76c3f1") << QString("#49b2f6")
-            << QString("#119fff") << QString("#0192ea") << QString("#3d7ddd") << QString("#92cdfb")
-            << QString("#99cffa") << QString("#ececf8") << QString("#ccc9f9") << QString("#b2acf9")
-            << QString("#958ef9") << QString("#7c6ffa") << QString("#8a47fb") << QString("#6b1aef")
-            << QString("#952dfd") << QString("#af39e4") << QString("#c174da") << QString("#c587d9")
-            << QString("#dbb4c1") << QString("#cf8c86") << QString("#b45f51") << QString("#865e4f")
-            << QString("#694d48") << QString("#ffffff") << QString("#d4d4d4") << QString("#919191")
+    m_colList;
+    m_colList
+            << QString("")               << QString("#ff0c0c") << QString("#fe3c3b")
+            << QString("#fd6867") << QString("#fd9694") << QString("#fcc4c1")
+            << QString("#f8e0d6") << QString("#e4c299") << QString("#f2aa46")
+            << QString("#fd9d0f") << QString("#f6b443") << QString("#eecb77")
+            << QString("#f0ee4e") << QString("#f4fb00") << QString("#f6f96d")
+            << QString("#f4f6a6") << QString("#f3f3d6") << QString("#e9eedc")
+            << QString("#dde8cb") << QString("#ccdfb0") << QString("#9cd972")
+            << QString("#4ec918") << QString("#5cc850") << QString("#6bc989")
+            << QString("#53ac6d") << QString("#72b88e") << QString("#7cc8cd")
+            << QString("#97d1d4") << QString("#c9e1e1") << QString("#c1dee7")
+            << QString("#93ceed") << QString("#76c3f1") << QString("#49b2f6")
+            << QString("#119fff") << QString("#0192ea") << QString("#3d7ddd")
+            << QString("#92cdfb") << QString("#99cffa") << QString("#ececf8")
+            << QString("#ccc9f9") << QString("#b2acf9") << QString("#958ef9")
+            << QString("#7c6ffa") << QString("#8a47fb") << QString("#6b1aef")
+            << QString("#952dfd") << QString("#af39e4") << QString("#c174da")
+            << QString("#c587d9") << QString("#dbb4c1") << QString("#cf8c86")
+            << QString("#b45f51") << QString("#865e4f") << QString("#694d48")
+            << QString("#ffffff") << QString("#d4d4d4") << QString("#919191")
             << QString("#626262") << QString("#404040") << QString("#000000");
 
-    QList<ColorButton*> cButtonList;
+    m_cButtonList;
     QButtonGroup* colorsButtonGroup = new QButtonGroup(this);
     colorsButtonGroup->setExclusive(true);
 
@@ -101,15 +108,23 @@ ColorPanel::ColorPanel(QWidget *parent)
     gLayout->setVerticalSpacing(3);
     gLayout->setHorizontalSpacing(3);
 
-    for(int i = 0; i < colList.length(); i++) {
-        ColorButton* cb = new ColorButton(QColor(colList[i]), this);
+    for(int i = 0; i < m_colList.length(); i++)
+    {
+        ColorButton* cb = new ColorButton(QColor(m_colList[i]), this);
         if (i == 0)
             cb->setDisableColor(true);
-        cButtonList.append(cb);
+        m_cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
         colorsButtonGroup->addButton(cb);
         qDebug() << "~~~" << i/10 << i%10;
-        connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::colorChanged);
+        connect(cb, &ColorButton::colorButtonClicked, this, [=](QColor color){
+                colorChanged(color);
+                if (m_drawstatus == DrawStatus::Stroke) {
+                    ConfigSettings::instance()->setValue("common", "strokeColor", color.name());
+                } else {
+                    ConfigSettings::instance()->setValue("common", "fillColor",  color.name());
+                }
+        });
     }
 
     m_sliderLabel = new SliderLabel("Alpha", this);
@@ -131,11 +146,14 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     PickColorWidget* pickColWidget = new PickColorWidget(this);
 
-    connect(pickColWidget, &PickColorWidget::pickedColor, this, [=](QColor color){
+    connect(pickColWidget, &PickColorWidget::pickedColor, this,
+            [=](QColor color)
+    {
         m_editLabel->setEditText(color.name());
     });
 
-    connect(pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::colorChanged);
+    connect(pickColWidget, &PickColorWidget::pickedColor, this,
+            &ColorPanel::colorChanged);
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);
@@ -148,6 +166,32 @@ ColorPanel::ColorPanel(QWidget *parent)
     mLayout->addWidget(pickColWidget);
 
     setLayout(mLayout);
+}
+
+void ColorPanel::setColor(QColor color)
+{
+
+}
+
+void ColorPanel::setDrawStatus(DrawStatus status)
+{
+    m_drawstatus = status;
+    if (m_drawstatus == DrawStatus::Stroke)
+    {
+        QString colorName = ConfigSettings::instance()->value(
+                    "common", "strokeColor").toString();
+        if (m_colList.contains(colorName))
+        {
+            m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
+        }
+    } else {
+        QString colorName = ConfigSettings::instance()->value(
+                    "common", "fillColor").toString();
+        if (m_colList.contains(colorName))
+        {
+            m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
+        }
+    }
 }
 
 ColorPanel::~ColorPanel() {}
