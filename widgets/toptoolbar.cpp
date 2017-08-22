@@ -138,7 +138,7 @@ void TopToolbar::importImage()
 
 void TopToolbar::initStackWidget()
 {
-    ConfigSettings* configSettings = ConfigSettings::instance();
+
     m_stackWidget = new QStackedWidget(this);
     //empty widget
     m_emptyWidget = new QWidget(this);
@@ -253,18 +253,21 @@ void TopToolbar::initStackWidget()
     lineBtnNameList << "StraightLineBtn" << "ArbiLineBtn" << "ArrowBtn";
     QButtonGroup* btnGroup = new QButtonGroup(this);
     btnGroup->setExclusive(true);
+
     for(int k = 0; k < lineBtnNameList.length(); k++) {
         ToolButton* lineBtn = new ToolButton(this);
         lineBtn->setObjectName(lineBtnNameList[k]);
         lineBtnList.append(lineBtn);
         btnGroup->addButton(lineBtn);
-        if (k == 1) {
-            lineBtn->setChecked(true);
-        }
+
         connect(lineBtn, &ToolButton::clicked, this, [=]{
             setLineShape(k);
+            ConfigSettings::instance()->setValue("line", "style", k);
         });
     }
+    int defaultIndex = ConfigSettings::instance()->value("line", "style").toInt();
+    lineBtnList[defaultIndex]->setChecked(true);
+
     SeperatorLine* sep2Line = new SeperatorLine(this);
 
     QLabel* borderLWLabel = new QLabel(this);
@@ -362,10 +365,10 @@ void TopToolbar::initStackWidget()
         connect(fillShapeBtn, &ToolButton::clicked, this, [=]{
             emit shapesLineWidthChanged((k+1)*2);
         });
-        if (k == 0) {
-            fillShapeBtn->setChecked(true);
-        }
     }
+    int lwDefaultIndex = ConfigSettings::instance()->value(
+                "common", "lineWidth").toInt();
+    fillShapeLwBtnList[lwDefaultIndex]->setChecked(true);
     QHBoxLayout* fillHLayout = new QHBoxLayout(this);
     fillHLayout->setMargin(0);
     fillHLayout->setSpacing(6);

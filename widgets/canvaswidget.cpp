@@ -19,18 +19,6 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     connect(this, &CanvasWidget::initShapeWidget,
                    m_view, &ImageView::initShapesWidget);
 
-    connect(this, &CanvasWidget::shapeColorChanged,
-            m_view, &ImageView::updateShapesColor);
-
-    connect(this, &CanvasWidget::shapeLineWidthChanged,
-           m_view, &ImageView::updateShapesLineWidth);
-
-    connect(this, &CanvasWidget::lineShapeChanged,
-            m_view, &ImageView::updateLineShapes);
-
-    connect(this, &CanvasWidget::blurLinewidthChanged,
-            m_view, &ImageView::updateBlurLinewidth);
-
     connect(this, &CanvasWidget::rotateImage,
             m_view, &ImageView::rotateImage);
 

@@ -212,49 +212,49 @@ void ImageView::initShapesWidget(QString shape)
 
 }
 
-void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
-{
-    if (!m_shapesWidgetExist)
-        return;
+//void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
+//{
+//    if (!m_shapesWidgetExist)
+//        return;
 
-    if (drawstatus == DrawStatus::Fill) {
-        m_shapesWidget->setBrushColor(color);
-    } else {
-        m_shapesWidget->setPenColor(color);
-    }
-}
+//    if (drawstatus == DrawStatus::Fill) {
+//        m_shapesWidget->setBrushColor(color);
+//    } else {
+//        m_shapesWidget->setPenColor(color);
+//    }
+//}
 
-void ImageView::updateShapesLineWidth(int linewidth)
-{
-    if (!m_shapesWidgetExist)
-        return;
+//void ImageView::updateShapesLineWidth(int linewidth)
+//{
+//    if (!m_shapesWidgetExist)
+//        return;
 
-    m_shapesWidget->setLineWidth(linewidth);
-}
+//    m_shapesWidget->setLineWidth(linewidth);
+//}
 
-void ImageView::updateLineShapes(QString lineShape)
-{
-    if (!m_shapesWidgetExist)
-        return;
+//void ImageView::updateLineShapes(QString lineShape)
+//{
+//    if (!m_shapesWidgetExist)
+//        return;
 
-    m_shapesWidget->setCurrentShape(lineShape);
-}
+//    m_shapesWidget->setCurrentShape(lineShape);
+//}
 
-void ImageView::updateTextFontsize(int fontsize)
-{
-    if (!m_shapesWidgetExist)
-        return;
+//void ImageView::updateTextFontsize(int fontsize)
+//{
+//    if (!m_shapesWidgetExist)
+//        return;
 
-    m_shapesWidget->setTextFontsize(fontsize);
-}
+//    m_shapesWidget->setTextFontsize(fontsize);
+//}
 
-void ImageView::updateBlurLinewidth(int linewidth)
-{
-    if (m_shapesWidgetExist)
-        return;
+//void ImageView::updateBlurLinewidth(int linewidth)
+//{
+//    if (m_shapesWidgetExist)
+//        return;
 
-    m_shapesWidget->setBlurLinewidth(linewidth);
-}
+//    m_shapesWidget->setBlurLinewidth(linewidth);
+//}
 
 void ImageView::rotateImage(const QString &path, int degree)
 {

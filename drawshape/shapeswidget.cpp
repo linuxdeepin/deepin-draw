@@ -18,30 +18,10 @@ const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.pn
 const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
 ShapesWidget::ShapesWidget(QWidget *parent)
-    : QFrame(parent),
-      m_isMoving(false),
-      m_isSelected(false),
-      m_isShiftPressed(false),
-      m_editing(false),
-      m_shapesIndex(-1),
-      m_selectedIndex(-1),
-      m_selectedOrder(-1)//,
+    : QFrame(parent)
 //      m_menuController(new MenuController)
 {
-    setFocusPolicy(Qt::StrongFocus);
-    setMouseTracking(true);
-    setAcceptDrops(true);
-
-    m_penColor = QColor(ConfigSettings::instance()->value(
-        "common", "strokeColor").toString());
-
-    m_brushColor = QColor(ConfigSettings::instance()->value(
-        "common", "fillColor").toString());
-
-    m_textFontsize = ConfigSettings::instance()->value("text",
-          "fontsize").toInt();
-
-    m_linewidth = 2;
+    initAttribute();
     m_cutImageTips = new CutImageTips(this);
 
 //    connect(m_menuController, &MenuController::shapePressed,
@@ -52,8 +32,36 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 //            this, &ShapesWidget::undoDrawShapes);
 //    connect(m_menuController, &MenuController::menuNoFocus,
 //            this, &ShapesWidget::menuNoFocus);
-//    connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
-//            this, &ShapesWidget::updateSelectedShape);
+
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
+            this, &ShapesWidget::updateSelectedShape);
+}
+
+void ShapesWidget::initAttribute()
+{
+    setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
+    setAcceptDrops(true);
+
+    m_isMoving = false;
+    m_isSelected = false;
+    m_isShiftPressed = false;
+    m_editing = false;
+    m_shapesIndex = -1;
+    m_selectedIndex = -1;
+    m_selectedOrder = -1;
+
+    m_penColor = QColor(ConfigSettings::instance()->value(
+        "common", "strokeColor").toString());
+
+    m_brushColor = QColor(ConfigSettings::instance()->value(
+        "common", "fillColor").toString());
+
+    m_textFontsize = ConfigSettings::instance()->value("text",
+        "fontsize").toInt();
+
+    m_linewidth = ConfigSettings::instance()->value(
+        "common", "lineWidth").toInt();
 }
 
 ShapesWidget::~ShapesWidget()
@@ -61,40 +69,52 @@ ShapesWidget::~ShapesWidget()
 }
 
 void ShapesWidget::updateSelectedShape(const QString &group,
-                                       const QString &key, int index)
+                                       const QString &key)
 {
     qDebug() << "updateSelectedShapes" << m_selectedIndex
                       << m_shapes.length() << m_selectedOrder;
 
-    if ((group == m_currentShape.type || "common" == group) && key == "color_index") {
-//        m_penColor = colorIndexOf(index);
+    if ("common" == group) {
+        if (key == "strokeColor") {
+            m_penColor = QColor(ConfigSettings::instance()->value(
+                "common", "strokeColor").toString());
+        } else if (key == "fillColor") {
+            m_brushColor = QColor(ConfigSettings::instance()->value(
+                "common", "fillColor").toString());
+        } else if (key == "lineWidth") {
+            m_linewidth = ConfigSettings::instance()->value(
+                "common", "lineWidth").toInt();
+        }
     }
 
-    if (m_selectedIndex != -1 && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length()) {
-        if (m_selectedShape.type == "arrow" && key != "color_index") {
-            if (key == "arrow_linewidth_index" && !m_selectedShape.isStraight) {
-                m_selectedShape.lineWidth = LINEWIDTH(index);
-            } else if (key == "straightline_linewidth_index" && m_selectedShape.isStraight) {
-                m_selectedShape.lineWidth = LINEWIDTH(index);
+    if (m_selectedIndex != -1 && m_selectedOrder != -1) {
+        if (group == "common") {
+            if (key == "strokeColor") {
+                m_selectedShape.strokeColor = QColor(ConfigSettings::instance()->value(
+                                        "common", "strokeColor").toString());
+            } else if (key == "fillColor") {
+                m_selectedShape.fillColor = QColor(ConfigSettings::instance()->value(
+                                                       "common", "fillColor").toString());
+                if (m_selectedShape.type == "text") {
+                    int tmpIndex = m_shapes[m_selectedOrder].index;
+                    if (m_editMap.contains(tmpIndex)) {
+                        m_editMap.value(tmpIndex)->setColor(QColor(
+                                                                ConfigSettings::instance()->value("common", "fillColor").toString()));
+                        m_editMap.value(tmpIndex)->update();
+                    }
+                }
+            } else if (key == "lineWidth") {
+                m_selectedShape.lineWidth = ConfigSettings::instance()->value(
+                            "common", "lineWidth").toInt();
             }
-        } else if (m_selectedShape.type == group && key == "linewidth_index") {
-            m_selectedShape.lineWidth = LINEWIDTH(index);
-        } else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
+        } else if (group == "text" && m_selectedShape.type == group)  {
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
-                m_editMap.value(tmpIndex)->setColor(colorIndexOf(index));
-                m_editMap.value(tmpIndex)->update();
-            }
-        } else if (group == "text" && m_selectedShape.type == group && key == "fontsize")  {
-            int tmpIndex = m_shapes[m_selectedOrder].index;
-            if (m_editMap.contains(tmpIndex)) {
-            m_editMap.value(tmpIndex)->setFontSize(index);
+            m_editMap.value(tmpIndex)->setFontSize(
+                        ConfigSettings::instance()->value("text", "fontsize").toInt());
             m_editMap.value(tmpIndex)->update();
             }
-        } else if (group != "text" && m_selectedShape.type == group && key == "color_index") {
-            m_selectedShape.colorIndex = index;
         }
-
         if (m_selectedOrder < m_shapes.length())
         {
             m_shapes[m_selectedOrder] = m_selectedShape;

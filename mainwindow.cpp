@@ -30,18 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::initShapeWidgetAction,
             m_mainWidget, &MainWidget::initShapesWidget);
 
-    connect(m_topToolbar, &TopToolbar::shapesColorChanged,
-            m_mainWidget, &MainWidget::shapesColorChanged);
-
-    connect(m_topToolbar, &TopToolbar::shapesLineWidthChanged,
-            m_mainWidget, &MainWidget::shapesLineWidthChanged);
-
-    connect(m_topToolbar, &TopToolbar::lineShapeChanged,
-            m_mainWidget, &MainWidget::lineShapeChanged);
-
-     connect(m_topToolbar, &TopToolbar::blurLineWidthChanged,
-             m_mainWidget, &MainWidget::blurLinewidthChanged);
-
      connect(m_topToolbar, &TopToolbar::rotateImage,
              m_mainWidget, &MainWidget::rotateImage);
 

@@ -34,11 +34,11 @@ public slots:
     void setViewOutline(bool enable);
 
     void initShapesWidget(QString shape);
-    void updateShapesColor(DrawStatus drawstatus, QColor color);
-    void updateShapesLineWidth(int linewidth);
-    void updateLineShapes(QString lineShape);
-    void updateTextFontsize(int fontsize);
-    void updateBlurLinewidth(int linewidth);
+//    void updateShapesColor(DrawStatus drawstatus, QColor color);
+//    void updateShapesLineWidth(int linewidth);
+//    void updateLineShapes(QString lineShape);
+//    void updateTextFontsize(int fontsize);
+//    void updateBlurLinewidth(int linewidth);
 
     void rotateImage(const QString &path, int degree);
     void generateBlurEffect(const QString &type);

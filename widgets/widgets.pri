@@ -10,7 +10,6 @@ HEADERS += \
     $$PWD/editlabel.h \
     $$PWD/colorlabel.h \
     $$PWD/colorslider.h \
-    $$PWD/canvaslabel.h \
     $$PWD/bigcolorbutton.h \
     $$PWD/pickcolorwidget.h \
     $$PWD/textfontlabel.h \
@@ -28,7 +27,6 @@ SOURCES += \
     $$PWD/editlabel.cpp \
     $$PWD/colorlabel.cpp \
     $$PWD/colorslider.cpp \
-    $$PWD/canvaslabel.cpp \
     $$PWD/bigcolorbutton.cpp \
     $$PWD/pickcolorwidget.cpp \
     $$PWD/textfontlabel.cpp \

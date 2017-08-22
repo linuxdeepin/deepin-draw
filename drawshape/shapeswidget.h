@@ -45,6 +45,7 @@ signals:
     void cutImage(QRect cutRect);
 
 public:
+    void initAttribute();
     void clearSelected();
     void setAllTextEditReadOnly();
 
@@ -72,7 +73,7 @@ public:
     QString  getCurrentType();
 
 public slots:
-    void updateSelectedShape(const QString &group, const QString &key, int index);
+    void updateSelectedShape(const QString &group, const QString &key);
     void setCurrentShape(QString shapeType);
     void updatePenColor();
     void setPenColor(QColor color);

@@ -18,9 +18,7 @@ public:
     QStringList keys(const QString &group);
 
 signals:
-    void colorChanged();
-    void configChanged(const QString &shape,  const QString &key, int index);
-    void straightLineConfigChanged(bool isStraightLine);
+    void configChanged(const QString &shape,  const QString &key);
 
 private:
     ConfigSettings(QObject* parent = 0);

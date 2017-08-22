@@ -6,7 +6,6 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
-#include "canvaslabel.h"
 #include "utils/baseutils.h"
 #include "utils/shapesutils.h"
 #include "scen/imageview.h"
@@ -25,10 +24,6 @@ public:
 
 signals:
     void initShapeWidget(QString shape);
-    void shapeColorChanged(DrawStatus drawstatus, QColor color);
-    void shapeLineWidthChanged(int linewidth);
-    void lineShapeChanged(QString lineshape);
-    void blurLinewidthChanged(int linewidth);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
     void cutImage();

@@ -20,10 +20,6 @@ public:
 
 signals:
     void initShapesWidget(QString shape);
-    void shapesColorChanged(DrawStatus drawstatus, QColor color);
-    void shapesLineWidthChanged(int linewidth);
-    void lineShapeChanged(QString lineShape);
-    void blurLinewidthChanged(int linewidth);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
     void cutImage();

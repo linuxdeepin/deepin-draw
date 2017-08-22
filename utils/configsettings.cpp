@@ -17,9 +17,9 @@ ConfigSettings::ConfigSettings(QObject *parent)
     {
         setValue("common", "strokeColor", "#f6f96d");
         setValue ("common", "fillColor",  "#6bc989");
-        setValue("common", "lineWidth", 3);
+        setValue("common", "lineWidth", 2);
 
-        setValue("line", "style", 0);
+        setValue("line", "style", 1);
         setValue("text", "fontsize", 12);
         setValue("blur", "index", 0);
     }
@@ -46,12 +46,9 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
     m_settings->endGroup();
     m_settings->sync();
 
-    if (val.type() == QVariant::Int)
-    {
-        emit configChanged(group, key, val.toInt());
-    }
+    emit configChanged(group, key);
 
-    qDebug() << "ConfigSettings:" << group << key << val;
+    qDebug() << "config settings update:" << group << key << val;
 }
 
 QVariant ConfigSettings::value(const QString &group, const QString &key,
