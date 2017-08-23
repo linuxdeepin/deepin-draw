@@ -26,7 +26,7 @@ bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    //FIXME:
+    //FIXME: ????????????freeimage?load??????????
     QStringList errorList;
     errorList << "X3F";
 

@@ -4,70 +4,70 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
-#include "widgets/pushbutton.h"
+#include "utils/imageutils.h"
 
 CutWidget::CutWidget(QWidget *parent)
     : QWidget(parent)
 {
     QList<PushButton*> btnList;
-    PushButton* leftRotateBtn = new PushButton(this);
-    leftRotateBtn->setObjectName("LeftRotate");
-    leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
-    btnList.append(leftRotateBtn);
+    m_leftRotateBtn = new PushButton(this);
+    m_leftRotateBtn->setObjectName("LeftRotate");
+    m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
+    btnList.append(m_leftRotateBtn);
 
-    PushButton* rightRotateBtn = new PushButton(this);
-    rightRotateBtn->setObjectName("RightRotate");
-    rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
-    btnList.append(rightRotateBtn);
+    m_rightRotateBtn = new PushButton(this);
+    m_rightRotateBtn->setObjectName("RightRotate");
+    m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
+    btnList.append(m_rightRotateBtn);
 
-    PushButton* cutBtn = new PushButton(this);
-    cutBtn->setObjectName("CutButton");
-    cutBtn->setToolTip(tr("Clip"));
-    btnList.append(cutBtn);
+    m_cutBtn = new PushButton(this);
+    m_cutBtn->setObjectName("CutButton");
+    m_cutBtn->setToolTip(tr("Clip"));
+    btnList.append(m_cutBtn);
 
-    PushButton* flipHBtn = new PushButton(this);
-    flipHBtn->setObjectName("FlipHorizontalBtn");
-    flipHBtn->setToolTip(tr("Flip horizontally"));
-    btnList.append(flipHBtn);
+    m_flipHBtn = new PushButton(this);
+    m_flipHBtn->setObjectName("FlipHorizontalBtn");
+    m_flipHBtn->setToolTip(tr("Flip horizontally"));
+    btnList.append(m_flipHBtn);
 
-    PushButton* flipVBtn = new PushButton(this);
-    flipVBtn->setObjectName("FlipVerticalBtn");
-    flipVBtn->setToolTip(tr("Flip vertically"));
-    btnList.append(flipVBtn);
+    m_flipVBtn = new PushButton(this);
+    m_flipVBtn->setObjectName("FlipVerticalBtn");
+    m_flipVBtn->setToolTip(tr("Flip vertically"));
+    btnList.append(m_flipVBtn);
 
-    connect(leftRotateBtn, &PushButton::clicked, this, [=]{
+    connect(m_leftRotateBtn, &PushButton::clicked, this, [=]{
         for(int j = 0; j < btnList.length(); j++) {
             btnList[j]->setChecked(false);
         }
-        leftRotateBtn->setChecked(true);
+        m_leftRotateBtn->setChecked(true);
         emit rotateImage(-90);
     });
-    connect(rightRotateBtn, &PushButton::clicked, this, [=]{
+    connect(m_rightRotateBtn, &PushButton::clicked, this, [=]{
         for(int j = 0; j < btnList.length(); j++) {
             btnList[j]->setChecked(false);
         }
-        rightRotateBtn->setChecked(true);
+        m_rightRotateBtn->setChecked(true);
         emit rotateImage(90);
     });
-    connect(cutBtn, &PushButton::clicked, this, [=]{
+    connect(m_cutBtn, &PushButton::clicked, this, [=]{
         for(int j = 0; j < btnList.length(); j++) {
             btnList[j]->setChecked(false);
         }
-        cutBtn->setChecked(true);
+        m_cutBtn->setChecked(true);
         emit cutImage();
     });
-    connect(flipHBtn, &PushButton::clicked, this, [=]{
+    connect(m_flipHBtn, &PushButton::clicked, this, [=]{
         for(int j = 0; j < btnList.length(); j++) {
             btnList[j]->setChecked(false);
         }
-        flipHBtn->setChecked(true);
+        m_flipHBtn->setChecked(true);
          emit mirroredImage(true, false);
     });
-    connect(flipVBtn, &PushButton::clicked, this, [=]{
+    connect(m_flipVBtn, &PushButton::clicked, this, [=]{
         for(int j = 0; j < btnList.length(); j++) {
             btnList[j]->setChecked(false);
         }
-        flipVBtn->setChecked(true);
+        m_flipVBtn->setChecked(true);
         emit mirroredImage(false, true);
     });
 
@@ -76,13 +76,34 @@ CutWidget::CutWidget(QWidget *parent)
     layout->setMargin(0);
     layout->setSpacing(4);
     layout->addStretch();
-    layout->addWidget(leftRotateBtn);
-    layout->addWidget(rightRotateBtn);
-    layout->addWidget(cutBtn);
-    layout->addWidget(flipHBtn);
-    layout->addWidget(flipVBtn);
+    layout->addWidget(m_leftRotateBtn);
+    layout->addWidget(m_rightRotateBtn);
+    layout->addWidget(m_cutBtn);
+    layout->addWidget(m_flipHBtn);
+    layout->addWidget(m_flipVBtn);
     layout->addStretch();
     setLayout(layout);
+}
+
+void CutWidget::updateBtns(const QString &path)
+{
+    using namespace utils::image;
+    if (!QFileInfo(path).exists()) {
+        m_leftRotateBtn->setDisabled(true);
+        m_rightRotateBtn->setDisabled(true);
+        m_cutBtn->setDisabled(true);
+        m_flipHBtn->setDisabled(true);
+        m_flipVBtn->setDisabled(true);
+    } else {
+        if (imageSupportSave(path)) {
+            m_leftRotateBtn->setDisabled(false);
+            m_rightRotateBtn->setDisabled(false);
+        } else {
+            m_leftRotateBtn->setDisabled(true);
+            m_rightRotateBtn->setDisabled(true);
+        }
+    }
+
 }
 
 CutWidget::~CutWidget()

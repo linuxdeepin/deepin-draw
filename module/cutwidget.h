@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "widgets/pushbutton.h"
+
 class CutWidget : public QWidget
 {
     Q_OBJECT
@@ -15,5 +17,14 @@ signals:
     void cutImage();
     void mirroredImage(bool hor, bool ver);
 
+public slots:
+    void  updateBtns(const QString &path);
+
+private:
+    PushButton* m_leftRotateBtn;
+    PushButton* m_rightRotateBtn;
+    PushButton* m_cutBtn;
+    PushButton* m_flipHBtn;
+    PushButton* m_flipVBtn;
 };
 #endif // CUTWIDGET_H

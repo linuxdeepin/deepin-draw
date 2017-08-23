@@ -247,3 +247,11 @@ QString DetectImageFormat(const QString &filepath)
 
     return "";
 }
+
+QString allImageformat()
+{
+    return QString("Files(*.bmp *.bmp24 *.ico *.jpg *.jpe *.jpeg *.jpeg24 *.jng *.pcd"
+                   "*.pcx *.png *.tga *.tif *.tiff *.tiff24 *.psd *.xpm *.dds *.gif *.sgi *.j2k "
+                   "*jp2 *.pct *.webp *.wdp *.cr2 *.pef *.arw *.nef *.icb *.dng *.vda "
+                   "*.vst *.raf *.orf *.svg *.ptif *.mef *.mrw *.xbm);;");
+}

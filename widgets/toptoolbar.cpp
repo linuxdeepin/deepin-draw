@@ -16,6 +16,8 @@
 
 #include "utils/configsettings.h"
 #include "utils/global.h"
+#include "utils/imageutils.h"
+
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
@@ -133,12 +135,31 @@ void TopToolbar::importImage()
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
-
     m_path = QFileDialog::getOpenFileName(this, tr("Open Image"),
                                           QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                          tr("Image Files (*.png *.jpg *.bmp, *svg)"));
+                                              ("Files(*.*);;"
+                                              "Files (*.bmp *.bmp24);;"
+                                             "Files(*.ico);;Files(*.jpg *.jpe *.jpeg *.jpeg24);;"
+                                             "Files( *.jng );;Files(*.pcd *.pcx);; "
+                                             "Files(*.png);;"
+                                             "Files(*.tga *.tif *.tiff *.tiff24);;"
+                                             "Files(*.psd);; Files(*.xpm);;"
+                                             "Files(*.dds);;Files(*.gif);;Files(*.sgi *.j2k *jp2);;"
+                                             "Files(*.pct );;"
+                                             "Files(*.webp *.wdp);;"
+                                             "Files(*.cr2 *.pef *.arw );;"
+                                             "Files(*.nef *.icb *.dng);;"
+                                             "Files(*.vda *.vst *.raf *.orf);;"
+                                             "Files(*.svg);;"
+                                             "Files(*.ptif *.mef *.mrw *.xbm)"));
 
-    emit openImage(m_path);
+    using namespace utils::image;
+    if (imageSupportRead(m_path))
+    {
+        emit openImage(m_path);
+    } else {
+        qWarning() << "Can't support this format!, image path:" << m_path;
+    }
 }
 
 void TopToolbar::initStackWidget()
