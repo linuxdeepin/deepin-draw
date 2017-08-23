@@ -155,7 +155,7 @@ void TopToolbar::initStackWidget()
         emit rotateImage(m_path, degree);
     });
     connect(m_cutWidget, &CutWidget::cutImage, this, [=]{
-//        drawShapes("cutImage");
+        drawShapes("cutImage");
     });
     connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::mirroredImage);
 

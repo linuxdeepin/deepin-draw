@@ -41,7 +41,7 @@ signals:
     void saveBtnPressed(int index);
     void requestExit();
     void menuNoFocus();
-    void finishedCut();
+    void finishedDrawCut();
     void cutImage(QRect cutRect);
 
 public:
@@ -69,9 +69,11 @@ public:
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
+
     void deleteCurrentShape();
     QString  getCurrentType();
     void setLineStyle(int index);
+    void showCutImageTips();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);

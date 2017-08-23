@@ -197,64 +197,10 @@ void ImageView::initShapesWidget(QString shape)
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
             &ImageView::generateBlurEffect);
 
-    connect(m_shapesWidget, &ShapesWidget::cutImage, this, [=](QRect cutAreaRect){
-        QRect coordinateRect =  m_imageScaledRect;
-        QRect cutRect = coordinateRect.intersected(cutAreaRect);
-
-        qDebug() << "imageview cutRect:" << coordinateRect << cutAreaRect << cutRect;
-
-        QPixmap cutPixmap = this->grab(cutRect);
-        cutPixmap.save("/tmp/cut.png", "PNG");
-        m_shapesWidget->hide();
-        qDebug() << "cutPixmap:" << cutPixmap.size();
-    });
-
+    connect(m_shapesWidget, &ShapesWidget::cutImage,
+            this, &ImageView::cutImage);
 
 }
-
-//void ImageView::updateShapesColor(DrawStatus drawstatus, QColor color)
-//{
-//    if (!m_shapesWidgetExist)
-//        return;
-
-//    if (drawstatus == DrawStatus::Fill) {
-//        m_shapesWidget->setBrushColor(color);
-//    } else {
-//        m_shapesWidget->setPenColor(color);
-//    }
-//}
-
-//void ImageView::updateShapesLineWidth(int linewidth)
-//{
-//    if (!m_shapesWidgetExist)
-//        return;
-
-//    m_shapesWidget->setLineWidth(linewidth);
-//}
-
-//void ImageView::updateLineShapes(QString lineShape)
-//{
-//    if (!m_shapesWidgetExist)
-//        return;
-
-//    m_shapesWidget->setCurrentShape(lineShape);
-//}
-
-//void ImageView::updateTextFontsize(int fontsize)
-//{
-//    if (!m_shapesWidgetExist)
-//        return;
-
-//    m_shapesWidget->setTextFontsize(fontsize);
-//}
-
-//void ImageView::updateBlurLinewidth(int linewidth)
-//{
-//    if (m_shapesWidgetExist)
-//        return;
-
-//    m_shapesWidget->setBlurLinewidth(linewidth);
-//}
 
 void ImageView::rotateImage(const QString &path, int degree)
 {
@@ -298,12 +244,17 @@ void ImageView::mirroredImage(bool horizontal, bool vertical) /*const*/
     this->setImage("/tmp/abc.png");
 }
 
-void ImageView::cutImage()
+void ImageView::cutImage(QRect cutRect)
 {
     if (m_currentPath.isEmpty())
         return;
 
+    QRect coordinateRect =  m_imageScaledRect;
+    QRect cutAreaRect = coordinateRect.intersected(cutRect);
 
+    QPixmap cutImage = this->grab(cutAreaRect);
+    cutImage.save("/tmp/cut.png", "PNG");
+    setImage("/tmp/cut.png");
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

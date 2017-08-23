@@ -25,25 +25,16 @@ public:
 
     void calculateImageScaledGeometry();
 
-signals:
-    void finishedCutImage();
-
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     void setViewBackground(bool enable);
     void setViewOutline(bool enable);
 
     void initShapesWidget(QString shape);
-//    void updateShapesColor(DrawStatus drawstatus, QColor color);
-//    void updateShapesLineWidth(int linewidth);
-//    void updateLineShapes(QString lineShape);
-//    void updateTextFontsize(int fontsize);
-//    void updateBlurLinewidth(int linewidth);
-
     void rotateImage(const QString &path, int degree);
     void generateBlurEffect(const QString &type);
     void mirroredImage(bool horizontal = false, bool vertical = true);
-    void cutImage();
+    void cutImage(QRect cutRect);
 
 protected:
     void wheelEvent(QWheelEvent *event);

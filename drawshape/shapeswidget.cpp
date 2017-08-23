@@ -24,6 +24,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     initAttribute();
     m_cutImageTips = new CutImageTips(this);
 
+    connect(this, &ShapesWidget::finishedDrawCut, this, &ShapesWidget::showCutImageTips);
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
 //    connect(m_menuController, &MenuController::saveBtnPressed,
@@ -261,7 +262,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         return onShapes;
 }
 
-    //TODO: selectUnique
+//TODO: selectUnique
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
          QPointF pos, bool isFilled)
 {
@@ -1168,6 +1169,10 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pos2 = QPointF(0, 0);
 
     update();
+    if (m_currentShape.type == "cutImage") {
+        emit finishedDrawCut();
+    }
+
     //    QFrame::mouseReleaseEvent(e);
 }
 
@@ -1530,22 +1535,7 @@ void ShapesWidget::paintCutImageRect(QPainter &painter,
     } else {
         qDebug() << "cutPoints length:" << cutPoints.length();
     }
-    QPoint tipPos = QPoint(rectFPoints[3].x(), rectFPoints[3].y());
 
-    m_cutImageTips->showTips(mapToGlobal(tipPos));
-    connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
-        qDebug() << "cutImageTips hide...";
-        m_cutImageTips->hide();
-        m_cutShape.points.clear();
-        m_cutShape.type = "";
-    });
-    QRect cutAreaRect = QRect(int(rectFPoints[0].x()), int(rectFPoints[0].y()),
-                                              std::abs(rectFPoints[2].x() - rectFPoints[0].x()),
-                                              std::abs(rectFPoints[3].y() - rectFPoints[2].y()));
-    connect(m_cutImageTips, &CutImageTips::cutAction, this, [=]{
-        emit cutImage(cutAreaRect);
-        m_cutImageTips->hide();
-    });
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *)
@@ -1614,6 +1604,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         pen.setStyle(Qt::DashLine);
         pen.setColor(Qt::white);
+        pen.setWidth(1);
         painter.setPen(pen);
         paintCutImageRect(painter, m_cutShape.mainPoints, CutRation::FreeRation, 0);
     }
@@ -1634,6 +1625,8 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             paintEllipse(painter, currentFPoint, m_shapes.length());
         } else if (m_currentType == "cutImage") {
             pen.setStyle(Qt::DashLine);
+            pen.setColor(Qt::white);
+            pen.setWidth(1);
             painter.setPen(pen);
             paintCutImageRect(painter, currentFPoint, CutRation::FreeRation, m_currentIndex);
         }
@@ -1811,6 +1804,35 @@ void ShapesWidget::setLineStyle(int index)
     case 1: setCurrentShape("arbitraryCurve"); break;
     default: setCurrentShape("arrow"); break;
     }
+}
+
+void ShapesWidget::showCutImageTips()
+{
+    FourPoints rectFPoints = m_cutShape.mainPoints;
+
+    QPoint tipPos = QPoint(rectFPoints[3].x(), rectFPoints[3].y());
+    m_cutImageTips->showTips(mapToGlobal(tipPos));
+
+    connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
+        qDebug() << "cutImageTips hide...";
+        m_cutImageTips->hide();
+        m_cutShape.points.clear();
+        m_cutShape.type = "";
+    });
+
+    QRect cutAreaRect = QRect(int(rectFPoints[0].x()), int(rectFPoints[0].y()),
+            std::abs(rectFPoints[2].x() - rectFPoints[0].x()),
+            std::abs(rectFPoints[3].y() - rectFPoints[2].y()));
+
+    connect(m_cutImageTips, &CutImageTips::cutAction, this, [=]{
+        m_cutShape.mainPoints.clear();
+        m_currentShape.mainPoints.clear();
+        m_cutShape.type = "";
+        m_currentShape.type = "";
+        update();
+        m_cutImageTips->hide();
+        emit cutImage(cutAreaRect);
+    });
 }
 
 void ShapesWidget::microAdjust(QString direction) {
