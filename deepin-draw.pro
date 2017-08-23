@@ -17,11 +17,13 @@ isEmpty(PREFIX){
 
 HEADERS += \
     mainwindow.h \
-    mainwidget.h
+    mainwidget.h \
+    application.h
 
 SOURCES += main.cpp \
     mainwindow.cpp \
-    mainwidget.cpp
+    mainwidget.cpp \
+    application.cpp
 
 include(widgets/widgets.pri)
 include(utils/utils.pri)

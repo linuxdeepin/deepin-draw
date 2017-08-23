@@ -1,4 +1,5 @@
 ﻿#include "toptoolbar.h"
+#include "application.h"
 
 #include <QLabel>
 #include <QPushButton>
@@ -8,7 +9,6 @@
 #include <QSlider>
 #include <QFileDialog>
 #include <QStandardPaths>
-#include <QApplication>
 #include <QMenu>
 #include <QDebug>
 
@@ -23,6 +23,7 @@
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/toolbutton.h"
+#include "widgets/dialog/drawdialog.h"
 
 #include "textfontlabel.h"
 
@@ -234,11 +235,20 @@ void TopToolbar::initMenu()
     Q_UNUSED(printAc);
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
-   qApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
-   qApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
+   dApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
+   dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
                 " You can freely draw on the layer or simplely edit images. "
                 "Deepin Draw is released under GPL v3."));
+
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
+   connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::popupDrawDialog);
+
+}
+
+void TopToolbar::popupDrawDialog()
+{
+    DrawDialog* dd = new DrawDialog;
+    dd->showInCenter(window());
 }
 
 void TopToolbar::setMiddleStackWidget(Status status)

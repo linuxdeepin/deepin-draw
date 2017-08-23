@@ -15,6 +15,8 @@ HEADERS += \
     $$PWD/textfontlabel.h \
     $$PWD/toolbutton.h \
     $$PWD/scen/imageview.h \
+    $$PWD/dialog/drawdialog.h \
+    $$PWD/dialog/dialog.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
     $$PWD/pickcolorwidget.cpp \
     $$PWD/textfontlabel.cpp \
     $$PWD/scen/imageview.cpp \
+    $$PWD/dialog/drawdialog.cpp \
+    $$PWD/dialog/dialog.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

@@ -1,4 +1,4 @@
-#include <DApplication>
+#include "application.h"
 #include <DLog>
 #include <DWidgetUtil>
 
@@ -15,9 +15,9 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
 
-    DApplication::loadDXcbPlugin();
+    Application::loadDXcbPlugin();
 
-    DApplication a(argc, argv);
+    Application a(argc, argv);
     a.loadTranslator(QList<QLocale>() << QLocale::system());
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");

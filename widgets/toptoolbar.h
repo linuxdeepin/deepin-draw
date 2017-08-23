@@ -50,6 +50,9 @@ signals:
     void cutImage();
     void  initShapeWidgetAction(const QString &shape);
 
+public:
+    void popupDrawDialog();
+
 public slots:
     void importImage();
     void drawShapes(QString shape);
