@@ -13,7 +13,6 @@ public:
 signals:
     void rotateImage(int degree);
     void cutImage();
-    void drawShapes(QString shape);
     void mirroredImage(bool hor, bool ver);
 
 };

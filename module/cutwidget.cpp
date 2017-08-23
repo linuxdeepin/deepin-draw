@@ -9,91 +9,79 @@
 CutWidget::CutWidget(QWidget *parent)
     : QWidget(parent)
 {
-//    QMap<int, QString> btnInfoMap;
-//    btnInfoMap.insert(0, "LeftRotate");
-//    btnInfoMap.insert(1, "RightRotate");
-//    btnInfoMap.insert(2, "CutButton");
-//    btnInfoMap.insert(3, "FlipHorizontalBtn");
-//    btnInfoMap.insert(4, "FlipVerticalBtn");
-
-//    QStringList btnTextList;
-//    btnTextList << tr("Rotate 90° CCW") << tr("Rotate 90° CW") << tr("Clip")
-//                          << tr("Flip horizontally") << tr("FlipVertically");
-
-//    QList<PushButton*> btnList;
-//    QMap<int, QString>::const_iterator i = btnInfoMap.constBegin();
-
+    QList<PushButton*> btnList;
     PushButton* leftRotateBtn = new PushButton(this);
     leftRotateBtn->setObjectName("LeftRotate");
+    leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
+    btnList.append(leftRotateBtn);
+
     PushButton* rightRotateBtn = new PushButton(this);
     rightRotateBtn->setObjectName("RightRotate");
+    rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
+    btnList.append(rightRotateBtn);
+
     PushButton* cutBtn = new PushButton(this);
     cutBtn->setObjectName("CutButton");
+    cutBtn->setToolTip(tr("Clip"));
+    btnList.append(cutBtn);
+
     PushButton* flipHBtn = new PushButton(this);
     flipHBtn->setObjectName("FlipHorizontalBtn");
+    flipHBtn->setToolTip(tr("Flip horizontally"));
+    btnList.append(flipHBtn);
+
     PushButton* flipVBtn = new PushButton(this);
     flipVBtn->setObjectName("FlipVerticalBtn");
+    flipVBtn->setToolTip(tr("Flip vertically"));
+    btnList.append(flipVBtn);
 
-//    while (i != btnInfoMap.constEnd()) {
-//        PushButton* btn = new PushButton();
-//        btnList.append(btn);
-//        btn->setObjectName(i.value());
-//        btn->setText(btnTextList[i.key()]);
+    connect(leftRotateBtn, &PushButton::clicked, this, [=]{
+        for(int j = 0; j < btnList.length(); j++) {
+            btnList[j]->setChecked(false);
+        }
+        leftRotateBtn->setChecked(true);
+        emit rotateImage(-90);
+    });
+    connect(rightRotateBtn, &PushButton::clicked, this, [=]{
+        for(int j = 0; j < btnList.length(); j++) {
+            btnList[j]->setChecked(false);
+        }
+        rightRotateBtn->setChecked(true);
+        emit rotateImage(90);
+    });
+    connect(cutBtn, &PushButton::clicked, this, [=]{
+        for(int j = 0; j < btnList.length(); j++) {
+            btnList[j]->setChecked(false);
+        }
+        cutBtn->setChecked(true);
+        emit cutImage();
+    });
+    connect(flipHBtn, &PushButton::clicked, this, [=]{
+        for(int j = 0; j < btnList.length(); j++) {
+            btnList[j]->setChecked(false);
+        }
+        flipHBtn->setChecked(true);
+         emit mirroredImage(true, false);
+    });
+    connect(flipVBtn, &PushButton::clicked, this, [=]{
+        for(int j = 0; j < btnList.length(); j++) {
+            btnList[j]->setChecked(false);
+        }
+        flipVBtn->setChecked(true);
+        emit mirroredImage(false, true);
+    });
 
-//        if (i.key() == 0) {
-//            connect(btn, &PushButton::clicked, this, [=]{
-//                emit rotateImage(-90);
-//                qDebug() << "topToolbar rotateImage:" /*<< m_path*/;
-//            });
-//        }
-//        if (i.key() == 1) {
-//            connect(btn, &PushButton::clicked, this, [=]{
-//                emit rotateImage(90);
-//            });
-//        }
-//        if (i.key() == 2) {
-//            connect(btn, &PushButton::clicked, this, [=]{
-//                emit cutImage();
-//                emit drawShapes("cutImage");
-//            });
-//        }
-//        if (i.key() == 3) {
-//            connect(btn, &PushButton::clicked, this, [=]{
-//                emit mirroredImage(true, false);
-//            });
-//        }
-//        if (i.key() == 4) {
-//            connect(btn, &PushButton::clicked, this, [=]{
-//                emit mirroredImage(false, true);
-//            });
-//        }
-//        ++i;
-//    }
-
-//    for(int k = 0; k < btnList.length(); k++) {
-//        connect(btnList[k], &PushButton::clicked, this, [=]{
-//            if (btnList[k]->getChecked()) {
-//                for (int j = 0; j < k; j++) {
-//                    btnList[j]->setChecked(false);
-//                }
-
-//                for(int p = k + 1; p < btnList.length(); p++) {
-//                    btnList[p]->setChecked(false);
-//                }
-//            } else {
-//                qDebug() << "Btn exclusive failed" << k;
-//            }
-//        });
-//    }
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(0);
+    layout->setSpacing(4);
+    layout->addStretch();
     layout->addWidget(leftRotateBtn);
     layout->addWidget(rightRotateBtn);
     layout->addWidget(cutBtn);
     layout->addWidget(flipHBtn);
     layout->addWidget(flipVBtn);
+    layout->addStretch();
     setLayout(layout);
 }
 

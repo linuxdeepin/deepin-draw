@@ -165,12 +165,6 @@ void PushButton::paintEvent(QPaintEvent *e)
     QMargins m = contentsMargins();
     int ph = 0;
     int spacing = 0;
-    if (m_isHovered) {
-        painter.setPen(Qt::transparent);
-        painter.setBrush(QColor(0, 0, 0, 8));
-        painter.drawRoundedRect(QRect(0.5, 0.5, this->width(), this->height()), 4, 4);
-    }
-
     QPixmap pixmap(getPixmap());
     if (! pixmap.isNull()) {
         if (pixmap.width() > width() || pixmap.height() > height()) {
@@ -187,20 +181,13 @@ void PushButton::paintEvent(QPaintEvent *e)
     }
 
     QFontMetrics fm(font());
-    const int tw =  fm.boundingRect(m_text).width();
-    const int th = fm.boundingRect(m_text).height();
+    const int tw = width() - m.left() - spacing - ph - m.right();
+    const int th = fm.height();
     const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
                    tw, th);
-
-   setFixedWidth(tw + pixmap.width() + 20);
     const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
-    if (m_checked) {
-        painter.setPen(QColor("#2CA7F8"));
-    } else {
-        painter.setPen(QPen(getTextColor()));
-    }
-
-    painter.drawText(textRect, Qt::AlignLeft, m_text);
+    painter.setPen(QPen(getTextColor()));
+    painter.drawText(textRect, Qt::AlignCenter, mt);
 }
 
 void PushButton::enterEvent(QEvent *e)

@@ -148,8 +148,16 @@ void TopToolbar::initStackWidget()
     m_emptyWidget = new QWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
 
+    //cut
     m_cutWidget = new CutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
+    connect(m_cutWidget, &CutWidget::rotateImage, [=](int degree){
+        emit rotateImage(m_path, degree);
+    });
+    connect(m_cutWidget, &CutWidget::cutImage, this, [=]{
+//        drawShapes("cutImage");
+    });
+    connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::mirroredImage);
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
