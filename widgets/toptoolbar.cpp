@@ -107,7 +107,12 @@ TopToolbar::TopToolbar(QWidget* parent)
     });
     connect(lineBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::DrawLine);
-        drawShapes("arbitraryCurve");
+        int styleIndex = ConfigSettings::instance()->value("line", "style").toInt();
+        switch (styleIndex) {
+        case 0: drawShapes("straightLine"); break;
+        case 1: drawShapes("arbitraryCurve"); break;
+        default: drawShapes("arrow"); break;
+        }
     });
     connect(textBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::DrawText);
@@ -138,352 +143,46 @@ void TopToolbar::importImage()
 
 void TopToolbar::initStackWidget()
 {
-
     m_stackWidget = new QStackedWidget(this);
-    //empty widget
+
     m_emptyWidget = new QWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
-    //cutwidget.
-    m_cutWidget = new QWidget(this);
-    QMap<int, QString> btnInfoMap;
-    btnInfoMap.insert(0, "LeftRotate");
-    btnInfoMap.insert(1, "RightRotate");
-    btnInfoMap.insert(2, "CutButton");
-    btnInfoMap.insert(3, "FlipHorizontalBtn");
-    btnInfoMap.insert(4, "FlipVerticalBtn");
-    QStringList btnTextList;
-    btnTextList << tr("Rotate 90° CCW") << tr("Rotate 90° CW") << tr("Clip")
-                << tr("Flip horizontally") << tr("FlipVertically");
-    QList<PushButton*> btnList;
-    QMap<int, QString>::const_iterator i = btnInfoMap.constBegin();
-    while (i != btnInfoMap.constEnd()) {
-        PushButton* btn = new PushButton();
-        btnList.append(btn);
-        btn->setObjectName(i.value());
-        btn->setText(btnTextList[i.key()]);
 
-        if (i.key() == 0) {
-            connect(btn, &PushButton::clicked, this, [=]{
-                emit rotateImage(m_path, -90);
-                qDebug() << "topToolbar rotateImage:" << m_path;
-            });
-        }
-        if (i.key() == 1) {
-            connect(btn, &PushButton::clicked, this, [=]{
-                emit rotateImage(m_path, 90);
-            });
-        }
-        if (i.key() == 2) {
-            connect(btn, &PushButton::clicked, this, [=]{
-                emit cutImage();
-                emit drawShapes("cutImage");
-            });
-        }
-        if (i.key() == 3) {
-            connect(btn, &PushButton::clicked, this, [=]{
-                emit mirroredImage(true, false);
-            });
-        }
-        if (i.key() == 4) {
-            connect(btn, &PushButton::clicked, this, [=]{
-                emit mirroredImage(false, true);
-            });
-        }
-        ++i;
-    }
-
-    for(int k = 0; k < btnList.length(); k++) {
-        connect(btnList[k], &PushButton::clicked, this, [=]{
-            if (btnList[k]->getChecked()) {
-                for (int j = 0; j < k; j++) {
-                    btnList[j]->setChecked(false);
-                }
-
-                for(int p = k + 1; p < btnList.length(); p++) {
-                    btnList[p]->setChecked(false);
-                }
-            } else {
-                qDebug() << "Btn exclusive failed" << k;
-            }
-        });
-    }
-
-    QHBoxLayout* cutHbLayout = new QHBoxLayout(m_cutWidget);
-    cutHbLayout->setMargin(0);
-    cutHbLayout->setSpacing(0);
-    for(int j = 0; j < btnList.length(); j++) {
-        cutHbLayout->addWidget(btnList[j]);
-    }
-    m_cutWidget->setLayout(cutHbLayout);
+    m_cutWidget = new CutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
-    m_strokeARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
-    m_strokeARect->setArrowX(25);
-    m_strokeARect->setArrowWidth(30);
-    m_strokeARect->setContent(m_colorPanel);
-    m_strokeARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
-    connect(m_colorPanel, &ColorPanel::colorChanged, this, &TopToolbar::setShapesColor);
-
-    //draw line.
-    m_drawLineWidget = new QWidget(this);
-    QLabel* borderColLabel = new QLabel(this);
-    borderColLabel->setObjectName("BorderStrokeLabel");
-    borderColLabel->setText(tr("Stroke"));
-    BorderColorButton* borderCButton = new BorderColorButton(this);
-    connect(borderCButton, &BorderColorButton::clicked, this, [=]{
-        setDrawStatus(DrawStatus::Stroke);
-        m_colorPanel->setDrawStatus(m_drawStatus);
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
-
-    SeperatorLine* sep1Line = new SeperatorLine(this);
-    QLabel* borderStyleLabel = new QLabel(this);
-    borderStyleLabel->setObjectName("BorderStyleLabel");
-    borderStyleLabel->setText(tr("Style"));
-
-    QList<ToolButton*> lineBtnList;
-    QStringList lineBtnNameList;
-    lineBtnNameList << "StraightLineBtn" << "ArbiLineBtn" << "ArrowBtn";
-    QButtonGroup* btnGroup = new QButtonGroup(this);
-    btnGroup->setExclusive(true);
-
-    for(int k = 0; k < lineBtnNameList.length(); k++) {
-        ToolButton* lineBtn = new ToolButton(this);
-        lineBtn->setObjectName(lineBtnNameList[k]);
-        lineBtnList.append(lineBtn);
-        btnGroup->addButton(lineBtn);
-
-        connect(lineBtn, &ToolButton::clicked, this, [=]{
-            setLineShape(k);
-            ConfigSettings::instance()->setValue("line", "style", k);
-        });
-    }
-    int defaultIndex = ConfigSettings::instance()->value("line", "style").toInt();
-    lineBtnList[defaultIndex]->setChecked(true);
-
-    SeperatorLine* sep2Line = new SeperatorLine(this);
-
-    QLabel* borderLWLabel = new QLabel(this);
-    borderLWLabel->setObjectName("BorderLWLabel");
-    borderLWLabel->setText(tr("Width"));
-    QList<ToolButton*> lwBtnList;
-    QStringList lwBtnNameList;
-    lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
-                  << "MediumLineBtn" << "BoldLineBtn";
-    QButtonGroup* lwBtnGroup = new QButtonGroup(this);
-    lwBtnGroup->setExclusive(true);
-    for (int i = 0; i < lwBtnNameList.length(); i++) {
-        ToolButton* lwBtn = new ToolButton(this);
-        lwBtn->setObjectName(lwBtnNameList[i]);
-        lwBtnList.append(lwBtn);
-        lwBtnGroup->addButton(lwBtn);
-        connect(lwBtn, &ToolButton::clicked, this, [=]{
-            emit shapesLineWidthChanged((i+1)*2);
-        });
-        if (i == 0) {
-            lwBtn->setChecked(true);
-        }
-    }
-
-    QHBoxLayout* drawHbLayout = new QHBoxLayout(m_drawLineWidget);
-    drawHbLayout->setMargin(0);
-    drawHbLayout->setSpacing(10);
-    drawHbLayout->addWidget(borderColLabel);
-    drawHbLayout->addWidget(borderCButton);
-    drawHbLayout->addWidget(sep1Line, 0, Qt::AlignCenter);
-    drawHbLayout->addWidget(borderStyleLabel);
-
-    for(int h = 0; h < lineBtnList.length(); h++) {
-        drawHbLayout->addWidget(lineBtnList[h]);
-    }
-    drawHbLayout->addWidget(sep2Line, 0, Qt::AlignCenter);
-    drawHbLayout->addWidget(borderLWLabel);
-    for(int j = 0; j < lwBtnList.length(); j++) {
-        drawHbLayout->addWidget(lwBtnList[j]);
-    }
-    m_drawLineWidget->setLayout(drawHbLayout);
-    m_stackWidget->addWidget(m_drawLineWidget);
+    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
+    m_colorARect->setArrowX(25);
+    m_colorARect->setArrowWidth(30);
+    m_colorARect->setContent(m_colorPanel);
+    m_colorARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
 
     //fill rectangle, and oval.
-    m_fillShapeWidget = new QWidget(this);
-    BigColorButton* fillColorBtn = new BigColorButton(this);
-    QLabel* fillColLabel = new QLabel(this);
-    fillColLabel->setText(tr("Fill"));
-
-    BorderColorButton* fillShapeStrokeBtn = new BorderColorButton(this);
-    fillShapeStrokeBtn->setObjectName("FillStrokeButton");
-
-    connect(fillColorBtn, &BigColorButton::clicked, this, [=]{
-        qDebug() << "BigColorButton:" << DrawStatus::Fill;
-        setDrawStatus(DrawStatus::Fill);
-        m_colorPanel->setDrawStatus(m_drawStatus);
-        fillShapeStrokeBtn->setChecked(false);
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
-
-    connect(fillShapeStrokeBtn, &BorderColorButton::clicked, this, [=]{
-        fillColorBtn->setChecked(false);
-        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
-        setDrawStatus(DrawStatus::Stroke);
-        m_colorPanel->setDrawStatus(m_drawStatus);
-
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
-
-    QLabel* strokeLabel = new QLabel(this);
-    strokeLabel->setText(tr("Stroke"));
-    SeperatorLine* fillShapeSepLine = new SeperatorLine();
-    QLabel* fillShapeLWLabel = new QLabel(this);
-    fillShapeLWLabel->setObjectName("BorderLabel");
-    fillShapeLWLabel->setText(tr("Width"));
-
-    QList<ToolButton*> fillShapeLwBtnList;
-    QButtonGroup* fillShapeBtnGroup = new QButtonGroup(this);
-    fillShapeBtnGroup->setExclusive(true);
-    for (int k = 0; k < lwBtnNameList.length(); k++) {
-        ToolButton* fillShapeBtn = new ToolButton(this);
-        fillShapeBtn->setObjectName(lwBtnNameList[k]);
-        fillShapeLwBtnList.append(fillShapeBtn);
-        fillShapeBtnGroup->addButton(fillShapeBtn);
-        connect(fillShapeBtn, &ToolButton::clicked, this, [=]{
-            emit shapesLineWidthChanged((k+1)*2);
-        });
-    }
-    int lwDefaultIndex = ConfigSettings::instance()->value(
-                "common", "lineWidth").toInt();
-    fillShapeLwBtnList[lwDefaultIndex]->setChecked(true);
-    QHBoxLayout* fillHLayout = new QHBoxLayout(this);
-    fillHLayout->setMargin(0);
-    fillHLayout->setSpacing(6);
-    fillHLayout->addStretch();
-    fillHLayout->addWidget(fillColorBtn);
-    fillHLayout->addWidget(fillColLabel);
-    fillHLayout->addWidget(fillShapeStrokeBtn);
-    fillHLayout->addWidget(strokeLabel);
-    fillHLayout->addWidget(fillShapeSepLine);
-    fillHLayout->addWidget(fillShapeLWLabel);
-    for(int j = 0; j < fillShapeLwBtnList.length(); j++) {
-        fillHLayout->addWidget(fillShapeLwBtnList[j]);
-    }
-    fillHLayout->addStretch();
-    m_fillShapeWidget->setLayout(fillHLayout);
+    m_fillShapeWidget = new FillshapeWidget(this);
     m_stackWidget->addWidget(m_fillShapeWidget);
+    connect(m_fillShapeWidget, &FillshapeWidget::showColorPanel,
+                    this, &TopToolbar::showColorfulPanel);
+
+    //draw line.
+    m_drawLineWidget = new LineWidget(this);
+    m_stackWidget->addWidget(m_drawLineWidget);
+    connect(m_drawLineWidget, &LineWidget::showColorPanel,
+            this, &TopToolbar::showColorfulPanel);
 
     //draw text.
-    m_drawTextWidget = new QWidget(this);
-    BigColorButton* fillBtn = new BigColorButton(this);
-    connect(fillBtn, &BigColorButton::clicked, this, [=]{
-        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
-        setDrawStatus(DrawStatus::Fill);
-        m_colorPanel->setDrawStatus(m_drawStatus);
-        QPoint curPos = this->cursor().pos();
-        if (m_strokeARect->isHidden()) {
-            m_strokeARect->show(curPos.x(), curPos.y() + 20);
-        } else {
-            m_strokeARect->hide();
-        }
-    });
-
-    QLabel* colBtnLabel = new QLabel(this);
-    colBtnLabel->setText(tr("Fill"));
-
-    SeperatorLine* textSeperatorLine = new SeperatorLine(this);
-
-    QLabel* fontsizeLabel = new QLabel(this);
-    fontsizeLabel->setText(tr("Font size"));
-    TextFontLabel* fontLabel = new TextFontLabel(this);
-
-    QHBoxLayout* textHbLayout = new QHBoxLayout(m_drawTextWidget);
-    textHbLayout->setMargin(0);
-    textHbLayout->setSpacing(6);
-    textHbLayout->addStretch();
-    textHbLayout->addWidget(fillBtn);
-    textHbLayout->addWidget(colBtnLabel);
-    textHbLayout->addWidget(textSeperatorLine);
-    textHbLayout->addWidget(fontsizeLabel);
-    textHbLayout->addWidget(fontLabel);
-    textHbLayout->addStretch();
-    m_drawTextWidget->setLayout(textHbLayout);
+    m_drawTextWidget = new TextWidget(this);
     m_stackWidget->addWidget(m_drawTextWidget);
+    connect(m_drawTextWidget, &TextWidget::showColorPanel,
+            this, &TopToolbar::showColorfulPanel);
 
     //draw blur widget.
-    m_drawBlurWidget = new QWidget(this);
-    QLabel* penLabel = new QLabel;
-    penLabel->setText(tr("Width"));
-    ToolButton* fineBtn = new ToolButton;
-    fineBtn->setObjectName("LineMostThinBtn");
-
-    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal);
-    lineWidthSlider->setMinimum(20);
-    lineWidthSlider->setMaximum(160);
-    connect(lineWidthSlider, &QSlider::valueChanged, this,
-            &TopToolbar::blurLineWidthChanged);
-
-    ToolButton* boldBtn = new ToolButton;
-    boldBtn->setObjectName("LineThickLineBtn");
-    QHBoxLayout* blurHbLayout = new QHBoxLayout(m_drawBlurWidget);
-    blurHbLayout->addWidget(penLabel);
-    blurHbLayout->addSpacing(4);
-    blurHbLayout->addWidget(fineBtn);
-    blurHbLayout->addWidget(lineWidthSlider);
-    blurHbLayout->addSpacing(4);
-    blurHbLayout->addWidget(boldBtn);
-    m_drawBlurWidget->setLayout(blurHbLayout);
+    m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
 
     //process  artboard's size.
-    m_adjustsizeWidget = new QWidget(this);
-    QLabel* casWidthLabel = new QLabel(this);
-    casWidthLabel->setObjectName("CasWidthLabel");
-    casWidthLabel->setText(tr("Canvas width"));
-
-    QLineEdit* widthLEdit = new QLineEdit(this);
-    widthLEdit->setObjectName("WidthLineEdit");
-    widthLEdit->setFixedWidth(80);
-    widthLEdit->setStyleSheet("background-color: red;");
-    QLabel* unitWLabel = new QLabel(this);
-    unitWLabel->setText("px");
-
-    QLabel* casHeightLabel = new QLabel(this);
-    casHeightLabel->setObjectName("CasHeightLabel");
-    casHeightLabel->setText(tr("Canvas height"));
-    QLineEdit* heightLEdit = new QLineEdit(this);
-    heightLEdit->setObjectName("HeightLineEdit");
-    heightLEdit->setFixedWidth(80);
-    QLabel* unitHLabel = new QLabel(this);
-    unitHLabel->setText("px");
-
-    ToolButton* cutTransAreaBtn = new ToolButton(this);
-    cutTransAreaBtn->setFixedWidth(100);
-    cutTransAreaBtn->setObjectName("CutAreaLineEdit");
-    cutTransAreaBtn->setText(tr("裁剪透明区域"));
-    QHBoxLayout* picHbLayout = new QHBoxLayout(m_adjustsizeWidget);
-    picHbLayout->addWidget(casWidthLabel);
-    picHbLayout->addWidget(widthLEdit);
-    picHbLayout->addWidget(unitWLabel);
-    picHbLayout->addSpacing(6);
-    picHbLayout->addWidget(casHeightLabel);
-    picHbLayout->addWidget(heightLEdit);
-    picHbLayout->addWidget(unitHLabel);
-    picHbLayout->addWidget(cutTransAreaBtn);
-    m_adjustsizeWidget->setLayout(picHbLayout);
+    m_adjustsizeWidget = new AdjustsizeWidget(this);
     m_stackWidget->addWidget(m_adjustsizeWidget);
 
     m_stackWidget->setCurrentWidget(m_emptyWidget);
@@ -533,6 +232,18 @@ void TopToolbar::setDrawStatus(DrawStatus drawstatus)
     m_drawStatus = drawstatus;
 }
 
+void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos)
+{
+    m_drawStatus = drawstatus;
+    m_colorPanel->setDrawStatus(m_drawStatus);
+    m_colorPanel->updateColorButtonStatus();
+
+    if (m_colorARect->isHidden())
+        m_colorARect->show(pos.x(), pos.y() + 8);
+    else
+        m_colorARect->hide();
+}
+
 void TopToolbar::drawShapes(QString shape)
 {
     if (!m_shapesWidgetExist) {
@@ -540,27 +251,6 @@ void TopToolbar::drawShapes(QString shape)
         m_shapesWidgetExist = true;
     } else {
         emit initShapeWidgetAction(shape);
-    }
-}
-
-void TopToolbar::setShapesColor(QColor color)
-{
-    qDebug() << "TopToolbar:" << color;
-    if (m_drawStatus == DrawStatus::Fill) {
-        emit shapesColorChanged(DrawStatus::Fill, color);
-    } else {
-        emit shapesColorChanged(DrawStatus::Stroke, color);
-    }
-}
-
-void TopToolbar::setLineShape(int lineIndex)
-{
-    qDebug() << "TopToolbar: setLineShape lineIndex:" << lineIndex;
-    switch (lineIndex) {
-    case 0: { emit lineShapeChanged("straightLine"); break;}
-    case 1: { emit lineShapeChanged("arbitraryCurve"); break;}
-    case 2: { emit lineShapeChanged("arrow"); break;}
-    default: break;
     }
 }
 

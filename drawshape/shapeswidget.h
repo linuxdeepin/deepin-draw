@@ -71,6 +71,7 @@ public:
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
     void deleteCurrentShape();
     QString  getCurrentType();
+    void setLineStyle(int index);
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);

@@ -21,7 +21,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
 
         setValue("line", "style", 1);
         setValue("text", "fontsize", 12);
-        setValue("blur", "index", 0);
+        setValue("blur", "index", 20);
     }
 
     qDebug() << "Setting file:" << m_settings->fileName();

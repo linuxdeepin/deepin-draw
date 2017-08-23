@@ -11,6 +11,13 @@
 #include "widgets/colorpanel.h"
 #include "utils/baseutils.h"
 
+#include "module/cutwidget.h"
+#include "module/linewidget.h"
+#include "module/fillshapewidget.h"
+#include "module/textwidget.h"
+#include "module/blurwidget.h"
+#include "module/adjustsizewidget.h"
+
 DWIDGET_USE_NAMESPACE
 
 class TopToolbar : public QFrame {
@@ -42,18 +49,13 @@ signals:
     void mirroredImage(bool horizonta, bool vertical);
     void cutImage();
     void  initShapeWidgetAction(const QString &shape);
-    void shapesColorChanged(DrawStatus drawstatus, QColor);
-    void shapesLineWidthChanged(int lineWidth);
-    void lineShapeChanged(QString lineShape);
-    void blurLineWidthChanged(int lineWidth);
 
 public slots:
     void importImage();
     void drawShapes(QString shape);
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
-    void setShapesColor(QColor color);
-    void setLineShape(int lineIndex);
+    void showColorfulPanel(DrawStatus drawstatus, QPoint pos);
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -65,14 +67,14 @@ private:
     int m_textFontsize = 12;
 
     QWidget* m_emptyWidget;
-    QWidget* m_cutWidget;
-    QWidget* m_drawLineWidget;
-    QWidget* m_fillShapeWidget;
-    QWidget* m_drawTextWidget;
-    QWidget* m_drawBlurWidget;
-    QWidget* m_adjustsizeWidget;
+    CutWidget* m_cutWidget;
+    LineWidget* m_drawLineWidget;
+    FillshapeWidget* m_fillShapeWidget;
+    TextWidget* m_drawTextWidget;
+    BlurWidget* m_drawBlurWidget;
+    AdjustsizeWidget* m_adjustsizeWidget;
 
-    DArrowRectangle* m_strokeARect;
+    DArrowRectangle* m_colorARect;
     ColorPanel* m_colorPanel;
 
     Status            m_middleWidgetStatus;

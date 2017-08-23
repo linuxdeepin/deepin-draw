@@ -29,7 +29,6 @@ signals:
     void cutImage();
 
 private:
-//    CanvasLabel* m_canvasLabel;
     ImageView* m_view;
     QString m_currentFile;
 

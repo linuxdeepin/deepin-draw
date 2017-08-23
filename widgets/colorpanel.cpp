@@ -176,6 +176,10 @@ void ColorPanel::setColor(QColor color)
 void ColorPanel::setDrawStatus(DrawStatus status)
 {
     m_drawstatus = status;
+}
+
+void ColorPanel::updateColorButtonStatus()
+{
     if (m_drawstatus == DrawStatus::Stroke)
     {
         QString colorName = ConfigSettings::instance()->value(

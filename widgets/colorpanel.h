@@ -36,6 +36,8 @@ public:
     ColorPanel(QWidget* parent = 0);
     ~ColorPanel();
 
+    void updateColorButtonStatus();
+
     void setColor(QColor color);
     void setDrawStatus(DrawStatus status);
 

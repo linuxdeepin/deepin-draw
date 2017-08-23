@@ -85,6 +85,11 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             m_linewidth = ConfigSettings::instance()->value(
                 "common", "lineWidth").toInt();
         }
+    } else if (group == "line" && key == "style") {
+        setLineStyle(ConfigSettings::instance()->value("line", "style").toInt());
+    } else if (group == "blur" && key == "index") {
+        m_blurLinewidth = ConfigSettings::instance()->value(
+                    "blur", "index").toInt();
     }
 
     if (m_selectedIndex != -1 && m_selectedOrder != -1) {
@@ -787,8 +792,8 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos)
     return false;
 }
 
-bool ShapesWidget::rotateOnPoint(FourPoints mainPoints,
-                                 QPointF pos) {
+bool ShapesWidget::rotateOnPoint(FourPoints mainPoints, QPointF pos)
+{
     bool result = hoverOnRotatePoint(mainPoints, pos);
     return result;
 }
@@ -1797,6 +1802,15 @@ void ShapesWidget::undoDrawShapes()
 QString ShapesWidget::getCurrentType()
 {
     return m_currentShape.type;
+}
+
+void ShapesWidget::setLineStyle(int index)
+{
+    switch (index) {
+    case 0: setCurrentShape("straightLine"); break;
+    case 1: setCurrentShape("arbitraryCurve"); break;
+    default: setCurrentShape("arrow"); break;
+    }
 }
 
 void ShapesWidget::microAdjust(QString direction) {
