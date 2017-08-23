@@ -3,7 +3,7 @@ QWidget#TopToolbar {
 }
 
 QLabel#LogoLabel {
-border-image: url(:/theme/light/images/logo.png);
+border-image: url(:/theme/common/images/deepin-draw-32.png);
 }
 
 QPushButton#ArtBoardBtn {

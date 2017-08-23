@@ -71,7 +71,6 @@
         <file>theme/light/images/draw/straight_line_active.png</file>
         <file>theme/light/images/draw/straight_line_hover.png</file>
         <file>theme/light/images/draw/straight_line_normal.png</file>
-        <file>theme/light/images/logo.png</file>
         <file>theme/light/images/action/line_normal.png</file>
         <file>theme/light/TopToolbar.qss</file>
         <file>theme/dark/TopToolbar.qss</file>
@@ -89,6 +88,9 @@
         <file>theme/light/images/action/picture_active.png</file>
         <file>theme/light/images/action/picture_normal.png</file>
         <file>theme/light/images/action/picture_hover.png</file>
-        <file>theme/common/images/deepin-draw.png</file>
+        <file>theme/light/images/deepin-draw_32.svg</file>
+        <file>theme/common/images/deepin-draw-96.png</file>
+        <file>theme/common/images/deepin-draw-64.png</file>
+        <file>theme/common/images/deepin-draw-32.png</file>
     </qresource>
 </RCC>

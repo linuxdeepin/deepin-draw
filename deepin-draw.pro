@@ -69,3 +69,11 @@ exists(app_icon.files) {
 }
 
 INSTALLS = target desktop  app_icon manual_icon #manual   translations
+
+DISTFILES += \
+    logo/deepin-draw-16.svg \
+    logo/deepin-draw-32.svg \
+    logo/deepin-draw-64.svg \
+    logo/deepin-draw-96.svg \
+    logo/deepin-draw-128.svg \
+    logo/deepin-draw-256.svg
