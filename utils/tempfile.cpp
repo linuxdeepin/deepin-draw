@@ -3,6 +3,8 @@
 #include <QTemporaryFile>
 #include <QDebug>
 
+#include "baseutils.h"
+
 TempFile* TempFile::m_tempFile = nullptr;
 TempFile* TempFile::instance()
 {
@@ -33,4 +35,17 @@ QString TempFile::getBlurFileName()
     } else {
         return "/tmp/deepin-draw-blur.png";
     }
+}
+
+QString TempFile::getRandomFile(const QString &filepath)
+{
+    QString hashKey = createHash(filepath);
+    QTemporaryFile randomFile;
+    QString randomFilename;
+    if (randomFile.open()) {
+        randomFilename = randomFile.fileName();
+        m_pathMap.insert(hashKey, randomFilename);
+    }
+
+    return randomFilename;
 }

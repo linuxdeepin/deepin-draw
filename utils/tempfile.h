@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWindow>
+#include <QMap>
 
 class TempFile : public QObject {
     Q_OBJECT
@@ -11,11 +12,15 @@ public:
 
     QString getBlurFileName();
 
+    QString getRandomFile(const QString &filepath);
+
 private:
     static TempFile* m_tempFile;
     TempFile(QObject* parent = 0);
     ~TempFile();
 
     QString m_blurFile;
+    QMap<QString , QString> m_pathMap;
+
 };
 #endif // TEMPFILE_H

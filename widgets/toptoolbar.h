@@ -51,7 +51,8 @@ signals:
     void  initShapeWidgetAction(const QString &shape);
 
 public:
-    void popupDrawDialog();
+    void showDrawDialog();
+    void showSaveDialog();
 
 public slots:
     void importImage();

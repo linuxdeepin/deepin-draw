@@ -46,4 +46,5 @@ void  paintSelectedPoint(QPainter &painter, QPoint pos,
 QVariantList cachePixmap(const QString &path);
 QString DetectImageFormat(const QString &filepath);
 QString allImageformat();
+QString     createHash(const QString &str);
 #endif // BASEUTILS_H

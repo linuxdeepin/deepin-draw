@@ -16,7 +16,8 @@ HEADERS += \
     $$PWD/toolbutton.h \
     $$PWD/scen/imageview.h \
     $$PWD/dialog/drawdialog.h \
-    $$PWD/dialog/dialog.h
+    $$PWD/dialog/dialog.h \
+    $$PWD/dialog/savedialog.h
 
 SOURCES += \
     $$PWD/toptoolbar.cpp \
@@ -34,7 +35,8 @@ SOURCES += \
     $$PWD/textfontlabel.cpp \
     $$PWD/scen/imageview.cpp \
     $$PWD/dialog/drawdialog.cpp \
-    $$PWD/dialog/dialog.cpp
+    $$PWD/dialog/dialog.cpp \
+    $$PWD/dialog/savedialog.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

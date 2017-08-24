@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QImageReader>
+#include <QCryptographicHash>
 
 QCursor setCursorShape(QString cursorName) {
     QCursor customShape = QCursor();
@@ -254,4 +255,10 @@ QString allImageformat()
                    "*.pcx *.png *.tga *.tif *.tiff *.tiff24 *.psd *.xpm *.dds *.gif *.sgi *.j2k "
                    "*jp2 *.pct *.webp *.wdp *.cr2 *.pef *.arw *.nef *.icb *.dng *.vda "
                    "*.vst *.raf *.orf *.svg *.ptif *.mef *.mrw *.xbm);;");
+}
+
+QString createHash(const QString &str)
+{
+    return QString(QCryptographicHash::hash(str.toUtf8(),
+                                            QCryptographicHash::Md5).toHex());
 }

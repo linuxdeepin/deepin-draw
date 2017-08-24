@@ -24,6 +24,7 @@
 #include "widgets/bordercolorbutton.h"
 #include "widgets/toolbutton.h"
 #include "widgets/dialog/drawdialog.h"
+#include "widgets/dialog/savedialog.h"
 
 #include "textfontlabel.h"
 
@@ -128,6 +129,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     connect(artBoardBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::AdjustSize);
     });
+    connect(exportBtn, &ToolButton::clicked, this, &TopToolbar::showSaveDialog);
 }
 
 void TopToolbar::importImage()
@@ -241,14 +243,21 @@ void TopToolbar::initMenu()
                 "Deepin Draw is released under GPL v3."));
 
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
-   connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::popupDrawDialog);
-
+   connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
+    connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
+    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
 }
 
-void TopToolbar::popupDrawDialog()
+void TopToolbar::showDrawDialog()
 {
     DrawDialog* dd = new DrawDialog;
     dd->showInCenter(window());
+}
+
+void TopToolbar::showSaveDialog()
+{
+    SaveDialog* sd = new SaveDialog;
+    sd->showInCenter(window());
 }
 
 void TopToolbar::setMiddleStackWidget(Status status)
