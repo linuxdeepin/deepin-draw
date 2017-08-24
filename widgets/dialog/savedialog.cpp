@@ -4,6 +4,8 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QDebug>
+#include <QObject>
 
 SaveDialog::SaveDialog(QWidget *parent)
     : Dialog(parent)
@@ -23,8 +25,9 @@ SaveDialog::SaveDialog(QWidget *parent)
     contentSaveCBox->addItems(saveDirs);
 
     QStringList fileFormat;
-    fileFormat << tr("PNG") << tr("JPG") << tr("BMP") << tr("TIF") << "PDF"
-                         << tr("ddf");
+    fileFormat << tr("PNG") << tr("DDF") << tr("JPG") << tr("BMP")
+                        << tr("TIF") << "PDF";
+
     QComboBox* contentFormatCBox = new QComboBox(this);
     contentFormatCBox->addItems(fileFormat);
 
@@ -37,7 +40,7 @@ SaveDialog::SaveDialog(QWidget *parent)
     hLayout->addWidget(qualitySlider);
     hLayout->addWidget(valueLabel);
 
-    QWidget* w = new QWidget(this);
+    QWidget* w = new QWidget;
     QFormLayout* fLayout = new QFormLayout(w);
     fLayout->addRow(tr("Name"), contentFile);
     fLayout->addRow(tr("Save to"), contentSaveCBox);
@@ -45,7 +48,6 @@ SaveDialog::SaveDialog(QWidget *parent)
     fLayout->addRow(tr("Quality"), hLayout);
 
     addContent(w);
-
 }
 
 void SaveDialog::keyPressEvent(QKeyEvent *e)
