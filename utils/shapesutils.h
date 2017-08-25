@@ -21,6 +21,8 @@ public:
      bool isMosaic = false;
      bool isStraight = false;
      bool isShiftPressed = false;
+     QString imagePath = "";
+     QSize imageSize = QSize();
      int fontSize = 1;
 
     QList<QPointF> points;

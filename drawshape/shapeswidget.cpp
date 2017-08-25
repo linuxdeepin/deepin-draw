@@ -1538,6 +1538,13 @@ void ShapesWidget::paintCutImageRect(QPainter &painter,
 
 }
 
+void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
+{
+    QPointF startPos = imageShape.mainPoints[0];
+    QPixmap pixmap = QPixmap(imageShape.imagePath);
+    painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
+}
+
 void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -1833,6 +1840,24 @@ void ShapesWidget::showCutImageTips()
         m_cutImageTips->hide();
         emit cutImage(cutAreaRect);
     });
+}
+
+void ShapesWidget::loadImage(QStringList paths)
+{
+    for(int i = 0; i < paths.length(); i++)
+    {
+        if (QFileInfo(paths[i]).exists()) {
+            Toolshape imageShape;
+            imageShape.imagePath = paths[i];
+            imageShape.imageSize = QPixmap(paths[i]).size();
+            if (m_imagePosList.length() == 0) {
+                imageShape.mainPoints[0] = QPoint(0, 0);
+            } else {
+                QPointF lastStartPos = m_imagePosList[m_imagePosList.length() - 1];
+                imageShape.mainPoints[0] = QPoint(lastStartPos.x() + 5, lastStartPos.y() + 5);
+            }
+        }
+    }
 }
 
 void ShapesWidget::microAdjust(QString direction) {

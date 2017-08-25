@@ -74,6 +74,7 @@ public:
     QString  getCurrentType();
     void setLineStyle(int index);
     void showCutImageTips();
+    void loadImage(QStringList paths);
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);
@@ -147,6 +148,7 @@ private:
     QMap<int, TextEdit*> m_editMap;
     void updateTextRect(TextEdit* edit, QRectF newRect);
     Toolshapes m_shapes;
+    QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
@@ -167,5 +169,6 @@ private:
     void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
     void paintCutImageRect(QPainter &painter, FourPoints rectFPoints,
                                                   CutRation ration, int index);
+    void paintImage(QPainter &painter, Toolshape imageShape);
 };
 #endif // SHAPESWIDGET_H
