@@ -45,10 +45,11 @@ public:
 
 signals:
     void openImage(QString imageFileName);
+    void  initShapeWidgetAction(const QString &shape);
     void rotateImage(const QString &imagePath, int degree);
     void mirroredImage(bool horizonta, bool vertical);
     void cutImage();
-    void  initShapeWidgetAction(const QString &shape);
+    void saveImage(const QString &path);
 
 public:
     void showDrawDialog();

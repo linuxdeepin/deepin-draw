@@ -21,7 +21,7 @@ TempFile::TempFile(QObject *parent)
 {
     QTemporaryFile blurFile;
     if (blurFile.open()) {
-        m_blurFile = blurFile.fileName();
+        m_blurFile = blurFile.fileName() + ".png";
     }
     qDebug() << "Blur File:" << m_blurFile;
 }
@@ -31,7 +31,7 @@ TempFile::~TempFile() {}
 QString TempFile::getBlurFileName()
 {
     if (!m_blurFile.isEmpty()) {
-        return QString("%1.png").arg(m_blurFile);
+        return m_blurFile;
     } else {
         return "/tmp/deepin-draw-blur.png";
     }
@@ -43,7 +43,7 @@ QString TempFile::getRandomFile(const QString &filepath)
     QTemporaryFile randomFile;
     QString randomFilename;
     if (randomFile.open()) {
-        randomFilename = randomFile.fileName();
+        randomFilename = randomFile.fileName() + ".png";
         m_pathMap.insert(hashKey, randomFilename);
     }
 

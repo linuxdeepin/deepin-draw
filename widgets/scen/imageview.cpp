@@ -55,8 +55,8 @@ void ImageView::drawBackground(QPainter *p, const QRectF &)
 void ImageView::setImage(const QString &path)
 {
     qDebug() << "ImageView path:" << path;
-
-    if (!QFileInfo(path).exists())
+    m_originPath = path;
+    if (!QFileInfo(m_originPath).exists())
         return;
 
     QGraphicsScene *s = scene();
@@ -72,9 +72,9 @@ void ImageView::setImage(const QString &path)
     m_originRect = this->viewport()->rect();
     qDebug() << "origin Rect:" << m_originRect;
 
-    if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path))
+    if (QFileInfo(m_originPath).suffix() == "svg" && QSvgRenderer().load(m_originPath))
     {
-        m_svgItem = new QGraphicsSvgItem(path);
+        m_svgItem = new QGraphicsSvgItem(m_originPath);
         m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
         m_svgItem->setCacheMode(QGraphicsItem::NoCache);
         m_svgItem->setZValue(0);
@@ -84,7 +84,7 @@ void ImageView::setImage(const QString &path)
         m_backgroundItem = new QGraphicsRectItem(m_svgItem->boundingRect());
         m_outlineItem = new QGraphicsRectItem(m_svgItem->boundingRect());
     } else {
-        QVariantList vl = cachePixmap(path);
+        QVariantList vl = cachePixmap(m_originPath);
         QPixmap pixmap = vl.last().value<QPixmap>();
         m_pixmapItem = new QGraphicsPixmapItem(pixmap);
         m_pixmapItem->setZValue(0);
@@ -98,7 +98,7 @@ void ImageView::setImage(const QString &path)
 
 
     m_imageLoaded = true;
-    m_currentPath = path;
+    m_currentPath = m_originPath;
     m_backgroundItem->setBrush(Qt::white);
     m_backgroundItem->setPen(Qt::NoPen);
     m_backgroundItem->setVisible(drawBackground);
@@ -237,11 +237,14 @@ void ImageView::generateBlurEffect(const QString &type)
 void ImageView::mirroredImage(bool horizontal, bool vertical) /*const*/
 {
     qDebug() << "mirror image:" << horizontal << vertical;
+
     QImage originImage(m_currentPath);
 
     originImage = originImage.mirrored(horizontal,vertical);
-    originImage.save("/tmp/abc.png", "PNG");
-    this->setImage("/tmp/abc.png");
+    QString tmpImagePath = TempFile::instance()->getRandomFile(m_originPath);
+    m_currentPath = tmpImagePath;
+    originImage.save(tmpImagePath, "PNG");
+    this->setImage(m_currentPath);
 }
 
 void ImageView::cutImage(QRect cutRect)
@@ -253,8 +256,16 @@ void ImageView::cutImage(QRect cutRect)
     QRect cutAreaRect = coordinateRect.intersected(cutRect);
 
     QPixmap cutImage = this->grab(cutAreaRect);
-    cutImage.save("/tmp/cut.png", "PNG");
-    setImage("/tmp/cut.png");
+    QString tmpImgPath = TempFile::instance()->getRandomFile(m_originPath);
+    m_currentPath = tmpImgPath;
+    cutImage.save(tmpImgPath, "PNG");
+    setImage(m_currentPath);
+}
+
+void ImageView::saveImage(const QString &path)
+{
+    QPixmap image(m_currentPath);
+    image.save(path);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

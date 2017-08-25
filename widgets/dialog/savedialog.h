@@ -11,6 +11,10 @@ class SaveDialog : public Dialog
 public:
     explicit SaveDialog(QWidget* parent = 0);
 
+signals:
+    void saveToPath(const QString &path);
+    void imageNameChanged(QString imagename);
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
 

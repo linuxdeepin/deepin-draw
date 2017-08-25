@@ -24,6 +24,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
     connect(this, &CanvasWidget::mirroredImage,
             m_view, &ImageView::mirroredImage);
+
+    connect(this, &CanvasWidget::saveImage,
+            m_view, &ImageView::saveImage);
 }
 
 bool CanvasWidget::overWindowSize() {

@@ -35,6 +35,7 @@ public slots:
     void generateBlurEffect(const QString &type);
     void mirroredImage(bool horizontal = false, bool vertical = true);
     void cutImage(QRect cutRect);
+    void saveImage(const QString &path);
 
 protected:
     void wheelEvent(QWheelEvent *event);
@@ -49,6 +50,7 @@ private:
     QGraphicsRectItem *m_outlineItem;
 
     QImage m_image;
+    QString m_originPath;
     QString m_currentPath;
 
     QRectF m_imageRect;

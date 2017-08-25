@@ -26,7 +26,7 @@ signals:
     void initShapeWidget(QString shape);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
-    void cutImage();
+    void saveImage(const QString &path);
 
 private:
     ImageView* m_view;

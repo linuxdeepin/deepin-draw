@@ -26,6 +26,8 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::rotateImage);
     connect(this, &MainWidget::mirroredImage,
             m_canvas, &CanvasWidget::mirroredImage);
+    connect(this, &MainWidget::saveImage,
+            m_canvas, &CanvasWidget::saveImage);
 }
 
 void MainWidget::setImageInCanvas(QString imageFileName) {

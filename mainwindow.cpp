@@ -35,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
 
      connect(m_topToolbar, &TopToolbar::mirroredImage,
              m_mainWidget, &MainWidget::mirroredImage);
+
+     connect(m_topToolbar, &TopToolbar::saveImage,
+             m_mainWidget, &MainWidget::saveImage);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

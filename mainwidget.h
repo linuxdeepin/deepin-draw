@@ -22,7 +22,7 @@ signals:
     void initShapesWidget(QString shape);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
-    void cutImage();
+    void saveImage(const QString &path);
 
 protected:
     void resizeEvent(QResizeEvent* event);

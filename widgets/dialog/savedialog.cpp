@@ -4,6 +4,8 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QStandardPaths>
+#include <QDateTime>
 #include <QDebug>
 #include <QObject>
 
@@ -16,11 +18,15 @@ SaveDialog::SaveDialog(QWidget *parent)
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
-    QLineEdit* contentFile = new QLineEdit(this);
+    QLineEdit* imageEdit = new QLineEdit(this);
+    connect(this, &SaveDialog::imageNameChanged, this, [=](QString name){
+        imageEdit->setText(name);
+    });
 
     QStringList saveDirs;
-    saveDirs << tr("Desktop") << tr("Documents") << tr("Downloads")
-                      << tr("Pictures") << tr("Videos")         << tr("Music") << tr("Select other directories");
+    saveDirs << tr("Pictures") << tr("Documents") << tr("Downloads")
+                      << tr("Desktop") << tr("Videos")         << tr("Music")
+                      << tr("Select other directories");
     QComboBox* contentSaveCBox = new QComboBox(this);
     contentSaveCBox->addItems(saveDirs);
 
@@ -42,12 +48,22 @@ SaveDialog::SaveDialog(QWidget *parent)
 
     QWidget* w = new QWidget;
     QFormLayout* fLayout = new QFormLayout(w);
-    fLayout->addRow(tr("Name"), contentFile);
+    fLayout->addRow(tr("Name"), imageEdit);
     fLayout->addRow(tr("Save to"), contentSaveCBox);
     fLayout->addRow(tr("Format"), contentFormatCBox);
     fLayout->addRow(tr("Quality"), hLayout);
 
     addContent(w);
+
+    connect(this, &SaveDialog::buttonClicked, this, [=](int index){
+        QString filePath = QString("%1/%2").arg(QStandardPaths::writableLocation(
+            QStandardPaths::PicturesLocation)).arg(imageEdit->text());
+        qDebug() << "filePath:" << filePath;
+        if (index == 1) {
+            emit saveToPath(filePath);
+            this->close();
+        }
+    });
 }
 
 void SaveDialog::keyPressEvent(QKeyEvent *e)
