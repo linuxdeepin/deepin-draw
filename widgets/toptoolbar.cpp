@@ -22,7 +22,7 @@
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
-#include "widgets/toolbutton.h"
+
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 
@@ -105,6 +105,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(Status::FillShape);
         drawShapes("rectangle");
     });
+
     connect(ovalBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::FillShape);
         drawShapes("oval");
@@ -304,11 +305,10 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos)
 void TopToolbar::drawShapes(QString shape)
 {
     if (!m_shapesWidgetExist) {
-        emit initShapeWidgetAction(shape);
         m_shapesWidgetExist = true;
-    } else {
-        emit initShapeWidgetAction(shape);
     }
+
+    emit initShapeWidgetAction(shape);
 }
 
 bool TopToolbar::shapesWidgetExist()

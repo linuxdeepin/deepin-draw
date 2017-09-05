@@ -10,6 +10,7 @@
 
 #include "widgets/colorpanel.h"
 #include "utils/baseutils.h"
+#include "widgets/toolbutton.h"
 
 #include "module/cutwidget.h"
 #include "module/linewidget.h"
@@ -45,7 +46,7 @@ public:
 
 signals:
     void openImage(QString imageFileName);
-    void  initShapeWidgetAction(const QString &shape);
+    void initShapeWidgetAction(QString shape);
     void rotateImage(const QString &imagePath, int degree);
     void mirroredImage(bool horizonta, bool vertical);
     void cutImage();
@@ -54,10 +55,11 @@ signals:
 public:
     void showDrawDialog();
     void showSaveDialog();
+    void drawShapes(QString shape);
 
 public slots:
     void importImage();
-    void drawShapes(QString shape);
+
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
     void showColorfulPanel(DrawStatus drawstatus, QPoint pos);
@@ -81,7 +83,6 @@ private:
 
     DArrowRectangle* m_colorARect;
     ColorPanel* m_colorPanel;
-
     Status            m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 

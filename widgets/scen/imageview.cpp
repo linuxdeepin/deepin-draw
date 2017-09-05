@@ -26,6 +26,7 @@ ImageView::ImageView(QWidget *parent)
     , m_backgroundItem(0)
     , m_outlineItem(0)
     , m_imageLoaded(false)
+    , m_shapesWidgetExist(false)
 {
     setScene(new QGraphicsScene(this));
     setTransformationAnchor(AnchorUnderMouse);
@@ -185,14 +186,14 @@ void ImageView::initShapesWidget(QString shape)
 
     if (!m_shapesWidgetExist) {
         m_shapesWidget = new ShapesWidget(this);
+        calculateImageScaledGeometry();
+        m_shapesWidget->resize(/*coordinateRect.*/width(), /*coordinateRect.*/height());
+        m_shapesWidget->move(0, 0);
+        m_shapesWidget->show();
         m_shapesWidgetExist = true;
     }
 
     m_shapesWidget->setCurrentShape(shape);
-    calculateImageScaledGeometry();
-    m_shapesWidget->resize(/*coordinateRect.*/width(), /*coordinateRect.*/height());
-    m_shapesWidget->move(0, 0);
-    m_shapesWidget->show();
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
             &ImageView::generateBlurEffect);
