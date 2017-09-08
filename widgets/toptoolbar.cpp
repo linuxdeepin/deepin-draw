@@ -172,6 +172,7 @@ void TopToolbar::importImage()
 void TopToolbar::importImageDir()
 {
     drawShapes("image");
+    setMiddleStackWidget(Status::Cut);
     QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);

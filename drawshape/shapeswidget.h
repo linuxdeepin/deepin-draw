@@ -75,6 +75,7 @@ public:
     void setLineStyle(int index);
     void showCutImageTips();
     void loadImage(QStringList paths);
+    void compressToImage();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);
@@ -110,6 +111,11 @@ private:
     QPointF m_pressedPoint;
     QPointF m_movingPoint;
 
+    QPixmap m_emptyBgPixmap;
+    QPixmap m_backgroundPixmap;
+    int m_bgContainShapeNum;
+    QPointF m_startPos;
+
     bool m_isRecording;
     bool m_isMoving;
     bool m_isSelected;
@@ -119,6 +125,7 @@ private:
     bool m_isResize;
     bool m_isShiftPressed;
     bool m_editing;
+    bool m_ownImages;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
@@ -150,25 +157,26 @@ private:
     Toolshapes m_shapes;
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
+    QTimer* m_updateTimer;
 
+    void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
+    void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
+    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter, FourPoints rectFPoints, int index);
-    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index);
-
-    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
-    void paintStraightLine(QPainter &painter, QList<QPointF> lineFPoints);
-
-    void paintArbitraryCurve(QPainter &painter, QList<QPointF> lineFPoints);
-    void paintText(QPainter &painter, FourPoints rectFPoints);
+    void paintRect(QPainter &painter,  Toolshape shape);
+    void paintEllipse(QPainter &painter, Toolshape shape);
+    void paintArrow(QPainter &painter, Toolshape shape, bool isStraight = false);
+    void paintStraightLine(QPainter &painter, Toolshape shape);
+    void paintArbitraryCurve(QPainter &painter, Toolshape shape);
+    void paintText(QPainter &painter,  Toolshape shape);
 
     QPainterPath drawPair(QPainter &p,
                           QPointF p1, QSizeF size1, QColor c1,
                           QPointF p2, QSizeF size2, QColor c2,
                           QPainterPath oldpath);
     void paintPointList(QPainter &p, QList<QPointF> points);
-    void paintBlur(QPainter &painter, QList<QPointF> lineFPoints);
-    void paintCutImageRect(QPainter &painter, FourPoints rectFPoints,
-                                                  CutRation ration, int index);
+    void paintBlur(QPainter &painter, Toolshape shape);
+    void paintCutImageRect(QPainter &painter, Toolshape shape);
     void paintImage(QPainter &painter, Toolshape imageShape);
 };
 #endif // SHAPESWIDGET_H

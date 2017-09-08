@@ -44,6 +44,7 @@ class Importer : public QObject
 public:
     static Importer *instance();
     explicit Importer(QObject* parent = 0);
+
     bool isRunning() const;
     void appendDir(const QString &path);
     void appendFiles(const QStringList &paths);
