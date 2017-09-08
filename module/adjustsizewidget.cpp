@@ -32,7 +32,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     ToolButton* cutTransAreaBtn = new ToolButton(this);
     cutTransAreaBtn->setFixedWidth(100);
     cutTransAreaBtn->setObjectName("CutAreaLineEdit");
-    cutTransAreaBtn->setText(tr("??????"));
+    cutTransAreaBtn->setText(tr("Autocrop"));
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(casWidthLabel);

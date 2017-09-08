@@ -130,6 +130,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     connect(artBoardBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::AdjustSize);
     });
+
     connect(exportBtn, &ToolButton::clicked, this, &TopToolbar::showSaveDialog);
 }
 

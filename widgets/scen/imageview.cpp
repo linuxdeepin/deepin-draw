@@ -34,15 +34,15 @@ ImageView::ImageView(QWidget *parent)
     setViewportUpdateMode(FullViewportUpdate);
 
     // Prepare background check-board pattern
-    QPixmap tilePixmap(64, 64);
-    tilePixmap.fill(Qt::white);
-    QPainter tilePainter(&tilePixmap);
-    QColor color(220, 220, 220);
-    tilePainter.fillRect(0, 0, 32, 32, color);
-    tilePainter.fillRect(32, 32, 32, 32, color);
-    tilePainter.end();
+//    QPixmap tilePixmap(64, 64);
+//    tilePixmap.fill(Qt::white);
+//    QPainter tilePainter(&tilePixmap);
+//    QColor color(220, 220, 220);
+//    tilePainter.fillRect(0, 0, 32, 32, color);
+//    tilePainter.fillRect(32, 32, 32, 32, color);
+//    tilePainter.end();
 
-    setBackgroundBrush(tilePixmap);
+//    setBackgroundBrush(tilePixmap);
 }
 
 void ImageView::drawBackground(QPainter *p, const QRectF &)
@@ -181,8 +181,8 @@ void ImageView::setViewOutline(bool enable)
 
 void ImageView::initShapesWidget(QString shape)
 {
-    if (!m_imageLoaded)
-        return;
+//    if (!m_imageLoaded)
+//        return;
 
     if (!m_shapesWidgetExist) {
         m_shapesWidget = new ShapesWidget(this);
@@ -266,7 +266,11 @@ void ImageView::cutImage(QRect cutRect)
 void ImageView::saveImage(const QString &path)
 {
     QPixmap image(m_currentPath);
-    image.save(path);
+    if (image.isNull() || m_currentPath.isEmpty()) {
+        image = this->grab(this->viewport()->rect());
+    }
+
+    image.save(path, "PNG");
 }
 
 void ImageView::paintEvent(QPaintEvent *event)

@@ -1611,6 +1611,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         pen.setStyle(Qt::DashLine);
         pen.setColor(Qt::white);
+        pen.setBrush(Qt::transparent);
         pen.setWidth(1);
         painter.setPen(pen);
         paintCutImageRect(painter, m_cutShape.mainPoints, CutRation::FreeRation, 0);
