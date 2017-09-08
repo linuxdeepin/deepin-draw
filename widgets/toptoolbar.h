@@ -59,6 +59,7 @@ public:
 
 public slots:
     void importImage();
+    void importImageDir();
 
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);

@@ -26,6 +26,8 @@
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 
+#include "controller/importer.h"
+
 #include "textfontlabel.h"
 
 DWIDGET_USE_NAMESPACE
@@ -167,6 +169,22 @@ void TopToolbar::importImage()
     }
 }
 
+void TopToolbar::importImageDir()
+{
+    drawShapes("image");
+    QFileDialog *dialog = new QFileDialog(this);
+    dialog->setWindowTitle(tr("Import Image"));
+    dialog->setAcceptMode(QFileDialog::AcceptOpen);
+
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                    QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    qDebug() << "dir"  << dir;
+
+
+    Importer::instance()->appendDir(dir);
+}
+
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new QStackedWidget(this);
@@ -226,6 +244,7 @@ void TopToolbar::initMenu()
 {
     m_mainMenu = new QMenu(this);
     QAction* importAc = m_mainMenu->addAction(tr("Import"));
+    QAction* importDirAc = m_mainMenu->addAction(tr("Import Images"));
 //    QAction* importFScannerAc = m_mainMenu->addAction(tr("Import from scanner"));
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
     QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
@@ -234,8 +253,7 @@ void TopToolbar::initMenu()
     QAction* helpAc = m_mainMenu->addAction(tr("Help"));
 
 //    Q_UNUSED(importFScannerAc);
-    Q_UNUSED(saveAc);
-    Q_UNUSED(saveAsAc);
+
     Q_UNUSED(printAc);
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
@@ -245,6 +263,7 @@ void TopToolbar::initMenu()
                 "Deepin Draw is released under GPL v3."));
 
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
+   connect(importDirAc, &QAction::triggered, this, &TopToolbar::importImageDir);
    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
@@ -305,11 +324,11 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos)
 
 void TopToolbar::drawShapes(QString shape)
 {
+    emit initShapeWidgetAction(shape);
+
     if (!m_shapesWidgetExist) {
         m_shapesWidgetExist = true;
     }
-
-    emit initShapeWidgetAction(shape);
 }
 
 bool TopToolbar::shapesWidgetExist()

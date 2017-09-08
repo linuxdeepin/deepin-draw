@@ -124,7 +124,6 @@ DirCollectThread::DirCollectThread(const QString &root)
     , m_root(root)
     , m_stop(false)
 {
-
 }
 
 void DirCollectThread::run()
@@ -166,7 +165,6 @@ FilesCollectThread::FilesCollectThread(const QStringList &paths)
     , m_paths(paths)
     , m_stop(false)
 {
-
 }
 
 void FilesCollectThread::run()
