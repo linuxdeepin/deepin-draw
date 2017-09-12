@@ -103,6 +103,15 @@ TopToolbar::TopToolbar(QWidget* parent)
     connect(picBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::Cut);
     });
+
+
+    connect(this, &TopToolbar::initShapeWidgetAction,
+            this, [=](QString shape){
+        if (shape == "image")
+        {
+            picBtn->click();
+        }
+    });
     connect(rectBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::FillShape);
         drawShapes("rectangle");
@@ -171,6 +180,8 @@ void TopToolbar::importImage()
 
 void TopToolbar::importImageDir()
 {
+    qDebug() << "import image dir";
+
     drawShapes("image");
     setMiddleStackWidget(Status::Cut);
     QFileDialog *dialog = new QFileDialog(this);
@@ -252,7 +263,6 @@ void TopToolbar::initMenu()
     QAction* printAc = m_mainMenu->addAction(tr("Print"));
     QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
     QAction* helpAc = m_mainMenu->addAction(tr("Help"));
-
 //    Q_UNUSED(importFScannerAc);
 
     Q_UNUSED(printAc);
@@ -296,7 +306,7 @@ void TopToolbar::setMiddleStackWidget(Status status)
     switch (status)
     {
     case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
-    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
+    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); qDebug() << "*"; break;
     case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
     case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
     case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
