@@ -1017,13 +1017,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     {
         if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1)
         {
+            compressToImage();
             clearSelected();
             setAllTextEditReadOnly();
             m_editing = false;
             m_selectedIndex = -1;
             m_selectedOrder = -1;
             m_selectedShape.type = "";
-            update();
             return;
         }
     }
@@ -1117,7 +1117,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     setAllTextEditReadOnly();
                 }
             }
-//            update();
         }
     } else {
         m_isRecording = false;
@@ -1127,7 +1126,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
             m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
         }
-//        update();
     }
 
 //    QFrame::mousePressEvent(e);
@@ -1249,25 +1247,23 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         update();
     } else if (!m_isRecording && m_isPressed) {
         if (m_isRotated && m_isPressed) {
-//            handleRotate(e->pos());
-//            update();
+            handleRotate(e->pos());
         }
 
         if (m_isResize && m_isPressed) {
             // resize function
-//            handleResize(QPointF(e->pos()), m_clickedKey);
+            handleResize(QPointF(e->pos()), m_clickedKey);
 //            update();
 
             return;
         }
 
         if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
-//            handleDrag(m_pressedPoint, m_movingPoint);
-//            m_selectedShape = m_shapes[m_selectedOrder];
+            handleDrag(m_pressedPoint, m_movingPoint);
+            m_selectedShape = m_shapes[m_selectedOrder];
 //            m_hoveredShape = m_shapes[m_selectedOrder];
 
-//            m_pressedPoint = m_movingPoint;
-//            update();
+            m_pressedPoint = m_movingPoint;
         }
     } else {
         if (!m_isRecording) {
@@ -1279,11 +1275,9 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                     m_isHovered = true;
                     m_hoveredShape = m_shapes[i];
                     updateCursorDirection(m_resizeDirection);
-//                    update();
                     break;
                 } else {
                     updateCursorShape();
-//                    update();
                 }
             }
 
