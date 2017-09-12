@@ -147,6 +147,8 @@ TopToolbar::TopToolbar(QWidget* parent)
 
 void TopToolbar::importImage()
 {
+    drawShapes("image");
+    setMiddleStackWidget(Status::Cut);
     QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
@@ -170,9 +172,12 @@ void TopToolbar::importImage()
                                              "Files(*.ptif *.mef *.mrw *.xbm)"));
 
     using namespace utils::image;
+
     if (imageSupportRead(m_path))
     {
-        emit openImage(m_path);
+        QStringList paths;
+        paths.append(m_path);
+        emit Importer::instance()->importedFiles(paths);
     } else {
         qWarning() << "Can't support this format!, image path:" << m_path;
     }
