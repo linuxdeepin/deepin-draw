@@ -235,39 +235,68 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     qDebug() << "ClickedOnShapes !!!!!!!" << m_shapes.length();
     for (int i = 0; i < m_shapes.length(); i++) {
         bool currentOnShape = false;
-        if (m_shapes[i].type == "rectangle") {
-            if (clickedOnRect(m_shapes[i].mainPoints, pos,
-                              false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/)) {
-                currentOnShape = true;
+        qDebug() << "this moment shape:" << m_currentType;
+        if (m_currentType == "image")
+        {
+            qDebug() << "yyyy" << i << m_currentType;
+            if (m_shapes[i].type == "image")
+            {
+                qDebug() << "ix" << i << m_shapes[i].mainPoints[0] << m_shapes[i].mainPoints[1]
+                         << m_shapes[i].mainPoints[2] << m_shapes[i].mainPoints[3]
+                         << pos;
+                if (clickedOnImage(m_shapes[i].mainPoints, pos))
+                {
+                    qDebug() << "clicked on image:" << i;
+                    currentOnShape = true;
+                }
+            }
+        } else
+        {
+            if (m_shapes[i].type == "rectangle")
+            {
+                if (clickedOnRect(m_shapes[i].mainPoints, pos,
+                                  false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
+                {
+                    currentOnShape = true;
+                }
+            }
+            if (m_shapes[i].type == "oval")
+            {
+                if (clickedOnEllipse(m_shapes[i].mainPoints, pos,
+                                     false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
+                {
+                    currentOnShape = true;
+                }
+            }
+            if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine")
+            {
+                if (clickedOnArrow(m_shapes[i].points, pos))
+                {
+                    currentOnShape = true;
+                }
+            }
+            if (m_shapes[i].type == "arbitraryCurve")
+            {
+                if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos))
+                {
+                    currentOnShape = true;
+                }
+            }
+            if (m_shapes[i].type == "text")
+            {
+                if (clickedOnText(m_shapes[i].mainPoints, pos))
+                {
+                    currentOnShape = true;
+                }
             }
         }
-        if (m_shapes[i].type == "oval") {
-            if (clickedOnEllipse(m_shapes[i].mainPoints, pos,
-                                 false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/)) {
-                currentOnShape = true;
-            }
-        }
-        if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine") {
-            if (clickedOnArrow(m_shapes[i].points, pos)) {
-                currentOnShape = true;
-            }
-        }
-        if (m_shapes[i].type == "arbitraryCurve") {
-            if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
-                currentOnShape = true;
-            }
-        }
-        if (m_shapes[i].type == "text") {
-            if (clickedOnText(m_shapes[i].mainPoints, pos)) {
-                currentOnShape = true;
-            }
-        }
-
-        if (currentOnShape) {
+        if (currentOnShape)
+        {
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
-            qDebug() << "currentOnShape" << i << m_selectedIndex;
+            qDebug() << "currentOnShape" << i << m_selectedIndex
+                              << m_selectedOrder << m_shapes[i].imagePath;
             onShapes = true;
 
             compressToImage();
@@ -276,14 +305,23 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         } else {
             m_selectedIndex = -1;
             m_selectedOrder = -1;
-            update();
             continue;
         }
     }
-        return onShapes;
+
+    if (m_selectedOrder == -1 && m_ownImages)
+    {
+        compressToImage();
+    }
+    return onShapes;
 }
 
 //TODO: selectUnique
+bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
+{
+    return clickedOnRect(rectPoints, pos, false);
+}
+
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
          QPointF pos, bool isFilled)
 {
@@ -1031,7 +1069,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::RightButton)
     {
 //        qDebug() << "RightButton clicked!";
-////        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
+//        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
         return;
     }
 
@@ -1041,7 +1079,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     if (!clickedOnShapes(m_pressedPoint))
     {
         m_isRecording = true;
-//        qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
+//    qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
 
         m_currentShape.type = m_currentType;
         m_currentShape.strokeColor = m_penColor;
@@ -1216,41 +1254,52 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 if (m_isShiftPressed)
                 {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
+                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
+                    {
                         m_currentShape.points.append(QPointF(m_pos2.x(), m_pos1.y()));
-                    } else {
+                    } else
+                    {
                         m_currentShape.points.append(QPointF(m_pos1.x(), m_pos2.y()));
                     }
-                } else {
+                } else
+                {
                     m_currentShape.points.append(m_pos2);
                 }
             } else {
                 if (m_isShiftPressed)
                 {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
+                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
+                    {
                         m_currentShape.points[1] = QPointF(m_pos2.x(), m_pos1.y());
-                    } else {
+                    } else
+                    {
                         m_currentShape.points[1] = QPointF(m_pos1.x(), m_pos2.y());
                     }
-                } else {
+                } else
+                {
                     m_currentShape.points[1] = m_pos2;
                 }
             }
         }
 
-        if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur") {
-            if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3) {
+        if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur")
+        {
+            if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3)
+            {
                 m_currentShape.points.append(m_pos2);
             }
         }
         update();
-    } else if (!m_isRecording && m_isPressed) {
-        if (m_isRotated && m_isPressed) {
+    } else if (!m_isRecording && m_isPressed)
+    {
+        if (m_isRotated && m_isPressed)
+        {
             handleRotate(e->pos());
         }
 
-        if (m_isResize && m_isPressed) {
+        if (m_isResize && m_isPressed)
+        {
             // resize function
             handleResize(QPointF(e->pos()), m_clickedKey);
 //            update();
@@ -1258,17 +1307,21 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             return;
         }
 
-        if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
+        if (m_isSelected && m_isPressed && m_selectedIndex != -1)
+        {
             handleDrag(m_pressedPoint, m_movingPoint);
             m_selectedShape = m_shapes[m_selectedOrder];
 //            m_hoveredShape = m_shapes[m_selectedOrder];
 
             m_pressedPoint = m_movingPoint;
         }
-    } else {
-        if (!m_isRecording) {
+    } else
+    {
+        if (!m_isRecording)
+        {
             m_isHovered = false;
-            for (int i = 0; i < m_shapes.length(); i++) {
+            for (int i = 0; i < m_shapes.length(); i++)
+            {
                 m_hoveredIndex = m_shapes[i].index;
 
                 if (hoverOnShapes(m_shapes[i],  e->pos())) {
@@ -1295,13 +1348,14 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 //            }
 
             if (!m_isHovered) {
-                for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++) {
+                for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++)
+                {
                     m_hoveredShape.mainPoints[j] = QPointF(0, 0);
                 }
                 m_hoveredShape.type = "";
-//                update();
             }
-            if (m_shapes.length() == 0) {
+            if (m_shapes.length() == 0)
+            {
                 updateCursorShape();
             }
         } else {
@@ -1316,13 +1370,15 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect)
 {
     int index = edit->getIndex();
     qDebug() << "updateTextRect:" << newRect << index;
-    for (int j = 0; j < m_shapes.length(); j++) {
-        if (m_shapes[j].type == "text" && m_shapes[j].index == index) {
+    for (int j = 0; j < m_shapes.length(); j++)
+    {
+        if (m_shapes[j].type == "text" && m_shapes[j].index == index)
+        {
             m_shapes[j].mainPoints[0] = QPointF(newRect.x(), newRect.y());
             m_shapes[j].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
             m_shapes[j].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
             m_shapes[j].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
-                                                                                         newRect.y() + newRect.height());
+                                                newRect.y() + newRect.height());
             m_currentShape = m_shapes[j];
             m_selectedShape = m_shapes[j];
             m_selectedIndex = m_shapes[j].index;
@@ -1335,10 +1391,12 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect)
 void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos,
                                  QPixmap img, bool isResize)
 {
-    if (isResize) {
+    if (isResize)
+    {
         painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
                                   pos.y() - DRAG_BOUND_RADIUS), img);
-    } else {
+    } else
+    {
         painter.drawPixmap(QPoint(pos.x() - 12,
                                   pos.y() - 12), img);
     }
@@ -1356,10 +1414,10 @@ void ShapesWidget::paintRect(QPainter &painter, Toolshape shape)
     FourPoints rectFPoints = shape.mainPoints;
     QPainterPath rectPath;
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
-    rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
-    rectPath.lineTo(rectFPoints[3].x(),rectFPoints[3].y());
-    rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
-    rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
+    rectPath.lineTo(rectFPoints[1].x(), rectFPoints[1].y());
+    rectPath.lineTo(rectFPoints[3].x(), rectFPoints[3].y());
+    rectPath.lineTo(rectFPoints[2].x(), rectFPoints[2].y());
+    rectPath.lineTo(rectFPoints[0].x(), rectFPoints[0].y());
 
     qDebug() << "ShapesWidget:::" << m_penColor;
     painter.drawPath(rectPath);
@@ -1399,8 +1457,10 @@ void ShapesWidget::paintArrow(QPainter &painter, Toolshape shape, bool isStraigh
 
     QList<QPointF> lineFPoints = shape.points;
 
-    if (lineFPoints.length() == 2) {
-        if (!isStraight) {
+    if (lineFPoints.length() == 2)
+    {
+        if (!isStraight)
+        {
             QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0],
                                                          lineFPoints[1], 8+(painter.pen().widthF() - 1)*2);
             QPainterPath path;
@@ -1415,14 +1475,14 @@ void ShapesWidget::paintArrow(QPainter &painter, Toolshape shape, bool isStraigh
             }
             painter.setPen (Qt :: NoPen);
             painter.fillPath(path, QBrush(oldPen.color()));
-        } else {
+        } else
+        {
             painter.drawLine(lineFPoints[0], lineFPoints[1]);
         }
     }
 }
 
-void ShapesWidget::paintStraightLine(QPainter &painter,
-    Toolshape shape)
+void ShapesWidget::paintStraightLine(QPainter &painter, Toolshape shape)
 {
     paintArrow(painter, shape, true);
 }
@@ -1444,7 +1504,8 @@ void ShapesWidget::paintArbitraryCurve(QPainter &painter, Toolshape shape)
     else
         return;
 
-    for (int k = 1; k < lineFPoints.length() - 2; k++) {
+    for (int k = 1; k < lineFPoints.length() - 2; k++)
+    {
         linePaths.quadTo(lineFPoints[k], lineFPoints[k+1]);
     }
     painter.drawPath(linePaths);
@@ -1458,7 +1519,8 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape)
     painter.setPen(textPen);
 
     FourPoints rectFPoints = shape.mainPoints;
-    if (shape.points.length() >= 4) {
+    if (shape.points.length() >= 4)
+    {
         painter.drawLine(rectFPoints[0], rectFPoints[1]);
         painter.drawLine(rectFPoints[1], rectFPoints[3]);
         painter.drawLine(rectFPoints[3], rectFPoints[2]);
@@ -1529,19 +1591,22 @@ QPainterPath ShapesWidget::drawPair(QPainter &p,
 
 void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
 {
-    if (points.size() < 2) {
+    if (points.size() < 2)
+    {
         return;
     }
 
     QList<QSizeF> sizes;
     double maxSize = 12.0;
-    for (int i = 0; i < points.size(); ++i) {
+    for (int i = 0; i < points.size(); ++i)
+    {
         auto size = maxSize - /*dsize * i*/0;
         sizes << QSizeF(size, size);
     }
 
     QPainterPath op;
-    for (int i = 0 ; i < points.size() - 1; ++i) {
+    for (int i = 0 ; i < points.size() - 1; ++i)
+    {
         auto point1 = points.at(i);
         auto point2 = points.at(i + 1);
         auto size1 = sizes.at(i);
@@ -1590,7 +1655,8 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
         painter.drawLine(cutPoints[1], cutPoints[4]);
         painter.drawLine(cutPoints[2], cutPoints[7]);
         painter.drawLine(cutPoints[3], cutPoints[6]);
-    } else {
+    } else
+    {
         qDebug() << "cutPoints length:" << cutPoints.length();
     }
 }
@@ -1598,6 +1664,8 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
 void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
 {
     QPointF startPos = imageShape.mainPoints[0];
+    qDebug() << "@@@@@@@:" << imageShape.imagePath;
+
     QPixmap pixmap = QPixmap(imageShape.imagePath);
     painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
 }
@@ -1620,11 +1688,14 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         }
     } else if (m_selectedOrder != -1 || m_ownImages)
     {
+        qDebug() << "image loaded." << m_ownImages << m_selectedOrder;
+
         painter.drawPixmap(0, 0, m_backgroundPixmap);
 
         if (m_selectedOrder != -1)
         {
-            paintShape(painter, m_selectedShape, true);
+            qDebug() << "^^^" << m_selectedOrder << m_selectedShape.imagePath;
+            paintShape(painter,  m_shapes[m_selectedOrder], true);
         }
     }
 
@@ -1648,7 +1719,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
-    qDebug() << "LLLL:" << shape.type;
+    qDebug() << "LLLL:" << shape.type << shape.imagePath;
     if (shape.type != "image" && shape.mainPoints[0] == QPoint(0, 0))
         return;
     QPen selectedPen;
@@ -1677,7 +1748,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
         }
     } else if (shape.type == "image")
     {
-        qDebug() << "begin to paint image:";
+        qDebug() << "begin to paint image:" << shape.imagePath;
         paintImage(painter, shape);
 
         if (selected)
@@ -1744,7 +1815,7 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
     rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
 
-    qDebug() << "ShapesWidget:::" << m_penColor;
+    qDebug() << "ShapesWidget:" << m_penColor;
     painter.drawPath(rectPath);
 }
 
@@ -1833,7 +1904,8 @@ QString ShapesWidget::getCurrentType()
 
 void ShapesWidget::setLineStyle(int index)
 {
-    switch (index) {
+    switch (index)
+    {
     case 0: setCurrentShape("straightLine"); break;
     case 1: setCurrentShape("arbitraryCurve"); break;
     default: setCurrentShape("arrow"); break;
@@ -1882,7 +1954,7 @@ void ShapesWidget::loadImage(QStringList paths)
             Toolshape imageShape;
             imageShape.type = "image";
             imageShape.imagePath = paths[i];
-            qDebug() << "XXX" << paths[i];
+            qDebug() << "loadImage path:" << paths[i];
             imageShape.imageSize = QPixmap(paths[i]).size();
 
             imageShape.mainPoints[0] =  m_startPos;
@@ -1905,17 +1977,22 @@ void ShapesWidget::loadImage(QStringList paths)
 
 void ShapesWidget::compressToImage()
 {
-    qDebug() << "XXXXXX" << m_shapes.length() << m_selectedOrder;
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    qDebug() << "CompressToImage" << m_shapes.length() << m_selectedOrder
+                      << m_shapes[m_selectedOrder].imagePath
+                      << m_selectedShape.imagePath;
     m_backgroundPixmap = QPixmap(this->size());
     m_backgroundPixmap.fill(Qt::transparent);
 
     for (int k = 0; k < m_shapes.length(); k++)
     {
         QPainter historyPainter(&m_backgroundPixmap);
-        if (k != m_selectedOrder) {
+        if (k != m_selectedOrder)
+        {
             qDebug() << "a:" << k << m_selectedOrder << m_shapes.length();
             paintShape(historyPainter, m_shapes[k]);
-        } else {
+        } else
+        {
             continue;
         }
     }
@@ -1975,49 +2052,57 @@ void ShapesWidget::setShiftKeyPressed(bool isShift) {
 void ShapesWidget::updateCursorDirection(ResizeDirection direction)
 {
     if (direction == Left) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeHorCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Top) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeVerCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Right) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeHorCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Bottom) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeVerCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     }  else if (direction == TopLeft) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == BottomLeft) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeBDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == TopRight) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeBDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == BottomRight) {
-        if (m_isSelected || m_isRotated) {
+        if (m_isSelected || m_isRotated)
+        {
            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);

@@ -102,14 +102,15 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     connect(picBtn, &ToolButton::clicked, this, [=]{
         setMiddleStackWidget(Status::Cut);
+        drawShapes("image");
     });
 
 
     connect(this, &TopToolbar::initShapeWidgetAction,
             this, [=](QString shape){
-        if (shape == "image")
+        if (shape == "image" && !picBtn->isChecked())
         {
-            picBtn->click();
+            picBtn->setChecked(true);
         }
     });
     connect(rectBtn, &ToolButton::clicked, this, [=]{
@@ -311,7 +312,7 @@ void TopToolbar::setMiddleStackWidget(Status status)
     switch (status)
     {
     case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
-    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); qDebug() << "*"; break;
+    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
     case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
     case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
     case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;

@@ -54,6 +54,7 @@ public:
     void handleResize(QPointF pos, int key);
 
     bool clickedOnShapes(QPointF pos);
+    bool clickedOnImage(FourPoints rectPoints, QPointF pos);
     bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
@@ -113,6 +114,7 @@ private:
 
     QPixmap m_emptyBgPixmap;
     QPixmap m_backgroundPixmap;
+    QPixmap m_selectedPixmap;
     int m_bgContainShapeNum;
     QPointF m_startPos;
 

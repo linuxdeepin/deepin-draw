@@ -192,7 +192,7 @@ void ImageView::initShapesWidget(QString shape)
         m_shapesWidget->show();
         m_shapesWidgetExist = true;
     }
-
+    qDebug() << "change shape:" << shape;
     m_shapesWidget->setCurrentShape(shape);
 
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg, this,
