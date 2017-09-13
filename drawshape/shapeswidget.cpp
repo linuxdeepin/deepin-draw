@@ -319,7 +319,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 //TODO: selectUnique
 bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
 {
-    return clickedOnRect(rectPoints, pos, false);
+    return clickedOnRect(rectPoints, pos, true);
 }
 
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
@@ -899,7 +899,7 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
 {
     qDebug() << "handleDrag:" << m_selectedIndex << m_shapes.length();
 
-    if (m_selectedIndex == -1) {
+    if (m_selectedOrder == -1) {
         return;
     }
 
@@ -1307,8 +1307,9 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             return;
         }
 
-        if (m_isSelected && m_isPressed && m_selectedIndex != -1)
+        if (m_isSelected && m_isPressed && m_selectedOrder != -1)
         {
+            qDebug() << "handleDrag:" << m_isSelected << m_selectedOrder;
             handleDrag(m_pressedPoint, m_movingPoint);
             m_selectedShape = m_shapes[m_selectedOrder];
 //            m_hoveredShape = m_shapes[m_selectedOrder];
