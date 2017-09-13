@@ -54,17 +54,19 @@ public:
     void handleResize(QPointF pos, int key);
 
     bool clickedOnShapes(QPointF pos);
-    bool clickedOnImage(FourPoints rectPoints, QPointF pos);
+    bool clickedOnImage(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
     bool clickedOnLine(FourPoints mainPoints,
                                          QList<QPointF> points, QPointF pos);
     bool clickedOnText(FourPoints mainPoints, QPointF pos);
+    bool rotateOnImagePoint(FourPoints mainPoints, QPointF pos);
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
 
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+    bool hoverOnImage(FourPoints rectPoints, QPointF pos);
     bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
@@ -104,6 +106,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *e);
+    void keyPressEvent(QKeyEvent* e);
 
 private:
     QPointF m_pos1 = QPointF(0, 0);
@@ -114,7 +117,7 @@ private:
 
     QPixmap m_emptyBgPixmap;
     QPixmap m_backgroundPixmap;
-    QPixmap m_selectedPixmap;
+    QLabel* m_rotateImageLabel;
     int m_bgContainShapeNum;
     QPointF m_startPos;
 
@@ -128,6 +131,7 @@ private:
     bool m_isShiftPressed;
     bool m_editing;
     bool m_ownImages;
+    bool m_rotateMode;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
@@ -163,6 +167,7 @@ private:
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
+    void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter,  Toolshape shape);

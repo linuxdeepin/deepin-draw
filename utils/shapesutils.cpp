@@ -7,6 +7,11 @@ Toolshape::Toolshape() {
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
+
+    rotatedPoints.append(QPointF(0, 0));
+    rotatedPoints.append(QPointF(0, 0));
+    rotatedPoints.append(QPointF(0, 0));
+    rotatedPoints.append(QPointF(0, 0));
     portion.clear();
 }
 
@@ -21,6 +26,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
     argument.nospace()
             << obj.type << ","
             << "[" << obj.mainPoints << "]" << ","
+            << "[" << obj.rotatedPoints << "]" << ","
             << obj.index<<","
             << obj.lineWidth << ","
             << obj.colorIndex <<","
@@ -30,6 +36,10 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.isMosaic << ","
             << obj.isStraight << ","
             << obj.isShiftPressed << ","
+            << obj.imagePath << ","
+            << obj.editImagePath << ","
+            << obj.rotate << ","
+            << obj.imageSize << ","
             << obj.fontSize << ","
             << obj.points;
     return argument.space();
@@ -37,6 +47,10 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
 
 QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.points;
+    in >> obj.imageSize;
+    in >> obj.rotate;
+    in >> obj.editImagePath;
+    in >> obj.imagePath;
     in >> obj.fontSize;
     in >> obj.isShiftPressed;
     in >> obj.isBlur;
@@ -47,6 +61,7 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.colorIndex;
     in >> obj.lineWidth;
     in >> obj.index;
+    in >> obj.rotatedPoints;
     in >> obj.mainPoints;
     in >> obj.type;
 
@@ -56,6 +71,7 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
 Toolshape Toolshape::operator=(Toolshape obj) {
     type = obj.type;
     mainPoints = obj.mainPoints;
+    rotatedPoints = obj.rotatedPoints;
     index = obj.index;
     lineWidth = obj.lineWidth;
     colorIndex = obj.colorIndex;
@@ -65,6 +81,10 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     isMosaic = obj.isMosaic;
     isStraight = obj.isStraight;
     isShiftPressed = obj.isShiftPressed;
+    imagePath = obj.imagePath;
+    editImagePath = obj.editImagePath;
+    rotate = obj.rotate;
+    imageSize = obj.imageSize;
     fontSize = obj.fontSize;
     points = obj.points;
 
@@ -72,11 +92,14 @@ Toolshape Toolshape::operator=(Toolshape obj) {
 }
 
 bool Toolshape::operator==(const Toolshape &other) const {
-    if (this->mainPoints == other.mainPoints && this->index == other.index
+    if (this->mainPoints == other.mainPoints && this->rotatedPoints == other.rotatedPoints
+            && this->index == other.index && this->lineWidth == other.lineWidth
             && this->colorIndex == other.colorIndex && this->fontSize == other.fontSize
             && this->fillColor == other.fillColor && this->strokeColor == other.strokeColor
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isShiftPressed == other.isShiftPressed
+            && this->imagePath == other.imagePath && this->editImagePath == other.editImagePath
+            && this->rotate == other.rotate
             && this->isStraight == other.isStraight && this->points == other.points) {
         return true;
     } else {

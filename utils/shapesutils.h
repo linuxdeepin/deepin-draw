@@ -12,6 +12,7 @@ class Toolshape {
 public:
      QString type;
      FourPoints mainPoints;
+     FourPoints rotatedPoints;
      int index = -1;
      int lineWidth;
      int colorIndex;
@@ -22,6 +23,8 @@ public:
      bool isStraight = false;
      bool isShiftPressed = false;
      QString imagePath = "";
+     QString editImagePath ="";
+     qreal rotate = 0;
      QSize imageSize = QSize();
      int fontSize = 1;
 
