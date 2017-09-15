@@ -28,6 +28,7 @@ ColorButton::ColorButton(const QColor &color, QWidget *parent)
     });
 }
 
+
 void ColorButton::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
@@ -170,7 +171,6 @@ ColorPanel::ColorPanel(QWidget *parent)
 
 void ColorPanel::setColor(QColor color)
 {
-
 }
 
 void ColorPanel::setDrawStatus(DrawStatus status)

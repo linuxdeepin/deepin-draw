@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QColor>
 #include <QPaintEvent>
+#include <QApplication>
 
 #include "sliderlabel.h"
 #include "editlabel.h"

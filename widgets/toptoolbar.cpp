@@ -271,7 +271,9 @@ void TopToolbar::initStackWidget()
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
-    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
+    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop);
+    m_colorARect->setWindowFlags(Qt::Popup);
+    m_colorARect->setFocusPolicy(Qt::StrongFocus);
     m_colorARect->setArrowX(25);
     m_colorARect->setArrowWidth(30);
     m_colorARect->setContent(m_colorPanel);

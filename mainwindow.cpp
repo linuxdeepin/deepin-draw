@@ -25,19 +25,19 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(m_mainWidget);
 
     connect(m_topToolbar, &TopToolbar::openImage,
-                    m_mainWidget, &MainWidget::setImageInCanvas);
+            m_mainWidget, &MainWidget::setImageInCanvas);
 
     connect(m_topToolbar, &TopToolbar::initShapeWidgetAction,
             m_mainWidget, &MainWidget::initShapesWidget);
 
-     connect(m_topToolbar, &TopToolbar::rotateImage,
-             m_mainWidget, &MainWidget::rotateImage);
+    connect(m_topToolbar, &TopToolbar::rotateImage,
+            m_mainWidget, &MainWidget::rotateImage);
 
-     connect(m_topToolbar, &TopToolbar::mirroredImage,
-             m_mainWidget, &MainWidget::mirroredImage);
+    connect(m_topToolbar, &TopToolbar::mirroredImage,
+            m_mainWidget, &MainWidget::mirroredImage);
 
-     connect(m_topToolbar, &TopToolbar::saveImage,
-             m_mainWidget, &MainWidget::saveImage);
+    connect(m_topToolbar, &TopToolbar::saveImage,
+            m_mainWidget, &MainWidget::saveImage);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
