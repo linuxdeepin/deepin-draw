@@ -1122,10 +1122,11 @@ void ShapesWidget::handleRotate(QPointF pos) {
         QPixmap imagePix(m_shapes[m_selectedOrder].imagePath);
         imagePix = imagePix.transformed(matrix);
 
+        QString picBaseName = QFileInfo(m_shapes[m_selectedOrder].imagePath).baseName();
+        QString suffix = QFileInfo(m_shapes[m_selectedOrder].imagePath).suffix();
 
-        m_shapes[m_selectedOrder].editImagePath = "/tmp/rotateImage.jpg";
-
-        imagePix.save("/tmp/rotateImage.jpg", "JPG");
+        m_shapes[m_selectedOrder].editImagePath = QString("/tmp/%1.%2").arg(picBaseName).arg(suffix);
+        imagePix.save(m_shapes[m_selectedOrder].editImagePath,  suffix.toLatin1());
 
         m_shapes[m_selectedOrder].mainPoints[0] = QPointF(imagePix.rect().x(),
                                                           imagePix.rect().y());
