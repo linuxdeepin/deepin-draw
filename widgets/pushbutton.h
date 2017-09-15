@@ -42,7 +42,6 @@ public:
     bool getChecked() const;
     void setChecked(bool checked);
 
-
 public slots:
     void setNormalPic(QString normalPic);
     void setHoverPic(QString hoverPic);
@@ -56,7 +55,6 @@ public slots:
     void setHoverColor(QColor hoverColor);
     void setPressColor(QColor pressColor);
     void setDisableColor(QColor disableColor);
-
 
 signals:
     void normalPicChanged(QString normalPic);
@@ -85,7 +83,7 @@ protected:
 
 private:
     QString getPixmap() const;
-    QColor getTextColor() const;
+    QColor  getTextColor() const;
 
 private:
     QString m_normalPic;

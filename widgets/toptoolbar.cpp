@@ -38,46 +38,54 @@ TopToolbar::TopToolbar(QWidget* parent)
 {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
+
     QLabel* logoLabel = new QLabel(this);
     logoLabel->setFixedSize(24, 25);
     logoLabel->setObjectName("LogoLabel");
 
-    QButtonGroup* shapesBtnGroup = new QButtonGroup(this);
-    shapesBtnGroup->setExclusive(true);
+    QList<PushButton*> actionPushButtons;
 
-    ToolButton* artBoardBtn = new ToolButton(this);
+    PushButton* artBoardBtn = new PushButton(this);
     artBoardBtn->setObjectName("ArtBoardBtn");
-    shapesBtnGroup->addButton(artBoardBtn);
+    artBoardBtn->setToolTip(tr("Dimension"));
+    actionPushButtons.append(artBoardBtn);
 
-    ToolButton* picBtn = new ToolButton(this);
+    PushButton* picBtn = new PushButton(this);
     picBtn->setObjectName("PictureBtn");
-    shapesBtnGroup->addButton(picBtn);
+    picBtn->setToolTip(tr("Picture"));
+    actionPushButtons.append(picBtn);
 
-    ToolButton* rectBtn = new ToolButton(this);
+    PushButton* rectBtn = new PushButton(this);
     rectBtn->setObjectName("RectBtn");
-    shapesBtnGroup->addButton(rectBtn);
+    rectBtn->setToolTip(tr("Rectangle"));
+    actionPushButtons.append(rectBtn);
 
-    ToolButton* ovalBtn = new ToolButton(this);
+    PushButton* ovalBtn = new PushButton(this);
     ovalBtn->setObjectName("OvalBtn");
-    shapesBtnGroup->addButton(ovalBtn);
+    ovalBtn->setToolTip(tr("Ellipse"));
+    actionPushButtons.append(ovalBtn);
 
-    ToolButton* lineBtn = new ToolButton(this);
+    PushButton* lineBtn = new PushButton(this);
     lineBtn->setObjectName("LineBtn");
-    shapesBtnGroup->addButton(lineBtn);
+    lineBtn->setToolTip(tr("Pencil"));
+    actionPushButtons.append(lineBtn);
 
-    ToolButton* textBtn = new ToolButton(this);
+    PushButton* textBtn = new PushButton(this);
     textBtn->setObjectName("TextBtn");
-    shapesBtnGroup->addButton(textBtn);
+    textBtn->setToolTip(tr("Text"));
+    actionPushButtons.append(textBtn);
 
-    ToolButton* blurBtn = new ToolButton(this);
+    PushButton* blurBtn = new PushButton(this);
     blurBtn->setObjectName("BlurBtn");
-    shapesBtnGroup->addButton(blurBtn);
+    blurBtn->setToolTip(tr("Blur"));
+    actionPushButtons.append(blurBtn);
 
     initStackWidget();
 
-    ToolButton* exportBtn = new ToolButton(this);
+    PushButton* exportBtn = new PushButton(this);
     exportBtn->setObjectName("ExportBtn");
-
+    exportBtn->setToolTip(tr("Save"));
+    exportBtn->setCheckable(false);
     initMenu();
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
@@ -100,7 +108,12 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addSpacing(30);
     setLayout(mLayout);
 
-    connect(picBtn, &ToolButton::clicked, this, [=]{
+    connect(picBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        picBtn->setChecked(true);
         setMiddleStackWidget(Status::Cut);
         drawShapes("image");
     });
@@ -113,16 +126,33 @@ TopToolbar::TopToolbar(QWidget* parent)
             picBtn->setChecked(true);
         }
     });
-    connect(rectBtn, &ToolButton::clicked, this, [=]{
+
+    connect(rectBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        rectBtn->setChecked(true);
         setMiddleStackWidget(Status::FillShape);
         drawShapes("rectangle");
     });
 
-    connect(ovalBtn, &ToolButton::clicked, this, [=]{
+    connect(ovalBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        ovalBtn->setChecked(true);
         setMiddleStackWidget(Status::FillShape);
         drawShapes("oval");
     });
-    connect(lineBtn, &ToolButton::clicked, this, [=]{
+
+    connect(lineBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        lineBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawLine);
         int styleIndex = ConfigSettings::instance()->value("line", "style").toInt();
         switch (styleIndex) {
@@ -131,19 +161,37 @@ TopToolbar::TopToolbar(QWidget* parent)
         default: drawShapes("arrow"); break;
         }
     });
-    connect(textBtn, &ToolButton::clicked, this, [=]{
+
+    connect(textBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        textBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawText);
         drawShapes("text");
     });
-    connect(blurBtn, &ToolButton::clicked, this, [=]{
+
+    connect(blurBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        blurBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawBlur);
         drawShapes("blur");
     });
-    connect(artBoardBtn, &ToolButton::clicked, this, [=]{
+
+    connect(artBoardBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        artBoardBtn->setChecked(true);
         setMiddleStackWidget(Status::AdjustSize);
     });
 
-    connect(exportBtn, &ToolButton::clicked, this, &TopToolbar::showSaveDialog);
+    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::showSaveDialog);
 }
 
 void TopToolbar::importImage()

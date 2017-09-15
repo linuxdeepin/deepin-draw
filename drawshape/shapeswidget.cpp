@@ -1233,7 +1233,7 @@ void ShapesWidget::handleResize(QPointF pos, int key)
 
         for (int j = 0; j <  m_shapes[m_selectedOrder].portion.length(); j++) {
               m_shapes[m_selectedOrder].points[j] =
-                      getNewPosition(m_shapes[m_selectedOrder].mainPoints,
+                getNewPosition(m_shapes[m_selectedOrder].mainPoints,
                                      m_shapes[m_selectedOrder].portion[j]);
         }
 
@@ -1250,7 +1250,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     if (m_selectedIndex != -1)
     {
-        if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1)
+        if (!(clickedOnShapes(e->pos()) && m_isRotated))
         {
             compressToImage();
             clearSelected();
@@ -1272,8 +1272,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     m_pressedPoint = e->pos();
     m_isPressed = true;
-//    qDebug() << "mouse pressed!" << m_pressedPoint;
-    if (!clickedOnShapes(m_pressedPoint))
+
+    if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
     {
         m_isRecording = true;
 //    qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
@@ -1505,11 +1505,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         {
             handleRotate(e->pos());
         }
-
-//        if (m_rotateMode)
-//        {
-//            handleRotate(e->pos());
-//        }
 
         if (m_isResize && m_isPressed)
         {
@@ -1976,8 +1971,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         }
     } else if (m_selectedOrder != -1 || m_ownImages)
     {
-        qDebug() << "image loaded." << m_ownImages << m_selectedOrder;
-
+        qDebug() << "image loaded:" << m_ownImages << m_selectedOrder;
         painter.drawPixmap(0, 0, m_backgroundPixmap);
 
         if (m_selectedOrder != -1)
@@ -2098,10 +2092,10 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
     FourPoints rectFPoints =  mainPoints;
     QPainterPath rectPath;
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
-    rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
-    rectPath.lineTo(rectFPoints[3].x(),rectFPoints[3].y());
-    rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
-    rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
+    rectPath.lineTo(rectFPoints[1].x(), rectFPoints[1].y());
+    rectPath.lineTo(rectFPoints[3].x(), rectFPoints[3].y());
+    rectPath.lineTo(rectFPoints[2].x(), rectFPoints[2].y());
+    rectPath.lineTo(rectFPoints[0].x(), rectFPoints[0].y());
 
     qDebug() << "ShapesWidget:" << m_penColor;
     painter.drawPath(rectPath);

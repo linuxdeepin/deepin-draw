@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 
 #include <QVBoxLayout>
-
-#include <DTitlebar>
 #include <QCheckBox>
 #include <QDebug>
 #include <QApplication>
+
+#include <DTitlebar>
 
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent) {

@@ -34,7 +34,6 @@ QCursor setCursorShape(QString cursorName) {
                     ":/theme/light/images/mouse_style/shape/pen_mouse.png")), 2, 9);
     }
 
-    qDebug() << "custom cursor shape:" << cursorName << customShape;
     return customShape;
 }
 
