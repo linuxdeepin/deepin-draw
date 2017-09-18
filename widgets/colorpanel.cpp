@@ -12,6 +12,9 @@
 #include "colorslider.h"
 #include "pickcolorwidget.h"
 
+const int ORIGIN_HEIGHT = 200;
+const int EXPAND_HEIGHT = 416;
+
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent), m_disable(false) {
     m_color = color;
@@ -74,9 +77,14 @@ void ColorButton::setDisableColor(bool disable) {
 ColorButton::~ColorButton() {}
 
 ColorPanel::ColorPanel(QWidget *parent)
-    : QWidget(parent) {
+    : QWidget(parent)
+     , m_expand(false)
+{
     DRAW_THEME_INIT_WIDGET("ColorPanel");
-    setFixedSize(232, 416);
+    if (!m_expand)
+        setFixedSize(232, ORIGIN_HEIGHT);
+    else
+        setFixedSize(232, EXPAND_HEIGHT);
 
     m_colList;
     m_colList
@@ -167,6 +175,26 @@ ColorPanel::ColorPanel(QWidget *parent)
     mLayout->addWidget(pickColWidget);
 
     setLayout(mLayout);
+
+    if (!m_expand)
+        pickColWidget->hide();
+
+    connect(m_colorfulBtn, &PushButton::clicked, this, [=]{
+        if (m_expand)
+        {
+            pickColWidget->hide();
+            setFixedHeight(ORIGIN_HEIGHT);
+            updateGeometry();
+        } else
+        {
+            pickColWidget->show();
+            setFixedHeight(EXPAND_HEIGHT);
+            updateGeometry();
+        }
+        emit updateHeight();
+
+        m_expand = !m_expand;
+    });
 }
 
 void ColorPanel::setColor(QColor color)

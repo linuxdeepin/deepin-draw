@@ -3,7 +3,6 @@
 
 #include <QLabel>
 #include <QSlider>
-
 #include <QWidget>
 
 #include "colorslider.h"

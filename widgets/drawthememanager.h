@@ -1,7 +1,6 @@
 #ifndef DRAWTHEMEMANAGER_H
 #define DRAWTHEMEMANAGER_H
 
-
 #include <QObject>
 
 class DrawThemeManager : public QObject {

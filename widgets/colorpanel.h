@@ -44,6 +44,7 @@ public:
 
 signals:
     void colorChanged(QColor color);
+    void updateHeight();
 
 private:
     SliderLabel* m_sliderLabel;
@@ -53,6 +54,7 @@ private:
     QStringList m_colList;
     QList<ColorButton*> m_cButtonList;
     DrawStatus m_drawstatus;
+    bool m_expand;
 };
 
 #endif // COLORPANEL_H

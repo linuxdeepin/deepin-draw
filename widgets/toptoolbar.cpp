@@ -22,12 +22,10 @@
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
-
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 
 #include "controller/importer.h"
-
 #include "textfontlabel.h"
 
 DWIDGET_USE_NAMESPACE
@@ -278,6 +276,10 @@ void TopToolbar::initStackWidget()
     m_colorARect->setArrowWidth(30);
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
+
+    connect(m_colorPanel, &ColorPanel::updateHeight, this, [=]{
+        m_colorARect->setContent(m_colorPanel);
+    });
 
     //fill rectangle, and oval.
     m_fillShapeWidget = new FillshapeWidget(this);

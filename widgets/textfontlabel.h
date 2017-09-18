@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QLineEdit>
+
 #include "toolbutton.h"
 
 class TextFontLabel : public QLabel
