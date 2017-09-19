@@ -16,6 +16,7 @@ BlurWidget::BlurWidget(QWidget *parent)
     fineBtn->setObjectName("LineMostThinBtn");
 
     QSlider* lineWidthSlider = new QSlider(Qt::Horizontal);
+    lineWidthSlider->setFixedWidth(120);
     lineWidthSlider->setMinimum(20);
     lineWidthSlider->setMaximum(160);
 
@@ -28,12 +29,16 @@ BlurWidget::BlurWidget(QWidget *parent)
     ToolButton* boldBtn = new ToolButton;
     boldBtn->setObjectName("LineThickLineBtn");
     QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->addStretch();
     layout->addWidget(penLabel);
-    layout->addSpacing(4);
+    layout->addSpacing(2);
     layout->addWidget(fineBtn);
     layout->addWidget(lineWidthSlider);
-    layout->addSpacing(4);
+    layout->addSpacing(2);
     layout->addWidget(boldBtn);
+    layout->addStretch();
     setLayout(layout);
 }
 

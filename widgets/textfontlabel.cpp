@@ -29,8 +29,10 @@ TextFontLabel::TextFontLabel(QWidget *parent)
 
     ToolButton* addBtn = new ToolButton(this);
     addBtn->setObjectName("AddFontsizeBtn");
+    addBtn->setAutoRepeat(true);
     ToolButton* reduceBtn = new ToolButton(this);
     reduceBtn->setObjectName("ReduceFontsizeBtn");
+    reduceBtn->setAutoRepeat(true);
 
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
@@ -42,13 +44,13 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     hLayout->addWidget(reduceBtn, 0, Qt::AlignCenter);
     setLayout(hLayout);
 
-    connect(addBtn, &ToolButton::clicked, this, [=]{
+    connect(addBtn, &ToolButton::pressed, this, [=]{
         m_fontsize += 1;
         fontEdit->setText(QString("%1").arg(m_fontsize));
         ConfigSettings::instance()->setValue("text", "fontsize", m_fontsize);
     });
 
-    connect(reduceBtn, &ToolButton::clicked, this, [=]{
+    connect(reduceBtn, &ToolButton::pressed, this, [=]{
         m_fontsize -= 1;
         m_fontsize = std::max(8, m_fontsize);
         fontEdit->setText(QString("%1").arg(m_fontsize));
