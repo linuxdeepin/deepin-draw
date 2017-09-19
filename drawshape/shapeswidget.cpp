@@ -234,21 +234,16 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     bool onShapes = false;
     m_selectedOrder = -1;
 
-    qDebug() << "ClickedOnShapes !!!!!!!" << m_shapes.length();
+    qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
     for (int i = 0; i < m_shapes.length(); i++) {
         bool currentOnShape = false;
         qDebug() << "this moment shape:" << m_currentType;
         if (m_currentType == "image")
         {
-            qDebug() << "yyyy" << i << m_currentType;
             if (m_shapes[i].type == "image")
             {
-                qDebug() << "ix" << i << m_shapes[i].mainPoints[0] << m_shapes[i].mainPoints[1]
-                         << m_shapes[i].mainPoints[2] << m_shapes[i].mainPoints[3]
-                         << pos;
                 if (clickedOnImage(m_shapes[i].mainPoints, pos))
                 {
-                    qDebug() << "clicked on image:" << i;
                     currentOnShape = true;
                 }
             }
@@ -260,6 +255,8 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                                   false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
                 {
                     currentOnShape = true;
+                } else {
+                    qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
                 }
             }
             if (m_shapes[i].type == "oval")
@@ -305,16 +302,21 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
             break;
         } else {
-            m_selectedIndex = -1;
-            m_selectedOrder = -1;
             continue;
         }
+    }
+
+    if (!onShapes)
+    {
+        m_selectedIndex = -1;
+        m_selectedOrder = -1;
     }
 
     if (m_selectedOrder == -1 && m_ownImages)
     {
         compressToImage();
     }
+
     return onShapes;
 }
 
@@ -1211,11 +1213,11 @@ void ShapesWidget::handleResize(QPointF pos, int key)
 {
     qDebug() << "handleResize:" << m_selectedIndex << m_shapes.length();
 
-    if (m_isResize && m_selectedIndex != -1) {
+    if (m_isResize && m_selectedOrder != -1) {
         if (m_shapes[m_selectedOrder].portion.isEmpty()) {
             for(int k = 0; k < m_shapes[m_selectedOrder].points.length(); k++) {
                 m_shapes[m_selectedOrder].portion.append(relativePosition(
-                m_selectedShape.mainPoints, m_selectedShape.points[k]));
+                m_shapes[m_selectedOrder].mainPoints, m_shapes[m_selectedOrder].points[k]));
             }
         }
 
@@ -1226,7 +1228,7 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
 
-       qDebug() << "handleResize:" << m_selectedIndex <<  m_isShiftPressed;
+       qDebug() << "handleResize:" << m_selectedIndex << m_selectedOrder <<  m_isShiftPressed;
         m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
@@ -1245,13 +1247,15 @@ void ShapesWidget::handleResize(QPointF pos, int key)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
-//    qDebug() << "ShapesWidget mousePressEvent@@@:" << e->pos();
+    qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
     m_cutShape.type = "";
 
-    if (m_selectedIndex != -1)
+    if (m_selectedOrder != -1)
     {
-        if (!(clickedOnShapes(e->pos()) && m_isRotated))
+        bool result = clickedOnShapes(e->pos());
+        if (!result && m_isRotated)
         {
+             qDebug() << "clickedOnShapes result:" << false << m_currentType;
             compressToImage();
             clearSelected();
             setAllTextEditReadOnly();
@@ -1260,7 +1264,12 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_selectedOrder = -1;
             m_selectedShape.type = "";
             return;
+        } else {
+            qDebug() << "clickedOnShapes result:" << true << m_currentType;
         }
+    } else
+    {
+        qDebug() << "*mousePressEvent:" << m_selectedOrder;
     }
 
     if (e->button() == Qt::RightButton)
@@ -1276,7 +1285,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
     {
         m_isRecording = true;
-//    qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
 
         m_currentShape.type = m_currentType;
         m_currentShape.strokeColor = m_penColor;
@@ -1631,7 +1639,6 @@ void ShapesWidget::paintRect(QPainter &painter, Toolshape shape)
     rectPath.lineTo(rectFPoints[2].x(), rectFPoints[2].y());
     rectPath.lineTo(rectFPoints[0].x(), rectFPoints[0].y());
 
-    qDebug() << "ShapesWidget:::" << m_penColor;
     painter.drawPath(rectPath);
 }
 
@@ -1685,7 +1692,7 @@ void ShapesWidget::paintArrow(QPainter &painter, Toolshape shape, bool isStraigh
                 path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
                 path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
             }
-            painter.setPen (Qt :: NoPen);
+            painter.setPen (Qt::NoPen);
             painter.fillPath(path, QBrush(oldPen.color()));
         } else
         {
@@ -2001,7 +2008,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
-    qDebug() << "LLLL:" << shape.type << shape.imagePath;
+    qDebug() << "paintShape:" << shape.type << shape.imagePath;
     if (shape.type != "image" && shape.mainPoints[0] == QPoint(0, 0))
         return;
     QPen selectedPen;
@@ -2308,8 +2315,6 @@ void ShapesWidget::compressToImage()
         }
     }
     m_bgContainShapeNum = m_shapes.length();
-
-    m_backgroundPixmap.save("/tmp/beep.png", "PNG");
 }
 
 void ShapesWidget::microAdjust(QString direction)
