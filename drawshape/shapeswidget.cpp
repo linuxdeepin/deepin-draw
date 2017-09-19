@@ -1387,8 +1387,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             {
                 if (m_isShiftPressed)
                 {
-                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                   std::abs(m_pos2.x() - m_pos1.x()))
+                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()), std::abs(m_pos2.x() - m_pos1.x()))
                             *180/M_PI < 45)
                     {
                         m_pos2 = QPointF(m_pos2.x(), m_pos1.y());
@@ -1405,7 +1404,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
         } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
-            qDebug() << ".... m_currentType: blur";
+            qDebug() << "m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
@@ -1518,9 +1517,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         {
             // resize function
             handleResize(QPointF(e->pos()), m_clickedKey);
-//            update();
-
-            return;
         }
 
         if (m_isSelected && m_isPressed && m_selectedOrder != -1)
@@ -1528,7 +1524,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             qDebug() << "handleDrag:" << m_isSelected << m_selectedOrder;
             handleDrag(m_pressedPoint, m_movingPoint);
             m_selectedShape = m_shapes[m_selectedOrder];
-//            m_hoveredShape = m_shapes[m_selectedOrder];
 
             m_pressedPoint = m_movingPoint;
         }
@@ -1967,13 +1962,13 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    if ((m_selectedOrder == -1 || m_isPressed) && !m_ownImages)
+    if ((m_selectedOrder == -1 /*|| m_isPressed*/) && !m_ownImages)
     {
         painter.drawPixmap(0, 0, m_emptyBgPixmap);
 
         for(int i= 0; i < m_shapes.length(); i++)
         {
-            qDebug() << "paintShape ssss: " << m_shapes[i].type << m_shapes[i].imagePath;
+            qDebug() << "paintShape ssss: " << m_shapes[i].type << m_shapes[i].imagePath << m_selectedOrder;
             paintShape(painter, m_shapes[i]);
         }
     } else if (m_selectedOrder != -1 || m_ownImages)
