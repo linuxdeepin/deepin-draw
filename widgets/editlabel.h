@@ -4,7 +4,8 @@
 #include <QLabel>
 #include <QLineEdit>
 
-class EditLabel : public QWidget {
+class EditLabel : public QWidget
+{
     Q_OBJECT
 public:
     EditLabel(QWidget* parent = 0);
@@ -12,6 +13,7 @@ public:
 
     void setTitle(QString title);
     void setEditText(QString text);
+    void setEditWidth(int width);
 
 private:
     QLabel* m_titleLabel;

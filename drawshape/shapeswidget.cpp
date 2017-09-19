@@ -2337,7 +2337,8 @@ void ShapesWidget::microAdjust(QString direction)
     }
 }
 
-void ShapesWidget::setShiftKeyPressed(bool isShift) {
+void ShapesWidget::setShiftKeyPressed(bool isShift)
+{
     m_isShiftPressed = isShift;
 }
 

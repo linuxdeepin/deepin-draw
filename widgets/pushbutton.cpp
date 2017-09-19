@@ -162,32 +162,34 @@ void PushButton::paintEvent(QPaintEvent *e)
     QWidget::paintEvent(e);
     QPainter painter(this);
 
-    QMargins m = contentsMargins();
-    int ph = 0;
-    int spacing = 0;
+//    QMargins m = contentsMargins();
+//    int ph = 0;
+//    int spacing = 0;
     QPixmap pixmap(getPixmap());
+    this->setFixedSize(pixmap.size());
     if (! pixmap.isNull()) {
-        if (pixmap.width() > width() || pixmap.height() > height()) {
-            ph = height() - m.top() - m.bottom();
-            const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
-            painter.drawPixmap(pr, pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding));
-        }
-        else {
-            ph = pixmap.height();
-            const QRect pr(m.left(), (height() - ph) / 2, pixmap.width(), ph);
-            painter.drawPixmap(pr, pixmap);
-        }
-        spacing = m_spacing;
+        painter.drawPixmap(this->rect(), pixmap);
+//        if (pixmap.width() > width() || pixmap.height() > height()) {
+//            ph = height() - m.top() - m.bottom();
+//            const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
+//            painter.drawPixmap(pr, pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding));
+//        }
+//        else {
+//            ph = pixmap.height();
+//            const QRect pr(m.left(), (height() - ph) / 2, pixmap.width(), ph);
+//            painter.drawPixmap(pr, pixmap);
+//        }
+//        spacing = m_spacing;
     }
 
-    QFontMetrics fm(font());
-    const int tw = width() - m.left() - spacing - ph - m.right();
-    const int th = fm.height();
-    const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
-                   tw, th);
-    const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
-    painter.setPen(QPen(getTextColor()));
-    painter.drawText(textRect, Qt::AlignCenter, mt);
+//    QFontMetrics fm(font());
+//    const int tw = width() - m.left() - spacing - ph - m.right();
+//    const int th = fm.height();
+//    const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
+//                   tw, th);
+//    const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
+//    painter.setPen(QPen(getTextColor()));
+//    painter.drawText(textRect, Qt::AlignCenter, mt);
 }
 
 void PushButton::enterEvent(QEvent *e)

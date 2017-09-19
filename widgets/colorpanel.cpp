@@ -143,7 +143,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
     m_editLabel->setEditText("#FF0000");
-
+    m_editLabel->setEditWidth(150);
 
     m_colorfulBtn = new PushButton(this);
     m_colorfulBtn->setObjectName("ColorFulButton");
@@ -151,6 +151,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     QHBoxLayout* colorLayout = new QHBoxLayout;
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
+    colorLayout->addStretch();
     colorLayout->addWidget(m_editLabel);
     colorLayout->addWidget(m_colorfulBtn);
 
@@ -169,12 +170,12 @@ ColorPanel::ColorPanel(QWidget *parent)
     mLayout->setContentsMargins(4, 4, 4, 4);
     mLayout->setSpacing(0);
     mLayout->addLayout(gLayout);
+    mLayout->addSpacing(5);
     mLayout->addWidget(m_sliderLabel);
     mLayout->addSpacing(2);
     mLayout->addLayout(colorLayout);
     mLayout->addSpacing(5);
     mLayout->addWidget(pickColWidget);
-
     setLayout(mLayout);
 
     if (!m_expand)
