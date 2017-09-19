@@ -10,7 +10,8 @@
 #include "utils/shapesutils.h"
 #include "scen/imageview.h"
 
-class CanvasWidget : public QWidget {
+class CanvasWidget : public QWidget
+{
     Q_OBJECT
 public:
     CanvasWidget(QWidget* parent = 0);

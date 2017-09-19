@@ -8,7 +8,8 @@
 #include <DTitlebar>
 
 MainWindow::MainWindow(QWidget *parent)
-    :DMainWindow(parent) {
+    :DMainWindow(parent)
+{
     setMinimumSize(1050, 850);
 
     m_topToolbar = new TopToolbar(this);
@@ -40,14 +41,16 @@ MainWindow::MainWindow(QWidget *parent)
             m_mainWidget, &MainWidget::saveImage);
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event) {
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
     DMainWindow::resizeEvent(event);
     m_topToolbar->setFixedWidth(this->width() -  m_titlebarWidth);
 
     this->update();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
     DMainWindow::keyPressEvent(event);
 }
 

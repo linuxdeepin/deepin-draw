@@ -8,7 +8,9 @@
 #include <cmath>
 
 CanvasWidget::CanvasWidget(QWidget *parent)
-    : QWidget(parent), m_scaleValue(1) {
+    : QWidget(parent)
+    , m_scaleValue(1)
+{
     m_view = new ImageView(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -29,11 +31,14 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_view, &ImageView::saveImage);
 }
 
-bool CanvasWidget::overWindowSize() {
+bool CanvasWidget::overWindowSize()
+{
     QSize windowSize = qApp->desktop()->geometry().size();
     QSize imageSize = QPixmap(m_currentFile).size();
+
     if (imageSize.width() > windowSize.width() ||
-            imageSize.height() > windowSize.height()) {
+            imageSize.height() > windowSize.height())
+    {
         m_scaledSize = fitWindowScaledSize(windowSize, imageSize);
         return true;
     } else {
@@ -54,10 +59,12 @@ QSize CanvasWidget::fitWindowScaledSize(QSize windowSize, QSize imgSize)
     return tmpImgSize;
 }
 
-void CanvasWidget::setImage(QString filename) {
+void CanvasWidget::setImage(QString filename)
+{
     m_currentFile = filename;
     m_view->setImage(filename);
 }
 
-CanvasWidget::~CanvasWidget() {
+CanvasWidget::~CanvasWidget()
+{
 }

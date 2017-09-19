@@ -4,7 +4,8 @@
 #include <QDebug>
 
 MainWidget::MainWidget(QWidget *parent)
-    : QWidget(parent) {
+    : QWidget(parent)
+{
     m_canvas = new CanvasWidget(this);
     m_seperatorLine = new QLabel(this);
     m_seperatorLine->setMinimumWidth(this->width());
@@ -30,11 +31,13 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::saveImage);
 }
 
-void MainWidget::setImageInCanvas(QString imageFileName) {
+void MainWidget::setImageInCanvas(QString imageFileName)
+{
     m_canvas->setImage(imageFileName);
 }
 
-void MainWidget::resizeEvent(QResizeEvent *event) {
+void MainWidget::resizeEvent(QResizeEvent *event)
+{
     qDebug() << "MainWidget  resizeEvent:"
                      << this->width() << this->height();
     m_seperatorLine->setMinimumWidth(this->width());
@@ -43,5 +46,6 @@ void MainWidget::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 }
 
-MainWidget::~MainWidget() {
+MainWidget::~MainWidget()
+{
 }

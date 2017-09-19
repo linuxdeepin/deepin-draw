@@ -5,7 +5,8 @@
 #include <QWindow>
 #include <QMap>
 
-class TempFile : public QObject {
+class TempFile : public QObject
+{
     Q_OBJECT
 public:
     static TempFile *instance();

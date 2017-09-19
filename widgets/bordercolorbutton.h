@@ -4,7 +4,8 @@
 #include <QPushButton>
 #include <QWidget>
 
-class BorderColorButton : public QPushButton {
+class BorderColorButton : public QPushButton
+{
     Q_OBJECT
 public:
     BorderColorButton(QWidget* parent = 0);

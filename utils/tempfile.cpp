@@ -42,7 +42,8 @@ QString TempFile::getRandomFile(const QString &filepath)
     QString hashKey = createHash(filepath);
     QTemporaryFile randomFile;
     QString randomFilename;
-    if (randomFile.open()) {
+    if (randomFile.open())
+    {
         randomFilename = randomFile.fileName() + ".png";
         m_pathMap.insert(hashKey, randomFilename);
     }

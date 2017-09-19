@@ -14,25 +14,31 @@ BorderColorButton::BorderColorButton(QWidget *parent)
     setFixedSize(24, 24);
     setCheckable(true);
 
-    connect(this, &QPushButton::clicked, this, &BorderColorButton::setCheckedStatus);
+    connect(this, &QPushButton::clicked, this,
+            &BorderColorButton::setCheckedStatus);
 }
 
-void BorderColorButton::updateConfigColor(const QString &shape, const QString &key, int index)
+void BorderColorButton::updateConfigColor(const QString &shape,
+                                                                                   const QString &key, int index)
 {
-    if (shape == "common" && key == "color_index") {
+    if (shape == "common" && key == "color_index")
+    {
 //        setColor(colorIndexOf(index));
     }
 }
 
-BorderColorButton::~BorderColorButton() {
+BorderColorButton::~BorderColorButton()
+{
 }
 
-void BorderColorButton::paintEvent(QPaintEvent *) {
+void BorderColorButton::paintEvent(QPaintEvent *)
+{
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(Qt::transparent);
 
-    if (m_isHover || m_isChecked) {
+    if (m_isHover || m_isChecked)
+    {
         painter.setBrush(QBrush(QColor(0, 0, 0, 20.4)));
         painter.drawRoundedRect(rect(), 4, 4);
     } else {
@@ -46,34 +52,42 @@ void BorderColorButton::paintEvent(QPaintEvent *) {
     painter.drawEllipse(this->rect().center(), 8, 8);
 }
 
-void BorderColorButton::setColor(QColor color) {
+void BorderColorButton::setColor(QColor color)
+{
     m_color = color;
     update();
 }
 
-void BorderColorButton::setColorIndex() {
+void BorderColorButton::setColorIndex()
+{
 //    int colorNum = ConfigSettings::instance()->value("common", "color_index").toInt();
 //    m_color = colorIndexOf(colorNum);
     update();
 }
 
-void BorderColorButton::setCheckedStatus(bool checked) {
-    if (checked) {
+void BorderColorButton::setCheckedStatus(bool checked)
+{
+    if (checked)
+    {
         m_isChecked = true;
         update();
     }
 
 }
 
-void BorderColorButton::enterEvent(QEvent *) {
-    if (!m_isHover) {
+void BorderColorButton::enterEvent(QEvent *)
+{
+    if (!m_isHover)
+    {
         m_isHover = true;
         update();
     }
 }
 
-void BorderColorButton::leaveEvent(QEvent *) {
-    if (m_isHover) {
+void BorderColorButton::leaveEvent(QEvent *)
+{
+    if (m_isHover)
+    {
         m_isHover = false;
         update();
     }

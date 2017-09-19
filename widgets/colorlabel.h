@@ -7,7 +7,8 @@
 #include <QMouseEvent>
 #include <QCursor>
 
-class ColorLabel : public QLabel {
+class ColorLabel : public QLabel
+{
     Q_OBJECT
 public:
     ColorLabel(QWidget* parent = 0);
