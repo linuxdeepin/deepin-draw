@@ -75,9 +75,10 @@ void ShapesWidget::initAttribute()
     m_penColor = QColor(ConfigSettings::instance()->value(
         "common", "strokeColor").toString());
 
+    qDebug() << "initAttribute:" << m_penColor;
     m_brushColor = QColor(ConfigSettings::instance()->value(
         "common", "fillColor").toString());
-
+    qDebug() << "initAttribute:" << m_brushColor;
     m_textFontsize = ConfigSettings::instance()->value("text",
         "fontsize").toInt();
 
@@ -113,15 +114,14 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     "blur", "index").toInt();
     }
 
-    if (m_selectedIndex != -1 && m_selectedOrder != -1) {
+    qDebug() << "!!!!!!!!!!" << m_selectedOrder;
+    if (m_selectedOrder != -1) {
         if (group == "common") {
             if (key == "strokeColor") {
-                m_selectedShape.strokeColor = QColor(ConfigSettings::instance()->value(
-                                        "common", "strokeColor").toString());
+                m_shapes[m_selectedOrder].strokeColor = m_penColor;
             } else if (key == "fillColor") {
-                m_selectedShape.fillColor = QColor(ConfigSettings::instance()->value(
-                                                       "common", "fillColor").toString());
-                if (m_selectedShape.type == "text") {
+                m_shapes[m_selectedOrder].fillColor =  m_brushColor;
+                if (m_shapes[m_selectedOrder].type == "text") {
                     int tmpIndex = m_shapes[m_selectedOrder].index;
                     if (m_editMap.contains(tmpIndex)) {
                         m_editMap.value(tmpIndex)->setColor(QColor(
@@ -130,10 +130,10 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     }
                 }
             } else if (key == "lineWidth") {
-                m_selectedShape.lineWidth = ConfigSettings::instance()->value(
+                m_shapes[m_selectedOrder].lineWidth = ConfigSettings::instance()->value(
                             "common", "lineWidth").toInt();
             }
-        } else if (group == "text" && m_selectedShape.type == group)  {
+        } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
             m_editMap.value(tmpIndex)->setFontSize(
@@ -141,18 +141,8 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             m_editMap.value(tmpIndex)->update();
             }
         }
-        if (m_selectedOrder < m_shapes.length())
-        {
-            m_shapes[m_selectedOrder] = m_selectedShape;
-        }
-        update();
     }
-}
-
-void ShapesWidget::updatePenColor()
-{
-    setPenColor(QColor(Qt::red));//colorIndexOf(ConfigSettings::instance()->value(
-                                // "common", "color_index").toInt()));
+    update();
 }
 
 void ShapesWidget::setCurrentShape(QString shapeType)
@@ -166,12 +156,6 @@ void ShapesWidget::setPenColor(QColor color)
 {
     m_penColor = color;
     qDebug() << "ShapesWidget:" << m_penColor;
-    if ( !m_currentType.isEmpty())
-    {
-        qDebug() << "ShapesWidget setPenColor:" << m_currentType;
-//        ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
-    }
-
     update();
 }
 
@@ -1620,11 +1604,12 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos,
 void ShapesWidget::paintRect(QPainter &painter, Toolshape shape)
 {
     QPen rectPen;
+    qDebug() << "Draw rect+++++:" << shape.strokeColor;
     rectPen.setColor(shape.strokeColor);
     rectPen.setWidthF(shape.lineWidth - 0.5);
-    rectPen.setBrush(QBrush(shape.fillColor));
     rectPen.setJoinStyle(Qt::MiterJoin);
     painter.setPen(rectPen);
+    painter.setBrush(QBrush(shape.fillColor));
 
     FourPoints rectFPoints = shape.mainPoints;
     QPainterPath rectPath;
@@ -1642,9 +1627,9 @@ void ShapesWidget::paintEllipse(QPainter &painter, Toolshape shape)
     QPen ellipsePen;
     ellipsePen.setColor(shape.strokeColor);
     ellipsePen.setWidthF(shape.lineWidth - 0.5);
-    ellipsePen.setBrush(QBrush(shape.fillColor));
     ellipsePen.setJoinStyle(Qt::MiterJoin);
     painter.setPen(ellipsePen);
+    painter.setBrush(QBrush(shape.fillColor));
 
     FourPoints ellipseFPoints = shape.mainPoints;
     FourPoints minorPoints = getAnotherFPoints(ellipseFPoints);
@@ -1664,7 +1649,7 @@ void ShapesWidget::paintArrow(QPainter &painter, Toolshape shape, bool isStraigh
 {
     QPen pen;
     pen.setColor(shape.strokeColor);
-    pen.setBrush(shape.fillColor);
+//    pen.setBrush(shape.fillColor);
     pen.setWidthF(shape.lineWidth - 0.5);
     pen.setJoinStyle(Qt::MiterJoin);
     painter.setPen(pen);
@@ -1705,7 +1690,6 @@ void ShapesWidget::paintArbitraryCurve(QPainter &painter, Toolshape shape)
 {
     QPen pen;
     pen.setColor(shape.strokeColor);
-    pen.setBrush(QBrush(shape.fillColor));
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setWidthF(shape.lineWidth - 0.5);
     painter.setPen(pen);
@@ -1959,7 +1943,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
-
     qDebug() << m_selectedOrder << m_shapes.length();
 
     if ((m_selectedOrder == -1 /*|| m_isPressed*/) && !m_ownImages)
@@ -1986,11 +1969,8 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     if (m_pos1 != QPointF(0, 0) || m_currentShape.type == "text")
     {
         Toolshape drawShape;
-        drawShape.type = m_currentType;
         drawShape = m_currentShape;
         drawShape.mainPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
-        drawShape.fillColor = m_brushColor;
-        drawShape.strokeColor = m_penColor;
         drawShape.lineWidth = m_linewidth;
         //Draw current shape
 
@@ -2091,6 +2071,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 
 void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
 {
+    painter.setBrush(QBrush(Qt::transparent));
     FourPoints rectFPoints =  mainPoints;
     QPainterPath rectPath;
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());

@@ -122,6 +122,7 @@ ColorPanel::ColorPanel(QWidget *parent)
         ColorButton* cb = new ColorButton(QColor(m_colList[i]), this);
         if (i == 0)
             cb->setDisableColor(true);
+
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
         colorsButtonGroup->addButton(cb);

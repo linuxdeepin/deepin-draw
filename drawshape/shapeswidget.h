@@ -83,7 +83,6 @@ public:
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);
     void setCurrentShape(QString shapeType);
-    void updatePenColor();
     void setPenColor(QColor color);
     void setBrushColor(QColor color);
     void setLineWidth(int linewidth);
