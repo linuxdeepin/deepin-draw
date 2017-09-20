@@ -20,6 +20,10 @@ EditLabel::EditLabel(QWidget *parent)
     mLayout->addSpacing(4);
     mLayout->addWidget(m_edit);
 
+    connect(m_edit, &QLineEdit::editingFinished, this, [=]{
+        emit editTextChanged(m_edit->text());
+    });
+
     setLayout(mLayout);
 }
 
@@ -37,6 +41,11 @@ void EditLabel::setEditWidth(int width)
 {
     m_edit->setFixedWidth(width);
     this->updateGeometry();
+}
+
+QString EditLabel::getEditText()
+{
+    return m_edit->text();
 }
 
 EditLabel::~EditLabel() {}

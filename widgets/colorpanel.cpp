@@ -95,7 +95,6 @@ ColorPanel::ColorPanel(QWidget *parent)
     else
         setFixedSize(232, EXPAND_HEIGHT);
 
-    m_colList;
     m_colList
             << QString("")               << QString("#ff0c0c") << QString("#fe3c3b")
             << QString("#fd6867") << QString("#fd9694") << QString("#fcc4c1")
@@ -118,7 +117,6 @@ ColorPanel::ColorPanel(QWidget *parent)
             << QString("#ffffff") << QString("#d4d4d4") << QString("#919191")
             << QString("#626262") << QString("#404040") << QString("#000000");
 
-    m_cButtonList;
     QButtonGroup* colorsButtonGroup = new QButtonGroup(this);
     colorsButtonGroup->setExclusive(true);
 
@@ -144,7 +142,6 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
-    m_editLabel->setEditText("#FF0000");
     m_editLabel->setEditWidth(150);
 
     m_colorfulBtn = new PushButton(this);
@@ -167,6 +164,12 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     connect(pickColWidget, &PickColorWidget::pickedColor, this,
             &ColorPanel::setConfigColor);
+    connect(m_editLabel, &EditLabel::editTextChanged,  this, [=](QString text){
+        if (QColor(text).isValid())
+        {
+            pickColWidget->setRgbValue(QColor(text));
+        }
+    });
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);
@@ -208,6 +211,16 @@ void ColorPanel::setColor(QColor color)
 void ColorPanel::setDrawStatus(DrawStatus status)
 {
     m_drawstatus = status;
+
+    QString colorName;
+    if (m_drawstatus == DrawStatus::Stroke)
+    {
+        colorName = ConfigSettings::instance()->value("common", "strokeColor").toString();
+    } else
+    {
+        colorName = ConfigSettings::instance()->value("common", "fillColor").toString();
+    }
+    m_editLabel->setEditText(colorName);
 }
 
 void ColorPanel::setConfigColor(QColor color)
@@ -227,6 +240,7 @@ void ColorPanel::updateColorButtonStatus()
     {
         QString colorName = ConfigSettings::instance()->value(
                     "common", "strokeColor").toString();
+
         if (m_colList.contains(colorName))
         {
             m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
@@ -235,6 +249,7 @@ void ColorPanel::updateColorButtonStatus()
     {
         QString colorName = ConfigSettings::instance()->value(
                     "common", "fillColor").toString();
+
         if (m_colList.contains(colorName))
         {
             m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);

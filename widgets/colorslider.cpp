@@ -11,6 +11,7 @@ ColorSlider::ColorSlider(QWidget *parent)
     setMaximum(360);
     setFixedHeight(15);
     setFixedWidth(222);
+
     setOrientation(Qt::Horizontal);
 }
 

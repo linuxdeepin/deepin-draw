@@ -5,20 +5,28 @@
 #include <QDebug>
 
 PickColorWidget::PickColorWidget(QWidget *parent)
-    : QWidget(parent) {
+    : QWidget(parent)
+{
     QLabel* titleLabel = new QLabel(this);
     titleLabel->setText("RGB");
+
     m_redEditLabel = new EditLabel(this);
     m_redEditLabel->setTitle("R");
     m_redEditLabel->setEditText("255");
+    connect(m_redEditLabel, &EditLabel::editTextChanged,
+            this, &PickColorWidget::updateColor);
 
     m_greenEditLabel = new EditLabel(this);
     m_greenEditLabel->setTitle("G");
     m_greenEditLabel->setEditText("255");
+    connect(m_greenEditLabel, &EditLabel::editTextChanged,
+            this, &PickColorWidget::updateColor);
 
     m_blueEditLabel = new EditLabel(this);
     m_blueEditLabel->setTitle("B");
     m_blueEditLabel->setEditText("255");
+    connect(m_blueEditLabel, &EditLabel::editTextChanged,
+            this, &PickColorWidget::updateColor);
 
     m_picker = new PushButton(this);
     m_picker->setObjectName("PickerBtn");
@@ -57,7 +65,8 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     setLayout(mLayout);
 }
 
-void PickColorWidget::setRgbValue(QColor color) {
+void PickColorWidget::setRgbValue(QColor color)
+{
     m_redEditLabel->setEditText(QString("%1").arg(color.red()));
     m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
     m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
@@ -65,5 +74,17 @@ void PickColorWidget::setRgbValue(QColor color) {
     emit pickedColor(color);
 }
 
-PickColorWidget::~PickColorWidget() {
+void PickColorWidget::updateColor()
+{
+    int r = m_redEditLabel->getEditText().toInt();
+    int g = m_greenEditLabel->getEditText().toInt();
+    int b = m_blueEditLabel->getEditText().toInt();
+
+    if (QColor(r, g, b).isValid()) {
+        emit pickedColor(QColor(r, g, b));
+    }
+}
+
+PickColorWidget::~PickColorWidget()
+{
 }

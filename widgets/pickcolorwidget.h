@@ -8,13 +8,15 @@
 #include "colorlabel.h"
 #include "colorslider.h"
 
-class PickColorWidget : public QWidget {
+class PickColorWidget : public QWidget
+{
     Q_OBJECT
 public:
     PickColorWidget(QWidget* parent);
     ~PickColorWidget();
 
     void setRgbValue(QColor color);
+    void updateColor();
 
 signals:
     void pickedColor(QColor color);
