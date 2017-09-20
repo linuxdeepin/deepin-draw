@@ -70,6 +70,7 @@ protected:
 
 private:
     QString m_path;
+    QStringList m_paths;
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
     int m_textFontsize = 12;

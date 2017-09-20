@@ -200,7 +200,7 @@ void TopToolbar::importImage()
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
-    m_path = QFileDialog::getOpenFileName(this, tr("Open Image"),
+    m_paths = QFileDialog::getOpenFileNames(this, tr("Open Image"),
                                           QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
                                               ("Files(*.*);;"
                                               "Files (*.bmp *.bmp24);;"
@@ -219,15 +219,7 @@ void TopToolbar::importImage()
                                              "Files(*.ptif *.mef *.mrw *.xbm)"));
 
     using namespace utils::image;
-
-    if (imageSupportRead(m_path))
-    {
-        QStringList paths;
-        paths.append(m_path);
-        emit Importer::instance()->importedFiles(paths);
-    } else {
-        qWarning() << "Can't support this format!, image path:" << m_path;
-    }
+    emit Importer::instance()->importedFiles(m_paths);
 }
 
 void TopToolbar::importImageDir()
@@ -314,7 +306,6 @@ void TopToolbar::initMenu()
 {
     m_mainMenu = new QMenu(this);
     QAction* importAc = m_mainMenu->addAction(tr("Import"));
-    QAction* importDirAc = m_mainMenu->addAction(tr("Import Images"));
 //    QAction* importFScannerAc = m_mainMenu->addAction(tr("Import from scanner"));
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
     QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
@@ -332,7 +323,6 @@ void TopToolbar::initMenu()
                 "Deepin Draw is released under GPL v3."));
 
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
-   connect(importDirAc, &QAction::triggered, this, &TopToolbar::importImageDir);
    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
