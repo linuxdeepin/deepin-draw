@@ -41,6 +41,7 @@ public:
 
     void setColor(QColor color);
     void setDrawStatus(DrawStatus status);
+    void setConfigColor(QColor color);
 
 signals:
     void colorChanged(QColor color);

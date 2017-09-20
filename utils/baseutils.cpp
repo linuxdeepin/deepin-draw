@@ -30,8 +30,11 @@ QCursor setCursorShape(QString cursorName) {
         customShape = QCursor(QPixmap(QString(
                     ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
     } else if (cursorName == "arbitraryCurve") {
-        customShape = QCursor(QPixmap(QString(
-                    ":/theme/light/images/mouse_style/shape/pen_mouse.png")), 2, 9);
+        customShape = QCursor(QPixmap(
+                    ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
+    } else if (cursorName == "pickcolor") {
+        customShape = QCursor(QPixmap(
+                     ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
     }
 
     return customShape;
@@ -72,7 +75,7 @@ QColor colorIndexOf(int index) {
     case 13: { return QColor("#666666");}
     case 14: { return QColor("#2b2b2b");}
     case 15: { return QColor("#000000");}
-    default:  {return QColor("#ffd903");}
+    default:  { return QColor("#ffd903");}
     }
 
     return QColor("#ffd903");

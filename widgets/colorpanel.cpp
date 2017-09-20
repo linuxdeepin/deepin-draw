@@ -16,16 +16,20 @@ const int ORIGIN_HEIGHT = 200;
 const int EXPAND_HEIGHT = 416;
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
-    : QPushButton(parent), m_disable(false) {
+    : QPushButton(parent)
+    , m_disable(false)
+{
     m_color = color;
     setFixedSize(20, 20);
     setCheckable(true);
 
     connect(this, &ColorButton::clicked, this, [=]{
         qDebug() << "ColorButton:" << m_color;
-        if (m_disable) {
+        if (m_disable)
+        {
             emit colorButtonClicked(Qt::transparent);
-        } else {
+        } else
+        {
             emit colorButtonClicked(m_color);
         }
     });
@@ -37,10 +41,12 @@ void ColorButton::paintEvent(QPaintEvent *) {
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(m_color);
 
-    if (m_disable) {
+    if (m_disable)
+    {
         painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
             QPixmap(":/theme/light/images/draw/color_disable_active.png"));
-        if (isChecked()) {
+        if (isChecked())
+        {
             painter.setBrush(QBrush());
             QPen borderPen;
             borderPen.setWidth(1);
@@ -70,11 +76,14 @@ void ColorButton::paintEvent(QPaintEvent *) {
     }
 }
 
-void ColorButton::setDisableColor(bool disable) {
+void ColorButton::setDisableColor(bool disable)
+{
     m_disable = disable;
 }
 
-ColorButton::~ColorButton() {}
+ColorButton::~ColorButton()
+{
+}
 
 ColorPanel::ColorPanel(QWidget *parent)
     : QWidget(parent)
@@ -127,14 +136,7 @@ ColorPanel::ColorPanel(QWidget *parent)
         gLayout->addWidget(cb, i/10, i%10);
         colorsButtonGroup->addButton(cb);
         qDebug() << "~~~" << i/10 << i%10;
-        connect(cb, &ColorButton::colorButtonClicked, this, [=](QColor color){
-                colorChanged(color);
-                if (m_drawstatus == DrawStatus::Stroke) {
-                    ConfigSettings::instance()->setValue("common", "strokeColor", color.name());
-                } else {
-                    ConfigSettings::instance()->setValue("common", "fillColor",  color.name());
-                }
-        });
+        connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
     }
 
     m_sliderLabel = new SliderLabel("Alpha", this);
@@ -164,7 +166,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     });
 
     connect(pickColWidget, &PickColorWidget::pickedColor, this,
-            &ColorPanel::colorChanged);
+            &ColorPanel::setConfigColor);
 
     QVBoxLayout* mLayout = new QVBoxLayout(this);
     mLayout->setContentsMargins(4, 4, 4, 4);
@@ -208,6 +210,17 @@ void ColorPanel::setDrawStatus(DrawStatus status)
     m_drawstatus = status;
 }
 
+void ColorPanel::setConfigColor(QColor color)
+{
+    if (m_drawstatus == DrawStatus::Stroke)
+    {
+        ConfigSettings::instance()->setValue("common", "strokeColor", color.name());
+    } else
+    {
+        ConfigSettings::instance()->setValue("common", "fillColor",  color.name());
+    }
+}
+
 void ColorPanel::updateColorButtonStatus()
 {
     if (m_drawstatus == DrawStatus::Stroke)
@@ -218,7 +231,8 @@ void ColorPanel::updateColorButtonStatus()
         {
             m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
         }
-    } else {
+    } else
+    {
         QString colorName = ConfigSettings::instance()->value(
                     "common", "fillColor").toString();
         if (m_colList.contains(colorName))
@@ -228,4 +242,6 @@ void ColorPanel::updateColorButtonStatus()
     }
 }
 
-ColorPanel::~ColorPanel() {}
+ColorPanel::~ColorPanel()
+{
+}

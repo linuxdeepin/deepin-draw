@@ -10,6 +10,9 @@ Slider::Slider(QWidget *parent)
                              "}");
     setMinimumWidth(160);
     m_slider = new QSlider(Qt::Horizontal,this);
+    m_slider->setMinimum(0);
+    m_slider->setMaximum(100);
+    m_slider->setValue(100);
     m_slider->setFixedWidth(110);
     m_valueLabel = new QLabel(this);
     m_valueLabel->setText("100%");

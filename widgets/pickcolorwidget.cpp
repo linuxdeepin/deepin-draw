@@ -18,7 +18,7 @@ PickColorWidget::PickColorWidget(QWidget *parent)
 
     m_blueEditLabel = new EditLabel(this);
     m_blueEditLabel->setTitle("B");
-    m_blueEditLabel->setEditText("0");
+    m_blueEditLabel->setEditText("255");
 
     m_picker = new PushButton(this);
     m_picker->setObjectName("PickerBtn");
