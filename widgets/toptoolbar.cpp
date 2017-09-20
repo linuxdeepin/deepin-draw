@@ -31,8 +31,9 @@
 DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
-: QFrame(parent),
-  m_shapesWidgetExist(false)
+: QFrame(parent)
+    , m_shapesWidgetExist(false)
+    , m_imageExist(false)
 {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
@@ -50,7 +51,7 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     PushButton* picBtn = new PushButton(this);
     picBtn->setObjectName("PictureBtn");
-    picBtn->setToolTip(tr("Picture"));
+    picBtn->setToolTip(tr("Import"));
     actionPushButtons.append(picBtn);
 
     PushButton* rectBtn = new PushButton(this);
@@ -107,15 +108,30 @@ TopToolbar::TopToolbar(QWidget* parent)
     setLayout(mLayout);
 
     connect(picBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        if (picBtn->toolTip() == tr("Import"))
         {
-            button->setChecked(false);
+            importImage();
+        } else
+        {
+            foreach(PushButton* button, actionPushButtons)
+            {
+                button->setChecked(false);
+            }
+            picBtn->setChecked(true);
+            setMiddleStackWidget(Status::Cut);
+            drawShapes("image");
         }
-        picBtn->setChecked(true);
-        setMiddleStackWidget(Status::Cut);
-        drawShapes("image");
     });
 
+    connect(this, &TopToolbar::updatePicTooltip, this, [=](bool import){
+        if (import)
+        {
+            picBtn->setToolTip(tr("Import"));
+        } else
+        {
+            picBtn->setToolTip(tr("Picture"));
+        }
+    });
 
     connect(this, &TopToolbar::initShapeWidgetAction,
             this, [=](QString shape){
@@ -200,10 +216,10 @@ void TopToolbar::importImage()
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
-    m_paths = QFileDialog::getOpenFileNames(this, tr("Open Image"),
-                                          QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                              ("Files(*.*);;"
-                                              "Files (*.bmp *.bmp24);;"
+    m_paths = QFileDialog::getOpenFileNames(this, tr("Open Images"),
+                                            QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                                            ("Files(*.*);;"
+                                             "Files (*.bmp *.bmp24);;"
                                              "Files(*.ico);;Files(*.jpg *.jpe *.jpeg *.jpeg24);;"
                                              "Files( *.jng );;Files(*.pcd *.pcx);; "
                                              "Files(*.png);;"
@@ -219,7 +235,15 @@ void TopToolbar::importImage()
                                              "Files(*.ptif *.mef *.mrw *.xbm)"));
 
     using namespace utils::image;
-    emit Importer::instance()->importedFiles(m_paths);
+    if (m_paths.length() > 0)
+    {
+        emit Importer::instance()->importedFiles(m_paths);
+        if (!m_imageExist)
+        {
+            m_imageExist = true;
+            emit updatePicTooltip(false);
+        }
+    }
 }
 
 void TopToolbar::importImageDir()
@@ -385,7 +409,8 @@ void TopToolbar::drawShapes(QString shape)
 {
     emit initShapeWidgetAction(shape);
 
-    if (!m_shapesWidgetExist) {
+    if (!m_shapesWidgetExist)
+    {
         m_shapesWidgetExist = true;
     }
 }

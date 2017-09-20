@@ -51,6 +51,7 @@ signals:
     void mirroredImage(bool horizonta, bool vertical);
     void cutImage();
     void saveImage(const QString &path);
+    void updatePicTooltip(bool import);
 
 public:
     void showDrawDialog();
@@ -71,6 +72,7 @@ protected:
 private:
     QString m_path;
     QStringList m_paths;
+    bool m_imageExist;
     bool m_shapesWidgetExist;
     QStackedWidget* m_stackWidget;
     int m_textFontsize = 12;
