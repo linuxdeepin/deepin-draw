@@ -239,7 +239,8 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                               false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
             {
                 currentOnShape = true;
-            } else {
+            } else
+            {
                 qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
             }
         }
@@ -287,7 +288,8 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             compressToImage();
 
             break;
-        } else {
+        } else
+        {
             continue;
         }
     }
