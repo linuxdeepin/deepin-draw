@@ -65,6 +65,7 @@ void ShapesWidget::initAttribute()
     m_isShiftPressed = false;
     m_editing = false;
     m_ownImages = false;
+    m_moveFillShape = false;
     m_shapesIndex = -1;
     m_selectedIndex = -1;
     m_selectedOrder = -1;
@@ -205,6 +206,11 @@ void ShapesWidget::setAllTextEditReadOnly()
     update();
 }
 
+void ShapesWidget::setFillShapeSelectedActive(bool selected)
+{
+    m_moveFillShape = selected;
+}
+
 void ShapesWidget::saveActionTriggered()
 {
     qDebug() << "ShapesWidget saveActionTriggered!";
@@ -235,7 +241,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (m_shapes[i].type == "rectangle")
         {
             if (clickedOnRect(m_shapes[i].mainPoints, pos,
-                              false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
+                              m_shapes[i].fillColor != QColor(Qt::transparent)))
             {
                 currentOnShape = true;
             } else
@@ -247,7 +253,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (m_shapes[i].type == "oval")
         {
             if (clickedOnEllipse(m_shapes[i].mainPoints, pos,
-                                 false/*m_shapes[i].fillColor != QColor(Qt::transparent)*/))
+                                 m_shapes[i].fillColor != QColor(Qt::transparent)))
             {
                 currentOnShape = true;
             }
@@ -308,12 +314,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 }
 
 //TODO: selectUnique
-bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos,
-    bool isFilled)
+bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
 {
     m_isSelected = false;
     m_isResize = false;
     m_isRotated = false;
+
+    if (m_moveFillShape)
+        return false;
 
     QPointF point1 = rectPoints[0];
     QPointF point2 = rectPoints[1];
@@ -415,6 +423,11 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
     m_isResize = false;
     m_isRotated = false;
 
+    if (isFilled && !m_moveFillShape)
+    {
+        return false;
+    }
+
     QPointF point1 = rectPoints[0];
     QPointF point2 = rectPoints[1];
     QPointF point3 = rectPoints[2];
@@ -514,6 +527,11 @@ bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints,
     m_isSelected = false;
     m_isResize = false;
     m_isRotated = false;
+
+    if (isFilled && !m_moveFillShape)
+    {
+        return false;
+    }
 
     m_pressedPoint = pos;
     FourPoints otherFPoints = getAnotherFPoints(mainPoints);
@@ -1696,7 +1714,7 @@ void ShapesWidget::paintArbitraryCurve(QPainter &painter, Toolshape shape)
     pen.setJoinStyle(Qt::RoundJoin);
     pen.setWidthF(shape.lineWidth - 0.5);
     painter.setPen(pen);
-
+    painter.setBrush(QBrush(Qt::transparent));
     QList<QPointF> lineFPoints = shape.points;
 
     QPainterPath linePaths;
@@ -1948,7 +1966,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    if (m_selectedOrder == -1)
+    if (!m_ownImages)
     {
         painter.drawPixmap(0, 0, m_emptyBgPixmap);
 
@@ -1957,6 +1975,11 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             qDebug() << "paintShape ssss: " << m_shapes[i].type << m_shapes[i].imagePath << m_selectedOrder;
             paintShape(painter, m_shapes[i]);
         }
+    }
+
+    if (m_selectedOrder == -1 || !m_ownImages)
+    {
+
     } else if (m_selectedOrder != -1)
     {
         qDebug() << "image loaded:" << m_ownImages << m_selectedOrder;

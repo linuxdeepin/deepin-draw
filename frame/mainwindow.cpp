@@ -24,11 +24,15 @@ MainWindow::MainWindow(QWidget *parent)
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_mainWidget);
 
+    connect(m_topToolbar, &TopToolbar::drawShapeChanged,
+            m_mainWidget, &MainWidget::drawShapeChanged);
+    connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
+            m_mainWidget, &MainWidget::fillShapeSelectedActive);
+
     connect(m_topToolbar, &TopToolbar::openImage,
             m_mainWidget, &MainWidget::setImageInCanvas);
 
-    connect(m_topToolbar, &TopToolbar::drawShapeChanged,
-            m_mainWidget, &MainWidget::drawShapeChanged);
+
 
     connect(m_topToolbar, &TopToolbar::rotateImage,
             m_mainWidget, &MainWidget::rotateImage);

@@ -200,6 +200,10 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("blur");
     });
 
+    connect(selectBtn, &PushButton::clicked, this, [=]{
+        emit fillShapeSelectedActive(selectBtn->getChecked());
+    });
+
     connect(artBoardBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {

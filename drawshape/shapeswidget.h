@@ -48,13 +48,14 @@ public:
     void initAttribute();
     void clearSelected();
     void setAllTextEditReadOnly();
+    void setFillShapeSelectedActive(bool selected);
 
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
 
     bool clickedOnShapes(QPointF pos);
-    bool clickedOnImage(FourPoints rectPoints, QPointF pos, bool isFilled = false);
+    bool clickedOnImage(FourPoints rectPoints, QPointF pos);
     bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
@@ -130,6 +131,7 @@ private:
     bool m_isShiftPressed;
     bool m_editing;
     bool m_ownImages;
+    bool m_moveFillShape;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;

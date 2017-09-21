@@ -51,6 +51,7 @@ signals:
     void cutImage();
     void saveImage(const QString &path);
     void updatePicTooltip(bool import);
+    void fillShapeSelectedActive(bool selected);
 
 public:
     void showDrawDialog();

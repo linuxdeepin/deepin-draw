@@ -33,6 +33,8 @@ MainWidget::MainWidget(QWidget *parent)
 
     connect(this, &MainWidget::drawShapeChanged,
                     m_canvas, &CanvasWidget::drawShapeChanged);
+    connect(this, &MainWidget::fillShapeSelectedActive,
+            m_canvas, &CanvasWidget::fillShapeSelectedActive);
     connect(this, &MainWidget::rotateImage,
             m_canvas, &CanvasWidget::rotateImage);
     connect(this, &MainWidget::mirroredImage,
