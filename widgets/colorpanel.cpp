@@ -152,6 +152,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->setSpacing(0);
     colorLayout->addStretch();
     colorLayout->addWidget(m_editLabel);
+    colorLayout->addSpacing(3);
     colorLayout->addWidget(m_colorfulBtn);
 
     PickColorWidget* pickColWidget = new PickColorWidget(this);
