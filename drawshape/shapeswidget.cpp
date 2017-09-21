@@ -220,7 +220,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     m_selectedOrder = -1;
 
     qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
-    for (int i = 0; i < m_shapes.length(); i++)
+    for (int i = m_shapes.length() - 1; i >= 0; i--)
     {
         bool currentOnShape = false;
         qDebug() << "this moment shape:" << m_currentType;
