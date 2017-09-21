@@ -130,7 +130,6 @@ private:
     bool m_isShiftPressed;
     bool m_editing;
     bool m_ownImages;
-    bool m_rotateMode;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;

@@ -2142,7 +2142,7 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_R)
     {
-        m_rotateMode = true;
+
     }
 }
 
@@ -2258,6 +2258,12 @@ void ShapesWidget::loadImage(QStringList paths)
             qDebug() << "loadImage path:" << paths[i];
             imageShape.imageSize = QPixmap(paths[i]).size();
 
+            if (paths.length() == 1)
+            {
+                m_startPos = QPoint(
+                            (this->width() - imageShape.imageSize.width())/2,
+                             (this->height() - imageShape.imageSize.height())/2);
+            }
             imageShape.mainPoints[0] =  m_startPos;
             imageShape.mainPoints[0] = QPoint(m_startPos.x(), m_startPos.y());
             imageShape.mainPoints[1] = QPoint(m_startPos.x(),
