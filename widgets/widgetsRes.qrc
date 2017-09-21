@@ -1,40 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>theme/light/images/action/artboard_active.png</file>
-        <file>theme/light/images/action/artboard_hover.png</file>
-        <file>theme/light/images/action/artboard_normal.png</file>
-        <file>theme/light/images/action/blur_active.png</file>
-        <file>theme/light/images/action/blur_hover.png</file>
-        <file>theme/light/images/action/blur_normal.png</file>
-        <file>theme/light/images/action/export_active.png</file>
-        <file>theme/light/images/action/export_hover.png</file>
-        <file>theme/light/images/action/export_normal.png</file>
-        <file>theme/light/images/action/line_active.png</file>
-        <file>theme/light/images/action/line_hover.png</file>
-        <file>theme/light/images/action/oval_active.png</file>
-        <file>theme/light/images/action/oval_hover.png</file>
-        <file>theme/light/images/action/oval_normal.png</file>
-        <file>theme/light/images/action/rectangle_active.png</file>
-        <file>theme/light/images/action/rectangle_hover.png</file>
-        <file>theme/light/images/action/rectangle_normal.png</file>
-        <file>theme/light/images/action/text_active.png</file>
-        <file>theme/light/images/action/text_hover.png</file>
-        <file>theme/light/images/action/text_normal.png</file>
-        <file>theme/light/images/cut/cut_active.png</file>
-        <file>theme/light/images/cut/cut_hover.png</file>
-        <file>theme/light/images/cut/cut_normal.png</file>
-        <file>theme/light/images/cut/filp_vertical_active.png</file>
-        <file>theme/light/images/cut/filp_vertical_hover.png</file>
-        <file>theme/light/images/cut/filp_vertical_normal.png</file>
-        <file>theme/light/images/cut/flip_horizontal_active.png</file>
-        <file>theme/light/images/cut/flip_horizontal_hover.png</file>
-        <file>theme/light/images/cut/flip_horizontal_normal.png</file>
-        <file>theme/light/images/cut/rotate_left_active.png</file>
-        <file>theme/light/images/cut/rotate_left_hover.png</file>
-        <file>theme/light/images/cut/rotate_left_normal.png</file>
-        <file>theme/light/images/cut/rotate_right_active.png</file>
-        <file>theme/light/images/cut/rotate_right_hover.png</file>
-        <file>theme/light/images/cut/rotate_right_normal.png</file>
         <file>theme/light/images/draw/arrow_active.png</file>
         <file>theme/light/images/draw/arrow_hover.png</file>
         <file>theme/light/images/draw/arrow_normal.png</file>
@@ -71,8 +36,6 @@
         <file>theme/light/images/draw/straight_line_active.png</file>
         <file>theme/light/images/draw/straight_line_hover.png</file>
         <file>theme/light/images/draw/straight_line_normal.png</file>
-        <file>theme/light/images/action/line_normal.png</file>
-        <file>theme/light/TopToolbar.qss</file>
         <file>theme/dark/TopToolbar.qss</file>
         <file>theme/dark/IconButton.qss</file>
         <file>theme/light/PushButton.qss</file>
@@ -85,9 +48,6 @@
         <file>theme/light/images/draw/reduce_normal.png</file>
         <file>theme/light/images/draw/reduce_hover.png</file>
         <file>theme/light/TextFontLabel.qss</file>
-        <file>theme/light/images/action/picture_active.png</file>
-        <file>theme/light/images/action/picture_normal.png</file>
-        <file>theme/light/images/action/picture_hover.png</file>
         <file>theme/light/images/deepin-draw_32.svg</file>
         <file>theme/common/images/deepin-draw-96.png</file>
         <file>theme/common/images/deepin-draw-64.png</file>

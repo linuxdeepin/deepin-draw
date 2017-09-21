@@ -41,7 +41,7 @@ QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 bool          isValidFormat(QString suffix);
 bool          isCommandExist(QString command);
-void  paintSelectedPoint(QPainter &painter, QPoint pos,
+void  paintSelectedPoint(QPainter &painter, QPointF pos,
                                               QPixmap pointImg);
 QVariantList cachePixmap(const QString &path);
 QString DetectImageFormat(const QString &filepath);

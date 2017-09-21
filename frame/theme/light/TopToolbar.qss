@@ -1,61 +1,64 @@
-QWidget#TopToolbar {
-    background-color: transparent;
-}
-
 QLabel#LogoLabel {
 border-image: url(:/theme/common/images/deepin-draw-32.png);
 }
 
-QPushButton#ArtBoardBtn {
+PushButton#ArtBoardBtn {
 qproperty-normalPic: url(:/theme/light/images/action/artboard_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/artboard_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/artboard_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/artboard_active.png);
 }
 
-QPushButton#PictureBtn {
+PushButton#PictureBtn {
 qproperty-normalPic: url(:/theme/light/images/action/picture_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/picture_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/picture_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/picture_active.png);
 }
 
-QPushButton#RectBtn {
+PushButton#RectBtn {
 qproperty-normalPic: url(:/theme/light/images/action/rectangle_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/rectangle_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/rectangle_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/rectangle_active.png);
 }
 
-QPushButton#OvalBtn {
+PushButton#OvalBtn {
 qproperty-normalPic: url(:/theme/light/images/action/oval_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/oval_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/oval_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/oval_active.png);
 }
 
-QPushButton#LineBtn {
+PushButton#LineBtn {
 qproperty-normalPic: url(:/theme/light/images/action/line_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/line_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/line_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/line_active.png);
 }
 
-QPushButton#TextBtn {
+PushButton#TextBtn {
 qproperty-normalPic: url(:/theme/light/images/action/text_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/text_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/text_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/text_active.png);
 }
 
-QPushButton#BlurBtn {
+PushButton#BlurBtn {
 qproperty-normalPic: url(:/theme/light/images/action/blur_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/blur_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/blur_active.png);
 qproperty-checkedPic: url(:/theme/light/images/action/blur_active.png);
 }
 
-QPushButton#ExportBtn {
+PushButton#SelectedBtn {
+qproperty-normalPic: url(:/theme/light/images/action/selected_fill_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/action/selected_fill_hover.png);
+qproperty-pressPic: url(:/theme/light/images/action/selected_fill_active.png);
+qproperty-checkedPic: url(:/theme/light/images/action/selected_fill_active.png);
+}
+
+PushButton#ExportBtn {
 qproperty-normalPic: url(:/theme/light/images/action/export_normal.png);
 qproperty-hoverPic: url(:/theme/light/images/action/export_hover.png);
 qproperty-pressPic: url(:/theme/light/images/action/export_active.png);

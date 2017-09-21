@@ -78,6 +78,10 @@ TopToolbar::TopToolbar(QWidget* parent)
     blurBtn->setToolTip(tr("Blur"));
     actionPushButtons.append(blurBtn);
 
+    PushButton* selectBtn = new PushButton(this);
+    selectBtn->setObjectName("SelectedBtn");
+    selectBtn->setToolTip(tr("Selected"));
+
     initStackWidget();
 
     PushButton* exportBtn = new PushButton(this);
@@ -99,6 +103,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     mLayout->addWidget(lineBtn);
     mLayout->addWidget(textBtn);
     mLayout->addWidget(blurBtn);
+    mLayout->addWidget(selectBtn);
     mLayout->addStretch();
     mLayout->addWidget(m_stackWidget);
     mLayout->addStretch();
