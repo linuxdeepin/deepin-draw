@@ -16,23 +16,18 @@ isEmpty(PREFIX){
 }
 
 HEADERS += \
-    mainwindow.h \
-    mainwidget.h \
     application.h
 
 SOURCES += main.cpp \
-    mainwindow.cpp \
-    mainwidget.cpp \
     application.cpp
 
-include(widgets/widgets.pri)
 include(utils/utils.pri)
 include(controller/controller.pri)
+include(widgets/widgets.pri)
 include(drawshape/drawshape.pri)
-include(module/module.pri)
+include(frame/frame.pri)
 
 RESOURCES +=
-
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-draw

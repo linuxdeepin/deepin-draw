@@ -2,7 +2,7 @@
 #include <DLog>
 #include <DWidgetUtil>
 
-#include "mainwindow.h"
+#include "frame/mainwindow.h"
 
 #include <QObject>
 #include <QTranslator>

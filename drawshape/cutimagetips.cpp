@@ -13,7 +13,7 @@ CutImageTips::CutImageTips(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("CutImageTips");
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(300, 24);
+//    setFixedSize(300, 24);
     QLabel* rationLabel = new QLabel(this);
     rationLabel->setObjectName("RationLabel");
     rationLabel->setFixedSize(RATIONLABEL_SIZE);

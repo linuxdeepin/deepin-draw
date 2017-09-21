@@ -116,7 +116,7 @@ private:
 
     QPixmap m_emptyBgPixmap;
     QPixmap m_backgroundPixmap;
-    QLabel* m_rotateImageLabel;
+
     int m_bgContainShapeNum;
     QPointF m_startPos;
 

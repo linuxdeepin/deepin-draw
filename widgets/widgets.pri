@@ -1,6 +1,4 @@
 HEADERS += \
-    $$PWD/toptoolbar.h \
-    $$PWD/canvaswidget.h \
     $$PWD/seperatorline.h \
     $$PWD/drawthememanager.h \
     $$PWD/pushbutton.h \
@@ -14,14 +12,11 @@ HEADERS += \
     $$PWD/pickcolorwidget.h \
     $$PWD/textfontlabel.h \
     $$PWD/toolbutton.h \
-    $$PWD/scen/imageview.h \
     $$PWD/dialog/drawdialog.h \
     $$PWD/dialog/dialog.h \
     $$PWD/dialog/savedialog.h
 
 SOURCES += \
-    $$PWD/toptoolbar.cpp \
-    $$PWD/canvaswidget.cpp \
     $$PWD/drawthememanager.cpp \
     $$PWD/pushbutton.cpp \
     $$PWD/bordercolorbutton.cpp \
@@ -33,10 +28,9 @@ SOURCES += \
     $$PWD/bigcolorbutton.cpp \
     $$PWD/pickcolorwidget.cpp \
     $$PWD/textfontlabel.cpp \
-    $$PWD/scen/imageview.cpp \
     $$PWD/dialog/drawdialog.cpp \
     $$PWD/dialog/dialog.cpp \
     $$PWD/dialog/savedialog.cpp
 
 RESOURCES += \
-    $$PWD/res.qrc
+    $$PWD/widgetsRes.qrc

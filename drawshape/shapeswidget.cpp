@@ -70,7 +70,6 @@ void ShapesWidget::initAttribute()
     m_selectedOrder = -1;
 
     m_startPos = QPointF(0, 0);
-    m_rotateImageLabel = new QLabel(this);
 
     m_penColor = QColor(ConfigSettings::instance()->value(
         "common", "strokeColor").toString());

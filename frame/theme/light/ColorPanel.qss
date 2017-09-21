@@ -1,0 +1,22 @@
+PushButton#ColorFulButton {
+    qproperty-normalPic: url(:/theme/light/images/draw/color_more_normal.png);
+    qproperty-hoverPic: url(:/theme/light/images/draw/color_more_hover.png);
+    qproperty-pressPic: url(:/theme/light/images/draw/color_more_active.png);
+    qproperty-checkedPic: url(:/theme/light/images/draw/color_more_active.png);
+}
+
+PushButton#DisableColorButton {
+qproperty-normalPic: url(:/theme/light/images/draw/color_disable_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/draw/color_disable_hover.png);
+qproperty-pressPic: url(:/theme/light/images/draw/color_disable_active.png);
+qproperty-checkedPic: url(:/theme/light/images/draw/color_disable_active.png);
+}
+
+QSlider#ColorfulSlider::groove:horizontal {
+    border-image: url(:/theme/light/images/draw/slider_bg.png);
+}
+
+QSlider#ColorfulSlider::handle:horizontal {
+    background: white;
+    margin: 1px 5px 1px 5px;
+}

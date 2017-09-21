@@ -9,4 +9,4 @@ SOURCES += \
     $$PWD/cutimagetips.cpp
 
 RESOURCES += \
-    $$PWD/resource.qrc
+    $$PWD/drawshapeRes.qrc
