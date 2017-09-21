@@ -344,6 +344,7 @@ void TopToolbar::initMenu()
    dApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
    dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
                 " You can freely draw on the layer or simplely edit images. "));
+   dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw");
 
    connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
