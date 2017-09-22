@@ -1966,6 +1966,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     qDebug() << m_selectedOrder << m_shapes.length();
 
+    //Draw graphics without importing pictures
     if (!m_ownImages)
     {
         painter.drawPixmap(0, 0, m_emptyBgPixmap);
@@ -1975,6 +1976,11 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             qDebug() << "paintShape ssss: " << m_shapes[i].type << m_shapes[i].imagePath << m_selectedOrder;
             paintShape(painter, m_shapes[i]);
         }
+    }
+    //After importing the image
+    else
+    {
+        painter.drawPixmap(0, 0, m_backgroundPixmap);
     }
 
     if (m_selectedOrder == -1 || !m_ownImages)
@@ -2273,7 +2279,9 @@ void ShapesWidget::loadImage(QStringList paths)
         if (QFileInfo(paths[i]).exists())
         {
             setCurrentShape("image");
-            m_ownImages = true;
+            if (!m_ownImages)
+                m_ownImages = true;
+
             Toolshape imageShape;
             imageShape.type = "image";
             imageShape.imagePath = paths[i];
