@@ -147,6 +147,9 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 
 void ShapesWidget::setCurrentShape(QString shapeType)
 {
+    if (shapeType != "selected")
+        m_moveFillShape = false;
+
     m_currentType = shapeType;
 
     qDebug() << "setCurrentShape:" << shapeType;
@@ -209,6 +212,7 @@ void ShapesWidget::setAllTextEditReadOnly()
 void ShapesWidget::setFillShapeSelectedActive(bool selected)
 {
     m_moveFillShape = selected;
+    qDebug() << "setFillShapeSelectedActive" << selected;
 }
 
 void ShapesWidget::saveActionTriggered()
@@ -289,9 +293,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             qDebug() << "currentOnShape" << i << m_selectedIndex
                      << m_selectedOrder << m_shapes[i].imagePath;
             onShapes = true;
-
-            compressToImage();
-
             break;
         } else
         {
@@ -303,13 +304,10 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     {
         m_selectedIndex = -1;
         m_selectedOrder = -1;
+        m_selectedShape.type = "";
     }
 
-    if (m_selectedOrder == -1 && m_ownImages)
-    {
-        compressToImage();
-    }
-
+    compressToImage();
     return onShapes;
 }
 
@@ -320,7 +318,7 @@ bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
     m_isResize = false;
     m_isRotated = false;
 
-    if (m_moveFillShape)
+    if (!m_moveFillShape)
         return false;
 
     QPointF point1 = rectPoints[0];
@@ -1257,11 +1255,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     if (m_selectedOrder != -1)
     {
-        bool result = clickedOnShapes(e->pos());
-        if (!result && m_isRotated)
+        if ((!clickedOnShapes(e->pos()) && m_isRotated) && m_selectedOrder == -1)
         {
-             qDebug() << "clickedOnShapes result:" << false << m_currentType;
-            compressToImage();
+            qDebug() << "clickedOnShapes result:" << false << m_currentType;
             clearSelected();
             setAllTextEditReadOnly();
             m_editing = false;
@@ -1269,13 +1265,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_selectedOrder = -1;
             m_selectedShape.type = "";
             return;
-        } else {
-            qDebug() << "clickedOnShapes result:" << true << m_currentType;
         }
-    } else
-    {
-        qDebug() << "*mousePressEvent:" << m_selectedOrder;
     }
+
+    m_pressedPoint = e->pos();
+    m_isPressed = true;
 
     if (e->button() == Qt::RightButton)
     {
@@ -1283,9 +1277,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
         return;
     }
-
-    m_pressedPoint = e->pos();
-    m_isPressed = true;
 
     if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
     {
@@ -1966,35 +1957,46 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    //Draw graphics without importing pictures
-    if (!m_ownImages)
+    if (m_selectedOrder != -1)
     {
-        painter.drawPixmap(0, 0, m_emptyBgPixmap);
-
-        for(int i= 0; i < m_shapes.length(); i++)
+        if (!m_ownImages)
         {
-            qDebug() << "paintShape ssss: " << m_shapes[i].type << m_shapes[i].imagePath << m_selectedOrder;
-            paintShape(painter, m_shapes[i]);
+            painter.drawPixmap(0, 0, m_emptyBgPixmap);
+
+            for(int i= 0; i < m_shapes.length(); i++)
+            {
+                if (i != m_selectedOrder)
+                    paintShape(painter, m_shapes[i]);
+                else
+                    continue;
+            }
+
+            paintShape(painter, m_shapes[m_selectedOrder], true);
+        } else
+        {
+            painter.drawPixmap(0, 0, m_backgroundPixmap);
+
+            paintShape(painter, m_shapes[m_selectedOrder], true);
         }
-    }
-    //After importing the image
-    else
+    } else
     {
-        painter.drawPixmap(0, 0, m_backgroundPixmap);
-    }
-
-    if (m_selectedOrder == -1 || !m_ownImages)
-    {
-
-    } else if (m_selectedOrder != -1)
-    {
-        qDebug() << "image loaded:" << m_ownImages << m_selectedOrder;
-        painter.drawPixmap(0, 0, m_backgroundPixmap);
-
-        if (m_selectedOrder != -1)
+        //Draw graphics without importing pictures
+        if (!m_ownImages)
         {
-            qDebug() << "^^^" << m_selectedOrder << m_selectedShape.imagePath;
-            paintShape(painter,  m_shapes[m_selectedOrder], true);
+            painter.drawPixmap(0, 0, m_emptyBgPixmap);
+
+            for(int i= 0; i < m_shapes.length(); i++)
+            {
+                qDebug() << "paintShape ssss: " << m_shapes[i].type
+                         << m_shapes[i].imagePath << m_selectedOrder;
+
+                paintShape(painter, m_shapes[i]);
+            }
+        }
+        //After importing the image
+        else
+        {
+            painter.drawPixmap(0, 0, m_backgroundPixmap);
         }
     }
 
@@ -2314,6 +2316,9 @@ void ShapesWidget::loadImage(QStringList paths)
 
 void ShapesWidget::compressToImage()
 {
+    if (!m_ownImages && m_shapes.length() < 30)
+        return;
+
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     qDebug() << "CompressToImage" << m_shapes.length() << m_selectedOrder
                       << m_shapes[m_selectedOrder].imagePath

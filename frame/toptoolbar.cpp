@@ -81,6 +81,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     PushButton* selectBtn = new PushButton(this);
     selectBtn->setObjectName("SelectedBtn");
     selectBtn->setToolTip(tr("Selected"));
+    actionPushButtons.append(selectBtn);
 
     initStackWidget();
 
@@ -112,16 +113,16 @@ TopToolbar::TopToolbar(QWidget* parent)
     setLayout(mLayout);
 
     connect(picBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        picBtn->setChecked(true);
         if (picBtn->toolTip() == tr("Import"))
         {
             importImage();
         } else
         {
-            foreach(PushButton* button, actionPushButtons)
-            {
-                button->setChecked(false);
-            }
-            picBtn->setChecked(true);
             setMiddleStackWidget(Status::Cut);
             drawShapes("image");
         }
@@ -201,7 +202,15 @@ TopToolbar::TopToolbar(QWidget* parent)
     });
 
     connect(selectBtn, &PushButton::clicked, this, [=]{
+        foreach(PushButton* button, actionPushButtons)
+        {
+            button->setChecked(false);
+        }
+        selectBtn->setChecked(true);
+        setMiddleStackWidget(Status::Empty);
         emit fillShapeSelectedActive(selectBtn->getChecked());
+
+        drawShapes("selected");
     });
 
     connect(artBoardBtn, &PushButton::clicked, this, [=]{
