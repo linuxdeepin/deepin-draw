@@ -76,6 +76,7 @@ private:
     QStackedWidget* m_stackWidget;
     int m_textFontsize = 12;
 
+    QHBoxLayout* m_layout;
     QWidget* m_emptyWidget;
     CutWidget* m_cutWidget;
     LineWidget* m_drawLineWidget;

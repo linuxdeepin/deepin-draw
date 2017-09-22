@@ -7,17 +7,21 @@
 
 #include <DTitlebar>
 
+const QSize WINDOW_MINISIZR = QSize(800, 500);
+
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
-    setMinimumSize(1050, 850);
-    m_topToolbar = new TopToolbar(this);
+    window()->setWindowState(Qt::WindowMaximized);
+    setMinimumSize(WINDOW_MINISIZR);
 
-    titlebar()->setCustomWidget(m_topToolbar, Qt::AlignCenter);
+    m_topToolbar = new TopToolbar(this);
+    m_titlebarWidth = titlebar()->buttonAreaWidth();
+    m_topToolbar->setFixedWidth(width() - m_titlebarWidth);
+
+    titlebar()->setCustomWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
-    m_titlebarWidth = titlebar()->width();
-    m_topToolbar->setFixedWidth(this->width() - m_titlebarWidth);
 
     m_mainWidget = new MainWidget(this);
     m_mainWidget->setFocusPolicy(Qt::StrongFocus);
@@ -32,8 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::openImage,
             m_mainWidget, &MainWidget::setImageInCanvas);
 
-
-
     connect(m_topToolbar, &TopToolbar::rotateImage,
             m_mainWidget, &MainWidget::rotateImage);
 
@@ -46,9 +48,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    DMainWindow::resizeEvent(event);
     m_topToolbar->setFixedWidth(this->width() -  m_titlebarWidth);
 
+    DMainWindow::resizeEvent(event);
     this->update();
 }
 

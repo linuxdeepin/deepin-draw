@@ -89,28 +89,27 @@ TopToolbar::TopToolbar(QWidget* parent)
     exportBtn->setObjectName("ExportBtn");
     exportBtn->setToolTip(tr("Save"));
     exportBtn->setCheckable(false);
+
     initMenu();
 
-    QHBoxLayout* mLayout = new QHBoxLayout(this);
-    mLayout->setMargin(0);
-    mLayout->setSpacing(10);
-    mLayout->addWidget(logoLabel);
-    mLayout->addSpacing(15);
-    mLayout->addWidget(artBoardBtn);
-    mLayout->addSpacing(20);
-    mLayout->addWidget(picBtn);
-    mLayout->addWidget(rectBtn);
-    mLayout->addWidget(ovalBtn);
-    mLayout->addWidget(lineBtn);
-    mLayout->addWidget(textBtn);
-    mLayout->addWidget(blurBtn);
-    mLayout->addWidget(selectBtn);
-    mLayout->addStretch();
-    mLayout->addWidget(m_stackWidget);
-    mLayout->addStretch();
-    mLayout->addWidget(exportBtn);
-    mLayout->addSpacing(30);
-    setLayout(mLayout);
+    m_layout = new QHBoxLayout(this);
+    m_layout->setMargin(0);
+    m_layout->setSpacing(10);
+    m_layout->addWidget(logoLabel);
+    m_layout->addSpacing(15);
+    m_layout->addWidget(artBoardBtn);
+    m_layout->addSpacing(20);
+    m_layout->addWidget(picBtn);
+    m_layout->addWidget(rectBtn);
+    m_layout->addWidget(ovalBtn);
+    m_layout->addWidget(lineBtn);
+    m_layout->addWidget(textBtn);
+    m_layout->addWidget(blurBtn);
+    m_layout->addWidget(selectBtn);
+    m_layout->addWidget(m_stackWidget, 0, Qt::AlignCenter);
+    m_layout->addWidget(exportBtn);
+    m_layout->addSpacing(20);
+    this->setLayout(m_layout);
 
     connect(picBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
