@@ -292,6 +292,13 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedOrder = i;
             qDebug() << "currentOnShape" << i << m_selectedIndex
                      << m_selectedOrder << m_shapes[i].imagePath;
+
+            Toolshape tmpShape;
+            tmpShape = m_shapes[i];
+            m_shapes[i] = m_shapes[m_shapes.length() - 1];
+            m_shapes[m_shapes.length() - 1] = tmpShape;
+            m_selectedOrder = m_shapes.length() - 1;
+
             onShapes = true;
             break;
         } else
