@@ -125,20 +125,20 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     int tmpIndex = m_shapes[m_selectedOrder].index;
                     if (m_editMap.contains(tmpIndex)) {
                         m_editMap.value(tmpIndex)->setColor(QColor(
-                                                                ConfigSettings::instance()->value("common", "fillColor").toString()));
+                            ConfigSettings::instance()->value("common", "fillColor").toString()));
                         m_editMap.value(tmpIndex)->update();
                     }
                 }
             } else if (key == "lineWidth") {
                 m_shapes[m_selectedOrder].lineWidth = ConfigSettings::instance()->value(
-                            "common", "lineWidth").toInt();
+                    "common", "lineWidth").toInt();
             }
         } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
-            m_editMap.value(tmpIndex)->setFontSize(
-                        ConfigSettings::instance()->value("text", "fontsize").toInt());
-            m_editMap.value(tmpIndex)->update();
+                m_editMap.value(tmpIndex)->setFontSize(
+                    ConfigSettings::instance()->value("text", "fontsize").toInt());
+               m_editMap.value(tmpIndex)->update();
             }
         }
     }
@@ -203,6 +203,10 @@ void ShapesWidget::setAllTextEditReadOnly()
     {
         i.value()->setReadOnly(true);
         i.value()->releaseKeyboard();
+
+        QTextCursor textCursor =  i.value()->textCursor();
+        textCursor.clearSelection();
+        i.value()->setTextCursor(textCursor);
         ++i;
     }
 
@@ -1374,6 +1378,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         }
     }
 
+    qDebug() << "DDD" << m_editing;
 //    QFrame::mousePressEvent(e);
 }
 
@@ -1616,7 +1621,7 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos,
     } else
     {
         painter.drawPixmap(QPoint(pos.x() - 12,
-                                  pos.y() - 12), img);
+                                                              pos.y() - 12), img);
     }
 }
 
@@ -1735,9 +1740,12 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape)
     textPen.setColor("#01bdff");
     painter.setPen(textPen);
 
+    qDebug() << "VVVVVVV" << shape.mainPoints.length() << shape.mainPoints;
+
     FourPoints rectFPoints = shape.mainPoints;
-    if (shape.points.length() >= 4)
+    if (shape.mainPoints.length() >= 4)
     {
+        qDebug() << "+++++++++++";
         painter.drawLine(rectFPoints[0], rectFPoints[1]);
         painter.drawLine(rectFPoints[1], rectFPoints[3]);
         painter.drawLine(rectFPoints[3], rectFPoints[2]);
@@ -2011,10 +2019,17 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         Toolshape drawShape;
         drawShape = m_currentShape;
-        drawShape.mainPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+        if (m_currentType != "text")
+        {
+            drawShape.mainPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+        } else
+        {
+            drawShape.mainPoints = m_currentShape.mainPoints;
+        }
         drawShape.lineWidth = m_linewidth;
         //Draw current shape
 
+        qDebug() << "JJJJJJJJJJ" << m_currentType << m_editing;
         paintShape(painter, drawShape);
     } else
     {
@@ -2024,7 +2039,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
-    qDebug() << "paintShape:" << shape.type << shape.imagePath;
+    qDebug() << "paintShape:" << shape.type << shape.imagePath << shape.mainPoints[0];
     if (shape.type != "image" && shape.mainPoints[0] == QPoint(0, 0))
         return;
 
@@ -2094,19 +2109,13 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
         }
     } else if (shape.type == "text" && !m_clearAllTextBorder)
     {
-        qDebug() << "*&^" << m_selectedIndex;
-        QMap<int, TextEdit*>::iterator m = m_editMap.begin();
-        while (m != m_editMap.end())
+        qDebug() << "------------------" << m_editing;
+        if (m_editMap.contains(shape.index))
         {
-            if (m.key() == shape.index)
+            if (!m_editMap[shape.index]->isReadOnly())
             {
-                if (!(m.value()->isReadOnly()/* && m_selectedIndex != i*/))
-                {
-                    paintText(painter,  shape);
-                }
-                break;
+                paintText(painter, shape);
             }
-            m++;
         }
     }
 
