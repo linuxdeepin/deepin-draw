@@ -24,9 +24,13 @@ MainWindow::MainWindow(QWidget *parent)
     {
        window()->resize(defaultW, defaultH);
     }
+
     setMinimumSize(WINDOW_MINISIZR);
 
     m_topToolbar = new TopToolbar(this);
+    QSize canvasSize = qApp->desktop()->size();
+    emit m_topToolbar->canvasSizeChanged(canvasSize.width(), canvasSize.height());
+
     m_titlebarWidth = titlebar()->buttonAreaWidth();
     m_topToolbar->setFixedWidth(width() - m_titlebarWidth);
 
