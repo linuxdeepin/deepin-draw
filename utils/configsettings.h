@@ -8,6 +8,7 @@
 class ConfigSettings : public QObject
 {
     Q_OBJECT
+
 public:
     static ConfigSettings *instance();
 

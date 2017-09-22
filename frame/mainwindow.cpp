@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QApplication>
 
+#include "utils/configsettings.h"
+
 #include <DTitlebar>
 
 const QSize WINDOW_MINISIZR = QSize(800, 500);
@@ -12,7 +14,16 @@ const QSize WINDOW_MINISIZR = QSize(800, 500);
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
-    window()->setWindowState(Qt::WindowMaximized);
+    int defaultW = ConfigSettings::instance()->value("window", "width").toInt();
+    int defaultH = ConfigSettings::instance()->value("window", "height").toInt();
+
+    if (defaultW == 0 || defaultH == 0)
+    {
+        window()->setWindowState(Qt::WindowMaximized);
+    } else
+    {
+       window()->resize(defaultW, defaultH);
+    }
     setMinimumSize(WINDOW_MINISIZR);
 
     m_topToolbar = new TopToolbar(this);
@@ -22,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setCustomWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
-
     m_mainWidget = new MainWidget(this);
     m_mainWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
@@ -30,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::drawShapeChanged,
             m_mainWidget, &MainWidget::drawShapeChanged);
+
     connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
             m_mainWidget, &MainWidget::fillShapeSelectedActive);
 
@@ -49,6 +60,12 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     m_topToolbar->setFixedWidth(this->width() -  m_titlebarWidth);
+
+    int ww = window()->width();
+    int wh = window()->height();
+
+    ConfigSettings::instance()->setValue("window", "width", ww);
+    ConfigSettings::instance()->setValue("window", "height", wh);
 
     DMainWindow::resizeEvent(event);
     this->update();
