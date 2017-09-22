@@ -88,9 +88,6 @@
         <file>theme/light/images/action/blur_active.png</file>
         <file>theme/light/images/action/blur_hover.png</file>
         <file>theme/light/images/action/blur_normal.png</file>
-        <file>theme/light/images/action/export_active.png</file>
-        <file>theme/light/images/action/export_hover.png</file>
-        <file>theme/light/images/action/export_normal.png</file>
         <file>theme/light/images/action/line_active.png</file>
         <file>theme/light/images/action/line_hover.png</file>
         <file>theme/light/images/action/line_normal.png</file>
@@ -167,5 +164,8 @@
         <file>theme/light/images/action/selected_fill_active.png</file>
         <file>theme/light/images/action/selected_fill_hover.png</file>
         <file>theme/light/images/action/selected_fill_normal.png</file>
+        <file>theme/light/images/action/save_active.png</file>
+        <file>theme/light/images/action/save_hover.png</file>
+        <file>theme/light/images/action/save_normal.png</file>
     </qresource>
 </RCC>

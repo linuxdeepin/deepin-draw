@@ -60,10 +60,10 @@ qproperty-checkedPic: url(:/theme/light/images/action/selected_fill_active.png);
 }
 
 PushButton#ExportBtn {
-qproperty-normalPic: url(:/theme/light/images/action/export_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/export_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/export_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/export_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/save_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/action/save_hover.png);
+qproperty-pressPic: url(:/theme/light/images/action/save_active.png);
+qproperty-checkedPic: url(:/theme/light/images/action/save_active.png);
 }
 
 QPushButton#StraightLineBtn {
