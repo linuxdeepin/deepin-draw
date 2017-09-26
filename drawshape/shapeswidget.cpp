@@ -1040,7 +1040,8 @@ bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
     bool result = false;
     if (pos.x() >= rotatePoint.x() - SPACING && pos.x() <= rotatePoint.x()
             + SPACING && pos.y() >= rotatePoint.y() - SPACING && pos.y() <=
-            rotatePoint.y() + SPACING) {
+            rotatePoint.y() + SPACING)
+    {
         result = true;
     } else {
         result = false;
@@ -1064,9 +1065,11 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
     bool result = false;
     if (pos.x() >= rotatePoint.x() - SPACING && pos.x() <= rotatePoint.x()
             + SPACING && pos.y() >= rotatePoint.y() - SPACING && pos.y() <=
-            rotatePoint.y() + SPACING) {
+            rotatePoint.y() + SPACING)
+    {
         result = true;
-    } else {
+    } else
+    {
         result = false;
     }
 
@@ -1074,7 +1077,8 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
     return result;
 }
 
-bool ShapesWidget::textEditIsReadOnly() {
+bool ShapesWidget::textEditIsReadOnly()
+{
     qDebug() << "textEditIsReadOnly:" << m_editMap.count();
 
     QMap<int, TextEdit*>::iterator i = m_editMap.begin();
@@ -1096,7 +1100,8 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
 {
     qDebug() << "handleDrag:" << m_selectedIndex << m_shapes.length();
 
-    if (m_selectedOrder == -1) {
+    if (m_selectedOrder == -1)
+    {
         return;
     }
 
@@ -1112,7 +1117,8 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
         return;
     }
 
-    if (m_shapes[m_selectedOrder].mainPoints.length() == 4) {
+    if (m_shapes[m_selectedOrder].mainPoints.length() == 4)
+    {
         for(int i = 0; i < m_shapes[m_selectedOrder].mainPoints.length(); i++)
         {
             m_shapes[m_selectedOrder].mainPoints[i] = QPointF(
@@ -1131,7 +1137,8 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
 }
 
 ////////////////////TODO: perfect handleRotate..
-void ShapesWidget::handleRotate(QPointF pos) {
+void ShapesWidget::handleRotate(QPointF pos)
+{
     qDebug() << "handleRotate:" << m_selectedOrder << m_shapes.length();
 
     if (m_selectedOrder == -1 || m_selectedShape.type == "text")
