@@ -53,10 +53,22 @@ void BigColorButton::paintEvent(QPaintEvent *)
     painter.setBrush(QBrush(QColor(m_color)));
     painter.drawEllipse(QPointF(12, 12), COLOR_RADIUS, COLOR_RADIUS);
 
+
+
+
     if (m_isChecked)
     {
         painter.setBrush(QColor(0, 0, 0, 13));
         painter.drawEllipse(QPointF(12, 12), COLOR_RADIUS, COLOR_RADIUS);
+    }
+
+    if (m_color == QColor(Qt::white))
+    {
+        QPen pen;
+
+        pen.setColor(QColor(0, 0, 0, 105));
+        painter.setPen(pen);
+        painter.drawEllipse(QPointF(12, 12), COLOR_RADIUS + 1, COLOR_RADIUS+1);
     }
 }
 
