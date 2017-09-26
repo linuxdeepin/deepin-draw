@@ -76,6 +76,8 @@ void BigColorButton::setCheckedStatus(bool checked)
 {
     m_isChecked = checked;
     update();
+
+    emit btnCheckStateChanged(m_isChecked);
 }
 
 void BigColorButton::enterEvent(QEvent *)

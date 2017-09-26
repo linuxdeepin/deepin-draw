@@ -81,6 +81,8 @@ void BorderColorButton::setCheckedStatus(bool checked)
 {
     m_isChecked = checked;
     update();
+
+    emit btnCheckStateChanged(m_isChecked);
 }
 
 void BorderColorButton::enterEvent(QEvent *)

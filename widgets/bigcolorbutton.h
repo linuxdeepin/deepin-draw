@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#include "utils/baseutils.h"
+
 class BigColorButton : public QPushButton
 {
     Q_OBJECT
@@ -16,6 +18,9 @@ public:
     void setColorIndex(int index);
     void setCheckedStatus(bool checked);
     void updateConfigColor(const QString &group,  const QString &key);
+
+signals:
+    void btnCheckStateChanged(bool show);
 
 protected:
     void paintEvent(QPaintEvent *);

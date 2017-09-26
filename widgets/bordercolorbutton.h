@@ -16,6 +16,9 @@ public:
     void setCheckedStatus(bool checked);
     void updateConfigColor(const QString &group,  const QString &key);
 
+signals:
+    void btnCheckStateChanged(bool checked);
+
 protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);

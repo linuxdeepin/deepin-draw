@@ -22,16 +22,13 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
     BorderColorButton* strokeBtn = new BorderColorButton(this);
     strokeBtn->setObjectName("FillStrokeButton");
 
-    connect(fillBtn, &BigColorButton::clicked, this, [=]{
-        qDebug() << "BigColorButton:" << DrawStatus::Fill;
-        strokeBtn->setChecked(false);
+    connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [=](bool show){
+        Q_UNUSED(show);
         emit showColorPanel(DrawStatus::Fill, cursor().pos());
     });
-
-    connect(strokeBtn, &BorderColorButton::clicked, this, [=]{
-        fillBtn->setChecked(false);
-        qDebug() << "BorderColorButton:" << DrawStatus::Stroke;
-        emit showColorPanel(DrawStatus::Stroke, cursor().pos());
+    connect(strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [=](bool show){
+        Q_UNUSED(show);
+        emit showColorPanel(DrawStatus::Stroke,  cursor().pos());
     });
 
     QLabel* strokeLabel = new QLabel(this);
