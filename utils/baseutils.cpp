@@ -57,49 +57,47 @@ QString getFileContent(const QString &file) {
     return fileContent;
 }
 
+QList<QColor> specifiedColorList()
+{
+    QList<QColor> colorList;
+    colorList
+    << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fe3c3b")
+    << QColor("#fd6867") << QColor("#fd9694") << QColor("#fcc4c1")
+    << QColor("#f8e0d6") << QColor("#e4c299") << QColor("#f2aa46")
+    << QColor("#fd9d0f") << QColor("#f6b443") << QColor("#eecb77")
+    << QColor("#f0ee4e") << QColor("#f4fb00") << QColor("#f6f96d")
+    << QColor("#f4f6a6") << QColor("#f3f3d6") << QColor("#e9eedc")
+    << QColor("#dde8cb") << QColor("#ccdfb0") << QColor("#9cd972")
+    << QColor("#4ec918") << QColor("#5cc850") << QColor("#6bc989")
+    << QColor("#53ac6d") << QColor("#72b88e") << QColor("#7cc8cd")
+    << QColor("#97d1d4") << QColor("#c9e1e1") << QColor("#c1dee7")
+    << QColor("#93ceed") << QColor("#76c3f1") << QColor("#49b2f6")
+    << QColor("#119fff") << QColor("#0192ea") << QColor("#3d7ddd")
+    << QColor("#92cdfb") << QColor("#99cffa") << QColor("#ececf8")
+    << QColor("#ccc9f9") << QColor("#b2acf9") << QColor("#958ef9")
+    << QColor("#7c6ffa") << QColor("#8a47fb") << QColor("#6b1aef")
+    << QColor("#952dfd") << QColor("#af39e4") << QColor("#c174da")
+    << QColor("#c587d9") << QColor("#dbb4c1") << QColor("#cf8c86")
+    << QColor("#b45f51") << QColor("#865e4f") << QColor("#694d48")
+    << QColor("#ffffff") << QColor("#d4d4d4") << QColor("#919191")
+    << QColor("#626262") << QColor("#404040") << QColor("#000000");
+    return colorList;
+}
 QColor colorIndexOf(int index) {
-    switch(index) {
-    case 0: { return QColor("#ffd903");}
-    case 1: { return QColor("#ff5e1a");}
-    case 2: { return QColor("#ff3305");}
-    case 3: { return QColor("#ff1c49");}
-    case 4: { return QColor("#fb00ff");}
-    case 5: { return QColor("#7700ed");}
-    case 6: { return QColor("#3d08ff");}
-    case 7: { return QColor("#3467ff");}
-    case 8: { return QColor("#00aaff");}
-    case 9: { return QColor("#08ff77");}
-    case 10: { return QColor("#03a60e");}
-    case 11: { return QColor("#3c7d00");}
-    case 12: { return QColor("#ffffff");}
-    case 13: { return QColor("#666666");}
-    case 14: { return QColor("#2b2b2b");}
-    case 15: { return QColor("#000000");}
-    default:  { return QColor("#ffd903");}
-    }
+    QList<QColor> colorList = specifiedColorList();
 
-    return QColor("#ffd903");
+    if (index < colorList.length())
+        return colorList[index];
+
+    return colorList[0];
 }
 
 int colorIndex(QColor color) {
-    QList<QColor> colorList;
-    colorList.append(QColor("#ffd903"));
-    colorList.append(QColor("#ff5e1a"));
-    colorList.append(QColor("#ff3305"));
-    colorList.append(QColor("#ff1c49"));
-    colorList.append(QColor("#fb00ff"));
-    colorList.append(QColor("#7700ed"));
-    colorList.append(QColor("#3d08ff"));
-    colorList.append(QColor("#3467ff"));
-    colorList.append(QColor("#00aaff"));
-    colorList.append(QColor("#08ff77"));
-    colorList.append(QColor("#03a60e"));
-    colorList.append(QColor("#3c7d00"));
-    colorList.append(QColor("#ffffff"));
-    colorList.append(QColor("#666666"));
-    colorList.append(QColor("#2b2b2b"));
-    colorList.append(QColor("#000000"));
-    return colorList.indexOf(color);
+    QList<QColor> colorList = specifiedColorList();
+    if (colorList.contains(color))
+        return colorList.indexOf(color);
+
+    return 0;
 }
 
 bool          isValidFormat(QString suffix) {

@@ -15,10 +15,12 @@ QStringList collectSubDirs(const QString &path)
                                                  QDir::Dirs | QDir::NoDotDot | QDir::NoDot,
                                                  QDirIterator::Subdirectories);
 
-    while(dirIterator.hasNext()) {
+    while(dirIterator.hasNext())
+    {
         dirIterator.next();
         dirs.append(dirIterator.filePath());
     }
+
     return dirs;
 }
 
@@ -26,7 +28,8 @@ Importer *Importer::m_importer = NULL;
 
 Importer *Importer::instance()
 {
-    if (!m_importer) {
+    if (!m_importer)
+    {
         m_importer = new Importer();
     }
 
@@ -60,7 +63,8 @@ void Importer::appendDir(const QString &path)
             this, &Importer::currentImport);
     connect(dt, &DirCollectThread::finished, this, [=]{
         m_threads.removeAll(dt);
-        if (m_threads.isEmpty()) {
+        if (m_threads.isEmpty())
+        {
             emit imported(true);
             m_dirs.clear();
         }
@@ -94,7 +98,8 @@ void Importer::appendFiles(const QStringList &paths)
 
 void Importer::stop()
 {
-    for(auto t : m_threads) {
+    for(auto t : m_threads)
+    {
         t->quit();
         t->wait();
         t->deleteLater();
@@ -105,9 +110,11 @@ void Importer::stop()
 
 void Importer::stopDirCollect(const QString &dir)
 {
-    for(auto t : m_threads) {
+    for(auto t : m_threads)
+    {
         DirCollectThread* dc = dynamic_cast<DirCollectThread*>(t);
-        if (dc && dc->dir() == dir) {
+        if (dc && dc->dir() == dir)
+        {
             qDebug() << "Stoping dir collect thread..." << dir;
             dc->setStop(true);
             t->quit();

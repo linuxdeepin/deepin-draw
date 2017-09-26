@@ -7,6 +7,7 @@
 #include <QDebug>
 
 #include "utils/global.h"
+#include "utils/baseutils.h"
 #include "utils/configsettings.h"
 #include "colorlabel.h"
 #include "colorslider.h"
@@ -41,7 +42,7 @@ void ColorButton::paintEvent(QPaintEvent *) {
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(m_color);
 
-    if (m_disable)
+    if (m_color == QColor(Qt::transparent))
     {
         painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
             QPixmap(":/theme/light/images/draw/color_disable_active.png"));
@@ -95,27 +96,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     else
         setFixedSize(232, EXPAND_HEIGHT);
 
-    m_colList
-            << QString("")               << QString("#ff0c0c") << QString("#fe3c3b")
-            << QString("#fd6867") << QString("#fd9694") << QString("#fcc4c1")
-            << QString("#f8e0d6") << QString("#e4c299") << QString("#f2aa46")
-            << QString("#fd9d0f") << QString("#f6b443") << QString("#eecb77")
-            << QString("#f0ee4e") << QString("#f4fb00") << QString("#f6f96d")
-            << QString("#f4f6a6") << QString("#f3f3d6") << QString("#e9eedc")
-            << QString("#dde8cb") << QString("#ccdfb0") << QString("#9cd972")
-            << QString("#4ec918") << QString("#5cc850") << QString("#6bc989")
-            << QString("#53ac6d") << QString("#72b88e") << QString("#7cc8cd")
-            << QString("#97d1d4") << QString("#c9e1e1") << QString("#c1dee7")
-            << QString("#93ceed") << QString("#76c3f1") << QString("#49b2f6")
-            << QString("#119fff") << QString("#0192ea") << QString("#3d7ddd")
-            << QString("#92cdfb") << QString("#99cffa") << QString("#ececf8")
-            << QString("#ccc9f9") << QString("#b2acf9") << QString("#958ef9")
-            << QString("#7c6ffa") << QString("#8a47fb") << QString("#6b1aef")
-            << QString("#952dfd") << QString("#af39e4") << QString("#c174da")
-            << QString("#c587d9") << QString("#dbb4c1") << QString("#cf8c86")
-            << QString("#b45f51") << QString("#865e4f") << QString("#694d48")
-            << QString("#ffffff") << QString("#d4d4d4") << QString("#919191")
-            << QString("#626262") << QString("#404040") << QString("#000000");
+    m_colList = specifiedColorList();
 
     QButtonGroup* colorsButtonGroup = new QButtonGroup(this);
     colorsButtonGroup->setExclusive(true);
@@ -126,9 +107,9 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     for(int i = 0; i < m_colList.length(); i++)
     {
-        ColorButton* cb = new ColorButton(QColor(m_colList[i]), this);
-        if (i == 0)
-            cb->setDisableColor(true);
+        ColorButton* cb = new ColorButton(m_colList[i], this);
+//        if (i == 0)
+//            cb->setDisableColor(true);
 
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);

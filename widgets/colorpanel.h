@@ -52,7 +52,7 @@ private:
     EditLabel* m_editLabel;
     PushButton* m_colorfulBtn;
 
-    QStringList m_colList;
+    QList<QColor> m_colList;
     QList<ColorButton*> m_cButtonList;
     DrawStatus m_drawstatus;
     bool m_expand;

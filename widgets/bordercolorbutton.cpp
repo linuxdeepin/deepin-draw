@@ -3,27 +3,33 @@
 #include <QPainter>
 #include <QDebug>
 
+#include "utils/baseutils.h"
+#include "utils/configsettings.h"
+
 const qreal COLOR_RADIUS = 4;
 
 BorderColorButton::BorderColorButton(QWidget *parent)
-    : QPushButton(parent),
-      m_color(QColor(Qt::red)),
-      m_isHover(false),
-      m_isChecked(false)
+    : QPushButton(parent)
+    , m_isHover(false)
+    , m_isChecked(false)
 {
     setFixedSize(24, 24);
     setCheckable(true);
+     m_color = QColor(ConfigSettings::instance()->value("common", "strokeColor").toString());
+    update();
 
-    connect(this, &QPushButton::clicked, this,
-            &BorderColorButton::setCheckedStatus);
+    connect(this, &QPushButton::clicked, this, &BorderColorButton::setCheckedStatus);
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+            &BorderColorButton::updateConfigColor);
 }
 
-void BorderColorButton::updateConfigColor(const QString &shape,
-                                                                                   const QString &key, int index)
+void BorderColorButton::updateConfigColor(const QString &group,
+                                                                                   const QString &key)
 {
-    if (shape == "common" && key == "color_index")
+    if (group == "common" && key == "strokeColor")
     {
-//        setColor(colorIndexOf(index));
+        m_color = QColor(ConfigSettings::instance()->value(group, key).toString());
+        update();
     }
 }
 
@@ -37,11 +43,12 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(Qt::transparent);
 
-    if (m_isHover || m_isChecked)
+    if (m_isChecked || m_isHover)
     {
-        painter.setBrush(QBrush(QColor(0, 0, 0, 20.4)));
+        painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
         painter.drawRoundedRect(rect(), 4, 4);
-    } else {
+    } else
+    {
         painter.setBrush(QBrush(Qt::transparent));
     }
 
@@ -50,6 +57,12 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     pen.setColor(m_color);
     painter.setPen(pen);
     painter.drawEllipse(this->rect().center(), 8, 8);
+
+    if (m_isChecked)
+    {
+        painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
+        painter.drawEllipse(this->rect().center(), 8, 8);
+    }
 }
 
 void BorderColorButton::setColor(QColor color)
@@ -58,21 +71,16 @@ void BorderColorButton::setColor(QColor color)
     update();
 }
 
-void BorderColorButton::setColorIndex()
+void BorderColorButton::setColorIndex(int index)
 {
-//    int colorNum = ConfigSettings::instance()->value("common", "color_index").toInt();
-//    m_color = colorIndexOf(colorNum);
+    m_color = colorIndexOf(index);
     update();
 }
 
 void BorderColorButton::setCheckedStatus(bool checked)
 {
-    if (checked)
-    {
-        m_isChecked = true;
-        update();
-    }
-
+    m_isChecked = checked;
+    update();
 }
 
 void BorderColorButton::enterEvent(QEvent *)

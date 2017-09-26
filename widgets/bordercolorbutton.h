@@ -12,9 +12,9 @@ public:
     ~BorderColorButton();
 
     void setColor(QColor color);
-    void setColorIndex();
+    void setColorIndex(int index);
     void setCheckedStatus(bool checked);
-    void updateConfigColor(const QString &shape,  const QString &key, int index);
+    void updateConfigColor(const QString &group,  const QString &key);
 
 protected:
     void paintEvent(QPaintEvent *);

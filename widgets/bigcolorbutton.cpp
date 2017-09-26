@@ -1,36 +1,36 @@
 #include "bigcolorbutton.h"
 
 #include "utils/baseutils.h"
-//#include "utils/configsettings.h"
+#include "utils/configsettings.h"
 
 #include <QDebug>
 
 const qreal COLOR_RADIUS = 8;
 
 BigColorButton::BigColorButton(QWidget *parent)
-    : QPushButton(parent),
-      m_color(QColor(Qt::red)),
-      m_isHover(false),
-      m_isChecked(false)
+    : QPushButton(parent)
+    , m_isHover(false)
+    , m_isChecked(false)
 {
     setFixedSize(24, 24);
     setCheckable(true);
-    int colIndex = 3;//ConfigSettings::instance()->value(
-                             // "common", "color_index").toInt();
-    m_color = colorIndexOf(colIndex);
 
-    connect(this, &QPushButton::clicked, this,
-            &BigColorButton::setCheckedStatus);
-//    connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
-//                  this, &BigColorButton::updateConfigColor);
+    m_color = QColor(ConfigSettings::instance()->value(
+                        "common", "fillColor").toString());
+
+    connect(this, &QPushButton::clicked, this, &BigColorButton::setCheckedStatus);
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
+                  this, &BigColorButton::updateConfigColor);
 }
 
-void BigColorButton::updateConfigColor(const QString &shape,
-                                                                            const QString &key, int index)
+void BigColorButton::updateConfigColor(const QString &group,
+                                                                            const QString &key)
 {
-    if (shape == "common" && key == "color_index")
+    if (group == "common" && key == "fillColor")
     {
-        setColor(colorIndexOf(index));
+        m_color = QColor(ConfigSettings::instance()->value(
+                            group, key).toString());
+        update();
     }
 }
 
@@ -44,15 +44,20 @@ void BigColorButton::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(Qt::transparent);
 
-    painter.setBrush(QBrush(QColor(0, 0, 0, 20.4)));
+    painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
     if (m_isHover || m_isChecked)
     {
         painter.drawRoundedRect(rect(), 4, 4);
     }
 
     painter.setBrush(QBrush(QColor(m_color)));
-    painter.drawEllipse(QPointF(12, 12),
-                        COLOR_RADIUS, COLOR_RADIUS);
+    painter.drawEllipse(QPointF(12, 12), COLOR_RADIUS, COLOR_RADIUS);
+
+    if (m_isChecked)
+    {
+        painter.setBrush(QColor(0, 0, 0, 13));
+        painter.drawEllipse(QPointF(12, 12), COLOR_RADIUS, COLOR_RADIUS);
+    }
 }
 
 void BigColorButton::setColor(QColor color)
@@ -61,20 +66,16 @@ void BigColorButton::setColor(QColor color)
     update();
 }
 
-void BigColorButton::setColorIndex()
+void BigColorButton::setColorIndex(int index)
 {
-    int colorNum = 3;//ConfigSettings::instance()->value("common", "color_index").toInt();
-    m_color = colorIndexOf(colorNum);
+    m_color = colorIndexOf(index);
     update();
 }
 
 void BigColorButton::setCheckedStatus(bool checked)
 {
-    if (checked)
-    {
-        m_isChecked = true;
-        update();
-    }
+    m_isChecked = checked;
+    update();
 }
 
 void BigColorButton::enterEvent(QEvent *)

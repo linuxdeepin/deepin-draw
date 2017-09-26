@@ -34,11 +34,15 @@ enum DrawStatus {
     Stroke,
 };
 
+QList<QColor> specifiedColorList();
+QColor       colorIndexOf(int index);
+int                colorIndex(QColor color);
+
+
 QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
-QColor       colorIndexOf(int index);
-int                colorIndex(QColor color);
+
 bool          isValidFormat(QString suffix);
 bool          isCommandExist(QString command);
 void  paintSelectedPoint(QPainter &painter, QPointF pos,

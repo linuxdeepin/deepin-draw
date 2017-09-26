@@ -19,7 +19,7 @@ public:
     QStringList keys(const QString &group);
 
 signals:
-    void configChanged(const QString &shape,  const QString &key);
+    void configChanged(const QString &group,  const QString &key);
 
 private:
     ConfigSettings(QObject* parent = 0);
