@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
+#include <QColor>
 #include <cmath>
 
 #include "utils/calculaterect.h"
@@ -252,6 +253,11 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                               m_shapes[i].fillColor != QColor(Qt::transparent)))
             {
                 currentOnShape = true;
+
+                ConfigSettings::instance()->setValue("common", "fillColor",
+                                                     m_shapes[i].fillColor.name(QColor::HexArgb));
+                ConfigSettings::instance()->setValue("common", "strokeColor",
+                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
             } else
             {
                 qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
@@ -264,6 +270,11 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                                  m_shapes[i].fillColor != QColor(Qt::transparent)))
             {
                 currentOnShape = true;
+
+                ConfigSettings::instance()->setValue("common", "fillColor",
+                                                     m_shapes[i].fillColor.name(QColor::HexArgb));
+                ConfigSettings::instance()->setValue("common", "strokeColor",
+                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
         }
         if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine")
@@ -271,6 +282,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             if (clickedOnArrow(m_shapes[i].points, pos))
             {
                 currentOnShape = true;
+
+                ConfigSettings::instance()->setValue("common", "strokeColor",
+                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
         }
 
@@ -279,6 +293,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos))
             {
                 currentOnShape = true;
+
+                ConfigSettings::instance()->setValue("common", "strokeColor",
+                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
         }
         if (m_shapes[i].type == "text")
