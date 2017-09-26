@@ -7,6 +7,7 @@
 #include "utils/configsettings.h"
 
 const qreal COLOR_RADIUS = 4;
+const int BTN_RADIUS = 8;
 
 BorderColorButton::BorderColorButton(QWidget *parent)
     : QPushButton(parent)
@@ -56,12 +57,22 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     pen.setWidth(2);
     pen.setColor(m_color);
     painter.setPen(pen);
-    painter.drawEllipse(this->rect().center(), 8, 8);
+    painter.drawEllipse(QPointF(12, 12), BTN_RADIUS, BTN_RADIUS);
 
     if (m_isChecked)
     {
         painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
-        painter.drawEllipse(this->rect().center(), 8, 8);
+        painter.drawEllipse(QPointF(12, 12), BTN_RADIUS, BTN_RADIUS);
+    }
+
+    if (m_color == QColor(Qt::white))
+    {
+        QPen pen;
+
+        pen.setColor(QColor(0, 0, 0, 105));
+        painter.setPen(pen);
+        painter.drawEllipse(QPointF(12, 12), BTN_RADIUS - 1, BTN_RADIUS - 1);
+        painter.drawEllipse(QPointF(12, 12), BTN_RADIUS + 1, BTN_RADIUS + 1);
     }
 }
 
