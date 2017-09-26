@@ -108,9 +108,6 @@ ColorPanel::ColorPanel(QWidget *parent)
     for(int i = 0; i < m_colList.length(); i++)
     {
         ColorButton* cb = new ColorButton(m_colList[i], this);
-//        if (i == 0)
-//            cb->setDisableColor(true);
-
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
         colorsButtonGroup->addButton(cb);
@@ -209,10 +206,10 @@ void ColorPanel::setConfigColor(QColor color)
 {
     if (m_drawstatus == DrawStatus::Stroke)
     {
-        ConfigSettings::instance()->setValue("common", "strokeColor", color.name());
+        ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexArgb));
     } else
     {
-        ConfigSettings::instance()->setValue("common", "fillColor",  color.name());
+        ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexArgb));
     }
 }
 
