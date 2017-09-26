@@ -1060,7 +1060,7 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
 {
     QPointF rotatePoint = getRotatePoint(mainPoints[0], mainPoints[1],
                                                                         mainPoints[2], mainPoints[3]);
-    rotatePoint = QPointF(rotatePoint.x() - 5, rotatePoint.y() - 5);
+    rotatePoint = QPointF(rotatePoint.x() /*- 5*/, rotatePoint.y()/* - 5*/);
     bool result = false;
     if (pos.x() >= rotatePoint.x() - SPACING && pos.x() <= rotatePoint.x()
             + SPACING && pos.y() >= rotatePoint.y() - SPACING && pos.y() <=
@@ -1172,7 +1172,7 @@ void ShapesWidget::handleRotate(QPointF pos) {
         m_shapes[m_selectedOrder].rotate = angle;
     }
 
-    if (m_selectedShape.type == "arrow")
+    if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
     {
         if (m_shapes[m_selectedOrder].isShiftPressed)
         {
