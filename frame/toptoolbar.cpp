@@ -291,9 +291,7 @@ void TopToolbar::initStackWidget()
     //cut
     m_cutWidget = new CutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
-    connect(m_cutWidget, &CutWidget::rotateImage, [=](int degree){
-        emit rotateImage(m_path, degree);
-    });
+    connect(m_cutWidget, &CutWidget::rotateImage, this, &TopToolbar::rotateImage);
     connect(m_cutWidget, &CutWidget::cutImage, this, [=]{
         drawShapes("cutImage");
     });

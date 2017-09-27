@@ -54,6 +54,7 @@ public:
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
+    void handleImageRotate(int degree);
 
     bool clickedOnShapes(QPointF pos);
     bool clickedOnImage(FourPoints rectPoints, QPointF pos);
@@ -147,6 +148,7 @@ private:
     bool m_mosaicEffectExist = false;
     bool m_clearAllTextBorder = false;
     bool m_imageCutting = false;
+    bool m_rotateImage = false;
 
     QColor m_penColor;
     QColor m_brushColor;

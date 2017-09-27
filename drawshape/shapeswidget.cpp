@@ -7,6 +7,7 @@
 #include <QColor>
 #include <cmath>
 
+#include "utils/imageutils.h"
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
 #include "utils/tempfile.h"
@@ -1304,6 +1305,27 @@ void ShapesWidget::handleResize(QPointF pos, int key)
     m_pressedPoint = pos;
 }
 
+void ShapesWidget::handleImageRotate(int degree)
+{
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    {
+        m_rotateImage = true;
+        QPixmap pix(m_shapes[m_selectedOrder].imagePath);
+
+        utils::image::rotate(m_shapes[m_selectedOrder].imagePath, degree);
+        pix.load(m_shapes[m_selectedOrder].imagePath);
+        m_shapes[m_selectedOrder].mainPoints[1] = QPointF(
+                    m_shapes[m_selectedOrder].mainPoints[0].x(),
+                    m_shapes[m_selectedOrder].mainPoints[0].y() + pix.height());
+        m_shapes[m_selectedOrder].mainPoints[2] = QPointF(
+                    m_shapes[m_selectedOrder].mainPoints[0].x() + pix.width(),
+                    m_shapes[m_selectedOrder].mainPoints[0].y());
+        m_shapes[m_selectedOrder].mainPoints[3] = QPointF(
+                    m_shapes[m_selectedOrder].mainPoints[0].x() + pix.width(),
+                    m_shapes[m_selectedOrder].mainPoints[0].y() + pix.height());
+    }
+}
+
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
@@ -1370,6 +1392,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                m_currentShape.index = m_currentIndex;
                m_currentShape.lineWidth = m_blurLinewidth;
                m_currentShape.points.append(m_pos1);
+
                emit reloadEffectImg("blur");
             } else if (m_currentType == "text") {
                 if (!m_editing) {
@@ -2008,6 +2031,15 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
         painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
     }
 
+    if (m_rotateImage)
+    {
+        m_rotateImage = false;
+        imageShape.mainPoints[0] = QPointF(startPos.x(), startPos.y());
+        imageShape.mainPoints[1] = QPointF(startPos.x(), startPos.y() + pixmap.height());
+        imageShape.mainPoints[2] = QPointF(startPos.x() + pixmap.width(), startPos.y());
+        imageShape.mainPoints[3] = QPointF(startPos.x() + pixmap.width(), startPos.y() + pixmap.height());
+
+    }
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *)
@@ -2034,7 +2066,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         } else
         {
             painter.drawPixmap(0, 0, m_backgroundPixmap);
-
             paintShape(painter, m_shapes[m_selectedOrder], true);
         }
     } else
@@ -2047,7 +2078,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             for(int i= 0; i < m_shapes.length(); i++)
             {
                 qDebug() << "paintShape ssss: " << m_shapes[i].type
-                         << m_shapes[i].imagePath << m_selectedOrder;
+                                  << m_shapes[i].imagePath << m_selectedOrder;
 
                 paintShape(painter, m_shapes[i]);
             }

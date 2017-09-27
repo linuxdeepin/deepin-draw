@@ -24,8 +24,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             &ShapesWidget::setCurrentShape);
     connect(this, &CanvasWidget::fillShapeSelectedActive, m_shapesWidget,
             &ShapesWidget::setFillShapeSelectedActive);
-//    connect(this, &CanvasWidget::rotateImage,
-//            m_view, &ImageView::rotateImage);
+    connect(this, &CanvasWidget::rotateImage,
+            m_shapesWidget,  &ShapesWidget::handleImageRotate);
 
 //    connect(this, &CanvasWidget::mirroredImage,
 //            m_view, &ImageView::mirroredImage);

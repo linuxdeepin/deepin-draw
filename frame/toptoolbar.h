@@ -45,7 +45,7 @@ public:
 
 signals:
     void drawShapeChanged(QString shape);
-    void rotateImage(const QString &imagePath, int degree);
+    void rotateImage(int degree);
     void mirroredImage(bool horizonta, bool vertical);
     void cutImage();
     void saveImage(const QString &path);
