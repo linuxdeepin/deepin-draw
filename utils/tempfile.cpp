@@ -20,7 +20,8 @@ TempFile::TempFile(QObject *parent)
     : QObject(parent)
 {
     QTemporaryFile blurFile;
-    if (blurFile.open()) {
+    if (blurFile.open())
+    {
         m_blurFile = blurFile.fileName() + ".png";
     }
     qDebug() << "Blur File:" << m_blurFile;
@@ -30,9 +31,11 @@ TempFile::~TempFile() {}
 
 QString TempFile::getBlurFileName()
 {
-    if (!m_blurFile.isEmpty()) {
+    if (!m_blurFile.isEmpty())
+    {
         return m_blurFile;
-    } else {
+    } else
+    {
         return "/tmp/deepin-draw-blur.png";
     }
 }

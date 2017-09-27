@@ -32,6 +32,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
 //    connect(this, &CanvasWidget::saveImage,
 //            m_view, &ImageView::saveImage);
+
+    connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
+            this, &CanvasWidget::updateMiddleWidget);
 }
 
 bool CanvasWidget::overWindowSize()

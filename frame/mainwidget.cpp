@@ -41,11 +41,9 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::mirroredImage);
     connect(this, &MainWidget::saveImage,
             m_canvas, &CanvasWidget::saveImage);
-}
 
-void MainWidget::setImageInCanvas(QString imageFileName)
-{
-    m_canvas->setImage(imageFileName);
+    connect(m_canvas, &CanvasWidget::updateMiddleWidget,
+            this, &MainWidget::updateMiddleWidget);
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)

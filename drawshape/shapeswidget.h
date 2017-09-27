@@ -43,6 +43,7 @@ signals:
     void menuNoFocus();
     void finishedDrawCut();
     void cutImage(QRect cutRect);
+    void updateMiddleWidgets(QString type);
 
 public:
     void initAttribute();
@@ -74,8 +75,8 @@ public:
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
-    void deleteCurrentShape();
     QString  getCurrentType();
+    void deleteCurrentShape();
     void setLineStyle(int index);
     void showCutImageTips();
     void loadImage(QStringList paths);

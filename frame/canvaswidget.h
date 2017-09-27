@@ -13,14 +13,13 @@
 class CanvasWidget : public QLabel
 {
     Q_OBJECT
+
 public:
     CanvasWidget(QWidget* parent = 0);
     ~CanvasWidget();
 
     void setImage(QString filename);
-
     bool overWindowSize();
-
     QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
 
 signals:
@@ -29,6 +28,8 @@ signals:
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
     void saveImage(const QString &path);
+
+    void updateMiddleWidget(QString type);
 
 private:
     QString m_currentFile;

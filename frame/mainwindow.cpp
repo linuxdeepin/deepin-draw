@@ -48,9 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
             m_mainWidget, &MainWidget::fillShapeSelectedActive);
 
-    connect(m_topToolbar, &TopToolbar::openImage,
-            m_mainWidget, &MainWidget::setImageInCanvas);
-
     connect(m_topToolbar, &TopToolbar::rotateImage,
             m_mainWidget, &MainWidget::rotateImage);
 
@@ -59,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::saveImage,
             m_mainWidget, &MainWidget::saveImage);
+
+    connect(m_mainWidget, &MainWidget::updateMiddleWidget,
+            m_topToolbar, &TopToolbar::updateMiddleWidget);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

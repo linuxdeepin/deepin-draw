@@ -1,4 +1,4 @@
-﻿#include "toptoolbar.h"
+#include "toptoolbar.h"
 #include "../application.h"
 
 #include <QLabel>
@@ -390,6 +390,29 @@ void TopToolbar::showSaveDialog()
 
 
     connect(sd, &SaveDialog::saveToPath, this, &TopToolbar::saveImage);
+}
+
+void TopToolbar::updateMiddleWidget(QString type)
+{
+    if (type == "image")
+    {
+        setMiddleStackWidget(Status::Cut);
+    } else if (type == "rectangle" || type == "oval")
+    {
+        setMiddleStackWidget(Status::FillShape);
+    } else if (type == "arrow" || type == "straightLine" || type == "arbitraryCurve")
+    {
+        setMiddleStackWidget(Status::DrawLine);
+    } else if (type == "blur")
+    {
+        setMiddleStackWidget(Status::DrawBlur);
+    } else if (type == "text")
+    {
+        setMiddleStackWidget(Status::DrawText);
+    } else
+    {
+        qDebug() << "updateMiddleWidget type:" << type;
+    }
 }
 
 void TopToolbar::setMiddleStackWidget(Status status)

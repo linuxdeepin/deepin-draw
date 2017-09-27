@@ -18,14 +18,14 @@ public:
     MainWidget(QWidget* parent = 0);
     ~MainWidget();
 
-    void setImageInCanvas(QString imageFileName);
-
 signals:
     void drawShapeChanged(QString shape);
     void fillShapeSelectedActive(bool selected);
     void rotateImage(const QString &path, int degree);
     void mirroredImage(bool horizontal, bool vertical);
     void saveImage(const QString &path);
+
+    void updateMiddleWidget(QString type);
 
 protected:
     void resizeEvent(QResizeEvent* event);

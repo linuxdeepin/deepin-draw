@@ -44,7 +44,6 @@ public:
     QMenu* mainMenu();
 
 signals:
-    void openImage(QString imageFileName);
     void drawShapeChanged(QString shape);
     void rotateImage(const QString &imagePath, int degree);
     void mirroredImage(bool horizonta, bool vertical);
@@ -62,6 +61,8 @@ public:
 public slots:
     void importImage();
     void importImageDir();
+
+    void updateMiddleWidget(QString type);
 
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
