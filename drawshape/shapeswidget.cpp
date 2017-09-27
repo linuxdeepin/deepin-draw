@@ -1955,7 +1955,7 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
         }  else if(angle > M_PI/2 && angle <= M_PI)
         {
             qreal x = std::abs(originPix.width()*std::sin(angle - M_PI/2) +
-                                              originPix.height()*std::cos(angle - M_PI/2));
+                               originPix.height()*std::cos(angle - M_PI/2));
 
             qreal y = originPix.height()*std::sin(angle - M_PI/2);
             painter.drawPixmap(startPos.x() - int(x), startPos.y() - int(y), pixmap);
@@ -1963,7 +1963,7 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
         {
             qreal x = std::abs(originPix.width()*cos(angle - M_PI));
             qreal y = std::abs(originPix.width()*std::sin(angle - M_PI)) +
-                                             originPix.height()*std::cos(angle - M_PI);
+                    originPix.height()*std::cos(angle - M_PI);
             painter.drawPixmap(startPos.x() - int(x), startPos.y() - int(y), pixmap);
         } else if (angle > M_PI*1.5 && angle < M_PI*2)
         {
@@ -1987,12 +1987,12 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
         {
             qreal x = originPix.width()*std::cos(angle);
             qreal y = originPix.width()*std::sin(angle) +
-                             originPix.height()*std::cos(angle);
+                    originPix.height()*std::cos(angle);
             painter.drawPixmap(startPos.x() + int(x), startPos.y() + int(y), pixmap);
         } else if (angle < -M_PI && angle >= -M_PI*1.5)
         {
             qreal x = std::abs(originPix.width()*cos(angle)) +
-                             std::abs(originPix.height()*sin(angle));
+                    std::abs(originPix.height()*sin(angle));
             qreal y = originPix.height()*std::cos(angle);
             painter.drawPixmap(startPos.x() - int(x), startPos.y() + int(y), pixmap);
         } else if (angle < -M_PI*1.5 && angle >= -M_PI*2)

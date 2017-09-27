@@ -11,63 +11,48 @@ CutWidget::CutWidget(QWidget *parent)
 {
     QList<PushButton*> btnList;
     m_leftRotateBtn = new PushButton(this);
+    m_leftRotateBtn->setCheckable(false);
     m_leftRotateBtn->setObjectName("LeftRotate");
     m_leftRotateBtn->setToolTip(tr("Rotate 90°CCW"));
     btnList.append(m_leftRotateBtn);
 
     m_rightRotateBtn = new PushButton(this);
+    m_rightRotateBtn->setCheckable(false);
     m_rightRotateBtn->setObjectName("RightRotate");
     m_rightRotateBtn->setToolTip(tr("Rotate 90°CW"));
     btnList.append(m_rightRotateBtn);
 
     m_cutBtn = new PushButton(this);
+    m_cutBtn->setCheckable(false);
     m_cutBtn->setObjectName("CutButton");
     m_cutBtn->setToolTip(tr("Clip"));
     btnList.append(m_cutBtn);
 
     m_flipHBtn = new PushButton(this);
+    m_flipHBtn->setCheckable(false);
     m_flipHBtn->setObjectName("FlipHorizontalBtn");
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
     btnList.append(m_flipHBtn);
 
     m_flipVBtn = new PushButton(this);
+    m_flipVBtn->setCheckable(false);
     m_flipVBtn->setObjectName("FlipVerticalBtn");
     m_flipVBtn->setToolTip(tr("Flip vertically"));
     btnList.append(m_flipVBtn);
 
     connect(m_leftRotateBtn, &PushButton::clicked, this, [=]{
-        for(int j = 0; j < btnList.length(); j++) {
-            btnList[j]->setChecked(false);
-        }
-        m_leftRotateBtn->setChecked(true);
         emit rotateImage(-90);
     });
     connect(m_rightRotateBtn, &PushButton::clicked, this, [=]{
-        for(int j = 0; j < btnList.length(); j++) {
-            btnList[j]->setChecked(false);
-        }
-        m_rightRotateBtn->setChecked(true);
         emit rotateImage(90);
     });
     connect(m_cutBtn, &PushButton::clicked, this, [=]{
-        for(int j = 0; j < btnList.length(); j++) {
-            btnList[j]->setChecked(false);
-        }
-        m_cutBtn->setChecked(true);
         emit cutImage();
     });
     connect(m_flipHBtn, &PushButton::clicked, this, [=]{
-        for(int j = 0; j < btnList.length(); j++) {
-            btnList[j]->setChecked(false);
-        }
-        m_flipHBtn->setChecked(true);
          emit mirroredImage(true, false);
     });
     connect(m_flipVBtn, &PushButton::clicked, this, [=]{
-        for(int j = 0; j < btnList.length(); j++) {
-            btnList[j]->setChecked(false);
-        }
-        m_flipVBtn->setChecked(true);
         emit mirroredImage(false, true);
     });
 
