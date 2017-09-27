@@ -1785,12 +1785,11 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape)
     textPen.setColor("#01bdff");
     painter.setPen(textPen);
 
-    qDebug() << "VVVVVVV" << shape.mainPoints.length() << shape.mainPoints;
+    qDebug() << "paintText" << shape.mainPoints.length() << shape.mainPoints;
 
     FourPoints rectFPoints = shape.mainPoints;
     if (shape.mainPoints.length() >= 4)
     {
-        qDebug() << "+++++++++++";
         painter.drawLine(rectFPoints[0], rectFPoints[1]);
         painter.drawLine(rectFPoints[1], rectFPoints[3]);
         painter.drawLine(rectFPoints[3], rectFPoints[2]);
@@ -2161,6 +2160,11 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
             {
                 paintText(painter, shape);
             }
+        }
+
+        if (selected)
+        {
+            paintText(painter, shape);
         }
     }
 
