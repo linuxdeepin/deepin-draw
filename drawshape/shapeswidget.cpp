@@ -1223,11 +1223,11 @@ void ShapesWidget::handleRotate(QPointF pos)
                 if (m_clickedKey == First)
                 {
                     m_shapes[m_selectedOrder].points[0] = QPointF(pos.x(),
-                    m_shapes[m_selectedOrder].points[1].y());
+                                                                  m_shapes[m_selectedOrder].points[1].y());
                 } else if (m_clickedKey == Second)
                 {
                     m_shapes[m_selectedOrder].points[1] = QPointF(pos.x(),
-                    m_shapes[m_selectedOrder].points[0].y());
+                                                                  m_shapes[m_selectedOrder].points[0].y());
                 }
             }
         } else {
@@ -1243,6 +1243,7 @@ void ShapesWidget::handleRotate(QPointF pos)
         m_selectedShape.points  =  m_shapes[m_selectedOrder].points;
         m_hoveredShape.points = m_shapes[m_selectedOrder].points;
         m_pressedPoint = pos;
+
         return;
     }
 
@@ -1309,7 +1310,6 @@ void ShapesWidget::handleImageRotate(int degree)
 {
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
-        m_rotateImage = true;
         QPixmap pix(m_shapes[m_selectedOrder].imagePath);
 
         utils::image::rotate(m_shapes[m_selectedOrder].imagePath, degree);
@@ -1323,6 +1323,21 @@ void ShapesWidget::handleImageRotate(int degree)
         m_shapes[m_selectedOrder].mainPoints[3] = QPointF(
                     m_shapes[m_selectedOrder].mainPoints[0].x() + pix.width(),
                     m_shapes[m_selectedOrder].mainPoints[0].y() + pix.height());
+    }
+}
+
+void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
+{
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    {
+        QImage img(m_shapes[m_selectedOrder].imagePath);
+        img = img.mirrored(horizontal, vertical);
+
+        QString picBaseName = QFileInfo(m_shapes[m_selectedOrder].imagePath).baseName();
+        QString suffix = QFileInfo(m_shapes[m_selectedOrder].imagePath).suffix();
+
+        m_shapes[m_selectedOrder].editImagePath = QString("/tmp/%1.%2").arg(picBaseName).arg(suffix);
+        img.save(m_shapes[m_selectedOrder].editImagePath,  suffix.toLatin1());
     }
 }
 
@@ -2029,16 +2044,6 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     } else
     {
         painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
-    }
-
-    if (m_rotateImage)
-    {
-        m_rotateImage = false;
-        imageShape.mainPoints[0] = QPointF(startPos.x(), startPos.y());
-        imageShape.mainPoints[1] = QPointF(startPos.x(), startPos.y() + pixmap.height());
-        imageShape.mainPoints[2] = QPointF(startPos.x() + pixmap.width(), startPos.y());
-        imageShape.mainPoints[3] = QPointF(startPos.x() + pixmap.width(), startPos.y() + pixmap.height());
-
     }
 }
 

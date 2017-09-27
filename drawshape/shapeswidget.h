@@ -56,6 +56,8 @@ public:
     void handleResize(QPointF pos, int key);
     void handleImageRotate(int degree);
 
+    void mirroredImage(bool horizontal, bool vertical);
+
     bool clickedOnShapes(QPointF pos);
     bool clickedOnImage(FourPoints rectPoints, QPointF pos);
     bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
