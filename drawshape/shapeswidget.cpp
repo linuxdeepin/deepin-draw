@@ -239,7 +239,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
     for (int i = m_shapes.length() - 1; i >= 0; i--)
-    {
+   {
         bool currentOnShape = false;
         qDebug() << "this moment shape:" << m_currentType;
 
@@ -1346,12 +1346,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
     m_cutShape.type = "";
 
-    if (m_inBtmRight)
-    {
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-//        return;
-    }
-
     if (m_selectedOrder != -1)
     {
         if ((!clickedOnShapes(e->pos()) && m_isRotated) && m_selectedOrder == -1)
@@ -1369,6 +1363,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     m_pressedPoint = e->pos();
     m_isPressed = true;
+
+    if (m_inBtmRight)
+    {
+        qDebug() << "Adjust artboard's size!";
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        return;
+    }
 
     if (e->button() == Qt::RightButton)
     {
@@ -1561,6 +1562,16 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         m_inBtmRight = true;
         m_resizeDirection = Right;
         qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+
+        if (m_isPressed)
+        {
+        qDebug() << "moving size:" << m_movingPoint.x() - m_pressedPoint.x()
+                                                       << m_movingPoint.y() - m_pressedPoint.y();
+        emit adjustArtBoardSize(
+                    m_movingPoint.x() - m_pressedPoint.x(),
+                    m_movingPoint.y() - m_pressedPoint.y()
+                    );
+        }
         return;
     } else
     {

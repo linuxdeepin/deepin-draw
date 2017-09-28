@@ -44,6 +44,8 @@ MainWidget::MainWidget(QWidget *parent)
 
     connect(m_canvas, &CanvasWidget::updateMiddleWidget,
             this, &MainWidget::updateMiddleWidget);
+    connect(m_canvas, &CanvasWidget::adjustArtBoardSize,
+            this, &MainWidget::adjustArtBoardSize);
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)

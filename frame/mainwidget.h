@@ -26,6 +26,7 @@ signals:
     void saveImage(const QString &path);
 
     void updateMiddleWidget(QString type);
+    void adjustArtBoardSize(int addX, int addY);
 
 protected:
     void resizeEvent(QResizeEvent* event);

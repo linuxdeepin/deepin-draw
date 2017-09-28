@@ -339,6 +339,8 @@ void TopToolbar::initStackWidget()
 
     connect(this, &TopToolbar::canvasSizeChanged, m_adjustsizeWidget,
             &AdjustsizeWidget::setCanvasSize);
+    connect(this, &TopToolbar::adjustArtBoardSize, m_adjustsizeWidget,
+            &AdjustsizeWidget::updateCanvasSize);
 
     m_stackWidget->setCurrentWidget(m_emptyWidget);
 }

@@ -49,8 +49,18 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
 
 void AdjustsizeWidget::setCanvasSize(int width, int height)
 {
+    m_artBoardWidth = width;
+    m_artBoardHeight = height;
+
     m_widthLEdit->setText(QString("%1").arg(width));
     m_heightLEdit->setText(QString("%1").arg(height));
+}
+
+void AdjustsizeWidget::updateCanvasSize(int addX, int addY)
+{
+    m_artBoardWidth += addX;
+    m_artBoardHeight += addY;
+    setCanvasSize(m_artBoardWidth, m_artBoardHeight);
 }
 
 AdjustsizeWidget::~AdjustsizeWidget()

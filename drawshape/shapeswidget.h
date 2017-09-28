@@ -44,6 +44,7 @@ signals:
     void finishedDrawCut();
     void cutImage(QRect cutRect);
     void updateMiddleWidgets(QString type);
+    void adjustArtBoardSize(int addX, int addY);
 
 public:
     void initAttribute();
