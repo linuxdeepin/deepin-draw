@@ -40,7 +40,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     m_emptyBgPixmap = QPixmap(this->size());
     m_emptyBgPixmap.fill(Qt::transparent);
 
-    connect(this, &ShapesWidget::finishedDrawCut, this, &ShapesWidget::showCutImageTips);
+    connect(this, &ShapesWidget::finishedDrawCut,
+                    this, &ShapesWidget::showCutImageTips);
 //    connect(m_menuController, &MenuController::shapePressed,
 //                   this, &ShapesWidget::shapePressed);
 //    connect(m_menuController, &MenuController::saveBtnPressed,
@@ -49,7 +50,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 //            this, &ShapesWidget::undoDrawShapes);
 //    connect(m_menuController, &MenuController::menuNoFocus,
 //            this, &ShapesWidget::menuNoFocus);
-
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
             this, &ShapesWidget::updateSelectedShape);
     connect(Importer::instance(), &Importer::importedFiles,
@@ -76,6 +76,9 @@ void ShapesWidget::initAttribute()
     m_selectedOrder = -1;
 
     m_startPos = QPointF(0, 0);
+
+    m_canvasContentWidth = width();
+    m_canvasContentHeight = height();
 
     m_penColor = QColor(ConfigSettings::instance()->value(
         "common", "strokeColor").toString());
@@ -1043,6 +1046,86 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos)
     return false;
 }
 
+void ShapesWidget::scaledRect(Toolshape shape)
+{
+    QList<QList<qreal>> portionList;
+    FourPoints originFPoints;
+    originFPoints[0] = QPointF(0, 0);
+    originFPoints[1] = QPointF(0, height());
+    originFPoints[2] = QPointF(width(), 0);
+    originFPoints[3] = QPointF(width(), height());
+
+    for(int i = 0; i < shape.mainPoints.length(); i++)
+    {
+         QList<qreal> portion = relativePosition(originFPoints, shape.mainPoints[i]);
+         portionList.append(portion);
+    }
+
+    FourPoints scaledFPoints;
+    scaledFPoints[0] = QPointF(0, 0);
+    scaledFPoints[1] = QPointF(0, m_canvasContentHeight);
+    scaledFPoints[2] = QPointF(m_canvasContentWidth, 0);
+    scaledFPoints[3] = QPointF(m_canvasContentWidth, m_canvasContentHeight);
+
+    for(int j = 0; j < shape.mainPoints.length(); j++)
+    {
+        shape.mainPoints[0] = getNewPosition(scaledFPoints, portionList[j]);
+    }
+}
+
+void ShapesWidget::scaledEllipse(Toolshape shape)
+{
+    scaledRect(shape);
+}
+
+void ShapesWidget::scaledLine(Toolshape shape)
+{
+    QList<QList<qreal>> portionList;
+    FourPoints originFPoints;
+    originFPoints[0] = QPointF(0, 0);
+    originFPoints[1] = QPointF(0, height());
+    originFPoints[2] = QPointF(width(), 0);
+    originFPoints[3] = QPointF(width(), height());
+
+    for(int i = 0; i < shape.points.length(); i++)
+    {
+        QList<qreal> portion = relativePosition(originFPoints, shape.points[i]);
+        portionList.append(portion);
+        //TODO: Calculate the portion...
+    }
+
+    FourPoints scaledFPoints;
+    scaledFPoints[0] = QPointF(0, 0);
+    scaledFPoints[1] = QPointF(0, m_canvasContentHeight);
+    scaledFPoints[2] = QPointF(m_canvasContentWidth, 0);
+    scaledFPoints[3] = QPointF(m_canvasContentWidth, m_canvasContentHeight);
+
+    for(int j = 0; j < shape.points.length(); j++)
+    {
+        shape.points[j] = getNewPosition(scaledFPoints, portionList[j]);
+    }
+}
+
+void ShapesWidget::scaledArbitraryCurve(Toolshape shape)
+{
+    scaledLine(shape);
+}
+
+void ShapesWidget::scaledArrow(Toolshape shape)
+{
+    scaledLine(shape);
+}
+void ShapesWidget::scaledText(Toolshape shape)
+{
+    //TODO:
+    Q_UNUSED(shape);
+}
+void ShapesWidget::scaledBlur(Toolshape shape)
+{
+    scaledLine(shape);
+}
+
+
 bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
 {
     QPointF rotatePoint = QPointF(
@@ -1565,12 +1648,12 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
         if (m_isPressed)
         {
-        qDebug() << "moving size:" << m_movingPoint.x() - m_pressedPoint.x()
-                                                       << m_movingPoint.y() - m_pressedPoint.y();
-        emit adjustArtBoardSize(
-                    m_movingPoint.x() - m_pressedPoint.x(),
-                    m_movingPoint.y() - m_pressedPoint.y()
-                    );
+            qDebug() << "moving size:" << m_movingPoint.x() - m_pressedPoint.x()
+                     << m_movingPoint.y() - m_pressedPoint.y();
+            emit adjustArtBoardSize(
+                        m_movingPoint.x() - m_pressedPoint.x(),
+                        m_movingPoint.y() - m_pressedPoint.y()
+                        );
         }
         return;
     } else

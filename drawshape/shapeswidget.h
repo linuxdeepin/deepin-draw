@@ -79,6 +79,14 @@ public:
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
+    void scaledRect(Toolshape shape);
+    void scaledEllipse(Toolshape shape);
+    void scaledLine(Toolshape shape);
+    void scaledArbitraryCurve(Toolshape shape);
+    void scaledArrow(Toolshape shape);
+    void scaledText(Toolshape shape);
+    void scaledBlur(Toolshape shape);
+
     QString  getCurrentType();
     void deleteCurrentShape();
     void setLineStyle(int index);
@@ -174,6 +182,9 @@ private:
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
     QTimer* m_updateTimer;
+
+    qreal m_canvasContentWidth;
+    qreal m_canvasContentHeight;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);

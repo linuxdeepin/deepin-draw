@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QDebug>
 
 #include "widgets/toolbutton.h"
 
@@ -16,6 +17,10 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(80);
 
+    connect(m_widthLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
+        qDebug() << "m_widthLEdit:" << text;
+    });
+
     m_widthLEdit->setStyleSheet("background-color: red;");
     QLabel* unitWLabel = new QLabel(this);
     unitWLabel->setText("px");
@@ -27,6 +32,11 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_heightLEdit = new QLineEdit(this);
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(80);
+
+    connect(m_heightLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
+        qDebug() << "m_heightLEdit:" << text;
+    });
+
     QLabel* unitHLabel = new QLabel(this);
     unitHLabel->setText("px");
 
