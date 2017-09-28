@@ -85,6 +85,9 @@ public:
     void loadImage(QStringList paths);
     void compressToImage();
 
+    QRect effectiveRect();
+    QRect rightBottomRect();
+
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);
     void setCurrentShape(QString shapeType);
@@ -151,6 +154,7 @@ private:
     bool m_clearAllTextBorder = false;
     bool m_imageCutting = false;
     bool m_rotateImage = false;
+    bool m_inBtmRight = false;
 
     QColor m_penColor;
     QColor m_brushColor;

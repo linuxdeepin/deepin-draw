@@ -18,10 +18,6 @@ public:
     CanvasWidget(QWidget* parent = 0);
     ~CanvasWidget();
 
-    void setImage(QString filename);
-    bool overWindowSize();
-    QSize fitWindowScaledSize(QSize windowSize, QSize imgSize);
-
 signals:
     void drawShapeChanged(QString shape);
     void fillShapeSelectedActive(bool selected);

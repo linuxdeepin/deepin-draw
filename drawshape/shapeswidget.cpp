@@ -58,6 +58,9 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 
 void ShapesWidget::initAttribute()
 {
+    setObjectName("Canvas");
+    setStyleSheet("QFrame#Canvas { margin: 25px;"
+                  "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -420,7 +423,7 @@ bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
 
         return true;
     } else if (rotateOnImagePoint(rectPoints, pos)) {
-        qDebug() << "xxx rotateOnPoint";
+        qDebug() << "rotateOnPoint!";
         m_isSelected = true;
         m_isRotated = true;
         m_isResize = false;
@@ -530,7 +533,6 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
         m_pressedPoint = pos;
         return true;
     } else if (rotateOnPoint(rectPoints, pos)) {
-        qDebug() << "xxx rotateOnPoint";
         m_isSelected = true;
         m_isRotated = true;
         m_isResize = false;
@@ -817,7 +819,6 @@ bool ShapesWidget::hoverOnImage(FourPoints rectPoints, QPointF pos)
         return true;
     } else if (rotateOnImagePoint(rectPoints, pos) && m_selectedOrder != -1
                && m_selectedIndex == m_hoveredIndex) {
-        qDebug() << "m_resizeDirection rotate*";
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -862,7 +863,6 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
         return true;
     } else if (rotateOnPoint(rectPoints, pos) && m_selectedOrder != -1
                && m_selectedIndex == m_hoveredIndex && !isTextBorder) {
-        qDebug() << "m_resizeDirection rotate*";
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -1346,6 +1346,12 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
     m_cutShape.type = "";
 
+    if (m_inBtmRight)
+    {
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+//        return;
+    }
+
     if (m_selectedOrder != -1)
     {
         if ((!clickedOnShapes(e->pos()) && m_isRotated) && m_selectedOrder == -1)
@@ -1541,13 +1547,26 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
         emit finishedDrawCut();
     }
 
-    qDebug() << "mouseReleaseEvent hhhhhh:" << m_shapes.length();
+    qDebug() << "mouseReleaseEvent:" << m_shapes.length();
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 {
     m_isMoving = true;
     m_movingPoint = e->pos();
+
+    QRect btmRightRect = rightBottomRect();
+    if (btmRightRect.contains(e->pos()))
+    {
+        m_inBtmRight = true;
+        m_resizeDirection = Right;
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        return;
+    } else
+    {
+        m_inBtmRight = false;
+        m_resizeDirection = Moving;
+    }
 
     if (m_isRecording && m_isPressed)
     {
@@ -2441,6 +2460,26 @@ void ShapesWidget::compressToImage()
         }
     }
     m_bgContainShapeNum = m_shapes.length();
+}
+
+QRect ShapesWidget::effectiveRect()
+{
+    const int MARGIN = 25;
+    return QRect(x() - MARGIN, y() - MARGIN, width() - 2*MARGIN, height() - 2*MARGIN);
+}
+
+QRect ShapesWidget::rightBottomRect()
+{
+    QPoint rightBtnPos = this->rect().bottomRight();
+    const int MARGIN = 25;
+    const int SPACING = 20;
+
+    QPoint orginPos = QPoint(rightBtnPos.x() - MARGIN, rightBtnPos.y() - MARGIN);
+
+    return QRect(
+                orginPos.x() - SPACING, orginPos.y() - SPACING,
+                SPACING*2, SPACING*2
+                );
 }
 
 void ShapesWidget::microAdjust(QString direction)

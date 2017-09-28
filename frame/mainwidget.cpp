@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <QDebug>
 
-const int MARGIN = 25;
+const int MARGIN = /*25*/3;
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
