@@ -1428,6 +1428,18 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
     m_cutShape.type = "";
+    m_isPressed = true;
+    m_pressedPoint = e->pos();
+    m_pos1 = e->pos();
+
+    QRect btmRightRect = rightBottomRect();
+    if (btmRightRect.contains(e->pos()))
+    {
+        m_inBtmRight = true;
+        m_resizeDirection = Right;
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        return;
+    }
 
     if (m_selectedOrder != -1)
     {
@@ -1443,9 +1455,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             return;
         }
     }
-
-    m_pressedPoint = e->pos();
-    m_isPressed = true;
 
     if (m_inBtmRight)
     {
@@ -1560,6 +1569,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_isPressed = false;
     m_isMoving = false;
 
+    m_inBtmRight = false;
+
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0))
     {
         if (m_currentType == "arrow" || m_currentType == "straightLine")
@@ -1624,7 +1635,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_currentShape.points.clear();
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
-
+    m_pressedPoint = QPoint(0, 0);
+//    m_movingPoint = QPoint(0, 0)
 //    update();
     if (m_currentShape.type == "cutImage")
     {
@@ -1642,24 +1654,20 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     QRect btmRightRect = rightBottomRect();
     if (btmRightRect.contains(e->pos()))
     {
-        m_inBtmRight = true;
         m_resizeDirection = Right;
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        m_stickCurosr = true;
 
-        if (m_isPressed)
-        {
-            qDebug() << "moving size:" << m_movingPoint.x() - m_pressedPoint.x()
-                     << m_movingPoint.y() - m_pressedPoint.y();
-            emit adjustArtBoardSize(
-                        m_movingPoint.x() - m_pressedPoint.x(),
-                        m_movingPoint.y() - m_pressedPoint.y()
-                        );
-        }
-        return;
-    } else
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+    }
+
+    if (m_inBtmRight && m_isPressed)
     {
-        m_inBtmRight = false;
-        m_resizeDirection = Moving;
+        m_pos2 = e->pos();
+
+        emit adjustArtBoardSize(
+                    m_pos2.x() - m_pos1.x(),
+                    m_pos2.y() - m_pos1.y()
+                    );
     }
 
     if (m_isRecording && m_isPressed)
@@ -2734,6 +2742,8 @@ void ShapesWidget::updateCursorDirection(ResizeDirection direction)
 
 void ShapesWidget::updateCursorShape()
 {
+    if (m_stickCurosr)
+        return;
     qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 

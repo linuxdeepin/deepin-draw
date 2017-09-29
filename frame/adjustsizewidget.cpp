@@ -70,7 +70,7 @@ void AdjustsizeWidget::updateCanvasSize(int addX, int addY)
 {
     m_artBoardWidth += addX;
     m_artBoardHeight += addY;
-    setCanvasSize(m_artBoardWidth, m_artBoardHeight);
+    setCanvasSize(std::max(m_artBoardWidth, 100), std::max(m_artBoardHeight, 100));
 }
 
 AdjustsizeWidget::~AdjustsizeWidget()

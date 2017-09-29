@@ -157,6 +157,7 @@ private:
 
     QString m_imageSavePath = "";
     bool m_scaledImage = false;
+    bool m_stickCurosr = false;
 
     int m_shapesIndex;
     int m_selectedIndex;
