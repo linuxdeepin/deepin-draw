@@ -1050,10 +1050,10 @@ void ShapesWidget::scaledRect(Toolshape shape)
 {
     QList<QList<qreal>> portionList;
     FourPoints originFPoints;
-    originFPoints[0] = QPointF(0, 0);
-    originFPoints[1] = QPointF(0, height());
-    originFPoints[2] = QPointF(width(), 0);
-    originFPoints[3] = QPointF(width(), height());
+    originFPoints.append(QPointF(0, 0));
+    originFPoints.append(QPointF(0, height()));
+    originFPoints.append(QPointF(width(), 0));
+    originFPoints.append(QPointF(width(), height()));
 
     for(int i = 0; i < shape.mainPoints.length(); i++)
     {
@@ -1062,10 +1062,10 @@ void ShapesWidget::scaledRect(Toolshape shape)
     }
 
     FourPoints scaledFPoints;
-    scaledFPoints[0] = QPointF(0, 0);
-    scaledFPoints[1] = QPointF(0, m_canvasContentHeight);
-    scaledFPoints[2] = QPointF(m_canvasContentWidth, 0);
-    scaledFPoints[3] = QPointF(m_canvasContentWidth, m_canvasContentHeight);
+    scaledFPoints.append(QPointF(0, 0));
+    scaledFPoints.append(QPointF(0, m_canvasContentHeight));
+    scaledFPoints.append(QPointF(m_canvasContentWidth, 0));
+    scaledFPoints.append(QPointF(m_canvasContentWidth, m_canvasContentHeight));
 
     for(int j = 0; j < shape.mainPoints.length(); j++)
     {
@@ -2320,6 +2320,38 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
     qDebug() << "paintShape:" << m_shapes.length();
 }
 
+void ShapesWidget::paintScaledShapes()
+{
+    m_backgroundPixmap = QPixmap(m_canvasContentWidth, m_canvasContentHeight);
+    m_backgroundPixmap.fill(Qt::white);
+
+    QPainter historyPainter(&m_backgroundPixmap);
+    for (int k = 0; k < m_shapes.length(); k++)
+    {
+        if (m_shapes[k].type == "rectangle")
+        {
+            scaledRect(m_shapes[k]);
+        } else if (m_shapes[k].type == "oval")
+        {
+            scaledEllipse(m_shapes[k]);
+        }
+//    else if (m_shapes[k].type == "image")
+//        {
+//            scaledImage(m_shapes[k]);
+//        } else if (m_shapes[k].type == "arrow")
+//        {
+//            scaledArrow(m_shapes[k]);
+//        } else if (m_shapes[k].type == "arbitraryCurve")
+//        {
+//            scaledLine(m_shapes[k]);
+//        }
+
+        paintShape(historyPainter, m_shapes[k]);
+    }
+
+    m_backgroundPixmap.save(m_imageSavePath);
+}
+
 void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
 {
     painter.setBrush(QBrush(Qt::transparent));
@@ -2578,7 +2610,12 @@ QRect ShapesWidget::rightBottomRect()
 
 void ShapesWidget::saveImage(const QString &path)
 {
-    Q_UNUSED(path);
+    qDebug() << "~~~~~~~~~" << path;
+    m_canvasContentWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    m_canvasContentHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+    m_imageSavePath = path;
+    paintScaledShapes();
 }
 
 void ShapesWidget::microAdjust(QString direction)

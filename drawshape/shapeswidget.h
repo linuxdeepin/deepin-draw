@@ -155,6 +155,9 @@ private:
     ClickedKey m_clickedKey;
     QString m_currentType = "rectangle";
 
+    QString m_imageSavePath = "";
+    bool m_scaledImage = false;
+
     int m_shapesIndex;
     int m_selectedIndex;
     int m_currentIndex;
@@ -189,6 +192,7 @@ private:
     qreal m_canvasContentHeight;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
+    void paintScaledShapes();
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
     void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
