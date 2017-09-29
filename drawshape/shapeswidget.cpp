@@ -1082,10 +1082,10 @@ void ShapesWidget::scaledLine(Toolshape shape)
 {
     QList<QList<qreal>> portionList;
     FourPoints originFPoints;
-    originFPoints[0] = QPointF(0, 0);
-    originFPoints[1] = QPointF(0, height());
-    originFPoints[2] = QPointF(width(), 0);
-    originFPoints[3] = QPointF(width(), height());
+    originFPoints.append(QPointF(0, 0));
+    originFPoints.append(QPointF(0, height()));
+    originFPoints.append(QPointF(width(), 0));
+    originFPoints.append(QPointF(width(), height()));
 
     for(int i = 0; i < shape.points.length(); i++)
     {
@@ -1095,10 +1095,10 @@ void ShapesWidget::scaledLine(Toolshape shape)
     }
 
     FourPoints scaledFPoints;
-    scaledFPoints[0] = QPointF(0, 0);
-    scaledFPoints[1] = QPointF(0, m_canvasContentHeight);
-    scaledFPoints[2] = QPointF(m_canvasContentWidth, 0);
-    scaledFPoints[3] = QPointF(m_canvasContentWidth, m_canvasContentHeight);
+    scaledFPoints.append(QPointF(0, 0));
+    scaledFPoints.append(QPointF(0, m_canvasContentHeight));
+    scaledFPoints.append(QPointF(m_canvasContentWidth, 0));
+    scaledFPoints.append(QPointF(m_canvasContentWidth, m_canvasContentHeight));
 
     for(int j = 0; j < shape.points.length(); j++)
     {
