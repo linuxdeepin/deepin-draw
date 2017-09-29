@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::mirroredImage,
             m_mainWidget, &MainWidget::mirroredImage);
 
-    connect(m_topToolbar, &TopToolbar::saveImage,
-            m_mainWidget, &MainWidget::saveImage);
+    connect(m_topToolbar, &TopToolbar::saveImageAction,
+            m_mainWidget, &MainWidget::saveImageAction);
 
     connect(m_mainWidget, &MainWidget::updateMiddleWidget,
             m_topToolbar, &TopToolbar::updateMiddleWidget);

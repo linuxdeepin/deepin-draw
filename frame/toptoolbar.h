@@ -47,8 +47,8 @@ signals:
     void drawShapeChanged(QString shape);
     void rotateImage(int degree);
     void mirroredImage(bool horizonta, bool vertical);
-    void cutImage();
-    void saveImage(const QString &path);
+    void cutImageAction();
+    void saveImageAction(const QString &path);
     void updatePicTooltip(bool import);
     void fillShapeSelectedActive(bool selected);
     void canvasSizeChanged(int width, int height);

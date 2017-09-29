@@ -60,7 +60,7 @@ void ShapesWidget::initAttribute()
 {
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { margin: 25px;"
-                  "border: 2px solid grey;}");
+                              "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -2574,6 +2574,11 @@ QRect ShapesWidget::rightBottomRect()
                 orginPos.x() - SPACING, orginPos.y() - SPACING,
                 SPACING*2, SPACING*2
                 );
+}
+
+void ShapesWidget::saveImage(const QString &path)
+{
+    Q_UNUSED(path);
 }
 
 void ShapesWidget::microAdjust(QString direction)

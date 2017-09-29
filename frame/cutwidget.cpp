@@ -93,5 +93,4 @@ void CutWidget::updateBtns(const QString &path)
 
 CutWidget::~CutWidget()
 {
-
 }

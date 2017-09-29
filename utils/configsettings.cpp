@@ -3,6 +3,8 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QTemporaryFile>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QDebug>
 
 const QString CONFIG_PATH = QDir::homePath() +
@@ -12,9 +14,12 @@ ConfigSettings::ConfigSettings(QObject *parent)
     : QObject(parent)
 {
     m_settings = new  QSettings("deepin","/deepin-draw/config", this);
+    QSize canvasSize = qApp->desktop()->size();
 
     if (!QFileInfo(CONFIG_PATH).exists())
     {
+        setValue("artboard", "width", canvasSize.width());
+        setValue("artboard", "height", canvasSize.height());
         setValue("common", "strokeColor", "#f6f96d");
         setValue ("common", "fillColor",  "#6bc989");
         setValue("common", "lineWidth", 2);

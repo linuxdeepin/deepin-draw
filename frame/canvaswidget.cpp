@@ -29,8 +29,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     connect(this, &CanvasWidget::mirroredImage,
             m_shapesWidget, &ShapesWidget::mirroredImage);
 
-//    connect(this, &CanvasWidget::saveImage,
-//            m_view, &ImageView::saveImage);
+    connect(this, &CanvasWidget::saveImageAction,
+            m_shapesWidget, &ShapesWidget::saveImage);
 
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &CanvasWidget::updateMiddleWidget);

@@ -97,6 +97,8 @@ public:
     QRect effectiveRect();
     QRect rightBottomRect();
 
+    void saveImage(const QString &path);
+
 public slots:
     void updateSelectedShape(const QString &group, const QString &key);
     void setCurrentShape(QString shapeType);

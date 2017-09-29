@@ -389,7 +389,7 @@ void TopToolbar::showSaveDialog()
     sd->showInCenter(window());
 
 
-    connect(sd, &SaveDialog::saveToPath, this, &TopToolbar::saveImage);
+    connect(sd, &SaveDialog::saveToPath, this, &TopToolbar::saveImageAction);
 }
 
 void TopToolbar::updateMiddleWidget(QString type)
