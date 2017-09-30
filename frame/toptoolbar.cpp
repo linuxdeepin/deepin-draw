@@ -32,7 +32,6 @@ DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent)
-    , m_imageExist(false)
 {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
@@ -117,24 +116,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         picBtn->setChecked(true);
-        if (picBtn->toolTip() == tr("Import"))
-        {
-            importImage();
-        } else
-        {
-            setMiddleStackWidget(Status::Cut);
-            drawShapes("image");
-        }
-    });
-
-    connect(this, &TopToolbar::updatePicTooltip, this, [=](bool import){
-        if (import)
-        {
-            picBtn->setToolTip(tr("Import"));
-        } else
-        {
-            picBtn->setToolTip(tr("Picture"));
-        }
+        importImage();
     });
 
     connect(this, &TopToolbar::drawShapeChanged,
@@ -226,8 +208,6 @@ TopToolbar::TopToolbar(QWidget* parent)
 
 void TopToolbar::importImage()
 {
-    drawShapes("image");
-    setMiddleStackWidget(Status::Cut);
     QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
@@ -254,11 +234,6 @@ void TopToolbar::importImage()
     if (m_paths.length() > 0)
     {
         emit Importer::instance()->importedFiles(m_paths);
-        if (!m_imageExist)
-        {
-            m_imageExist = true;
-            emit updatePicTooltip(false);
-        }
     }
 }
 
