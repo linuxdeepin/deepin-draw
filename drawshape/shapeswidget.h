@@ -80,13 +80,15 @@ public:
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
-    void scaledRect(Toolshape shape);
-    void scaledEllipse(Toolshape shape);
-    void scaledLine(Toolshape shape);
-    void scaledArbitraryCurve(Toolshape shape);
-    void scaledArrow(Toolshape shape);
-    void scaledText(Toolshape shape);
-    void scaledBlur(Toolshape shape);
+    void scaledShapes(QRect originRect, QRect scaledRect);
+    QPointF scaledPoint(QRect originRect, QRect scaledRect, QPointF originPos);
+    void scaledRectangle(int index, QRect originRect, QRect scaledRect);
+    void scaledEllipse(int index, QRect originRect, QRect scaledRect);
+    void scaledLine(int index, QRect originRect, QRect scaledRect);
+    void scaledArbitraryCurve(int index, QRect originRect, QRect scaledRect);
+    void scaledArrow(int index, QRect originRect, QRect scaledRect);
+    void scaledText(int index, QRect originRect, QRect scaledRect);
+    void scaledBlur(int index, QRect originRect, QRect scaledRect);
 
     QString  getCurrentType();
     void deleteCurrentShape();
@@ -195,7 +197,7 @@ private:
     qreal m_artBoardHeight;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
-    void paintScaledShapes();
+
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
     void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);

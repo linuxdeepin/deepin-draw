@@ -1058,85 +1058,71 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos)
     return false;
 }
 
-void ShapesWidget::scaledRect(Toolshape shape)
+QPointF ShapesWidget::scaledPoint(QRect originRect, QRect scaledRect, QPointF originPos)
 {
-    QList<QList<qreal>> portionList;
+    QList<qreal> portionList;
     FourPoints originFPoints;
-    originFPoints.append(QPointF(0, 0));
-    originFPoints.append(QPointF(0, height()));
-    originFPoints.append(QPointF(width(), 0));
-    originFPoints.append(QPointF(width(), height()));
+    originFPoints.append(QPointF(originRect.x(), originRect.y()));
+    originFPoints.append(QPointF(originRect.x(), originRect.y() + originRect.height()));
+    originFPoints.append(QPointF(originRect.x() + originRect.width(), originRect.y()));
+    originFPoints.append(QPointF(originRect.x() + originRect.width(), originRect.y() + originRect.height()));
 
-    for(int i = 0; i < shape.mainPoints.length(); i++)
-    {
-         QList<qreal> portion = relativePosition(originFPoints, shape.mainPoints[i]);
-         portionList.append(portion);
-    }
+    portionList = relativePosition(originFPoints, originPos);
 
     FourPoints scaledFPoints;
-    scaledFPoints.append(QPointF(0, 0));
-    scaledFPoints.append(QPointF(0, m_artBoardHeight));
-    scaledFPoints.append(QPointF(m_artBoardWidth, 0));
-    scaledFPoints.append(QPointF(m_artBoardWidth, m_artBoardHeight));
+    scaledFPoints.append(QPointF(scaledRect.x(), scaledRect.y()));
+    scaledFPoints.append(QPointF(scaledRect.x(), scaledRect.y() + scaledRect.height()));
+    scaledFPoints.append(QPointF(scaledRect.x() + scaledRect.width(), scaledRect.y()));
+    scaledFPoints.append(QPointF(scaledRect.x() + scaledRect.width(), scaledRect.y() + originRect.height()));
 
-    for(int j = 0; j < shape.mainPoints.length(); j++)
+    QPointF resultPos = getNewPosition(scaledFPoints, portionList);
+
+    return resultPos;
+}
+
+void ShapesWidget::scaledRectangle(int index, QRect originRect, QRect scaledRect)
+{
+    for(int i = 0; i < m_shapes[index].mainPoints.length(); i++)
     {
-        shape.mainPoints[0] = getNewPosition(scaledFPoints, portionList[j]);
+        qDebug() << "Before scaled:" << i << m_shapes[index].mainPoints[i];
+        m_shapes[index].mainPoints[i] = scaledPoint(originRect, scaledRect, m_shapes[index].mainPoints[i]);
+        qDebug() << "After scaled:" << i << m_shapes[index].mainPoints[i];
     }
 }
 
-void ShapesWidget::scaledEllipse(Toolshape shape)
+void ShapesWidget::scaledEllipse(int index, QRect originRect, QRect scaledRect)
 {
-    scaledRect(shape);
+    scaledRectangle(index, originRect, scaledRect);
 }
 
-void ShapesWidget::scaledLine(Toolshape shape)
+void ShapesWidget::scaledLine(int index, QRect originRect, QRect scaledRect)
 {
-    QList<QList<qreal>> portionList;
-    FourPoints originFPoints;
-    originFPoints.append(QPointF(0, 0));
-    originFPoints.append(QPointF(0, height()));
-    originFPoints.append(QPointF(width(), 0));
-    originFPoints.append(QPointF(width(), height()));
-
-    for(int i = 0; i < shape.points.length(); i++)
+    for(int j = 0; j < m_shapes[index].points.length(); j++)
     {
-        QList<qreal> portion = relativePosition(originFPoints, shape.points[i]);
-        portionList.append(portion);
-        //TODO: Calculate the portion...
-    }
-
-    FourPoints scaledFPoints;
-    scaledFPoints.append(QPointF(0, 0));
-    scaledFPoints.append(QPointF(0, m_artBoardHeight));
-    scaledFPoints.append(QPointF(m_artBoardWidth, 0));
-    scaledFPoints.append(QPointF(m_artBoardWidth, m_artBoardHeight));
-
-    for(int j = 0; j < shape.points.length(); j++)
-    {
-        shape.points[j] = getNewPosition(scaledFPoints, portionList[j]);
+        m_shapes[index].points[j] = scaledPoint(originRect, scaledRect, m_shapes[index].points[j]);
     }
 }
 
-void ShapesWidget::scaledArbitraryCurve(Toolshape shape)
+void ShapesWidget::scaledArbitraryCurve(int index, QRect originRect, QRect scaledRect)
 {
-    scaledLine(shape);
+    scaledLine(index, originRect, scaledRect);
 }
 
-void ShapesWidget::scaledArrow(Toolshape shape)
+void ShapesWidget::scaledArrow(int index, QRect originRect, QRect scaledRect)
 {
-    scaledLine(shape);
+    scaledLine(index, originRect, scaledRect);
 }
-void ShapesWidget::scaledText(Toolshape shape)
+
+void ShapesWidget::scaledText(int index, QRect originRect, QRect scaledRect)
 {
     //TODO:
-    Q_UNUSED(shape);
-}
-void ShapesWidget::scaledBlur(Toolshape shape)
-{
-    scaledLine(shape);
+    Q_UNUSED(index);
 }
 
+void ShapesWidget::scaledBlur(int index, QRect originRect, QRect scaledRect)
+{
+    scaledLine(index, originRect, scaledRect);
+}
 
 bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
 {
@@ -1146,6 +1132,7 @@ bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
                 );
 
     bool result = false;
+
     if (pos.x() >= rotatePoint.x() - SPACING && pos.x() <= rotatePoint.x()
             + SPACING && pos.y() >= rotatePoint.y() - SPACING && pos.y() <=
             rotatePoint.y() + SPACING)
@@ -1156,6 +1143,7 @@ bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
     }
 
     m_pressedPoint = rotatePoint;
+
     return result;
 }
 
@@ -1648,8 +1636,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
     m_pressedPoint = QPoint(0, 0);
-//    m_movingPoint = QPoint(0, 0)
-//    update();
+
     if (m_currentShape.type == "cutImage")
     {
         emit finishedDrawCut();
@@ -1676,10 +1663,15 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     {
         m_pos2 = e->pos();
 
-        qDebug() << "+_+_+:" << m_artBoardWidth << m_artBoardHeight;
-        int tmpWidth = std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x())));
-        int tmpHeight = std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y())));
-        emit adjustArtBoardSize(QSize(tmpWidth, tmpHeight));
+        QRect originRect = QRect(0, 0,  m_artBoardWidth, m_artBoardHeight);
+        QRect scaledRect = QRect(0, 0, std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x()))),
+                                                                 std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y()))));
+
+        qDebug() << "XXoriginRect :" << originRect << scaledRect;
+        scaledShapes(scaledRect, originRect);
+        m_artBoardWidth = std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x())));
+        m_artBoardHeight = std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y())));
+        emit adjustArtBoardSize(QSize(m_artBoardWidth, m_artBoardHeight));
     }
 
     if (m_isRecording && m_isPressed)
@@ -2215,8 +2207,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
             for(int i= 0; i < m_shapes.length(); i++)
             {
-                qDebug() << "paintShape ssss: " << m_shapes[i].type
-                                  << m_shapes[i].imagePath << m_selectedOrder;
+                qDebug() << "paintShape ssss: " << m_shapes[i].mainPoints;
 
                 paintShape(painter, m_shapes[i]);
             }
@@ -2228,7 +2219,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         }
     }
 
-    if (m_pos1 != QPointF(0, 0) || m_currentShape.type == "text")
+    if (!m_inBtmRight && (m_pos1 != QPointF(0, 0) || m_currentShape.type == "text"))
     {
         Toolshape drawShape;
         drawShape = m_currentShape;
@@ -2340,24 +2331,18 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
     qDebug() << "paintShape:" << m_shapes.length();
 }
 
-void ShapesWidget::paintScaledShapes()
+void ShapesWidget::scaledShapes(QRect originRect, QRect scaledRect)
 {
-    m_backgroundPixmap = QPixmap(m_artBoardWidth, m_artBoardHeight);
-    m_backgroundPixmap.fill(Qt::white);
-
-    qDebug() << "m_artBoardWidth:"
-                      << m_artBoardWidth
-                      << m_artBoardHeight;
-
-    QPainter historyPainter(&m_backgroundPixmap);
     for (int k = 0; k < m_shapes.length(); k++)
     {
         if (m_shapes[k].type == "rectangle")
         {
-            scaledRect(m_shapes[k]);
+            qDebug() << "tttttBefore:" << m_shapes[k].mainPoints;
+            scaledRectangle(k, originRect, scaledRect);
+            qDebug() << "After:" << m_shapes[k].mainPoints;
         } else if (m_shapes[k].type == "oval")
         {
-            scaledEllipse(m_shapes[k]);
+            scaledEllipse(k, originRect, scaledRect);
         }
 //    else if (m_shapes[k].type == "image")
 //        {
@@ -2370,10 +2355,10 @@ void ShapesWidget::paintScaledShapes()
 //            scaledLine(m_shapes[k]);
 //        }
 
-        paintShape(historyPainter, m_shapes[k]);
+//        paintShape(historyPainter, m_shapes[k]);
     }
 
-    m_backgroundPixmap.save(m_imageSavePath);
+    update();
 }
 
 void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
@@ -2637,10 +2622,8 @@ void ShapesWidget::saveImage(const QString &path)
     qDebug() << "~~~~~~~~~" << path;
 
     m_imageSavePath = path;
-    paintScaledShapes();
+//    paintScaledShapes();
 }
-
-
 
 void ShapesWidget::microAdjust(QString direction)
 {
