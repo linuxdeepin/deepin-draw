@@ -1,6 +1,7 @@
 #include "shapeswidget.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
@@ -76,9 +77,7 @@ void ShapesWidget::initAttribute()
     m_selectedOrder = -1;
 
     m_startPos = QPointF(0, 0);
-
-    m_canvasContentWidth = width();
-    m_canvasContentHeight = height();
+    initCanvasSize();
 
     m_penColor = QColor(ConfigSettings::instance()->value(
         "common", "strokeColor").toString());
@@ -92,6 +91,19 @@ void ShapesWidget::initAttribute()
 
     m_linewidth = ConfigSettings::instance()->value(
         "common", "lineWidth").toInt();
+}
+
+void ShapesWidget::initCanvasSize()
+{
+    m_artBoardWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    m_artBoardHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+    if (m_artBoardWidth == 0|| m_artBoardHeight == 0)
+    {
+        QSize desktopSize = qApp->desktop()->size();
+        m_artBoardWidth = desktopSize.width();
+        m_artBoardHeight = desktopSize.height();
+    }
 }
 
 ShapesWidget::~ShapesWidget()
@@ -1063,9 +1075,9 @@ void ShapesWidget::scaledRect(Toolshape shape)
 
     FourPoints scaledFPoints;
     scaledFPoints.append(QPointF(0, 0));
-    scaledFPoints.append(QPointF(0, m_canvasContentHeight));
-    scaledFPoints.append(QPointF(m_canvasContentWidth, 0));
-    scaledFPoints.append(QPointF(m_canvasContentWidth, m_canvasContentHeight));
+    scaledFPoints.append(QPointF(0, m_artBoardHeight));
+    scaledFPoints.append(QPointF(m_artBoardWidth, 0));
+    scaledFPoints.append(QPointF(m_artBoardWidth, m_artBoardHeight));
 
     for(int j = 0; j < shape.mainPoints.length(); j++)
     {
@@ -1096,9 +1108,9 @@ void ShapesWidget::scaledLine(Toolshape shape)
 
     FourPoints scaledFPoints;
     scaledFPoints.append(QPointF(0, 0));
-    scaledFPoints.append(QPointF(0, m_canvasContentHeight));
-    scaledFPoints.append(QPointF(m_canvasContentWidth, 0));
-    scaledFPoints.append(QPointF(m_canvasContentWidth, m_canvasContentHeight));
+    scaledFPoints.append(QPointF(0, m_artBoardHeight));
+    scaledFPoints.append(QPointF(m_artBoardWidth, 0));
+    scaledFPoints.append(QPointF(m_artBoardWidth, m_artBoardHeight));
 
     for(int j = 0; j < shape.points.length(); j++)
     {
@@ -1664,10 +1676,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     {
         m_pos2 = e->pos();
 
-        emit adjustArtBoardSize(
-                    m_pos2.x() - m_pos1.x(),
-                    m_pos2.y() - m_pos1.y()
-                    );
+        qDebug() << "+_+_+:" << m_artBoardWidth << m_artBoardHeight;
+        int tmpWidth = std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x())));
+        int tmpHeight = std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y())));
+        emit adjustArtBoardSize(QSize(tmpWidth, tmpHeight));
     }
 
     if (m_isRecording && m_isPressed)
@@ -2330,8 +2342,12 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 
 void ShapesWidget::paintScaledShapes()
 {
-    m_backgroundPixmap = QPixmap(m_canvasContentWidth, m_canvasContentHeight);
+    m_backgroundPixmap = QPixmap(m_artBoardWidth, m_artBoardHeight);
     m_backgroundPixmap.fill(Qt::white);
+
+    qDebug() << "m_artBoardWidth:"
+                      << m_artBoardWidth
+                      << m_artBoardHeight;
 
     QPainter historyPainter(&m_backgroundPixmap);
     for (int k = 0; k < m_shapes.length(); k++)
@@ -2619,12 +2635,12 @@ QRect ShapesWidget::rightBottomRect()
 void ShapesWidget::saveImage(const QString &path)
 {
     qDebug() << "~~~~~~~~~" << path;
-    m_canvasContentWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    m_canvasContentHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 
     m_imageSavePath = path;
     paintScaledShapes();
 }
+
+
 
 void ShapesWidget::microAdjust(QString direction)
 {

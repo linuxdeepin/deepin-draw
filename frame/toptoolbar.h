@@ -51,8 +51,7 @@ signals:
     void saveImageAction(const QString &path);
     void updatePicTooltip(bool import);
     void fillShapeSelectedActive(bool selected);
-    void canvasSizeChanged(int width, int height);
-    void adjustArtBoardSize(int addX, int addY);
+    void adjustArtBoardSize(QSize size);
 
 public:
     void showDrawDialog();

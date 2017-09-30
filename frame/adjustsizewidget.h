@@ -11,8 +11,8 @@ public:
     AdjustsizeWidget(QWidget* parent = 0);
     ~AdjustsizeWidget();
 
-    void setCanvasSize(int width, int height);
-    void updateCanvasSize(int addX, int addY);
+    void setCanvasSize(QSize size);
+    void updateCanvasSize(QSize size);
 
 private:
     QLineEdit* m_widthLEdit;

@@ -1,10 +1,13 @@
 #include "adjustsizewidget.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QDebug>
 
 #include "widgets/toolbutton.h"
+#include "utils/configsettings.h"
 
 AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     : QWidget(parent)
@@ -33,6 +36,18 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(80);
 
+
+    int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+    if (canvasWidth == 0|| canvasHeight == 0)
+    {
+        QSize desktopSize = qApp->desktop()->size();
+        canvasWidth = desktopSize.width();
+        canvasHeight = desktopSize.height();
+    }
+    setCanvasSize(QSize(canvasWidth, canvasHeight));
+
     connect(m_heightLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
         qDebug() << "m_heightLEdit:" << text;
     });
@@ -57,20 +72,15 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     setLayout(layout);
 }
 
-void AdjustsizeWidget::setCanvasSize(int width, int height)
+void AdjustsizeWidget::setCanvasSize(QSize size)
 {
-    m_artBoardWidth = width;
-    m_artBoardHeight = height;
-
-    m_widthLEdit->setText(QString("%1").arg(width));
-    m_heightLEdit->setText(QString("%1").arg(height));
+    m_widthLEdit->setText(QString("%1").arg(size.width()));
+    m_heightLEdit->setText(QString("%1").arg(size.height()));
 }
 
-void AdjustsizeWidget::updateCanvasSize(int addX, int addY)
+void AdjustsizeWidget::updateCanvasSize(QSize size)
 {
-    m_artBoardWidth += addX;
-    m_artBoardHeight += addY;
-    setCanvasSize(std::max(m_artBoardWidth, 100), std::max(m_artBoardHeight, 100));
+    setCanvasSize(size);
 }
 
 AdjustsizeWidget::~AdjustsizeWidget()

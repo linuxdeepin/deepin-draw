@@ -44,10 +44,11 @@ signals:
     void finishedDrawCut();
     void cutImage(QRect cutRect);
     void updateMiddleWidgets(QString type);
-    void adjustArtBoardSize(int addX, int addY);
+    void adjustArtBoardSize(QSize size);
 
 public:
     void initAttribute();
+    void initCanvasSize();
     void clearSelected();
     void setAllTextEditReadOnly();
     void setFillShapeSelectedActive(bool selected);
@@ -120,8 +121,9 @@ public slots:
 
 protected:
     void mousePressEvent(QMouseEvent* e);
-    void mouseReleaseEvent(QMouseEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e);
+
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *e);
     void keyPressEvent(QKeyEvent* e);
@@ -189,8 +191,8 @@ private:
     CutImageTips* m_cutImageTips;
     QTimer* m_updateTimer;
 
-    qreal m_canvasContentWidth;
-    qreal m_canvasContentHeight;
+    qreal m_artBoardWidth;
+    qreal m_artBoardHeight;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
     void paintScaledShapes();
