@@ -1428,18 +1428,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "ShapesWidget mousePressEvent:" << e->pos();
     m_cutShape.type = "";
-    m_isPressed = true;
-    m_pressedPoint = e->pos();
     m_pos1 = e->pos();
-
-    QRect btmRightRect = rightBottomRect();
-    if (btmRightRect.contains(e->pos()))
-    {
-        m_inBtmRight = true;
-        m_resizeDirection = Right;
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        return;
-    }
 
     if (m_selectedOrder != -1)
     {
@@ -1454,6 +1443,18 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_selectedShape.type = "";
             return;
         }
+    }
+
+    m_isPressed = true;
+    m_pressedPoint = e->pos();
+
+    QRect btmRightRect = rightBottomRect();
+    if (btmRightRect.contains(e->pos()))
+    {
+        m_inBtmRight = true;
+        m_resizeDirection = Right;
+        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        return;
     }
 
     if (m_inBtmRight)
@@ -1486,8 +1487,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
             if (m_currentType == "arbitraryCurve") {
-                m_currentShape.index = m_currentIndex;
-                m_currentShape.points.append(m_pos1);
+               m_currentShape.index = m_currentIndex;
+               m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
                 qDebug() << "straightLine";
                 m_currentShape.index = m_currentIndex;
@@ -1594,7 +1595,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                             m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
             }
-        } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
+        }else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
             qDebug() << "m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
@@ -1700,7 +1701,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 if (m_isShiftPressed)
                 {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
+                                            std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
                     {
                         m_currentShape.points[1] = QPointF(m_pos2.x(), m_pos1.y());
                     } else
@@ -1716,10 +1717,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
         if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur")
         {
-            if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3)
-            {
+//            if (getDistance(m_currentShape.points[m_currentShape.points.length() - 1], m_pos2) > 3)
+//            {
                 m_currentShape.points.append(m_pos2);
-            }
+//            }
         }
         update();
     } else if (!m_isRecording && m_isPressed)
@@ -2244,8 +2245,11 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
     qDebug() << "paintShape:" << shape.type << shape.imagePath << shape.mainPoints[0];
+
     if (shape.type != "image" && shape.mainPoints[0] == QPoint(0, 0))
+    {
         return;
+    }
 
     QPen selectedPen;
     selectedPen.setColor(QColor("#01bdff"));
