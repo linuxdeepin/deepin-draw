@@ -2341,9 +2341,7 @@ void ShapesWidget::scaledShapes(QRect originRect, QRect scaledRect)
     {
         if (m_shapes[k].type == "rectangle")
         {
-            qDebug() << "tttttBefore:" << m_shapes[k].mainPoints;
             scaledRectangle(k, originRect, scaledRect);
-            qDebug() << "After:" << m_shapes[k].mainPoints;
         } else if (m_shapes[k].type == "oval")
         {
             scaledEllipse(k, originRect, scaledRect);
@@ -2351,15 +2349,19 @@ void ShapesWidget::scaledShapes(QRect originRect, QRect scaledRect)
 //    else if (m_shapes[k].type == "image")
 //        {
 //            scaledImage(m_shapes[k]);
-//        } else if (m_shapes[k].type == "arrow")
-//        {
-//            scaledArrow(m_shapes[k]);
-//        } else if (m_shapes[k].type == "arbitraryCurve")
-//        {
-//            scaledLine(m_shapes[k]);
 //        }
+        else if (m_shapes[k].type == "straightLine")
+        {
+            scaledLine(k, originRect, scaledRect);
+        }
+        else if (m_shapes[k].type == "arrow")
+        {
+            scaledArrow(k, originRect, scaledRect);
+        } else if (m_shapes[k].type == "arbitraryCurve")
+        {
+            scaledLine(k, originRect, scaledRect);
+        }
 
-//        paintShape(historyPainter, m_shapes[k]);
     }
 
     update();
