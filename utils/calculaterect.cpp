@@ -4051,9 +4051,16 @@ bool pointInRect(FourPoints fourPoints, QPointF pos) {
     qreal sumArea_4 = pointToLineDistance(point1, point3, pos)*std::sqrt(std::pow(point1.x() - point3.x(), 2) +
                 std::pow(point1.y() - point3.y(), 2))/2;
 
+    qreal resultArea = sumArea_1 + sumArea_2 + sumArea_3 + sumArea_4;
+
+    if (std::abs(resultArea - sumArea) <= 5) {
+        return true;
+    }
+
     if (sumArea_1 >= sumArea) {
         return false;
     }
+
     if (sumArea_2 >= sumArea || sumArea_2 + sumArea_1 > sumArea) {
         return false;
     }

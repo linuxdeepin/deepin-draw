@@ -2160,7 +2160,7 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
         } else if (angle < -M_PI && angle >= -M_PI*1.5)
         {
             qreal x = std::abs(originPix.width()*cos(angle)) +
-                    std::abs(originPix.height()*sin(angle));
+                             std::abs(originPix.height()*sin(angle));
             qreal y = originPix.height()*std::cos(angle);
             painter.drawPixmap(startPos.x() - int(x), startPos.y() + int(y), pixmap);
         } else if (angle < -M_PI*1.5 && angle >= -M_PI*2)
