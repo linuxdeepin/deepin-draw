@@ -80,8 +80,8 @@ public:
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
-    void scaledShapes(QRect originRect, QRect scaledRect);
     QPointF scaledPoint(QRect originRect, QRect scaledRect, QPointF originPos);
+    void scaledShapes(QRect originRect, QRect scaledRect);
     void scaledRectangle(int index, QRect originRect, QRect scaledRect);
     void scaledEllipse(int index, QRect originRect, QRect scaledRect);
     void scaledLine(int index, QRect originRect, QRect scaledRect);
@@ -186,8 +186,8 @@ private:
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
 
-    QMap<int, TextEdit*> m_editMap;
     void updateTextRect(TextEdit* edit, QRectF newRect);
+    QMap<int, TextEdit*> m_editMap;
     Toolshapes m_shapes;
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;

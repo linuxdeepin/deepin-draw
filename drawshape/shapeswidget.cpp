@@ -1250,21 +1250,14 @@ void ShapesWidget::handleRotate(QPointF pos)
                                                                      m_shapes[m_selectedOrder].mainPoints[3].x())/2,
                                                                      (m_shapes[m_selectedOrder].mainPoints[0].y()+
                                                                      m_shapes[m_selectedOrder].mainPoints[3].y())/2);
+
         qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
         angle += m_shapes[m_selectedOrder].rotate;
 
         qDebug() << "handleRotate:" << angle;
-        QMatrix matrix;
-        matrix.rotate(angle*180/M_PI);
 
-        QPixmap imagePix(m_shapes[m_selectedOrder].imagePath);
-        imagePix = imagePix.transformed(matrix);
-
-        QString picBaseName = QFileInfo(m_shapes[m_selectedOrder].imagePath).baseName();
-        QString suffix = QFileInfo(m_shapes[m_selectedOrder].imagePath).suffix();
-
-        m_shapes[m_selectedOrder].editImagePath = QString("/tmp/%1.%2").arg(picBaseName).arg(suffix);
-        imagePix.save(m_shapes[m_selectedOrder].editImagePath,  suffix.toLatin1());
+        QPixmap imagePix;
+        imagePix = QPixmap(m_shapes[m_selectedOrder].imagePath);
 
         m_shapes[m_selectedOrder].mainPoints[0] = QPointF(imagePix.rect().x(),
                                                           imagePix.rect().y());
@@ -1379,14 +1372,28 @@ void ShapesWidget::handleResize(QPointF pos, int key)
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
 
-        for (int j = 0; j <  m_shapes[m_selectedOrder].portion.length(); j++) {
+        for (int j = 0; j <  m_shapes[m_selectedOrder].portion.length(); j++)
+        {
               m_shapes[m_selectedOrder].points[j] =
                 getNewPosition(m_shapes[m_selectedOrder].mainPoints,
-                                     m_shapes[m_selectedOrder].portion[j]);
+                                              m_shapes[m_selectedOrder].portion[j]);
         }
 
         m_selectedShape.points = m_shapes[m_selectedOrder].points;
         m_hoveredShape.points = m_shapes[m_selectedOrder].points;
+    }
+
+    if (m_selectedShape.type == "image")
+    {
+        QPixmap newPix;
+        newPix = QPixmap(m_shapes[m_selectedOrder].imagePath);
+
+        qreal resizeWidth = getDistance(m_shapes[m_selectedOrder].mainPoints[0],
+                m_shapes[m_selectedOrder].mainPoints[2]);
+        qreal resizeHeight = getDistance(m_shapes[m_selectedOrder].mainPoints[0],
+                m_shapes[m_selectedOrder].mainPoints[1]);
+
+        m_shapes[m_selectedOrder].imageSize = QSize(resizeWidth, resizeHeight);
     }
     m_pressedPoint = pos;
 }
@@ -2103,77 +2110,79 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     QPointF startPos = imageShape.mainPoints[0];
     qDebug() << "paintImage:" << imageShape.imagePath;
 
-    QPixmap pixmap;
-    if (imageShape.editImagePath.isEmpty())
-        pixmap = QPixmap(imageShape.imagePath);
-    else
-        pixmap = QPixmap(imageShape.editImagePath);
+    QPixmap pixmap = QPixmap(imageShape.imagePath).scaled(
+                imageShape.imageSize, Qt::IgnoreAspectRatio);
+    qreal rotateAngle =  imageShape.rotate;
+    QMatrix matrix;
+    matrix.rotate(rotateAngle*180/M_PI);
+    pixmap = pixmap.transformed(matrix);
+    QSize pixSize = imageShape.imageSize;
 
-    if (imageShape.rotate > 0)
+    int degree = int(imageShape.rotate*180/M_PI)%360;
+    qreal angle = degree*M_PI/180;
+    qDebug() << "@#$:" << angle;
+
+    if (imageShape.rotate == 0)
     {
-        int degree = int(imageShape.rotate*180/M_PI);
-        degree = degree%360;
-        qreal angle = degree*M_PI/180;
-        QPixmap originPix = QPixmap(imageShape.imagePath);
+        painter.drawPixmap(startPos, pixmap);
+    } else {
+        if (imageShape.rotate > 0)
+        {
+            if (angle <= M_PI/2)
+            {
+                qreal x = pixSize.height()*sin(angle);
+                painter.drawPixmap(startPos.x() - x, startPos.y(), pixmap);
+            } else if(angle > M_PI/2 && angle <= M_PI)
+            {
+                qreal x = std::abs(pixSize.width()*sin(angle - M_PI/2) )+
+                        std::abs(pixSize.height()*cos(angle - M_PI/2));
+                qreal y = pixSize.height()*std::sin(angle - M_PI/2);
 
-        if (angle <= M_PI/2)
-        {
-            qreal x = originPix.height()*std::sin(angle);
-            painter.drawPixmap(startPos.x() - int(x), startPos.y(), pixmap);
-        }  else if(angle > M_PI/2 && angle <= M_PI)
-        {
-            qreal x = std::abs(originPix.width()*std::sin(angle - M_PI/2) +
-                               originPix.height()*std::cos(angle - M_PI/2));
+                painter.drawPixmap(startPos.x() - x, startPos.y() - y, pixmap);
+            }
+            else if (angle > M_PI && angle <= M_PI*1.5)
+            {
+                qreal x = std::abs(pixSize.width()*cos(angle - M_PI));
+                qreal y = std::abs(pixSize.width()*sin(angle - M_PI))+
+                        std::abs(pixSize.height()*cos(angle - M_PI));
 
-            qreal y = originPix.height()*std::sin(angle - M_PI/2);
-            painter.drawPixmap(startPos.x() - int(x), startPos.y() - int(y), pixmap);
-        } else if (angle > M_PI && angle <= M_PI*1.5)
+                painter.drawPixmap(startPos.x() - x, startPos.y() - y, pixmap);
+            }
+            else if (angle > M_PI*1.5 && angle < M_PI*2)
+            {
+                qreal y = std::abs(pixSize.width()*cos(angle - M_PI*1.5));
+                painter.drawPixmap(startPos.x(), startPos.y() - y, pixmap);
+            }
+        } else if (imageShape.rotate < 0)
         {
-            qreal x = std::abs(originPix.width()*cos(angle - M_PI));
-            qreal y = std::abs(originPix.width()*std::sin(angle - M_PI)) +
-                    originPix.height()*std::cos(angle - M_PI);
-            painter.drawPixmap(startPos.x() - int(x), startPos.y() - int(y), pixmap);
-        } else if (angle > M_PI*1.5 && angle < M_PI*2)
-        {
-            qreal y = std::abs(originPix.width()*cos(angle - M_PI*1.5));
-            painter.drawPixmap(startPos.x(), startPos.y() - int(y), pixmap);
-        } else
-        {
-            painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
+            if (angle >= -M_PI/2)
+            {
+                qreal y = std::abs(pixSize.width()*cos(angle - M_PI*1.5));
+                painter.drawPixmap(startPos.x(), startPos.y() - y, pixmap);
+            } else if(angle  < -M_PI/2 && angle >= -M_PI)
+            {
+                qreal x = std::abs(pixSize.width()*cos(angle - M_PI));
+                qreal y = std::abs(pixSize.width()*sin(angle - M_PI))+
+                        std::abs(pixSize.height()*cos(angle - M_PI));
+
+                painter.drawPixmap(startPos.x()  - x, startPos.y()  - y, pixmap);
+            } else if (angle < -M_PI && angle >= -M_PI*1.5)
+            {
+                qreal x = std::abs(pixSize.width()*sin(angle - M_PI/2) )+
+                        std::abs(pixSize.height()*cos(angle - M_PI/2));
+                qreal y = pixSize.height()*std::sin(angle - M_PI/2);
+
+                painter.drawPixmap(startPos.x() - x, startPos.y()  - y, pixmap);
+            } else if (angle < -M_PI*1.5 && angle >= -M_PI*2)
+            {
+                qreal x = pixSize.height()*sin(angle);
+                painter.drawPixmap(startPos.x() - x, startPos.y(), pixmap);
+            }
+            else
+            {
+                painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
+            }
         }
-    } else if (imageShape.rotate < 0)
-    {
-        int degree = int(imageShape.rotate*180/M_PI);
-        degree = degree%360;
-        qreal angle = degree*M_PI/180;
-        QPixmap originPix = QPixmap(imageShape.imagePath);
-        if (angle >= -M_PI/2)
-        {
-            qreal y = originPix.width()*std::sin(angle);
-            painter.drawPixmap(startPos.x(), startPos.y() + y, pixmap);
-        }  else if(angle  < -M_PI/2 && angle >= -M_PI)
-        {
-            qreal x = originPix.width()*std::cos(angle);
-            qreal y = originPix.width()*std::sin(angle) +
-                    originPix.height()*std::cos(angle);
-            painter.drawPixmap(startPos.x() + int(x), startPos.y() + int(y), pixmap);
-        } else if (angle < -M_PI && angle >= -M_PI*1.5)
-        {
-            qreal x = std::abs(originPix.width()*cos(angle)) +
-                             std::abs(originPix.height()*sin(angle));
-            qreal y = originPix.height()*std::cos(angle);
-            painter.drawPixmap(startPos.x() - int(x), startPos.y() + int(y), pixmap);
-        } else if (angle < -M_PI*1.5 && angle >= -M_PI*2)
-        {
-            qreal x= std::abs(originPix.height()*sin(angle));
-            painter.drawPixmap(startPos.x() - int(x), startPos.y(), pixmap);
-        } else
-        {
-            painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
-        }
-    } else
-    {
-        painter.drawPixmap(startPos.x(), startPos.y(), pixmap);
     }
 }
 
