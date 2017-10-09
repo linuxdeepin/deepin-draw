@@ -126,8 +126,8 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
 
-    void paintEvent(QPaintEvent *);
-    void enterEvent(QEvent *e);
+    void paintEvent(QPaintEvent* e);
+    void enterEvent(QEvent* e);
     void keyPressEvent(QKeyEvent* e);
 
 private:

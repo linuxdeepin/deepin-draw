@@ -76,7 +76,7 @@ void ShapesWidget::initAttribute()
     m_selectedIndex = -1;
     m_selectedOrder = -1;
 
-    m_startPos = QPointF(0, 0);
+    m_startPos = QPointF(28, 28);
     initCanvasSize();
 
     m_penColor = QColor(ConfigSettings::instance()->value(
