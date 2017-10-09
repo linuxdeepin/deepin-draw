@@ -21,6 +21,8 @@ const int SPACING = 12;
 const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.png";
 const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
+const qreal ARTBOARD_MARGIN = 28;
+
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent)
 //      m_menuController(new MenuController)
@@ -76,7 +78,7 @@ void ShapesWidget::initAttribute()
     m_selectedIndex = -1;
     m_selectedOrder = -1;
 
-    m_startPos = QPointF(28, 28);
+    m_startPos = QPointF(ARTBOARD_MARGIN, ARTBOARD_MARGIN);
     initCanvasSize();
 
     m_penColor = QColor(ConfigSettings::instance()->value(
@@ -95,14 +97,14 @@ void ShapesWidget::initAttribute()
 
 void ShapesWidget::initCanvasSize()
 {
-    m_artBoardWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    m_artBoardHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+    m_artBoardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    m_artBoardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 
-    if (m_artBoardWidth == 0|| m_artBoardHeight == 0)
+    if (m_artBoardActualWidth == 0|| m_artBoardActualHeight == 0)
     {
         QSize desktopSize = qApp->desktop()->size();
-        m_artBoardWidth = desktopSize.width();
-        m_artBoardHeight = desktopSize.height();
+        m_artBoardActualWidth = desktopSize.width();
+        m_artBoardActualHeight = desktopSize.height();
     }
 }
 
@@ -1664,15 +1666,17 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     {
         m_pos2 = e->pos();
 
-        QRect originRect = QRect(0, 0,  m_artBoardWidth, m_artBoardHeight);
-        QRect scaledRect = QRect(0, 0, std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x()))),
-                                                                 std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y()))));
+        QRect originRect = QRect(0, 0,  m_artBoardActualWidth, m_artBoardActualHeight);
+        QRect scaledRect = QRect(0, 0, std::max(100, int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x()))),
+                                                                 std::max(100, int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y()))));
 
         qDebug() << "XXoriginRect :" << originRect << scaledRect;
         scaledShapes(scaledRect, originRect);
-        m_artBoardWidth = std::max(100, int(m_artBoardWidth + (m_pos2.x() - m_pos1.x())));
-        m_artBoardHeight = std::max(100, int(m_artBoardHeight + (m_pos2.y() - m_pos1.y())));
-        emit adjustArtBoardSize(QSize(m_artBoardWidth, m_artBoardHeight));
+        m_artBoardActualWidth = std::max(100, int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())));
+        m_artBoardActualHeight = std::max(100, int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())));
+
+        qDebug() << "XXoriginRect :" << originRect << scaledRect << m_artBoardActualWidth << m_artBoardActualHeight;
+        emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
     }
 
     if (m_isRecording && m_isPressed)
@@ -2234,7 +2238,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         drawShape.lineWidth = m_linewidth;
         //Draw current shape
 
-        qDebug() << "JJJJJJJJJJ" << m_currentType << m_editing;
+        qDebug() << "paint current shape:" << m_currentType << m_editing;
         paintShape(painter, drawShape);
     } else
     {
@@ -2625,10 +2629,27 @@ QRect ShapesWidget::rightBottomRect()
 
 void ShapesWidget::saveImage(const QString &path)
 {
-    qDebug() << "~~~~~~~~~" << path;
-
+    qDebug() << "saveImage path:" << path;
     m_imageSavePath = path;
-//    paintScaledShapes();
+    m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
+    m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
+
+    QRect originRect = QRect(ARTBOARD_MARGIN, ARTBOARD_MARGIN,
+                                                   m_artBoardWindowWidth, m_artBoardWindowHeight);
+    QRect scaledRect = QRect(0, 0,
+                                                   m_artBoardActualWidth, m_artBoardActualHeight);
+
+    qDebug() << "saveImage:" << originRect << scaledRect;
+    scaledShapes(originRect, scaledRect);
+    QPixmap resultPixmap = QPixmap(scaledRect.size());
+    resultPixmap.fill(Qt::transparent);
+
+    for (int k = 0; k < m_shapes.length(); k++)
+    {
+        QPainter historyPainter(&resultPixmap);
+        paintShape(historyPainter, m_shapes[k]);
+    }
+    resultPixmap.save(path);
 }
 
 void ShapesWidget::microAdjust(QString direction)

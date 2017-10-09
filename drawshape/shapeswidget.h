@@ -193,8 +193,10 @@ private:
     CutImageTips* m_cutImageTips;
     QTimer* m_updateTimer;
 
-    qreal m_artBoardWidth;
-    qreal m_artBoardHeight;
+    qreal m_artBoardActualWidth;
+    qreal m_artBoardActualHeight;
+    qreal m_artBoardWindowWidth;
+    qreal m_artBoardWindowHeight;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
 
