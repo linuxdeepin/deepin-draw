@@ -1422,14 +1422,10 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
 {
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
-        QImage img(m_shapes[m_selectedOrder].imagePath);
-        img = img.mirrored(horizontal, vertical);
-
-        QString picBaseName = QFileInfo(m_shapes[m_selectedOrder].imagePath).baseName();
-        QString suffix = QFileInfo(m_shapes[m_selectedOrder].imagePath).suffix();
-
-        m_shapes[m_selectedOrder].editImagePath = QString("/tmp/%1.%2").arg(picBaseName).arg(suffix);
-        img.save(m_shapes[m_selectedOrder].editImagePath,  suffix.toLatin1());
+        if (horizontal)
+            m_shapes[m_selectedOrder].isHorFlip = !m_shapes[m_selectedOrder].isHorFlip;
+        if(vertical)
+            m_shapes[m_selectedOrder].isVerFlip = !m_shapes[m_selectedOrder].isVerFlip;
     }
 }
 
@@ -2110,7 +2106,9 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     QPointF startPos = imageShape.mainPoints[0];
     qDebug() << "paintImage:" << imageShape.imagePath;
 
-    QPixmap pixmap = QPixmap(imageShape.imagePath).scaled(
+    QPixmap pixmap = QPixmap::fromImage(QImage(imageShape.imagePath).
+                                        mirrored(imageShape.isHorFlip, imageShape.isVerFlip));
+   pixmap = pixmap.scaled(
                 imageShape.imageSize, Qt::IgnoreAspectRatio);
     qreal rotateAngle =  imageShape.rotate;
     QMatrix matrix;

@@ -36,6 +36,8 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.isMosaic << ","
             << obj.isStraight << ","
             << obj.isShiftPressed << ","
+            << obj.isHorFlip << ","
+            << obj.isVerFlip << ","
             << obj.imagePath << ","
             << obj.editImagePath << ","
             << obj.rotate << ","
@@ -52,6 +54,8 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.editImagePath;
     in >> obj.imagePath;
     in >> obj.fontSize;
+    in >> obj.isHorFlip;
+    in >> obj.isVerFlip;
     in >> obj.isShiftPressed;
     in >> obj.isBlur;
     in >> obj.isMosaic;
@@ -81,6 +85,8 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     isMosaic = obj.isMosaic;
     isStraight = obj.isStraight;
     isShiftPressed = obj.isShiftPressed;
+    isHorFlip = obj.isHorFlip;
+    isVerFlip = obj.isVerFlip;
     imagePath = obj.imagePath;
     editImagePath = obj.editImagePath;
     rotate = obj.rotate;
@@ -98,6 +104,7 @@ bool Toolshape::operator==(const Toolshape &other) const {
             && this->fillColor == other.fillColor && this->strokeColor == other.strokeColor
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isShiftPressed == other.isShiftPressed
+            && this->isHorFlip == other.isHorFlip && this->isVerFlip == other.isVerFlip
             && this->imagePath == other.imagePath && this->editImagePath == other.editImagePath
             && this->rotate == other.rotate
             && this->isStraight == other.isStraight && this->points == other.points) {

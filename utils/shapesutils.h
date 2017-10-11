@@ -22,6 +22,8 @@ public:
      bool isMosaic = false;
      bool isStraight = false;
      bool isShiftPressed = false;
+     bool isHorFlip = false;
+     bool isVerFlip = false;
      QString imagePath = "";
      QString editImagePath ="";
      qreal rotate = 0;
