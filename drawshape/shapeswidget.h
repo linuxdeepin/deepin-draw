@@ -9,7 +9,8 @@
 #include "textedit.h"
 #include "cutimagetips.h"
 
-class ShapesWidget : public QFrame {
+class ShapesWidget : public QFrame
+{
     Q_OBJECT
 
 public:

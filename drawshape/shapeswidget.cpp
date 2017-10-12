@@ -62,7 +62,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 void ShapesWidget::initAttribute()
 {
     setObjectName("Canvas");
-    setStyleSheet("QFrame#Canvas { margin: 25px;"
+    setStyleSheet("QFrame#Canvas { "
+                              "margin: 25px;"
                               "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -255,6 +256,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     m_selectedOrder = -1;
 
     qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
+    if (m_shapes.length() == 0)
+        return onShapes;
+
     for (int i = m_shapes.length() - 1; i >= 0; i--)
    {
         bool currentOnShape = false;
@@ -1489,71 +1493,66 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_shapesIndex += 1;
         m_currentIndex = m_shapesIndex;
 
-        if (m_pos1 == QPointF(0, 0)) {
-            m_pos1 = e->pos();
-            if (m_currentType == "arbitraryCurve") {
-               m_currentShape.index = m_currentIndex;
-               m_currentShape.points.append(m_pos1);
-            } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
-                qDebug() << "straightLine";
-                m_currentShape.index = m_currentIndex;
-                m_currentShape.isShiftPressed = m_isShiftPressed;
-                m_currentShape.points.append(m_pos1);
-            } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-                m_currentShape.isShiftPressed = m_isShiftPressed;
-                m_currentShape.index = m_currentIndex;
-                qDebug() << "mousePressEvent:" << m_currentType;
-            } else if (m_currentType == "cutImage") {
-                m_currentShape.fillColor = QColor(Qt::transparent);
-                m_currentShape.strokeColor = QColor(Qt::white);
-            } else if (m_currentType == "blur") {
-               m_blurEffectExist = true;
-               m_currentShape.isBlur = true;
-               m_currentShape.index = m_currentIndex;
-               m_currentShape.lineWidth = m_blurLinewidth;
-               m_currentShape.points.append(m_pos1);
+        if (m_currentType == "arbitraryCurve") {
+            m_currentShape.index = m_currentIndex;
+            m_currentShape.points.append(m_pos1);
+        } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
+            qDebug() << "straightLine";
+            m_currentShape.index = m_currentIndex;
+            m_currentShape.isShiftPressed = m_isShiftPressed;
+            m_currentShape.points.append(m_pos1);
+        } else if (m_currentType == "rectangle" || m_currentType == "oval") {
+            m_currentShape.isShiftPressed = m_isShiftPressed;
+            m_currentShape.index = m_currentIndex;
+        } else if (m_currentType == "cutImage") {
+            m_currentShape.fillColor = QColor(Qt::transparent);
+            m_currentShape.strokeColor = QColor(Qt::white);
+        } else if (m_currentType == "blur") {
+            m_blurEffectExist = true;
+            m_currentShape.isBlur = true;
+            m_currentShape.index = m_currentIndex;
+            m_currentShape.lineWidth = m_blurLinewidth;
+            m_currentShape.points.append(m_pos1);
 
-               emit reloadEffectImg("blur");
-            } else if (m_currentType == "text") {
-                if (!m_editing) {
-                    setAllTextEditReadOnly();
-                    m_currentShape.mainPoints[0] = m_pos1;
-                    m_currentShape.index = m_currentIndex;
-                    qDebug() << "new textedit:" << m_currentIndex;
-                    TextEdit* edit = new TextEdit(m_currentIndex, this);
+            emit reloadEffectImg("blur");
+        } else if (m_currentType == "text") {
+            if (!m_editing) {
+                setAllTextEditReadOnly();
+                m_currentShape.mainPoints[0] = m_pos1;
+                m_currentShape.index = m_currentIndex;
+                qDebug() << "new textedit:" << m_currentIndex;
+                TextEdit* edit = new TextEdit(m_currentIndex, this);
+                m_editing = true;
+                m_currentShape.fontSize =  m_textFontsize;
+                edit->setFocus();
+                edit->setColor(m_brushColor);
+                edit->setFontSize(m_textFontsize);
+                edit->move(m_pos1.x(), m_pos1.y());
+                edit->show();
+                m_currentShape.mainPoints[0] = m_pos1;
+                m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
+                m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
+                m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
+                                                       m_pos1.y() + edit->height());
+                m_editMap.insert(m_currentIndex, edit);
+                connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+                connect(edit, &TextEdit::backToEditing, this, [=]{
                     m_editing = true;
-                    m_currentShape.fontSize =  m_textFontsize;
-                    edit->setFocus();
-                    edit->setColor(m_brushColor);
-                    edit->setFontSize(m_textFontsize);
-                    edit->move(m_pos1.x(), m_pos1.y());
-                    edit->show();
-                    m_currentShape.mainPoints[0] = m_pos1;
-                    m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
-                    m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
-                    m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
-                                                           m_pos1.y() + edit->height());
-                    m_editMap.insert(m_currentIndex, edit);
-//                    m_selectedShape = m_currentShape;
-                    connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
-                    connect(edit, &TextEdit::backToEditing, this, [=]{
-                        m_editing = true;
-                    });
-                    connect(edit, &TextEdit::textEditSelected, this, [=](int index){
-                        for (int k = 0; k < m_shapes.length(); k++) {
-                            if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                                m_selectedIndex = index;
-                                m_selectedShape = m_shapes[k];
-                                break;
-                            }
+                });
+                connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+                    for (int k = 0; k < m_shapes.length(); k++) {
+                        if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                            m_selectedIndex = index;
+                            m_selectedShape = m_shapes[k];
+                            break;
                         }
-                    });
-                    m_shapes.append(m_currentShape);
-                    qDebug() << "Insert text shape:" << m_currentShape.index;
-                } else {
-                    m_editing = false;
-                    setAllTextEditReadOnly();
-                }
+                    }
+                });
+                m_shapes.append(m_currentShape);
+                qDebug() << "Insert text shape:" << m_currentShape.index;
+            } else {
+                m_editing = false;
+                setAllTextEditReadOnly();
             }
         }
     } else {
@@ -1600,7 +1599,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                             m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
             }
-        }else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
+        } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
             qDebug() << "m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
