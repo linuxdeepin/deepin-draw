@@ -1279,29 +1279,7 @@ void ShapesWidget::handleRotate(QPointF pos)
         qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
         angle += m_shapes[m_selectedOrder].rotate;
 
-        qDebug() << "handleRotate:" << angle;
-
-        QPixmap imagePix;
-        imagePix = QPixmap(m_shapes[m_selectedOrder].imagePath);
-
-        m_shapes[m_selectedOrder].mainPoints[0] = QPointF(imagePix.rect().x(),
-                                                          imagePix.rect().y());
-        m_shapes[m_selectedOrder].mainPoints[1] = QPointF(imagePix.rect().x(),
-                                                          imagePix.rect().y() + imagePix.rect().height());
-        m_shapes[m_selectedOrder].mainPoints[2] = QPointF(imagePix.rect().x()
-            + imagePix.rect().width(), imagePix.rect().y());
-        m_shapes[m_selectedOrder].mainPoints[3] = QPointF(imagePix.rect().x()
-            + imagePix.rect().width(), imagePix.rect().y() + imagePix.rect().height());
         m_shapes[m_selectedOrder].rotate = angle;
-
-        for(int i = 0; i < m_shapes[m_selectedOrder].mainPoints.length(); i++) {
-            if (m_shapes[m_selectedOrder].mainPoints[i].x() < 0 ||
-                    m_shapes[m_selectedOrder].mainPoints[i].y() < 0) {
-                qDebug() << "wrong coordinate:" << m_shapes[m_selectedOrder].mainPoints[0]
-                                  << m_shapes[m_selectedOrder].mainPoints[1] << m_shapes[m_selectedOrder].mainPoints[2]
-                                  << m_shapes[m_selectedOrder].mainPoints[3] << angle;
-            }
-        }
     }
 
     if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
@@ -1427,19 +1405,26 @@ void ShapesWidget::handleImageRotate(int degree)
 {
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
-        QPixmap pix(m_shapes[m_selectedOrder].imagePath);
+        if (m_shapes[m_selectedOrder].type != "image")
+            return;
+        qreal angle;
+        if (degree == 90)
+        {
+            angle = M_PI/2;
+        } else {
+            angle = -M_PI/2;
+        }
+         m_shapes[m_selectedOrder].rotate = m_shapes[m_selectedOrder].rotate + angle;
 
-        utils::image::rotate(m_shapes[m_selectedOrder].imagePath, degree);
-        pix.load(m_shapes[m_selectedOrder].imagePath);
-        m_shapes[m_selectedOrder].mainPoints[1] = QPointF(
-                    m_shapes[m_selectedOrder].mainPoints[0].x(),
-                    m_shapes[m_selectedOrder].mainPoints[0].y() + pix.height());
-        m_shapes[m_selectedOrder].mainPoints[2] = QPointF(
-                    m_shapes[m_selectedOrder].mainPoints[0].x() + pix.width(),
-                    m_shapes[m_selectedOrder].mainPoints[0].y());
-        m_shapes[m_selectedOrder].mainPoints[3] = QPointF(
-                    m_shapes[m_selectedOrder].mainPoints[0].x() + pix.width(),
-                    m_shapes[m_selectedOrder].mainPoints[0].y() + pix.height());
+         QPointF centerInPoint = QPointF(
+                     (m_shapes[m_selectedOrder].mainPoints[0].x() + m_shapes[m_selectedOrder].mainPoints[3].x())/2,
+                     (m_shapes[m_selectedOrder].mainPoints[0].y() + m_shapes[m_selectedOrder].mainPoints[3].y())/2
+                 );
+        for (int i = 0; i < 4; i++)
+        {
+            m_shapes[m_selectedOrder].mainPoints[i] = pointRotate(centerInPoint,
+                m_shapes[m_selectedOrder].mainPoints[i], angle);
+        }
     }
 }
 
