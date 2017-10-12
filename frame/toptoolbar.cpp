@@ -119,6 +119,8 @@ TopToolbar::TopToolbar(QWidget* parent)
         importImage();
     });
 
+    connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
+
     connect(this, &TopToolbar::drawShapeChanged,
             this, [=](QString shape){
         if (shape == "image" && !picBtn->isChecked())
@@ -338,7 +340,7 @@ void TopToolbar::initMenu()
                 " You can freely draw on the layer or simplely edit images. "));
    dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw");
 
-   connect(importAc, &QAction::triggered, this, &TopToolbar::importImage);
+   connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
