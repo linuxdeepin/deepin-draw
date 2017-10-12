@@ -242,6 +242,27 @@ void ShapesWidget::setFillShapeSelectedActive(bool selected)
     qDebug() << "setFillShapeSelectedActive" << selected;
 }
 
+void ShapesWidget::createBlurImage()
+{
+    QPixmap blurImage = this->grab(this->rect()).copy(
+                QRect(ARTBOARD_MARGIN, ARTBOARD_MARGIN,
+                           width() - ARTBOARD_MARGIN*2, height() - ARTBOARD_MARGIN*2));
+    int imgWidth = blurImage.width();
+    int imgHeight = blurImage.height();
+    const int radius = 10;
+
+    if (!blurImage.isNull())
+    {
+        blurImage = blurImage.scaled(imgWidth/radius, imgHeight/radius,
+                                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        blurImage = blurImage.scaled(imgWidth, imgHeight,
+                                 Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        blurImage.save(TempFile::instance()->getBlurFileName(), "png");
+    } else {
+        qWarning() << "create blur image failed!";
+    }
+}
+
 void ShapesWidget::saveActionTriggered()
 {
     qDebug() << "ShapesWidget saveActionTriggered!";
@@ -1514,7 +1535,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_currentShape.lineWidth = m_blurLinewidth;
             m_currentShape.points.append(m_pos1);
 
-            emit reloadEffectImg("blur");
+            createBlurImage();
         } else if (m_currentType == "text") {
             if (!m_editing) {
                 setAllTextEditReadOnly();
@@ -2062,6 +2083,10 @@ void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
 
 void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape)
 {
+    QPen pen;
+    pen.setJoinStyle(Qt::RoundJoin);
+    painter.setPen(QPen(Qt::red));
+    painter.setBrush(QBrush(Qt::transparent));
     QList<QPointF> lineFPoints = shape.points;
     paintPointList(painter, lineFPoints);
 }

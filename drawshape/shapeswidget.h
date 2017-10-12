@@ -36,7 +36,6 @@ public:
     };
 
 signals:
-    void reloadEffectImg(QString effect);
     void requestScreenshot();
     void shapePressed(QString shape);
     void saveBtnPressed(int index);
@@ -53,6 +52,7 @@ public:
     void clearSelected();
     void setAllTextEditReadOnly();
     void setFillShapeSelectedActive(bool selected);
+    void createBlurImage();
 
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
