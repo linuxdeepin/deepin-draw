@@ -125,6 +125,8 @@ public slots:
     void setImageCutting(bool cutting);
     void cutImage();
 
+    void autoCrop();
+
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseMoveEvent(QMouseEvent* e);

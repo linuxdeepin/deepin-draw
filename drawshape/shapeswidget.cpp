@@ -63,6 +63,7 @@ void ShapesWidget::initAttribute()
 {
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { "
+//                              "background-color: pink;"
                               "margin: 25px;"
                               "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
@@ -2475,6 +2476,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         qDebug() << "hhhhh:" << m_pos1 << m_pos2;
     }
+
 }
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
@@ -2577,7 +2579,6 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
         paintCutImageRect(painter, shape);
     }
 
-    qDebug() << "paintShape:" << m_shapes.length();
 }
 
 void ShapesWidget::scaledShapes(QRect originRect, QRect scaledRect)
@@ -3030,22 +3031,20 @@ void ShapesWidget::cutImage()
     if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
     {
         FourPoints rectFPoints = m_shapes[m_shapes.length() - 1].mainPoints;
-        QRect cutRect = QRect(
-                rectFPoints[0].x(), rectFPoints[0].x(),
-                std::abs(rectFPoints[3].x() - rectFPoints[0].x()),
-                std::abs(rectFPoints[3].y() - rectFPoints[0].y())
-                );
 
         m_cutShape.mainPoints.clear();
         m_currentShape.mainPoints.clear();
         m_cutShape.type = "";
         m_currentShape.type = "";
-
         m_shapes.removeAt(m_shapes.length() - 1);
         update();
 
-        QPixmap cutImage = this->grab(this->rect()).copy(
-                                                  cutRect);
+        QPixmap cutImage = this->grab(rect());
+
+       cutImage = cutImage.copy(
+                   rectFPoints[0].x(), rectFPoints[0].y(),
+                   std::abs(rectFPoints[3].x() - rectFPoints[0].x()),
+                   std::abs(rectFPoints[3].y() - rectFPoints[0].y()));
 
         if (!cutImage.isNull())
         {
@@ -3063,4 +3062,14 @@ void ShapesWidget::cutImage()
             qWarning() << "create cut image failed!";
         }
     }
+}
+
+void ShapesWidget::autoCrop()
+{
+//    QRect cropRect;
+
+//    for(int i = 0; i < m_shapes.length(); i++)
+//    {
+
+//    }
 }
