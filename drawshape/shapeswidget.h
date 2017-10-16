@@ -41,10 +41,10 @@ signals:
     void saveBtnPressed(int index);
     void requestExit();
     void menuNoFocus();
-    void finishedDrawCut();
-    void cutImage(QRect cutRect);
+    void finishedDrawCut(QPointF pos);
     void updateMiddleWidgets(QString type);
     void adjustArtBoardSize(QSize size);
+    void cutImageFinished();
 
 public:
     void initAttribute();
@@ -63,6 +63,7 @@ public:
 
     bool clickedOnShapes(QPointF pos);
     bool clickedOnImage(FourPoints rectPoints, QPointF pos);
+    bool clickedOnCutImage(FourPoints rectPoints, QPointF pos);
     bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
@@ -75,6 +76,7 @@ public:
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
     bool hoverOnImage(FourPoints rectPoints, QPointF pos);
+    bool hoverOnCutImage(FourPoints rectPoints, QPointF pos);
     bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
@@ -94,7 +96,7 @@ public:
     QString  getCurrentType();
     void deleteCurrentShape();
     void setLineStyle(int index);
-    void showCutImageTips();
+    void showCutImageTips(QPointF pos);
     void loadImage(QStringList paths);
     void compressToImage();
 
@@ -121,6 +123,7 @@ public slots:
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
     void setImageCutting(bool cutting);
+    void cutImage();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
