@@ -4123,6 +4123,80 @@ FourPoints getMainPoints(QPointF point1, QPointF point2, bool isShift) {
     return fourPoints;
 }
 
+FourPoints getRationFPoints(QPointF point1, QPointF point2, QString ration)
+{
+    FourPoints fourPoints;
+    fourPoints = initFourPoints(fourPoints);
+    qreal padding = 4;
+
+    qreal leftX = std::min(point1.x(), point2.x());
+    qreal leftY = std::min(point1.y(), point2.y());
+
+    qreal pWidth = std::max(std::abs(point1.x() - point2.x()), padding);
+    qreal pHeight = std::max(std::abs(point1.y() - point2.y()), padding);
+
+    qreal rationWidth, rationHeight;
+
+    if (ration == "1:1")
+    {
+        rationWidth = std::min(pWidth, pHeight);
+        rationHeight = rationWidth;
+    }
+    else if (ration == "4:3")
+    {
+        rationWidth = pWidth;
+        rationHeight = 3*rationWidth/4;
+    }
+    else if (ration == "8:5")
+    {
+        rationWidth = pWidth;
+        rationHeight = 5*rationWidth/8;
+    }
+    else if (ration == "16:9")
+    {
+        rationWidth = pWidth;
+        rationHeight = 9*rationWidth/16;
+    }
+
+    if (ration != "free")
+    {
+        if (point2.x() >= point1.x()) {
+            if (point2.y() >= point1.y()) {
+                fourPoints[0] = point1;
+                fourPoints[1] = QPointF(point1.x(), point1.y() + rationHeight);
+                fourPoints[2] = QPointF(point1.x() + rationWidth, point1.y());
+                fourPoints[3] = QPointF(point1.x() + rationWidth, point1.y() + rationHeight);
+            } else {
+                fourPoints[0] = QPointF(point1.x(), point1.y() - rationHeight);
+                fourPoints[1] = point1;
+                fourPoints[2] = QPointF(point1.x() + rationWidth, point1.y() - rationHeight);
+                fourPoints[3] = QPointF(point1.x() + rationWidth, point1.y());
+            }
+        } else {
+            if (point2.y() >= point1.y()) {
+                fourPoints[0] = QPointF(point1.x() - rationWidth, point1.y());
+                fourPoints[1] = QPointF(point1.x() - rationWidth, point1.y() + rationHeight);
+                fourPoints[2] = point1;
+                fourPoints[3] = QPointF(point1.x(), point1.y() + rationHeight);
+            } else {
+                fourPoints[0] = QPointF(point1.x() - rationWidth, point1.y() - rationHeight);
+                fourPoints[1] = QPointF(point1.x() - rationWidth, point1.y());
+                fourPoints[2] = QPointF(point1.x(), point1.y() - rationHeight);
+                fourPoints[3] = point1;
+            }
+        }
+    }
+    else
+    {
+        fourPoints[0] = QPointF(leftX, leftY);
+        fourPoints[1] = QPointF(leftX, leftY + pHeight);
+        fourPoints[2] = QPointF(leftX + pWidth,  leftY);
+        fourPoints[3] = QPointF(leftX + pWidth, leftY + pHeight);
+    }
+
+    return fourPoints;
+}
+
 /**************** divie the rectangle into nine parts ********************/
 QList<QPointF> trisectionPoints(FourPoints fourPoints)
 {

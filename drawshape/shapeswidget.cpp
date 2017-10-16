@@ -1695,12 +1695,14 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 edit->setFontSize(m_textFontsize);
                 edit->move(m_pos1.x(), m_pos1.y());
                 edit->show();
+
                 m_currentShape.mainPoints[0] = m_pos1;
                 m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
                 m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
                 m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                        m_pos1.y() + edit->height());
                 m_editMap.insert(m_currentIndex, edit);
+
                 connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                 connect(edit, &TextEdit::backToEditing, this, [=]{
                     m_editing = true;
@@ -1773,9 +1775,19 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             m_shapes.append(m_currentShape);
         } else if (m_currentType != "text")
         {
-            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+            FourPoints rectFPoints;
+            if (m_currentShape.type == "cutImage")
+            {
+                QString ration = ConfigSettings::instance()->value("cut", "ration").toString();
+                qDebug() << "cutImage ration:" << ration;
+                rectFPoints = getRationFPoints(m_pos1, m_pos2, ration);
+            } else {
+                rectFPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+            }
+
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
+
             if (m_currentShape.type == "cutImage")
             {
                 emit finishedDrawCut(m_currentShape.mainPoints[3]);
@@ -1831,7 +1843,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         QRect scaledRect = QRect(0, 0, std::max(100, int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x()))),
                                                                  std::max(100, int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y()))));
 
-        qDebug() << "XXoriginRect :" << originRect << scaledRect;
+        qDebug() << "XXoriginRect:" << originRect << scaledRect;
         scaledShapes(scaledRect, originRect);
         m_artBoardActualWidth = std::max(100, int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())));
         m_artBoardActualHeight = std::max(100, int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())));
@@ -2245,6 +2257,16 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
 
     qDebug() << "ShapesWidget:::" << m_penColor;
+    pen.setColor(Qt::black);
+    pen.setStyle(Qt::SolidLine);
+    pen.setWidthF(0.5);
+    painter.setPen(pen);
+    painter.drawPath(rectPath);
+
+    pen.setColor(Qt::white);
+    pen.setStyle(Qt::DashLine);
+    pen.setWidthF(0.5);
+    painter.setPen(pen);
     painter.drawPath(rectPath);
     pen.setWidthF(0.5);
     pen.setStyle(Qt::SolidLine);
@@ -2434,7 +2456,12 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         drawShape = m_currentShape;
         if (m_currentType != "text")
         {
-            drawShape.mainPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+            if (m_currentType != "cutImage")
+                drawShape.mainPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
+            else {
+                QString ration = ConfigSettings::instance()->value("cut", "ration").toString();
+                drawShape.mainPoints = getRationFPoints(m_pos1, m_pos2, ration);
+            }
         } else
         {
             drawShape.mainPoints = m_currentShape.mainPoints;

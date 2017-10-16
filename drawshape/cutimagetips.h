@@ -19,6 +19,7 @@ public:
     }
     ~RationButton(){}
 };
+
 class CutImageTips : public QDialog
 {
     Q_OBJECT
@@ -27,6 +28,7 @@ public:
     ~CutImageTips();
 
     void showTips(QPoint pos);
+    void setCutRation(CutRation ration);
 
 signals:
     void canceled();
