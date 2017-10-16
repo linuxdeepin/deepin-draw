@@ -338,7 +338,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                                                      m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
         }
-        if (m_shapes[i].type == "arbitraryCurve")
+        if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
         {
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos))
             {
@@ -2515,6 +2515,13 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
     } else if (shape.type == "blur")
     {
         paintBlur(painter, shape);
+
+        if (selected)
+        {
+            painter.setPen(selectedPen);
+            paintSelectedRect(painter, shape.mainPoints);
+            paintSelectedRectPoints(painter, shape.mainPoints);
+        }
     } else if (shape.type == "straightLine")
     {
         paintStraightLine(painter, shape);
@@ -2997,7 +3004,7 @@ void ShapesWidget::cutImage()
     {
         FourPoints rectFPoints = m_shapes[m_shapes.length() - 1].mainPoints;
         QRect cutRect = QRect(
-                    rectFPoints[0].x(), rectFPoints[0].x(),
+                rectFPoints[0].x(), rectFPoints[0].x(),
                 std::abs(rectFPoints[3].x() - rectFPoints[0].x()),
                 std::abs(rectFPoints[3].y() - rectFPoints[0].y())
                 );
