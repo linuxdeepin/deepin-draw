@@ -125,6 +125,7 @@ public slots:
     void setImageCutting(bool cutting);
     void cutImage();
 
+    void updateCutShape(CutRation ration);
     void autoCrop();
 
 protected:

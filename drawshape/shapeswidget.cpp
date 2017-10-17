@@ -115,7 +115,7 @@ ShapesWidget::~ShapesWidget()
 }
 
 void ShapesWidget::updateSelectedShape(const QString &group,
-                                       const QString &key)
+                                                                                const QString &key)
 {
     qDebug() << "updateSelectedShapes" << m_selectedIndex
                       << m_shapes.length() << m_selectedOrder;
@@ -1913,9 +1913,9 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             update();
             if (m_cutShape.type == "cutImage")
             {
-                m_cutImageTips->showTips(QPoint(
+                m_cutImageTips->showTips(mapToGlobal(QPoint(
                                              int(m_cutShape.mainPoints[3].x()),
-                                             int(m_cutShape.mainPoints[3].y())));
+                                             int(m_cutShape.mainPoints[3].y()))));
             } else {
                 qDebug() << "FDBBNM";
             }
@@ -1928,9 +1928,9 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             m_selectedShape = m_shapes[m_selectedOrder];
             if (m_shapes[m_shapes.length() - 1].type == "cutImage")
             {
-                m_cutImageTips->showTips(QPoint(
-                                             int(m_shapes[m_shapes.length() - 1].mainPoints[3].x()),
-                                         int(m_shapes[m_shapes.length() - 1].mainPoints[3].y())));
+                m_cutImageTips->showTips(mapToGlobal(QPoint(
+                                         int(m_shapes[m_shapes.length() - 1].mainPoints[3].x()),
+                                         int(m_shapes[m_shapes.length() - 1].mainPoints[3].y()))));
             }
 
             m_pressedPoint = m_movingPoint;
@@ -2780,6 +2780,8 @@ void ShapesWidget::showCutImageTips(QPointF pos)
 
         update();
     });
+    connect(m_cutImageTips, &CutImageTips::cutRationChanged, this,
+            &ShapesWidget::updateCutShape);
 }
 
 void ShapesWidget::loadImage(QStringList paths)
@@ -3062,6 +3064,54 @@ void ShapesWidget::cutImage()
             qWarning() << "create cut image failed!";
         }
     }
+}
+
+void ShapesWidget::updateCutShape(CutRation ration)
+{
+    if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
+    {
+        FourPoints cutFPoints = m_shapes[m_shapes.length() - 1].mainPoints;
+        QPointF centerPos = QPointF(
+                   (cutFPoints[0].x() + cutFPoints[3].x())/2, (cutFPoints[0].y() + cutFPoints[3].y())/2
+                    );
+        qreal cutWidth = std::abs(cutFPoints[3].x() - cutFPoints[0].x());
+        qreal cutHeight = std::abs(cutFPoints[3].y() - cutFPoints[0].y());
+        qreal minWidth = std::max(cutWidth, cutHeight);
+        qreal minHeight = cutHeight;
+        switch (ration) {
+        case CutRation::Ration1_1:
+            minHeight = minWidth;
+            break;
+        case CutRation::Ration4_3:
+            minHeight = minWidth*3/4;
+            break;
+        case CutRation::Ration8_5:
+            minHeight = minWidth*5/8;
+            break;
+        case CutRation::Ration16_9:
+            minHeight = minWidth*9/16;
+            break;
+        default:
+            minWidth = cutWidth;
+            minHeight = cutHeight;
+            break;
+        }
+        cutFPoints[0] = QPointF(centerPos.x() - minWidth/2, centerPos.y() - minHeight/2);
+        cutFPoints[1] = QPointF(centerPos.x() - minWidth/2, centerPos.y() + minHeight/2);
+        cutFPoints[2] = QPointF(centerPos.x() + minWidth/2, centerPos.y() - minHeight/2);
+        cutFPoints[3] = QPointF(centerPos.x() + minWidth/2, centerPos.y() + minHeight/2);
+        m_shapes[m_shapes.length() - 1].mainPoints = cutFPoints;
+        if (m_cutShape.type == "cutImage")
+        {
+            m_cutShape.mainPoints = cutFPoints;
+        }
+        if (m_currentShape.type == "cutImage")
+        {
+            m_currentShape.mainPoints = cutFPoints;
+        }
+        m_cutImageTips->showTips(mapToGlobal(QPoint(int(cutFPoints[3].x()), int(cutFPoints[3].y()))));
+    }
+
 }
 
 void ShapesWidget::autoCrop()
