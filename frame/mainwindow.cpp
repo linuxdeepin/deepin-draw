@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::updateMiddleWidget);
     connect(m_mainWidget, &MainWidget::adjustArtBoardSize,
             m_topToolbar, &TopToolbar::adjustArtBoardSize);
+    connect(m_mainWidget, &MainWidget::cutImageFinished,
+            m_topToolbar, &TopToolbar::cutImageFinished);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

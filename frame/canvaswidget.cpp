@@ -36,6 +36,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             this, &CanvasWidget::updateMiddleWidget);
     connect(m_shapesWidget, &ShapesWidget::adjustArtBoardSize,
             this, &CanvasWidget::adjustArtBoardSize);
+    connect(m_shapesWidget, &ShapesWidget::cutImageFinished,
+            this, &CanvasWidget::cutImageFinished);
 }
 
 CanvasWidget::~CanvasWidget()

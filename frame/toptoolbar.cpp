@@ -184,6 +184,13 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("blur");
     });
 
+    connect(this, &TopToolbar::updateSelectedBtn, this, [=](bool checked){
+        qDebug() << "LLLL";
+        if (checked) {
+            emit selectBtn->clicked();
+        }
+    });
+
     connect(selectBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -273,6 +280,7 @@ void TopToolbar::initStackWidget()
         drawShapes("cutImage");
     });
     connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::mirroredImage);
+    connect(this, &TopToolbar::cutImageFinished, m_cutWidget, &CutWidget::cutImageBtnReset);
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
@@ -335,10 +343,10 @@ void TopToolbar::initMenu()
     Q_UNUSED(printAc);
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
-   dApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
-   dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
-                " You can freely draw on the layer or simplely edit images. "));
-   dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw");
+    dApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
+    dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
+                                       " You can freely draw on the layer or simplely edit images. "));
+    dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw");
 
    connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
@@ -371,7 +379,9 @@ void TopToolbar::updateMiddleWidget(QString type)
 {
     if (type == "image")
     {
+        emit updateSelectedBtn(true);
         setMiddleStackWidget(Status::Cut);
+
     } else if (type == "rectangle" || type == "oval")
     {
         setMiddleStackWidget(Status::FillShape);

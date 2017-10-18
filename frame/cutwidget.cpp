@@ -23,7 +23,7 @@ CutWidget::CutWidget(QWidget *parent)
     btnList.append(m_rightRotateBtn);
 
     m_cutBtn = new PushButton(this);
-    m_cutBtn->setCheckable(false);
+    m_cutBtn->setCheckable(true);
     m_cutBtn->setObjectName("CutButton");
     m_cutBtn->setToolTip(tr("Clip"));
     btnList.append(m_cutBtn);
@@ -46,6 +46,7 @@ CutWidget::CutWidget(QWidget *parent)
     connect(m_rightRotateBtn, &PushButton::clicked, this, [=]{
         emit rotateImage(90);
     });
+
     connect(m_cutBtn, &PushButton::clicked, this, [=]{
         emit cutImage();
     });
@@ -55,7 +56,6 @@ CutWidget::CutWidget(QWidget *parent)
     connect(m_flipVBtn, &PushButton::clicked, this, [=]{
         emit mirroredImage(false, true);
     });
-
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -89,6 +89,11 @@ void CutWidget::updateBtns(const QString &path)
         }
     }
 
+}
+
+void  CutWidget::cutImageBtnReset()
+{
+    m_cutBtn->setChecked(false);
 }
 
 CutWidget::~CutWidget()

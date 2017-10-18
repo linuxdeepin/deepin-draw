@@ -192,6 +192,7 @@ private:
     Toolshape m_currentShape;
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
+    Toolshape m_beCutImageShape;
 
     void updateTextRect(TextEdit* edit, QRectF newRect);
     QMap<int, TextEdit*> m_editMap;

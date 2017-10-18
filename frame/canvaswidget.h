@@ -27,6 +27,7 @@ signals:
 
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);
+    void cutImageFinished();
 
 private:
     QString m_currentFile;

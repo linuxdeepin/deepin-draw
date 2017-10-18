@@ -53,6 +53,8 @@ signals:
     void fillShapeSelectedActive(bool selected);
     void adjustArtBoardSize(QSize size);
     void importPicBtnClicked();
+    void cutImageFinished();
+    void updateSelectedBtn(bool checked);
 
 public:
     void showDrawDialog();
