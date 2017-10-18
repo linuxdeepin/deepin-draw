@@ -56,6 +56,8 @@ signals:
     void cutImageFinished();
     void updateSelectedBtn(bool checked);
 
+    void resetPicBtn();
+
 public:
     void showDrawDialog();
     void showSaveDialog();

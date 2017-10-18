@@ -174,21 +174,6 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     if (shapeType != "selected")
         m_moveFillShape = false;
 
-    if (shapeType == "cutImage" && m_selectedOrder != -1)
-    {
-        if (m_shapes.length() > m_selectedOrder && m_shapes[m_selectedOrder].type == "image")
-        {
-            m_beCutImageShape = m_shapes[m_selectedOrder];
-        }
-
-    } else {
-        m_beCutImageShape.type = "";
-        m_beCutImageShape.imagePath = "";
-        m_beCutImageShape.imageSize = QSize();
-        m_beCutImageShape.mainPoints.clear();
-        m_beCutImageShape.editImagePath = "";
-    }
-
     m_currentType = shapeType;
     qDebug() << "setCurrentShape:" << shapeType;
 }
@@ -2839,6 +2824,7 @@ void ShapesWidget::loadImage(QStringList paths)
     m_selectedOrder = m_shapes.length() - 1;
     m_moveFillShape = true;
     emit updateMiddleWidgets("image");
+
     qDebug() << "load image finished, compress image begins!";
     compressToImage();
 }
@@ -3096,6 +3082,7 @@ void ShapesWidget::updateCutShape(CutRation ration)
         qreal cutHeight = std::abs(cutFPoints[3].y() - cutFPoints[0].y());
         qreal minWidth = std::max(cutWidth, cutHeight);
         qreal minHeight = cutHeight;
+
         switch (ration) {
         case CutRation::Ration1_1:
             minHeight = minWidth;

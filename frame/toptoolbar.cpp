@@ -118,6 +118,9 @@ TopToolbar::TopToolbar(QWidget* parent)
         picBtn->setChecked(true);
         importImage();
     });
+    connect(this, &TopToolbar::resetPicBtn, this, [=]{
+        picBtn->setChecked(false);
+    });
 
     connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
 
@@ -240,10 +243,12 @@ void TopToolbar::importImage()
                                              "Files(*.ptif *.mef *.mrw *.xbm)"));
 
     using namespace utils::image;
+
     if (m_paths.length() > 0)
     {
         emit Importer::instance()->importedFiles(m_paths);
     }
+    emit resetPicBtn();
 }
 
 void TopToolbar::importImageDir()
