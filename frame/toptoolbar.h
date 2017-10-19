@@ -55,6 +55,7 @@ signals:
     void importPicBtnClicked();
     void cutImageFinished();
     void updateSelectedBtn(bool checked);
+    void autoCrop();
 
     void resetPicBtn();
 

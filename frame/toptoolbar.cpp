@@ -329,6 +329,8 @@ void TopToolbar::initStackWidget()
 
     connect(this, &TopToolbar::adjustArtBoardSize, m_adjustsizeWidget,
             &AdjustsizeWidget::updateCanvasSize);
+    connect(m_adjustsizeWidget, &AdjustsizeWidget::autoCrop, this,
+            &TopToolbar::autoCrop);
 
     m_stackWidget->setCurrentWidget(m_emptyWidget);
 }

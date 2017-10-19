@@ -13,6 +13,8 @@ public:
 
     void setCanvasSize(QSize size);
     void updateCanvasSize(QSize size);
+signals:
+    void autoCrop();
 
 private:
     QLineEdit* m_widthLEdit;

@@ -55,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::saveImageAction,
             m_mainWidget, &MainWidget::saveImageAction);
 
+    connect(m_topToolbar, &TopToolbar::autoCrop,
+            m_mainWidget, &MainWidget::autoCrop);
+
     connect(m_mainWidget, &MainWidget::updateMiddleWidget,
             m_topToolbar, &TopToolbar::updateMiddleWidget);
     connect(m_mainWidget, &MainWidget::adjustArtBoardSize,

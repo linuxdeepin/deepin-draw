@@ -161,8 +161,8 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
                 m_editMap.value(tmpIndex)->setFontSize(
-                    ConfigSettings::instance()->value("text", "fontsize").toInt());
-               m_editMap.value(tmpIndex)->update();
+                            ConfigSettings::instance()->value("text", "fontsize").toInt());
+                m_editMap.value(tmpIndex)->update();
             }
         }
     }
@@ -2787,6 +2787,8 @@ void ShapesWidget::showCutImageTips(QPointF pos)
 void ShapesWidget::loadImage(QStringList paths)
 {
     qDebug() << "loadImage: " << paths.length();
+    m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
+    m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
 
     for(int i = 0; i < paths.length(); i++)
     {
@@ -2800,6 +2802,14 @@ void ShapesWidget::loadImage(QStringList paths)
             imageShape.type = "image";
             imageShape.imagePath = paths[i];
             imageShape.imageSize = QPixmap(paths[i]).size();
+            if (imageShape.imageSize.width() > (m_artBoardWindowWidth - m_startPos.x()) ||
+                    imageShape.imageSize.height() > (m_artBoardWindowHeight - m_startPos.y())) {
+                imageShape.imageSize =  QPixmap(paths[i]).scaled(
+                int(std::abs(m_artBoardWindowWidth - m_startPos.x())),
+                int(std::abs(m_artBoardWindowHeight - m_startPos.y())),
+                            Qt::KeepAspectRatio, Qt::SmoothTransformation).size();
+            }
+
 
             if (paths.length() == 1)
             {
@@ -3121,10 +3131,5 @@ void ShapesWidget::updateCutShape(CutRation ration)
 
 void ShapesWidget::autoCrop()
 {
-//    QRect cropRect;
-
-//    for(int i = 0; i < m_shapes.length(); i++)
-//    {
-
-//    }
+//
 }

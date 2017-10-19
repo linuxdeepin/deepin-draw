@@ -41,6 +41,8 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::mirroredImage);
     connect(this, &MainWidget::saveImageAction,
             m_canvas, &CanvasWidget::saveImageAction);
+    connect(this, &MainWidget::autoCrop,
+            m_canvas, &CanvasWidget::autoCrop);
 
     connect(m_canvas, &CanvasWidget::updateMiddleWidget,
             this, &MainWidget::updateMiddleWidget);

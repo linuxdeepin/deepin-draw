@@ -28,9 +28,9 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_shapesWidget,  &ShapesWidget::handleImageRotate);
     connect(this, &CanvasWidget::mirroredImage,
             m_shapesWidget, &ShapesWidget::mirroredImage);
-
     connect(this, &CanvasWidget::saveImageAction,
             m_shapesWidget, &ShapesWidget::saveImage);
+    connect(this, &CanvasWidget::autoCrop, m_shapesWidget, &ShapesWidget::autoCrop);
 
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &CanvasWidget::updateMiddleWidget);
@@ -38,6 +38,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             this, &CanvasWidget::adjustArtBoardSize);
     connect(m_shapesWidget, &ShapesWidget::cutImageFinished,
             this, &CanvasWidget::cutImageFinished);
+
 }
 
 CanvasWidget::~CanvasWidget()

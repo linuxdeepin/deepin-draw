@@ -24,6 +24,7 @@ signals:
     void rotateImage(int degree);
     void mirroredImage(bool horizontal, bool vertical);
     void saveImageAction(const QString &path);
+    void autoCrop();
 
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);

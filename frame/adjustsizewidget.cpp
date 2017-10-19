@@ -70,6 +70,8 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     layout->addWidget(unitHLabel);
     layout->addWidget(cutTransAreaBtn);
     setLayout(layout);
+
+    connect(cutTransAreaBtn, &ToolButton::clicked, this, &AdjustsizeWidget::autoCrop);
 }
 
 void AdjustsizeWidget::setCanvasSize(QSize size)
