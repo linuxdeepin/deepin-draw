@@ -21,7 +21,7 @@ const int SPACING = 12;
 const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.png";
 const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
-const qreal ARTBOARD_MARGIN = 28;
+const qreal ARTBOARD_MARGIN = 2;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent)
@@ -64,7 +64,7 @@ void ShapesWidget::initAttribute()
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { "
 //                              "background-color: pink;"
-                              "margin: 25px;"
+                              "margin: 0px;"
                               "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);

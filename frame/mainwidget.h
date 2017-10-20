@@ -30,6 +30,9 @@ signals:
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
 
+public:
+    void updateLayout();
+
 protected:
     void resizeEvent(QResizeEvent* event);
 
@@ -37,6 +40,7 @@ private:
     TopToolbar* m_topToolbar;
     CanvasWidget* m_canvas;
     QLabel* m_seperatorLine;
+
     QVBoxLayout* m_vLayout;
     QHBoxLayout* m_hLayout;
 };
