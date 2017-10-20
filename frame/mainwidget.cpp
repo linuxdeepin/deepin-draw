@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent)
     m_seperatorLine->setFixedHeight(1);
     m_seperatorLine->setStyleSheet("border: 1px solid rgba(0, 0, 0, 30);");
 
-    m_hLayout = new QHBoxLayout(this);
+    m_hLayout = new QHBoxLayout;
     m_hLayout->setContentsMargins(0, MARGIN, 0, MARGIN);
     m_hLayout->setSpacing(0);
     m_hLayout->addSpacing(MARGIN);

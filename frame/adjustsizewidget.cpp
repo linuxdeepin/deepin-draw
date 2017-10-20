@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <QRegExpValidator>
 
 #include "widgets/toolbutton.h"
 #include "utils/configsettings.h"
@@ -19,9 +20,9 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_widthLEdit = new QLineEdit(this);
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(80);
-
+    m_widthLEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
     connect(m_widthLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
-        qDebug() << "m_widthLEdit:" << text;
+         ConfigSettings::instance()->setValue("artboard", "width", QString(text).toInt());
     });
 
     m_widthLEdit->setStyleSheet("background-color: red;");
@@ -35,7 +36,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_heightLEdit = new QLineEdit(this);
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(80);
-
+    m_heightLEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+$")));
 
     int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
     int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
@@ -49,7 +50,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     setCanvasSize(QSize(canvasWidth, canvasHeight));
 
     connect(m_heightLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
-        qDebug() << "m_heightLEdit:" << text;
+        ConfigSettings::instance()->setValue("artboard", "height", QString(text).toInt());
     });
 
     QLabel* unitHLabel = new QLabel(this);
