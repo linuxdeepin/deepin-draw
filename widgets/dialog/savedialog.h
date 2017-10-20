@@ -15,9 +15,15 @@ signals:
     void saveToPath(const QString &path);
     void imageNameChanged(QString imagename);
 
+public:
+    QString getSaveDir(QString dir);
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
 
+private:
+    QString m_fileDir;
+    QString m_filePath;
 };
 
 #endif // SAVEDIALOG_H

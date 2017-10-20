@@ -7,6 +7,8 @@
 #include <QStandardPaths>
 #include <QDateTime>
 #include <QDebug>
+#include <QFileInfo>
+#include <QFileDialog>
 #include <QObject>
 
 const QSize DIALOG_SIZE = QSize(326, 221);
@@ -49,11 +51,6 @@ SaveDialog::SaveDialog(QWidget *parent)
 
     QLabel* valueLabel = new QLabel(this);
 
-    //    QHBoxLayout* titleHLayout = new QHBoxLayout;
-    //    titleHLayout->setMargin(0);
-    //    titleHLayout->setSpacing(0);
-    //    titleHLayout->addWidget(titleLabel, 0, Qt::AlignCenter);
-
     QHBoxLayout* qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
@@ -69,15 +66,77 @@ SaveDialog::SaveDialog(QWidget *parent)
 
     addContent(w);
 
+    connect(contentSaveCBox, &QComboBox::currentTextChanged, this, [=](QString dir){
+        if (dir == tr("Select other directories")) {
+            m_fileDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    }
+    });
+
+    connect(contentFormatCBox, &QComboBox::currentTextChanged, this,
+            [=](QString format){
+        qDebug() << "***" << format;
+        QString filePath;
+        if (m_fileDir.isEmpty())
+        {
+            filePath = QString("%1/%2").arg(getSaveDir(contentSaveCBox->currentText()
+                                                       )).arg(imageEdit->text());
+        } else
+        {
+            filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
+        }
+
+        QString name = QFileInfo(filePath).suffix();
+        m_filePath = filePath.remove(name) + format.toLower();
+        imageEdit->setText(QFileInfo(m_filePath).fileName());
+    });
+
     connect(this, &SaveDialog::buttonClicked, this, [=](int index) {
-        QString filePath = QString("%1/%2").arg(QStandardPaths::writableLocation(
-                                                    QStandardPaths::PicturesLocation)).arg(imageEdit->text());
-        qDebug() << "filePath:" << filePath;
+        if (m_filePath.isEmpty()) {
+
+            if (m_fileDir.isEmpty())
+            {
+                m_filePath = QString("%1/%2").arg(getSaveDir(contentSaveCBox->currentText()
+                                                             )).arg(imageEdit->text());
+            } else
+            {
+                m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
+            }
+        }
         if (index == 1) {
-            emit saveToPath(filePath);
+            emit saveToPath(m_filePath);
             this->close();
         }
     });
+}
+
+QString SaveDialog::getSaveDir(QString dir)
+{
+    if (dir == "Documents")
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::DocumentsLocation);
+    } else if (dir == "Downloads")
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::DownloadLocation);
+    } else if (dir == "Desktop")
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::DesktopLocation);
+    } else if (dir == "Videos")
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::MoviesLocation);
+    } else if (dir == "Music")
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::MusicLocation);
+    }  else
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::PicturesLocation);
+    }
 }
 
 void SaveDialog::keyPressEvent(QKeyEvent *e)
