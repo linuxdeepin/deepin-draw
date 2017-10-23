@@ -3131,5 +3131,63 @@ void ShapesWidget::updateCutShape(CutRation ration)
 
 void ShapesWidget::autoCrop()
 {
-//
+    qreal x1=width(), y1=height(), x2=0, y2=0;
+
+    for(int i = 0; i < m_shapes.length(); i++)
+    {
+        //TODO: image's mainPoints
+        if (m_shapes[i].type == "rectangle" || m_shapes[i].type == "oval" ||
+                m_shapes[i].type == "image" || m_shapes[i].type == "arbitraryCurve" ||
+                m_shapes[i].type == "blur")
+        {
+            for(int j = 0; j < m_shapes[i].mainPoints.length(); j++)
+            {
+                x1 = std::min(x1, m_shapes[i].mainPoints[j].x());
+                y1 = std::min(y1, m_shapes[i].mainPoints[j].y());
+                x2 = std::max(x2, m_shapes[i].mainPoints[j].x());
+                y2 = std::max(y2, m_shapes[i].mainPoints[j].y());
+            }
+        } else {
+            for(int j = 0; j < m_shapes[i].points.length(); j++)
+            {
+
+                x1 = std::min(x1, m_shapes[i].points[j].x());
+                y1 = std::min(y1, m_shapes[i].points[j].y());
+                x2 = std::max(x2, m_shapes[i].points[j].x());
+                y2 = std::max(y2, m_shapes[i].points[j].y());
+            }
+        }
+    }
+
+    x1 -= 1;
+    y1 -= 1;
+
+//    QRect cropRect = QRect(x1, y1, x2 - x1, y2 - y1);
+    emit adjustArtBoardSize(QSize(x2 - x1, y2 - y1));
+    qDebug() << "Auto crop:" << x1 << y1 << x2 - x1 << y2 - y1;
+    //Adjust shapes' coordiante after auto crop.
+    for(int i = 0; i < m_shapes.length(); i++)
+    {
+        //TODO: image's mainPoints
+        if (m_shapes[i].type == "rectangle" || m_shapes[i].type == "oval" ||
+                m_shapes[i].type == "image" || m_shapes[i].type == "arbitraryCurve" ||
+                m_shapes[i].type == "blur")
+        {
+            for(int j = 0; j < m_shapes[i].mainPoints.length(); j++)
+            {
+                m_shapes[i].mainPoints[j] = QPointF(
+                            m_shapes[i].mainPoints[j].x() - x1,
+                            m_shapes[i].mainPoints[j].y() - y1
+                            );
+            }
+        } else {
+            for(int j = 0; j < m_shapes[i].points.length(); j++)
+            {
+                m_shapes[i].points[j] = QPointF(
+                            m_shapes[i].points[j].x() - x1,
+                            m_shapes[i].points[j].y() - y1
+                            );
+            }
+        }
+    }
 }
