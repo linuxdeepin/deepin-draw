@@ -4248,3 +4248,20 @@ QList<QPointF> trisectionPoints(FourPoints fourPoints)
 
     return pointsList;
 }
+
+/****************  jude a point on rectangle ****************************/
+bool pointOnRect(QRect rect, QPoint pos)
+{
+//    QPoint point1 = QPoint(rect.x(), rect.y());
+//    QPoint point2 = QPoint(rect.x(), rect.y() + rect.height());
+//    QPoint point3 = QPoint(rect.x() + rect.width(), rect.y());
+//    QPoint point4 = QPoint(rect.x() + rect.width(), rect.y() + rect.height());
+
+    if (pos.x() >= rect.x() && pos.x() <= rect.x() + rect.width()
+            && pos.y() >= rect.y() && pos.y() <= rect.y() + rect.height())
+    {
+        return true;
+    }
+
+    return false;
+}

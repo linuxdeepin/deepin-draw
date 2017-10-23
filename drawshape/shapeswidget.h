@@ -68,7 +68,7 @@ public:
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
     bool clickedOnLine(FourPoints mainPoints,
-                                         QList<QPointF> points, QPointF pos);
+                       QList<QPointF> points, QPointF pos);
     bool clickedOnText(FourPoints mainPoints, QPointF pos);
     bool rotateOnImagePoint(FourPoints mainPoints, QPointF pos);
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
@@ -82,16 +82,6 @@ public:
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
-
-    QPointF scaledPoint(QRect originRect, QRect scaledRect, QPointF originPos);
-    void scaledShapes(QRect originRect, QRect scaledRect);
-    void scaledRectangle(int index, QRect originRect, QRect scaledRect);
-    void scaledEllipse(int index, QRect originRect, QRect scaledRect);
-    void scaledLine(int index, QRect originRect, QRect scaledRect);
-    void scaledArbitraryCurve(int index, QRect originRect, QRect scaledRect);
-    void scaledArrow(int index, QRect originRect, QRect scaledRect);
-    void scaledText(int index, QRect originRect, QRect scaledRect);
-    void scaledBlur(int index, QRect originRect, QRect scaledRect);
 
     QString  getCurrentType();
     void deleteCurrentShape();
@@ -127,6 +117,8 @@ public slots:
 
     void updateCutShape(CutRation ration);
     void autoCrop();
+    void recordOriginSize();
+    void appendNewShape(Toolshape shape);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -169,6 +161,7 @@ private:
     QString m_imageSavePath = "";
     bool m_scaledImage = false;
     bool m_stickCurosr = false;
+    bool m_rationChanged = false;
 
     int m_shapesIndex;
     int m_selectedIndex;
@@ -181,6 +174,7 @@ private:
     bool m_imageCutting = false;
     bool m_rotateImage = false;
     bool m_inBtmRight = false;
+    bool m_saveWithRation = false;
 
     QColor m_penColor;
     QColor m_brushColor;
@@ -205,6 +199,9 @@ private:
     qreal m_artBoardActualHeight;
     qreal m_artBoardWindowWidth;
     qreal m_artBoardWindowHeight;
+    qreal m_canvasSideLength;
+    qreal m_ration;
+    qreal m_saveRation;
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
 

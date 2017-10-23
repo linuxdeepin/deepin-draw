@@ -14,9 +14,6 @@ bool    pointClickIn(QPointF point2, QPointF point1, int padding = 4);
 /* judge whether the point3 is on the segment*/
 bool    pointOnLine(QPointF point1, QPointF point2, QPointF point3);
 
-///* To determine whether a point on the rectangle*/
-//bool    pointOnRect(DiagPoints diagPoints, QPointF pos);
-
 /* get the distance between two points*/
 qreal getDistance(QPointF point1, QPointF point2);
 
@@ -280,4 +277,6 @@ FourPoints getRationFPoints(QPointF point1, QPointF point2, QString ration);
 
 /**************** divie the rectangle into nine parts ********************/
 QList<QPointF> trisectionPoints(FourPoints fourPoints);
+/****************  jude a point on rectangle ****************************/
+bool pointOnRect(QRect rect, QPoint pos);
 #endif // CALCULATERECT_H
