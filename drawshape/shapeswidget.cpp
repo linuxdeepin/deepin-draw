@@ -1850,6 +1850,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
         qDebug() << "XXoriginRect :" << originRect << scaledRect << m_artBoardActualWidth << m_artBoardActualHeight;
         emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
+        m_pos1 = m_pos2;
     }
 
     if (m_isRecording && m_isPressed)
@@ -2879,10 +2880,9 @@ QRect ShapesWidget::effectiveRect()
 QRect ShapesWidget::rightBottomRect()
 {
     QPoint rightBtnPos = this->rect().bottomRight();
-    const int MARGIN = 25;
-    const int SPACING = 20;
+    const int SPACING = 10;
 
-    QPoint orginPos = QPoint(rightBtnPos.x() - MARGIN, rightBtnPos.y() - MARGIN);
+    QPoint orginPos = QPoint(rightBtnPos.x() - SPACING, rightBtnPos.y() - SPACING);
 
     return QRect(
                 orginPos.x() - SPACING, orginPos.y() - SPACING,
