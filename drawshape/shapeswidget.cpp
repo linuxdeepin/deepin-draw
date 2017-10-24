@@ -55,6 +55,14 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 //            this, &ShapesWidget::menuNoFocus);
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
             this, &ShapesWidget::updateSelectedShape);
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
+            this, [=](const QString &group, const QString &key){
+        Q_UNUSED(key);
+        if (group == "artboard")
+        {
+            initCanvasSize();
+        }
+    });
     connect(Importer::instance(), &Importer::importedFiles,
             this, &ShapesWidget::loadImage);
 }
