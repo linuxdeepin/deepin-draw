@@ -1807,8 +1807,8 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         m_pos2 = e->pos();
 
         QRect scaledRect = QRect(0, 0,
-                                 int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())),
-                                 int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())));
+                                 std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
+                                 std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
         qDebug() << "origin scale rect..." << m_pos2.x() - m_pos1.x() << m_pos2.y() - m_pos1.y();
         m_artBoardActualWidth = scaledRect.width();
         m_artBoardActualHeight = scaledRect.height();
