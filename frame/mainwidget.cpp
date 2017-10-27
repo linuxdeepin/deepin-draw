@@ -109,7 +109,7 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     m_seperatorLine->setMinimumWidth(this->width());
 
     updateLayout();
-    updateGeometry();
+//    updateGeometry();
     QWidget::resizeEvent(event);
 }
 

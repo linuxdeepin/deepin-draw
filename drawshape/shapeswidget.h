@@ -125,8 +125,10 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
 
+    void resizeEvent(QEvent* e);
     void paintEvent(QPaintEvent* e);
     void enterEvent(QEvent* e);
+    void leaveEvent(QEvent* e);
     void keyPressEvent(QKeyEvent* e);
 
 private:

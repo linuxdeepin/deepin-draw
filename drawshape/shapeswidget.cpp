@@ -2411,6 +2411,13 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     }
 }
 
+void ShapesWidget::resizeEvent(QEvent* e)
+{
+    Q_UNUSED(e);
+    m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
+    m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
+}
+
 void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -2674,6 +2681,12 @@ void ShapesWidget::enterEvent(QEvent *e)
 {
     Q_UNUSED(e);
     qApp->setOverrideCursor(setCursorShape(m_currentType));
+}
+
+void ShapesWidget::leaveEvent(QEvent* e)
+{
+    Q_UNUSED(e);
+    qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)

@@ -11,7 +11,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     : QLabel(parent)
     , m_scaleValue(1)
 {
-//   setStyleSheet("border: 1px solid rgba(0, 0, 0, 30); background-color: red;");
+//   setStyleSheet("border: 1px solid rgba(0, 0, 0, 30); background-color: green;");
     m_shapesWidget = new ShapesWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
