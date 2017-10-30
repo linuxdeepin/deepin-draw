@@ -158,7 +158,7 @@ private:
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
-    QString m_currentType = "rectangle";
+    QString m_currentType = "";
 
     QString m_imageSavePath = "";
     bool m_scaledImage = false;

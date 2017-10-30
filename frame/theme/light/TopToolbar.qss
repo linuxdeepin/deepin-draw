@@ -232,7 +232,7 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_slim_hover.png);
 }
 
-ToolButton#LineMostThinBtn:checked {
+ToolButton#LineMostThinBtn:pressed {
 border-image: url(:/theme/light/images/draw/blur_slim_active.png);
 }
 
@@ -248,7 +248,7 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_thick_hover.png);
 }
 
-ToolButton#LineThickLineBtn:checked {
+ToolButton#LineThickLineBtn:pressed{
 border-image: url(:/theme/light/images/draw/blur_thick_active.png);
 }
 
