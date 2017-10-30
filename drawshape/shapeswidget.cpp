@@ -1687,7 +1687,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     } else {
         m_isRecording = false;
         qDebug() << "some on shape be clicked!";
-        if (m_editing && m_editMap.contains(m_shapes[m_selectedOrder].index)) {
+        if (m_editing && m_editMap.contains(m_shapes[m_selectedOrder].index))
+        {
             m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
             m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
             m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
@@ -1749,7 +1750,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
 
             m_currentShape.mainPoints = rectFPoints;
-//            m_shapes.append(m_currentShape);
+            //m_shapes.append(m_currentShape);
             appendNewShape(m_currentShape);
 
             if (m_currentShape.type == "cutImage")
@@ -2031,7 +2032,8 @@ void ShapesWidget::paintEllipse(QPainter &painter, Toolshape shape)
     qreal tmpRation = m_ration*m_saveRation;
     for(int i = 0; i < shape.mainPoints.length(); i++)
     {
-        ellipseFPoints[i] = QPointF(shape.mainPoints[i].x()*tmpRation, shape.mainPoints[i].y()*tmpRation);
+        ellipseFPoints[i] = QPointF(shape.mainPoints[i].x()*tmpRation,
+                                                        shape.mainPoints[i].y()*tmpRation);
     }
 
     FourPoints minorPoints = getAnotherFPoints(ellipseFPoints);
@@ -2474,6 +2476,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         Toolshape drawShape;
         drawShape = m_currentShape;
+        bool drawCutRect = false;
         if (m_currentType != "text")
         {
             if (m_currentType != "cutImage")
@@ -2481,8 +2484,12 @@ void ShapesWidget::paintEvent(QPaintEvent *)
                             QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration),
                             QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration), m_isShiftPressed);
             else {
-                QString ration = ConfigSettings::instance()->value("cut", "ration").toString();
-                drawShape.mainPoints = getRationFPoints(m_pos1, m_pos2, ration);
+                if (m_pos2 != QPointF(0, 0))
+                {
+                    drawCutRect = true;
+                    QString ration = ConfigSettings::instance()->value("cut", "ration").toString();
+                    drawShape.mainPoints = getRationFPoints(m_pos1, m_pos2, ration);
+                }
             }
         } else
         {
@@ -2491,10 +2498,16 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         drawShape.lineWidth = m_linewidth;
         //Draw current shape
 
-        qDebug() << "paint current shape:" << m_currentType << m_editing
-                         << QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration)
-                         << QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration);
-        paintShape(painter, drawShape);
+        qDebug() << "paint current shape:" << m_currentType << m_editing;
+
+        if (m_currentType != "cutImage")
+        {
+            paintShape(painter, drawShape);
+        } else
+        {
+            if (drawCutRect)
+                paintShape(painter, drawShape);
+        }
     } else
     {
         qDebug() << "hhhhh:" << m_pos1 << m_pos2;
@@ -2506,7 +2519,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
 //    qDebug() << "paintShape:" << shape.type << shape.imagePath << shape.mainPoints[0];
 
-    if (shape.type != "image" && shape.mainPoints[0] == QPointF(0, 0))
+    if (shape.type != "image" && (shape.mainPoints[0] == QPointF(0, 0)))
     {
         return;
     }
@@ -2584,7 +2597,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
             paintImgPoint(painter, QPointF(shape.points[0].x()*m_ration,
                                        shape.points[0].y()*m_ration), RESIZE_POINT_IMG);
             paintImgPoint(painter, QPointF(shape.points[1].x()*m_ration,
-                          shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
+                                       shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
         }
     } else if (shape.type == "text" && !m_clearAllTextBorder)
     {
@@ -2605,7 +2618,6 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
     {
         paintCutImageRect(painter, shape);
     }
-
 }
 
 void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
@@ -2794,6 +2806,7 @@ void ShapesWidget::showCutImageTips(QPointF pos)
         }
 
         emit cutImageFinished();
+        setCurrentShape("");
         update();
     });
     connect(m_cutImageTips, &CutImageTips::cutRationChanged, this,
