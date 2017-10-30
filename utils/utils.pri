@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/imageutils_freeimage.h \
     $$PWD/imageutils_libexif.h \
     $$PWD/imageutils.h \
-    $$PWD/configsettings.h
+    $$PWD/configsettings.h \
+    $$PWD/dintvalidator.h
 
 SOURCES += \
     $$PWD/baseutils.cpp \
