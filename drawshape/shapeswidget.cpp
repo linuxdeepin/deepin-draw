@@ -1612,7 +1612,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_currentShape.lineWidth = m_linewidth;
 
         m_selectedIndex -= 1;
-        m_shapesIndex += 1;
+        if (m_shapes.length() > 0 && m_shapes[m_shapes.length() - 1].type == "cutImage")
+        {
+            m_shapes.pop_back();
+            m_cutImageTips->hide();
+        } else {
+            m_shapesIndex += 1;
+        }
         m_currentIndex = m_shapesIndex;
 
         m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
