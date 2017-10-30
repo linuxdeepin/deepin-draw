@@ -59,7 +59,8 @@ MainWidget::MainWidget(QWidget *parent)
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
             [=](const QString &group,  const QString &key){
         Q_UNUSED(key);
-        if (group == "artboard") {
+        if (group == "artboard")
+        {
             updateLayout();
             updateGeometry();
         }

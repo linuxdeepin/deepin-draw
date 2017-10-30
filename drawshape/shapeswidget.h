@@ -179,6 +179,7 @@ private:
     bool m_rotateImage = false;
     bool m_inBtmRight = false;
     bool m_saveWithRation = false;
+    bool m_initCanvasSideLength = false;
 
     QColor m_penColor;
     QColor m_brushColor;

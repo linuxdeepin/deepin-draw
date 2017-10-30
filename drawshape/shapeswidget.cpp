@@ -21,6 +21,7 @@ const int SPACING = 12;
 const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.png";
 const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
+const qreal WINDOW_SPACINT = 25;
 const qreal ARTBOARD_MARGIN = 2;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
@@ -1814,23 +1815,39 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         m_pos2 = e->pos();
 
         QRect scaledRect = QRect(0, 0,
-                                 std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
-                                 std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
+            std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
+            std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
+        qreal tmpWindowWidth = window()->geometry().width() - 2*WINDOW_SPACINT;
+        qreal tmpWindowHeight = window()->geometry().height() - 2*WINDOW_SPACINT - 40;
         qDebug() << "origin scale rect..." << m_pos2.x() - m_pos1.x() << m_pos2.y() - m_pos1.y();
-        m_artBoardActualWidth = scaledRect.width();
-        m_artBoardActualHeight = scaledRect.height();
 
-        qreal currentRation = m_canvasSideLength/std::max(
-                    m_artBoardActualWidth, m_artBoardActualHeight);
-        if (currentRation > 0.01)
+        if (!m_initCanvasSideLength && (scaledRect.width() > tmpWindowWidth
+            || scaledRect.height() > tmpWindowHeight))
         {
-            m_ration = currentRation;
-            m_rationChanged = true;
-        } else
-        {
-            m_rationChanged = false;
+            m_canvasSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
+            m_initCanvasSideLength = true;
         }
 
+
+        if (m_ration != 1||scaledRect.width() > tmpWindowWidth
+                || scaledRect.height() > tmpWindowHeight)
+        {
+            qreal currentRation = m_canvasSideLength/std::max(
+                        m_artBoardActualWidth, m_artBoardActualHeight);
+            if (currentRation > 0.01)
+            {
+                m_ration = currentRation;
+                m_rationChanged = true;
+            } else
+            {
+                m_rationChanged = false;
+            }
+
+            m_ration = std::min(m_ration, qreal(1));
+        }
+
+        m_artBoardActualWidth = scaledRect.width();
+        m_artBoardActualHeight = scaledRect.height();
         qDebug() << "@@@@@@" << m_ration;
         emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
         m_pos1 = m_pos2;
