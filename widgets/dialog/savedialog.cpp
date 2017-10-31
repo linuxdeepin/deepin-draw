@@ -75,33 +75,24 @@ SaveDialog::SaveDialog(QWidget *parent)
 
     connect(contentFormatCBox, &QComboBox::currentTextChanged, this,
             [=](QString format){
-        qDebug() << "***" << format;
-        QString filePath;
-        if (m_fileDir.isEmpty())
-        {
-            filePath = QString("%1/%2").arg(getSaveDir(contentSaveCBox->currentText()
-                                                       )).arg(imageEdit->text());
-        } else
-        {
-            filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
-        }
-
-        QString name = QFileInfo(filePath).suffix();
-        m_filePath = filePath.remove(name) + format.toLower();
-        imageEdit->setText(QFileInfo(m_filePath).fileName());
+        QString name = imageEdit->text();
+        QString suffix = QFileInfo(name).suffix();
+        name = imageEdit->text().remove(suffix) + format.toLower();
+        imageEdit->setText(name);
     });
 
     connect(this, &SaveDialog::buttonClicked, this, [=](int index) {
-        if (m_filePath.isEmpty()) {
+        if (m_fileDir.isEmpty())
+        {
+            m_fileDir = getSaveDir(contentSaveCBox->currentText());
+        }
 
-            if (m_fileDir.isEmpty())
-            {
-                m_filePath = QString("%1/%2").arg(getSaveDir(contentSaveCBox->currentText()
-                                                             )).arg(imageEdit->text());
-            } else
-            {
-                m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
-            }
+        if (QFileInfo(imageEdit->text()).suffix().isEmpty())
+        {
+            m_filePath = QString("%1/%2.%3").arg(m_fileDir).arg(
+                        imageEdit->text()).arg(contentFormatCBox->currentText().toLower());
+        } else {
+            m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
         }
         if (index == 1) {
             emit saveToPath(m_filePath);

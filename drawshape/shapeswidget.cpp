@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QColor>
+#include <QPdfWriter>
 #include <cmath>
 
 #include "utils/imageutils.h"
@@ -3015,17 +3016,34 @@ void ShapesWidget::saveImage(const QString &path)
     QPixmap resultPixmap = QPixmap(QSize(m_artBoardActualWidth,
                                          m_artBoardActualHeight));
     resultPixmap.fill(Qt::transparent);
+
     QPainter historyPainter(&resultPixmap);
 
     m_saveWithRation = true;
     m_saveRation = std::max(m_artBoardActualWidth,
         m_artBoardActualHeight)/std::max(m_canvasSideLength, qreal(1));
 
-    for (int k = 0; k < m_shapes.length(); k++)
+    if (QFileInfo(path).suffix() == "pdf")
     {
-        paintShape(historyPainter, m_shapes[k]);
+        QPdfWriter writer(path);
+        QPageSize customSize(QSize(m_artBoardActualWidth,
+                                                m_artBoardActualHeight));
+        writer.setPageSize(customSize);
+        QPainter painter;
+        painter.begin(&writer);
+        for (int k = 0; k < m_shapes.length(); k++)
+        {
+            paintShape(painter, m_shapes[k]);
+        }
+        painter.end();
+    } else {
+        for (int k = 0; k < m_shapes.length(); k++)
+        {
+            paintShape(historyPainter, m_shapes[k]);
+        }
+        resultPixmap.save(path);
     }
-    resultPixmap.save(path);
+
     m_saveWithRation = false;
 }
 

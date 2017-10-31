@@ -341,7 +341,7 @@ void TopToolbar::initMenu()
     QAction* importAc = m_mainMenu->addAction(tr("Import"));
 //    QAction* importFScannerAc = m_mainMenu->addAction(tr("Import from scanner"));
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
-    QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
+//    QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction* printAc = m_mainMenu->addAction(tr("Print"));
     QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
     QAction* helpAc = m_mainMenu->addAction(tr("Help"));
@@ -350,15 +350,15 @@ void TopToolbar::initMenu()
     Q_UNUSED(printAc);
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
-    dApp->setProductIcon(QPixmap(":/theme/common/images/deepin-draw-96.png"));
+    dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.png")));
     dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
                                        " You can freely draw on the layer or simplely edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
-   connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
-   connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
+    connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
+    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
-    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
+//    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
 }
 
 void TopToolbar::showDrawDialog()
