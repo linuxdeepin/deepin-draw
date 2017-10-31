@@ -61,7 +61,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
         Q_UNUSED(key);
         if (group == "artboard")
         {
-            initCanvasSize();
+            updateCanvasSize();
         }
     });
     connect(Importer::instance(), &Importer::importedFiles,
@@ -1815,25 +1815,22 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         m_pos2 = e->pos();
 
         QRect scaledRect = QRect(0, 0,
-            std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
-            std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
+                                 std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
+                                 std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
+
+        qDebug() << "origin scale rect..." <<  m_artBoardActualWidth << m_artBoardActualHeight
+                          << scaledRect.width() << scaledRect.height();
         qreal tmpWindowWidth = window()->geometry().width() - 2*WINDOW_SPACINT;
         qreal tmpWindowHeight = window()->geometry().height() - 2*WINDOW_SPACINT - 40;
-        qDebug() << "origin scale rect..." << m_pos2.x() - m_pos1.x() << m_pos2.y() - m_pos1.y();
-
-        if (!m_initCanvasSideLength && (scaledRect.width() > tmpWindowWidth
-            || scaledRect.height() > tmpWindowHeight))
-        {
-            m_canvasSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
+        if (!m_initCanvasSideLength) {
+            m_canvasMicroSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
             m_initCanvasSideLength = true;
         }
-
-
-        if (m_ration != 1||scaledRect.width() > tmpWindowWidth
-                || scaledRect.height() > tmpWindowHeight)
+        if (m_ration != 1 || scaledRect.width() > tmpWindowWidth
+            || scaledRect.height() > tmpWindowHeight)
         {
-            qreal currentRation = m_canvasSideLength/std::max(
-                        m_artBoardActualWidth, m_artBoardActualHeight);
+            qreal currentRation = m_canvasMicroSideLength/std::max(
+                        scaledRect.width(), scaledRect.height());
             if (currentRation > 0.01)
             {
                 m_ration = currentRation;
@@ -1843,12 +1840,12 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 m_rationChanged = false;
             }
 
-            m_ration = std::min(m_ration, qreal(1));
+            qDebug() << "@@@@@@" << m_ration << currentRation;
         }
 
         m_artBoardActualWidth = scaledRect.width();
         m_artBoardActualHeight = scaledRect.height();
-        qDebug() << "@@@@@@" << m_ration;
+
         emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
         m_pos1 = m_pos2;
     }
@@ -2967,6 +2964,46 @@ QRect ShapesWidget::rightBottomRect()
     return QRect(
                 orginPos.x() - SPACING, orginPos.y() - SPACING,
                 SPACING*2 - 3, SPACING*2 - 3);
+}
+
+void ShapesWidget::updateCanvasSize()
+{
+    int newArtboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    int newArtboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+    if (newArtboardActualWidth == m_artBoardActualWidth
+            && newArtboardActualHeight == m_artBoardActualHeight)
+        return;
+
+    qDebug() << "updateCanvasSize..." << m_artBoardActualWidth << m_artBoardActualHeight
+                     <<  newArtboardActualWidth << newArtboardActualHeight;
+
+    if (m_shapes.length() > 0)
+    {
+        qreal tmpWindowWidth = window()->geometry().width() - 2*WINDOW_SPACINT;
+        qreal tmpWindowHeight = window()->geometry().height() - 2*WINDOW_SPACINT - 40;
+
+        if (m_ration != 1 || newArtboardActualWidth> tmpWindowWidth
+                || newArtboardActualHeight > tmpWindowHeight)
+        {
+            m_canvasSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
+            qreal currentRation = m_canvasSideLength/std::max(
+                        newArtboardActualWidth, newArtboardActualHeight);
+            if (currentRation > 0.01)
+            {
+                m_ration = currentRation;
+                m_rationChanged = true;
+            } else
+            {
+                m_rationChanged = false;
+            }
+
+            m_ration = std::min(m_ration, qreal(1));
+        }
+    }
+    m_artBoardActualWidth = newArtboardActualWidth;
+    m_artBoardActualHeight = newArtboardActualHeight;
+    update();
 }
 
 void ShapesWidget::saveImage(const QString &path)

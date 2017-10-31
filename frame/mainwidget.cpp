@@ -100,6 +100,13 @@ void MainWidget::updateLayout()
     artboardWindowWidth = window()->width() - HOR_MARGIN*2;
     artboardWindowHeight = window()->height() - TITLEBAR_HEIGHT - VER_MARGIN*2;
 
+    qreal xRation = artboardWindowWidth/qreal(artboardActualWidth);
+    qreal yRation = artboardWindowHeight/qreal(artboardActualHeight);
+
+    qreal resultRation = std::min(xRation, yRation);
+    artboardWindowWidth = resultRation*artboardActualWidth;
+    artboardWindowHeight = resultRation*artboardActualHeight;
+
     m_canvas->setFixedSize(artboardWindowWidth, artboardWindowHeight);
 }
 

@@ -92,6 +92,7 @@ public:
 
     QRect effectiveRect();
     QRect rightBottomRect();
+    void updateCanvasSize();
 
     void saveImage(const QString &path);
 
@@ -205,6 +206,7 @@ private:
     qreal m_artBoardWindowWidth;
     qreal m_artBoardWindowHeight;
     qreal m_canvasSideLength;
+    qreal m_canvasMicroSideLength;
     qreal m_ration;
     qreal m_saveRation;
 
