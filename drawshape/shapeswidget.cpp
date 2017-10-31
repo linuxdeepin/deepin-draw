@@ -2711,8 +2711,30 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_R)
     {
-
     }
+}
+
+void ShapesWidget::dragEnterEvent(QDragEnterEvent* e)
+{
+    e->accept();
+}
+void ShapesWidget::dropEvent(QDropEvent* e)
+{
+    QList<QUrl> urls = e->mimeData()->urls();
+    if (urls.isEmpty())
+        return;
+
+    QStringList paths;
+    for (QUrl url : urls)
+    {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).exists())
+        {
+            paths.append(path);
+        }
+    }
+
+    loadImage(paths);
 }
 
 void ShapesWidget::deleteCurrentShape()

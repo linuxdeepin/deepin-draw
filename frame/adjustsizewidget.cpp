@@ -22,7 +22,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_widthLEdit = new QLineEdit(this);
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(80);
-    DIntValidator* validator = new DIntValidator( 20, 500000, this );
+    DIntValidator* validator = new DIntValidator(20, 500000, this );
 
     m_widthLEdit->setValidator(validator);
     connect(m_widthLEdit, &QLineEdit::textChanged, this, [=](const QString &text){

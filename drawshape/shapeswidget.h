@@ -130,6 +130,8 @@ protected:
     void enterEvent(QEvent* e);
     void leaveEvent(QEvent* e);
     void keyPressEvent(QKeyEvent* e);
+    void dragEnterEvent(QDragEnterEvent* e);
+    void dropEvent(QDropEvent* e);
 
 private:
     QPointF m_pos1 = QPointF(0, 0);
