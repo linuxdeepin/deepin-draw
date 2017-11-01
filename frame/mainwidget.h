@@ -32,6 +32,7 @@ signals:
 
 public:
     void updateLayout();
+    void openImage(QString path);
 
 protected:
     void resizeEvent(QResizeEvent* event);

@@ -40,6 +40,11 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
 }
 
+void CanvasWidget::openImage(QString path)
+{
+    m_shapesWidget->loadImage(QStringList() << path);
+}
+
 CanvasWidget::~CanvasWidget()
 {
 }
