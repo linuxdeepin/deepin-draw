@@ -3260,6 +3260,7 @@ void ShapesWidget::cutImage()
                 (this->width() - m_shapes[imageIndex].imageSize.width())/2,
                 (this->height() - m_shapes[imageIndex].imageSize.height())/2);
             }
+            m_shapes[imageIndex].rotate = 0;
             m_shapes[imageIndex].mainPoints[0] = QPointF(m_startPos.x(), m_startPos.y());
             m_shapes[imageIndex].mainPoints[1] = QPointF(m_startPos.x(),
                                               m_startPos.y()+ m_shapes[imageIndex].imageSize.height());
