@@ -289,9 +289,7 @@ void TopToolbar::initStackWidget()
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
-    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop);
-    m_colorARect->setWindowFlags(Qt::Popup);
-//    m_colorARect->setFocusPolicy(Qt::StrongFocus);
+    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
     m_colorARect->setArrowX(25);
     m_colorARect->setArrowWidth(30);
     m_colorARect->setContent(m_colorPanel);
@@ -428,13 +426,13 @@ void TopToolbar::setDrawStatus(DrawStatus drawstatus)
     m_drawStatus = drawstatus;
 }
 
-void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos)
+void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
 {
     m_drawStatus = drawstatus;
     m_colorPanel->setDrawStatus(m_drawStatus);
     m_colorPanel->updateColorButtonStatus();
 
-    if (m_colorARect->isHidden())
+    if (visible)
         m_colorARect->show(pos.x(), pos.y() + 8);
     else
         m_colorARect->hide();

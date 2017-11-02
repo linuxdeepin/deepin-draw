@@ -13,7 +13,7 @@ public:
     ~FillshapeWidget();
 
 signals:
-    void showColorPanel(DrawStatus drawstatus, QPoint pos);
+    void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible=true);
 
 };
 

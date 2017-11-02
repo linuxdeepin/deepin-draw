@@ -19,8 +19,8 @@ LineWidget::LineWidget(QWidget *parent)
 
     BorderColorButton* strokeButton = new BorderColorButton(this);
 
-    connect(strokeButton, &BorderColorButton::clicked, this, [=]{
-        showColorPanel(DrawStatus::Stroke, cursor().pos());
+    connect(strokeButton, &BorderColorButton::btnCheckStateChanged, this, [=](bool show){
+        showColorPanel(DrawStatus::Stroke, cursor().pos(), show);
     });
 
     SeperatorLine* sep1Line = new SeperatorLine(this);
