@@ -73,7 +73,7 @@ void ShapesWidget::initAttribute()
 {
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { "
-//                              "background-color: pink;"
+                              "background-color: transparent;"
                               "margin: 0px;"
                               "border: 2px solid grey;}");
     setFocusPolicy(Qt::StrongFocus);
@@ -1814,7 +1814,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     if (m_inBtmRight && m_isPressed)
     {
         m_pos2 = e->pos();
-
+        emit updateMiddleWidgets("adjustsize");
         QRect scaledRect = QRect(0, 0,
                                  std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
                                  std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
@@ -3191,25 +3191,86 @@ void ShapesWidget::cutImage()
         m_currentShape.mainPoints.clear();
         m_cutShape.type = "";
         m_currentShape.type = "";
+        FourPoints imgFourPoints = m_shapes[m_shapes.length() - 2].mainPoints;
         m_shapes.removeAt(m_shapes.length() - 1);
         update();
 
         QPixmap cutImage = this->grab(rect());
+        QPolygon imgPolygon;
+        imgPolygon << QPoint(imgFourPoints[0].x(), imgFourPoints[0].y())
+                              << QPoint(imgFourPoints[1].x(), imgFourPoints[1].y())
+                              << QPoint(imgFourPoints[3].x(), imgFourPoints[3].y())
+                              << QPoint(imgFourPoints[2].x(), imgFourPoints[2].y())
+                              << QPoint(imgFourPoints[0].x(), imgFourPoints[0].y());
+        QPolygon cutPolygon;
+        cutPolygon << QPoint(rectFPoints[0].x(), rectFPoints[0].y())
+                            << QPoint(rectFPoints[1].x(), rectFPoints[1].y())
+                            << QPoint(rectFPoints[3].x(), rectFPoints[3].y())
+                            << QPoint(rectFPoints[2].x(), rectFPoints[2].y())
+                            << QPoint(rectFPoints[0].x(), rectFPoints[0].y());
 
+        imgPolygon = imgPolygon.intersected(cutPolygon);
+
+        qDebug() << "polygon:" << imgPolygon.count();
        cutImage = cutImage.copy(
                    rectFPoints[0].x(), rectFPoints[0].y(),
                    std::abs(rectFPoints[3].x() - rectFPoints[0].x()),
                    std::abs(rectFPoints[3].y() - rectFPoints[0].y()));
 
-        if (!cutImage.isNull())
+       for(int i = 0; i < imgPolygon.count(); i++)
+       {
+           imgPolygon[i] = QPoint(imgPolygon.at(i).x() - rectFPoints[0].x(),
+                                                     imgPolygon.at(i).y() - rectFPoints[0].y());
+
+       }
+
+       QRect imgPolygonRect = imgPolygon.boundingRect();
+       if (imgPolygonRect.width() == 0 || imgPolygonRect.height() == 0)
+       {
+           emit cutImageFinished();
+           return;
+       }
+       QPixmap resultImage = cutImage;
+       resultImage.fill(Qt::transparent);
+       QPainter painter(&resultImage);
+       painter.setClipping(true);
+       painter.setClipRegion(imgPolygon);
+       painter.drawPixmap(0, 0, cutImage);
+       painter.setClipping(false);
+
+        if (!resultImage.isNull())
         {
             QString tmpFilename = TempFile::instance()->getRandomFile("cutImage");
-            cutImage.save(tmpFilename, "png");
-            m_ownImages = false;
-            m_shapes.clear();
-            m_backgroundPixmap.fill(Qt::transparent);
-            m_emptyBgPixmap.fill(Qt::transparent);
-            loadImage(QStringList() << tmpFilename);
+            resultImage.save(tmpFilename, "png");
+            int imageIndex = m_shapes.length() - 1;
+            m_shapes[imageIndex].imagePath = tmpFilename;
+            m_shapes[imageIndex].imageSize = QPixmap(tmpFilename).size();
+
+            if (m_shapes[imageIndex].imageSize.width() > (m_artBoardWindowWidth - m_startPos.x()) ||
+                    m_shapes[imageIndex].imageSize.height() > (m_artBoardWindowHeight - m_startPos.y())) {
+                m_shapes[imageIndex].imageSize = QPixmap(tmpFilename).scaled(
+                int(std::abs(m_artBoardWindowWidth - m_startPos.x())/m_ration),
+                int(std::abs(m_artBoardWindowHeight - m_startPos.y())/m_ration),
+                Qt::KeepAspectRatio, Qt::SmoothTransformation).size();
+            }
+
+            if (m_shapes.length() == 1)
+            {
+                m_startPos = QPointF(
+                (this->width() - m_shapes[imageIndex].imageSize.width())/2,
+                (this->height() - m_shapes[imageIndex].imageSize.height())/2);
+            }
+            m_shapes[imageIndex].mainPoints[0] = QPointF(m_startPos.x(), m_startPos.y());
+            m_shapes[imageIndex].mainPoints[1] = QPointF(m_startPos.x(),
+                                              m_startPos.y()+ m_shapes[imageIndex].imageSize.height());
+            m_shapes[imageIndex].mainPoints[2] = QPointF(m_startPos.x() +
+                                              m_shapes[imageIndex].imageSize.width(), m_startPos.y());
+            m_shapes[imageIndex].mainPoints[3] = QPointF(m_startPos.x() +
+                                              m_shapes[imageIndex].imageSize.width(), m_startPos.y() +
+                                              m_shapes[imageIndex].imageSize.height());
+            m_ownImages = true;
+            m_selectedOrder = imageIndex;
+            compressToImage();
             m_moveFillShape = true;
 
             emit cutImageFinished();

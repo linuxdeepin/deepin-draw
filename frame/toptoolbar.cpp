@@ -401,8 +401,9 @@ void TopToolbar::updateMiddleWidget(QString type)
     } else if (type == "text")
     {
         setMiddleStackWidget(Status::DrawText);
-    } else
+    } else if (type == "adjustsize")
     {
+        setMiddleStackWidget(Status::AdjustSize);
         qDebug() << "updateMiddleWidget type:" << type;
     }
 }
