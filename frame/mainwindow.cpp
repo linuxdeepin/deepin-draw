@@ -9,21 +9,26 @@
 
 #include <DTitlebar>
 
-const QSize WINDOW_MINISIZR = QSize(800, 500);
+const QSize WINDOW_MINISIZR = QSize(760, 540);
+const int ARTBOARD_MARGIN = 25;
+const int TITLEBAR_HEIGHT = 40;
 
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
-    int defaultW = ConfigSettings::instance()->value("window", "width").toInt();
-    int defaultH = ConfigSettings::instance()->value("window", "height").toInt();
+    int defaultW = 0/*ConfigSettings::instance()->value("window", "width").toInt()*/;
+    int defaultH = 0/*ConfigSettings::instance()->value("window", "height").toInt()*/;
 
-    if (defaultW == 0 || defaultH == 0)
-    {
+//    if (defaultW == 0 || defaultH == 0)
+//    {
         window()->setWindowState(Qt::WindowMaximized);
-    } else
-    {
-       window()->resize(defaultW, defaultH);
-    }
+         QSize desktopSize = qApp->desktop()->size();
+        ConfigSettings::instance()->setValue("artboard", "width",  desktopSize.width());
+        ConfigSettings::instance()->setValue("artboard", "height", desktopSize.height());
+//    } else
+//    {
+//       window()->resize(defaultW, defaultH);
+//    }
 
     setMinimumSize(WINDOW_MINISIZR);
 
@@ -64,6 +69,29 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::adjustArtBoardSize);
     connect(m_mainWidget, &MainWidget::cutImageFinished,
             m_topToolbar, &TopToolbar::cutImageFinished);
+}
+
+void MainWindow::openImage(QString path)
+{
+    QSize imageSize = QPixmap(path).size();
+    QSize desktopSize = qApp->desktop()->size();
+    int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
+    int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
+
+    if (imageSize.width() > ww || imageSize.height() > wh)
+    {
+        resize(desktopSize.width(), desktopSize.height());
+    } else {
+        int imgW = imageSize.width() + 2*ARTBOARD_MARGIN;
+        int imgH = imageSize.height() + 2*ARTBOARD_MARGIN + TITLEBAR_HEIGHT;
+
+       ConfigSettings::instance()->setValue("artboard", "width",  imageSize.width());
+       ConfigSettings::instance()->setValue("artboard", "height", imageSize.height());
+
+        resize(imgW, imgH);
+    }
+
+    m_mainWidget->openImage(path);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

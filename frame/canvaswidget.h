@@ -18,6 +18,8 @@ public:
     CanvasWidget(QWidget* parent = 0);
     ~CanvasWidget();
 
+    void openImage(QString path);
+
 signals:
     void drawShapeChanged(QString shape);
     void fillShapeSelectedActive(bool selected);
@@ -29,7 +31,6 @@ signals:
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
-
 
 private:
     QString m_currentFile;

@@ -121,6 +121,11 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
+void MainWidget::openImage(QString path)
+{
+    m_canvas->openImage(path);
+}
+
 MainWidget::~MainWidget()
 {
 }

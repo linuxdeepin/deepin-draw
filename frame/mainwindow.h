@@ -19,6 +19,8 @@ public:
     MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
+    void openImage(QString path);
+
 protected:
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);

@@ -76,6 +76,23 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     layout->addWidget(cutTransAreaBtn);
     setLayout(layout);
 
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
+            this, [=](const QString &group, const QString &key){
+        Q_UNUSED(key);
+        if (group == "artboard")
+        {
+            int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+            int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+            if (canvasWidth == 0|| canvasHeight == 0)
+            {
+                QSize desktopSize = qApp->desktop()->size();
+                canvasWidth = desktopSize.width();
+                canvasHeight = desktopSize.height();
+            }
+            setCanvasSize(QSize(canvasWidth, canvasHeight));
+        }
+    });
     connect(cutTransAreaBtn, &ToolButton::clicked, this, &AdjustsizeWidget::autoCrop);
 }
 
