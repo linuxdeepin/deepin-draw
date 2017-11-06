@@ -89,6 +89,7 @@ ColorButton::~ColorButton()
 ColorPanel::ColorPanel(QWidget *parent)
     : QWidget(parent)
      , m_expand(false)
+    , m_drawstatus(DrawStatus::Fill)
 {
     DRAW_THEME_INIT_WIDGET("ColorPanel");
     if (!m_expand)
@@ -115,8 +116,19 @@ ColorPanel::ColorPanel(QWidget *parent)
         connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
     }
 
-    m_sliderLabel = new SliderLabel("Alpha", this);
+    m_sliderLabel = new SliderLabel("Alpha", m_drawstatus, this);
     m_sliderLabel->setFixedHeight(25);
+    connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [=](int value){
+        ConfigSettings::instance()->setValue("common", "alpha", value);
+
+        if (m_drawstatus == DrawStatus::Stroke)
+        {
+            ConfigSettings::instance()->setValue("common", "strokeColor_alpha", value);
+        } else
+        {
+            ConfigSettings::instance()->setValue("common", "fillColor_alpha", value);
+        }
+    });
 
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
@@ -191,6 +203,7 @@ ColorPanel::ColorPanel(QWidget *parent)
 
 void ColorPanel::setColor(QColor color)
 {
+    Q_UNUSED(color);
 }
 
 void ColorPanel::setDrawStatus(DrawStatus status)
@@ -206,6 +219,7 @@ void ColorPanel::setDrawStatus(DrawStatus status)
         colorName = ConfigSettings::instance()->value("common", "fillColor").toString();
     }
     m_editLabel->setEditText(colorName);
+    m_sliderLabel->updateDrawStatus(m_drawstatus);
 }
 
 void ColorPanel::setConfigColor(QColor color)
@@ -213,10 +227,10 @@ void ColorPanel::setConfigColor(QColor color)
     m_editLabel->setEditText(color.name());
     if (m_drawstatus == DrawStatus::Stroke)
     {
-        ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexArgb));
+        ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexRgb));
     } else
     {
-        ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexArgb));
+        ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexRgb));
     }
 }
 

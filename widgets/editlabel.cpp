@@ -43,7 +43,7 @@ void EditLabel::setEditWidth(int width)
     this->updateGeometry();
 }
 
-QString EditLabel::getEditText()
+QString EditLabel::editText()
 {
     return m_edit->text();
 }

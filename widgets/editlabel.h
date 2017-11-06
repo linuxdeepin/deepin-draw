@@ -14,7 +14,7 @@ public:
     void setTitle(QString title);
     void setEditText(QString text);
     void setEditWidth(int width);
-    QString getEditText();
+    QString editText();
 
 signals:
     void editTextChanged(QString text);

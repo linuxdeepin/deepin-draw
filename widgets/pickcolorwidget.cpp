@@ -76,9 +76,9 @@ void PickColorWidget::setRgbValue(QColor color)
 
 void PickColorWidget::updateColor()
 {
-    int r = m_redEditLabel->getEditText().toInt();
-    int g = m_greenEditLabel->getEditText().toInt();
-    int b = m_blueEditLabel->getEditText().toInt();
+    int r = m_redEditLabel->editText().toInt();
+    int g = m_greenEditLabel->editText().toInt();
+    int b = m_blueEditLabel->editText().toInt();
 
     if (QColor(r, g, b).isValid()) {
         emit pickedColor(QColor(r, g, b));

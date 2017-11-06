@@ -20,6 +20,8 @@ ConfigSettings::ConfigSettings(QObject *parent)
     {
         setValue("artboard", "width", canvasSize.width());
         setValue("artboard", "height", canvasSize.height());
+        setValue("common", "strokeColor_alpha", 100);
+        setValue("common", "fillColor_alpha", 100);
         setValue("common", "strokeColor", "#f6f96d");
         setValue ("common", "fillColor",  "#6bc989");
         setValue("common", "lineWidth", 2);

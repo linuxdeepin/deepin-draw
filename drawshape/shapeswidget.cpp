@@ -98,9 +98,19 @@ void ShapesWidget::initAttribute()
     m_penColor = QColor(ConfigSettings::instance()->value(
                             "common", "strokeColor").toString());
 
-    qDebug() << "initAttribute:" << m_penColor;
+    int penAlpha = ConfigSettings::instance()->value("common", ""
+                                                               "strokeColor_alpha").toInt();
+    qreal value = qreal(penAlpha)/100*255;
+    m_penColor = QColor(m_penColor.red(), m_penColor.green(),
+                        m_penColor.blue(), int(value));
+
     m_brushColor = QColor(ConfigSettings::instance()->value(
                               "common", "fillColor").toString());
+    int brushAlpha = ConfigSettings::instance()->value("common",
+                                                       "fillColor_alpha").toInt();
+    value = qreal(brushAlpha)/100*255;
+    m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
+                          m_brushColor.blue(), int(value));
     qDebug() << "initAttribute:" << m_brushColor;
     m_textFontsize = ConfigSettings::instance()->value("text",
                                                        "fontsize").toInt();
@@ -133,12 +143,25 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                       << m_shapes.length() << m_selectedOrder;
 
     if ("common" == group) {
-        if (key == "strokeColor") {
+        int colorAlpha = 100;
+        if (key == "strokeColor" || key == "strokeColor_alpha") {
+            colorAlpha = ConfigSettings::instance()->value("common",
+                                                           "strokeColor_alpha").toInt();
+            qreal value = qreal(colorAlpha)/qreal(100)*255;
+
             m_penColor = QColor(ConfigSettings::instance()->value(
                                     "common", "strokeColor").toString());
-        } else if (key == "fillColor") {
+            m_penColor = QColor(m_penColor.red(), m_penColor.green(),
+                                m_penColor.blue(), int(value));
+        } else if (key == "fillColor" || key == "fillColor_alpha") {
+            colorAlpha = ConfigSettings::instance()->value("common",
+                                                           "fillColor_alpha").toInt();
+            qreal value = qreal(colorAlpha)/qreal(100)*255;
+
             m_brushColor = QColor(ConfigSettings::instance()->value(
                                       "common", "fillColor").toString());
+            m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
+                                  m_brushColor.blue(), int(value));
         } else if (key == "lineWidth") {
             m_linewidth = ConfigSettings::instance()->value(
                                      "common", "lineWidth").toInt();

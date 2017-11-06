@@ -1,6 +1,9 @@
 #include "sliderlabel.h"
 
 #include <QHBoxLayout>
+#include <QDebug>
+
+#include "utils/configsettings.h"
 
 Slider::Slider(QWidget *parent)
     : QLabel(parent)
@@ -25,17 +28,43 @@ Slider::Slider(QWidget *parent)
     mLayout->addSpacing(20);
     mLayout->addWidget(m_valueLabel);
     setLayout(mLayout);
+    connect(m_slider, &QSlider::valueChanged, this, [=](int value){
+        emit valueChanged(value);
+        m_valueLabel->setText(QString("%1%").arg(value));
+    });
+}
+
+void Slider::setAlphaValue(int value)
+{
+    qDebug() << "value..." << value;
+    m_valueLabel->setText(QString("%1%").arg(value));
+    m_slider->setValue(value);
+}
+
+int Slider::alphaValue()
+{
+    return m_slider->value();
 }
 
 Slider::~Slider() {}
 
-SliderLabel::SliderLabel(QString text, QWidget* parent)
+SliderLabel::SliderLabel(QString text, DrawStatus status, QWidget* parent)
     : QLabel(parent)
 {
     m_text = text;
+    m_drawStatus = status;
 
     m_titleLabel = new QLabel(this);
     m_slider = new Slider(this);
+    int colorAlpha;
+    if (m_drawStatus == DrawStatus::Fill)
+    {
+        colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+    } else
+    {
+        colorAlpha = ConfigSettings::instance()->value("common", "strokeColorColor_alpha").toInt();
+    }
+    m_slider->setAlphaValue(colorAlpha);
 
     m_titleLabel->setText(m_text);
 
@@ -47,6 +76,27 @@ SliderLabel::SliderLabel(QString text, QWidget* parent)
     mLayout->addSpacing(4);
     mLayout->addWidget(m_slider, 0, Qt::AlignRight);
     setLayout(mLayout);
+
+    connect(m_slider, &Slider::valueChanged, this, &SliderLabel::alphaChanged);
+}
+
+int SliderLabel::alpha()
+{
+    return m_slider->alphaValue();
+}
+
+void SliderLabel::updateDrawStatus(DrawStatus status)
+{
+    int colorAlpha;
+    m_drawStatus = status;
+    if (m_drawStatus == DrawStatus::Fill)
+    {
+        colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+    } else
+    {
+        colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
+    }
+    m_slider->setAlphaValue(colorAlpha);
 }
 
 void SliderLabel::setTitle(const QString &text) {
