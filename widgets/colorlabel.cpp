@@ -17,6 +17,7 @@ ColorLabel::ColorLabel(QWidget *parent)
     connect(this, &ColorLabel::clicked, this, [=]{
         if (m_picking)
         {
+            qDebug() << "clickedPos:" << m_clickedPos;
             pickColor(m_clickedPos);
         }
     });
@@ -63,8 +64,8 @@ void ColorLabel::pickColor(QPoint pos)
 {
     QPixmap pickPixmap;
     pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
-
     QImage pickImg = pickPixmap.toImage();
+
     if (!pickImg.isNull())
     {
         QRgb pickRgb = pickImg.pixel(pos);
@@ -124,10 +125,11 @@ void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
 {
     if (m_pressed)
     {
+        m_clickedPos = e->pos();
         emit clicked();
     }
 
-    m_clickedPos = e->pos();
+    m_pressed = false;
     QLabel::mouseReleaseEvent(e);
 }
 

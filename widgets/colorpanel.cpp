@@ -133,16 +133,22 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->addSpacing(3);
     colorLayout->addWidget(m_colorfulBtn);
 
-    PickColorWidget* pickColWidget = new PickColorWidget(this);
 
+    PickColorWidget* pickColWidget = new PickColorWidget(this);
     connect(pickColWidget, &PickColorWidget::pickedColor, this,
             [=](QColor color)
     {
-        m_editLabel->setEditText(color.name());
+        Q_UNUSED(color);
+        colorsButtonGroup->setExclusive(false);
+        foreach (ColorButton* cb, m_cButtonList) {
+            cb->setChecked(false);
+        }
+        colorsButtonGroup->setExclusive(true);
     });
 
     connect(pickColWidget, &PickColorWidget::pickedColor, this,
-            &ColorPanel::setConfigColor);
+        &ColorPanel::setConfigColor);
+
     connect(m_editLabel, &EditLabel::editTextChanged,  this, [=](QString text){
         if (QColor(text).isValid())
         {
@@ -204,6 +210,7 @@ void ColorPanel::setDrawStatus(DrawStatus status)
 
 void ColorPanel::setConfigColor(QColor color)
 {
+    m_editLabel->setEditText(color.name());
     if (m_drawstatus == DrawStatus::Stroke)
     {
         ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexArgb));
