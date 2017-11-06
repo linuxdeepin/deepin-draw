@@ -1502,7 +1502,8 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
 
-       qDebug() << "handleResize:" << m_selectedIndex << m_selectedOrder <<  m_isShiftPressed;
+       qDebug() << "@@@handleResize:" << m_selectedIndex << m_selectedOrder << m_shapes.length()
+                <<  m_isShiftPressed;
         m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
