@@ -72,7 +72,7 @@ public slots:
 
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
-    void showColorfulPanel(DrawStatus drawstatus, QPoint pos);
+    void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
 
 protected:
     void resizeEvent(QResizeEvent *event);

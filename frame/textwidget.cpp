@@ -11,8 +11,8 @@ TextWidget::TextWidget(QWidget *parent)
     : QWidget(parent)
 {
     BigColorButton* fillBtn = new BigColorButton(this);
-    connect(fillBtn, &BigColorButton::clicked, this, [=]{
-        showColorPanel(DrawStatus::Fill, cursor().pos());
+    connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [=](bool show){
+        showColorPanel(DrawStatus::Fill, cursor().pos(), show);
     });
 
     QLabel* colBtnLabel = new QLabel(this);

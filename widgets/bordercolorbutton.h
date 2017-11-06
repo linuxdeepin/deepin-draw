@@ -13,8 +13,9 @@ public:
 
     void setColor(QColor color);
     void setColorIndex(int index);
-    void setCheckedStatus(bool checked);
+    void updateCheckedStatus();
     void updateConfigColor(const QString &group,  const QString &key);
+    void resetChecked();
 
 signals:
     void btnCheckStateChanged(bool checked);
@@ -23,6 +24,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
+    void mousePressEvent(QMouseEvent* );
 
 private:
     QColor m_color;
