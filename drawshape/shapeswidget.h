@@ -126,8 +126,8 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
 
-    void resizeEvent(QEvent* e);
     void paintEvent(QPaintEvent* e);
+    void resizeEvent(QEvent* e);
     void enterEvent(QEvent* e);
     void leaveEvent(QEvent* e);
     void keyPressEvent(QKeyEvent* e);
@@ -142,7 +142,9 @@ private:
     QPointF m_movingPoint;
 
     QPixmap m_emptyBgPixmap;
-    QPixmap m_backgroundPixmap;
+    QPixmap m_topPixmap;
+    QPixmap m_middlePixmap;
+    QPixmap m_bottomPixmap;
 
     int m_bgContainShapeNum;
     QPointF m_startPos;
@@ -156,7 +158,7 @@ private:
     bool m_isResize;
     bool m_isShiftPressed;
     bool m_editing;
-    bool m_ownImages;
+    bool m_needCompress;
     bool m_moveFillShape;
 
     ResizeDirection m_resizeDirection;
@@ -164,23 +166,25 @@ private:
     QString m_currentType = "";
 
     QString m_imageSavePath = "";
-    bool m_scaledImage = false;
-    bool m_stickCurosr = false;
-    bool m_rationChanged = false;
+    bool m_scaledImage;
+    bool m_stickCurosr;
+    bool m_rationChanged;
 
     int m_shapesIndex;
     int m_selectedIndex;
     int m_currentIndex;
     int m_hoveredIndex;
     int m_selectedOrder;
-    bool m_blurEffectExist = false;
-    bool m_mosaicEffectExist = false;
-    bool m_clearAllTextBorder = false;
-    bool m_imageCutting = false;
-    bool m_rotateImage = false;
-    bool m_inBtmRight = false;
-    bool m_saveWithRation = false;
-    bool m_initCanvasSideLength = false;
+    int m_middleOrder;
+    int m_imagesCount;
+    bool m_blurEffectExist;
+    bool m_mosaicEffectExist;
+    bool m_clearAllTextBorder;
+    bool m_imageCutting;
+    bool m_rotateImage;
+    bool m_inBtmRight;
+    bool m_saveWithRation;
+    bool m_initCanvasSideLength;
 
     QColor m_penColor;
     QColor m_brushColor;
@@ -231,5 +235,6 @@ private:
     void paintBlur(QPainter &painter, Toolshape shape);
     void paintCutImageRect(QPainter &painter, Toolshape shape);
     void paintImage(QPainter &painter, Toolshape imageShape);
+    void paintSelectedShape(QPainter &painter, Toolshape shape);
 };
 #endif // SHAPESWIDGET_H

@@ -40,8 +40,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     });
     m_updateTimer->start();
 
-    m_backgroundPixmap = QPixmap(this->size());
-    m_backgroundPixmap.fill(Qt::transparent);
+    m_bottomPixmap = QPixmap(this->size());
+    m_bottomPixmap.fill(Qt::transparent);
     m_emptyBgPixmap = QPixmap(this->size());
     m_emptyBgPixmap.fill(Qt::transparent);
 
@@ -80,12 +80,31 @@ void ShapesWidget::initAttribute()
     setMouseTracking(true);
     setAcceptDrops(true);
 
+    m_isRecording = false;
     m_isMoving = false;
     m_isSelected = false;
+    m_isPressed = false;
+    m_isHovered = false;
+    m_isRotated = false;
+    m_isResize = false;
     m_isShiftPressed = false;
     m_editing = false;
-    m_ownImages = false;
+    m_needCompress = false;
     m_moveFillShape = false;
+
+    m_scaledImage = false;
+    m_stickCurosr = false;
+    m_rationChanged = false;
+
+    m_blurEffectExist = false;
+    m_mosaicEffectExist = false;
+    m_clearAllTextBorder = false;
+    m_imageCutting = false;
+    m_rotateImage = false;
+    m_inBtmRight = false;
+    m_saveWithRation = false;
+    m_initCanvasSideLength = false;
+
     m_shapesIndex = -1;
     m_selectedIndex = -1;
     m_selectedOrder = -1;
@@ -398,14 +417,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
+            m_middleOrder = i;
             qDebug() << "currentOnShape" << i << m_selectedIndex
                      << m_selectedOrder << m_shapes[i].imagePath;
-
-            Toolshape tmpShape;
-            tmpShape = m_shapes[i];
-            m_shapes[i] = m_shapes[m_shapes.length() - 1];
-            m_shapes[m_shapes.length() - 1] = tmpShape;
-            m_selectedOrder = m_shapes.length() - 1;
 
             onShapes = true;
             break;
@@ -1733,6 +1747,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e);
+    if (m_selectedOrder != -1 && m_isPressed && m_isMoving)
+        compressToImage();
+
     m_isMoving = false;
     m_isPressed = false;
     m_inBtmRight = false;
@@ -1791,8 +1809,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
         }
 
-        //CompressToImage if m_backgroundPixmap isn't empty.
-        if (m_ownImages && m_bgContainShapeNum != m_shapes.length())
+        //CompressToImage if m_bottomPixmap isn't empty.
+        if (m_needCompress && m_bgContainShapeNum != m_shapes.length())
         {
             compressToImage();
         }
@@ -2460,6 +2478,37 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     }
 }
 
+void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape)
+{
+    QPen selectedPen;
+    selectedPen.setColor(QColor("#01bdff"));
+    selectedPen.setWidth(1);
+
+    if (shape.type == "image")
+    {
+        painter.setPen(selectedPen);
+        paintSelectedRect(painter, shape.mainPoints);
+        paintSelectedImageRectPoints(painter, shape.mainPoints);
+    } else if (shape.type == "rectangle" || shape.type == "oval"
+            || shape.type == "blur"|| shape.type == "arbitraryCurve")
+    {
+        painter.setPen(selectedPen);
+        paintSelectedRect(painter, shape.mainPoints);
+        paintSelectedRectPoints(painter, shape.mainPoints);
+    } else if (shape.type == "arrow" || shape.type == "straightLine")
+    {
+        if (shape.points.length() == 2)
+        {
+            QLineF line(shape.points[0], shape.points[1]);
+            painter.drawLine(line);
+            paintImgPoint(painter, QPointF(shape.points[0].x()*m_ration,
+                                       shape.points[0].y()*m_ration), RESIZE_POINT_IMG);
+            paintImgPoint(painter, QPointF(shape.points[1].x()*m_ration,
+                                       shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
+        }
+    }
+}
+
 void ShapesWidget::resizeEvent(QEvent* e)
 {
     Q_UNUSED(e);
@@ -2473,44 +2522,19 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    if (m_selectedOrder != -1)
+    if (!m_needCompress)
     {
-        if (!m_ownImages || m_rationChanged)
+        for(int i = 0; i < m_shapes.length(); i++)
         {
-            painter.drawPixmap(0, 0, m_emptyBgPixmap);
-
-            for(int i= 0; i < m_shapes.length(); i++)
-            {
-                if (i != m_selectedOrder)
-                    paintShape(painter, m_shapes[i]);
-                else
-                    continue;
-            }
-
-            paintShape(painter, m_shapes[m_selectedOrder], true);
-        } else
-        {
-            painter.drawPixmap(0, 0, m_backgroundPixmap);
-            if (m_selectedOrder <= m_shapes.length() - 1)
-                paintShape(painter, m_shapes[m_selectedOrder], true);
+             paintShape(painter, m_shapes[i]);
         }
-    } else
+    } else {
+        painter.drawPixmap(0, 0, m_bottomPixmap);
+    }
+
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
-        //Draw graphics without importing pictures
-        if (!m_ownImages || m_rationChanged)
-        {
-            painter.drawPixmap(0, 0, m_emptyBgPixmap);
-
-            for(int i= 0; i < m_shapes.length(); i++)
-            {
-                paintShape(painter, m_shapes[i]);
-            }
-        }
-        //After importing the image
-        else
-        {
-            painter.drawPixmap(0, 0, m_backgroundPixmap);
-        }
+        paintSelectedShape(painter, m_shapes[m_selectedOrder]);
     }
 
     if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
@@ -2578,74 +2602,25 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
     if (shape.type == "rectangle")
     {
         paintRect(painter, shape);
-
-        if (selected)
-        {
-            painter.setPen(selectedPen);
-            paintSelectedRect(painter, shape.mainPoints);
-            paintSelectedRectPoints(painter, shape.mainPoints);
-        }
     } else if (shape.type == "oval")
     {
         paintEllipse(painter, shape);
-
-        if (selected)
-        {
-            painter.setPen(selectedPen);
-            paintSelectedRect(painter, shape.mainPoints);
-            paintSelectedRectPoints(painter, shape.mainPoints);
-        }
     } else if (shape.type == "image")
     {
-        qDebug() << "begin to paint image:" << shape.imagePath;
-        paintImage(painter, shape);
-
-        if (selected)
-        {
-            painter.setPen(selectedPen);
-            paintSelectedRect(painter, shape.mainPoints);
-            paintSelectedImageRectPoints(painter, shape.mainPoints);
-        }
+        if (!(selected && m_isMoving && m_isPressed))
+            paintImage(painter, shape);
     } else if (shape.type == "arrow")
     {
         paintArrow(painter, shape);
-        if (selected && shape.points.length() == 2)
-        {
-            paintImgPoint(painter, QPointF(shape.points[0].x()*m_ration,
-                                       shape.points[0].y()*m_ration), RESIZE_POINT_IMG);
-            paintImgPoint(painter, QPointF(shape.points[1].x()*m_ration,
-                                       shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
-        }
     } else if (shape.type == "arbitraryCurve")
     {
         paintArbitraryCurve(painter, shape);
-
-        if (selected)
-        {
-            painter.setPen(selectedPen);
-            paintSelectedRect(painter, shape.mainPoints);
-            paintSelectedRectPoints(painter, shape.mainPoints);
-        }
     } else if (shape.type == "blur")
     {
         paintBlur(painter, shape);
-
-        if (selected)
-        {
-            painter.setPen(selectedPen);
-            paintSelectedRect(painter, shape.mainPoints);
-            paintSelectedRectPoints(painter, shape.mainPoints);
-        }
     } else if (shape.type == "straightLine")
     {
         paintStraightLine(painter, shape);
-        if (selected && shape.points.length() == 2)
-        {
-            paintImgPoint(painter, QPointF(shape.points[0].x()*m_ration,
-                                       shape.points[0].y()*m_ration), RESIZE_POINT_IMG);
-            paintImgPoint(painter, QPointF(shape.points[1].x()*m_ration,
-                                       shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
-        }
     } else if (shape.type == "text" && !m_clearAllTextBorder)
     {
         qDebug() << "------------------" << m_editing;
@@ -2892,9 +2867,10 @@ void ShapesWidget::loadImage(QStringList paths)
     {
         if (QFileInfo(paths[i]).exists())
         {
+            m_imagesCount++;
             setCurrentShape("image");
-            if (!m_ownImages)
-                m_ownImages = true;
+            if (!m_needCompress)
+                m_needCompress = true;
 
             if (m_shapes.length() == 0)
             {
@@ -2930,23 +2906,24 @@ void ShapesWidget::loadImage(QStringList paths)
             imageShape.mainPoints[3] = QPointF(m_startPos.x() +
                                               imageShape.imageSize.width(), m_startPos.y() +
                                               imageShape.imageSize.height());
-//            m_shapes.append(imageShape);
-            appendNewShape(imageShape);
+            m_shapes.append(imageShape);
             m_startPos = QPointF(m_startPos.x() + 5, m_startPos.y() + 5);
         }
     }
 
     m_selectedOrder = m_shapes.length() - 1;
+    m_middleOrder = m_selectedOrder;
     m_moveFillShape = true;
     emit updateMiddleWidgets("image");
 
     qDebug() << "load image finished, compress image begins!";
-    compressToImage();
+    if (m_imagesCount >= 2)
+        compressToImage();
 }
 
 void ShapesWidget::compressToImage()
 {
-    if (!m_ownImages && m_shapes.length() < 30)
+    if (!m_needCompress /*&& m_shapes.length() < 30*/)
         return;
 
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
@@ -2954,24 +2931,36 @@ void ShapesWidget::compressToImage()
                       << m_shapes[m_selectedOrder].imagePath
                       << m_selectedShape.imagePath;
 
-    m_backgroundPixmap = QPixmap(this->size());
-    m_backgroundPixmap.fill(Qt::transparent);
+    m_bottomPixmap = QPixmap(this->size());
+    m_bottomPixmap.fill(Qt::transparent);
 
-    for (int k = 0; k < m_shapes.length(); k++)
+    for(int k = 0; k < m_shapes.length(); k++)
     {
+        QPainter bottomPainter(&m_bottomPixmap);
         if (m_shapes[k].type == "cutImage")
         {
             continue;
-        }
-        QPainter historyPainter(&m_backgroundPixmap);
-        if (k != m_selectedOrder)
-        {
-            paintShape(historyPainter, m_shapes[k]);
         } else
         {
-            continue;
+            paintShape(bottomPainter, m_shapes[k]);
         }
     }
+
+//    m_topPixmap = QPixmap(this->size());
+//    m_topPixmap.fill(QColor(0, 255, 0, 100));
+
+//    for(int j = m_selectedOrder+1; j < m_shapes.length() - 1; j++)
+//    {
+//        QPainter topPainter(&m_topPixmap);
+//        if (m_shapes[j].type == "cutImage")
+//        {
+//            continue;
+//        } else
+//        {
+//            paintShape(topPainter, m_shapes[j]);
+//        }
+//    }
+
     m_bgContainShapeNum = m_shapes.length();
 }
 
@@ -3300,7 +3289,7 @@ void ShapesWidget::cutImage()
             m_shapes[imageIndex].mainPoints[3] = QPointF(m_startPos.x() +
                                               m_shapes[imageIndex].imageSize.width(), m_startPos.y() +
                                               m_shapes[imageIndex].imageSize.height());
-            m_ownImages = true;
+            m_needCompress = true;
             m_selectedOrder = imageIndex;
             compressToImage();
             m_moveFillShape = true;
