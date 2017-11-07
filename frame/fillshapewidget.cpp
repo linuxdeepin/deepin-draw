@@ -56,7 +56,17 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
         connect(lwBtn, &ToolButton::clicked, this, [=]{
             ConfigSettings::instance()->setValue("common", "lineWidth", (k+1)*2);
         });
+        connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+                [=](const QString &group, const QString &key){
+            if (group == "common" && key == "lineWidth")
+            {
+                int value = ConfigSettings::instance()->value("common", "lineWidth").toInt();
+                if (value/2 -1 == k)
+                    lwBtn->setChecked(true);
+            }
+        });
     }
+
 
     int defaultLineWidth = ConfigSettings::instance()->value(
                 "common", "lineWidth").toInt();

@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QDebug>
 #include <QButtonGroup>
 
 #include "widgets/bordercolorbutton.h"
@@ -70,6 +71,15 @@ LineWidget::LineWidget(QWidget *parent)
         lwBtnGroup->addButton(lwBtn);
         connect(lwBtn, &ToolButton::clicked, this, [=]{
             ConfigSettings::instance()->setValue("common", "lineWidth", (i+1)*2);
+        });
+        connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+                [=](const QString &group, const QString &key){
+            if (group == "common" && key == "lineWidth")
+            {
+                int value = ConfigSettings::instance()->value("common", "lineWidth").toInt();
+                if (value/2 -1 == i)
+                    lwBtn->setChecked(true);
+            }
         });
     }
 
