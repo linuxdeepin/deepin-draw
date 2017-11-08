@@ -40,16 +40,31 @@ QString TempFile::getBlurFileName()
     }
 }
 
-QString TempFile::getRandomFile(const QString &filepath)
+QString TempFile::getRandomFile(const QString &filepath,
+                                const QString &imageFormat)
 {
     QString hashKey = createHash(filepath);
     QTemporaryFile randomFile;
     QString randomFilename;
     if (randomFile.open())
     {
-        randomFilename = randomFile.fileName() + ".png";
+        if (imageFormat == ".png" || imageFormat == ".pdf")
+            randomFilename = randomFile.fileName() + ".png";
+        else
+            randomFilename = randomFile.fileName() + imageFormat;
         m_pathMap.insert(hashKey, randomFilename);
     }
 
     return randomFilename;
+}
+
+void TempFile::setImageFile(QPixmap image)
+{
+    m_pixmap = image;
+    emit saveDialogPopup();
+}
+
+QPixmap TempFile::savedImage()
+{
+    return m_pixmap;
 }

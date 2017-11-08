@@ -44,8 +44,8 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::rotateImage);
     connect(this, &MainWidget::mirroredImage,
             m_canvas, &CanvasWidget::mirroredImage);
-    connect(this, &MainWidget::saveImageAction,
-            m_canvas, &CanvasWidget::saveImageAction);
+    connect(this, &MainWidget::generateSaveImage,
+            m_canvas, &CanvasWidget::generateSaveImage);
     connect(this, &MainWidget::autoCrop,
             m_canvas, &CanvasWidget::autoCrop);
 

@@ -23,7 +23,8 @@ signals:
     void fillShapeSelectedActive(bool selected);
     void rotateImage(int degree);
     void mirroredImage(bool horizontal, bool vertical);
-    void saveImageAction(const QString &path);
+//    void saveImageAction(const QString &path);
+    void generateSaveImage();
     void autoCrop();
 
     void updateMiddleWidget(QString type);

@@ -57,8 +57,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_topToolbar, &TopToolbar::mirroredImage,
             m_mainWidget, &MainWidget::mirroredImage);
 
-    connect(m_topToolbar, &TopToolbar::saveImageAction,
-            m_mainWidget, &MainWidget::saveImageAction);
+    connect(m_topToolbar, &TopToolbar::generateSaveImage,
+            m_mainWidget, &MainWidget::generateSaveImage);
+//    connect(m_topToolbar, &TopToolbar::saveImageAction,
+//            m_mainWidget, &MainWidget::saveImageAction);
 
     connect(m_topToolbar, &TopToolbar::autoCrop,
             m_mainWidget, &MainWidget::autoCrop);

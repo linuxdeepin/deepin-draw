@@ -17,6 +17,7 @@
 #include "utils/configsettings.h"
 #include "utils/global.h"
 #include "utils/imageutils.h"
+#include "utils/tempfile.h"
 
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
@@ -215,7 +216,9 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(Status::AdjustSize);
     });
 
-    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::showSaveDialog);
+    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
+
+    connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
 
 void TopToolbar::importImage()
@@ -355,7 +358,7 @@ void TopToolbar::initMenu()
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
     connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
-    connect(saveAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
+    connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
 //    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
 }
 
@@ -367,7 +370,7 @@ void TopToolbar::showDrawDialog()
 
 void TopToolbar::showSaveDialog()
 {
-    SaveDialog* sd = new SaveDialog;
+    SaveDialog* sd = new SaveDialog(TempFile::instance()->savedImage());
     QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
              toString("yyyyMMddHHmmss");
@@ -375,9 +378,6 @@ void TopToolbar::showSaveDialog()
 
     emit sd->imageNameChanged(imageName);
     sd->showInCenter(window());
-
-
-    connect(sd, &SaveDialog::saveToPath, this, &TopToolbar::saveImageAction);
 }
 
 void TopToolbar::updateMiddleWidget(QString type)

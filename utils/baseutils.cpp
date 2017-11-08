@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QImageReader>
 #include <QCryptographicHash>
+#include <QtMath>
 
 QCursor setCursorShape(QString cursorName) {
     QCursor customShape = QCursor();
@@ -245,7 +246,6 @@ QString DetectImageFormat(const QString &filepath)
         return "xpm";
     }
 
-
     return "";
 }
 
@@ -261,4 +261,33 @@ QString createHash(const QString &str)
 {
     return QString(QCryptographicHash::hash(str.toUtf8(),
                                             QCryptographicHash::Md5).toHex());
+}
+
+QString sizeToHuman(const qlonglong bytes)
+{
+    qlonglong sb = 1024;
+    if (bytes < sb) {
+        return QString::number(bytes) + " B";
+    }
+    else if (bytes < sb * sb) {
+        QString vs = QString::number((double)bytes / sb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number((int)vs.toDouble()) + " KB";
+        }
+        else {
+            return vs + " KB";
+        }
+    }
+    else if (bytes < sb * sb * sb) {
+        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number((int)vs.toDouble()) + " MB";
+        }
+        else {
+            return vs + " MB";
+        }
+    }
+    else {
+        return QString::number(bytes);
+    }
 }

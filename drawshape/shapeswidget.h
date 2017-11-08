@@ -62,7 +62,7 @@ public slots:
     void setFillShapeSelectedActive(bool selected);
     void setLineStyle(int index);
     void showCutImageTips(QPointF pos);
-    void saveImage(const QString &path);
+    void saveImage();
     void updateCanvasSize();
 
     void updateSelectedShape(const QString &group, const QString &key);

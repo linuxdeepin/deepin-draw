@@ -1,19 +1,24 @@
 #include "savedialog.h"
 
+#include "utils/baseutils.h"
+#include "utils/tempfile.h"
+
 #include <QLabel>
 #include <QLineEdit>
-#include <QComboBox>
+
+#include <QPdfWriter>
 #include <QFormLayout>
 #include <QStandardPaths>
 #include <QDateTime>
 #include <QDebug>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QTimer>
 #include <QObject>
 
 const QSize DIALOG_SIZE = QSize(326, 221);
 
-SaveDialog::SaveDialog(QWidget *parent)
+SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
     : Dialog(parent)
 {
     setFixedSize(DIALOG_SIZE);
@@ -22,6 +27,8 @@ SaveDialog::SaveDialog(QWidget *parent)
     setTitle(tr("Save"));
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
+
+    m_pixmap = pix;
 
     QLineEdit* imageEdit = new QLineEdit(this);
     connect(this, &SaveDialog::imageNameChanged, this, [=](QString name){
@@ -40,28 +47,42 @@ SaveDialog::SaveDialog(QWidget *parent)
     fileFormat << tr("PNG") << tr("DDF") << tr("JPG") << tr("BMP")
                << tr("TIF") << "PDF";
 
-    QComboBox* contentFormatCBox = new QComboBox(this);
-    contentFormatCBox->addItems(fileFormat);
+    m_contentFormatCBox = new QComboBox(this);
+    m_contentFormatCBox->addItems(fileFormat);
 
-    QSlider* qualitySlider = new QSlider(Qt::Horizontal,this);
-    qualitySlider->setMinimum(50);
-    qualitySlider->setMaximum(100);
-    qualitySlider->setFixedWidth(119);
-    qualitySlider->setValue(qualitySlider->maximum());
+   m_imagePath = TempFile::instance()->getRandomFile("SaveFile",
+            QString(".%1").arg(m_contentFormatCBox->currentText().toLower()));
+    pix.save(m_imagePath);
+    m_qualitySlider = new QSlider(Qt::Horizontal,this);
+    m_qualitySlider->setMinimum(50);
+    m_qualitySlider->setMaximum(100);
+    m_qualitySlider->setFixedWidth(119);
+    m_qualitySlider->setValue(m_qualitySlider->maximum());
 
-    QLabel* valueLabel = new QLabel(this);
+    m_valueLabel = new QLabel(this);
+    m_valueLabel->setText(QString("%1").arg(sizeToHuman(
+                                              QFileInfo(m_imagePath).size())));
+    QTimer* timer = new QTimer(this);
+    connect(m_qualitySlider, &QSlider::valueChanged, this, [=]{
+        timer->start(500);
+    });
+    connect(timer, &QTimer::timeout, this, [=]{
+        updateImageSize();
+    });
 
     QHBoxLayout* qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
-    qualityHLayout->addWidget(qualitySlider);
-    qualityHLayout->addWidget(valueLabel);
+    qualityHLayout->addWidget(m_qualitySlider);
+    qualityHLayout->addSpacing(30);
+    qualityHLayout->addWidget(m_valueLabel);
 
     QWidget* w = new QWidget;
     QFormLayout* fLayout = new QFormLayout(w);
+    fLayout->setHorizontalSpacing(20);
     fLayout->addRow(tr("Name"), imageEdit);
     fLayout->addRow(tr("Save to"), contentSaveCBox);
-    fLayout->addRow(tr("Format"), contentFormatCBox);
+    fLayout->addRow(tr("Format"), m_contentFormatCBox);
     fLayout->addRow(tr("Quality"), qualityHLayout);
 
     addContent(w);
@@ -73,12 +94,19 @@ SaveDialog::SaveDialog(QWidget *parent)
     }
     });
 
-    connect(contentFormatCBox, &QComboBox::currentTextChanged, this,
+    connect(m_contentFormatCBox, &QComboBox::currentTextChanged, this,
             [=](QString format){
         QString name = imageEdit->text();
         QString suffix = QFileInfo(name).suffix();
         name = imageEdit->text().remove(suffix) + format.toLower();
         imageEdit->setText(name);
+
+        QString imageSuffix = QFileInfo(m_imagePath).suffix();
+        if (format == "PDF" || format == "DDF")
+            m_imagePath = m_imagePath.remove(imageSuffix) + "png";
+        else
+            m_imagePath = m_imagePath.remove(imageSuffix) + format.toLower();
+        updateImageSize();
     });
 
     connect(this, &SaveDialog::buttonClicked, this, [=](int index) {
@@ -90,12 +118,12 @@ SaveDialog::SaveDialog(QWidget *parent)
         if (QFileInfo(imageEdit->text()).suffix().isEmpty())
         {
             m_filePath = QString("%1/%2.%3").arg(m_fileDir).arg(
-                        imageEdit->text()).arg(contentFormatCBox->currentText().toLower());
+                        imageEdit->text()).arg(m_contentFormatCBox->currentText().toLower());
         } else {
             m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
         }
         if (index == 1) {
-            emit saveToPath(m_filePath);
+            saveImage(m_filePath);
             this->close();
         }
     });
@@ -127,6 +155,41 @@ QString SaveDialog::getSaveDir(QString dir)
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::PicturesLocation);
+    }
+}
+
+void SaveDialog::updateImageSize()
+{
+    int val = m_qualitySlider->value();
+    int pixWidth = m_pixmap.size().width();
+    int pixHeight = m_pixmap.size().height();
+    qreal wid =  pixWidth*qreal(val)/qreal(100);
+    qreal het = pixHeight*qreal(val)/qreal(100);
+    QPixmap scaledPix = m_pixmap.scaled(int(wid), int(het),
+                                   Qt::KeepAspectRatio, Qt::FastTransformation);
+    scaledPix = scaledPix.scaled(m_pixmap.size(),
+                                 Qt::KeepAspectRatio, Qt::FastTransformation);
+    scaledPix.save(m_imagePath);
+    m_valueLabel->setText(QString("%1").arg(
+                            sizeToHuman(QFileInfo(m_imagePath).size())));
+}
+
+void SaveDialog::saveImage(const QString &path)
+{
+    if (m_contentFormatCBox->currentText() == "DDF")
+    {
+
+    } else if (m_contentFormatCBox->currentText() == "PDF")
+    {
+                QPdfWriter writer(path);
+                 int ww = writer.width();
+                 int wh = writer.height();
+                QPainter painter(&writer);
+                qDebug() << "pdf save image:" << m_imagePath;
+                painter.drawPixmap(0, 0, QPixmap(m_imagePath).scaled(
+                    QSize(ww, wh), Qt::KeepAspectRatio));
+    } else {
+        QPixmap(m_imagePath).save(path);
     }
 }
 
