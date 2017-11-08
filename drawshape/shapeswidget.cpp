@@ -1722,8 +1722,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                         }
                     }
                 });
-//                m_shapes.append(m_currentShape);
-                appendNewShape(m_currentShape);
+                m_shapes.append(m_currentShape);
                 qDebug() << "Insert text shape:" << m_currentShape.index;
             } else {
                 m_editing = false;
@@ -1777,16 +1776,14 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                     m_pos2.x()/m_ration, m_pos2.y()/m_ration);
                 m_currentShape.mainPoints = getMainPoints(
                             m_currentShape.points[0], m_currentShape.points[1]);
-//                m_shapes.append(m_currentShape);
-                appendNewShape(m_currentShape);
+                m_shapes.append(m_currentShape);
             }
         } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
             qDebug() << "m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
-//            m_shapes.append(m_currentShape);
-            appendNewShape(m_currentShape);
+            m_shapes.append(m_currentShape);
         } else if (m_currentType != "text")
         {
             FourPoints rectFPoints;
@@ -1800,8 +1797,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
 
             m_currentShape.mainPoints = rectFPoints;
-            //m_shapes.append(m_currentShape);
-            appendNewShape(m_currentShape);
+            m_shapes.append(m_currentShape);
 
             if (m_currentShape.type == "cutImage")
             {
@@ -3409,15 +3405,4 @@ void ShapesWidget::autoCrop()
             }
         }
     }
-}
-
-void ShapesWidget::recordOriginSize(){}
-
-void ShapesWidget::appendNewShape(Toolshape shape)
-{
-//    if (m_shapes.length() == 0)
-//    {
-//        m_canvasSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
-//    }
-    m_shapes.append(shape);
 }

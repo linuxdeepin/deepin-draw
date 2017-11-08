@@ -46,57 +46,25 @@ signals:
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
 
-public:
-    void initAttribute();
-    void initCanvasSize();
+public slots:
+    void autoCrop();
     void clearSelected();
-    void setAllTextEditReadOnly();
-    void setFillShapeSelectedActive(bool selected);
     void createBlurImage();
-
-    void handleDrag(QPointF oldPoint, QPointF newPoint);
-    void handleRotate(QPointF pos);
-    void handleResize(QPointF pos, int key);
-    void handleImageRotate(int degree);
-
-    void mirroredImage(bool horizontal, bool vertical);
-
-    bool clickedOnShapes(QPointF pos);
-    bool clickedOnImage(FourPoints rectPoints, QPointF pos);
-    bool clickedOnCutImage(FourPoints rectPoints, QPointF pos);
-    bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
-    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
-    bool clickedOnArrow(QList<QPointF> points, QPointF pos);
-    bool clickedOnLine(FourPoints mainPoints,
-                       QList<QPointF> points, QPointF pos);
-    bool clickedOnText(FourPoints mainPoints, QPointF pos);
-    bool rotateOnImagePoint(FourPoints mainPoints, QPointF pos);
-    bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
-
-    bool hoverOnShapes(Toolshape toolShape, QPointF pos);
-    bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
-    bool hoverOnImage(FourPoints rectPoints, QPointF pos);
-    bool hoverOnCutImage(FourPoints rectPoints, QPointF pos);
-    bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
-    bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
-    bool hoverOnArrow(QList<QPointF> points, QPointF pos);
-    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
-    bool hoverOnText(FourPoints mainPoints, QPointF pos);
-
-    QString  getCurrentType();
-    void deleteCurrentShape();
-    void setLineStyle(int index);
-    void showCutImageTips(QPointF pos);
-    void loadImage(QStringList paths);
     void compressToImage();
+    void deleteCurrentShape();
 
     QRect effectiveRect();
+    QString  getCurrentType();
     QRect rightBottomRect();
+    void loadImage(QStringList paths);
+    void mirroredImage(bool horizontal, bool vertical);
+    void setAllTextEditReadOnly();
+    void setFillShapeSelectedActive(bool selected);
+    void setLineStyle(int index);
+    void showCutImageTips(QPointF pos);
+    void saveImage(const QString &path);
     void updateCanvasSize();
 
-    void saveImage(const QString &path);
-
-public slots:
     void updateSelectedShape(const QString &group, const QString &key);
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
@@ -117,9 +85,11 @@ public slots:
     void cutImage();
 
     void updateCutShape(CutRation ration);
-    void autoCrop();
-    void recordOriginSize();
-    void appendNewShape(Toolshape shape);
+
+    void handleDrag(QPointF oldPoint, QPointF newPoint);
+    void handleImageRotate(int degree);
+    void handleRotate(QPointF pos);
+    void handleResize(QPointF pos, int key);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -135,6 +105,54 @@ protected:
     void dropEvent(QDropEvent* e);
 
 private:
+    void initAttribute();
+    void initCanvasSize();
+
+    bool clickedOnShapes(QPointF pos);
+    bool clickedOnImage(FourPoints rectPoints, QPointF pos);
+    bool clickedOnCutImage(FourPoints rectPoints, QPointF pos);
+    bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
+    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
+    bool clickedOnArrow(QList<QPointF> points, QPointF pos);
+    bool clickedOnLine(FourPoints mainPoints,
+                       QList<QPointF> points, QPointF pos);
+    bool clickedOnText(FourPoints mainPoints, QPointF pos);
+
+    bool rotateOnImagePoint(FourPoints mainPoints, QPointF pos);
+    bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
+
+    bool hoverOnShapes(Toolshape toolShape, QPointF pos);
+    bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+    bool hoverOnImage(FourPoints rectPoints, QPointF pos);
+    bool hoverOnCutImage(FourPoints rectPoints, QPointF pos);
+    bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
+    bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool hoverOnArrow(QList<QPointF> points, QPointF pos);
+    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool hoverOnText(FourPoints mainPoints, QPointF pos);
+
+    void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
+    void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
+    void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
+    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
+    void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
+    void paintRect(QPainter &painter,  Toolshape shape);
+    void paintEllipse(QPainter &painter, Toolshape shape);
+    void paintArrow(QPainter &painter, Toolshape shape, bool isStraight = false);
+    void paintStraightLine(QPainter &painter, Toolshape shape);
+    void paintArbitraryCurve(QPainter &painter, Toolshape shape);
+    void paintText(QPainter &painter,  Toolshape shape);
+
+    QPainterPath drawPair(QPainter &p,
+                          QPointF p1, QSizeF size1, QColor c1,
+                          QPointF p2, QSizeF size2, QColor c2,
+                          QPainterPath oldpath);
+    void paintPointList(QPainter &p, QList<QPointF> points);
+    void paintBlur(QPainter &painter, Toolshape shape);
+    void paintCutImageRect(QPainter &painter, Toolshape shape);
+    void paintImage(QPainter &painter, Toolshape imageShape);
+    void paintSelectedShape(QPainter &painter, Toolshape shape);
+
     QPointF m_pos1 = QPointF(0, 0);
     QPointF m_pos2 = QPointF(0, 0);
     QPointF m_pos3, m_pos4;
@@ -213,28 +231,5 @@ private:
     qreal m_canvasMicroSideLength;
     qreal m_ration;
     qreal m_saveRation;
-
-    void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
-
-    void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
-    void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
-    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
-    void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter,  Toolshape shape);
-    void paintEllipse(QPainter &painter, Toolshape shape);
-    void paintArrow(QPainter &painter, Toolshape shape, bool isStraight = false);
-    void paintStraightLine(QPainter &painter, Toolshape shape);
-    void paintArbitraryCurve(QPainter &painter, Toolshape shape);
-    void paintText(QPainter &painter,  Toolshape shape);
-
-    QPainterPath drawPair(QPainter &p,
-                          QPointF p1, QSizeF size1, QColor c1,
-                          QPointF p2, QSizeF size2, QColor c2,
-                          QPainterPath oldpath);
-    void paintPointList(QPainter &p, QList<QPointF> points);
-    void paintBlur(QPainter &painter, Toolshape shape);
-    void paintCutImageRect(QPainter &painter, Toolshape shape);
-    void paintImage(QPainter &painter, Toolshape imageShape);
-    void paintSelectedShape(QPainter &painter, Toolshape shape);
 };
 #endif // SHAPESWIDGET_H
