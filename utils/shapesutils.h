@@ -12,10 +12,8 @@ class Toolshape {
 public:
      QString type;
      FourPoints mainPoints;
-     FourPoints rotatedPoints;
      int index = -1;
      int lineWidth;
-     int colorIndex;
      QColor fillColor;
      QColor strokeColor;
      bool isBlur = false;

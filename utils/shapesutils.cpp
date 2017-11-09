@@ -7,11 +7,6 @@ Toolshape::Toolshape() {
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
-
-    rotatedPoints.append(QPointF(0, 0));
-    rotatedPoints.append(QPointF(0, 0));
-    rotatedPoints.append(QPointF(0, 0));
-    rotatedPoints.append(QPointF(0, 0));
     portion.clear();
 }
 
@@ -26,10 +21,8 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
     argument.nospace()
             << obj.type << ","
             << "[" << obj.mainPoints << "]" << ","
-            << "[" << obj.rotatedPoints << "]" << ","
             << obj.index<<","
             << obj.lineWidth << ","
-            << obj.colorIndex <<","
             << obj.fillColor << ","
             << obj.strokeColor << ","
             << obj.isBlur << ","
@@ -62,10 +55,8 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.isStraight;
     in >> obj.fillColor;
     in >> obj.strokeColor;
-    in >> obj.colorIndex;
     in >> obj.lineWidth;
     in >> obj.index;
-    in >> obj.rotatedPoints;
     in >> obj.mainPoints;
     in >> obj.type;
 
@@ -75,10 +66,8 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
 Toolshape Toolshape::operator=(Toolshape obj) {
     type = obj.type;
     mainPoints = obj.mainPoints;
-    rotatedPoints = obj.rotatedPoints;
     index = obj.index;
     lineWidth = obj.lineWidth;
-    colorIndex = obj.colorIndex;
     fillColor = obj.fillColor;
     strokeColor = obj.strokeColor;
     isBlur = obj.isBlur;
@@ -98,9 +87,9 @@ Toolshape Toolshape::operator=(Toolshape obj) {
 }
 
 bool Toolshape::operator==(const Toolshape &other) const {
-    if (this->mainPoints == other.mainPoints && this->rotatedPoints == other.rotatedPoints
+    if (this->mainPoints == other.mainPoints
             && this->index == other.index && this->lineWidth == other.lineWidth
-            && this->colorIndex == other.colorIndex && this->fontSize == other.fontSize
+            && this->fontSize == other.fontSize
             && this->fillColor == other.fillColor && this->strokeColor == other.strokeColor
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isShiftPressed == other.isShiftPressed
