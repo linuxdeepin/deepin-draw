@@ -69,9 +69,9 @@ QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLen
 /* judge whether the pos is on the points*/
 bool pointOnArLine(QList<QPointF> points, QPointF pos);
 
-/* resize arbitrary curved */
-QList<qreal> relativePosition(FourPoints mainPoints, QPointF pos);
-QPointF           getNewPosition(FourPoints mainPoints, QList<qreal> re);
+/* resize arbitrary curved, QPointF is ration */
+QPointF relativePosition(FourPoints mainPoints, QPointF pos);
+QPointF           getNewPosition(FourPoints mainPoints, QPointF re);
 
 //bool pointInEllipse(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos);
 /* handle resize of eight points in rectangle */

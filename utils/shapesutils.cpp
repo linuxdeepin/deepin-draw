@@ -15,6 +15,7 @@ Toolshape::~Toolshape() {
 
 void Toolshape::registerMetaType() {
     qRegisterMetaType<Toolshape>();
+    qRegisterMetaType<FourPoints>();
 }
 
 QDebug &operator<<(QDebug &argument, const Toolshape &obj) {

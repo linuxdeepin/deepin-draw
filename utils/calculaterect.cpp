@@ -330,9 +330,9 @@ bool pointOnArLine(QList<QPointF> points, QPointF pos) {
 }
 
 /* resize arbitrary curved */
-QList<qreal> relativePosition(FourPoints mainPoints,  QPointF pos) {
+QPointF relativePosition(FourPoints mainPoints,  QPointF pos) {
     if (mainPoints.length() != 4) {
-        return QList<qreal>();
+        return QPointF();
     }
     qreal firstRelaPosit, secondRelaPosit;
     qreal distance12 = pointToLineDistance(mainPoints[0], mainPoints[1], pos);
@@ -351,30 +351,26 @@ QList<qreal> relativePosition(FourPoints mainPoints,  QPointF pos) {
     } else {
         secondRelaPosit = distance13/distance24;
     }
-    QList<qreal> relativePosit;
-    relativePosit.append(0);
-    relativePosit.append(0);
-    relativePosit[0] = firstRelaPosit;
-    relativePosit[1] = secondRelaPosit;
-    return relativePosit;
+
+    return QPointF(firstRelaPosit, secondRelaPosit);
 }
 
-QPointF           getNewPosition(FourPoints mainPoints, QList<qreal> re) {
+QPointF           getNewPosition(FourPoints mainPoints, QPointF re) {
     qreal changeX, changeY;
 
-    if (re[0] == -2) {
+    if (re.x() == -2) {
         changeX = mainPoints[2].x();
-        changeY = (mainPoints[0].y() + re[1]*mainPoints[1].y())/(1 + re[1]);
+        changeY = (mainPoints[0].y() + re.y()*mainPoints[1].y())/(1 + re.y());
     }
-    if (re[1] == -2) {
-        changeX = (mainPoints[1].x() + re[0]*mainPoints[3].x())/(1 + re[0]);
+    if (re.y() == -2) {
+        changeX = (mainPoints[1].x() + re.x()*mainPoints[3].x())/(1 + re.x());
         changeY = mainPoints[1].y();
     }
-    if (re[0] != -2 && re[1] != -2) {
-        QPointF pointi = QPointF((mainPoints[1].x() + re[0]*mainPoints[3].x())/(1 + re[0]),
-                                                       (mainPoints[1].y() + re[0]*mainPoints[3].y())/(1 + re[0]));
-        QPointF pointj = QPointF((mainPoints[0].x() + re[1]*mainPoints[1].x())/(1 + re[1]),
-                                                       (mainPoints[0].y() + re[1]*mainPoints[1].y())/(1 + re[1]));
+    if (re.x() != -2 && re.y() != -2) {
+        QPointF pointi = QPointF((mainPoints[1].x() + re.x()*mainPoints[3].x())/(1 + re.x()),
+                                                       (mainPoints[1].y() + re.x()*mainPoints[3].y())/(1 + re.x()));
+        QPointF pointj = QPointF((mainPoints[0].x() + re.y()*mainPoints[1].x())/(1 + re.y()),
+                                                       (mainPoints[0].y() + re.y()*mainPoints[1].y())/(1 + re.y()));
         if (mainPoints[0].x() == mainPoints[1].x()) {
             changeX = pointi.x();
             changeY = pointj.y();

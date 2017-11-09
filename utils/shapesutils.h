@@ -29,7 +29,7 @@ public:
      int fontSize = 1;
 
     QList<QPointF> points;
-    QList<QList<qreal>> portion;
+    QList<QPointF> portion;
     Toolshape();
     ~Toolshape();
 
@@ -40,7 +40,7 @@ public:
     static void registerMetaType();
 };
 
-//typedef QList<QPointF> FourPoints;
+typedef QList<QPointF> FourPoints;
 typedef QList <Toolshape> Toolshapes;
 Q_DECLARE_METATYPE(Toolshape)
 Q_DECLARE_METATYPE(Toolshapes)

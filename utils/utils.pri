@@ -8,12 +8,14 @@ HEADERS += \
     $$PWD/imageutils_libexif.h \
     $$PWD/imageutils.h \
     $$PWD/configsettings.h \
-    $$PWD/dintvalidator.h
+    $$PWD/dintvalidator.h \
+    $$PWD/drawfile.h
 
 SOURCES += \
     $$PWD/baseutils.cpp \
     $$PWD/calculaterect.cpp \
-    $$PWD/shapesutils.cpp \
     $$PWD/tempfile.cpp \
     $$PWD/imageutils.cpp \
-    $$PWD/configsettings.cpp
+    $$PWD/configsettings.cpp \
+    $$PWD/shapesutils.cpp \
+    $$PWD/drawfile.cpp
