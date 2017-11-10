@@ -412,7 +412,7 @@ FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, Q
     resizeFPoints[2] = point3;
     resizeFPoints[3] = point4;
 
-    //positon first.
+    //position first.
     if (point1.x() - point2.x() < 0 && point1.y() - point2.y() <= 0 &&
     point1.x() - point3.x() < 0 && point1.y() - point3.y() >= 0) {
         switch (key) {
@@ -1012,7 +1012,7 @@ FourPoints point2Resize1(QPointF point1, QPointF point2, QPointF point3,
                     QPointF add = pointSplid(point1, point3, distance);
                     point1 = QPointF(point1.x() + add.x(), point1.y() - add.y());
                     add = pointSplid(point3, point4, distance);
-                    point4 = QPointF(point4.x() - add.x(), point4.y() - add.y());               
+                    point4 = QPointF(point4.x() - add.x(), point4.y() - add.y());
                 } else {
                     QPointF add = pointSplid(point1, point3, distance);
                     point1 = QPointF(point1.x() - add.x(), point1.y() + add.y());
