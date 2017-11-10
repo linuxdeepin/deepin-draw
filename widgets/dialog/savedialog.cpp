@@ -101,6 +101,16 @@ SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
         name = imageEdit->text().remove(suffix) + format.toLower();
         imageEdit->setText(name);
 
+        if (format == "DDF" || format == "BMP")
+        {
+            m_qualitySlider->setDisabled(true);
+            m_valueLabel->setDisabled(true);
+        } else
+        {
+            m_qualitySlider->setDisabled(false);
+            m_valueLabel->setDisabled(false);
+        }
+
         QString imageSuffix = QFileInfo(m_imagePath).suffix();
         if (format == "PDF" || format == "DDF")
             m_imagePath = m_imagePath.remove(imageSuffix) + "png";
