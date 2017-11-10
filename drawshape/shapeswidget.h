@@ -66,6 +66,7 @@ public slots:
     void updateCanvasSize();
 
     void updateSelectedShape(const QString &group, const QString &key);
+    void setShapes(QList<Toolshape> shapes);
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
     void setBrushColor(QColor color);

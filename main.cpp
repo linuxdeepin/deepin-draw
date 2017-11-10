@@ -86,16 +86,30 @@ int main(int argc, char *argv[])
                          aps << ap;
                      }
                 }
+
                 if (!aps.isEmpty()) {
                     w.activateWindow();
                     w.show();
-                    w.openImage(aps.first());
+                    if (QFileInfo(pas.first()).suffix() == "ddf")
+                    {
+                        w.parseDdf(pas.first());
+                    } else
+                    {
+                        w.openImage(aps.first());
+                    }
                 }
             } else if (QFileInfo(value).exists()) {
                 qDebug() << "openImage :" << value;
                 w.activateWindow();
                 w.show();
-                w.openImage(QFileInfo(value).absoluteFilePath());
+                if (QFileInfo(value).suffix() == "ddf")
+                {
+                    w.parseDdf(value);
+                } else
+                {
+                    w.openImage(QFileInfo(value).absoluteFilePath());
+                }
+
               } else {
                 w.activateWindow();
                 w.show();

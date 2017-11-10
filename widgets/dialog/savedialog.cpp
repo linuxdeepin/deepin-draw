@@ -135,8 +135,8 @@ SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
             m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
         }
         if (index == 1) {
-            saveImage(m_filePath);
             this->close();
+            saveImage(m_filePath);
         }
     });
 }

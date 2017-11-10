@@ -33,7 +33,9 @@ signals:
 
 public:
     void updateLayout();
-    void openImage(QString path);
+    void openImage(const QString &path);
+    void updateCanvasSize(const QSize &size);
+    void initShapes(QList<Toolshape> shapes);
 
 protected:
     void resizeEvent(QResizeEvent* event);

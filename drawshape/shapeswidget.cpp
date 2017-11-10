@@ -223,6 +223,12 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     update();
 }
 
+void ShapesWidget::setShapes(QList<Toolshape> shapes)
+{
+    m_shapes = shapes;
+    qDebug() << "setShapesWidget: length" << m_shapes.length();
+}
+
 void ShapesWidget::setCurrentShape(QString shapeType)
 {
     if (shapeType != "selected")

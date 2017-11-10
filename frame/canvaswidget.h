@@ -18,7 +18,8 @@ public:
     CanvasWidget(QWidget* parent = 0);
     ~CanvasWidget();
 
-    void openImage(QString path);
+    void openImage(const QString &path);
+    void setShapes(QList<Toolshape> shapes);
 
 signals:
     void drawShapeChanged(QString shape);

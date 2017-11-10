@@ -19,7 +19,8 @@ public:
     MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
-    void openImage(QString path);
+    void openImage(const QString &path);
+    void parseDdf(const QString &path);
 
 protected:
     void resizeEvent(QResizeEvent *event);

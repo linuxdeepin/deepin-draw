@@ -1,6 +1,7 @@
 #include "drawfile.h"
 
 #include "configsettings.h"
+#include "tempfile.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -9,6 +10,7 @@
 #include <QDesktopWidget>
 #include <QProcess>
 #include <QDebug>
+#include <QMetaType>
 
 DrawFile::DrawFile(QObject *parent)
     : QObject(parent)
@@ -23,8 +25,8 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
                QSize artboardSize, QString path,
                QList<Toolshape> shapes)
 {
-    QString savePath = path;
-    savePath = savePath.remove("ddf") + "draw";
+    QString saveFilename = QFileInfo(path).fileName();
+    QString savePath = TempFile::instance()->getRandomFile(saveFilename, "ddf");
     QSettings* ddf = new QSettings(savePath, QSettings::NativeFormat, this);
     setItem(ddf, "windowSize", "size", windowSize);
     setItem(ddf, "canvasSize", "size", canvasSize);
@@ -32,7 +34,11 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
     for(int i = 0; i < shapes.length(); i++)
     {
         setItem(ddf, QString("shape_%1").arg(i), "type", shapes[i].type);
-        setItem(ddf, QString("shape_%1").arg(i), "mainPoints", QVariant::fromValue(shapes[i].mainPoints));
+        for(int j = 0; j < shapes[i].mainPoints.length(); j++)
+        {
+            setItem(ddf, QString("shape_%1").arg(i), QString("mainPoints%1").arg(j),
+                     shapes[i].mainPoints[j]);
+        }
         setItem(ddf, QString("shape_%1").arg(i), "index", QVariant(shapes[i].index));
         setItem(ddf, QString("shape_%1").arg(i), "fillColor", QVariant(shapes[i].fillColor));
         setItem(ddf, QString("shape_%1").arg(i), "strokeColor", QVariant(shapes[i].strokeColor));
@@ -47,11 +53,22 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
         setItem(ddf, QString("shape_%1").arg(i), "rotate", shapes[i].rotate);
         setItem(ddf, QString("shape_%1").arg(i), "imageSize", shapes[i].imageSize);
         setItem(ddf, QString("shape_%1").arg(i), "fontSize", shapes[i].fontSize);
-        setItem(ddf, QString("shape_%1").arg(i), "points", QVariant::fromValue(shapes[i].points));
-        setItem(ddf, QString("shape_%1").arg(i), "portion", QVariant::fromValue(shapes[i].portion));
+        qDebug() << "ghkl:" << shapes[i].points.length() << shapes[i].portion.length();
+        for(int k = 0; k < shapes[i].points.length(); k++)
+        {
+            setItem(ddf, QString("shape_%1").arg(i), QString("points%1").arg(k),
+                    shapes[i].points[k]);
+            if (shapes[i].portion.length() == 0 || k > shapes[i].portion.length() - 1)
+                continue;
+            else
+                setItem(ddf, QString("shape_%1").arg(i), QString("portion%1").arg(k),
+                    shapes[i].portion[k]);
+
+        }
     }
     QProcess proc;
-    proc.execute(QString("tar -cvf %1 %2").arg(path).arg(savePath));
+    qDebug() << "VBNM:" << savePath << path;
+    proc.execute(QString("tar -P -cvf %1 %2").arg(path).arg(savePath));
 }
 
 void DrawFile::setItem(QSettings *settings, const QString &group,
@@ -81,11 +98,31 @@ QStringList DrawFile::groups(QSettings* settings)
 
 void DrawFile::parseddf(const QString &path)
 {
-    QSettings* parseSettings = new QSettings(path, QSettings::NativeFormat, this);
+    QString drawPath = path;
+    QString dir = QDir(QFileInfo(drawPath).dir()).absolutePath();
+    QString filename = QFileInfo(drawPath).fileName();
+    QString suffix = QFileInfo(drawPath).suffix();
+    filename = filename.remove(QString(".%1").arg(suffix));
+    QString newName = QString(dir) + "/"+filename + "x" + ".ddf";
+    QString newExtraName = QString(dir) + "/"+ filename + "x" + ".tar";
+    QProcess proc;
+    proc.execute(QString("cp %1 %2").arg(path).arg(newName));
+    qDebug() << "cmd:" <<  QString("tar -xvf %1").arg(newExtraName);
+    proc.execute(QString("mv %1 %2").arg(newName).arg(newExtraName));
+    proc.start(QString("tar -P -xvf %1").arg(newExtraName));
+
+    proc.waitForFinished(100);
+    QString resultFile =  QString(proc.readAllStandardOutput().data());
+    qDebug() << "resultFile:" << resultFile;
+    QSettings* parseSettings = new QSettings(QFileInfo(resultFile.remove("\n")
+                                                       ).absoluteFilePath(), QSettings::NativeFormat, this);
     m_windowSize = value(parseSettings, "windowSize", "size").toSize();
     m_canvasSize = value(parseSettings, "canvasSize", "size").toSize();
     m_artboardSize = value(parseSettings, "artboardSize", "size").toSize();
+
     QStringList allGroups = groups(parseSettings);
+    qDebug() << "groups:" << resultFile<< allGroups.length()
+             << m_windowSize << m_canvasSize << m_artboardSize;
     for(int i = 0; i < allGroups.length(); i++)
     {
         Toolshape shape;
@@ -94,11 +131,13 @@ void DrawFile::parseddf(const QString &path)
             break;
         else
             shape.type = val;
-        QVariantList fps = value(parseSettings, QString("shape_%1").arg(i),"mainPoints").toList();
-        for(int j = 0; j < fps.length(); j++)
+
+        for(int j = 0; j < 4; j++)
         {
-            shape.mainPoints[j] = fps[j].toPointF();
+            shape.mainPoints[j] = value(parseSettings, QString("shape_%1").arg(i),
+                                        QString("mainPoints%1").arg(j)).toPointF();
         }
+
         shape.index = value(parseSettings, QString("shape_%1").arg(i),
                             "lineWidth").toInt();
         shape.fillColor = value(parseSettings, QString("shape_%1").arg(i),
@@ -127,17 +166,28 @@ void DrawFile::parseddf(const QString &path)
                                 "imageSize").toSize();
         shape.fontSize = value(parseSettings, QString("shape_%1").arg(i),
                                "fontSize").toInt();
-        QVariantList pointList = value(parseSettings, QString("shape_%1").arg(i),
-                                       "points").toList();
-        QVariantList portionList = value(parseSettings, QString("shape_%1").arg(i),
-                                         "portion").toList();
-        for(int k = 0; k < pointList.length(); k++)
+
+        bool loadPoints = true;
+        for(int k = 0;loadPoints; k++)
         {
-            shape.points.append(pointList[k].toPointF());
-            shape.portion.append(portionList[k].toPointF());
+            QPointF point = value(parseSettings, QString("shape_%1").arg(i),
+                                        QString("points%1").arg(k)).toPointF();
+            QPointF portion = value(parseSettings, QString("shape_%1").arg(i),
+                                   QString("portion%1").arg(k)).toPointF();
+            if (point == QPointF(0, 0))
+            {
+                loadPoints = false;
+                break;
+            } else {
+                shape.points.append(point);
+                if (portion == QPointF(0, 0))
+                    continue;
+                    shape.portion.append(portion);
+            }
         }
 
         m_allshapes.append(shape);
+
     }
 }
 
