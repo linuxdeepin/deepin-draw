@@ -7,6 +7,7 @@
 #include <QTemporaryFile>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QProcess>
 #include <QDebug>
 
 DrawFile::DrawFile(QObject *parent)
@@ -22,7 +23,9 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
                QSize artboardSize, QString path,
                QList<Toolshape> shapes)
 {
-    QSettings* ddf = new QSettings(path, QSettings::NativeFormat, this);
+    QString savePath = path;
+    savePath = savePath.remove("ddf") + "draw";
+    QSettings* ddf = new QSettings(savePath, QSettings::NativeFormat, this);
     setItem(ddf, "windowSize", "size", windowSize);
     setItem(ddf, "canvasSize", "size", canvasSize);
     setItem(ddf, "artboardSize", "size", artboardSize);
@@ -47,6 +50,8 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
         setItem(ddf, QString("shape_%1").arg(i), "points", QVariant::fromValue(shapes[i].points));
         setItem(ddf, QString("shape_%1").arg(i), "portion", QVariant::fromValue(shapes[i].portion));
     }
+    QProcess proc;
+    proc.execute(QString("tar -cvf %1 %2").arg(path).arg(savePath));
 }
 
 void DrawFile::setItem(QSettings *settings, const QString &group,

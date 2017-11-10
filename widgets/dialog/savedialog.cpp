@@ -2,6 +2,8 @@
 
 #include "utils/baseutils.h"
 #include "utils/tempfile.h"
+#include "utils/drawfile.h"
+#include "utils/configsettings.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -188,16 +190,30 @@ void SaveDialog::saveImage(const QString &path)
 {
     if (m_contentFormatCBox->currentText() == "DDF")
     {
-
+        DrawFile* drawFile = new DrawFile();
+        QSize windowSize = QSize(
+                    ConfigSettings::instance()->value("window", "width").toInt(),
+                    ConfigSettings::instance()->value("window", "height").toInt()
+                    );
+        QSize canvasSize = QSize(
+                    ConfigSettings::instance()->value("canvas", "width").toInt(),
+                    ConfigSettings::instance()->value("canvas", "height").toInt()
+                    );
+        QSize artboardSize = QSize(
+                    ConfigSettings::instance()->value("artboard", "width").toInt(),
+                    ConfigSettings::instance()->value("artboard", "height").toInt()
+                    );
+        drawFile->createddf(windowSize, canvasSize, artboardSize, path,
+                            TempFile::instance()->savedShapes());
     } else if (m_contentFormatCBox->currentText() == "PDF")
     {
-                QPdfWriter writer(path);
-                 int ww = writer.width();
-                 int wh = writer.height();
-                QPainter painter(&writer);
-                qDebug() << "pdf save image:" << m_imagePath;
-                painter.drawPixmap(0, 0, QPixmap(m_imagePath).scaled(
-                    QSize(ww, wh), Qt::KeepAspectRatio));
+        QPdfWriter writer(path);
+        int ww = writer.width();
+        int wh = writer.height();
+        QPainter painter(&writer);
+        qDebug() << "pdf save image:" << m_imagePath;
+        painter.drawPixmap(0, 0, QPixmap(m_imagePath).scaled(
+                               QSize(ww, wh), Qt::KeepAspectRatio));
     } else {
         QPixmap(m_imagePath).save(path);
     }

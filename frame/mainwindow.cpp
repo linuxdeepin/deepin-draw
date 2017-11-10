@@ -16,19 +16,10 @@ const int TITLEBAR_HEIGHT = 40;
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
-    int defaultW = 0/*ConfigSettings::instance()->value("window", "width").toInt()*/;
-    int defaultH = 0/*ConfigSettings::instance()->value("window", "height").toInt()*/;
-
-//    if (defaultW == 0 || defaultH == 0)
-//    {
-        window()->setWindowState(Qt::WindowMaximized);
-         QSize desktopSize = qApp->desktop()->size();
-        ConfigSettings::instance()->setValue("artboard", "width",  desktopSize.width());
-        ConfigSettings::instance()->setValue("artboard", "height", desktopSize.height());
-//    } else
-//    {
-//       window()->resize(defaultW, defaultH);
-//    }
+    window()->setWindowState(Qt::WindowMaximized);
+    QSize desktopSize = qApp->desktop()->size();
+    ConfigSettings::instance()->setValue("artboard", "width",  desktopSize.width());
+    ConfigSettings::instance()->setValue("artboard", "height", desktopSize.height());
 
     setMinimumSize(WINDOW_MINISIZR);
 
@@ -59,8 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::generateSaveImage,
             m_mainWidget, &MainWidget::generateSaveImage);
-//    connect(m_topToolbar, &TopToolbar::saveImageAction,
-//            m_mainWidget, &MainWidget::saveImageAction);
 
     connect(m_topToolbar, &TopToolbar::autoCrop,
             m_mainWidget, &MainWidget::autoCrop);

@@ -5,6 +5,8 @@
 #include <QWindow>
 #include <QMap>
 
+#include "utils/shapesutils.h"
+
 class TempFile : public QObject
 {
     Q_OBJECT
@@ -16,7 +18,9 @@ public:
     QString getRandomFile(const QString &filepath,
                           const QString &imageFormat = "PNG");
     void setImageFile(QPixmap image);
+    void setCanvasShapes(QList<Toolshape> shapes);
     QPixmap savedImage();
+    QList<Toolshape> savedShapes();
 
 signals:
     void saveDialogPopup();
@@ -29,5 +33,6 @@ private:
     QString m_blurFile;
     QMap<QString , QString> m_pathMap;
     QPixmap m_pixmap = QPixmap();
+    QList<Toolshape> m_shapes;
 };
 #endif // TEMPFILE_H

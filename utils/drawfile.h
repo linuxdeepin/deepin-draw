@@ -8,6 +8,8 @@ class DrawFile : public QObject
 {
     Q_OBJECT
 public:
+    DrawFile(QObject* parent = 0);
+    ~DrawFile();
     void createddf(QSize windowSize, QSize canvasSize,
                    QSize artboardSize, QString path,
                    QList<Toolshape> shapes);
@@ -24,9 +26,6 @@ public:
     QSize artboardSize();
 
 private:
-    DrawFile(QObject* parent = 0);
-    ~DrawFile();
-
     QSize m_windowSize;
     QSize m_canvasSize;
     QSize m_artboardSize;

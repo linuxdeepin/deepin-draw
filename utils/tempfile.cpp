@@ -64,7 +64,17 @@ void TempFile::setImageFile(QPixmap image)
     emit saveDialogPopup();
 }
 
+void TempFile::setCanvasShapes(QList<Toolshape> shapes)
+{
+    m_shapes = shapes;
+}
+
 QPixmap TempFile::savedImage()
 {
     return m_pixmap;
+}
+
+QList<Toolshape> TempFile::savedShapes()
+{
+    return m_shapes;
 }

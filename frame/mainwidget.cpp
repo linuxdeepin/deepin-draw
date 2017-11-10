@@ -107,6 +107,8 @@ void MainWidget::updateLayout()
     artboardWindowWidth = resultRation*artboardActualWidth;
     artboardWindowHeight = resultRation*artboardActualHeight;
 
+    ConfigSettings::instance()->setValue("canvas", "width", artboardWindowWidth);
+    ConfigSettings::instance()->setValue("canvas", "height", artboardWindowHeight);
     m_canvas->setFixedSize(artboardWindowWidth, artboardWindowHeight);
 }
 
@@ -117,7 +119,6 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     m_seperatorLine->setMinimumWidth(this->width());
 
     updateLayout();
-//    updateGeometry();
     QWidget::resizeEvent(event);
 }
 

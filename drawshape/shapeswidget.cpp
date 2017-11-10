@@ -2510,6 +2510,8 @@ void ShapesWidget::resizeEvent(QEvent* e)
     Q_UNUSED(e);
     m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
     m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
+    ConfigSettings::instance()->setValue("canvas", "width", m_artBoardWindowWidth);
+    ConfigSettings::instance()->setValue("canvas", "height", m_artBoardWindowHeight);
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *)
@@ -3037,34 +3039,16 @@ void ShapesWidget::saveImage(/*const QString &path*/)
 
     m_saveWithRation = true;
     m_saveRation = std::max(m_artBoardActualWidth,
-        m_artBoardActualHeight)/std::max(m_canvasSideLength, qreal(1));
+                            m_artBoardActualHeight)/std::max(m_canvasSideLength, qreal(1));
 
-//    if (QFileInfo(path).suffix() == "pdf")
-//    {
-//        QPdfWriter writer(path);
-//        QPageSize customSize(QSize(m_artBoardActualWidth,
-//                                                m_artBoardActualHeight));
-//        writer.setPageSize(customSize);
-//        QPainter painter;
-//        painter.begin(&writer);
-//        for (int k = 0; k < m_shapes.length(); k++)
-//        {
-//            paintShape(painter, m_shapes[k]);
-//        }
-//            painter.end();
-            for (int k = 0; k < m_shapes.length(); k++)
-            {
-                paintShape(historyPainter, m_shapes[k]);
-            }
+    for (int k = 0; k < m_shapes.length(); k++)
+    {
+        paintShape(historyPainter, m_shapes[k]);
+    }
 
-//    } else {
-//        for (int k = 0; k < m_shapes.length(); k++)
-//        {
-//            paintShape(historyPainter, m_shapes[k]);
-//        }
-        //TODO:添加异步处理
-        TempFile::instance()->setImageFile(resultPixmap);
-//    }
+    //TODO:添加异步处理
+    TempFile::instance()->setCanvasShapes(m_shapes);
+    TempFile::instance()->setImageFile(resultPixmap);
 
     m_saveWithRation = false;
 }
