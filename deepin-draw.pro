@@ -42,7 +42,7 @@ target.path = $$BINDIR
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-draw.desktop
 
-formatFile.path = $$PREFIX/share/mime/packages/x-ddf.xml
+formatFile.path = $$PREFIX/share/mime/packages/
 formatFile.files = service/x-ddf.xml
 
 manual.path = $$MANDIR
