@@ -425,7 +425,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedOrder = i;
             m_middleOrder = i;
             qDebug() << "currentOnShape" << i << m_selectedIndex
-                     << m_selectedOrder << m_shapes[i].imagePath;
+                     << m_selectedOrder << m_shapes[i].type;
 
             onShapes = true;
             break;
@@ -437,6 +437,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     if (!onShapes)
     {
+        qDebug() << "no selected shape.....";
         m_selectedIndex = -1;
         m_selectedOrder = -1;
         m_selectedShape.type = "";
@@ -1101,7 +1102,7 @@ bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 }
 
 bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
-                               QPointF pos, bool isTextBorder)
+                               QPointF pos, bool isFilled)
 {
     FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(rectPoints[0], pos)) {
@@ -1117,7 +1118,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
         m_resizeDirection = BottomRight;
         return true;
     } else if (rotateOnPoint(rectPoints, pos) && m_selectedOrder != -1
-               && m_selectedIndex == m_hoveredIndex && !isTextBorder) {
+               && m_selectedOrder == m_hoveredIndex /*&& !isTextBorder*/) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -1137,7 +1138,11 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
                pointOnLine(rectPoints[2], rectPoints[0], pos)) {
         m_resizeDirection = Moving;
         return true;
-    } else {
+    } else if (isFilled && pointInRect(rectPoints, pos)) {
+        m_resizeDirection = Moving;
+        return true;
+    }
+    else {
         m_resizeDirection = Outting;
     }
 
@@ -1145,7 +1150,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
 }
 
 bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints,
-                                  QPointF pos)
+                                  QPointF pos, bool isFilled)
 {
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
 
@@ -1178,13 +1183,12 @@ bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints,
         m_resizeDirection = Bottom;
         return true;
     }  else if (pointOnEllipse(mainPoints, pos)) {
-        m_isSelected = true;
-        m_isResize = false;
-
         m_resizeDirection = Moving;
-        m_pressedPoint = pos;
         return true;
-   } else {
+   } else if (isFilled && pointInRect(mainPoints, pos)) {
+        m_resizeDirection = Moving;
+        return true;
+    } else {
         m_resizeDirection = Outting;
     }
 
@@ -1197,18 +1201,18 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points,
     if (points.length() !=2)
         return false;
 
-    if(pointOnLine(points[0], points[1], pos)) {
-        m_resizeDirection = Moving;
-        return true;
-    } else if ( m_selectedIndex != -1 && m_selectedIndex == m_hoveredIndex
-                && pointClickIn(points[0], pos)) {
+    if (m_selectedOrder == m_hoveredIndex
+            && pointClickIn(points[0], pos)) {
         m_clickedKey = First;
         m_resizeDirection = Rotate;
         return true;
-    } else if ( m_selectedIndex != -1 && m_selectedIndex == m_hoveredIndex
-                && pointClickIn(points[1], pos)) {
+    } else if (m_selectedOrder == m_hoveredIndex
+               && pointClickIn(points[1], pos)) {
         m_clickedKey =   Second;
         m_resizeDirection = Rotate;
+        return true;
+    } else if(pointOnLine(points[0], points[1], pos)) {
+        m_resizeDirection = Moving;
         return true;
     } else {
         m_resizeDirection = Outting;
@@ -1250,11 +1254,7 @@ bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
         m_resizeDirection = Bottom;
         return true;
     }  else if (pointOnArLine(points, pos)) {
-        m_isSelected = true;
-        m_isResize = false;
-
         m_resizeDirection = Moving;
-        m_pressedPoint = pos;
         return true;
    } else {
         m_resizeDirection = Outting;
@@ -1280,27 +1280,61 @@ bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos)
     }
 }
 
-bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos)
+void ShapesWidget::hoverOnShapes(QPointF pos)
 {
-    if (toolShape.type == "image") {
-        return hoverOnImage(toolShape.mainPoints, pos);
-    } else if (toolShape.type == "rectangle") {
-        qDebug() << "hoverOnShapes:" << toolShape.type;
-        return hoverOnRect(toolShape.mainPoints, pos);
-    } else if (toolShape.type == "oval") {
-        return hoverOnEllipse(toolShape.mainPoints, pos);
-    } else if (toolShape.type == "cutImage") {
-        return hoverOnCutImage(toolShape.mainPoints, pos);
-    } else if (toolShape.type == "arrow" || toolShape.type == "straightLine") {
-        return hoverOnArrow(toolShape.points, pos);
-    } else if (toolShape.type == "arbitraryCurve") {
-        return hoverOnArbitraryCurve(toolShape.mainPoints, toolShape.points, pos);
-    } else if (toolShape.type == "text") {
-        return hoverOnText(toolShape.mainPoints, pos);
+    m_isHovered = false;
+    m_hoveredIndex = -1;
+    m_hoveredShape.type = "";
+
+    for(int i = 0; i < m_shapes.length(); i++)
+    {
+        m_hoveredIndex = i;
+        if (m_shapes[i].type == "image")
+        {
+            if (hoverOnImage(m_shapes[i].mainPoints, pos))
+                m_isHovered = true;
+        } else if (m_shapes[i].type == "rectangle") {
+            if (hoverOnRect(m_shapes[i].mainPoints, pos,
+                            m_shapes[i].fillColor != QColor(Qt::transparent)))
+                m_isHovered = true;
+        } else if (m_shapes[i].type == "oval") {
+            if (hoverOnEllipse(m_shapes[i].mainPoints, pos,
+                             m_shapes[i].fillColor != QColor(Qt::transparent)))
+                m_isHovered = true;
+        } else if (m_shapes[i].type == "cutImage") {
+            if (hoverOnCutImage(m_shapes[i].mainPoints, pos))
+                m_isHovered = true;
+        } else if (m_shapes[i].type == "arrow" ||m_shapes[i].type == "straightLine") {
+            if (hoverOnArrow(m_shapes[i].points, pos))
+                m_isHovered = true;
+        } else if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur") {
+            if (hoverOnArbitraryCurve(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
+                m_isHovered = true;
+                qDebug() << "hover on arbitrary curve...";
+            }
+        } else if (m_shapes[i].type == "text") {
+            if (hoverOnText(m_shapes[i].mainPoints, pos))
+                m_isHovered = true;
+        }
+
+        if (m_isHovered)
+        {
+            m_hoveredIndex = i;
+            m_hoveredShape = m_shapes[i];
+            break;
+        } else {
+            continue;
+        }
     }
 
-    m_hoveredShape.type = "";
-    return false;
+    if (!m_isHovered)
+    {
+        m_hoveredIndex = -1;
+        m_hoveredShape.type = "";
+        updateCursorShape();
+    } else {
+        updateCursorDirection(m_resizeDirection);
+    }
 }
 
 bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
@@ -1692,7 +1726,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
             createBlurImage();
         } else if (m_currentType == "text") {
-            if (!m_editing) {
+            if (!m_editing && m_selectedOrder == -1) {
                 setAllTextEditReadOnly();
                 m_currentShape.mainPoints[0] = m_pressedPoint;
                 m_currentShape.index = m_currentIndex;
@@ -1732,6 +1766,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 qDebug() << "Insert text shape:" << m_currentShape.index;
             } else {
                 m_editing = false;
+                m_selectedOrder = -1;
                 setAllTextEditReadOnly();
             }
         }
@@ -1990,32 +2025,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         if (!m_isRecording)
         {
             m_isHovered = false;
-            for (int i = 0; i < m_shapes.length(); i++)
-            {
-                m_hoveredIndex = m_shapes[i].index;
-                if (hoverOnShapes(m_shapes[i], m_movingPoint))
-                {
-                    m_isHovered = true;
-                    m_hoveredShape = m_shapes[i];
-                    updateCursorDirection(m_resizeDirection);
-                    break;
-                } else {
-                    updateCursorShape();
-                }
-            }
-
-            if (!m_isHovered)
-            {
-                for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++)
-                {
-                    m_hoveredShape.mainPoints[j] = QPointF(0, 0);
-                }
-                m_hoveredShape.type = "";
-            }
-            if (m_shapes.length() == 0)
-            {
-                updateCursorShape();
-            }
+            hoverOnShapes(m_movingPoint);
         } else
         {
             //TODO text
@@ -2201,7 +2211,7 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape)
     textPen.setColor("#01bdff");
     painter.setPen(textPen);
 
-    qDebug() << "paintText" << shape.mainPoints.length() << shape.mainPoints;
+    qDebug() << "paintTextd" << shape.mainPoints.length() << shape.mainPoints;
 
     FourPoints rectFPoints = shape.mainPoints;
     if (shape.mainPoints.length() >= 4)
@@ -2211,6 +2221,7 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape)
         painter.drawLine(rectFPoints[3], rectFPoints[2]);
         painter.drawLine(rectFPoints[2], rectFPoints[0]);
     }
+//    painter.drawPath();
 }
 
 QPainterPath ShapesWidget::drawPair(QPainter &p,
@@ -2508,6 +2519,11 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape)
             paintImgPoint(painter, QPointF(shape.points[1].x()*m_ration,
                                        shape.points[1].y()*m_ration), RESIZE_POINT_IMG);
         }
+    } else if (shape.type == "text") {
+        selectedPen.setStyle(Qt::DashLine);
+        selectedPen.setWidth(1);
+        painter.setPen(selectedPen);
+        paintSelectedRect(painter, shape.mainPoints);
     }
 }
 
@@ -2588,6 +2604,11 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         qDebug() << "hhhhh:" << m_pos1 << m_pos2;
     }
 
+     if (m_isHovered && m_selectedOrder != m_hoveredIndex)
+    {
+        paintHoveredShape(painter, m_hoveredShape);
+    }
+     qDebug() << "*&^:" << m_isHovered << m_selectedOrder << m_hoveredShape.type;
 }
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
@@ -2635,14 +2656,59 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
                 paintText(painter, shape);
             }
         }
-
-        if (selected)
-        {
-            paintText(painter, shape);
-        }
     } else if (shape.type == "cutImage")
     {
         paintCutImageRect(painter, shape);
+    }
+}
+
+void ShapesWidget::paintHoveredShape(QPainter &painter, Toolshape shape)
+{
+    QPen hoverPen;
+    hoverPen.setStyle(Qt::DashLine);
+    hoverPen.setColor("#01bdff");
+    painter.setBrush(QBrush(Qt::transparent));
+    painter.setPen(hoverPen);
+    if (!m_saveWithRation)
+        m_saveRation = 1;
+    qreal tmpRation = m_ration*m_saveRation;
+
+    if (shape.type == "image" || shape.type == "oval" || shape.type == "rectangle"
+            || shape.type == "text")
+    {
+
+        QPainterPath rectPath;
+        FourPoints rectFPoints = shape.mainPoints;
+        rectPath.moveTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
+        rectPath.lineTo(rectFPoints[1].x()*tmpRation, rectFPoints[1].y()*tmpRation);
+        rectPath.lineTo(rectFPoints[3].x()*tmpRation, rectFPoints[3].y()*tmpRation);
+        rectPath.lineTo(rectFPoints[2].x()*tmpRation, rectFPoints[2].y()*tmpRation);
+        rectPath.lineTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
+
+        painter.drawPath(rectPath);
+    } else if (shape.type == "arrow" || shape.type == "straightLine")
+    {
+        QList<QPointF> points = shape.points;
+        if (points.length() == 2)
+        {
+            QPainterPath linePath;
+            linePath.moveTo(points[0].x()*tmpRation, points[0].y()*tmpRation);
+            linePath.lineTo(points[1].x()*tmpRation, points[1].y()*tmpRation);
+
+            painter.drawPath(linePath);
+        }
+    } else if (shape.type == "arbitraryCurve" || shape.type == "blur")
+    {
+        QList<QPointF> points = shape.points;
+        QPainterPath linePath;
+
+        for(int i = 0; i < points.length(); i++)
+        {
+            if (i == 0)
+                linePath.moveTo(points[0].x()*tmpRation, points[0].y()*tmpRation);
+            linePath.lineTo(points[i].x()*tmpRation, points[i].y()*tmpRation);
+        }
+        painter.drawPath(linePath);
     }
 }
 
