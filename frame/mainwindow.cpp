@@ -6,6 +6,7 @@
 #include <QApplication>
 
 #include "utils/configsettings.h"
+#include "utils/drawfile.h"
 
 #include <DTitlebar>
 
@@ -62,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::cutImageFinished);
 }
 
-void MainWindow::openImage(QString path)
+void MainWindow::openImage(const QString &path)
 {
     QSize imageSize = QPixmap(path).size();
     QSize desktopSize = qApp->desktop()->size();
@@ -83,6 +84,20 @@ void MainWindow::openImage(QString path)
     }
 
     m_mainWidget->openImage(path);
+}
+
+void MainWindow::parseDdf(const QString &path)
+{
+    DrawFile* dFile = new DrawFile(this);
+    dFile->parseddf(path);
+    QSize windowSize = dFile->windowSize();
+    resize(windowSize);
+    QSize canvasSize = dFile->canvasSize();
+    m_mainWidget->updateCanvasSize(canvasSize);
+    QSize artboardSize = dFile->artboardSize();
+    ConfigSettings::instance()->setValue("artboard", "width",  artboardSize.width());
+    ConfigSettings::instance()->setValue("artboard", "height", artboardSize.height());
+    m_mainWidget->initShapes(dFile->toolshapes());
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

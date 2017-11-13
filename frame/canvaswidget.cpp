@@ -42,9 +42,14 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 
 }
 
-void CanvasWidget::openImage(QString path)
+void CanvasWidget::openImage(const QString &path)
 {
     m_shapesWidget->loadImage(QStringList() << path);
+}
+
+void CanvasWidget::setShapes(QList<Toolshape> shapes)
+{
+    m_shapesWidget->setShapes(shapes);
 }
 
 CanvasWidget::~CanvasWidget()

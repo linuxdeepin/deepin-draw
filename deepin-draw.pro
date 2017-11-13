@@ -42,6 +42,9 @@ target.path = $$BINDIR
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-draw.desktop
 
+formatFile.path = $$PREFIX/share/mime/packages/x-ddf.xml
+formatFile.files = service/x-ddf.xml
+
 manual.path = $$MANDIR
 #manual.files = doc/*
 manual_icon.path = $$MANICONDIR
@@ -65,7 +68,7 @@ exists(app_icon.files) {
     message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon manual_icon #manual   translations
+INSTALLS = target desktop  app_icon manual_icon formatFile #manual   translations
 
 DISTFILES += \
     logo/deepin-draw-16.svg \

@@ -122,9 +122,19 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
-void MainWidget::openImage(QString path)
+void MainWidget::openImage(const QString &path)
 {
     m_canvas->openImage(path);
+}
+
+void MainWidget::updateCanvasSize(const QSize &size)
+{
+    m_canvas->setFixedSize(size);
+}
+
+void MainWidget::initShapes(QList<Toolshape> shapes)
+{
+    m_canvas->setShapes(shapes);
 }
 
 MainWidget::~MainWidget()

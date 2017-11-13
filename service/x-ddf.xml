@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-ddf">
+        <sub-class-of type="application/x-tar" />
+        <comment>Deepin Draw File</comment>
+        <comment xml:lang="zh_CN">深度画板文件</comment>
+        <glob pattern="*.ddf"/>
+        <generic-icon name="package-x-ddf"/>
+    </mime-type>
+</mime-info>
+
