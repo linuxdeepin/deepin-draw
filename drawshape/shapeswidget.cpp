@@ -110,6 +110,7 @@ void ShapesWidget::initAttribute()
     m_selectedOrder = -1;
     m_ration = 1;
     m_saveRation = 1;
+    m_cutImageOrder = -1;
 
     m_startPos = QPointF(ARTBOARD_MARGIN, ARTBOARD_MARGIN);
     initCanvasSize();
@@ -220,6 +221,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             }
         }
     }
+
     update();
 }
 
@@ -235,7 +237,13 @@ void ShapesWidget::setCurrentShape(QString shapeType)
         m_moveFillShape = false;
 
     m_currentType = shapeType;
-    qDebug() << "setCurrentShape:" << shapeType;
+    if (m_currentType == "cutImage") {
+        m_cutImageOrder = m_selectedOrder;
+        update();
+    } else {
+        m_cutImageOrder = -1;
+    }
+    qDebug() << "setCurrentShape:" << shapeType << m_cutImageOrder << m_selectedOrder;
 }
 
 void ShapesWidget::setPenColor(QColor color)
@@ -423,7 +431,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
-            m_middleOrder = i;
             qDebug() << "currentOnShape" << i << m_selectedIndex
                      << m_selectedOrder << m_shapes[i].type;
 
@@ -2546,14 +2553,50 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         for(int i = 0; i < m_shapes.length(); i++)
         {
-             paintShape(painter, m_shapes[i]);
+            if (m_cutImageOrder == i && m_currentType == "cutImage")
+            {
+                qDebug() << "!!!!!!!!";
+                painter.setOpacity(0.3);
+                paintShape(painter, m_shapes[i]);
+                painter.setOpacity(1);
+            } else {
+                paintShape(painter, m_shapes[i]);
+            }
         }
     } else {
-        painter.drawPixmap(0, 0, m_bottomPixmap);
+        if (m_cutImageOrder != -1 && m_shapes[m_cutImageOrder].type == "image"
+                && m_currentType == "cutImage") {
+            for(int i = 0; i < m_shapes.length(); i++)
+            {
+                if (m_cutImageOrder == i && m_currentType == "cutImage")
+                {
+                    painter.setOpacity(0.3);
+                    paintShape(painter, m_shapes[i]);
+                    painter.setOpacity(1);
+                } else {
+                    painter.setOpacity(1);
+                    paintShape(painter, m_shapes[i]);
+                }
+            }
+        } else {
+            painter.drawPixmap(0, 0, m_bottomPixmap);
+        }
     }
 
+    if (m_cutImageOrder != -1 && m_cutImageOrder < m_shapes.length())
+    {
+        if (m_cutImageOrder != -1 && m_shapes[m_cutImageOrder].type == "image"
+                && m_currentType == "cutImage")
+        {
+            painter.setOpacity(0.3);
+            paintShape(painter, m_shapes[m_cutImageOrder]);
+        }
+    }
+
+    painter.setOpacity(1);
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
+        painter.setOpacity(1);
         paintSelectedShape(painter, m_shapes[m_selectedOrder]);
     }
 
@@ -2903,26 +2946,24 @@ void ShapesWidget::showCutImageTips(QPointF pos)
         m_cutImageTips->hide();
         m_cutShape.points.clear();
         m_cutShape.type = "";
+        if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+            m_shapes.removeAt(m_shapes.length() - 1);
+
+        m_selectedOrder = m_cutImageOrder;
+        setCurrentShape("selected");
+        m_needCompress = false;
+        m_moveFillShape = true;
+//        compressToImage();
+        m_cutImageOrder = -1;
+        update();
+        qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
+                          << m_needCompress;
+        emit cutImageFinished();
     });
 
     connect(m_cutImageTips, &CutImageTips::cutAction,
                     this, &ShapesWidget::cutImage);
 
-    connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
-        m_cutShape.mainPoints.clear();
-        m_currentShape.mainPoints.clear();
-        m_cutShape.type = "";
-        m_currentShape.type = "";
-
-        if (m_shapes[m_shapes.length() - 1].type == "cutImage")
-        {
-            m_shapes.removeAt(m_shapes.length() - 1);
-        }
-
-        emit cutImageFinished();
-        setCurrentShape("");
-        update();
-    });
     connect(m_cutImageTips, &CutImageTips::cutRationChanged, this,
             &ShapesWidget::updateCutShape);
 }
@@ -2982,7 +3023,6 @@ void ShapesWidget::loadImage(QStringList paths)
     }
 
     m_selectedOrder = m_shapes.length() - 1;
-    m_middleOrder = m_selectedOrder;
     m_moveFillShape = true;
     emit updateMiddleWidgets("image");
 
@@ -3269,11 +3309,17 @@ void ShapesWidget::cutImage()
         m_currentShape.mainPoints.clear();
         m_cutShape.type = "";
         m_currentShape.type = "";
-        FourPoints imgFourPoints = m_shapes[m_shapes.length() - 2].mainPoints;
+        if (m_cutImageOrder == -1 || m_cutImageOrder > m_shapes.length() - 1)
+            return;
+        FourPoints imgFourPoints = m_shapes[m_cutImageOrder].mainPoints;
         m_shapes.removeAt(m_shapes.length() - 1);
         update();
 
-        QPixmap cutImage = this->grab(rect());
+        QPixmap cutImage(rect().size());
+        cutImage.fill(Qt::transparent);
+        QPainter cutPainter(&cutImage);
+        paintShape(cutPainter, m_shapes[m_cutImageOrder]);
+
         QPolygon imgPolygon;
         imgPolygon << QPoint(imgFourPoints[0].x(), imgFourPoints[0].y())
                               << QPoint(imgFourPoints[1].x(), imgFourPoints[1].y())
@@ -3320,7 +3366,7 @@ void ShapesWidget::cutImage()
         {
             QString tmpFilename = TempFile::instance()->getRandomFile("cutImage");
             resultImage.save(tmpFilename, "png");
-            int imageIndex = m_shapes.length() - 1;
+            int imageIndex = m_cutImageOrder;
             m_shapes[imageIndex].imagePath = tmpFilename;
             m_shapes[imageIndex].imageSize = QPixmap(tmpFilename).size();
 
@@ -3351,6 +3397,7 @@ void ShapesWidget::cutImage()
             m_selectedOrder = imageIndex;
             compressToImage();
             m_moveFillShape = true;
+            setCurrentShape("selected");
 
             emit cutImageFinished();
         } else {

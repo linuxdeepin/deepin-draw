@@ -195,7 +195,7 @@ private:
     int m_currentIndex;
     int m_hoveredIndex;
     int m_selectedOrder;
-    int m_middleOrder;
+    int m_cutImageOrder;
     int m_imagesCount;
     bool m_blurEffectExist;
     bool m_mosaicEffectExist;
