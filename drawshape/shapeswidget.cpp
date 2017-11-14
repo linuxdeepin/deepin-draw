@@ -1477,7 +1477,7 @@ void ShapesWidget::handleRotate(QPointF pos)
 
     if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
     {
-        if (m_shapes[m_selectedOrder].isShiftPressed)
+        if (m_isShiftPressed)
         {
             if (m_shapes[m_selectedOrder].points[0].x() ==
                     m_shapes[m_selectedOrder].points[1].x())
@@ -1715,10 +1715,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_currentShape.points.append(m_pressedPoint);
         } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
             m_currentShape.index = m_currentIndex;
-            m_currentShape.isShiftPressed = m_isShiftPressed;
             m_currentShape.points.append(m_pressedPoint);
         } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-            m_currentShape.isShiftPressed = m_isShiftPressed;
             m_currentShape.index = m_currentIndex;
         } else if (m_currentType == "cutImage") {
             m_currentShape.fillColor = QColor(Qt::transparent);
@@ -2838,9 +2836,28 @@ void ShapesWidget::leaveEvent(QEvent* e)
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_R)
+    if (e->key() == Qt::Key_Shift)
     {
+        m_isShiftPressed = true;
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        m_isAltPressed = true;
     }
+
+    QFrame::keyPressEvent(e);
+}
+
+void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Shift)
+    {
+        m_isShiftPressed = true;
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        m_isAltPressed = true;
+    }
+
+    QFrame::keyReleaseEvent(e);
 }
 
 void ShapesWidget::dragEnterEvent(QDragEnterEvent* e)

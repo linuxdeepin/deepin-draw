@@ -102,6 +102,7 @@ protected:
     void enterEvent(QEvent* e);
     void leaveEvent(QEvent* e);
     void keyPressEvent(QKeyEvent* e);
+    void keyReleaseEvent(QKeyEvent* e);
     void dragEnterEvent(QDragEnterEvent* e);
     void dropEvent(QDropEvent* e);
 
@@ -176,10 +177,13 @@ private:
     bool m_isHovered;
     bool m_isRotated;
     bool m_isResize;
-    bool m_isShiftPressed;
+
     bool m_editing;
     bool m_needCompress;
     bool m_moveFillShape;
+
+    bool m_isShiftPressed;
+    bool m_isAltPressed;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;

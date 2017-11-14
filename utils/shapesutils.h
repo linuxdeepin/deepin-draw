@@ -19,7 +19,6 @@ public:
      bool isBlur = false;
      bool isMosaic = false;
      bool isStraight = false;
-     bool isShiftPressed = false;
      bool isHorFlip = false;
      bool isVerFlip = false;
      QString imagePath = "";

@@ -45,7 +45,6 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
         setItem(ddf, QString("shape_%1").arg(i), "isBlur", shapes[i].isBlur);
         setItem(ddf, QString("shape_%1").arg(i), "isMosaic", shapes[i].isMosaic);
         setItem(ddf, QString("shape_%1").arg(i), "isStraight", shapes[i].isStraight);
-        setItem(ddf, QString("shape_%1").arg(i), "isShiftPressed", shapes[i].isShiftPressed);
         setItem(ddf, QString("shape_%1").arg(i), "isHorFlip", shapes[i].isHorFlip);
         setItem(ddf, QString("shape_%1").arg(i), "isVerFlip", shapes[i].isVerFlip);
         setItem(ddf, QString("shape_%1").arg(i), "imagePath", shapes[i].imagePath);
@@ -150,8 +149,6 @@ void DrawFile::parseddf(const QString &path)
                                "isMosaic").toBool();
         shape.isStraight = value(parseSettings, QString("shape_%1").arg(i),
                                  "isStraight").toBool();
-        shape.isShiftPressed = value(parseSettings, QString("shape_%1").arg(i),
-                                 "isShiftPressed").toBool();
         shape.isHorFlip = value(parseSettings, QString("shape_%1").arg(i),
                                 "isHorFlip").toBool();
         shape.isVerFlip = value(parseSettings, QString("shape_%1").arg(i),
