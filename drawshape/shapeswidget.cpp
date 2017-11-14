@@ -1892,6 +1892,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
     m_pressedPoint = QPointF(0, 0);
+    m_altCenterPos = QPointF(0, 0);
     m_initAltStart = false;
     qDebug() << "mouseReleaseEvent:" << m_shapes.length();
 }
@@ -2132,7 +2133,6 @@ void ShapesWidget::paintEllipse(QPainter &painter, Toolshape shape)
         m_saveRation = 1;
     qreal tmpRation = m_ration*m_saveRation;
 
-    qDebug() << "%%%%%%%%%%%%%TmpRation" << tmpRation << shape.mainPoints;
     for(int i = 0; i < shape.mainPoints.length(); i++)
     {
         ellipseFPoints[i] = QPointF(shape.mainPoints[i].x()*tmpRation,
