@@ -3936,6 +3936,30 @@ FourPoints getMainPoints(QPointF point1, QPointF point2, bool isShift) {
     return fourPoints;
 }
 
+FourPoints getMainPointsByAlt(QPointF centerPos, QPointF pos, bool isShift)
+{
+    FourPoints fourPoints;
+    fourPoints = initFourPoints(fourPoints);
+    const qreal PADDING = 5;
+    qreal shiftWidth = std::max(std::abs(centerPos.x() - pos.x()), PADDING);
+    qreal shiftHeight = std::max(std::abs(centerPos.y() - pos.y()), PADDING);
+
+    if (isShift) {
+        shiftWidth = std::max(std::min(shiftWidth, shiftHeight), PADDING);
+        fourPoints[0] = QPointF(centerPos.x() - shiftWidth, centerPos.y() - shiftWidth);
+        fourPoints[1] = QPointF(centerPos.x() - shiftWidth, centerPos.y() + shiftWidth);
+        fourPoints[2] = QPointF(centerPos.x() + shiftWidth, centerPos.y() - shiftWidth);
+        fourPoints[3] = QPointF(centerPos.x() + shiftWidth, centerPos.y() + shiftWidth);
+        return fourPoints;
+    } else {
+        fourPoints[0] = QPointF(centerPos.x() - shiftWidth, centerPos.y() - shiftHeight);
+        fourPoints[1] = QPointF(centerPos.x() - shiftWidth, centerPos.y() + shiftHeight);
+        fourPoints[2] = QPointF(centerPos.x() + shiftWidth, centerPos.y() - shiftHeight);
+        fourPoints[3] = QPointF(centerPos.x() + shiftWidth, centerPos.y() + shiftHeight);
+        return fourPoints;
+    }
+}
+
 FourPoints getRationFPoints(QPointF point1, QPointF point2, QString ration)
 {
     FourPoints fourPoints;

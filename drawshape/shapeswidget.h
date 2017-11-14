@@ -158,7 +158,7 @@ private:
 
     QPointF m_pos1 = QPointF(0, 0);
     QPointF m_pos2 = QPointF(0, 0);
-    QPointF m_pos3, m_pos4;
+    QPointF m_altCenterPos = QPointF(0, 0);
     QPointF m_pressedPoint;
     QPointF m_movingPoint;
 
@@ -184,6 +184,7 @@ private:
 
     bool m_isShiftPressed;
     bool m_isAltPressed;
+    bool m_initAltStart;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;

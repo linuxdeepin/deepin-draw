@@ -272,8 +272,9 @@ FourPoints point8ResizeMicro(FourPoints fourPoints,  bool isBig);
 
 /***********************  special process   ***************************/
 bool pointInRect(FourPoints fourPoints, QPointF pos);
-FourPoints getMainPoints(QPointF point1, QPointF point2, bool isControl = false);
+FourPoints getMainPoints(QPointF point1, QPointF point2, bool isShift = false);
 FourPoints getRationFPoints(QPointF point1, QPointF point2, QString ration);
+FourPoints getMainPointsByAlt(QPointF centerPos, QPointF pos, bool isShift = false);
 
 /**************** divie the rectangle into nine parts ********************/
 QList<QPointF> trisectionPoints(FourPoints fourPoints);
