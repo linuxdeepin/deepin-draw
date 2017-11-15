@@ -1065,6 +1065,10 @@ bool ShapesWidget::hoverOnImage(FourPoints rectPoints, QPointF pos)
         pointOnLine(rectPoints[2], rectPoints[0], pos)) {
         m_resizeDirection = Moving;
         return true;
+    } else if (pointInRect(rectPoints, pos))
+    {
+        m_resizeDirection = Moving;
+        return true;
     } else {
         m_resizeDirection = Outting;
     }
