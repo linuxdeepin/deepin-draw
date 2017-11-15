@@ -402,6 +402,27 @@ FourPoints initFourPoints(FourPoints fourPoints) {
     fourPoints.append(QPointF(0, 0));
     return fourPoints;
 }
+
+FourPoints mainPointsOrder(FourPoints fourPoints) {
+    FourPoints mainFPoints;
+    mainFPoints = initFourPoints(mainFPoints);
+
+    mainFPoints[0] = fourPoints[0];
+    for(int i = 1; i < fourPoints.length(); i++)
+    {
+        mainFPoints[0] = QPointF(
+                    std::min(mainFPoints[0].x(), fourPoints[i].x()),
+                    std::min(mainFPoints[0].y(), fourPoints[i].y()));
+        mainFPoints[1] = QPointF(mainFPoints[0].x(),
+                    std::max(mainFPoints[0].y(), fourPoints[i].y()));
+        mainFPoints[2] = QPointF(
+                    std::max(mainFPoints[0].x(), fourPoints[i].x()),
+                    mainFPoints[0].y());
+        mainFPoints[3] = QPointF(mainFPoints[2].x(), mainFPoints[1].y());
+    }
+
+    return mainFPoints;
+}
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
                           QPointF pos, int key,  bool isShift) {

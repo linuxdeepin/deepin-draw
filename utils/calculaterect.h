@@ -25,7 +25,7 @@ QPointF  getRotatePoint(QPointF point1, QPointF point2,
                              QPointF point3, QPointF point4);
 /* init FourPoints*/
 FourPoints initFourPoints(FourPoints fourPoints);
-
+FourPoints mainPointsOrder(FourPoints fourPoints);
 /* get the four points from a rectangle which isn't rotated!*/
 //FourPoints  fourPointsOnRect(DiagPoints diagPoints);
 
