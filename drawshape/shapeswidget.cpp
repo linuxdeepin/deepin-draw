@@ -1028,6 +1028,9 @@ bool ShapesWidget::clickedOnText(FourPoints mainPoints, QPointF pos)
 
 bool ShapesWidget::hoverOnImage(FourPoints rectPoints, QPointF pos)
 {
+    if (!m_moveFillShape)
+        return false;
+
     FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(rectPoints[0], pos)) {
         m_resizeDirection = TopLeft;
@@ -1114,6 +1117,9 @@ bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
                                QPointF pos, bool isFilled)
 {
+    if (isFilled && !m_moveFillShape)
+        return false;
+
     FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(rectPoints[0], pos)) {
         m_resizeDirection = TopLeft;
@@ -1162,6 +1168,9 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
 bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints,
                                   QPointF pos, bool isFilled)
 {
+    if (isFilled && !m_moveFillShape)
+        return false;
+
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
 
     if (pointClickIn(mainPoints[0], pos)) {
@@ -1644,7 +1653,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     m_cutShape.type = "";
     m_pos1 = QPointF(e->pos().x(), e->pos().y());
 
-    if (m_isAltPressed && !m_initAltStart)
+    if (m_isAltPressed && !m_initAltStart && !m_isResize && !m_isRotated)
     {
         m_altCenterPos = m_pos1;
         m_initAltStart = true;
@@ -1853,7 +1862,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                             QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration),
                             QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration), m_isShiftPressed);
                 } else {
-                    rectFPoints = getMainPointsByAlt(
+                    if (m_altCenterPos != QPointF(0, 0))
+                        rectFPoints = getMainPointsByAlt(
                                 QPointF(m_altCenterPos.x()/m_ration, m_altCenterPos.y()/m_ration),
                                 QPointF(m_movingPoint.x(), m_movingPoint.y()), m_isShiftPressed
                                 );
@@ -2635,14 +2645,23 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             if (m_currentType != "cutImage")
             {
                 if (!m_isAltPressed) {
-                    drawShape.mainPoints = getMainPoints(
+                    if (!m_isResize && !m_isRotated && m_pos2 != QPointF(0, 0))
+                    {
+                        drawShape.mainPoints = getMainPoints(
                             QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration),
                             QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration), m_isShiftPressed);
+                    qDebug() << m_isResize << "gggggggg" << m_isResize << m_isRotated << m_isMoving;
+                    }
                 } else {
-                    drawShape.mainPoints = getMainPointsByAlt(
+                    if (m_altCenterPos != QPointF(0, 0) && !m_isResize && !m_isRotated
+                            && !(m_isSelected && m_isPressed && m_selectedOrder != -1))
+                    {
+                        drawShape.mainPoints = getMainPointsByAlt(
                                 QPointF(m_altCenterPos.x()/m_ration, m_altCenterPos.y()/m_ration),
                                 QPointF(m_movingPoint.x(), m_movingPoint.y()), m_isShiftPressed
                                 );
+                        qDebug() << m_isResize << "yuyuyu";
+                    }
                 }
             } else {
                 if (m_pos2 != QPointF(0, 0))

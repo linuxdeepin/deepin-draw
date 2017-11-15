@@ -1,4 +1,4 @@
-#include "cutimagetips.h"
+ #include "cutimagetips.h"
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
