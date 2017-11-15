@@ -479,19 +479,6 @@ FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, Q
         case 7: { resizeFPoints = point8Resize5(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
         }
     }
-    if (point1.x() < point2.x() && point1.y() == point2.y() &&
-    point1.x() == point3.x() && point1.y() < point3.y()) {
-        switch(key) {
-        case 0: { resizeFPoints = point1Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 1: { resizeFPoints = point2Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 2: { resizeFPoints = point3Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 3: { resizeFPoints = point4Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 4: { resizeFPoints = point5Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 5: { resizeFPoints = point6Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 6: { resizeFPoints = point7Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        case 7: { resizeFPoints = point8Resize6(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
-        }
-    }
     if ( point1.y() == point2.y() && point1.x() == point3.x() ) {
         switch(key) {
         case 0: { resizeFPoints = point1Resize7(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
@@ -505,6 +492,18 @@ FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, Q
         }
     }
     return resizeFPoints;
+}
+
+FourPoints resizePointPositionByAlt(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
+                          QPointF pos, int key, bool isShift)
+{
+    FourPoints fourPoints;
+    fourPoints = initFourPoints(fourPoints);
+    fourPoints[0] = point1;
+    fourPoints[1] = point2;
+    fourPoints[2] = point3;
+    fourPoints[3] = point4;
+    return fourPoints;
 }
 
 /* first point1 */
@@ -899,19 +898,6 @@ FourPoints point1Resize5(QPointF point1, QPointF point2, QPointF point3,
 }
 
 /* point1 in the sixth position */
-FourPoints point1Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-    return newResizeFPoints;
-}
-
 /* point1 in the seventh position */
 FourPoints point1Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1333,19 +1319,6 @@ FourPoints point2Resize5(QPointF point1, QPointF point2, QPointF point3,
 }
 
 /* point2 in the sixth position */
-FourPoints point2Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-    return newResizeFPoints;
-}
-
 /* point2 in the seventh position */
 FourPoints point2Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1766,19 +1739,6 @@ FourPoints point3Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 /* point3 in the sixth position */
-FourPoints point3Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
 /* point3 in the seventh position */
 FourPoints point3Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2197,19 +2157,6 @@ FourPoints point4Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 /* point4 in the sixth position */
-FourPoints point4Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
 /* point4 in the seventh position */
 FourPoints point4Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2532,20 +2479,6 @@ FourPoints point5Resize5(QPointF point1, QPointF point2, QPointF point3,
 }
 
 /* point5 in the sixth position */
-FourPoints point5Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
-
 /* point5 in the seventh position */
 FourPoints point5Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2864,19 +2797,6 @@ FourPoints point6Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 /* point6 in the sixth position */
-FourPoints point6Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
 /* point6 in the seventh position */
 FourPoints point6Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3197,19 +3117,6 @@ FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 /* point7 in the sixth position */
-FourPoints point7Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
 /* point6 in the seventh position */
 FourPoints point7Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3534,19 +3441,6 @@ FourPoints point8Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 /* point8 in the sixth position */
-FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift) {
-    Q_UNUSED(pos);
-    Q_UNUSED(isShift);
-    FourPoints newResizeFPoints;
-    newResizeFPoints = initFourPoints(newResizeFPoints);
-    newResizeFPoints[0] = point1;
-    newResizeFPoints[1] = point2;
-    newResizeFPoints[2] = point3;
-    newResizeFPoints[3] = point4;
-
-    return newResizeFPoints;
-}
 /* point8 in the seventh position */
 FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {

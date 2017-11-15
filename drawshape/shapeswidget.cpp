@@ -1572,13 +1572,22 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             }
         }
 
-        FourPoints newResizeFPoints = resizePointPosition(
+        FourPoints newResizeFPoints;
+        if (!m_isAltPressed) {
+            newResizeFPoints =  resizePointPosition(
             m_shapes[m_selectedOrder].mainPoints[0],
             m_shapes[m_selectedOrder].mainPoints[1],
             m_shapes[m_selectedOrder].mainPoints[2],
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
-
+        } else {
+            newResizeFPoints =  resizePointPositionByAlt(
+            m_shapes[m_selectedOrder].mainPoints[0],
+            m_shapes[m_selectedOrder].mainPoints[1],
+            m_shapes[m_selectedOrder].mainPoints[2],
+            m_shapes[m_selectedOrder].mainPoints[3], pos, key,
+            m_isShiftPressed);
+        }
        qDebug() << "@@@handleResize:" << m_selectedIndex << m_selectedOrder << m_shapes.length()
                 <<  m_isShiftPressed;
         m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
