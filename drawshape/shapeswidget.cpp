@@ -1636,6 +1636,10 @@ void ShapesWidget::handleImageRotate(int degree)
                 m_shapes[m_selectedOrder].mainPoints[i], angle);
         }
     }
+    m_needCompress = false;
+    update();
+    m_needCompress = true;
+    compressToImage();
 }
 
 void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
@@ -2701,6 +2705,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         paintHoveredShape(painter, m_hoveredShape);
     }
+
      qDebug() << "*&^:" << m_isHovered << m_selectedOrder << m_hoveredShape.type;
 }
 
