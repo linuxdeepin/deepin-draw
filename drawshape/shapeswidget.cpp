@@ -252,7 +252,6 @@ void ShapesWidget::setCurrentShape(QString shapeType)
 void ShapesWidget::setPenColor(QColor color)
 {
     m_penColor = color;
-    qDebug() << "ShapesWidget:" << m_penColor;
     update();
 }
 
@@ -1562,7 +1561,7 @@ void ShapesWidget::handleRotate(QPointF pos)
 
 void ShapesWidget::handleResize(QPointF pos, int key)
 {
-    qDebug() << "handleResize:" << m_selectedIndex << m_shapes.length();
+    qDebug() << "handleResize***************************************************:" << m_selectedIndex << m_shapes.length();
 
     if (m_isResize && m_selectedOrder != -1) {
         if (m_shapes[m_selectedOrder].portion.isEmpty()) {
@@ -1581,15 +1580,14 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
         } else {
-            newResizeFPoints =  resizePointPositionByAlt(
+            newResizeFPoints =  resizePointPosition(
             m_shapes[m_selectedOrder].mainPoints[0],
             m_shapes[m_selectedOrder].mainPoints[1],
             m_shapes[m_selectedOrder].mainPoints[2],
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
         }
-       qDebug() << "@@@handleResize:" << m_selectedIndex << m_selectedOrder << m_shapes.length()
-                <<  m_isShiftPressed;
+
         m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
@@ -1645,10 +1643,10 @@ void ShapesWidget::handleImageRotate(int degree)
                 m_shapes[m_selectedOrder].mainPoints[i], angle);
         }
     }
-    m_needCompress = false;
-    update();
-    m_needCompress = true;
-    compressToImage();
+//    m_needCompress = false;
+//    update();
+//    m_needCompress = true;
+//    compressToImage();
 }
 
 void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
@@ -1664,9 +1662,7 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << "PressEvent:" << e->pos() << m_pos1 << m_pos2
-                     << QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration)
-                     << m_pressedPoint;
+
     m_cutShape.type = "";
     m_pos1 = QPointF(e->pos().x(), e->pos().y());
 
@@ -1681,7 +1677,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
              && m_isRotated) && m_selectedOrder == -1)
         {
-            qDebug() << "clickedOnShapes result:" << false << m_currentType;
             clearSelected();
             setAllTextEditReadOnly();
             m_editing = false;
@@ -1861,7 +1856,6 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
         } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
-            qDebug() << "m_currentType: blur";
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
@@ -1871,7 +1865,6 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             if (m_currentShape.type == "cutImage")
             {
                 QString ration = ConfigSettings::instance()->value("cut", "ration").toString();
-                qDebug() << "cutImage ration:" << ration;
                 rectFPoints = getRationFPoints(m_pos1, m_pos2, ration);
             } else {
                 if (!m_isAltPressed) {
@@ -1902,7 +1895,6 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             compressToImage();
         }
 
-        qDebug() << "ShapesWidget num:" << m_shapes.length();
         clearSelected();
     }
 
@@ -1921,11 +1913,11 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pressedPoint = QPointF(0, 0);
     m_altCenterPos = QPointF(0, 0);
     m_initAltStart = false;
-    qDebug() << "mouseReleaseEvent:" << m_shapes.length();
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 {
+        qDebug() << "PressEvent:" << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ " << "Shift pressed!";
     m_isMoving = true;
 
     m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
@@ -2132,7 +2124,6 @@ void ShapesWidget::paintRect(QPainter &painter, Toolshape shape)
     painter.setBrush(QBrush(shape.fillColor));
 
     FourPoints rectFPoints = shape.mainPoints;
-    qDebug() << "CVBN:" << rectFPoints;
     QPainterPath rectPath;
     if (!m_saveWithRation)
         m_saveRation = 1;
@@ -2396,7 +2387,6 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
     rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
 
-    qDebug() << "ShapesWidget:::" << m_penColor;
     pen.setColor(Qt::black);
     pen.setStyle(Qt::SolidLine);
     pen.setWidthF(0.5);
@@ -2667,7 +2657,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
                         drawShape.mainPoints = getMainPoints(
                             QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration),
                             QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration), m_isShiftPressed);
-                    qDebug() << m_isResize << "gggggggg" << m_isResize << m_isRotated << m_isMoving;
                     }
                 } else {
                     if (m_altCenterPos != QPointF(0, 0) && !m_isResize && !m_isRotated
@@ -2677,7 +2666,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
                                 QPointF(m_altCenterPos.x()/m_ration, m_altCenterPos.y()/m_ration),
                                 QPointF(m_movingPoint.x(), m_movingPoint.y()), m_isShiftPressed
                                 );
-                        qDebug() << m_isResize << "yuyuyu";
                     }
                 }
             } else {
@@ -2707,15 +2695,13 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         }
     } else
     {
-        qDebug() << "hhhhh:" << m_pos1 << m_pos2;
+        qDebug() << "other position:" << m_pos1 << m_pos2;
     }
 
      if (m_isHovered && m_selectedOrder != m_hoveredIndex)
     {
         paintHoveredShape(painter, m_hoveredShape);
     }
-
-     qDebug() << "*&^:" << m_isHovered << m_selectedOrder << m_hoveredShape.type;
 }
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
@@ -2905,12 +2891,13 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = true;
+        qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << "Shift pressed!";
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = true;
     }
 
-    QFrame::keyPressEvent(e);
+//    QFrame::keyPressEvent(e);
 }
 
 void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
@@ -2923,7 +2910,7 @@ void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
         m_isAltPressed = false;
     }
 
-    QFrame::keyReleaseEvent(e);
+//    QFrame::keyReleaseEvent(e);
 }
 
 void ShapesWidget::dragEnterEvent(QDragEnterEvent* e)
