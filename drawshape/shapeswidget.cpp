@@ -1580,7 +1580,7 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
         } else {
-            newResizeFPoints =  resizePointPosition(
+            newResizeFPoints =  resizePointPositionByAlt(
             m_shapes[m_selectedOrder].mainPoints[0],
             m_shapes[m_selectedOrder].mainPoints[1],
             m_shapes[m_selectedOrder].mainPoints[2],

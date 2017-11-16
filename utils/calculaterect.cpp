@@ -544,15 +544,169 @@ FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, Q
 FourPoints resizePointPositionByAlt(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
                           QPointF pos, int key, bool isShift)
 {
-    FourPoints fourPoints;
-    fourPoints = initFourPoints(fourPoints);
-    fourPoints[0] = point1;
-    fourPoints[1] = point2;
-    fourPoints[2] = point3;
-    fourPoints[3] = point4;
-    return fourPoints;
+    FourPoints resizeFPoints;
+    resizeFPoints = initFourPoints(resizeFPoints);
+    resizeFPoints[0] = point1;
+    resizeFPoints[1] = point2;
+    resizeFPoints[2] = point3;
+    resizeFPoints[3] = point4;
+
+    if (qFuzzyCompare(point1.x(), point2.x()) && point1.y() < point2.y()) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize5ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+
+    if (qFuzzyCompare(point1.x(), point2.x()) && point1.y() > point2.y()) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize6ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+
+    if (qFuzzyCompare(point1.y(), point2.y()) && point1.x() > point2.x()) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize7ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+    if (qFuzzyCompare(point1.y(), point2.y()) && point2.x() > point1.x())
+    {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize8ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+    //position first.
+    if (point1.x() - point2.x() < 0 && point1.y() - point2.y() < 0 &&
+    point1.x() - point3.x() < 0 && point1.y() - point3.y() > 0) {
+        switch (key) {
+        case 0: { resizeFPoints = point1Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize1ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+    if (point1.x() - point2.x() < 0 && point1.y() - point2.y() > 0 &&
+    point1.x() - point3.x() > 0 && point1.y() - point3.y() > 0) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize2ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+    if (point1.x() - point2.x() > 0 && point1.y() - point2.y() < 0 &&
+    point1.x() - point3.x() < 0 && point1.y() - point3.y() < 0) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize3ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+    if (point1.x() - point2.x() > 0 && point1.y() - point2.y() > 0 &&
+    point1.x() - point3.x() > 0 && point1.y() - point3.y() < 0) {
+        switch(key) {
+        case 0: { resizeFPoints = point1Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 1: { resizeFPoints = point2Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 2: { resizeFPoints = point3Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 3: { resizeFPoints = point4Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 4: { resizeFPoints = point5Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 5: { resizeFPoints = point6Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 6: { resizeFPoints = point7Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        case 7: { resizeFPoints = point8Resize4ByAlt(point1, point2, point3, point4, pos, isShift); return resizeFPoints;}
+        }
+    }
+
+    return resizeFPoints;
 }
 
+FourPoints resizeByAltNoTiltKeepRation(FourPoints mainPoints, QPointF pos)
+{
+    FourPoints fourPoints;
+    fourPoints = initFourPoints(fourPoints);
+
+    qreal width = getDistance(mainPoints[0], mainPoints[2]);
+    qreal height = getDistance(mainPoints[0], mainPoints[1]);
+    qreal ration = width/std::max(height, 0.01);
+
+    QPointF centerPos = QPointF((mainPoints[0].x() + mainPoints[3].x())/2,
+                                                        (mainPoints[0].y() + mainPoints[3].y())/2);
+
+    qreal newHeight = std::max(std::abs(pos.y() - centerPos.y()),
+                               std::abs(pos.x() - centerPos.x()));
+    qreal newWidth = newHeight*ration;
+
+    if (qFuzzyCompare(mainPoints[0].x(), mainPoints[1].x())
+            && mainPoints[0].y() < mainPoints[1].y())
+    {
+        fourPoints[0] = QPointF(centerPos.x() - newWidth, centerPos.y() - newHeight);
+        fourPoints[1] = QPointF(centerPos.x() - newWidth, centerPos.y() + newHeight);
+        fourPoints[2] = QPointF(centerPos.x() + newWidth, centerPos.y() - newHeight);
+        fourPoints[3] = QPointF(centerPos.x() + newWidth, centerPos.y() + newHeight);
+    } else if (qFuzzyCompare(mainPoints[0].x(), mainPoints[1].x())
+               && mainPoints[0].y() > mainPoints[1].y())
+    {
+        fourPoints[0] = QPointF(centerPos.x() + newWidth, centerPos.y() + newHeight);
+        fourPoints[1] = QPointF(centerPos.x() + newWidth, centerPos.y() - newHeight);
+        fourPoints[2] = QPointF(centerPos.x() - newWidth, centerPos.y() + newHeight);
+        fourPoints[3] = QPointF(centerPos.x() - newWidth, centerPos.y() - newHeight);
+    } else if (qFuzzyCompare(mainPoints[0].y(), mainPoints[1].y())
+               && mainPoints[0].x() > mainPoints[1].x())
+    {
+        fourPoints[0] = QPointF(centerPos.x() + newWidth, centerPos.y() - newHeight);
+        fourPoints[1] = QPointF(centerPos.x() - newWidth, centerPos.y() - newHeight);
+        fourPoints[2] = QPointF(centerPos.x() + newWidth, centerPos.y() + newHeight);
+        fourPoints[3] = QPointF(centerPos.x() - newWidth, centerPos.y() + newHeight);
+    } else if (qFuzzyCompare(mainPoints[0].y(), mainPoints[1].y())
+               && mainPoints[1].x() > mainPoints[0].x())
+    {
+        fourPoints[0] = QPointF(centerPos.x() - newWidth, centerPos.y() + newHeight);
+        fourPoints[1] = QPointF(centerPos.x() + newWidth, centerPos.y() + newHeight);
+        fourPoints[2] = QPointF(centerPos.x() - newWidth, centerPos.y() - newHeight);
+        fourPoints[3] = QPointF(centerPos.x() + newWidth, centerPos.y() - newHeight);
+    }
+
+    return fourPoints;
+}
 /* first point1 */
 /* point1 in the first position*/
 FourPoints point1Resize1(QPointF point1, QPointF point2, QPointF point3,
@@ -632,6 +786,51 @@ FourPoints point1Resize1(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
         return newResizeFPoints;
+    }
+    return newResizeFPoints;
+}
+
+FourPoints point1Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(),
+                centerPos.y()*2 - pos.y());
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point1, pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < point1.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
     }
     return newResizeFPoints;
 }
@@ -725,6 +924,52 @@ FourPoints point1Resize2(QPointF point1, QPointF point2, QPointF point3,
             return newResizeFPoints;
         }
     }
+    return newResizeFPoints;
+}
+
+FourPoints point1Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point1, pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < point1.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
     return newResizeFPoints;
 }
 
@@ -824,6 +1069,67 @@ FourPoints point1Resize3(QPointF point1, QPointF point2, QPointF point3,
     }
 }
 
+FourPoints point1Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point1, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p2 = (point1.y() - point2.y())/(point1.x() - point2.x());
+        if (tanp1p2 >=  -1)
+        {
+            if (pos.y() < point1.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.y() < point1.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point1 in the fourth position */
 FourPoints point1Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -921,6 +1227,67 @@ FourPoints point1Resize4(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point1Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point1, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.x() > point1.x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.x() > point1.x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point1 in the fifth position */
 FourPoints point1Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -982,6 +1349,40 @@ FourPoints point1Resize5(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point1Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point4.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point4.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[1] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+       newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point1 in the sixth position */
 FourPoints point1Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1038,6 +1439,42 @@ FourPoints point1Resize6(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+FourPoints point1Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                                        (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point4.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point4.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[1] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        return newResizeFPoints;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point1 in the seventh position */
 FourPoints point1Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1095,6 +1532,41 @@ FourPoints point1Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point1Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        qDebug() << "@@@@@@@@@@@";
+        if (std::abs(pos.x() - point4.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point4.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[2] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+       newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+    return newResizeFPoints;
+}
+
 /* point1 in the eighth position */
 FourPoints point1Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1148,6 +1620,42 @@ FourPoints point1Resize8(QPointF point1, QPointF point2, QPointF point3,
        newResizeFPoints[1] = point2;
        newResizeFPoints[2] = point3;
        newResizeFPoints[3] = point4;
+    }
+    return newResizeFPoints;
+}
+
+FourPoints point1Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point4.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point4.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[2] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
     return newResizeFPoints;
 }
@@ -1250,6 +1758,53 @@ FourPoints point2Resize1(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point2Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+
+        qreal b2 = newResizeFPoints[1].y() - k2*newResizeFPoints[1].x();
+        qreal b1 = newResizeFPoints[2].y() - k1*newResizeFPoints[2].x();
+        newResizeFPoints[3] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+    } else {
+        qreal distance = getDistance(point2, pos);
+        QPointF add = pointSplid(centerPos, point2, distance);
+        if (pos.x() < point2.x())
+        {
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            add = pointSplid(point1, centerPos, distance);
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+        } else {
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            add = pointSplid(point1, centerPos, distance);
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point2 in the second position */
 FourPoints point2Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1346,6 +1901,53 @@ FourPoints point2Resize2(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point2Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+
+        qreal b2 = newResizeFPoints[2].y() - k2*newResizeFPoints[2].x();
+        qreal b1 = newResizeFPoints[1].y() - k1*newResizeFPoints[1].x();
+        newResizeFPoints[0] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(point2, pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() > point2.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point2 in the third position */
 FourPoints point2Resize3(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1439,6 +2041,68 @@ FourPoints point2Resize3(QPointF point1, QPointF point2, QPointF point3,
             }
         }
     }
+    return newResizeFPoints;
+}
+
+FourPoints point2Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+
+        qreal b1 = newResizeFPoints[1].y() - k1*newResizeFPoints[1].x();
+        qreal b2 = newResizeFPoints[2].y() - k2*newResizeFPoints[2].x();
+        newResizeFPoints[0] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(point2, pos);
+        QPointF add = pointSplid(centerPos, point2, distance);
+        qreal tanp1p2 = (point1.y() - point2.y())/(point1.x() - point2.x());
+        if (tanp1p2 >=  -1)
+        {
+            if (pos.x() < point2.x())
+            {
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            } else {
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            }
+        } else {
+            if (pos.x() < point2.x())
+            {
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            } else {
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
     return newResizeFPoints;
 }
 
@@ -1539,6 +2203,68 @@ FourPoints point2Resize4(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point2Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+
+        qreal b2 = newResizeFPoints[1].y() - k2*newResizeFPoints[1].x();
+        qreal b1 = newResizeFPoints[2].y() - k1*newResizeFPoints[2].x();
+        newResizeFPoints[3] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+    } else {
+        qreal distance = getDistance(point2, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.y() < point2.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.y() < point2.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point2 in the fifth position*/
 FourPoints point2Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1588,6 +2314,41 @@ FourPoints point2Resize5(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point2Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                                         (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -1649,6 +2410,43 @@ FourPoints point2Resize6(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point2Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                                        (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point2 in the seventh position */
 FourPoints point2Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1705,6 +2503,41 @@ FourPoints point2Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point2Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+    return newResizeFPoints;
+}
+
 /* point2 in the eighth position */
 FourPoints point2Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1757,6 +2590,41 @@ FourPoints point2Resize8(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+    return newResizeFPoints;
+}
+
+FourPoints point2Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - point1.x(), pos.y());
+        newResizeFPoints[1] = pos;
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
     return newResizeFPoints;
 }
@@ -1860,6 +2728,54 @@ FourPoints point3Resize1(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point3Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[2].y());
+
+        qreal b1 = newResizeFPoints[2].y() - k1*newResizeFPoints[2].x();
+        qreal b2 = newResizeFPoints[1].y() - k2*newResizeFPoints[1].x();
+        newResizeFPoints[3] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+    } else {
+        qreal distance = getDistance(point3, pos);
+        QPointF add = pointSplid(centerPos, point3, distance);
+        if (pos.x() > point3.x())
+        {
+            newResizeFPoints[2] = QPointF(point3.x() + add.x(), point3.y() - add.y());
+            add = pointSplid(point4, centerPos, distance);
+            newResizeFPoints[3] = QPointF(point4.x() + add.x(), point4.y() + add.y());
+        } else {
+            newResizeFPoints[2] = QPointF(point3.x() - add.x(), point3.y() + add.y());
+            add = pointSplid(point4, centerPos, distance);
+            newResizeFPoints[3] = QPointF(point4.x() - add.x(), point4.y() - add.y());
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point3 in the second position */
 FourPoints point3Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -1956,6 +2872,53 @@ FourPoints point3Resize2(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point3Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(),
+                                                                centerPos.y()*2 - pos.y());
+
+        qreal b1 = newResizeFPoints[2].y() - k1*newResizeFPoints[2].x();
+        qreal b2 = newResizeFPoints[1].y() - k2*newResizeFPoints[1].x();
+        newResizeFPoints[3] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+    } else {
+        qreal distance = getDistance(point3, pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < point3.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point3 in the third position */
 FourPoints point3Resize3(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2049,6 +3012,68 @@ FourPoints point3Resize3(QPointF point1, QPointF point2, QPointF point3,
             }
         }
     }
+    return newResizeFPoints;
+}
+
+FourPoints point3Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[2].y());
+
+        qreal b1 = newResizeFPoints[1].y() - k1*newResizeFPoints[1].x();
+        qreal b2 = newResizeFPoints[2].y() - k2*newResizeFPoints[2].x();
+        newResizeFPoints[0] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(point3, pos);
+        QPointF add = pointSplid(centerPos, point3, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 >= 1)
+        {
+            if (pos.x() > point3.x())
+            {
+                newResizeFPoints[2] = QPointF(point3.x() + add.x(), point3.y() + add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            } else {
+                newResizeFPoints[2] = QPointF(point3.x() - add.x(), point3.y() - add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            }
+        } else {
+            if (pos.x() > point3.x())
+            {
+                newResizeFPoints[2] = QPointF(point3.x() + add.x(), point3.y() - add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            } else {
+                newResizeFPoints[2] = QPointF(point3.x() - add.x(), point3.y() + add.y());
+                QPointF add = pointSplid(centerPos, point1, distance);
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            }
+        }
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
     return newResizeFPoints;
 }
 
@@ -2149,6 +3174,68 @@ FourPoints point3Resize4(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point3Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[2].y());
+
+        qreal b1 = newResizeFPoints[1].y() - k1*newResizeFPoints[1].x();
+        qreal b2 = newResizeFPoints[2].y() - k2*newResizeFPoints[2].x();
+        newResizeFPoints[0] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(point3, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.y() > point3.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.y() > point3.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point3 in the fifth position */
 FourPoints point3Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2197,6 +3284,41 @@ FourPoints point3Resize5(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+/* point3 in the fifth position */
+FourPoints point3Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                                        (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[3] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -2254,6 +3376,44 @@ FourPoints point3Resize6(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point3Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                                        (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[3] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        return newResizeFPoints;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point3 in the seventh position */
 FourPoints point3Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2308,6 +3468,41 @@ FourPoints point3Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point3Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(pos.x(),  centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point3 in the eighth position */
 FourPoints point3Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2357,6 +3552,41 @@ FourPoints point3Resize8(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point3Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = pos;
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -2459,6 +3689,54 @@ FourPoints point4Resize1(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point4Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[3] = pos;
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(),
+                                                                centerPos.y()*2 - pos.y());
+
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point4, pos);
+        QPointF add = pointSplid(centerPos, point4, distance);
+        if (pos.x() > point4.x())
+        {
+            newResizeFPoints[3] = QPointF(point4.x() + add.x(), point4.y() + add.y());
+            add = pointSplid(centerPos, point3,distance);
+            newResizeFPoints[2] = QPointF(point3.x() + add.x(), point3.y() - add.y());
+        } else {
+            newResizeFPoints[3] = QPointF(point4.x() - add.x(), point4.y() - add.y());
+            add = pointSplid(centerPos, point3, distance);
+            newResizeFPoints[2] = QPointF(point3.x() - add.x(), point3.y() + add.y());
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point4 in the second position */
 FourPoints point4Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2552,6 +3830,53 @@ FourPoints point4Resize2(QPointF point1, QPointF point2, QPointF point3,
             }
         }
     }
+    return newResizeFPoints;
+}
+
+FourPoints point4Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[3] = pos;
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[3].y());
+
+        qreal b1 = newResizeFPoints[0].y() - k1*newResizeFPoints[0].x();
+        qreal b2 = newResizeFPoints[3].y() - k2*newResizeFPoints[3].x();
+        newResizeFPoints[1] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(point4, pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() > point4.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
     return newResizeFPoints;
 }
 
@@ -2651,6 +3976,68 @@ FourPoints point4Resize3(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point4Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[3] = pos;
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[3].y());
+
+        qreal b1 = newResizeFPoints[3].y() - k1*newResizeFPoints[3].x();
+        qreal b2 = newResizeFPoints[0].y() - k2*newResizeFPoints[0].x();
+        newResizeFPoints[2] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(point4, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp3p4 = (point3.y() - point4.y())/(point3.x() - point4.x());
+        if (tanp3p4 <=  -1)
+        {
+            if (pos.y() > point4.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            }
+        } else {
+            if (pos.y() > point4.y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point4 in the third position */
 FourPoints point4Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2747,6 +4134,68 @@ FourPoints point4Resize4(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point4Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift) {
+        qreal k1 = (point2.y() - point1.y())/(point2.x() - point1.x());
+        qreal k2 = -1/k1;
+
+        newResizeFPoints[3] = pos;
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                                                                centerPos.y()*2 - newResizeFPoints[3].y());
+
+        qreal b2 = newResizeFPoints[0].y() - k2*newResizeFPoints[0].x();
+        qreal b1 = newResizeFPoints[3].y() - k1*newResizeFPoints[3].x();
+        newResizeFPoints[2] = QPointF((b1 - b2)/(k2 - k1), (b1 - b2)/(k2 - k1)*k1 + b1);
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(point4, pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.x() < point4.x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.x() < point4.x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+
+    return newResizeFPoints;
+}
+
 /* point4 in the fifth position */
 FourPoints point4Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift)
@@ -2800,6 +4249,43 @@ FourPoints point4Resize5(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point4Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point1.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[2] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = pos;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point4 in the sixth position */
 FourPoints point4Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift)
@@ -2849,6 +4335,42 @@ FourPoints point4Resize6(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point4Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point1.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(),
+                                      centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[2] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = pos;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -2909,6 +4431,40 @@ FourPoints point4Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point4Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point1.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[3] = pos;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point4 in the eighth position */
 FourPoints point4Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -2959,6 +4515,41 @@ FourPoints point4Resize8(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point4Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10 ||
+                std::abs(pos.y() - point1.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), centerPos.y()* 2 - pos.y());
+        newResizeFPoints[1] = QPointF(pos.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), pos.y());
+        newResizeFPoints[3] = pos;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -3037,6 +4628,60 @@ FourPoints point5Resize1(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point5Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[0], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() < anotherFPoints[0].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(),
+                    point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[0], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < point1.x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point5 in the second position */
 FourPoints point5Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3105,6 +4750,60 @@ FourPoints point5Resize2(QPointF point1, QPointF point2, QPointF point3,
                 return newResizeFPoints;
             }
         }
+    }
+    return newResizeFPoints;
+}
+
+FourPoints point5Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[0], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() > anotherFPoints[0].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(),
+                    point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[0], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() > anotherFPoints[0].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
     }
     return newResizeFPoints;
 }
@@ -3181,6 +4880,76 @@ FourPoints point5Resize3(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point5Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[0], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() < anotherFPoints[0].x())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() - add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() + add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[0], pos);
+         QPointF add = pointSplid(centerPos, point1, distance);
+         qreal tanp3p4 = (point3.y() - point4.y())/(point3.x() - point4.x());
+         if (tanp3p4 <=  -1)
+         {
+             if (pos.x() < anotherFPoints[0].x())
+             {
+                 newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                 QPointF add = pointSplid(centerPos, point2, distance);
+                 newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+             } else {
+                 newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                 QPointF add = pointSplid(centerPos, point2, distance);
+                 newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+             }
+         } else {
+             if (pos.x() < anotherFPoints[0].x())
+             {
+                 newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                 QPointF add = pointSplid(centerPos, point2, distance);
+                 newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+             } else {
+                 newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                 QPointF add = pointSplid(centerPos, point2, distance);
+                 newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+             }
+         }
+         newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                 centerPos.y()*2 - newResizeFPoints[1].y());
+         newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                 centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
+
 /* point5 in the  fourth position */
 FourPoints point5Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3254,6 +5023,75 @@ FourPoints point5Resize4(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point5Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[0], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.y() < anotherFPoints[0].y())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() - add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() + add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[0], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.y() < anotherFPoints[0].y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.y() < anotherFPoints[0].y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
+
 /* point5 in the fifth position */
 FourPoints point5Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3297,6 +5135,38 @@ FourPoints point5Resize5(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point5Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(pos.x(), point2.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(centerPos.y()*2 - pos.x(), point4.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -3349,6 +5219,40 @@ FourPoints point5Resize6(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point5Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point3.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(pos.x(), point2.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), point4.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+    return newResizeFPoints;
+}
+
 /* point5 in the seventh position */
 FourPoints point5Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3394,6 +5298,39 @@ FourPoints point5Resize7(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point5Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[1] = QPointF(point2.x(), pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(point4.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -3448,6 +5385,41 @@ FourPoints point5Resize8(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point5Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.y() - point3.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+        newResizeFPoints[0] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[1] = QPointF(point2.x(), pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(point4.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /********************** sixth point6 ************************/
 /* point6 in the first position */
 FourPoints point6Resize1(QPointF point1, QPointF point2, QPointF point3,
@@ -3524,6 +5496,60 @@ FourPoints point6Resize1(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point6Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[1], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() < anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() - add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() + add.y());
+        }
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[1], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point6 in the second position */
 FourPoints point6Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3595,6 +5621,60 @@ FourPoints point6Resize2(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point6Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[1], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() < anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() - add.y());
+        }
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[1], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point6 in the third position */
 FourPoints point6Resize3(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3666,6 +5746,75 @@ FourPoints point6Resize3(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point6Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[1], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() > anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() - add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() + add.y());
+        }
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[1], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp3p4 = (point3.y() - point4.y())/(point3.x() - point4.x());
+        if (tanp3p4 <=  -1)
+        {
+            if (pos.x() > anotherFPoints[1].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            }
+        } else {
+            if (pos.x() > anotherFPoints[1].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point6 in the fourth position */
 FourPoints point6Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3737,6 +5886,75 @@ FourPoints point6Resize4(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point6Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[1], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() > anotherFPoints[1].x())
+        {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() + add.x(),
+                    newResizeFPoints[0].y() + add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(newResizeFPoints[0].x() - add.x(),
+                    newResizeFPoints[0].y() - add.y());
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() - add.y());
+        }
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[1], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.x() > anotherFPoints[1].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.x() > anotherFPoints[1].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point6 in the fifth position */
 FourPoints point6Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3780,6 +5998,41 @@ FourPoints point6Resize5(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point6Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF(
+                (newResizeFPoints[0].x() + newResizeFPoints[3].x())/2,
+                (newResizeFPoints[0].y() + newResizeFPoints[3].y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[1] = QPointF(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), pos.y());
+        newResizeFPoints[3] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -3831,6 +6084,40 @@ FourPoints point6Resize6(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point6Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[1] = QPointF(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), pos.y());
+        newResizeFPoints[3] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+        return newResizeFPoints;
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+    return newResizeFPoints;
+}
+
 /* point6 in the seventh position */
 FourPoints point6Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3881,6 +6168,41 @@ FourPoints point6Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point6Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[2] = QPointF(pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2  - pos.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point6 in the eighth position */
 FourPoints point6Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -3926,6 +6248,40 @@ FourPoints point6Resize8(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point6Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point2.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[2] = QPointF(pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - pos.x(), point3.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -4007,6 +6363,58 @@ FourPoints point7Resize1(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point7Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[2], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() > anotherFPoints[2].x())
+        {
+            newResizeFPoints[2] = QPointF(point3.x() + add.x(), point3.y() - add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[3] = QPointF(point4.x() + add.x(), point4.y() - add.y());
+        } else {
+            newResizeFPoints[2] = QPointF(point3.x() - add.x(), point3.y() + add.y());
+            add = pointSplid(point2, point4, distance);
+            newResizeFPoints[3] = QPointF(point4.x() - add.x(), point4.y() + add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[2], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() > anotherFPoints[2].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point7 in the second position */
 FourPoints point7Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4078,6 +6486,60 @@ FourPoints point7Resize2(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point7Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[2], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() < anotherFPoints[2].x())
+        {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        } else {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[2], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() < anotherFPoints[2].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point7 in the third position */
 FourPoints point7Resize3(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4149,6 +6611,75 @@ FourPoints point7Resize3(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point7Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[2], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.x() > anotherFPoints[2].x())
+        {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        } else {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[2], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp3p4 = (point3.y() - point4.y())/(point3.x() - point4.x());
+        if (tanp3p4 <=  -1)
+        {
+            if (pos.x() > anotherFPoints[2].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            }
+        } else {
+            if (pos.x() > anotherFPoints[2].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point7 in the fourth position */
 FourPoints point7Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4220,11 +6751,88 @@ FourPoints point7Resize4(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
-/* point7 in the fifth position */
-FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
+
+FourPoints point7Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
     FourPoints newResizeFPoints;
     newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[2], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point3, distance);
+        if (pos.y() > anotherFPoints[2].y())
+        {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() - add.x(),
+                    newResizeFPoints[2].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        } else {
+            newResizeFPoints[2] = QPointF(newResizeFPoints[2].x() + add.x(),
+                    newResizeFPoints[2].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - newResizeFPoints[2].x(),
+                centerPos.y()*2 - newResizeFPoints[2].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[2], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.y() > anotherFPoints[2].y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.x() < anotherFPoints[2].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
+/* point7 in the fifth position */
+FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
 
     if (!isShift)
     {
@@ -4236,8 +6844,8 @@ FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
             newResizeFPoints[3] = point4;
         }
 
-        newResizeFPoints[0] = point1;
-        newResizeFPoints[1] = point2;
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
         newResizeFPoints[2] = QPointF(pos.x(), point3.y());
         newResizeFPoints[3] = QPointF(pos.x(), point4.y());
     } else {
@@ -4263,10 +6871,43 @@ FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
     }
-//    newResizeFPoints = mainPointsOrder(newResizeFPoints);
 
     return newResizeFPoints;
 }
+
+FourPoints point7Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - pos.x(), point2.y());
+        newResizeFPoints[2] = QPointF(pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(pos.x(), point4.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point7 in the sixth position */
 FourPoints point7Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift)
@@ -4313,6 +6954,39 @@ FourPoints point7Resize6(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point7Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[1] = QPointF(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), pos.y());
+        newResizeFPoints[3] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+    return newResizeFPoints;
+}
+
 /* point7 in the seventh position */
 FourPoints point7Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4356,6 +7030,40 @@ FourPoints point7Resize7(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+
+    return newResizeFPoints;
+}
+
+FourPoints point7Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(centerPos.x()*2 - point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[3] = QPointF(point4.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
 
     return newResizeFPoints;
@@ -4410,6 +7118,40 @@ FourPoints point7Resize8(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point7Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.y() - point2.y()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(point2.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), pos.y());
+        newResizeFPoints[3] = QPointF(point4.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
 
 /********************** eighth point8 ************************/
 /* point8 in the first position */
@@ -4491,6 +7233,60 @@ FourPoints point8Resize1(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point8Resize1ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[3], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() > anotherFPoints[3].x())
+        {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        } else {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[3], pos);
+        QPointF add = pointSplid(point1, centerPos, distance);
+        if (pos.x() > anotherFPoints[3].x())
+        {
+            newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+        } else {
+            newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+            QPointF add = pointSplid(point2, centerPos, distance);
+            newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point8 in the second position */
 FourPoints point8Resize2(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4562,6 +7358,59 @@ FourPoints point8Resize2(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point8Resize2ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[3], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() > anotherFPoints[3].x())
+        {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        } else {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+          QPointF add = pointSplid(point1, centerPos, distance);
+          if (pos.x() > anotherFPoints[3].x())
+          {
+              newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+              QPointF add = pointSplid(point2, centerPos, distance);
+              newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+          } else {
+              newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+              QPointF add = pointSplid(point2, centerPos, distance);
+              newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+          }
+          newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                  centerPos.y()*2 - newResizeFPoints[1].y());
+          newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                  centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point8 in the third position */
 FourPoints point8Resize3(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4633,6 +7482,75 @@ FourPoints point8Resize3(QPointF point1, QPointF point2, QPointF point3,
     }
     return newResizeFPoints;
 }
+
+FourPoints point8Resize3ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[3], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.y() > anotherFPoints[3].y())
+        {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        } else {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[3], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp3p4 = (point3.y() - point4.y())/(point3.x() - point4.x());
+        if (tanp3p4 <=  -1)
+        {
+            if (pos.y() > anotherFPoints[3].y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            }
+        } else {
+            if (pos.y() < anotherFPoints[3].y())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point8 in the fourth position */
 FourPoints point8Resize4(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4705,6 +7623,75 @@ FourPoints point8Resize4(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point8Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2, (point1.y() + point4.y())/2);
+
+    FourPoints anotherFPoints = getAnotherFPoints(newResizeFPoints);
+    qreal distance = getDistance(anotherFPoints[3], pos);
+    if (!isShift)
+    {
+        QPointF add = pointSplid(point1, point2, distance);
+        if (pos.x() < anotherFPoints[3].x())
+        {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() - add.x(),
+                    newResizeFPoints[1].y() - add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() - add.x(),
+                    newResizeFPoints[3].y() - add.y());
+        } else {
+            newResizeFPoints[1] = QPointF(newResizeFPoints[1].x() + add.x(),
+                    newResizeFPoints[1].y() + add.y());
+            newResizeFPoints[3] = QPointF(newResizeFPoints[3].x() + add.x(),
+                    newResizeFPoints[3].y() + add.y());
+        }
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - newResizeFPoints[3].x(),
+                centerPos.y()*2 - newResizeFPoints[3].y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+    } else {
+        qreal distance = getDistance(anotherFPoints[3], pos);
+        QPointF add = pointSplid(centerPos, point1, distance);
+        qreal tanp1p3 = (point1.y() - point3.y())/(point1.x() - point3.x());
+        if (tanp1p3 <=  -1)
+        {
+            if (pos.x() < anotherFPoints[3].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() + add.y());
+            }
+        } else {
+            if (pos.x() < anotherFPoints[3].x())
+            {
+                newResizeFPoints[0] = QPointF(point1.x() + add.x(), point1.y() + add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() + add.x(), point2.y() - add.y());
+            } else {
+                newResizeFPoints[0] = QPointF(point1.x() - add.x(), point1.y() - add.y());
+                QPointF add = pointSplid(centerPos, point2, distance);
+                newResizeFPoints[1] = QPointF(point2.x() - add.x(), point2.y() + add.y());
+            }
+        }
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - newResizeFPoints[1].x(),
+                centerPos.y()*2 - newResizeFPoints[1].y());
+        newResizeFPoints[3] = QPointF(centerPos.x()*2 - newResizeFPoints[0].x(),
+                centerPos.y()*2 - newResizeFPoints[0].y());
+    }
+    return newResizeFPoints;
+}
+
 /* point8 in the fifth position */
 FourPoints point8Resize5(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4751,6 +7738,41 @@ FourPoints point8Resize5(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point8Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPointF(point1.x(), centerPos.y()*2 -  pos.y());
+        newResizeFPoints[1] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[3] = QPointF(point3.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point8 in the sixth position */
 FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift)
@@ -4794,6 +7816,39 @@ FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
         newResizeFPoints[1] = point2;
         newResizeFPoints[2] = point3;
         newResizeFPoints[3] = point4;
+    }
+    return newResizeFPoints;
+}
+
+FourPoints point8Resize6ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift)
+{
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+        }
+
+        newResizeFPoints[0] = QPoint(point1.x(), centerPos.y()*2 - pos.y());
+        newResizeFPoints[1] = QPointF(point1.x(), pos.y());
+        newResizeFPoints[2] = QPointF(point3.x(), centerPos.y()*2  - pos.y());
+        newResizeFPoints[3] = QPointF(point3.x(), pos.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
     }
     return newResizeFPoints;
 }
@@ -4848,6 +7903,40 @@ FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
     return newResizeFPoints;
 }
 
+FourPoints point8Resize7ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(pos.x(), point1.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(pos.x(), point4.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /* point8 in the seventh position */
 FourPoints point8Resize8(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift) {
@@ -4897,6 +7986,42 @@ FourPoints point8Resize8(QPointF point1, QPointF point2, QPointF point3,
 
     return newResizeFPoints;
 }
+
+FourPoints point8Resize8ByAlt(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift) {
+    FourPoints newResizeFPoints;
+    newResizeFPoints = initFourPoints(newResizeFPoints);
+
+    newResizeFPoints[0] = point1;
+    newResizeFPoints[1] = point2;
+    newResizeFPoints[2] = point3;
+    newResizeFPoints[3] = point4;
+
+    QPointF centerPos = QPointF((point1.x() + point4.x())/2,
+                                (point1.y() + point4.y())/2);
+
+    if (!isShift)
+    {
+        if (std::abs(pos.x() - point1.x()) < MIN_PADDING*10)
+        {
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
+        }
+
+        newResizeFPoints[0] = QPointF(centerPos.x()*2 - pos.x(), point1.y());
+        newResizeFPoints[1] = QPointF(pos.x(), point2.y());
+        newResizeFPoints[2] = QPointF(centerPos.x()*2 - pos.x(), point3.y());
+        newResizeFPoints[3] = QPointF(pos.x(), point3.y());
+    } else {
+        newResizeFPoints = resizeByAltNoTiltKeepRation(newResizeFPoints, pos);
+    }
+
+    return newResizeFPoints;
+}
+
 /************************ micro-adjust  **************************/
 FourPoints pointMoveMicro(FourPoints fourPoints, QString dir) {
     QPointF point1 = fourPoints[0];
