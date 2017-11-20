@@ -2891,10 +2891,12 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = true;
-        qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << "Shift pressed!";
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = true;
+    } else if (e->key() == Qt::Key_Delete)
+    {
+        deleteCurrentShape();
     }
 
 //    QFrame::keyPressEvent(e);
