@@ -480,21 +480,6 @@ void TopToolbar::keyPressEvent(QKeyEvent *e)
             && e->key() == Qt::Key_S)
     {
         generateSaveImage();
-    } else if (e->key() == Qt::Key_R)
-    {
-        emit m_rectBtn->clicked();
-    } else if (e->key() == Qt::Key_O)
-    {
-        emit m_ovalBtn->clicked();
-    } else if (e->key() == Qt::Key_P)
-    {
-        emit m_lineBtn->clicked();
-    } else if (e->key() == Qt::Key_T)
-    {
-        emit m_textBtn->clicked();
-    } else if (e->key() == Qt::Key_B)
-    {
-        emit m_blurBtn->clicked();
     }
 }
 

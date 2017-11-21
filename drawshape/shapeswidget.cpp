@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QColor>
 #include <QPdfWriter>
+#include <QKeySequence>
+#include <QShortcut>
 #include <cmath>
 
 #include "utils/imageutils.h"
@@ -31,7 +33,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 {
     initAttribute();
     m_cutImageTips = new CutImageTips(this);
-
+    initShortcut();
     m_updateTimer = new QTimer(this);
     m_updateTimer->setSingleShot(false);
     m_updateTimer->setInterval(60);
@@ -2900,6 +2902,44 @@ void ShapesWidget::leaveEvent(QEvent* e)
     qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
+void ShapesWidget::initShortcut()
+{
+    QShortcut* deleteShortcut = new QShortcut(
+                QKeySequence("delete"), this);
+    connect(deleteShortcut, &QShortcut::activated, this,
+            &ShapesWidget::deleteCurrentShape);
+
+    QShortcut* saveShortcut = new QShortcut(
+                QKeySequence("ctrl+s"), this);
+    connect(saveShortcut, &QShortcut::activated, this,
+            &ShapesWidget::saveImage);
+
+    QShortcut* rectShortcut = new QShortcut(
+                QKeySequence("r"), this);
+    connect(rectShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("rectangle");});
+
+    QShortcut* ovalShortcut = new QShortcut(
+                QKeySequence("o"), this);
+    connect(ovalShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("oval");});
+
+    QShortcut* penShortcut = new QShortcut(
+                QKeySequence("p"), this);
+    connect(penShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("straightLine");});
+
+    QShortcut* textShortcut = new QShortcut(
+                QKeySequence("t"), this);
+    connect(textShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("text");});
+
+    QShortcut* blurShortcut = new QShortcut(
+                QKeySequence("b"), this);
+    connect(blurShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("blur");});
+}
+
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Shift)
@@ -2908,30 +2948,7 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = true;
-    } else if (e->key() == Qt::Key_Delete)
-    {
-        deleteCurrentShape();
-    }  else if (e->modifiers() == Qt::ControlModifier
-            && e->key() == Qt::Key_S)
-    {
-        saveImage();
-    } else if (e->key() == Qt::Key_R)
-    {
-        emit shapePressed("rectangle");
-    } else if (e->key() == Qt::Key_O)
-    {
-        emit shapePressed("oval");
-    } else if (e->key() == Qt::Key_P)
-    {
-        emit shapePressed("straightLine");
-    } else if (e->key() == Qt::Key_T)
-    {
-        emit shapePressed("text");
-    } else if (e->key() == Qt::Key_B)
-    {
-        emit shapePressed("blur");
     }
-//    QFrame::keyPressEvent(e);
 }
 
 void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
@@ -2972,9 +2989,15 @@ void ShapesWidget::dropEvent(QDropEvent* e)
 
 void ShapesWidget::deleteCurrentShape()
 {
+    qDebug() << "delete:" << m_selectedOrder << m_shapes.length();
     if (m_selectedOrder < m_shapes.length())
     {
+        bool compressImage = false;
+        if (m_shapes[m_selectedOrder].type == "image")
+            compressImage = true;
         m_shapes.removeAt(m_selectedOrder);
+        if (compressImage)
+            compressToImage();
     } else
     {
         qWarning() << "Invalid index";

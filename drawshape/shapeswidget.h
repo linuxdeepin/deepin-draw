@@ -86,7 +86,7 @@ public slots:
     void cutImage();
 
     void updateCutShape(CutRation ration);
-
+    void initShortcut();
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleImageRotate(int degree);
     void handleRotate(QPointF pos);
