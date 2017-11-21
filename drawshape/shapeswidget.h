@@ -24,6 +24,12 @@ public:
         Normal,
     };
 
+    enum LayerDirection {
+        UpLayer,
+        DownLayer,
+        TopLayer,
+        BottomLayer,
+    };
     enum ClickedKey {
         First,
         Second,
@@ -49,12 +55,19 @@ signals:
 public slots:
     void autoCrop();
     void clearSelected();
+    void cutImage();
     void createBlurImage();
     void compressToImage();
     void deleteCurrentShape();
 
     QRect effectiveRect();
     QString  getCurrentType();
+
+    void handleDrag(QPointF oldPoint, QPointF newPoint);
+    void handleImageRotate(int degree);
+    void handleRotate(QPointF pos);
+    void handleResize(QPointF pos, int key);
+
     QRect rightBottomRect();
     void loadImage(QStringList paths);
     void mirroredImage(bool horizontal, bool vertical);
@@ -75,6 +88,7 @@ public slots:
     void setBlurLinewidth(int linewidth);
 
     void saveActionTriggered();
+    void setImageCutting(bool cutting);
     bool textEditIsReadOnly();
 
     void undoDrawShapes();
@@ -82,15 +96,8 @@ public slots:
 
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
-    void setImageCutting(bool cutting);
-    void cutImage();
-
     void updateCutShape(CutRation ration);
-    void initShortcut();
-    void handleDrag(QPointF oldPoint, QPointF newPoint);
-    void handleImageRotate(int degree);
-    void handleRotate(QPointF pos);
-    void handleResize(QPointF pos, int key);
+    void layerSwitch(LayerDirection direction);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -109,6 +116,7 @@ protected:
 
 private:
     void initAttribute();
+    void initShortcut();
     void initCanvasSize();
 
     bool clickedOnShapes(QPointF pos);

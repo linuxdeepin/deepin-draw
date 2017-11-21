@@ -2952,6 +2952,28 @@ void ShapesWidget::initShortcut()
                 QKeySequence("b"), this);
     connect(blurShortcut, &QShortcut::activated, this,
             [=]{ emit shapePressed("blur");});
+
+    QShortcut* upLayerSc = new QShortcut(
+                QKeySequence("ctrl+]"), this);
+    QShortcut* downLayerSc = new QShortcut(
+                QKeySequence("ctrl+["), this);
+    QShortcut* topLayerSc = new QShortcut(
+                QKeySequence("ctrl+shift+]"), this);
+    QShortcut* bottomLayerSc = new QShortcut(
+                QKeySequence("ctrl+shift+["), this);
+
+    connect(upLayerSc, &QShortcut::activated, this, [=]{
+        layerSwitch(LayerDirection::UpLayer);
+    });
+    connect(downLayerSc, &QShortcut::activated, this, [=]{
+        layerSwitch(LayerDirection::DownLayer);
+    });
+    connect(topLayerSc, &QShortcut::activated, this, [=]{
+        layerSwitch(LayerDirection::TopLayer);
+    });
+    connect(bottomLayerSc, &QShortcut::activated, this, [=]{
+        layerSwitch(LayerDirection::BottomLayer);
+    });
 }
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
@@ -3591,6 +3613,36 @@ void ShapesWidget::updateCutShape(CutRation ration)
         }
         m_cutImageTips->showTips(mapToGlobal(QPoint(int(cutFPoints[3].x()),
                                                                                                  int(cutFPoints[3].y()))));
+    }
+}
+
+void ShapesWidget::layerSwitch(LayerDirection direction)
+{
+    switch (direction) {
+    case LayerDirection::TopLayer:
+        m_shapes.move(m_selectedOrder, m_shapes.length() - 1);
+        m_selectedOrder = m_shapes.length() - 1;
+        break;
+    case LayerDirection::BottomLayer:
+        m_shapes.move(m_selectedOrder, 0);
+        m_selectedOrder = 0;
+        break;
+    case LayerDirection::UpLayer:
+        if (m_selectedOrder+1 < m_shapes.length())
+        {
+            m_shapes.move(m_selectedOrder, m_selectedOrder+1);
+            m_selectedOrder +=1;
+        }
+        break;
+    case LayerDirection::DownLayer:
+        if (m_selectedOrder >= 1)
+        {
+            m_shapes.move(m_selectedOrder, m_selectedOrder-1);
+            m_selectedOrder -=1;
+        }
+        break;
+    default:
+        break;
     }
 }
 
