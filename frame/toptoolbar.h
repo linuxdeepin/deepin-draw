@@ -72,10 +72,13 @@ public slots:
 
     void setMiddleStackWidget(Status status);
     void setDrawStatus(DrawStatus drawstatus);
-    void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    void showColorfulPanel(DrawStatus drawstatus,
+                           QPoint pos, bool visible = true);
+    void updateCurrentShape(QString shape);
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     QString m_path;
@@ -96,6 +99,12 @@ private:
     ColorPanel* m_colorPanel;
     Status            m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
+
+    PushButton* m_rectBtn;
+    PushButton* m_ovalBtn;
+    PushButton* m_lineBtn;
+    PushButton* m_textBtn;
+    PushButton* m_blurBtn;
 
     QMenu* m_mainMenu;
 };

@@ -61,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::adjustArtBoardSize);
     connect(m_mainWidget, &MainWidget::cutImageFinished,
             m_topToolbar, &TopToolbar::cutImageFinished);
+    connect(m_mainWidget, &MainWidget::shapePressed,
+            m_topToolbar, &TopToolbar::updateCurrentShape);
 }
 
 void MainWindow::openImage(const QString &path)

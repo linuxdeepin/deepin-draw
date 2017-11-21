@@ -22,6 +22,7 @@ public:
     void setShapes(QList<Toolshape> shapes);
 
 signals:
+    void shapePressed(QString shape);
     void drawShapeChanged(QString shape);
     void fillShapeSelectedActive(bool selected);
     void rotateImage(int degree);

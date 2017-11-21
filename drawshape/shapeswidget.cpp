@@ -140,6 +140,8 @@ void ShapesWidget::initAttribute()
 
     m_linewidth = ConfigSettings::instance()->value(
                 "common", "lineWidth").toInt();
+
+    installEventFilter(this);
 }
 
 void ShapesWidget::initCanvasSize()
@@ -1660,6 +1662,18 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
     }
 }
 
+bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj);
+  if (e->type() == QEvent::KeyPress)
+    {
+       QKeyEvent* event = static_cast<QKeyEvent*>(e);
+        keyPressEvent(event);
+        return true;
+    }
+    return false;
+}
+
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
 
@@ -2897,8 +2911,26 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_Delete)
     {
         deleteCurrentShape();
+    }  else if (e->modifiers() == Qt::ControlModifier
+            && e->key() == Qt::Key_S)
+    {
+        saveImage();
+    } else if (e->key() == Qt::Key_R)
+    {
+        emit shapePressed("rectangle");
+    } else if (e->key() == Qt::Key_O)
+    {
+        emit shapePressed("oval");
+    } else if (e->key() == Qt::Key_P)
+    {
+        emit shapePressed("straightLine");
+    } else if (e->key() == Qt::Key_T)
+    {
+        emit shapePressed("text");
+    } else if (e->key() == Qt::Key_B)
+    {
+        emit shapePressed("blur");
     }
-
 //    QFrame::keyPressEvent(e);
 }
 

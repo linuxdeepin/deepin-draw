@@ -53,30 +53,30 @@ TopToolbar::TopToolbar(QWidget* parent)
     picBtn->setToolTip(tr("Import"));
     actionPushButtons.append(picBtn);
 
-    PushButton* rectBtn = new PushButton(this);
-    rectBtn->setObjectName("RectBtn");
-    rectBtn->setToolTip(tr("Rectangle"));
-    actionPushButtons.append(rectBtn);
+    m_rectBtn = new PushButton(this);
+    m_rectBtn->setObjectName("RectBtn");
+    m_rectBtn->setToolTip(tr("Rectangle"));
+    actionPushButtons.append(m_rectBtn);
 
-    PushButton* ovalBtn = new PushButton(this);
-    ovalBtn->setObjectName("OvalBtn");
-    ovalBtn->setToolTip(tr("Ellipse"));
-    actionPushButtons.append(ovalBtn);
+    m_ovalBtn = new PushButton(this);
+    m_ovalBtn->setObjectName("OvalBtn");
+    m_ovalBtn->setToolTip(tr("Ellipse"));
+    actionPushButtons.append(m_ovalBtn);
 
-    PushButton* lineBtn = new PushButton(this);
-    lineBtn->setObjectName("LineBtn");
-    lineBtn->setToolTip(tr("Pencil"));
-    actionPushButtons.append(lineBtn);
+    m_lineBtn = new PushButton(this);
+    m_lineBtn->setObjectName("LineBtn");
+    m_lineBtn->setToolTip(tr("Pencil"));
+    actionPushButtons.append(m_lineBtn);
 
-    PushButton* textBtn = new PushButton(this);
-    textBtn->setObjectName("TextBtn");
-    textBtn->setToolTip(tr("Text"));
-    actionPushButtons.append(textBtn);
+    m_textBtn = new PushButton(this);
+    m_textBtn->setObjectName("TextBtn");
+    m_textBtn->setToolTip(tr("Text"));
+    actionPushButtons.append(m_textBtn);
 
-    PushButton* blurBtn = new PushButton(this);
-    blurBtn->setObjectName("BlurBtn");
-    blurBtn->setToolTip(tr("Blur"));
-    actionPushButtons.append(blurBtn);
+    m_blurBtn = new PushButton(this);
+    m_blurBtn->setObjectName("BlurBtn");
+    m_blurBtn->setToolTip(tr("Blur"));
+    actionPushButtons.append(m_blurBtn);
 
     PushButton* selectBtn = new PushButton(this);
     selectBtn->setObjectName("SelectedBtn");
@@ -100,11 +100,11 @@ TopToolbar::TopToolbar(QWidget* parent)
     m_layout->addWidget(artBoardBtn);
     m_layout->addSpacing(20);
     m_layout->addWidget(picBtn);
-    m_layout->addWidget(rectBtn);
-    m_layout->addWidget(ovalBtn);
-    m_layout->addWidget(lineBtn);
-    m_layout->addWidget(textBtn);
-    m_layout->addWidget(blurBtn);
+    m_layout->addWidget(m_rectBtn);
+    m_layout->addWidget(m_ovalBtn);
+    m_layout->addWidget(m_lineBtn);
+    m_layout->addWidget(m_textBtn);
+    m_layout->addWidget(m_blurBtn);
     m_layout->addWidget(selectBtn);
     m_layout->addWidget(m_stackWidget, 0, Qt::AlignCenter);
     m_layout->addWidget(exportBtn);
@@ -133,32 +133,32 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
     });
 
-    connect(rectBtn, &PushButton::clicked, this, [=]{
+    connect(m_rectBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
             button->setChecked(false);
         }
-        rectBtn->setChecked(true);
+        m_rectBtn->setChecked(true);
         setMiddleStackWidget(Status::FillShape);
         drawShapes("rectangle");
     });
 
-    connect(ovalBtn, &PushButton::clicked, this, [=]{
+    connect(m_ovalBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
             button->setChecked(false);
         }
-        ovalBtn->setChecked(true);
+        m_ovalBtn->setChecked(true);
         setMiddleStackWidget(Status::FillShape);
         drawShapes("oval");
     });
 
-    connect(lineBtn, &PushButton::clicked, this, [=]{
+    connect(m_lineBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
             button->setChecked(false);
         }
-        lineBtn->setChecked(true);
+        m_lineBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawLine);
         int styleIndex = ConfigSettings::instance()->value("line", "style").toInt();
         switch (styleIndex) {
@@ -168,22 +168,22 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
     });
 
-    connect(textBtn, &PushButton::clicked, this, [=]{
+    connect(m_textBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
             button->setChecked(false);
         }
-        textBtn->setChecked(true);
+        m_textBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawText);
         drawShapes("text");
     });
 
-    connect(blurBtn, &PushButton::clicked, this, [=]{
+    connect(m_blurBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
             button->setChecked(false);
         }
-        blurBtn->setChecked(true);
+        m_blurBtn->setChecked(true);
         setMiddleStackWidget(Status::DrawBlur);
         drawShapes("blur");
     });
@@ -438,6 +438,26 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
         m_colorARect->hide();
 }
 
+void TopToolbar::updateCurrentShape(QString shape)
+{
+    if (shape == "rectangle")
+    {
+        emit m_rectBtn->clicked();
+    } else if (shape == "oval")
+    {
+        emit m_ovalBtn->clicked();
+    } else if (shape == "straightLine")
+    {
+        emit m_lineBtn->clicked();
+    } else if (shape == "text")
+    {
+        emit m_textBtn->clicked();
+    } else if (shape == "blur")
+    {
+        emit m_blurBtn->clicked();
+    }
+}
+
 void TopToolbar::drawShapes(QString shape)
 {
     emit drawShapeChanged(shape);
@@ -452,6 +472,30 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
     Q_UNUSED(event);
+}
+
+void TopToolbar::keyPressEvent(QKeyEvent *e)
+{
+    if (e->modifiers() == Qt::ControlModifier
+            && e->key() == Qt::Key_S)
+    {
+        generateSaveImage();
+    } else if (e->key() == Qt::Key_R)
+    {
+        emit m_rectBtn->clicked();
+    } else if (e->key() == Qt::Key_O)
+    {
+        emit m_ovalBtn->clicked();
+    } else if (e->key() == Qt::Key_P)
+    {
+        emit m_lineBtn->clicked();
+    } else if (e->key() == Qt::Key_T)
+    {
+        emit m_textBtn->clicked();
+    } else if (e->key() == Qt::Key_B)
+    {
+        emit m_blurBtn->clicked();
+    }
 }
 
 TopToolbar::~TopToolbar()

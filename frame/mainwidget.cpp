@@ -55,6 +55,8 @@ MainWidget::MainWidget(QWidget *parent)
             this, &MainWidget::adjustArtBoardSize);
     connect(m_canvas, &CanvasWidget::cutImageFinished,
             this, &MainWidget::cutImageFinished);
+    connect(m_canvas, &CanvasWidget::shapePressed,
+            this, &MainWidget::shapePressed);
 
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
             [=](const QString &group,  const QString &key){

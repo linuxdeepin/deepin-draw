@@ -39,6 +39,8 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             this, &CanvasWidget::adjustArtBoardSize);
     connect(m_shapesWidget, &ShapesWidget::cutImageFinished,
             this, &CanvasWidget::cutImageFinished);
+    connect(m_shapesWidget, &ShapesWidget::shapePressed,
+            this, &CanvasWidget::shapePressed);
 
 }
 

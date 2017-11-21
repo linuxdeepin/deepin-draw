@@ -93,18 +93,19 @@ public slots:
     void handleResize(QPointF pos, int key);
 
 protected:
-    void mousePressEvent(QMouseEvent* e);
-    void mouseMoveEvent(QMouseEvent* e);
-    void mouseReleaseEvent(QMouseEvent* e);
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
 
-    void paintEvent(QPaintEvent* e);
+    void paintEvent(QPaintEvent* e) Q_DECL_OVERRIDE;
     void resizeEvent(QEvent* e);
-    void enterEvent(QEvent* e);
-    void leaveEvent(QEvent* e);
-    void keyPressEvent(QKeyEvent* e);
-    void keyReleaseEvent(QKeyEvent* e);
-    void dragEnterEvent(QDragEnterEvent* e);
-    void dropEvent(QDropEvent* e);
+    void enterEvent(QEvent* e) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent* e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent* e) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent* e) Q_DECL_OVERRIDE;
 
 private:
     void initAttribute();
