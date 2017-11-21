@@ -23,4 +23,21 @@
     } \
 } while (0);
 
+class GlobalShortcut : public QObject
+{
+    Q_OBJECT
+public:
+    GlobalShortcut(QObject* parent = 0);
+    static GlobalShortcut *instance() ;
+
+    inline void setShiftScStatus(bool status) { m_shiftSc = status;}
+    inline void setAltScStatus(bool status) { m_altSc = status;}
+    bool shiftSc() { return m_shiftSc; }
+    bool altSc() { return m_altSc; }
+
+private:
+    bool m_shiftSc = false;
+    bool m_altSc = false;
+        static  GlobalShortcut* m_globalSc;
+};
 #endif // GLOBAL_H

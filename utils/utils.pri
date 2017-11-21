@@ -18,4 +18,5 @@ SOURCES += \
     $$PWD/imageutils.cpp \
     $$PWD/configsettings.cpp \
     $$PWD/shapesutils.cpp \
-    $$PWD/drawfile.cpp
+    $$PWD/drawfile.cpp \
+    $$PWD/global.cpp

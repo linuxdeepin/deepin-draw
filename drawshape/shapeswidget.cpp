@@ -15,6 +15,7 @@
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
 #include "utils/tempfile.h"
+#include "utils/global.h"
 #include "controller/importer.h"
 
 #define LINEWIDTH(index) (index*2+3)
@@ -1474,6 +1475,8 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
 ////////////////////TODO: perfect handleRotate..
 void ShapesWidget::handleRotate(QPointF pos)
 {
+    m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+    m_isAltPressed = GlobalShortcut::instance()->altSc();
     qDebug() << "handleRotate:" << m_selectedOrder << m_shapes.length();
 
     if (m_selectedOrder == -1 || m_selectedShape.type == "text")
@@ -1566,6 +1569,8 @@ void ShapesWidget::handleRotate(QPointF pos)
 void ShapesWidget::handleResize(QPointF pos, int key)
 {
     qDebug() << "handleResize***************************************************:" << m_selectedIndex << m_shapes.length();
+    m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+    m_isAltPressed = GlobalShortcut::instance()->altSc();
 
     if (m_isResize && m_selectedOrder != -1) {
         if (m_shapes[m_selectedOrder].portion.isEmpty()) {
@@ -1678,6 +1683,8 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
+    m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+    m_isAltPressed = GlobalShortcut::instance()->altSc();
 
     m_cutShape.type = "";
     m_pos1 = QPointF(e->pos().x(), e->pos().y());
@@ -1839,6 +1846,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
+    m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+    m_isAltPressed = GlobalShortcut::instance()->altSc();
+
     if (m_selectedOrder != -1 && m_isPressed && m_isMoving)
         compressToImage();
 
@@ -2667,6 +2677,9 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         {
             if (m_currentType != "cutImage")
             {
+                m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+                m_isAltPressed = GlobalShortcut::instance()->altSc();
+
                 if (!m_isAltPressed) {
                     if (!m_isResize && !m_isRotated && m_pos2 != QPointF(0, 0))
                     {
@@ -2678,10 +2691,10 @@ void ShapesWidget::paintEvent(QPaintEvent *)
                     if (m_altCenterPos != QPointF(0, 0) && !m_isResize && !m_isRotated
                             && !(m_isSelected && m_isPressed && m_selectedOrder != -1))
                     {
+                        m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
                         drawShape.mainPoints = getMainPointsByAlt(
                                 QPointF(m_altCenterPos.x()/m_ration, m_altCenterPos.y()/m_ration),
-                                QPointF(m_movingPoint.x(), m_movingPoint.y()), m_isShiftPressed
-                                );
+                                QPointF(m_movingPoint.x(), m_movingPoint.y()), m_isShiftPressed);
                     }
                 }
             } else {
@@ -2724,7 +2737,8 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
 //    qDebug() << "paintShape:" << shape.type << shape.imagePath << shape.mainPoints[0];
 
-    if (shape.type != "image" && (shape.mainPoints[0] == QPointF(0, 0)))
+    if (shape.mainPoints.length() < 4 || (shape.type != "image"
+        && (shape.mainPoints[0] == QPointF(0, 0))))
     {
         return;
     }
@@ -2945,9 +2959,11 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = true;
+        GlobalShortcut::instance()->setShiftScStatus(true);
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = true;
+        GlobalShortcut::instance()->setAltScStatus(true);
     }
 }
 
@@ -2956,9 +2972,11 @@ void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = false;
+        GlobalShortcut::instance()->setShiftScStatus(false);
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = false;
+        GlobalShortcut::instance()->setAltScStatus(true);
     }
 
 //    QFrame::keyReleaseEvent(e);
@@ -3341,11 +3359,6 @@ void ShapesWidget::microAdjust(QString direction)
         m_hoveredShape.type = "";
         update();
     }
-}
-
-void ShapesWidget::setShiftKeyPressed(bool isShift)
-{
-    m_isShiftPressed = isShift;
 }
 
 void ShapesWidget::updateCursorDirection(ResizeDirection direction)

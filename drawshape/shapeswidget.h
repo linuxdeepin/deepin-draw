@@ -79,7 +79,7 @@ public slots:
 
     void undoDrawShapes();
     void microAdjust(QString direction);
-    void setShiftKeyPressed(bool isShift);
+
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
     void setImageCutting(bool cutting);

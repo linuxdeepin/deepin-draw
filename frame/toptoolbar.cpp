@@ -476,10 +476,23 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 
 void TopToolbar::keyPressEvent(QKeyEvent *e)
 {
-    if (e->modifiers() == Qt::ControlModifier
-            && e->key() == Qt::Key_S)
+    if (e->key() == Qt::Key_Shift)
     {
-        generateSaveImage();
+        GlobalShortcut::instance()->setShiftScStatus(true);
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
+}
+
+void TopToolbar::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Shift)
+    {
+        GlobalShortcut::instance()->setShiftScStatus(false);
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        GlobalShortcut::instance()->setAltScStatus(false);
     }
 }
 
