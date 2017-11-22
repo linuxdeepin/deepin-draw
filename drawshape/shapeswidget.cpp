@@ -183,7 +183,11 @@ void ShapesWidget::initMenu()
     Q_UNUSED(cutAc);
     connect(copyAc, &QAction::triggered, this, &ShapesWidget::copyShape);
     connect(pasteAc, &QAction::triggered, this, [=]{
-        pasteShape(this->cursor().pos());
+        QPoint startPos = QPoint(0, 0);
+        startPos = mapToGlobal(startPos);
+        QPoint cursorPos =  QPoint(m_menu->pos());
+        cursorPos = mapToGlobal(cursorPos);
+        pasteShape(QPoint(cursorPos.x() - 2*startPos.x(), cursorPos.y() - 2*startPos.y()));
     });
     connect(delAc, &QAction::triggered, this, &ShapesWidget::deleteCurrentShape);
     Q_UNUSED(unDoAc);
