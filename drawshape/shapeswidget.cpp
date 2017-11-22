@@ -2998,7 +2998,7 @@ void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = false;
-        GlobalShortcut::instance()->setAltScStatus(true);
+        GlobalShortcut::instance()->setAltScStatus(false);
     }
 
 //    QFrame::keyReleaseEvent(e);
