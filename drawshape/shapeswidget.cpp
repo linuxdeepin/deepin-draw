@@ -11,6 +11,7 @@
 #include <QPrintDialog>
 #include <QKeySequence>
 #include <QShortcut>
+#include <QMenu>
 #include <cmath>
 
 #include "utils/imageutils.h"
@@ -37,6 +38,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     initAttribute();
     m_cutImageTips = new CutImageTips(this);
     initShortcut();
+    initMenu();
     m_updateTimer = new QTimer(this);
     m_updateTimer->setSingleShot(false);
     m_updateTimer->setInterval(60);
@@ -160,6 +162,43 @@ void ShapesWidget::initCanvasSize()
         m_artBoardActualWidth = desktopSize.width();
         m_artBoardActualHeight = desktopSize.height();
     }
+}
+
+void ShapesWidget::initMenu()
+{
+    m_menu = new QMenu(this);
+    m_menu->setFocusPolicy(Qt::StrongFocus);
+    QAction* cutAc = m_menu->addAction(tr("Cut"));
+    QAction* copyAc = m_menu->addAction(tr("Copy"));
+    QAction* pasteAc = m_menu->addAction(tr("Paste"));
+    m_menu->addSeparator();
+    QAction* delAc = m_menu->addAction(tr("Delete"));
+    QAction* unDoAc = m_menu->addAction(tr("Undo"));
+    m_menu->addSeparator();
+    QAction* upLayerAc = m_menu->addAction(tr("Raise Layer"));
+    QAction* downLayerAc = m_menu->addAction(tr("Lower Layer"));
+    QAction* topLayerAc = m_menu->addAction(tr("Layer to Top"));
+    QAction* btmLayerAc = m_menu->addAction(tr("Layer to Bottom"));
+
+    Q_UNUSED(cutAc);
+    connect(copyAc, &QAction::triggered, this, &ShapesWidget::copyShape);
+    connect(pasteAc, &QAction::triggered, this, [=]{
+        pasteShape(this->cursor().pos());
+    });
+    connect(delAc, &QAction::triggered, this, &ShapesWidget::deleteCurrentShape);
+    Q_UNUSED(unDoAc);
+    connect(upLayerAc, &QAction::triggered, this, [=]{
+        layerSwitch(LayerDirection::UpLayer);
+    });
+    connect(downLayerAc, &QAction::triggered, this, [=]{
+        layerSwitch(LayerDirection::DownLayer);
+    });
+    connect(topLayerAc, &QAction::triggered, this, [=]{
+        layerSwitch(LayerDirection::TopLayer);
+    });
+    connect(btmLayerAc, &QAction::triggered, this, [=]{
+        layerSwitch(LayerDirection::BottomLayer);
+    });
 }
 
 ShapesWidget::~ShapesWidget()
@@ -1847,7 +1886,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+    if (e->button() == Qt::RightButton)
+    {
+        m_menu->popup(mapToGlobal(e->pos()));
+    }
+
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -3696,7 +3739,6 @@ void ShapesWidget::layerSwitch(LayerDirection direction)
 
     m_needCompress = true;
     compressToImage();
-    m_needCompress = false;
 }
 
 void ShapesWidget::copyShape()
@@ -3717,22 +3759,34 @@ void ShapesWidget::copyShape()
 //    }
 //}
 
-void ShapesWidget::pasteShape()
+void ShapesWidget::pasteShape(QPoint pos)
 {
     if (m_hangingShape.mainPoints.length() < 4)
         return;
 
-    QPointF movePos = QPointF(30, 20);
-    if (m_hangingShape.mainPoints[0].x() > this->width()*5/6 ||
-            m_hangingShape.mainPoints[0].y() > this->height()*5/6)
-        movePos = QPointF(-m_hangingShape.mainPoints[0].x() + 5,
-                -m_hangingShape.mainPoints[0].y() + 5);
+    QPointF movePos;
+    if (pos == QPoint(0, 0)) {
+        if (m_hangingShape.mainPoints[0].x() > this->width()*5/6 ||
+                m_hangingShape.mainPoints[0].y() > this->height()*5/6) {
+            movePos = QPointF(-m_hangingShape.mainPoints[0].x() + 5,
+                    -m_hangingShape.mainPoints[0].y() + 5);
+        } else {
+            movePos = QPointF(30, 20);
+        }
+    } else  {
+        qDebug() << "m_hangingShape pos:" << pos;
+        movePos = QPointF(-m_hangingShape.mainPoints[0].x() + pos.x()/m_ration,
+                -m_hangingShape.mainPoints[0].y() + pos.y()/m_ration);
+        qDebug() << "m_movePos:" << movePos;
+    }
 
     for(int i = 0; i < m_hangingShape.mainPoints.length(); i++)
     {
         m_hangingShape.mainPoints[i] = QPointF(
                     m_hangingShape.mainPoints[i].x() + movePos.x(),
                     m_hangingShape.mainPoints[i].y() + movePos.y());
+        if (i == 0)
+            qDebug() << "hanging:" << m_hangingShape.mainPoints[0];
     }
 
     for(int j = 0; j < m_hangingShape.points.length(); j++)
@@ -3745,7 +3799,6 @@ void ShapesWidget::pasteShape()
     m_shapes.append(m_hangingShape);
     m_needCompress = true;
     compressToImage();
-    m_needCompress = false;
 }
 
 void ShapesWidget::autoCrop()

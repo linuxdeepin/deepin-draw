@@ -103,7 +103,7 @@ public slots:
 
     void copyShape();
 //    void cutShape();
-    void pasteShape();
+    void pasteShape(QPoint pos = QPoint(0, 0));
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -124,6 +124,7 @@ private:
     void initAttribute();
     void initShortcut();
     void initCanvasSize();
+    void initMenu();
 
     bool clickedOnShapes(QPointF pos);
     bool clickedOnImage(FourPoints rectPoints, QPointF pos);
@@ -245,6 +246,8 @@ private:
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
     QTimer* m_updateTimer;
+
+    QMenu* m_menu;
 
     qreal m_artBoardActualWidth;
     qreal m_artBoardActualHeight;
