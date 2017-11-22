@@ -99,6 +99,10 @@ public slots:
     void updateCutShape(CutRation ration);
     void layerSwitch(LayerDirection direction);
 
+    void copyShape();
+//    void cutShape();
+    void pasteShape();
+
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent* e) Q_DECL_OVERRIDE;
@@ -231,6 +235,7 @@ private:
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
     Toolshape m_beCutImageShape;
+    Toolshape m_hangingShape;
 
     void updateTextRect(TextEdit* edit, QRectF newRect);
     QMap<int, TextEdit*> m_editMap;

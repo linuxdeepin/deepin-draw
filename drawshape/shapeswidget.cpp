@@ -2974,6 +2974,16 @@ void ShapesWidget::initShortcut()
     connect(bottomLayerSc, &QShortcut::activated, this, [=]{
         layerSwitch(LayerDirection::BottomLayer);
     });
+
+    QShortcut* copySc = new QShortcut(QKeySequence("ctrl+c"), this);
+    QShortcut* pasteSc = new QShortcut(QKeySequence("ctrl+v"), this);
+
+    connect(copySc, &QShortcut::activated, this, [=]{
+        copyShape();
+    });
+    connect(pasteSc, &QShortcut::activated, this, [=]{
+        pasteShape();
+    });
 }
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
@@ -3645,6 +3655,55 @@ void ShapesWidget::layerSwitch(LayerDirection direction)
         break;
     }
 
+    m_needCompress = true;
+    compressToImage();
+    m_needCompress = false;
+}
+
+void ShapesWidget::copyShape()
+{
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    {
+        m_hangingShape = m_shapes[m_selectedOrder];
+    }
+}
+
+//void ShapesWidget::cutShape()
+//{
+//    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+//    {
+//        m_hangingShape = m_shapes[m_selectedOrder];
+//        m_shapes.removeAt(m_selectedOrder);
+//        m_selectedOrder = -1;
+//    }
+//}
+
+void ShapesWidget::pasteShape()
+{
+    if (m_hangingShape.mainPoints.length() < 4)
+        return;
+
+    QPointF movePos = QPointF(30, 20);
+    if (m_hangingShape.mainPoints[0].x() > this->width()*5/6 ||
+            m_hangingShape.mainPoints[0].y() > this->height()*5/6)
+        movePos = QPointF(-m_hangingShape.mainPoints[0].x() + 5,
+                -m_hangingShape.mainPoints[0].y() + 5);
+
+    for(int i = 0; i < m_hangingShape.mainPoints.length(); i++)
+    {
+        m_hangingShape.mainPoints[i] = QPointF(
+                    m_hangingShape.mainPoints[i].x() + movePos.x(),
+                    m_hangingShape.mainPoints[i].y() + movePos.y());
+    }
+
+    for(int j = 0; j < m_hangingShape.points.length(); j++)
+    {
+        m_hangingShape.points[j] = QPointF(
+                    m_hangingShape.points[j].x() + movePos.x(),
+                    m_hangingShape.points[j].y() + movePos.y());
+    }
+
+    m_shapes.append(m_hangingShape);
     m_needCompress = true;
     compressToImage();
     m_needCompress = false;
