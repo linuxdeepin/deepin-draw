@@ -39,19 +39,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_topToolbar, &TopToolbar::drawShapeChanged,
             m_mainWidget, &MainWidget::drawShapeChanged);
-
     connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
             m_mainWidget, &MainWidget::fillShapeSelectedActive);
-
     connect(m_topToolbar, &TopToolbar::rotateImage,
             m_mainWidget, &MainWidget::rotateImage);
-
     connect(m_topToolbar, &TopToolbar::mirroredImage,
             m_mainWidget, &MainWidget::mirroredImage);
-
     connect(m_topToolbar, &TopToolbar::generateSaveImage,
             m_mainWidget, &MainWidget::generateSaveImage);
-
+    connect(m_topToolbar, &TopToolbar::printImage,
+            m_mainWidget, &MainWidget::printImage);
     connect(m_topToolbar, &TopToolbar::autoCrop,
             m_mainWidget, &MainWidget::autoCrop);
 

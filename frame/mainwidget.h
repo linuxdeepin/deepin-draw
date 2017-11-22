@@ -26,6 +26,7 @@ signals:
     void mirroredImage(bool horizontal, bool vertical);
 //    void saveImageAction(const QString &path);
     void generateSaveImage();
+    void printImage();
     void autoCrop();
 
     void updateMiddleWidget(QString type);

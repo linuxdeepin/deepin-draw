@@ -27,10 +27,10 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_shapesWidget,  &ShapesWidget::handleImageRotate);
     connect(this, &CanvasWidget::mirroredImage,
             m_shapesWidget, &ShapesWidget::mirroredImage);
-//    connect(this, &CanvasWidget::saveImageAction,
-//            m_shapesWidget, &ShapesWidget::saveImage);
     connect(this, &CanvasWidget::generateSaveImage,
             m_shapesWidget, &ShapesWidget::saveImage);
+    connect(this, &CanvasWidget::printImage,
+            m_shapesWidget, &ShapesWidget::printImage);
     connect(this, &CanvasWidget::autoCrop, m_shapesWidget, &ShapesWidget::autoCrop);
 
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,

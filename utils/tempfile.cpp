@@ -69,6 +69,16 @@ void TempFile::setCanvasShapes(QList<Toolshape> shapes)
     m_shapes = shapes;
 }
 
+void TempFile::setSaveFinishedExit(bool exit)
+{
+    m_exit = exit;
+}
+
+bool TempFile::saveFinishedExit()
+{
+    return m_exit;
+}
+
 QPixmap TempFile::savedImage()
 {
     return m_pixmap;

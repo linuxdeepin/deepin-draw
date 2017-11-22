@@ -50,7 +50,6 @@ DrawDialog::DrawDialog(QWidget* parent)
         }
 
     });
-
 }
 
 void  DrawDialog::keyPressEvent(QKeyEvent *e)

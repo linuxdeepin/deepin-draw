@@ -217,6 +217,9 @@ void SaveDialog::saveImage(const QString &path)
     } else {
         QPixmap(m_imagePath).save(path);
     }
+
+    if (TempFile::instance()->saveFinishedExit())
+        qApp->quit();
 }
 
 void SaveDialog::keyPressEvent(QKeyEvent *e)

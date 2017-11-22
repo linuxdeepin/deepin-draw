@@ -49,6 +49,7 @@ signals:
     void mirroredImage(bool horizonta, bool vertical);
     void cutImageAction();
     void generateSaveImage();
+    void printImage();
     void updatePicTooltip(bool import);
     void fillShapeSelectedActive(bool selected);
     void adjustArtBoardSize(QSize size);
@@ -63,6 +64,7 @@ public:
     void showDrawDialog();
     void showSaveDialog();
     void drawShapes(QString shape);
+    void showPrintDialog();
 
 public slots:
     void importImage();

@@ -14,11 +14,14 @@ public:
     static TempFile *instance();
 
     QString getBlurFileName();
-
     QString getRandomFile(const QString &filepath,
                           const QString &imageFormat = "PNG");
+
     void setImageFile(QPixmap image);
     void setCanvasShapes(QList<Toolshape> shapes);
+    void setSaveFinishedExit(bool exit);
+
+    bool saveFinishedExit();
     QPixmap savedImage();
     QList<Toolshape> savedShapes();
 
@@ -34,5 +37,6 @@ private:
     QMap<QString , QString> m_pathMap;
     QPixmap m_pixmap = QPixmap();
     QList<Toolshape> m_shapes;
+    bool m_exit = false;
 };
 #endif // TEMPFILE_H

@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QColor>
 #include <QPdfWriter>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QKeySequence>
 #include <QShortcut>
 #include <cmath>
@@ -3314,9 +3316,8 @@ void ShapesWidget::updateCanvasSize()
     update();
 }
 
-void ShapesWidget::saveImage(/*const QString &path*/)
+QPixmap ShapesWidget::saveCanvasImage()
 {
-//    m_imageSavePath = path;
     m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
     m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
 
@@ -3335,11 +3336,49 @@ void ShapesWidget::saveImage(/*const QString &path*/)
         paintShape(historyPainter, m_shapes[k]);
     }
 
+    return resultPixmap;
+}
+
+void ShapesWidget::saveImage()
+{
+    QPixmap saveImage = saveCanvasImage();
+    m_saveWithRation = false;
     //TODO:添加异步处理
     TempFile::instance()->setCanvasShapes(m_shapes);
-    TempFile::instance()->setImageFile(resultPixmap);
+    TempFile::instance()->setImageFile(saveImage);
+}
 
-    m_saveWithRation = false;
+void ShapesWidget::printImage()
+{
+    QPixmap resultPixmap = saveCanvasImage();
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+     m_saveWithRation = false;
+    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
+    printDialog->resize(400, 300);
+    if (printDialog->exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        QRectF drawRectF; QRect wRect;
+        if (resultPixmap.isNull()) {
+            qDebug() << "resultPixmap is null, exit !";
+        }
+        wRect = printer.pageRect();
+        if (resultPixmap.width() > wRect.width() || resultPixmap.height() > wRect.height()) {
+            resultPixmap = resultPixmap.scaled(wRect.size(), Qt::KeepAspectRatio,
+                                               Qt::SmoothTransformation);
+        }
+        drawRectF = QRectF(qreal(wRect.width() - resultPixmap.width())/2,
+                           qreal(wRect.height() - resultPixmap.height())/2,
+                           resultPixmap.width(), resultPixmap.height());
+        painter.drawPixmap(drawRectF.x(), drawRectF.y(), resultPixmap.width(),
+                           resultPixmap.height(), resultPixmap);
+        painter.end();
+        qDebug() << "print succeed!";
+        return;
+    }
+
+    QObject::connect(printDialog, &QPrintDialog::finished,
+                     printDialog, &QPrintDialog::deleteLater);
 }
 
 void ShapesWidget::microAdjust(QString direction)

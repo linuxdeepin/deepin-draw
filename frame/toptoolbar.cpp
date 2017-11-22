@@ -340,15 +340,18 @@ void TopToolbar::initMenu()
 {
     m_mainMenu = new QMenu(this);
     QAction* importAc = m_mainMenu->addAction(tr("Import"));
+    m_mainMenu->addSeparator();
 //    QAction* importFScannerAc = m_mainMenu->addAction(tr("Import from scanner"));
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
 //    QAction* saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction* printAc = m_mainMenu->addAction(tr("Print"));
+    m_mainMenu->addSeparator();
     QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
+    m_mainMenu->addSeparator();
     QAction* helpAc = m_mainMenu->addAction(tr("Help"));
 //    Q_UNUSED(importFScannerAc);
 
-    Q_UNUSED(printAc);
+//    Q_UNUSED(printAc);
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
     dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.png")));
@@ -359,6 +362,7 @@ void TopToolbar::initMenu()
     connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
     connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
+    connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 //    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::showSaveDialog);
 }
 
@@ -366,6 +370,11 @@ void TopToolbar::showDrawDialog()
 {
     DrawDialog* dd = new DrawDialog;
     dd->showInCenter(window());
+
+    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
+        TempFile::instance()->setSaveFinishedExit(true);
+        generateSaveImage();
+    });
 }
 
 void TopToolbar::showSaveDialog()
