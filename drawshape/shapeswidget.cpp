@@ -3644,6 +3644,10 @@ void ShapesWidget::layerSwitch(LayerDirection direction)
     default:
         break;
     }
+
+    m_needCompress = true;
+    compressToImage();
+    m_needCompress = false;
 }
 
 void ShapesWidget::autoCrop()
