@@ -3086,6 +3086,9 @@ void ShapesWidget::dropEvent(QDropEvent* e)
 void ShapesWidget::deleteCurrentShape()
 {
     qDebug() << "delete:" << m_selectedOrder << m_shapes.length();
+    if (m_selectedOrder == -1)
+        return;
+
     if (m_selectedOrder < m_shapes.length())
     {
         bool compressImage = false;
@@ -3113,7 +3116,6 @@ void ShapesWidget::deleteCurrentShape()
         m_currentShape.mainPoints[i] = QPointF(0, 0);
     }
 
-    update();
     m_selectedIndex = -1;
     m_selectedOrder = -1;
 }
