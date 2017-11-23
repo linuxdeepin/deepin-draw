@@ -87,7 +87,6 @@ public slots:
     void setBrushColor(QColor color);
     void setLineWidth(int linewidth);
     void setTextFontsize(int fontsize);
-    void setBlurLinewidth(int linewidth);
 
     void saveActionTriggered();
     void setImageCutting(bool cutting);
@@ -166,7 +165,7 @@ private:
                           QPointF p1, QSizeF size1, QColor c1,
                           QPointF p2, QSizeF size2, QColor c2,
                           QPainterPath oldpath);
-    void paintPointList(QPainter &p, QList<QPointF> points);
+    void paintPointList(QPainter &p, QList<QPointF> points, int lineWidth);
     void paintBlur(QPainter &painter, Toolshape shape);
     void paintCutImageRect(QPainter &painter, Toolshape shape);
     void paintImage(QPainter &painter, Toolshape imageShape);

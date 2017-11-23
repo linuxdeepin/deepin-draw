@@ -281,7 +281,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 void ShapesWidget::setShapes(QList<Toolshape> shapes)
 {
     m_shapes = shapes;
-    qDebug() << "setShapesWidget: length" << m_shapes.length();
+    qDebug() << "setShapesWidget length:" << m_shapes.length();
 }
 
 void ShapesWidget::setCurrentShape(QString shapeType)
@@ -296,7 +296,8 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     } else {
         m_cutImageOrder = -1;
     }
-    qDebug() << "setCurrentShape:" << shapeType << m_cutImageOrder << m_selectedOrder;
+    qDebug() << "setCurrentShape:" << shapeType
+                        << m_cutImageOrder   << m_selectedOrder;
 }
 
 void ShapesWidget::setPenColor(QColor color)
@@ -318,11 +319,6 @@ void ShapesWidget::setLineWidth(int linewidth)
 void ShapesWidget::setTextFontsize(int fontsize)
 {
     m_textFontsize = fontsize;
-}
-
-void ShapesWidget::setBlurLinewidth(int linewidth)
-{
-    m_blurLinewidth = linewidth;
 }
 
 void ShapesWidget::clearSelected()
@@ -1824,6 +1820,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_blurEffectExist = true;
             m_currentShape.isBlur = true;
             m_currentShape.index = m_currentIndex;
+            m_blurLinewidth = ConfigSettings::instance()->value("blur",
+                                                                "index").toInt();
             m_currentShape.lineWidth = m_blurLinewidth;
             m_currentShape.points.append(m_pressedPoint);
 
@@ -2404,7 +2402,7 @@ QPainterPath ShapesWidget::drawPair(QPainter &p,
     return path;
 }
 
-void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
+void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points, int lineWidth)
 {
     if (points.size() < 2)
     {
@@ -2412,8 +2410,8 @@ void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points)
     }
 
     QList<QSizeF> sizes;
-    double maxSize = 12.0;
-    for (int i = 0; i < points.size(); ++i)
+    double maxSize = lineWidth;
+     for (int i = 0; i < points.size(); ++i)
     {
         auto size = maxSize - /*dsize * i*/0;
         sizes << QSizeF(size, size);
@@ -2440,10 +2438,9 @@ void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape)
 {
     QPen pen;
     pen.setJoinStyle(Qt::RoundJoin);
-    painter.setPen(QPen(Qt::red));
     painter.setBrush(QBrush(Qt::transparent));
     QList<QPointF> lineFPoints = shape.points;
-    paintPointList(painter, lineFPoints);
+    paintPointList(painter, lineFPoints, shape.lineWidth);
 }
 
 void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
@@ -2758,7 +2755,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         {
             drawShape.mainPoints = m_currentShape.mainPoints;
         }
-        drawShape.lineWidth = m_linewidth;
+        drawShape.lineWidth = m_currentShape.lineWidth;
         //Draw current shape
 
         qDebug() << "paint current shape:" << m_currentType << m_editing;
