@@ -54,21 +54,18 @@ app_icon.path = $$APPICONDIR
 app_icon.files = logo/deepin-draw.svg
 
 # Automating generation .qm files from .ts files
-#CONFIG(release, debug|release) {
-#    !system($$PWD/generate_translations.sh): error("Failed to generate translation")
-#}
+CONFIG(release, debug|release) {
+    system($$PWD/generate_translations.sh)
+}
 
-#TRANSLATIONS += \
-#   translations/deepin-draw.ts\
-#    translations/deepin-draw_zh_CN.ts
+translations.path = $$APPSHAREDIR/translations
+translations.files = translations/*.qm
 
-#translations.path = $$APPSHAREDIR/translations
-#translations.files = translations/*.qm
 exists(app_icon.files) {
     message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon manual_icon formatFile #manual   translations
+INSTALLS = target desktop  app_icon manual_icon formatFile translations#manual
 
 DISTFILES += \
     logo/deepin-draw-16.svg \
