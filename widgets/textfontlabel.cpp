@@ -8,7 +8,7 @@
 #include "utils/global.h"
 #include "utils/configsettings.h"
 
-const int LINEEDIT_WIDTH = 190;
+const int LINEEDIT_WIDTH = 64;
 const int BUTTON_ICON = 24;
 
 TextFontLabel::TextFontLabel(QWidget *parent)

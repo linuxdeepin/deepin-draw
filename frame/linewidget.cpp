@@ -90,8 +90,8 @@ LineWidget::LineWidget(QWidget *parent)
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(10);
-    layout->addWidget(strokeLabel);
     layout->addWidget(strokeButton);
+    layout->addWidget(strokeLabel);
     layout->addWidget(sep1Line, 0, Qt::AlignCenter);
     layout->addWidget(borderStyleLabel);
 
