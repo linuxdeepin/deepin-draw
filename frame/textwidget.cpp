@@ -21,7 +21,7 @@ TextWidget::TextWidget(QWidget *parent)
     SeperatorLine* textSeperatorLine = new SeperatorLine(this);
 
     QLabel* fontsizeLabel = new QLabel(this);
-    fontsizeLabel->setText(tr("Font size"));
+    fontsizeLabel->setText(tr("Size"));
     TextFontLabel* fontLabel = new TextFontLabel(this);
 
     QHBoxLayout* layout = new QHBoxLayout(this);

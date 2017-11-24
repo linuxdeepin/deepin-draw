@@ -13,13 +13,13 @@ CutWidget::CutWidget(QWidget *parent)
     m_leftRotateBtn = new PushButton(this);
     m_leftRotateBtn->setCheckable(false);
     m_leftRotateBtn->setObjectName("LeftRotate");
-    m_leftRotateBtn->setToolTip(tr("Rotate 90°CCW"));
+    m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
     btnList.append(m_leftRotateBtn);
 
     m_rightRotateBtn = new PushButton(this);
     m_rightRotateBtn->setCheckable(false);
     m_rightRotateBtn->setObjectName("RightRotate");
-    m_rightRotateBtn->setToolTip(tr("Rotate 90°CW"));
+    m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
     btnList.append(m_rightRotateBtn);
 
     m_cutBtn = new PushButton(this);

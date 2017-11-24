@@ -57,12 +57,12 @@
     <name>CutWidget</name>
     <message>
         <location filename="../frame/cutwidget.cpp" line="16"/>
-        <source>Rotate 90°CCW</source>
+        <source>Rotate 90° CCW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="22"/>
-        <source>Rotate 90°CW</source>
+        <source>Rotate 90° CW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -297,7 +297,7 @@
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="24"/>
-        <source>Font size</source>
+        <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -346,7 +346,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="345"/>
+        <location filename="../frame/toptoolbar.cpp" line="344"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -367,22 +367,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="347"/>
+        <location filename="../frame/toptoolbar.cpp" line="345"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="349"/>
+        <location filename="../frame/toptoolbar.cpp" line="347"/>
         <source>Dark theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="351"/>
+        <location filename="../frame/toptoolbar.cpp" line="349"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="358"/>
+        <location filename="../frame/toptoolbar.cpp" line="354"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation type="unfinished"></translation>
     </message>
