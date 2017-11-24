@@ -46,10 +46,6 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     painter.setPen(Qt::transparent);
 
     QColor drawColor = m_color;
-//    if (!this->rect().contains(this->cursor().pos()))
-//        m_isHover = false;
-//    else
-//        m_isHover = true;
 
     if (m_isChecked || m_isHover)
     {

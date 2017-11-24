@@ -173,7 +173,7 @@ void ShapesWidget::initMenu()
     QAction* pasteAc = m_menu->addAction(tr("Paste"));
     m_menu->addSeparator();
     QAction* delAc = m_menu->addAction(tr("Delete"));
-    QAction* unDoAc = m_menu->addAction(tr("Undo"));
+//    QAction* unDoAc = m_menu->addAction(tr("Undo"));
     m_menu->addSeparator();
     QAction* upLayerAc = m_menu->addAction(tr("Raise Layer"));
     QAction* downLayerAc = m_menu->addAction(tr("Lower Layer"));
@@ -190,7 +190,6 @@ void ShapesWidget::initMenu()
         pasteShape(QPoint(cursorPos.x() - 2*startPos.x(), cursorPos.y() - 2*startPos.y()));
     });
     connect(delAc, &QAction::triggered, this, &ShapesWidget::deleteCurrentShape);
-    Q_UNUSED(unDoAc);
     connect(upLayerAc, &QAction::triggered, this, [=]{
         layerSwitch(LayerDirection::UpLayer);
     });

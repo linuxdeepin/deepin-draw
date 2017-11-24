@@ -1,4 +1,3 @@
-
 QLabel#LogoLabel {
 border-image: url(:/theme/common/images/deepin-draw-32.png);
 }

@@ -17,6 +17,7 @@ const int TITLEBAR_HEIGHT = 40;
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
+    setMouseTracking(true);
     window()->setWindowState(Qt::WindowMaximized);
     QSize desktopSize = qApp->desktop()->size();
     ConfigSettings::instance()->setValue("artboard", "width",  desktopSize.width());
@@ -116,6 +117,13 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     DMainWindow::keyPressEvent(event);
+    qDebug() << "MainWindow:" << event->key();
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    qDebug() << "@Event:" << event->pos();
+    m_topToolbar->updateColorPanelVisible(event->pos());
 }
 
 MainWindow::~MainWindow()

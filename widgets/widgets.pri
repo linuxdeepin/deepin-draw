@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/toolbutton.h \
     $$PWD/dialog/drawdialog.h \
     $$PWD/dialog/dialog.h \
-    $$PWD/dialog/savedialog.h
+    $$PWD/dialog/savedialog.h \
+    $$PWD/arrowrectangle.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     $$PWD/textfontlabel.cpp \
     $$PWD/dialog/drawdialog.cpp \
     $$PWD/dialog/dialog.cpp \
-    $$PWD/dialog/savedialog.cpp
+    $$PWD/dialog/savedialog.cpp \
+    $$PWD/arrowrectangle.cpp
 
 RESOURCES += \
     $$PWD/widgetsRes.qrc

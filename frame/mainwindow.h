@@ -25,6 +25,7 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     TopToolbar* m_topToolbar;

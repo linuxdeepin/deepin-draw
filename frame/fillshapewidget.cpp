@@ -32,6 +32,11 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
             emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
     });
 
+    connect(this, &FillshapeWidget::resetColorBtns, this, [=]{
+        fillBtn->resetChecked();
+        strokeBtn->resetChecked();
+    });
+
     QLabel* strokeLabel = new QLabel(this);
     strokeLabel->setText(tr("Stroke"));
     SeperatorLine* sepLine = new SeperatorLine(this);

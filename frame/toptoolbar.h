@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QKeyEvent>
 
-#include  <darrowrectangle.h>
+//#include  <darrowrectangle.h>
 
 #include "utils/baseutils.h"
 #include "widgets/colorpanel.h"
@@ -18,6 +18,7 @@
 #include "textwidget.h"
 #include "blurwidget.h"
 #include "adjustsizewidget.h"
+#include "widgets/arrowrectangle.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -77,11 +78,13 @@ public slots:
     void showColorfulPanel(DrawStatus drawstatus,
                            QPoint pos, bool visible = true);
     void updateCurrentShape(QString shape);
+    void updateColorPanelVisible(QPoint pos);
 
 protected:
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     QString m_path;
@@ -98,7 +101,7 @@ private:
     BlurWidget* m_drawBlurWidget;
     AdjustsizeWidget* m_adjustsizeWidget;
 
-    DArrowRectangle* m_colorARect;
+     ArrowRectangle* m_colorARect;
     ColorPanel* m_colorPanel;
     Status            m_middleWidgetStatus;
     DrawStatus  m_drawStatus;

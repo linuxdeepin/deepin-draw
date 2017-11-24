@@ -29,6 +29,7 @@
 
 #include "controller/importer.h"
 
+#include <QApplication>
 DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
@@ -36,7 +37,6 @@ TopToolbar::TopToolbar(QWidget* parent)
 {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
-
     QLabel* logoLabel = new QLabel(this);
     logoLabel->setFixedSize(24, 25);
     logoLabel->setObjectName("LogoLabel");
@@ -292,21 +292,26 @@ void TopToolbar::initStackWidget()
 
     //colorPanel.
     m_colorPanel = new ColorPanel();
-    m_colorARect = new DArrowRectangle(DArrowRectangle::ArrowTop, this);
+    qApp->setProperty("_d_isDxcb",false);
+    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop,this->parentWidget());
+    qApp->setProperty("_d_isDxcb",true);
+    m_colorARect->setWindowFlags(Qt::Widget);
+    m_colorARect->setAttribute(Qt::WA_TranslucentBackground,false);
     m_colorARect->setArrowX(25);
     m_colorARect->setArrowWidth(30);
     m_colorARect->setContent(m_colorPanel);
-    m_colorARect->setBackgroundColor(QColor(255, 255, 255, 0.5));
-
-    connect(m_colorPanel, &ColorPanel::updateHeight, this, [=]{
-        m_colorARect->setContent(m_colorPanel);
-    });
+   m_colorARect->hide();
+   connect(m_colorPanel, &ColorPanel::updateHeight, this, [=]{
+       m_colorARect->setContent(m_colorPanel);
+   });
 
     //fill rectangle, and oval.
     m_fillShapeWidget = new FillshapeWidget(this);
     m_stackWidget->addWidget(m_fillShapeWidget);
     connect(m_fillShapeWidget, &FillshapeWidget::showColorPanel,
                     this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_fillShapeWidget,
+            &FillshapeWidget::resetColorBtns);
 
     //draw line.
     m_drawLineWidget = new LineWidget(this);
@@ -432,13 +437,18 @@ void TopToolbar::setDrawStatus(DrawStatus drawstatus)
 
 void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
 {
+    Q_UNUSED(pos);
     m_drawStatus = drawstatus;
     m_colorPanel->setDrawStatus(m_drawStatus);
     m_colorPanel->updateColorButtonStatus();
 
+    m_colorARect->raise();
     if (visible)
-        m_colorARect->show(pos.x(), pos.y() + 8);
-    else
+    {
+        QPoint startPos = QPoint(0, 0);
+        m_colorARect->show( cursor().pos().x() - mapToGlobal(startPos).x(),
+                            cursor().pos().y() + 25 - mapToGlobal(startPos).y());
+    } else
         m_colorARect->hide();
 }
 
@@ -462,6 +472,17 @@ void TopToolbar::updateCurrentShape(QString shape)
     }
 }
 
+void TopToolbar::updateColorPanelVisible(QPoint pos)
+{
+    QRect colorPanelGeom = m_colorARect->geometry();
+    if (!colorPanelGeom.contains(pos))
+    {
+        m_colorARect->hide();
+    }
+
+    qDebug() << "updateColorPanelVisible:" << colorPanelGeom << pos;
+}
+
 void TopToolbar::drawShapes(QString shape)
 {
     emit drawShapeChanged(shape);
@@ -475,6 +496,7 @@ QMenu* TopToolbar::mainMenu()
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
+    m_colorARect->hide();
     Q_UNUSED(event);
 }
 
@@ -498,6 +520,15 @@ void TopToolbar::keyReleaseEvent(QKeyEvent *e)
     {
         GlobalShortcut::instance()->setAltScStatus(false);
     }
+}
+
+void TopToolbar::mousePressEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    qDebug() << "#$^%&*" << m_colorARect->hasFocus();
+
+//    if (!m_colorARect->hasFocus())
+//        m_colorARect->hide();
 }
 
 TopToolbar::~TopToolbar()
