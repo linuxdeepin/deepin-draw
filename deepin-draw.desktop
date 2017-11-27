@@ -8,5 +8,3 @@ Name=Deepin Draw
 StartupNotify=false
 Type=Application
 
-# Translations
-Name[zh_CN]=深度画板
