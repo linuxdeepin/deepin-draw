@@ -30,6 +30,7 @@ public:
         TopLayer,
         BottomLayer,
     };
+
     enum ClickedKey {
         First,
         Second,
@@ -51,6 +52,7 @@ signals:
     void updateMiddleWidgets(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
+    void textReadOnly();
 
 public slots:
     void autoCrop();

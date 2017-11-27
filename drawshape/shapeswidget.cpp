@@ -348,7 +348,7 @@ void ShapesWidget::setAllTextEditReadOnly()
         i.value()->setTextCursor(textCursor);
         ++i;
     }
-
+    m_editing = false;
     update();
 }
 
@@ -437,7 +437,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                                  m_shapes[i].fillColor != QColor(Qt::transparent)))
             {
                 currentOnShape = true;
-
                 ConfigSettings::instance()->setValue("common", "fillColor",
                                                      m_shapes[i].fillColor.name(QColor::HexArgb));
                 ConfigSettings::instance()->setValue("common", "strokeColor",
@@ -449,7 +448,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             if (clickedOnArrow(m_shapes[i].points, pos))
             {
                 currentOnShape = true;
-
                 ConfigSettings::instance()->setValue("common", "strokeColor",
                                                      m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
@@ -459,7 +457,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos))
             {
                 currentOnShape = true;
-
                 ConfigSettings::instance()->setValue("common", "strokeColor",
                                                      m_shapes[i].strokeColor.name(QColor::HexArgb));
             }
@@ -475,12 +472,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (currentOnShape)
         {
             emit updateMiddleWidgets(m_shapes[i].type);
-
+            setAllTextEditReadOnly();
+            clearSelected();
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
-            qDebug() << "currentOnShape" << i << m_selectedIndex
-                     << m_selectedOrder << m_shapes[i].type;
+
+            qDebug() << "QcurrentOnShape:" << i << m_selectedIndex
+                            <<  m_editMap.count();
 
             onShapes = true;
             break;
@@ -1725,6 +1724,10 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
+    if (e->button() == Qt::RightButton)
+    {
+        return;
+    }
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -1739,12 +1742,18 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     if (m_selectedOrder != -1)
     {
-        if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
+        if (m_shapes[m_selectedOrder].type == "text")
+        {
+            qDebug() << "@ShapesWidget:" << m_selectedOrder;
+            setAllTextEditReadOnly();
+            m_selectedOrder = -1;
+            return;
+        } else if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
              && m_isRotated) && m_selectedOrder == -1)
         {
+            qDebug() << "$ShapesWidget not text";
             clearSelected();
             setAllTextEditReadOnly();
-            m_editing = false;
             m_selectedIndex = -1;
             m_selectedOrder = -1;
             m_selectedShape.type = "";
@@ -1755,8 +1764,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     m_isPressed = true;
     if (m_shapes.length() == 0)
     {
-        m_canvasSideLength = std::max(
-            m_artBoardActualWidth, m_artBoardActualHeight);
+        m_canvasSideLength = std::max(m_artBoardActualWidth,
+                                                              m_artBoardActualHeight);
     }
 
     m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
@@ -1774,13 +1783,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     {
         qDebug() << "Adjust artboard's size!";
         qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        return;
-    }
-
-    if (e->button() == Qt::RightButton)
-    {
-//        qDebug() << "RightButton clicked!";
-//        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
         return;
     }
 
@@ -1802,7 +1804,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_shapesIndex += 1;
         }
         m_currentIndex = m_shapesIndex;
-
         m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
 
         if (m_currentType == "arbitraryCurve") {
@@ -1848,7 +1849,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 m_currentShape.mainPoints[1] = QPointF(
                     m_pressedPoint.x(), m_pressedPoint.y() + edit->height());
                 m_currentShape.mainPoints[2] = QPointF(
-                            m_pressedPoint.x() + edit->width(), m_pressedPoint.y());
+                    m_pressedPoint.x() + edit->width(), m_pressedPoint.y());
                 m_currentShape.mainPoints[3] = QPointF(
                     m_pressedPoint.x() + edit->width(), m_pressedPoint.y() + edit->height());
                 m_editMap.insert(m_currentIndex, edit);
@@ -1865,6 +1866,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                             break;
                         }
                     }
+                    setAllTextEditReadOnly();
                 });
                 m_shapes.append(m_currentShape);
                 qDebug() << "Insert text shape:" << m_currentShape.index;
@@ -2168,6 +2170,8 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect)
             m_shapes[j].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
             m_shapes[j].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
                                                                                newRect.y() + newRect.height());
+            m_shapes[j].text = edit->toPlainText();
+            qDebug() << "edit text:" << m_shapes[j].text;
             m_currentShape = m_shapes[j];
             m_selectedShape = m_shapes[j];
             m_selectedIndex = m_shapes[j].index;
@@ -2717,7 +2721,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     }
 
     if (!m_inBtmRight && ((m_pos1 != QPointF(0, 0))
-        || m_currentShape.type == "text"))
+     || m_currentShape.type == "text"))
     {
         Toolshape drawShape;
         drawShape = m_currentShape;
@@ -3802,7 +3806,37 @@ void ShapesWidget::pasteShape(QPoint pos)
                     m_hangingShape.points[j].y() + movePos.y());
     }
 
+    if (m_hangingShape.type == "text")
+    {
+        TextEdit* textEdit = new TextEdit(m_shapes.length(), this);
+        textEdit->setFontSize(m_hangingShape.fontSize);
+        textEdit->setColor(m_hangingShape.fillColor);
+        textEdit->insertPlainText(m_hangingShape.text);
+        textEdit->move(QPoint(m_hangingShape.mainPoints[0].x(),
+                       m_hangingShape.mainPoints[0].y()));
+        textEdit->resize(QSize(m_hangingShape.mainPoints[3].x() - m_hangingShape.mainPoints[0].x(),
+                m_hangingShape.mainPoints[3].y() - m_hangingShape.mainPoints[0].y()));
+        textEdit->show();
+        m_editMap.insert(m_shapes.length(), textEdit);
+
+        connect(textEdit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+        connect(textEdit, &TextEdit::backToEditing, this, [=]{
+            m_editing = true;
+        });
+        connect(textEdit, &TextEdit::textEditSelected, this, [=](int index){
+            for (int k = 0; k < m_shapes.length(); k++) {
+                if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                    m_selectedIndex = index;
+                    m_selectedShape = m_shapes[k];
+                    break;
+                }
+            }
+            setAllTextEditReadOnly();
+        });
+    }
+
     m_shapes.append(m_hangingShape);
+    m_selectedOrder = m_shapes.length() - 1;
     m_needCompress = true;
     compressToImage();
 }
