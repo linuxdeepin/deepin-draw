@@ -7,12 +7,37 @@
 #include "widgets/seperatorline.h"
 #include "widgets/textfontlabel.h"
 
+#include "utils/configsettings.h"
+
 TextWidget::TextWidget(QWidget *parent)
     : QWidget(parent)
 {
     BigColorButton* fillBtn = new BigColorButton(this);
+    QColor color = QColor(ConfigSettings::instance()->value(
+                        "text", "fillColor").toString());
+    fillBtn->setColor(color);
+
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+            [=](const QString &group,  const QString &key){
+        if (group == "text" && key == "fillColor")
+        {
+            QColor color = QColor(ConfigSettings::instance()->value(
+                                      "text", "fillColor").toString());
+            fillBtn->setColor(color);
+        }
+    });
+    connect(this, &TextWidget::updateColorBtn, this, [=]{
+        QColor color = QColor(ConfigSettings::instance()->value(
+                                  "text", "fillColor").toString());
+        fillBtn->setColor(color);
+    });
+
     connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [=](bool show){
         showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+    });
+
+    connect(this, &TextWidget::resetColorBtns, this, [=]{
+        fillBtn->resetChecked();
     });
 
     QLabel* colBtnLabel = new QLabel(this);

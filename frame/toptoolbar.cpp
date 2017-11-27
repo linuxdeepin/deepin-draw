@@ -139,7 +139,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         m_rectBtn->setChecked(true);
-        setMiddleStackWidget(Status::FillShape);
+        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
         drawShapes("rectangle");
     });
 
@@ -149,7 +149,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         m_ovalBtn->setChecked(true);
-        setMiddleStackWidget(Status::FillShape);
+        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
         drawShapes("oval");
     });
 
@@ -159,7 +159,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         m_lineBtn->setChecked(true);
-        setMiddleStackWidget(Status::DrawLine);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
         int styleIndex = ConfigSettings::instance()->value("line", "style").toInt();
         switch (styleIndex) {
         case 0: drawShapes("straightLine"); break;
@@ -174,7 +174,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         m_textBtn->setChecked(true);
-        setMiddleStackWidget(Status::DrawText);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
         drawShapes("text");
     });
 
@@ -184,7 +184,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         m_blurBtn->setChecked(true);
-        setMiddleStackWidget(Status::DrawBlur);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
         drawShapes("blur");
     });
 
@@ -201,7 +201,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         selectBtn->setChecked(true);
-        setMiddleStackWidget(Status::Empty);
+        setMiddleStackWidget(MiddleWidgetStatus::Empty);
         emit fillShapeSelectedActive(selectBtn->getChecked());
 
         drawShapes("selected");
@@ -213,7 +213,7 @@ TopToolbar::TopToolbar(QWidget* parent)
             button->setChecked(false);
         }
         artBoardBtn->setChecked(true);
-        setMiddleStackWidget(Status::AdjustSize);
+        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
     });
 
     connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
@@ -259,7 +259,7 @@ void TopToolbar::importImageDir()
     qDebug() << "import image dir";
 
     drawShapes("image");
-    setMiddleStackWidget(Status::Cut);
+    setMiddleStackWidget(MiddleWidgetStatus::Cut);
     QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
@@ -324,7 +324,8 @@ void TopToolbar::initStackWidget()
     m_stackWidget->addWidget(m_drawTextWidget);
     connect(m_drawTextWidget, &TextWidget::showColorPanel,
             this, &TopToolbar::showColorfulPanel);
-
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget,
+            &TextWidget::resetColorBtns);
     //draw blur widget.
     m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
@@ -394,36 +395,39 @@ void TopToolbar::updateMiddleWidget(QString type)
     if (type == "image")
     {
         emit updateSelectedBtn(true);
-        setMiddleStackWidget(Status::Cut);
+        setMiddleStackWidget(MiddleWidgetStatus::Cut);
 
     } else if (type == "rectangle" || type == "oval")
     {
-        setMiddleStackWidget(Status::FillShape);
+        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
     } else if (type == "arrow" || type == "straightLine" || type == "arbitraryCurve")
     {
-        setMiddleStackWidget(Status::DrawLine);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
     } else if (type == "blur")
     {
-        setMiddleStackWidget(Status::DrawBlur);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
     } else if (type == "text")
     {
-        setMiddleStackWidget(Status::DrawText);
+        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
     } else if (type == "adjustsize")
     {
-        setMiddleStackWidget(Status::AdjustSize);
+        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
         qDebug() << "updateMiddleWidget type:" << type;
     }
 }
 
-void TopToolbar::setMiddleStackWidget(Status status)
+void TopToolbar::setMiddleStackWidget(MiddleWidgetStatus status)
 {
+    m_middleWidgetStatus = status;
+    m_colorPanel->setMiddleWidgetStatus(status);
     switch (status)
     {
     case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
     case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
     case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
     case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
-    case DrawText: m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
+    case DrawText:   emit m_drawTextWidget->updateColorBtn();
+        m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
     case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
     case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
     default: break;
@@ -440,6 +444,7 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
     Q_UNUSED(pos);
     m_drawStatus = drawstatus;
     m_colorPanel->setDrawStatus(m_drawStatus);
+    m_colorPanel->setMiddleWidgetStatus(m_middleWidgetStatus);
     m_colorPanel->updateColorButtonStatus();
 
     m_colorARect->raise();
@@ -448,7 +453,8 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
         QPoint startPos = QPoint(0, 0);
         m_colorARect->show( cursor().pos().x() - mapToGlobal(startPos).x(),
                             cursor().pos().y() + 25 - mapToGlobal(startPos).y());
-    } else
+    }
+    else
         m_colorARect->hide();
 }
 
@@ -481,6 +487,12 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
     }
 
     qDebug() << "updateColorPanelVisible:" << colorPanelGeom << pos;
+}
+
+MiddleWidgetStatus TopToolbar::middleWidgetStatus()
+{
+    return m_middleWidgetStatus;
+
 }
 
 void TopToolbar::drawShapes(QString shape)

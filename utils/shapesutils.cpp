@@ -2,7 +2,8 @@
 
 #include <QDebug>
 
-Toolshape::Toolshape() {
+Toolshape::Toolshape()
+{
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
@@ -10,15 +11,18 @@ Toolshape::Toolshape() {
     portion.clear();
 }
 
-Toolshape::~Toolshape() {
+Toolshape::~Toolshape()
+{
 }
 
-void Toolshape::registerMetaType() {
+void Toolshape::registerMetaType()
+{
     qRegisterMetaType<Toolshape>();
     qRegisterMetaType<FourPoints>();
 }
 
-QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
+QDebug &operator<<(QDebug &argument, const Toolshape &obj)
+{
     argument.nospace()
             << obj.type << ","
             << "[" << obj.mainPoints << "]" << ","
@@ -32,7 +36,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.isHorFlip << ","
             << obj.isVerFlip << ","
             << obj.imagePath << ","
-            << obj.editImagePath << ","
+            << obj.text << ","
             << obj.rotate << ","
             << obj.imageSize << ","
             << obj.fontSize << ","
@@ -40,11 +44,12 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
     return argument.space();
 }
 
-QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
+QDataStream &operator>>(QDataStream &in, Toolshape &obj)
+{
     in >> obj.points;
     in >> obj.imageSize;
     in >> obj.rotate;
-    in >> obj.editImagePath;
+    in >> obj.text;
     in >> obj.imagePath;
     in >> obj.fontSize;
     in >> obj.isHorFlip;
@@ -62,7 +67,8 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     return in;
 }
 
-Toolshape Toolshape::operator=(Toolshape obj) {
+Toolshape Toolshape::operator=(Toolshape obj)
+{
     type = obj.type;
     mainPoints = obj.mainPoints;
     index = obj.index;
@@ -75,7 +81,7 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     isHorFlip = obj.isHorFlip;
     isVerFlip = obj.isVerFlip;
     imagePath = obj.imagePath;
-    editImagePath = obj.editImagePath;
+    text = obj.text;
     rotate = obj.rotate;
     imageSize = obj.imageSize;
     fontSize = obj.fontSize;
@@ -84,14 +90,15 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     return (*this);
 }
 
-bool Toolshape::operator==(const Toolshape &other) const {
+bool Toolshape::operator==(const Toolshape &other) const
+{
     if (this->mainPoints == other.mainPoints
             && this->index == other.index && this->lineWidth == other.lineWidth
             && this->fontSize == other.fontSize
             && this->fillColor == other.fillColor && this->strokeColor == other.strokeColor
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isHorFlip == other.isHorFlip && this->isVerFlip == other.isVerFlip
-            && this->imagePath == other.imagePath && this->editImagePath == other.editImagePath
+            && this->imagePath == other.imagePath && this->text == other.text
             && this->rotate == other.rotate
             && this->isStraight == other.isStraight && this->points == other.points) {
         return true;

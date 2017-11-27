@@ -29,16 +29,6 @@ public:
     TopToolbar(QWidget* parent = 0);
     ~TopToolbar();
 
-    enum Status {
-        Empty,
-        Cut,
-        DrawLine,
-        FillShape,
-        DrawText,
-        DrawBlur,
-        AdjustSize,
-    };
-
     void initStackWidget();
     void initMenu();
 
@@ -66,6 +56,7 @@ public:
     void showSaveDialog();
     void drawShapes(QString shape);
     void showPrintDialog();
+    MiddleWidgetStatus middleWidgetStatus();
 
 public slots:
     void importImage();
@@ -73,7 +64,7 @@ public slots:
 
     void updateMiddleWidget(QString type);
 
-    void setMiddleStackWidget(Status status);
+    void setMiddleStackWidget(MiddleWidgetStatus status);
     void setDrawStatus(DrawStatus drawstatus);
     void showColorfulPanel(DrawStatus drawstatus,
                            QPoint pos, bool visible = true);
@@ -103,7 +94,7 @@ private:
 
      ArrowRectangle* m_colorARect;
     ColorPanel* m_colorPanel;
-    Status            m_middleWidgetStatus;
+    MiddleWidgetStatus m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
     PushButton* m_rectBtn;

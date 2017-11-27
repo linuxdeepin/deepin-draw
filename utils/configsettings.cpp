@@ -28,6 +28,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
 
         setValue("line", "style", 1);
         setValue("text", "fontsize", 12);
+        setValue("text", "fillColor", "#000000");
         setValue("blur", "index", 20);
 
         setValue("cut", "ration", "free");

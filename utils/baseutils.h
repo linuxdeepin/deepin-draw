@@ -34,6 +34,16 @@ enum DrawStatus {
     Stroke,
 };
 
+enum MiddleWidgetStatus {
+    Empty,
+    Cut,
+    DrawLine,
+    FillShape,
+    DrawText,
+    DrawBlur,
+    AdjustSize,
+};
+
 QList<QColor> specifiedColorList();
 QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);

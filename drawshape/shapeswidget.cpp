@@ -252,19 +252,20 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                 m_shapes[m_selectedOrder].strokeColor = m_penColor;
             } else if (key == "fillColor") {
                 m_shapes[m_selectedOrder].fillColor =  m_brushColor;
-                if (m_shapes[m_selectedOrder].type == "text") {
-                    int tmpIndex = m_shapes[m_selectedOrder].index;
-                    if (m_editMap.contains(tmpIndex)) {
-                        m_editMap.value(tmpIndex)->setColor(QColor(
-                            ConfigSettings::instance()->value("common", "fillColor").toString()));
-                        m_editMap.value(tmpIndex)->update();
-                    }
-                }
+
             } else if (key == "lineWidth") {
                 m_shapes[m_selectedOrder].lineWidth = ConfigSettings::instance()->value(
                     "common", "lineWidth").toInt();
             }
         } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
+            if (m_shapes[m_selectedOrder].type == "text") {
+                int tmpIndex = m_shapes[m_selectedOrder].index;
+                if (m_editMap.contains(tmpIndex)) {
+                    m_editMap.value(tmpIndex)->setColor(QColor(
+                        ConfigSettings::instance()->value("text", "fillColor").toString()));
+                    m_editMap.value(tmpIndex)->update();
+                }
+            }
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
                 m_editMap.value(tmpIndex)->setFontSize(
@@ -1608,7 +1609,8 @@ void ShapesWidget::handleRotate(QPointF pos)
 
 void ShapesWidget::handleResize(QPointF pos, int key)
 {
-    qDebug() << "handleResize***************************************************:" << m_selectedIndex << m_shapes.length();
+    qDebug() << "handleResize***************************************************:"
+                    << m_selectedIndex << m_shapes.length();
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -1830,12 +1832,14 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 setAllTextEditReadOnly();
                 m_currentShape.mainPoints[0] = m_pressedPoint;
                 m_currentShape.index = m_currentIndex;
+                m_currentShape.fillColor = QColor(ConfigSettings::instance()->value(
+                                                      "text", "fillColor").toString());
                 qDebug() << "new textedit:" << m_currentIndex;
                 TextEdit* edit = new TextEdit(m_currentIndex, this);
                 m_editing = true;
                 m_currentShape.fontSize =  m_textFontsize;
                 edit->setFocus();
-                edit->setColor(m_brushColor);
+                edit->setColor(m_currentShape.fillColor);
                 edit->setFontSize(m_textFontsize);
                 edit->move(m_pressedPoint.x(), m_pressedPoint.y());
                 edit->show();

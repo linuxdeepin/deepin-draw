@@ -14,7 +14,8 @@ public:
 
 signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
-
+    void updateColorBtn();
+    void resetColorBtns();
 };
 
 #endif // TEXTWIDGET_H

@@ -22,7 +22,7 @@ public:
      bool isHorFlip = false;
      bool isVerFlip = false;
      QString imagePath = "";
-     QString editImagePath ="";
+     QString text ="";
      qreal rotate = 0;
      QSize imageSize = QSize();
      int fontSize = 1;

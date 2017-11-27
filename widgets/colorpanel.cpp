@@ -36,8 +36,8 @@ ColorButton::ColorButton(const QColor &color, QWidget *parent)
     });
 }
 
-
-void ColorButton::paintEvent(QPaintEvent *) {
+void ColorButton::paintEvent(QPaintEvent *)
+{
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setPen(m_color);
@@ -45,7 +45,7 @@ void ColorButton::paintEvent(QPaintEvent *) {
     if (m_color == QColor(Qt::transparent))
     {
         painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
-            QPixmap(":/theme/light/images/draw/color_disable_active.png"));
+                           QPixmap(":/theme/light/images/draw/color_disable_active.png"));
         if (isChecked())
         {
             painter.setBrush(QBrush());
@@ -230,9 +230,21 @@ void ColorPanel::setConfigColor(QColor color)
         ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexRgb));
     } else
     {
-        ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexRgb));
+        if (m_widgetStatus == MiddleWidgetStatus::DrawText)
+        {
+            ConfigSettings::instance()->setValue("text", "fillColor",  color.name(QColor::HexRgb));
+        } else
+        {
+            ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexRgb));
+        }
     }
 }
+
+void ColorPanel::setMiddleWidgetStatus(MiddleWidgetStatus status)
+{
+    m_widgetStatus = status;
+}
+
 
 void ColorPanel::updateColorButtonStatus()
 {
@@ -247,8 +259,14 @@ void ColorPanel::updateColorButtonStatus()
         }
     } else
     {
-        QString colorName = ConfigSettings::instance()->value(
-                    "common", "fillColor").toString();
+        QString colorName;
+        if (m_widgetStatus != MiddleWidgetStatus::DrawText)
+        {
+            colorName = ConfigSettings::instance()->value("common", "fillColor").toString();
+        } else
+        {
+            colorName = ConfigSettings::instance()->value("text", "fillColor").toString();
+        }
 
         if (m_colList.contains(colorName))
         {

@@ -42,6 +42,7 @@ public:
     void setColor(QColor color);
     void setDrawStatus(DrawStatus status);
     void setConfigColor(QColor color);
+    void setMiddleWidgetStatus(MiddleWidgetStatus status);
 
 signals:
     void colorChanged(QColor color);
@@ -55,6 +56,7 @@ private:
     QList<QColor> m_colList;
     QList<ColorButton*> m_cButtonList;
     DrawStatus m_drawstatus;
+    MiddleWidgetStatus m_widgetStatus;
     bool m_expand;
 };
 
