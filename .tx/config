@@ -10,6 +10,7 @@ source_lang = en
 type = QT
 
 [deepin-draw.deepin-draw-desktop]
-source_file = translations/desktop/desktop_<lang>.ts
-source_lang = translations/desktop/desktop.ts
+file_filter = translations/desktop/desktop_<lang>.ts
+source_file = translations/desktop/desktop.ts
+source_lang = en
 type = DESKTOP
