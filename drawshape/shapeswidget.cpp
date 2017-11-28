@@ -3120,7 +3120,8 @@ void ShapesWidget::deleteCurrentShape()
     if (m_selectedOrder < m_shapes.length())
     {
         bool compressImage = false;
-        if (m_shapes[m_selectedOrder].type == "image")
+        if (m_shapes[m_selectedOrder].type == "image" ||
+                m_shapes[m_selectedOrder].type == "blur")
             compressImage = true;
         m_shapes.removeAt(m_selectedOrder);
         if (compressImage)
