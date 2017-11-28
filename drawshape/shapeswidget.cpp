@@ -1993,7 +1993,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 {
-        qDebug() << "PressEvent:" << " $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ " << "Shift pressed!";
+    qDebug() << "PressEvent:" << "Shift pressed!";
     m_isMoving = true;
 
     m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
@@ -3255,8 +3255,8 @@ void ShapesWidget::loadImage(QStringList paths)
     emit updateMiddleWidgets("image");
 
     qDebug() << "load image finished, compress image begins!";
-    if (m_imagesCount >= 2)
-        compressToImage();
+//    if (m_imagesCount >= 2)
+     compressToImage();
 }
 
 void ShapesWidget::compressToImage()
