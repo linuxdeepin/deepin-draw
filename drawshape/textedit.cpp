@@ -56,7 +56,7 @@ int TextEdit::getIndex()
 void TextEdit::setColor(QColor c)
 {
     m_textColor = c;
-    setStyleSheet(QString("TextEdit {background-color:  transparent;"
+    setStyleSheet(QString("TextEdit {background-color: transparent;"
                                             " color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
@@ -110,7 +110,7 @@ void TextEdit::keepReadOnlyStatus()
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "TextEdit mousePressEvent" << e->pos();
-    if (!this->isReadOnly()) {
+    if (!this->isReadOnly() || e->button() == Qt::RightButton) {
         QPlainTextEdit::mousePressEvent(e);
         return;
     }

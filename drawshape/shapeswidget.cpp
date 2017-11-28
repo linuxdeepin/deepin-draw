@@ -349,6 +349,22 @@ void ShapesWidget::setAllTextEditReadOnly()
         ++i;
     }
 
+    if (m_currentShape.type == "text" && m_editing)
+    {
+        m_currentShape.type = "";
+        for(int j = 0; j < m_currentShape.mainPoints.length(); j++)
+        {
+            m_currentShape.mainPoints[j] = QPointF(0, 0);
+            m_currentShape.mainPoints[j] = QPointF(0, 0);
+        }
+
+        qDebug() << "clear selected!!!";
+        m_isSelected = false;
+        m_currentShape.points.clear();
+        m_currentShape.points.clear();
+    }
+    m_editing = false;
+
     update();
 }
 
@@ -475,8 +491,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (currentOnShape)
         {
             emit updateMiddleWidgets(m_shapes[i].type);
-//            setAllTextEditReadOnly();
-//            clearSelected();
+            setAllTextEditReadOnly();
 
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
@@ -1742,7 +1757,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
     if (m_selectedOrder != -1)
     {
-        if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
+        if (m_shapes[m_selectedOrder].type == "text")
+        {
+            qDebug() << "@ShapesWidget:" << m_selectedOrder;
+            setAllTextEditReadOnly();
+            m_selectedOrder = -1;
+            return;
+        } else if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
              && m_isRotated) && m_selectedOrder == -1)
         {
             clearSelected();
@@ -1863,7 +1884,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                     for (int k = 0; k < m_shapes.length(); k++) {
                         if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                            m_selectedIndex = index;
+                            m_selectedOrder = index;
                             m_selectedShape = m_shapes[k];
                             break;
                         }
@@ -3651,7 +3672,7 @@ void ShapesWidget::cutImage()
             m_shapes[imageIndex].rotate = 0;
             m_shapes[imageIndex].mainPoints[0] = QPointF(m_startPos.x(), m_startPos.y());
             m_shapes[imageIndex].mainPoints[1] = QPointF(m_startPos.x(),
-                                              m_startPos.y()+ m_shapes[imageIndex].imageSize.height());
+                                              m_startPos.y() + m_shapes[imageIndex].imageSize.height());
             m_shapes[imageIndex].mainPoints[2] = QPointF(m_startPos.x() +
                                               m_shapes[imageIndex].imageSize.width(), m_startPos.y());
             m_shapes[imageIndex].mainPoints[3] = QPointF(m_startPos.x() +
@@ -3774,6 +3795,9 @@ void ShapesWidget::pasteShape(QPoint pos)
     if (m_hangingShape.mainPoints.length() < 4)
         return;
 
+    m_shapesIndex += 1;
+    m_hangingShape.index = m_shapesIndex;
+
     QPointF movePos;
     if (pos == QPoint(0, 0)) {
         if (m_hangingShape.mainPoints[0].x() > this->width()*5/6 ||
@@ -3808,7 +3832,7 @@ void ShapesWidget::pasteShape(QPoint pos)
 
     if (m_hangingShape.type == "text")
     {
-        TextEdit* edit = new TextEdit(m_shapes.length(), this);
+        TextEdit* edit = new TextEdit(m_shapesIndex, this);
         edit->setFontSize(m_hangingShape.fontSize);
         edit->setColor(m_hangingShape.fillColor);
         edit->insertPlainText(m_hangingShape.text);
@@ -3818,8 +3842,7 @@ void ShapesWidget::pasteShape(QPoint pos)
             m_hangingShape.mainPoints[0].x(), m_hangingShape.mainPoints[3].y() -
             m_hangingShape.mainPoints[0].y()));
         edit->show();
-        m_editMap.insert(m_shapes.length(), edit);
-
+        m_editMap.insert(m_shapesIndex, edit);
         connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
         connect(edit, &TextEdit::backToEditing, this, [=]{
             m_editing = true;
@@ -3827,16 +3850,22 @@ void ShapesWidget::pasteShape(QPoint pos)
         connect(edit, &TextEdit::textEditSelected, this, [=](int index){
             for (int k = 0; k < m_shapes.length(); k++) {
                  if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                     m_selectedIndex = index;
+                     m_selectedOrder = index;
                      m_selectedShape = m_shapes[k];
                      break;
                  }
              }
+
+//            m_selectedOrder = index;
+
              setAllTextEditReadOnly();
         });
     }
 
     m_shapes.append(m_hangingShape);
+
+    m_selectedOrder = m_shapes.length() - 1;
+    setAllTextEditReadOnly();
     m_needCompress = true;
     compressToImage();
 }
