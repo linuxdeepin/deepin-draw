@@ -475,10 +475,13 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (currentOnShape)
         {
             emit updateMiddleWidgets(m_shapes[i].type);
+//            setAllTextEditReadOnly();
+//            clearSelected();
 
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
+
             qDebug() << "currentOnShape" << i << m_selectedIndex
                      << m_selectedOrder << m_shapes[i].type;
 
@@ -2168,6 +2171,7 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect)
             m_shapes[j].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
             m_shapes[j].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
                                                                                newRect.y() + newRect.height());
+            m_shapes[j].text = edit->toPlainText();
             m_currentShape = m_shapes[j];
             m_selectedShape = m_shapes[j];
             m_selectedIndex = m_shapes[j].index;
@@ -3800,6 +3804,36 @@ void ShapesWidget::pasteShape(QPoint pos)
         m_hangingShape.points[j] = QPointF(
                     m_hangingShape.points[j].x() + movePos.x(),
                     m_hangingShape.points[j].y() + movePos.y());
+    }
+
+    if (m_hangingShape.type == "text")
+    {
+        TextEdit* edit = new TextEdit(m_shapes.length(), this);
+        edit->setFontSize(m_hangingShape.fontSize);
+        edit->setColor(m_hangingShape.fillColor);
+        edit->insertPlainText(m_hangingShape.text);
+        edit->move(QPoint(m_hangingShape.mainPoints[0].x(),
+                   m_hangingShape.mainPoints[0].y()));
+        edit->resize(QSize(m_hangingShape.mainPoints[3].x() -
+            m_hangingShape.mainPoints[0].x(), m_hangingShape.mainPoints[3].y() -
+            m_hangingShape.mainPoints[0].y()));
+        edit->show();
+        m_editMap.insert(m_shapes.length(), edit);
+
+        connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+        connect(edit, &TextEdit::backToEditing, this, [=]{
+            m_editing = true;
+        });
+        connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+            for (int k = 0; k < m_shapes.length(); k++) {
+                 if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                     m_selectedIndex = index;
+                     m_selectedShape = m_shapes[k];
+                     break;
+                 }
+             }
+             setAllTextEditReadOnly();
+        });
     }
 
     m_shapes.append(m_hangingShape);
