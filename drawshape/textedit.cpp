@@ -110,7 +110,7 @@ void TextEdit::keepReadOnlyStatus()
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "TextEdit mousePressEvent" << e->pos();
-    if (!this->isReadOnly() || e->button() == Qt::RightButton) {
+    if (!this->isReadOnly()) {
         QPlainTextEdit::mousePressEvent(e);
         return;
     }
@@ -136,6 +136,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
     if (m_isPressed && movePos != m_pressPoint) {
         this->move(this->x() + movePos.x() - m_pressPoint.x(),
                    this->y() + movePos.y() - m_pressPoint.y());
+
         emit  repaintTextRect(this,  QRectF(qreal(this->x()), qreal(this->y()),
                                                                         this->width(),  this->height()));
         m_pressPoint = movePos;
@@ -148,8 +149,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
 void TextEdit::mouseReleaseEvent(QMouseEvent *e)
 {
     m_isPressed = false;
-    if (this->isReadOnly())
-    {
+    if (this->isReadOnly()) {
         setMouseTracking(false);
         return;
     }
@@ -168,8 +168,7 @@ void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 void TextEdit::keyPressEvent(QKeyEvent *e)
 {
     QPlainTextEdit::keyPressEvent(e);
-    if (e->key() == Qt::Key_Escape && !this->isReadOnly())
-    {
+    if (e->key() == Qt::Key_Escape && !this->isReadOnly()) {
         this->setReadOnly(true);
     }
 }
