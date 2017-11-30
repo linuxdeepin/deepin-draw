@@ -10,7 +10,7 @@ class SaveDialog : public Dialog
 {
     Q_OBJECT
 public:
-    explicit SaveDialog(const QPixmap &pix, QWidget* parent = 0);
+    explicit SaveDialog(QList<QPixmap> pixs, QWidget* parent = 0);
 
 signals:
     void saveToPath(const QString &path);
@@ -29,7 +29,7 @@ private:
     QString m_filePath;
     QString m_imagePath;
 
-    QPixmap m_pixmap;
+    QList<QPixmap> m_pixmaps;
     QSlider* m_qualitySlider;
     QLabel* m_valueLabel;
     QComboBox* m_contentFormatCBox;

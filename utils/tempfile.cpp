@@ -58,9 +58,9 @@ QString TempFile::getRandomFile(const QString &filepath,
     return randomFilename;
 }
 
-void TempFile::setImageFile(QPixmap image)
+void TempFile::setImageFile(QList<QPixmap> images)
 {
-    m_pixmap = image;
+    m_pixmaps = images;
     emit saveDialogPopup();
 }
 
@@ -79,9 +79,9 @@ bool TempFile::saveFinishedExit()
     return m_exit;
 }
 
-QPixmap TempFile::savedImage()
+QList<QPixmap> TempFile::savedImage()
 {
-    return m_pixmap;
+    return m_pixmaps;
 }
 
 QList<Toolshape> TempFile::savedShapes()

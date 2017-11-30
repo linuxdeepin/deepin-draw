@@ -17,12 +17,12 @@ public:
     QString getRandomFile(const QString &filepath,
                           const QString &imageFormat = "PNG");
 
-    void setImageFile(QPixmap image);
+    void setImageFile(QList<QPixmap> images);
     void setCanvasShapes(QList<Toolshape> shapes);
     void setSaveFinishedExit(bool exit);
 
     bool saveFinishedExit();
-    QPixmap savedImage();
+    QList<QPixmap> savedImage();
     QList<Toolshape> savedShapes();
 
 signals:
@@ -35,7 +35,7 @@ private:
 
     QString m_blurFile;
     QMap<QString , QString> m_pathMap;
-    QPixmap m_pixmap = QPixmap();
+    QList<QPixmap> m_pixmaps;
     QList<Toolshape> m_shapes;
     bool m_exit = false;
 };

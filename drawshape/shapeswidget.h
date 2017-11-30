@@ -75,7 +75,7 @@ public slots:
     void setFillShapeSelectedActive(bool selected);
     void setLineStyle(int index);
     void showCutImageTips(QPointF pos);
-    QPixmap saveCanvasImage();
+    QList<QPixmap> saveCanvasImage();
     void saveImage();
     void printImage();
     void updateCanvasSize();

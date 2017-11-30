@@ -3405,16 +3405,20 @@ void ShapesWidget::updateCanvasSize()
     update();
 }
 
-QPixmap ShapesWidget::saveCanvasImage()
+QList<QPixmap> ShapesWidget::saveCanvasImage()
 {
     m_artBoardWindowWidth = width() - ARTBOARD_MARGIN*2;
     m_artBoardWindowHeight = height() - ARTBOARD_MARGIN*2;
 
-    QPixmap resultPixmap = QPixmap(QSize(m_artBoardActualWidth,
+    QPixmap transPixmap = QPixmap(QSize(m_artBoardActualWidth,
                                          m_artBoardActualHeight));
-    resultPixmap.fill(Qt::transparent);
+    QPixmap whitePixmap = QPixmap(QSize(m_artBoardActualWidth,
+                                        m_artBoardActualHeight));
+    transPixmap.fill(Qt::transparent);
+    whitePixmap.fill(Qt::white);
 
-    QPainter historyPainter(&resultPixmap);
+    QPainter transPainter(&transPixmap);
+    QPainter whitePainter(&whitePixmap);
 
     m_saveWithRation = true;
     m_saveRation = std::max(m_artBoardActualWidth,
@@ -3422,24 +3426,29 @@ QPixmap ShapesWidget::saveCanvasImage()
 
     for (int k = 0; k < m_shapes.length(); k++)
     {
-        paintShape(historyPainter, m_shapes[k]);
+        paintShape(transPainter, m_shapes[k]);
+        paintShape(whitePainter, m_shapes[k]);
     }
 
-    return resultPixmap;
+    QList<QPixmap> pixmaps;
+    pixmaps.append(transPixmap);
+    pixmaps.append(whitePixmap);
+
+    return pixmaps;
 }
 
 void ShapesWidget::saveImage()
 {
-    QPixmap saveImage = saveCanvasImage();
+    QList<QPixmap> saveImages = saveCanvasImage();
     m_saveWithRation = false;
     //TODO:添加异步处理
     TempFile::instance()->setCanvasShapes(m_shapes);
-    TempFile::instance()->setImageFile(saveImage);
+    TempFile::instance()->setImageFile(saveImages);
 }
 
 void ShapesWidget::printImage()
 {
-    QPixmap resultPixmap = saveCanvasImage();
+    QPixmap resultPixmap = saveCanvasImage()[0];
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
      m_saveWithRation = false;

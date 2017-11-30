@@ -20,7 +20,7 @@
 
 const QSize DIALOG_SIZE = QSize(326, 221);
 
-SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
+SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     : Dialog(parent)
 {
     setFixedSize(DIALOG_SIZE);
@@ -30,7 +30,7 @@ SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
-    m_pixmap = pix;
+    m_pixmaps = pixs;
 
     QLineEdit* imageEdit = new QLineEdit(this);
     connect(this, &SaveDialog::imageNameChanged, this, [=](QString name){
@@ -54,7 +54,15 @@ SaveDialog::SaveDialog(const QPixmap &pix, QWidget *parent)
 
    m_imagePath = TempFile::instance()->getRandomFile("SaveFile",
             QString(".%1").arg(m_contentFormatCBox->currentText().toLower()));
-    pix.save(m_imagePath);
+   if (m_contentFormatCBox->currentText() == "JPG")
+   {
+       if (pixs.length() == 2)
+           pixs[1].save(m_imagePath);
+   } else {
+       if (pixs.length() > 1)
+           pixs[0].save(m_imagePath);
+   }
+
     m_qualitySlider = new QSlider(Qt::Horizontal,this);
     m_qualitySlider->setMinimum(50);
     m_qualitySlider->setMaximum(100);
@@ -173,13 +181,20 @@ QString SaveDialog::getSaveDir(QString dir)
 void SaveDialog::updateImageSize()
 {
     int val = m_qualitySlider->value();
-    int pixWidth = m_pixmap.size().width();
-    int pixHeight = m_pixmap.size().height();
+    QPixmap pixmap;
+    if (m_contentFormatCBox->currentText() == "JPG")
+    {
+        pixmap = m_pixmaps[1];
+    } else {
+        pixmap = m_pixmaps[0];
+    }
+    int pixWidth = pixmap.size().width();
+    int pixHeight = pixmap.size().height();
     qreal wid =  pixWidth*qreal(val)/qreal(100);
     qreal het = pixHeight*qreal(val)/qreal(100);
-    QPixmap scaledPix = m_pixmap.scaled(int(wid), int(het),
+    QPixmap scaledPix = pixmap.scaled(int(wid), int(het),
                                    Qt::KeepAspectRatio, Qt::FastTransformation);
-    scaledPix = scaledPix.scaled(m_pixmap.size(),
+    scaledPix = scaledPix.scaled(pixmap.size(),
                                  Qt::KeepAspectRatio, Qt::FastTransformation);
     scaledPix.save(m_imagePath);
     m_valueLabel->setText(QString("%1").arg(
