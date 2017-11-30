@@ -67,7 +67,7 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos);
 QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLength);
 
 /* judge whether the pos is on the points*/
-bool pointOnArLine(QList<QPointF> points, QPointF pos);
+bool pointOnArLine(QList<QPointF> points, QPointF pos, int padding = 4);
 
 /* resize arbitrary curved, QPointF is ration */
 QPointF relativePosition(FourPoints mainPoints, QPointF pos);

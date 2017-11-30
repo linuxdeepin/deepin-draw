@@ -317,9 +317,9 @@ QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLen
 }
 
 /* judge whether the pos is on the points of arbitrary- curved*/
-bool pointOnArLine(QList<QPointF> points, QPointF pos) {
+bool pointOnArLine(QList<QPointF> points, QPointF pos, int padding) {
     for(int i = 0; i < points.length(); i++) {
-        if (pointClickIn(points[i], pos)) {
+        if (pointClickIn(points[i], pos, padding)) {
             return true;
         } else {
             continue;

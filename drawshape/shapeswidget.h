@@ -145,7 +145,8 @@ private:
     bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
-    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool hoverOnArbitraryCurve(FourPoints mainPoints, QList<QPointF> points,
+                               QPointF pos, int padding = 4);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
@@ -225,6 +226,7 @@ private:
     bool m_inBtmRight;
     bool m_saveWithRation;
     bool m_initCanvasSideLength;
+    bool m_generateBlurImage;
 
     QColor m_penColor;
     QColor m_brushColor;

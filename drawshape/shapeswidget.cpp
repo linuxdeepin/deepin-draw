@@ -118,6 +118,7 @@ void ShapesWidget::initAttribute()
     m_inBtmRight = false;
     m_saveWithRation = false;
     m_initCanvasSideLength = false;
+    m_generateBlurImage = false;
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -294,6 +295,11 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     if (shapeType != "selected")
         m_moveFillShape = false;
 
+    if (m_currentType != "blur" && shapeType == "blur")
+        m_generateBlurImage = true;
+    else
+        m_generateBlurImage = false;
+
     m_currentType = shapeType;
     if (m_currentType == "cutImage") {
         m_cutImageOrder = m_selectedOrder;
@@ -301,6 +307,7 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     } else {
         m_cutImageOrder = -1;
     }
+
     qDebug() << "setCurrentShape:" << shapeType
                         << m_cutImageOrder   << m_selectedOrder;
 }
@@ -398,6 +405,7 @@ void ShapesWidget::createBlurImage()
     } else {
         qWarning() << "create blur image failed!";
     }
+    m_generateBlurImage = false;
 }
 
 void ShapesWidget::saveActionTriggered()
@@ -1312,7 +1320,7 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points,
 }
 
 bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
-                               QList<QPointF> points, QPointF pos)
+                               QList<QPointF> points, QPointF pos, int padding)
 {
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
 
@@ -1344,7 +1352,7 @@ bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
     } else if (pointClickIn(tmpFPoints[3], pos)) {
         m_resizeDirection = Bottom;
         return true;
-    }  else if (pointOnArLine(points, pos)) {
+    }  else if (pointOnArLine(points, pos, padding)) {
         m_resizeDirection = Moving;
         return true;
    } else {
@@ -1398,10 +1406,17 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
         } else if (m_shapes[i].type == "arrow" ||m_shapes[i].type == "straightLine") {
             if (hoverOnArrow(m_shapes[i].points, pos))
                 m_isHovered = true;
-        } else if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur") {
+        } else if (m_shapes[i].type == "arbitraryCurve") {
             if (hoverOnArbitraryCurve(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
                 m_isHovered = true;
                 qDebug() << "hover on arbitrary curve...";
+            }
+        } else if (m_shapes[i].type == "blur")
+        {
+            if (hoverOnArbitraryCurve(m_shapes[i].mainPoints,
+                m_shapes[i].points, pos, m_shapes[i].lineWidth)) {
+                m_isHovered = true;
+                qDebug() << "hover on arbitrary blur..." << m_shapes[i].lineWidth;
             }
         } else if (m_shapes[i].type == "text") {
             if (hoverOnText(m_shapes[i].mainPoints, pos))
@@ -1422,6 +1437,10 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
     {
         m_hoveredIndex = -1;
         m_hoveredShape.type = "";
+        for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++)
+        {
+            m_hoveredShape.mainPoints[j] = QPointF(0, 0);
+        }
         updateCursorShape();
     } else {
         updateCursorDirection(m_resizeDirection);
@@ -1856,7 +1875,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_currentShape.lineWidth = m_blurLinewidth;
             m_currentShape.points.append(m_pressedPoint);
 
-            createBlurImage();
+            if (m_generateBlurImage)
+                createBlurImage();
         } else if (m_currentType == "text") {
             if (!m_editing && m_selectedOrder == -1) {
                 setAllTextEditReadOnly();
@@ -2439,6 +2459,7 @@ QPainterPath ShapesWidget::drawPair(QPainter &p,
     p.setClipPath(com);
     p.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
     p.setClipping(false);
+    p.fillPath(com, QBrush(QColor(255, 255, 255, 10)));
 
     return path;
 }
