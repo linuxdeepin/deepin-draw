@@ -7,7 +7,6 @@
 #include <QFontMetricsF>
 #include <QApplication>
 
-//#include "utils/configsettings.h"
 #include "utils/baseutils.h"
 
 const QSize CURSOR_SIZE = QSize(5, 20);
@@ -35,7 +34,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
     textBlockFormat.setAlignment(Qt::AlignLeft);
     cursor.mergeBlockFormat(textBlockFormat);
 
-     QFontMetricsF m_fontMetric = QFontMetricsF(this->document()->defaultFont());
+    QFontMetricsF m_fontMetric = QFontMetricsF(this->document()->defaultFont());
     QSizeF originSize = QSizeF(m_fontMetric.boundingRect(
                                    "d").width()  + TEXT_MARGIN,  m_fontMetric.boundingRect(
                                    "d").height() + TEXT_MARGIN);
@@ -57,7 +56,7 @@ void TextEdit::setColor(QColor c)
 {
     m_textColor = c;
     setStyleSheet(QString("TextEdit {background-color: transparent;"
-                                            " color: %1; border: none;}").arg(m_textColor.name()));
+                                         "color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
 
@@ -109,8 +108,15 @@ void TextEdit::keepReadOnlyStatus()
 
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << "TextEdit mousePressEvent" << e->pos();
-    if (!this->isReadOnly() || e->button() == Qt::RightButton) {
+    if (e->button() == Qt::RightButton)
+    {
+        emit textEditSelected(getIndex());
+        emit showMenuInTextEdit();
+        return;
+    }
+
+    if (!this->isReadOnly()) {
+        emit textEditSelected(getIndex());
         QPlainTextEdit::mousePressEvent(e);
         return;
     }

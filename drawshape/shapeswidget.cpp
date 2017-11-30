@@ -70,6 +70,10 @@ ShapesWidget::ShapesWidget(QWidget *parent)
         if (group == "artboard")
         {
             updateCanvasSize();
+        } else if (group == "text" && key == "fontsize")
+        {
+            m_textFontsize = ConfigSettings::instance()->value("text",
+                                                               "fontsize").toInt();
         }
     });
     connect(Importer::instance(), &Importer::importedFiles,
@@ -268,9 +272,10 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             }
             int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
-                m_editMap.value(tmpIndex)->setFontSize(
-                            ConfigSettings::instance()->value("text", "fontsize").toInt());
+                int newFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
+                m_editMap.value(tmpIndex)->setFontSize(newFontSize);
                 m_editMap.value(tmpIndex)->update();
+                m_shapes[m_selectedOrder].fontSize = newFontSize;
             }
         }
     }
@@ -1743,6 +1748,7 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
+    qDebug() << "Mouse pressed:" << e->pos();
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -1801,12 +1807,12 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         return;
     }
 
-    if (e->button() == Qt::RightButton)
-    {
+//    if (e->button() == Qt::RightButton)
+//    {
 //        qDebug() << "RightButton clicked!";
 //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
-        return;
-    }
+//        return;
+//    }
 
     if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
     {
@@ -1884,12 +1890,19 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                     for (int k = 0; k < m_shapes.length(); k++) {
                         if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                            qDebug() << "TextEdit selected!!!!:" << index << k;
                             m_selectedOrder = index;
                             m_selectedShape = m_shapes[k];
                             break;
                         }
                     }
+
+                    qDebug() << "the textEdit index:" << index;
                 });
+                connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
+                    m_menu->popup(this->cursor().pos());
+                });
+
                 m_shapes.append(m_currentShape);
                 qDebug() << "Insert text shape:" << m_currentShape.index;
             } else {
@@ -3856,10 +3869,10 @@ void ShapesWidget::pasteShape(QPoint pos)
                      break;
                  }
              }
-
-//            m_selectedOrder = index;
-
              setAllTextEditReadOnly();
+        });
+        connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
+            m_menu->popup(this->cursor().pos());
         });
     }
 
