@@ -3136,18 +3136,19 @@ void ShapesWidget::deleteCurrentShape()
         if (m_shapes[m_selectedOrder].type == "image" ||
                 m_shapes[m_selectedOrder].type == "blur")
             compressImage = true;
+        int deleteIndex = m_shapes[m_selectedOrder].index;
         m_shapes.removeAt(m_selectedOrder);
+        if (m_selectedShape.type == "text" && m_editMap.contains(deleteIndex))
+        {
+            delete m_editMap.value(deleteIndex);
+            m_editMap.remove(deleteIndex);
+        }
+
         if (compressImage)
             compressToImage();
     } else
     {
         qWarning() << "Invalid index";
-    }
-
-    if (m_selectedShape.type == "text" && m_editMap.contains(m_selectedShape.index))
-    {
-        m_editMap.value(m_selectedShape.index)->clear();
-        m_editMap.remove(m_selectedShape.index);
     }
 
     clearSelected();
@@ -3879,6 +3880,8 @@ void ShapesWidget::pasteShape(QPoint pos)
     m_shapes.append(m_hangingShape);
 
     m_selectedOrder = m_shapes.length() - 1;
+    qDebug() << "pasteShape:" << m_selectedOrder;
+
     setAllTextEditReadOnly();
     m_needCompress = true;
     compressToImage();
