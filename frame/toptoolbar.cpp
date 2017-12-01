@@ -223,29 +223,21 @@ TopToolbar::TopToolbar(QWidget* parent)
 
 void TopToolbar::importImage()
 {
-    QFileDialog *dialog = new QFileDialog(this);
-    dialog->setAcceptMode(QFileDialog::AcceptOpen);
-
-    m_paths = QFileDialog::getOpenFileNames(this, tr("Open Images"),
-                                            QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                            ("Files(*.*);;"
-                                             "Files (*.bmp *.bmp24);;"
-                                             "Files(*.ico);;Files(*.jpg *.jpe *.jpeg *.jpeg24);;"
-                                             "Files( *.jng );;Files(*.pcd *.pcx);; "
-                                             "Files(*.png);;"
-                                             "Files(*.tga *.tif *.tiff *.tiff24);;"
-                                             "Files(*.psd);; Files(*.xpm);;"
-                                             "Files(*.dds);;Files(*.gif);;Files(*.sgi *.j2k *jp2);;"
-                                             "Files(*.pct );;"
-                                             "Files(*.webp *.wdp);;"
-                                             "Files(*.cr2 *.pef *.arw );;"
-                                             "Files(*.nef *.icb *.dng);;"
-                                             "Files(*.vda *.vst *.raf *.orf);;"
-                                             "Files(*.svg);;"
-                                             "Files(*.ptif *.mef *.mrw *.xbm)"));
-
     using namespace utils::image;
+    QString selfilter = tr("All images ") + ("(%1)");
+    selfilter = selfilter.arg(utils::image::supportedSuffixList().join(" "));
+    QFileDialog dialog(this);
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setOption(QFileDialog::HideNameFilterDetails);
+    dialog.setNameFilter(selfilter);
+    dialog.selectNameFilter(selfilter);
 
+    if (QFileDialog::Accept == dialog.exec())
+    {
+        m_paths = dialog.selectedFiles();
+    }
     if (m_paths.length() > 0)
     {
         emit Importer::instance()->importedFiles(m_paths);

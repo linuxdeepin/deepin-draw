@@ -27,7 +27,7 @@ bool                                imageSupportWrite(const QString &path);
 bool                                rotate(const QString &path, int degree);
 const QImage                        scaleImage(const QString &path,
                                                const QSize &size = QSize(384, 383));
-
+QStringList  supportedSuffixList();
 }  // namespace image
 
 }  // namespace utils

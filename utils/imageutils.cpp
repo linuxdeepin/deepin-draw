@@ -253,6 +253,20 @@ const QString toMd5(const QByteArray &data)
     return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
+QStringList  supportedSuffixList()
+{
+    QStringList suffixList;
+    suffixList << "*.bmp" << "*.bmp24"
+                     << "*.ico" << "*.jpg" << "*.jpe" << "*.jpeg" << "*.jpeg24"
+                     << "*.jng"  << "*.pcd " << "*.pcx "
+                      << "*.png" << "*.tga" << "*.tif "<<  "*.tiff" << "*.tiff24"
+                      << "*.psd" << "*.xpm" << "*.dds" << "*.gif" << "*.sgi"
+                      << "*.j2k" << "*jp2" << "*.pct" << "*.webp" << "*.wdp"
+                      << "*.cr2" << "*.pef" << "*.arw " << "*.nef" << "*.icb " << "*.dng"
+                      << "*.vda" << "*.vst" << "*.raf" << "*.orf" << "*.svg"
+                      << "*.ptif" << "*.mef" << "*.mrw" << "*.xbm" << "*.ddf";
+    return suffixList;
+}
 }  // namespace image
 
 }  //namespace utils
