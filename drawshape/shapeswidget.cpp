@@ -1366,7 +1366,7 @@ bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos)
 {
     qDebug() << "hoverOnText:" <<  mainPoints << pos;
 
-    if (hoverOnRect(mainPoints, pos, true) ||  (pos.x() >= mainPoints[0].x() - 5
+    if (hoverOnRect(mainPoints, pos, false) ||  (pos.x() >= mainPoints[0].x() - 5
          && pos.x() <= mainPoints[2].x() + 5 && pos.y() >= mainPoints[0].y() - 5
         && pos.y() <= mainPoints[2].y() + 5)) {
         qDebug() << "hoverOnText Moving";

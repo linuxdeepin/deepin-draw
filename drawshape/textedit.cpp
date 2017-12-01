@@ -179,4 +179,10 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
     }
 }
 
+void TextEdit::enterEvent(QEnterEvent* e)
+{
+    Q_UNUSED(e);
+    qApp->setOverrideCursor(Qt::ClosedHandCursor);
+}
+
 TextEdit::~TextEdit() {}

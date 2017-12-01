@@ -35,6 +35,8 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *e);
     void inputMethodEvent(QInputMethodEvent *e);
     void keyPressEvent(QKeyEvent *e);
+    void enterEvent(QEnterEvent* e);
+//    void leaveEvent(QEvent* e);
 
 private:
     int m_index;
