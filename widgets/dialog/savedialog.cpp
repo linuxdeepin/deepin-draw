@@ -90,10 +90,10 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     QWidget* w = new QWidget;
     QFormLayout* fLayout = new QFormLayout(w);
     fLayout->setHorizontalSpacing(20);
-    fLayout->addRow(tr("Name"), imageEdit);
-    fLayout->addRow(tr("Save to"), contentSaveCBox);
-    fLayout->addRow(tr("Format"), m_contentFormatCBox);
-    fLayout->addRow(tr("Quality"), qualityHLayout);
+    fLayout->addRow(tr("Name:"), imageEdit);
+    fLayout->addRow(tr("Save to:"), contentSaveCBox);
+    fLayout->addRow(tr("Format:"), m_contentFormatCBox);
+    fLayout->addRow(tr("Quality:"), qualityHLayout);
 
     addContent(w);
 

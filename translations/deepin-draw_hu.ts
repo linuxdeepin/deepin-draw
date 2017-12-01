@@ -1,15 +1,25 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Canvas width</source>
-        <translation>Vászon szélessége</translation>
+        <translation type="vanished">Vászon szélessége</translation>
+    </message>
+    <message>
+        <source>Canvas height</source>
+        <translation type="vanished">A vászon magassága</translation>
+    </message>
+    <message>
+        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
+        <source>Width</source>
+        <translation type="unfinished">Szélesség</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
-        <source>Canvas height</source>
-        <translation>A vászon magassága</translation>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -110,12 +120,12 @@
         <translation>Kitöltés</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="36"/>
+        <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
         <translation>Simítás</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="40"/>
+        <location filename="../frame/fillshapewidget.cpp" line="45"/>
         <source>Width</source>
         <translation>Szélesség</translation>
     </message>
@@ -183,7 +193,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="43"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="93"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="101"/>
         <source>Select other directories</source>
         <translation>Válasszon másik könyvtárat</translation>
     </message>
@@ -213,27 +223,43 @@
         <translation>TIF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="85"/>
-        <source>Name</source>
-        <translation>Név</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="86"/>
-        <source>Save to</source>
-        <translation>Mentés mint</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="87"/>
-        <source>Format</source>
-        <translation>Formátum</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="88"/>
-        <source>Quality</source>
-        <translation>Minőség</translation>
+        <location filename="../widgets/dialog/savedialog.cpp" line="93"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="94"/>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="95"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="96"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="vanished">Név</translation>
+    </message>
+    <message>
+        <source>Save to</source>
+        <translation type="vanished">Mentés mint</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation type="vanished">Formátum</translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation type="vanished">Minőség</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="102"/>
         <source>Open Directory</source>
         <translation>Könyvtár megnyitása</translation>
     </message>
@@ -241,47 +267,46 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="171"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="176"/>
         <source>Cut</source>
         <translation>Kivágás</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="172"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="177"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="173"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="178"/>
         <source>Paste</source>
         <translation>Beillesztés</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="175"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="176"/>
         <source>Undo</source>
-        <translation>Visszavonás</translation>
+        <translation type="vanished">Visszavonás</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="178"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Raise Layer</source>
         <translation>Réteg eggyel feljebb</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="179"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="184"/>
         <source>Lower Layer</source>
         <translation>Alsó réteg</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="185"/>
         <source>Layer to Top</source>
         <translation>Réteg felülre</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="181"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Layer to Bottom</source>
         <translation>Réteg alulra</translation>
     </message>
@@ -289,12 +314,12 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="19"/>
+        <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
         <translation>Kitöltés</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="24"/>
+        <location filename="../frame/textwidget.cpp" line="49"/>
         <source>Size</source>
         <translation>Méret</translation>
     </message>
@@ -308,7 +333,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="342"/>
+        <location filename="../frame/toptoolbar.cpp" line="348"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
@@ -344,7 +369,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="344"/>
+        <location filename="../frame/toptoolbar.cpp" line="350"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
@@ -365,22 +390,22 @@
         <translation>Könyvtár megnyitása</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="345"/>
+        <location filename="../frame/toptoolbar.cpp" line="351"/>
         <source>Print</source>
         <translation>Nyomtatás</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="347"/>
+        <location filename="../frame/toptoolbar.cpp" line="353"/>
         <source>Dark theme</source>
         <translation>Sötét téma</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="349"/>
+        <location filename="../frame/toptoolbar.cpp" line="355"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="354"/>
+        <location filename="../frame/toptoolbar.cpp" line="360"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>A Deepin Draw egy könnyen kezelhető rajzoló program. Szabadon rajzolhat rétegekre, vagy egyszerűen szerkesztheti a képeket.</translation>
     </message>

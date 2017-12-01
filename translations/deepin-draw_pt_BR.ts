@@ -1,15 +1,25 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Canvas width</source>
-        <translation>Largura da tela</translation>
+        <translation type="vanished">Largura da tela</translation>
+    </message>
+    <message>
+        <source>Canvas height</source>
+        <translation type="vanished">Altura da tela</translation>
+    </message>
+    <message>
+        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
+        <source>Width</source>
+        <translation type="unfinished">Largura</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
-        <source>Canvas height</source>
-        <translation>Altura da tela</translation>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -110,12 +120,12 @@
         <translation>Preencher</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="36"/>
+        <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
         <translation>Traçado</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="40"/>
+        <location filename="../frame/fillshapewidget.cpp" line="45"/>
         <source>Width</source>
         <translation>Largura</translation>
     </message>
@@ -183,7 +193,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="43"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="93"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="101"/>
         <source>Select other directories</source>
         <translation>Selecionar outros diretórios</translation>
     </message>
@@ -213,27 +223,43 @@
         <translation>TIF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="85"/>
-        <source>Name</source>
-        <translation>Nome</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="86"/>
-        <source>Save to</source>
-        <translation>Salvar em</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="87"/>
-        <source>Format</source>
-        <translation>Formato</translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="88"/>
-        <source>Quality</source>
-        <translation>Qualidade</translation>
+        <location filename="../widgets/dialog/savedialog.cpp" line="93"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="94"/>
+        <source>Save to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="95"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="96"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="vanished">Nome</translation>
+    </message>
+    <message>
+        <source>Save to</source>
+        <translation type="vanished">Salvar em</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation type="vanished">Formato</translation>
+    </message>
+    <message>
+        <source>Quality</source>
+        <translation type="vanished">Qualidade</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="102"/>
         <source>Open Directory</source>
         <translation>Abrir diretório </translation>
     </message>
@@ -241,47 +267,46 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="171"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="176"/>
         <source>Cut</source>
         <translation>Recortar</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="172"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="177"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="173"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="178"/>
         <source>Paste</source>
         <translation>Colar</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="175"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
         <source>Delete</source>
         <translation>Deletar</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="176"/>
         <source>Undo</source>
-        <translation>Desfazer</translation>
+        <translation type="vanished">Desfazer</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="178"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Raise Layer</source>
         <translation>Levantar camada</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="179"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="184"/>
         <source>Lower Layer</source>
         <translation>Camada inferior</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="185"/>
         <source>Layer to Top</source>
         <translation>Camada de cima</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="181"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Layer to Bottom</source>
         <translation>Camada de baixo</translation>
     </message>
@@ -289,12 +314,12 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="19"/>
+        <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
         <translation>Preencher</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="24"/>
+        <location filename="../frame/textwidget.cpp" line="49"/>
         <source>Size</source>
         <translation>Tamanho</translation>
     </message>
@@ -308,7 +333,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="342"/>
+        <location filename="../frame/toptoolbar.cpp" line="348"/>
         <source>Import</source>
         <translation>Importar</translation>
     </message>
@@ -344,7 +369,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="344"/>
+        <location filename="../frame/toptoolbar.cpp" line="350"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
@@ -365,22 +390,22 @@
         <translation>Abrir diretório</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="345"/>
+        <location filename="../frame/toptoolbar.cpp" line="351"/>
         <source>Print</source>
         <translation>Imprimir</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="347"/>
+        <location filename="../frame/toptoolbar.cpp" line="353"/>
         <source>Dark theme</source>
         <translation>Tema dark</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="349"/>
+        <location filename="../frame/toptoolbar.cpp" line="355"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="354"/>
+        <location filename="../frame/toptoolbar.cpp" line="360"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>Deepin Draw é uma ferramenta de desenho leve. Você pode desenhar livremente sobre a camada ou editar imagens de forma simples.</translation>
     </message>

@@ -17,7 +17,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
 {
     QLabel* casWidthLabel = new QLabel(this);
     casWidthLabel->setObjectName("CasWidthLabel");
-    casWidthLabel->setText(tr("Canvas width"));
+    casWidthLabel->setText(tr("Width"));
 
     m_widthLEdit = new QLineEdit(this);
     m_widthLEdit->setObjectName("WidthLineEdit");
@@ -35,7 +35,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
 
     QLabel* casHeightLabel = new QLabel(this);
     casHeightLabel->setObjectName("CasHeightLabel");
-    casHeightLabel->setText(tr("Canvas height"));
+    casHeightLabel->setText(tr("Height"));
 
     m_heightLEdit = new QLineEdit(this);
     m_heightLEdit->setObjectName("HeightLineEdit");
