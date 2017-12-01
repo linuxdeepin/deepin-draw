@@ -85,8 +85,7 @@ void ShapesWidget::initAttribute()
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { "
                               "background-color: transparent;"
-                              "margin: 0px;"
-                              "border: 2px solid grey;}");
+                              "margin: 0px;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -119,6 +118,7 @@ void ShapesWidget::initAttribute()
     m_saveWithRation = false;
     m_initCanvasSideLength = false;
     m_generateBlurImage = false;
+    m_cursorInBtmRight = false;
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -2055,16 +2055,22 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
     m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
 
-    QRect btmRightRect = rightBottomRect();
-    if (pointOnRect(btmRightRect, e->pos()))
+    if (m_selectedOrder == -1)
     {
-        m_resizeDirection = Right;
-        m_stickCurosr = true;
+        QRect btmRightRect = rightBottomRect();
+        if (pointOnRect(btmRightRect, e->pos()))
+        {
+            m_resizeDirection = Right;
+            m_stickCurosr = true;
+            m_cursorInBtmRight = true;
 
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-    } else {
-        if (!m_isPressed)
-            m_stickCurosr = false;
+            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+        } else {
+            if (!m_isPressed)
+                m_stickCurosr = false;
+
+            m_cursorInBtmRight = false;
+        }
     }
 
     if (m_inBtmRight && m_isPressed)
@@ -2109,7 +2115,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         m_pos1 = m_pos2;
     }
 
-    if (m_isRecording && m_isPressed)
+    if (m_isRecording && m_isPressed && !m_cursorInBtmRight)
     {
         m_pos2 = e->pos();
 
@@ -2160,7 +2166,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             m_currentShape.points.append(QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration));
         }
         update();
-    } else if (!m_isRecording && m_isPressed)
+    } else if (!m_isRecording && m_isPressed && !m_cursorInBtmRight)
     {
         if (m_isRotated && m_isPressed)
         {
@@ -2199,7 +2205,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
         }
     } else
     {
-        if (!m_isRecording)
+        if (!m_isRecording && !m_cursorInBtmRight)
         {
             m_isHovered = false;
             hoverOnShapes(m_movingPoint);
@@ -3424,6 +3430,13 @@ void ShapesWidget::updateCanvasSize()
     m_artBoardActualWidth = newArtboardActualWidth;
     m_artBoardActualHeight = newArtboardActualHeight;
     update();
+
+    //TODO: delay to compressImage;
+    if (m_shapes.length() > 1)
+    {
+        m_needCompress = true;
+        compressToImage();
+    }
 }
 
 QList<QPixmap> ShapesWidget::saveCanvasImage()
