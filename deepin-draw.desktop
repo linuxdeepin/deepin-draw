@@ -8,3 +8,40 @@ Name=Deepin Draw
 StartupNotify=false
 Type=Application
 
+# Translations:
+# Do not manually modify!
+Comment[am_ET]=ዲፕኢን መሳያ
+Comment[ar]=رسام ديبين
+Comment[cs]=Kreslení
+Comment[da]=Deepin Draw
+Comment[de]=Deepin Zeichenprogramm
+Comment[es]=Dibujos Deepin
+Comment[es_419]=Dibujos Deepin
+Comment[fr]=Deepin Dessin
+Comment[hu]=Deepin Draw
+Comment[it]=Deepin Draw
+Comment[ms]=Lukis Deepin
+Comment[pt]=Deepin Draw
+Comment[pt_BR]=Deepin Draw
+Comment[ru]=Deepin Draw
+Comment[sl]=Risar Deepin
+Comment[tr]=Deepin Çizim
+Comment[uk]=Deepin Draw
+Name[am_ET]=ዲፕኢን መሳያ
+Name[ar]=رسام ديبين
+Name[cs]=Kreslení
+Name[da]=Deepin Draw
+Name[de]=Deepin Zeichenprogramm
+Name[es]=Dibujos Deepin
+Name[es_419]=Dibujos Deepin
+Name[fr]=Deepin Dessin
+Name[hu]=Deepin Draw
+Name[it]=Deepin Draw
+Name[ms]=Lukis Deepin
+Name[pt]=Deepin Draw
+Name[pt_BR]=Deepin Draw
+Name[ru]=Deepin Draw
+Name[sl]=Risar Deepin
+Name[tr]=Deepin Çizim
+Name[uk]=Deepin Draw
+
