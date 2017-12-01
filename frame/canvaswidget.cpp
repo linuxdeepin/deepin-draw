@@ -11,10 +11,10 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     : QLabel(parent)
     , m_scaleValue(1)
 {
-//   setStyleSheet("border: 1px solid rgba(0, 0, 0, 30); background-color: green;");
+   setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
     m_shapesWidget = new ShapesWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->setMargin(0);
+    layout->setMargin(1);
     layout->setSpacing(0);
     layout->addWidget(m_shapesWidget);
     setLayout(layout);

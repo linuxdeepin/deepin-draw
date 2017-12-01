@@ -201,6 +201,7 @@ private:
     bool m_isShiftPressed;
     bool m_isAltPressed;
     bool m_initAltStart;
+    bool m_cursorInBtmRight;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
