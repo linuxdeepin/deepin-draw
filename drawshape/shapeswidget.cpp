@@ -2845,8 +2845,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
-//    qDebug() << "paintShape:" << shape.type << shape.imagePath << shape.mainPoints[0];
-
     if (shape.mainPoints.length() < 4 || (shape.type != "image"
         && (shape.mainPoints[0] == QPointF(0, 0))))
     {
@@ -3227,8 +3225,6 @@ void ShapesWidget::setLineStyle(int index)
 
 void ShapesWidget::showCutImageTips(QPointF pos)
 {
-//    FourPoints rectFPoints = m_cutShape.mainPoints;
-
     QPoint tipPos = QPoint(pos.x(), pos.y());
     m_cutImageTips->showTips(mapToGlobal(tipPos));
 
@@ -3244,7 +3240,6 @@ void ShapesWidget::showCutImageTips(QPointF pos)
         setCurrentShape("selected");
         m_needCompress = false;
         m_moveFillShape = true;
-//        compressToImage();
         m_cutImageOrder = -1;
         update();
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
@@ -3656,6 +3651,7 @@ void ShapesWidget::cutImage()
 
         QPixmap cutImage(rect().size());
         cutImage.fill(Qt::transparent);
+
         QPainter cutPainter(&cutImage);
         paintShape(cutPainter, m_shapes[m_cutImageOrder]);
 
@@ -3675,7 +3671,7 @@ void ShapesWidget::cutImage()
         imgPolygon = imgPolygon.intersected(cutPolygon);
 
         qDebug() << "polygon:" << imgPolygon.count();
-       cutImage = cutImage.copy(
+       QPixmap resultImage = cutImage.copy(
                    rectFPoints[0].x(), rectFPoints[0].y(),
                    std::abs(rectFPoints[3].x() - rectFPoints[0].x()),
                    std::abs(rectFPoints[3].y() - rectFPoints[0].y()));
@@ -3693,12 +3689,11 @@ void ShapesWidget::cutImage()
            emit cutImageFinished();
            return;
        }
-       QPixmap resultImage = cutImage;
-       resultImage.fill(Qt::transparent);
+
        QPainter painter(&resultImage);
        painter.setClipping(true);
        painter.setClipRegion(imgPolygon);
-       painter.drawPixmap(0, 0, cutImage);
+       painter.drawPixmap(0, 0, resultImage);
        painter.setClipping(false);
 
         if (!resultImage.isNull())
