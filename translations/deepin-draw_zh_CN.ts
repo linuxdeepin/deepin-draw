@@ -309,7 +309,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="348"/>
+        <location filename="../frame/toptoolbar.cpp" line="328"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
@@ -345,43 +345,32 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="350"/>
+        <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="227"/>
-        <location filename="../frame/toptoolbar.cpp" line="264"/>
-        <source>Import Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="230"/>
+        <location filename="../frame/toptoolbar.cpp" line="229"/>
         <source>Open Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="267"/>
-        <source>Open Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="351"/>
+        <location filename="../frame/toptoolbar.cpp" line="331"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="353"/>
+        <location filename="../frame/toptoolbar.cpp" line="333"/>
         <source>Dark theme</source>
         <translation>深色主题</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="355"/>
+        <location filename="../frame/toptoolbar.cpp" line="335"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="360"/>
+        <location filename="../frame/toptoolbar.cpp" line="340"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>深度画板是一款轻量级的绘图工具。可以在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>

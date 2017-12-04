@@ -60,7 +60,6 @@ public:
 
 public slots:
     void importImage();
-    void importImageDir();
 
     void updateMiddleWidget(QString type);
 

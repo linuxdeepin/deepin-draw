@@ -224,7 +224,6 @@ TopToolbar::TopToolbar(QWidget* parent)
 void TopToolbar::importImage()
 {
     QFileDialog *dialog = new QFileDialog(this);
-    dialog->setWindowTitle(tr("Import Image"));
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
 
     m_paths = QFileDialog::getOpenFileNames(this, tr("Open Images"),
@@ -252,25 +251,6 @@ void TopToolbar::importImage()
         emit Importer::instance()->importedFiles(m_paths);
     }
     emit resetPicBtn();
-}
-
-void TopToolbar::importImageDir()
-{
-    qDebug() << "import image dir";
-
-    drawShapes("image");
-    setMiddleStackWidget(MiddleWidgetStatus::Cut);
-    QFileDialog *dialog = new QFileDialog(this);
-    dialog->setWindowTitle(tr("Import Image"));
-    dialog->setAcceptMode(QFileDialog::AcceptOpen);
-
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                    QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
-                                                    QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    qDebug() << "dir"  << dir;
-
-
-    Importer::instance()->appendDir(dir);
 }
 
 void TopToolbar::initStackWidget()

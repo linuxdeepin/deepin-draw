@@ -333,7 +333,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="348"/>
+        <location filename="../frame/toptoolbar.cpp" line="328"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
@@ -369,43 +369,40 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="350"/>
+        <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="227"/>
-        <location filename="../frame/toptoolbar.cpp" line="264"/>
         <source>Import Image</source>
-        <translation>Kép importálása</translation>
+        <translation type="vanished">Kép importálása</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="230"/>
+        <location filename="../frame/toptoolbar.cpp" line="229"/>
         <source>Open Images</source>
         <translation>Képek megnyitása</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="267"/>
         <source>Open Directory</source>
-        <translation>Könyvtár megnyitása</translation>
+        <translation type="vanished">Könyvtár megnyitása</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="351"/>
+        <location filename="../frame/toptoolbar.cpp" line="331"/>
         <source>Print</source>
         <translation>Nyomtatás</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="353"/>
+        <location filename="../frame/toptoolbar.cpp" line="333"/>
         <source>Dark theme</source>
         <translation>Sötét téma</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="355"/>
+        <location filename="../frame/toptoolbar.cpp" line="335"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="360"/>
+        <location filename="../frame/toptoolbar.cpp" line="340"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>A Deepin Draw egy könnyen kezelhető rajzoló program. Szabadon rajzolhat rétegekre, vagy egyszerűen szerkesztheti a képeket.</translation>
     </message>

@@ -333,7 +333,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="348"/>
+        <location filename="../frame/toptoolbar.cpp" line="328"/>
         <source>Import</source>
         <translation>Importar</translation>
     </message>
@@ -369,43 +369,40 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="350"/>
+        <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="227"/>
-        <location filename="../frame/toptoolbar.cpp" line="264"/>
         <source>Import Image</source>
-        <translation>Importar imagem</translation>
+        <translation type="vanished">Importar imagem</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="230"/>
+        <location filename="../frame/toptoolbar.cpp" line="229"/>
         <source>Open Images</source>
         <translation>Abrir imagens </translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="267"/>
         <source>Open Directory</source>
-        <translation>Abrir diretório</translation>
+        <translation type="vanished">Abrir diretório</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="351"/>
+        <location filename="../frame/toptoolbar.cpp" line="331"/>
         <source>Print</source>
         <translation>Imprimir</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="353"/>
+        <location filename="../frame/toptoolbar.cpp" line="333"/>
         <source>Dark theme</source>
         <translation>Tema dark</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="355"/>
+        <location filename="../frame/toptoolbar.cpp" line="335"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="360"/>
+        <location filename="../frame/toptoolbar.cpp" line="340"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>Deepin Draw é uma ferramenta de desenho leve. Você pode desenhar livremente sobre a camada ou editar imagens de forma simples.</translation>
     </message>
