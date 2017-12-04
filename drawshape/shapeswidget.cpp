@@ -2513,12 +2513,6 @@ void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape)
 
 void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
 {
-    QPen pen;
-    pen.setColor(Qt::white);
-    pen.setStyle(Qt::DashLine);
-    pen.setWidthF(0.5);
-    painter.setPen(pen);
-
     FourPoints rectFPoints = shape.mainPoints;
     QPainterPath rectPath;
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
@@ -2527,10 +2521,12 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
     rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
 
+    QPen pen;
     pen.setColor(Qt::black);
     pen.setStyle(Qt::SolidLine);
     pen.setWidthF(0.5);
     painter.setPen(pen);
+    painter.setBrush(Qt::transparent);
     painter.drawPath(rectPath);
 
     pen.setColor(Qt::white);
