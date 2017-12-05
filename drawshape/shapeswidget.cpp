@@ -119,6 +119,7 @@ void ShapesWidget::initAttribute()
     m_initCanvasSideLength = false;
     m_generateBlurImage = false;
     m_cursorInBtmRight = false;
+    m_recordCutImage = false;
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -303,9 +304,25 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     m_currentType = shapeType;
     if (m_currentType == "cutImage") {
         m_cutImageOrder = m_selectedOrder;
+        if (m_recordCutImage)
+        {
+            m_shapes[m_selectedOrder].imagePath = m_cutImageShape.imagePath;
+            m_shapes[m_selectedOrder].mainPoints = m_cutImageShape.mainPoints;
+            m_shapes[m_selectedOrder].imageSize = m_cutImageShape.imageSize;
+            m_shapes[m_selectedOrder].rotate = m_cutImageShape.rotate;
+            m_cutShape.type = "cutImage";
+            m_cutShape.mainPoints = m_cutFPoints;
+            m_shapes.append(m_cutShape);
+            m_cutImageTips->showTips(mapToGlobal(QPoint(m_cutFPoints[3].x(), m_cutFPoints[3].y())));
+        }
+        m_recordCutImage = true;
         update();
     } else {
         m_cutImageOrder = -1;
+        if (m_currentType != "selected")
+        {
+            m_recordCutImage = false;
+        }
     }
 
     qDebug() << "setCurrentShape:" << shapeType
@@ -3241,6 +3258,8 @@ void ShapesWidget::showCutImageTips(QPointF pos)
         m_needCompress = false;
         m_moveFillShape = true;
         m_cutImageOrder = -1;
+        m_recordCutImage = false;
+
         update();
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
                           << m_needCompress;
@@ -3638,6 +3657,7 @@ void ShapesWidget::cutImage()
     if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
     {
         FourPoints rectFPoints = m_shapes[m_shapes.length() - 1].mainPoints;
+        m_cutFPoints = rectFPoints;
 
         m_cutShape.mainPoints.clear();
         m_currentShape.mainPoints.clear();
@@ -3647,6 +3667,8 @@ void ShapesWidget::cutImage()
             return;
         FourPoints imgFourPoints = m_shapes[m_cutImageOrder].mainPoints;
         m_shapes.removeAt(m_shapes.length() - 1);
+        m_cutImageShape = m_shapes[m_cutImageOrder];
+
         update();
 
         QPixmap cutImage(rect().size());

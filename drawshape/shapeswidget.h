@@ -202,6 +202,7 @@ private:
     bool m_isAltPressed;
     bool m_initAltStart;
     bool m_cursorInBtmRight;
+    bool m_recordCutImage;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
@@ -239,8 +240,9 @@ private:
     Toolshape m_currentShape;
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
-    Toolshape m_beCutImageShape;
     Toolshape m_hangingShape;
+    Toolshape m_cutImageShape;
+    FourPoints m_cutFPoints;
 
     void updateTextRect(TextEdit* edit, QRectF newRect);
     QMap<int, TextEdit*> m_editMap;
