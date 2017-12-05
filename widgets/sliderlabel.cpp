@@ -62,10 +62,9 @@ SliderLabel::SliderLabel(QString text, DrawStatus status, QWidget* parent)
         colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
     } else
     {
-        colorAlpha = ConfigSettings::instance()->value("common", "strokeColorColor_alpha").toInt();
+        colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
     }
     m_slider->setAlphaValue(colorAlpha);
-
     m_titleLabel->setText(m_text);
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
@@ -83,6 +82,11 @@ SliderLabel::SliderLabel(QString text, DrawStatus status, QWidget* parent)
 int SliderLabel::alpha()
 {
     return m_slider->alphaValue();
+}
+
+void SliderLabel::setAlpha(int val)
+{
+    m_slider->setAlphaValue(val);
 }
 
 void SliderLabel::updateDrawStatus(DrawStatus status)

@@ -34,6 +34,7 @@ public:
     void setTitle(const QString &text);
     int alpha ();
     void updateDrawStatus(DrawStatus status);
+    void setAlpha(int val);
 
 signals:
     void alphaChanged(int value);

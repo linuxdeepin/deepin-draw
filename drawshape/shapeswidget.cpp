@@ -215,10 +215,10 @@ ShapesWidget::~ShapesWidget()
 }
 
 void ShapesWidget::updateSelectedShape(const QString &group,
-                                                                                const QString &key)
+                                                                     const QString &key)
 {
     qDebug() << "updateSelectedShapes" << m_selectedIndex
-                      << m_shapes.length() << m_selectedOrder;
+                    << m_shapes.length() << m_selectedOrder;
 
     if ("common" == group) {
         int colorAlpha = 100;
@@ -254,9 +254,9 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     qDebug() << "!!!!!!!!!!" << m_selectedOrder;
     if (m_selectedOrder != -1) {
         if (group == "common") {
-            if (key == "strokeColor") {
+            if (key == "strokeColor" || key == "strokeColor_alpha") {
                 m_shapes[m_selectedOrder].strokeColor = m_penColor;
-            } else if (key == "fillColor") {
+            } else if (key == "fillColor" || key == "fillColor_alpha") {
                 m_shapes[m_selectedOrder].fillColor =  m_brushColor;
 
             } else if (key == "lineWidth") {
@@ -457,14 +457,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (m_shapes[i].type == "rectangle")
         {
             if (clickedOnRect(m_shapes[i].mainPoints, pos,
-                              m_shapes[i].fillColor != QColor(Qt::transparent)))
+                              m_shapes[i].fillColor.alpha() != 0))
             {
                 currentOnShape = true;
 
                 ConfigSettings::instance()->setValue("common", "fillColor",
-                                                     m_shapes[i].fillColor.name(QColor::HexArgb));
+                                                     m_shapes[i].fillColor.name(QColor::HexRgb));
                 ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
+                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
             } else
             {
                 qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
@@ -480,14 +480,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         if (m_shapes[i].type == "oval")
         {
             if (clickedOnEllipse(m_shapes[i].mainPoints, pos,
-                                 m_shapes[i].fillColor != QColor(Qt::transparent)))
+                                 m_shapes[i].fillColor.alpha() != 0))
             {
                 currentOnShape = true;
 
                 ConfigSettings::instance()->setValue("common", "fillColor",
-                                                     m_shapes[i].fillColor.name(QColor::HexArgb));
+                                                     m_shapes[i].fillColor.name(QColor::HexRgb));
                 ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
+                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
             }
         }
         if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine")
@@ -497,7 +497,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 currentOnShape = true;
 
                 ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
+                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
             }
         }
         if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
@@ -507,7 +507,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 currentOnShape = true;
 
                 ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexArgb));
+                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
             }
         }
         if (m_shapes[i].type == "text")
@@ -1214,6 +1214,7 @@ bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
                                QPointF pos, bool isFilled)
 {
+    qDebug() << "isFilled:" << isFilled << m_moveFillShape;
     if (isFilled && !m_moveFillShape)
         return false;
 
@@ -1402,7 +1403,7 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
     m_hoveredIndex = -1;
     m_hoveredShape.type = "";
 
-    for(int i = 0; i < m_shapes.length(); i++)
+    for(int i = m_shapes.length() - 1; i >= 0; i--)
     {
         m_hoveredIndex = i;
         if (m_shapes[i].type == "image")
@@ -1411,11 +1412,11 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
                 m_isHovered = true;
         } else if (m_shapes[i].type == "rectangle") {
             if (hoverOnRect(m_shapes[i].mainPoints, pos,
-                            m_shapes[i].fillColor != QColor(Qt::transparent)))
+                            m_shapes[i].fillColor.alpha() != 0))
                 m_isHovered = true;
         } else if (m_shapes[i].type == "oval") {
             if (hoverOnEllipse(m_shapes[i].mainPoints, pos,
-                             m_shapes[i].fillColor != QColor(Qt::transparent)))
+                             m_shapes[i].fillColor.alpha() != 0))
                 m_isHovered = true;
         } else if (m_shapes[i].type == "cutImage") {
             if (hoverOnCutImage(m_shapes[i].mainPoints, pos))

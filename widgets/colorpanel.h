@@ -47,6 +47,7 @@ public:
 signals:
     void colorChanged(QColor color);
     void updateHeight();
+    void resetColorButtons();
 
 private:
     SliderLabel* m_sliderLabel;

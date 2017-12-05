@@ -18,6 +18,10 @@ BorderColorButton::BorderColorButton(QWidget *parent)
     setFixedSize(24, 24);
     setCheckable(false);
      m_color = QColor(ConfigSettings::instance()->value("common", "strokeColor").toString());
+     int alpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
+     if (alpha == 0)
+         m_color = QColor(Qt::transparent);
+
     update();
 
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
@@ -27,9 +31,12 @@ BorderColorButton::BorderColorButton(QWidget *parent)
 void BorderColorButton::updateConfigColor(const QString &group,
                                                                                    const QString &key)
 {
-    if (group == "common" && key == "strokeColor")
+    if (group == "common" && key == "strokeColor" || key == "strokeColor_alpha")
     {
-        m_color = QColor(ConfigSettings::instance()->value(group, key).toString());
+        m_color = QColor(ConfigSettings::instance()->value(group,  "strokeColor").toString());
+        int alpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
+        if (alpha == 0)
+            m_color = QColor(Qt::transparent);
         update();
     }
 }

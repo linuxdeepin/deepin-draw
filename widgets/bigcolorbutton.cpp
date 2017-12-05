@@ -19,6 +19,10 @@ BigColorButton::BigColorButton(QWidget *parent)
 
     m_color = QColor(ConfigSettings::instance()->value(
                         "common", "fillColor").toString());
+    int alpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+    if (alpha == 0)
+        m_color = QColor(Qt::transparent);
+
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
                   this, &BigColorButton::updateConfigColor);
 }
@@ -26,10 +30,14 @@ BigColorButton::BigColorButton(QWidget *parent)
 void BigColorButton::updateConfigColor(const QString &group,
                                                                             const QString &key)
 {
-    if (group == "common" && key == "fillColor")
+    if (group == "common" && key == "fillColor" || key == "fillColor_alpha")
     {
+
         m_color = QColor(ConfigSettings::instance()->value(
-                            group, key).toString());
+                            group, "fillColor").toString());
+        int alpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+        if (alpha == 0)
+            m_color = QColor(Qt::transparent);
         update();
     }
 }
