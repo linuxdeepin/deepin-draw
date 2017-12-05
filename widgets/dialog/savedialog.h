@@ -4,8 +4,8 @@
 #include "dialog.h"
 
 #include <QKeyEvent>
-
 #include <QComboBox>
+
 class SaveDialog : public Dialog
 {
     Q_OBJECT
@@ -20,6 +20,7 @@ public:
     QString getSaveDir(QString dir);
     void updateImageSize();
     void saveImage(const QString &path);
+    QString createSaveBaseName();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -33,6 +34,7 @@ private:
     QSlider* m_qualitySlider;
     QLabel* m_valueLabel;
     QComboBox* m_contentFormatCBox;
+    QComboBox* m_contentSaveDirCBox;
 };
 
 #endif // SAVEDIALOG_H

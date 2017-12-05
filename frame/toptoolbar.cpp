@@ -357,12 +357,6 @@ void TopToolbar::showDrawDialog()
 void TopToolbar::showSaveDialog()
 {
     SaveDialog* sd = new SaveDialog(TempFile::instance()->savedImage());
-    QDateTime currentDate;
-    QString currentTime =  currentDate.currentDateTime().
-             toString("yyyyMMddHHmmss");
-    QString imageName = QString("DeepinDraw_%1.png").arg(currentTime);
-
-    emit sd->imageNameChanged(imageName);
     sd->showInCenter(window());
 }
 

@@ -7,7 +7,6 @@
 
 #include <QLabel>
 #include <QLineEdit>
-
 #include <QPdfWriter>
 #include <QFormLayout>
 #include <QStandardPaths>
@@ -18,7 +17,8 @@
 #include <QTimer>
 #include <QObject>
 
-const QSize DIALOG_SIZE = QSize(326, 221);
+const QSize DIALOG_SIZE = QSize(330, 221);
+const QSize LINE_EDIT_SIZE = QSize(208, 22);
 
 SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     : Dialog(parent)
@@ -26,13 +26,22 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     setFixedSize(DIALOG_SIZE);
     setModal(true);
 
-    setTitle(tr("Save"));
+    QLabel* m_titleLabel = new QLabel(tr("Save"), this);
+    m_titleLabel->setObjectName("TitleLabel");
+    m_titleLabel->setStyleSheet("QLabel#TitleLabel {"
+                                "font-size: 14px;"
+                                " font-weight: medium;}");
+    m_titleLabel->setFixedSize(330, 40);
+    m_titleLabel->move(0, 0);
+    m_titleLabel->setAlignment(Qt::AlignCenter);
+
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     m_pixmaps = pixs;
 
     QLineEdit* imageEdit = new QLineEdit(this);
+    imageEdit->setFixedSize(LINE_EDIT_SIZE);
     connect(this, &SaveDialog::imageNameChanged, this, [=](QString name){
         imageEdit->setText(name);
     });
@@ -42,14 +51,16 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
              << tr("Desktop") << tr("Videos")         << tr("Music")
              << tr("Select other directories");
 
-    QComboBox* contentSaveCBox = new QComboBox(this);
-    contentSaveCBox->addItems(saveDirs);
+    m_contentSaveDirCBox = new QComboBox(this);
+    m_contentSaveDirCBox->setFixedSize(LINE_EDIT_SIZE);
+    m_contentSaveDirCBox->addItems(saveDirs);
 
     QStringList fileFormat;
     fileFormat << tr("PNG") << tr("DDF") << tr("JPG") << tr("BMP")
                << tr("TIF") << "PDF";
 
     m_contentFormatCBox = new QComboBox(this);
+    m_contentFormatCBox->setFixedSize(LINE_EDIT_SIZE);
     m_contentFormatCBox->addItems(fileFormat);
 
    m_imagePath = TempFile::instance()->getRandomFile("SaveFile",
@@ -66,7 +77,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     m_qualitySlider = new QSlider(Qt::Horizontal,this);
     m_qualitySlider->setMinimum(50);
     m_qualitySlider->setMaximum(100);
-    m_qualitySlider->setFixedWidth(119);
+    m_qualitySlider->setFixedWidth(146);
     m_qualitySlider->setValue(m_qualitySlider->maximum());
 
     m_valueLabel = new QLabel(this);
@@ -84,20 +95,20 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
     qualityHLayout->addWidget(m_qualitySlider);
-    qualityHLayout->addSpacing(30);
+    qualityHLayout->addSpacing(35);
     qualityHLayout->addWidget(m_valueLabel);
 
     QWidget* w = new QWidget;
     QFormLayout* fLayout = new QFormLayout(w);
+    fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(20);
     fLayout->addRow(tr("Name:"), imageEdit);
-    fLayout->addRow(tr("Save to:"), contentSaveCBox);
+    fLayout->addRow(tr("Save to:"), m_contentSaveDirCBox);
     fLayout->addRow(tr("Format:"), m_contentFormatCBox);
     fLayout->addRow(tr("Quality:"), qualityHLayout);
-
     addContent(w);
 
-    connect(contentSaveCBox, &QComboBox::currentTextChanged, this, [=](QString dir){
+    connect(m_contentSaveDirCBox, &QComboBox::currentTextChanged, this, [=](QString dir){
         if (dir == tr("Select other directories")) {
             m_fileDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
                 "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -132,7 +143,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     connect(this, &SaveDialog::buttonClicked, this, [=](int index) {
         if (m_fileDir.isEmpty())
         {
-            m_fileDir = getSaveDir(contentSaveCBox->currentText());
+            m_fileDir = getSaveDir(m_contentSaveDirCBox->currentText());
         }
 
         if (QFileInfo(imageEdit->text()).suffix().isEmpty())
@@ -147,6 +158,8 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
             saveImage(m_filePath);
         }
     });
+
+    imageEdit->setText(createSaveBaseName());
 }
 
 QString SaveDialog::getSaveDir(QString dir)
@@ -235,6 +248,23 @@ void SaveDialog::saveImage(const QString &path)
 
     if (TempFile::instance()->saveFinishedExit())
         qApp->quit();
+}
+
+QString SaveDialog::createSaveBaseName()
+{
+    const QString nan = tr("Unnamed");
+       int num = 0;
+       QString filePath = QString("%1/%2.%3").arg(getSaveDir(
+            m_contentSaveDirCBox->currentText())).arg(nan).arg(
+            m_contentFormatCBox->currentText().toLower());
+       while(QFileInfo(filePath).exists()) {
+           num++;
+           QString tail = QString("%1_%2").arg(nan).arg(num);
+           filePath = QString("%1/%2.%3").arg(getSaveDir(
+           m_contentSaveDirCBox->currentText())).arg(tail).arg(
+           m_contentFormatCBox->currentText().toLower());
+       }
+       return QFileInfo(filePath).fileName();
 }
 
 void SaveDialog::keyPressEvent(QKeyEvent *e)
