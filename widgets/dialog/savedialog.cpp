@@ -18,7 +18,7 @@
 #include <QObject>
 
 const QSize DIALOG_SIZE = QSize(330, 221);
-const QSize LINE_EDIT_SIZE = QSize(208, 22);
+const QSize LINE_EDIT_SIZE = QSize(178, 22);
 
 SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     : Dialog(parent)
@@ -95,7 +95,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
     qualityHLayout->addWidget(m_qualitySlider);
-    qualityHLayout->addSpacing(35);
+    qualityHLayout->addSpacing(8);
     qualityHLayout->addWidget(m_valueLabel);
 
     QWidget* w = new QWidget;
