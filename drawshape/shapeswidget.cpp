@@ -120,6 +120,7 @@ void ShapesWidget::initAttribute()
     m_generateBlurImage = false;
     m_cursorInBtmRight = false;
     m_recordCutImage = false;
+    m_isCutImageResize = false;
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -128,6 +129,7 @@ void ShapesWidget::initAttribute()
     m_saveRation = 1;
     m_cutImageOrder = -1;
 
+    qDebug() << "cutShape length:" << m_cutShape.mainPoints.length();
     m_startPos = QPointF(ARTBOARD_MARGIN, ARTBOARD_MARGIN);
     initCanvasSize();
 
@@ -162,7 +164,7 @@ void ShapesWidget::initCanvasSize()
     m_artBoardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
     m_artBoardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 
-    if (m_artBoardActualWidth == 0|| m_artBoardActualHeight == 0)
+    if (m_artBoardActualWidth == 0 || m_artBoardActualHeight == 0)
     {
         QSize desktopSize = qApp->desktop()->size();
         m_artBoardActualWidth = desktopSize.width();
@@ -293,6 +295,10 @@ void ShapesWidget::setShapes(QList<Toolshape> shapes)
 
 void ShapesWidget::setCurrentShape(QString shapeType)
 {
+    qDebug() << "setCurrentShape" << shapeType;
+    if (m_currentType == shapeType)
+        return;
+
     if (shapeType != "selected")
         m_moveFillShape = false;
 
@@ -301,29 +307,20 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     else
         m_generateBlurImage = false;
 
-    m_currentType = shapeType;
-    if (m_currentType == "cutImage") {
-        m_cutImageOrder = m_selectedOrder;
-        if (m_recordCutImage)
-        {
-            m_shapes[m_selectedOrder].imagePath = m_cutImageShape.imagePath;
-            m_shapes[m_selectedOrder].mainPoints = m_cutImageShape.mainPoints;
-            m_shapes[m_selectedOrder].imageSize = m_cutImageShape.imageSize;
-            m_shapes[m_selectedOrder].rotate = m_cutImageShape.rotate;
-            m_cutShape.type = "cutImage";
-            m_cutShape.mainPoints = m_cutFPoints;
-            m_shapes.append(m_cutShape);
-            m_cutImageTips->showTips(mapToGlobal(QPoint(m_cutFPoints[3].x(), m_cutFPoints[3].y())));
-        }
-        m_recordCutImage = true;
-        update();
+    if (shapeType == "cutImage") {
+        setImageCutting(true);
     } else {
-        m_cutImageOrder = -1;
-        if (m_currentType != "selected")
+
+        if (shapeType == "selected" && m_currentType == "cutImage")
         {
+            m_recordCutImage = true;
+        } else {
             m_recordCutImage = false;
         }
+        setImageCutting(false);
     }
+
+    m_currentType = shapeType;
 
     qDebug() << "setCurrentShape:" << shapeType
                         << m_cutImageOrder   << m_selectedOrder;
@@ -436,12 +433,20 @@ void ShapesWidget::saveActionTriggered()
 bool ShapesWidget::clickedOnShapes(QPointF pos)
 {
     bool onShapes = false;
-    m_selectedOrder = -1;
 
     qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
     if (m_shapes.length() == 0)
         return onShapes;
 
+    if (m_imageCutting)
+    {
+        if (clickedOnImage(m_cutShape.mainPoints, pos)) {
+            onShapes = true;
+        }
+        return onShapes;
+    }
+
+    m_selectedOrder = -1;
     for (int i = m_shapes.length() - 1; i >= 0; i--)
    {
         bool currentOnShape = false;
@@ -669,9 +674,7 @@ bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
 
 bool ShapesWidget::clickedOnCutImage(FourPoints rectPoints, QPointF pos)
 {
-    m_isSelected = false;
-    m_isResize = false;
-    m_isRotated = false;
+    m_isCutImageResize = false;
 
     QPointF point1 = rectPoints[0];
     QPointF point2 = rectPoints[1];
@@ -680,101 +683,84 @@ bool ShapesWidget::clickedOnCutImage(FourPoints rectPoints, QPointF pos)
 
     FourPoints otherFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(point1, pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = First;
         m_resizeDirection = TopLeft;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(point2, pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Second;
         m_resizeDirection = BottomLeft;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(point3, pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Third;
         m_resizeDirection = TopRight;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(point4, pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Fourth;
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
 
         return true;
     }  else if (pointClickIn(otherFPoints[0], pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Fifth;
         m_resizeDirection = Left;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(otherFPoints[1], pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Sixth;
         m_resizeDirection = Top;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(otherFPoints[2], pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Seventh;
         m_resizeDirection = Right;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointClickIn(otherFPoints[3], pos)) {
-        m_isSelected = true;
-        m_isResize = true;
+        m_isCutImageResize = true;
         m_clickedKey = Eighth;
         m_resizeDirection = Bottom;
-        m_pressedPoint = pos;
-
-        return true;
-    } else if (rotateOnPoint(rectPoints, pos)) {
-        m_isSelected = true;
-        m_isRotated = true;
-        m_isResize = false;
-        m_resizeDirection = Rotate;
         m_pressedPoint = pos;
 
         return true;
     } else if (pointOnLine(rectPoints[0], rectPoints[1], pos) || pointOnLine(rectPoints[1],
         rectPoints[3], pos) || pointOnLine(rectPoints[3], rectPoints[2], pos) ||
         pointOnLine(rectPoints[2], rectPoints[0], pos)) {
-        m_isSelected = true;
-        m_isResize = false;
+        m_isCutImageResize = true;
         m_resizeDirection = Moving;
         m_pressedPoint = pos;
 
         return true;
     } else if(pointInRect(rectPoints, pos)) {
-        m_isSelected = true;
-        m_isResize = false;
+        m_isCutImageResize = true;
         m_resizeDirection = Moving;
         m_pressedPoint = pos;
 
+        qDebug() << "CutImage moving ........";
         return true;
     }  else {
-        m_isSelected = false;
-        m_isResize = false;
-        m_isRotated = false;
+        m_isCutImageResize = false;
     }
 
+    qDebug() << "clicked On cutImage:" << false;
     return false;
 }
+
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
          QPointF pos, bool isFilled)
 {
@@ -1451,6 +1437,8 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
         }
     }
 
+    qDebug() << "********" << m_resizeDirection;
+
     if (!m_isHovered)
     {
         m_hoveredIndex = -1;
@@ -1469,8 +1457,7 @@ bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
 {
     QPointF rotatePoint = QPointF(
                 (mainPoints[0].x() + mainPoints[3].x())/2,
-                (mainPoints[0].y() + mainPoints[3].y())/2
-                );
+                (mainPoints[0].y() + mainPoints[3].y())/2);
 
     bool result = false;
 
@@ -1484,7 +1471,6 @@ bool ShapesWidget::rotateOnImagePoint(FourPoints mainPoints, QPointF pos)
     }
 
     m_pressedPoint = rotatePoint;
-
     return result;
 }
 
@@ -1548,8 +1534,7 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
         {
             m_shapes[m_selectedOrder].points[i] = QPointF(
             m_shapes[m_selectedOrder].points[i].x() + (newPoint.x() - oldPoint.x()),
-            m_shapes[m_selectedOrder].points[i].y() + (newPoint.y() - oldPoint.y())
-                        );
+            m_shapes[m_selectedOrder].points[i].y() + (newPoint.y() - oldPoint.y()));
         }
         return;
     }
@@ -1560,8 +1545,7 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)
         {
             m_shapes[m_selectedOrder].mainPoints[i] = QPointF(
             m_shapes[m_selectedOrder].mainPoints[i].x() + (newPoint.x() - oldPoint.x()),
-            m_shapes[m_selectedOrder].mainPoints[i].y() + (newPoint.y() - oldPoint.y())
-                        );
+            m_shapes[m_selectedOrder].mainPoints[i].y() + (newPoint.y() - oldPoint.y()));
         }
     }
     for(int i = 0; i < m_shapes[m_selectedOrder].points.length(); i++)
@@ -1729,6 +1713,18 @@ void ShapesWidget::handleResize(QPointF pos, int key)
     m_pressedPoint = pos;
 }
 
+void ShapesWidget::handleCutShapeResize(QPointF pos, int key)
+{
+    if (m_shapes[m_shapes.length() -1].type == "cutImage")
+    {
+        m_shapes[m_shapes.length() -1].mainPoints =  resizePointPosition(
+        m_shapes[m_shapes.length() -1].mainPoints[0], m_shapes[m_shapes.length() -1].mainPoints[1],
+        m_shapes[m_shapes.length() -1].mainPoints[2], m_shapes[m_shapes.length() -1].mainPoints[3], pos, key, false);
+        m_cutShape.mainPoints = m_shapes[m_shapes.length() - 1].mainPoints;
+        m_pressedPoint = pos;
+    }
+}
+
 void ShapesWidget::handleImageRotate(int degree)
 {
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
@@ -1785,11 +1781,29 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << "Mouse pressed:" << e->pos();
+    qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
-    m_cutShape.type = "";
+    if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
+                                            QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration)))
+    {
+        m_isPressed = true;
+        m_cutImageTips->hide();
+        return;
+    } else {
+        m_cutShape.type = "";
+        m_cutImageTips->hide();
+        for(int i = 0; i < m_cutShape.mainPoints.length(); i++)
+        {
+            m_cutShape.mainPoints[i] = QPointF(0, 0);
+            if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+            {
+                m_shapes.removeLast();
+            }
+        }
+    }
+
     m_pos1 = QPointF(e->pos().x(), e->pos().y());
 
     if (m_isAltPressed && !m_initAltStart && !m_isResize && !m_isRotated)
@@ -1798,11 +1812,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_initAltStart = true;
     }
 
-    if (m_selectedOrder != -1)
+    if (m_selectedOrder != -1 && !m_imageCutting)
     {
         if (m_shapes[m_selectedOrder].type == "text")
         {
-            qDebug() << "@ShapesWidget:" << m_selectedOrder;
             setAllTextEditReadOnly();
             m_selectedOrder = -1;
             return;
@@ -1851,8 +1864,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 //        return;
 //    }
 
+    qDebug() << "......" << m_selectedOrder;
     if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
     {
+        qDebug() << "!!!!!!!!!!#" << m_selectedOrder;
         m_isRecording = true;
 
         m_currentShape.type = m_currentType;
@@ -1861,13 +1876,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_currentShape.lineWidth = m_linewidth;
 
         m_selectedIndex -= 1;
-        if (m_shapes.length() > 0 && m_shapes[m_shapes.length() - 1].type == "cutImage")
-        {
-            m_shapes.pop_back();
-            m_cutImageTips->hide();
-        } else {
-            m_shapesIndex += 1;
-        }
+        m_shapesIndex += 1;
+
         m_currentIndex = m_shapesIndex;
 
         m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
@@ -1880,11 +1890,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_currentShape.points.append(m_pressedPoint);
         } else if (m_currentType == "rectangle" || m_currentType == "oval") {
             m_currentShape.index = m_currentIndex;
-        } else if (m_currentType == "cutImage") {
-            m_currentShape.fillColor = QColor(Qt::transparent);
-            m_currentShape.strokeColor = QColor(Qt::white);
-            m_currentShape.index = m_currentIndex;
-        } else if (m_currentType == "blur") {
+        }  else if (m_currentType == "blur") {
             m_blurEffectExist = true;
             m_currentShape.isBlur = true;
             m_currentShape.index = m_currentIndex;
@@ -1970,6 +1976,12 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     {
         m_menu->popup(mapToGlobal(e->pos()));
     }
+    if (m_imageCutting)
+    {
+        QPointF tmpPos = QPointF(m_cutShape.mainPoints[3].x(),
+                                                      m_cutShape.mainPoints[3].y());
+        showCutImageTips(tmpPos);
+    }
 
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
@@ -2032,11 +2044,15 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             }
 
             m_currentShape.mainPoints = rectFPoints;
-            m_shapes.append(m_currentShape);
 
             if (m_currentShape.type == "cutImage")
             {
+                m_cutShape.type = "cutImage";
+                m_cutShape.mainPoints = rectFPoints;
+                m_shapes.append(m_cutShape);
                 emit finishedDrawCut(m_currentShape.mainPoints[3]);
+            } else {
+                m_shapes.append(m_currentShape);
             }
         }
 
@@ -2046,7 +2062,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             compressToImage();
         }
 
-        clearSelected();
+        if (m_imageCutting)
+            clearSelected();
     }
 
     m_isRecording = false;
@@ -2072,6 +2089,31 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     m_isMoving = true;
 
     m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
+    qDebug() << "XXX" << m_imageCutting << m_isCutImageResize << m_resizeDirection << m_isPressed;
+    if (m_imageCutting && m_isCutImageResize
+            && m_resizeDirection == Moving && m_isPressed)
+    {
+
+        if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+        {
+            for(int j = 0; j < m_shapes[m_shapes.length() - 1].mainPoints.length(); j++)
+            {
+                qDebug() << "FFFFF" << QPointF(e->pos().x() - m_pressedPoint.x(),
+                                               e->pos().y() - m_pressedPoint.y());
+                m_shapes[m_shapes.length() - 1].mainPoints[j] = QPointF(
+                m_shapes[m_shapes.length() - 1].mainPoints[j].x() + e->pos().x() - m_pressedPoint.x(),
+                m_shapes[m_shapes.length() - 1].mainPoints[j].y() + e->pos().y() - m_pressedPoint.y());
+            }
+            m_cutShape.mainPoints = m_shapes[m_shapes.length() - 1].mainPoints;
+            m_pressedPoint = e->pos();
+        }
+        return;
+    } else if (m_imageCutting && m_isCutImageResize
+               && m_resizeDirection != Moving && m_isPressed)
+    {
+        handleCutShapeResize(m_movingPoint, m_clickedKey);
+        return;
+    }
 
     if (m_selectedOrder == -1)
     {
@@ -2545,7 +2587,11 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
     pen.setWidthF(0.5);
     painter.setPen(pen);
     painter.setBrush(Qt::transparent);
-    painter.drawPath(rectPath);
+    painter.setClipping(true);
+    painter.setClipPath(rectPath);
+//    painter.fillRect(this->rect(), QBrush(Qt::yellow));
+    painter.drawPixmap(this->rect(), m_BeforeCutBg);
+    painter.setClipping(false);
 
     pen.setColor(Qt::white);
     pen.setStyle(Qt::DashLine);
@@ -2739,6 +2785,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing);
     qDebug() << m_selectedOrder << m_shapes.length();
 
+    qDebug() << "ccccccc:" << m_shapes.length() << m_needCompress;
     if (!m_needCompress)
     {
         for(int i = 0; i < m_shapes.length(); i++)
@@ -2757,35 +2804,23 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             }
         }
     } else {
-        if (m_cutImageOrder != -1 && m_currentType == "cutImage") {
-            for(int i = 0; i < m_shapes.length(); i++)
-            {
-                if (m_cutImageOrder != -1 && m_currentType == "cutImage")
-                {
-                    if (m_shapes[i].type == "image" && i != m_cutImageOrder)
-                    {
-                        painter.setOpacity(0.4);
-                    } else {
-                        painter.setOpacity(1);
-                    }
-                     paintShape(painter, m_shapes[i]);
-                }
-            }
-        } else {
             painter.drawPixmap(0, 0, m_bottomPixmap);
-        }
     }
 
     painter.setOpacity(1);
-    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+
+    if (!m_imageCutting)
     {
-        painter.setOpacity(1);
-        paintSelectedShape(painter, m_shapes[m_selectedOrder]);
+        if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+        {
+            painter.setOpacity(1);
+            paintSelectedShape(painter, m_shapes[m_selectedOrder]);
+        }
     }
 
-    if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
+    if (m_cutImageOrder != -1 && m_cutShape.type == "cutImage")
     {
-        paintShape(painter, m_shapes[m_shapes.length() - 1]);
+        paintShape(painter, m_cutShape);
     }
 
     if (!m_inBtmRight && ((m_pos1 != QPointF(0, 0))
@@ -2841,7 +2876,10 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         } else
         {
             if (drawCutRect)
+            {
                 paintShape(painter, drawShape);
+                qDebug() << "打快点快点.." << drawShape.type;
+            }
         }
     } else
     {
@@ -3240,6 +3278,7 @@ void ShapesWidget::showCutImageTips(QPointF pos)
     m_cutImageTips->showTips(mapToGlobal(tipPos));
 
     connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
+        m_imageCutting = false;
         qDebug() << "cutImageTips hide...";
         m_cutImageTips->hide();
         m_cutShape.points.clear();
@@ -3248,20 +3287,23 @@ void ShapesWidget::showCutImageTips(QPointF pos)
             m_shapes.removeAt(m_shapes.length() - 1);
 
         m_selectedOrder = m_cutImageOrder;
+        qDebug() << "XXXXx" << m_selectedOrder;
         setCurrentShape("selected");
-        m_needCompress = false;
         m_moveFillShape = true;
-        m_cutImageOrder = -1;
         m_recordCutImage = false;
 
-        update();
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
                           << m_needCompress;
         emit cutImageFinished();
     });
 
     connect(m_cutImageTips, &CutImageTips::cutAction,
-                    this, &ShapesWidget::cutImage);
+            this,  [=]{
+        qDebug() << "CCCCCCutImageTips......";
+        m_imageCutting = false;
+        m_recordCutImage = true;
+        cutImage();
+    });
 
     connect(m_cutImageTips, &CutImageTips::cutRationChanged, this,
             &ShapesWidget::updateCutShape);
@@ -3336,9 +3378,9 @@ void ShapesWidget::compressToImage()
         return;
 
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
-    qDebug() << "CompressToImage" << m_shapes.length() << m_selectedOrder
-                      << m_shapes[m_selectedOrder].imagePath
-                      << m_selectedShape.imagePath;
+        qDebug() << "CompressToImage" << m_shapes.length() << m_selectedOrder
+                        << m_shapes[m_selectedOrder].imagePath
+                        << m_selectedShape.imagePath;
 
     m_bottomPixmap = QPixmap(this->size());
     m_bottomPixmap.fill(Qt::transparent);
@@ -3355,20 +3397,24 @@ void ShapesWidget::compressToImage()
         }
     }
 
-//    m_topPixmap = QPixmap(this->size());
-//    m_topPixmap.fill(QColor(0, 255, 0, 100));
+    if (m_imageCutting)
+    {
+        qDebug() << "!!!!!!~~~~~~~~~~~~~~";
+        QPainter bgPainter(&m_bottomPixmap);
+        if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+        {
+            bgPainter.setOpacity(1);
+            paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
+        }
+    }
 
-//    for(int j = m_selectedOrder+1; j < m_shapes.length() - 1; j++)
-//    {
-//        QPainter topPainter(&m_topPixmap);
-//        if (m_shapes[j].type == "cutImage")
-//        {
-//            continue;
-//        } else
-//        {
-//            paintShape(topPainter, m_shapes[j]);
-//        }
-//    }
+    if (m_imageCutting) {
+        QPainter blackPainter(&m_bottomPixmap);
+        blackPainter.setOpacity(0.5);
+        blackPainter.fillRect(this->rect(), QBrush(QColor("#000000")));
+        blackPainter.setBrush(Qt::transparent);
+        qDebug() << "m_bottomPixmap:" << m_bottomPixmap.rect() << this->rect();
+    }
 
     m_bgContainShapeNum = m_shapes.length();
 }
@@ -3571,56 +3617,56 @@ void ShapesWidget::microAdjust(QString direction)
 void ShapesWidget::updateCursorDirection(ResizeDirection direction)
 {
     if (direction == Left) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeHorCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Top) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeVerCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Right) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeHorCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == Bottom) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeVerCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     }  else if (direction == TopLeft) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == BottomLeft) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeBDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == TopRight) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeBDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     } else if (direction == BottomRight) {
-        if (m_isSelected || m_isRotated)
+        if (m_isSelected || m_isRotated || m_imageCutting)
         {
            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else {
@@ -3642,7 +3688,89 @@ void ShapesWidget::updateCursorShape()
 
 void ShapesWidget::setImageCutting(bool cutting)
 {
+    if (cutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    {
+        if (m_recordCutImage && m_selectedOrder != -1 && m_cutImageShape.type != ""
+                && m_cutImageShape.mainPoints.length() == 4 && m_cutFPoints.length() == 4)
+        {
+            if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+            {
+                m_shapes.removeLast();
+            }
+            m_shapes[m_selectedOrder].imagePath = m_cutImageShape.imagePath;
+            m_shapes[m_selectedOrder].mainPoints = m_cutImageShape.mainPoints;
+            m_shapes[m_selectedOrder].imageSize = m_cutImageShape.imageSize;
+            m_shapes[m_selectedOrder].rotate = m_cutImageShape.rotate;
+            m_cutShape.mainPoints.clear();
+            update();
+
+            m_cutImageOrder = m_selectedOrder;
+            m_cutShape.type = "cutImage";
+
+            m_needCompress = true;
+            m_imageCutting = cutting;
+            compressToImage();
+
+            if (m_cutShape.mainPoints.length() != 4)
+            {
+                m_cutShape.mainPoints.clear();
+                for(int k = 0; k < 4; k++)
+                    m_cutShape.mainPoints.append(QPointF(0, 0));
+            }
+
+            m_cutShape.type = "cutImage";
+            m_cutShape.mainPoints = m_cutFPoints;
+            m_shapes.append(m_cutShape);
+            showCutImageTips(m_cutShape.mainPoints[3]);
+            return;
+        }
+
+        m_BeforeCutBg = this->grab(this->rect());
+        m_cutImageOrder = m_selectedOrder;
+        m_cutShape.type = "cutImage";
+
+        m_needCompress = true;
+        m_imageCutting = cutting;
+        compressToImage();
+
+        if (m_cutShape.mainPoints.length() != 4)
+        {
+            m_cutShape.mainPoints.clear();
+            for(int k = 0; k < 4; k++)
+                m_cutShape.mainPoints.append(QPointF(0, 0));
+        }
+        QPointF tmpStartPos = m_shapes[m_selectedOrder].mainPoints[0];
+        QPointF tmpEndPos = m_shapes[m_selectedOrder].mainPoints[0];
+        for(int i = 0; i < m_shapes[m_selectedOrder].mainPoints.length(); i++)
+        {
+            tmpStartPos = QPointF(std::min(tmpStartPos.x(), m_shapes[m_selectedOrder].mainPoints[i].x()),
+                                                  std::min(tmpStartPos.y(), m_shapes[m_selectedOrder].mainPoints[i].y()));
+            tmpEndPos = QPointF(std::max(tmpEndPos.x(), m_shapes[m_selectedOrder].mainPoints[i].x()),
+                                                  std::max(tmpEndPos.y(), m_shapes[m_selectedOrder].mainPoints[i].y()));
+        }
+        m_cutShape.mainPoints[0] = tmpStartPos;
+        m_cutShape.mainPoints[1] = QPointF(tmpStartPos.x(), tmpEndPos.y());
+        m_cutShape.mainPoints[2] = QPointF(tmpEndPos.x(), tmpStartPos.y());
+        m_cutShape.mainPoints[3] = tmpEndPos;
+
+        m_shapes.append(m_cutShape);
+        showCutImageTips(m_cutShape.mainPoints[3]);
+    }
+
+    if (!cutting)
+    {
+        m_cutShape.type = "";
+        for(int k = 0; k < m_cutShape.mainPoints.length(); k++)
+        {
+            m_cutShape.mainPoints[k] = QPointF(0, 0);
+        }
+        m_imageCutting = cutting;
+        m_needCompress = true;
+        compressToImage();
+    }
     m_imageCutting = cutting;
+
+    update();
 }
 
 void ShapesWidget::cutImage()
@@ -3686,7 +3814,6 @@ void ShapesWidget::cutImage()
 
         imgPolygon = imgPolygon.intersected(cutPolygon);
 
-        qDebug() << "polygon:" << imgPolygon.count();
        QPixmap resultImage = cutImage.copy(
                    rectFPoints[0].x(), rectFPoints[0].y(),
                    std::abs(rectFPoints[3].x() - rectFPoints[0].x()),

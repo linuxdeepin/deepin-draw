@@ -38,6 +38,7 @@ public:
 
     bool isCheckable();
     void setCheckable(bool checkeable);
+    void lockedCheckedStatus(bool locked);
 
     bool getChecked() const;
     void setChecked(bool checked);
@@ -103,6 +104,7 @@ private:
     bool m_checked;
     bool m_isPressed;
     bool m_isHovered;
+    bool m_isLocked;
     int m_spacing;
     QString m_checkedPic;
 };

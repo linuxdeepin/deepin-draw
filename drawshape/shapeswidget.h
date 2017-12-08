@@ -67,6 +67,7 @@ public slots:
     void handleImageRotate(int degree);
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
+    void handleCutShapeResize(QPointF pos, int key);
 
     QRect rightBottomRect();
     void loadImage(QStringList paths);
@@ -182,6 +183,7 @@ private:
     QPixmap m_topPixmap;
     QPixmap m_middlePixmap;
     QPixmap m_bottomPixmap;
+    QPixmap m_BeforeCutBg;
 
     int m_bgContainShapeNum;
     QPointF m_startPos;
@@ -194,6 +196,8 @@ private:
     bool m_isRotated;
     bool m_isResize;
 
+    bool m_isCutImageResize;
+
     bool m_editing;
     bool m_needCompress;
     bool m_moveFillShape;
@@ -202,6 +206,7 @@ private:
     bool m_isAltPressed;
     bool m_initAltStart;
     bool m_cursorInBtmRight;
+
     bool m_recordCutImage;
 
     ResizeDirection m_resizeDirection;

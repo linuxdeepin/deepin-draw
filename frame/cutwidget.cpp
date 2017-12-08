@@ -24,6 +24,7 @@ CutWidget::CutWidget(QWidget *parent)
 
     m_cutBtn = new PushButton(this);
     m_cutBtn->setCheckable(true);
+    m_cutBtn->lockedCheckedStatus(true);
     m_cutBtn->setObjectName("CutButton");
     m_cutBtn->setToolTip(tr("Clip"));
     btnList.append(m_cutBtn);
@@ -48,7 +49,7 @@ CutWidget::CutWidget(QWidget *parent)
     });
 
     connect(m_cutBtn, &PushButton::clicked, this, [=]{
-        emit cutImage();
+            emit cutImage();
     });
     connect(m_flipHBtn, &PushButton::clicked, this, [=]{
          emit mirroredImage(true, false);

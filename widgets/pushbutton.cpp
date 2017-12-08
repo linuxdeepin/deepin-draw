@@ -15,6 +15,7 @@ PushButton::PushButton(QWidget *parent)
     , m_isHovered(false)
     , m_checked(false)
     , m_isPressed(false)
+    , m_isLocked(false)
     , m_spacing(2)
 {
     setCheckable(true);
@@ -221,7 +222,12 @@ void PushButton::mousePressEvent(QMouseEvent *e)
     m_currentColor = pressColor();
     m_currentPic = pressPic();
     if (m_isCheckable) {
-        setChecked(!m_checked);
+        if (!m_checked)
+            setChecked(true);
+        else {
+        if (!m_isLocked)
+            setChecked(!m_checked);
+        }
     }
 
     this->update();
@@ -268,6 +274,10 @@ bool PushButton::isCheckable() {
 
 void PushButton::setCheckable(bool checkeable) {
     m_isCheckable = checkeable;
+}
+
+void PushButton::lockedCheckedStatus(bool locked) {
+    m_isLocked = locked;
 }
 
 bool PushButton::getChecked() const
