@@ -2743,43 +2743,36 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         for(int i = 0; i < m_shapes.length(); i++)
         {
-            if (m_cutImageOrder == i && m_currentType == "cutImage")
+            if (m_cutImageOrder != -1 && m_currentType == "cutImage")
             {
-                qDebug() << "!!!!!!!!";
-                painter.setOpacity(0.3);
-                paintShape(painter, m_shapes[i]);
-                painter.setOpacity(1);
+                if (m_shapes[i].type == "image" && i != m_cutImageOrder)
+                {
+                    painter.setOpacity(0.4);
+                } else {
+                    painter.setOpacity(1);
+                }
+                 paintShape(painter, m_shapes[i]);
             } else {
                 paintShape(painter, m_shapes[i]);
             }
         }
     } else {
-        if (m_cutImageOrder != -1 && m_shapes[m_cutImageOrder].type == "image"
-                && m_currentType == "cutImage") {
+        if (m_cutImageOrder != -1 && m_currentType == "cutImage") {
             for(int i = 0; i < m_shapes.length(); i++)
             {
-                if (m_cutImageOrder == i && m_currentType == "cutImage")
+                if (m_cutImageOrder != -1 && m_currentType == "cutImage")
                 {
-                    painter.setOpacity(0.3);
-                    paintShape(painter, m_shapes[i]);
-                    painter.setOpacity(1);
-                } else {
-                    painter.setOpacity(1);
-                    paintShape(painter, m_shapes[i]);
+                    if (m_shapes[i].type == "image" && i != m_cutImageOrder)
+                    {
+                        painter.setOpacity(0.4);
+                    } else {
+                        painter.setOpacity(1);
+                    }
+                     paintShape(painter, m_shapes[i]);
                 }
             }
         } else {
             painter.drawPixmap(0, 0, m_bottomPixmap);
-        }
-    }
-
-    if (m_cutImageOrder != -1 && m_cutImageOrder < m_shapes.length())
-    {
-        if (m_cutImageOrder != -1 && m_shapes[m_cutImageOrder].type == "image"
-                && m_currentType == "cutImage")
-        {
-            painter.setOpacity(0.3);
-            paintShape(painter, m_shapes[m_cutImageOrder]);
         }
     }
 
