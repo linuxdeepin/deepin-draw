@@ -1797,7 +1797,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         for(int i = 0; i < m_cutShape.mainPoints.length(); i++)
         {
             m_cutShape.mainPoints[i] = QPointF(0, 0);
-            if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+            if (m_shapes.length() >1&& m_shapes[m_shapes.length() - 1].type == "cutImage")
             {
                 m_shapes.removeLast();
             }
