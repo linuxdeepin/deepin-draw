@@ -22,12 +22,12 @@ CutImageTips::CutImageTips(QWidget *parent)
     rationLabel->setObjectName("RationLabel");
     rationLabel->setFixedSize(RATIONLABEL_SIZE);
 
-    QButtonGroup* btnGroup = new QButtonGroup(this);
-    btnGroup->setExclusive(true);
+    m_rationBtnGroup = new QButtonGroup(this);
+    m_rationBtnGroup->setExclusive(true);
 
     RationButton* scaledABtn = new RationButton(this);
     scaledABtn->setText("4:3");
-    btnGroup->addButton(scaledABtn);
+    m_rationBtnGroup->addButton(scaledABtn);
     if (defaultRation == scaledABtn->text()) {
         scaledABtn->setChecked(true);
     }
@@ -37,7 +37,7 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     RationButton* scaledBBtn = new RationButton(this);
     scaledBBtn->setText("8:5");
-    btnGroup->addButton(scaledBBtn);
+    m_rationBtnGroup->addButton(scaledBBtn);
     if (defaultRation == scaledBBtn->text())
         scaledBBtn->setChecked(true);
     connect(scaledBBtn, &RationButton::clicked, this, [=]{
@@ -46,7 +46,7 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     RationButton* scaledCBtn = new RationButton(this);
     scaledCBtn->setText("16:9");
-    btnGroup->addButton(scaledCBtn);
+    m_rationBtnGroup->addButton(scaledCBtn);
     if (defaultRation == scaledCBtn->text())
         scaledCBtn->setChecked(true);
     connect(scaledCBtn, &RationButton::clicked, this, [=]{
@@ -55,7 +55,7 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     RationButton* scaledDBtn = new RationButton(this);
     scaledDBtn->setText("1:1");
-    btnGroup->addButton(scaledDBtn);
+    m_rationBtnGroup->addButton(scaledDBtn);
     if (defaultRation == scaledDBtn->text())
         scaledDBtn->setChecked(true);
     connect(scaledDBtn, &RationButton::clicked, this, [=]{
@@ -64,25 +64,26 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     RationButton* scaledEBtn = new RationButton(this);
     scaledEBtn->setText(tr("free"));
-    btnGroup->addButton(scaledEBtn);
+    m_rationBtnGroup->addButton(scaledEBtn);
     if (defaultRation == scaledEBtn->text())
         scaledEBtn->setChecked(true);
     connect(scaledEBtn, &RationButton::clicked, this, [=]{
         emit cutRationChanged(CutRation::FreeRation);
     });
 
-    RationButton* cancelBtn = new RationButton(this);
-    cancelBtn->setFixedSize(60, 24);
-    cancelBtn->setText(tr("Cancel"));
-    connect(cancelBtn, &RationButton::clicked, this, [=]{
+    m_cancelBtn = new RationButton(this);
+    m_cancelBtn->setFixedSize(60, 24);
+    m_cancelBtn->setText(tr("Cancel"));
+    m_cancelBtn->setCheckable(false);
+    connect(m_cancelBtn, &RationButton::clicked, this, [=]{
         emit canceled();
     });
 
-    RationButton* okBtn = new RationButton(this);
-    okBtn->setFixedSize(60, 24);
-    okBtn->setText(tr("Cut"));
-    okBtn->setChecked(true);
-    connect(okBtn, &RationButton::clicked, this, [=]{
+    m_okBtn = new RationButton(this);
+    m_okBtn->setFixedSize(60, 24);
+    m_okBtn->setText(tr("Cut"));
+    m_okBtn->setChecked(true);
+    connect(m_okBtn, &RationButton::clicked, this, [=]{
         emit cutAction();
     });
 
@@ -101,9 +102,9 @@ CutImageTips::CutImageTips(QWidget *parent)
     tipsLayout->setSpacing(0);
     tipsLayout->addWidget(rationLabel);
     tipsLayout->addSpacing(10);
-    tipsLayout->addWidget(cancelBtn);
+    tipsLayout->addWidget(m_cancelBtn);
     tipsLayout->addSpacing(5);
-    tipsLayout->addWidget(okBtn);
+    tipsLayout->addWidget(m_okBtn);
     setLayout(tipsLayout);
 
     connect(this, &CutImageTips::cutRationChanged, this, &CutImageTips::setCutRation);
@@ -116,7 +117,17 @@ void CutImageTips::paintEvent(QPaintEvent *e)
 
 void CutImageTips::showTips(QPoint pos)
 {
+    m_cancelBtn->setChecked(false);
+    m_okBtn->setChecked(true);
+    QString defaultRation = ConfigSettings::instance()->value(
+                "cut", "ration").toString();
+    qDebug() << "defaultRation:" << defaultRation;
+    foreach (QAbstractButton* rationBtn, m_rationBtnGroup->buttons()) {
+        if (rationBtn->text() == defaultRation)
+            rationBtn->setChecked(true);
+    }
     this->show();
+
     QPoint tipPos = QPoint(pos.x() - this->width(), pos.y());
     this->move(tipPos.x(), tipPos.y());
 }
@@ -137,7 +148,7 @@ void CutImageTips::setCutRation(CutRation ration)
         ConfigSettings::instance()->setValue("cut", "ration", "16:9");
         break;
     default:
-        ConfigSettings::instance()->setValue("cut", "ration", "free");
+        ConfigSettings::instance()->setValue("cut", "ration", tr("free"));
         break;
     }
 }

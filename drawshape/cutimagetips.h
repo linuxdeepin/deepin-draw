@@ -39,7 +39,9 @@ protected:
     void paintEvent(QPaintEvent *e);
 
 private:
-
+    RationButton* m_cancelBtn;
+    RationButton* m_okBtn;
+    QButtonGroup* m_rationBtnGroup;
 };
 
 #endif // CUTIMAGETIPS_H
