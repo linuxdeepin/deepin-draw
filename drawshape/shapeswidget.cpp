@@ -2890,6 +2890,10 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     {
         paintHoveredShape(painter, m_hoveredShape);
     }
+
+     painter.setBrush(Qt::transparent);
+     painter.setPen(QPen(QColor(0, 0, 0, 150)));
+     painter.drawRect(this->rect());
 }
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
@@ -3197,7 +3201,7 @@ void ShapesWidget::dropEvent(QDropEvent* e)
 void ShapesWidget::deleteCurrentShape()
 {
     qDebug() << "delete:" << m_selectedOrder << m_shapes.length();
-    if (m_selectedOrder == -1)
+    if (m_selectedOrder == -1 || m_imageCutting)
         return;
 
     if (m_selectedOrder < m_shapes.length())
@@ -3214,7 +3218,8 @@ void ShapesWidget::deleteCurrentShape()
             m_editMap.remove(deleteIndex);
         }
 
-        if (compressImage)
+        Q_UNUSED(compressImage);
+//        if (compressImage)
             compressToImage();
     } else
     {
@@ -3448,7 +3453,6 @@ QRect ShapesWidget::rightBottomRect()
 
 void ShapesWidget::updateCanvasSize()
 {
-
     int newArtboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
     int newArtboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 
@@ -3470,7 +3474,7 @@ void ShapesWidget::updateCanvasSize()
             m_canvasMicroSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
             m_initCanvasSideLength = true;
         }
-        if (m_ration != 1 || newArtboardActualWidth> tmpWindowWidth
+        if (m_ration != 1 || newArtboardActualWidth > tmpWindowWidth
                 || newArtboardActualHeight > tmpWindowHeight)
         {
             qreal currentRation = m_canvasMicroSideLength/std::max(
@@ -3734,7 +3738,6 @@ void ShapesWidget::setImageCutting(bool cutting)
             return;
         }
 
-//        m_BeforeCutBg = this->grab(this->rect());
         m_cutImageOrder = m_selectedOrder;
         m_cutShape.type = "cutImage";
 

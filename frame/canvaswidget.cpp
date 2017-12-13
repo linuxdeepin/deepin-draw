@@ -7,14 +7,18 @@
 
 #include <cmath>
 
+const int MARGIN = 25;
+
 CanvasWidget::CanvasWidget(QWidget *parent)
     : QLabel(parent)
     , m_scaleValue(1)
 {
-   setStyleSheet("border: 1px solid rgba(0, 0, 0, 130);");
+    setObjectName("CanvasBorder");
+//    setStyleSheet("QLabel#CanvasBorder{border: 1px solid rgba(0, 0, 0, 80);}");
+
     m_shapesWidget = new ShapesWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->setMargin(1);
+    layout->setMargin(25);
     layout->setSpacing(0);
     layout->addWidget(m_shapesWidget);
     setLayout(layout);
@@ -41,7 +45,35 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             this, &CanvasWidget::cutImageFinished);
     connect(m_shapesWidget, &ShapesWidget::shapePressed,
             this, &CanvasWidget::shapePressed);
+}
 
+void CanvasWidget::paintEvent(QPaintEvent *)
+{
+    QPoint endPos = this->rect().bottomRight();
+    int outSideSpacing = 20;
+    QPoint pointA = QPoint(endPos.x() - outSideSpacing, endPos.y() - outSideSpacing);
+    int tipsWidth = 8, tipContentWidth = 2;
+    QPoint pointB = QPoint(pointA.x(), pointA.y() - tipsWidth);
+    QPoint pointC = QPoint(pointB.x() - tipContentWidth, pointB.y());
+    QPoint pointD = QPoint(pointC.x(), pointC.y() + (tipsWidth - tipContentWidth));
+    QPoint pointE = QPoint(pointD.x() - (tipsWidth - tipContentWidth), pointD.y());
+    QPoint pointF = QPoint(pointE.x(), pointE.y() + tipContentWidth);
+
+    QPainter painter(this);
+    QPen pen;
+    pen.setColor(QColor(0, 0, 0, 80));
+    QPainterPath path;
+    path.moveTo(pointE);
+    path.lineTo(pointF);
+    path.lineTo(pointA);
+    path.lineTo(pointB);
+    path.lineTo(pointC);
+    path.lineTo(pointD);
+    path.lineTo(pointE);
+    painter.setPen(pen);
+
+    painter.fillPath(path, QBrush(QColor(255, 255, 255, 255)));
+    painter.drawPath(path);
 }
 
 void CanvasWidget::openImage(const QString &path)

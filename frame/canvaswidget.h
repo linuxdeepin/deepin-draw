@@ -36,6 +36,9 @@ signals:
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
 
+protected:
+    void paintEvent(QPaintEvent *);
+
 private:
     QString m_currentFile;
     ShapesWidget* m_shapesWidget;

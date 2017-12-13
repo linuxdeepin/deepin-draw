@@ -5,14 +5,16 @@
 
 #include "utils/configsettings.h"
 
-int HOR_MARGIN = 25;
-int VER_MARGIN = 25;
-const int ARTBOARD_MARGIN = 25;
+int HOR_MARGIN = 0;
+int VER_MARGIN = 0;
+const int ARTBOARD_MARGIN = 0;
 const int TITLEBAR_HEIGHT = 40;
+const int MARGIN = 25;
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
+    setObjectName("MainWidget");
     m_canvas = new CanvasWidget(this);
     m_seperatorLine = new QLabel(this);
     m_seperatorLine->setMinimumWidth(this->width());
@@ -29,6 +31,8 @@ MainWidget::MainWidget(QWidget *parent)
     m_hLayout->addStretch();
 
     m_vLayout = new QVBoxLayout;
+    m_vLayout->setMargin(0);
+    m_vLayout->setSpacing(0);
     m_vLayout->addWidget(m_seperatorLine);
     m_vLayout->addStretch();
     m_vLayout->addLayout(m_hLayout);
@@ -73,8 +77,8 @@ MainWidget::MainWidget(QWidget *parent)
 
 void MainWidget::updateLayout()
 {
-    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt() + MARGIN*2;
+    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt() + MARGIN*2;
     int artboardWindowWidth, artboardWindowHeight;
 
     if (artboardActualWidth == 0|| artboardActualHeight == 0)
