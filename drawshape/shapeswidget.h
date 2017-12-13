@@ -30,6 +30,7 @@ public:
         TopLayer,
         BottomLayer,
     };
+
     enum ClickedKey {
         First,
         Second,
@@ -206,7 +207,8 @@ private:
     bool m_isAltPressed;
     bool m_initAltStart;
     bool m_cursorInBtmRight;
-
+    //Grab the canvas before cutting.
+    bool m_beginGrabImage;
     bool m_recordCutImage;
 
     ResizeDirection m_resizeDirection;

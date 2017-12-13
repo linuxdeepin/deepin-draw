@@ -120,6 +120,7 @@ void ShapesWidget::initAttribute()
     m_generateBlurImage = false;
     m_cursorInBtmRight = false;
     m_recordCutImage = false;
+    m_beginGrabImage = false;
     m_isCutImageResize = false;
 
     m_shapesIndex = -1;
@@ -310,7 +311,6 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     if (shapeType == "cutImage") {
         setImageCutting(true);
     } else {
-
         if (shapeType == "selected" && m_currentType == "cutImage")
         {
             m_recordCutImage = true;
@@ -323,7 +323,7 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     m_currentType = shapeType;
 
     qDebug() << "setCurrentShape:" << shapeType
-                        << m_cutImageOrder   << m_selectedOrder;
+                    << m_cutImageOrder   << m_selectedOrder;
 }
 
 void ShapesWidget::setPenColor(QColor color)
@@ -3374,7 +3374,7 @@ void ShapesWidget::loadImage(QStringList paths)
 
 void ShapesWidget::compressToImage()
 {
-    if (!m_needCompress /*&& m_shapes.length() < 30*/)
+    if (!m_needCompress)
         return;
 
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
@@ -3393,6 +3393,12 @@ void ShapesWidget::compressToImage()
             continue;
         } else
         {
+            if (m_imageCutting && k != m_selectedOrder && m_shapes[k].type == "image")
+            {
+                bottomPainter.setOpacity(0.5);
+            } else {
+                bottomPainter.setOpacity(1);
+            }
             paintShape(bottomPainter, m_shapes[k]);
         }
     }
@@ -3407,6 +3413,9 @@ void ShapesWidget::compressToImage()
             paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
         }
     }
+
+    if (m_beginGrabImage)
+        m_BeforeCutBg = this->grab(this->rect());
 
     if (m_imageCutting) {
         QPainter blackPainter(&m_bottomPixmap);
@@ -3725,13 +3734,15 @@ void ShapesWidget::setImageCutting(bool cutting)
             return;
         }
 
-        m_BeforeCutBg = this->grab(this->rect());
+//        m_BeforeCutBg = this->grab(this->rect());
         m_cutImageOrder = m_selectedOrder;
         m_cutShape.type = "cutImage";
 
         m_needCompress = true;
         m_imageCutting = cutting;
+        m_beginGrabImage = true;
         compressToImage();
+        m_beginGrabImage = false;
 
         if (m_cutShape.mainPoints.length() != 4)
         {

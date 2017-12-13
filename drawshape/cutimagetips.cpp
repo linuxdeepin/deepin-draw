@@ -127,10 +127,11 @@ void CutImageTips::showTips(QPoint pos)
         if (rationBtn->text() == defaultRation || rationBtn->objectName().toLower() == defaultRation)
             rationBtn->setChecked(true);
     }
-    this->show();
 
     QPoint tipPos = QPoint(pos.x() - this->width(), pos.y());
+
     this->move(tipPos.x(), tipPos.y());
+    this->show();
 }
 
 void CutImageTips::setCutRation(CutRation ration)
