@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <source>Canvas width</source>
-        <translation type="vanished">Ancho del lienzo</translation>
-    </message>
-    <message>
-        <source>Canvas height</source>
-        <translation type="vanished">Alto del lienzo</translation>
-    </message>
-    <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation type="unfinished">Ancho</translation>
+        <translation>Ancho</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -226,48 +216,32 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar en:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
-        <source>Unnamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Nombre</translation>
-    </message>
-    <message>
-        <source>Save to</source>
-        <translation type="vanished">Guardar en</translation>
-    </message>
-    <message>
-        <source>Format</source>
-        <translation type="vanished">Formato</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="vanished">Calidad</translation>
+        <translation>Calidad:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
         <translation>Abrir directorio</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -291,10 +265,6 @@
         <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">Deshacer</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
@@ -382,19 +352,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import Image</source>
-        <translation type="vanished">Importar imágen</translation>
-    </message>
-    <message>
-        <source>Open Images</source>
-        <translation type="vanished">Abrir imágenes</translation>
-    </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">Abrir directorio</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>

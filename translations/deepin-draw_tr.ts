@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <source>Canvas width</source>
-        <translation type="vanished">Tuval genişliği</translation>
-    </message>
-    <message>
-        <source>Canvas height</source>
-        <translation type="vanished">Tuval yüksekliği</translation>
-    </message>
-    <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation type="unfinished">Genişlik</translation>
+        <translation>Genişlik</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükseklik</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -54,7 +44,7 @@
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="76"/>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="84"/>
@@ -67,12 +57,12 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="16"/>
         <source>Rotate 90° CCW</source>
-        <translation>CCW 90° Döndür</translation>
+        <translation>SYT 90° Döndür</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="22"/>
         <source>Rotate 90° CW</source>
-        <translation>CW 90° Döndür</translation>
+        <translation>SY 90° Döndür</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="29"/>
@@ -95,7 +85,7 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="18"/>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
@@ -160,7 +150,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="38"/>
         <source>Cancel</source>
-        <translation>İptal Et</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
@@ -175,7 +165,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Downloads</source>
-        <translation>İndrilinler</translation>
+        <translation>İndirmeler</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
@@ -226,48 +216,32 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ad:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Şuraya kaydet:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Biçim:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
-        <source>Unnamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Ad</translation>
-    </message>
-    <message>
-        <source>Save to</source>
-        <translation type="vanished">Şuraya Kaydet</translation>
-    </message>
-    <message>
-        <source>Format</source>
-        <translation type="vanished">Biçim</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="vanished">Kalite</translation>
+        <translation>Kalite:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
         <translation>Dizin Aç</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -293,28 +267,24 @@
         <translation>Sil</translation>
     </message>
     <message>
-        <source>Undo</source>
-        <translation type="vanished">Geri al</translation>
-    </message>
-    <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Raise Layer</source>
-        <translation>Tabakayı Arttır</translation>
+        <translation>Katman Arttır</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="187"/>
         <source>Lower Layer</source>
-        <translation>Alt Tabaka</translation>
+        <translation>Alt Katman</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="188"/>
         <source>Layer to Top</source>
-        <translation>Tabaka Yukarıya</translation>
+        <translation>Katman Yukarıya</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="189"/>
         <source>Layer to Bottom</source>
-        <translation>Tabaka Aşağıya</translation>
+        <translation>Katman Aşağıya</translation>
     </message>
 </context>
 <context>
@@ -382,19 +352,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import Image</source>
-        <translation type="vanished">İçe Resim Aktar</translation>
-    </message>
-    <message>
-        <source>Open Images</source>
-        <translation type="vanished">Resimler Aç</translation>
-    </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">Dizin Aç</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>

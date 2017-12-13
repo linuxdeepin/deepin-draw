@@ -1,20 +1,20 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Largura</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation>Višina</translation>
+        <translation>Altura</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
         <source>Autocrop</source>
-        <translation>Samodejno obreži</translation>
+        <translation>Corte automático</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="../frame/blurwidget.cpp" line="14"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Largura</translation>
     </message>
 </context>
 <context>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../widgets/colorpanel.cpp" line="138"/>
         <source>Color</source>
-        <translation>Barva</translation>
+        <translation>Cor</translation>
     </message>
 </context>
 <context>
@@ -39,17 +39,17 @@
         <location filename="../drawshape/cutimagetips.cpp" line="66"/>
         <location filename="../drawshape/cutimagetips.cpp" line="151"/>
         <source>free</source>
-        <translation>prosto</translation>
+        <translation>livre</translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="76"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="84"/>
         <source>Cut</source>
-        <translation>Izreži</translation>
+        <translation>Cortar</translation>
     </message>
 </context>
 <context>
@@ -57,27 +57,27 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="16"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rotiraj 90° v levo</translation>
+        <translation>Rodar 90º CPR</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="22"/>
         <source>Rotate 90° CW</source>
-        <translation>Rotiraj 90° v desno</translation>
+        <translation>Rodar 90º PR</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="29"/>
         <source>Clip</source>
-        <translation>Obreži</translation>
+        <translation>Clip</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="35"/>
         <source>Flip horizontally</source>
-        <translation>Preobrni vodoravno</translation>
+        <translation>Virar horizontalmente</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="41"/>
         <source>Flip vertically</source>
-        <translation>Preobrni navpično</translation>
+        <translation>Virar verticalmente</translation>
     </message>
 </context>
 <context>
@@ -85,22 +85,22 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="18"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
         <source>Discard</source>
-        <translation>Zavrzi</translation>
+        <translation>Descartar</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="25"/>
         <source>Save the current contents</source>
-        <translation>Shrani trenutne vsebine</translation>
+        <translation>Guardar os conteúdos atuais</translation>
     </message>
 </context>
 <context>
@@ -108,17 +108,17 @@
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="20"/>
         <source>Fill</source>
-        <translation>Zapolni</translation>
+        <translation>Preencher</translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
-        <translation>Poteza</translation>
+        <translation>Contorno</translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="45"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Largura</translation>
     </message>
 </context>
 <context>
@@ -126,17 +126,17 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="19"/>
         <source>Stroke</source>
-        <translation>Poteza</translation>
+        <translation>Contorno</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="31"/>
         <source>Style</source>
-        <translation>Stil</translation>
+        <translation>Estilo</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="57"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Largura</translation>
     </message>
 </context>
 <context>
@@ -145,48 +145,48 @@
         <location filename="../widgets/dialog/savedialog.cpp" line="29"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="38"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>Imagens</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Documents</source>
-        <translation>Dokumenti</translation>
+        <translation>Documentos</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Downloads</source>
-        <translation>Prenosi</translation>
+        <translation>Transferências</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Desktop</source>
-        <translation>Namizje</translation>
+        <translation>Ambiente de Trabalho</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Videos</source>
-        <translation>Videoposnetki</translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Music</source>
-        <translation>Glasba</translation>
+        <translation>Música</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="112"/>
         <source>Select other directories</source>
-        <translation>Izberi druge direktorije</translation>
+        <translation>Selecionar outras pastas</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
@@ -216,27 +216,27 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>Nome:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation>Shrani v:</translation>
+        <translation>Guardar em:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Formato:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation>Kakovost:</translation>
+        <translation>Qualidade:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
-        <translation>Odpri direktorij</translation>
+        <translation>Abrir Pasta</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
@@ -249,42 +249,42 @@
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="179"/>
         <source>Cut</source>
-        <translation>Izreži</translation>
+        <translation>Cortar</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="180"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="181"/>
         <source>Paste</source>
-        <translation>Prilepi</translation>
+        <translation>Colar</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Raise Layer</source>
-        <translation>Dvigni plast</translation>
+        <translation>Subir Camada</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="187"/>
         <source>Lower Layer</source>
-        <translation>Spusti plast</translation>
+        <translation>Descer Camada</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="188"/>
         <source>Layer to Top</source>
-        <translation>Plast na vrh</translation>
+        <translation>Camada para o Topo</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="189"/>
         <source>Layer to Bottom</source>
-        <translation>Plast na dno</translation>
+        <translation>Camada para o Fundo</translation>
     </message>
 </context>
 <context>
@@ -292,12 +292,12 @@
     <message>
         <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
-        <translation>Zapolni</translation>
+        <translation>Preencher</translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="49"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation>Tamanho</translation>
     </message>
 </context>
 <context>
@@ -305,49 +305,49 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="48"/>
         <source>Dimension</source>
-        <translation>Dimenzije</translation>
+        <translation>Dimensão</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
         <location filename="../frame/toptoolbar.cpp" line="324"/>
         <source>Import</source>
-        <translation>Uvozi</translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="58"/>
         <source>Rectangle</source>
-        <translation>Pravokotnik</translation>
+        <translation>Retângulo</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="63"/>
         <source>Ellipse</source>
-        <translation>Elipsa</translation>
+        <translation>Elipse</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="68"/>
         <source>Pencil</source>
-        <translation>Svinčnik</translation>
+        <translation>Pincel</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="73"/>
         <source>Text</source>
-        <translation>Besedilo</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="78"/>
         <source>Blur</source>
-        <translation>Zabriši</translation>
+        <translation>Desfocar</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="83"/>
         <source>Selected</source>
-        <translation>Izbrano</translation>
+        <translation>Selecionado</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
         <location filename="../frame/toptoolbar.cpp" line="326"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
@@ -357,22 +357,22 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Print</source>
-        <translation>Natisni</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="329"/>
         <source>Dark theme</source>
-        <translation>Temna tema</translation>
+        <translation>Tema escuro</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="331"/>
         <source>Help</source>
-        <translation>Pomoč</translation>
+        <translation>Ajuda</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="336"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation>Risar Deepin je lahko risalno orodje. Prosto lahko rišete po plasteh ali pa urejate slike.</translation>
+        <translation>O Desenho Deepin é uma leve ferramenta de de desenho. Pode desenhar livremente ou editar simplesmente imagens.</translation>
     </message>
 </context>
 </TS>

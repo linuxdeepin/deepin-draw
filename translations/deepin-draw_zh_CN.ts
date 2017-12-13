@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation type="unfinished">粗细</translation>
+        <translation>宽</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>高</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -188,7 +186,7 @@
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="112"/>
         <source>Select other directories</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
@@ -218,32 +216,32 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>文件名：</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>保存到：</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>文件格式：</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation>图片质量：</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -267,10 +265,6 @@
         <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Delete</source>
         <translation>删除</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="vanished">撤销</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
@@ -347,7 +341,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="83"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
@@ -358,7 +352,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>

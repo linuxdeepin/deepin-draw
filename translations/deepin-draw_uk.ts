@@ -1,20 +1,20 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Ширина</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation>Višina</translation>
+        <translation>Висота</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
         <source>Autocrop</source>
-        <translation>Samodejno obreži</translation>
+        <translation>Autocrop</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="../frame/blurwidget.cpp" line="14"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Ширина</translation>
     </message>
 </context>
 <context>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../widgets/colorpanel.cpp" line="138"/>
         <source>Color</source>
-        <translation>Barva</translation>
+        <translation>Колір</translation>
     </message>
 </context>
 <context>
@@ -39,17 +39,17 @@
         <location filename="../drawshape/cutimagetips.cpp" line="66"/>
         <location filename="../drawshape/cutimagetips.cpp" line="151"/>
         <source>free</source>
-        <translation>prosto</translation>
+        <translation>вільно</translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="76"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="84"/>
         <source>Cut</source>
-        <translation>Izreži</translation>
+        <translation>Вирізати</translation>
     </message>
 </context>
 <context>
@@ -57,27 +57,27 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="16"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rotiraj 90° v levo</translation>
+        <translation>Повернути на 90 ° CCW</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="22"/>
         <source>Rotate 90° CW</source>
-        <translation>Rotiraj 90° v desno</translation>
+        <translation>Повернути на 90 ° CW</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="29"/>
         <source>Clip</source>
-        <translation>Obreži</translation>
+        <translation>Clip</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="35"/>
         <source>Flip horizontally</source>
-        <translation>Preobrni vodoravno</translation>
+        <translation>Перевернути горизонтально</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="41"/>
         <source>Flip vertically</source>
-        <translation>Preobrni navpično</translation>
+        <translation>Перевернути вертикально</translation>
     </message>
 </context>
 <context>
@@ -85,22 +85,22 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="18"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
         <source>Discard</source>
-        <translation>Zavrzi</translation>
+        <translation>Відхилити</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="25"/>
         <source>Save the current contents</source>
-        <translation>Shrani trenutne vsebine</translation>
+        <translation>Зберегти поточний вміст</translation>
     </message>
 </context>
 <context>
@@ -108,17 +108,17 @@
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="20"/>
         <source>Fill</source>
-        <translation>Zapolni</translation>
+        <translation>Заповнити</translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
-        <translation>Poteza</translation>
+        <translation>Stroke</translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="45"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Ширина</translation>
     </message>
 </context>
 <context>
@@ -126,17 +126,17 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="19"/>
         <source>Stroke</source>
-        <translation>Poteza</translation>
+        <translation>Stroke</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="31"/>
         <source>Style</source>
-        <translation>Stil</translation>
+        <translation>Стиль</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="57"/>
         <source>Width</source>
-        <translation>Širina</translation>
+        <translation>Ширина</translation>
     </message>
 </context>
 <context>
@@ -145,48 +145,48 @@
         <location filename="../widgets/dialog/savedialog.cpp" line="29"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="38"/>
         <source>Cancel</source>
-        <translation>Prekliči</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Pictures</source>
-        <translation>Slike</translation>
+        <translation>Зображення</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Documents</source>
-        <translation>Dokumenti</translation>
+        <translation>Документи</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Downloads</source>
-        <translation>Prenosi</translation>
+        <translation>Завантаження</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Desktop</source>
-        <translation>Namizje</translation>
+        <translation>Стільниця</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Videos</source>
-        <translation>Videoposnetki</translation>
+        <translation>Відео</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Music</source>
-        <translation>Glasba</translation>
+        <translation>Музика</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="112"/>
         <source>Select other directories</source>
-        <translation>Izberi druge direktorije</translation>
+        <translation>Виберіть інші каталоги</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
@@ -216,27 +216,27 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation>Ime:</translation>
+        <translation>Ім&apos;я:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation>Shrani v:</translation>
+        <translation>Зберегти до:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation>Формат:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation>Kakovost:</translation>
+        <translation>Якість:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
-        <translation>Odpri direktorij</translation>
+        <translation>Відкрити каталог</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
@@ -249,42 +249,42 @@
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="179"/>
         <source>Cut</source>
-        <translation>Izreži</translation>
+        <translation>Вирізати</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="180"/>
         <source>Copy</source>
-        <translation>Kopiraj</translation>
+        <translation>Скопіювати</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="181"/>
         <source>Paste</source>
-        <translation>Prilepi</translation>
+        <translation>Вставити</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="183"/>
         <source>Delete</source>
-        <translation>Izbriši</translation>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Raise Layer</source>
-        <translation>Dvigni plast</translation>
+        <translation>Верхній шар</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="187"/>
         <source>Lower Layer</source>
-        <translation>Spusti plast</translation>
+        <translation>Нижній шар</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="188"/>
         <source>Layer to Top</source>
-        <translation>Plast na vrh</translation>
+        <translation>Шар до гори</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="189"/>
         <source>Layer to Bottom</source>
-        <translation>Plast na dno</translation>
+        <translation>Шар донизу</translation>
     </message>
 </context>
 <context>
@@ -292,12 +292,12 @@
     <message>
         <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
-        <translation>Zapolni</translation>
+        <translation>Заповнити</translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="49"/>
         <source>Size</source>
-        <translation>Velikost</translation>
+        <translation>Розмір</translation>
     </message>
 </context>
 <context>
@@ -305,49 +305,49 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="48"/>
         <source>Dimension</source>
-        <translation>Dimenzije</translation>
+        <translation>Вимірювання</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
         <location filename="../frame/toptoolbar.cpp" line="324"/>
         <source>Import</source>
-        <translation>Uvozi</translation>
+        <translation>Імпортувати</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="58"/>
         <source>Rectangle</source>
-        <translation>Pravokotnik</translation>
+        <translation>Прямокутник</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="63"/>
         <source>Ellipse</source>
-        <translation>Elipsa</translation>
+        <translation>Овал</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="68"/>
         <source>Pencil</source>
-        <translation>Svinčnik</translation>
+        <translation>Олівець</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="73"/>
         <source>Text</source>
-        <translation>Besedilo</translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="78"/>
         <source>Blur</source>
-        <translation>Zabriši</translation>
+        <translation>Розмити</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="83"/>
         <source>Selected</source>
-        <translation>Izbrano</translation>
+        <translation>Вибрано</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
         <location filename="../frame/toptoolbar.cpp" line="326"/>
         <source>Save</source>
-        <translation>Shrani</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
@@ -357,22 +357,22 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Print</source>
-        <translation>Natisni</translation>
+        <translation>Друк</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="329"/>
         <source>Dark theme</source>
-        <translation>Temna tema</translation>
+        <translation>Темна тема</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="331"/>
         <source>Help</source>
-        <translation>Pomoč</translation>
+        <translation>Допомога</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="336"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation>Risar Deepin je lahko risalno orodje. Prosto lahko rišete po plasteh ali pa urejate slike.</translation>
+        <translation>Deepin Draw - легкий інструмент для малювання. Ви можете вільно малювати шар або просто редагувати зображення.</translation>
     </message>
 </context>
 </TS>

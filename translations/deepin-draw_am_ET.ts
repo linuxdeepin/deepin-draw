@@ -1,25 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="am_ET">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="am_ET" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <source>Canvas width</source>
-        <translation type="vanished">የ መሳያ ስፋት</translation>
-    </message>
-    <message>
-        <source>Canvas height</source>
-        <translation type="vanished">የ መሳያ እርዝመት</translation>
-    </message>
-    <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation type="unfinished">ስፋት</translation>
+        <translation>ስፋት</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>እርዝመት</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
@@ -226,48 +216,32 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>ስም:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>ማስቀመጫ ወደ:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>አቀራረብ:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
-        <source>Unnamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">ስም</translation>
-    </message>
-    <message>
-        <source>Save to</source>
-        <translation type="vanished">ማስቀመጫ ወደ</translation>
-    </message>
-    <message>
-        <source>Format</source>
-        <translation type="vanished">አቀራረብ</translation>
-    </message>
-    <message>
-        <source>Quality</source>
-        <translation type="vanished">ጥራት</translation>
+        <translation>ጥራት:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
         <translation>ዳይሬክቶሪ መክፈቻ</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -293,28 +267,24 @@
         <translation>ማጥፊያ</translation>
     </message>
     <message>
-        <source>Undo</source>
-        <translation type="vanished">መተው</translation>
-    </message>
-    <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>ደረጃ መጨመሪያ</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="187"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>ደረጃ መቀነሻ</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="188"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>ደረጃ ወደ ላይ</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="189"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>ደረጃ ወደ ታች</translation>
     </message>
 </context>
 <context>
@@ -382,19 +352,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import Image</source>
-        <translation type="vanished">ምስል ማምጫ</translation>
-    </message>
-    <message>
-        <source>Open Images</source>
-        <translation type="vanished">ምስል መክፈቻ</translation>
-    </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">ዳይሬክቶሪ መክፈቻ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>
@@ -414,7 +372,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="336"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="unfinished"></translation>
+        <translation>ዲፕኢን መሳያ ቀላል የ መሳያ መሳሪያ ነው: እርስዎ በ ቀላሉ መሳል እና ምስል ማረም ይችላሉ: </translation>
     </message>
 </context>
 </TS>
