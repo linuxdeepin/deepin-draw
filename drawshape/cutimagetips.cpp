@@ -64,6 +64,7 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     RationButton* scaledEBtn = new RationButton(this);
     scaledEBtn->setText(tr("free"));
+    scaledEBtn->setObjectName("Free");
     m_rationBtnGroup->addButton(scaledEBtn);
     if (defaultRation == scaledEBtn->text())
         scaledEBtn->setChecked(true);
@@ -123,7 +124,7 @@ void CutImageTips::showTips(QPoint pos)
                 "cut", "ration").toString();
     qDebug() << "defaultRation:" << defaultRation;
     foreach (QAbstractButton* rationBtn, m_rationBtnGroup->buttons()) {
-        if (rationBtn->text() == defaultRation)
+        if (rationBtn->text() == defaultRation || rationBtn->objectName().toLower() == defaultRation)
             rationBtn->setChecked(true);
     }
     this->show();
