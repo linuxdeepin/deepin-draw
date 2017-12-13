@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ru">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
@@ -31,6 +33,14 @@
         <location filename="../widgets/colorpanel.cpp" line="138"/>
         <source>Color</source>
         <translation>Цвет</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigSettings</name>
+    <message>
+        <location filename="../utils/configsettings.cpp" line="35"/>
+        <source>free</source>
+        <translation type="unfinished">свободно</translation>
     </message>
 </context>
 <context>
@@ -241,7 +251,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -352,7 +362,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>

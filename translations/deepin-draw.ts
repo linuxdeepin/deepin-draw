@@ -36,6 +36,14 @@
     </message>
 </context>
 <context>
+    <name>ConfigSettings</name>
+    <message>
+        <location filename="../utils/configsettings.cpp" line="35"/>
+        <source>free</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CutImageTips</name>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="66"/>

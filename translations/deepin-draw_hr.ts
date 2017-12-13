@@ -1,20 +1,22 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hr">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="20"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Dužina</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="38"/>
         <source>Height</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="66"/>
         <source>Autocrop</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -34,12 +36,20 @@
     </message>
 </context>
 <context>
+    <name>ConfigSettings</name>
+    <message>
+        <location filename="../utils/configsettings.cpp" line="35"/>
+        <source>free</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CutImageTips</name>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="66"/>
         <location filename="../drawshape/cutimagetips.cpp" line="151"/>
         <source>free</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="76"/>
@@ -67,7 +77,7 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="29"/>
         <source>Clip</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="35"/>
@@ -90,7 +100,7 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
         <source>Discard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
@@ -108,12 +118,12 @@
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="20"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="45"/>
@@ -126,7 +136,7 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="19"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="31"/>
@@ -216,22 +226,22 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
@@ -241,7 +251,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -269,22 +279,22 @@
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="186"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="187"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="188"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="189"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -292,7 +302,7 @@
     <message>
         <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="49"/>
@@ -336,7 +346,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="78"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="83"/>
@@ -352,7 +362,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>
@@ -372,7 +382,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="336"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

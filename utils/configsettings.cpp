@@ -32,7 +32,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("text", "fillColor_alpha", 100);
         setValue("blur", "index", 20);
 
-        setValue("cut", "ration", "free");
+        setValue("cut", "ration", tr("free"));
     }
 
     qDebug() << "Setting file:" << m_settings->fileName();
