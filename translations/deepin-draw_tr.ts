@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
@@ -40,7 +38,7 @@
     <message>
         <location filename="../utils/configsettings.cpp" line="35"/>
         <source>free</source>
-        <translation type="unfinished">boşalt</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -251,7 +249,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -362,7 +360,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="327"/>
