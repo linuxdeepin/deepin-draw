@@ -47,7 +47,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     if (m_color == QColor(Qt::transparent))
     {
         painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
-                           QPixmap(":/theme/light/images/draw/color_disable_active.png"));
+            QPixmap(":/theme/light/images/draw/color_disable_active.png"));
         if (isChecked())
         {
             painter.setBrush(QBrush());

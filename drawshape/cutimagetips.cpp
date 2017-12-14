@@ -1,4 +1,4 @@
- #include "cutimagetips.h"
+#include "cutimagetips.h"
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -15,7 +15,8 @@ CutImageTips::CutImageTips(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("CutImageTips");
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    QString defaultRation = ConfigSettings::instance()->value("cut", "ration").toString();
+    QString defaultRation = ConfigSettings::instance()->value("cut",
+                                                              "ration").toString();
     qDebug() << "CutImageTips:" << defaultRation;
 
     QLabel* rationLabel = new QLabel(this);
@@ -124,7 +125,8 @@ void CutImageTips::showTips(QPoint pos)
                 "cut", "ration").toString();
     qDebug() << "defaultRation:" << defaultRation;
     foreach (QAbstractButton* rationBtn, m_rationBtnGroup->buttons()) {
-        if (rationBtn->text() == defaultRation || rationBtn->objectName().toLower() == defaultRation)
+        if (rationBtn->text() == defaultRation ||
+                rationBtn->objectName().toLower() == defaultRation)
             rationBtn->setChecked(true);
     }
 

@@ -45,8 +45,8 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     m_colorSlider = new ColorSlider(this);
     m_colorSlider->setObjectName("ColorfulSlider");
     m_colorSlider->setFixedSize(222, 15);
-    m_colorSlider->setMinimum(0);
-    m_colorSlider->setMaximum(355);
+//    m_colorSlider->setMinimum(0);
+//    m_colorSlider->setMaximum(355);
 
     m_colorLabel = new ColorLabel(this);
     m_colorLabel->setFixedSize(222, 136);
