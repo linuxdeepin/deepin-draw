@@ -62,8 +62,8 @@ void ColorSlider::paintEvent(QPaintEvent *ev) {
     painter.setRenderHint(QPainter::Antialiasing);
     QImage backgroundImage(rect.width(), rect.height() - spacing, QImage::Format_ARGB32);
 
-    for(qreal s = 0; s < backgroundImage.width(); s++) {
-        for(qreal v = 0; v < backgroundImage.height(); v++) {
+    for(qreal s = 1; s <= backgroundImage.width(); s++) {
+        for(qreal v = 1; v <= backgroundImage.height(); v++) {
             QColor penColor = getColor(qreal(int(s/rect.width()*360)), 1, 1);
             backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
         }

@@ -18,17 +18,19 @@ public:
     QColor getColor(qreal h, qreal s, qreal v);
     void setHue(int hue);
 
-    void pickColor(QPoint pos);
+    void pickColor(QPoint pos, bool picked = false);
     QColor getPickedColor();
+
 signals:
     void clicked();
     void pickedColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent*);
-    void enterEvent(QEvent*e);
-    void leaveEvent(QEvent*);
+    void enterEvent(QEvent* e);
+    void leaveEvent(QEvent* e);
     void mousePressEvent(QMouseEvent* e);
+    void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
 
 private:
@@ -40,6 +42,7 @@ private:
     bool m_pressed;
     QColor m_pickedColor;
     QPoint m_clickedPos;
+    QPoint m_tipPoint;
 };
 
 #endif // COLORLABEL_H

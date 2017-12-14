@@ -8,17 +8,20 @@
 
 #include "utils/baseutils.h"
 
+const QSize COLOR_TIPS_SIZE = QSize(50, 50);
+
 ColorLabel::ColorLabel(QWidget *parent)
     : QLabel(parent)
     , m_picking(true)
     , m_pressed(false)
+    , m_tipPoint(this->rect().center())
 {
-
+    setMouseTracking(true);
     connect(this, &ColorLabel::clicked, this, [=]{
         if (m_picking)
         {
             qDebug() << "clickedPos:" << m_clickedPos;
-            pickColor(m_clickedPos);
+            pickColor(m_clickedPos, true);
         }
     });
 }
@@ -31,7 +34,7 @@ QColor ColorLabel::getColor(qreal h, qreal s, qreal v)
 
     qreal p = v*(1 - s);
     qreal q = v*(1 - f*s);
-    qreal t = v*(1- (1 - f)*s);
+    qreal t = v*(1 - (1 - f)*s);
 
     if (hi == 0)
     {
@@ -60,7 +63,7 @@ void ColorLabel::setHue(int hue)
     update();
 }
 
-void ColorLabel::pickColor(QPoint pos)
+void ColorLabel::pickColor(QPoint pos, bool picked)
 {
     QPixmap pickPixmap;
     pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
@@ -75,7 +78,8 @@ void ColorLabel::pickColor(QPoint pos)
         m_pickedColor = QColor(0, 0, 0);
     }
 
-    emit pickedColor(m_pickedColor);
+    if (picked)
+        emit pickedColor(m_pickedColor);
 }
 
 QColor ColorLabel::getPickedColor()
@@ -86,7 +90,7 @@ QColor ColorLabel::getPickedColor()
 void ColorLabel::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
     QImage backgroundImage(this->width(), this->height(), QImage::Format_ARGB32);
 
@@ -100,25 +104,48 @@ void ColorLabel::paintEvent(QPaintEvent *)
     }
 
     painter.drawImage(this->rect(), backgroundImage);
+
+    QPen pen;
+    pen.setWidthF(0.5);
+    pen.setCapStyle(Qt::FlatCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    pen.setColor(QColor(255, 255, 255, 255));
+    int tipWidth = 8;
+    painter.setBrush(QColor(255, 255, 255, 255));
+    painter.drawEllipse(m_tipPoint, tipWidth/2, tipWidth/2);
+    painter.setBrush(getColor(m_hue, qreal(m_tipPoint.x())/this->width(),
+                              qreal(this->height() - 1 - m_tipPoint.y())/this->height()));
+    painter.drawEllipse(m_tipPoint, tipWidth/2 - 2, tipWidth/2 - 2);
 }
 
 void ColorLabel::enterEvent(QEvent *e)
 {
-    m_lastCursor = this->cursor();
-    qApp->setOverrideCursor(setCursorShape("pickcolor"));
+    update();
     QLabel::enterEvent(e);
 }
 
-void ColorLabel::leaveEvent(QEvent *)
+void ColorLabel::leaveEvent(QEvent *e)
 {
-    qApp->setOverrideCursor(m_lastCursor);
+    QLabel::leaveEvent(e);
 }
 
 void ColorLabel::mousePressEvent(QMouseEvent *e)
 {
     m_pressed = true;
-
+    m_tipPoint = this->mapFromGlobal(this->cursor().pos());
+    pickColor(m_tipPoint, true);
     QLabel::mousePressEvent(e);
+}
+
+void ColorLabel::mouseMoveEvent(QMouseEvent *e)
+{
+    if (m_pressed)
+    {
+        m_tipPoint = this->mapFromGlobal(this->cursor().pos());
+        pickColor(m_tipPoint, true);
+    }
+    update();
+    QLabel::mouseMoveEvent(e);
 }
 
 void ColorLabel::mouseReleaseEvent(QMouseEvent *e)
