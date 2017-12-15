@@ -117,6 +117,32 @@ void CutImageTips::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
 }
 
+void CutImageTips::keyPressEvent(QKeyEvent *e)
+{
+
+    if (e->key() == Qt::Key_Shift)
+    {
+        GlobalShortcut::instance()->setShiftScStatus(true);
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        qDebug() << "alt key pressed...";
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
+}
+
+void CutImageTips::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Shift)
+    {
+        GlobalShortcut::instance()->setShiftScStatus(false);
+    } else if (e->key() == Qt::Key_Alt)
+    {
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
+
+//    QFrame::keyReleaseEvent(e);
+}
+
 void CutImageTips::showTips(QPoint pos)
 {
     m_cancelBtn->setChecked(false);

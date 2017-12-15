@@ -76,11 +76,11 @@ QPointF           getNewPosition(FourPoints mainPoints, QPointF re);
 //bool pointInEllipse(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos);
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
-                          QPointF pos, int key, bool isShift = false);
+                          QPointF pos, int key, const QString &ration = "free", bool isShift = false);
 FourPoints resizePointPositionByAlt(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
-                          QPointF pos, int key, bool isShift = false);
+                          QPointF pos, int key, const QString &rationName = "free", bool isShift = false);
 
-FourPoints resizeByAltNoTiltKeepRation(FourPoints mainPoints, QPointF centerPos);
+FourPoints resizeByAltNoTiltKeepRation(FourPoints mainPoints, QPointF centerPos, const QString &rationName = "free");
 
 /***************** first point1 *******************/
 /* point1 in the first position */
@@ -105,9 +105,9 @@ FourPoints point1Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point1 in the fifth position */
 FourPoints point1Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift = false);
 FourPoints point1Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift = false);
 /* point1 in the sixth position */
 FourPoints point1Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -146,9 +146,9 @@ FourPoints point2Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point2 in the fifth position */
 FourPoints point2Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift = false);
 FourPoints point2Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point2 in the sixth position */
 FourPoints point2Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -187,9 +187,9 @@ FourPoints point3Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point3 in the fifth position */
 FourPoints point3Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point3Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point3 in the sixth position */
 FourPoints point3Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -228,9 +228,9 @@ FourPoints point4Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point4 in the fifth position */
 FourPoints point4Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point4Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point4 in the sixth position */
 FourPoints point4Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -269,9 +269,9 @@ FourPoints point5Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point5 in the fifth position */
 FourPoints point5Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point5Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point5 in the sixth position */
 FourPoints point5Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -310,9 +310,9 @@ FourPoints point6Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point6 in the fifth position */
 FourPoints point6Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point6Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point6 in the sixth position */
 FourPoints point6Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -351,9 +351,9 @@ FourPoints point7Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point7 in the fifth position */
 FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point7Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point7 in the sixth position */
 FourPoints point7Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -392,9 +392,9 @@ FourPoints point8Resize4ByAlt(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift = false);
 /* point8 in the fifth position */
 FourPoints point8Resize5(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 FourPoints point8Resize5ByAlt(QPointF point1, QPointF point2, QPointF point3,
-                         QPointF point4, QPointF pos, bool isShift= false);
+                         QPointF point4, QPointF pos, const QString &rationName = "", bool isShift= false);
 /* point8 in the sixth position */
 FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
@@ -428,4 +428,7 @@ FourPoints getMainPointsByAlt(QPointF centerPos, QPointF pos, bool isShift = fal
 QList<QPointF> trisectionPoints(FourPoints fourPoints);
 /****************  jude a point on rectangle ****************************/
 bool pointOnRect(QRect rect, QPoint pos);
+
+/********** The cut image has a proportional initialization point *******/
+FourPoints getInitFourPointByCut(FourPoints mainPoints, const QString &rationName);
 #endif // CALCULATERECT_H

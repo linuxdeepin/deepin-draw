@@ -30,7 +30,7 @@ BigColorButton::BigColorButton(QWidget *parent)
 void BigColorButton::updateConfigColor(const QString &group,
                                                                             const QString &key)
 {
-    if (group == "common" && key == "fillColor" || key == "fillColor_alpha")
+    if (group == "common" && (key == "fillColor" || key == "fillColor_alpha"))
     {
 
         m_color = QColor(ConfigSettings::instance()->value(

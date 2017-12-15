@@ -1683,14 +1683,14 @@ void ShapesWidget::handleResize(QPointF pos, int key)
             m_shapes[m_selectedOrder].mainPoints[1],
             m_shapes[m_selectedOrder].mainPoints[2],
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
-            m_isShiftPressed);
+            "free", m_isShiftPressed);
         } else {
             newResizeFPoints =  resizePointPositionByAlt(
             m_shapes[m_selectedOrder].mainPoints[0],
             m_shapes[m_selectedOrder].mainPoints[1],
             m_shapes[m_selectedOrder].mainPoints[2],
             m_shapes[m_selectedOrder].mainPoints[3], pos, key,
-            m_isShiftPressed);
+            "free", m_isShiftPressed);
         }
 
         m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
@@ -1727,9 +1727,32 @@ void ShapesWidget::handleCutShapeResize(QPointF pos, int key)
 {
     if (m_shapes[m_shapes.length() -1].type == "cutImage")
     {
-        m_shapes[m_shapes.length() -1].mainPoints =  resizePointPosition(
-        m_shapes[m_shapes.length() -1].mainPoints[0], m_shapes[m_shapes.length() -1].mainPoints[1],
-        m_shapes[m_shapes.length() -1].mainPoints[2], m_shapes[m_shapes.length() -1].mainPoints[3], pos, key, false);
+        m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+        m_isAltPressed = GlobalShortcut::instance()->altSc();
+
+        QString defaultRation = ConfigSettings::instance()->value("cut",
+                                                                  "ration").toString();
+        qDebug() << "defaultRation shapesWidget:" << defaultRation;
+        QPointF centerPos = QPointF((m_shapes[m_shapes.length() - 1].mainPoints[0].x()
+                + m_shapes[m_shapes.length() - 1].mainPoints[3].x())/2,
+                (m_shapes[m_shapes.length() - 1].mainPoints[0].y()
+                + m_shapes[m_shapes.length() - 1].mainPoints[3].y())/2);
+
+        if (m_isAltPressed)
+        {
+            m_shapes[m_shapes.length() - 1].mainPoints = resizePointPositionByAlt(
+                        m_shapes[m_shapes.length() - 1].mainPoints[0],
+                    m_shapes[m_shapes.length() - 1].mainPoints[1],
+                    m_shapes[m_shapes.length() - 1].mainPoints[2],
+                    m_shapes[m_shapes.length() - 1].mainPoints[3], pos, key, defaultRation, m_isShiftPressed);
+        } else {
+            m_shapes[m_shapes.length() -1].mainPoints =  resizePointPosition(
+            m_shapes[m_shapes.length() -1].mainPoints[0],
+            m_shapes[m_shapes.length() -1].mainPoints[1],
+            m_shapes[m_shapes.length() -1].mainPoints[2],
+            m_shapes[m_shapes.length() -1].mainPoints[3], pos, key,  defaultRation, m_isShiftPressed);
+        }
+
         m_cutShape.mainPoints = m_shapes[m_shapes.length() - 1].mainPoints;
         m_pressedPoint = pos;
     }
@@ -2599,7 +2622,7 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
     painter.setBrush(Qt::transparent);
     painter.setClipping(true);
     painter.setClipPath(rectPath);
-//    painter.fillRect(this->rect(), QBrush(Qt::yellow));
+
     painter.drawPixmap(this->rect(), m_BeforeCutBg);
     painter.setClipping(false);
 
@@ -3159,6 +3182,7 @@ void ShapesWidget::initShortcut()
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
+
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = true;
@@ -3166,6 +3190,7 @@ void ShapesWidget::keyPressEvent(QKeyEvent *e)
     } else if (e->key() == Qt::Key_Alt)
     {
         m_isAltPressed = true;
+        qDebug() << "alt key pressed...";
         GlobalShortcut::instance()->setAltScStatus(true);
     }
 }
@@ -3383,7 +3408,6 @@ void ShapesWidget::loadImage(QStringList paths)
     emit updateMiddleWidgets("image");
 
     qDebug() << "load image finished, compress image begins!";
-//    if (m_imagesCount >= 2)
      compressToImage();
 }
 
@@ -3420,7 +3444,6 @@ void ShapesWidget::compressToImage()
 
     if (m_imageCutting)
     {
-        qDebug() << "!!!!!!~~~~~~~~~~~~~~";
         QPainter bgPainter(&m_bottomPixmap);
         if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
         {
@@ -3748,6 +3771,8 @@ void ShapesWidget::setImageCutting(bool cutting)
             return;
         }
 
+        QString defaultRation = ConfigSettings::instance()->value("cut", "ration").toString();
+
         m_cutImageOrder = m_selectedOrder;
         m_cutShape.type = "cutImage";
 
@@ -3763,20 +3788,14 @@ void ShapesWidget::setImageCutting(bool cutting)
             for(int k = 0; k < 4; k++)
                 m_cutShape.mainPoints.append(QPointF(0, 0));
         }
-        QPointF tmpStartPos = m_shapes[m_selectedOrder].mainPoints[0];
-        QPointF tmpEndPos = m_shapes[m_selectedOrder].mainPoints[0];
-        for(int i = 0; i < m_shapes[m_selectedOrder].mainPoints.length(); i++)
-        {
-            tmpStartPos = QPointF(std::min(tmpStartPos.x(), m_shapes[m_selectedOrder].mainPoints[i].x()),
-                                                  std::min(tmpStartPos.y(), m_shapes[m_selectedOrder].mainPoints[i].y()));
-            tmpEndPos = QPointF(std::max(tmpEndPos.x(), m_shapes[m_selectedOrder].mainPoints[i].x()),
-                                                  std::max(tmpEndPos.y(), m_shapes[m_selectedOrder].mainPoints[i].y()));
-        }
-        m_cutShape.mainPoints[0] = tmpStartPos;
-        m_cutShape.mainPoints[1] = QPointF(tmpStartPos.x(), tmpEndPos.y());
-        m_cutShape.mainPoints[2] = QPointF(tmpEndPos.x(), tmpStartPos.y());
-        m_cutShape.mainPoints[3] = tmpEndPos;
 
+        FourPoints cutMainPoints = getInitFourPointByCut(m_shapes[
+            m_selectedOrder].mainPoints, defaultRation);
+
+        for(int i = 0; i < cutMainPoints.length(); i++)
+        {
+            m_cutShape.mainPoints[i] = cutMainPoints[i];
+        }
         m_shapes.append(m_cutShape);
         showCutImageTips(m_cutShape.mainPoints[3]);
     }
@@ -3909,39 +3928,14 @@ void ShapesWidget::cutImage()
 
 void ShapesWidget::updateCutShape(CutRation ration)
 {
-    if (m_shapes.length() >= 1 && m_shapes[m_shapes.length() - 1].type == "cutImage")
+    Q_UNUSED(ration);
+    if (m_shapes.length() >= 1 && m_shapes[
+            m_shapes.length() - 1].type == "cutImage")
     {
-        FourPoints cutFPoints = m_shapes[m_shapes.length() - 1].mainPoints;
-        QPointF centerPos = QPointF((cutFPoints[0].x() + cutFPoints[3].x())/2,
-                                                            (cutFPoints[0].y() + cutFPoints[3].y())/2);
-        qreal cutWidth = std::abs(cutFPoints[3].x() - cutFPoints[0].x());
-        qreal cutHeight = std::abs(cutFPoints[3].y() - cutFPoints[0].y());
-        qreal minWidth = std::max(cutWidth, cutHeight);
-        qreal minHeight = cutHeight;
-
-        switch (ration) {
-        case CutRation::Ration1_1:
-            minHeight = minWidth;
-            break;
-        case CutRation::Ration4_3:
-            minHeight = minWidth*3/4;
-            break;
-        case CutRation::Ration8_5:
-            minHeight = minWidth*5/8;
-            break;
-        case CutRation::Ration16_9:
-            minHeight = minWidth*9/16;
-            break;
-        default:
-            minWidth = cutWidth;
-            minHeight = cutHeight;
-            break;
-        }
-        cutFPoints[0] = QPointF(centerPos.x() - minWidth/2, centerPos.y() - minHeight/2);
-        cutFPoints[1] = QPointF(centerPos.x() - minWidth/2, centerPos.y() + minHeight/2);
-        cutFPoints[2] = QPointF(centerPos.x() + minWidth/2, centerPos.y() - minHeight/2);
-        cutFPoints[3] = QPointF(centerPos.x() + minWidth/2, centerPos.y() + minHeight/2);
-        m_shapes[m_shapes.length() - 1].mainPoints = cutFPoints;
+        QString defaultRation = ConfigSettings::instance()->value("cut",
+                                                                  "ration").toString();
+        FourPoints cutFPoints =  getInitFourPointByCut(m_shapes[
+                                                       m_selectedOrder].mainPoints, defaultRation);
         if (m_cutShape.type == "cutImage")
         {
             m_cutShape.mainPoints = cutFPoints;
@@ -3950,6 +3944,9 @@ void ShapesWidget::updateCutShape(CutRation ration)
         {
             m_currentShape.mainPoints = cutFPoints;
         }
+
+        if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+            m_shapes[m_shapes.length() - 1].mainPoints = cutFPoints;
         m_cutImageTips->showTips(mapToGlobal(QPoint(int(cutFPoints[3].x()),
                                                                                                  int(cutFPoints[3].y()))));
     }

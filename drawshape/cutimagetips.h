@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QPushButton>
+#include <QKeyEvent>
 
 #include "utils/baseutils.h"
 
@@ -37,6 +38,8 @@ signals:
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
 
 private:
     RationButton* m_cancelBtn;
