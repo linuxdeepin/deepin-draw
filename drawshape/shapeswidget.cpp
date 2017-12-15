@@ -254,17 +254,19 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     "blur", "index").toInt();
     }
 
-    qDebug() << "!!!!!!!!!!" << m_selectedOrder;
+    bool updateSelectedShape = false;
     if (m_selectedOrder != -1) {
         if (group == "common") {
             if (key == "strokeColor" || key == "strokeColor_alpha") {
                 m_shapes[m_selectedOrder].strokeColor = m_penColor;
+                updateSelectedShape = true;
             } else if (key == "fillColor" || key == "fillColor_alpha") {
                 m_shapes[m_selectedOrder].fillColor =  m_brushColor;
-
+                updateSelectedShape = true;
             } else if (key == "lineWidth") {
                 m_shapes[m_selectedOrder].lineWidth = ConfigSettings::instance()->value(
                     "common", "lineWidth").toInt();
+                updateSelectedShape = true;
             }
         } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
             if (m_shapes[m_selectedOrder].type == "text") {
@@ -273,6 +275,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     m_editMap.value(tmpIndex)->setColor(QColor(
                         ConfigSettings::instance()->value("text", "fillColor").toString()));
                     m_editMap.value(tmpIndex)->update();
+                    updateSelectedShape = true;
                 }
             }
             int tmpIndex = m_shapes[m_selectedOrder].index;
@@ -281,11 +284,18 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                 m_editMap.value(tmpIndex)->setFontSize(newFontSize);
                 m_editMap.value(tmpIndex)->update();
                 m_shapes[m_selectedOrder].fontSize = newFontSize;
+                updateSelectedShape = true;
             }
         }
     }
 
-    update();
+    if (updateSelectedShape)
+    {
+        m_needCompress = true;
+        compressToImage();
+        update();
+        m_needCompress = false;
+    }
 }
 
 void ShapesWidget::setShapes(QList<Toolshape> shapes)
