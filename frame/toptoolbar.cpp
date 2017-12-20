@@ -125,8 +125,7 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
 
-    connect(this, &TopToolbar::drawShapeChanged,
-            this, [=](QString shape){
+    connect(this, &TopToolbar::drawShapeChanged, this, [=](QString shape){
         if (shape == "image" && !picBtn->isChecked())
         {
             picBtn->setChecked(true);
@@ -252,7 +251,6 @@ void TopToolbar::importImage()
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new QStackedWidget(this);
-
     m_emptyWidget = new QWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
 
@@ -269,7 +267,7 @@ void TopToolbar::initStackWidget()
     //colorPanel.
     m_colorPanel = new ColorPanel();
     qApp->setProperty("_d_isDxcb",false);
-    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop,this->parentWidget());
+    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this->parentWidget());
     qApp->setProperty("_d_isDxcb",true);
     m_colorARect->setWindowFlags(Qt::Widget);
     m_colorARect->setAttribute(Qt::WA_TranslucentBackground,false);
@@ -366,7 +364,6 @@ void TopToolbar::updateMiddleWidget(QString type)
     {
         emit updateSelectedBtn(true);
         setMiddleStackWidget(MiddleWidgetStatus::Cut);
-
     } else if (type == "rectangle" || type == "oval")
     {
         setMiddleStackWidget(MiddleWidgetStatus::FillShape);
@@ -382,7 +379,6 @@ void TopToolbar::updateMiddleWidget(QString type)
     } else if (type == "adjustsize")
     {
         setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
-        qDebug() << "updateMiddleWidget type:" << type;
     }
 }
 
@@ -390,6 +386,7 @@ void TopToolbar::setMiddleStackWidget(MiddleWidgetStatus status)
 {
     m_middleWidgetStatus = status;
     m_colorPanel->setMiddleWidgetStatus(status);
+
     switch (status)
     {
     case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;

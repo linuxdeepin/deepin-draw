@@ -3,38 +3,38 @@ border-image: url(:/theme/common/images/deepin-draw-32.png);
 }
 
 PushButton#ArtBoardBtn {
-qproperty-normalPic: url(:/theme/light/images/action/artboard_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/artboard_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/artboard_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/artboard_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/artboard_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/artboard_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/artboard_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/artboard_active.svg);
 }
 
 PushButton#PictureBtn {
-qproperty-normalPic: url(:/theme/light/images/action/picture_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/picture_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/picture_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/picture_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/import_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/import_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/import_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/import_active.svg);
 }
 
 PushButton#RectBtn {
-qproperty-normalPic: url(:/theme/light/images/action/rectangle_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/rectangle_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/rectangle_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/rectangle_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/rectangle_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/rectangle_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/rectangle_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/rectangle_active.svg);
 }
 
 PushButton#OvalBtn {
-qproperty-normalPic: url(:/theme/light/images/action/oval_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/oval_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/oval_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/oval_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/oval_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/oval_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/oval_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/oval_active.svg);
 }
 
 PushButton#LineBtn {
-qproperty-normalPic: url(:/theme/light/images/action/line_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/line_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/line_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/line_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/line_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/line_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/line_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/line_active.svg);
 }
 
 PushButton#TextBtn {
@@ -45,28 +45,28 @@ qproperty-checkedPic: url(:/theme/light/images/action/text_active.png);
 }
 
 PushButton#BlurBtn {
-qproperty-normalPic: url(:/theme/light/images/action/blur_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/blur_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/blur_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/blur_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/blur_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/blur_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/blur_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/blur_active.svg);
 }
 
 PushButton#SelectedBtn {
-qproperty-normalPic: url(:/theme/light/images/action/selected_fill_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/selected_fill_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/selected_fill_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/selected_fill_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/selected_fill_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/selected_fill_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/selected_fill_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/selected_fill_active.svg);
 }
 
 PushButton#ExportBtn {
-qproperty-normalPic: url(:/theme/light/images/action/save_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/save_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/save_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/save_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/save_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/save_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/save_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/save_active.svg);
 }
 
 QPushButton#StraightLineBtn {
-border-image: url(:/theme/light/images/draw/straight_line_normal.png);
+border-image: url(:/theme/light/images/draw/straight_line_normal.svg);
 }
 
 QPushButton#StraightLineBtn:hover {
@@ -74,15 +74,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/straight_line_hover.png);
+border-image: url(:/theme/light/images/draw/straight_line_hover.svg);
 }
 
 QPushButton#StraightLineBtn:checked {
-border-image: url(:/theme/light/images/draw/straight_line_active.png);
+border-image: url(:/theme/light/images/draw/straight_line_active.svg);
 }
 
 QPushButton#ArbiLineBtn {
-border-image: url(:/theme/light/images/draw/curve_normal.png);
+border-image: url(:/theme/light/images/draw/curve_normal.svg);
 }
 
 QPushButton#ArbiLineBtn:hover {
@@ -90,15 +90,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/curve_hover.png);
+border-image: url(:/theme/light/images/draw/curve_hover.svg);
 }
 
 QPushButton#ArbiLineBtn:checked {
-border-image: url(:/theme/light/images/draw/curve_active.png);
+border-image: url(:/theme/light/images/draw/curve_active.svg);
 }
 
 QPushButton#ArrowBtn {
-border-image: url(:/theme/light/images/draw/arrow_normal.png);
+border-image: url(:/theme/light/images/draw/arrow_normal.svg);
 }
 
 QPushButton#ArrowBtn:hover {
@@ -106,15 +106,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/arrow_hover.png);
+border-image: url(:/theme/light/images/draw/arrow_hover.svg);
 }
 
 QPushButton#ArrowBtn:checked {
-border-image: url(:/theme/light/images/draw/arrow_active.png);
+border-image: url(:/theme/light/images/draw/arrow_active.svg);
 }
 
 QPushButton#FinerLineBtn {
-border-image: url(:/theme/light/images/draw/line_border_1_normal.png);
+border-image: url(:/theme/light/images/draw/line_border_1_normal.svg);
 }
 
 QPushButton#FinerLineBtn:hover {
@@ -122,15 +122,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/line_border_1_hover.png);
+border-image: url(:/theme/light/images/draw/line_border_1_hover.svg);
 }
 
 QPushButton#FinerLineBtn:checked {
-border-image: url(:/theme/light/images/draw/line_border_1_active.png);
+border-image: url(:/theme/light/images/draw/line_border_1_active.svg);
 }
 
 QPushButton#FineLineBtn {
-border-image: url(:/theme/light/images/draw/line_border_2_normal.png);
+border-image: url(:/theme/light/images/draw/line_border_2_normal.svg);
 }
 
 QPushButton#FineLineBtn:hover {
@@ -138,15 +138,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/line_border_2_hover.png);
+border-image: url(:/theme/light/images/draw/line_border_2_hover.svg);
 }
 
 QPushButton#FineLineBtn:checked {
-border-image: url(:/theme/light/images/draw/line_border_2_active.png);
+border-image: url(:/theme/light/images/draw/line_border_2_active.svg);
 }
 
 QPushButton#MediumLineBtn {
-border-image: url(:/theme/light/images/draw/line_border_3_normal.png);
+border-image: url(:/theme/light/images/draw/line_border_3_normal.svg);
 }
 
 QPushButton#MediumLineBtn:hover {
@@ -154,15 +154,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/line_border_3_hover.png);
+border-image: url(:/theme/light/images/draw/line_border_3_hover.svg);
 }
 
 QPushButton#MediumLineBtn:checked {
-border-image: url(:/theme/light/images/draw/line_border_3_active.png);
+border-image: url(:/theme/light/images/draw/line_border_3_active.svg);
 }
 
 QPushButton#BoldLineBtn {
-border-image: url(:/theme/light/images/draw/line_border_4_normal.png);
+border-image: url(:/theme/light/images/draw/line_border_4_normal.svg);
 }
 
 QPushButton#BoldLineBtn:hover {
@@ -170,46 +170,46 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/line_border_4_hover.png);
+border-image: url(:/theme/light/images/draw/line_border_4_hover.svg);
 }
 
 QPushButton#BoldLineBtn:checked {
-border-image: url(:/theme/light/images/draw/line_border_4_active.png);
+border-image: url(:/theme/light/images/draw/line_border_4_active.svg);
 }
 
 PushButton#LeftRotate {
-    qproperty-normalPic: url(:/theme/light/images/cut/rotate_left_normal.png);
-    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_left_hover.png);
-    qproperty-pressPic: url(:/theme/light/images/cut/rotate_left_active.png);
-    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_left_active.png);
+    qproperty-normalPic: url(:/theme/light/images/cut/rotate_left_normal.svg);
+    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_left_hover.svg);
+    qproperty-pressPic: url(:/theme/light/images/cut/rotate_left_active.svg);
+    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_left_active.svg);
 }
 
 PushButton#RightRotate {
-    qproperty-normalPic: url(:/theme/light/images/cut/rotate_right_normal.png);
-    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_right_hover.png);
-    qproperty-pressPic: url(:/theme/light/images/cut/rotate_right_active.png);
-    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_right_active.png);
+    qproperty-normalPic: url(:/theme/light/images/cut/rotate_right_normal.svg);
+    qproperty-hoverPic: url(:/theme/light/images/cut/rotate_right_hover.svg);
+    qproperty-pressPic: url(:/theme/light/images/cut/rotate_right_active.svg);
+    qproperty-checkedPic: url(:/theme/light/images/cut/rotate_right_active.svg);
 }
 
 PushButton#CutButton {
-qproperty-normalPic: url(:/theme/light/images/cut/cut_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/cut/cut_hover.png);
-qproperty-pressPic: url(:/theme/light/images/cut/cut_active.png);
-qproperty-checkedPic: url(:/theme/light/images/cut/cut_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/cut_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/cut/cut_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/cut/cut_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/cut/cut_active.svg);
 }
 
 PushButton#FlipHorizontalBtn {
-qproperty-normalPic: url(:/theme/light/images/cut/flip_horizontal_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/cut/flip_horizontal_hover.png);
-qproperty-pressPic: url(:/theme/light/images/cut/flip_horizontal_active.png);
-qproperty-checkedPic: url(:/theme/light/images/cut/flip_horizontal_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/flip_horizontal_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/cut/flip_horizontal_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/cut/flip_horizontal_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/cut/flip_horizontal_active.svg);
 }
 
 PushButton#FlipVerticalBtn {
-qproperty-normalPic: url(:/theme/light/images/cut/filp_vertical_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/cut/filp_vertical_hover.png);
-qproperty-pressPic: url(:/theme/light/images/cut/filp_vertical_active.png);
-qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.png);
+qproperty-normalPic: url(:/theme/light/images/cut/filp_vertical_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/cut/filp_vertical_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/cut/filp_vertical_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.svg);
 }
 
 PushButton#PickerBtn {
@@ -220,7 +220,7 @@ qproperty-checkedPic: url(:/theme/light/images/draw/color_draw_active.png);
 }
 
 ToolButton#LineMostThinBtn {
-border-image: url(:/theme/light/images/draw/blur_slim_normal.png);
+border-image: url(:/theme/light/images/draw/blur_slim_normal.svg);
 }
 
 ToolButton#LineMostThinBtn:hover {
@@ -228,15 +228,15 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/blur_slim_hover.png);
+border-image: url(:/theme/light/images/draw/blur_slim_hover.svg);
 }
 
 ToolButton#LineMostThinBtn:pressed {
-border-image: url(:/theme/light/images/draw/blur_slim_active.png);
+border-image: url(:/theme/light/images/draw/blur_slim_active.svg);
 }
 
 ToolButton#LineThickLineBtn {
-border-image: url(:/theme/light/images/draw/blur_thick_normal.png);
+border-image: url(:/theme/light/images/draw/blur_thick_normal.svg);
 }
 
 ToolButton#LineThickLineBtn:hover {
@@ -244,10 +244,10 @@ outline: none;
 background-color: rgba(0, 0, 0, 0.05);
 border: solid 1px transparent;
 border-radius: 3px;
-border-image: url(:/theme/light/images/draw/blur_thick_hover.png);
+border-image: url(:/theme/light/images/draw/blur_thick_hover.svg);
 }
 
 ToolButton#LineThickLineBtn:pressed{
-border-image: url(:/theme/light/images/draw/blur_thick_active.png);
+border-image: url(:/theme/light/images/draw/blur_thick_active.svg);
 }
 

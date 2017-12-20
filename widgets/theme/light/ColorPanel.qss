@@ -1,8 +1,8 @@
 PushButton#ColorFulButton {
-    qproperty-normalPic: url(:/theme/light/images/draw/color_more_normal.png);
-    qproperty-hoverPic: url(:/theme/light/images/draw/color_more_hover.png);
-    qproperty-pressPic: url(:/theme/light/images/draw/color_more_active.png);
-    qproperty-checkedPic: url(:/theme/light/images/draw/color_more_active.png);
+    qproperty-normalPic: url(:/theme/light/images/draw/color_more_normal.svg);
+    qproperty-hoverPic: url(:/theme/light/images/draw/color_more_hover.svg);
+    qproperty-pressPic: url(:/theme/light/images/draw/color_more_active.svg);
+    qproperty-checkedPic: url(:/theme/light/images/draw/color_more_active.svg);
 }
 
 PushButton#DisableColorButton {

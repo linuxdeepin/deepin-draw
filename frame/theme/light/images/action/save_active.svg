@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>save_active</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="浅色_图标整理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-934.000000, -77.000000)">
+        <g id="hover-copy" transform="translate(696.000000, 77.000000)">
+            <g id="导出" transform="translate(238.000000, 0.000000)">
+                <rect id="Rectangle-11-Copy-8" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                <path d="M5,5 L15.7279719,5 L19,8.02922655 L19,19 L5,19 L5,5 Z M8,6 L8,10 L14,10 L14,6 L8,6 Z M9,6 L13,6 L13,9 L9,9 L9,6 Z" id="Combined-Shape" fill="#2CA7F8" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

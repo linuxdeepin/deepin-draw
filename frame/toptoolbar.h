@@ -6,8 +6,6 @@
 #include <QPushButton>
 #include <QKeyEvent>
 
-//#include  <darrowrectangle.h>
-
 #include "utils/baseutils.h"
 #include "widgets/colorpanel.h"
 #include "widgets/toolbutton.h"
