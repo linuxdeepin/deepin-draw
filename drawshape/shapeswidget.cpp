@@ -3084,6 +3084,7 @@ void ShapesWidget::paintSelectedRectPoints(QPainter &painter, FourPoints mainPoi
     QPointF middlePoint = QPointF((mainRationPoints[0].x() + mainRationPoints[2].x())/2,
             (mainRationPoints[0].y() + mainRationPoints[2].y())/2);
 
+    painter.setPen(QPen(QColor(Qt::white)));
     painter.drawLine(rotatePoint, middlePoint);
     paintImgPoint(painter, rotatePoint, ROTATE_POINT_IMG, false);
     for(int j = 0; j < mainRationPoints.length(); j++)

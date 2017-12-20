@@ -127,6 +127,9 @@ void CutImageTips::keyPressEvent(QKeyEvent *e)
     {
         qDebug() << "alt key pressed...";
         GlobalShortcut::instance()->setAltScStatus(true);
+    } else if (e->key() == Qt::Key_Escape)
+    {
+        emit canceled();
     }
 }
 
