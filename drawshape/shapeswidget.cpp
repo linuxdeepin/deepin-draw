@@ -1780,13 +1780,12 @@ void ShapesWidget::handleImageRotate(int degree)
         for (int i = 0; i < 4; i++)
         {
             m_shapes[m_selectedOrder].mainPoints[i] = pointRotate(centerInPoint,
-                m_shapes[m_selectedOrder].mainPoints[i], angle);
+                                                                  m_shapes[m_selectedOrder].mainPoints[i], angle);
         }
     }
-//    m_needCompress = false;
-//    update();
-//    m_needCompress = true;
-//    compressToImage();
+
+    m_needCompress = true;
+    compressToImage();
 }
 
 void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
@@ -1798,6 +1797,9 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
         if(vertical)
             m_shapes[m_selectedOrder].isVerFlip = !m_shapes[m_selectedOrder].isVerFlip;
     }
+
+    m_needCompress = true;
+    compressToImage();
 }
 
 bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
@@ -2607,6 +2609,7 @@ void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape)
 void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
 {
     FourPoints rectFPoints = shape.mainPoints;
+
     QPainterPath rectPath;
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
     rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
@@ -3701,7 +3704,7 @@ void ShapesWidget::updateCursorDirection(ResizeDirection direction)
     } else if (direction == BottomLeft) {
         if (m_isSelected || m_isRotated || m_imageCutting)
         {
-           qApp->setOverrideCursor(Qt::SizeBDiagCursor);
+           qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else {
            qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
@@ -3790,8 +3793,8 @@ void ShapesWidget::setImageCutting(bool cutting)
                 m_cutShape.mainPoints.append(QPointF(0, 0));
         }
 
-        FourPoints cutMainPoints = getInitFourPointByCut(m_shapes[
-            m_selectedOrder].mainPoints, defaultRation);
+        FourPoints cutMainPoints =  mainPointsOrder(getInitFourPointByCut(m_shapes[
+            m_selectedOrder].mainPoints, defaultRation));
 
         for(int i = 0; i < cutMainPoints.length(); i++)
         {
