@@ -38,10 +38,10 @@ qproperty-checkedPic: url(:/theme/light/images/action/line_active.svg);
 }
 
 PushButton#TextBtn {
-qproperty-normalPic: url(:/theme/light/images/action/text_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/action/text_hover.png);
-qproperty-pressPic: url(:/theme/light/images/action/text_active.png);
-qproperty-checkedPic: url(:/theme/light/images/action/text_active.png);
+qproperty-normalPic: url(:/theme/light/images/action/text_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/text_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/text_active.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/text_active.svg);
 }
 
 PushButton#BlurBtn {
