@@ -343,13 +343,14 @@ void TopToolbar::initMenu()
 
 void TopToolbar::showDrawDialog()
 {
-    DrawDialog* dd = new DrawDialog;
+    DrawDialog*  dd = new DrawDialog(this);
     dd->showInCenter(window());
 
     connect(dd, &DrawDialog::saveDrawImage, this, [=]{
         TempFile::instance()->setSaveFinishedExit(true);
-        generateSaveImage();
+        emit generateSaveImage();
     });
+    dd->exec();
 }
 
 void TopToolbar::showSaveDialog()

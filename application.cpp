@@ -4,6 +4,7 @@ Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
     initI18n();
+    dApp->setQuitOnLastWindowClosed(true);
 }
 
 void Application::handleQuitAction()

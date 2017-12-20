@@ -13,8 +13,7 @@ signals:
     void saveDrawImage();
 
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
-
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 };
 
 #endif // DRAWDIALOG_H

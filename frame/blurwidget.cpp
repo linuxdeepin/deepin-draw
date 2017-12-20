@@ -18,8 +18,8 @@ BlurWidget::BlurWidget(QWidget *parent)
 
     QSlider* lineWidthSlider = new QSlider(Qt::Horizontal);
     lineWidthSlider->setFixedWidth(120);
-    lineWidthSlider->setMinimum(20);
-    lineWidthSlider->setMaximum(160);
+    lineWidthSlider->setMinimum(10);
+    lineWidthSlider->setMaximum(80);
 
     connect(lineWidthSlider, &QSlider::valueChanged, this, [=](int val){
         ConfigSettings::instance()->setValue("blur", "index", val);

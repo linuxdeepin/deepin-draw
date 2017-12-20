@@ -41,7 +41,7 @@ public:
     void initShapes(QList<Toolshape> shapes);
 
 protected:
-    void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 
 private:
     TopToolbar* m_topToolbar;

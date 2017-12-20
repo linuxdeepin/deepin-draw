@@ -38,6 +38,7 @@ DrawDialog::DrawDialog(QWidget* parent)
     addContent(w);
 
     connect(this, &DrawDialog::buttonClicked, this, [=](int id){
+        qDebug() << "deepin-draw button clicked:" << id;
         if (id == 0)
         {
             this->close();

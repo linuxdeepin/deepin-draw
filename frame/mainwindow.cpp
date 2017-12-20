@@ -7,6 +7,7 @@
 
 #include "utils/configsettings.h"
 #include "utils/drawfile.h"
+#include "../application.h"
 
 #include <DTitlebar>
 
@@ -124,6 +125,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     qDebug() << "@Event:" << event->pos();
     m_topToolbar->updateColorPanelVisible(event->pos());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    emit dApp->popupConfirmDialog();
+    event->ignore();
 }
 
 MainWindow::~MainWindow()

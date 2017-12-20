@@ -81,7 +81,7 @@ void MainWidget::updateLayout()
     int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt() + MARGIN*2;
     int artboardWindowWidth, artboardWindowHeight;
 
-    if (artboardActualWidth == 0|| artboardActualHeight == 0)
+    if (artboardActualWidth == 0 || artboardActualHeight == 0)
     {
         QSize desktopSize = qApp->desktop()->size();
         artboardActualWidth = desktopSize.width();
