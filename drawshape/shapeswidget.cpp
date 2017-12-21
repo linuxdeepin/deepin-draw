@@ -543,7 +543,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedOrder = i;
 
             qDebug() << "currentOnShape" << i << m_selectedIndex
-                     << m_selectedOrder << m_shapes[i].type;
+                            << m_selectedOrder << m_shapes[i].type;
 
             onShapes = true;
             break;
@@ -1975,7 +1975,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                             break;
                         }
                     }
-
+                    updateMiddleWidgets("text");
                     qDebug() << "the textEdit index:" << index;
                 });
                 connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
@@ -2124,7 +2124,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
     m_isMoving = true;
 
     m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
-    qDebug() << "XXX" << m_imageCutting << m_isCutImageResize << m_resizeDirection << m_isPressed;
+
     if (m_imageCutting && m_isCutImageResize
             && m_resizeDirection == Moving && m_isPressed)
     {
@@ -2914,7 +2914,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             if (drawCutRect)
             {
                 paintShape(painter, drawShape);
-                qDebug() << "打快点快点.." << drawShape.type;
             }
         }
     } else
