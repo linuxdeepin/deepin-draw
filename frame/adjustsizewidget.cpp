@@ -66,7 +66,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
         int canvasHeight = m_heightLEdit->text().toInt();
         canvasHeight = std::min(500000, std::max(20, canvasHeight));
         m_heightLEdit->setText(QString("%1").arg(canvasHeight));
-        ConfigSettings::instance()->setValue("artboard", "width", canvasHeight);
+        ConfigSettings::instance()->setValue("artboard", "height", canvasHeight);
     });
     connect(m_heightLEdit, &FontsizeLineEdit::addSize, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
