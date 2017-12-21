@@ -408,18 +408,19 @@ FourPoints mainPointsOrder(FourPoints fourPoints) {
     mainFPoints = initFourPoints(mainFPoints);
 
     mainFPoints[0] = fourPoints[0];
-    for(int i = 1; i < fourPoints.length(); i++)
+    mainFPoints[3] = fourPoints[3];
+    for(int i = 0; i < fourPoints.length(); i++)
     {
         mainFPoints[0] = QPointF(
                     std::min(mainFPoints[0].x(), fourPoints[i].x()),
                     std::min(mainFPoints[0].y(), fourPoints[i].y()));
-        mainFPoints[1] = QPointF(mainFPoints[0].x(),
-                    std::max(mainFPoints[0].y(), fourPoints[i].y()));
-        mainFPoints[2] = QPointF(
-                    std::max(mainFPoints[0].x(), fourPoints[i].x()),
-                    mainFPoints[0].y());
-        mainFPoints[3] = QPointF(mainFPoints[2].x(), mainFPoints[1].y());
+
+        mainFPoints[3] = QPointF(
+                    std::max(mainFPoints[3].x(), fourPoints[i].x()),
+                    std::max(mainFPoints[3].y(), fourPoints[i].y()));
     }
+    mainFPoints[1] = QPointF(mainFPoints[0].x(), mainFPoints[3].y());
+    mainFPoints[2] = QPointF(mainFPoints[3].x(), mainFPoints[0].y());
 
     return mainFPoints;
 }

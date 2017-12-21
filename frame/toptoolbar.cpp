@@ -11,6 +11,7 @@
 #include <QStandardPaths>
 #include <QMenu>
 #include <QDebug>
+#include <QApplication>
 
 #include <DApplication>
 
@@ -29,7 +30,6 @@
 
 #include "controller/importer.h"
 
-#include <QApplication>
 DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget* parent)
