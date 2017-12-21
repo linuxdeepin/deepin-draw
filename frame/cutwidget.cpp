@@ -49,7 +49,11 @@ CutWidget::CutWidget(QWidget *parent)
     });
 
     connect(m_cutBtn, &PushButton::clicked, this, [=]{
-            emit cutImage();
+        emit cutImage();
+        m_leftRotateBtn->setDisabled(true);
+        m_rightRotateBtn->setDisabled(true);
+        m_flipHBtn->setDisabled(true);
+        m_flipVBtn->setDisabled(true);
     });
     connect(m_flipHBtn, &PushButton::clicked, this, [=]{
          emit mirroredImage(true, false);
@@ -84,9 +88,13 @@ void CutWidget::updateBtns(const QString &path)
         if (imageSupportSave(path)) {
             m_leftRotateBtn->setDisabled(false);
             m_rightRotateBtn->setDisabled(false);
+            m_flipHBtn->setDisabled(false);
+            m_flipVBtn->setDisabled(false);
         } else {
             m_leftRotateBtn->setDisabled(true);
             m_rightRotateBtn->setDisabled(true);
+            m_flipHBtn->setDisabled(true);
+            m_flipVBtn->setDisabled(true);
         }
     }
 
@@ -95,6 +103,10 @@ void CutWidget::updateBtns(const QString &path)
 void  CutWidget::cutImageBtnReset()
 {
     m_cutBtn->setChecked(false);
+    m_leftRotateBtn->setDisabled(false);
+    m_rightRotateBtn->setDisabled(false);
+    m_flipHBtn->setDisabled(false);
+    m_flipVBtn->setDisabled(false);
 }
 
 CutWidget::~CutWidget()

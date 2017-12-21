@@ -182,6 +182,7 @@ PushButton#LeftRotate {
     qproperty-hoverPic: url(:/theme/light/images/cut/rotate_left_hover.svg);
     qproperty-pressPic: url(:/theme/light/images/cut/rotate_left_active.svg);
     qproperty-checkedPic: url(:/theme/light/images/cut/rotate_left_active.svg);
+    qproperty-disablePic: url(:/theme/light/images/cut/rotate_left_disable.svg);
 }
 
 PushButton#RightRotate {
@@ -189,6 +190,7 @@ PushButton#RightRotate {
     qproperty-hoverPic: url(:/theme/light/images/cut/rotate_right_hover.svg);
     qproperty-pressPic: url(:/theme/light/images/cut/rotate_right_active.svg);
     qproperty-checkedPic: url(:/theme/light/images/cut/rotate_right_active.svg);
+    qproperty-disablePic: url(:/theme/light/images/cut/rotate_right_disable.svg);
 }
 
 PushButton#CutButton {
@@ -203,6 +205,7 @@ qproperty-normalPic: url(:/theme/light/images/cut/flip_horizontal_normal.svg);
 qproperty-hoverPic: url(:/theme/light/images/cut/flip_horizontal_hover.svg);
 qproperty-pressPic: url(:/theme/light/images/cut/flip_horizontal_active.svg);
 qproperty-checkedPic: url(:/theme/light/images/cut/flip_horizontal_active.svg);
+qproperty-disablePic: url(:/theme/light/images/cut/flip_horizontal_disable.svg);
 }
 
 PushButton#FlipVerticalBtn {
@@ -210,6 +213,7 @@ qproperty-normalPic: url(:/theme/light/images/cut/filp_vertical_normal.svg);
 qproperty-hoverPic: url(:/theme/light/images/cut/filp_vertical_hover.svg);
 qproperty-pressPic: url(:/theme/light/images/cut/filp_vertical_active.svg);
 qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.svg);
+qproperty-disablePic: url(:/theme/light/images/cut/filp_vertical_disable.svg);
 }
 
 PushButton#PickerBtn {
