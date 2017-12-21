@@ -30,6 +30,7 @@ const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
 const qreal WINDOW_SPACINT = 25;
 const qreal ARTBOARD_MARGIN = 2;
+const int PIC_SPACING = 20;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent)
@@ -3402,7 +3403,8 @@ void ShapesWidget::loadImage(QStringList paths)
                                               imageShape.imageSize.width(), m_startPos.y() +
                                               imageShape.imageSize.height());
             m_shapes.append(imageShape);
-            m_startPos = QPointF(m_startPos.x() + 5, m_startPos.y() + 5);
+            m_startPos = QPointF(m_startPos.x() + PIC_SPACING,
+                                                 m_startPos.y() + PIC_SPACING);
         }
     }
 

@@ -15,7 +15,8 @@ HEADERS += \
     $$PWD/dialog/drawdialog.h \
     $$PWD/dialog/dialog.h \
     $$PWD/dialog/savedialog.h \
-    $$PWD/arrowrectangle.h
+    $$PWD/arrowrectangle.h \
+    $$PWD/fontsizelineedit.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QLineEdit>
 
+#include "widgets/fontsizelineedit.h"
+
 class AdjustsizeWidget : public QWidget
 {
     Q_OBJECT
@@ -18,8 +20,8 @@ signals:
     void autoCrop();
 
 private:
-    QLineEdit* m_widthLEdit;
-    QLineEdit* m_heightLEdit;
+    FontsizeLineEdit* m_widthLEdit;
+    FontsizeLineEdit* m_heightLEdit;
 
     int m_artBoardWidth;
     int m_artBoardHeight;

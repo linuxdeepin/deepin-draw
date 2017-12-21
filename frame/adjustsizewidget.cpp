@@ -5,8 +5,6 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QDebug>
-#include <QIntValidator>
-#include <QRegExpValidator>
 
 #include "widgets/toolbutton.h"
 #include "utils/configsettings.h"
@@ -19,17 +17,11 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     casWidthLabel->setObjectName("CasWidthLabel");
     casWidthLabel->setText(tr("Width"));
 
-    m_widthLEdit = new QLineEdit(this);
+    m_widthLEdit = new FontsizeLineEdit(this);
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(80);
-    DIntValidator* validator = new DIntValidator(20, 500000, this );
 
-    m_widthLEdit->setValidator(validator);
-    connect(m_widthLEdit, &QLineEdit::textChanged, this, [=](const QString &text){
-         ConfigSettings::instance()->setValue("artboard", "width", QString(text).toInt());
-    });
 
-    m_widthLEdit->setStyleSheet("background-color: red;");
     QLabel* unitWLabel = new QLabel(this);
     unitWLabel->setText("px");
 
@@ -37,24 +29,54 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     casHeightLabel->setObjectName("CasHeightLabel");
     casHeightLabel->setText(tr("Height"));
 
-    m_heightLEdit = new QLineEdit(this);
+    m_heightLEdit = new FontsizeLineEdit(this);
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(80);
-    m_heightLEdit->setValidator(validator);
 
     int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
     int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 
-    if (canvasWidth == 0|| canvasHeight == 0)
+    if (canvasWidth == 0 || canvasHeight == 0)
     {
         QSize desktopSize = qApp->desktop()->size();
         canvasWidth = desktopSize.width();
         canvasHeight = desktopSize.height();
     }
+
     setCanvasSize(QSize(canvasWidth, canvasHeight));
 
-    connect(m_heightLEdit, &QLineEdit::textChanged, this, [=](const QString &text) {
-        ConfigSettings::instance()->setValue("artboard", "height", QString(text).toInt());
+    connect(m_widthLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
+        int canvasWidth = m_widthLEdit->text().toInt();
+        canvasWidth = std::min(500000, std::max(20, canvasWidth));
+        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
+        ConfigSettings::instance()->setValue("artboard", "width", canvasWidth);
+    });
+    connect(m_widthLEdit, &FontsizeLineEdit::addSize, this, [=]{
+        int canvasWidth = m_widthLEdit->text().toInt();
+        canvasWidth = std::min(500000, std::max(20, canvasWidth + 1));
+        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
+    });
+    connect(m_widthLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
+        int canvasWidth = m_widthLEdit->text().toInt();
+        canvasWidth = std::min(500000, std::max(20, canvasWidth - 1));
+        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
+    });
+
+    connect(m_heightLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
+        int canvasHeight = m_heightLEdit->text().toInt();
+        canvasHeight = std::min(500000, std::max(20, canvasHeight));
+        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
+        ConfigSettings::instance()->setValue("artboard", "width", canvasHeight);
+    });
+    connect(m_heightLEdit, &FontsizeLineEdit::addSize, this, [=]{
+        int canvasHeight = m_heightLEdit->text().toInt();
+        canvasHeight = std::min(500000, std::max(20, canvasHeight + 1));
+        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
+    });
+    connect(m_heightLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
+        int canvasHeight = m_heightLEdit->text().toInt();
+        canvasHeight = std::min(500000, std::max(20, canvasHeight - 1));
+        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
     });
 
     QLabel* unitHLabel = new QLabel(this);

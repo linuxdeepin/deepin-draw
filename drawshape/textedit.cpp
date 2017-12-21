@@ -14,18 +14,18 @@ const int TEXT_MARGIN = 10;
 
 TextEdit::TextEdit(int index, QWidget *parent)
     : QPlainTextEdit(parent),
-      m_textColor(Qt::red)
+      m_textColor(Qt::black)
 {
     m_index = index;
     setLineWrapMode(QPlainTextEdit::NoWrap);
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    int defaultColorIndex = 3;//ConfigSettings::instance()->value(
-                                               //"text", "color_index").toInt();
+    int defaultColorIndex = 3;
     QColor defaultColor = colorIndexOf(defaultColorIndex);
     setColor(defaultColor);
+
     QFont textFont;
-    int defaultFontSize = 12;//ConfigSettings::instance()->value("text", "fontsize").toInt();
+    int defaultFontSize = 12;
     textFont.setPixelSize(defaultFontSize);
     this->document()->setDefaultFont(textFont);
 
@@ -55,8 +55,9 @@ int TextEdit::getIndex()
 void TextEdit::setColor(QColor c)
 {
     m_textColor = c;
-    setStyleSheet(QString("TextEdit {background-color: transparent;"
-                                         "color: %1; border: none;}").arg(m_textColor.name()));
+    setStyleSheet(QString("TextEdit {"
+                                        "background-color: transparent;"
+                                        "color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
 
@@ -163,7 +164,7 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e)
     QPlainTextEdit::mouseReleaseEvent(e);
 }
 
-void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
+void TextEdit::mouseDoubleClickEvent(QMouseEvent* e)
 {
     this->setReadOnly(false);
     this->setCursorVisible(true);
@@ -171,7 +172,7 @@ void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
     QPlainTextEdit::mouseDoubleClickEvent(e);
 }
 
-void TextEdit::keyPressEvent(QKeyEvent *e)
+void TextEdit::keyPressEvent(QKeyEvent* e)
 {
     QPlainTextEdit::keyPressEvent(e);
     if (e->key() == Qt::Key_Escape && !this->isReadOnly()) {
