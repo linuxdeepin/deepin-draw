@@ -233,10 +233,12 @@ void TopToolbar::importImage()
     dialog.setNameFilter(selfilter);
     dialog.selectNameFilter(selfilter);
 
-    if (dialog.exec())
+    if (dialog.exec() == QFileDialog::Accepted)
     {
         m_paths = dialog.selectedFiles();
+        qDebug() << "load image succeed!";
     } else {
+        m_paths = QStringList();
         qDebug() << "load image failed!";
     }
 
