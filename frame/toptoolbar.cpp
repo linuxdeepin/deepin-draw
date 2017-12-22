@@ -111,6 +111,15 @@ TopToolbar::TopToolbar(QWidget* parent)
     m_layout->addSpacing(20);
     this->setLayout(m_layout);
 
+    foreach(PushButton* button, actionPushButtons)
+    {
+        connect(button, &PushButton::clicked, this, [=]{
+            if (m_cutWidget->cuttingStatus())
+            {
+                m_cutWidget->cutImageBtnReset();
+            }
+        });
+    }
     connect(picBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -122,16 +131,13 @@ TopToolbar::TopToolbar(QWidget* parent)
     connect(this, &TopToolbar::resetPicBtn, this, [=]{
         picBtn->setChecked(false);
     });
-
     connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
-
     connect(this, &TopToolbar::drawShapeChanged, this, [=](QString shape){
         if (shape == "image" && !picBtn->isChecked())
         {
             picBtn->setChecked(true);
         }
     });
-
     connect(m_rectBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -141,7 +147,6 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(MiddleWidgetStatus::FillShape);
         drawShapes("rectangle");
     });
-
     connect(m_ovalBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -151,7 +156,6 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(MiddleWidgetStatus::FillShape);
         drawShapes("oval");
     });
-
     connect(m_lineBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -166,7 +170,6 @@ TopToolbar::TopToolbar(QWidget* parent)
         default: drawShapes("arrow"); break;
         }
     });
-
     connect(m_textBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -176,7 +179,6 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(MiddleWidgetStatus::DrawText);
         drawShapes("text");
     });
-
     connect(m_blurBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -186,14 +188,11 @@ TopToolbar::TopToolbar(QWidget* parent)
         setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
         drawShapes("blur");
     });
-
     connect(this, &TopToolbar::updateSelectedBtn, this, [=](bool checked){
-        qDebug() << "LLLL";
         if (checked) {
             emit selectBtn->clicked();
         }
     });
-
     connect(selectBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -205,7 +204,6 @@ TopToolbar::TopToolbar(QWidget* parent)
 
         drawShapes("selected");
     });
-
     connect(artBoardBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)
         {
@@ -214,9 +212,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         artBoardBtn->setChecked(true);
         setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
     });
-
     connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
-
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
 
@@ -367,6 +363,7 @@ void TopToolbar::updateMiddleWidget(QString type)
     {
         emit updateSelectedBtn(true);
         setMiddleStackWidget(MiddleWidgetStatus::Cut);
+        m_cutWidget->cutImageBtnReset();
     } else if (type == "rectangle" || type == "oval")
     {
         setMiddleStackWidget(MiddleWidgetStatus::FillShape);

@@ -109,6 +109,11 @@ void  CutWidget::cutImageBtnReset()
     m_flipVBtn->setDisabled(false);
 }
 
+bool CutWidget::cuttingStatus()
+{
+    return m_cutBtn->isChecked();
+}
+
 CutWidget::~CutWidget()
 {
 }

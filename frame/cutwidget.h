@@ -20,6 +20,7 @@ signals:
 public slots:
     void  updateBtns(const QString &path);
     void  cutImageBtnReset();
+    bool cuttingStatus();
 
 private:
     PushButton* m_leftRotateBtn;
