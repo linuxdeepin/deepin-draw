@@ -53,7 +53,7 @@ signals:
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
 
-public slots:
+public:
     void autoCrop();
     void clearSelected();
     void cutImage();
@@ -81,6 +81,9 @@ public slots:
     void saveImage();
     void printImage();
     void updateCanvasSize();
+    void updateShapeAttribute();
+    void updateToSelectedShapeAttribute(const QString &group, const QString &key,
+                                        QVariant var);
 
     void updateSelectedShape(const QString &group, const QString &key);
     void setShapes(QList<Toolshape> shapes);

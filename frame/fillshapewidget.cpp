@@ -15,7 +15,7 @@
 FillshapeWidget::FillshapeWidget(QWidget *parent)
     : QWidget(parent)
 {
-    BigColorButton* fillBtn = new BigColorButton(this);
+    BigColorButton* fillBtn = new BigColorButton("common", this);
     QLabel* fillLabel = new QLabel(this);
     fillLabel->setText(tr("Fill"));
 

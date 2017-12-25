@@ -38,6 +38,9 @@ public:
     ~ColorPanel();
 
     void updateColorButtonStatus();
+    void updateColorBtnByWidget(const QString &group, const QString &key);
+    void updateConfigByWidget(const QString &group, const QString &key,
+                              QColor color);
 
     void setColor(QColor color);
     void setDrawStatus(DrawStatus status);

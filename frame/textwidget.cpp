@@ -12,7 +12,7 @@
 TextWidget::TextWidget(QWidget *parent)
     : QWidget(parent)
 {
-    BigColorButton* fillBtn = new BigColorButton(this);
+    BigColorButton* fillBtn = new BigColorButton("text", this);
     QColor color = QColor(ConfigSettings::instance()->value(
                         "text", "fillColor").toString());
     fillBtn->setColor(color);

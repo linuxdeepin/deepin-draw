@@ -60,7 +60,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
             this, &ShapesWidget::updateSelectedShape);
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
             this, [=](const QString &group, const QString &key){
-        Q_UNUSED(key);
         if (group == "artboard")
         {
             updateCanvasSize();
@@ -128,28 +127,10 @@ void ShapesWidget::initAttribute()
     m_startPos = QPointF(ARTBOARD_MARGIN, ARTBOARD_MARGIN);
     initCanvasSize();
 
-    m_penColor = QColor(ConfigSettings::instance()->value(
-                            "common", "strokeColor").toString());
-
-    int penAlpha = ConfigSettings::instance()->value("common", ""
-                                                               "strokeColor_alpha").toInt();
-    qreal value = qreal(penAlpha)/100*255;
-    m_penColor = QColor(m_penColor.red(), m_penColor.green(),
-                        m_penColor.blue(), int(value));
-
-    m_brushColor = QColor(ConfigSettings::instance()->value(
-                              "common", "fillColor").toString());
-    int brushAlpha = ConfigSettings::instance()->value("common",
-                                                       "fillColor_alpha").toInt();
-    value = qreal(brushAlpha)/100*255;
-    m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
-                          m_brushColor.blue(), int(value));
-    qDebug() << "initAttribute:" << m_brushColor;
-    m_textFontsize = ConfigSettings::instance()->value("text",
-                                                       "fontsize").toInt();
-
-    m_linewidth = ConfigSettings::instance()->value(
-                "common", "lineWidth").toInt();
+    m_penColor =  QColor(Qt::blue);
+    m_brushColor = QColor(Qt::blue);
+    m_textFontsize = 12;
+    m_linewidth = 4;
 
     installEventFilter(this);
 }
@@ -223,29 +204,58 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             colorAlpha = ConfigSettings::instance()->value("common",
                                                            "strokeColor_alpha").toInt();
             qreal value = qreal(colorAlpha)/qreal(100)*255;
-
-            m_penColor = QColor(ConfigSettings::instance()->value(
-                                    "common", "strokeColor").toString());
-            m_penColor = QColor(m_penColor.red(), m_penColor.green(),
-                                m_penColor.blue(), int(value));
+            bool transColBtnChecked = ConfigSettings::instance()->value(
+                        "common", "strokeColor_transparent").toBool();
+            if (transColBtnChecked)
+            {
+                m_penColor = QColor(Qt::transparent);
+            } else {
+                m_penColor = QColor(ConfigSettings::instance()->value(
+                                        "common", "strokeColor").toString());
+                m_penColor = QColor(m_penColor.red(), m_penColor.green(),
+                                    m_penColor.blue(), int(value));
+            }
         } else if (key == "fillColor" || key == "fillColor_alpha") {
             colorAlpha = ConfigSettings::instance()->value("common",
                                                            "fillColor_alpha").toInt();
             qreal value = qreal(colorAlpha)/qreal(100)*255;
-
-            m_brushColor = QColor(ConfigSettings::instance()->value(
-                                      "common", "fillColor").toString());
-            m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
-                                  m_brushColor.blue(), int(value));
+            bool transColBtnChecked = ConfigSettings::instance()->value(
+                        "common", "fillColor_transparent").toBool();
+            if (transColBtnChecked)
+            {
+                m_brushColor = QColor(Qt::transparent);
+            } else {
+                m_brushColor = QColor(ConfigSettings::instance()->value(
+                                          "common", "fillColor").toString());
+                m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
+                                      m_brushColor.blue(), int(value));
+            }
         } else if (key == "lineWidth") {
             m_linewidth = ConfigSettings::instance()->value(
-                                     "common", "lineWidth").toInt();
+                        "common", "lineWidth").toInt();
         }
     } else if (group == "line" && key == "style") {
         setLineStyle(ConfigSettings::instance()->value("line", "style").toInt());
     } else if (group == "blur" && key == "index") {
         m_blurLinewidth = ConfigSettings::instance()->value(
-                    "blur", "index").toInt();
+            "blur", "index").toInt();
+    } else if (group == "text") {
+        if (key == "fillColor" || key == "fillColor_alpha" || key == "fillColor_transparent")
+        {
+            bool transColBtnChecked = ConfigSettings::instance()->value("text",
+                                                                        "fillColor_transparent").toBool();
+            QColor brushCol = QColor(ConfigSettings::instance()->value("text",
+                                                                       "fillColor").toString());
+            int brushColAlpha = ConfigSettings::instance()->value("text",
+                                                                  "fillColor_alpha").toInt();
+            if (transColBtnChecked)
+            {
+                m_brushColor = QColor(Qt::transparent);
+            } else {
+                m_brushColor = QColor(brushCol.red(), brushCol.green(), brushCol.blue(),
+                                    qreal(brushColAlpha)/qreal(100)*255  );
+            }
+        }
     }
 
     bool updateSelectedShape = false;
@@ -264,21 +274,17 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             }
         } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
             if (m_shapes[m_selectedOrder].type == "text") {
+                qDebug() << "updateSelectedShape..." << m_selectedOrder
+                                << m_shapes[m_selectedOrder].index
+                                << m_textFontsize;
                 int tmpIndex = m_shapes[m_selectedOrder].index;
                 if (m_editMap.contains(tmpIndex)) {
-                    m_editMap.value(tmpIndex)->setColor(QColor(
-                        ConfigSettings::instance()->value("text", "fillColor").toString()));
+                    qDebug() << "tmpIndex:" << tmpIndex;
+                    m_editMap.value(tmpIndex)->setColor(m_brushColor);
+                    m_editMap.value(tmpIndex)->setFontSize(m_textFontsize);
                     m_editMap.value(tmpIndex)->update();
                     updateSelectedShape = true;
                 }
-            }
-            int tmpIndex = m_shapes[m_selectedOrder].index;
-            if (m_editMap.contains(tmpIndex)) {
-                int newFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
-                m_editMap.value(tmpIndex)->setFontSize(newFontSize);
-                m_editMap.value(tmpIndex)->update();
-                m_shapes[m_selectedOrder].fontSize = newFontSize;
-                updateSelectedShape = true;
             }
         }
     }
@@ -325,9 +331,7 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     }
 
     m_currentType = shapeType;
-
-    qDebug() << "setCurrentShape:" << shapeType
-                    << m_cutImageOrder   << m_selectedOrder;
+    updateShapeAttribute();
 }
 
 void ShapesWidget::setPenColor(QColor color)
@@ -470,10 +474,23 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             {
                 currentOnShape = true;
 
-                ConfigSettings::instance()->setValue("common", "fillColor",
-                                                     m_shapes[i].fillColor.name(QColor::HexRgb));
-                ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
+                if (m_shapes[i].fillColor == QColor(Qt::transparent))
+                {
+                    updateToSelectedShapeAttribute("common", "fillColor_transparent", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "fillColor",
+                                                   m_shapes[i].fillColor.name(QColor::HexRgb));
+                }
+
+                if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                {
+                    ConfigSettings::instance()->setValue("common",
+                                                         "strokeColor_transparent", true);
+                    updateToSelectedShapeAttribute("common", "strokeColor", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "strokeColor",
+                                                   m_shapes[i].strokeColor.name(QColor::HexRgb));
+                }
             } else
             {
                 qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
@@ -493,10 +510,23 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             {
                 currentOnShape = true;
 
-                ConfigSettings::instance()->setValue("common", "fillColor",
-                                                     m_shapes[i].fillColor.name(QColor::HexRgb));
-                ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
+                if (m_shapes[i].fillColor == QColor(Qt::transparent))
+                {
+                    updateToSelectedShapeAttribute("common", "fillColor_transparent", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "fillColor",
+                                                   m_shapes[i].fillColor.name(QColor::HexRgb));
+                }
+
+                if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                {
+                    ConfigSettings::instance()->setValue("common",
+                                                         "strokeColor_transparent", true);
+                    updateToSelectedShapeAttribute("common", "strokeColor", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "strokeColor",
+                                                   m_shapes[i].strokeColor.name(QColor::HexRgb));
+                }
             }
         }
         if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine")
@@ -505,8 +535,15 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             {
                 currentOnShape = true;
 
-                ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
+                if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                {
+                    ConfigSettings::instance()->setValue("common",
+                                                         "strokeColor_transparent", true);
+                    updateToSelectedShapeAttribute("common", "strokeColor", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "strokeColor",
+                                                   m_shapes[i].strokeColor.name(QColor::HexRgb));
+                }
             }
         }
         if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
@@ -515,8 +552,15 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             {
                 currentOnShape = true;
 
-                ConfigSettings::instance()->setValue("common", "strokeColor",
-                                                     m_shapes[i].strokeColor.name(QColor::HexRgb));
+                if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                {
+                    ConfigSettings::instance()->setValue("common",
+                                                         "strokeColor_transparent", true);
+                    updateToSelectedShapeAttribute("common", "strokeColor", true);
+                } else {
+                    updateToSelectedShapeAttribute("common", "strokeColor",
+                                                   m_shapes[i].strokeColor.name(QColor::HexRgb));
+                }
             }
         }
         if (m_shapes[i].type == "text")
@@ -524,6 +568,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             if (clickedOnText(m_shapes[i].mainPoints, pos))
             {
                 currentOnShape = true;
+                qDebug() << "clickedOnShapes ### text!!!" << i;
             }
         }
 
@@ -1865,8 +1910,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_isPressed = true;
         if (m_shapes.length() == 0)
         {
-            m_canvasSideLength = std::max(
-                m_artBoardActualWidth, m_artBoardActualHeight);
+            m_canvasSideLength = std::max(m_artBoardActualWidth,
+                                          m_artBoardActualHeight);
         }
 
         m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
@@ -1945,11 +1990,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     m_editing = true;
                     m_currentShape.fontSize =  m_textFontsize;
                     edit->setFocus();
-                    edit->setColor(m_currentShape.fillColor);
+                    edit->setColor(m_brushColor);
                     edit->setFontSize(m_textFontsize);
                     edit->move(m_pressedPoint.x(), m_pressedPoint.y());
                     edit->show();
-
                     m_currentShape.mainPoints[0] = m_pressedPoint;
                     m_currentShape.mainPoints[1] = QPointF(
                         m_pressedPoint.x(), m_pressedPoint.y() + edit->height());
@@ -1966,19 +2010,28 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                         for (int k = 0; k < m_shapes.length(); k++) {
                             if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                                qDebug() << "TextEdit selected!!!!:" << index << k;
-                                m_selectedOrder = index;
+                                qDebug() << "TextEdit selected!!!!:" << index << k << edit->fontSize();
+                                m_selectedOrder = k;
                                 m_selectedShape = m_shapes[k];
+                                m_textFontsize = edit->fontSize();
+                                if (edit->getTextColor() == QColor(Qt::transparent))
+                                {
+                                    updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
+                                } else {
+                                    updateToSelectedShapeAttribute("text", "fillColor", edit->getTextColor().name(QColor::HexRgb));
+                                }
+                                updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
                                 break;
                             }
                         }
+
+
                         updateMiddleWidgets("text");
-                        qDebug() << "the textEdit index:" << index;
+                        qDebug() << "the textEdit index:" << m_selectedOrder << edit->getIndex();
                     });
                     connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
                         m_menu->popup(this->cursor().pos());
                     });
-
                     m_shapes.append(m_currentShape);
                     qDebug() << "Insert text shape:" << m_currentShape.index;
                 } else {
@@ -1995,6 +2048,12 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
+//                m_shapes.append(m_currentShape);
+//                qDebug() << "Insert text shape:" << m_currentShape.index;
+//            } else {
+//                m_editing = false;
+//                m_selectedOrder = -1;
+//                setAllTextEditReadOnly();
             }
         }
 
@@ -3544,6 +3603,56 @@ void ShapesWidget::updateCanvasSize()
         m_needCompress = true;
         compressToImage();
     }
+}
+
+void ShapesWidget::updateShapeAttribute()
+{
+    qDebug() << "updateShapeAttribute currentType:" << m_currentType;
+    if (m_currentType == "text")
+    {
+        m_textFontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
+        bool textTrans = ConfigSettings::instance()->value("text", "fillColor_transparent").toBool();
+        if (textTrans)
+        {
+            m_brushColor = QColor(Qt::transparent);
+        } else {
+            QColor color = QColor(ConfigSettings::instance()->value("text",
+                                                             "fillColor").toString());
+            int alpha = ConfigSettings::instance()->value("text",
+                                                          "fillColor_alpha").toInt();
+            m_brushColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+        }
+    }  else if (m_currentType == "blur")
+    {
+        m_linewidth = ConfigSettings::instance()->value("blur", "index").toInt();
+    } else {
+        bool needTrans = ConfigSettings::instance()->value("common",
+                                                           "fillColor_transparent").toBool();
+        QColor color;
+        int alpha;
+        if (needTrans)
+            m_brushColor = QColor(Qt::transparent);
+        else {
+            color = QColor(ConfigSettings::instance()->value("common",
+                                                             "fillColor").toString());
+            alpha = ConfigSettings::instance()->value("common",
+                                                          "fillColor_alpha").toInt();
+            m_brushColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+        }
+
+        color = QColor(ConfigSettings::instance()->value("common",
+                                                         "strokeColor").toString());
+        alpha = ConfigSettings::instance()->value("common",
+                                                  "strokeColor_alpha").toInt();
+        m_penColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+        m_linewidth = ConfigSettings::instance()->value("common", "lineWidth").toInt();
+    }
+}
+
+void ShapesWidget::updateToSelectedShapeAttribute(const QString &group, const QString &key,
+                                                  QVariant var)
+{
+    ConfigSettings::instance()->setValue(group, key, var);
 }
 
 QList<QPixmap> ShapesWidget::saveCanvasImage()

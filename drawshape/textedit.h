@@ -13,6 +13,9 @@ public:
     TextEdit(int index, QWidget* parent);
     ~TextEdit();
 
+    const QColor getTextColor();
+    int fontSize();
+
 public slots:
     void setColor(QColor c);
     int getIndex();
@@ -39,6 +42,7 @@ protected:
 
 private:
     int m_index;
+    int m_fontSize;
     QColor m_textColor;
     QPainter* m_painter;
 

@@ -20,14 +20,18 @@ ConfigSettings::ConfigSettings(QObject *parent)
     {
         setValue("artboard", "width", canvasSize.width());
         setValue("artboard", "height", canvasSize.height());
+        setValue("common", "strokeColor_transparent", false);
         setValue("common", "strokeColor_alpha", 100);
-        setValue("common", "fillColor_alpha", 0);
         setValue("common", "strokeColor", "#dddddd");
-        setValue ("common", "fillColor",  "#000000");
+
+        setValue("common", "fillColor_transparent", true);
+        setValue("common", "fillColor_alpha", 100);
+        setValue("common", "fillColor",  "#000000");
         setValue("common", "lineWidth", 2);
 
         setValue("line", "style", 1);
         setValue("text", "fontsize", 12);
+        setValue("text", "fillColor_transparent", false);
         setValue("text", "fillColor", "#000000");
         setValue("text", "fillColor_alpha", 100);
         setValue("blur", "index", 20);
@@ -57,9 +61,10 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
     m_settings->endGroup();
     m_settings->sync();
 
-    emit configChanged(group, key);
+    if (key == "strokeColor")
+        qDebug() << "config settings update:" << group << key << val;
 
-    qDebug() << "config settings update:" << group << key << val;
+    emit configChanged(group, key);
 }
 
 QVariant ConfigSettings::value(const QString &group, const QString &key,

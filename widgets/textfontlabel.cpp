@@ -28,6 +28,14 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     m_fontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     fontEdit->setText(QString("%1").arg(m_fontsize));
 
+   connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this, [=](
+           const QString &group, const QString &key){
+           if (group == "text" && key == "fontsize")
+           {
+                m_fontsize = ConfigSettings::instance()->value(group, key).toInt();
+                fontEdit->setText(QString("%1").arg(m_fontsize));
+           }
+   });
     connect(fontEdit, &QLineEdit::editingFinished, this, [=]{
         int fontSize = fontEdit->text().toInt();
         fontSize = std::max(8, fontSize);

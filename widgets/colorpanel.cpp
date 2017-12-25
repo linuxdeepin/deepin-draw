@@ -25,7 +25,6 @@ ColorButton::ColorButton(const QColor &color, QWidget *parent)
     setCheckable(true);
 
     connect(this, &ColorButton::clicked, this, [=]{
-        qDebug() << "ColorButton:" << m_color << m_disable;
         if (m_disable)
         {
             qDebug() << "ColorButton currentColor transparent.";
@@ -123,14 +122,16 @@ ColorPanel::ColorPanel(QWidget *parent)
     m_sliderLabel = new SliderLabel("Alpha", m_drawstatus, this);
     m_sliderLabel->setFixedHeight(25);
     connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [=](int value){
-        ConfigSettings::instance()->setValue("common", "alpha", value);
-
-        if (m_drawstatus == DrawStatus::Stroke)
+        if (m_widgetStatus != MiddleWidgetStatus::DrawText)
         {
-            ConfigSettings::instance()->setValue("common", "strokeColor_alpha", value);
-        } else
-        {
-            ConfigSettings::instance()->setValue("common", "fillColor_alpha", value);
+            if (m_drawstatus == DrawStatus::Stroke)
+            {
+                ConfigSettings::instance()->setValue("common", "strokeColor_alpha", value);
+            } else {
+                ConfigSettings::instance()->setValue("common", "fillColor_alpha", value);
+            }
+        } else {
+            ConfigSettings::instance()->setValue("text", "fillColor_alpha", value);
         }
     });
 
@@ -220,10 +221,12 @@ void ColorPanel::setDrawStatus(DrawStatus status)
     QString colorName;
     if (m_drawstatus == DrawStatus::Stroke)
     {
-        colorName = ConfigSettings::instance()->value("common", "strokeColor").toString();
+        colorName = ConfigSettings::instance()->value("common",
+                                                      "strokeColor").toString();
     } else
     {
-        colorName = ConfigSettings::instance()->value("common", "fillColor").toString();
+        colorName = ConfigSettings::instance()->value("common",
+                                                      "fillColor").toString();
     }
     m_editLabel->setEditText(colorName);
     m_sliderLabel->updateDrawStatus(m_drawstatus);
@@ -232,35 +235,33 @@ void ColorPanel::setDrawStatus(DrawStatus status)
 void ColorPanel::setConfigColor(QColor color)
 {
     m_editLabel->setEditText(color.name());
-    if (m_drawstatus == DrawStatus::Stroke)
+    if (m_widgetStatus != MiddleWidgetStatus::DrawText)
     {
-        if (color == QColor(Qt::transparent))
+        if (m_drawstatus == DrawStatus::Stroke)
         {
-            ConfigSettings::instance()->setValue("common", "strokeColor", QColor("#000000"));
-            ConfigSettings::instance()->setValue("common", "strokeColor_alpha", 0);
-            m_sliderLabel->setAlpha(0);;
+            qDebug() << "setConfigColor" << color.name();
+            updateConfigByWidget("common", "strokeColor", color);
         } else {
-            ConfigSettings::instance()->setValue("common", "strokeColor", color.name(QColor::HexRgb));
-            m_sliderLabel->setAlpha(100);;
+            updateConfigByWidget("common", "fillColor", color);
         }
-    } else
+    } else {
+        updateConfigByWidget("text", "fillColor", color);
+    }
+}
+
+void ColorPanel::updateConfigByWidget(const QString &group,
+                                      const QString &key, QColor color)
+{
+    if (color ==  QColor(Qt::transparent))
     {
-        if (m_widgetStatus == MiddleWidgetStatus::DrawText)
-        {
-            ConfigSettings::instance()->setValue("text", "fillColor",  color.name(QColor::HexRgb));
-            m_sliderLabel->setAlpha(100);
-        } else
-        {
-            if (color == QColor(Qt::transparent))
-            {
-                ConfigSettings::instance()->setValue("text", "fillColor", QColor("#000000"));
-                ConfigSettings::instance()->setValue("text", "fillColor_alpha", 0);
-                m_sliderLabel->setAlpha(0);;
-            } else {
-                ConfigSettings::instance()->setValue("common", "fillColor",  color.name(QColor::HexRgb));
-                m_sliderLabel->setAlpha(100);
-            }
-        }
+        ConfigSettings::instance()->setValue(group,
+                                             QString("%1_transparent").arg(key), true);
+    } else {
+        ConfigSettings::instance()->setValue(group,
+                                             QString("%1_transparent").arg(key), false);
+        ConfigSettings::instance()->setValue(group, key,  color.name());
+        qDebug() << "updateCofigByWidget:" << group << key << color.name();
+        m_sliderLabel->setAlpha(100);
     }
 }
 
@@ -269,51 +270,38 @@ void ColorPanel::setMiddleWidgetStatus(MiddleWidgetStatus status)
     m_widgetStatus = status;
 }
 
-
 void ColorPanel::updateColorButtonStatus()
 {
-    if (m_drawstatus == DrawStatus::Stroke)
+    if (m_widgetStatus != MiddleWidgetStatus::DrawText)
     {
-        int colorAlpha = ConfigSettings::instance()->value("common",
-                                                           "strokeColor_alpha").toInt();
-        if (colorAlpha == 0)
+        if (m_drawstatus == DrawStatus::Stroke)
         {
-            m_cButtonList[0]->setChecked(true);
+            updateColorBtnByWidget("common", "strokeColor");
         } else {
-            QString colorName = ConfigSettings::instance()->value(
-                        "common", "strokeColor").toString();
-            if (m_colList.contains(colorName))
-            {
-                m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
-            } else {
-                resetColorButtons();
-            }
+            updateColorBtnByWidget("common", "fillColor");
         }
-    } else
-    {
-          int colorAlpha = ConfigSettings::instance()->value("common",
-                                                             "fillColor_alpha").toInt();
-          if (colorAlpha == 0)
-          {
-              m_cButtonList[0]->setChecked(true);
-          } else
-          {
-              QString colorName;
-              if (m_widgetStatus != MiddleWidgetStatus::DrawText)
-              {
-                  colorName = ConfigSettings::instance()->value("common", "fillColor").toString();
-              } else
-              {
-                  colorName = ConfigSettings::instance()->value("text", "fillColor").toString();
-              }
+    } else {
+        updateColorBtnByWidget("text", "fillColor");
+    }
+}
 
-              if (m_colList.contains(colorName))
-              {
-                  m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
-              } else {
-                  resetColorButtons();
-              }
-          }
+void ColorPanel::updateColorBtnByWidget(const QString &group,
+                                        const QString &key)
+{
+    bool transColorBtnChecked = ConfigSettings::instance()->value(
+                group, QString("%1_transparent").arg(key)).toBool();
+    if (transColorBtnChecked)
+    {
+        m_cButtonList[0]->setChecked(true);
+    } else {
+        const QString colorName = ConfigSettings::instance()->value(group,
+                                                                    QString("%1").arg(key)).toString();
+        if (m_colList.contains(colorName))
+        {
+            m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
+        } else {
+            resetColorButtons();
+        }
     }
 }
 

@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     ConfigSettings::instance()->setValue("artboard", "height", desktopSize.height());
 
     setMinimumSize(WINDOW_MINISIZR);
-
     m_topToolbar = new TopToolbar(this);
 
     m_titlebarWidth = titlebar()->buttonAreaWidth();

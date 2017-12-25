@@ -9,19 +9,37 @@ const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
 const QPoint CENTER_POINT = QPoint(12, 12);
 
-BigColorButton::BigColorButton(QWidget *parent)
+BigColorButton::BigColorButton(const QString &group, QWidget *parent)
     : QPushButton(parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
     setFixedSize(24, 24);
     setCheckable(false);
+    m_group = group;
 
-    m_color = QColor(ConfigSettings::instance()->value(
+    if (group == "common")
+    {
+        bool transColBtnChecked = ConfigSettings::instance()->value(
+                    "common", "fillColor_transparent").toBool();
+        if (transColBtnChecked)
+        {
+            m_color = QColor(Qt::transparent);
+        } else {
+            m_color = QColor(ConfigSettings::instance()->value(
                         "common", "fillColor").toString());
-    int alpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
-    if (alpha == 0)
-        m_color = QColor(Qt::transparent);
+        }
+    } else {
+        bool transColBtnChecked = ConfigSettings::instance()->value(
+                    "text", "fillColor_transparent").toBool();
+        if (transColBtnChecked)
+        {
+            m_color = QColor(Qt::transparent);
+        } else {
+            m_color = QColor(ConfigSettings::instance()->value(
+                        "text", "fillColor").toString());
+        }
+    }
 
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
                   this, &BigColorButton::updateConfigColor);
@@ -30,14 +48,22 @@ BigColorButton::BigColorButton(QWidget *parent)
 void BigColorButton::updateConfigColor(const QString &group,
                                                                             const QString &key)
 {
-    if (group == "common" && (key == "fillColor" || key == "fillColor_alpha"))
+    if (group == m_group && (key == "fillColor" || key == "fillColor_alpha"
+                             || key == "fillColor_transparent"))
     {
-
+        qDebug() << "updateConfigColor......" << key;
         m_color = QColor(ConfigSettings::instance()->value(
-                            group, "fillColor").toString());
-        int alpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
-        if (alpha == 0)
+                            m_group, "fillColor").toString());
+
+        bool transColBtnChecked = ConfigSettings::instance()->value(m_group,
+                                                                    "fillColor_transparent").toBool();
+        if (transColBtnChecked)
             m_color = QColor(Qt::transparent);
+        else {
+            m_color = QColor(ConfigSettings::instance()->value(
+                       m_group, "fillColor").toString());
+        }
+
         update();
     }
 }

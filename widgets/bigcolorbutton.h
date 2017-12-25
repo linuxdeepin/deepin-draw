@@ -11,7 +11,7 @@ class BigColorButton : public QPushButton
 {
     Q_OBJECT
 public:
-    BigColorButton(QWidget* parent = 0);
+    BigColorButton(const QString &group, QWidget* parent = 0);
     ~BigColorButton();
 
     void setColor(QColor color);
@@ -32,6 +32,8 @@ private:
     QColor m_color;
     bool m_isHover;
     bool m_isChecked;
+
+    QString m_group;
 };
 
 #endif // BIGCOLORBUTTON_H

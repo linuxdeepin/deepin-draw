@@ -17,26 +17,31 @@ BorderColorButton::BorderColorButton(QWidget *parent)
 {
     setFixedSize(24, 24);
     setCheckable(false);
-     m_color = QColor(ConfigSettings::instance()->value("common", "strokeColor").toString());
-     int alpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
-     if (alpha == 0)
-         m_color = QColor(Qt::transparent);
-
+    m_color = QColor(ConfigSettings::instance()->value("common", "strokeColor").toString());
+    qDebug() << "^^^^" << m_color.name();
     update();
 
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-            &BorderColorButton::updateConfigColor);
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
+            this, &BorderColorButton::updateConfigColor);
 }
 
 void BorderColorButton::updateConfigColor(const QString &group,
                                                                                    const QString &key)
 {
-    if (group == "common" && key == "strokeColor" || key == "strokeColor_alpha")
+    if (group == "common" && (key == "strokeColor" || "strokeColor_transparent"))
     {
         m_color = QColor(ConfigSettings::instance()->value(group,  "strokeColor").toString());
-        int alpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
-        if (alpha == 0)
+        bool transColBtnChecked = ConfigSettings::instance()->value(group,
+            "strokeColor_transparent").toBool();
+
+        if (transColBtnChecked)
+        {
             m_color = QColor(Qt::transparent);
+        } else {
+            m_color = QColor(ConfigSettings::instance()->value(group,
+                                                               "strokeColor").toString());
+        }
+
         update();
     }
 }
@@ -53,7 +58,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     painter.setPen(Qt::transparent);
 
     QColor drawColor = m_color;
-
+    qDebug() << "~~~~~~~" << drawColor.name();
     if (m_isChecked || m_isHover)
     {
         painter.setBrush(QBrush(QColor(0, 0, 0, 25)));

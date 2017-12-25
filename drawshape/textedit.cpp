@@ -25,8 +25,8 @@ TextEdit::TextEdit(int index, QWidget *parent)
     setColor(defaultColor);
 
     QFont textFont;
-    int defaultFontSize = 12;
-    textFont.setPixelSize(defaultFontSize);
+    m_fontSize = 12;
+    textFont.setPixelSize(m_fontSize);
     this->document()->setDefaultFont(textFont);
 
     QTextCursor cursor = textCursor();
@@ -47,6 +47,16 @@ TextEdit::TextEdit(int index, QWidget *parent)
     });
 }
 
+const QColor TextEdit::getTextColor()
+{
+    return m_textColor;
+}
+
+int TextEdit::fontSize()
+{
+    return m_fontSize;
+}
+
 int TextEdit::getIndex()
 {
     return m_index;
@@ -55,16 +65,17 @@ int TextEdit::getIndex()
 void TextEdit::setColor(QColor c)
 {
     m_textColor = c;
-    setStyleSheet(QString("TextEdit {"
-                                        "background-color: transparent;"
-                                        "color: %1; border: none;}").arg(m_textColor.name()));
+    setStyleSheet(QString("TextEdit {background-color: transparent;"
+        "color: rgba(%1, %2, %3, %4); border: none;}").arg(m_textColor.red()
+        ).arg(m_textColor.green()).arg(m_textColor.blue()).arg(m_textColor.alpha()));
     this->updateGeometry();
 }
 
 void TextEdit::setFontSize(int fontsize)
 {
+    m_fontSize = fontsize;
     QFont font;
-    font.setPixelSize(fontsize);
+    font.setPixelSize(m_fontSize);
     this->document()->setDefaultFont(font);
     this->updateGeometry();
 
