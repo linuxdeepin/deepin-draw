@@ -400,6 +400,18 @@ void ShapesWidget::setAllTextEditReadOnly()
     }
     m_editing = false;
 
+    for(int k = 0; k < m_shapes.length(); k++)
+    {
+        if (m_shapes[k].type == "text" && m_editMap.value(
+                    m_shapes[k].index)->toPlainText().isEmpty())
+        {
+            int textIndex = m_shapes[k].index;
+            m_shapes.removeAt(k);
+            delete m_editMap.value(textIndex);
+            m_editMap.remove(textIndex);
+        }
+    }
+
     update();
 }
 
@@ -1942,10 +1954,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
     //        return;
     //    }
 
-        qDebug() << "......" << m_selectedOrder;
         if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
         {
-            qDebug() << "!!!!!!!!!!#" << m_selectedOrder;
             m_isRecording = true;
 
             m_currentShape.type = m_currentType;
@@ -2025,7 +2035,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                                 break;
                             }
                         }
-
 
                         updateMiddleWidgets("text");
                         qDebug() << "the textEdit index:" << m_selectedOrder << edit->getIndex();
