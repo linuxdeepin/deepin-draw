@@ -65,7 +65,8 @@ void ColorButton::paintEvent(QPaintEvent *)
     pen.setWidth(1);
     pen.setColor(QColor(0, 0, 0, 51));
     painter.setPen(pen);
-    painter.drawRoundedRect(QRect(2, 2, this->width() - 4, this->height() - 4), 4, 4);
+    painter.drawRoundedRect(QRect(2, 2, this->width() - 4,
+                                  this->height() - 4), 4, 4);
 
     if (isChecked())
     {
@@ -119,7 +120,8 @@ ColorPanel::ColorPanel(QWidget *parent)
         connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
     }
 
-    m_sliderLabel = new SliderLabel("Alpha", m_drawstatus, this);
+    m_sliderLabel = new SliderLabel("Alpha", m_drawstatus,
+                                    m_widgetStatus, this);
     m_sliderLabel->setFixedHeight(25);
     connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [=](int value){
         if (m_widgetStatus != MiddleWidgetStatus::DrawText)
@@ -229,7 +231,7 @@ void ColorPanel::setDrawStatus(DrawStatus status)
                                                       "fillColor").toString();
     }
     m_editLabel->setEditText(colorName);
-    m_sliderLabel->updateDrawStatus(m_drawstatus);
+    m_sliderLabel->updateDrawStatus(m_drawstatus, m_widgetStatus);
 }
 
 void ColorPanel::setConfigColor(QColor color)

@@ -28,12 +28,14 @@ private:
 class SliderLabel : public QLabel {
     Q_OBJECT
 public:
-    SliderLabel(QString text, DrawStatus status, QWidget* parent = 0);
+    SliderLabel(QString text, DrawStatus status,
+                MiddleWidgetStatus widgetStatus, QWidget* parent = 0);
     ~SliderLabel();
 
     void setTitle(const QString &text);
     int alpha ();
-    void updateDrawStatus(DrawStatus status);
+    void updateDrawStatus(DrawStatus status,
+                          MiddleWidgetStatus widgetStatus);
     void setAlpha(int val);
 
 signals:
@@ -42,6 +44,7 @@ signals:
 private:
     QString m_text;
     DrawStatus m_drawStatus;
+    MiddleWidgetStatus m_widgetStatus;
 
     QLabel* m_titleLabel;
     Slider* m_slider;

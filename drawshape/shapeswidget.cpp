@@ -212,9 +212,9 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                                         "common", "strokeColor").toString());
                 colorAlpha = ConfigSettings::instance()->value("common",
                                                                "strokeColor_alpha").toInt();
-                qreal value = qreal(colorAlpha)/qreal(100)*255;
                 m_penColor = QColor(m_penColor.red(), m_penColor.green(),
-                                    m_penColor.blue(), int(value));
+                                    m_penColor.blue());
+                m_penColor.setAlphaF(qreal(colorAlpha)/qreal(100));
             }
         } else if (key == "fillColor" || key == "fillColor_alpha" || key == "fillColor_transparent") {
             bool transColBtnChecked = ConfigSettings::instance()->value(
@@ -225,11 +225,12 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             } else {
                 colorAlpha = ConfigSettings::instance()->value("common",
                                                                "fillColor_alpha").toInt();
-                qreal value = qreal(colorAlpha)/qreal(100)*255;
+                qreal value = qreal(colorAlpha)/qreal(100);
                 m_brushColor = QColor(ConfigSettings::instance()->value(
                                           "common", "fillColor").toString());
                 m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
-                                      m_brushColor.blue(), int(value));
+                                      m_brushColor.blue());
+                m_brushColor.setAlphaF(value);
             }
         } else if (key == "lineWidth") {
             m_linewidth = ConfigSettings::instance()->value(
@@ -253,8 +254,8 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             {
                 m_brushColor = QColor(Qt::transparent);
             } else {
-                m_brushColor = QColor(brushCol.red(), brushCol.green(), brushCol.blue(),
-                                    qreal(brushColAlpha)/qreal(100)*255  );
+                m_brushColor = QColor(brushCol.red(), brushCol.green(), brushCol.blue());
+                m_brushColor.setAlphaF(qreal(brushColAlpha)/qreal(100));
             }
         }
     }
@@ -3630,7 +3631,9 @@ void ShapesWidget::updateShapeAttribute()
                                                              "fillColor").toString());
             int alpha = ConfigSettings::instance()->value("text",
                                                           "fillColor_alpha").toInt();
-            m_brushColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+
+            m_brushColor = QColor(color.red(), color.green(), color.blue());
+            m_brushColor.setAlphaF(qreal(alpha)/100);
         }
     }  else if (m_currentType == "blur")
     {
@@ -3647,14 +3650,16 @@ void ShapesWidget::updateShapeAttribute()
                                                              "fillColor").toString());
             alpha = ConfigSettings::instance()->value("common",
                                                           "fillColor_alpha").toInt();
-            m_brushColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+            m_brushColor = QColor(color.red(), color.green(), color.blue());
+            m_brushColor.setAlphaF(qreal(alpha)/100);
         }
 
         color = QColor(ConfigSettings::instance()->value("common",
                                                          "strokeColor").toString());
         alpha = ConfigSettings::instance()->value("common",
                                                   "strokeColor_alpha").toInt();
-        m_penColor = QColor(color.red(), color.green(), color.blue(), (qreal(alpha)/100)*255);
+        m_penColor = QColor(color.red(), color.green(), color.blue());
+        m_penColor.setAlphaF(qreal(alpha)/100);
         m_linewidth = ConfigSettings::instance()->value("common", "lineWidth").toInt();
     }
 }

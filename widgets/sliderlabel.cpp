@@ -48,7 +48,8 @@ int Slider::alphaValue()
 
 Slider::~Slider() {}
 
-SliderLabel::SliderLabel(QString text, DrawStatus status, QWidget* parent)
+SliderLabel::SliderLabel(QString text, DrawStatus status,
+                         MiddleWidgetStatus widgetStatus, QWidget* parent)
     : QLabel(parent)
 {
     m_text = text;
@@ -56,15 +57,7 @@ SliderLabel::SliderLabel(QString text, DrawStatus status, QWidget* parent)
 
     m_titleLabel = new QLabel(this);
     m_slider = new Slider(this);
-    int colorAlpha;
-    if (m_drawStatus == DrawStatus::Fill)
-    {
-        colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
-    } else
-    {
-        colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
-    }
-    m_slider->setAlphaValue(colorAlpha);
+    updateDrawStatus(status, widgetStatus);
     m_titleLabel->setText(m_text);
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
@@ -89,17 +82,26 @@ void SliderLabel::setAlpha(int val)
     m_slider->setAlphaValue(val);
 }
 
-void SliderLabel::updateDrawStatus(DrawStatus status)
+void SliderLabel::updateDrawStatus(DrawStatus status,
+                                   MiddleWidgetStatus widgetStatus)
 {
     int colorAlpha;
     m_drawStatus = status;
-    if (m_drawStatus == DrawStatus::Fill)
+    m_widgetStatus = widgetStatus;
+
+    if (widgetStatus != MiddleWidgetStatus::Cut)
     {
+        if (m_drawStatus == DrawStatus::Fill)
+        {
+            colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+        } else
+        {
+            colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
+        }
+    } else {
         colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
-    } else
-    {
-        colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
     }
+
     m_slider->setAlphaValue(colorAlpha);
 }
 
