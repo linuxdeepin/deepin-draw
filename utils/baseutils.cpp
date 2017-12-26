@@ -36,6 +36,10 @@ QCursor setCursorShape(QString cursorName) {
     } else if (cursorName == "pickcolor") {
         customShape = QCursor(QPixmap(
                      ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
+    } else if (cursorName == "bottomleft" || cursorName == "bottomright"
+               || cursorName == "topleft" || cursorName == "topright") {
+        customShape = QCursor(QPixmap(
+        QString(":/theme/light/images/mouse_style/shape/%1_mouse.svg").arg(cursorName)));
     }
 
     return customShape;
