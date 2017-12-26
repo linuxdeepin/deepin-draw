@@ -201,10 +201,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 
     if ("common" == group) {
         int colorAlpha = 100;
-        if (key == "strokeColor" || key == "strokeColor_alpha") {
-            colorAlpha = ConfigSettings::instance()->value("common",
-                                                           "strokeColor_alpha").toInt();
-            qreal value = qreal(colorAlpha)/qreal(100)*255;
+        if (key == "strokeColor" || key == "strokeColor_alpha" || key == "strokeColor_transparent") {
             bool transColBtnChecked = ConfigSettings::instance()->value(
                         "common", "strokeColor_transparent").toBool();
             if (transColBtnChecked)
@@ -213,19 +210,22 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             } else {
                 m_penColor = QColor(ConfigSettings::instance()->value(
                                         "common", "strokeColor").toString());
+                colorAlpha = ConfigSettings::instance()->value("common",
+                                                               "strokeColor_alpha").toInt();
+                qreal value = qreal(colorAlpha)/qreal(100)*255;
                 m_penColor = QColor(m_penColor.red(), m_penColor.green(),
                                     m_penColor.blue(), int(value));
             }
-        } else if (key == "fillColor" || key == "fillColor_alpha") {
-            colorAlpha = ConfigSettings::instance()->value("common",
-                                                           "fillColor_alpha").toInt();
-            qreal value = qreal(colorAlpha)/qreal(100)*255;
+        } else if (key == "fillColor" || key == "fillColor_alpha" || key == "fillColor_transparent") {
             bool transColBtnChecked = ConfigSettings::instance()->value(
                         "common", "fillColor_transparent").toBool();
             if (transColBtnChecked)
             {
                 m_brushColor = QColor(Qt::transparent);
             } else {
+                colorAlpha = ConfigSettings::instance()->value("common",
+                                                               "fillColor_alpha").toInt();
+                qreal value = qreal(colorAlpha)/qreal(100)*255;
                 m_brushColor = QColor(ConfigSettings::instance()->value(
                                           "common", "fillColor").toString());
                 m_brushColor = QColor(m_brushColor.red(), m_brushColor.green(),
@@ -262,10 +262,10 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     bool updateSelectedShape = false;
     if (m_selectedOrder != -1) {
         if (group == "common") {
-            if (key == "strokeColor" || key == "strokeColor_alpha") {
+            if (key == "strokeColor" || key == "strokeColor_alpha" || key == "strokeColor_transparent") {
                 m_shapes[m_selectedOrder].strokeColor = m_penColor;
                 updateSelectedShape = true;
-            } else if (key == "fillColor" || key == "fillColor_alpha") {
+            } else if (key == "fillColor" || key == "fillColor_alpha" || key == "fillColor_transparent") {
                 m_shapes[m_selectedOrder].fillColor =  m_brushColor;
                 updateSelectedShape = true;
             } else if (key == "lineWidth") {
