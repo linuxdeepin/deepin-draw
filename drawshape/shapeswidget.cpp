@@ -40,13 +40,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     m_cutImageTips = new CutImageTips(this);
     initShortcut();
     initMenu();
-    m_updateTimer = new QTimer(this);
-    m_updateTimer->setSingleShot(false);
-    m_updateTimer->setInterval(60);
-    connect(m_updateTimer, &QTimer::timeout, this, [=]{
-        update();
-    });
-    m_updateTimer->start();
 
     m_bottomPixmap = QPixmap(this->size());
     m_bottomPixmap.fill(Qt::transparent);
@@ -1817,192 +1810,198 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
-    m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
-    m_isAltPressed = GlobalShortcut::instance()->altSc();
+    auto doMousePress = [=]() {
+        qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
+        m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
+        m_isAltPressed = GlobalShortcut::instance()->altSc();
 
-    if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
-                                            QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration)))
-    {
-        m_isPressed = true;
-        m_cutImageTips->hide();
-        return;
-    } else {
-        m_cutShape.type = "";
-        m_cutImageTips->hide();
-        for(int i = 0; i < m_cutShape.mainPoints.length(); i++)
+        if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
+                                                QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration)))
         {
-            m_cutShape.mainPoints[i] = QPointF(0, 0);
-            if (m_shapes.length() >1&& m_shapes[m_shapes.length() - 1].type == "cutImage")
+            m_isPressed = true;
+            m_cutImageTips->hide();
+            return;
+        } else {
+            m_cutShape.type = "";
+            m_cutImageTips->hide();
+            for(int i = 0; i < m_cutShape.mainPoints.length(); i++)
             {
-                m_shapes.removeLast();
+                m_cutShape.mainPoints[i] = QPointF(0, 0);
+                if (m_shapes.length() >1&& m_shapes[m_shapes.length() - 1].type == "cutImage")
+                {
+                    m_shapes.removeLast();
+                }
             }
         }
-    }
 
-    m_pos1 = QPointF(e->pos().x(), e->pos().y());
+        m_pos1 = QPointF(e->pos().x(), e->pos().y());
 
-    if (m_isAltPressed && !m_initAltStart && !m_isResize && !m_isRotated)
-    {
-        m_altCenterPos = m_pos1;
-        m_initAltStart = true;
-    }
-
-    if (m_selectedOrder != -1 && !m_imageCutting)
-    {
-        if (m_shapes[m_selectedOrder].type == "text")
+        if (m_isAltPressed && !m_initAltStart && !m_isResize && !m_isRotated)
         {
-            setAllTextEditReadOnly();
-            m_selectedOrder = -1;
-            return;
-        } else if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
-             && m_isRotated) && m_selectedOrder == -1)
-        {
-            clearSelected();
-            setAllTextEditReadOnly();
-            m_editing = false;
-            m_selectedIndex = -1;
-            m_selectedOrder = -1;
-            m_selectedShape.type = "";
-            return;
+            m_altCenterPos = m_pos1;
+            m_initAltStart = true;
         }
-    }
 
-    m_isPressed = true;
-    if (m_shapes.length() == 0)
-    {
-        m_canvasSideLength = std::max(
-            m_artBoardActualWidth, m_artBoardActualHeight);
-    }
+        if (m_selectedOrder != -1 && !m_imageCutting)
+        {
+            if (m_shapes[m_selectedOrder].type == "text")
+            {
+                setAllTextEditReadOnly();
+                m_selectedOrder = -1;
+                return;
+            } else if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
+                 && m_isRotated) && m_selectedOrder == -1)
+            {
+                clearSelected();
+                setAllTextEditReadOnly();
+                m_editing = false;
+                m_selectedIndex = -1;
+                m_selectedOrder = -1;
+                m_selectedShape.type = "";
+                return;
+            }
+        }
 
-    m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
-
-    QRect btmRightRect = rightBottomRect();
-    if (btmRightRect.contains(QPoint(m_pos1.x(), m_pos1.y())))
-    {
-        m_inBtmRight = true;
-        m_resizeDirection = Right;
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        return;
-    }
-
-    if (m_inBtmRight)
-    {
-        qDebug() << "Adjust artboard's size!";
-        qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        return;
-    }
-
-//    if (e->button() == Qt::RightButton)
-//    {
-//        qDebug() << "RightButton clicked!";
-//        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
-//        return;
-//    }
-
-    qDebug() << "......" << m_selectedOrder;
-    if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
-    {
-        qDebug() << "!!!!!!!!!!#" << m_selectedOrder;
-        m_isRecording = true;
-
-        m_currentShape.type = m_currentType;
-        m_currentShape.strokeColor = m_penColor;
-        m_currentShape.fillColor = m_brushColor;
-        m_currentShape.lineWidth = m_linewidth;
-
-        m_selectedIndex -= 1;
-        m_shapesIndex += 1;
-
-        m_currentIndex = m_shapesIndex;
+        m_isPressed = true;
+        if (m_shapes.length() == 0)
+        {
+            m_canvasSideLength = std::max(
+                m_artBoardActualWidth, m_artBoardActualHeight);
+        }
 
         m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
 
-        if (m_currentType == "arbitraryCurve") {
-            m_currentShape.index = m_currentIndex;
-            m_currentShape.points.append(m_pressedPoint);
-        } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
-            m_currentShape.index = m_currentIndex;
-            m_currentShape.points.append(m_pressedPoint);
-        } else if (m_currentType == "rectangle" || m_currentType == "oval") {
-            m_currentShape.index = m_currentIndex;
-        }  else if (m_currentType == "blur") {
-            m_blurEffectExist = true;
-            m_currentShape.isBlur = true;
-            m_currentShape.index = m_currentIndex;
-            m_blurLinewidth = ConfigSettings::instance()->value("blur",
-                                                                "index").toInt();
-            m_currentShape.lineWidth = m_blurLinewidth;
-            m_currentShape.points.append(m_pressedPoint);
+        QRect btmRightRect = rightBottomRect();
+        if (btmRightRect.contains(QPoint(m_pos1.x(), m_pos1.y())))
+        {
+            m_inBtmRight = true;
+            m_resizeDirection = Right;
+            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+            update();
+            return;
+        }
 
-            if (m_generateBlurImage)
-                createBlurImage();
-        } else if (m_currentType == "text") {
-            if (!m_editing && m_selectedOrder == -1) {
-                setAllTextEditReadOnly();
-                m_currentShape.mainPoints[0] = m_pressedPoint;
+        if (m_inBtmRight)
+        {
+            qDebug() << "Adjust artboard's size!";
+            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+            update();
+            return;
+        }
+
+    //    if (e->button() == Qt::RightButton)
+    //    {
+    //        qDebug() << "RightButton clicked!";
+    //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
+    //        return;
+    //    }
+
+        qDebug() << "......" << m_selectedOrder;
+        if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
+        {
+            qDebug() << "!!!!!!!!!!#" << m_selectedOrder;
+            m_isRecording = true;
+
+            m_currentShape.type = m_currentType;
+            m_currentShape.strokeColor = m_penColor;
+            m_currentShape.fillColor = m_brushColor;
+            m_currentShape.lineWidth = m_linewidth;
+
+            m_selectedIndex -= 1;
+            m_shapesIndex += 1;
+
+            m_currentIndex = m_shapesIndex;
+
+            m_pressedPoint = QPointF(m_pos1.x()/m_ration, m_pos1.y()/m_ration);
+
+            if (m_currentType == "arbitraryCurve") {
                 m_currentShape.index = m_currentIndex;
-                m_currentShape.fillColor = QColor(ConfigSettings::instance()->value(
-                                                      "text", "fillColor").toString());
-                qDebug() << "new textedit:" << m_currentIndex;
-                TextEdit* edit = new TextEdit(m_currentIndex, this);
-                m_editing = true;
-                m_currentShape.fontSize =  m_textFontsize;
-                edit->setFocus();
-                edit->setColor(m_currentShape.fillColor);
-                edit->setFontSize(m_textFontsize);
-                edit->move(m_pressedPoint.x(), m_pressedPoint.y());
-                edit->show();
+                m_currentShape.points.append(m_pressedPoint);
+            } else if (m_currentType == "arrow" || m_currentType == "straightLine") {
+                m_currentShape.index = m_currentIndex;
+                m_currentShape.points.append(m_pressedPoint);
+            } else if (m_currentType == "rectangle" || m_currentType == "oval") {
+                m_currentShape.index = m_currentIndex;
+            }  else if (m_currentType == "blur") {
+                m_blurEffectExist = true;
+                m_currentShape.isBlur = true;
+                m_currentShape.index = m_currentIndex;
+                m_blurLinewidth = ConfigSettings::instance()->value("blur",
+                                                                    "index").toInt();
+                m_currentShape.lineWidth = m_blurLinewidth;
+                m_currentShape.points.append(m_pressedPoint);
 
-                m_currentShape.mainPoints[0] = m_pressedPoint;
-                m_currentShape.mainPoints[1] = QPointF(
-                    m_pressedPoint.x(), m_pressedPoint.y() + edit->height());
-                m_currentShape.mainPoints[2] = QPointF(
-                            m_pressedPoint.x() + edit->width(), m_pressedPoint.y());
-                m_currentShape.mainPoints[3] = QPointF(
-                    m_pressedPoint.x() + edit->width(), m_pressedPoint.y() + edit->height());
-                m_editMap.insert(m_currentIndex, edit);
-
-                connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
-                connect(edit, &TextEdit::backToEditing, this, [=]{
+                if (m_generateBlurImage)
+                    createBlurImage();
+            } else if (m_currentType == "text") {
+                if (!m_editing && m_selectedOrder == -1) {
+                    setAllTextEditReadOnly();
+                    m_currentShape.mainPoints[0] = m_pressedPoint;
+                    m_currentShape.index = m_currentIndex;
+                    m_currentShape.fillColor = QColor(ConfigSettings::instance()->value(
+                                                          "text", "fillColor").toString());
+                    qDebug() << "new textedit:" << m_currentIndex;
+                    TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
-                });
-                connect(edit, &TextEdit::textEditSelected, this, [=](int index){
-                    for (int k = 0; k < m_shapes.length(); k++) {
-                        if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                            qDebug() << "TextEdit selected!!!!:" << index << k;
-                            m_selectedOrder = index;
-                            m_selectedShape = m_shapes[k];
-                            break;
-                        }
-                    }
-                    updateMiddleWidgets("text");
-                    qDebug() << "the textEdit index:" << index;
-                });
-                connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
-                    m_menu->popup(this->cursor().pos());
-                });
+                    m_currentShape.fontSize =  m_textFontsize;
+                    edit->setFocus();
+                    edit->setColor(m_currentShape.fillColor);
+                    edit->setFontSize(m_textFontsize);
+                    edit->move(m_pressedPoint.x(), m_pressedPoint.y());
+                    edit->show();
 
-                m_shapes.append(m_currentShape);
-                qDebug() << "Insert text shape:" << m_currentShape.index;
-            } else {
-                m_editing = false;
-                m_selectedOrder = -1;
-                setAllTextEditReadOnly();
+                    m_currentShape.mainPoints[0] = m_pressedPoint;
+                    m_currentShape.mainPoints[1] = QPointF(
+                        m_pressedPoint.x(), m_pressedPoint.y() + edit->height());
+                    m_currentShape.mainPoints[2] = QPointF(
+                                m_pressedPoint.x() + edit->width(), m_pressedPoint.y());
+                    m_currentShape.mainPoints[3] = QPointF(
+                        m_pressedPoint.x() + edit->width(), m_pressedPoint.y() + edit->height());
+                    m_editMap.insert(m_currentIndex, edit);
+
+                    connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+                    connect(edit, &TextEdit::backToEditing, this, [=]{
+                        m_editing = true;
+                    });
+                    connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+                        for (int k = 0; k < m_shapes.length(); k++) {
+                            if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                                qDebug() << "TextEdit selected!!!!:" << index << k;
+                                m_selectedOrder = index;
+                                m_selectedShape = m_shapes[k];
+                                break;
+                            }
+                        }
+                        updateMiddleWidgets("text");
+                        qDebug() << "the textEdit index:" << index;
+                    });
+                    connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
+                        m_menu->popup(this->cursor().pos());
+                    });
+
+                    m_shapes.append(m_currentShape);
+                    qDebug() << "Insert text shape:" << m_currentShape.index;
+                } else {
+                    m_editing = false;
+                    m_selectedOrder = -1;
+                    setAllTextEditReadOnly();
+                }
+            }
+        } else {
+            m_isRecording = false;
+            qDebug() << "some on shape be clicked!";
+            if (m_editing && m_editMap.contains(m_shapes[m_selectedOrder].index))
+            {
+                m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
+                m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
+                m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
             }
         }
-    } else {
-        m_isRecording = false;
-        qDebug() << "some on shape be clicked!";
-        if (m_editing && m_editMap.contains(m_shapes[m_selectedOrder].index))
-        {
-            m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
-            m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
-            m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
-        }
-    }
 
-    qDebug() << "DDD" << m_editing;
+        qDebug() << "DDD" << m_editing;
+    };
+    doMousePress();
+    update();
 //    QFrame::mousePressEvent(e);
 }
 
@@ -2117,200 +2116,207 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_pressedPoint = QPointF(0, 0);
     m_altCenterPos = QPointF(0, 0);
     m_initAltStart = false;
+    update();
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 {
-    qDebug() << "PressEvent:" << "Shift pressed!";
-    m_isMoving = true;
+    auto doMouseMove = [=]() {
+        qDebug() << "PressEvent:" << "Shift pressed!";
+        m_isMoving = true;
 
-    m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
+        m_movingPoint = QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration);
 
-    if (m_imageCutting && m_isCutImageResize
-            && m_resizeDirection == Moving && m_isPressed)
-    {
-
-        if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+        if (m_imageCutting && m_isCutImageResize
+                && m_resizeDirection == Moving && m_isPressed)
         {
-            for(int j = 0; j < m_shapes[m_shapes.length() - 1].mainPoints.length(); j++)
-            {
-                qDebug() << "FFFFF" << QPointF(e->pos().x() - m_pressedPoint.x(),
-                                               e->pos().y() - m_pressedPoint.y());
-                m_shapes[m_shapes.length() - 1].mainPoints[j] = QPointF(
-                m_shapes[m_shapes.length() - 1].mainPoints[j].x() + e->pos().x() - m_pressedPoint.x(),
-                m_shapes[m_shapes.length() - 1].mainPoints[j].y() + e->pos().y() - m_pressedPoint.y());
-            }
-            m_cutShape.mainPoints = m_shapes[m_shapes.length() - 1].mainPoints;
-            m_pressedPoint = e->pos();
-        }
-        return;
-    } else if (m_imageCutting && m_isCutImageResize
-               && m_resizeDirection != Moving && m_isPressed)
-    {
-        handleCutShapeResize(m_movingPoint, m_clickedKey);
-        return;
-    }
 
-    if (m_selectedOrder == -1)
-    {
-        QRect btmRightRect = rightBottomRect();
-        if (pointOnRect(btmRightRect, e->pos()))
-        {
-            m_resizeDirection = Right;
-            m_stickCurosr = true;
-            m_cursorInBtmRight = true;
-
-            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        } else {
-            if (!m_isPressed)
-                m_stickCurosr = false;
-
-            m_cursorInBtmRight = false;
-        }
-    }
-
-    if (m_inBtmRight && m_isPressed)
-    {
-        m_pos2 = e->pos();
-        emit updateMiddleWidgets("adjustsize");
-        QRect scaledRect = QRect(0, 0,
-                                 std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
-                                 std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
-
-        if (m_artBoardActualWidth == scaledRect.width() &&
-                m_artBoardActualHeight == scaledRect.height())
-            return;
-        qreal tmpWindowWidth = window()->geometry().width() - 2*WINDOW_SPACINT;
-        qreal tmpWindowHeight = window()->geometry().height() - 2*WINDOW_SPACINT - 40;
-        if (!m_initCanvasSideLength) {
-            m_canvasMicroSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
-            m_initCanvasSideLength = true;
-        }
-
-        if (m_ration != 1 || scaledRect.width() > tmpWindowWidth
-            || scaledRect.height() > tmpWindowHeight)
-        {
-            qreal currentRation = m_canvasMicroSideLength/std::max(
-                        scaledRect.width(), scaledRect.height());
-            if (currentRation > 0.01)
-            {
-                m_ration = currentRation/**m_ration*/;
-                m_rationChanged = true;
-            } else
-            {
-                m_rationChanged = false;
-            }
-
-            qDebug() << "@get the scaled ration:" << m_ration << currentRation;
-        }
-
-        m_artBoardActualWidth = scaledRect.width();
-        m_artBoardActualHeight = scaledRect.height();
-
-        emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
-        m_pos1 = m_pos2;
-    }
-
-    if (m_isRecording && m_isPressed && !m_cursorInBtmRight)
-    {
-        m_pos2 = e->pos();
-
-        if (m_currentShape.type == "arrow" || m_currentShape.type == "straightLine")
-        {
-            if (m_currentShape.points.length() <= 1)
-            {
-                if (m_isShiftPressed)
-                {
-                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
-                    {
-                        m_currentShape.points.append(QPointF(m_pos2.x()/m_ration,
-                                                                                 m_pos1.y()/m_ration));
-                    } else
-                    {
-                        m_currentShape.points.append(QPointF(m_pos1.x()/m_ration,
-                                                                                 m_pos2.y()/m_ration));
-                    }
-                } else
-                {
-                    m_currentShape.points.append(QPointF(m_pos2.x()/m_ration,
-                                                                              m_pos2.y()/m_ration));
-                }
-            } else {
-                if (m_isShiftPressed)
-                {
-                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
-                                            std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
-                    {
-                        m_currentShape.points[1] = QPointF(m_pos2.x()/m_ration,
-                                                                           m_pos1.y()/m_ration);
-                    } else
-                    {
-                        m_currentShape.points[1] = QPointF(m_pos1.x()/m_ration,
-                                                                           m_pos2.y()/m_ration);
-                    }
-                } else
-                {
-                    m_currentShape.points[1] = QPointF(m_pos2.x()/m_ration,
-                                                                                      m_pos2.y()/m_ration);
-                }
-            }
-        }
-
-        if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur")
-        {
-            m_currentShape.points.append(QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration));
-        }
-        update();
-    } else if (!m_isRecording && m_isPressed && !m_cursorInBtmRight)
-    {
-        if (m_isRotated && m_isPressed)
-        {
-            handleRotate(m_movingPoint);
-        }
-
-        if (m_isResize && m_isPressed)
-        {
-            // resize function
-            m_cutImageTips->hide();
-            handleResize(QPointF(m_movingPoint), m_clickedKey);
-            update();
-            if (m_cutShape.type == "cutImage")
-            {
-                m_cutImageTips->showTips(mapToGlobal(QPoint(
-                                             int(m_cutShape.mainPoints[3].x()),
-                                             int(m_cutShape.mainPoints[3].y()))));
-            } else {
-                qDebug() << "FDBBNM";
-            }
-        }
-
-        if (m_isSelected && m_isPressed && m_selectedOrder != -1)
-        {
-            m_cutImageTips->hide();
-            handleDrag(m_pressedPoint, m_movingPoint);
-            m_selectedShape = m_shapes[m_selectedOrder];
             if (m_shapes[m_shapes.length() - 1].type == "cutImage")
             {
-                m_cutImageTips->showTips(mapToGlobal(QPoint(
-                                         int(m_shapes[m_shapes.length() - 1].mainPoints[3].x()),
-                                         int(m_shapes[m_shapes.length() - 1].mainPoints[3].y()))));
+                for(int j = 0; j < m_shapes[m_shapes.length() - 1].mainPoints.length(); j++)
+                {
+                    qDebug() << "FFFFF" << QPointF(e->pos().x() - m_pressedPoint.x(),
+                                                   e->pos().y() - m_pressedPoint.y());
+                    m_shapes[m_shapes.length() - 1].mainPoints[j] = QPointF(
+                    m_shapes[m_shapes.length() - 1].mainPoints[j].x() + e->pos().x() - m_pressedPoint.x(),
+                    m_shapes[m_shapes.length() - 1].mainPoints[j].y() + e->pos().y() - m_pressedPoint.y());
+                }
+                m_cutShape.mainPoints = m_shapes[m_shapes.length() - 1].mainPoints;
+                m_pressedPoint = e->pos();
+            }
+            return;
+        } else if (m_imageCutting && m_isCutImageResize
+                   && m_resizeDirection != Moving && m_isPressed)
+        {
+            handleCutShapeResize(m_movingPoint, m_clickedKey);
+            return;
+        }
+
+        if (m_selectedOrder == -1)
+        {
+            QRect btmRightRect = rightBottomRect();
+            if (pointOnRect(btmRightRect, e->pos()))
+            {
+                m_resizeDirection = Right;
+                m_stickCurosr = true;
+                m_cursorInBtmRight = true;
+
+                qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+            } else {
+                if (!m_isPressed)
+                    m_stickCurosr = false;
+
+                m_cursorInBtmRight = false;
+            }
+        }
+
+        if (m_inBtmRight && m_isPressed)
+        {
+            m_pos2 = e->pos();
+            emit updateMiddleWidgets("adjustsize");
+            QRect scaledRect = QRect(0, 0,
+                                     std::max(int(m_artBoardActualWidth + (m_pos2.x() - m_pos1.x())), 20),
+                                     std::max(int(m_artBoardActualHeight + (m_pos2.y() - m_pos1.y())), 20));
+
+            if (m_artBoardActualWidth == scaledRect.width() &&
+                    m_artBoardActualHeight == scaledRect.height())
+                return;
+            qreal tmpWindowWidth = window()->geometry().width() - 2*WINDOW_SPACINT;
+            qreal tmpWindowHeight = window()->geometry().height() - 2*WINDOW_SPACINT - 40;
+            if (!m_initCanvasSideLength) {
+                m_canvasMicroSideLength = std::max(m_artBoardActualWidth, m_artBoardActualHeight);
+                m_initCanvasSideLength = true;
             }
 
-            m_pressedPoint = m_movingPoint;
+            if (m_ration != 1 || scaledRect.width() > tmpWindowWidth
+                || scaledRect.height() > tmpWindowHeight)
+            {
+                qreal currentRation = m_canvasMicroSideLength/std::max(
+                            scaledRect.width(), scaledRect.height());
+                if (currentRation > 0.01)
+                {
+                    m_ration = currentRation/**m_ration*/;
+                    m_rationChanged = true;
+                } else
+                {
+                    m_rationChanged = false;
+                }
+
+                qDebug() << "@get the scaled ration:" << m_ration << currentRation;
+            }
+
+            m_artBoardActualWidth = scaledRect.width();
+            m_artBoardActualHeight = scaledRect.height();
+
+            emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
+            m_pos1 = m_pos2;
         }
-    } else
-    {
-        if (!m_isRecording && !m_cursorInBtmRight)
+
+        if (m_isRecording && m_isPressed && !m_cursorInBtmRight)
         {
-            m_isHovered = false;
-            hoverOnShapes(m_movingPoint);
+            m_pos2 = e->pos();
+
+            if (m_currentShape.type == "arrow" || m_currentShape.type == "straightLine")
+            {
+                if (m_currentShape.points.length() <= 1)
+                {
+                    if (m_isShiftPressed)
+                    {
+                        if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                       std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
+                        {
+                            m_currentShape.points.append(QPointF(m_pos2.x()/m_ration,
+                                                                                     m_pos1.y()/m_ration));
+                        } else
+                        {
+                            m_currentShape.points.append(QPointF(m_pos1.x()/m_ration,
+                                                                                     m_pos2.y()/m_ration));
+                        }
+                    } else
+                    {
+                        m_currentShape.points.append(QPointF(m_pos2.x()/m_ration,
+                                                                                  m_pos2.y()/m_ration));
+                    }
+                } else {
+                    if (m_isShiftPressed)
+                    {
+                        if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                                std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45)
+                        {
+                            m_currentShape.points[1] = QPointF(m_pos2.x()/m_ration,
+                                                                               m_pos1.y()/m_ration);
+                        } else
+                        {
+                            m_currentShape.points[1] = QPointF(m_pos1.x()/m_ration,
+                                                                               m_pos2.y()/m_ration);
+                        }
+                    } else
+                    {
+                        m_currentShape.points[1] = QPointF(m_pos2.x()/m_ration,
+                                                                                          m_pos2.y()/m_ration);
+                    }
+                }
+            }
+
+            if (m_currentShape.type == "arbitraryCurve"|| m_currentShape.type == "blur")
+            {
+                m_currentShape.points.append(QPointF(m_pos2.x()/m_ration, m_pos2.y()/m_ration));
+            }
+        } else if (!m_isRecording && m_isPressed && !m_cursorInBtmRight)
+        {
+            if (m_isRotated && m_isPressed)
+            {
+                handleRotate(m_movingPoint);
+            }
+
+            if (m_isResize && m_isPressed)
+            {
+                // resize function
+                m_cutImageTips->hide();
+                handleResize(QPointF(m_movingPoint), m_clickedKey);
+                if (m_cutShape.type == "cutImage")
+                {
+                    m_cutImageTips->showTips(mapToGlobal(QPoint(
+                                                 int(m_cutShape.mainPoints[3].x()),
+                                                 int(m_cutShape.mainPoints[3].y()))));
+                } else {
+                    qDebug() << "FDBBNM";
+                }
+            }
+
+            if (m_isSelected && m_isPressed && m_selectedOrder != -1)
+            {
+                m_cutImageTips->hide();
+                handleDrag(m_pressedPoint, m_movingPoint);
+                m_selectedShape = m_shapes[m_selectedOrder];
+                if (m_shapes[m_shapes.length() - 1].type == "cutImage")
+                {
+                    m_cutImageTips->showTips(mapToGlobal(QPoint(
+                                             int(m_shapes[m_shapes.length() - 1].mainPoints[3].x()),
+                                             int(m_shapes[m_shapes.length() - 1].mainPoints[3].y()))));
+                }
+
+                m_pressedPoint = m_movingPoint;
+            }
         } else
         {
-            //TODO text
+            if (!m_isRecording && !m_cursorInBtmRight)
+            {
+                m_isHovered = false;
+                hoverOnShapes(m_movingPoint);
+            } else
+            {
+                //TODO text
+            }
         }
-    }
+    };
 
+    doMouseMove();
+    auto currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    if (currentTime - m_lastUpdateTime.toMSecsSinceEpoch() > 100) {
+        m_lastUpdateTime = QDateTime::currentDateTime();
+        update();
+    }
 //    QFrame::mouseMoveEvent(e);
 }
 

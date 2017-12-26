@@ -3,7 +3,7 @@
 #include <application.h>
 
 ArrowRectangle::ArrowRectangle(ArrowDirection direction, QWidget *parent)
-    : DArrowRectangle(direction, parent)
+    : DArrowRectangle(direction, DArrowRectangle::FloatWidget, parent)
 {
     connect(dApp, &Application::focusChanged, this, [=](QWidget* old, QWidget* now){
         Q_UNUSED(old);

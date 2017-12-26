@@ -256,7 +256,7 @@ private:
     Toolshapes m_shapes;
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
-    QTimer* m_updateTimer;
+    QDateTime m_lastUpdateTime;
 
     QMenu* m_menu;
 
