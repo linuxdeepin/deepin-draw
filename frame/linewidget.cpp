@@ -46,6 +46,14 @@ LineWidget::LineWidget(QWidget *parent)
             ConfigSettings::instance()->setValue("line", "style", k);
         });
     }
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+            [=](const QString &group, const QString &key){
+        if (group == "line" && key == "style")
+        {
+            int index = ConfigSettings::instance()->value(group, key).toInt();
+            lineBtnList[index]->setChecked(true);
+        }
+    });
 
     int defaultIndex = ConfigSettings::instance()->value("line", "style").toInt();
     lineBtnList[defaultIndex]->setChecked(true);

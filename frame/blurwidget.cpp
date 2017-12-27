@@ -24,7 +24,14 @@ BlurWidget::BlurWidget(QWidget *parent)
     connect(lineWidthSlider, &QSlider::valueChanged, this, [=](int val){
         ConfigSettings::instance()->setValue("blur", "index", val);
     });
-
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+            [=](const QString &group, const QString &key){
+        if (group == "blur" && key == "index")
+        {
+            int index = ConfigSettings::instance()->value(group, key).toInt();
+            lineWidthSlider->setValue(index);
+        }
+    });
     lineWidthSlider->setValue(ConfigSettings::instance()->value("blur", "index").toInt());
 
     ToolButton* boldBtn = new ToolButton;

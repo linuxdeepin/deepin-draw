@@ -511,6 +511,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                     updateToSelectedShapeAttribute("common", "strokeColor_alpha",
                                                    int(colorAlpha*100));
                 }
+                updateToSelectedShapeAttribute("common", "lineWidth", m_shapes[i].lineWidth);
             } else
             {
                 qDebug() << "no clicked on rectangle:" << m_shapes[i].mainPoints << pos;
@@ -553,6 +554,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                     updateToSelectedShapeAttribute("common", "strokeColor_alpha",
                                                    int(colorAlpha*100));
                 }
+                updateToSelectedShapeAttribute("common", "lineWidth", m_shapes[i].lineWidth);
             }
         }
         if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine")
@@ -573,6 +575,13 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                     updateToSelectedShapeAttribute("common", "strokeColor_alpha",
                                                    int(colorAlpha*100));
                 }
+                updateToSelectedShapeAttribute("common", "lineWidth", m_shapes[i].lineWidth);
+                if (m_shapes[i].type == "straightLine")
+                {
+                    updateToSelectedShapeAttribute("line", "style", 0);
+                } else {
+                    updateToSelectedShapeAttribute("line", "style", 2);
+                }
             }
         }
         if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
@@ -581,17 +590,24 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             {
                 currentOnShape = true;
 
-                if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                if (m_shapes[i].type == "arbitraryCurve")
                 {
-                    ConfigSettings::instance()->setValue("common",
-                                                         "strokeColor_transparent", true);
-                    updateToSelectedShapeAttribute("common", "strokeColor", true);
+                    if (m_shapes[i].strokeColor == QColor(Qt::transparent))
+                    {
+                        ConfigSettings::instance()->setValue("common",
+                                                             "strokeColor_transparent", true);
+                        updateToSelectedShapeAttribute("common", "strokeColor", true);
+                    } else {
+                        updateToSelectedShapeAttribute("common", "strokeColor",
+                                                       m_shapes[i].strokeColor.name(QColor::HexRgb));
+                        qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
+                        updateToSelectedShapeAttribute("common", "strokeColor_alpha",
+                                                       int(colorAlpha*100));
+                    }
+                    updateToSelectedShapeAttribute("common", "lineWidth", m_shapes[i].lineWidth);
+                    updateToSelectedShapeAttribute("line", "style", 1);
                 } else {
-                    updateToSelectedShapeAttribute("common", "strokeColor",
-                                                   m_shapes[i].strokeColor.name(QColor::HexRgb));
-                    qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
-                    updateToSelectedShapeAttribute("common", "strokeColor_alpha",
-                                                   int(colorAlpha*100));
+                    updateToSelectedShapeAttribute("blur", "index", m_shapes[i].lineWidth);
                 }
             }
         }
