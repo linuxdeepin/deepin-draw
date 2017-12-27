@@ -64,7 +64,7 @@ CutWidget::CutWidget(QWidget *parent)
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(4);
+    layout->setSpacing(10);
     layout->addStretch();
     layout->addWidget(m_leftRotateBtn);
     layout->addWidget(m_rightRotateBtn);

@@ -2029,8 +2029,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pressedPoint;
                     m_currentShape.index = m_currentIndex;
-                    m_currentShape.fillColor = QColor(ConfigSettings::instance()->value(
-                                                          "text", "fillColor").toString());
+                    m_currentShape.fillColor =  m_brushColor;
                     qDebug() << "new textedit:" << m_currentIndex;
                     TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
@@ -2056,20 +2055,22 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                         for (int k = 0; k < m_shapes.length(); k++) {
                             if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                                qDebug() << "TextEdit selected!!!!:" << index << k << edit->fontSize();
-                                m_selectedOrder = k;
-                                m_selectedShape = m_shapes[k];
-                                m_textFontsize = edit->fontSize();
+                                m_selectedOrder = -1;
                                 if (edit->getTextColor() == QColor(Qt::transparent))
                                 {
                                     updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
                                 } else {
-                                    updateToSelectedShapeAttribute("text", "fillColor", edit->getTextColor().name(QColor::HexRgb));
                                     qreal colorAlpha = edit->getTextColor().alphaF();
                                     updateToSelectedShapeAttribute("text", "fillColor_alpha",
                                                                    int(colorAlpha*100));
+                                    updateToSelectedShapeAttribute("text", "fillColor",
+                                                                   edit->getTextColor().name(QColor::HexRgb));
                                 }
+                                m_brushColor = edit->getTextColor();
                                 updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
+                                m_selectedOrder = k;
+                                m_selectedShape = m_shapes[k];
+                                m_textFontsize = edit->fontSize();
                                 break;
                             }
                         }

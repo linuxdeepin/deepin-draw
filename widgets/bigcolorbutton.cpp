@@ -48,7 +48,7 @@ BigColorButton::BigColorButton(const QString &group, QWidget *parent)
 void BigColorButton::updateConfigColor(const QString &group,
                                                                             const QString &key)
 {
-    if (group == m_group && (key == "fillColor" || key == "fillColor_alpha"
+    if (group == m_group && (key == "fillColor"/* || key == "fillColor_alpha"*/
                              || key == "fillColor_transparent"))
     {
         qDebug() << "updateConfigColor......" << key;
