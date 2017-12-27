@@ -264,7 +264,7 @@ QStringList  supportedSuffixList()
                       << "*.j2k" << "*jp2" << "*.pct" << "*.webp" << "*.wdp"
                       << "*.cr2" << "*.pef" << "*.arw " << "*.nef" << "*.icb " << "*.dng"
                       << "*.vda" << "*.vst" << "*.raf" << "*.orf" << "*.svg"
-                      << "*.ptif" << "*.mef" << "*.mrw" << "*.xbm" << "*.ddf";
+                      << "*.ptif" << "*.mef" << "*.mrw" << "*.xbm";
     return suffixList;
 }
 }  // namespace image
