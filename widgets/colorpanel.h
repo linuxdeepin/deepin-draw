@@ -41,6 +41,7 @@ public:
     void updateColorBtnByWidget(const QString &group, const QString &key);
     void updateConfigByWidget(const QString &group, const QString &key,
                               QColor color);
+    void updateColorAlpha(DrawStatus status, MiddleWidgetStatus widgetStatus);
 
     void setColor(QColor color);
     void setDrawStatus(DrawStatus status);

@@ -494,6 +494,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "fillColor",
                                                    m_shapes[i].fillColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].fillColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "fillColor_alpha",
+                                                   int(colorAlpha*100));
                 }
 
                 if (m_shapes[i].strokeColor == QColor(Qt::transparent))
@@ -504,6 +507,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "strokeColor",
                                                    m_shapes[i].strokeColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "strokeColor_alpha",
+                                                   int(colorAlpha*100));
                 }
             } else
             {
@@ -530,6 +536,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "fillColor",
                                                    m_shapes[i].fillColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].fillColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "fillColor_alpha",
+                                                   int(colorAlpha*100));
                 }
 
                 if (m_shapes[i].strokeColor == QColor(Qt::transparent))
@@ -540,6 +549,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "strokeColor",
                                                    m_shapes[i].strokeColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "strokeColor_alpha",
+                                                   int(colorAlpha*100));
                 }
             }
         }
@@ -557,6 +569,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "strokeColor",
                                                    m_shapes[i].strokeColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "strokeColor_alpha",
+                                                   int(colorAlpha*100));
                 }
             }
         }
@@ -574,6 +589,9 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 } else {
                     updateToSelectedShapeAttribute("common", "strokeColor",
                                                    m_shapes[i].strokeColor.name(QColor::HexRgb));
+                    qreal colorAlpha = m_shapes[i].strokeColor.alphaF();
+                    updateToSelectedShapeAttribute("common", "strokeColor_alpha",
+                                                   int(colorAlpha*100));
                 }
             }
         }
@@ -2031,6 +2049,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                                     updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
                                 } else {
                                     updateToSelectedShapeAttribute("text", "fillColor", edit->getTextColor().name(QColor::HexRgb));
+                                    qreal colorAlpha = edit->getTextColor().alphaF();
+                                    updateToSelectedShapeAttribute("text", "fillColor_alpha",
+                                                                   int(colorAlpha*100));
                                 }
                                 updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
                                 break;
@@ -2059,16 +2080,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
                 m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
-//                m_shapes.append(m_currentShape);
-//                qDebug() << "Insert text shape:" << m_currentShape.index;
-//            } else {
-//                m_editing = false;
-//                m_selectedOrder = -1;
-//                setAllTextEditReadOnly();
             }
         }
 
-        qDebug() << "DDD" << m_editing;
+        qDebug() << "mousePressEvent textEdit status:" << m_editing;
     };
     doMousePress();
     update();

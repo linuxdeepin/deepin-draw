@@ -89,7 +89,7 @@ void SliderLabel::updateDrawStatus(DrawStatus status,
     m_drawStatus = status;
     m_widgetStatus = widgetStatus;
 
-    if (widgetStatus != MiddleWidgetStatus::Cut)
+    if (widgetStatus != MiddleWidgetStatus::DrawText)
     {
         if (m_drawStatus == DrawStatus::Fill)
         {
@@ -99,7 +99,7 @@ void SliderLabel::updateDrawStatus(DrawStatus status,
             colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
         }
     } else {
-        colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+        colorAlpha = ConfigSettings::instance()->value("text", "fillColor_alpha").toInt();
     }
 
     m_slider->setAlphaValue(colorAlpha);

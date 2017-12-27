@@ -136,6 +136,14 @@ ColorPanel::ColorPanel(QWidget *parent)
             ConfigSettings::instance()->setValue("text", "fillColor_alpha", value);
         }
     });
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
+            [=](const QString &group, const QString &key){
+        Q_UNUSED(group);
+        if (key == "fillColor_alpha" || key == "strokeColor_alpha")
+        {
+            m_sliderLabel->updateDrawStatus(m_drawstatus, m_widgetStatus);
+        }
+    });
 
     m_editLabel = new EditLabel(this);
     m_editLabel->setTitle(tr("Color"));
@@ -265,6 +273,12 @@ void ColorPanel::updateConfigByWidget(const QString &group,
         qDebug() << "updateCofigByWidget:" << group << key << color.name();
         m_sliderLabel->setAlpha(100);
     }
+}
+
+void ColorPanel::updateColorAlpha(DrawStatus status,
+                                  MiddleWidgetStatus widgetStatus)
+{
+    m_sliderLabel->updateDrawStatus(status, widgetStatus);
 }
 
 void ColorPanel::setMiddleWidgetStatus(MiddleWidgetStatus status)
