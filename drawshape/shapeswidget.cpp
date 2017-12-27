@@ -647,6 +647,13 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         m_selectedOrder = -1;
         m_selectedShape.type = "";
         m_pressedPoint = QPointF(100, 100);
+
+        if (m_currentShape.type == "text")
+        {
+            m_currentShape.type = "";
+            m_clearAllTextBorder = true;
+        }
+        update();
     }
 
     compressToImage();
@@ -1467,10 +1474,14 @@ bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos)
 {
     qDebug() << "hoverOnText:" <<  mainPoints << pos;
 
-    if (hoverOnRect(mainPoints, pos, false) ||  (pos.x() >= mainPoints[0].x() - 5
-         && pos.x() <= mainPoints[2].x() + 5 && pos.y() >= mainPoints[0].y() - 5
-        && pos.y() <= mainPoints[2].y() + 5)) {
+    if (hoverOnRect(mainPoints, pos, false) ||  (pos.x() >= mainPoints[0].x()
+         && pos.x() <= mainPoints[2].x() && pos.y() >= mainPoints[0].y()
+        && pos.y() <= mainPoints[2].y())) {
         qDebug() << "hoverOnText Moving";
+        m_resizeDirection = Moving;
+        return true;
+    } else if (pointInRect(mainPoints, pos))
+    {
         m_resizeDirection = Moving;
         return true;
     } else {
@@ -1937,12 +1948,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
         if (m_selectedOrder != -1 && !m_imageCutting)
         {
-            if (m_shapes[m_selectedOrder].type == "text")
-            {
-                setAllTextEditReadOnly();
-                m_selectedOrder = -1;
-                return;
-            } else if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
+            if ((!clickedOnShapes(QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration))
                  && m_isRotated) && m_selectedOrder == -1)
             {
                 clearSelected();
@@ -1982,12 +1988,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             return;
         }
 
-    //    if (e->button() == Qt::RightButton)
-    //    {
-    //        qDebug() << "RightButton clicked!";
-    //        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
-    //        return;
-    //    }
+        if (e->button() == Qt::RightButton)
+        {
+            m_menu->popup(this->cursor().pos());
+            return;
+        }
 
         if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
         {
@@ -2026,11 +2031,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     createBlurImage();
             } else if (m_currentType == "text") {
                 if (!m_editing && m_selectedOrder == -1) {
+                    m_clearAllTextBorder = false;
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pressedPoint;
                     m_currentShape.index = m_currentIndex;
                     m_currentShape.fillColor =  m_brushColor;
                     qDebug() << "new textedit:" << m_currentIndex;
+
                     TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
                     m_currentShape.fontSize =  m_textFontsize;
@@ -4214,6 +4221,7 @@ void ShapesWidget::pasteShape(QPoint pos)
     {
         TextEdit* edit = new TextEdit(m_shapesIndex, this);
         edit->setFontSize(m_hangingShape.fontSize);
+        qDebug() << "hanging shape..." << m_hangingShape.fillColor.alphaF();
         edit->setColor(m_hangingShape.fillColor);
         edit->insertPlainText(m_hangingShape.text);
         edit->move(QPoint(m_hangingShape.mainPoints[0].x(),
