@@ -3349,8 +3349,8 @@ void ShapesWidget::deleteCurrentShape()
         }
 
         Q_UNUSED(compressImage);
-//        if (compressImage)
-            compressToImage();
+        compressToImage();
+        update();
     } else
     {
         qWarning() << "Invalid index";
