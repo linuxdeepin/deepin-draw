@@ -1,5 +1,7 @@
 #include "canvaswidget.h"
 
+#include "utils/configsettings.h"
+
 #include <QHBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
@@ -40,7 +42,11 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &CanvasWidget::updateMiddleWidget);
     connect(m_shapesWidget, &ShapesWidget::adjustArtBoardSize,
-            this, &CanvasWidget::adjustArtBoardSize);
+            this,  [=](QSize size){
+        ConfigSettings::instance()->setValue("artboard", "width", size.width());
+        ConfigSettings::instance()->setValue("artboard", "height", size.height());
+        emit adjustArtBoardSize(size);
+    });
     connect(m_shapesWidget, &ShapesWidget::cutImageFinished,
             this, &CanvasWidget::cutImageFinished);
     connect(m_shapesWidget, &ShapesWidget::shapePressed,

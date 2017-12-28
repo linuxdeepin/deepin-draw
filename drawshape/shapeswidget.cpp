@@ -3440,7 +3440,7 @@ void ShapesWidget::showCutImageTips(QPointF pos)
         m_recordCutImage = false;
 
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
-                          << m_needCompress;
+                        << m_needCompress;
         emit cutImageFinished();
     });
 
