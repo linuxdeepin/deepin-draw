@@ -3509,6 +3509,7 @@ void ShapesWidget::loadImage(QStringList paths)
     }
 
     m_selectedOrder = m_shapes.length() - 1;
+    m_isSelected = true;
     m_moveFillShape = true;
     emit updateMiddleWidgets("image");
 
