@@ -353,7 +353,7 @@ void TopToolbar::showDrawDialog()
 
 void TopToolbar::showSaveDialog()
 {
-    SaveDialog* sd = new SaveDialog(TempFile::instance()->savedImage());
+    SaveDialog* sd = new SaveDialog(TempFile::instance()->savedImage(), this);
     sd->showInCenter(window());
 }
 

@@ -740,7 +740,7 @@ bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
         m_pressedPoint = pos;
 
         return true;
-    } else if (rotateOnImagePoint(rectPoints, pos)) {
+    } else if (rotateOnPoint(rectPoints, pos)) {
         qDebug() << "rotateOnPoint!";
         m_isSelected = true;
         m_isRotated = true;
@@ -1227,7 +1227,7 @@ bool ShapesWidget::hoverOnImage(FourPoints rectPoints, QPointF pos)
     } else if (pointClickIn(rectPoints[3], pos, POINT_SPACING)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnImagePoint(rectPoints, pos) && m_selectedOrder != -1
+    } else if (rotateOnPoint(rectPoints, pos) && m_selectedOrder != -1
                && m_selectedIndex == m_hoveredIndex) {
         m_resizeDirection = Rotate;
         return true;
@@ -1544,8 +1544,6 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
             continue;
         }
     }
-
-    qDebug() << "********" << m_resizeDirection;
 
     if (!m_isHovered)
     {
@@ -2892,13 +2890,14 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape)
     selectedPen.setColor(QColor("#01bdff"));
     selectedPen.setWidth(1);
 
-    if (shape.type == "image")
+/*    if (shape.type == "image")
     {
         painter.setPen(selectedPen);
         paintSelectedRect(painter, shape.mainPoints);
         paintSelectedImageRectPoints(painter, shape.mainPoints);
-    } else if (shape.type == "rectangle" || shape.type == "oval"
-            || shape.type == "blur"|| shape.type == "arbitraryCurve")
+    } else */
+    if (shape.type == "rectangle" || shape.type == "oval" || shape.type
+               == "blur"|| shape.type == "arbitraryCurve" || shape.type == "image")
     {
         painter.setPen(selectedPen);
         paintSelectedRect(painter, shape.mainPoints);
@@ -2934,10 +2933,9 @@ void ShapesWidget::resizeEvent(QEvent* e)
 void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    qDebug() << "ccccccc:" << m_shapes.length() << m_needCompress;
     if (!m_needCompress)
     {
         for(int i = 0; i < m_shapes.length(); i++)
@@ -3446,7 +3444,6 @@ void ShapesWidget::showCutImageTips(QPointF pos)
             m_shapes.removeAt(m_shapes.length() - 1);
 
         m_selectedOrder = m_cutImageOrder;
-        qDebug() << "XXXXx" << m_selectedOrder;
         setCurrentShape("selected");
         m_moveFillShape = true;
         m_recordCutImage = false;
@@ -3458,7 +3455,6 @@ void ShapesWidget::showCutImageTips(QPointF pos)
 
     connect(m_cutImageTips, &CutImageTips::cutAction,
             this,  [=]{
-        qDebug() << "CCCCCCutImageTips......";
         m_imageCutting = false;
         m_recordCutImage = true;
         cutImage();
@@ -3508,14 +3504,16 @@ void ShapesWidget::loadImage(QStringList paths)
                             (this->width() - imageShape.imageSize.width())/2,
                              (this->height() - imageShape.imageSize.height())/2);
             }
-            imageShape.mainPoints[0] =  m_startPos;
-            imageShape.mainPoints[0] = QPointF(m_startPos.x(), m_startPos.y());
-            imageShape.mainPoints[1] = QPointF(m_startPos.x(),
-                                              m_startPos.y()+ imageShape.imageSize.height());
-            imageShape.mainPoints[2] = QPointF(m_startPos.x() +
-                                              imageShape.imageSize.width(), m_startPos.y());
-            imageShape.mainPoints[3] = QPointF(m_startPos.x() +
-                                              imageShape.imageSize.width(), m_startPos.y() +
+            imageShape.mainPoints[0] =  QPointF(m_startPos.x()/m_ration,
+                                                m_startPos.y()/m_ration);
+            imageShape.mainPoints[0] = QPointF(m_startPos.x()/m_ration,
+                                               m_startPos.y()/m_ration);
+            imageShape.mainPoints[1] = QPointF(m_startPos.x()/m_ration,
+                m_startPos.y()/m_ration + imageShape.imageSize.height());
+            imageShape.mainPoints[2] = QPointF(m_startPos.x()/m_ration +
+                imageShape.imageSize.width(), m_startPos.y()/m_ration);
+            imageShape.mainPoints[3] = QPointF(m_startPos.x()/m_ration +
+                imageShape.imageSize.width(), m_startPos.y()/m_ration +
                                               imageShape.imageSize.height());
             m_shapes.append(imageShape);
             m_startPos = QPointF(m_startPos.x() + PIC_SPACING,
@@ -3547,6 +3545,7 @@ void ShapesWidget::compressToImage()
     for(int k = 0; k < m_shapes.length(); k++)
     {
         QPainter bottomPainter(&m_bottomPixmap);
+        bottomPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
         if (m_shapes[k].type == "cutImage")
         {
             continue;
@@ -3565,6 +3564,7 @@ void ShapesWidget::compressToImage()
     if (m_imageCutting)
     {
         QPainter bgPainter(&m_bottomPixmap);
+        bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
         if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
         {
             bgPainter.setOpacity(1);
@@ -3577,6 +3577,7 @@ void ShapesWidget::compressToImage()
 
     if (m_imageCutting) {
         QPainter blackPainter(&m_bottomPixmap);
+        blackPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
         blackPainter.setOpacity(0.5);
         blackPainter.fillRect(this->rect(), QBrush(QColor("#000000")));
         blackPainter.setBrush(Qt::transparent);
@@ -3722,7 +3723,9 @@ QList<QPixmap> ShapesWidget::saveCanvasImage()
     whitePixmap.fill(Qt::white);
 
     QPainter transPainter(&transPixmap);
+    transPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QPainter whitePainter(&whitePixmap);
+    whitePainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
     m_saveWithRation = true;
     m_saveRation = std::max(m_artBoardActualWidth,
@@ -3760,6 +3763,7 @@ void ShapesWidget::printImage()
     printDialog->resize(400, 300);
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
         QRectF drawRectF; QRect wRect;
         if (resultPixmap.isNull()) {
             qDebug() << "resultPixmap is null, exit !";
