@@ -125,7 +125,8 @@ void ShapesWidget::initAttribute()
     m_cutImageOrder = -1;
 
     qDebug() << "cutShape length:" << m_cutShape.mainPoints.length();
-    m_startPos = QPointF(ARTBOARD_MARGIN, ARTBOARD_MARGIN);
+    m_startPos = QPointF(ARTBOARD_MARGIN,
+                         ARTBOARD_MARGIN + 75);
     initCanvasSize();
 
     m_penColor =  QColor(Qt::blue);
@@ -399,6 +400,7 @@ void ShapesWidget::setAllTextEditReadOnly()
         m_currentShape.points.clear();
         m_currentShape.points.clear();
     }
+
     m_editing = false;
 
     for(int k = 0; k < m_shapes.length(); k++)
@@ -586,7 +588,8 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         }
         if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
         {
-            if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos))
+            if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos,
+                              m_shapes[i].lineWidth))
             {
                 currentOnShape = true;
 
@@ -1107,7 +1110,7 @@ bool ShapesWidget::clickedOnArrow(QList<QPointF> points,
 }
 
 bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
-                                      QList<QPointF> points, QPointF pos)
+                                      QList<QPointF> points, QPointF pos, int padding)
 {
     m_isSelected = false;
     m_isResize = false;
@@ -1115,56 +1118,56 @@ bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
 
     m_pressedPoint = QPoint(0, 0);
     FourPoints otherFPoints = getAnotherFPoints(mainPoints);
-    if (pointClickIn(mainPoints[0], pos, POINT_SPACING)) {
+    if (pointClickIn(mainPoints[0], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = First;
         m_resizeDirection = TopLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[1], pos, POINT_SPACING)) {
+    } else if (pointClickIn(mainPoints[1], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Second;
         m_resizeDirection = BottomLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[2], pos, POINT_SPACING)) {
+    } else if (pointClickIn(mainPoints[2], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Third;
         m_resizeDirection = TopRight;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[3], pos, POINT_SPACING)) {
+    } else if (pointClickIn(mainPoints[3], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fourth;
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointClickIn(otherFPoints[0], pos, POINT_SPACING)) {
+    }  else if (pointClickIn(otherFPoints[0], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fifth;
         m_resizeDirection = Left;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[1], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[1], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Sixth;
         m_resizeDirection = Top;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[2], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[2], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Seventh;
         m_resizeDirection = Right;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[3], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[3], pos, padding)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Eighth;
@@ -1178,7 +1181,7 @@ bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
         m_resizeDirection = Rotate;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointOnArLine(points, pos)) {
+    }  else if (pointOnArLine(points, pos, padding)) {
         m_isSelected = true;
         m_isResize = false;
         m_resizeDirection = Moving;
@@ -1515,7 +1518,7 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
         } else if (m_shapes[i].type == "cutImage") {
             if (hoverOnCutImage(m_shapes[i].mainPoints, pos))
                 m_isHovered = true;
-        } else if (m_shapes[i].type == "arrow" ||m_shapes[i].type == "straightLine") {
+        } else if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine") {
             if (hoverOnArrow(m_shapes[i].points, pos))
                 m_isHovered = true;
         } else if (m_shapes[i].type == "arbitraryCurve") {
@@ -2818,7 +2821,7 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
 
     int degree = int(imageShape.rotate*180/M_PI)%360;
     qreal angle = degree*M_PI/180;
-    qDebug() << "@#$:" << angle;
+    qDebug() << "image rotate angle:" << angle;
 
     if (imageShape.rotate == 0)
     {
@@ -3107,7 +3110,7 @@ void ShapesWidget::paintHoveredShape(QPainter &painter, Toolshape shape)
     qreal tmpRation = m_ration*m_saveRation;
 
     if (shape.type == "image" || shape.type == "oval" || shape.type == "rectangle"
-            || shape.type == "text")
+            || shape.type == "text" || shape.type == "arbitraryCurve" || shape.type == "blur")
     {
 
         QPainterPath rectPath;
@@ -3130,18 +3133,6 @@ void ShapesWidget::paintHoveredShape(QPainter &painter, Toolshape shape)
 
             painter.drawPath(linePath);
         }
-    } else if (shape.type == "arbitraryCurve" || shape.type == "blur")
-    {
-        QList<QPointF> points = shape.points;
-        QPainterPath linePath;
-
-        for(int i = 0; i < points.length(); i++)
-        {
-            if (i == 0)
-                linePath.moveTo(points[0].x()*tmpRation, points[0].y()*tmpRation);
-            linePath.lineTo(points[i].x()*tmpRation, points[i].y()*tmpRation);
-        }
-        painter.drawPath(linePath);
     }
 }
 

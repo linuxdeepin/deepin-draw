@@ -77,7 +77,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     m_qualitySlider = new QSlider(Qt::Horizontal,this);
     m_qualitySlider->setMinimum(50);
     m_qualitySlider->setMaximum(100);
-    m_qualitySlider->setFixedWidth(146);
+    m_qualitySlider->setFixedWidth(140);
     m_qualitySlider->setValue(m_qualitySlider->maximum());
 
     m_valueLabel = new QLabel(this);
@@ -95,7 +95,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
     qualityHLayout->addWidget(m_qualitySlider);
-    qualityHLayout->addSpacing(8);
+    qualityHLayout->addSpacing(10);
     qualityHLayout->addWidget(m_valueLabel);
 
     QWidget* w = new QWidget;

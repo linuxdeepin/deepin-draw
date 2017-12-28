@@ -137,7 +137,7 @@ private:
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
     bool clickedOnLine(FourPoints mainPoints,
-                       QList<QPointF> points, QPointF pos);
+                       QList<QPointF> points, QPointF pos, int padding = 4);
     bool clickedOnText(FourPoints mainPoints, QPointF pos);
 
     bool rotateOnImagePoint(FourPoints mainPoints, QPointF pos);
