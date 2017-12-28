@@ -145,7 +145,7 @@ private:
 
     void hoverOnShapes(QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
-    bool hoverOnImage(FourPoints rectPoints, QPointF pos);
+//    bool hoverOnImage(FourPoints rectPoints, QPointF pos);
     bool hoverOnCutImage(FourPoints rectPoints, QPointF pos);
     bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isFilled = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos, bool isFilled = false);
@@ -157,7 +157,7 @@ private:
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
     void paintHoveredShape(QPainter &painter, Toolshape shape);
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
-    void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
+//    void paintSelectedImageRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter,  Toolshape shape);
