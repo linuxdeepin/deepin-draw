@@ -163,12 +163,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
         m_lineBtn->setChecked(true);
         setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
-        int styleIndex = ConfigSettings::instance()->value("line", "style").toInt();
-        switch (styleIndex) {
-        case 0: drawShapes("straightLine"); break;
-        case 1: drawShapes("arbitraryCurve"); break;
-        default: drawShapes("arrow"); break;
-        }
+        drawShapes("line");
     });
     connect(m_textBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, actionPushButtons)

@@ -75,7 +75,7 @@ public:
     void mirroredImage(bool horizontal, bool vertical);
     void setAllTextEditReadOnly();
     void setFillShapeSelectedActive(bool selected);
-    void setLineStyle(int index);
+    QString getLineStyle(int index);
     void showCutImageTips(QPointF pos);
     QList<QPixmap> saveCanvasImage();
     void saveImage();
@@ -202,7 +202,7 @@ private:
 
     bool m_editing;
     bool m_needCompress;
-    bool m_moveFillShape;
+    bool m_moveShape;
 
     bool m_isShiftPressed;
     bool m_isAltPressed;

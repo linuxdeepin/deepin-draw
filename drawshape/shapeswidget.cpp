@@ -86,7 +86,7 @@ void ShapesWidget::initAttribute()
 
     m_editing = false;
     m_needCompress = false;
-    m_moveFillShape = false;
+    m_moveShape = false;
 
     m_isShiftPressed = false;
     m_isAltPressed = false;
@@ -230,7 +230,10 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                         "common", "lineWidth").toInt();
         }
     } else if (group == "line" && key == "style") {
-        setLineStyle(ConfigSettings::instance()->value("line", "style").toInt());
+        if (m_currentType == "straightLine" || m_currentType == "arrow"
+                || m_currentType == "arbitraryCurve") {
+            setCurrentShape("line");
+        }
     } else if (group == "blur" && key == "index") {
         m_blurLinewidth = ConfigSettings::instance()->value(
             "blur", "index").toInt();
@@ -302,11 +305,24 @@ void ShapesWidget::setShapes(QList<Toolshape> shapes)
 void ShapesWidget::setCurrentShape(QString shapeType)
 {
     qDebug() << "setCurrentShape" << shapeType;
-    if (m_currentType == shapeType)
+    if (m_currentType == shapeType && shapeType != "line")
         return;
+    else {
+        if (shapeType != "selected" && shapeType != "cutImage")
+        {
+            m_selectedOrder = -1;
+            m_isSelected = false;
+        }
+    }
 
     if (shapeType != "selected")
-        m_moveFillShape = false;
+    {
+        m_moveShape = false;
+        ConfigSettings::instance()->setValue("tools", "activeMove", false);
+    } else {
+        m_moveShape = true;
+        ConfigSettings::instance()->setValue("tools", "activeMove", true);
+    }
 
     if (m_currentType != "blur" && shapeType == "blur")
         m_generateBlurImage = true;
@@ -326,6 +342,12 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     }
 
     m_currentType = shapeType;
+    if (m_currentType == "line")
+    {
+        int lineStyle = ConfigSettings::instance()->value("line", "style").toInt();
+        m_currentType = getLineStyle(lineStyle);
+    }
+
     updateShapeAttribute();
 }
 
@@ -412,7 +434,7 @@ void ShapesWidget::setAllTextEditReadOnly()
 
 void ShapesWidget::setFillShapeSelectedActive(bool selected)
 {
-    m_moveFillShape = selected;
+    m_moveShape = selected;
     qDebug() << "setFillShapeSelectedActive" << selected;
 }
 
@@ -451,8 +473,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
     bool onShapes = false;
 
     qDebug() << "Judge ClickedOnShapes !!!!!!!" << m_shapes.length();
-    if (m_shapes.length() == 0)
-        return onShapes;
 
     if (m_imageCutting)
     {
@@ -461,6 +481,10 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         }
         return onShapes;
     }
+
+    qDebug() << "clickedOnShapes:" << m_currentType << m_moveShape;
+    if (m_shapes.length() == 0 || !m_moveShape)
+        return onShapes;
 
     m_selectedOrder = -1;
     for (int i = m_shapes.length() - 1; i >= 0; i--)
@@ -645,7 +669,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
         if (m_currentShape.type == "text")
         {
-            m_currentShape.type = "";
+//            m_currentShape.type = "";
             m_clearAllTextBorder = true;
         }
         update();
@@ -662,7 +686,7 @@ bool ShapesWidget::clickedOnImage(FourPoints rectPoints, QPointF pos)
     m_isResize = false;
     m_isRotated = false;
 
-    if (!m_moveFillShape)
+    if (!m_moveShape)
         return false;
 
     QPointF point1 = rectPoints[0];
@@ -858,7 +882,7 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
     m_isResize = false;
     m_isRotated = false;
 
-    if (isFilled && !m_moveFillShape)
+    if (!m_moveShape)
     {
         return false;
     }
@@ -962,7 +986,7 @@ bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints,
     m_isResize = false;
     m_isRotated = false;
 
-    if (isFilled && !m_moveFillShape)
+    if (!m_moveShape)
     {
         return false;
     }
@@ -1099,6 +1123,9 @@ bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
     m_isResize = false;
     m_isRotated = false;
 
+    if (!m_moveShape)
+        return false;
+
     m_pressedPoint = QPoint(0, 0);
     FourPoints otherFPoints = getAnotherFPoints(mainPoints);
     if (pointClickIn(mainPoints[0], pos, padding)) {
@@ -1234,8 +1261,8 @@ bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
                                QPointF pos, bool isFilled)
 {
-    qDebug() << "isFilled:" << isFilled << m_moveFillShape;
-    if (isFilled && !m_moveFillShape)
+    qDebug() << "isFilled:" << isFilled << m_moveShape;
+    if (isFilled && !m_moveShape)
         return false;
 
     FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
@@ -1286,7 +1313,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
 bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints,
                                   QPointF pos, bool isFilled)
 {
-    if (isFilled && !m_moveFillShape)
+    if (isFilled && !m_moveShape)
         return false;
 
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
@@ -1427,6 +1454,24 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
     m_hoveredIndex = -1;
     m_hoveredShape.type = "";
 
+    if (m_imageCutting)
+    {
+        for (int k = m_shapes.length() - 1; k >= 0; k--)
+        {
+            if (m_shapes[k].type == "cutImage" && hoverOnCutImage(
+                        m_shapes[k].mainPoints, pos)) {
+                m_isHovered = true;
+                break;
+            }
+        }
+        if (m_isHovered)
+            updateCursorDirection(m_resizeDirection);
+
+    }
+
+    if (!m_moveShape)
+        return;
+
     for(int i = m_shapes.length() - 1; i >= 0; i--)
     {
         m_hoveredIndex = i;
@@ -1441,9 +1486,6 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
         } else if (m_shapes[i].type == "oval") {
             if (hoverOnEllipse(m_shapes[i].mainPoints, pos,
                              m_shapes[i].fillColor.alpha() != 0))
-                m_isHovered = true;
-        } else if (m_shapes[i].type == "cutImage") {
-            if (hoverOnCutImage(m_shapes[i].mainPoints, pos))
                 m_isHovered = true;
         } else if (m_shapes[i].type == "arrow" || m_shapes[i].type == "straightLine") {
             if (hoverOnArrow(m_shapes[i].points, pos))
@@ -1919,7 +1961,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         if (!clickedOnShapes(m_pressedPoint) && m_currentType != "image")
         {
             m_isRecording = true;
-
             m_currentShape.type = m_currentType;
             m_currentShape.strokeColor = m_penColor;
             m_currentShape.fillColor = m_brushColor;
@@ -2141,6 +2182,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
         }
     }
 
+    qDebug() << "RelaseEvent:" << m_shapes.length();
     m_currentShape.points.clear();
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
@@ -3303,14 +3345,17 @@ QString ShapesWidget::getCurrentType()
     return m_currentShape.type;
 }
 
-void ShapesWidget::setLineStyle(int index)
+QString ShapesWidget::getLineStyle(int index)
 {
+    QString lineType;
     switch (index)
     {
-    case 0: setCurrentShape("straightLine"); break;
-    case 1: setCurrentShape("arbitraryCurve"); break;
-    default: setCurrentShape("arrow"); break;
+    case 0: lineType = "straightLine"; break;
+    case 1: lineType = "arbitraryCurve"; break;
+    default: lineType = "arrow"; break;
     }
+
+    return lineType;
 }
 
 void ShapesWidget::showCutImageTips(QPointF pos)
@@ -3330,7 +3375,6 @@ void ShapesWidget::showCutImageTips(QPointF pos)
 
         m_selectedOrder = m_cutImageOrder;
         setCurrentShape("selected");
-        m_moveFillShape = true;
         m_recordCutImage = false;
 
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
@@ -3408,7 +3452,7 @@ void ShapesWidget::loadImage(QStringList paths)
 
     m_selectedOrder = m_shapes.length() - 1;
     m_isSelected = true;
-    m_moveFillShape = true;
+    setCurrentShape("selected");
     emit updateMiddleWidgets("image");
 
     qDebug() << "load image finished, compress image begins!";
@@ -3798,6 +3842,7 @@ void ShapesWidget::updateCursorShape()
 
 void ShapesWidget::setImageCutting(bool cutting)
 {
+    qDebug() << "setImageCutting " << cutting << m_selectedOrder;
     if (cutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
         if (m_recordCutImage && m_selectedOrder != -1 && m_cutImageShape.type != ""
@@ -3980,7 +4025,6 @@ void ShapesWidget::cutImage()
             m_needCompress = true;
             m_selectedOrder = imageIndex;
             compressToImage();
-            m_moveFillShape = true;
             setCurrentShape("selected");
 
             emit cutImageFinished();

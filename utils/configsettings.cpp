@@ -39,6 +39,8 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("cut", "ration", "free");
     }
 
+    setValue("tools", "activeMove", "false");
+
     qDebug() << "Setting file:" << m_settings->fileName();
 }
 

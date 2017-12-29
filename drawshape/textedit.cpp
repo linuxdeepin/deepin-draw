@@ -8,6 +8,7 @@
 #include <QApplication>
 
 #include "utils/baseutils.h"
+#include "utils/configsettings.h"
 
 const QSize CURSOR_SIZE = QSize(5, 20);
 const int TEXT_MARGIN = 10;
@@ -120,56 +121,66 @@ void TextEdit::keepReadOnlyStatus()
 
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::RightButton)
+    bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
+    if (activeMove)
     {
-        emit textEditSelected(getIndex());
-        emit showMenuInTextEdit();
-        return;
-    }
-
-    if (!this->isReadOnly()) {
-        emit textEditSelected(getIndex());
-        QPlainTextEdit::mousePressEvent(e);
-        return;
-    }
-
-    if (e->button() == Qt::LeftButton) {
-        m_isPressed = true;
-        m_pressPoint = QPointF(mapToGlobal(e->pos()));
-
-        if (this->isReadOnly()) {
+        if (e->button() == Qt::RightButton)
+        {
             emit textEditSelected(getIndex());
+            emit showMenuInTextEdit();
+            return;
+        }
+
+        if (!this->isReadOnly()) {
+            emit textEditSelected(getIndex());
+            QPlainTextEdit::mousePressEvent(e);
+            return;
+        }
+
+        if (e->button() == Qt::LeftButton) {
+            m_isPressed = true;
+            m_pressPoint = QPointF(mapToGlobal(e->pos()));
+
+            if (this->isReadOnly()) {
+                emit textEditSelected(getIndex());
+            }
         }
     }
-
     QPlainTextEdit::mousePressEvent(e);
 }
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e)
 {
-    qApp->setOverrideCursor(Qt::ClosedHandCursor);
-    QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
-    QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());
+    bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
+    if (activeMove)
+    {
+        qApp->setOverrideCursor(Qt::ClosedHandCursor);
+        QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
+        QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());
 
-    if (m_isPressed && movePos != m_pressPoint) {
-        this->move(this->x() + movePos.x() - m_pressPoint.x(),
-                   this->y() + movePos.y() - m_pressPoint.y());
+        if (m_isPressed && movePos != m_pressPoint) {
+            this->move(this->x() + movePos.x() - m_pressPoint.x(),
+                       this->y() + movePos.y() - m_pressPoint.y());
 
-        emit  repaintTextRect(this,  QRectF(qreal(this->x()), qreal(this->y()),
-                                                                        this->width(),  this->height()));
-        m_pressPoint = movePos;
+            emit  repaintTextRect(this,  QRectF(qreal(this->x()), qreal(this->y()),
+                                                this->width(),  this->height()));
+            m_pressPoint = movePos;
+        }
     }
-
 
     QPlainTextEdit::mouseMoveEvent(e);
 }
 
 void TextEdit::mouseReleaseEvent(QMouseEvent *e)
 {
-    m_isPressed = false;
-    if (this->isReadOnly()) {
-        setMouseTracking(false);
-        return;
+    bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
+    if (activeMove)
+    {
+        m_isPressed = false;
+        if (this->isReadOnly()) {
+            setMouseTracking(false);
+            return;
+        }
     }
 
     QPlainTextEdit::mouseReleaseEvent(e);
@@ -177,10 +188,14 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e)
 
 void TextEdit::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    this->setReadOnly(false);
-    this->setCursorVisible(true);
-    emit backToEditing();
-    QPlainTextEdit::mouseDoubleClickEvent(e);
+    bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
+    if (activeMove)
+    {
+        this->setReadOnly(false);
+        this->setCursorVisible(true);
+        emit backToEditing();
+        QPlainTextEdit::mouseDoubleClickEvent(e);
+    }
 }
 
 void TextEdit::keyPressEvent(QKeyEvent* e)
@@ -194,7 +209,11 @@ void TextEdit::keyPressEvent(QKeyEvent* e)
 void TextEdit::enterEvent(QEnterEvent* e)
 {
     Q_UNUSED(e);
-    qApp->setOverrideCursor(Qt::ClosedHandCursor);
+    bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
+    if (activeMove)
+    {
+        qApp->setOverrideCursor(Qt::ClosedHandCursor);
+    }
 }
 
 TextEdit::~TextEdit() {}
