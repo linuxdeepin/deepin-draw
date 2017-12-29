@@ -235,9 +235,9 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_slim_hover.svg);
 }
 
-ToolButton#LineMostThinBtn:pressed {
+/*ToolButton#LineMostThinBtn:pressed {
 border-image: url(:/theme/light/images/draw/blur_slim_active.svg);
-}
+}*/
 
 ToolButton#LineThickLineBtn {
 border-image: url(:/theme/light/images/draw/blur_thick_normal.svg);
@@ -251,7 +251,7 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_thick_hover.svg);
 }
 
-ToolButton#LineThickLineBtn:pressed{
+/*ToolButton#LineThickLineBtn:pressed{
 border-image: url(:/theme/light/images/draw/blur_thick_active.svg);
-}
+}*/
 

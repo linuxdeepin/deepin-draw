@@ -49,14 +49,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 
     connect(this, &ShapesWidget::finishedDrawCut,
                     this, &ShapesWidget::showCutImageTips);
-//    connect(m_menuController, &MenuController::shapePressed,
-//                   this, &ShapesWidget::shapePressed);
-//    connect(m_menuController, &MenuController::saveBtnPressed,
-//            this, &ShapesWidget::saveBtnPressed);
-//    connect(m_menuController, &MenuController::unDoAction,
-//            this, &ShapesWidget::undoDrawShapes);
-//    connect(m_menuController, &MenuController::menuNoFocus,
-//            this, &ShapesWidget::menuNoFocus);
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
             this, &ShapesWidget::updateSelectedShape);
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
@@ -1211,58 +1203,6 @@ bool ShapesWidget::clickedOnText(FourPoints mainPoints, QPointF pos)
         return false;
     }
 }
-
-//bool ShapesWidget::hoverOnImage(FourPoints rectPoints, QPointF pos)
-//{
-//    qDebug() << "hoverOnImage,,,:" << m_moveFillShape
-//                    << rotateOnPoint(rectPoints, pos);
-////    if (!m_moveFillShape)
-////        return false;
-
-//    FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
-//    if (pointClickIn(rectPoints[0], pos, POINT_SPACING)) {
-//        m_resizeDirection = TopLeft;
-//        return true;
-//    } else if (pointClickIn(rectPoints[1], pos, POINT_SPACING)) {
-//        m_resizeDirection = BottomLeft;
-//        return true;
-//    } else if (pointClickIn(rectPoints[2], pos, POINT_SPACING)) {
-//        m_resizeDirection = TopRight;
-//        return true;
-//    } else if (pointClickIn(rectPoints[3], pos, POINT_SPACING)) {
-//        m_resizeDirection = BottomRight;
-//        return true;
-//    } else if (rotateOnPoint(rectPoints, pos) && m_selectedOrder != -1
-//               && m_selectedIndex == m_hoveredIndex) {
-//        m_resizeDirection = Rotate;
-//        return true;
-//    }  else if (pointClickIn(tmpFPoints[0], pos, POINT_SPACING)) {
-//        m_resizeDirection = Left;
-//        return true;
-//    } else if (pointClickIn(tmpFPoints[1], pos, POINT_SPACING)) {
-//        m_resizeDirection = Top;
-//        return true;
-//    }  else if (pointClickIn(tmpFPoints[2], pos, POINT_SPACING)) {
-//        m_resizeDirection = Right;
-//        return true;
-//    } else if (pointClickIn(tmpFPoints[3], pos, POINT_SPACING)) {
-//        m_resizeDirection = Bottom;
-//        return true;
-//    } else if (pointOnLine(rectPoints[0],  rectPoints[1], pos) || pointOnLine(rectPoints[1],
-//        rectPoints[3], pos) || pointOnLine(rectPoints[3], rectPoints[2], pos) ||
-//        pointOnLine(rectPoints[2], rectPoints[0], pos)) {
-//        m_resizeDirection = Moving;
-//        return true;
-//    } else if (pointInRect(rectPoints, pos))
-//    {
-//        m_resizeDirection = Moving;
-//        return true;
-//    } else {
-//        m_resizeDirection = Outting;
-//    }
-
-//    return false;
-//}
 
 bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 {
@@ -3145,33 +3085,6 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
     qDebug() << "ShapesWidget:" << m_penColor;
     painter.drawPath(rectPath);
 }
-
-//void ShapesWidget::paintSelectedImageRectPoints(QPainter &painter,
-//    FourPoints mainPoints)
-//{
-//    FourPoints mainRationPoints = mainPoints;
-//    for(int i = 0; i < mainPoints.length(); i++)
-//    {
-//        mainRationPoints[i] = QPointF(mainPoints[i].x()*m_ration, mainPoints[i].y()*m_ration);
-//    }
-
-//    QPointF rotatePoint = QPointF((mainRationPoints[0].x() + mainRationPoints[3].x())/2,
-//            (mainRationPoints[0].y() + mainRationPoints[3].y())/2);
-//    QPointF middlePoint = QPointF((mainRationPoints[0].x() + mainRationPoints[2].x())/2,
-//            (mainRationPoints[0].y() + mainRationPoints[2].y())/2);
-
-//    painter.drawLine(rotatePoint, middlePoint);
-//    paintImgPoint(painter, rotatePoint, ROTATE_POINT_IMG, false);
-//    for(int j = 0; j < mainRationPoints.length(); j++)
-//    {
-//        paintImgPoint(painter, mainRationPoints[j], RESIZE_POINT_IMG);
-//    }
-//    FourPoints anotherFPoints = getAnotherFPoints(mainRationPoints);
-//    for(int k = 0; k < anotherFPoints.length(); k++)
-//    {
-//        paintImgPoint(painter, anotherFPoints[k], RESIZE_POINT_IMG);
-//    }
-//}
 
 void ShapesWidget::paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints)
 {
