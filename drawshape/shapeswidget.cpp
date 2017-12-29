@@ -1884,7 +1884,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_isAltPressed = GlobalShortcut::instance()->altSc();
 
         if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
-                                                QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration)))
+            QPointF(e->pos().x()/m_ration, e->pos().y()/m_ration)))
         {
             m_isPressed = true;
             m_cutImageTips->hide();
@@ -2123,6 +2123,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                 m_currentShape.mainPoints = getMainPoints(
                             m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
+                m_needCompress = true;
             }
         } else if (m_currentType == "arbitraryCurve" || m_currentType == "blur")
         {
@@ -2160,6 +2161,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                 emit finishedDrawCut(m_currentShape.mainPoints[3]);
             } else {
                 m_shapes.append(m_currentShape);
+                m_needCompress = true;
             }
         }
 
@@ -2850,18 +2852,26 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape)
     }
 }
 
-void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape)
+void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
+                                      bool noRotatePoint)
 {
     QPen selectedPen;
     selectedPen.setColor(QColor("#01bdff"));
     selectedPen.setWidth(1);
 
-    if (shape.type == "rectangle" || shape.type == "oval" || shape.type
-               == "blur"|| shape.type == "arbitraryCurve" || shape.type == "image")
+    QPen dragPen;
+    dragPen.setStyle(Qt::DashLine);
+    dragPen.setColor(QColor("#888888"));
+    dragPen.setWidth(1);
+    if (shape.type == "rectangle" || shape.type == "oval" || shape.type == "blur"
+            || shape.type == "arbitraryCurve" || shape.type == "image")
     {
-        painter.setPen(selectedPen);
+        if (!noRotatePoint)
+            painter.setPen(selectedPen);
+        else
+            painter.setPen(dragPen);
         paintSelectedRect(painter, shape.mainPoints);
-        paintSelectedRectPoints(painter, shape.mainPoints);
+        paintSelectedRectPoints(painter, shape.mainPoints, noRotatePoint);
     } else if (shape.type == "arrow" || shape.type == "straightLine")
     {
         if (shape.points.length() == 2)
@@ -2876,7 +2886,10 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape)
     } else if (shape.type == "text") {
         selectedPen.setStyle(Qt::DashLine);
         selectedPen.setWidth(1);
-        painter.setPen(selectedPen);
+        if (!noRotatePoint)
+            painter.setPen(selectedPen);
+        else
+            painter.setPen(dragPen);
         paintSelectedRect(painter, shape.mainPoints);
     }
 }
@@ -2896,35 +2909,16 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     qDebug() << m_selectedOrder << m_shapes.length();
 
-    if (!m_needCompress)
-    {
-        for(int i = 0; i < m_shapes.length(); i++)
-        {
-            if (m_cutImageOrder != -1 && m_currentType == "cutImage")
-            {
-                if (m_shapes[i].type == "image" && i != m_cutImageOrder)
-                {
-                    painter.setOpacity(0.4);
-                } else {
-                    painter.setOpacity(1);
-                }
-                 paintShape(painter, m_shapes[i]);
-            } else {
-                paintShape(painter, m_shapes[i]);
-            }
-        }
-    } else {
-            painter.drawPixmap(0, 0, m_bottomPixmap);
-    }
-
-    painter.setOpacity(1);
+    painter.drawPixmap(0, 0, m_bottomPixmap);
 
     if (!m_imageCutting)
     {
-        if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+        if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length()
+                && m_isMoving && m_isPressed)
         {
+            //paint the drag shape
             painter.setOpacity(1);
-            paintSelectedShape(painter, m_shapes[m_selectedOrder]);
+            paintSelectedShape(painter, m_shapes[m_selectedOrder], true);
         }
     }
 
@@ -3113,8 +3107,11 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
     painter.drawPath(rectPath);
 }
 
-void ShapesWidget::paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints)
+void ShapesWidget::paintSelectedRectPoints(QPainter &painter,
+                                           FourPoints mainPoints, bool noRotatePoint)
 {
+    if (noRotatePoint)
+        return;
     FourPoints mainRationPoints = mainPoints;
     for(int i = 0; i < mainPoints.length(); i++)
     {
@@ -3403,7 +3400,6 @@ void ShapesWidget::loadImage(QStringList paths)
     {
         if (QFileInfo(paths[i]).exists())
         {
-            m_imagesCount++;
             setCurrentShape("image");
             if (!m_needCompress)
                 m_needCompress = true;
@@ -3491,29 +3487,26 @@ void ShapesWidget::compressToImage()
         }
     }
 
-    if (m_imageCutting)
+    QPainter bgPainter(&m_bottomPixmap);
+    bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    if (!m_imageCutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
-        QPainter bgPainter(&m_bottomPixmap);
-        bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-        if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
-        {
-            bgPainter.setOpacity(1);
-            paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
-        }
+        bgPainter.setOpacity(1);
+        paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
     }
 
     if (m_beginGrabImage)
         m_BeforeCutBg = this->grab(this->rect());
 
     if (m_imageCutting) {
-        QPainter blackPainter(&m_bottomPixmap);
-        blackPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-        blackPainter.setOpacity(0.5);
-        blackPainter.fillRect(this->rect(), QBrush(QColor("#000000")));
-        blackPainter.setBrush(Qt::transparent);
+        bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+        bgPainter.setOpacity(0.5);
+        bgPainter.fillRect(this->rect(), QBrush(QColor("#000000")));
+        bgPainter.setBrush(Qt::transparent);
         qDebug() << "m_bottomPixmap:" << m_bottomPixmap.rect() << this->rect();
     }
 
+//    m_bottomPixmap.save("/home/ph/compressToImageResult.png");
     m_bgContainShapeNum = m_shapes.length();
 }
 
@@ -3864,6 +3857,7 @@ void ShapesWidget::setImageCutting(bool cutting)
 
             m_needCompress = true;
             m_imageCutting = cutting;
+            qDebug() << "after select cutting images!";
             compressToImage();
 
             if (m_cutShape.mainPoints.length() != 4)

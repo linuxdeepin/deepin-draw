@@ -156,7 +156,8 @@ private:
     void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
     void paintHoveredShape(QPainter &painter, Toolshape shape);
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
-    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints);
+    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints,
+                                 bool noRotatePoint = false);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter,  Toolshape shape);
     void paintEllipse(QPainter &painter, Toolshape shape);
@@ -173,7 +174,7 @@ private:
     void paintBlur(QPainter &painter, Toolshape shape);
     void paintCutImageRect(QPainter &painter, Toolshape shape);
     void paintImage(QPainter &painter, Toolshape imageShape);
-    void paintSelectedShape(QPainter &painter, Toolshape shape);
+    void paintSelectedShape(QPainter &painter, Toolshape shape, bool noRotatePoint = false);
 
     QPointF m_pos1 = QPointF(0, 0);
     QPointF m_pos2 = QPointF(0, 0);
@@ -227,7 +228,6 @@ private:
     int m_hoveredIndex;
     int m_selectedOrder;
     int m_cutImageOrder;
-    int m_imagesCount;
     bool m_blurEffectExist;
     bool m_mosaicEffectExist;
     bool m_clearAllTextBorder;
@@ -243,6 +243,7 @@ private:
     int m_linewidth;
     int m_textFontsize = 12;
     int m_blurLinewidth = 20;
+//    int counts = 0;
 
     Toolshape m_cutShape;
     Toolshape m_currentShape;
