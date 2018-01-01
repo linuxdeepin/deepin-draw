@@ -8,6 +8,7 @@
 #include "utils/baseutils.h"
 #include "textedit.h"
 #include "cutimagetips.h"
+#include "widgets/tipslabel.h"
 
 class ShapesWidget : public QFrame
 {
@@ -99,6 +100,7 @@ public:
 
     void undoDrawShapes();
     void microAdjust(QString direction);
+    void showRotateDegreeLabel(qreal angle);
 
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();
@@ -258,6 +260,7 @@ private:
     Toolshapes m_shapes;
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
+    TipsLabel*            m_degreeLabel;
     QDateTime m_lastUpdateTime;
 
     QMenu* m_menu;

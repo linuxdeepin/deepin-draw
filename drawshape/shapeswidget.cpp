@@ -38,8 +38,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
 //      m_menuController(new MenuController)
 {
     initAttribute();
-    m_cutImageTips = new CutImageTips(this);
-    m_cutImageTips->hide();
     initShortcut();
     initMenu();
 
@@ -121,6 +119,12 @@ void ShapesWidget::initAttribute()
     m_startPos = QPointF(ARTBOARD_MARGIN,
                          ARTBOARD_MARGIN + 75);
     initCanvasSize();
+
+    m_cutImageTips = new CutImageTips(this);
+    m_cutImageTips->hide();
+    m_degreeLabel = new TipsLabel(this);
+    m_degreeLabel->setFixedSize(50, 28);
+    m_degreeLabel->hide();
 
     m_penColor =  QColor(Qt::blue);
     m_brushColor = QColor(Qt::blue);
@@ -1658,8 +1662,8 @@ void ShapesWidget::handleRotate(QPointF pos)
 
         qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
         angle += m_shapes[m_selectedOrder].rotate;
-
         m_shapes[m_selectedOrder].rotate = angle;
+        showRotateDegreeLabel(angle);
     }
 
     if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
@@ -1678,8 +1682,7 @@ void ShapesWidget::handleRotate(QPointF pos)
                     m_shapes[m_selectedOrder].points[1] =
                             QPointF(m_shapes[m_selectedOrder].points[0].x(), pos.y());
                 }
-            }
-            else
+            } else
             {
                 if (m_clickedKey == First)
                 {
@@ -1713,6 +1716,12 @@ void ShapesWidget::handleRotate(QPointF pos)
                                                                  (m_selectedShape.mainPoints[0].y()+
                                                                  m_selectedShape.mainPoints[3].y())/2);
     qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
+
+    if (m_shapes[m_selectedOrder].type != "image")
+    {
+        m_shapes[m_selectedOrder].rotate += angle;
+        showRotateDegreeLabel(m_shapes[m_selectedOrder].rotate);
+    }
 
     for (int i = 0; i < 4; i++)
     {
@@ -2099,7 +2108,9 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 
     m_isMoving = false;
     m_isPressed = false;
+    m_isRotated = false;
     m_inBtmRight = false;
+    m_degreeLabel->hide();
 
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0))
     {
@@ -2109,7 +2120,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
             {
                 if (m_isShiftPressed)
                 {
-                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()), std::abs(m_pos2.x() - m_pos1.x()))
+                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                   std::abs(m_pos2.x() - m_pos1.x()))
                             *180/M_PI < 45)
                     {
                         m_pos2 = QPointF(m_pos2.x(), m_pos1.y());
@@ -3759,6 +3771,21 @@ void ShapesWidget::microAdjust(QString direction)
         m_hoveredShape.type = "";
         update();
     }
+}
+
+void ShapesWidget::showRotateDegreeLabel(qreal angle)
+{
+    m_degreeLabel->show();
+    m_degreeLabel->move((this->width() - m_degreeLabel->width())/2,
+                        (this->height() - m_degreeLabel->height())/2);
+    qreal degree = angle*180/M_PI - qreal(int(angle*180/M_PI)/360*360);
+    while (degree < 0)
+    {
+        degree += 360;
+    }
+    QString degreeStr = QString::number(degree, 'f', 1);
+
+    m_degreeLabel->setText(QString("%1°").arg(degreeStr));
 }
 
 void ShapesWidget::updateCursorDirection(ResizeDirection direction)
