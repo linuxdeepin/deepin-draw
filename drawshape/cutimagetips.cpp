@@ -10,11 +10,11 @@
 const QSize RATIONLABEL_SIZE = QSize(160, 24);
 
 CutImageTips::CutImageTips(QWidget *parent)
-    : QDialog(parent)
+    : QWidget(parent)
 {
     DRAW_THEME_INIT_WIDGET("CutImageTips");
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
+//    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+//    setAttribute(Qt::WA_TranslucentBackground);
     QString defaultRation = ConfigSettings::instance()->value("cut",
                                                               "ration").toString();
     qDebug() << "CutImageTips:" << defaultRation;
@@ -161,8 +161,9 @@ void CutImageTips::showTips(QPoint pos)
 
     QPoint tipPos = QPoint(pos.x() - this->width(), pos.y());
 
-    this->move(tipPos.x(), tipPos.y());
     this->show();
+    this->raise();
+    this->move(tipPos.x(), tipPos.y());
 }
 
 void CutImageTips::setCutRation(CutRation ration)
