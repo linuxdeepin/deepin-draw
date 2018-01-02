@@ -1229,6 +1229,8 @@ bool ShapesWidget::clickedOnText(FourPoints mainPoints, QPointF pos)
 
 bool ShapesWidget::hoverOnCutImage(FourPoints rectPoints, QPointF pos)
 {
+    m_resizeDirection = Outting;
+
     if (pointClickIn(rectPoints[0], pos, POINT_SPACING)) {
         m_resizeDirection = TopLeft;
         return true;
@@ -1461,17 +1463,15 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
 
     if (m_imageCutting)
     {
-        for (int k = m_shapes.length() - 1; k >= 0; k--)
-        {
-            if (m_shapes[k].type == "cutImage" && hoverOnCutImage(
-                        m_shapes[k].mainPoints, pos)) {
-                m_isHovered = true;
-                break;
-            }
+        if (m_shapes[m_shapes.length() - 1].type == "cutImage" && hoverOnCutImage(
+                    m_shapes[m_shapes.length() - 1].mainPoints, pos)) {
+            m_isHovered = true;
+        } else {
+            m_resizeDirection = Outting;
         }
-        if (m_isHovered)
-            updateCursorDirection(m_resizeDirection);
 
+        updateCursorDirection(m_resizeDirection);
+        return;
     }
 
     if (!m_moveShape)
@@ -3849,8 +3849,10 @@ void ShapesWidget::updateCursorDirection(ResizeDirection direction)
         }
     } else if (direction == Rotate) {
         qApp->setOverrideCursor(setCursorShape("rotate"));
-    } else {
+    } else if (direction == Moving){
         qApp->setOverrideCursor(Qt::ClosedHandCursor);
+    } else {
+        qApp->setOverrideCursor(Qt::ArrowCursor);
     }
 }
 

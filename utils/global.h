@@ -38,6 +38,6 @@ public:
 private:
     bool m_shiftSc = false;
     bool m_altSc = false;
-        static  GlobalShortcut* m_globalSc;
+    static  GlobalShortcut* m_globalSc;
 };
 #endif // GLOBAL_H
