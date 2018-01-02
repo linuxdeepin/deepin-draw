@@ -979,6 +979,7 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints,
         m_isSelected = false;
         m_isResize = false;
         m_isRotated = false;
+        m_resizeDirection = Outting;
     }
 
     return false;
@@ -1133,56 +1134,56 @@ bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
 
     m_pressedPoint = QPoint(0, 0);
     FourPoints otherFPoints = getAnotherFPoints(mainPoints);
-    if (pointClickIn(mainPoints[0], pos, padding)) {
+    if (pointClickIn(mainPoints[0], pos,  POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = First;
         m_resizeDirection = TopLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[1], pos, padding)) {
+    } else if (pointClickIn(mainPoints[1], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Second;
         m_resizeDirection = BottomLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[2], pos, padding)) {
+    } else if (pointClickIn(mainPoints[2], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Third;
         m_resizeDirection = TopRight;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(mainPoints[3], pos, padding)) {
+    } else if (pointClickIn(mainPoints[3], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fourth;
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointClickIn(otherFPoints[0], pos, padding)) {
+    }  else if (pointClickIn(otherFPoints[0], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fifth;
         m_resizeDirection = Left;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[1], pos, padding)) {
+    } else if (pointClickIn(otherFPoints[1], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Sixth;
         m_resizeDirection = Top;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[2], pos, padding)) {
+    } else if (pointClickIn(otherFPoints[2], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Seventh;
         m_resizeDirection = Right;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints[3], pos, padding)) {
+    } else if (pointClickIn(otherFPoints[3], pos, POINT_SPACING)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Eighth;
@@ -1309,8 +1310,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints,
     } else if (isFilled && pointInRect(rectPoints, pos)) {
         m_resizeDirection = Moving;
         return true;
-    }
-    else {
+    } else {
         m_resizeDirection = Outting;
     }
 
@@ -1394,9 +1394,15 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points,
 bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
                                QList<QPointF> points, QPointF pos, int padding)
 {
-    FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
+    m_resizeDirection = Outting;
 
-    if (pointClickIn(mainPoints[0], pos, POINT_SPACING)) {
+    m_pressedPoint = QPoint(0, 0);
+    FourPoints otherFPoints = getAnotherFPoints(mainPoints);
+
+    if (rotateOnPoint(mainPoints, pos)) {
+        m_resizeDirection = Rotate;
+        return true;
+    } else if (pointClickIn(mainPoints[0], pos, POINT_SPACING)) {
         m_resizeDirection = TopLeft;
         return true;
     } else if (pointClickIn(mainPoints[1], pos, POINT_SPACING)) {
@@ -1408,26 +1414,22 @@ bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
     } else if (pointClickIn(mainPoints[3], pos, POINT_SPACING)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos) && m_selectedIndex != -1
-               && m_selectedIndex == m_hoveredIndex) {
-        m_resizeDirection = Rotate;
-        return true;
-    }  else if (pointClickIn(tmpFPoints[0], pos, POINT_SPACING)) {
+    }  else if (pointClickIn(otherFPoints[0], pos, POINT_SPACING)) {
         m_resizeDirection = Left;
         return true;
-    } else if (pointClickIn(tmpFPoints[1], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[1], pos, POINT_SPACING)) {
         m_resizeDirection = Top;
         return true;
-    }  else if (pointClickIn(tmpFPoints[2], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[2], pos, POINT_SPACING)) {
         m_resizeDirection = Right;
         return true;
-    } else if (pointClickIn(tmpFPoints[3], pos, POINT_SPACING)) {
+    } else if (pointClickIn(otherFPoints[3], pos, POINT_SPACING)) {
         m_resizeDirection = Bottom;
         return true;
     }  else if (pointOnArLine(points, pos, padding)) {
         m_resizeDirection = Moving;
         return true;
-   } else {
+    } else {
         m_resizeDirection = Outting;
     }
 
@@ -1496,7 +1498,8 @@ void ShapesWidget::hoverOnShapes(QPointF pos)
             if (hoverOnArrow(m_shapes[i].points, pos))
                 m_isHovered = true;
         } else if (m_shapes[i].type == "arbitraryCurve") {
-            if (hoverOnArbitraryCurve(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
+            if (hoverOnArbitraryCurve(m_shapes[i].mainPoints, m_shapes[i].points, pos,
+                                      m_shapes[i].lineWidth)) {
                 m_isHovered = true;
                 qDebug() << "hover on arbitrary curve...";
             }
