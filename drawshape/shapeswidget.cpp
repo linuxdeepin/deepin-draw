@@ -2171,7 +2171,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
                 m_cutShape.type = "cutImage";
                 m_cutShape.mainPoints = rectFPoints;
                 m_shapes.append(m_cutShape);
-                emit finishedDrawCut(m_cutShape.mainPoints[3]);
+                emit finishedDrawCut(m_currentShape.mainPoints[3]);
             } else {
                 m_shapes.append(m_currentShape);
                 m_needCompress = true;
@@ -3370,8 +3370,9 @@ QString ShapesWidget::getLineStyle(int index)
 
 void ShapesWidget::showCutImageTips(QPointF pos)
 {
-    QPoint tipPos = QPoint(pos.x(), pos.y() + 10);
-    m_cutImageTips->showTips(tipPos);
+    QPoint tipPos = QPoint(pos.x(), pos.y());
+    m_cutImageTips->showTips(QPoint(mapToGlobal(tipPos).x(),
+                                    mapToGlobal(tipPos).y() + 10));
 
     connect(m_cutImageTips, &CutImageTips::canceled, this, [=]{
         m_imageCutting = false;

@@ -21,7 +21,7 @@ public:
     ~RationButton(){}
 };
 
-class CutImageTips : public QWidget
+class CutImageTips : public QDialog
 {
     Q_OBJECT
 public:
