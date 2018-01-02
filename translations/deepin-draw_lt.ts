@@ -1,20 +1,22 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="lt">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="18"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Plotis</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="38"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="30"/>
         <source>Height</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="66"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="88"/>
         <source>Autocrop</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -28,34 +30,26 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="138"/>
+        <location filename="../widgets/colorpanel.cpp" line="149"/>
         <source>Color</source>
         <translation>Spalva</translation>
     </message>
 </context>
 <context>
-    <name>ConfigSettings</name>
-    <message>
-        <location filename="../utils/configsettings.cpp" line="35"/>
-        <source>free</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>CutImageTips</name>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="66"/>
-        <location filename="../drawshape/cutimagetips.cpp" line="151"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="67"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="184"/>
         <source>free</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="76"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="78"/>
         <source>Cancel</source>
         <translation>Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="84"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="86"/>
         <source>Cut</source>
         <translation>Iškirpti</translation>
     </message>
@@ -65,50 +59,50 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="16"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="22"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="29"/>
         <source>Clip</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="35"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="41"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DrawDialog</name>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="18"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
         <source>Cancel</source>
         <translation>Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="21"/>
         <source>Discard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="22"/>
         <source>Save</source>
         <translation>Įrašyti</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="25"/>
-        <source>Save the current contents</source>
-        <translation type="unfinished"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
+        <source>Save the current contents?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -116,17 +110,17 @@
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="20"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="41"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="45"/>
         <source>Width</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Plotis</translation>
     </message>
 </context>
 <context>
@@ -134,15 +128,15 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="19"/>
         <source>Stroke</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="31"/>
         <source>Style</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="57"/>
+        <location filename="../frame/linewidget.cpp" line="65"/>
         <source>Width</source>
         <translation>Plotis</translation>
     </message>
@@ -163,38 +157,38 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Pictures</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Documents</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
         <source>Downloads</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Desktop</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Videos</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Music</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="112"/>
         <source>Select other directories</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
@@ -224,75 +218,75 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
         <source>Name:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Save to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Format:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Quality:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Open Directory</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="179"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>Iškirpti</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>Kopijuoti</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="181"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>Įdėti</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="183"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>Ištrinti</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="186"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="187"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="188"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="189"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -300,7 +294,7 @@
     <message>
         <location filename="../frame/textwidget.cpp" line="44"/>
         <source>Fill</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="49"/>
@@ -313,74 +307,74 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="48"/>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="324"/>
+        <location filename="../frame/toptoolbar.cpp" line="315"/>
         <source>Import</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="58"/>
         <source>Rectangle</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="63"/>
         <source>Ellipse</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="68"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="73"/>
         <source>Text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="78"/>
         <source>Blur</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="83"/>
         <source>Selected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="326"/>
+        <location filename="../frame/toptoolbar.cpp" line="317"/>
         <source>Save</source>
         <translation>Įrašyti</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="227"/>
+        <location filename="../frame/toptoolbar.cpp" line="217"/>
         <source>All images </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="327"/>
+        <location filename="../frame/toptoolbar.cpp" line="318"/>
         <source>Print</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="329"/>
+        <location filename="../frame/toptoolbar.cpp" line="320"/>
         <source>Dark theme</source>
         <translation>Tamsi tema</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="331"/>
+        <location filename="../frame/toptoolbar.cpp" line="322"/>
         <source>Help</source>
         <translation>Žinynas</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="336"/>
+        <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

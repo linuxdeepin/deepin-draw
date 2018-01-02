@@ -50,7 +50,7 @@ signals:
     void resetPicBtn();
 
 public:
-    void showDrawDialog();
+//    void showDrawDialog();
     void showSaveDialog();
     void drawShapes(QString shape);
     void showPrintDialog();

@@ -329,22 +329,22 @@ void TopToolbar::initMenu()
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
-    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
+//    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 }
 
-void TopToolbar::showDrawDialog()
-{
-    DrawDialog*  dd = new DrawDialog(this);
-    dd->showInCenter(window());
+//void TopToolbar::showDrawDialog()
+//{
+//    DrawDialog*  dd = new DrawDialog(this);
+//    dd->showInCenter(window());
 
-    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
-        TempFile::instance()->setSaveFinishedExit(true);
-        emit generateSaveImage();
-    });
-    dd->exec();
-}
+//    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
+//        TempFile::instance()->setSaveFinishedExit(true);
+//        emit generateSaveImage();
+//    });
+//    dd->exec();
+//}
 
 void TopToolbar::showSaveDialog()
 {
@@ -499,7 +499,7 @@ void TopToolbar::keyReleaseEvent(QKeyEvent *e)
 void TopToolbar::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "#$^%&*" << m_colorARect->hasFocus();
+    qDebug() << "toptoolbar mousePressEvent:" << m_colorARect->hasFocus();
 
 //    if (!m_colorARect->hasFocus())
 //        m_colorARect->hide();

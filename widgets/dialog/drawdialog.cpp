@@ -8,11 +8,13 @@
 #include <QDebug>
 #include <QApplication>
 
+const QSize DIALOG_SIZE = QSize(420, 120);
+
 DrawDialog::DrawDialog(QWidget* parent)
     :Dialog(parent)
 {
     setModal(true);
-
+    setFixedSize(DIALOG_SIZE);
     setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.png"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
@@ -21,17 +23,17 @@ DrawDialog::DrawDialog(QWidget* parent)
 
     // Input content
     const QString subStyle = getFileContent(":/drawdialog.qss");
-
-    QLabel *title = new QLabel(tr("Save the current contents"), this);
+    QLabel *title = new QLabel(tr("Save the current contents?"), this);
     title->setStyleSheet(subStyle);
     title->setObjectName("DialogTitle");
-    title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    title->setAlignment(Qt::AlignLeft);
 
     QWidget *w = new QWidget(this);
+    w->setFixedHeight(this->height() - 60);
+
     QVBoxLayout *layout = new QVBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(8);
-
     layout->addStretch();
     layout->addWidget(title);
     layout->addStretch();

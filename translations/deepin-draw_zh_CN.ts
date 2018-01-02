@@ -4,17 +4,17 @@
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="20"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="18"/>
         <source>Width</source>
         <translation>宽</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="38"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="30"/>
         <source>Height</source>
         <translation>高</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="66"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="88"/>
         <source>Autocrop</source>
         <translation>裁剪透明区域</translation>
     </message>
@@ -30,7 +30,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="138"/>
+        <location filename="../widgets/colorpanel.cpp" line="149"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -38,26 +38,25 @@
 <context>
     <name>ConfigSettings</name>
     <message>
-        <location filename="../utils/configsettings.cpp" line="35"/>
         <source>free</source>
-        <translation>自由</translation>
+        <translation type="vanished">自由</translation>
     </message>
 </context>
 <context>
     <name>CutImageTips</name>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="66"/>
-        <location filename="../drawshape/cutimagetips.cpp" line="151"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="67"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="184"/>
         <source>free</source>
         <translation>自由</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="76"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="78"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="84"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="86"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
@@ -93,24 +92,28 @@
 <context>
     <name>DrawDialog</name>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="18"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="19"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="21"/>
         <source>Discard</source>
         <translation>不保存</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="20"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="22"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="25"/>
-        <source>Save the current contents</source>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
+        <source>Save the current contents?</source>
         <translation>是否保存当前画板内容？</translation>
+    </message>
+    <message>
+        <source>Save the current contents</source>
+        <translation type="vanished">是否保存当前画板内容？</translation>
     </message>
 </context>
 <context>
@@ -144,7 +147,7 @@
         <translation>样式</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="57"/>
+        <location filename="../frame/linewidget.cpp" line="65"/>
         <source>Width</source>
         <translation>粗细</translation>
     </message>
@@ -257,42 +260,42 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="179"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="180"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="181"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="183"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="186"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="187"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="188"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="189"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
@@ -319,7 +322,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="324"/>
+        <location filename="../frame/toptoolbar.cpp" line="315"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
@@ -355,32 +358,32 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="326"/>
+        <location filename="../frame/toptoolbar.cpp" line="317"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="227"/>
+        <location filename="../frame/toptoolbar.cpp" line="217"/>
         <source>All images </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="327"/>
+        <location filename="../frame/toptoolbar.cpp" line="318"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="329"/>
+        <location filename="../frame/toptoolbar.cpp" line="320"/>
         <source>Dark theme</source>
         <translation>深色主题</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="331"/>
+        <location filename="../frame/toptoolbar.cpp" line="322"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="336"/>
+        <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>深度画板是一款轻量级的绘图工具。可以在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>

@@ -109,6 +109,11 @@ void CanvasWidget::setShapes(QList<Toolshape> shapes)
     m_shapesWidget->setShapes(shapes);
 }
 
+const int CanvasWidget::shapesNum()
+{
+    return m_shapesWidget->shapesNum();
+}
+
 CanvasWidget::~CanvasWidget()
 {
 }

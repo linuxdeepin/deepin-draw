@@ -7,6 +7,8 @@
 
 #include "utils/configsettings.h"
 #include "utils/drawfile.h"
+#include "utils/tempfile.h"
+#include "widgets/dialog/drawdialog.h"
 #include "../application.h"
 
 #include <DTitlebar>
@@ -61,6 +63,14 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::cutImageFinished);
     connect(m_mainWidget, &MainWidget::shapePressed,
             m_topToolbar, &TopToolbar::updateCurrentShape);
+    connect(dApp, &Application::popupConfirmDialog, this, [=]{
+        if (m_mainWidget->shapeNum() != 0)
+        {
+            showDrawDialog();
+        } else {
+            dApp->quit();
+        }
+    });
 }
 
 void MainWindow::openImage(const QString &path)
@@ -122,7 +132,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "@Event:" << event->pos();
     m_topToolbar->updateColorPanelVisible(event->pos());
     emit m_mainWidget->pressToCanvas(event);
 }
@@ -131,6 +140,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     emit dApp->popupConfirmDialog();
     event->ignore();
+}
+
+void MainWindow::showDrawDialog()
+{
+    DrawDialog*  dd = new DrawDialog(this);
+    dd->showInCenter(window());
+
+    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
+        TempFile::instance()->setSaveFinishedExit(true);
+        emit m_topToolbar->generateSaveImage();
+    });
+    dd->exec();
 }
 
 MainWindow::~MainWindow()

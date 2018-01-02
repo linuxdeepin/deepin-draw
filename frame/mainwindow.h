@@ -21,6 +21,7 @@ public:
 
     void openImage(const QString &path);
     void parseDdf(const QString &path);
+    void showDrawDialog();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

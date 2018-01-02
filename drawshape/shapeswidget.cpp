@@ -301,6 +301,11 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     }
 }
 
+const int ShapesWidget::shapesNum()
+{
+    return m_shapes.length();
+}
+
 void ShapesWidget::setShapes(QList<Toolshape> shapes)
 {
     m_shapes = shapes;

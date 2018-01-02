@@ -40,6 +40,7 @@ public:
     void openImage(const QString &path);
     void updateCanvasSize(const QSize &size);
     void initShapes(QList<Toolshape> shapes);
+    const int shapeNum();
 
 protected:
     void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;

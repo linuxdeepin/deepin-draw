@@ -30,7 +30,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     m_titleLabel->setObjectName("TitleLabel");
     m_titleLabel->setStyleSheet("QLabel#TitleLabel {"
                                 "font-size: 14px;"
-                                " font-weight: medium;}");
+                                "font-weight: medium;}");
     m_titleLabel->setFixedSize(330, 40);
     m_titleLabel->move(0, 0);
     m_titleLabel->setAlignment(Qt::AlignCenter);
