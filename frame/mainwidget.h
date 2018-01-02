@@ -33,6 +33,7 @@ signals:
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
+    void pressToCanvas(QMouseEvent *ev);
 
 public:
     void updateLayout();

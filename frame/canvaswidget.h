@@ -35,9 +35,13 @@ signals:
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
+    void pressToShapeWidget(QMouseEvent *ev);
+    void releaseToShapeWidget(QMouseEvent *ev);
 
 protected:
     void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
 
 private:
     QString m_currentFile;

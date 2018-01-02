@@ -389,6 +389,9 @@ void ShapesWidget::clearSelected()
     m_isSelected = false;
     m_selectedShape.points.clear();
     m_hoveredShape.points.clear();
+    m_selectedOrder = -1;
+    compressToImage();
+    update();
 }
 
 void ShapesWidget::setAllTextEditReadOnly()
@@ -2395,9 +2398,11 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             {
                 m_isHovered = false;
                 hoverOnShapes(m_movingPoint);
+                qDebug() << "moving hoverOnShapes!";
             } else
             {
-                //TODO text
+                //TODO
+                qDebug() << "no hover!";
             }
         }
     };
@@ -2918,6 +2923,20 @@ void ShapesWidget::resizeEvent(QEvent* e)
     ConfigSettings::instance()->setValue("canvas", "width", m_artBoardWindowWidth);
     ConfigSettings::instance()->setValue("canvas", "height", m_artBoardWindowHeight);
 }
+
+void ShapesWidget::pressFromParent(QMouseEvent *ev)
+{
+    Q_UNUSED(ev);
+    clearSelected();
+    m_isRecording = false;
+    m_isPressed = false;
+}
+
+//void ShapesWidget::releaseFromParent(QMouseEvent *ev)
+//{
+//    mouseReleaseEvent(ev);
+//    qDebug() << "mouseReleaseEvent";
+//}
 
 void ShapesWidget::paintEvent(QPaintEvent *)
 {

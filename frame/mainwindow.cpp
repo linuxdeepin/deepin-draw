@@ -124,6 +124,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     qDebug() << "@Event:" << event->pos();
     m_topToolbar->updateColorPanelVisible(event->pos());
+    emit m_mainWidget->pressToCanvas(event);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

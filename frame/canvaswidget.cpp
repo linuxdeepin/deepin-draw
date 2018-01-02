@@ -17,7 +17,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
 {
     setObjectName("CanvasBorder");
 //    setStyleSheet("QLabel#CanvasBorder{border: 1px solid rgba(0, 0, 0, 80);}");
-
+    setMouseTracking(true);
     m_shapesWidget = new ShapesWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(25);
@@ -37,7 +37,12 @@ CanvasWidget::CanvasWidget(QWidget *parent)
             m_shapesWidget, &ShapesWidget::saveImage);
     connect(this, &CanvasWidget::printImage,
             m_shapesWidget, &ShapesWidget::printImage);
-    connect(this, &CanvasWidget::autoCrop, m_shapesWidget, &ShapesWidget::autoCrop);
+    connect(this, &CanvasWidget::autoCrop, m_shapesWidget,
+            &ShapesWidget::autoCrop);
+    connect(this, &CanvasWidget::pressToShapeWidget, m_shapesWidget,
+            &ShapesWidget::pressFromParent);
+//    connect(this, &CanvasWidget::releaseToShapeWidget, m_shapesWidget,
+//            &ShapesWidget::releaseFromParent);
 
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &CanvasWidget::updateMiddleWidget);
@@ -80,6 +85,18 @@ void CanvasWidget::paintEvent(QPaintEvent *)
 
     painter.fillPath(path, QBrush(QColor(255, 255, 255, 255)));
     painter.drawPath(path);
+}
+
+void CanvasWidget::mousePressEvent(QMouseEvent *ev)
+{
+    Q_UNUSED(ev);
+    qDebug() << "CanvasWidget mousePressEvent trigger!";
+    emit pressToShapeWidget(ev);
+}
+
+void CanvasWidget::mouseReleaseEvent(QMouseEvent *ev)
+{
+    emit releaseToShapeWidget(ev);
 }
 
 void CanvasWidget::openImage(const QString &path)

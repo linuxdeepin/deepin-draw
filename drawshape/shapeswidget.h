@@ -101,6 +101,8 @@ public:
     void undoDrawShapes();
     void microAdjust(QString direction);
     void showRotateDegreeLabel(qreal angle);
+    void pressFromParent(QMouseEvent* ev);
+//    void releaseFromParent(QMouseEvent *ev);
 
     void updateCursorDirection(ResizeDirection direction);
     void updateCursorShape();

@@ -54,6 +54,8 @@ MainWidget::MainWidget(QWidget *parent)
             m_canvas, &CanvasWidget::printImage);
     connect(this, &MainWidget::autoCrop,
             m_canvas, &CanvasWidget::autoCrop);
+    connect(this, &MainWidget::pressToCanvas,
+            m_canvas, &CanvasWidget::pressToShapeWidget);
 
     connect(m_canvas, &CanvasWidget::updateMiddleWidget,
             this, &MainWidget::updateMiddleWidget);
