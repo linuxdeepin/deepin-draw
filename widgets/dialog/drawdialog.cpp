@@ -15,7 +15,7 @@ DrawDialog::DrawDialog(QWidget* parent)
 {
     setModal(true);
     setFixedSize(DIALOG_SIZE);
-    setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.png"));
+    setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Discard"), false, DDialog::ButtonNormal);

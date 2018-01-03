@@ -1,5 +1,5 @@
 QLabel#LogoLabel {
-border-image: url(:/theme/common/images/deepin-draw-32.png);
+border-image: url(:/theme/common/images/deepin-draw-24.svg);
 }
 
 PushButton#ArtBoardBtn {

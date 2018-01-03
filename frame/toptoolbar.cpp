@@ -38,7 +38,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
-    logoLabel->setFixedSize(24, 25);
+    logoLabel->setFixedSize(24, 24);
     logoLabel->setObjectName("LogoLabel");
 
     QList<PushButton*> actionPushButtons;
@@ -323,7 +323,7 @@ void TopToolbar::initMenu()
 
     Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
-    dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.png")));
+    dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
     dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
                                        " You can freely draw on the layer or simplely edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");

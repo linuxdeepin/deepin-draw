@@ -49,8 +49,8 @@
         <file>theme/light/images/draw/reduce_hover.png</file>
         <file>theme/light/TextFontLabel.qss</file>
         <file>theme/light/images/deepin-draw_32.svg</file>
-        <file>theme/common/images/deepin-draw-96.png</file>
-        <file>theme/common/images/deepin-draw-64.png</file>
-        <file>theme/common/images/deepin-draw-32.png</file>
+        <file>theme/common/images/deepin-draw-24.svg</file>
+        <file>theme/common/images/deepin-draw-64.svg</file>
+        <file>theme/common/images/deepin-draw-96.svg</file>
     </qresource>
 </RCC>

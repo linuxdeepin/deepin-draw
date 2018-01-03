@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>theme/common/images/deepin-draw-32.png</file>
-        <file>theme/common/images/deepin-draw-64.png</file>
-        <file>theme/common/images/deepin-draw-96.png</file>
         <file>theme/dark/images/action/artboard_active.png</file>
         <file>theme/dark/images/action/artboard_hover.png</file>
         <file>theme/dark/images/action/artboard_normal.png</file>
@@ -170,5 +167,8 @@
         <file>theme/light/images/draw/color_more_normal.svg</file>
         <file>theme/light/images/cut/filp_vertical_disable.svg</file>
         <file>theme/light/images/cut/flip_horizontal_disable.svg</file>
+        <file>theme/common/images/deepin-draw-96.svg</file>
+        <file>theme/common/images/deepin-draw-24.svg</file>
+        <file>theme/common/images/deepin-draw-64.svg</file>
     </qresource>
 </RCC>
