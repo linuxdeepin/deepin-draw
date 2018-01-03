@@ -87,7 +87,7 @@ public:
                                         QVariant var);
 
     void updateSelectedShape(const QString &group, const QString &key);
-    const int shapesNum();
+    int shapesNum() const;
     void setShapes(QList<Toolshape> shapes);
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);

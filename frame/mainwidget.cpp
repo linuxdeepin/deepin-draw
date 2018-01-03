@@ -147,7 +147,7 @@ void MainWidget::initShapes(QList<Toolshape> shapes)
     m_canvas->setShapes(shapes);
 }
 
-const int MainWidget::shapeNum()
+int MainWidget::shapeNum() const
 {
     return m_canvas->shapesNum();
 }

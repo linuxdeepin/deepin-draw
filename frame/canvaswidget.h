@@ -20,7 +20,7 @@ public:
 
     void openImage(const QString &path);
     void setShapes(QList<Toolshape> shapes);
-    const int shapesNum();
+    int shapesNum() const;
 
 signals:
     void shapePressed(QString shape);

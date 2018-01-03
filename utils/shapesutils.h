@@ -10,10 +10,10 @@ Q_DECLARE_METATYPE(FourPoints)
 /* shape*/
 class Toolshape {
 public:
-     QString type;
+     QString type = "";
      FourPoints mainPoints;
      int index = -1;
-     int lineWidth;
+     int lineWidth = 0;
      QColor fillColor;
      QColor strokeColor;
      bool isBlur = false;
@@ -37,6 +37,8 @@ public:
     Toolshape operator=(Toolshape obj);
     bool operator==(const Toolshape &other) const;
     static void registerMetaType();
+    const QPointF topLeftPointF();
+    const QPointF bottomRightPointF();
 };
 
 typedef QList<QPointF> FourPoints;

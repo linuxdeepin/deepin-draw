@@ -21,6 +21,41 @@ void Toolshape::registerMetaType()
     qRegisterMetaType<FourPoints>();
 }
 
+const QPointF Toolshape::topLeftPointF()
+{
+    qreal x1 = 8000, y1 = 8000;
+    for(int i = 0; i < mainPoints.length(); i++)
+    {
+        x1 = std::min(x1, mainPoints[i].x() - lineWidth);
+        y1 = std::min(y1, mainPoints[i].y() - lineWidth);
+    }
+    for(int j = 0; j < points.length(); j++)
+    {
+        x1 = std::min(x1, points[j].x() - lineWidth);
+        y1 = std::min(y1, points[j].y() - lineWidth);
+    }
+
+    qDebug() << "XXXXX" << lineWidth;
+    return QPointF(x1, y1);
+}
+
+const QPointF Toolshape::bottomRightPointF()
+{
+    qreal x2 = 0, y2 = 0;
+    for(int i = 0; i < mainPoints.length(); i++)
+    {
+        x2 = std::max(x2, mainPoints[i].x());
+        y2 = std::max(y2, mainPoints[i].y());
+    }
+    for(int j = 0; j < points.length(); j++)
+    {
+        x2 = std::max(x2, points[j].x());
+        y2 = std::max(y2, points[j].y());
+    }
+    qDebug() << "YYYYY" << lineWidth;
+    return QPointF(x2 + lineWidth, y2 + lineWidth);
+}
+
 QDebug &operator<<(QDebug &argument, const Toolshape &obj)
 {
     argument.nospace()

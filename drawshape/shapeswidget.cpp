@@ -301,7 +301,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     }
 }
 
-const int ShapesWidget::shapesNum()
+int ShapesWidget::shapesNum() const
 {
     return m_shapes.length();
 }
@@ -2262,8 +2262,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
                 qApp->setOverrideCursor(Qt::SizeFDiagCursor);
             } else {
-                if (!m_isPressed)
+                if (!m_isPressed) {
                     m_stickCurosr = false;
+                    updateCursorShape();
+                }
 
                 m_cursorInBtmRight = false;
             }
@@ -2947,8 +2949,6 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    qDebug() << m_selectedOrder << m_shapes.length();
-
     painter.drawPixmap(0, 0, m_bottomPixmap);
 
     if (!m_imageCutting)
@@ -3041,9 +3041,12 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
 {
-    if (shape.mainPoints.length() < 4 || (shape.type != "image"
-        && (shape.mainPoints[0] == QPointF(0, 0))))
+    //If choose autoCrop the first shape's coordinate(0, 0)
+    if (shape.mainPoints.length() < 4 || (shape.type != "image" && (
+         shape.mainPoints[0] == QPointF(0, 0)
+         && shape.mainPoints[1] == QPoint(0, 0))))
     {
+        qDebug() << "UUUU" << shape.type;
         return;
     }
 
@@ -3511,7 +3514,8 @@ void ShapesWidget::compressToImage()
     for(int k = 0; k < m_shapes.length(); k++)
     {
         QPainter bottomPainter(&m_bottomPixmap);
-        bottomPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+        bottomPainter.setRenderHints(QPainter::Antialiasing |
+                                     QPainter::SmoothPixmapTransform);
         if (m_shapes[k].type == "cutImage")
         {
             continue;
@@ -3523,6 +3527,7 @@ void ShapesWidget::compressToImage()
             } else {
                 bottomPainter.setOpacity(1);
             }
+
             paintShape(bottomPainter, m_shapes[k]);
         }
     }
@@ -4252,57 +4257,48 @@ void ShapesWidget::autoCrop()
     for(int i = 0; i < m_shapes.length(); i++)
     {
         //TODO: image's mainPoints
-        if (m_shapes[i].type == "rectangle" || m_shapes[i].type == "oval" ||
-                m_shapes[i].type == "image" || m_shapes[i].type == "arbitraryCurve" ||
-                m_shapes[i].type == "blur")
-        {
-            for(int j = 0; j < m_shapes[i].mainPoints.length(); j++)
-            {
-                x1 = std::min(x1, m_shapes[i].mainPoints[j].x());
-                y1 = std::min(y1, m_shapes[i].mainPoints[j].y());
-                x2 = std::max(x2, m_shapes[i].mainPoints[j].x());
-                y2 = std::max(y2, m_shapes[i].mainPoints[j].y());
-            }
-        } else {
-            for(int j = 0; j < m_shapes[i].points.length(); j++)
-            {
-                x1 = std::min(x1, m_shapes[i].points[j].x());
-                y1 = std::min(y1, m_shapes[i].points[j].y());
-                x2 = std::max(x2, m_shapes[i].points[j].x());
-                y2 = std::max(y2, m_shapes[i].points[j].y());
-            }
-        }
+        QPointF shapeStartPointF = m_shapes[i].topLeftPointF();
+        QPointF shapeEndPointF = m_shapes[i].bottomRightPointF();
+        qDebug() << "cropping:" << shapeStartPointF << shapeEndPointF;
+        x1 = std::min(x1, shapeStartPointF.x());
+        y1 = std::min(y1, shapeStartPointF.y());
+        x2 = std::max(x2, shapeEndPointF.x());
+        y2 = std::max(y2, shapeEndPointF.y());
     }
 
-    x1 -= 1;
-    y1 -= 1;
-
-    //QRect cropRect = QRect(x1, y1, x2 - x1, y2 - y1);
-    emit adjustArtBoardSize(QSize(x2 - x1, y2 - y1));
-    qDebug() << "Auto crop:" << x1 << y1 << x2 - x1 << y2 - y1;
-    //Adjust shapes' coordinate after auto crop.
+    QList<Toolshape> newShapes;
     for(int i = 0; i < m_shapes.length(); i++)
     {
         //TODO: image's mainPoints
         if (m_shapes[i].type == "rectangle" || m_shapes[i].type == "oval" ||
                 m_shapes[i].type == "image" || m_shapes[i].type == "arbitraryCurve" ||
-                m_shapes[i].type == "blur")
+                m_shapes[i].type == "blur" || m_shapes[i].type == "text")
         {
             for(int j = 0; j < m_shapes[i].mainPoints.length(); j++)
             {
                 m_shapes[i].mainPoints[j] = QPointF(
                             m_shapes[i].mainPoints[j].x() - x1,
-                            m_shapes[i].mainPoints[j].y() - y1
-                            );
+                            m_shapes[i].mainPoints[j].y() - y1);
             }
         } else {
             for(int j = 0; j < m_shapes[i].points.length(); j++)
             {
                 m_shapes[i].points[j] = QPointF(
                             m_shapes[i].points[j].x() - x1,
-                            m_shapes[i].points[j].y() - y1
-                            );
+                            m_shapes[i].points[j].y() - y1);
             }
         }
+        newShapes.append(m_shapes[i]);
     }
+
+    //QRect cropRect = QRect(x1, y1, x2 - x1, y2 - y1);
+    emit adjustArtBoardSize(QSize(x2 - x1, y2 - y1));
+    qDebug() << "Auto crop:" << x1 << y1 << x2 - x1 << y2 - y1;
+    //Adjust shapes' coordinate after auto crop.
+    m_shapes.clear();
+    m_shapes = newShapes;
+    m_ration = 1;
+    m_saveRation = 1;
+    compressToImage();
+    update();
 }

@@ -206,6 +206,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
         artBoardBtn->setChecked(true);
         setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
+        drawShapes("adjustSize");
     });
     connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
