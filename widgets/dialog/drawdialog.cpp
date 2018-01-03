@@ -22,12 +22,12 @@ DrawDialog::DrawDialog(QWidget* parent)
     // Input content
     const QString subStyle = getFileContent(":/drawdialog.qss");
 
-    QLabel *title = new QLabel(tr("Save the current contents"));
+    QLabel *title = new QLabel(tr("Save the current contents"), this);
     title->setStyleSheet(subStyle);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
-    QWidget *w = new QWidget;
+    QWidget *w = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(8);

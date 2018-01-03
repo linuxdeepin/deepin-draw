@@ -98,7 +98,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     qualityHLayout->addSpacing(10);
     qualityHLayout->addWidget(m_valueLabel);
 
-    QWidget* w = new QWidget;
+    QWidget* w = new QWidget(this);
     QFormLayout* fLayout = new QFormLayout(w);
     fLayout->setFormAlignment(Qt::AlignJustify);
     fLayout->setHorizontalSpacing(20);

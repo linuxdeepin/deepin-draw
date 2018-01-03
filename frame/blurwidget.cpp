@@ -10,13 +10,13 @@
 BlurWidget::BlurWidget(QWidget *parent)
     : QWidget(parent)
 {
-    QLabel* penLabel = new QLabel;
+    QLabel* penLabel = new QLabel(this);
     penLabel->setText(tr("Width"));
-    ToolButton* fineBtn = new ToolButton;
+    ToolButton* fineBtn = new ToolButton(this);
     fineBtn->setObjectName("LineMostThinBtn");
     fineBtn->setCheckable(false);
 
-    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal);
+    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
     lineWidthSlider->setFixedWidth(120);
     lineWidthSlider->setMinimum(10);
     lineWidthSlider->setMaximum(80);
@@ -34,7 +34,7 @@ BlurWidget::BlurWidget(QWidget *parent)
     });
     lineWidthSlider->setValue(ConfigSettings::instance()->value("blur", "index").toInt());
 
-    ToolButton* boldBtn = new ToolButton;
+    ToolButton* boldBtn = new ToolButton(this);
     boldBtn->setObjectName("LineThickLineBtn");
     boldBtn->setCheckable(false);
 

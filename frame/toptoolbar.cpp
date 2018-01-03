@@ -258,7 +258,7 @@ void TopToolbar::initStackWidget()
     connect(this, &TopToolbar::cutImageFinished, m_cutWidget, &CutWidget::cutImageBtnReset);
 
     //colorPanel.
-    m_colorPanel = new ColorPanel();
+    m_colorPanel = new ColorPanel(this);
     qApp->setProperty("_d_isDxcb",false);
     m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this->parentWidget());
     qApp->setProperty("_d_isDxcb",true);

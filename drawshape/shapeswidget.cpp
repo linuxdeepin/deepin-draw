@@ -2409,7 +2409,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
 
     doMouseMove();
     auto currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    if (currentTime - m_lastUpdateTime.toMSecsSinceEpoch() > 100) {
+    if (currentTime - m_lastUpdateTime.toMSecsSinceEpoch() > 35) {
         m_lastUpdateTime = QDateTime::currentDateTime();
         update();
     }

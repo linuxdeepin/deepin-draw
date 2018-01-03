@@ -15,6 +15,7 @@ CutImageTips::CutImageTips(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("CutImageTips");
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
+
     QString defaultRation = ConfigSettings::instance()->value("cut",
                                                               "ration").toString();
     qDebug() << "CutImageTips:" << defaultRation;
