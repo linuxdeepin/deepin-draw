@@ -11,6 +11,7 @@
 #include "canvaswidget.h"
 #include "utils/baseutils.h"
 #include "utils/shapesutils.h"
+#include "drawshape/shapeswidget.h"
 
 class MainWidget: public QWidget
 {
@@ -47,7 +48,8 @@ protected:
 
 private:
     TopToolbar* m_topToolbar;
-    CanvasWidget* m_canvas;
+//    CanvasWidget* m_canvas;
+    ShapesWidget* m_shapesWidget;
     QLabel* m_seperatorLine;
 
     QVBoxLayout* m_vLayout;

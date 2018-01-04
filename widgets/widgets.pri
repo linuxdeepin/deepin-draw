@@ -17,7 +17,8 @@ HEADERS += \
     $$PWD/dialog/savedialog.h \
     $$PWD/arrowrectangle.h \
     $$PWD/fontsizelineedit.h \
-    $$PWD/tipslabel.h
+    $$PWD/tipslabel.h \
+    $$PWD/graphicsgloweffect.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \
@@ -35,7 +36,8 @@ SOURCES += \
     $$PWD/dialog/dialog.cpp \
     $$PWD/dialog/savedialog.cpp \
     $$PWD/arrowrectangle.cpp \
-    $$PWD/tipslabel.cpp
+    $$PWD/tipslabel.cpp \
+    $$PWD/graphicsgloweffect.cpp
 
 RESOURCES += \
     $$PWD/widgetsRes.qrc

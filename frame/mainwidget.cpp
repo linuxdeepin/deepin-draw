@@ -3,11 +3,15 @@
 #include <QLabel>
 #include <QDebug>
 
+#include "widgets/graphicsgloweffect.h"
+
 #include "utils/configsettings.h"
+
+DWIDGET_USE_NAMESPACE
 
 int HOR_MARGIN = 0;
 int VER_MARGIN = 0;
-const int ARTBOARD_MARGIN = 0;
+const int ARTBOARD_MARGIN = 25;
 const int TITLEBAR_HEIGHT = 40;
 const int MARGIN = 25;
 
@@ -15,7 +19,12 @@ MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
     setObjectName("MainWidget");
-    m_canvas = new CanvasWidget(this);
+    m_shapesWidget = new ShapesWidget(this);
+    auto effect = new GraphicsGlowEffect();
+    effect->setBlurRadius(16);
+    effect->setColor(QColor("#ececef"));
+    m_shapesWidget->setGraphicsEffect(effect);
+
     m_seperatorLine = new QLabel(this);
     m_seperatorLine->setMinimumWidth(this->width());
     m_seperatorLine->setFixedHeight(1);
@@ -27,7 +36,7 @@ MainWidget::MainWidget(QWidget *parent)
     m_hLayout->setMargin(0);
     m_hLayout->setSpacing(0);
     m_hLayout->addStretch();
-    m_hLayout->addWidget(m_canvas);
+    m_hLayout->addWidget(m_shapesWidget);
     m_hLayout->addStretch();
 
     m_vLayout = new QVBoxLayout;
@@ -35,35 +44,41 @@ MainWidget::MainWidget(QWidget *parent)
     m_vLayout->setSpacing(0);
     m_vLayout->addWidget(m_seperatorLine);
     m_vLayout->addStretch();
+    m_vLayout->addSpacing(MARGIN);
     m_vLayout->addLayout(m_hLayout);
+    m_vLayout->addSpacing(MARGIN);
     m_vLayout->addStretch();
 
     this->setLayout(m_vLayout);
 
     connect(this, &MainWidget::drawShapeChanged,
-                    m_canvas, &CanvasWidget::drawShapeChanged);
+                    m_shapesWidget, &ShapesWidget::setCurrentShape);
     connect(this, &MainWidget::fillShapeSelectedActive,
-            m_canvas, &CanvasWidget::fillShapeSelectedActive);
+            m_shapesWidget, &ShapesWidget::setFillShapeSelectedActive);
     connect(this, &MainWidget::rotateImage,
-            m_canvas, &CanvasWidget::rotateImage);
+            m_shapesWidget, &ShapesWidget::handleImageRotate);
     connect(this, &MainWidget::mirroredImage,
-            m_canvas, &CanvasWidget::mirroredImage);
+            m_shapesWidget, &ShapesWidget::mirroredImage);
     connect(this, &MainWidget::generateSaveImage,
-            m_canvas, &CanvasWidget::generateSaveImage);
+            m_shapesWidget, &ShapesWidget::saveImage);
     connect(this, &MainWidget::printImage,
-            m_canvas, &CanvasWidget::printImage);
+            m_shapesWidget, &ShapesWidget::printImage);
     connect(this, &MainWidget::autoCrop,
-            m_canvas, &CanvasWidget::autoCrop);
+            m_shapesWidget, &ShapesWidget::autoCrop);
     connect(this, &MainWidget::pressToCanvas,
-            m_canvas, &CanvasWidget::pressToShapeWidget);
+            m_shapesWidget, &ShapesWidget::pressFromParent);
 
-    connect(m_canvas, &CanvasWidget::updateMiddleWidget,
+    connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &MainWidget::updateMiddleWidget);
-    connect(m_canvas, &CanvasWidget::adjustArtBoardSize,
-            this, &MainWidget::adjustArtBoardSize);
-    connect(m_canvas, &CanvasWidget::cutImageFinished,
+    connect(m_shapesWidget, &ShapesWidget::adjustArtBoardSize,
+            this,  [=](QSize size){
+        ConfigSettings::instance()->setValue("artboard", "width", size.width());
+        ConfigSettings::instance()->setValue("artboard", "height", size.height());
+        emit adjustArtBoardSize(size);
+    });
+    connect(m_shapesWidget, &ShapesWidget::cutImageFinished,
             this, &MainWidget::cutImageFinished);
-    connect(m_canvas, &CanvasWidget::shapePressed,
+    connect(m_shapesWidget, &ShapesWidget::shapePressed,
             this, &MainWidget::shapePressed);
 
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
@@ -79,8 +94,8 @@ MainWidget::MainWidget(QWidget *parent)
 
 void MainWidget::updateLayout()
 {
-    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt() + MARGIN*2;
-    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt() + MARGIN*2;
+    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
     int artboardWindowWidth, artboardWindowHeight;
 
     if (artboardActualWidth == 0 || artboardActualHeight == 0)
@@ -119,7 +134,7 @@ void MainWidget::updateLayout()
 
     ConfigSettings::instance()->setValue("canvas", "width", artboardWindowWidth);
     ConfigSettings::instance()->setValue("canvas", "height", artboardWindowHeight);
-    m_canvas->setFixedSize(artboardWindowWidth, artboardWindowHeight);
+    m_shapesWidget->setFixedSize(artboardWindowWidth, artboardWindowHeight - MARGIN);
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)
@@ -134,22 +149,22 @@ void MainWidget::resizeEvent(QResizeEvent *event)
 
 void MainWidget::openImage(const QString &path)
 {
-    m_canvas->openImage(path);
+     m_shapesWidget->loadImage(QStringList() << path);
 }
 
 void MainWidget::updateCanvasSize(const QSize &size)
 {
-    m_canvas->setFixedSize(size);
+    m_shapesWidget->setFixedSize(size);
 }
 
 void MainWidget::initShapes(QList<Toolshape> shapes)
 {
-    m_canvas->setShapes(shapes);
+    m_shapesWidget->setShapes(shapes);
 }
 
 int MainWidget::shapeNum() const
 {
-    return m_canvas->shapesNum();
+    return m_shapesWidget->shapesNum();
 }
 
 MainWidget::~MainWidget()

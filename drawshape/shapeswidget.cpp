@@ -69,7 +69,7 @@ void ShapesWidget::initAttribute()
 {
     setObjectName("Canvas");
     setStyleSheet("QFrame#Canvas { "
-                              "background-color: transparent;"
+                              "background-color: white;"
                               "margin: 0px;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -3034,9 +3034,9 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         paintHoveredShape(painter, m_hoveredShape);
     }
 
-     painter.setBrush(Qt::transparent);
-     painter.setPen(QPen(QColor(0, 0, 0, 150)));
-     painter.drawRect(this->rect());
+//     painter.setBrush(Qt::transparent);
+//     painter.setPen(QPen(QColor(0, 0, 0, 150)));
+//     painter.drawRect(this->rect());
 }
 
 void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool selected)
