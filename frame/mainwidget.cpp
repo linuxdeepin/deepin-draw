@@ -3,9 +3,9 @@
 #include <QLabel>
 #include <QDebug>
 
-#include "widgets/graphicsgloweffect.h"
-
 #include "utils/configsettings.h"
+#include "utils/calculaterect.h"
+#include "widgets/graphicsgloweffect.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -20,6 +20,8 @@ MainWidget::MainWidget(QWidget *parent)
 {
     setObjectName("MainWidget");
     m_shapesWidget = new ShapesWidget(this);
+    m_artboardMPoints = initFourPoints(m_artboardMPoints);
+
     auto effect = new GraphicsGlowEffect();
     effect->setBlurRadius(16);
     effect->setColor(QColor("#ececef"));
@@ -29,6 +31,10 @@ MainWidget::MainWidget(QWidget *parent)
     m_seperatorLine->setMinimumWidth(this->width());
     m_seperatorLine->setFixedHeight(1);
     m_seperatorLine->setStyleSheet("border: 1px solid rgba(0, 0, 0, 30);");
+
+    m_resizeLabel = new ResizeLabel(this);
+    m_resizeLabel->setFixedSize(this->size());
+    m_resizeLabel->hide();
 
     updateLayout();
 
@@ -80,6 +86,19 @@ MainWidget::MainWidget(QWidget *parent)
             this, &MainWidget::cutImageFinished);
     connect(m_shapesWidget, &ShapesWidget::shapePressed,
             this, &MainWidget::shapePressed);
+    connect(m_shapesWidget, &ShapesWidget::drawArtboard, this,
+            [=](bool drawing, FourPoints mainPoints){
+        QSize artboardSize = m_shapesWidget->size();
+        int startX = (this->width() - artboardSize.width())/2;
+        int startY = (this->height() - artboardSize.height())/2;
+
+        mainPoints[0] = QPointF(mainPoints[0].x(),
+                mainPoints[0].y()  - qreal(startY));
+        mainPoints[3] = QPointF(mainPoints[3].x(),
+                mainPoints[3].y() - qreal(startY));
+        m_resizeLabel->paintResizeLabel(drawing, mainPoints);
+        update();
+    });
 
     connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
             [=](const QString &group,  const QString &key){
@@ -90,6 +109,7 @@ MainWidget::MainWidget(QWidget *parent)
             updateGeometry();
         }
     });
+
 }
 
 void MainWidget::updateLayout()
@@ -135,6 +155,7 @@ void MainWidget::updateLayout()
     ConfigSettings::instance()->setValue("canvas", "width", artboardWindowWidth);
     ConfigSettings::instance()->setValue("canvas", "height", artboardWindowHeight);
     m_shapesWidget->setFixedSize(artboardWindowWidth, artboardWindowHeight - MARGIN);
+    m_resizeLabel->setFixedSize(this->size());
 }
 
 void MainWidget::resizeEvent(QResizeEvent *event)
@@ -146,6 +167,26 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     updateLayout();
     QWidget::resizeEvent(event);
 }
+
+//void MainWidget::paintEvent(QPaintEvent *event)
+//{
+////    Q_UNUSED(event);
+//    QWidget::paintEvent(event);
+//    if (!m_drawArtboard)
+//        return;
+
+//    else {
+//        QPainter painter(this);
+//        painter.setRenderHints(QPainter::Antialiasing
+//                               | QPainter::SmoothPixmapTransform);
+//        painter.setBrush(Qt::transparent);
+//        painter.setPen(QPen(QColor(0, 0, 0, 150)));
+//        QRect rect = QRect(int(m_artboardMPoints[0].x() + 80), int(m_artboardMPoints[0].y() + 35),
+//                int(m_artboardMPoints[3].x() - m_artboardMPoints[0].x()),
+//                int(m_artboardMPoints[3].y() - m_artboardMPoints[0].y()));
+//        painter.drawRect(rect);
+//    }
+//}
 
 void MainWidget::openImage(const QString &path)
 {

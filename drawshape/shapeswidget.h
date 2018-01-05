@@ -53,6 +53,8 @@ signals:
     void updateMiddleWidgets(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
+    void drawArtboard(bool drawing,
+                      FourPoints mainPoints);
 
 public:
     void autoCrop();
@@ -226,6 +228,9 @@ private:
     bool m_scaledImage;
     bool m_stickCurosr;
     bool m_rationChanged;
+    //DrawArtboard by outside widget
+    bool m_drawArtboardSize;
+    FourPoints m_artboardMainPoints;
 
     int m_shapesIndex;
     int m_selectedIndex;
@@ -248,7 +253,6 @@ private:
     int m_linewidth;
     int m_textFontsize = 12;
     int m_blurLinewidth = 20;
-//    int counts = 0;
 
     Toolshape m_cutShape;
     Toolshape m_currentShape;

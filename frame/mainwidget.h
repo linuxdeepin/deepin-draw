@@ -12,6 +12,7 @@
 #include "utils/baseutils.h"
 #include "utils/shapesutils.h"
 #include "drawshape/shapeswidget.h"
+#include "widgets/resizelabel.h"
 
 class MainWidget: public QWidget
 {
@@ -45,6 +46,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+//    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     TopToolbar* m_topToolbar;
@@ -54,6 +56,10 @@ private:
 
     QVBoxLayout* m_vLayout;
     QHBoxLayout* m_hLayout;
+
+    ResizeLabel* m_resizeLabel;
+    bool m_drawArtboard;
+    FourPoints m_artboardMPoints;
 };
 
 #endif // MAINWIDGET_H

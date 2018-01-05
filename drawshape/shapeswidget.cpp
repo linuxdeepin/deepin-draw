@@ -35,7 +35,6 @@ const int POINT_SPACING = 20;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent)
-//      m_menuController(new MenuController)
 {
     initAttribute();
     initShortcut();
@@ -107,6 +106,9 @@ void ShapesWidget::initAttribute()
     m_recordCutImage = false;
     m_beginGrabImage = false;
     m_isCutImageResize = false;
+
+    m_drawArtboardSize = false;
+    m_artboardMainPoints = initFourPoints(m_artboardMainPoints);
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -1961,7 +1963,19 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_inBtmRight = true;
             m_resizeDirection = Right;
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-            update();
+            m_drawArtboardSize = true;
+//            QPoint endPos = QPoint(this->width(), this->height());
+            QPoint endPos = mapToGlobal(e->pos());
+            m_artboardMainPoints[0] = QPointF(mapToGlobal(QPoint(0, 0)).x(),
+                                              mapToGlobal(QPoint(0, 0)).y());
+            m_artboardMainPoints[1] = QPointF(mapToGlobal(QPoint(0, endPos.y())).x(),
+                                              mapToGlobal(QPoint(0, endPos.y())).y());
+            m_artboardMainPoints[2] = QPointF(mapToGlobal(QPoint(endPos.x(), 0)).x(),
+                                              mapToGlobal(QPoint(endPos.x(), 0)).y());
+            m_artboardMainPoints[3] = QPointF(mapToGlobal(endPos).x() -
+                                              mapToGlobal(QPoint(0, 0)).x(),
+                  mapToGlobal(endPos).y() - mapToGlobal(QPoint(0, 0)).y());
+            emit drawArtboard(m_drawArtboardSize, m_artboardMainPoints);
             return;
         }
 
@@ -1969,6 +1983,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         {
             qDebug() << "Adjust artboard's size!";
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
+
             update();
             return;
         }
@@ -2100,6 +2115,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 {
+    if (m_drawArtboardSize)
+    {
+        m_drawArtboardSize = false;
+        emit drawArtboard(m_drawArtboardSize, m_artboardMainPoints);
+    }
     if (e->button() == Qt::RightButton)
     {
         m_menu->popup(mapToGlobal(e->pos()));
@@ -2234,7 +2254,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             {
                 for(int j = 0; j < m_shapes[m_shapes.length() - 1].mainPoints.length(); j++)
                 {
-                    qDebug() << "FFFFF" << QPointF(e->pos().x() - m_pressedPoint.x(),
+                    qDebug() << "cutImage:" << QPointF(e->pos().x() - m_pressedPoint.x(),
                                                    e->pos().y() - m_pressedPoint.y());
                     m_shapes[m_shapes.length() - 1].mainPoints[j] = QPointF(
                     m_shapes[m_shapes.length() - 1].mainPoints[j].x() + e->pos().x() - m_pressedPoint.x(),
@@ -2259,15 +2279,34 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 m_resizeDirection = Right;
                 m_stickCurosr = true;
                 m_cursorInBtmRight = true;
+                m_drawArtboardSize = true;
 
                 qApp->setOverrideCursor(Qt::SizeFDiagCursor);
             } else {
                 if (!m_isPressed) {
                     m_stickCurosr = false;
+
                     updateCursorShape();
                 }
 
                 m_cursorInBtmRight = false;
+            }
+
+            if (m_stickCurosr && m_isPressed)
+            {
+                m_drawArtboardSize = true;
+                QPoint endPos = mapToGlobal(e->pos());
+
+                m_artboardMainPoints[0] = QPointF(mapToGlobal(QPoint(0, 0)).x(),
+                                                  mapToGlobal(QPoint(0, 0)).y());
+                m_artboardMainPoints[1] = QPointF(mapToGlobal(QPoint(0, endPos.y())).x(),
+                                                  mapToGlobal(QPoint(0, endPos.y())).y());
+                m_artboardMainPoints[2] = QPointF(mapToGlobal(QPoint(endPos.x(), 0)).x(),
+                                                  mapToGlobal(QPoint(endPos.x(), 0)).y());
+                m_artboardMainPoints[3] = QPointF(mapToGlobal(endPos).x() -
+                                                  mapToGlobal(QPoint(0, 0)).x(),
+                      mapToGlobal(endPos).y() - mapToGlobal(QPoint(0, 0)).y());
+                emit drawArtboard(m_drawArtboardSize, m_artboardMainPoints);
             }
         }
 
@@ -2309,7 +2348,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
             m_artBoardActualWidth = scaledRect.width();
             m_artBoardActualHeight = scaledRect.height();
 
-            emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
+//            emit adjustArtBoardSize(QSize(m_artBoardActualWidth, m_artBoardActualHeight));
             m_pos1 = m_pos2;
         }
 
