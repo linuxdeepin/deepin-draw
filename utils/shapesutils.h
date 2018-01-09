@@ -24,6 +24,7 @@ public:
      QString imagePath = "";
      QString text ="";
      qreal rotate = 0;
+     qreal scaledRation = 1;
      QSize imageSize = QSize();
      int fontSize = 1;
 

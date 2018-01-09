@@ -53,8 +53,7 @@ signals:
     void updateMiddleWidgets(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
-    void drawArtboard(bool drawing,
-                      FourPoints mainPoints);
+    void drawArtboard(bool drawing, FourPoints mainPoints, QSize newSize);
 
 public:
     void autoCrop();
@@ -115,6 +114,9 @@ public:
     void copyShape();
 //    void cutShape();
     void pasteShape(QPoint pos = QPoint(0, 0));
+    void resizeArtboardByDrag(QPointF pos);
+    void appendShape(Toolshape shape);
+    void updateSizeByAutoCrop();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -160,27 +162,27 @@ private:
                                QPointF pos, int padding = 4);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
-    void paintShape(QPainter &painter, Toolshape shape, bool selected = false);
+    void paintShape(QPainter &painter, Toolshape shape, bool saveTo, bool selected = false);
     void paintHoveredShape(QPainter &painter, Toolshape shape);
     void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
     void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints,
                                  bool noRotatePoint = false);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter,  Toolshape shape);
-    void paintEllipse(QPainter &painter, Toolshape shape);
-    void paintArrow(QPainter &painter, Toolshape shape, bool isStraight = false);
-    void paintStraightLine(QPainter &painter, Toolshape shape);
-    void paintArbitraryCurve(QPainter &painter, Toolshape shape);
-    void paintText(QPainter &painter,  Toolshape shape);
+    void paintRect(QPainter &painter,  Toolshape shape, bool saveTo);
+    void paintEllipse(QPainter &painter, Toolshape shape, bool saveTo);
+    void paintArrow(QPainter &painter, Toolshape shape, bool saveTo, bool isStraight = false);
+    void paintStraightLine(QPainter &painter, Toolshape shape, bool saveTo);
+    void paintArbitraryCurve(QPainter &painter, Toolshape shape, bool saveTo);
+    void paintText(QPainter &painter,  Toolshape shape, bool saveTo);
 
     QPainterPath drawPair(QPainter &p,
                           QPointF p1, QSizeF size1, QColor c1,
                           QPointF p2, QSizeF size2, QColor c2,
                           QPainterPath oldpath);
     void paintPointList(QPainter &p, QList<QPointF> points, int lineWidth);
-    void paintBlur(QPainter &painter, Toolshape shape);
+    void paintBlur(QPainter &painter, Toolshape shape, bool saveTo);
     void paintCutImageRect(QPainter &painter, Toolshape shape);
-    void paintImage(QPainter &painter, Toolshape imageShape);
+    void paintImage(QPainter &painter, Toolshape imageShape, bool saveTo);
     void paintSelectedShape(QPainter &painter, Toolshape shape, bool noRotatePoint = false);
 
     QPointF m_pos1 = QPointF(0, 0);
@@ -279,6 +281,11 @@ private:
     qreal m_canvasSideLength;
     qreal m_canvasMicroSideLength;
     qreal m_ration;
-    qreal m_saveRation;
+    qreal m_resizeRation;
+    qreal m_lastRation;
+    QSize m_originArtboardSize;
+    QSize m_originArtboardWindowSize;
+    bool m_getOriginRation;
+    bool m_resizeByAutoCrop;
 };
 #endif // SHAPESWIDGET_H

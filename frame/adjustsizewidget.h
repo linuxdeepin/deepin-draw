@@ -16,6 +16,8 @@ public:
     void setCanvasSize(QSize size);
     void updateCanvasSize(QSize size);
 
+    void resizeCanvasSize(bool resized, QSize addSize);
+
 signals:
     void autoCrop();
 

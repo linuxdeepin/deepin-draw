@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
     QStringList pas = cmdParser.positionalArguments();
     qDebug() << "cmdParse:" << names <<pas
                      <<  cmdParser.positionalArguments();
+
     if (names.isEmpty() && pas.isEmpty())
     {
         w.show();

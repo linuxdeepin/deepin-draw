@@ -19,6 +19,7 @@ MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
     setObjectName("MainWidget");
+
     m_shapesWidget = new ShapesWidget(this);
     m_artboardMPoints = initFourPoints(m_artboardMPoints);
 
@@ -35,8 +36,6 @@ MainWidget::MainWidget(QWidget *parent)
     m_resizeLabel = new ResizeLabel(this);
     m_resizeLabel->setFixedSize(this->size());
     m_resizeLabel->hide();
-
-    updateLayout();
 
     m_hLayout = new QHBoxLayout;
     m_hLayout->setMargin(0);
@@ -71,8 +70,6 @@ MainWidget::MainWidget(QWidget *parent)
             m_shapesWidget, &ShapesWidget::printImage);
     connect(this, &MainWidget::autoCrop,
             m_shapesWidget, &ShapesWidget::autoCrop);
-    connect(this, &MainWidget::pressToCanvas,
-            m_shapesWidget, &ShapesWidget::pressFromParent);
 
     connect(m_shapesWidget, &ShapesWidget::updateMiddleWidgets,
             this, &MainWidget::updateMiddleWidget);
@@ -87,16 +84,13 @@ MainWidget::MainWidget(QWidget *parent)
     connect(m_shapesWidget, &ShapesWidget::shapePressed,
             this, &MainWidget::shapePressed);
     connect(m_shapesWidget, &ShapesWidget::drawArtboard, this,
-            [=](bool drawing, FourPoints mainPoints){
-        QSize artboardSize = m_shapesWidget->size();
-        int startX = (this->width() - artboardSize.width())/2;
-        int startY = (this->height() - artboardSize.height())/2;
-
-        mainPoints[0] = QPointF(mainPoints[0].x(),
-                mainPoints[0].y()  - qreal(startY));
-        mainPoints[3] = QPointF(mainPoints[3].x(),
-                mainPoints[3].y() - qreal(startY));
+            [=](bool drawing, FourPoints mainPoints, QSize addSize){
+        mainPoints[0] = QPointF(mainPoints[0].x() + m_horizontalMargin,
+                mainPoints[0].y() + m_verticalMargin);
+        mainPoints[3] = QPointF(mainPoints[3].x() + m_horizontalMargin,
+                mainPoints[3].y() + m_verticalMargin);
         m_resizeLabel->paintResizeLabel(drawing, mainPoints);
+        emit resizeArtboard(!drawing, addSize);
         update();
     });
 
@@ -105,56 +99,59 @@ MainWidget::MainWidget(QWidget *parent)
         Q_UNUSED(key);
         if (group == "artboard")
         {
-            updateLayout();
-            updateGeometry();
+            QTimer::singleShot(500, [=]{
+                updateLayout();
+                updateGeometry();
+            });
+
         }
     });
-
 }
 
 void MainWidget::updateLayout()
 {
-    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-    int artboardWindowWidth, artboardWindowHeight;
-
-    if (artboardActualWidth == 0 || artboardActualHeight == 0)
+    QSize artboardSize = initArtboardSize();
+    m_horizontalMargin = 0, m_verticalMargin = 0;
+    int artboardWindowWidth = 0, artboardWindowHeight = 0;
+    qDebug() << "updateLayout:" <<  qApp->activeWindow()
+             << window()->size() << this->size();
+    if (artboardSize.width() <= window()->width() - ARTBOARD_MARGIN*2)
     {
-        QSize desktopSize = qApp->desktop()->size();
-        artboardActualWidth = desktopSize.width();
-        artboardActualHeight = desktopSize.height();
-    }
-
-    if (artboardActualWidth <= window()->width() - ARTBOARD_MARGIN*2)
-    {
-        HOR_MARGIN = (window()->width() -  artboardActualWidth)/2;
+        m_horizontalMargin = (window()->width() -  artboardSize.width())/2;
     } else
     {
-        HOR_MARGIN = ARTBOARD_MARGIN;
+        m_horizontalMargin = ARTBOARD_MARGIN;
     }
-    if (artboardActualHeight <= window()->height() - ARTBOARD_MARGIN*2 - TITLEBAR_HEIGHT)
+
+    if (artboardSize.height() <= window()->height() - TITLEBAR_HEIGHT - ARTBOARD_MARGIN*2)
     {
-        VER_MARGIN = (window()->height() - artboardActualHeight - TITLEBAR_HEIGHT)/2;
+        m_verticalMargin = (window()->height() -artboardSize.height() - TITLEBAR_HEIGHT)/2;
     } else {
-        VER_MARGIN = ARTBOARD_MARGIN;
+        m_verticalMargin = ARTBOARD_MARGIN;
     }
 
-    HOR_MARGIN = std::max(HOR_MARGIN, ARTBOARD_MARGIN);
-    VER_MARGIN = std::max(VER_MARGIN, ARTBOARD_MARGIN);
+    qDebug() << "rt:" << m_horizontalMargin << m_verticalMargin;
 
-    artboardWindowWidth = window()->width() - HOR_MARGIN*2;
-    artboardWindowHeight = window()->height() - TITLEBAR_HEIGHT - VER_MARGIN*2;
-
-    qreal xRation = artboardWindowWidth/qreal(artboardActualWidth);
-    qreal yRation = artboardWindowHeight/qreal(artboardActualHeight);
-
-    qreal resultRation = std::min(xRation, yRation);
-    artboardWindowWidth = resultRation*artboardActualWidth;
-    artboardWindowHeight = resultRation*artboardActualHeight;
+    artboardWindowWidth = window()->width() - m_horizontalMargin*2;
+    artboardWindowHeight = window()->height() - TITLEBAR_HEIGHT
+            - m_verticalMargin*2;
+    qDebug() << "before window size:" << QSize(artboardWindowWidth,
+                                               artboardWindowHeight);
+    QSize winSize = getCanvasSize(artboardSize, QSize(artboardWindowWidth,
+                                                      artboardWindowHeight));
+    artboardWindowWidth = winSize.width();
+    artboardWindowHeight = winSize.height();
+    m_horizontalMargin = (window()->width() - artboardWindowWidth)/2;
+    m_verticalMargin = (window()->height() - artboardWindowHeight - TITLEBAR_HEIGHT)/2;
+    qDebug() << "winSize:" << artboardSize << QSize(artboardWindowWidth,
+                                                    artboardWindowHeight) << winSize
+                    << m_horizontalMargin << m_verticalMargin;
 
     ConfigSettings::instance()->setValue("canvas", "width", artboardWindowWidth);
     ConfigSettings::instance()->setValue("canvas", "height", artboardWindowHeight);
-    m_shapesWidget->setFixedSize(artboardWindowWidth, artboardWindowHeight - MARGIN);
+    m_shapesWidget->setFixedSize(artboardWindowWidth, artboardWindowHeight);
+    m_shapesWidget->updateCanvasSize();
+    qDebug() << "UpdateNewLayout:" << artboardWindowWidth << artboardWindowHeight;
     m_resizeLabel->setFixedSize(this->size());
 }
 
@@ -165,32 +162,58 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     m_seperatorLine->setMinimumWidth(this->width());
 
     updateLayout();
+
     QWidget::resizeEvent(event);
 }
 
-//void MainWidget::paintEvent(QPaintEvent *event)
-//{
-////    Q_UNUSED(event);
-//    QWidget::paintEvent(event);
-//    if (!m_drawArtboard)
-//        return;
+void MainWidget::mousePressEvent(QMouseEvent *event)
+{
+    m_shapesWidget->pressFromParent(event);
+    QWidget::mousePressEvent(event);
+}
 
-//    else {
-//        QPainter painter(this);
-//        painter.setRenderHints(QPainter::Antialiasing
-//                               | QPainter::SmoothPixmapTransform);
-//        painter.setBrush(Qt::transparent);
-//        painter.setPen(QPen(QColor(0, 0, 0, 150)));
-//        QRect rect = QRect(int(m_artboardMPoints[0].x() + 80), int(m_artboardMPoints[0].y() + 35),
-//                int(m_artboardMPoints[3].x() - m_artboardMPoints[0].x()),
-//                int(m_artboardMPoints[3].y() - m_artboardMPoints[0].y()));
-//        painter.drawRect(rect);
-//    }
-//}
+void MainWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    event->accept();
+}
+
+void MainWidget::paintEvent(QPaintEvent *event)
+{
+    QWidget::paintEvent(event);
+    QPoint endPos = this->rect().bottomRight();
+    int outSideSpacing = 10;
+    QPoint pointA = QPoint(endPos.x() - m_horizontalMargin + outSideSpacing,
+                           endPos.y() - m_verticalMargin + outSideSpacing);
+    int tipsWidth = 8, tipContentWidth = 2;
+    QPoint pointB = QPoint(pointA.x(), pointA.y() - tipsWidth);
+    QPoint pointC = QPoint(pointB.x() - tipContentWidth, pointB.y());
+    QPoint pointD = QPoint(pointC.x(), pointC.y() + (tipsWidth - tipContentWidth));
+    QPoint pointE = QPoint(pointD.x() - (tipsWidth - tipContentWidth), pointD.y());
+    QPoint pointF = QPoint(pointE.x(), pointE.y() + tipContentWidth);
+
+    QPainter painter(this);
+    QPen pen;
+    pen.setColor(QColor(0, 0, 0, 80));
+    QPainterPath path;
+    path.moveTo(pointE);
+    path.lineTo(pointF);
+    path.lineTo(pointA);
+    path.lineTo(pointB);
+    path.lineTo(pointC);
+    path.lineTo(pointD);
+    path.lineTo(pointE);
+    painter.setPen(pen);
+
+    painter.fillPath(path, QBrush(QColor(255, 255, 255, 255)));
+    painter.drawPath(path);
+}
 
 void MainWidget::openImage(const QString &path)
 {
-     m_shapesWidget->loadImage(QStringList() << path);
+    QTimer::singleShot(500, [=]{
+         m_shapesWidget->loadImage(QStringList() << path);
+    });
+
 }
 
 void MainWidget::updateCanvasSize(const QSize &size)

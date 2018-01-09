@@ -18,8 +18,6 @@ ConfigSettings::ConfigSettings(QObject *parent)
 
     if (!QFileInfo(CONFIG_PATH).exists())
     {
-        setValue("artboard", "width", canvasSize.width());
-        setValue("artboard", "height", canvasSize.height());
         setValue("common", "strokeColor_transparent", false);
         setValue("common", "strokeColor_alpha", 100);
         setValue("common", "strokeColor", "#dddddd");
@@ -39,6 +37,8 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("cut", "ration", "free");
     }
 
+    setValue("artboard", "width", canvasSize.width());
+    setValue("artboard", "height", canvasSize.height());
     setValue("tools", "activeMove", "false");
 
     qDebug() << "Setting file:" << m_settings->fileName();

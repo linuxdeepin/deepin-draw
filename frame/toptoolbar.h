@@ -48,6 +48,7 @@ signals:
     void autoCrop();
 
     void resetPicBtn();
+    void resizeArtboard(bool resized, QSize size);
 
 public:
 //    void showDrawDialog();
@@ -94,6 +95,7 @@ private:
     MiddleWidgetStatus m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
+    QList<PushButton*> m_actionPushButtons;
     PushButton* m_rectBtn;
     PushButton* m_ovalBtn;
     PushButton* m_lineBtn;

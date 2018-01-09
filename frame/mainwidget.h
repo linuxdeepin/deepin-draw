@@ -35,7 +35,8 @@ signals:
     void updateMiddleWidget(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
-    void pressToCanvas(QMouseEvent *ev);
+//    void pressToCanvas(QMouseEvent *ev);
+    void resizeArtboard(bool resized, QSize size);
 
 public:
     void updateLayout();
@@ -46,7 +47,9 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-//    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     TopToolbar* m_topToolbar;
@@ -60,6 +63,8 @@ private:
     ResizeLabel* m_resizeLabel;
     bool m_drawArtboard;
     FourPoints m_artboardMPoints;
+    int m_horizontalMargin;
+    int m_verticalMargin;
 };
 
 #endif // MAINWIDGET_H

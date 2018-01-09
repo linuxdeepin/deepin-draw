@@ -48,6 +48,8 @@ QList<QColor> specifiedColorList();
 QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 
+QSize      initArtboardSize();
+QSize      getCanvasSize(QSize artboardSize, QSize windowSize);
 
 QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);

@@ -9,6 +9,7 @@
 #include "widgets/toolbutton.h"
 #include "utils/configsettings.h"
 #include "utils/dintvalidator.h"
+#include "utils/baseutils.h"
 
 AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     : QWidget(parent)
@@ -33,50 +34,45 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(80);
 
-    int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-
-    if (canvasWidth == 0 || canvasHeight == 0)
-    {
-        QSize desktopSize = qApp->desktop()->size();
-        canvasWidth = desktopSize.width();
-        canvasHeight = desktopSize.height();
-    }
-
-    setCanvasSize(QSize(canvasWidth, canvasHeight));
+    QSize artboardSize = initArtboardSize();
+    setCanvasSize(artboardSize);
 
     connect(m_widthLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
         canvasWidth = std::min(500000, std::max(20, canvasWidth));
-        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
-        ConfigSettings::instance()->setValue("artboard", "width", canvasWidth);
+        int canvasHeight = m_heightLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_widthLEdit, &FontsizeLineEdit::addSize, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
         canvasWidth = std::min(500000, std::max(20, canvasWidth + 1));
-        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
+        int canvasHeight = m_heightLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_widthLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
         canvasWidth = std::min(500000, std::max(20, canvasWidth - 1));
-        m_widthLEdit->setText(QString("%1").arg(canvasWidth));
+        int canvasHeight = m_heightLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
 
     connect(m_heightLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
         canvasHeight = std::min(500000, std::max(20, canvasHeight));
-        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
-        ConfigSettings::instance()->setValue("artboard", "height", canvasHeight);
+        int canvasWidth = m_widthLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_heightLEdit, &FontsizeLineEdit::addSize, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
         canvasHeight = std::min(500000, std::max(20, canvasHeight + 1));
-        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
+        int canvasWidth = m_widthLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_heightLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
         canvasHeight = std::min(500000, std::max(20, canvasHeight - 1));
-        m_heightLEdit->setText(QString("%1").arg(canvasHeight));
+        int canvasWidth = m_heightLEdit->text().toInt();
+        setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
 
     QLabel* unitHLabel = new QLabel(this);
@@ -98,23 +94,6 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     layout->addWidget(cutTransAreaBtn);
     setLayout(layout);
 
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
-            this, [=](const QString &group, const QString &key){
-        Q_UNUSED(key);
-        if (group == "artboard")
-        {
-            int canvasWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-            int canvasHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-
-            if (canvasWidth == 0|| canvasHeight == 0)
-            {
-                QSize desktopSize = qApp->desktop()->size();
-                canvasWidth = desktopSize.width();
-                canvasHeight = desktopSize.height();
-            }
-            setCanvasSize(QSize(canvasWidth, canvasHeight));
-        }
-    });
     connect(cutTransAreaBtn, &ToolButton::clicked, this, &AdjustsizeWidget::autoCrop);
 }
 
@@ -122,11 +101,33 @@ void AdjustsizeWidget::setCanvasSize(QSize size)
 {
     m_widthLEdit->setText(QString("%1").arg(size.width()));
     m_heightLEdit->setText(QString("%1").arg(size.height()));
+    ConfigSettings::instance()->setValue("artboard", "width",
+                                         size.width());
+    ConfigSettings::instance()->setValue("artboard", "height",
+                                         size.height());
 }
 
 void AdjustsizeWidget::updateCanvasSize(QSize size)
 {
     setCanvasSize(size);
+}
+
+void AdjustsizeWidget::resizeCanvasSize(bool resized, QSize addSize)
+{
+
+//    int originWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+//    int originHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+//    originWidth += addSize.width();
+//    originHeight += addSize.height();
+    if (resized)
+    {
+        setCanvasSize(addSize);
+        qDebug() << "ResizedSize:" << addSize;
+    }
+    else {
+        m_widthLEdit->setText(QString("%1").arg(addSize.width()));
+        m_heightLEdit->setText(QString("%1").arg(addSize.height()));
+    }
 }
 
 AdjustsizeWidget::~AdjustsizeWidget()

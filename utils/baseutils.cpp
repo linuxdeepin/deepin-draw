@@ -8,6 +8,41 @@
 #include <QImageReader>
 #include <QCryptographicHash>
 #include <QtMath>
+#include <QApplication>
+#include <QDesktopWidget>
+
+#include "utils/configsettings.h"
+
+QSize      initArtboardSize()
+{
+    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+
+    if (artboardActualWidth == 0 || artboardActualHeight == 0)
+    {
+        QSize desktopSize = qApp->desktop()->size();
+        artboardActualWidth = desktopSize.width();
+        artboardActualHeight = desktopSize.height();
+    }
+    return QSize(artboardActualWidth, artboardActualHeight);
+}
+
+QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
+{
+    qreal winWidth = qreal(windowSize.width()),
+          winHeight = qreal(windowSize.height());
+    qreal widthRation = qreal(artboardSize.width())/qreal(windowSize.width());
+    qreal heightRation = qreal(artboardSize.height())/qreal(windowSize.height());
+    qDebug() << "GetCanvasSize:" << widthRation << heightRation;
+    if (widthRation > heightRation)
+    {
+        winHeight = qreal(artboardSize.height())/widthRation;
+    } else {
+        winWidth = qreal(artboardSize.width())/heightRation;
+    }
+
+    return QSize(int(winWidth), int(winHeight));
+}
 
 QCursor setCursorShape(QString cursorName) {
     QCursor customShape = QCursor();

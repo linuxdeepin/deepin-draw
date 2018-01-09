@@ -73,6 +73,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj)
             << obj.imagePath << ","
             << obj.text << ","
             << obj.rotate << ","
+            << obj.scaledRation << ","
             << obj.imageSize << ","
             << obj.fontSize << ","
             << obj.points;
@@ -84,6 +85,7 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj)
     in >> obj.points;
     in >> obj.imageSize;
     in >> obj.rotate;
+    in >> obj.scaledRation;
     in >> obj.text;
     in >> obj.imagePath;
     in >> obj.fontSize;
@@ -118,6 +120,7 @@ Toolshape Toolshape::operator=(Toolshape obj)
     imagePath = obj.imagePath;
     text = obj.text;
     rotate = obj.rotate;
+    scaledRation = obj.scaledRation;
     imageSize = obj.imageSize;
     fontSize = obj.fontSize;
     points = obj.points;
@@ -134,7 +137,7 @@ bool Toolshape::operator==(const Toolshape &other) const
             && this->isBlur == other.isBlur && this->isMosaic == other.isMosaic
             && this->isHorFlip == other.isHorFlip && this->isVerFlip == other.isVerFlip
             && this->imagePath == other.imagePath && this->text == other.text
-            && this->rotate == other.rotate
+            && this->scaledRation == other.scaledRation && this->rotate == other.rotate
             && this->isStraight == other.isStraight && this->points == other.points) {
         return true;
     } else {

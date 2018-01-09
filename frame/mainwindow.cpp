@@ -16,15 +16,13 @@
 const QSize WINDOW_MINISIZR = QSize(760, 540);
 const int ARTBOARD_MARGIN = 25;
 const int TITLEBAR_HEIGHT = 40;
+const int IMG_ROTATEPOINT_SPACING = 35;
 
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
     setMouseTracking(true);
     window()->setWindowState(Qt::WindowMaximized);
-    QSize desktopSize = qApp->desktop()->size();
-    ConfigSettings::instance()->setValue("artboard", "width",  desktopSize.width());
-    ConfigSettings::instance()->setValue("artboard", "height", desktopSize.height());
 
     setMinimumSize(WINDOW_MINISIZR);
     m_topToolbar = new TopToolbar(this);
@@ -59,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
             m_topToolbar, &TopToolbar::updateMiddleWidget);
     connect(m_mainWidget, &MainWidget::adjustArtBoardSize,
             m_topToolbar, &TopToolbar::adjustArtBoardSize);
+    connect(m_mainWidget, &MainWidget::resizeArtboard,
+            m_topToolbar, &TopToolbar::resizeArtboard);
     connect(m_mainWidget, &MainWidget::cutImageFinished,
             m_topToolbar, &TopToolbar::cutImageFinished);
     connect(m_mainWidget, &MainWidget::shapePressed,
@@ -84,13 +84,8 @@ void MainWindow::openImage(const QString &path)
     {
         resize(desktopSize.width(), desktopSize.height());
     } else {
-        int imgW = imageSize.width() + 2*ARTBOARD_MARGIN;
-        int imgH = imageSize.height() + 2*ARTBOARD_MARGIN + TITLEBAR_HEIGHT;
-
-       ConfigSettings::instance()->setValue("artboard", "width",  imageSize.width());
-       ConfigSettings::instance()->setValue("artboard", "height", imageSize.height());
-
-        resize(imgW, imgH);
+        emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
+                imageSize.height() + IMG_ROTATEPOINT_SPACING ));
     }
 
     m_mainWidget->openImage(path);
@@ -133,7 +128,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     m_topToolbar->updateColorPanelVisible(event->pos());
-    emit m_mainWidget->pressToCanvas(event);
+    DMainWindow::mousePressEvent(event);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

@@ -41,47 +41,45 @@ TopToolbar::TopToolbar(QWidget* parent)
     logoLabel->setFixedSize(24, 24);
     logoLabel->setObjectName("LogoLabel");
 
-    QList<PushButton*> actionPushButtons;
-
     PushButton* artBoardBtn = new PushButton(this);
     artBoardBtn->setObjectName("ArtBoardBtn");
     artBoardBtn->setToolTip(tr("Dimension"));
-    actionPushButtons.append(artBoardBtn);
+    m_actionPushButtons.append(artBoardBtn);
 
     PushButton* picBtn = new PushButton(this);
     picBtn->setObjectName("PictureBtn");
     picBtn->setToolTip(tr("Import"));
-    actionPushButtons.append(picBtn);
+    m_actionPushButtons.append(picBtn);
 
     m_rectBtn = new PushButton(this);
     m_rectBtn->setObjectName("RectBtn");
     m_rectBtn->setToolTip(tr("Rectangle"));
-    actionPushButtons.append(m_rectBtn);
+    m_actionPushButtons.append(m_rectBtn);
 
     m_ovalBtn = new PushButton(this);
     m_ovalBtn->setObjectName("OvalBtn");
     m_ovalBtn->setToolTip(tr("Ellipse"));
-    actionPushButtons.append(m_ovalBtn);
+    m_actionPushButtons.append(m_ovalBtn);
 
     m_lineBtn = new PushButton(this);
     m_lineBtn->setObjectName("LineBtn");
     m_lineBtn->setToolTip(tr("Pencil"));
-    actionPushButtons.append(m_lineBtn);
+    m_actionPushButtons.append(m_lineBtn);
 
     m_textBtn = new PushButton(this);
     m_textBtn->setObjectName("TextBtn");
     m_textBtn->setToolTip(tr("Text"));
-    actionPushButtons.append(m_textBtn);
+    m_actionPushButtons.append(m_textBtn);
 
     m_blurBtn = new PushButton(this);
     m_blurBtn->setObjectName("BlurBtn");
     m_blurBtn->setToolTip(tr("Blur"));
-    actionPushButtons.append(m_blurBtn);
+    m_actionPushButtons.append(m_blurBtn);
 
     PushButton* selectBtn = new PushButton(this);
     selectBtn->setObjectName("SelectedBtn");
     selectBtn->setToolTip(tr("Selected"));
-    actionPushButtons.append(selectBtn);
+    m_actionPushButtons.append(selectBtn);
 
     initStackWidget();
 
@@ -111,7 +109,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     m_layout->addSpacing(20);
     this->setLayout(m_layout);
 
-    foreach(PushButton* button, actionPushButtons)
+    foreach(PushButton* button, m_actionPushButtons)
     {
         connect(button, &PushButton::clicked, this, [=]{
             if (m_cutWidget->cuttingStatus())
@@ -121,7 +119,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         });
     }
     connect(picBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -139,7 +137,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
     });
     connect(m_rectBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -148,7 +146,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("rectangle");
     });
     connect(m_ovalBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -157,7 +155,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("oval");
     });
     connect(m_lineBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -166,7 +164,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("line");
     });
     connect(m_textBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -175,7 +173,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("text");
     });
     connect(m_blurBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -189,7 +187,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         }
     });
     connect(selectBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -200,7 +198,7 @@ TopToolbar::TopToolbar(QWidget* parent)
         drawShapes("selected");
     });
     connect(artBoardBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, actionPushButtons)
+        foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
@@ -304,6 +302,8 @@ void TopToolbar::initStackWidget()
 
     connect(this, &TopToolbar::adjustArtBoardSize, m_adjustsizeWidget,
             &AdjustsizeWidget::updateCanvasSize);
+    connect(this, &TopToolbar::resizeArtboard,
+            m_adjustsizeWidget, &AdjustsizeWidget::resizeCanvasSize);
     connect(m_adjustsizeWidget, &AdjustsizeWidget::autoCrop, this,
             &TopToolbar::autoCrop);
 
@@ -372,7 +372,7 @@ void TopToolbar::updateMiddleWidget(QString type)
     } else if (type == "text")
     {
         setMiddleStackWidget(MiddleWidgetStatus::DrawText);
-    } else if (type == "adjustsize")
+    } else if (type == "adjustSize")
     {
         setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
     }
@@ -438,6 +438,11 @@ void TopToolbar::updateCurrentShape(QString shape)
     } else if (shape == "blur")
     {
         emit m_blurBtn->clicked();
+    } else {
+        foreach(PushButton* button, m_actionPushButtons)
+        {
+            button->setChecked(false);
+        }
     }
 }
 
