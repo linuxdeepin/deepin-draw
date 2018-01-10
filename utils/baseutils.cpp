@@ -338,3 +338,24 @@ QString sizeToHuman(const qlonglong bytes)
         return QString::number(bytes);
     }
 }
+
+QCursor blurToolCursor(const int &lineWidth)
+{
+    QPixmap cursorPix = QPixmap(QSize(lineWidth + 2, lineWidth + 2));
+    cursorPix.fill(QColor(Qt::transparent));
+    QPen borderPen;
+    borderPen.setWidth(3);
+    borderPen.setColor(QColor(0, 0, 0, 26));
+    QPainter painter(&cursorPix);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    painter.setBrush(QBrush());
+    painter.setPen(borderPen);
+    painter.drawEllipse(cursorPix.rect().center(), lineWidth/2 - 1, lineWidth/2 - 1);
+
+    QPen pen;
+    pen.setWidth(1);
+    pen.setColor(QColor(Qt::white));
+    painter.setPen(pen);
+    painter.drawEllipse(cursorPix.rect().center(), lineWidth/2 - 1, lineWidth/2 - 1);
+    return QCursor(cursorPix, -1, -1);
+}

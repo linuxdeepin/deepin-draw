@@ -333,6 +333,12 @@ void ShapesWidget::setCurrentShape(QString shapeType)
         ConfigSettings::instance()->setValue("tools", "activeMove", true);
     }
 
+    if (shapeType == "blur")
+    {
+        m_blurLinewidth = ConfigSettings::instance()->value("blur",
+                                                            "index").toInt();
+    }
+
     if (m_currentType != "blur" && shapeType == "blur")
         m_generateBlurImage = true;
     else
@@ -3901,7 +3907,13 @@ void ShapesWidget::updateCursorShape()
 {
     if (m_stickCurosr)
         return;
-    qApp->setOverrideCursor(setCursorShape(m_currentType));
+
+    if (m_currentType == "blur")
+    {
+        qApp->setOverrideCursor(blurToolCursor(m_blurLinewidth));
+    } else {
+        qApp->setOverrideCursor(setCursorShape(m_currentType));
+    }
 }
 
 void ShapesWidget::setImageCutting(bool cutting)
