@@ -1,0 +1,3 @@
+QLabel#MainWidget {
+    background-color: #f8f8fb;
+}

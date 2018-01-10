@@ -1,41 +1,35 @@
 QLabel#TextFontLabel {
-    background-color:  transparent;
-    border: 1px solid rgba(0, 0, 0, 50);
-    border-radius: 4px;
 }
 
-QLineEdit#FontEdit {
+QLineEdit#FontsizeEdit {
+    border: 1px solid rgba(0, 0, 0, 26);
+    border-top-left-radius:4px;
+    border-top-right-radius:0px;
+    border-bottom-right-radius:0px;
+    border-bottom-left-radius:4px;
+    border-right: transparent;
 }
 
 ToolButton#AddFontsizeBtn {
-border-image: url(:/theme/light/images/draw/add_normal.png);
-border: solid 1px transparent;
+    border-image: url(:/theme/light/images/draw/add_normal.svg);
 }
 
 ToolButton#AddFontsizeBtn:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/draw/add_hover.png);
+border-image: url(:/theme/light/images/draw/add_hover.svg);
 }
 
 ToolButton#AddFontsizeBtn:pressed {
-border-image: url(:/theme/light/images/draw/add_press.png);
+border-image: url(:/theme/light/images/draw/add_press.svg);
 }
 
 ToolButton#ReduceFontsizeBtn {
-border-image: url(:/theme/light/images/draw/reduce_normal.png);
+border-image: url(:/theme/light/images/draw/reduce_normal.svg);
 }
 
 ToolButton#ReduceFontsizeBtn:hover {
-outline: none;
-background-color: rgba(0, 0, 0, 0.05);
-border: solid 1px transparent;
-border-radius: 3px;
-border-image: url(:/theme/light/images/draw/reduce_hover.png);
+border-image: url(:/theme/light/images/draw/reduce_hover.svg);
 }
 
 ToolButton#ReduceFontsizeBtn:pressed {
-border-image: url(:/theme/light/images/draw/reduce_press.png);
+border-image: url(:/theme/light/images/draw/reduce_press.svg);
 }

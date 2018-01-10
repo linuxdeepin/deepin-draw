@@ -10,7 +10,8 @@
 #include "utils/configsettings.h"
 
 const int LINEEDIT_WIDTH = 64;
-const int BUTTON_ICON = 24;
+const int BUTTON_WIDTH = 25;
+const int BUTTON_HEIGHT = 26;
 
 TextFontLabel::TextFontLabel(QWidget *parent)
     : QLabel(parent),
@@ -19,12 +20,11 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("TextFontLabel");
 
     this->setObjectName("TextFontLabel");
-    this->setFixedSize(LINEEDIT_WIDTH + BUTTON_ICON*2,
-                                      BUTTON_ICON + 2);
+    this->setFixedSize(LINEEDIT_WIDTH +  BUTTON_WIDTH*2,
+                       BUTTON_HEIGHT);
     FontsizeLineEdit* fontEdit = new FontsizeLineEdit(this);
-    fontEdit->setObjectName("FontEdit");
-    fontEdit->setFixedSize(LINEEDIT_WIDTH, 24);
     fontEdit->setObjectName("FontsizeEdit");
+    fontEdit->setFixedSize(LINEEDIT_WIDTH, BUTTON_HEIGHT - 2);
     m_fontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     fontEdit->setText(QString("%1").arg(m_fontsize));
 
@@ -58,8 +58,10 @@ TextFontLabel::TextFontLabel(QWidget *parent)
 
     ToolButton* addBtn = new ToolButton(this);
     addBtn->setObjectName("AddFontsizeBtn");
+    addBtn->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     addBtn->setAutoRepeat(true);
     ToolButton* reduceBtn = new ToolButton(this);
+    reduceBtn->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     reduceBtn->setObjectName("ReduceFontsizeBtn");
     reduceBtn->setAutoRepeat(true);
 

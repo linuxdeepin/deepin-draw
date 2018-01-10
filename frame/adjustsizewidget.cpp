@@ -22,7 +22,6 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(80);
 
-
     QLabel* unitWLabel = new QLabel(this);
     unitWLabel->setText("px");
 
@@ -55,7 +54,6 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
         int canvasHeight = m_heightLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
-
     connect(m_heightLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
         canvasHeight = std::min(500000, std::max(20, canvasHeight));
