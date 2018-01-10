@@ -25,23 +25,3 @@ SOURCES += \
 RESOURCES += \
     $$PWD/frameRes.qrc
 
-DISTFILES += \
-    $$PWD/theme/light/images/cut/cut_active.svg \
-    $$PWD/theme/light/images/cut/cut_hover.svg \
-    $$PWD/theme/light/images/cut/cut_normal.svg \
-    $$PWD/theme/light/images/cut/filp_vertical_active.svg \
-    $$PWD/theme/light/images/cut/filp_vertical_disable.svg \
-    $$PWD/theme/light/images/cut/filp_vertical_hover.svg \
-    $$PWD/theme/light/images/cut/filp_vertical_normal.svg \
-    $$PWD/theme/light/images/cut/flip_horizontal_active.svg \
-    $$PWD/theme/light/images/cut/flip_horizontal_disable.svg \
-    $$PWD/theme/light/images/cut/flip_horizontal_hover.svg \
-    $$PWD/theme/light/images/cut/flip_horizontal_normal.svg \
-    $$PWD/theme/light/images/cut/rotate_left_active.svg \
-    $$PWD/theme/light/images/cut/rotate_left_disable.svg \
-    $$PWD/theme/light/images/cut/rotate_left_hover.svg \
-    $$PWD/theme/light/images/cut/rotate_left_normal.svg \
-    $$PWD/theme/light/images/cut/rotate_right_active.svg \
-    $$PWD/theme/light/images/cut/rotate_right_disable.svg \
-    $$PWD/theme/light/images/cut/rotate_right_hover.svg \
-    $$PWD/theme/light/images/cut/rotate_right_normal.svg

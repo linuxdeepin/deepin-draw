@@ -52,10 +52,10 @@ QCursor setCursorShape(QString cursorName) {
     } else if (cursorName == "rectangle") {
         qDebug() << "rectangle ...";
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/rectangle_mouse.png"), 0, 4);
+                      ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
     } else if (cursorName == "oval") {
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/ellipse_mouse.png"), 0, 4);
+                      ":/theme/light/images/mouse_style/shape/mouse_oval.svg"), 7, 17);
     } else if (cursorName == "arrow") {
         customShape = QCursor(QPixmap(
                       ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
