@@ -170,5 +170,6 @@
         <file>theme/common/images/deepin-draw-96.svg</file>
         <file>theme/common/images/deepin-draw-24.svg</file>
         <file>theme/common/images/deepin-draw-64.svg</file>
+        <file>theme/light/MainWidget.qss</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@
 #include "drawshape/shapeswidget.h"
 #include "widgets/resizelabel.h"
 
-class MainWidget: public QWidget
+class MainWidget: public QLabel
 {
     Q_OBJECT
 public:

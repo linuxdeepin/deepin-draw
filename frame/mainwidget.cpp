@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QDebug>
 
+#include "utils/global.h"
 #include "utils/configsettings.h"
 #include "utils/calculaterect.h"
 #include "widgets/graphicsgloweffect.h"
@@ -16,10 +17,10 @@ const int TITLEBAR_HEIGHT = 40;
 const int MARGIN = 25;
 
 MainWidget::MainWidget(QWidget *parent)
-    : QWidget(parent)
+    : QLabel(parent)
 {
-    setObjectName("MainWidget");
-
+    DRAW_THEME_INIT_WIDGET("MainWidget");
+    this->setObjectName("MainWidget");
     m_shapesWidget = new ShapesWidget(this);
     m_artboardMPoints = initFourPoints(m_artboardMPoints);
 
@@ -163,13 +164,13 @@ void MainWidget::resizeEvent(QResizeEvent *event)
 
     updateLayout();
 
-    QWidget::resizeEvent(event);
+    QLabel::resizeEvent(event);
 }
 
 void MainWidget::mousePressEvent(QMouseEvent *event)
 {
     m_shapesWidget->pressFromParent(event);
-    QWidget::mousePressEvent(event);
+    QLabel::mousePressEvent(event);
 }
 
 void MainWidget::mouseMoveEvent(QMouseEvent *event)
@@ -179,7 +180,7 @@ void MainWidget::mouseMoveEvent(QMouseEvent *event)
 
 void MainWidget::paintEvent(QPaintEvent *event)
 {
-    QWidget::paintEvent(event);
+    QLabel::paintEvent(event);
     QPoint endPos = this->rect().bottomRight();
     int outSideSpacing = 10;
     QPoint pointA = QPoint(endPos.x() - m_horizontalMargin + outSideSpacing,

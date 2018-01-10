@@ -48,7 +48,6 @@ TextWidget::TextWidget(QWidget *parent)
     QLabel* fontsizeLabel = new QLabel(this);
     fontsizeLabel->setText(tr("Size"));
     TextFontLabel* fontLabel = new TextFontLabel(this);
-
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(6);

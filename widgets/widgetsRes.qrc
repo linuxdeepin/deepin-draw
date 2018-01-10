@@ -41,16 +41,16 @@
         <file>theme/light/PushButton.qss</file>
         <file>theme/light/ColorPanel.qss</file>
         <file>theme/light/images/draw/colorful_line.png</file>
-        <file>theme/light/images/draw/add_hover.png</file>
-        <file>theme/light/images/draw/add_normal.png</file>
-        <file>theme/light/images/draw/add_press.png</file>
-        <file>theme/light/images/draw/reduce_press.png</file>
-        <file>theme/light/images/draw/reduce_normal.png</file>
-        <file>theme/light/images/draw/reduce_hover.png</file>
         <file>theme/light/TextFontLabel.qss</file>
         <file>theme/light/images/deepin-draw_32.svg</file>
         <file>theme/common/images/deepin-draw-24.svg</file>
         <file>theme/common/images/deepin-draw-64.svg</file>
         <file>theme/common/images/deepin-draw-96.svg</file>
+        <file>theme/light/images/draw/add_hover.svg</file>
+        <file>theme/light/images/draw/add_normal.svg</file>
+        <file>theme/light/images/draw/add_press.svg</file>
+        <file>theme/light/images/draw/reduce_hover.svg</file>
+        <file>theme/light/images/draw/reduce_normal.svg</file>
+        <file>theme/light/images/draw/reduce_press.svg</file>
     </qresource>
 </RCC>
