@@ -1907,7 +1907,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_menu->popup(this->cursor().pos());
             return;
         }
-
+        //Initialize the scale of the drawing board.
         if (!m_getOriginRation)
         {
             int tmpWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
@@ -1915,11 +1915,14 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_originArtboardSize = QSize(tmpWidth, tmpHeight);
             m_originArtboardWindowSize = this->size();
             m_ration = qreal(tmpWidth)/qreal(this->width());
-            qDebug() << "GetOrigin ration:" << m_ration;
+            qDebug() << "Get origin ration:" << m_ration;
             m_getOriginRation = true;
             m_lastRation = m_ration;
         }
 
+        /*Determin whether a cropped box exist, if there is an indication
+         *that it  is currently in the clipping state, enter to redrawing the
+         * clipping box, and if not, remove the clipping box.*/
         if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
             QPointF(e->pos().x(), e->pos().y())))
         {
@@ -1932,7 +1935,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             for(int i = 0; i < m_cutShape.mainPoints.length(); i++)
             {
                 m_cutShape.mainPoints[i] = QPointF(0, 0);
-                if (m_shapes.length() >1&& m_shapes[m_shapes.length() - 1].type == "cutImage")
+                if (m_shapes.length() >1&& m_shapes[m_shapes.length() - 1].type
+                        == "cutImage")
                 {
                     m_shapes.removeLast();
                 }
@@ -1941,12 +1945,15 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
         m_pos1 = QPointF(e->pos().x(), e->pos().y());
 
+        /*If the alt shortcut has been pressed.*/
         if (m_isAltPressed && !m_initAltStart && !m_isResize && !m_isRotated)
         {
             m_altCenterPos = m_pos1;
             m_initAltStart = true;
         }
 
+        /*If click on the blank space, uncheck, and make the text
+         in the edit read-only.*/
         if (m_selectedOrder != -1 && !m_imageCutting)
         {
             if ((!clickedOnShapes(QPointF(e->pos().x(), e->pos().y()))
@@ -1965,6 +1972,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         m_isPressed = true;
         m_pressedPoint = QPointF(m_pos1.x(), m_pos1.y());
 
+        /*Click on the bottom right to drag and drop the canvas size.*/
         QRect btmRightRect = rightBottomRect();
         if (btmRightRect.contains(QPoint(m_pos1.x(), m_pos1.y())) && !m_isRecording)
         {
@@ -1972,19 +1980,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             m_resizeDirection = Right;
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
             m_drawArtboardSize = true;
+            qDebug() << "Adjust artboard's size!";
             emit updateMiddleWidgets("adjustSize");
             emit shapePressed("");
             setCurrentShape("");
             resizeArtboardByDrag(e->pos());
-            return;
-        }
-
-        if (m_inBtmRight)
-        {
-            qDebug() << "Adjust artboard's size!";
-            qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-
-            update();
             return;
         }
 

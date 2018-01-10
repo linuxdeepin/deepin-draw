@@ -44,7 +44,8 @@ QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
     return QSize(int(winWidth), int(winHeight));
 }
 
-QCursor setCursorShape(QString cursorName) {
+QCursor setCursorShape(QString cursorName)
+{
     QCursor customShape = QCursor();
     if (cursorName == "rotate") {
         customShape = QCursor(QPixmap(
@@ -86,7 +87,8 @@ int stringWidth(const QFont &f, const QString &str)
     return fm.boundingRect(str).width();
 }
 
-QString getFileContent(const QString &file) {
+QString getFileContent(const QString &file)
+{
     QFile f(file);
     QString fileContent = "";
     if (f.open(QFile::ReadOnly))
@@ -123,7 +125,9 @@ QList<QColor> specifiedColorList()
     << QColor("#626262") << QColor("#404040") << QColor("#000000");
     return colorList;
 }
-QColor colorIndexOf(int index) {
+
+QColor colorIndexOf(int index)
+{
     QList<QColor> colorList = specifiedColorList();
 
     if (index < colorList.length())
@@ -132,7 +136,8 @@ QColor colorIndexOf(int index) {
     return colorList[0];
 }
 
-int colorIndex(QColor color) {
+int colorIndex(QColor color)
+{
     QList<QColor> colorList = specifiedColorList();
     if (colorList.contains(color))
         return colorList.indexOf(color);
@@ -140,9 +145,11 @@ int colorIndex(QColor color) {
     return 0;
 }
 
-bool          isValidFormat(QString suffix) {
+bool          isValidFormat(QString suffix)
+{
     QStringList validFormat;
-    validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "xbm" << "xpm";
+    validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm"
+                         << "pgm" << "xbm" << "xpm";
     if (validFormat.contains(suffix)) {
         return true;
     } else {
@@ -163,7 +170,8 @@ bool          isCommandExist(QString command) {
     }
 }
 
-void   paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg) {
+void   paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg)
+{
     painter.drawPixmap(pos, pointImg);
 }
 
