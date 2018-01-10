@@ -301,18 +301,18 @@ QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLen
         yMultiplier = (startPoint.y() - endPoint.y())/std::abs(startPoint.y() - endPoint.y());
     }
 
-    QPointF add = pointSplid(startPoint, endPoint, arrowLength );
+    QPointF add = pointSplid(startPoint, endPoint, arrowLength*2);
     QPointF pointA = QPointF(endPoint.x() + xMultiplier*add.x(), endPoint.y() + yMultiplier*add.y());
-    qreal angle = qreal(M_PI/6);
+    qreal angle = qreal(M_PI/12);
     QPointF pointB = pointRotate(endPoint, pointA, angle);
-    QPointF pointD = pointRotate(endPoint, pointA,  angle*5+ M_PI);
-    add = pointSplid(startPoint, endPoint, arrowLength );
-    QPointF pointE = QPointF(endPoint.x() - xMultiplier*add.x(), endPoint.y() - yMultiplier*add.y());
+    QPointF pointD = pointRotate(endPoint, pointA,  angle*11+ M_PI);
+    add = pointSplid(startPoint, endPoint, arrowLength);
 
     QList<QPointF> arrowPoints;
+    arrowPoints.append(pointA);
     arrowPoints.append(pointB);
     arrowPoints.append(pointD);
-    arrowPoints.append(pointE);
+    arrowPoints.append(endPoint);
     return arrowPoints;
 }
 

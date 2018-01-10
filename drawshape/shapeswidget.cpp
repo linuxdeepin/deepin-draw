@@ -2513,12 +2513,12 @@ void ShapesWidget::paintArrow(QPainter &painter, Toolshape shape,
             QPainterPath path;
             const QPen oldPen = painter.pen();
 
-            if (arrowPoints.length() >=3) {
-                painter.drawLine(lineFPoints[0], lineFPoints[1]);
-                path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
-                path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
+            if (arrowPoints.length() >=4) {
+                painter.drawLine(lineFPoints[0], arrowPoints[0]);
+                path.moveTo(arrowPoints[3].x(), arrowPoints[3].y());
                 path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
                 path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
+                path.lineTo(arrowPoints[3].x(), arrowPoints[3].y());
             }
             painter.setPen (Qt::NoPen);
             painter.fillPath(path, QBrush(oldPen.color()));
