@@ -1902,6 +1902,12 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
         m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
         m_isAltPressed = GlobalShortcut::instance()->altSc();
+        if (e->button() == Qt::RightButton)
+        {
+            m_menu->popup(this->cursor().pos());
+            return;
+        }
+
         if (!m_getOriginRation)
         {
             int tmpWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
@@ -1979,12 +1985,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
 
             update();
-            return;
-        }
-
-        if (e->button() == Qt::RightButton)
-        {
-            m_menu->popup(this->cursor().pos());
             return;
         }
 
