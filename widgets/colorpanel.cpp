@@ -15,13 +15,17 @@
 
 const int ORIGIN_HEIGHT = 200;
 const int EXPAND_HEIGHT = 416;
+const int RADIUS = 3;
+const int BORDER_WIDTH = 2;
+const QSize COLOR_BORDER_SIZE = QSize(20, 20);
+const QSize COLOR_BUTTN = QSize(14, 14);
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent)
     , m_disable(false)
 {
     m_color = color;
-    setFixedSize(20, 20);
+    setFixedSize(COLOR_BORDER_SIZE);
     setCheckable(true);
 
     connect(this, &ColorButton::clicked, this, [=]{
@@ -51,10 +55,11 @@ void ColorButton::paintEvent(QPaintEvent *)
         {
             painter.setBrush(QBrush());
             QPen borderPen;
-            borderPen.setWidth(1);
+            borderPen.setWidth(BORDER_WIDTH);
             borderPen.setColor("#01bdff");
             painter.setPen(borderPen);
-            painter.drawRoundedRect(this->rect(), 4, 4);
+            painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
+                                          this->height() - 2), RADIUS, RADIUS);
         }
         return;
     }
@@ -63,19 +68,20 @@ void ColorButton::paintEvent(QPaintEvent *)
 
     QPen pen;
     pen.setWidth(1);
-    pen.setColor(QColor(0, 0, 0, 51));
+    pen.setColor(QColor(0, 0, 0, 26));
     painter.setPen(pen);
-    painter.drawRoundedRect(QRect(2, 2, this->width() - 4,
-                                  this->height() - 4), 4, 4);
+    painter.drawRoundedRect(QRect(3, 3, this->width() - 6,
+                                  this->height() - 6), RADIUS, RADIUS);
 
     if (isChecked())
     {
         painter.setBrush(QBrush());
         QPen borderPen;
-        borderPen.setWidth(1);
+        borderPen.setWidth(BORDER_WIDTH);
         borderPen.setColor("#01bdff");
         painter.setPen(borderPen);
-        painter.drawRoundedRect(this->rect(), 4, 4);
+        painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
+                                                    this->height() - 2), RADIUS, RADIUS);
     }
 }
 

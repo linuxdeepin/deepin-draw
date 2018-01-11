@@ -112,8 +112,8 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     connect(m_contentSaveDirCBox, &QComboBox::currentTextChanged, this, [=](QString dir){
         if (dir == tr("Select other directories")) {
             m_fileDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    }
+            "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        }
     });
 
     connect(m_contentFormatCBox, &QComboBox::currentTextChanged, this,
