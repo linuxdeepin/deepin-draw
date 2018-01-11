@@ -3741,6 +3741,21 @@ void ShapesWidget::printImage()
     QPixmap resultPixmap = saveCanvasImage()[0];
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
+    QString desktopDir = QStandardPaths::writableLocation(
+                QStandardPaths::DesktopLocation);
+
+    QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg(tr("Unnamed"));
+    if (QFileInfo(filePath).exists())
+    {
+        int num = 0;
+        while(QFileInfo(filePath).exists())
+        {
+            num++;
+            filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg(tr("Unnamed")).arg(num);
+        }
+    }
+    printer.setOutputFileName(filePath);
+
      m_saveWithRation = false;
     QPrintDialog* printDialog = new QPrintDialog(&printer, this);
     printDialog->resize(400, 300);
