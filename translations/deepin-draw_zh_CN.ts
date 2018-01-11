@@ -4,7 +4,7 @@
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="18"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="19"/>
         <source>Width</source>
         <translation>宽</translation>
     </message>
@@ -14,7 +14,7 @@
         <translation>高</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="88"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="82"/>
         <source>Autocrop</source>
         <translation>裁剪透明区域</translation>
     </message>
@@ -29,6 +29,11 @@
 </context>
 <context>
     <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="123"/>
+        <source>Alpha</source>
+        <translation>透明度</translation>
+    </message>
     <message>
         <location filename="../widgets/colorpanel.cpp" line="149"/>
         <source>Color</source>
@@ -45,18 +50,18 @@
 <context>
     <name>CutImageTips</name>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="67"/>
-        <location filename="../drawshape/cutimagetips.cpp" line="184"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="68"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="185"/>
         <source>free</source>
         <translation>自由</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="78"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="79"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="86"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="87"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
@@ -155,147 +160,158 @@
 <context>
     <name>SaveDialog</name>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="29"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="30"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="40"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="38"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Pictures</source>
         <translation>图片</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Documents</source>
         <translation>文档</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="50"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
         <source>Downloads</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <source>Desktop</source>
         <translation>桌面</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <source>Videos</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="112"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Select other directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
         <source>DDF</source>
         <translation>DDF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
         <source>JPG</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="59"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
         <source>BMP</source>
         <translation>BMP</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>TIF</source>
         <translation>TIF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="105"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
         <source>Name:</source>
         <translation>文件名：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Save to:</source>
         <translation>保存到：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Format:</source>
         <translation>文件格式：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
         <source>Quality:</source>
         <translation>图片质量：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
         <source>Open Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="255"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="160"/>
+        <source>%1 already exists, do you want to replace?</source>
+        <translation>%1 已经存在，您是否要替换?</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <source>Replace</source>
+        <translation>替换</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/savedialog.cpp" line="280"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>未命名的</translation>
     </message>
 </context>
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="153"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="157"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="160"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
@@ -316,74 +332,74 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="48"/>
+        <location filename="../frame/toptoolbar.cpp" line="46"/>
         <source>Dimension</source>
         <translation>尺寸</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="53"/>
-        <location filename="../frame/toptoolbar.cpp" line="315"/>
+        <location filename="../frame/toptoolbar.cpp" line="51"/>
+        <location filename="../frame/toptoolbar.cpp" line="316"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="58"/>
+        <location filename="../frame/toptoolbar.cpp" line="56"/>
         <source>Rectangle</source>
         <translation>矩形</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="63"/>
+        <location filename="../frame/toptoolbar.cpp" line="61"/>
         <source>Ellipse</source>
         <translation>椭圆</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="68"/>
+        <location filename="../frame/toptoolbar.cpp" line="66"/>
         <source>Pencil</source>
         <translation>画笔</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="73"/>
+        <location filename="../frame/toptoolbar.cpp" line="71"/>
         <source>Text</source>
         <translation>文字</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="78"/>
+        <location filename="../frame/toptoolbar.cpp" line="76"/>
         <source>Blur</source>
         <translation>模糊</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="83"/>
+        <location filename="../frame/toptoolbar.cpp" line="81"/>
         <source>Selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="90"/>
-        <location filename="../frame/toptoolbar.cpp" line="317"/>
+        <location filename="../frame/toptoolbar.cpp" line="88"/>
+        <location filename="../frame/toptoolbar.cpp" line="318"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="217"/>
+        <location filename="../frame/toptoolbar.cpp" line="216"/>
         <source>All images </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="318"/>
+        <location filename="../frame/toptoolbar.cpp" line="319"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="320"/>
+        <location filename="../frame/toptoolbar.cpp" line="321"/>
         <source>Dark theme</source>
         <translation>深色主题</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="322"/>
+        <location filename="../frame/toptoolbar.cpp" line="323"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="327"/>
+        <location filename="../frame/toptoolbar.cpp" line="328"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>深度画板是一款轻量级的绘图工具。可以在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>

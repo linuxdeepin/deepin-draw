@@ -21,11 +21,13 @@ public:
     void updateImageSize();
     void saveImage(const QString &path);
     QString createSaveBaseName();
+    void setVisible(bool visible);
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
 
 private:
+    bool m_closeDialog;
     QString m_fileDir;
     QString m_filePath;
     QString m_imagePath;

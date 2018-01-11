@@ -120,7 +120,7 @@ ColorPanel::ColorPanel(QWidget *parent)
         connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
     }
 
-    m_sliderLabel = new SliderLabel("Alpha", m_drawstatus,
+    m_sliderLabel = new SliderLabel(tr("Alpha"), m_drawstatus,
                                     m_widgetStatus, this);
     m_sliderLabel->setFixedHeight(25);
     connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [=](int value){

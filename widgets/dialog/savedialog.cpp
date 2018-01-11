@@ -22,6 +22,7 @@ const QSize LINE_EDIT_SIZE = QSize(178, 22);
 
 SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     : Dialog(parent)
+    , m_closeDialog(false)
 {
     setFixedSize(DIALOG_SIZE);
     setModal(true);
@@ -154,8 +155,32 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
             m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
         }
         if (index == 1) {
-            this->close();
-            saveImage(m_filePath);
+            if (QFileInfo(m_filePath).exists()) {
+                Dialog* dialog = new Dialog(this);
+                dialog->setModal(true);
+                dialog->setMessage((QString(tr("%1 already exists, do you want "
+                                               "to replace?")).arg(m_filePath)));
+                dialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
+                dialog->showInCenter(window());
+
+                connect(dialog, &Dialog::buttonClicked, this, [=](int index, const QString &text){
+                    Q_UNUSED(text);
+                    if (index == 1) {
+                        m_closeDialog = true;
+                        setVisible(false);
+                        saveImage(m_filePath);
+                    }
+                    dialog->hide();
+                    dialog->deleteLater();
+                });
+            } else {
+                m_closeDialog = true;
+                setVisible(false);
+                saveImage(m_filePath);
+            }
+        } else {
+            m_closeDialog = true;
+            setVisible(false);
         }
     });
 
@@ -272,5 +297,15 @@ void SaveDialog::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Escape)
     {
         this->close();
+    }
+}
+
+void SaveDialog::setVisible(bool visible)
+{
+    if (visible) {
+        Dialog::setVisible(visible);
+    } else {
+        if (m_closeDialog)
+            Dialog::setVisible(visible);
     }
 }
