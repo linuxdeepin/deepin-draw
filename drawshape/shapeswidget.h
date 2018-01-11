@@ -116,6 +116,7 @@ public:
     void resizeArtboardByDrag(QPointF pos);
     void appendShape(Toolshape shape);
     void updateSizeByAutoCrop();
+    void onViewShortcut();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;

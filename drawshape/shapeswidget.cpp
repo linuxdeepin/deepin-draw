@@ -14,6 +14,7 @@
 #include <QMenu>
 #include <cmath>
 
+#include "utils/shortcut.h"
 #include "utils/imageutils.h"
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
@@ -3215,6 +3216,11 @@ void ShapesWidget::initShortcut()
     connect(blurShortcut, &QShortcut::activated, this,
             [=]{ emit shapePressed("blur");});
 
+    QShortcut* selectShortcut = new QShortcut(
+                QKeySequence("v"), this);
+    connect(selectShortcut, &QShortcut::activated, this,
+            [=]{ emit shapePressed("selected");});
+
     QShortcut* upLayerSc = new QShortcut(
                 QKeySequence("ctrl+]"), this);
     QShortcut* downLayerSc = new QShortcut(
@@ -3246,6 +3252,26 @@ void ShapesWidget::initShortcut()
     connect(pasteSc, &QShortcut::activated, this, [=]{
         pasteShape();
     });
+    QShortcut* showSc = new QShortcut(QKeySequence("ctrl+shift+/"), this);
+    connect(showSc, &QShortcut::activated, this, [=]{
+        onViewShortcut();
+    });
+}
+
+void ShapesWidget::onViewShortcut() {
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j="+sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << param1 << param2;
+
+    QProcess* shortcutViewProcess = new QProcess();
+    shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProcess, SIGNAL(finished(int)),
+            shortcutViewProcess, SLOT(deleteLater()));
 }
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)

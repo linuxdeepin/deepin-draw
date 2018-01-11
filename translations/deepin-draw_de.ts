@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="123"/>
+        <location filename="../widgets/colorpanel.cpp" line="129"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="149"/>
+        <location filename="../widgets/colorpanel.cpp" line="155"/>
         <source>Color</source>
         <translation>Farbe</translation>
     </message>
@@ -160,7 +160,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -251,12 +251,12 @@
         <translation>Verzeichnis öffnen</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="160"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
@@ -269,44 +269,143 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="153"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>Ausschneiden</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>Kopieren</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>Einfügen</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="157"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="160"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
         <translation>Ebene höher</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
         <translation>Ebene tiefer</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
         <translation>Ebene oben</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
         <source>Layer to Bottom</source>
         <translation>Ebene unten</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="28"/>
+        <source>Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="29"/>
+        <source>Drawing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="30"/>
+        <source>Graphics/Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>Rectangle</source>
+        <translation type="unfinished">Rechteck</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="37"/>
+        <source>Ellipse</source>
+        <translation type="unfinished">Ellipse</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="38"/>
+        <source>Pencil</source>
+        <translation type="unfinished">Stift</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="39"/>
+        <source>Text</source>
+        <translation type="unfinished">Text</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="40"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="41"/>
+        <source>Blur</source>
+        <translation type="unfinished">Weichzeichnen</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="44"/>
+        <source>Cut</source>
+        <translation type="unfinished">Ausschneiden</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="45"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopieren</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="46"/>
+        <source>Paste</source>
+        <translation type="unfinished">Einfügen</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="47"/>
+        <source>Delete</source>
+        <translation type="unfinished">Löschen</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="48"/>
+        <source>Raise Layer</source>
+        <translation type="unfinished">Ebene höher</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="49"/>
+        <source>Lower Layer</source>
+        <translation type="unfinished">Ebene tiefer</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="50"/>
+        <source>Layer to Top</source>
+        <translation type="unfinished">Ebene oben</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="51"/>
+        <source>Layer to Bottom</source>
+        <translation type="unfinished">Ebene unten</translation>
     </message>
 </context>
 <context>
@@ -362,8 +461,12 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="81"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
-        <translation>Ausgewählt</translation>
+        <translation type="vanished">Ausgewählt</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="88"/>

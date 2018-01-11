@@ -76,10 +76,10 @@ TopToolbar::TopToolbar(QWidget* parent)
     m_blurBtn->setToolTip(tr("Blur"));
     m_actionPushButtons.append(m_blurBtn);
 
-    PushButton* selectBtn = new PushButton(this);
-    selectBtn->setObjectName("SelectedBtn");
-    selectBtn->setToolTip(tr("Selected"));
-    m_actionPushButtons.append(selectBtn);
+    m_selectBtn = new PushButton(this);
+    m_selectBtn->setObjectName("SelectedBtn");
+    m_selectBtn->setToolTip(tr("Select"));
+    m_actionPushButtons.append(m_selectBtn);
 
     initStackWidget();
 
@@ -103,7 +103,7 @@ TopToolbar::TopToolbar(QWidget* parent)
     m_layout->addWidget(m_lineBtn);
     m_layout->addWidget(m_textBtn);
     m_layout->addWidget(m_blurBtn);
-    m_layout->addWidget(selectBtn);
+    m_layout->addWidget(m_selectBtn);
     m_layout->addWidget(m_stackWidget, 0, Qt::AlignCenter);
     m_layout->addWidget(exportBtn);
     m_layout->addSpacing(20);
@@ -183,17 +183,17 @@ TopToolbar::TopToolbar(QWidget* parent)
     });
     connect(this, &TopToolbar::updateSelectedBtn, this, [=](bool checked){
         if (checked) {
-            emit selectBtn->clicked();
+            emit m_selectBtn->clicked();
         }
     });
-    connect(selectBtn, &PushButton::clicked, this, [=]{
+    connect(m_selectBtn, &PushButton::clicked, this, [=]{
         foreach(PushButton* button, m_actionPushButtons)
         {
             button->setChecked(false);
         }
-        selectBtn->setChecked(true);
+        m_selectBtn->setChecked(true);
         setMiddleStackWidget(MiddleWidgetStatus::Empty);
-        emit fillShapeSelectedActive(selectBtn->getChecked());
+        emit fillShapeSelectedActive(m_selectBtn->getChecked());
 
         drawShapes("selected");
     });
@@ -438,6 +438,9 @@ void TopToolbar::updateCurrentShape(QString shape)
     } else if (shape == "blur")
     {
         emit m_blurBtn->clicked();
+    } else if (shape == "selected")
+    {
+        emit m_selectBtn->clicked();
     } else {
         foreach(PushButton* button, m_actionPushButtons)
         {

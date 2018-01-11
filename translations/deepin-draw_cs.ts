@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="123"/>
+        <location filename="../widgets/colorpanel.cpp" line="129"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="149"/>
+        <location filename="../widgets/colorpanel.cpp" line="155"/>
         <source>Color</source>
         <translation>Barva</translation>
     </message>
@@ -160,7 +160,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -251,12 +251,12 @@
         <translation>Otevřít adresář</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="160"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
@@ -269,44 +269,143 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="153"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>Vyjmout</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>Vložit</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="157"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="160"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
         <translation>Dát vrstvu nahoru</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
         <translation>Dát vrstvu dolů</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
         <translation>Dát vrstvu úplně nahoru</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
         <source>Layer to Bottom</source>
         <translation>Dát vrstvu úplně dolů</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="28"/>
+        <source>Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="29"/>
+        <source>Drawing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="30"/>
+        <source>Graphics/Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Save</source>
+        <translation type="unfinished">Uložit</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>Rectangle</source>
+        <translation type="unfinished">Obdélník</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="37"/>
+        <source>Ellipse</source>
+        <translation type="unfinished">Elipsa</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="38"/>
+        <source>Pencil</source>
+        <translation type="unfinished">Tužka</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="39"/>
+        <source>Text</source>
+        <translation type="unfinished">Text</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="40"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="41"/>
+        <source>Blur</source>
+        <translation type="unfinished">Rozmazat</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="44"/>
+        <source>Cut</source>
+        <translation type="unfinished">Vyjmout</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="45"/>
+        <source>Copy</source>
+        <translation type="unfinished">Kopírovat</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="46"/>
+        <source>Paste</source>
+        <translation type="unfinished">Vložit</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="47"/>
+        <source>Delete</source>
+        <translation type="unfinished">Smazat</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="48"/>
+        <source>Raise Layer</source>
+        <translation type="unfinished">Dát vrstvu nahoru</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="49"/>
+        <source>Lower Layer</source>
+        <translation type="unfinished">Dát vrstvu dolů</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="50"/>
+        <source>Layer to Top</source>
+        <translation type="unfinished">Dát vrstvu úplně nahoru</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="51"/>
+        <source>Layer to Bottom</source>
+        <translation type="unfinished">Dát vrstvu úplně dolů</translation>
     </message>
 </context>
 <context>
@@ -362,8 +461,12 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="81"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
-        <translation>Vybráno</translation>
+        <translation type="vanished">Vybráno</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="88"/>

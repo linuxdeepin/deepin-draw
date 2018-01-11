@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="123"/>
+        <location filename="../widgets/colorpanel.cpp" line="129"/>
         <source>Alpha</source>
         <translation>透明度</translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="149"/>
+        <location filename="../widgets/colorpanel.cpp" line="155"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -167,7 +167,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -205,7 +205,7 @@
         <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
         <source>Select other directories</source>
-        <translation type="unfinished"></translation>
+        <translation>选择其他目录</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
@@ -255,63 +255,162 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="160"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation>%1 已经存在，您是否要替换?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Replace</source>
         <translation>替换</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="280"/>
         <source>Unnamed</source>
-        <translation>未命名的</translation>
+        <translation>未命名</translation>
     </message>
 </context>
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="153"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="157"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="160"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
+        <source>Layer to Bottom</source>
+        <translation>置于底层</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <source>Unnamed</source>
+        <translation>未命名</translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="28"/>
+        <source>Files</source>
+        <translation>文件</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="29"/>
+        <source>Drawing</source>
+        <translation>绘图</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="30"/>
+        <source>Graphics/Images</source>
+        <translation>图形/图片</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>Rectangle</source>
+        <translation>矩形</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="37"/>
+        <source>Ellipse</source>
+        <translation>椭圆</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="38"/>
+        <source>Pencil</source>
+        <translation>画笔</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="39"/>
+        <source>Text</source>
+        <translation>文字</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="40"/>
+        <source>Select</source>
+        <translation>选中</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="41"/>
+        <source>Blur</source>
+        <translation>模糊</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="44"/>
+        <source>Cut</source>
+        <translation>剪切</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="45"/>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="46"/>
+        <source>Paste</source>
+        <translation>粘贴</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="47"/>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="48"/>
+        <source>Raise Layer</source>
+        <translation>向上一层</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="49"/>
+        <source>Lower Layer</source>
+        <translation>向下一层</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="50"/>
+        <source>Layer to Top</source>
+        <translation>置于顶层</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
@@ -369,8 +468,8 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="81"/>
-        <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <source>Select</source>
+        <translation>选中</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="88"/>
@@ -381,7 +480,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="216"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation>所有图片</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="319"/>

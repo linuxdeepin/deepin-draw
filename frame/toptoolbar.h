@@ -101,6 +101,7 @@ private:
     PushButton* m_lineBtn;
     PushButton* m_textBtn;
     PushButton* m_blurBtn;
+    PushButton* m_selectBtn;
 
     QMenu* m_mainMenu;
 };

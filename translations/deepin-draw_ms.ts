@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="123"/>
+        <location filename="../widgets/colorpanel.cpp" line="129"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="149"/>
+        <location filename="../widgets/colorpanel.cpp" line="155"/>
         <source>Color</source>
         <translation>Warna</translation>
     </message>
@@ -160,7 +160,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Cancel</source>
         <translation>Simpan</translation>
     </message>
@@ -251,12 +251,12 @@
         <translation>Buka Direktori</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="160"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="162"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
@@ -269,44 +269,143 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="153"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
         <source>Cut</source>
         <translation>Potong</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
         <source>Copy</source>
         <translation>Salin</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
         <source>Paste</source>
         <translation>Tampal</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="157"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
         <source>Delete</source>
         <translation>Padam</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="160"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
         <source>Raise Layer</source>
         <translation>Naikkan Lapisan</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
         <source>Lower Layer</source>
         <translation>Turunkan Lapisan</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
         <source>Layer to Top</source>
         <translation>Lapisan ke Teratas</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
         <source>Layer to Bottom</source>
         <translation>Lapisan paling Bawah</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Shortcut</name>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="28"/>
+        <source>Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="29"/>
+        <source>Drawing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="30"/>
+        <source>Graphics/Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Save</source>
+        <translation type="unfinished">Simpan</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>Rectangle</source>
+        <translation type="unfinished">Segiempat</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="37"/>
+        <source>Ellipse</source>
+        <translation type="unfinished">Elips</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="38"/>
+        <source>Pencil</source>
+        <translation type="unfinished">Pensel</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="39"/>
+        <source>Text</source>
+        <translation type="unfinished">Teks</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="40"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="41"/>
+        <source>Blur</source>
+        <translation type="unfinished">Kabur</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="44"/>
+        <source>Cut</source>
+        <translation type="unfinished">Potong</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="45"/>
+        <source>Copy</source>
+        <translation type="unfinished">Salin</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="46"/>
+        <source>Paste</source>
+        <translation type="unfinished">Tampal</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="47"/>
+        <source>Delete</source>
+        <translation type="unfinished">Padam</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="48"/>
+        <source>Raise Layer</source>
+        <translation type="unfinished">Naikkan Lapisan</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="49"/>
+        <source>Lower Layer</source>
+        <translation type="unfinished">Turunkan Lapisan</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="50"/>
+        <source>Layer to Top</source>
+        <translation type="unfinished">Lapisan ke Teratas</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="51"/>
+        <source>Layer to Bottom</source>
+        <translation type="unfinished">Lapisan paling Bawah</translation>
     </message>
 </context>
 <context>
@@ -362,8 +461,12 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="81"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
-        <translation>Terpilih</translation>
+        <translation type="vanished">Terpilih</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="88"/>
