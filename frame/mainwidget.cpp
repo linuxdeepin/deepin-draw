@@ -30,7 +30,7 @@ MainWidget::MainWidget(QWidget *parent)
     m_seperatorLine = new QLabel(this);
     m_seperatorLine->setMinimumWidth(this->width());
     m_seperatorLine->setFixedHeight(1);
-    m_seperatorLine->setStyleSheet("border: 1px solid rgba(0, 0, 0, 30);");
+    m_seperatorLine->setStyleSheet("border: 1px solid rgba(0, 0, 0, 12);");
 
     m_resizeLabel = new ResizeLabel(this);
     m_resizeLabel->setFixedSize(this->size());

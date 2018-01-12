@@ -1,3 +1,8 @@
+QFrame#TopToolbar {
+    background-color: qlineargradient(y0:0, y1:1,
+    stop: 0 #f8f8f8, stop : 1 #ffffff);
+}
+
 QLabel#LogoLabel {
 border-image: url(:/theme/common/images/deepin-draw-24.svg);
 }
@@ -235,10 +240,6 @@ border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_slim_hover.svg);
 }
 
-/*ToolButton#LineMostThinBtn:pressed {
-border-image: url(:/theme/light/images/draw/blur_slim_active.svg);
-}*/
-
 ToolButton#LineThickLineBtn {
 border-image: url(:/theme/light/images/draw/blur_thick_normal.svg);
 }
@@ -250,8 +251,4 @@ border: solid 1px transparent;
 border-radius: 3px;
 border-image: url(:/theme/light/images/draw/blur_thick_hover.svg);
 }
-
-/*ToolButton#LineThickLineBtn:pressed{
-border-image: url(:/theme/light/images/draw/blur_thick_active.svg);
-}*/
 
