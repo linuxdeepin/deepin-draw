@@ -160,7 +160,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>
@@ -171,97 +171,102 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="202"/>
         <source>Documents</source>
         <translation>Dokumenti</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="206"/>
         <source>Downloads</source>
         <translation>Preuzimanja</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="210"/>
         <source>Desktop</source>
         <translation>Radna površina</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="214"/>
         <source>Videos</source>
         <translation>Videa</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="218"/>
         <source>Music</source>
         <translation>Glazba</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="222"/>
         <source>Select other directories</source>
         <translation>Odaberite druge direktorije</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>DDF</source>
         <translation>DDF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>JPG</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>BMP</source>
         <translation>BMP</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="62"/>
         <source>TIF</source>
         <translation>TIF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Save to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="110"/>
         <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
         <source>Open Directory</source>
-        <translation>Otvori direktorij</translation>
+        <translation type="vanished">Otvori direktorij</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="171"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="280"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="291"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -358,12 +363,12 @@
         <translation type="unfinished">Tekst</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Blur</source>
         <translation type="unfinished"></translation>
     </message>

@@ -167,7 +167,7 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -178,97 +178,102 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="202"/>
         <source>Documents</source>
         <translation>文档</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="206"/>
         <source>Downloads</source>
         <translation>下载</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="210"/>
         <source>Desktop</source>
         <translation>桌面</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="214"/>
         <source>Videos</source>
         <translation>视频</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="218"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="113"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="222"/>
         <source>Select other directories</source>
         <translation>选择其他目录</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>DDF</source>
         <translation>DDF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>JPG</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
         <source>BMP</source>
         <translation>BMP</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="61"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="62"/>
         <source>TIF</source>
         <translation>TIF</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="106"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Name:</source>
         <translation>文件名：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Save to:</source>
         <translation>保存到：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
         <source>Format:</source>
         <translation>文件格式：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="110"/>
         <source>Quality:</source>
         <translation>图片质量：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
         <source>Open Directory</source>
-        <translation>打开文件夹</translation>
+        <translation type="vanished">打开文件夹</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="161"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="171"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation>%1 已经存在，您是否要替换?</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="163"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
         <source>Replace</source>
         <translation>替换</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="280"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="291"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
@@ -365,12 +370,12 @@
         <translation>文字</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Select</source>
         <translation>选中</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Blur</source>
         <translation>模糊</translation>
     </message>

@@ -32,6 +32,7 @@ private:
     QString m_fileDir;
     QString m_filePath;
     QString m_imagePath;
+    QString m_lastDir;
 
     QList<QPixmap> m_pixmaps;
     QSlider* m_qualitySlider;

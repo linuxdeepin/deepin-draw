@@ -53,8 +53,9 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
              << tr("Select other directories");
 
     m_contentSaveDirCBox = new QComboBox(this);
-    m_contentSaveDirCBox->setFixedSize(LINE_EDIT_SIZE);
     m_contentSaveDirCBox->addItems(saveDirs);
+    m_contentSaveDirCBox->setFixedSize(LINE_EDIT_SIZE);
+    m_lastDir = m_contentSaveDirCBox->currentText();
 
     QStringList fileFormat;
     fileFormat << tr("PNG") << tr("DDF") << tr("JPG") << tr("BMP")
@@ -111,8 +112,21 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
 
     connect(m_contentSaveDirCBox, &QComboBox::currentTextChanged, this, [=](QString dir){
         if (dir == tr("Select other directories")) {
-            m_fileDir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-            "/home", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+            QFileDialog dialog(this);
+            dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+            dialog.setViewMode(QFileDialog::Detail);
+            dialog.setFileMode(QFileDialog::DirectoryOnly);
+            if (dialog.exec())
+            {
+                QString fileDir = dialog.selectedFiles()[0];
+                m_contentSaveDirCBox->setInsertPolicy(QComboBox::InsertBeforeCurrent);
+                m_contentSaveDirCBox->addItem(fileDir);
+                m_contentSaveDirCBox->setCurrentText(fileDir);
+            } else {
+                m_contentSaveDirCBox->setCurrentText(m_lastDir);
+            }
+        } else {
+            m_lastDir = m_contentSaveDirCBox->currentText();
         }
     });
 
@@ -189,30 +203,31 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
 
 QString SaveDialog::getSaveDir(QString dir)
 {
-    if (dir == "Documents")
+    if (dir == tr("Documents"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::DocumentsLocation);
-    } else if (dir == "Downloads")
+    } else if (dir == tr("Downloads"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::DownloadLocation);
-    } else if (dir == "Desktop")
+    } else if (dir == tr("Desktop"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::DesktopLocation);
-    } else if (dir == "Videos")
+    } else if (dir == tr("Videos"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::MoviesLocation);
-    } else if (dir == "Music")
+    } else if (dir == tr("Music"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::MusicLocation);
-    }  else
+    }  else if (dir == tr("Select other directories"))
     {
-        return QStandardPaths::writableLocation(
-                    QStandardPaths::PicturesLocation);
+        return "";
+    } else {
+        return dir;
     }
 }
 
