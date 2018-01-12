@@ -300,6 +300,13 @@ void SaveDialog::keyPressEvent(QKeyEvent *e)
     }
 }
 
+void SaveDialog::closeEvent(QCloseEvent *e)
+{
+    Q_UNUSED(e);
+    m_closeDialog = true;
+    this->setVisible(false);
+}
+
 void SaveDialog::setVisible(bool visible)
 {
     if (visible) {

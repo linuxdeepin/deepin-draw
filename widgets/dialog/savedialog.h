@@ -24,7 +24,8 @@ public:
     void setVisible(bool visible);
 
 protected:
-    void keyPressEvent(QKeyEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;
 
 private:
     bool m_closeDialog;
