@@ -78,7 +78,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     m_qualitySlider = new QSlider(Qt::Horizontal,this);
     m_qualitySlider->setMinimum(50);
     m_qualitySlider->setMaximum(100);
-    m_qualitySlider->setFixedWidth(140);
+    m_qualitySlider->setFixedWidth(125);
     m_qualitySlider->setValue(m_qualitySlider->maximum());
 
     m_valueLabel = new QLabel(this);
@@ -96,13 +96,13 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
     qualityHLayout->addWidget(m_qualitySlider);
-    qualityHLayout->addSpacing(10);
+    qualityHLayout->addSpacing(3);
     qualityHLayout->addWidget(m_valueLabel);
 
     QWidget* w = new QWidget(this);
     QFormLayout* fLayout = new QFormLayout(w);
     fLayout->setFormAlignment(Qt::AlignJustify);
-    fLayout->setHorizontalSpacing(20);
+    fLayout->setHorizontalSpacing(29);
     fLayout->addRow(tr("Name:"), imageEdit);
     fLayout->addRow(tr("Save to:"), m_contentSaveDirCBox);
     fLayout->addRow(tr("Format:"), m_contentFormatCBox);
