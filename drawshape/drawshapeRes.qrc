@@ -6,7 +6,6 @@
         <file>theme/light/images/mouse_style/shape/start_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/text_mouse.png</file>
         <file>theme/light/CutImageTips.qss</file>
-        <file>theme/light/images/size/resize_handle_big.png</file>
         <file>theme/light/images/size/rotate.png</file>
         <file>theme/light/images/mouse_style/shape/pen_mouse.png</file>
         <file>theme/light/images/mouse_style/shape/bottomleft_mouse.svg</file>
@@ -15,5 +14,6 @@
         <file>theme/light/images/mouse_style/shape/topright_mouse.svg</file>
         <file>theme/light/images/mouse_style/shape/mouse_oval.svg</file>
         <file>theme/light/images/mouse_style/shape/mouse_rectangle.svg</file>
+        <file>theme/light/images/size/resize_handle_big.svg</file>
     </qresource>
 </RCC>

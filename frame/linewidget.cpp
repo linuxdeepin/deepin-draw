@@ -11,6 +11,8 @@
 
 #include "utils/configsettings.h"
 
+const int BTN_SPACNT = 10;
+
 LineWidget::LineWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -97,7 +99,7 @@ LineWidget::LineWidget(QWidget *parent)
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(10);
+    layout->setSpacing(BTN_SPACNT);
     layout->addWidget(strokeButton);
     layout->addWidget(strokeLabel);
     layout->addWidget(sep1Line, 0, Qt::AlignCenter);

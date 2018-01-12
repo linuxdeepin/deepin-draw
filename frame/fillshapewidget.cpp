@@ -12,6 +12,9 @@
 
 #include "utils/configsettings.h"
 
+const int BTN_SPACING = 6;
+const int SEPARATE_SPACING = 5;
+
 FillshapeWidget::FillshapeWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -79,13 +82,15 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(6);
+    layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(fillBtn);
     layout->addWidget(fillLabel);
     layout->addWidget(strokeBtn);
     layout->addWidget(strokeLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(sepLine);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     for(int j = 0; j < lwBtnList.length(); j++) {
         layout->addWidget(lwBtnList[j]);

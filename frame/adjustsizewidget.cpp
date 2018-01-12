@@ -11,6 +11,10 @@
 #include "utils/dintvalidator.h"
 #include "utils/baseutils.h"
 
+const int LINEEDIT_WIDTH = 50;
+const int ARTBOARD_MAX_WIDTH = 500000;
+const int ARTBOARD_MIN_WIDTH = 20;
+
 AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -20,7 +24,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
 
     m_widthLEdit = new FontsizeLineEdit(this);
     m_widthLEdit->setObjectName("WidthLineEdit");
-    m_widthLEdit->setFixedWidth(80);
+    m_widthLEdit->setFixedWidth(LINEEDIT_WIDTH);
 
     QLabel* unitWLabel = new QLabel(this);
     unitWLabel->setText("px");
@@ -31,44 +35,49 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
 
     m_heightLEdit = new FontsizeLineEdit(this);
     m_heightLEdit->setObjectName("HeightLineEdit");
-    m_heightLEdit->setFixedWidth(80);
+    m_heightLEdit->setFixedWidth(LINEEDIT_WIDTH);
 
     QSize artboardSize = initArtboardSize();
     setCanvasSize(artboardSize);
 
     connect(m_widthLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
-        canvasWidth = std::min(500000, std::max(20, canvasWidth));
+        canvasWidth = std::min(ARTBOARD_MAX_WIDTH, std::max(20, canvasWidth));
         int canvasHeight = m_heightLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_widthLEdit, &FontsizeLineEdit::addSize, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
-        canvasWidth = std::min(500000, std::max(20, canvasWidth + 1));
+        canvasWidth = std::min(ARTBOARD_MAX_WIDTH,
+                               std::max(ARTBOARD_MIN_WIDTH, canvasWidth + 1));
         int canvasHeight = m_heightLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_widthLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
         int canvasWidth = m_widthLEdit->text().toInt();
-        canvasWidth = std::min(500000, std::max(20, canvasWidth - 1));
+        canvasWidth = std::min(ARTBOARD_MAX_WIDTH,
+                               std::max(ARTBOARD_MIN_WIDTH, canvasWidth - 1));
         int canvasHeight = m_heightLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_heightLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
-        canvasHeight = std::min(500000, std::max(20, canvasHeight));
+        canvasHeight = std::min(ARTBOARD_MAX_WIDTH,
+                                std::max(ARTBOARD_MIN_WIDTH, canvasHeight));
         int canvasWidth = m_widthLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_heightLEdit, &FontsizeLineEdit::addSize, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
-        canvasHeight = std::min(500000, std::max(20, canvasHeight + 1));
+        canvasHeight = std::min(ARTBOARD_MAX_WIDTH,
+                                std::max(ARTBOARD_MIN_WIDTH, canvasHeight + 1));
         int canvasWidth = m_widthLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
     connect(m_heightLEdit, &FontsizeLineEdit::reduceSize, this, [=]{
         int canvasHeight = m_heightLEdit->text().toInt();
-        canvasHeight = std::min(500000, std::max(20, canvasHeight - 1));
+        canvasHeight = std::min(ARTBOARD_MAX_WIDTH,
+                                std::max(20, canvasHeight - 1));
         int canvasWidth = m_heightLEdit->text().toInt();
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
@@ -89,6 +98,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     layout->addWidget(casHeightLabel);
     layout->addWidget(m_heightLEdit);
     layout->addWidget(unitHLabel);
+    layout->addSpacing(10);
     layout->addWidget(cutTransAreaBtn);
     setLayout(layout);
 

@@ -13,7 +13,7 @@
 
 #include <DTitlebar>
 
-const QSize WINDOW_MINISIZR = QSize(760, 540);
+const QSize WINDOW_MINISIZR = QSize(960, 540);
 const int ARTBOARD_MARGIN = 25;
 const int TITLEBAR_HEIGHT = 40;
 const int IMG_ROTATEPOINT_SPACING = 35;

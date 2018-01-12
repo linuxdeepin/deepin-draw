@@ -9,6 +9,9 @@
 
 #include "utils/configsettings.h"
 
+const int BTN_SPACING = 6;
+const int SEPARATE_SPACING = 5;
+
 TextWidget::TextWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -50,11 +53,13 @@ TextWidget::TextWidget(QWidget *parent)
     TextFontLabel* fontLabel = new TextFontLabel(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(6);
+    layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(fillBtn);
     layout->addWidget(colBtnLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(textSeperatorLine);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontsizeLabel);
     layout->addWidget(fontLabel);
     layout->addStretch();

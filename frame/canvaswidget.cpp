@@ -20,7 +20,7 @@ CanvasWidget::CanvasWidget(QWidget *parent)
     setMouseTracking(true);
     m_shapesWidget = new ShapesWidget(this);
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->setMargin(25);
+    layout->setMargin(MARGIN);
     layout->setSpacing(0);
     layout->addWidget(m_shapesWidget);
     setLayout(layout);

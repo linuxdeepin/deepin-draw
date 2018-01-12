@@ -26,7 +26,7 @@
 
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
-const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.png";
+const QString RESIZE_POINT_IMG = ":/theme/light/images/size/resize_handle_big.svg";
 const QString ROTATE_POINT_IMG = ":/theme/light/images/size/rotate.png";
 
 const qreal WINDOW_SPACINT = 25;

@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
     Application::loadDXcbPlugin();
 
     Application a(argc, argv);
-    a.loadTranslator(QList<QLocale>() << QLocale::system());
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");
     a.setApplicationVersion("1.0");

@@ -32,13 +32,16 @@
 
 DWIDGET_USE_NAMESPACE
 
+const QSize LOGO_SIZE = QSize(24, 24);
+const int BTN_SPACING = 13;
+
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent)
 {
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
     QLabel* logoLabel = new QLabel(this);
-    logoLabel->setFixedSize(24, 24);
+    logoLabel->setFixedSize(LOGO_SIZE);
     logoLabel->setObjectName("LogoLabel");
 
     PushButton* artBoardBtn = new PushButton(this);
@@ -92,17 +95,24 @@ TopToolbar::TopToolbar(QWidget* parent)
 
     m_layout = new QHBoxLayout(this);
     m_layout->setMargin(0);
-    m_layout->setSpacing(10);
+    m_layout->setSpacing(0);
+    m_layout->addSpacing(10);
     m_layout->addWidget(logoLabel);
-    m_layout->addSpacing(15);
+    m_layout->addSpacing(25);
     m_layout->addWidget(artBoardBtn);
-    m_layout->addSpacing(20);
+    m_layout->addSpacing(50);
     m_layout->addWidget(picBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_rectBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_ovalBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_lineBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_textBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_blurBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_selectBtn);
     m_layout->addWidget(m_stackWidget, 0, Qt::AlignCenter);
     m_layout->addWidget(exportBtn);

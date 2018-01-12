@@ -7,6 +7,8 @@
 #include "widgets/toolbutton.h"
 #include "utils/configsettings.h"
 
+const int BTN_SPACINT = 2;
+
 BlurWidget::BlurWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -43,10 +45,10 @@ BlurWidget::BlurWidget(QWidget *parent)
     layout->setSpacing(0);
     layout->addStretch();
     layout->addWidget(penLabel);
-    layout->addSpacing(2);
+    layout->addSpacing(BTN_SPACINT);
     layout->addWidget(fineBtn);
     layout->addWidget(lineWidthSlider);
-    layout->addSpacing(2);
+    layout->addSpacing(BTN_SPACINT);
     layout->addWidget(boldBtn);
     layout->addStretch();
     setLayout(layout);

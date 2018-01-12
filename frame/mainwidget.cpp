@@ -10,8 +10,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-int HOR_MARGIN = 0;
-int VER_MARGIN = 0;
 const int ARTBOARD_MARGIN = 25;
 const int TITLEBAR_HEIGHT = 40;
 const int MARGIN = 25;
