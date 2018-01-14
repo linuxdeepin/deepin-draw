@@ -13,7 +13,13 @@ BlurWidget::BlurWidget(QWidget *parent)
     : QWidget(parent)
 {
     QLabel* penLabel = new QLabel(this);
+    penLabel->setObjectName("WidthLabel");
     penLabel->setText(tr("Width"));
+    penLabel->setStyleSheet("QLabel#WidthLabel {\
+                            color: #303030;\
+                            font-size: 13px;\
+                            font-weight: 300;\
+                            }");
     ToolButton* fineBtn = new ToolButton(this);
     fineBtn->setObjectName("LineMostThinBtn");
     fineBtn->setCheckable(false);

@@ -8,6 +8,7 @@
 #include "widgets/textfontlabel.h"
 
 #include "utils/configsettings.h"
+#include "utils/global.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -15,6 +16,9 @@ const int SEPARATE_SPACING = 5;
 TextWidget::TextWidget(QWidget *parent)
     : QWidget(parent)
 {
+    DRAW_THEME_INIT_WIDGET("TextWidget");
+    this->setObjectName("TextWidget");
+
     BigColorButton* fillBtn = new BigColorButton("text", this);
     QColor color = QColor(ConfigSettings::instance()->value(
                         "text", "fillColor").toString());
@@ -44,11 +48,13 @@ TextWidget::TextWidget(QWidget *parent)
     });
 
     QLabel* colBtnLabel = new QLabel(this);
+    colBtnLabel->setObjectName("FillLabel");
     colBtnLabel->setText(tr("Fill"));
 
     SeperatorLine* textSeperatorLine = new SeperatorLine(this);
 
     QLabel* fontsizeLabel = new QLabel(this);
+    fontsizeLabel->setObjectName("FontsizeLabel");
     fontsizeLabel->setText(tr("Size"));
     TextFontLabel* fontLabel = new TextFontLabel(this);
     QHBoxLayout* layout = new QHBoxLayout(this);

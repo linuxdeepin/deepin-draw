@@ -11,6 +11,7 @@
 #include "widgets/seperatorline.h"
 
 #include "utils/configsettings.h"
+#include "utils/global.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -18,8 +19,11 @@ const int SEPARATE_SPACING = 5;
 FillshapeWidget::FillshapeWidget(QWidget *parent)
     : QWidget(parent)
 {
+    DRAW_THEME_INIT_WIDGET("FillshapeWidget");
+    this->setObjectName("FillshapeWidget");
     BigColorButton* fillBtn = new BigColorButton("common", this);
     QLabel* fillLabel = new QLabel(this);
+    fillLabel->setObjectName("FillLabel");
     fillLabel->setText(tr("Fill"));
 
     BorderColorButton* strokeBtn = new BorderColorButton(this);
@@ -41,6 +45,7 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
     });
 
     QLabel* strokeLabel = new QLabel(this);
+    strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("Stroke"));
     SeperatorLine* sepLine = new SeperatorLine(this);
     QLabel* lwLabel = new QLabel(this);

@@ -357,5 +357,35 @@ QCursor blurToolCursor(const int &lineWidth)
     pen.setColor(QColor(Qt::white));
     painter.setPen(pen);
     painter.drawEllipse(cursorPix.rect().center(), lineWidth/2 - 1, lineWidth/2 - 1);
+
+    return QCursor(cursorPix, -1, -1);
+}
+
+QCursor pickColorCursor()
+{
+    int tipWidth = 11;
+    QPixmap cursorPix = QPixmap(QSize(tipWidth, tipWidth));
+    cursorPix.fill(QColor(Qt::transparent));
+
+    QPen whitePen;
+    whitePen.setWidth(1);
+    whitePen.setCapStyle(Qt::FlatCap);
+    whitePen.setJoinStyle(Qt::RoundJoin);
+    whitePen.setColor(QColor(255, 255, 255, 255));
+
+    QPen blackPen;
+    blackPen.setWidth(1);
+    blackPen.setCapStyle(Qt::FlatCap);
+    blackPen.setJoinStyle(Qt::RoundJoin);
+    blackPen.setColor(QColor(0, 0, 0, 125));
+
+    QPainter painter(&cursorPix);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    painter.setPen(blackPen);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 1, tipWidth/2 - 1);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 3, tipWidth/2 - 3);
+    painter.setPen(whitePen);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 2, tipWidth/2 -2);
+
     return QCursor(cursorPix, -1, -1);
 }

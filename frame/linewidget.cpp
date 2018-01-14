@@ -10,14 +10,17 @@
 #include "widgets/toolbutton.h"
 
 #include "utils/configsettings.h"
+#include "utils/global.h"
 
 const int BTN_SPACNT = 10;
 
 LineWidget::LineWidget(QWidget *parent)
     : QWidget(parent)
 {
+    DRAW_THEME_INIT_WIDGET("LineWidget");
+    this->setObjectName("LineWidget");
     QLabel* strokeLabel = new QLabel(this);
-    strokeLabel->setObjectName("BorderStrokeLabel");
+    strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("Stroke"));
 
     BorderColorButton* strokeButton = new BorderColorButton(this);
@@ -29,7 +32,7 @@ LineWidget::LineWidget(QWidget *parent)
     SeperatorLine* sep1Line = new SeperatorLine(this);
 
     QLabel* borderStyleLabel = new QLabel(this);
-    borderStyleLabel->setObjectName("BorderStyleLabel");
+    borderStyleLabel->setObjectName("StyleLabel");
     borderStyleLabel->setText(tr("Style"));
 
     QList<ToolButton*> lineBtnList;
@@ -63,7 +66,7 @@ LineWidget::LineWidget(QWidget *parent)
     SeperatorLine* sep2Line = new SeperatorLine(this);
 
     QLabel* lwLabel = new QLabel(this);
-    lwLabel->setObjectName("BorderLWLabel");
+    lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("Width"));
 
     QList<ToolButton*> lwBtnList;

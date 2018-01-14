@@ -4,11 +4,18 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
+#include "utils/global.h"
+
+const QSize PICKCOLOR_WIDGET_SIZE = QSize(222, 217);
+
 PickColorWidget::PickColorWidget(QWidget *parent)
     : QWidget(parent)
 {
+    DRAW_THEME_INIT_WIDGET("PickColorWidget");
+    setFixedSize(222, 217);
     QLabel* titleLabel = new QLabel(this);
     titleLabel->setText("RGB");
+    titleLabel->setObjectName("TitleLabel");
 
     m_redEditLabel = new EditLabel(this);
     m_redEditLabel->setTitle("R");
@@ -29,22 +36,23 @@ PickColorWidget::PickColorWidget(QWidget *parent)
             this, &PickColorWidget::updateColor);
 
     m_picker = new PushButton(this);
-    m_picker->setObjectName("PickerBtn");
     m_picker->setFixedSize(24, 24);
+    m_picker->setObjectName("PickerBtn");
+//    m_picker->setStyleSheet();
 
     QHBoxLayout* rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
     rgbLayout->addWidget(titleLabel);
-    rgbLayout->addSpacing(5);
+    rgbLayout->addSpacing(40);
     rgbLayout->addWidget(m_redEditLabel);
     rgbLayout->addWidget(m_greenEditLabel);
     rgbLayout->addWidget(m_blueEditLabel);
+    rgbLayout->addSpacing(4);
     rgbLayout->addWidget(m_picker);
-
     m_colorSlider = new ColorSlider(this);
     m_colorSlider->setObjectName("ColorfulSlider");
-    m_colorSlider->setFixedSize(222, 15);
+    m_colorSlider->setFixedSize(222, 14);
 //    m_colorSlider->setMinimum(0);
 //    m_colorSlider->setMaximum(355);
 
@@ -55,13 +63,23 @@ PickColorWidget::PickColorWidget(QWidget *parent)
         m_colorLabel->setHue(val);
     });
     connect(m_colorLabel, &ColorLabel::pickedColor, this, &PickColorWidget::setRgbValue);
+    connect(m_picker, &PushButton::clicked, this, [=]{
+        if (m_picker->getChecked())
+        {
+            m_colorLabel->setPickColor(true);
+        } else {
+            m_colorLabel->setPickColor(false);
+        }
+    });
 
     QVBoxLayout* mLayout = new QVBoxLayout;
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
+    mLayout->addSpacing(16);
     mLayout->addLayout(rgbLayout);
-    mLayout->addWidget(m_colorLabel);
-    mLayout->addWidget(m_colorSlider);
+    mLayout->addSpacing(10);
+    mLayout->addWidget(m_colorLabel, 0, Qt::AlignCenter);
+    mLayout->addWidget(m_colorSlider, 0, Qt::AlignCenter);
     setLayout(mLayout);
 }
 
@@ -80,7 +98,8 @@ void PickColorWidget::updateColor()
     int g = m_greenEditLabel->editText().toInt();
     int b = m_blueEditLabel->editText().toInt();
 
-    if (QColor(r, g, b).isValid()) {
+    if (QColor(r, g, b).isValid())
+    {
         emit pickedColor(QColor(r, g, b));
     }
 }

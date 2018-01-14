@@ -5,27 +5,34 @@
 
 #include "utils/configsettings.h"
 
+const int SLIDER_WIDTH = 125;
+const QSize SLIDER_SIZE = QSize(168, 24);
+
 Slider::Slider(QWidget *parent)
     : QLabel(parent)
 {
-    setStyleSheet("Slider { border: 1px solid rgba(0, 0, 0, 100);"
-                                            "border-radius: 4px;"
-                             "}");
+    this->setFixedSize(SLIDER_SIZE);
+    setStyleSheet("Slider{"
+                  "border: 1px solid rgba(0, 0, 0, 26);"
+                  "border-radius: 3px; }");
     setMinimumWidth(160);
     m_slider = new QSlider(Qt::Horizontal,this);
     m_slider->setMinimum(0);
     m_slider->setMaximum(100);
     m_slider->setValue(100);
-    m_slider->setFixedWidth(110);
+    m_slider->setFixedWidth(SLIDER_WIDTH);
     m_valueLabel = new QLabel(this);
+    m_valueLabel->setObjectName("ValueLabel");
+    m_valueLabel->setStyleSheet("QLabel#ValueLabel{"
+                                "color: #303030;"
+                                "font-size: 11px;}");
     m_valueLabel->setText("100%");
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
-    mLayout->addSpacing(6);
     mLayout->addWidget(m_slider);
-    mLayout->addSpacing(20);
+    mLayout->addSpacing(2);
     mLayout->addWidget(m_valueLabel);
     setLayout(mLayout);
     connect(m_slider, &QSlider::valueChanged, this, [=](int value){
@@ -56,17 +63,25 @@ SliderLabel::SliderLabel(QString text, DrawStatus status,
     m_drawStatus = status;
 
     m_titleLabel = new QLabel(this);
+    m_titleLabel->setFixedWidth(43);
+    m_titleLabel->setObjectName("TitleLabel");
+    m_titleLabel->setStyleSheet("QLabel#TitleLabel {"
+                                "color: #626262;"
+                                "font-size: 11px;"
+                                "}");
     m_slider = new Slider(this);
+    m_slider->setFixedSize(SLIDER_SIZE);
     updateDrawStatus(status, widgetStatus);
     m_titleLabel->setText(m_text);
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
-    mLayout->addStretch();
-    mLayout->addWidget(m_titleLabel);
     mLayout->addSpacing(4);
-    mLayout->addWidget(m_slider, 0, Qt::AlignRight);
+    mLayout->addWidget(m_titleLabel);
+    mLayout->addStretch();
+    mLayout->addWidget(m_slider);
+    mLayout->addSpacing(6);
     setLayout(mLayout);
 
     connect(m_slider, &Slider::valueChanged, this, &SliderLabel::alphaChanged);

@@ -15,10 +15,11 @@ ColorLabel::ColorLabel(QWidget *parent)
     , m_picking(true)
     , m_pressed(false)
     , m_tipPoint(this->rect().center())
+    , m_workToPick(false)
 {
     setMouseTracking(true);
     connect(this, &ColorLabel::clicked, this, [=]{
-        if (m_picking)
+        if (m_picking && m_workToPick)
         {
             qDebug() << "clickedPos:" << m_clickedPos;
             pickColor(m_clickedPos, true);
@@ -87,13 +88,17 @@ QColor ColorLabel::getPickedColor()
     return m_pickedColor;
 }
 
+void ColorLabel::setPickColor(bool picked)
+{
+    m_workToPick = picked;
+}
+
 void ColorLabel::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
     QImage backgroundImage(this->width(), this->height(), QImage::Format_ARGB32);
-
     for(qreal s = 0; s < this->width(); s++)
     {
         for(qreal v = 0; v < this->height(); v++)
@@ -104,44 +109,46 @@ void ColorLabel::paintEvent(QPaintEvent *)
     }
 
     painter.drawImage(this->rect(), backgroundImage);
-
-    QPen pen;
-    pen.setWidthF(0.5);
-    pen.setCapStyle(Qt::FlatCap);
-    pen.setJoinStyle(Qt::RoundJoin);
-    pen.setColor(QColor(255, 255, 255, 255));
-    int tipWidth = 8;
-    painter.setBrush(QColor(255, 255, 255, 255));
-    painter.drawEllipse(m_tipPoint, tipWidth/2, tipWidth/2);
-    painter.setBrush(getColor(m_hue, qreal(m_tipPoint.x())/this->width(),
-                              qreal(this->height() - 1 - m_tipPoint.y())/this->height()));
-    painter.drawEllipse(m_tipPoint, tipWidth/2 - 2, tipWidth/2 - 2);
 }
 
 void ColorLabel::enterEvent(QEvent *e)
 {
-    update();
+    if (!m_workToPick)
+        return;
+
+    m_lastCursor = this->cursor();
+    qApp->setOverrideCursor(pickColorCursor());
     QLabel::enterEvent(e);
 }
 
 void ColorLabel::leaveEvent(QEvent *e)
 {
+    if (!m_workToPick)
+        return;
+
+    qApp->setOverrideCursor(m_lastCursor);
     QLabel::leaveEvent(e);
 }
 
 void ColorLabel::mousePressEvent(QMouseEvent *e)
 {
+    if (!m_workToPick)
+        return ;
+
     m_pressed = true;
-    m_tipPoint = this->mapFromGlobal(this->cursor().pos());
+    m_tipPoint = this->mapFromGlobal(cursor().pos());
     pickColor(m_tipPoint, true);
     QLabel::mousePressEvent(e);
 }
 
 void ColorLabel::mouseMoveEvent(QMouseEvent *e)
 {
+    if (!m_workToPick)
+        return;
+
     if (m_pressed)
     {
-        m_tipPoint = this->mapFromGlobal(this->cursor().pos());
+        m_tipPoint = this->mapFromGlobal(cursor().pos());
         pickColor(m_tipPoint, true);
     }
     update();

@@ -1,3 +1,13 @@
+SliderLabel#Alpha {
+
+}
+
+QLabel#ColorLabel {
+font-weight: 300;
+color: #626262;
+font-size: 12px;
+}
+
 PushButton#ColorFulButton {
     qproperty-normalPic: url(:/theme/light/images/draw/color_more_normal.svg);
     qproperty-hoverPic: url(:/theme/light/images/draw/color_more_hover.svg);

@@ -4,7 +4,10 @@ QLabel#TextFontLabel {
     border-radius: 4px;
 }
 
-QLineEdit#FontEdit {
+QLineEdit#FontsizeEdit {
+    background-color:red;
+    font-size: 12px;
+    font-weight: 300;
 }
 
 ToolButton#AddFontsizeBtn {

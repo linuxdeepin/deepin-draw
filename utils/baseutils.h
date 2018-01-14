@@ -65,5 +65,7 @@ QString allImageformat();
 QString     createHash(const QString &str);
 QString sizeToHuman(const qlonglong bytes);
 QCursor blurToolCursor(const int &lineWidth);
+QCursor pickColorCursor();
+
 
 #endif // BASEUTILS_H

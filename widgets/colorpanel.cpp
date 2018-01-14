@@ -13,12 +13,14 @@
 #include "colorslider.h"
 #include "pickcolorwidget.h"
 
-const int ORIGIN_HEIGHT = 200;
-const int EXPAND_HEIGHT = 416;
+const int ORIGIN_HEIGHT = 213;
+const int EXPAND_HEIGHT = 430;
 const int RADIUS = 3;
 const int BORDER_WIDTH = 2;
 const QSize COLOR_BORDER_SIZE = QSize(20, 20);
 const QSize COLOR_BUTTN = QSize(14, 14);
+const QSize SLIDER_SIZE = QSize(178, 22);
+const QSize BTN_SIZE = QSize(24, 24);
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
     : QPushButton(parent)
@@ -100,10 +102,13 @@ ColorPanel::ColorPanel(QWidget *parent)
     , m_drawstatus(DrawStatus::Fill)
 {
     DRAW_THEME_INIT_WIDGET("ColorPanel");
+    QWidget* colorBtnWidget = new QWidget(this);
+    colorBtnWidget->setFixedSize(250, ORIGIN_HEIGHT);
+
     if (!m_expand)
-        setFixedSize(232, ORIGIN_HEIGHT);
+        setFixedSize(250, ORIGIN_HEIGHT);
     else
-        setFixedSize(232, EXPAND_HEIGHT);
+        setFixedSize(250, EXPAND_HEIGHT);
 
     m_colList = specifiedColorList();
 
@@ -128,7 +133,7 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     m_sliderLabel = new SliderLabel(tr("Alpha"), m_drawstatus,
                                     m_widgetStatus, this);
-    m_sliderLabel->setFixedHeight(25);
+    m_sliderLabel->setFixedHeight(30);
     connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [=](int value){
         if (m_widgetStatus != MiddleWidgetStatus::DrawText)
         {
@@ -151,21 +156,27 @@ ColorPanel::ColorPanel(QWidget *parent)
         }
     });
 
-    m_editLabel = new EditLabel(this);
-    m_editLabel->setTitle(tr("Color"));
-    m_editLabel->setEditWidth(150);
+    QWidget* colorValueWidget = new QWidget;
+    colorValueWidget->setFixedWidth(240);
+    QLabel* colLabel = new QLabel(colorValueWidget);
+    colLabel->setObjectName("ColorLabel");
+    colLabel->setFixedWidth(50);
+    colLabel->setText(tr("Color"));
 
-    m_colorfulBtn = new PushButton(this);
+    m_colLineEdit = new QLineEdit(colorValueWidget);
+    m_colLineEdit->setFixedSize(138, 24);
+    m_colorfulBtn = new PushButton(colorValueWidget);
     m_colorfulBtn->setObjectName("ColorFulButton");
+    m_colorfulBtn->setFixedSize(BTN_SIZE);
 
-    QHBoxLayout* colorLayout = new QHBoxLayout;
+    QHBoxLayout* colorLayout = new QHBoxLayout(colorValueWidget);
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
-    colorLayout->addStretch();
-    colorLayout->addWidget(m_editLabel);
-    colorLayout->addSpacing(3);
+    colorLayout->addWidget(colLabel);
+    colorLayout->addSpacing(10);
+    colorLayout->addWidget(m_colLineEdit);
+    colorLayout->addSpacing(1);
     colorLayout->addWidget(m_colorfulBtn);
-
 
     PickColorWidget* pickColWidget = new PickColorWidget(this);
     connect(this, &ColorPanel::resetColorButtons, this, [=]{
@@ -185,24 +196,28 @@ ColorPanel::ColorPanel(QWidget *parent)
     connect(pickColWidget, &PickColorWidget::pickedColor, this,
         &ColorPanel::setConfigColor);
 
-    connect(m_editLabel, &EditLabel::editTextChanged,  this, [=](QString text){
+    connect(m_colLineEdit, &QLineEdit::textChanged,  this, [=](QString text){
         if (QColor(text).isValid())
         {
             pickColWidget->setRgbValue(QColor(text));
         }
     });
 
-    QVBoxLayout* mLayout = new QVBoxLayout(this);
-    mLayout->setContentsMargins(4, 4, 4, 4);
-    mLayout->setSpacing(0);
-    mLayout->addLayout(gLayout);
-    mLayout->addSpacing(5);
-    mLayout->addWidget(m_sliderLabel);
-    mLayout->addSpacing(2);
-    mLayout->addLayout(colorLayout);
-    mLayout->addSpacing(5);
-    mLayout->addWidget(pickColWidget);
-    setLayout(mLayout);
+    QVBoxLayout* vLayout = new QVBoxLayout(colorBtnWidget);
+    vLayout->setContentsMargins(5, 4, 4, 4);
+    vLayout->setSpacing(0);
+    vLayout->addSpacing(7);
+    vLayout->addLayout(gLayout);
+    vLayout->addSpacing(9);
+    vLayout->addWidget(m_sliderLabel);
+    vLayout->addSpacing(14);
+    vLayout->addWidget(colorValueWidget);
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->addWidget(colorBtnWidget);
+    layout->addWidget(pickColWidget, 0, Qt::AlignCenter);
 
     if (!m_expand)
         pickColWidget->hide();
@@ -244,13 +259,13 @@ void ColorPanel::setDrawStatus(DrawStatus status)
         colorName = ConfigSettings::instance()->value("common",
                                                       "fillColor").toString();
     }
-    m_editLabel->setEditText(colorName);
+    m_colLineEdit->setText(colorName);
     m_sliderLabel->updateDrawStatus(m_drawstatus, m_widgetStatus);
 }
 
 void ColorPanel::setConfigColor(QColor color)
 {
-    m_editLabel->setEditText(color.name());
+    m_colLineEdit->setText(color.name());
     if (m_widgetStatus != MiddleWidgetStatus::DrawText)
     {
         if (m_drawstatus == DrawStatus::Stroke)

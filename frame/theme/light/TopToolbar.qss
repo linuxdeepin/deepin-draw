@@ -221,13 +221,6 @@ qproperty-checkedPic: url(:/theme/light/images/cut/filp_vertical_active.svg);
 qproperty-disablePic: url(:/theme/light/images/cut/filp_vertical_disable.svg);
 }
 
-PushButton#PickerBtn {
-qproperty-normalPic: url(:/theme/light/images/draw/color_draw_normal.png);
-qproperty-hoverPic: url(:/theme/light/images/draw/color_draw_hover.png);
-qproperty-pressPic: url(:/theme/light/images/draw/color_draw_active.png);
-qproperty-checkedPic: url(:/theme/light/images/draw/color_draw_active.png);
-}
-
 ToolButton#LineMostThinBtn {
 border-image: url(:/theme/light/images/draw/blur_slim_normal.svg);
 }

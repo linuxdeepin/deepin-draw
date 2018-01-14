@@ -1,0 +1,11 @@
+QLabel#FillLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}
+
+QLabel#FontsizeLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}

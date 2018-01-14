@@ -12,12 +12,6 @@
         <file>theme/light/images/draw/color_disable_active.png</file>
         <file>theme/light/images/draw/color_disable_hover.png</file>
         <file>theme/light/images/draw/color_disable_normal.png</file>
-        <file>theme/light/images/draw/color_draw_active.png</file>
-        <file>theme/light/images/draw/color_draw_hover.png</file>
-        <file>theme/light/images/draw/color_draw_normal.png</file>
-        <file>theme/light/images/draw/color_more_active.png</file>
-        <file>theme/light/images/draw/color_more_hover.png</file>
-        <file>theme/light/images/draw/color_more_normal.png</file>
         <file>theme/light/images/draw/curve_active.png</file>
         <file>theme/light/images/draw/curve_hover.png</file>
         <file>theme/light/images/draw/curve_normal.png</file>
@@ -52,5 +46,13 @@
         <file>theme/light/images/draw/reduce_hover.svg</file>
         <file>theme/light/images/draw/reduce_normal.svg</file>
         <file>theme/light/images/draw/reduce_press.svg</file>
+        <file>theme/light/PickColorWidget.qss</file>
+        <file>theme/light/EditLabel.qss</file>
+        <file>theme/light/images/draw/color_draw_active.svg</file>
+        <file>theme/light/images/draw/color_draw_hover.svg</file>
+        <file>theme/light/images/draw/color_draw_normal.svg</file>
+        <file>theme/light/images/draw/color_more_active.svg</file>
+        <file>theme/light/images/draw/color_more_hover.svg</file>
+        <file>theme/light/images/draw/color_more_normal.svg</file>
     </qresource>
 </RCC>

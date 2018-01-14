@@ -55,7 +55,7 @@ signals:
 
 private:
     SliderLabel* m_sliderLabel;
-    EditLabel* m_editLabel;
+    QLineEdit* m_colLineEdit;
     PushButton* m_colorfulBtn;
 
     QList<QColor> m_colList;

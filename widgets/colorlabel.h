@@ -20,6 +20,7 @@ public:
 
     void pickColor(QPoint pos, bool picked = false);
     QColor getPickedColor();
+    void setPickColor(bool picked);
 
 signals:
     void clicked();
@@ -38,6 +39,7 @@ private:
     QColor calColorAtPoint(QPointF pos);
     QCursor m_lastCursor;
     int m_hue =  0;
+    bool m_workToPick;
     bool m_picking;
     bool m_pressed;
     QColor m_pickedColor;

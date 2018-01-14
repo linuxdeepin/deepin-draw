@@ -1,0 +1,17 @@
+QLabel#StrokeLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}
+
+QLabel#BorderLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}
+
+QLabel#StyleLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}

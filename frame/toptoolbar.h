@@ -7,8 +7,6 @@
 #include <QKeyEvent>
 
 #include "utils/baseutils.h"
-#include "widgets/colorpanel.h"
-#include "widgets/toolbutton.h"
 
 #include "cutwidget.h"
 #include "linewidget.h"
@@ -17,6 +15,8 @@
 #include "blurwidget.h"
 #include "adjustsizewidget.h"
 #include "widgets/arrowrectangle.h"
+#include "widgets/colorpanel.h"
+#include "widgets/toolbutton.h"
 
 DWIDGET_USE_NAMESPACE
 

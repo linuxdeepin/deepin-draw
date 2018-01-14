@@ -140,7 +140,8 @@ TopToolbar::TopToolbar(QWidget* parent)
         picBtn->setChecked(false);
     });
     connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
-    connect(this, &TopToolbar::drawShapeChanged, this, [=](QString shape){
+    connect(this, &TopToolbar::drawShapeChanged, this, [=](QString shape)
+    {
         if (shape == "image" && !picBtn->isChecked())
         {
             picBtn->setChecked(true);
@@ -273,8 +274,8 @@ void TopToolbar::initStackWidget()
     qApp->setProperty("_d_isDxcb",true);
     m_colorARect->setWindowFlags(Qt::Widget);
     m_colorARect->setAttribute(Qt::WA_TranslucentBackground,false);
-    m_colorARect->setArrowX(25);
-    m_colorARect->setArrowWidth(30);
+    m_colorARect->setArrowWidth(18);
+    m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
    m_colorARect->hide();
    connect(m_colorPanel, &ColorPanel::updateHeight, this, [=]{
