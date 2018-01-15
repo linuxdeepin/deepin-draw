@@ -3779,10 +3779,17 @@ void ShapesWidget::printImage()
     QPixmap resultPixmap = saveCanvasImage()[0];
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
-    QString desktopDir = QStandardPaths::writableLocation(
-                QStandardPaths::DesktopLocation);
+    printer.setPageSize(QPrinter::Custom);
+    printer.setPaperSize(QPrinter::Custom);
+    printer.setPaperSize(QSize(resultPixmap.width(), resultPixmap.height()),
+                         QPrinter::DevicePixel);
+    printer.setPageMargins(0.0f,0.0f,0.0f,0.0f, QPrinter::DevicePixel);
+    printer.setFullPage(true);
 
+    QString desktopDir = QStandardPaths::writableLocation(
+                                        QStandardPaths::DesktopLocation);
     QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg(tr("Unnamed"));
+
     if (QFileInfo(filePath).exists())
     {
         int num = 0;
@@ -3797,6 +3804,8 @@ void ShapesWidget::printImage()
      m_saveWithRation = false;
     QPrintDialog* printDialog = new QPrintDialog(&printer, this);
     printDialog->resize(400, 300);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
         painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
@@ -3807,14 +3816,15 @@ void ShapesWidget::printImage()
         wRect = printer.pageRect();
         if (resultPixmap.width() > wRect.width() || resultPixmap.height() > wRect.height()) {
             resultPixmap = resultPixmap.scaled(wRect.size(), Qt::KeepAspectRatio,
-                                               Qt::SmoothTransformation);
+                                                                          Qt::SmoothTransformation);
         }
         drawRectF = QRectF(qreal(wRect.width() - resultPixmap.width())/2,
-                           qreal(wRect.height() - resultPixmap.height())/2,
+                                            qreal(wRect.height() - resultPixmap.height())/2,
                            resultPixmap.width(), resultPixmap.height());
         painter.drawPixmap(drawRectF.x(), drawRectF.y(), resultPixmap.width(),
                            resultPixmap.height(), resultPixmap);
         painter.end();
+
         qDebug() << "print succeed!";
         return;
     }
