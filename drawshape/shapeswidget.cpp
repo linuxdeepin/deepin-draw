@@ -2886,10 +2886,22 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
     if (shape.type == "rectangle" || shape.type == "oval" || shape.type == "blur"
             || shape.type == "arbitraryCurve" || shape.type == "image")
     {
-        if (!noRotatePoint)
-            painter.setPen(selectedPen);
-        else
+        if (noRotatePoint)
             painter.setPen(dragPen);
+        else{
+            if (shape.type == "rectangle")
+            {
+                QPen newSelectPen;
+                newSelectPen.setColor(Qt::transparent);
+                painter.setPen(newSelectPen);
+            } else {
+                QPen rectPen;
+                rectPen.setColor("#888888");
+                rectPen.setWidth(1);
+                painter.setPen(rectPen);
+            }
+        }
+
         paintSelectedRect(painter, shape.mainPoints);
         paintSelectedRectPoints(painter, shape.mainPoints, noRotatePoint);
     } else if (shape.type == "arrow" || shape.type == "straightLine")
