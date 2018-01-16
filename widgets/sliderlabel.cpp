@@ -5,22 +5,22 @@
 
 #include "utils/configsettings.h"
 
-const int SLIDER_WIDTH = 125;
-const QSize SLIDER_SIZE = QSize(168, 24);
-
+const int SLIDER_WIDTH = 180;
+const QSize SLIDER_WIDTH_SIZE = QSize(222, 24);
 Slider::Slider(QWidget *parent)
     : QLabel(parent)
 {
-    this->setFixedSize(SLIDER_SIZE);
     setStyleSheet("Slider{"
                   "border: 1px solid rgba(0, 0, 0, 26);"
-                  "border-radius: 3px; }");
+                  "border-radius: 3px; "
+                  "}");
+
     setMinimumWidth(160);
     m_slider = new QSlider(Qt::Horizontal,this);
     m_slider->setMinimum(0);
     m_slider->setMaximum(100);
     m_slider->setValue(100);
-    m_slider->setFixedWidth(SLIDER_WIDTH);
+    m_slider->setFixedWidth(127);
     m_valueLabel = new QLabel(this);
     m_valueLabel->setObjectName("ValueLabel");
     m_valueLabel->setStyleSheet("QLabel#ValueLabel{"
@@ -31,9 +31,11 @@ Slider::Slider(QWidget *parent)
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
+    mLayout->addSpacing(1);
     mLayout->addWidget(m_slider);
-    mLayout->addSpacing(2);
+    mLayout->addSpacing(4);
     mLayout->addWidget(m_valueLabel);
+    mLayout->addSpacing(4);
     setLayout(mLayout);
     connect(m_slider, &QSlider::valueChanged, this, [=](int value){
         emit valueChanged(value);
@@ -61,6 +63,7 @@ SliderLabel::SliderLabel(QString text, DrawStatus status,
 {
     m_text = text;
     m_drawStatus = status;
+    setFixedSize(SLIDER_WIDTH_SIZE);
 
     m_titleLabel = new QLabel(this);
     m_titleLabel->setFixedWidth(43);
@@ -70,18 +73,16 @@ SliderLabel::SliderLabel(QString text, DrawStatus status,
                                 "font-size: 11px;"
                                 "}");
     m_slider = new Slider(this);
-    m_slider->setFixedSize(SLIDER_SIZE);
+
     updateDrawStatus(status, widgetStatus);
     m_titleLabel->setText(m_text);
 
     QHBoxLayout* mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
-    mLayout->addSpacing(4);
     mLayout->addWidget(m_titleLabel);
-    mLayout->addStretch();
+    mLayout->addSpacing(5);
     mLayout->addWidget(m_slider);
-    mLayout->addSpacing(6);
     setLayout(mLayout);
 
     connect(m_slider, &Slider::valueChanged, this, &SliderLabel::alphaChanged);
