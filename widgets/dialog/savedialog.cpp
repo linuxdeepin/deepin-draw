@@ -137,7 +137,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
         name = imageEdit->text().remove(suffix) + format.toLower();
         imageEdit->setText(name);
 
-        if (format == "DDF" || format == "BMP")
+        if (format == "DDF" || format == "BMP" || format == "TIF" || format == "PDF")
         {
             m_qualitySlider->setDisabled(true);
             m_valueLabel->setDisabled(true);
