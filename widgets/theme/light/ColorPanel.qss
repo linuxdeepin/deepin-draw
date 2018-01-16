@@ -1,10 +1,12 @@
-SliderLabel#Alpha {
-
-}
-
 QLabel#ColorLabel {
 font-weight: 300;
 color: #626262;
+font-size: 12px;
+}
+
+QLineEdit#ColorLineEdit {
+border-radius: 3px;
+border: 1px solid rgba(0, 0, 0, 26);
 font-size: 12px;
 }
 

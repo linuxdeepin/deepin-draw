@@ -38,13 +38,11 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     m_picker = new PushButton(this);
     m_picker->setFixedSize(24, 24);
     m_picker->setObjectName("PickerBtn");
-//    m_picker->setStyleSheet();
-
     QHBoxLayout* rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
     rgbLayout->addWidget(titleLabel);
-    rgbLayout->addSpacing(40);
+    rgbLayout->addSpacing(25);
     rgbLayout->addWidget(m_redEditLabel);
     rgbLayout->addWidget(m_greenEditLabel);
     rgbLayout->addWidget(m_blueEditLabel);
