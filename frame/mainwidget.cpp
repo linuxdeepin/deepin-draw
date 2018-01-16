@@ -113,7 +113,7 @@ void MainWidget::updateLayout()
     m_horizontalMargin = 0, m_verticalMargin = 0;
     int artboardWindowWidth = 0, artboardWindowHeight = 0;
     qDebug() << "updateLayout:" <<  qApp->activeWindow()
-             << window()->size() << this->size() << artboardSize;
+                    << window()->size() << this->size() << artboardSize;
     if (artboardSize.width() <= window()->width() - ARTBOARD_MARGIN*2)
     {
         m_horizontalMargin = (window()->width() -  artboardSize.width())/2;

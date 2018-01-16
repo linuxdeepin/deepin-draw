@@ -174,7 +174,8 @@ bool          isValidFormat(QString suffix)
     }
 }
 
-bool          isCommandExist(QString command) {
+bool          isCommandExist(QString command)
+{
     QProcess* proc = new QProcess;
     QString cm = QString("which %1\n").arg(command);
     proc->start(cm);
@@ -324,7 +325,7 @@ QString allImageformat()
 QString createHash(const QString &str)
 {
     return QString(QCryptographicHash::hash(str.toUtf8(),
-                                            QCryptographicHash::Md5).toHex());
+                             QCryptographicHash::Md5).toHex());
 }
 
 QString sizeToHuman(const qlonglong bytes)
