@@ -15,7 +15,7 @@ public:
     PickColorWidget(QWidget* parent);
     ~PickColorWidget();
 
-    void setRgbValue(QColor color);
+    void setRgbValue(QColor color, bool isPicked = false);
     void updateColor();
 
 signals:

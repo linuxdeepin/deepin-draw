@@ -57,10 +57,11 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     m_colorLabel = new ColorLabel(this);
     m_colorLabel->setFixedSize(222, 136);
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [=](int val){
-        qDebug() << "pickColorLabel:" << val;
         m_colorLabel->setHue(val);
     });
-    connect(m_colorLabel, &ColorLabel::pickedColor, this, &PickColorWidget::setRgbValue);
+    connect(m_colorLabel, &ColorLabel::pickedColor, this,  [=](QColor color){
+        setRgbValue(color, true);
+    });
     connect(m_picker, &PushButton::clicked, this, [=]{
         if (m_picker->getChecked())
         {
@@ -81,13 +82,14 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     setLayout(mLayout);
 }
 
-void PickColorWidget::setRgbValue(QColor color)
+void PickColorWidget::setRgbValue(QColor color, bool isPicked)
 {
     m_redEditLabel->setEditText(QString("%1").arg(color.red()));
     m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
     m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
 
-    emit pickedColor(color);
+    if (isPicked)
+        emit pickedColor(color);
 }
 
 void PickColorWidget::updateColor()
