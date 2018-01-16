@@ -13,14 +13,30 @@
 
 #include "utils/configsettings.h"
 
-QSize      initArtboardSize()
+QSize      initArtboardSize(QPoint pos)
+{
+    int artboardActualWidth = 0, artboardActualHeight = 0;
+    QSize desktopSize = DScreenWindowsUtil::instance(pos
+                                                     )->primaryScreen()->size();
+    qDebug() << "init artboardSize:" << pos<<  desktopSize;
+    artboardActualWidth = desktopSize.width();
+    artboardActualHeight = desktopSize.height();
+
+    return QSize(artboardActualWidth, artboardActualHeight);
+}
+
+QSize      getArtboardSize(QPoint pos)
 {
     int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
     int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+    qDebug() << "origin artboardSize:" << artboardActualWidth << artboardActualHeight;
 
     if (artboardActualWidth == 0 || artboardActualHeight == 0)
     {
-        QSize desktopSize = qApp->desktop()->size();
+        QSize desktopSize = DScreenWindowsUtil::instance(pos
+                                                         )->primaryScreen()->size();
+        qDebug() << "init artboardSize:" << pos<<  desktopSize;
+
         artboardActualWidth = desktopSize.width();
         artboardActualHeight = desktopSize.height();
     }
@@ -30,10 +46,11 @@ QSize      initArtboardSize()
 QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
 {
     qreal winWidth = qreal(windowSize.width()),
-          winHeight = qreal(windowSize.height());
+             winHeight = qreal(windowSize.height());
     qreal widthRation = qreal(artboardSize.width())/qreal(windowSize.width());
     qreal heightRation = qreal(artboardSize.height())/qreal(windowSize.height());
     qDebug() << "GetCanvasSize:" << widthRation << heightRation;
+
     if (widthRation > heightRation)
     {
         winHeight = qreal(artboardSize.height())/widthRation;

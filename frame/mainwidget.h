@@ -8,7 +8,6 @@
 #include <QKeyEvent>
 
 #include "toptoolbar.h"
-#include "canvaswidget.h"
 #include "utils/baseutils.h"
 #include "utils/shapesutils.h"
 #include "drawshape/shapeswidget.h"
@@ -53,7 +52,6 @@ protected:
 
 private:
     TopToolbar* m_topToolbar;
-//    CanvasWidget* m_canvas;
     ShapesWidget* m_shapesWidget;
     QLabel* m_seperatorLine;
 

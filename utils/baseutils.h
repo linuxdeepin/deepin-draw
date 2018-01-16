@@ -7,6 +7,10 @@
 #include <QFontMetrics>
 #include <QPainter>
 
+#include <dscreenwindowsutil.h>
+
+DWM_USE_NAMESPACE
+
 enum ResizeDirection {
     Rotate,
     Moving,
@@ -48,13 +52,13 @@ QList<QColor> specifiedColorList();
 QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 
-QSize      initArtboardSize();
+QSize      initArtboardSize(QPoint pos);
+QSize      getArtboardSize(QPoint pos);
 QSize      getCanvasSize(QSize artboardSize, QSize windowSize);
 
 QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
-
 bool          isValidFormat(QString suffix);
 bool          isCommandExist(QString command);
 void  paintSelectedPoint(QPainter &painter, QPointF pos,
@@ -66,6 +70,5 @@ QString     createHash(const QString &str);
 QString sizeToHuman(const qlonglong bytes);
 QCursor blurToolCursor(const int &lineWidth);
 QCursor pickColorCursor();
-
 
 #endif // BASEUTILS_H

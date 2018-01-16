@@ -14,7 +14,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
     : QObject(parent)
 {
     m_settings = new  QSettings("deepin","/deepin-draw/config", this);
-    QSize canvasSize = qApp->desktop()->size();
+//    QSize canvasSize = qApp->desktop()->size();
 
     if (!QFileInfo(CONFIG_PATH).exists())
     {
@@ -37,8 +37,8 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("cut", "ration", "free");
     }
 
-    setValue("artboard", "width", canvasSize.width());
-    setValue("artboard", "height", canvasSize.height());
+    setValue("artboard", "width", 0);
+    setValue("artboard", "height", 0);
     setValue("tools", "activeMove", "false");
 
     qDebug() << "Setting file:" << m_settings->fileName();

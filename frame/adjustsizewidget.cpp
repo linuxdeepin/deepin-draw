@@ -37,7 +37,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_heightLEdit->setObjectName("HeightLineEdit");
     m_heightLEdit->setFixedWidth(LINEEDIT_WIDTH);
 
-    QSize artboardSize = initArtboardSize();
+    QSize artboardSize = getArtboardSize(this->cursor().pos());
     setCanvasSize(artboardSize);
 
     connect(m_widthLEdit, &FontsizeLineEdit::editingFinished, this, [=]{
@@ -109,6 +109,7 @@ void AdjustsizeWidget::setCanvasSize(QSize size)
 {
     m_widthLEdit->setText(QString("%1").arg(size.width()));
     m_heightLEdit->setText(QString("%1").arg(size.height()));
+
     ConfigSettings::instance()->setValue("artboard", "width",
                                          size.width());
     ConfigSettings::instance()->setValue("artboard", "height",
@@ -122,7 +123,6 @@ void AdjustsizeWidget::updateCanvasSize(QSize size)
 
 void AdjustsizeWidget::resizeCanvasSize(bool resized, QSize addSize)
 {
-
 //    int originWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
 //    int originHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
 //    originWidth += addSize.width();

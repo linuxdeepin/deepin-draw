@@ -109,11 +109,11 @@ MainWidget::MainWidget(QWidget *parent)
 
 void MainWidget::updateLayout()
 {
-    QSize artboardSize = initArtboardSize();
+    QSize artboardSize = getArtboardSize(this->cursor().pos());
     m_horizontalMargin = 0, m_verticalMargin = 0;
     int artboardWindowWidth = 0, artboardWindowHeight = 0;
     qDebug() << "updateLayout:" <<  qApp->activeWindow()
-             << window()->size() << this->size();
+             << window()->size() << this->size() << artboardSize;
     if (artboardSize.width() <= window()->width() - ARTBOARD_MARGIN*2)
     {
         m_horizontalMargin = (window()->width() -  artboardSize.width())/2;
@@ -129,8 +129,6 @@ void MainWidget::updateLayout()
         m_verticalMargin = ARTBOARD_MARGIN;
     }
 
-    qDebug() << "rt:" << m_horizontalMargin << m_verticalMargin;
-
     artboardWindowWidth = window()->width() - m_horizontalMargin*2;
     artboardWindowHeight = window()->height() - TITLEBAR_HEIGHT
             - m_verticalMargin*2;
@@ -142,9 +140,6 @@ void MainWidget::updateLayout()
     artboardWindowHeight = winSize.height();
     m_horizontalMargin = (window()->width() - artboardWindowWidth)/2;
     m_verticalMargin = (window()->height() - artboardWindowHeight - TITLEBAR_HEIGHT)/2;
-    qDebug() << "winSize:" << artboardSize << QSize(artboardWindowWidth,
-                                                    artboardWindowHeight) << winSize
-                    << m_horizontalMargin << m_verticalMargin;
 
     ConfigSettings::instance()->setValue("canvas", "width", artboardWindowWidth);
     ConfigSettings::instance()->setValue("canvas", "height", artboardWindowHeight);

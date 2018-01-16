@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
   qtHaveModule(opengl): QT += opengl
 
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += dtkwidget libexif
+PKGCONFIG += dtkwidget libexif dtkwm
 LIBS += -lfreeimage
 
 TARGET = deepin-draw
