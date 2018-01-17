@@ -503,8 +503,10 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     qDebug() << "clickedOnShapes:" << m_currentType << m_moveShape;
     if (m_shapes.length() == 0 || !m_moveShape)
+    {
+        qDebug() << "clickedOnShapes length:" << m_shapes.length();
         return onShapes;
-
+    }
     m_selectedOrder = -1;
     for (int i = m_shapes.length() - 1; i >= 0; i--)
    {
@@ -518,6 +520,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 currentOnShape = true;
             }
         }
+
         if (m_shapes[i].type == "rectangle")
         {
             if (clickedOnRect(m_shapes[i].mainPoints, pos,
@@ -680,7 +683,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     if (!onShapes)
     {
-        qDebug() << "no selected shape.....";
         m_selectedIndex = -1;
         m_selectedOrder = -1;
         m_selectedShape.type = "";
@@ -1453,7 +1455,6 @@ bool ShapesWidget::hoverOnArbitraryCurve(FourPoints mainPoints,
 bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos)
 {
     qDebug() << "hoverOnText:" <<  mainPoints << pos;
-
     if (hoverOnRect(mainPoints, pos, false) ||  (pos.x() >= mainPoints[0].x()
          && pos.x() <= mainPoints[2].x() && pos.y() >= mainPoints[0].y()
         && pos.y() <= mainPoints[2].y())) {
@@ -1804,7 +1805,7 @@ void ShapesWidget::handleResize(QPointF pos, int key)
         m_hoveredShape.points = m_shapes[m_selectedOrder].points;
     }
 
-    if (m_selectedShape.type == "image")
+    if (m_selectedShape.type == "image" && m_selectedOrder != -1)
     {
         QPixmap newPix;
         newPix = QPixmap(m_shapes[m_selectedOrder].imagePath);
@@ -1909,6 +1910,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
         m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
         m_isAltPressed = GlobalShortcut::instance()->altSc();
+
         if (e->button() == Qt::RightButton)
         {
             m_menu->popup(this->cursor().pos());
@@ -1981,13 +1983,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
         /*Click on the bottom right to drag and drop the canvas size.*/
         QRect btmRightRect = rightBottomRect();
-        if (btmRightRect.contains(QPoint(m_pos1.x(), m_pos1.y())) && !m_isRecording)
+        if (m_selectedOrder == -1 && btmRightRect.contains(QPoint(m_pos1.x(),
+                                                                  m_pos1.y())) && !m_isRecording)
         {
             m_inBtmRight = true;
             m_resizeDirection = Right;
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
             m_drawArtboardSize = true;
-            qDebug() << "Adjust artboard's size!";
             emit updateMiddleWidgets("adjustSize");
             emit shapePressed("");
             setCurrentShape("");
@@ -2291,6 +2293,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e)
                 emit updateMiddleWidgets("adjustSize");
                 resizeArtboardByDrag(m_movingPoint);
             }
+        } else {
+            m_stickCurosr = false;
+            m_cursorInBtmRight = false;
+            m_drawArtboardSize = false;
         }
 
         if (m_isRecording && m_isPressed && !m_cursorInBtmRight)
@@ -4324,7 +4330,6 @@ void ShapesWidget::pasteShape(QPoint pos)
         });
     }
 
-//    m_shapes.append(m_hangingShape);
     appendShape(m_hangingShape);
 
     m_selectedOrder = m_shapes.length() - 1;
