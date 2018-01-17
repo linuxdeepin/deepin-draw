@@ -34,6 +34,7 @@ const qreal ARTBOARD_MARGIN = 0;
 const int PIC_SPACING = 20;
 const int POINT_SPACING = 20;
 const int IMG_ROTATEPOINT_SPACING = 45;
+const QPointF START_POINT = QPointF(0, 45);
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent)
@@ -117,7 +118,7 @@ void ShapesWidget::initAttribute()
     m_resizeRation = 1;
     m_cutImageOrder = -1;
 
-    m_startPos = QPointF(0, 77);
+    m_startPos = START_POINT;
     initCanvasSize();
 
     m_cutImageTips = new CutImageTips(this);
@@ -3468,6 +3469,11 @@ void ShapesWidget::loadImage(QStringList paths)
     m_artBoardWindowWidth = this->width();
     m_artBoardWindowHeight = this->height();
 
+    if (paths.length() > 1)
+    {
+        m_startPos = START_POINT;
+    }
+
     for(int i = 0; i < paths.length(); i++)
     {
         if (QFileInfo(paths[i]).exists())
@@ -3495,12 +3501,14 @@ void ShapesWidget::loadImage(QStringList paths)
                                 int(std::abs(m_artBoardWindowHeight - IMG_ROTATEPOINT_SPACING)),
                                 Qt::KeepAspectRatio, Qt::SmoothTransformation).size();
                 }
-                if (i == 0)
-                {
-                    m_startPos = QPointF((this->width() - imageShape.imageSize.width())/2,
-                    (this->height() - imageShape.imageSize.height() - IMG_ROTATEPOINT_SPACING)/2
-                                         + IMG_ROTATEPOINT_SPACING);
-                }
+
+            }
+
+            if (paths.length() == 1)
+            {
+                m_startPos = QPointF((this->width() - imageShape.imageSize.width())/2,
+                (this->height() - imageShape.imageSize.height() - IMG_ROTATEPOINT_SPACING)/2
+                                     + IMG_ROTATEPOINT_SPACING);
             }
 
             imageShape.mainPoints[0] =  QPointF(m_startPos.x(),
