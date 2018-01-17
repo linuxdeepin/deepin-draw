@@ -1,0 +1,9 @@
+<interface name="com.deepin.Draw">\n
+    <method name="activeWindow"/>\n
+    <method name="openImage">\n
+        <arg direction="in" type="s"/>\n
+    </method>\n
+    <method name="loadImage">\n
+        <arg direction="in" type="s"/>\n
+    </method>\n
+</interface>\n

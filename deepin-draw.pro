@@ -1,4 +1,4 @@
-QT += core gui  printsupport svg
+QT += core gui  printsupport svg dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,6 +26,7 @@ include(controller/controller.pri)
 include(widgets/widgets.pri)
 include(drawshape/drawshape.pri)
 include(frame/frame.pri)
+include(service/service.pri)
 
 RESOURCES +=
 
@@ -61,11 +62,14 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
+service.path = $${PREFIX}/share/dbus-1/services
+service.files = service/com.deepin.Draw.service
+
 exists(app_icon.files) {
     message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon manual_icon formatFile translations#manual
+INSTALLS = target desktop  app_icon manual_icon formatFile translations service#manual
 
 DISTFILES += \
     logo/deepin-draw-16.svg \

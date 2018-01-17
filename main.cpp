@@ -1,12 +1,19 @@
-#include "application.h"
-#include <DLog>
-#include <DWidgetUtil>
-
 #include "frame/mainwindow.h"
 
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>
+
+#include "application.h"
+#include "service/dbusdrawservice.h"
+#include "service/dbusdraw.h"
+
+#include <DLog>
+
+namespace  {
+const QString DEEPIN_DRAW_DBUS_PATH = "/com/deepin/Draw";
+const QString DEEPIN_DRAW_DBUS_NAME = "com.deepin.Draw";
+}
 
 DWIDGET_USE_NAMESPACE
 
@@ -29,91 +36,68 @@ int main(int argc, char *argv[])
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
-    w.activateWindow();
+    w.hide();
+
+    DBusDrawService dbusService(&w);
+    Q_UNUSED(dbusService);
+    //Register deepin-draw's dbus service.
+    bool dbusServiceExist = false;
+    QDBusConnection conn = QDBusConnection::sessionBus();
+    if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
+            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w))
+    {
+        qDebug() << "deepin-draw is running!";
+         dbusServiceExist = true;
+    }
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
-                                        "Specifiy a path to save the screenshot.", "PATH");
+                                        "Specifiy a path to load an image.", "PATH");
+    QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
+                                          "Show deepin draw.");
     QCommandLineParser cmdParser;
     cmdParser.setApplicationDescription("deepin-draw");
     cmdParser.addOption(openImageOption);
+    cmdParser.addOption(activeWindowOption);
     cmdParser.process(a);
 
-    QStringList names = cmdParser.optionNames();
-    QStringList pas = cmdParser.positionalArguments();
-    qDebug() << "cmdParse:" << names <<pas
-                     <<  cmdParser.positionalArguments();
-
-    if (names.isEmpty() && pas.isEmpty())
-    {
-        w.show();
-    } else
-    {
-        QString name;
-        QString value;
-        QStringList values;
-        if (!names.isEmpty())
+    if (cmdParser.isSet(openImageOption)) {
+        if (dbusServiceExist)
         {
-            name = names.first();
-            value = cmdParser.value(name);
-            values = cmdParser.values(name);
-            qDebug() << "..." << name << value << values;
-        } else if (!pas.isEmpty())
-        {
-            name = "o";
-            value = pas.first();
-
-            if (QUrl(value).isLocalFile())
-            {
-                value = QUrl(value).toLocalFile();
-            }
-            values = pas;
+            DBusDraw().openImage(cmdParser.value(openImageOption));
+        } else {
+            w.activeWindow();
+            w.openImage(cmdParser.value(openImageOption));
         }
-
-        qDebug() << name << value << values;
-        //TODO: Image support read.
-        if (name == "o" || name == "open")
+    } else if (cmdParser.isSet(activeWindowOption)) {
+        if (dbusServiceExist)
         {
-            if (values.length() > 1)
-             {
-                QStringList aps;
-                for (QString path : values)
-                {
-                    if (QUrl(value).isLocalFile())
-                        path = QUrl(value).toLocalFile();
-                     const QString ap = QFileInfo(path).absoluteFilePath();
-                     if (QFileInfo(path).exists())
-                     {
-                         aps << ap;
-                     }
-                }
-
-                if (!aps.isEmpty()) {
-                    w.activateWindow();
-                    w.show();
-                    if (QFileInfo(pas.first()).suffix() == "ddf")
-                    {
-                        w.parseDdf(pas.first());
-                    } else
-                    {
-                        w.openImage(aps.first());
-                    }
-                }
-            } else if (QFileInfo(value).exists()) {
-                qDebug() << "openImage :" << value;
-                w.activateWindow();
+            DBusDraw().activeWindow();
+        } else {
+            w.activeWindow();
+        }
+    } else {
+        QStringList pas = cmdParser.positionalArguments();
+        if (pas.length() >= 1)
+        {
+            QString path;
+            if (QUrl(pas.first()).isLocalFile())
+                path =  QUrl(pas.first()).toLocalFile();
+            else
+                path = pas.first();
+            if (dbusServiceExist)
+            {
+                DBusDraw().activeWindow();
+                DBusDraw().openImage(QFileInfo(path).absoluteFilePath());
+            } else {
+                w.activeWindow();
+                w.openImage(QFileInfo(path).absoluteFilePath());
+            }
+        } else {
+            if (dbusServiceExist)
+            {
+                DBusDraw().activeWindow();
+            } else {
                 w.show();
-                if (QFileInfo(value).suffix() == "ddf")
-                {
-                    w.parseDdf(value);
-                } else
-                {
-                    w.openImage(QFileInfo(value).absoluteFilePath());
-                }
-
-              } else {
-                w.activateWindow();
-                w.show();
-                qDebug() << "others";
             }
         }
     }

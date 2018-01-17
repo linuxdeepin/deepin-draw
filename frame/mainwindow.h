@@ -19,7 +19,10 @@ public:
     MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
+    void loadImage(const QString &path);
     void openImage(const QString &path);
+    void activeWindow();
+
     void parseDdf(const QString &path);
     void showDrawDialog();
 

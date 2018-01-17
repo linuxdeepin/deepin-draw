@@ -73,22 +73,40 @@ MainWindow::MainWindow(QWidget *parent)
     });
 }
 
+void MainWindow::loadImage(const QString &path)
+{
+    window()->raise();
+    window()->activateWindow();
+    m_mainWidget->openImage(path);
+}
+
 void MainWindow::openImage(const QString &path)
 {
-    QSize imageSize = QPixmap(path).size();
-    QSize desktopSize = qApp->desktop()->size();
-    int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
-    int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
-
-    if (imageSize.width() > ww || imageSize.height() > wh)
+    if (QFileInfo(path).suffix() == "ddf")
     {
-        resize(desktopSize.width(), desktopSize.height());
+        parseDdf(path);
     } else {
-        emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
-                imageSize.height() + IMG_ROTATEPOINT_SPACING ));
-    }
+        QSize imageSize = QPixmap(path).size();
+        QSize desktopSize = qApp->desktop()->size();
+        int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
+        int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
 
-    m_mainWidget->openImage(path);
+        if (imageSize.width() > ww || imageSize.height() > wh)
+        {
+            resize(desktopSize.width(), desktopSize.height());
+        } else {
+            emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
+                    imageSize.height() + IMG_ROTATEPOINT_SPACING ));
+        }
+        m_mainWidget->openImage(path);
+    }
+}
+
+void MainWindow::activeWindow()
+{
+    window()->show();
+    window()->raise();
+    window()->activateWindow();
 }
 
 void MainWindow::parseDdf(const QString &path)
