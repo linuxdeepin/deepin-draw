@@ -15,3 +15,9 @@ GlobalShortcut* GlobalShortcut::instance() {
   {
      Q_UNUSED(parent);
  }
+
+ GlobalShortcut::~GlobalShortcut()
+ {
+    m_shiftSc = false;
+    m_altSc = false;
+ }

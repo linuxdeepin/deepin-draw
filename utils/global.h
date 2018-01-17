@@ -28,6 +28,7 @@ class GlobalShortcut : public QObject
     Q_OBJECT
 public:
     GlobalShortcut(QObject* parent = 0);
+    ~GlobalShortcut();
     static GlobalShortcut *instance() ;
 
     inline void setShiftScStatus(bool status) { m_shiftSc = status;}

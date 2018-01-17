@@ -1910,6 +1910,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 {
     auto doMousePress = [=]() {
         qDebug() << "Mouse pressed:" << e->pos() << m_imageCutting;
+        if (e->modifiers() == Qt::NoModifier)
+        {
+            GlobalShortcut::instance()->setShiftScStatus(false);
+            GlobalShortcut::instance()->setAltScStatus(false);
+        }
         m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
         m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -2136,6 +2141,11 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
         showCutImageTips(tmpPos);
     }
 
+    if (e->modifiers() == Qt::NoModifier)
+    {
+        GlobalShortcut::instance()->setShiftScStatus(false);
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
@@ -3308,29 +3318,45 @@ void ShapesWidget::onViewShortcut() {
 
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
-
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
+    {
+        qDebug() << "combine keyEvent!";
+        m_isShiftPressed = true;
+        m_isAltPressed = true;
+        GlobalShortcut::instance()->setShiftScStatus(true);
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
+    if (e->key() == Qt::Key_Alt)
+    {
+        m_isAltPressed = true;
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = true;
         GlobalShortcut::instance()->setShiftScStatus(true);
-    } else if (e->key() == Qt::Key_Alt)
-    {
-        m_isAltPressed = true;
-        qDebug() << "alt key pressed...";
-        GlobalShortcut::instance()->setAltScStatus(true);
     }
 }
 
 void ShapesWidget::keyReleaseEvent(QKeyEvent *e)
 {
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
+    {
+        qDebug() << "combine keyEvent!";
+        m_isShiftPressed = false;
+        m_isAltPressed = false;
+        GlobalShortcut::instance()->setShiftScStatus(false);
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
+    if (e->key() == Qt::Key_Alt)
+    {
+        m_isAltPressed = false;
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
     if (e->key() == Qt::Key_Shift)
     {
         m_isShiftPressed = false;
         GlobalShortcut::instance()->setShiftScStatus(false);
-    } else if (e->key() == Qt::Key_Alt)
-    {
-        m_isAltPressed = false;
-        GlobalShortcut::instance()->setAltScStatus(false);
     }
 
 //    QFrame::keyReleaseEvent(e);

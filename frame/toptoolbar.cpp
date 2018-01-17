@@ -496,23 +496,37 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 
 void TopToolbar::keyPressEvent(QKeyEvent *e)
 {
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
+    {
+        qDebug() << "combine keyEvent!";
+        GlobalShortcut::instance()->setShiftScStatus(true);
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
+    if (e->key() == Qt::Key_Alt)
+    {
+        GlobalShortcut::instance()->setAltScStatus(true);
+    }
     if (e->key() == Qt::Key_Shift)
     {
         GlobalShortcut::instance()->setShiftScStatus(true);
-    } else if (e->key() == Qt::Key_Alt)
-    {
-        GlobalShortcut::instance()->setAltScStatus(true);
     }
 }
 
 void TopToolbar::keyReleaseEvent(QKeyEvent *e)
 {
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
+    {
+        qDebug() << "combine keyEvent!";
+        GlobalShortcut::instance()->setShiftScStatus(false);
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
+    if (e->key() == Qt::Key_Alt)
+    {
+        GlobalShortcut::instance()->setAltScStatus(false);
+    }
     if (e->key() == Qt::Key_Shift)
     {
         GlobalShortcut::instance()->setShiftScStatus(false);
-    } else if (e->key() == Qt::Key_Alt)
-    {
-        GlobalShortcut::instance()->setAltScStatus(false);
     }
 }
 
