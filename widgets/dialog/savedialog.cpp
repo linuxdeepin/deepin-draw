@@ -169,6 +169,7 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
             m_filePath = QString("%1/%2").arg(m_fileDir).arg(imageEdit->text());
         }
         if (index == 1) {
+
             if (QFileInfo(m_filePath).exists()) {
                 Dialog* dialog = new Dialog(this);
                 dialog->setModal(true);
@@ -203,7 +204,11 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, QWidget *parent)
 
 QString SaveDialog::getSaveDir(QString dir)
 {
-    if (dir == tr("Documents"))
+    if (dir == tr("Pictures"))
+    {
+        return QStandardPaths::writableLocation(
+                    QStandardPaths::PicturesLocation);
+    } else if (dir == tr("Documents"))
     {
         return QStandardPaths::writableLocation(
                     QStandardPaths::DocumentsLocation);
