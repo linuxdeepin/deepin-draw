@@ -7,6 +7,8 @@
 #include <QFontMetrics>
 #include <QPainter>
 
+#include "shapesutils.h"
+
 #include <dscreenwindowsutil.h>
 
 DWM_USE_NAMESPACE
@@ -71,4 +73,7 @@ QString sizeToHuman(const qlonglong bytes);
 QCursor blurToolCursor(const int &lineWidth);
 QCursor pickColorCursor();
 
+/* Convert shape info to jsonObject*/
+QString getStringFromShape(Toolshape shape);
+Toolshape getShapeInfoFromJsonStr(QString jsonStr);
 #endif // BASEUTILS_H

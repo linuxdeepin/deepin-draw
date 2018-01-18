@@ -12,6 +12,8 @@
 #include <QKeySequence>
 #include <QShortcut>
 #include <QMenu>
+#include <QClipboard>
+
 #include <cmath>
 
 #include "utils/shortcut.h"
@@ -164,8 +166,8 @@ void ShapesWidget::initMenu()
     QAction* topLayerAc = m_menu->addAction(tr("Layer to Top"));
     QAction* btmLayerAc = m_menu->addAction(tr("Layer to Bottom"));
 
-    Q_UNUSED(cutAc);
     connect(copyAc, &QAction::triggered, this, &ShapesWidget::copyShape);
+    connect(cutAc, &QAction::triggered, this, &ShapesWidget::cutShape);
     connect(pasteAc, &QAction::triggered, this, [=]{
         QPoint startPos = QPoint(0, 0);
         startPos = mapToGlobal(startPos);
@@ -3286,10 +3288,14 @@ void ShapesWidget::initShortcut()
     });
 
     QShortcut* copySc = new QShortcut(QKeySequence("ctrl+c"), this);
+    QShortcut* cutSc = new QShortcut(QKeySequence("ctrl+x"), this);
     QShortcut* pasteSc = new QShortcut(QKeySequence("ctrl+v"), this);
 
     connect(copySc, &QShortcut::activated, this, [=]{
         copyShape();
+    });
+    connect(cutSc, &QShortcut::activated, this, [=]{
+        cutShape();
     });
     connect(pasteSc, &QShortcut::activated, this, [=]{
         pasteShape();
@@ -4293,22 +4299,39 @@ void ShapesWidget::copyShape()
     if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
     {
         m_hangingShape = m_shapes[m_selectedOrder];
+
+        QString copyInfo = getStringFromShape(m_shapes[m_selectedOrder]);
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(copyInfo, QClipboard::Clipboard);
     }
 }
 
-//void ShapesWidget::cutShape()
-//{
-//    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
-//    {
-//        m_hangingShape = m_shapes[m_selectedOrder];
-//        m_shapes.removeAt(m_selectedOrder);
-//        m_selectedOrder = -1;
-//    }
-//}
+void ShapesWidget::cutShape()
+{
+    if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+    {
+        m_hangingShape = m_shapes[m_selectedOrder];
+
+        QString cutInfo = getStringFromShape(m_shapes[m_selectedOrder]);
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(cutInfo, QClipboard::Clipboard);
+        qDebug() << "Before:" << m_shapes.length();
+        m_shapes.removeAt(m_selectedOrder);
+        m_selectedOrder = -1;
+        qDebug() << "After:" << m_shapes.length();
+
+        compressToImage();
+        update();
+    }
+}
 
 void ShapesWidget::pasteShape(QPoint pos)
 {
-    if (m_hangingShape.mainPoints.length() < 4)
+    QClipboard *clipboard = QApplication::clipboard();
+    QString clipStr = clipboard->text();
+    m_hangingShape = getShapeInfoFromJsonStr(clipStr);
+
+    if (m_hangingShape.type.isEmpty() || m_hangingShape.mainPoints.length() < 4)
         return;
 
     m_shapesIndex += 1;
@@ -4382,11 +4405,12 @@ void ShapesWidget::pasteShape(QPoint pos)
     appendShape(m_hangingShape);
 
     m_selectedOrder = m_shapes.length() - 1;
+    m_stickSelectedShape = m_shapes[m_selectedOrder];
     qDebug() << "pasteShape:" << m_selectedOrder;
 
     setAllTextEditReadOnly();
-    m_needCompress = true;
     compressToImage();
+    update();
 }
 
 void ShapesWidget::resizeArtboardByDrag(QPointF pos)

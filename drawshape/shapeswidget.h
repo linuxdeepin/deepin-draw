@@ -111,7 +111,7 @@ public:
     void layerSwitch(LayerDirection direction);
 
     void copyShape();
-//    void cutShape();
+    void cutShape();
     void pasteShape(QPoint pos = QPoint(0, 0));
     void resizeArtboardByDrag(QPointF pos);
     void appendShape(Toolshape shape);
