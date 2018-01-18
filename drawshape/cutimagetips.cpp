@@ -84,7 +84,7 @@ CutImageTips::CutImageTips(QWidget *parent)
 
     m_okBtn = new RationButton(this);
     m_okBtn->setFixedSize(60, 24);
-    m_okBtn->setText(tr("Cut"));
+    m_okBtn->setText(tr("Clip"));
     m_okBtn->setChecked(true);
     connect(m_okBtn, &RationButton::clicked, this, [=]{
         emit cutAction();

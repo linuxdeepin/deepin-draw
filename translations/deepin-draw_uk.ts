@@ -4,17 +4,17 @@
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="19"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="23"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="30"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="34"/>
         <source>Height</source>
         <translation>Висота</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="82"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="91"/>
         <source>Autocrop</source>
         <translation>Autocrop</translation>
     </message>
@@ -22,7 +22,7 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="14"/>
+        <location filename="../frame/blurwidget.cpp" line="17"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="129"/>
+        <location filename="../widgets/colorpanel.cpp" line="136"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="155"/>
+        <location filename="../widgets/colorpanel.cpp" line="165"/>
         <source>Color</source>
         <translation>Колір</translation>
     </message>
@@ -55,34 +55,38 @@
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="87"/>
+        <source>Clip</source>
+        <translation type="unfinished">Clip</translation>
+    </message>
+    <message>
         <source>Cut</source>
-        <translation>Вирізати</translation>
+        <translation type="vanished">Вирізати</translation>
     </message>
 </context>
 <context>
     <name>CutWidget</name>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="16"/>
+        <location filename="../frame/cutwidget.cpp" line="18"/>
         <source>Rotate 90° CCW</source>
         <translation>Повернути на 90 ° CCW</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="22"/>
+        <location filename="../frame/cutwidget.cpp" line="24"/>
         <source>Rotate 90° CW</source>
         <translation>Повернути на 90 ° CW</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="29"/>
+        <location filename="../frame/cutwidget.cpp" line="31"/>
         <source>Clip</source>
         <translation>Clip</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="35"/>
+        <location filename="../frame/cutwidget.cpp" line="37"/>
         <source>Flip horizontally</source>
         <translation>Перевернути горизонтально</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="41"/>
+        <location filename="../frame/cutwidget.cpp" line="43"/>
         <source>Flip vertically</source>
         <translation>Перевернути вертикально</translation>
     </message>
@@ -117,17 +121,17 @@
 <context>
     <name>FillshapeWidget</name>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="20"/>
+        <location filename="../frame/fillshapewidget.cpp" line="27"/>
         <source>Fill</source>
         <translation>Заповнити</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="41"/>
+        <location filename="../frame/fillshapewidget.cpp" line="49"/>
         <source>Stroke</source>
         <translation>Stroke</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="45"/>
+        <location filename="../frame/fillshapewidget.cpp" line="53"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
@@ -135,17 +139,17 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="19"/>
+        <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Stroke</source>
         <translation>Stroke</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="31"/>
+        <location filename="../frame/linewidget.cpp" line="36"/>
         <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="65"/>
+        <location filename="../frame/linewidget.cpp" line="70"/>
         <source>Width</source>
         <translation>Ширина</translation>
     </message>
@@ -160,49 +164,50 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="207"/>
         <source>Pictures</source>
         <translation>Зображення</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="202"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="211"/>
         <source>Documents</source>
         <translation>Документи</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="206"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="215"/>
         <source>Downloads</source>
         <translation>Завантаження</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="210"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="219"/>
         <source>Desktop</source>
         <translation>Стільниця</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="214"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="223"/>
         <source>Videos</source>
         <translation>Відео</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="218"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="227"/>
         <source>Music</source>
         <translation>Музика</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="222"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="231"/>
         <source>Select other directories</source>
         <translation>Виберіть інші каталоги</translation>
     </message>
@@ -256,17 +261,17 @@
         <translation type="vanished">Відкрити каталог</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="171"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="291"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="300"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,48 +279,49 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4387"/>
         <source>Cut</source>
         <translation>Вирізати</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4388"/>
         <source>Copy</source>
         <translation>Скопіювати</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4393"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4431"/>
         <source>Paste</source>
         <translation>Вставити</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4403"/>
         <source>Delete</source>
         <translation>Видалити</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4405"/>
         <source>Raise Layer</source>
         <translation>Верхній шар</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4406"/>
         <source>Lower Layer</source>
         <translation>Нижній шар</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4407"/>
         <source>Layer to Top</source>
         <translation>Шар до гори</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4408"/>
         <source>Layer to Bottom</source>
         <translation>Шар донизу</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3818"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3826"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -416,12 +422,12 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="44"/>
+        <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Fill</source>
         <translation>Заповнити</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="49"/>
+        <location filename="../frame/textwidget.cpp" line="58"/>
         <source>Size</source>
         <translation>Розмір</translation>
     </message>
@@ -429,43 +435,43 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="46"/>
+        <location filename="../frame/toptoolbar.cpp" line="49"/>
         <source>Dimension</source>
         <translation>Вимірювання</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="51"/>
-        <location filename="../frame/toptoolbar.cpp" line="316"/>
+        <location filename="../frame/toptoolbar.cpp" line="54"/>
+        <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Import</source>
         <translation>Імпортувати</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="56"/>
+        <location filename="../frame/toptoolbar.cpp" line="59"/>
         <source>Rectangle</source>
         <translation>Прямокутник</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="61"/>
+        <location filename="../frame/toptoolbar.cpp" line="64"/>
         <source>Ellipse</source>
         <translation>Овал</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="66"/>
+        <location filename="../frame/toptoolbar.cpp" line="69"/>
         <source>Pencil</source>
         <translation>Олівець</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="71"/>
+        <location filename="../frame/toptoolbar.cpp" line="74"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="76"/>
+        <location filename="../frame/toptoolbar.cpp" line="79"/>
         <source>Blur</source>
         <translation>Розмити</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="81"/>
+        <location filename="../frame/toptoolbar.cpp" line="84"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -474,33 +480,33 @@
         <translation type="vanished">Вибрано</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="88"/>
-        <location filename="../frame/toptoolbar.cpp" line="318"/>
+        <location filename="../frame/toptoolbar.cpp" line="91"/>
+        <location filename="../frame/toptoolbar.cpp" line="329"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="216"/>
+        <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="319"/>
+        <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Print</source>
         <translation>Друк</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="321"/>
+        <location filename="../frame/toptoolbar.cpp" line="332"/>
         <source>Dark theme</source>
         <translation>Темна тема</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="323"/>
+        <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>Допомога</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="328"/>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>Deepin Draw - легкий інструмент для малювання. Ви можете вільно малювати шар або просто редагувати зображення.</translation>
     </message>
