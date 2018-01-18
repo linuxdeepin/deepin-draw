@@ -154,40 +154,6 @@ void ShapesWidget::initMenu()
 {
     m_menu = new QMenu(this);
     m_menu->setFocusPolicy(Qt::StrongFocus);
-    QAction* cutAc = m_menu->addAction(tr("Cut"));
-    QAction* copyAc = m_menu->addAction(tr("Copy"));
-    QAction* pasteAc = m_menu->addAction(tr("Paste"));
-    m_menu->addSeparator();
-    QAction* delAc = m_menu->addAction(tr("Delete"));
-//    QAction* unDoAc = m_menu->addAction(tr("Undo"));
-    m_menu->addSeparator();
-    QAction* upLayerAc = m_menu->addAction(tr("Raise Layer"));
-    QAction* downLayerAc = m_menu->addAction(tr("Lower Layer"));
-    QAction* topLayerAc = m_menu->addAction(tr("Layer to Top"));
-    QAction* btmLayerAc = m_menu->addAction(tr("Layer to Bottom"));
-
-    connect(copyAc, &QAction::triggered, this, &ShapesWidget::copyShape);
-    connect(cutAc, &QAction::triggered, this, &ShapesWidget::cutShape);
-    connect(pasteAc, &QAction::triggered, this, [=]{
-        QPoint startPos = QPoint(0, 0);
-        startPos = mapToGlobal(startPos);
-        QPoint cursorPos =  QPoint(m_menu->pos());
-        cursorPos = mapToGlobal(cursorPos);
-        pasteShape(QPoint(cursorPos.x() - 2*startPos.x(), cursorPos.y() - 2*startPos.y()));
-    });
-    connect(delAc, &QAction::triggered, this, &ShapesWidget::deleteCurrentShape);
-    connect(upLayerAc, &QAction::triggered, this, [=]{
-        layerSwitch(LayerDirection::UpLayer);
-    });
-    connect(downLayerAc, &QAction::triggered, this, [=]{
-        layerSwitch(LayerDirection::DownLayer);
-    });
-    connect(topLayerAc, &QAction::triggered, this, [=]{
-        layerSwitch(LayerDirection::TopLayer);
-    });
-    connect(btmLayerAc, &QAction::triggered, this, [=]{
-        layerSwitch(LayerDirection::BottomLayer);
-    });
 }
 
 ShapesWidget::~ShapesWidget()
@@ -1922,7 +1888,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
         if (e->button() == Qt::RightButton)
         {
-            m_menu->popup(this->cursor().pos());
+            popupMenu(this->cursor().pos());
             return;
         }
         //Initialize the scale of the drawing board.
@@ -2097,7 +2063,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                         qDebug() << "the textEdit index:" << m_selectedOrder << edit->getIndex();
                     });
                     connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
-                        m_menu->popup(this->cursor().pos());
+                        popupMenu(this->cursor().pos());
                     });
                     appendShape(m_currentShape);
                     qDebug() << "Insert text shape:" << m_currentShape.index;
@@ -2133,7 +2099,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
 
     if (e->button() == Qt::RightButton)
     {
-        m_menu->popup(mapToGlobal(e->pos()));
+        popupMenu(mapToGlobal(e->pos()));
     }
 
     if (m_imageCutting)
@@ -4398,7 +4364,7 @@ void ShapesWidget::pasteShape(QPoint pos)
              setAllTextEditReadOnly();
         });
         connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
-            m_menu->popup(this->cursor().pos());
+            popupMenu(this->cursor().pos());
         });
     }
 
@@ -4407,10 +4373,74 @@ void ShapesWidget::pasteShape(QPoint pos)
     m_selectedOrder = m_shapes.length() - 1;
     m_stickSelectedShape = m_shapes[m_selectedOrder];
     qDebug() << "pasteShape:" << m_selectedOrder;
-
+    shapePressed("selected");
     setAllTextEditReadOnly();
     compressToImage();
     update();
+}
+
+void ShapesWidget::popupMenu(const QPoint &pos)
+{
+    m_menu->clear();
+    if (m_selectedOrder != -1)
+    {
+        QAction* cutAc = m_menu->addAction(tr("Cut"));
+        QAction* copyAc = m_menu->addAction(tr("Copy"));
+        QClipboard *clipboard = QApplication::clipboard();
+        Toolshape shape = getShapeInfoFromJsonStr(clipboard->text());
+        if (!shape.type.isEmpty())
+        {
+            QAction* pasteAc = m_menu->addAction(tr("Paste"));
+            connect(pasteAc, &QAction::triggered, this, [=]{
+                QPoint startPos = QPoint(0, 0);
+                startPos = mapToGlobal(startPos);
+                QPoint cursorPos =  QPoint(m_menu->pos());
+                cursorPos = mapToGlobal(cursorPos);
+                pasteShape(QPoint(cursorPos.x() - 2*startPos.x(), cursorPos.y() - 2*startPos.y()));
+            });
+        }
+        m_menu->addSeparator();
+        QAction* delAc = m_menu->addAction(tr("Delete"));
+        m_menu->addSeparator();
+        QAction* upLayerAc = m_menu->addAction(tr("Raise Layer"));
+        QAction* downLayerAc = m_menu->addAction(tr("Lower Layer"));
+        QAction* topLayerAc = m_menu->addAction(tr("Layer to Top"));
+        QAction* btmLayerAc = m_menu->addAction(tr("Layer to Bottom"));
+
+        connect(copyAc, &QAction::triggered, this, &ShapesWidget::copyShape);
+        connect(cutAc, &QAction::triggered, this, &ShapesWidget::cutShape);
+
+        connect(delAc, &QAction::triggered, this, &ShapesWidget::deleteCurrentShape);
+        connect(upLayerAc, &QAction::triggered, this, [=]{
+            layerSwitch(LayerDirection::UpLayer);
+        });
+        connect(downLayerAc, &QAction::triggered, this, [=]{
+            layerSwitch(LayerDirection::DownLayer);
+        });
+        connect(topLayerAc, &QAction::triggered, this, [=]{
+            layerSwitch(LayerDirection::TopLayer);
+        });
+        connect(btmLayerAc, &QAction::triggered, this, [=]{
+            layerSwitch(LayerDirection::BottomLayer);
+        });
+    } else {
+        QClipboard *clipboard = QApplication::clipboard();
+        Toolshape shape = getShapeInfoFromJsonStr(clipboard->text());
+        if (!shape.type.isEmpty())
+        {
+            QAction* pasteAc = m_menu->addAction(tr("Paste"));
+            connect(pasteAc, &QAction::triggered, this, [=]{
+                QPoint startPos = QPoint(0, 0);
+                startPos = mapToGlobal(startPos);
+                QPoint cursorPos =  QPoint(m_menu->pos());
+                cursorPos = mapToGlobal(cursorPos);
+                pasteShape(QPoint(cursorPos.x() - 2*startPos.x(), cursorPos.y() - 2*startPos.y()));
+            });
+        }
+    }
+
+    if (!m_menu->isEmpty())
+        m_menu->popup(pos);
 }
 
 void ShapesWidget::resizeArtboardByDrag(QPointF pos)

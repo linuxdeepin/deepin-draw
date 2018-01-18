@@ -113,6 +113,7 @@ public:
     void copyShape();
     void cutShape();
     void pasteShape(QPoint pos = QPoint(0, 0));
+    void popupMenu(const QPoint &pos);
     void resizeArtboardByDrag(QPointF pos);
     void appendShape(Toolshape shape);
     void updateSizeByAutoCrop();
