@@ -2895,8 +2895,8 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
             }
         }
 
-        paintSelectedRect(painter, shape.mainPoints);
-        paintSelectedRectPoints(painter, shape.mainPoints, noRotatePoint);
+        paintSelectedRect(painter, shape);
+        paintSelectedRectPoints(painter, shape, noRotatePoint);
     } else if (shape.type == "arrow" || shape.type == "straightLine")
     {
         if (shape.points.length() == 2)
@@ -2919,7 +2919,7 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
             painter.setPen(selectedPen);
         else
             painter.setPen(dragPen);
-        paintSelectedRect(painter, shape.mainPoints);
+        paintSelectedRect(painter, shape);
     }
 }
 
@@ -3129,13 +3129,13 @@ void ShapesWidget::paintHoveredShape(QPainter &painter, Toolshape shape)
     }
 }
 
-void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
+void ShapesWidget::paintSelectedRect(QPainter &painter, Toolshape shape)
 {
     painter.setBrush(QBrush(Qt::transparent));
-    FourPoints rectFPoints =  mainPoints;
+    FourPoints rectFPoints =  shape.mainPoints;
     QPainterPath rectPath;
 
-    qreal tmpRation = m_resizeRation;
+    qreal tmpRation = shape.scaledRation;
     rectPath.moveTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
     rectPath.lineTo(rectFPoints[1].x()*tmpRation, rectFPoints[1].y()*tmpRation);
     rectPath.lineTo(rectFPoints[3].x()*tmpRation, rectFPoints[3].y()*tmpRation);
@@ -3147,14 +3147,19 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, FourPoints mainPoints)
 }
 
 void ShapesWidget::paintSelectedRectPoints(QPainter &painter,
-                                           FourPoints mainPoints, bool noRotatePoint)
+                                           Toolshape shape, bool noRotatePoint)
 {
     if (noRotatePoint)
         return;
-    FourPoints mainRationPoints = mainPoints;
-    for(int i = 0; i < mainPoints.length(); i++)
+
+    FourPoints mainRationPoints;
+    mainRationPoints = initFourPoints(mainRationPoints);
+    qreal tmpRation = shape.scaledRation;
+
+    for(int i = 0; i < shape.mainPoints.length(); i++)
     {
-        mainRationPoints[i] = QPointF(mainPoints[i].x(), mainPoints[i].y());
+        mainRationPoints[i] = QPointF(shape.mainPoints[i].x()*tmpRation,
+                                                            shape.mainPoints[i].y()*tmpRation);
     }
 
     QPointF rotatePoint = getRotatePoint(mainRationPoints[0], mainRationPoints[1],
@@ -3658,6 +3663,8 @@ void ShapesWidget::updateCanvasSize()
     {
         m_needCompress = true;
         compressToImage();
+        m_selectedShape = m_shapes[m_selectedOrder];
+        m_stickSelectedShape = m_selectedShape;
         update();
     }
 }

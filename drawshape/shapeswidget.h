@@ -165,8 +165,8 @@ private:
 
     void paintShape(QPainter &painter, Toolshape shape, bool saveTo, bool selected = false);
     void paintHoveredShape(QPainter &painter, Toolshape shape);
-    void paintSelectedRect(QPainter &painter, FourPoints mainPoints);
-    void paintSelectedRectPoints(QPainter &painter, FourPoints mainPoints,
+    void paintSelectedRect(QPainter &painter, Toolshape shape);
+    void paintSelectedRectPoints(QPainter &painter, Toolshape shape,
                                  bool noRotatePoint = false);
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter,  Toolshape shape, bool saveTo);
