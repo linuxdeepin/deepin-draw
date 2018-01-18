@@ -293,12 +293,12 @@ void ShapesWidget::updateSelectedShape(const QString &group,
         }
     }
 
-    if (updateSelectedShape)
+    if (m_selectedOrder != -1)
     {
         m_needCompress = true;
         compressToImage();
         update();
-        m_needCompress = false;
+//        m_needCompress = false;
     }
 }
 
@@ -508,6 +508,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         qDebug() << "clickedOnShapes length:" << m_shapes.length();
         return onShapes;
     }
+
     m_selectedOrder = -1;
     for (int i = m_shapes.length() - 1; i >= 0; i--)
    {
@@ -670,11 +671,12 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             m_selectedShape = m_shapes[i];
             m_selectedIndex = m_shapes[i].index;
             m_selectedOrder = i;
-
+            m_stickSelectedShape = m_shapes[i];
             qDebug() << "currentOnShape" << i << m_selectedIndex
                             << m_selectedOrder << m_shapes[i].type;
 
             onShapes = true;
+            update();
             break;
         } else
         {
@@ -687,17 +689,16 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         m_selectedIndex = -1;
         m_selectedOrder = -1;
         m_selectedShape.type = "";
+        m_stickSelectedShape.type = "";
         m_pressedPoint = QPointF(100, 100);
 
         if (m_currentShape.type == "text")
         {
-//            m_currentShape.type = "";
             m_clearAllTextBorder = true;
         }
         update();
     }
-
-    compressToImage();
+//    update();
     return onShapes;
 }
 
@@ -2122,10 +2123,12 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
         m_drawArtboardSize = false;
         resizeArtboardByDrag(e->pos());
     }
+
     if (e->button() == Qt::RightButton)
     {
         m_menu->popup(mapToGlobal(e->pos()));
     }
+
     if (m_imageCutting)
     {
         QPointF tmpPos = QPointF(m_cutShape.mainPoints[3].x(),
@@ -2136,9 +2139,11 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
-    if (m_selectedOrder != -1 && m_isPressed && m_isMoving)
+    if (m_selectedOrder != -1 && m_isPressed && m_isMoving) {
+        m_stickSelectedShape = m_shapes[m_selectedOrder];
         compressToImage();
-
+        update();
+    }
     m_isMoving = false;
     m_isPressed = false;
     m_isRotated = false;
@@ -2882,6 +2887,9 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool save
 void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
                                       bool noRotatePoint)
 {
+    if (shape.type.isEmpty())
+        return;
+
     QPen selectedPen;
     selectedPen.setColor(QColor("#01bdff"));
     selectedPen.setWidth(1);
@@ -2968,11 +2976,15 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     if (!m_imageCutting)
     {
         if (m_selectedOrder != -1 && m_selectedOrder < m_shapes.length()
-                && m_isMoving && m_isPressed)
+             /*&& m_isPressed*/)
         {
-            //paint the drag shape
             painter.setOpacity(1);
-            paintSelectedShape(painter, m_shapes[m_selectedOrder], true);
+
+            if (m_isMoving && m_isPressed)
+            {
+                paintSelectedShape(painter, m_shapes[m_selectedOrder], true);
+            }
+            paintSelectedShape(painter, m_stickSelectedShape);
         }
     }
 
@@ -2987,6 +2999,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         Toolshape drawShape;
         drawShape = m_currentShape;
         bool drawCutRect = false;
+
         if (m_currentType != "text")
         {
             if (m_currentType != "cutImage")
@@ -3327,6 +3340,7 @@ void ShapesWidget::dragEnterEvent(QDragEnterEvent* e)
 {
     e->accept();
 }
+
 void ShapesWidget::dropEvent(QDropEvent* e)
 {
     QList<QUrl> urls = e->mimeData()->urls();
@@ -3527,6 +3541,7 @@ void ShapesWidget::loadImage(QStringList paths)
     }
 
     m_selectedOrder = m_shapes.length() - 1;
+    m_stickSelectedShape = m_shapes[m_selectedOrder];
     m_isSelected = true;
     setCurrentShape("selected");
     emit updateMiddleWidgets("image");
@@ -3571,11 +3586,11 @@ void ShapesWidget::compressToImage()
 
     QPainter bgPainter(&m_bottomPixmap);
     bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    if (!m_imageCutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
-    {
-        bgPainter.setOpacity(1);
-        paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
-    }
+//    if (!m_imageCutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
+//    {
+//        bgPainter.setOpacity(1);
+//        paintSelectedShape(bgPainter, m_shapes[m_selectedOrder]);
+//    }
 
     if (m_beginGrabImage)
         m_BeforeCutBg = this->grab(this->rect());

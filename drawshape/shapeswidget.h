@@ -258,6 +258,7 @@ private:
 
     Toolshape m_cutShape;
     Toolshape m_currentShape;
+    Toolshape m_stickSelectedShape;
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
     Toolshape m_hangingShape;
