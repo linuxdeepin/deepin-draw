@@ -289,5 +289,8 @@ private:
     QSize m_originArtboardWindowSize;
     bool m_getOriginRation;
     bool m_resizeByAutoCrop;
+    bool m_updateClipboard;
+    int m_pasteCount;
+    QPointF m_pasteMovePoint;
 };
 #endif // SHAPESWIDGET_H

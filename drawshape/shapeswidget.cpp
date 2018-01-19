@@ -111,7 +111,9 @@ void ShapesWidget::initAttribute()
 
     m_drawArtboardSize = false;
     m_resizeByAutoCrop = false;
+    m_updateClipboard = false;
     m_artboardMainPoints = initFourPoints(m_artboardMainPoints);
+    m_pasteMovePoint = QPointF(0, 0);
 
     m_shapesIndex = -1;
     m_selectedIndex = -1;
@@ -119,7 +121,7 @@ void ShapesWidget::initAttribute()
     m_ration = 1;
     m_resizeRation = 1;
     m_cutImageOrder = -1;
-
+    m_pasteCount = -1;
     m_startPos = START_POINT;
     initCanvasSize();
 
@@ -4276,6 +4278,8 @@ void ShapesWidget::copyShape()
         QString copyInfo = getStringFromShape(m_shapes[m_selectedOrder]);
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(copyInfo, QClipboard::Clipboard);
+        m_updateClipboard = true;
+        m_pasteCount = -1;
     }
 }
 
@@ -4288,6 +4292,8 @@ void ShapesWidget::cutShape()
         QString cutInfo = getStringFromShape(m_shapes[m_selectedOrder]);
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(cutInfo, QClipboard::Clipboard);
+        m_updateClipboard = true;
+        m_pasteCount = -1;
         qDebug() << "Before:" << m_shapes.length();
         m_shapes.removeAt(m_selectedOrder);
         m_selectedOrder = -1;
@@ -4310,27 +4316,34 @@ void ShapesWidget::pasteShape(QPoint pos)
     m_shapesIndex += 1;
     m_hangingShape.index = m_shapesIndex;
 
-    QPointF movePos;
     if (pos == QPoint(0, 0)) {
-        if (m_hangingShape.mainPoints[0].x() > this->width()*5/6 ||
-                m_hangingShape.mainPoints[0].y() > this->height()*5/6) {
-            movePos = QPointF(-m_hangingShape.mainPoints[0].x() + 5,
-                    -m_hangingShape.mainPoints[0].y() + 5);
-        } else {
-            movePos = QPointF(30, 20);
+        if (m_updateClipboard)
+        {
+            m_pasteCount++;
+            m_updateClipboard = false;
         }
+        m_pasteCount++;
+        m_pasteMovePoint = QPointF(
+                    m_pasteMovePoint.x() + PIC_SPACING,
+                    m_pasteMovePoint.y() + PIC_SPACING
+                    );
+       if (m_hangingShape.mainPoints[0].x() + m_pasteMovePoint.x() > this->width()*5/6
+               || m_hangingShape.mainPoints[0].y() + m_pasteMovePoint.y() > this->height()*5/6)
+       {
+            m_pasteMovePoint = QPointF(
+                            -m_hangingShape.mainPoints[0].x() + m_pasteCount/10*PIC_SPACING,
+                            -m_hangingShape.mainPoints[0].y());
+       }
     } else  {
-        qDebug() << "m_hangingShape pos:" << pos;
-        movePos = QPointF(-m_hangingShape.mainPoints[0].x() + pos.x(),
-                -m_hangingShape.mainPoints[0].y() + pos.y());
-        qDebug() << "m_movePos:" << movePos;
+        m_pasteMovePoint = QPointF(-m_hangingShape.mainPoints[0].x() + pos.x(),
+                                                          -m_hangingShape.mainPoints[0].y() + pos.y());
     }
 
     for(int i = 0; i < m_hangingShape.mainPoints.length(); i++)
     {
         m_hangingShape.mainPoints[i] = QPointF(
-                    m_hangingShape.mainPoints[i].x() + movePos.x(),
-                    m_hangingShape.mainPoints[i].y() + movePos.y());
+                    m_hangingShape.mainPoints[i].x() + m_pasteMovePoint.x(),
+                    m_hangingShape.mainPoints[i].y() + m_pasteMovePoint.y());
         if (i == 0)
             qDebug() << "hanging:" << m_hangingShape.mainPoints[0];
     }
@@ -4338,8 +4351,8 @@ void ShapesWidget::pasteShape(QPoint pos)
     for(int j = 0; j < m_hangingShape.points.length(); j++)
     {
         m_hangingShape.points[j] = QPointF(
-                    m_hangingShape.points[j].x() + movePos.x(),
-                    m_hangingShape.points[j].y() + movePos.y());
+                    m_hangingShape.points[j].x() + m_pasteMovePoint.x(),
+                    m_hangingShape.points[j].y() + m_pasteMovePoint.y());
     }
 
     if (m_hangingShape.type == "text")
@@ -4376,7 +4389,6 @@ void ShapesWidget::pasteShape(QPoint pos)
     }
 
     appendShape(m_hangingShape);
-
     m_selectedOrder = m_shapes.length() - 1;
     m_stickSelectedShape = m_shapes[m_selectedOrder];
     m_isSelected = true;
