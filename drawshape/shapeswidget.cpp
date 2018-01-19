@@ -372,6 +372,8 @@ void ShapesWidget::clearSelected()
     m_selectedShape.points.clear();
     m_hoveredShape.points.clear();
     m_selectedOrder = -1;
+    m_selectedIndex = -1;
+    m_stickSelectedShape.type = "";
     compressToImage();
     update();
 }
@@ -638,10 +640,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
             emit updateMiddleWidgets(m_shapes[i].type);
             setAllTextEditReadOnly();
 
-            m_selectedShape = m_shapes[i];
-            m_selectedIndex = m_shapes[i].index;
-            m_selectedOrder = i;
-            m_stickSelectedShape = m_shapes[i];
+            selectedShape(i);
             qDebug() << "currentOnShape" << i << m_selectedIndex
                             << m_selectedOrder << m_shapes[i].type;
 
@@ -656,10 +655,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
 
     if (!onShapes)
     {
-        m_selectedIndex = -1;
-        m_selectedOrder = -1;
-        m_selectedShape.type = "";
-        m_stickSelectedShape.type = "";
+        clearSelected();
         m_pressedPoint = QPointF(100, 100);
 
         if (m_currentShape.type == "text")
@@ -1656,7 +1652,6 @@ void ShapesWidget::handleRotate(QPointF pos)
         showRotateDegreeLabel(angle);
     }
 
-    m_stickSelectedShape = m_shapes[m_selectedOrder];
     if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
     {
         if (m_isShiftPressed)
@@ -1726,7 +1721,6 @@ void ShapesWidget::handleRotate(QPointF pos)
                                                               m_selectedShape.points[k], angle);
     }
 
-    m_stickSelectedShape = m_shapes[m_selectedOrder];
     m_selectedShape.mainPoints = m_shapes[m_selectedOrder].mainPoints;
     m_hoveredShape.mainPoints =  m_shapes[m_selectedOrder].mainPoints;
     m_pressedPoint = pos;
@@ -1848,8 +1842,8 @@ void ShapesWidget::handleImageRotate(int degree)
     }
 
     m_stickSelectedShape = m_shapes[m_selectedOrder];
-    m_needCompress = true;
     compressToImage();
+    update();
 }
 
 void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
@@ -1950,9 +1944,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 clearSelected();
                 setAllTextEditReadOnly();
                 m_editing = false;
-                m_selectedIndex = -1;
-                m_selectedOrder = -1;
-                m_selectedShape.type = "";
                 return;
             }
         }
@@ -2073,7 +2064,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     qDebug() << "Insert text shape:" << m_currentShape.index;
                 } else {
                     m_editing = false;
-                    m_selectedOrder = -1;
+                    clearSelected();
                     setAllTextEditReadOnly();
                 }
             }
@@ -3403,9 +3394,6 @@ void ShapesWidget::deleteCurrentShape()
     {
         m_currentShape.mainPoints[i] = QPointF(0, 0);
     }
-
-    m_selectedIndex = -1;
-    m_selectedOrder = -1;
 }
 
 void ShapesWidget::undoDrawShapes()
@@ -3548,9 +3536,7 @@ void ShapesWidget::loadImage(QStringList paths)
         }
     }
 
-    m_selectedOrder = m_shapes.length() - 1;
-    m_stickSelectedShape = m_shapes[m_selectedOrder];
-    m_isSelected = true;
+    selectedShape(m_shapes.length() - 1);
     setCurrentShape("selected");
     emit updateMiddleWidgets("image");
 
@@ -4299,7 +4285,7 @@ void ShapesWidget::cutShape()
         m_pasteCount = -1;
         qDebug() << "Before:" << m_shapes.length();
         m_shapes.removeAt(m_selectedOrder);
-        m_selectedOrder = -1;
+        clearSelected();
         qDebug() << "After:" << m_shapes.length();
 
         compressToImage();
@@ -4392,9 +4378,7 @@ void ShapesWidget::pasteShape(QPoint pos)
     }
 
     appendShape(m_hangingShape);
-    m_selectedOrder = m_shapes.length() - 1;
-    m_stickSelectedShape = m_shapes[m_selectedOrder];
-    m_isSelected = true;
+    selectedShape(m_shapes.length() - 1);
     qDebug() << "pasteShape:" << m_selectedOrder;
     shapePressed("selected");
     setAllTextEditReadOnly();
@@ -4466,6 +4450,18 @@ void ShapesWidget::popupMenu(const QPoint &pos)
         m_menu->popup(pos);
 }
 
+void ShapesWidget::selectedShape(int order)
+{
+    if (order < m_shapes.length())
+    {
+        m_selectedOrder = order;
+        m_selectedShape = m_shapes[m_selectedOrder];
+        m_stickSelectedShape = m_shapes[m_selectedOrder];
+        m_selectedIndex = m_shapes[m_selectedOrder].index;
+        m_isSelected = true;
+    }
+}
+
 void ShapesWidget::resizeArtboardByDrag(QPointF pos)
 {
     QPointF endPos =  pos;//mapToGlobal(e->pos());
@@ -4492,7 +4488,6 @@ void ShapesWidget::appendShape(Toolshape shape)
 void ShapesWidget::autoCrop()
 {
     qreal x1=width(), y1=height(), x2=0, y2=0;
-
     for(int i = 0; i < m_shapes.length(); i++)
     {
         //TODO: image's mainPoints
