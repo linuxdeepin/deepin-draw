@@ -140,6 +140,7 @@ private:
     void initShortcut();
     void initCanvasSize();
     void initMenu();
+    void initScaledRation();
 
     bool clickedOnShapes(QPointF pos);
     bool clickedOnImage(FourPoints rectPoints, QPointF pos);

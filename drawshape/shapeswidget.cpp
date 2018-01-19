@@ -122,6 +122,7 @@ void ShapesWidget::initAttribute()
     m_resizeRation = 1;
     m_cutImageOrder = -1;
     m_pasteCount = -1;
+    m_lastRation = 1;
     m_startPos = START_POINT;
     initCanvasSize();
 
@@ -156,6 +157,21 @@ void ShapesWidget::initMenu()
 {
     m_menu = new QMenu(this);
     m_menu->setFocusPolicy(Qt::StrongFocus);
+}
+
+void ShapesWidget::initScaledRation()
+{
+    if (!m_getOriginRation)
+    {
+        int tmpWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
+        int tmpHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
+        m_originArtboardSize = QSize(tmpWidth, tmpHeight);
+        m_originArtboardWindowSize = this->size();
+        m_ration = qreal(tmpWidth)/qreal(this->width());
+        qDebug() << "Get origin ration:" << m_ration;
+        m_getOriginRation = true;
+        m_lastRation = m_ration;
+    }
 }
 
 ShapesWidget::~ShapesWidget()
@@ -1890,17 +1906,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
             return;
         }
         //Initialize the scale of the drawing board.
-        if (!m_getOriginRation)
-        {
-            int tmpWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-            int tmpHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-            m_originArtboardSize = QSize(tmpWidth, tmpHeight);
-            m_originArtboardWindowSize = this->size();
-            m_ration = qreal(tmpWidth)/qreal(this->width());
-            qDebug() << "Get origin ration:" << m_ration;
-            m_getOriginRation = true;
-            m_lastRation = m_ration;
-        }
+        initScaledRation();
 
         /*Determin whether a cropped box exist, if there is an indication
          *that it  is currently in the clipping state, enter to redrawing the
@@ -2773,7 +2779,6 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool save
 {
     QPixmap pixmap = QPixmap::fromImage(QImage(imageShape.imagePath).
                                         mirrored(imageShape.isHorFlip, imageShape.isVerFlip));
-
     qreal tmpRation = imageShape.scaledRation;
     if (saveTo)
         tmpRation = m_lastRation*imageShape.scaledRation;
@@ -2782,7 +2787,6 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool save
                                                   imageShape.mainPoints[0].y()*tmpRation);
     QSize imgSize = QSize(imageShape.imageSize.width()*tmpRation,
                                            imageShape.imageSize.height()*tmpRation);
-
     pixmap = pixmap.scaled(imgSize, Qt::IgnoreAspectRatio);
     qreal rotateAngle =  imageShape.rotate;
     QMatrix matrix;
@@ -2792,7 +2796,6 @@ void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool save
 
     int degree = int(imageShape.rotate*180/M_PI)%360;
     qreal angle = degree*M_PI/180;
-    qDebug() << "image rotate angle:" << angle;
 
     if (imageShape.rotate == 0)
     {
@@ -3540,9 +3543,9 @@ void ShapesWidget::loadImage(QStringList paths)
     selectedShape(m_shapes.length() - 1);
     setCurrentShape("selected");
     emit updateMiddleWidgets("image");
-
+    initScaledRation();
     qDebug() << "load image finished, compress image begins!";
-     compressToImage();
+    compressToImage();
 }
 
 void ShapesWidget::compressToImage()
@@ -3669,14 +3672,7 @@ void ShapesWidget::updateSizeByAutoCrop()
     m_getOriginRation = false;
     if (!m_getOriginRation)
     {
-        int tmpWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-        int tmpHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-        m_originArtboardSize = QSize(tmpWidth, tmpHeight);
-        m_originArtboardWindowSize = this->size();
-        m_ration = qreal(tmpWidth)/qreal(this->width());
-        qDebug() << "GetOrigin ration:" << m_ration << tmpWidth << this->width();
-        m_getOriginRation = true;
-        m_lastRation = m_ration;
+       initScaledRation();
 
         if (m_ration > 1)
         {
