@@ -4,17 +4,17 @@
 <context>
     <name>AdjustsizeWidget</name>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="19"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="23"/>
         <source>Width</source>
         <translation>Šířka</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="30"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="34"/>
         <source>Height</source>
         <translation>Výška</translation>
     </message>
     <message>
-        <location filename="../frame/adjustsizewidget.cpp" line="82"/>
+        <location filename="../frame/adjustsizewidget.cpp" line="91"/>
         <source>Autocrop</source>
         <translation>Ořezat automaticky</translation>
     </message>
@@ -22,7 +22,7 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="14"/>
+        <location filename="../frame/blurwidget.cpp" line="17"/>
         <source>Width</source>
         <translation>Šířka</translation>
     </message>
@@ -30,12 +30,12 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="129"/>
+        <location filename="../widgets/colorpanel.cpp" line="136"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="155"/>
+        <location filename="../widgets/colorpanel.cpp" line="165"/>
         <source>Color</source>
         <translation>Barva</translation>
     </message>
@@ -55,34 +55,38 @@
     </message>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="87"/>
+        <source>Clip</source>
+        <translation type="unfinished">Zastřihnout</translation>
+    </message>
+    <message>
         <source>Cut</source>
-        <translation>Vyjmout</translation>
+        <translation type="vanished">Vyjmout</translation>
     </message>
 </context>
 <context>
     <name>CutWidget</name>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="16"/>
+        <location filename="../frame/cutwidget.cpp" line="18"/>
         <source>Rotate 90° CCW</source>
         <translation>Otočit o 90° doleva</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="22"/>
+        <location filename="../frame/cutwidget.cpp" line="24"/>
         <source>Rotate 90° CW</source>
         <translation>Otočit o 90° doprava</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="29"/>
+        <location filename="../frame/cutwidget.cpp" line="31"/>
         <source>Clip</source>
         <translation>Zastřihnout</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="35"/>
+        <location filename="../frame/cutwidget.cpp" line="37"/>
         <source>Flip horizontally</source>
         <translation>Převrátit vodorovně</translation>
     </message>
     <message>
-        <location filename="../frame/cutwidget.cpp" line="41"/>
+        <location filename="../frame/cutwidget.cpp" line="43"/>
         <source>Flip vertically</source>
         <translation>Převrátit svisle</translation>
     </message>
@@ -117,17 +121,17 @@
 <context>
     <name>FillshapeWidget</name>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="20"/>
+        <location filename="../frame/fillshapewidget.cpp" line="27"/>
         <source>Fill</source>
         <translation>Vyplnit</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="41"/>
+        <location filename="../frame/fillshapewidget.cpp" line="49"/>
         <source>Stroke</source>
         <translation>Tah</translation>
     </message>
     <message>
-        <location filename="../frame/fillshapewidget.cpp" line="45"/>
+        <location filename="../frame/fillshapewidget.cpp" line="53"/>
         <source>Width</source>
         <translation>Šířka</translation>
     </message>
@@ -135,17 +139,17 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="19"/>
+        <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Stroke</source>
         <translation>Tah</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="31"/>
+        <location filename="../frame/linewidget.cpp" line="36"/>
         <source>Style</source>
         <translation>Styl</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="65"/>
+        <location filename="../frame/linewidget.cpp" line="70"/>
         <source>Width</source>
         <translation>Šířka</translation>
     </message>
@@ -160,49 +164,50 @@
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="39"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="207"/>
         <source>Pictures</source>
         <translation>Obrázky</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="202"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="211"/>
         <source>Documents</source>
         <translation>Dokumenty</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="51"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="206"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="215"/>
         <source>Downloads</source>
         <translation>Stažené</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="210"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="219"/>
         <source>Desktop</source>
         <translation>Plocha</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="214"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="223"/>
         <source>Videos</source>
         <translation>Obrazy</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="52"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="218"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="227"/>
         <source>Music</source>
         <translation>Hudba</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="53"/>
         <location filename="../widgets/dialog/savedialog.cpp" line="114"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="222"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="231"/>
         <source>Select other directories</source>
         <translation>Vybrat jiné adresáře</translation>
     </message>
@@ -256,17 +261,17 @@
         <translation type="vanished">Otevřít adresář</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="171"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="173"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="291"/>
+        <location filename="../widgets/dialog/savedialog.cpp" line="300"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,48 +279,49 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="154"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4387"/>
         <source>Cut</source>
         <translation>Vyjmout</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="155"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4388"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="156"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4393"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4431"/>
         <source>Paste</source>
         <translation>Vložit</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="158"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4403"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="161"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4405"/>
         <source>Raise Layer</source>
         <translation>Dát vrstvu nahoru</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="162"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4406"/>
         <source>Lower Layer</source>
         <translation>Dát vrstvu dolů</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="163"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4407"/>
         <source>Layer to Top</source>
         <translation>Dát vrstvu úplně nahoru</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="164"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4408"/>
         <source>Layer to Bottom</source>
         <translation>Dát vrstvu úplně dolů</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="3773"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="3780"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3818"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3826"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -416,12 +422,12 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="44"/>
+        <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Fill</source>
         <translation>Vyplnit</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="49"/>
+        <location filename="../frame/textwidget.cpp" line="58"/>
         <source>Size</source>
         <translation>Velikost</translation>
     </message>
@@ -429,43 +435,43 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="46"/>
+        <location filename="../frame/toptoolbar.cpp" line="49"/>
         <source>Dimension</source>
         <translation>Rozměry</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="51"/>
-        <location filename="../frame/toptoolbar.cpp" line="316"/>
+        <location filename="../frame/toptoolbar.cpp" line="54"/>
+        <location filename="../frame/toptoolbar.cpp" line="327"/>
         <source>Import</source>
         <translation>Zavést</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="56"/>
+        <location filename="../frame/toptoolbar.cpp" line="59"/>
         <source>Rectangle</source>
         <translation>Obdélník</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="61"/>
+        <location filename="../frame/toptoolbar.cpp" line="64"/>
         <source>Ellipse</source>
         <translation>Elipsa</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="66"/>
+        <location filename="../frame/toptoolbar.cpp" line="69"/>
         <source>Pencil</source>
         <translation>Tužka</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="71"/>
+        <location filename="../frame/toptoolbar.cpp" line="74"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="76"/>
+        <location filename="../frame/toptoolbar.cpp" line="79"/>
         <source>Blur</source>
         <translation>Rozmazat</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="81"/>
+        <location filename="../frame/toptoolbar.cpp" line="84"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -474,33 +480,33 @@
         <translation type="vanished">Vybráno</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="88"/>
-        <location filename="../frame/toptoolbar.cpp" line="318"/>
+        <location filename="../frame/toptoolbar.cpp" line="91"/>
+        <location filename="../frame/toptoolbar.cpp" line="329"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="216"/>
+        <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="319"/>
+        <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Print</source>
         <translation>Tisk</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="321"/>
+        <location filename="../frame/toptoolbar.cpp" line="332"/>
         <source>Dark theme</source>
         <translation>Tmavý vzhled</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="323"/>
+        <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="328"/>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
         <translation>Kreslení je jednoduchý kreslicí nástroj. Můžete volně kreslit ve vrstvě nebo provádět jednoduché úpravy obrázků.</translation>
     </message>
