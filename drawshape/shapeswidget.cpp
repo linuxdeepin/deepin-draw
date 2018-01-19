@@ -1656,6 +1656,7 @@ void ShapesWidget::handleRotate(QPointF pos)
         showRotateDegreeLabel(angle);
     }
 
+    m_stickSelectedShape = m_shapes[m_selectedOrder];
     if (m_selectedShape.type == "arrow" || m_selectedShape.type == "straightLine")
     {
         if (m_isShiftPressed)
@@ -1725,6 +1726,7 @@ void ShapesWidget::handleRotate(QPointF pos)
                                                               m_selectedShape.points[k], angle);
     }
 
+    m_stickSelectedShape = m_shapes[m_selectedOrder];
     m_selectedShape.mainPoints = m_shapes[m_selectedOrder].mainPoints;
     m_hoveredShape.mainPoints =  m_shapes[m_selectedOrder].mainPoints;
     m_pressedPoint = pos;
@@ -1837,8 +1839,7 @@ void ShapesWidget::handleImageRotate(int degree)
 
          QPointF centerInPoint = QPointF(
                      (m_shapes[m_selectedOrder].mainPoints[0].x() + m_shapes[m_selectedOrder].mainPoints[3].x())/2,
-                     (m_shapes[m_selectedOrder].mainPoints[0].y() + m_shapes[m_selectedOrder].mainPoints[3].y())/2
-                 );
+                     (m_shapes[m_selectedOrder].mainPoints[0].y() + m_shapes[m_selectedOrder].mainPoints[3].y())/2);
         for (int i = 0; i < 4; i++)
         {
             m_shapes[m_selectedOrder].mainPoints[i] = pointRotate(centerInPoint,
@@ -1846,6 +1847,7 @@ void ShapesWidget::handleImageRotate(int degree)
         }
     }
 
+    m_stickSelectedShape = m_shapes[m_selectedOrder];
     m_needCompress = true;
     compressToImage();
 }
@@ -2964,6 +2966,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
             {
                 paintSelectedShape(painter, m_shapes[m_selectedOrder], true);
             }
+
             paintSelectedShape(painter, m_stickSelectedShape);
         }
     }
