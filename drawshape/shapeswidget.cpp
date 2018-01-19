@@ -4379,6 +4379,7 @@ void ShapesWidget::pasteShape(QPoint pos)
 
     m_selectedOrder = m_shapes.length() - 1;
     m_stickSelectedShape = m_shapes[m_selectedOrder];
+    m_isSelected = true;
     qDebug() << "pasteShape:" << m_selectedOrder;
     shapePressed("selected");
     setAllTextEditReadOnly();
