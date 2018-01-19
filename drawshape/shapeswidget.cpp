@@ -2112,7 +2112,8 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e)
     m_isShiftPressed = GlobalShortcut::instance()->shiftSc();
     m_isAltPressed = GlobalShortcut::instance()->altSc();
 
-    if (m_selectedOrder != -1 && m_isPressed && m_isMoving) {
+    if (m_selectedOrder != -1 && m_isPressed && m_isMoving)
+    {
         m_stickSelectedShape = m_shapes[m_selectedOrder];
         compressToImage();
         update();
@@ -3654,8 +3655,11 @@ void ShapesWidget::updateCanvasSize()
     {
         m_needCompress = true;
         compressToImage();
-        m_selectedShape = m_shapes[m_selectedOrder];
-        m_stickSelectedShape = m_selectedShape;
+        if (m_selectedOrder != -1)
+        {
+            m_selectedShape = m_shapes[m_selectedOrder];
+            m_stickSelectedShape = m_selectedShape;
+        }
         update();
     }
 }

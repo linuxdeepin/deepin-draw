@@ -94,6 +94,34 @@ QPointF getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF p
         return rotatePoint;
     }
 
+    /* seventh position*/
+    if (point1.x() == point3.x() && point1.x() > point2.x())
+    {
+        leftPoint = QPointF(point1.x() + leftSplidPoint.x(), point1.y());
+        rightPoint = QPointF(point3.x() + rightSplidPoint.x(), point3.y());
+        rotatePoint = QPointF((leftPoint.x() + rightPoint.x())/2, (leftPoint.y() + rightPoint.y())/2);
+        return rotatePoint;
+    }
+
+    /* sixth position */
+    if (point1.x() == point2.x() && point1.x() > point3.x())
+    {
+        leftPoint = QPointF(point1.x(), point1.y() + leftSplidPoint.y());
+        rightPoint = QPointF(point3.x(), point3.y() + rightSplidPoint.y());
+        rotatePoint = QPointF((leftPoint.x() + rightPoint.x())/2, (leftPoint.y() + rightPoint.y())/2);
+        return rotatePoint;
+    }
+
+    /* eight position*/
+    if (point2.x() == point4.x() && point2.x() > point1.x())
+    {
+        leftPoint = QPointF(point1.x() - leftSplidPoint.x(), point1.y());
+        rightPoint = QPointF(point3.x() - rightSplidPoint.x(), point3.y());
+        rotatePoint = QPointF((leftPoint.x() + rightPoint.x())/2, (leftPoint.y() + rightPoint.y())/2);
+        return rotatePoint;
+    }
+    qDebug() << "Rotate shape failed!!";
+
     return rotatePoint;
 }
 
