@@ -15,5 +15,6 @@
         <file>theme/light/images/mouse_style/shape/mouse_oval.svg</file>
         <file>theme/light/images/mouse_style/shape/mouse_rectangle.svg</file>
         <file>theme/light/images/size/resize_handle_big.svg</file>
+        <file>theme/light/ShapesWidget.qss</file>
     </qresource>
 </RCC>

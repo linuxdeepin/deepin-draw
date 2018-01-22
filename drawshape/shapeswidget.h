@@ -49,7 +49,7 @@ signals:
     void saveBtnPressed(int index);
     void requestExit();
     void menuNoFocus();
-    void finishedDrawCut(QPointF pos);
+    void finishedDrawCut(QPointF pos, int tipsWidth);
     void updateMiddleWidgets(QString type);
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
@@ -78,7 +78,8 @@ public:
     void setAllTextEditReadOnly();
     void setFillShapeSelectedActive(bool selected);
     QString getLineStyle(int index);
-    void showCutImageTips(QPointF pos);
+    void showCutImageTips(QPointF pos, int tipsWidth);
+    void showCutSizeTips(FourPoints mainPoints);
     QList<QPixmap> saveCanvasImage();
     void saveImage();
     void printImage();
@@ -273,6 +274,7 @@ private:
     Toolshapes m_shapes;
     QList<QPointF> m_imagePosList;
     CutImageTips* m_cutImageTips;
+    QLabel*      m_cutSizeTips;
     TipsLabel*            m_degreeLabel;
     QDateTime m_lastUpdateTime;
 

@@ -1,26 +1,64 @@
+CutImageTips {
+    background-color: transparent;
+}
+
 QLabel#RationLabel {
-    background-color: rgba(255, 255, 255, 25);
-    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .3);
     border: 1px solid transparent;
+    border-radius: 4px;
 }
 
 RationButton{
     background-color: transparent;
     border: 1px solid transparent;
-    border-radius: 4px;
-    color: white;
+    color: rgba(255, 255, 255, .8);
 }
 
 RationButton:hover {
-    background-color: rgba(255, 255, 255, 50);
+    background-color: rgba(0, 0, 0, .2);
     border: 1px solid transparent;
     border-radius: 4px;
-    color: white;
+    color: rgba(255, 255, 255, .8);
 }
 
 RationButton:checked {
-    background-color: rgba(255, 255, 255, 100);
+    background-color: rgba(0, 0, 0, .4);
     border: 1px solid transparent;
     border-radius: 4px;
     color: rgb(25, 169, 255);
+}
+
+RationButton#ClipBtn {
+    background-color: qlineargradient(y0:0, y1:1,
+    stop: 0  #079dff, stop : 1 #3ac1ff);
+    color: white;
+    border-radius: 3px;
+}
+
+RationButton#ClipBtn:hover {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 #6EC9FF, stop: 1.0 #2DA9F6);
+    color: white;
+    border-radius: 3px;
+}
+
+RationButton#CancelBtn {
+    background-color: rgba(0, 0, 0, .3);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, .8);
+}
+
+RationButton#CancelBtn:hover {
+    background-color: rgba(0, 0, 0, .4);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 1);
+}
+
+RationButton#CancelBtn:hover {
+    background-color: rgba(0, 0, 0, .4);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #2ca7f8;
 }

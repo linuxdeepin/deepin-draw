@@ -7,14 +7,14 @@
 #include "utils/global.h"
 #include "utils/configsettings.h"
 
-const QSize RATIONLABEL_SIZE = QSize(160, 24);
-
+const QSize RATIONLABEL_SIZE = QSize(150, 24);
+const QSize RATION_MINI_SIZE = QSize(400, 24);
+const int COORDINATE_Y = 5;
 CutImageTips::CutImageTips(QWidget *parent)
-    : QDialog(parent)
+    : QLabel(parent)
 {
     DRAW_THEME_INIT_WIDGET("CutImageTips");
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
+    setMinimumSize(RATION_MINI_SIZE);
 
     QString defaultRation = ConfigSettings::instance()->value("cut",
                                                               "ration").toString();
@@ -75,6 +75,7 @@ CutImageTips::CutImageTips(QWidget *parent)
     });
 
     m_cancelBtn = new RationButton(this);
+    m_cancelBtn->setObjectName("CancelBtn");
     m_cancelBtn->setFixedSize(60, 24);
     m_cancelBtn->setText(tr("Cancel"));
     m_cancelBtn->setCheckable(false);
@@ -83,6 +84,7 @@ CutImageTips::CutImageTips(QWidget *parent)
     });
 
     m_okBtn = new RationButton(this);
+    m_okBtn->setObjectName("ClipBtn");
     m_okBtn->setFixedSize(60, 24);
     m_okBtn->setText(tr("Clip"));
     m_okBtn->setChecked(true);
@@ -90,7 +92,7 @@ CutImageTips::CutImageTips(QWidget *parent)
         emit cutAction();
     });
 
-    QHBoxLayout* rationLayout = new QHBoxLayout;
+    QHBoxLayout* rationLayout = new QHBoxLayout(rationLabel);
     rationLayout->setMargin(0);
     rationLayout->setSpacing(0);
     rationLayout->addWidget(scaledABtn);
@@ -98,17 +100,17 @@ CutImageTips::CutImageTips(QWidget *parent)
     rationLayout->addWidget(scaledCBtn);
     rationLayout->addWidget(scaledDBtn);
     rationLayout->addWidget(scaledEBtn);
-    rationLabel->setLayout(rationLayout);
 
-    QHBoxLayout* tipsLayout = new QHBoxLayout;
-    tipsLayout->setMargin(0);
-    tipsLayout->setSpacing(0);
-    tipsLayout->addWidget(rationLabel);
-    tipsLayout->addSpacing(10);
-    tipsLayout->addWidget(m_cancelBtn);
-    tipsLayout->addSpacing(5);
-    tipsLayout->addWidget(m_okBtn);
-    setLayout(tipsLayout);
+    QHBoxLayout* mLayout = new QHBoxLayout(this);
+    mLayout->setMargin(0);
+    mLayout->setSpacing(0);
+    mLayout->addWidget(rationLabel);
+    mLayout->addStretch();
+    mLayout->addSpacing(10);
+    mLayout->addWidget(m_cancelBtn);
+    mLayout->addSpacing(5);
+    mLayout->addWidget(m_okBtn);
+    setLayout(mLayout);
 
     connect(this, &CutImageTips::cutRationChanged, this, &CutImageTips::setCutRation);
 }
@@ -147,7 +149,7 @@ void CutImageTips::keyReleaseEvent(QKeyEvent *e)
 //    QFrame::keyReleaseEvent(e);
 }
 
-void CutImageTips::showTips(QPoint pos)
+void CutImageTips::showTips(QPointF pos, int newWidth)
 {
     m_cancelBtn->setChecked(false);
     m_okBtn->setChecked(true);
@@ -160,9 +162,8 @@ void CutImageTips::showTips(QPoint pos)
             rationBtn->setChecked(true);
     }
 
-    QPoint tipPos = QPoint(pos.x() - this->width(), pos.y());
-
-    this->move(tipPos.x(), tipPos.y());
+    setFixedWidth(newWidth);
+    this->move(QPoint(pos.x(), pos.y() + COORDINATE_Y));
     this->show();
 }
 
@@ -182,7 +183,7 @@ void CutImageTips::setCutRation(CutRation ration)
         ConfigSettings::instance()->setValue("cut", "ration", "16:9");
         break;
     default:
-        ConfigSettings::instance()->setValue("cut", "ration", tr("free"));
+        ConfigSettings::instance()->setValue("cut", "ration", "free");
         break;
     }
 }

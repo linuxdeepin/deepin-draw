@@ -21,14 +21,14 @@ public:
     ~RationButton(){}
 };
 
-class CutImageTips : public QDialog
+class CutImageTips : public QLabel
 {
     Q_OBJECT
 public:
     CutImageTips(QWidget *parent = 0);
     ~CutImageTips();
 
-    void showTips(QPoint pos);
+    void showTips(QPointF pos, int newWidth);
     void setCutRation(CutRation ration);
 
 signals:
