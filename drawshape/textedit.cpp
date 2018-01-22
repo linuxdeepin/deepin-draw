@@ -124,15 +124,14 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
     bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
     if (activeMove)
     {
+        emit textEditSelected(getIndex());
         if (e->button() == Qt::RightButton)
         {
-            emit textEditSelected(getIndex());
             emit showMenuInTextEdit();
             return;
         }
 
         if (!this->isReadOnly()) {
-            emit textEditSelected(getIndex());
             QPlainTextEdit::mousePressEvent(e);
             return;
         }
@@ -140,10 +139,6 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
         if (e->button() == Qt::LeftButton) {
             m_isPressed = true;
             m_pressPoint = QPointF(mapToGlobal(e->pos()));
-
-            if (this->isReadOnly()) {
-                emit textEditSelected(getIndex());
-            }
         }
     }
     QPlainTextEdit::mousePressEvent(e);
@@ -154,6 +149,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
     bool activeMove = ConfigSettings::instance()->value("tools", "activeMove").toBool();
     if (activeMove)
     {
+        emit hoveredOnTextEdit(m_index);
         qApp->setOverrideCursor(Qt::ClosedHandCursor);
         QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
         QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());

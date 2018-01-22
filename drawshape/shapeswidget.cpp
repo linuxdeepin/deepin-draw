@@ -390,6 +390,8 @@ void ShapesWidget::clearSelected()
     m_selectedOrder = -1;
     m_selectedIndex = -1;
     m_stickSelectedShape.type = "";
+
+    setAllTextEditReadOnly();
     compressToImage();
     update();
 }
@@ -424,7 +426,7 @@ void ShapesWidget::setAllTextEditReadOnly()
     }
 
     m_editing = false;
-
+    m_clearAllTextBorder = true;
     for(int k = 0; k < m_shapes.length(); k++)
     {
         if (m_shapes[k].type == "text" && m_editMap.value(
@@ -490,6 +492,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         return onShapes;
     }
 
+    m_selectedOrder = -1;
     qDebug() << "clickedOnShapes:" << m_currentType << m_moveShape;
     if (m_shapes.length() == 0 || !m_moveShape)
     {
@@ -497,7 +500,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
         return onShapes;
     }
 
-    m_selectedOrder = -1;
+
     for (int i = m_shapes.length() - 1; i >= 0; i--)
    {
         bool currentOnShape = false;
@@ -614,6 +617,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 }
             }
         }
+
         if (m_shapes[i].type == "arbitraryCurve" || m_shapes[i].type == "blur")
         {
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos,
@@ -642,14 +646,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos)
                 }
             }
         }
-        if (m_shapes[i].type == "text")
-        {
-            if (clickedOnText(m_shapes[i].mainPoints, pos))
-            {
-                currentOnShape = true;
-                qDebug() << "clickedOnShapes ### text!!!" << i;
-            }
-        }
+//        if (m_shapes[i].type == "text")
+//        {
+//            if (clickedOnText(m_shapes[i].mainPoints, pos))
+//            {
+//                currentOnShape = true;
+//                qDebug() << "clickedOnShapes ### text!!!" << i;
+//            }
+//        }
 
         if (currentOnShape)
         {
@@ -2008,9 +2012,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                 if (m_generateBlurImage)
                     createBlurImage();
             } else if (m_currentType == "text") {
-                if (!m_editing && m_selectedOrder == -1) {
-                    m_clearAllTextBorder = false;
+                if (!m_editing) {
                     setAllTextEditReadOnly();
+                    m_clearAllTextBorder = false;
+
                     m_currentShape.mainPoints[0] = m_pressedPoint;
                     m_currentShape.index = m_currentIndex;
                     m_currentShape.fillColor =  m_brushColor;
@@ -2019,9 +2024,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
                     m_currentShape.fontSize =  m_textFontsize;
-                    edit->setFocus();
                     edit->setColor(m_brushColor);
                     edit->setFontSize(m_textFontsize);
+                    edit->setFocus();
                     edit->move(m_pressedPoint.x(), m_pressedPoint.y());
                     edit->show();
                     m_currentShape.mainPoints[0] = m_pressedPoint;
@@ -2037,10 +2042,18 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
                     });
+                    connect(edit, &TextEdit::hoveredOnTextEdit, this, [=](int index){
+                        for (int k = 0; k < m_shapes.length(); k++) {
+                            if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                                m_hoveredShape = m_shapes[k];
+                                m_hoveredIndex = index;
+                            }
+                        }
+                    });
                     connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                         for (int k = 0; k < m_shapes.length(); k++) {
                             if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                                m_selectedOrder = -1;
+                                selectedShape(k);
                                 if (edit->getTextColor() == QColor(Qt::transparent))
                                 {
                                     updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
@@ -2053,8 +2066,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                                 }
                                 m_brushColor = edit->getTextColor();
                                 updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
-                                m_selectedOrder = k;
-                                m_selectedShape = m_shapes[k];
                                 m_textFontsize = edit->fontSize();
                                 break;
                             }
@@ -2069,9 +2080,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     appendShape(m_currentShape);
                     qDebug() << "Insert text shape:" << m_currentShape.index;
                 } else {
+                    qDebug() << "finishing editing!";
                     m_editing = false;
                     clearSelected();
-                    setAllTextEditReadOnly();
                 }
             }
         } else {
@@ -2566,6 +2577,13 @@ void ShapesWidget::paintArbitraryCurve(QPainter &painter, Toolshape shape, bool 
 
 void ShapesWidget::paintText(QPainter &painter, Toolshape shape, bool saveTo)
 {
+    if (m_clearAllTextBorder)
+    {
+        qDebug() << "paintText clear all text border...";
+        return;
+    } else {
+        qDebug() << "++++++++++" << m_currentType << m_clearAllTextBorder << m_selectedOrder;
+    }
     //process text's zoom...
     Q_UNUSED(saveTo);
     QPen textPen;
@@ -2917,7 +2935,7 @@ void ShapesWidget::paintSelectedShape(QPainter &painter, Toolshape shape,
         if (!noRotatePoint)
             painter.setPen(selectedPen);
         else
-            painter.setPen(dragPen);
+            painter.setPen(selectedPen);
         paintSelectedRect(painter, shape);
     }
 }
@@ -2957,12 +2975,14 @@ void ShapesWidget::paintEvent(QPaintEvent *)
         {
             painter.setOpacity(1);
 
-            if (m_isMoving && m_isPressed)
+            if ((m_isMoving && m_isPressed) || m_shapes[m_selectedOrder].type == "text")
             {
+                qDebug() << "paint selected shape" << m_shapes[m_selectedOrder].type << m_selectedOrder;
                 paintSelectedShape(painter, m_shapes[m_selectedOrder], true);
             }
 
-            paintSelectedShape(painter, m_stickSelectedShape);
+            if (m_shapes[m_selectedOrder].type != "text")
+                paintSelectedShape(painter, m_stickSelectedShape);
         }
     }
 
@@ -3019,8 +3039,9 @@ void ShapesWidget::paintEvent(QPaintEvent *)
 
         qDebug() << "paint current shape:" << m_currentType << m_editing;
 
-        if (m_currentType != "cutImage")
+        if (m_currentShape.type != "cutImage")
         {
+            qDebug() << "paint current Type:" << m_currentType << m_editing;
             paintShape(painter, drawShape, false);
         } else
         {
@@ -3077,14 +3098,17 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape, bool saveTo, b
     } else if (shape.type == "straightLine")
     {
         paintStraightLine(painter, shape, saveTo);
-    } else if (shape.type == "text" && !m_clearAllTextBorder)
+    } else if (shape.type == "text")
     {
-        qDebug() << "------------------" << m_editing;
+        qDebug() << "------------------" << m_editing << m_clearAllTextBorder << m_selectedOrder;
         if (m_editMap.contains(shape.index))
         {
             if (!m_editMap[shape.index]->isReadOnly())
             {
+                qDebug() << "EditMap is Not readOnly!";
                 paintText(painter, shape, saveTo);
+            } else {
+                qDebug() << "EditMap is readOnly:" << m_editMap[shape.index]->isReadOnly();
             }
         }
     } else if (shape.type == "cutImage")

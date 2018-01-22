@@ -28,6 +28,9 @@ protected:
         } else if (e->key() == Qt::Key_Down)
         {
             emit reduceSize();
+        } else if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
+        {
+            emit editingFinished();
         }
 
         QLineEdit::keyPressEvent(e);

@@ -30,6 +30,7 @@ signals:
     void backToEditing();
     void textEditSelected(int index);
     void showMenuInTextEdit();
+    void hoveredOnTextEdit(int index);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
