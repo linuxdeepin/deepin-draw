@@ -141,7 +141,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
             m_pressPoint = QPointF(mapToGlobal(e->pos()));
         }
     }
-    QPlainTextEdit::mousePressEvent(e);
+//    QPlainTextEdit::mousePressEvent(e);
 }
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e)

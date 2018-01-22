@@ -2050,10 +2050,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                             }
                         }
                     });
-                    connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+                    connect(edit, &TextEdit::textEditSelected, this, [=](int index) {
+                        qDebug() << "textEdit selected index:" << index;
                         for (int k = 0; k < m_shapes.length(); k++) {
                             if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
                                 selectedShape(k);
+                                m_hoveredShape = m_shapes[m_selectedOrder];
+                                m_currentShape.type = "";
                                 if (edit->getTextColor() == QColor(Qt::transparent))
                                 {
                                     updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
@@ -4326,6 +4329,7 @@ void ShapesWidget::pasteShape(QPoint pos)
     if (m_hangingShape.type.isEmpty() || m_hangingShape.mainPoints.length() < 4)
         return;
 
+
     m_shapesIndex += 1;
     m_hangingShape.index = m_shapesIndex;
 
@@ -4336,16 +4340,32 @@ void ShapesWidget::pasteShape(QPoint pos)
             m_updateClipboard = false;
         }
         m_pasteCount++;
-        m_pasteMovePoint = QPointF(
-                    m_pasteMovePoint.x() + PIC_SPACING,
-                    m_pasteMovePoint.y() + PIC_SPACING
-                    );
+        if (m_hangingShape.type != "text")
+        {
+            m_pasteMovePoint = QPointF(
+                        m_pasteMovePoint.x() + PIC_SPACING,
+                        m_pasteMovePoint.y() + PIC_SPACING
+                        );
+        } else {
+            m_pasteMovePoint = QPointF(
+                        m_pasteMovePoint.x() + PIC_SPACING,
+                        m_pasteMovePoint.y() + PIC_SPACING + std::abs(
+                        m_hangingShape.mainPoints[3].y() - m_hangingShape.mainPoints[0].y()));
+        }
        if (m_hangingShape.mainPoints[0].x() + m_pasteMovePoint.x() > this->width()*5/6
                || m_hangingShape.mainPoints[0].y() + m_pasteMovePoint.y() > this->height()*5/6)
        {
-            m_pasteMovePoint = QPointF(
-                            -m_hangingShape.mainPoints[0].x() + m_pasteCount/10*PIC_SPACING,
-                            -m_hangingShape.mainPoints[0].y());
+           if (m_hangingShape.type != "text")
+           {
+               m_pasteMovePoint = QPointF(
+                               -m_hangingShape.mainPoints[0].x() + m_pasteCount/10*PIC_SPACING,
+                               -m_hangingShape.mainPoints[0].y());
+           } else {
+               m_pasteMovePoint = QPointF(
+                               -m_hangingShape.mainPoints[0].x() + m_pasteCount/10*PIC_SPACING,
+                               -m_hangingShape.mainPoints[0].y() + PIC_SPACING + std::abs(
+                           m_hangingShape.mainPoints[3].y() - m_hangingShape.mainPoints[0].y()));
+           }
        }
     } else  {
         m_pasteMovePoint = QPointF(-m_hangingShape.mainPoints[0].x() + pos.x(),
@@ -4382,19 +4402,45 @@ void ShapesWidget::pasteShape(QPoint pos)
             m_hangingShape.mainPoints[0].y()));
         edit->show();
         m_editMap.insert(m_shapesIndex, edit);
+
         connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
         connect(edit, &TextEdit::backToEditing, this, [=]{
             m_editing = true;
         });
-        connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+        connect(edit, &TextEdit::hoveredOnTextEdit, this, [=](int index){
             for (int k = 0; k < m_shapes.length(); k++) {
-                 if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                     m_selectedOrder = index;
-                     m_selectedShape = m_shapes[k];
-                     break;
-                 }
-             }
-             setAllTextEditReadOnly();
+                if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                    m_hoveredShape = m_shapes[k];
+                    m_hoveredIndex = index;
+                }
+            }
+        });
+        connect(edit, &TextEdit::textEditSelected, this, [=](int index) {
+            qDebug() << "textEdit selected index:" << index;
+            for (int k = 0; k < m_shapes.length(); k++) {
+                if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                    selectedShape(k);
+                    m_hoveredShape = m_shapes[m_selectedOrder];
+                    m_currentShape.type = "";
+                    if (edit->getTextColor() == QColor(Qt::transparent))
+                    {
+                        updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
+                    } else {
+                        qreal colorAlpha = edit->getTextColor().alphaF();
+                        updateToSelectedShapeAttribute("text", "fillColor_alpha",
+                                                       int(colorAlpha*100));
+                        updateToSelectedShapeAttribute("text", "fillColor",
+                                                       edit->getTextColor().name(QColor::HexRgb));
+                    }
+                    m_brushColor = edit->getTextColor();
+                    updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
+                    m_textFontsize = edit->fontSize();
+                    break;
+                }
+            }
+
+            updateMiddleWidgets("text");
+            qDebug() << "the textEdit index:" << m_selectedOrder << edit->getIndex();
         });
         connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
             popupMenu(this->cursor().pos());
