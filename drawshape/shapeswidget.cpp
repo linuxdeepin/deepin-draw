@@ -4212,7 +4212,7 @@ void ShapesWidget::cutImage()
                                               m_shapes[imageIndex].imageSize.width(), m_startPos.y() +
                                               m_shapes[imageIndex].imageSize.height());
             m_needCompress = true;
-            m_selectedOrder = imageIndex;
+            selectedShape(imageIndex);
             compressToImage();
             setCurrentShape("selected");
 
