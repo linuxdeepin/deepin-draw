@@ -41,7 +41,7 @@ public:
     void updateLayout();
     void openImage(const QString &path);
     void updateCanvasSize(const QSize &size);
-    void initShapes(QList<Toolshape> shapes);
+    void initShapes(Toolshapes shapes);
     int shapeNum() const;
 
 protected:

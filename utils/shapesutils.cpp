@@ -4,6 +4,7 @@
 
 Toolshape::Toolshape()
 {
+    registerMetaType();
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
@@ -17,8 +18,9 @@ Toolshape::~Toolshape()
 
 void Toolshape::registerMetaType()
 {
-    qRegisterMetaType<Toolshape>();
-    qRegisterMetaType<FourPoints>();
+    qRegisterMetaType<Toolshape>("Toolshape");
+    qRegisterMetaType<Toolshapes>("Toolshapes");
+    qRegisterMetaType<FourPoints>("FourPoints");
 }
 
 const QPointF Toolshape::topLeftPointF()

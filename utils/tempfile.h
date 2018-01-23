@@ -18,12 +18,12 @@ public:
                           const QString &imageFormat = "PNG");
 
     void setImageFile(QList<QPixmap> images);
-    void setCanvasShapes(QList<Toolshape> shapes);
+    void setCanvasShapes(Toolshapes shapes);
     void setSaveFinishedExit(bool exit);
 
     bool saveFinishedExit();
     QList<QPixmap> savedImage();
-    QList<Toolshape> savedShapes();
+    Toolshapes savedShapes();
 
 signals:
     void saveDialogPopup();
@@ -36,7 +36,7 @@ private:
     QString m_blurFile;
     QMap<QString , QString> m_pathMap;
     QList<QPixmap> m_pixmaps;
-    QList<Toolshape> m_shapes;
+    Toolshapes m_shapes;
     bool m_exit = false;
 };
 #endif // TEMPFILE_H

@@ -102,7 +102,6 @@ MainWidget::MainWidget(QWidget *parent)
                 updateLayout();
                 updateGeometry();
             });
-
         }
     });
 }
@@ -154,7 +153,6 @@ void MainWidget::resizeEvent(QResizeEvent *event)
     qDebug() << "MainWidget  resizeEvent:"
                      << this->width() << this->height();
     m_seperatorLine->setMinimumWidth(this->width());
-
     updateLayout();
 
     QLabel::resizeEvent(event);
@@ -215,7 +213,7 @@ void MainWidget::updateCanvasSize(const QSize &size)
     m_shapesWidget->setFixedSize(size);
 }
 
-void MainWidget::initShapes(QList<Toolshape> shapes)
+void MainWidget::initShapes(Toolshapes shapes)
 {
     m_shapesWidget->setShapes(shapes);
 }

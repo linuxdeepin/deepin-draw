@@ -1,0 +1,9 @@
+QLabel#TipsLabel {
+background-color: rgba(0, 0, 0, 150);
+border-radius: 4px;
+}
+
+QLabel#MessageLabel {
+background-color: transparent;
+color: white;
+}

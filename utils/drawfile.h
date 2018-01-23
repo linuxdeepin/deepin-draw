@@ -12,7 +12,7 @@ public:
     ~DrawFile();
     void createddf(QSize windowSize, QSize canvasSize,
                    QSize artboardSize, QString path,
-                   QList<Toolshape> shapes);
+                   Toolshapes shapes);
     void parseddf(const QString &path);
     void setItem(QSettings* settings, const QString &group,
                            const QString &key, QVariant val);
@@ -20,7 +20,7 @@ public:
                             const QString &key);
     QStringList groups(QSettings* settings);
 
-    QList<Toolshape> toolshapes();
+    Toolshapes toolshapes();
     QSize windowSize();
     QSize canvasSize();
     QSize artboardSize();
@@ -29,7 +29,7 @@ private:
     QSize m_windowSize;
     QSize m_canvasSize;
     QSize m_artboardSize;
-    QList<Toolshape> m_allshapes;
+    Toolshapes m_allshapes;
 };
 
 #endif // DRAWFILE_H

@@ -8,6 +8,7 @@
 #include "utils/baseutils.h"
 #include "textedit.h"
 #include "cutimagetips.h"
+#include "widgets/loadtips.h"
 #include "widgets/tipslabel.h"
 
 class ShapesWidget : public QFrame
@@ -54,6 +55,7 @@ signals:
     void adjustArtBoardSize(QSize size);
     void cutImageFinished();
     void drawArtboard(bool drawing, FourPoints mainPoints, QSize newSize);
+    void finishedPainting();
 
 public:
     void autoCrop();
@@ -90,7 +92,7 @@ public:
 
     void updateSelectedShape(const QString &group, const QString &key);
     int shapesNum() const;
-    void setShapes(QList<Toolshape> shapes);
+    void setShapes(Toolshapes shapes);
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
     void setBrushColor(QColor color);
@@ -276,6 +278,7 @@ private:
     CutImageTips* m_cutImageTips;
     QLabel*      m_cutSizeTips;
     TipsLabel*            m_degreeLabel;
+    LoadTips* m_loadTips;
     QDateTime m_lastUpdateTime;
 
     QMenu* m_menu;

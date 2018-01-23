@@ -54,5 +54,6 @@
         <file>theme/light/images/draw/color_more_active.svg</file>
         <file>theme/light/images/draw/color_more_hover.svg</file>
         <file>theme/light/images/draw/color_more_normal.svg</file>
+        <file>theme/light/LoadTips.qss</file>
     </qresource>
 </RCC>

@@ -23,7 +23,7 @@ DrawFile::~DrawFile()
 
 void DrawFile::createddf(QSize windowSize, QSize canvasSize,
                QSize artboardSize, QString path,
-               QList<Toolshape> shapes)
+               Toolshapes shapes)
 {
     QString saveFilename = QFileInfo(path).fileName();
     QString savePath = TempFile::instance()->getRandomFile(saveFilename, "ddf");
@@ -188,7 +188,7 @@ void DrawFile::parseddf(const QString &path)
     }
 }
 
-QList<Toolshape> DrawFile::toolshapes()
+Toolshapes DrawFile::toolshapes()
 {
     return m_allshapes;
 }

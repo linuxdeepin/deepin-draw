@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <QColor>
+#include <QPixmapCache>
 
 typedef QList<QPointF> FourPoints;
 Q_DECLARE_METATYPE(FourPoints)
@@ -45,6 +46,6 @@ public:
 typedef QList<QPointF> FourPoints;
 typedef QList <Toolshape> Toolshapes;
 Q_DECLARE_METATYPE(Toolshape)
-Q_DECLARE_METATYPE(Toolshapes)
+//Q_DECLARE_METATYPE(Toolshapes)
 
 #endif // SHAPESUTILS_H

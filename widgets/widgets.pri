@@ -19,7 +19,8 @@ HEADERS += \
     $$PWD/fontsizelineedit.h \
     $$PWD/tipslabel.h \
     $$PWD/graphicsgloweffect.h \
-    $$PWD/resizelabel.h
+    $$PWD/resizelabel.h \
+    $$PWD/loadtips.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \
@@ -39,7 +40,8 @@ SOURCES += \
     $$PWD/arrowrectangle.cpp \
     $$PWD/tipslabel.cpp \
     $$PWD/graphicsgloweffect.cpp \
-    $$PWD/resizelabel.cpp
+    $$PWD/resizelabel.cpp \
+    $$PWD/loadtips.cpp
 
 RESOURCES += \
     $$PWD/widgetsRes.qrc

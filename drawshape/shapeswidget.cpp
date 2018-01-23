@@ -13,7 +13,9 @@
 #include <QShortcut>
 #include <QMenu>
 #include <QClipboard>
-
+#include <QPixmapCache>
+#include <QThread>
+#include <QMetaType>
 #include <cmath>
 
 #include "utils/shortcut.h"
@@ -22,7 +24,9 @@
 #include "utils/configsettings.h"
 #include "utils/tempfile.h"
 #include "utils/global.h"
+#include "controller/loader.h"
 #include "controller/importer.h"
+#include "widgets/loadtips.h"
 
 #define LINEWIDTH(index) (index*2+3)
 
@@ -136,6 +140,8 @@ void ShapesWidget::initAttribute()
     m_cutSizeTips->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_cutSizeTips->setMinimumWidth(60);
     m_cutSizeTips->hide();
+    m_loadTips = new LoadTips(this);
+    m_loadTips->hide();
 
     m_penColor =  QColor(Qt::blue);
     m_brushColor = QColor(Qt::blue);
@@ -184,7 +190,7 @@ ShapesWidget::~ShapesWidget()
 }
 
 void ShapesWidget::updateSelectedShape(const QString &group,
-                                                                     const QString &key)
+                                       const QString &key)
 {
     qDebug() << "updateSelectedShapes" << m_selectedIndex
                     << m_shapes.length() << m_selectedOrder;
@@ -267,7 +273,7 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                     "common", "lineWidth").toInt();
                 updateSelectedShape = true;
             }
-        } else if (group == "text" && m_shapes[m_selectedOrder].type == group)  {
+        } else if (group == "text" && m_shapes[m_selectedOrder].type == group) {
             if (m_shapes[m_selectedOrder].type == "text") {
                 qDebug() << "updateSelectedShape..." << m_selectedOrder
                                 << m_shapes[m_selectedOrder].index
@@ -298,7 +304,7 @@ int ShapesWidget::shapesNum() const
     return m_shapes.length();
 }
 
-void ShapesWidget::setShapes(QList<Toolshape> shapes)
+void ShapesWidget::setShapes(Toolshapes shapes)
 {
     m_shapes = shapes;
     qDebug() << "setShapesWidget length:" << m_shapes.length();
@@ -1880,6 +1886,12 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
             m_shapes[m_selectedOrder].isHorFlip = !m_shapes[m_selectedOrder].isHorFlip;
         if(vertical)
             m_shapes[m_selectedOrder].isVerFlip = !m_shapes[m_selectedOrder].isVerFlip;
+
+        QPixmap pixmap = QPixmap::fromImage(QImage(
+            m_shapes[m_selectedOrder].imagePath).mirrored(
+            m_shapes[m_selectedOrder].isHorFlip, m_shapes[m_selectedOrder].isVerFlip));
+        QPixmapCache::remove(createHash(m_shapes[m_selectedOrder].imagePath));
+        QPixmapCache::insert(createHash(m_shapes[m_selectedOrder].imagePath), pixmap);
     }
 
     m_needCompress = true;
@@ -2832,8 +2844,17 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
 
 void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool saveTo)
 {
-    QPixmap pixmap = QPixmap::fromImage(QImage(imageShape.imagePath).
-                                        mirrored(imageShape.isHorFlip, imageShape.isVerFlip));
+    QPixmap pixmap;
+    if (!QPixmapCache::find(createHash(imageShape.imagePath), &pixmap))
+    {
+        pixmap = QPixmap::fromImage(QImage(imageShape.imagePath).mirrored(
+                                        imageShape.isHorFlip, imageShape.isVerFlip));
+        QPixmapCache::remove(createHash(imageShape.imagePath));
+        QPixmapCache::insert(createHash(imageShape.imagePath), pixmap);
+    } else {
+        qDebug() << "load cache succeed!";
+    }
+
     qreal tmpRation = imageShape.scaledRation;
     if (saveTo)
         tmpRation = m_lastRation*imageShape.scaledRation;
@@ -3002,7 +3023,7 @@ void ShapesWidget::pressFromParent(QMouseEvent *ev)
 void ShapesWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    painter.setRenderHints(QPainter::Antialiasing);
     painter.drawPixmap(0, 0, m_bottomPixmap);
 
     if (!m_imageCutting)
@@ -3354,6 +3375,7 @@ void ShapesWidget::onViewShortcut() {
             shortcutViewProcess, SLOT(deleteLater()));
 }
 
+
 void ShapesWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
@@ -3437,6 +3459,7 @@ void ShapesWidget::deleteCurrentShape()
                 m_shapes[m_selectedOrder].type == "blur")
             compressImage = true;
         int deleteIndex = m_shapes[m_selectedOrder].index;
+        QPixmapCache::remove(createHash(m_shapes[m_selectedOrder].imagePath));
         m_shapes.removeAt(m_selectedOrder);
         if (m_selectedShape.type == "text" && m_editMap.contains(deleteIndex))
         {
@@ -3565,64 +3588,30 @@ void ShapesWidget::loadImage(QStringList paths)
         m_startPos = START_POINT;
     }
 
-    for(int i = 0; i < paths.length(); i++)
-    {
-        if (QFileInfo(paths[i]).exists())
-        {
-            setCurrentShape("image");
-            if (!m_needCompress)
-                m_needCompress = true;
+    m_loadTips = new LoadTips(this);
+    m_loadTips->showTips();
 
-            Toolshape imageShape;
-            imageShape.type = "image";
-            imageShape.imagePath = paths[i];
-            imageShape.imageSize = QPixmap(paths[i]).size();
+    Loader* loader = Loader::instance();
+    loader->loadPaths(paths, m_startPos, m_artBoardWindowWidth,
+                        m_artBoardWindowHeight, QSize(this->size()));
+    connect(loader, &Loader::importProgress, this, [=](int counts){
+           qDebug() << "VVVVVV:" << counts;
+            emit m_loadTips->progressValueChanged(counts);
+    });
+    connect(loader, &Loader::finishedLoadShapes, this,
+            [=](Toolshapes imageShapes, QPointF pos){
+         m_shapes.append(imageShapes);
+        selectedShape(m_shapes.length() - 1);
+        m_startPos = pos;
 
-            if (paths.length() == 1 &&( imageShape.imageSize.width()
-              == m_artBoardWindowWidth && imageShape.imageSize.height()
-              + IMG_ROTATEPOINT_SPACING == m_artBoardWindowHeight))
-            {
-                m_startPos = QPointF(0, IMG_ROTATEPOINT_SPACING);
-            } else {
-                if (imageShape.imageSize.width() > (m_artBoardWindowWidth - m_startPos.x()) ||
-                    imageShape.imageSize.height() > (m_artBoardWindowHeight - m_startPos.y()))
-                {
-                    imageShape.imageSize = QPixmap(paths[i]).scaled(
-                                int(std::abs(m_artBoardWindowWidth - 0)),
-                                int(std::abs(m_artBoardWindowHeight - IMG_ROTATEPOINT_SPACING)),
-                                Qt::KeepAspectRatio, Qt::SmoothTransformation).size();
-                }
+        setCurrentShape("selected");
+        emit updateMiddleWidgets("image");
+        initScaledRation();
 
-            }
-
-            if (paths.length() == 1)
-            {
-                m_startPos = QPointF((this->width() - imageShape.imageSize.width())/2,
-                (this->height() - imageShape.imageSize.height() - IMG_ROTATEPOINT_SPACING)/2
-                                     + IMG_ROTATEPOINT_SPACING);
-            }
-
-            imageShape.mainPoints[0] =  QPointF(m_startPos.x(),
-                                                m_startPos.y());
-            imageShape.mainPoints[1] = QPointF(m_startPos.x(),
-                m_startPos.y() + imageShape.imageSize.height());
-            imageShape.mainPoints[2] = QPointF(m_startPos.x() +
-                imageShape.imageSize.width(), m_startPos.y());
-            imageShape.mainPoints[3] = QPointF(m_startPos.x() +
-                imageShape.imageSize.width(), m_startPos.y() +
-                                              imageShape.imageSize.height());
-            appendShape(imageShape);
-            m_startPos = QPointF(m_startPos.x() + PIC_SPACING,
-                                                 m_startPos.y() + PIC_SPACING);
-        }
-    }
-
-    selectedShape(m_shapes.length() - 1);
-    setCurrentShape("selected");
-    emit updateMiddleWidgets("image");
-    initScaledRation();
-    qDebug() << "load image finished, compress image begins!";
-    compressToImage();
+        qDebug() << "load image finished, compress image begins!" << m_shapes.length();
+        compressToImage();
+        emit m_loadTips->finishedPainting();
+    });
 }
 
 void ShapesWidget::compressToImage()
@@ -3641,8 +3630,8 @@ void ShapesWidget::compressToImage()
     for(int k = 0; k < m_shapes.length(); k++)
     {
         QPainter bottomPainter(&m_bottomPixmap);
-        bottomPainter.setRenderHints(QPainter::Antialiasing |
-                                     QPainter::SmoothPixmapTransform);
+        bottomPainter.setRenderHints(QPainter::Antialiasing/* |
+                                     QPainter::SmoothPixmapTransform*/);
         if (m_shapes[k].type == "cutImage")
         {
             continue;
@@ -3660,7 +3649,7 @@ void ShapesWidget::compressToImage()
     }
 
     QPainter bgPainter(&m_bottomPixmap);
-    bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    bgPainter.setRenderHints(QPainter::Antialiasing);
 //    if (!m_imageCutting && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length())
 //    {
 //        bgPainter.setOpacity(1);
@@ -3671,7 +3660,7 @@ void ShapesWidget::compressToImage()
         m_BeforeCutBg = this->grab(this->rect());
 
     if (m_imageCutting) {
-        bgPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+        bgPainter.setRenderHints(QPainter::Antialiasing);
         bgPainter.setOpacity(0.5);
         bgPainter.fillRect(this->rect(), QBrush(QColor("#000000")));
         bgPainter.setBrush(Qt::transparent);
@@ -3848,9 +3837,9 @@ QList<QPixmap> ShapesWidget::saveCanvasImage()
     transPixmap.fill(Qt::transparent);
     whitePixmap.fill(Qt::white);
     QPainter transPainter(&transPixmap);
-    transPainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    transPainter.setRenderHints(QPainter::Antialiasing);
     QPainter whitePainter(&whitePixmap);
-    whitePainter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    whitePainter.setRenderHints(QPainter::Antialiasing);
 
     m_saveWithRation = true;
 
@@ -3910,7 +3899,7 @@ void ShapesWidget::printImage()
 
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
-        painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+        painter.setRenderHints(QPainter::Antialiasing);
         QRectF drawRectF; QRect wRect;
         if (resultPixmap.isNull()) {
             qDebug() << "resultPixmap is null, exit !";
