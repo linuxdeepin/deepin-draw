@@ -165,6 +165,9 @@ void CutImageTips::showTips(QPointF pos, int newWidth)
     setFixedWidth(newWidth);
     this->move(QPoint(pos.x(), pos.y() + COORDINATE_Y));
     this->show();
+    this->raise();
+    this->setFocusPolicy(Qt::StrongFocus);
+    this->setFocus();
 }
 
 void CutImageTips::setCutRation(CutRation ration)

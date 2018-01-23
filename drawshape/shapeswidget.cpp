@@ -132,6 +132,8 @@ void ShapesWidget::initAttribute()
 
     m_cutSizeTips = new QLabel(this);
     m_cutSizeTips->setObjectName("CutSizeLabel");
+    m_cutSizeTips->setFocusPolicy(Qt::NoFocus);
+    m_cutSizeTips->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_cutSizeTips->setMinimumWidth(60);
     m_cutSizeTips->hide();
 
@@ -1890,6 +1892,7 @@ bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
   if (e->type() == QEvent::KeyPress)
     {
        QKeyEvent* event = static_cast<QKeyEvent*>(e);
+
         keyPressEvent(event);
         return true;
     }
@@ -3102,7 +3105,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape,
          shape.mainPoints[0] == QPointF(0, 0)
          && shape.mainPoints[1] == QPoint(0, 0))))
     {
-        qDebug() << "UUUU" << shape.type;
+        qDebug() << "Not paint shape" << shape.type;
         return;
     }
 
@@ -3134,7 +3137,7 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape,
         paintStraightLine(painter, shape, saveTo);
     } else if (shape.type == "text")
     {
-        qDebug() << "------------------" << m_editing << m_clearAllTextBorder << m_selectedOrder;
+        qDebug() << "paint text:" << m_editing << m_clearAllTextBorder << m_selectedOrder;
         if (m_editMap.contains(shape.index))
         {
             if (!m_editMap[shape.index]->isReadOnly())
@@ -3513,10 +3516,9 @@ void ShapesWidget::showCutImageTips(QPointF pos, int tipsWidth)
         if (m_shapes[m_shapes.length() - 1].type == "cutImage")
             m_shapes.removeAt(m_shapes.length() - 1);
 
-        m_selectedOrder = m_cutImageOrder;
+        selectedShape(m_cutImageOrder);
         setCurrentShape("selected");
         m_recordCutImage = false;
-
         qDebug() << "canceled m_selecedOrder:" << m_selectedOrder
                         << m_needCompress;
         m_cutSizeTips->hide();
