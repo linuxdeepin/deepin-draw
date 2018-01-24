@@ -51,17 +51,16 @@
     <name>CutImageTips</name>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="68"/>
-        <location filename="../drawshape/cutimagetips.cpp" line="185"/>
         <source>free</source>
         <translation>自由</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="79"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="80"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../drawshape/cutimagetips.cpp" line="87"/>
+        <location filename="../drawshape/cutimagetips.cpp" line="89"/>
         <source>Clip</source>
         <translation>裁剪</translation>
     </message>
@@ -159,6 +158,14 @@
         <location filename="../frame/linewidget.cpp" line="70"/>
         <source>Width</source>
         <translation>粗细</translation>
+    </message>
+</context>
+<context>
+    <name>LoadTips</name>
+    <message>
+        <location filename="../widgets/loadtips.cpp" line="28"/>
+        <source>Importing pictures, please wait...</source>
+        <translation>正在导入图片，请稍候...</translation>
     </message>
 </context>
 <context>
@@ -286,49 +293,49 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4387"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4510"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4388"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4511"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4393"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="4431"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4516"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4554"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4403"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4526"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4405"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4528"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4406"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4529"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4407"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4530"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4408"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4531"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="3818"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="3826"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3882"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="3890"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
