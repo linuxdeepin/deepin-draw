@@ -431,4 +431,8 @@ bool pointOnRect(QRect rect, QPoint pos);
 
 /********** The cut image has a proportional initialization point *******/
 FourPoints getInitFourPointByCut(FourPoints mainPoints, const QString &rationName);
+
+/*************************  Zoom point  ***********************/
+FourPoints zoomPoints(FourPoints mainPoints, qreal zoomFactor);
+QList<QPointF> zoomPointList(QList<QPointF> points, qreal zoomFactor);
 #endif // CALCULATERECT_H

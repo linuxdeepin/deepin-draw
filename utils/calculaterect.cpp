@@ -9139,3 +9139,22 @@ FourPoints getInitFourPointByCut(FourPoints mainPoints, const QString &rationNam
     fourPoints[3] = QPointF(centerPos.x() + width/2, centerPos.y() + height/2);
     return fourPoints;
 }
+
+/*************************  Zoom point  ***********************/
+FourPoints zoomPoints(FourPoints mainPoints, qreal zoomFactor)
+{
+    for(int i = 0; i < mainPoints.length(); i++)
+    {
+        mainPoints[i] = QPointF(mainPoints[i].x()*zoomFactor, mainPoints[i].y()*zoomFactor);
+    }
+    return mainPoints;
+}
+
+QList<QPointF> zoomPointList(QList<QPointF> points, qreal zoomFactor)
+{
+    for(int i = 0; i < points.length(); i++)
+    {
+        points[i] = QPointF(points[i].x()*zoomFactor, points[i].y()*zoomFactor);
+    }
+    return points;
+}
