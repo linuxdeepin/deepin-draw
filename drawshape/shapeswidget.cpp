@@ -16,6 +16,7 @@
 #include <QPixmapCache>
 #include <QThread>
 #include <QMetaType>
+#include <QTextDocument>
 #include <cmath>
 
 #include "utils/shortcut.h"
@@ -2614,6 +2615,20 @@ void ShapesWidget::paintArbitraryCurve(QPainter &painter, Toolshape shape, bool 
 
 void ShapesWidget::paintText(QPainter &painter, Toolshape shape, bool saveTo)
 {
+    FourPoints rectFPoints = shape.mainPoints;
+    qreal tmpRation = shape.scaledRation;
+    if (saveTo) {
+        tmpRation = m_lastRation*shape.scaledRation;
+
+        if (m_editMap.contains(shape.index))
+        {
+            painter.drawText(QRectF(shape.mainPoints[0].x()*tmpRation,
+            shape.mainPoints[0].y()*tmpRation, std::abs(shape.mainPoints[3].x()
+             - shape.mainPoints[0].x())*tmpRation, std::abs(shape.mainPoints[3].y()
+             - shape.mainPoints[0].y())*tmpRation), shape.text);
+            return ;
+        }
+    }
     if (m_clearAllTextBorder)
     {
         qDebug() << "paintText clear all text border...";
@@ -2629,8 +2644,6 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape, bool saveTo)
     painter.setPen(textPen);
 
     qDebug() << "paintTextd" << shape.mainPoints.length() << shape.mainPoints;
-
-    FourPoints rectFPoints = shape.mainPoints;
 
     if (shape.mainPoints.length() >= 4)
     {
@@ -3173,6 +3186,10 @@ void ShapesWidget::paintShape(QPainter &painter, Toolshape shape,
                 qDebug() << "EditMap is Not readOnly!";
                 paintText(painter, shape, saveTo);
             } else {
+                if (saveTo) {
+                    qDebug() << "EditMap save text:" << shape.text;
+                    paintText(painter, shape, saveTo);
+                }
                 qDebug() << "EditMap is readOnly:" << m_editMap[shape.index]->isReadOnly();
             }
         }
