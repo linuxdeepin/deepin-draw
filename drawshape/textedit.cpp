@@ -14,10 +14,12 @@ const QSize CURSOR_SIZE = QSize(5, 20);
 const int TEXT_MARGIN = 10;
 
 TextEdit::TextEdit(int index, QWidget *parent)
-    : QPlainTextEdit(parent),
-      m_textColor(Qt::black)
+    : QPlainTextEdit(parent)
+    , m_textColor(Qt::black)
+    , m_fontsizeRation(1)
 {
     m_index = index;
+    m_startPos = mapToParent(QPoint(0, 0));
     setLineWrapMode(QPlainTextEdit::NoWrap);
     setContextMenuPolicy(Qt::NoContextMenu);
 
@@ -44,6 +46,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(this->document(), &QTextDocument::contentsChange, this,  [=]{
+        m_startPos = mapToParent(QPoint(0, 0));
         updateContentSize(this->toPlainText());
     });
 }
@@ -76,7 +79,7 @@ void TextEdit::setFontSize(int fontsize)
 {
     m_fontSize = fontsize;
     QFont font;
-    font.setPixelSize(m_fontSize);
+    font.setPixelSize(int(m_fontSize*m_fontsizeRation));
     this->document()->setDefaultFont(font);
     this->updateGeometry();
 
@@ -95,10 +98,24 @@ void TextEdit::updateContentSize(QString content)
 {
     QFontMetricsF fontMetric = QFontMetricsF(this->document()->defaultFont());
     QSizeF docSize =  fontMetric.size(0,  content);
-    this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
-    this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
+    this->setMinimumSize(docSize.width() + TEXT_MARGIN,
+                                          docSize.height() + TEXT_MARGIN);
+    this->resize(docSize.width() + TEXT_MARGIN,
+                        docSize.height() + TEXT_MARGIN);
     emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
-                                            docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
+                                        docSize.width() + TEXT_MARGIN,
+                                        docSize.height() + TEXT_MARGIN));
+
+    qDebug() << "TextEdit updateContentSize:" << QRectF(this->x(), this->y(),
+    docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN)
+    << this->rect() << mapToParent(QPoint(0, 0));
+}
+
+void TextEdit::setFontsizeRation(qreal ration)
+{
+    m_fontsizeRation = ration;
+    move(QPoint(int(m_startPos.x()*ration), int(m_startPos.y()*ration)));
+    setFontSize(m_fontSize);
 }
 
 void TextEdit::updateCursor()
@@ -158,6 +175,7 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e)
             this->move(this->x() + movePos.x() - m_pressPoint.x(),
                        this->y() + movePos.y() - m_pressPoint.y());
 
+            m_startPos = mapToParent(QPoint(0, 0));
             emit  repaintTextRect(this,  QRectF(qreal(this->x()), qreal(this->y()),
                                                 this->width(),  this->height()));
             m_pressPoint = movePos;

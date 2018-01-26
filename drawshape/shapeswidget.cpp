@@ -308,6 +308,82 @@ int ShapesWidget::shapesNum() const
 void ShapesWidget::setShapes(Toolshapes shapes)
 {
     m_shapes = shapes;
+    for(int h = 0; h < m_shapes.length(); h++)
+    {
+        qDebug() << "setShapes:" << m_shapes[h].index << m_shapes[h].type;
+    }
+    foreach(Toolshape shape, shapes)
+    {
+        shape.scaledRation = 1;
+        m_lastRation = 1;
+        m_getOriginRation = false;
+        if (!m_getOriginRation)
+        {
+            initScaledRation();
+        }
+        if (shape.type == "text") {
+            TextEdit* edit = new TextEdit(shape.index, this);
+            edit->setFontSize(shape.fontSize);
+            qDebug() << "hanging shape..." << shape.fillColor.alphaF() << shape.index
+                            << shape.text << shape.fontSize << edit->fontSize();
+            edit->setColor(shape.fillColor);
+            edit->insertPlainText(shape.text);
+            edit->show();
+
+            edit->move(QPoint(shape.mainPoints[0].x(), shape.mainPoints[0].y()));
+            m_editMap.insert(shape.index, edit);
+
+            connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+            edit->setFontSize(shape.fontSize);
+            connect(edit, &TextEdit::backToEditing, this, [=]{
+                m_editing = true;
+            });
+            connect(edit, &TextEdit::hoveredOnTextEdit, this, [=](int index){
+                for (int k = 0; k < m_shapes.length(); k++) {
+                    if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                        m_hoveredShape = m_shapes[k];
+                        m_hoveredIndex = index;
+                    }
+                }
+            });
+            connect(edit, &TextEdit::textEditSelected, this, [=](int index) {
+                qDebug() << "textEdit selected index:" << index;
+                for (int k = 0; k < m_shapes.length(); k++) {
+                    if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                        selectedShape(k);
+                        m_hoveredShape = m_shapes[m_selectedOrder];
+                        m_currentShape.type = "";
+                        if (edit->getTextColor() == QColor(Qt::transparent))
+                        {
+                            updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
+                        } else {
+                            qreal colorAlpha = edit->getTextColor().alphaF();
+                            updateToSelectedShapeAttribute("text", "fillColor_alpha",
+                                                           int(colorAlpha*100));
+                            updateToSelectedShapeAttribute("text", "fillColor",
+                                                           edit->getTextColor().name(QColor::HexRgb));
+                        }
+                        m_brushColor = edit->getTextColor();
+
+                        qDebug() << "updateToSelectedShape: " << edit->fontSize();
+                        updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
+                        m_textFontsize = edit->fontSize();
+
+                        break;
+                    }
+                }
+
+                updateMiddleWidgets("text");
+                qDebug() << "the textEdit index:" << m_selectedOrder << edit->getIndex();
+            });
+            connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
+                popupMenu(this->cursor().pos());
+            });
+        }
+        setAllTextEditReadOnly();
+        m_clearAllTextBorder = true;
+    }
+    update();
     qDebug() << "setShapesWidget length:" << m_shapes.length();
 }
 
@@ -336,7 +412,7 @@ void ShapesWidget::setCurrentShape(QString shapeType)
     if (shapeType == "blur")
     {
         m_blurLinewidth = ConfigSettings::instance()->value("blur",
-                                                            "index").toInt();
+            "index").toInt();
     }
 
     if (m_currentType != "blur" && shapeType == "blur")
@@ -441,8 +517,8 @@ void ShapesWidget::setAllTextEditReadOnly()
     m_clearAllTextBorder = true;
     for(int k = 0; k < m_shapes.length(); k++)
     {
-        if (m_shapes[k].type == "text" && m_editMap.value(
-                    m_shapes[k].index)->toPlainText().isEmpty())
+        if (m_shapes[k].type == "text" && m_editMap.contains(m_shapes[k].index)
+                && m_editMap.value(m_shapes[k].index)->toPlainText().isEmpty())
         {
             int textIndex = m_shapes[k].index;
             m_shapes.removeAt(k);
@@ -2446,12 +2522,14 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect)
     {
         if (m_shapes[j].type == "text" && m_shapes[j].index == index)
         {
+            qDebug() << "update shape[j].mainPoints:" << index << j;
             m_shapes[j].mainPoints[0] = QPointF(newRect.x(), newRect.y());
             m_shapes[j].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
             m_shapes[j].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
             m_shapes[j].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
                                                                                newRect.y() + newRect.height());
             m_shapes[j].text = edit->toPlainText();
+            qDebug() << "updateTextRect hhh:" << m_shapes[j].mainPoints << edit->geometry();
             m_currentShape = m_shapes[j];
             m_selectedShape = m_shapes[j];
             m_selectedIndex = m_shapes[j].index;
@@ -3211,7 +3289,6 @@ void ShapesWidget::paintHoveredShape(QPainter &painter, Toolshape shape)
     if (shape.type == "image" || shape.type == "oval" || shape.type == "rectangle"
             || shape.type == "text" || shape.type == "arbitraryCurve" || shape.type == "blur")
     {
-
         QPainterPath rectPath;
         FourPoints rectFPoints = shape.mainPoints;
         rectPath.moveTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
@@ -3242,6 +3319,9 @@ void ShapesWidget::paintSelectedRect(QPainter &painter, Toolshape shape)
     QPainterPath rectPath;
 
     qreal tmpRation = shape.scaledRation;
+    if (shape.type == "text")
+        tmpRation = 1;
+
     rectPath.moveTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
     rectPath.lineTo(rectFPoints[1].x()*tmpRation, rectFPoints[1].y()*tmpRation);
     rectPath.lineTo(rectFPoints[3].x()*tmpRation, rectFPoints[3].y()*tmpRation);
@@ -3619,7 +3699,6 @@ void ShapesWidget::loadImage(QStringList paths)
     loader->loadPaths(paths, m_startPos, m_artBoardWindowWidth,
                         m_artBoardWindowHeight, QSize(this->size()));
     connect(loader, &Loader::importProgress, this, [=](int counts){
-           qDebug() << "VVVVVV:" << counts;
             emit m_loadTips->progressValueChanged(counts);
     });
     connect(loader, &Loader::finishedLoadShapes, this,
@@ -3736,6 +3815,17 @@ void ShapesWidget::updateCanvasSize()
                 {
                     m_shapes[k].scaledRation = m_ration/newScaledRation;
                     m_lastRation = newScaledRation;
+
+                    if (m_shapes[k].type == "text")
+                    {
+                        if (m_editMap.contains(m_shapes[k].index)) {
+                            m_editMap.value(m_shapes[k].index)->move(
+                                        QPoint(m_shapes[k].mainPoints[0].x()*m_shapes[k].scaledRation,
+                                                     m_shapes[k].mainPoints[0].y()*m_shapes[k].scaledRation));
+                            m_editMap.value(m_shapes[k].index)->setFontsizeRation(
+                                        m_shapes[k].scaledRation);
+                        }
+                    }
                 }
             }
         }
@@ -3885,6 +3975,17 @@ void ShapesWidget::saveImage()
     QList<QPixmap> saveImages = saveCanvasImage();
     m_saveWithRation = false;
     //TODO:添加异步处理
+    for(int k = 0; k < m_shapes.length(); k++)
+    {
+        if (m_shapes[k].type == "text")
+        {
+            if (m_editMap.contains(m_shapes[k].index))
+            {
+                qDebug() << "editMap:" << m_editMap.value(m_shapes[k].index)->toPlainText();
+                m_shapes[k].text = m_editMap.value(m_shapes[k].index)->toPlainText();
+            }
+        }
+    }
     TempFile::instance()->setCanvasShapes(m_shapes);
     TempFile::instance()->setImageFile(saveImages);
 }

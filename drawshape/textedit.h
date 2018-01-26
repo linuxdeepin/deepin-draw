@@ -24,6 +24,7 @@ public slots:
     void keepReadOnlyStatus();
     void setFontSize(int fontsize);
     void updateContentSize(QString content);
+    void setFontsizeRation(qreal ration);
 
 signals:
     void repaintTextRect(TextEdit* edit,  QRectF newPositiRect);
@@ -48,7 +49,9 @@ private:
     QPainter* m_painter;
 
     QPointF m_pressPoint;
+    QPointF m_startPos;
     bool m_isPressed;
+    qreal m_fontsizeRation;
 };
 
 #endif // TEXTEDIT_H

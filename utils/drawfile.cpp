@@ -48,7 +48,7 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
         setItem(ddf, QString("shape_%1").arg(i), "isHorFlip", shapes[i].isHorFlip);
         setItem(ddf, QString("shape_%1").arg(i), "isVerFlip", shapes[i].isVerFlip);
         setItem(ddf, QString("shape_%1").arg(i), "imagePath", shapes[i].imagePath);
-//        setItem(ddf, QString("shape_%1").arg(i), "editImagePath", shapes[i].editImagePath);
+        setItem(ddf, QString("shape_%1").arg(i), "text", shapes[i].text);
         setItem(ddf, QString("shape_%1").arg(i), "rotate", shapes[i].rotate);
         setItem(ddf, QString("shape_%1").arg(i), "imageSize", shapes[i].imageSize);
         setItem(ddf, QString("shape_%1").arg(i), "fontSize", shapes[i].fontSize);
@@ -155,8 +155,8 @@ void DrawFile::parseddf(const QString &path)
                                 "isVerFlip").toBool();
         shape.imagePath = value(parseSettings, QString("shape_%1").arg(i),
                                 "imagePath").toString();
-//        shape.editImagePath = value(parseSettings, QString("shape_%1").arg(i),
-//                                    "editImagePath").toString();
+        shape.text = value(parseSettings, QString("shape_%1").arg(i),
+                                    "text").toString();
         shape.rotate = value(parseSettings, QString("shape_%1").arg(i),
                              "rotate").toReal();
         shape.imageSize = value(parseSettings, QString("shape_%1").arg(i),
