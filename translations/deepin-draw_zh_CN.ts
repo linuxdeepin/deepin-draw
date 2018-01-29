@@ -41,13 +41,6 @@
     </message>
 </context>
 <context>
-    <name>ConfigSettings</name>
-    <message>
-        <source>free</source>
-        <translation type="vanished">自由</translation>
-    </message>
-</context>
-<context>
     <name>CutImageTips</name>
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="68"/>
@@ -63,10 +56,6 @@
         <location filename="../drawshape/cutimagetips.cpp" line="89"/>
         <source>Clip</source>
         <translation>裁剪</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">裁剪</translation>
     </message>
 </context>
 <context>
@@ -118,10 +107,6 @@
         <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
         <source>Save the current contents?</source>
         <translation>是否保存当前画板内容？</translation>
-    </message>
-    <message>
-        <source>Save the current contents</source>
-        <translation type="vanished">是否保存当前画板内容？</translation>
     </message>
 </context>
 <context>
@@ -269,10 +254,6 @@
         <location filename="../widgets/dialog/savedialog.cpp" line="110"/>
         <source>Quality:</source>
         <translation>图片质量：</translation>
-    </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">打开文件夹</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
@@ -436,10 +417,6 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <source>Fill</source>
-        <translation type="vanished">填充</translation>
-    </message>
-    <message>
         <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Color</source>
         <translation>颜色</translation>
@@ -508,10 +485,6 @@
         <location filename="../frame/toptoolbar.cpp" line="330"/>
         <source>Print</source>
         <translation>打印</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="vanished">深色主题</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>
