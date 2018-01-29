@@ -138,9 +138,13 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Stroke</source>
-        <translation>Stroke</translation>
+        <translation type="vanished">Stroke</translation>
+    </message>
+    <message>
+        <location filename="../frame/linewidget.cpp" line="24"/>
+        <source>Color</source>
+        <translation type="unfinished">اللون</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -487,6 +491,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
         <translation type="vanished">المحدد</translation>
     </message>
@@ -516,9 +525,8 @@
         <translation>مساعدة</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation>رسام ديبين : أداة رسم خفيفة تمكنك من الرسم بحرية على طبقة أو تحرير الصور بكل بساطة</translation>
+        <translation type="vanished">رسام ديبين : أداة رسم خفيفة تمكنك من الرسم بحرية على طبقة أو تحرير الصور بكل بساطة</translation>
     </message>
 </context>
 </TS>

@@ -21,7 +21,7 @@ LineWidget::LineWidget(QWidget *parent)
     this->setObjectName("LineWidget");
     QLabel* strokeLabel = new QLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("Stroke"));
+    strokeLabel->setText(tr("Color"));
 
     BorderColorButton* strokeButton = new BorderColorButton(this);
 

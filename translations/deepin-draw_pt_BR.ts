@@ -138,9 +138,13 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Stroke</source>
-        <translation>Traçado</translation>
+        <translation type="vanished">Traçado</translation>
+    </message>
+    <message>
+        <location filename="../frame/linewidget.cpp" line="24"/>
+        <source>Color</source>
+        <translation type="unfinished">Cor</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -487,6 +491,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
         <translation type="vanished">Selecionado</translation>
     </message>
@@ -516,9 +525,8 @@
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation>Deepin Draw é uma ferramenta de desenho leve. Você pode desenhar livremente sobre a camada ou editar imagens de forma simples.</translation>
+        <translation type="vanished">Deepin Draw é uma ferramenta de desenho leve. Você pode desenhar livremente sobre a camada ou editar imagens de forma simples.</translation>
     </message>
 </context>
 </TS>

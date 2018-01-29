@@ -138,9 +138,13 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Stroke</source>
-        <translation>መሰረዣ</translation>
+        <translation type="vanished">መሰረዣ</translation>
+    </message>
+    <message>
+        <location filename="../frame/linewidget.cpp" line="24"/>
+        <source>Color</source>
+        <translation type="unfinished">ቀለም</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -487,6 +491,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Selected</source>
         <translation type="vanished">ተመርጧል</translation>
     </message>
@@ -516,9 +525,8 @@
         <translation>እርዳታ</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation>ዲፕኢን መሳያ ቀላል የ መሳያ መሳሪያ ነው: እርስዎ በ ቀላሉ መሳል እና ምስል ማረም ይችላሉ: </translation>
+        <translation type="vanished">ዲፕኢን መሳያ ቀላል የ መሳያ መሳሪያ ነው: እርስዎ በ ቀላሉ መሳል እና ምስል ማረም ይችላሉ: </translation>
     </message>
 </context>
 </TS>

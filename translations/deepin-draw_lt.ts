@@ -135,8 +135,8 @@
     <name>LineWidget</name>
     <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
-        <source>Stroke</source>
-        <translation type="unfinished"></translation>
+        <source>Color</source>
+        <translation type="unfinished">Spalva</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -491,6 +491,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Dark theme</source>
         <translation type="vanished">Tamsi tema</translation>
     </message>
@@ -498,11 +503,6 @@
         <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>Žinynas</translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

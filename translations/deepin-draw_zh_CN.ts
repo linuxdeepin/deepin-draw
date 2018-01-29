@@ -131,8 +131,8 @@
     <name>LineWidget</name>
     <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
-        <source>Stroke</source>
-        <translation>描边</translation>
+        <source>Color</source>
+        <translation>颜色</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -493,7 +493,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation>深度画板是一款轻量级的绘图工具。可以在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>
 </context>

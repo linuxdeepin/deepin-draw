@@ -131,7 +131,7 @@
     <name>LineWidget</name>
     <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
-        <source>Stroke</source>
+        <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -493,7 +493,7 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
