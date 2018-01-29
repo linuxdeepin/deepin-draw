@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
@@ -32,7 +30,7 @@
     <message>
         <location filename="../widgets/colorpanel.cpp" line="136"/>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/colorpanel.cpp" line="165"/>
@@ -55,11 +53,7 @@
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="89"/>
         <source>Clip</source>
-        <translation type="unfinished">Obreži</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Izreži</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -67,12 +61,12 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="18"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rotiraj 90° v levo</translation>
+        <translation>Zavrti za 90° v levo</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="24"/>
         <source>Rotate 90° CW</source>
-        <translation>Rotiraj 90° v desno</translation>
+        <translation>Zavrti za 90° v desno</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="31"/>
@@ -110,11 +104,7 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save the current contents</source>
-        <translation type="vanished">Shrani trenutne vsebine</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,18 +128,14 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <source>Stroke</source>
-        <translation type="vanished">Poteza</translation>
-    </message>
-    <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Color</source>
-        <translation type="unfinished">Barva</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
         <source>Style</source>
-        <translation>Stil</translation>
+        <translation>Slog</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="70"/>
@@ -162,7 +148,7 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="28"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -268,23 +254,19 @@
         <translation>Kakovost:</translation>
     </message>
     <message>
-        <source>Open Directory</source>
-        <translation type="vanished">Odpri direktorij</translation>
-    </message>
-    <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="300"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Neimenovano</translation>
     </message>
 </context>
 <context>
@@ -334,7 +316,7 @@
         <location filename="../drawshape/shapeswidget.cpp" line="4007"/>
         <location filename="../drawshape/shapeswidget.cpp" line="4015"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -342,104 +324,100 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Drawing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Graphics/Images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Save</source>
-        <translation type="unfinished">Shrani</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation type="unfinished">Pravokotnik</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation type="unfinished">Elipsa</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Pencil</source>
-        <translation type="unfinished">Svinčnik</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Text</source>
-        <translation type="unfinished">Besedilo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Blur</source>
-        <translation type="unfinished">Zabriši</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="44"/>
         <source>Cut</source>
-        <translation type="unfinished">Izreži</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="45"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopiraj</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
         <source>Paste</source>
-        <translation type="unfinished">Prilepi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
         <source>Delete</source>
-        <translation type="unfinished">Izbriši</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Raise Layer</source>
-        <translation type="unfinished">Dvigni plast</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">Spusti plast</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Layer to Top</source>
-        <translation type="unfinished">Plast na vrh</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished">Plast na dno</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TextWidget</name>
     <message>
-        <source>Fill</source>
-        <translation type="vanished">Zapolni</translation>
-    </message>
-    <message>
         <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Color</source>
-        <translation type="unfinished">Barva</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="58"/>
@@ -488,16 +466,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="84"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selected</source>
-        <translation type="vanished">Izbrano</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="91"/>
@@ -508,7 +477,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation>Vse slike</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="330"/>
@@ -516,17 +485,14 @@
         <translation>Natisni</translation>
     </message>
     <message>
-        <source>Dark theme</source>
-        <translation type="vanished">Temna tema</translation>
-    </message>
-    <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>Pomoč</translation>
     </message>
     <message>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="vanished">Risar Deepin je lahko risalno orodje. Prosto lahko rišete po plasteh ali pa urejate slike.</translation>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

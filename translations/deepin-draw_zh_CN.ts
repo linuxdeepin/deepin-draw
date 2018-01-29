@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
@@ -63,12 +61,12 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="18"/>
         <source>Rotate 90° CCW</source>
-        <translation>左旋转</translation>
+        <translation>逆时针旋转</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="24"/>
         <source>Rotate 90° CW</source>
-        <translation>右旋转</translation>
+        <translation>顺时针旋转</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="31"/>
@@ -258,7 +256,7 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
-        <translation>%1 已经存在，您是否要替换?</translation>
+        <translation>&quot;%1&quot;已经存在，您是否要替换？</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="178"/>

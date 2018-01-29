@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="23"/>
         <source>Width</source>
-        <translation type="unfinished">العرض</translation>
+        <translation>العرض</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="34"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>الارتفاع</translation>
     </message>
     <message>
         <location filename="../frame/adjustsizewidget.cpp" line="91"/>
@@ -32,7 +30,7 @@
     <message>
         <location filename="../widgets/colorpanel.cpp" line="136"/>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/colorpanel.cpp" line="165"/>
@@ -55,11 +53,7 @@
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="89"/>
         <source>Clip</source>
-        <translation type="unfinished">قصاصة</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">قص</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -67,12 +61,12 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="18"/>
         <source>Rotate 90° CCW</source>
-        <translation type="unfinished"></translation>
+        <translation>تدوير 90° عكس اتجاه عقارب الساعة </translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="24"/>
         <source>Rotate 90° CW</source>
-        <translation type="unfinished"></translation>
+        <translation>تدوير 90° باتجاه عقارب الساعة </translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="31"/>
@@ -82,12 +76,12 @@
     <message>
         <location filename="../frame/cutwidget.cpp" line="37"/>
         <source>Flip horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>قلب أفقي</translation>
     </message>
     <message>
         <location filename="../frame/cutwidget.cpp" line="43"/>
         <source>Flip vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>قلب عمودي</translation>
     </message>
 </context>
 <context>
@@ -110,11 +104,7 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save the current contents</source>
-        <translation type="vanished">حفظ المحتويات الحالية</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -127,7 +117,7 @@
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="49"/>
         <source>Stroke</source>
-        <translation type="unfinished">Stroke</translation>
+        <translation>شطب</translation>
     </message>
     <message>
         <location filename="../frame/fillshapewidget.cpp" line="53"/>
@@ -138,13 +128,9 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <source>Stroke</source>
-        <translation type="vanished">Stroke</translation>
-    </message>
-    <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Color</source>
-        <translation type="unfinished">اللون</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -162,7 +148,7 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="28"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -250,41 +236,37 @@
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="107"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>الاسم</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="108"/>
         <source>Save to:</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ في :</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="109"/>
         <source>Format:</source>
-        <translation type="unfinished"></translation>
+        <translation>الصيغة:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="110"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Directory</source>
-        <translation type="vanished">فتح دليل</translation>
+        <translation>الجودة</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="300"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>غير مسمى</translation>
     </message>
 </context>
 <context>
@@ -313,7 +295,7 @@
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="4653"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>رفع الطبقة</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="4654"/>
@@ -323,18 +305,18 @@
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="4655"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>الطبقة في المقدمة</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="4656"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>الطبقة في الخلفية</translation>
     </message>
     <message>
         <location filename="../drawshape/shapeswidget.cpp" line="4007"/>
         <location filename="../drawshape/shapeswidget.cpp" line="4015"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -342,109 +324,105 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Drawing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Graphics/Images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Save</source>
-        <translation type="unfinished">حفظ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation type="unfinished">مستطيل</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation type="unfinished">شكل بيضوي</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Pencil</source>
-        <translation type="unfinished">قلم رصاص</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Text</source>
-        <translation type="unfinished">نص</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Blur</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="44"/>
         <source>Cut</source>
-        <translation type="unfinished">قص</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="45"/>
         <source>Copy</source>
-        <translation type="unfinished">نسخ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
         <source>Paste</source>
-        <translation type="unfinished">لصق</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
         <source>Delete</source>
-        <translation type="unfinished">حذف</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Raise Layer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">الطبقة السفلى</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Layer to Top</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TextWidget</name>
     <message>
-        <source>Fill</source>
-        <translation type="vanished">تشبع</translation>
-    </message>
-    <message>
         <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Color</source>
-        <translation type="unfinished">اللون</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="58"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>الحجم</translation>
     </message>
 </context>
 <context>
@@ -452,7 +430,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="49"/>
         <source>Dimension</source>
-        <translation type="unfinished"></translation>
+        <translation>البعد</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="54"/>
@@ -483,21 +461,12 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="79"/>
         <source>Blur</source>
-        <translation type="unfinished"></translation>
+        <translation>الضبابية</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="84"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selected</source>
-        <translation type="vanished">المحدد</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="91"/>
@@ -508,7 +477,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation>كاقة الصور</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="330"/>
@@ -516,17 +485,14 @@
         <translation>طباعة</translation>
     </message>
     <message>
-        <source>Dark theme</source>
-        <translation type="vanished">سمة داكنة</translation>
-    </message>
-    <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>مساعدة</translation>
     </message>
     <message>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="vanished">رسام ديبين : أداة رسم خفيفة تمكنك من الرسم بحرية على طبقة أو تحرير الصور بكل بساطة</translation>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

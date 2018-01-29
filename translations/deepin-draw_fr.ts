@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>AdjustsizeWidget</name>
     <message>
@@ -32,7 +30,7 @@
     <message>
         <location filename="../widgets/colorpanel.cpp" line="136"/>
         <source>Alpha</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/colorpanel.cpp" line="165"/>
@@ -55,11 +53,7 @@
     <message>
         <location filename="../drawshape/cutimagetips.cpp" line="89"/>
         <source>Clip</source>
-        <translation type="unfinished">Écrêter</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="vanished">Couper</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -110,11 +104,7 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="26"/>
         <source>Save the current contents?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save the current contents</source>
-        <translation type="vanished">Enregistrer les contenus actuels</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -138,13 +128,9 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <source>Stroke</source>
-        <translation type="vanished">Contour</translation>
-    </message>
-    <message>
         <location filename="../frame/linewidget.cpp" line="24"/>
         <source>Color</source>
-        <translation type="unfinished">Couleur</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="36"/>
@@ -162,7 +148,7 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="28"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -268,23 +254,19 @@
         <translation>Qualité :</translation>
     </message>
     <message>
-        <source>Open Directory</source>
-        <translation type="vanished">Ouvrir répertoire</translation>
-    </message>
-    <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="176"/>
         <source>%1 already exists, do you want to replace?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="178"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/dialog/savedialog.cpp" line="300"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sans nom</translation>
     </message>
 </context>
 <context>
@@ -334,7 +316,7 @@
         <location filename="../drawshape/shapeswidget.cpp" line="4007"/>
         <location filename="../drawshape/shapeswidget.cpp" line="4015"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -342,104 +324,100 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Drawing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Graphics/Images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Save</source>
-        <translation type="unfinished">Enregistrer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Rectangle</source>
-        <translation type="unfinished">Rectangle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Ellipse</source>
-        <translation type="unfinished">Ellipse</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Pencil</source>
-        <translation type="unfinished">Crayon</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Text</source>
-        <translation type="unfinished">Texte</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Blur</source>
-        <translation type="unfinished">Atténuer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="44"/>
         <source>Cut</source>
-        <translation type="unfinished">Couper</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="45"/>
         <source>Copy</source>
-        <translation type="unfinished">Copier</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
         <source>Paste</source>
-        <translation type="unfinished">Coller</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Raise Layer</source>
-        <translation type="unfinished">Élever le calque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Lower Layer</source>
-        <translation type="unfinished">Abaisser le calque</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Layer to Top</source>
-        <translation type="unfinished">Calque au-dessus</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Layer to Bottom</source>
-        <translation type="unfinished">Calque en dessous</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TextWidget</name>
     <message>
-        <source>Fill</source>
-        <translation type="vanished">Remplir</translation>
-    </message>
-    <message>
         <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Color</source>
-        <translation type="unfinished">Couleur</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="58"/>
@@ -488,16 +466,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="84"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/toptoolbar.cpp" line="339"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selected</source>
-        <translation type="vanished">Sélectionné</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="91"/>
@@ -508,7 +477,7 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="227"/>
         <source>All images </source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les images</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="330"/>
@@ -516,17 +485,14 @@
         <translation>Imprimer</translation>
     </message>
     <message>
-        <source>Dark theme</source>
-        <translation type="vanished">Thème sombre</translation>
-    </message>
-    <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simplely edit images. </source>
-        <translation type="vanished">Deepin Draw est un outil de dessin léger. Vous pouvez dessiner librement sur le calque ou éditer simplement des images.</translation>
+        <location filename="../frame/toptoolbar.cpp" line="339"/>
+        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
