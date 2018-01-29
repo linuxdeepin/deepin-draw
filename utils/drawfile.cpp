@@ -40,6 +40,7 @@ void DrawFile::createddf(QSize windowSize, QSize canvasSize,
                      shapes[i].mainPoints[j]);
         }
         setItem(ddf, QString("shape_%1").arg(i), "index", QVariant(shapes[i].index));
+        setItem(ddf, QString("shape_%1").arg(i), "lineWidth", QVariant(shapes[i].index));
         setItem(ddf, QString("shape_%1").arg(i), "fillColor", QVariant(shapes[i].fillColor));
         setItem(ddf, QString("shape_%1").arg(i), "strokeColor", QVariant(shapes[i].strokeColor));
         setItem(ddf, QString("shape_%1").arg(i), "isBlur", shapes[i].isBlur);
@@ -138,6 +139,8 @@ void DrawFile::parseddf(const QString &path)
         }
 
         shape.index = value(parseSettings, QString("shape_%1").arg(i),
+                            "index").toInt();
+        shape.lineWidth = value(parseSettings, QString("shape_%1").arg(i),
                             "lineWidth").toInt();
         shape.fillColor = value(parseSettings, QString("shape_%1").arg(i),
                             "fillColor").value<QColor>();

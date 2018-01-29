@@ -118,6 +118,12 @@ void TextEdit::setFontsizeRation(qreal ration)
     setFontSize(m_fontSize);
 }
 
+void TextEdit::movePos(QPointF movePos)
+{
+    m_startPos = movePos;
+    this->move(QPoint(m_startPos.x(), m_startPos.y()));
+}
+
 void TextEdit::updateCursor()
 {
 //    setTextColor(Qt::green);

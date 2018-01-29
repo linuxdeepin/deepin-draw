@@ -193,7 +193,7 @@ ShapesWidget::~ShapesWidget()
 void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key)
 {
-    qDebug() << "updateSelectedShapes" << m_selectedIndex
+    qDebug() << "updateSelectedShapes&:" << m_selectedIndex
                     << m_shapes.length() << m_selectedOrder;
 
     if ("common" == group) {
@@ -275,15 +275,26 @@ void ShapesWidget::updateSelectedShape(const QString &group,
                 updateSelectedShape = true;
             }
         } else if (group == "text" && m_shapes[m_selectedOrder].type == group) {
-            if (m_shapes[m_selectedOrder].type == "text") {
-                qDebug() << "updateSelectedShape..." << m_selectedOrder
-                                << m_shapes[m_selectedOrder].index
-                                << m_textFontsize;
-                int tmpIndex = m_shapes[m_selectedOrder].index;
+            qDebug() << "Update selected shape's index:" << m_shapes[m_selectedOrder].index;
+             int tmpIndex = m_shapes[m_selectedOrder].index;
+
+            if (m_shapes[m_selectedOrder].type == "text"&& key == "fontsize") {
                 if (m_editMap.contains(tmpIndex)) {
-                    qDebug() << "tmpIndex:" << tmpIndex;
-                    m_editMap.value(tmpIndex)->setColor(m_brushColor);
+                    m_textFontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
                     m_editMap.value(tmpIndex)->setFontSize(m_textFontsize);
+                    m_shapes[m_selectedOrder].fontSize = m_textFontsize;
+                    m_editMap.value(tmpIndex)->update();
+                    updateSelectedShape = true;
+                }
+            } else if (m_shapes[m_selectedOrder].type == "text" && key != "fontsize") {
+                if (m_editMap.contains(tmpIndex)) {
+                   m_brushColor = QColor(ConfigSettings::instance()->value("text",
+                                                                               "fillColor").toString());
+                    int brushColAlpha = ConfigSettings::instance()->value("text",
+                                                                          "fillColor_alpha").toInt();
+                    m_brushColor.setAlphaF(qreal(brushColAlpha)/qreal(100));
+                    m_shapes[m_selectedOrder].fillColor = m_brushColor;
+                    m_editMap.value(tmpIndex)->setColor(m_brushColor);
                     m_editMap.value(tmpIndex)->update();
                     updateSelectedShape = true;
                 }
@@ -324,13 +335,11 @@ void ShapesWidget::setShapes(Toolshapes shapes)
         if (shape.type == "text") {
             TextEdit* edit = new TextEdit(shape.index, this);
             edit->setFontSize(shape.fontSize);
-            qDebug() << "hanging shape..." << shape.fillColor.alphaF() << shape.index
-                            << shape.text << shape.fontSize << edit->fontSize();
             edit->setColor(shape.fillColor);
             edit->insertPlainText(shape.text);
-            edit->show();
 
-            edit->move(QPoint(shape.mainPoints[0].x(), shape.mainPoints[0].y()));
+            edit->movePos(shape.mainPoints[0]);
+            edit->show();
             m_editMap.insert(shape.index, edit);
 
             connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
@@ -351,21 +360,19 @@ void ShapesWidget::setShapes(Toolshapes shapes)
                 for (int k = 0; k < m_shapes.length(); k++) {
                     if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
                         selectedShape(k);
-                        m_hoveredShape = m_shapes[m_selectedOrder];
+                        m_hoveredShape = m_shapes[k];
                         m_currentShape.type = "";
                         if (edit->getTextColor() == QColor(Qt::transparent))
                         {
                             updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
                         } else {
+                            updateToSelectedShapeAttribute("text", "fillColor",
+                                                           edit->getTextColor().name(QColor::HexRgb));
                             qreal colorAlpha = edit->getTextColor().alphaF();
                             updateToSelectedShapeAttribute("text", "fillColor_alpha",
                                                            int(colorAlpha*100));
-                            updateToSelectedShapeAttribute("text", "fillColor",
-                                                           edit->getTextColor().name(QColor::HexRgb));
                         }
                         m_brushColor = edit->getTextColor();
-
-                        qDebug() << "updateToSelectedShape: " << edit->fontSize();
                         updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
                         m_textFontsize = edit->fontSize();
 
@@ -2065,7 +2072,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         /*Click on the bottom right to drag and drop the canvas size.*/
         QRect btmRightRect = rightBottomRect();
         if (m_selectedOrder == -1 && btmRightRect.contains(QPoint(m_pos1.x(),
-                                                                  m_pos1.y())) && !m_isRecording)
+            m_pos1.y())) && !m_isRecording)
         {
             m_inBtmRight = true;
             m_resizeDirection = Right;
@@ -2091,7 +2098,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
 
             m_currentIndex = m_shapesIndex;
             m_pressedPoint = QPointF(m_pos1.x(), m_pos1.y());
-            qDebug() << "mousePressEvent:" << m_currentType;
+            qDebug() << "mousePressEvent:" << m_currentType << m_currentIndex;
 
             if (m_currentType == "arbitraryCurve") {
                 m_currentShape.index = m_currentIndex;
@@ -2138,7 +2145,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     m_currentShape.mainPoints[3] = QPointF(
                         m_pressedPoint.x() + edit->width(), m_pressedPoint.y() + edit->height());
                     m_editMap.insert(m_currentIndex, edit);
-
+                    appendShape(m_currentShape);
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
@@ -2162,11 +2169,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                                 {
                                     updateToSelectedShapeAttribute("text", "fillColor_transparent", true);
                                 } else {
+                                    updateToSelectedShapeAttribute("text", "fillColor",
+                                                                   edit->getTextColor().name(QColor::HexRgb));
                                     qreal colorAlpha = edit->getTextColor().alphaF();
                                     updateToSelectedShapeAttribute("text", "fillColor_alpha",
                                                                    int(colorAlpha*100));
-                                    updateToSelectedShapeAttribute("text", "fillColor",
-                                                                   edit->getTextColor().name(QColor::HexRgb));
                                 }
                                 m_brushColor = edit->getTextColor();
                                 updateToSelectedShapeAttribute("text", "fontsize", edit->fontSize());
@@ -2181,7 +2188,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
                     connect(edit, &TextEdit::showMenuInTextEdit, this, [=]{
                         popupMenu(this->cursor().pos());
                     });
-                    appendShape(m_currentShape);
+
                     qDebug() << "Insert text shape:" << m_currentShape.index;
                 } else {
                     qDebug() << "finishing editing!";
@@ -2575,7 +2582,6 @@ void ShapesWidget::paintRect(QPainter &painter, Toolshape shape, bool saveTo)
     rectPath.lineTo(rectFPoints[2].x()*tmpRation, rectFPoints[2].y()*tmpRation);
     rectPath.lineTo(rectFPoints[0].x()*tmpRation, rectFPoints[0].y()*tmpRation);
     painter.drawPath(rectPath);
-
 }
 
 void ShapesWidget::paintEllipse(QPainter &painter, Toolshape shape, bool saveTo)
@@ -2700,6 +2706,7 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape, bool saveTo)
 
         if (m_editMap.contains(shape.index))
         {
+            painter.setPen(QPen(m_editMap.value(shape.index)->getTextColor()));
             painter.drawText(QRectF(shape.mainPoints[0].x()*tmpRation,
             shape.mainPoints[0].y()*tmpRation, std::abs(shape.mainPoints[3].x()
              - shape.mainPoints[0].x())*tmpRation, std::abs(shape.mainPoints[3].y()
@@ -3900,7 +3907,6 @@ void ShapesWidget::updateShapeAttribute()
                                                              "fillColor").toString());
             int alpha = ConfigSettings::instance()->value("text",
                                                           "fillColor_alpha").toInt();
-
             m_brushColor = QColor(color.red(), color.green(), color.blue());
             m_brushColor.setAlphaF(qreal(alpha)/100);
         }

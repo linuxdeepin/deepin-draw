@@ -25,6 +25,7 @@ public slots:
     void setFontSize(int fontsize);
     void updateContentSize(QString content);
     void setFontsizeRation(qreal ration);
+    void movePos(QPointF movePos);
 
 signals:
     void repaintTextRect(TextEdit* edit,  QRectF newPositiRect);
