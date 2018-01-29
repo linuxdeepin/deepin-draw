@@ -49,7 +49,7 @@ TextWidget::TextWidget(QWidget *parent)
 
     QLabel* colBtnLabel = new QLabel(this);
     colBtnLabel->setObjectName("FillLabel");
-    colBtnLabel->setText(tr("Fill"));
+    colBtnLabel->setText(tr("Color"));
 
     SeperatorLine* textSeperatorLine = new SeperatorLine(this);
 

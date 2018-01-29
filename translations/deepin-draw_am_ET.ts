@@ -286,49 +286,49 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4510"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4635"/>
         <source>Cut</source>
         <translation>መቁረጫ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4511"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4636"/>
         <source>Copy</source>
         <translation>ኮፒ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4516"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="4554"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4641"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4679"/>
         <source>Paste</source>
         <translation>መለጠፊያ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4526"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4651"/>
         <source>Delete</source>
         <translation>ማጥፊያ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4528"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4653"/>
         <source>Raise Layer</source>
         <translation>ደረጃ መጨመሪያ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4529"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4654"/>
         <source>Lower Layer</source>
         <translation>ደረጃ መቀነሻ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4530"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4655"/>
         <source>Layer to Top</source>
         <translation>ደረጃ ወደ ላይ</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4531"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4656"/>
         <source>Layer to Bottom</source>
         <translation>ደረጃ ወደ ታች</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="3882"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="3890"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4007"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4015"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -429,9 +429,13 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Fill</source>
-        <translation>መሙያ</translation>
+        <translation type="vanished">መሙያ</translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="52"/>
+        <source>Color</source>
+        <translation type="unfinished">ቀለም</translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="58"/>
@@ -503,9 +507,8 @@
         <translation>ማተሚያ</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="332"/>
         <source>Dark theme</source>
-        <translation>ጥቁር ገጽታ</translation>
+        <translation type="vanished">ጥቁር ገጽታ</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>

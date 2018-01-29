@@ -286,49 +286,49 @@
 <context>
     <name>ShapesWidget</name>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4510"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4635"/>
         <source>Cut</source>
         <translation>Kes</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4511"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4636"/>
         <source>Copy</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4516"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="4554"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4641"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4679"/>
         <source>Paste</source>
         <translation>Yapıştır</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4526"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4651"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4528"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4653"/>
         <source>Raise Layer</source>
         <translation>Katman Arttır</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4529"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4654"/>
         <source>Lower Layer</source>
         <translation>Alt Katman</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4530"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4655"/>
         <source>Layer to Top</source>
         <translation>Katman Yukarıya</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="4531"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4656"/>
         <source>Layer to Bottom</source>
         <translation>Katman Aşağıya</translation>
     </message>
     <message>
-        <location filename="../drawshape/shapeswidget.cpp" line="3882"/>
-        <location filename="../drawshape/shapeswidget.cpp" line="3890"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4007"/>
+        <location filename="../drawshape/shapeswidget.cpp" line="4015"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -429,9 +429,13 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="52"/>
         <source>Fill</source>
-        <translation>Doldur</translation>
+        <translation type="vanished">Doldur</translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="52"/>
+        <source>Color</source>
+        <translation type="unfinished">Renk</translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="58"/>
@@ -503,9 +507,8 @@
         <translation>Yazdır</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="332"/>
         <source>Dark theme</source>
-        <translation>Koyu Tema</translation>
+        <translation type="vanished">Koyu Tema</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="334"/>

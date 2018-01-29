@@ -328,12 +328,12 @@ void TopToolbar::initMenu()
     m_mainMenu->addSeparator();
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
     QAction* printAc = m_mainMenu->addAction(tr("Print"));
-    m_mainMenu->addSeparator();
-    QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
+//    m_mainMenu->addSeparator();
+//    QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
     m_mainMenu->addSeparator();
     QAction* helpAc = m_mainMenu->addAction(tr("Help"));
 
-    Q_UNUSED(themeAc);
+//    Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
     dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
     dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
