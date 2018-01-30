@@ -29,6 +29,8 @@ public:
      QSize imageSize = QSize();
      int fontSize = 1;
 
+     QPixmap blurBackground;
+
     QList<QPointF> points;
     QList<QPointF> portion;
     Toolshape();

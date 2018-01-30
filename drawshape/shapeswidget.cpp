@@ -2739,7 +2739,7 @@ void ShapesWidget::paintText(QPainter &painter, Toolshape shape, bool saveTo)
     }
 }
 
-QPainterPath ShapesWidget::drawPair(QPainter &p,
+QPainterPath ShapesWidget::drawPair(QPainter &p,const Toolshape& shape,
                       QPointF p1, QSizeF size1, QColor c1,
                       QPointF p2, QSizeF size2, QColor c2,
                       QPainterPath oldpath)
@@ -2794,14 +2794,14 @@ QPainterPath ShapesWidget::drawPair(QPainter &p,
 
     auto com = path.subtracted(oldpath);
     p.setClipPath(com);
-    p.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
+    p.drawPixmap(0, 0,  width(), height(),  shape.blurBackground);
     p.setClipping(false);
     p.fillPath(com, QBrush(QColor(255, 255, 255, 10)));
 
     return path;
 }
 
-void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points, int lineWidth)
+void ShapesWidget::paintPointList(QPainter &p, const Toolshape& shape, QList<QPointF> points, int lineWidth)
 {
     if (points.size() < 2)
     {
@@ -2826,14 +2826,14 @@ void ShapesWidget::paintPointList(QPainter &p, QList<QPointF> points, int lineWi
         auto c1 = Qt::transparent;
         auto c2 = Qt::transparent;
 
-        op = drawPair(p, point1, size1, c1,
+        op = drawPair(p, shape,point1, size1, c1,
                       point2, size2, c2,
                       op);
 //        qDebug() << size1 << size2;
     }
 }
 
-void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape, bool saveTo)
+void ShapesWidget::paintBlur(QPainter &painter, const Toolshape& shape, bool saveTo)
 {
     QPen pen;
     pen.setJoinStyle(Qt::RoundJoin);
@@ -2851,7 +2851,7 @@ void ShapesWidget::paintBlur(QPainter &painter, Toolshape shape, bool saveTo)
                                                  shape.points[i].y()*tmpRation);
     }
 
-    paintPointList(painter, lineFPoints, shape.lineWidth);
+    paintPointList(painter,shape, lineFPoints, shape.lineWidth);
 }
 
 void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
@@ -3224,7 +3224,7 @@ void ShapesWidget::paintEvent(QPaintEvent *)
     }
 }
 
-void ShapesWidget::paintShape(QPainter &painter, Toolshape shape,
+void ShapesWidget::paintShape(QPainter &painter, const Toolshape &shape,
                                                      bool saveTo, bool selected) {
     //If choose autoCrop the first shape's coordinate(0, 0)
     if (shape.mainPoints.length() < 4 || (shape.type != "image" && (
@@ -3754,7 +3754,18 @@ void ShapesWidget::compressToImage()
                 bottomPainter.setOpacity(1);
             }
 
-            paintShape(bottomPainter, m_shapes[k], false);
+            Toolshape shape=m_shapes[k];
+            if (m_shapes[k].type == "blur")
+            {
+                shape.blurBackground =m_bottomPixmap.scaled(m_bottomPixmap.size()/10,
+                                                            Qt::IgnoreAspectRatio,
+                                                            Qt::SmoothTransformation);
+                shape.blurBackground =shape.blurBackground .scaled(m_bottomPixmap.size(),
+                                                                   Qt::IgnoreAspectRatio,
+                                                                   Qt::SmoothTransformation);
+            }
+
+            paintShape(bottomPainter, shape, false);
         }
     }
 

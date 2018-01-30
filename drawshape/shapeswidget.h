@@ -168,7 +168,7 @@ private:
                                QPointF pos, int padding = 4);
     bool hoverOnText(FourPoints mainPoints, QPointF pos);
 
-    void paintShape(QPainter &painter, Toolshape shape, bool saveTo, bool selected = false);
+    void paintShape(QPainter &painter, const Toolshape& shape, bool saveTo, bool selected = false);
     void paintHoveredShape(QPainter &painter, Toolshape shape);
     void paintSelectedRect(QPainter &painter, Toolshape shape);
     void paintSelectedRectPoints(QPainter &painter, Toolshape shape,
@@ -181,12 +181,12 @@ private:
     void paintArbitraryCurve(QPainter &painter, Toolshape shape, bool saveTo);
     void paintText(QPainter &painter,  Toolshape shape, bool saveTo);
 
-    QPainterPath drawPair(QPainter &p,
+    QPainterPath drawPair(QPainter &p,const Toolshape& shape,
                           QPointF p1, QSizeF size1, QColor c1,
                           QPointF p2, QSizeF size2, QColor c2,
                           QPainterPath oldpath);
-    void paintPointList(QPainter &p, QList<QPointF> points, int lineWidth);
-    void paintBlur(QPainter &painter, Toolshape shape, bool saveTo);
+    void paintPointList(QPainter &p,  const Toolshape& shape, QList<QPointF> points, int lineWidth);
+    void paintBlur(QPainter &painter, const Toolshape& shape, bool saveTo);
     void paintCutImageRect(QPainter &painter, Toolshape shape);
     void paintImage(QPainter &painter, Toolshape imageShape, bool saveTo);
     void paintSelectedShape(QPainter &painter, Toolshape shape, bool noRotatePoint = false);
