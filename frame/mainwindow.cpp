@@ -8,6 +8,7 @@
 #include "utils/configsettings.h"
 #include "utils/drawfile.h"
 #include "utils/tempfile.h"
+#include "utils/imageutils.h"
 #include "widgets/dialog/drawdialog.h"
 #include "../application.h"
 
@@ -82,23 +83,30 @@ void MainWindow::loadImage(const QString &path)
 
 void MainWindow::openImage(const QString &path)
 {
-    if (QFileInfo(path).suffix() == "ddf")
+    if (QFileInfo(path).suffix() == "ddf" && QFileInfo(path).exists())
     {
         parseDdf(path);
     } else {
-        QSize imageSize = QPixmap(path).size();
         QSize desktopSize = qApp->desktop()->size();
-        int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
-        int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
+        QSize imageSize = QPixmap(path).size();
 
-        if (imageSize.width() > ww || imageSize.height() > wh)
+        if (QFileInfo(path).exists() && utils::image::imageSupportRead(path)
+                && imageSize.width() != 0 && imageSize.height() != 0)
         {
-            resize(desktopSize.width(), desktopSize.height());
+            int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
+            int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
+
+            if (imageSize.width() > ww || imageSize.height() > wh)
+            {
+                resize(desktopSize.width(), desktopSize.height());
+            } else {
+                emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
+                                                              imageSize.height() + IMG_ROTATEPOINT_SPACING ));
+            }
+            m_mainWidget->openImage(path);
         } else {
-            emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
-                    imageSize.height() + IMG_ROTATEPOINT_SPACING ));
+            resize(desktopSize.width(), desktopSize.height());
         }
-        m_mainWidget->openImage(path);
     }
 }
 
