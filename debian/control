@@ -10,5 +10,6 @@ Homepage: http://www.deepin.org
 Package: deepin-draw
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, qt5-image-formats-plugins
+Recommends: deepin-picker
 Description: Deepin Draw is the Draw for Deepin Desktop Environment(DDE)
  Deepin Draw is Deepin Desktop Environment Image Viewer.
