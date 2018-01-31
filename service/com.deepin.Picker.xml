@@ -1,0 +1,9 @@
+<interface name="com.deepin.Picker">
+    <signal name="colorPicked">
+        <arg name="appid" type="s" direction="out"/>
+        <arg name="color" type="s" direction="out"/>
+    </signal>
+    <method name="StartPick">
+        <arg name="appid" type="s" direction="in"/>
+    </method>
+</interface>
