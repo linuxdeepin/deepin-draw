@@ -41,13 +41,11 @@ int main(int argc, char *argv[])
     DBusDrawService dbusService(&w);
     Q_UNUSED(dbusService);
     //Register deepin-draw's dbus service.
-//    bool dbusServiceExist = false;
     QDBusConnection conn = QDBusConnection::sessionBus();
     if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
             !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w))
     {
         qDebug() << "deepin-draw is running!";
-//         dbusServiceExist = true;
     }
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
@@ -61,20 +59,10 @@ int main(int argc, char *argv[])
     cmdParser.process(a);
 
     if (cmdParser.isSet(openImageOption)) {
-//        if (dbusServiceExist)
-//        {
-//            DBusDraw().openImage(cmdParser.value(openImageOption));
-//        } else {
             w.activeWindow();
             w.openImage(cmdParser.value(openImageOption));
-//        }
     } else if (cmdParser.isSet(activeWindowOption)) {
-//        if (dbusServiceExist)
-//        {
-//            DBusDraw().activeWindow();
-//        } else {
             w.activeWindow();
-//        }
     } else {
         QStringList pas = cmdParser.positionalArguments();
         if (pas.length() >= 1)
@@ -84,21 +72,10 @@ int main(int argc, char *argv[])
                 path =  QUrl(pas.first()).toLocalFile();
             else
                 path = pas.first();
-//            if (dbusServiceExist)
-//            {
-//                DBusDraw().activeWindow();
-//                DBusDraw().openImage(QFileInfo(path).absoluteFilePath());
-//            } else {
-                w.activeWindow();
-                w.openImage(QFileInfo(path).absoluteFilePath());
-//            }
+            w.activeWindow();
+            w.openImage(QFileInfo(path).absoluteFilePath());
         } else {
-//            if (dbusServiceExist)
-//            {
-//                DBusDraw().activeWindow();
-//            } else {
                 w.show();
-//            }
         }
     }
 
