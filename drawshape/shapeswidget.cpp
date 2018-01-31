@@ -1985,6 +1985,7 @@ void ShapesWidget::mirroredImage(bool horizontal, bool vertical)
 
     m_needCompress = true;
     compressToImage();
+    update();
 }
 
 bool ShapesWidget::eventFilter(QObject *obj, QEvent *e)
