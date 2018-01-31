@@ -2947,6 +2947,7 @@ void ShapesWidget::paintCutImageRect(QPainter &painter, Toolshape shape)
 
 void ShapesWidget::paintImage(QPainter &painter, Toolshape imageShape, bool saveTo)
 {
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     QPixmap pixmap;
     if (!QPixmapCache::find(createHash(imageShape.imagePath), &pixmap))
     {
@@ -3693,6 +3694,7 @@ void ShapesWidget::loadImage(QStringList paths)
     qDebug() << "loadImage: " << paths.length();
     m_artBoardWindowWidth = this->width();
     m_artBoardWindowHeight = this->height();
+    bool finishedLoadImage = false;
 
     if (paths.length() > 1)
     {
@@ -3709,18 +3711,22 @@ void ShapesWidget::loadImage(QStringList paths)
             emit m_loadTips->progressValueChanged(counts);
     });
     connect(loader, &Loader::finishedLoadShapes, this,
-            [=](Toolshapes imageShapes, QPointF pos){
-         m_shapes.append(imageShapes);
-        selectedShape(m_shapes.length() - 1);
-        m_startPos = pos;
+            [=](Toolshapes imageShapes, QPointF pos) mutable {
+        if (!finishedLoadImage)
+        {
+            finishedLoadImage = true;
+            m_shapes.append(imageShapes);
+            selectedShape(m_shapes.length() - 1);
+            m_startPos = pos;
 
-        setCurrentShape("selected");
-        emit updateMiddleWidgets("image");
-        initScaledRation();
+            setCurrentShape("selected");
+            emit updateMiddleWidgets("image");
+            initScaledRation();
 
-        qDebug() << "load image finished, compress image begins!" << m_shapes.length();
-        compressToImage();
-        emit m_loadTips->finishedPainting();
+            qDebug() << "load image finished, compress image begins!";
+            compressToImage();
+            emit m_loadTips->finishedPainting();
+        }
     });
 }
 
@@ -3740,8 +3746,7 @@ void ShapesWidget::compressToImage()
     for(int k = 0; k < m_shapes.length(); k++)
     {
         QPainter bottomPainter(&m_bottomPixmap);
-        bottomPainter.setRenderHints(QPainter::Antialiasing/* |
-                                     QPainter::SmoothPixmapTransform*/);
+        bottomPainter.setRenderHints(QPainter::Antialiasing);
         if (m_shapes[k].type == "cutImage")
         {
             continue;
