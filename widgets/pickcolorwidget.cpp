@@ -35,9 +35,9 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     connect(m_blueEditLabel, &EditLabel::editTextChanged,
             this, &PickColorWidget::updateColor);
 
-    m_picker = new PushButton(this);
-    m_picker->setFixedSize(24, 24);
-    m_picker->setObjectName("PickerBtn");
+//    m_picker = new PushButton(this);
+//    m_picker->setFixedSize(24, 24);
+//    m_picker->setObjectName("PickerBtn");
     QHBoxLayout* rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
@@ -46,8 +46,8 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     rgbLayout->addWidget(m_redEditLabel);
     rgbLayout->addWidget(m_greenEditLabel);
     rgbLayout->addWidget(m_blueEditLabel);
-    rgbLayout->addSpacing(4);
-    rgbLayout->addWidget(m_picker);
+    rgbLayout->addSpacing(28);
+//    rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
     m_colorSlider->setObjectName("ColorfulSlider");
     m_colorSlider->setFixedSize(222, 14);
@@ -62,14 +62,14 @@ PickColorWidget::PickColorWidget(QWidget *parent)
     connect(m_colorLabel, &ColorLabel::pickedColor, this,  [=](QColor color){
         setRgbValue(color, true);
     });
-    connect(m_picker, &PushButton::clicked, this, [=]{
-        if (m_picker->getChecked())
-        {
-            m_colorLabel->setPickColor(true);
-        } else {
-            m_colorLabel->setPickColor(false);
-        }
-    });
+//    connect(m_picker, &PushButton::clicked, this, [=]{
+//        if (m_picker->getChecked())
+//        {
+//            m_colorLabel->setPickColor(true);
+//        } else {
+//            m_colorLabel->setPickColor(false);
+//        }
+//    });
 
     QVBoxLayout* mLayout = new QVBoxLayout;
     mLayout->setMargin(0);
@@ -102,6 +102,11 @@ void PickColorWidget::updateColor()
     {
         emit pickedColor(QColor(r, g, b));
     }
+}
+
+void PickColorWidget::setPickedColor(bool picked)
+{
+    m_colorLabel->setPickColor(picked);
 }
 
 PickColorWidget::~PickColorWidget()

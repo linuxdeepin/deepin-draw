@@ -17,6 +17,7 @@ public:
 
     void setRgbValue(QColor color, bool isPicked = false);
     void updateColor();
+    void setPickedColor(bool picked);
 
 signals:
     void pickedColor(QColor color);
@@ -25,7 +26,7 @@ private:
     EditLabel* m_redEditLabel;
     EditLabel* m_greenEditLabel;
     EditLabel* m_blueEditLabel;
-    PushButton* m_picker;
+//    PushButton* m_picker;
     ColorLabel* m_colorLabel;
     ColorSlider* m_colorSlider;
 };

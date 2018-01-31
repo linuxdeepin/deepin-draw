@@ -227,11 +227,13 @@ ColorPanel::ColorPanel(QWidget *parent)
         if (m_expand)
         {
             pickColWidget->hide();
+            pickColWidget->setPickedColor(false);
             setFixedHeight(ORIGIN_HEIGHT);
             updateGeometry();
         } else
         {
             pickColWidget->show();
+            pickColWidget->setPickedColor(true);
             setFixedHeight(EXPAND_HEIGHT);
             updateGeometry();
         }
