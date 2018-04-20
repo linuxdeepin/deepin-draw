@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     }
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
-                                        "Specifiy a path to load an image.", "PATH");
+                                        "Specify a path to load an image.", "PATH");
     QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
                                           "Show deepin draw.");
     QCommandLineParser cmdParser;
