@@ -2021,8 +2021,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e)
         //Initialize the scale of the drawing board.
         initScaledRation();
 
-        /*Determin whether a cropped box exist, if there is an indication
-         *that it  is currently in the clipping state, enter to redrawing the
+        /*Determine whether a cropped box exist, if there is an indication
+         *that it is currently in the clipping state, enter to redrawing the
          * clipping box, and if not, remove the clipping box.*/
         if (m_imageCutting && clickedOnCutImage(m_cutShape.mainPoints,
             QPointF(e->pos().x(), e->pos().y())))
