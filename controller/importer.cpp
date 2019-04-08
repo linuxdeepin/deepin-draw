@@ -115,7 +115,7 @@ void Importer::stopDirCollect(const QString &dir)
         DirCollectThread* dc = dynamic_cast<DirCollectThread*>(t);
         if (dc && dc->dir() == dir)
         {
-            qDebug() << "Stoping dir collect thread..." << dir;
+            qDebug() << "Stopping dir collect thread..." << dir;
             dc->setStop(true);
             t->quit();
             t->wait();
