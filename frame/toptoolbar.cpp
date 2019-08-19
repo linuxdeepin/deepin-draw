@@ -19,6 +19,7 @@
 #include "utils/global.h"
 #include "utils/imageutils.h"
 #include "utils/tempfile.h"
+#include "drawshape/drawtool.h"
 
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
@@ -32,224 +33,42 @@
 
 DWIDGET_USE_NAMESPACE
 
-const QSize LOGO_SIZE = QSize(24, 24);
-const int BTN_SPACING = 13;
+
 
 TopToolbar::TopToolbar(QWidget* parent)
 : QFrame(parent)
 {
+
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
+
     QLabel* logoLabel = new QLabel(this);
-    logoLabel->setFixedSize(LOGO_SIZE);
+    logoLabel->setFixedSize(QSize(32, 32));
     logoLabel->setObjectName("LogoLabel");
-
-    PushButton* artBoardBtn = new PushButton(this);
-    artBoardBtn->setObjectName("ArtBoardBtn");
-    artBoardBtn->setToolTip(tr("Dimension"));
-    m_actionPushButtons.append(artBoardBtn);
-
-    PushButton* picBtn = new PushButton(this);
-    picBtn->setObjectName("PictureBtn");
-    picBtn->setToolTip(tr("Import"));
-    m_actionPushButtons.append(picBtn);
-
-    m_rectBtn = new PushButton(this);
-    m_rectBtn->setObjectName("RectBtn");
-    m_rectBtn->setToolTip(tr("Rectangle"));
-    m_actionPushButtons.append(m_rectBtn);
-
-    m_ovalBtn = new PushButton(this);
-    m_ovalBtn->setObjectName("OvalBtn");
-    m_ovalBtn->setToolTip(tr("Ellipse"));
-    m_actionPushButtons.append(m_ovalBtn);
-
-    m_lineBtn = new PushButton(this);
-    m_lineBtn->setObjectName("LineBtn");
-    m_lineBtn->setToolTip(tr("Pencil"));
-    m_actionPushButtons.append(m_lineBtn);
-
-    m_textBtn = new PushButton(this);
-    m_textBtn->setObjectName("TextBtn");
-    m_textBtn->setToolTip(tr("Text"));
-    m_actionPushButtons.append(m_textBtn);
-
-    m_blurBtn = new PushButton(this);
-    m_blurBtn->setObjectName("BlurBtn");
-    m_blurBtn->setToolTip(tr("Blur"));
-    m_actionPushButtons.append(m_blurBtn);
-
-    m_selectBtn = new PushButton(this);
-    m_selectBtn->setObjectName("SelectedBtn");
-    m_selectBtn->setToolTip(tr("Select"));
-    m_actionPushButtons.append(m_selectBtn);
 
     initStackWidget();
 
-    PushButton* exportBtn = new PushButton(this);
-    exportBtn->setObjectName("ExportBtn");
-    exportBtn->setToolTip(tr("Save"));
-    exportBtn->setCheckable(false);
+    QHBoxLayout* hLayout= new QHBoxLayout (this);
+    hLayout->addWidget(logoLabel,0, Qt::AlignLeft);
+
+    hLayout->addWidget(m_stackWidget, 80, Qt::AlignHCenter);
+
+    setLayout(hLayout);
+
+
+
+//    PushButton* exportBtn = new PushButton(this);
+//    exportBtn->setObjectName("ExportBtn");
+//    exportBtn->setToolTip(tr("Save"));
+//    exportBtn->setCheckable(false);
 
     initMenu();
 
-    m_layout = new QHBoxLayout(this);
-    m_layout->setMargin(0);
-    m_layout->setSpacing(0);
-    m_layout->addSpacing(10);
-    m_layout->addWidget(logoLabel);
-    m_layout->addSpacing(25);
-    m_layout->addWidget(artBoardBtn);
-    m_layout->addSpacing(50);
-    m_layout->addWidget(picBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_rectBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_ovalBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_lineBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_textBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_blurBtn);
-    m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_selectBtn);
-    m_layout->addWidget(m_stackWidget, 0, Qt::AlignCenter);
-    m_layout->addWidget(exportBtn);
-    m_layout->addSpacing(20);
-    this->setLayout(m_layout);
-
-    foreach(PushButton* button, m_actionPushButtons)
-    {
-        connect(button, &PushButton::clicked, this, [=]{
-            if (m_cutWidget->cuttingStatus())
-            {
-                m_cutWidget->cutImageBtnReset();
-            }
-        });
-    }
-    connect(picBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        picBtn->setChecked(true);
-        importImage();
-    });
-    connect(this, &TopToolbar::resetPicBtn, this, [=]{
-        picBtn->setChecked(false);
-    });
-    connect(this, &TopToolbar::importPicBtnClicked, picBtn, &PushButton::clicked);
-    connect(this, &TopToolbar::drawShapeChanged, this, [=](QString shape)
-    {
-        if (shape == "image" && !picBtn->isChecked())
-        {
-            picBtn->setChecked(true);
-        }
-    });
-    connect(m_rectBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_rectBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
-        drawShapes("rectangle");
-    });
-    connect(m_ovalBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_ovalBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
-        drawShapes("oval");
-    });
-    connect(m_lineBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_lineBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
-        drawShapes("line");
-    });
-    connect(m_textBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_textBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
-        drawShapes("text");
-    });
-    connect(m_blurBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_blurBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
-        drawShapes("blur");
-    });
-    connect(this, &TopToolbar::updateSelectedBtn, this, [=](bool checked){
-        if (checked) {
-            emit m_selectBtn->clicked();
-        }
-    });
-    connect(m_selectBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        m_selectBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::Empty);
-        emit fillShapeSelectedActive(m_selectBtn->getChecked());
-
-        drawShapes("selected");
-    });
-    connect(artBoardBtn, &PushButton::clicked, this, [=]{
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-        artBoardBtn->setChecked(true);
-        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
-        drawShapes("adjustSize");
-    });
-    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
+//    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
 
-void TopToolbar::importImage()
-{
-    using namespace utils::image;
-    QString selfilter = tr("All images ") + ("(%1)");
-    selfilter = selfilter.arg(utils::image::supportedSuffixList().join(" "));
-    QFileDialog dialog(this);
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
-    dialog.setViewMode(QFileDialog::Detail);
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setOption(QFileDialog::HideNameFilterDetails);
-    dialog.setNameFilter(selfilter);
-    dialog.selectNameFilter(selfilter);
 
-    if (dialog.exec() == QFileDialog::Accepted)
-    {
-        m_paths = dialog.selectedFiles();
-        qDebug() << "load image succeed!";
-    } else {
-        m_paths = QStringList();
-        qDebug() << "load image failed!";
-    }
-
-    qDebug() << "Load images:" << m_paths;
-    if (m_paths.length() > 0)
-    {
-        emit Importer::instance()->importedFiles(m_paths);
-    }
-    emit resetPicBtn();
-}
 
 void TopToolbar::initStackWidget()
 {
@@ -324,6 +143,7 @@ void TopToolbar::initStackWidget()
 void TopToolbar::initMenu()
 {
     m_mainMenu = new QMenu(this);
+
     QAction* importAc = m_mainMenu->addAction(tr("Import"));
     m_mainMenu->addSeparator();
     QAction* saveAc = m_mainMenu->addAction(tr("Save"));
@@ -346,17 +166,6 @@ void TopToolbar::initMenu()
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 }
 
-//void TopToolbar::showDrawDialog()
-//{
-//    DrawDialog*  dd = new DrawDialog(this);
-//    dd->showInCenter(window());
-
-//    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
-//        TempFile::instance()->setSaveFinishedExit(true);
-//        emit generateSaveImage();
-//    });
-//    dd->exec();
-//}
 
 void TopToolbar::showSaveDialog()
 {
@@ -364,46 +173,53 @@ void TopToolbar::showSaveDialog()
     sd->showInCenter(window());
 }
 
-void TopToolbar::updateMiddleWidget(QString type)
+void TopToolbar::updateMiddleWidget(int type)
 {
-    if (type == "image")
+    switch (type)
     {
-        emit updateSelectedBtn(true);
-        setMiddleStackWidget(MiddleWidgetStatus::Cut);
-        m_cutWidget->cutImageBtnReset();
-    } else if (type == "rectangle" || type == "oval")
-    {
-        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
-    } else if (type == "arrow" || type == "straightLine" || type == "arbitraryCurve")
-    {
-        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
-    } else if (type == "blur")
-    {
-        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
-    } else if (type == "text")
-    {
-        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
-    } else if (type == "adjustSize")
-    {
-        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
+        case::DrawToolType::rectangle:
+        m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
+        default:
+        break;
     }
+//    if (type == "image")
+//    {
+//        emit updateSelectedBtn(true);
+//        setMiddleStackWidget(MiddleWidgetStatus::Cut);
+//        m_cutWidget->cutImageBtnReset();
+//    }
+//    else if (type == "rectangle" || type == "oval")
+//    {
+//        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
+//    } else if (type == "arrow" || type == "straightLine" || type == "arbitraryCurve")
+//    {
+//        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
+//    } else if (type == "blur")
+//    {
+//        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
+//    } else if (type == "text")
+//    {
+//        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
+//    } else if (type == "adjustSize")
+//    {
+//        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
+//    }
 }
 
-void TopToolbar::setMiddleStackWidget(MiddleWidgetStatus status)
+void TopToolbar::setMiddleStackWidget(int status)
 {
-    m_middleWidgetStatus = status;
-    m_colorPanel->setMiddleWidgetStatus(status);
-
+//    m_middleWidgetStatus = status;
+//    m_colorPanel->setMiddleWidgetStatus(status);
     switch (status)
     {
-    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
-    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
-    case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
+//    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
+//    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
+//    case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
     case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
-    case DrawText:   emit m_drawTextWidget->updateColorBtn();
-        m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
-    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
-    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
+//    case DrawText:   emit m_drawTextWidget->updateColorBtn();
+//        m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
+//    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
+//    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
     default: break;
     }
 }
@@ -432,33 +248,7 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
         m_colorARect->hide();
 }
 
-void TopToolbar::updateCurrentShape(QString shape)
-{
-    if (shape == "rectangle")
-    {
-        emit m_rectBtn->clicked();
-    } else if (shape == "oval")
-    {
-        emit m_ovalBtn->clicked();
-    } else if (shape == "straightLine")
-    {
-        emit m_lineBtn->clicked();
-    } else if (shape == "text")
-    {
-        emit m_textBtn->clicked();
-    } else if (shape == "blur")
-    {
-        emit m_blurBtn->clicked();
-    } else if (shape == "selected")
-    {
-        emit m_selectBtn->clicked();
-    } else {
-        foreach(PushButton* button, m_actionPushButtons)
-        {
-            button->setChecked(false);
-        }
-    }
-}
+
 
 void TopToolbar::updateColorPanelVisible(QPoint pos)
 {
@@ -498,7 +288,7 @@ void TopToolbar::keyPressEvent(QKeyEvent *e)
 {
     if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
     {
-        qDebug() << "combine keyEvent!";
+//        qDebug() << "combine keyEvent!";
         GlobalShortcut::instance()->setShiftScStatus(true);
         GlobalShortcut::instance()->setAltScStatus(true);
     }

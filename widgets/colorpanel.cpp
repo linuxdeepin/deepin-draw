@@ -129,7 +129,7 @@ ColorPanel::ColorPanel(QWidget *parent)
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i/10, i%10);
         colorsButtonGroup->addButton(cb);
-        qDebug() << "~~~" << i/10 << i%10;
+//        qDebug() << "~~~" << i/10 << i%10;
         connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
     }
 

@@ -8,59 +8,33 @@
 #include <QKeyEvent>
 
 #include "toptoolbar.h"
-#include "utils/baseutils.h"
-#include "utils/shapesutils.h"
-#include "drawshape/shapeswidget.h"
-#include "widgets/resizelabel.h"
+//#include "utils/baseutils.h"
 
-class MainWidget: public QLabel
+
+class LeftToolBar;
+class MainGraphicsView;
+class MainGraphicsScene;
+
+class MainWidget: public QWidget
 {
     Q_OBJECT
 public:
     MainWidget(QWidget* parent = 0);
     ~MainWidget();
-
-signals:
-    void shapePressed(QString shape);
-    void drawShapeChanged(QString shape);
-    void fillShapeSelectedActive(bool selected);
-    void rotateImage(int degree);
-    void mirroredImage(bool horizontal, bool vertical);
-//    void saveImageAction(const QString &path);
-    void generateSaveImage();
-    void printImage();
-    void autoCrop();
-
-    void updateMiddleWidget(QString type);
-    void adjustArtBoardSize(QSize size);
-    void cutImageFinished();
-//    void pressToCanvas(QMouseEvent *ev);
-    void resizeArtboard(bool resized, QSize size);
+    LeftToolBar *getLeftToolBar();
 
 public:
-    void updateLayout();
-    void openImage(const QString &path);
-    void updateCanvasSize(const QSize &size);
-    void initShapes(Toolshapes shapes);
-    int shapeNum() const;
 
-protected:
-    void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    TopToolbar* m_topToolbar;
-    ShapesWidget* m_shapesWidget;
+    LeftToolBar *m_leftToolbar;
+    MainGraphicsView* m_MainGraphicsView;
+    MainGraphicsScene* m_MainGraphicsScene;
     QLabel* m_seperatorLine;
 
     QVBoxLayout* m_vLayout;
     QHBoxLayout* m_hLayout;
 
-    ResizeLabel* m_resizeLabel;
-    bool m_drawArtboard;
-    FourPoints m_artboardMPoints;
     int m_horizontalMargin;
     int m_verticalMargin;
 };

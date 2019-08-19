@@ -1,0 +1,84 @@
+QFrame#TopToolbar {
+    background-color: qlineargradient(y0:0, y1:1,
+    stop: 0 #f8f8f8, stop : 1 #ffffff);
+}
+
+
+PushButton#PictureBtn {
+qproperty-normalPic: url(:/theme/light/images/action/picture tools_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/picture tools_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/picture tools_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/picture tools_active.svg);
+}
+
+PushButton#RectBtn {
+qproperty-normalPic: url(:/theme/light/images/action/rectangle tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/rectangle tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/rectangle tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/rectangle tool_active.svg);
+}
+
+PushButton#RoundBtn {
+qproperty-normalPic: url(:/theme/light/images/action/round tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/round tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/round tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/round tool_active.svg);
+}
+
+PushButton#TriangleBtn {
+qproperty-normalPic: url(:/theme/light/images/action/triangle tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/triangle tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/triangle tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/triangle tool_active.svg);
+}
+
+PushButton#StarBtn {
+qproperty-normalPic: url(:/theme/light/images/action/star tool_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/action/star tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/star tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/star tool_active.svg);
+}
+
+PushButton#PolygonBtn {
+qproperty-normalPic: url(:/theme/light/images/action/hexagon tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/hexagon tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/hexagon tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/hexagon tool_active.svg);
+}
+
+PushButton#LineBtn {
+qproperty-normalPic: url(:/theme/light/images/action/line tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/line tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/line tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/line tool_active.svg);
+}
+
+PushButton#PenBtn {
+qproperty-normalPic: url(:/theme/light/images/action/brush tool_normal.png);
+qproperty-hoverPic: url(:/theme/light/images/action/brush tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/brush tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/brush tool_active.svg);
+}
+
+PushButton#TextBtn {
+qproperty-normalPic: url(:/theme/light/images/action/text tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/text tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/text tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/text tool_active.svg);
+}
+
+PushButton#BlurBtn {
+qproperty-normalPic: url(:/theme/light/images/action/smudge tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/smudge tool_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/smudge tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/smudge tool_active.svg);
+}
+
+PushButton#CutBtn {
+qproperty-normalPic: url(:/theme/light/images/action/screenshot tool_normal.svg);
+qproperty-hoverPic: url(:/theme/light/images/action/screenshot too_hover.svg);
+qproperty-pressPic: url(:/theme/light/images/action/screenshot tool_press.svg);
+qproperty-checkedPic: url(:/theme/light/images/action/screenshot tool_active.svg);
+}
+
+

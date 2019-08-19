@@ -24,7 +24,7 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
     BigColorButton* fillBtn = new BigColorButton("common", this);
     QLabel* fillLabel = new QLabel(this);
     fillLabel->setObjectName("FillLabel");
-    fillLabel->setText(tr("Fill"));
+    fillLabel->setText(tr("填充"));
 
     BorderColorButton* strokeBtn = new BorderColorButton(this);
     strokeBtn->setObjectName("FillStrokeButton");
@@ -46,11 +46,11 @@ FillshapeWidget::FillshapeWidget(QWidget *parent)
 
     QLabel* strokeLabel = new QLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("Stroke"));
+    strokeLabel->setText(tr("描边"));
     SeperatorLine* sepLine = new SeperatorLine(this);
     QLabel* lwLabel = new QLabel(this);
     lwLabel->setObjectName("BorderLabel");
-    lwLabel->setText(tr("Width"));
+    lwLabel->setText(tr("描边粗细"));
 
     QStringList lwBtnNameList;
     lwBtnNameList << "FinerLineBtn" << "FineLineBtn"

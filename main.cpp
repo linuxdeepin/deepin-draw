@@ -36,7 +36,11 @@ int main(int argc, char *argv[])
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
-    w.hide();
+    w.show();
+
+
+    return a.exec();
+
 
     DBusDrawService dbusService(&w);
     Q_UNUSED(dbusService);

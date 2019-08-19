@@ -58,15 +58,14 @@ public:
     MiddleWidgetStatus middleWidgetStatus();
 
 public slots:
-    void importImage();
 
-    void updateMiddleWidget(QString type);
+    void updateMiddleWidget(int type);
 
-    void setMiddleStackWidget(MiddleWidgetStatus status);
+
     void setDrawStatus(DrawStatus drawstatus);
     void showColorfulPanel(DrawStatus drawstatus,
                            QPoint pos, bool visible = true);
-    void updateCurrentShape(QString shape);
+//    void updateCurrentShape(QString shape);
     void updateColorPanelVisible(QPoint pos);
 
 protected:
@@ -81,7 +80,7 @@ private:
     QStackedWidget* m_stackWidget;
     int m_textFontsize = 12;
 
-    QHBoxLayout* m_layout;
+
     QWidget* m_emptyWidget;
     CutWidget* m_cutWidget;
     LineWidget* m_drawLineWidget;
@@ -90,20 +89,15 @@ private:
     BlurWidget* m_drawBlurWidget;
     AdjustsizeWidget* m_adjustsizeWidget;
 
-     ArrowRectangle* m_colorARect;
+    ArrowRectangle* m_colorARect;
     ColorPanel* m_colorPanel;
     MiddleWidgetStatus m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
-    QList<PushButton*> m_actionPushButtons;
-    PushButton* m_rectBtn;
-    PushButton* m_ovalBtn;
-    PushButton* m_lineBtn;
-    PushButton* m_textBtn;
-    PushButton* m_blurBtn;
-    PushButton* m_selectBtn;
-
     QMenu* m_mainMenu;
+
+private:
+    void setMiddleStackWidget(int status);
 };
 
 #endif // TOPTOOLBAR_H

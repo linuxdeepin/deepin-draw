@@ -13,19 +13,6 @@
 
 DWM_USE_NAMESPACE
 
-enum ResizeDirection {
-    Rotate,
-    Moving,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight,
-    Top,
-    Bottom,
-    Left,
-    Right,
-    Outting,
-};
 
 enum CutRation {
     Ration4_3,

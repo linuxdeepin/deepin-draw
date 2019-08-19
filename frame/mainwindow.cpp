@@ -11,6 +11,7 @@
 #include "utils/imageutils.h"
 #include "widgets/dialog/drawdialog.h"
 #include "../application.h"
+#include "lefttoolbar.h"
 
 #include <DTitlebar>
 
@@ -22,7 +23,7 @@ const int IMG_ROTATEPOINT_SPACING = 35;
 MainWindow::MainWindow(QWidget *parent)
     :DMainWindow(parent)
 {
-    setMouseTracking(true);
+//    setMouseTracking(true);
     window()->setWindowState(Qt::WindowMaximized);
 
     setMinimumSize(WINDOW_MINISIZR);
@@ -35,50 +36,57 @@ MainWindow::MainWindow(QWidget *parent)
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
     m_mainWidget = new MainWidget(this);
-    m_mainWidget->setFocusPolicy(Qt::StrongFocus);
+//    m_mainWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_mainWidget);
 
-    connect(m_topToolbar, &TopToolbar::drawShapeChanged,
-            m_mainWidget, &MainWidget::drawShapeChanged);
-    connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
-            m_mainWidget, &MainWidget::fillShapeSelectedActive);
-    connect(m_topToolbar, &TopToolbar::rotateImage,
-            m_mainWidget, &MainWidget::rotateImage);
-    connect(m_topToolbar, &TopToolbar::mirroredImage,
-            m_mainWidget, &MainWidget::mirroredImage);
-    connect(m_topToolbar, &TopToolbar::generateSaveImage,
-            m_mainWidget, &MainWidget::generateSaveImage);
-    connect(m_topToolbar, &TopToolbar::printImage,
-            m_mainWidget, &MainWidget::printImage);
-    connect(m_topToolbar, &TopToolbar::autoCrop,
-            m_mainWidget, &MainWidget::autoCrop);
+    connect(m_mainWidget->getLeftToolBar(),&LeftToolBar::setCurrentDrawTool,m_topToolbar,&TopToolbar::updateMiddleWidget);
 
-    connect(m_mainWidget, &MainWidget::updateMiddleWidget,
-            m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_mainWidget, &MainWidget::adjustArtBoardSize,
-            m_topToolbar, &TopToolbar::adjustArtBoardSize);
-    connect(m_mainWidget, &MainWidget::resizeArtboard,
-            m_topToolbar, &TopToolbar::resizeArtboard);
-    connect(m_mainWidget, &MainWidget::cutImageFinished,
-            m_topToolbar, &TopToolbar::cutImageFinished);
-    connect(m_mainWidget, &MainWidget::shapePressed,
-            m_topToolbar, &TopToolbar::updateCurrentShape);
+//    connect(m_topToolbar, &TopToolbar::drawShapeChanged,
+//            m_mainWidget, &MainWidget::drawShapeChanged);
+//    connect(m_topToolbar, &TopToolbar::fillShapeSelectedActive,
+//            m_mainWidget, &MainWidget::fillShapeSelectedActive);
+//    connect(m_topToolbar, &TopToolbar::rotateImage,
+//            m_mainWidget, &MainWidget::rotateImage);
+//    connect(m_topToolbar, &TopToolbar::mirroredImage,
+//            m_mainWidget, &MainWidget::mirroredImage);
+//    connect(m_topToolbar, &TopToolbar::generateSaveImage,
+//            m_mainWidget, &MainWidget::generateSaveImage);
+//    connect(m_topToolbar, &TopToolbar::printImage,
+//            m_mainWidget, &MainWidget::printImage);
+//    connect(m_topToolbar, &TopToolbar::autoCrop,
+//            m_mainWidget, &MainWidget::autoCrop);
+
+//    connect(m_mainWidget, &MainWidget::updateMiddleWidget,
+//            m_topToolbar, &TopToolbar::updateMiddleWidget);
+//    connect(m_mainWidget, &MainWidget::adjustArtBoardSize,
+//            m_topToolbar, &TopToolbar::adjustArtBoardSize);
+//    connect(m_mainWidget, &MainWidget::resizeArtboard,
+//            m_topToolbar, &TopToolbar::resizeArtboard);
+//    connect(m_mainWidget, &MainWidget::cutImageFinished,
+//            m_topToolbar, &TopToolbar::cutImageFinished);
+////    connect(m_mainWidget, &MainWidget::shapePressed,
+////            m_topToolbar, &TopToolbar::updateCurrentShape);
     connect(dApp, &Application::popupConfirmDialog, this, [=]{
-        if (m_mainWidget->shapeNum() != 0)
-        {
+//        if (m_mainWidget->shapeNum() != 0)
+//        {
             showDrawDialog();
-        } else {
-            dApp->quit();
-        }
+//        } else {
+//            dApp->quit();
+//        }
     });
 }
+
+//void MainWindow::initConnection()
+//{
+//    connect(m_mainWidget,MainWidget::)
+//}
 
 void MainWindow::loadImage(const QString &path)
 {
     window()->raise();
     window()->activateWindow();
-    m_mainWidget->openImage(path);
+//    m_mainWidget->openImage(path);
 }
 
 void MainWindow::openImage(const QString &path)
@@ -103,7 +111,7 @@ void MainWindow::openImage(const QString &path)
                 emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
                                                               imageSize.height() + IMG_ROTATEPOINT_SPACING ));
             }
-            m_mainWidget->openImage(path);
+//            m_mainWidget->openImage(path);
         } else {
             resize(desktopSize.width(), desktopSize.height());
         }
@@ -124,11 +132,11 @@ void MainWindow::parseDdf(const QString &path)
     QSize windowSize = dFile->windowSize();
     resize(windowSize);
     QSize canvasSize = dFile->canvasSize();
-    m_mainWidget->updateCanvasSize(canvasSize);
+//    m_mainWidget->updateCanvasSize(canvasSize);
     QSize artboardSize = dFile->artboardSize();
     ConfigSettings::instance()->setValue("artboard", "width",  artboardSize.width());
     ConfigSettings::instance()->setValue("artboard", "height", artboardSize.height());
-    m_mainWidget->initShapes(dFile->toolshapes());
+//    m_mainWidget->initShapes(dFile->toolshapes());
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -148,7 +156,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     DMainWindow::keyPressEvent(event);
-    qDebug() << "MainWindow:" << event->key();
+//    qDebug() << "MainWindow:" << event->key();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)

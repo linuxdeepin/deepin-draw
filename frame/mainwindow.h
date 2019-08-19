@@ -35,8 +35,10 @@ protected:
 private:
     TopToolbar* m_topToolbar;
     MainWidget* m_mainWidget;
-
     int m_titlebarWidth;
+
+private:
+    void initConnection();
 };
 
 #endif // MAINWINDOW_H

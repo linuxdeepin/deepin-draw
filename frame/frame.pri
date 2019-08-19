@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/textwidget.h \
     $$PWD/toptoolbar.h \
     $$PWD/mainwidget.h \
-    $$PWD/mainwindow.h
+    $$PWD/mainwindow.h \
+    $$PWD/lefttoolbar.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     $$PWD/toptoolbar.cpp \
     $$PWD/mainwidget.cpp \
     $$PWD/mainwindow.cpp \
+    $$PWD/lefttoolbar.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc
