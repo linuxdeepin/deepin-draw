@@ -1,7 +1,8 @@
- #include "blurwidget.h"
+#include "blurwidget.h"
 
-#include <QLabel>
-#include <QSlider>
+#include <DLabel>
+#include <DSlider>
+
 #include <QHBoxLayout>
 
 #include "widgets/toolbutton.h"
@@ -12,50 +13,38 @@ const int BTN_SPACINT = 2;
 BlurWidget::BlurWidget(QWidget *parent)
     : QWidget(parent)
 {
-    QLabel* penLabel = new QLabel(this);
+    DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("WidthLabel");
-    penLabel->setText(tr("Width"));
-    penLabel->setStyleSheet("QLabel#WidthLabel {\
-                            color: #303030;\
-                            font-size: 13px;\
-                            font-weight: 300;\
-                            }");
-    ToolButton* fineBtn = new ToolButton(this);
-    fineBtn->setObjectName("LineMostThinBtn");
-    fineBtn->setCheckable(false);
+    penLabel->setText(tr("类型"));
 
-    QSlider* lineWidthSlider = new QSlider(Qt::Horizontal, this);
-    lineWidthSlider->setFixedWidth(120);
-    lineWidthSlider->setMinimum(10);
-    lineWidthSlider->setMaximum(80);
+    DSlider *lineWidthSlider = new DSlider(Qt::Horizontal, this);
+    lineWidthSlider->setTickInterval(4);
+    lineWidthSlider->setSingleStep(1);
+    lineWidthSlider->setMinimum(20);
+    lineWidthSlider->setMaximum(160);
+    lineWidthSlider->setMinimumWidth(200);
+    lineWidthSlider->setOrientation(Qt::Horizontal);
+    lineWidthSlider->setTickPosition(DSlider::TicksBothSides);
 
-    connect(lineWidthSlider, &QSlider::valueChanged, this, [=](int val){
-        ConfigSettings::instance()->setValue("blur", "index", val);
+
+    DLabel *lineWidthLabel = new DLabel(this);
+    lineWidthLabel->setObjectName("WidthLabel");
+    lineWidthLabel->setText(QString("%1px").arg(lineWidthSlider->value()));
+
+    connect(lineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        lineWidthLabel->setText(QString("%1px").arg(value));
     });
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-            [=](const QString &group, const QString &key){
-        if (group == "blur" && key == "index")
-        {
-            int index = ConfigSettings::instance()->value(group, key).toInt();
-            lineWidthSlider->setValue(index);
-        }
-    });
-    lineWidthSlider->setValue(ConfigSettings::instance()->value("blur", "index").toInt());
 
-    ToolButton* boldBtn = new ToolButton(this);
-    boldBtn->setObjectName("LineThickLineBtn");
-    boldBtn->setCheckable(false);
 
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
     layout->addStretch();
     layout->addWidget(penLabel);
     layout->addSpacing(BTN_SPACINT);
-    layout->addWidget(fineBtn);
+//    layout->addWidget(fineBtn);
     layout->addWidget(lineWidthSlider);
-    layout->addSpacing(BTN_SPACINT);
-    layout->addWidget(boldBtn);
+    layout->addWidget(lineWidthLabel);
     layout->addStretch();
     setLayout(layout);
 }

@@ -11,7 +11,7 @@ class BigColorButton : public QPushButton
 {
     Q_OBJECT
 public:
-    BigColorButton(const QString &group, QWidget* parent = 0);
+    BigColorButton(const QString &group, QWidget *parent = nullptr);
     ~BigColorButton();
 
     void setColor(QColor color);
@@ -26,7 +26,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent* );
+    void mousePressEvent(QMouseEvent * );
 
 private:
     QColor m_color;

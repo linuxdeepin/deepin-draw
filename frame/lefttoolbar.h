@@ -1,21 +1,18 @@
 #ifndef RIGHTTOOLBAR_H
 #define RIGHTTOOLBAR_H
 
-
-//#include "widgets/arrowrectangle.h"
 #include "utils/global.h"
 #include "utils/baseutils.h"
-#include <dtkwidget_global.h>
 #include "drawshape/drawtool.h"
 
-#include <QFrame>
+#include <DFrame>
 
 DWIDGET_USE_NAMESPACE
 
 class PushButton;
 class QVBoxLayout;
 
-class LeftToolBar : public QFrame
+class LeftToolBar : public DFrame
 {
     Q_OBJECT
 public:
@@ -23,14 +20,12 @@ public:
     ~LeftToolBar();
 
 signals:
-    void sendPicPath(QStringList picPath);
     void setCurrentDrawTool(int type);
 
 public slots:
-    void importImage();
 
 private:
-    QMap<PushButton *, bool> m_actionPushButtons;
+    QList<PushButton *> m_actionButtons;
     PushButton *m_picBtn;
     PushButton *m_rectBtn;
     PushButton *m_roundBtn;
@@ -49,7 +44,7 @@ private:
 private:
     void initUI();
     void initConnection();
-    void clearOtherSelection();
+    void clearOtherSelections(PushButton *clickedButton);
 };
 
 #endif // RIGHTTOOLBAR_H

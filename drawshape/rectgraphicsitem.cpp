@@ -185,7 +185,7 @@ void RectGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
 
     painter->setPen(pen());
-    painter->setBrush(Qt::NoBrush);
+    painter->setBrush(brush());
 
 
     painter->drawRect(rect().toRect());

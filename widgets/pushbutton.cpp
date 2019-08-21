@@ -11,10 +11,10 @@
 #include <QTimer>
 
 PushButton::PushButton(QWidget *parent)
-    : QPushButton(parent)
-    , m_isHovered(false)
+    : DPushButton(parent)
     , m_checked(false)
     , m_isPressed(false)
+    , m_isHovered(false)
     , m_isLocked(false)
     , m_spacing(2)
 {
@@ -221,12 +221,13 @@ void PushButton::mousePressEvent(QMouseEvent *e)
     m_isPressed = true;
     m_currentColor = pressColor();
     m_currentPic = pressPic();
+
     if (m_isCheckable) {
         if (!m_checked)
             setChecked(true);
         else {
-        if (!m_isLocked)
-            setChecked(!m_checked);
+            if (!m_isLocked)
+                setChecked(!m_checked);
         }
     }
 
@@ -249,11 +250,9 @@ QString PushButton::getPixmap() const
 {
     if (m_checked) {
         return checkedPic();
-    }
-    else if (isEnabled()) {
+    } else if (isEnabled()) {
         return m_currentPic;
-    }
-    else {
+    } else {
         return disablePic();
     }
 }
@@ -262,21 +261,23 @@ QColor PushButton::getTextColor() const
 {
     if (isEnabled()) {
         return m_currentColor;
-    }
-    else {
+    } else {
         return disableColor();
     }
 }
 
-bool PushButton::isCheckable() {
+bool PushButton::isCheckable()
+{
     return m_isCheckable;
 }
 
-void PushButton::setCheckable(bool checkeable) {
+void PushButton::setCheckable(bool checkeable)
+{
     m_isCheckable = checkeable;
 }
 
-void PushButton::lockedCheckedStatus(bool locked) {
+void PushButton::lockedCheckedStatus(bool locked)
+{
     m_isLocked = locked;
 }
 

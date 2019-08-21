@@ -10,14 +10,14 @@ class ArrowRectangle : public DArrowRectangle
 {
     Q_OBJECT
 public:
-    explicit ArrowRectangle(ArrowDirection direction, QWidget * parent = 0);
+    explicit ArrowRectangle(ArrowDirection direction, QWidget *parent = nullptr);
     ~ArrowRectangle();
 
 signals:
     void hideWindow();
 
 protected:
-    void hideEvent(QHideEvent* e);
+    void hideEvent(QHideEvent *e);
 };
 
 #endif // ARROWRECTANGLE_H

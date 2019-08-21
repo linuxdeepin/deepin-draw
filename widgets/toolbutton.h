@@ -1,18 +1,23 @@
 #ifndef TOOLBUTTON_H
 #define TOOLBUTTON_H
 
-#include <QPushButton>
+#include <DPushButton>
 
-class ToolButton : public QPushButton {
+DWIDGET_USE_NAMESPACE
+
+class ToolButton : public DPushButton
+{
     Q_OBJECT
 public:
-    ToolButton(QWidget* parent = 0) {
+    ToolButton(QWidget *parent = 0)
+    {
         Q_UNUSED(parent);
         setFixedSize(24, 24);
         setCheckable(true);
     }
 
-    ToolButton(QString text, QWidget* parent = 0) {
+    ToolButton(QString text, QWidget *parent = 0)
+    {
         Q_UNUSED(parent);
         setFixedSize(24, 24);
         setCheckable(true);

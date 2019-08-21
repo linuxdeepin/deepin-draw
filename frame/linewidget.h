@@ -5,16 +5,18 @@
 
 #include "utils/baseutils.h"
 
+
+
 class LineWidget : public QWidget
 {
     Q_OBJECT
 public:
-    LineWidget(QWidget* parent = 0);
+    LineWidget(QWidget *parent = 0);
     ~LineWidget();
 
 signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
-
+    ;
 };
 
 #endif // LINEWIDGET_H

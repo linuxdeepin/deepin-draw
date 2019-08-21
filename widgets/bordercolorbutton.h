@@ -8,7 +8,7 @@ class BorderColorButton : public QPushButton
 {
     Q_OBJECT
 public:
-    BorderColorButton(QWidget* parent = 0);
+    BorderColorButton(QWidget *parent = nullptr);
     ~BorderColorButton();
 
     void setColor(QColor color);
@@ -24,7 +24,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent* );
+    void mousePressEvent(QMouseEvent * );
 
 private:
     QColor m_color;

@@ -1,26 +1,19 @@
 #include "toptoolbar.h"
-#include "../application.h"
-
-#include <QLabel>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QHBoxLayout>
-#include <QLineEdit>
-#include <QSlider>
-#include <QFileDialog>
-#include <QStandardPaths>
-#include <QMenu>
-#include <QDebug>
-#include <QApplication>
+#include "application.h"
 
 #include <DApplication>
 
+#include <QHBoxLayout>
+
+#include "commonshapewidget.h"
+#include "polygonalstarattributewidget.h"
+#include "polygonattributewidget.h"
+#include "ailoringwidget.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
 #include "utils/imageutils.h"
 #include "utils/tempfile.h"
 #include "drawshape/drawtool.h"
-
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
@@ -28,28 +21,27 @@
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 #include "widgets/textfontlabel.h"
-
 #include "controller/importer.h"
 
 DWIDGET_USE_NAMESPACE
 
 
 
-TopToolbar::TopToolbar(QWidget* parent)
-: QFrame(parent)
+TopToolbar::TopToolbar(QWidget *parent)
+    : DFrame(parent)
 {
 
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
 
-    QLabel* logoLabel = new QLabel(this);
+    DLabel *logoLabel = new DLabel(this);
     logoLabel->setFixedSize(QSize(32, 32));
     logoLabel->setObjectName("LogoLabel");
 
     initStackWidget();
 
-    QHBoxLayout* hLayout= new QHBoxLayout (this);
-    hLayout->addWidget(logoLabel,0, Qt::AlignLeft);
+    QHBoxLayout *hLayout = new QHBoxLayout (this);
+    hLayout->addWidget(logoLabel, 0, Qt::AlignLeft);
 
     hLayout->addWidget(m_stackWidget, 80, Qt::AlignHCenter);
 
@@ -80,7 +72,7 @@ void TopToolbar::initStackWidget()
     m_cutWidget = new CutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
     connect(m_cutWidget, &CutWidget::rotateImage, this, &TopToolbar::rotateImage);
-    connect(m_cutWidget, &CutWidget::cutImage, this, [=]{
+    connect(m_cutWidget, &CutWidget::cutImage, this, [ = ] {
         drawShapes("cutImage");
     });
     connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::mirroredImage);
@@ -88,26 +80,41 @@ void TopToolbar::initStackWidget()
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
-    qApp->setProperty("_d_isDxcb",false);
+    qApp->setProperty("_d_isDxcb", false);
     m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this->parentWidget());
-    qApp->setProperty("_d_isDxcb",true);
+    qApp->setProperty("_d_isDxcb", true);
     m_colorARect->setWindowFlags(Qt::Widget);
-    m_colorARect->setAttribute(Qt::WA_TranslucentBackground,false);
+    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, false);
     m_colorARect->setArrowWidth(18);
     m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
-   m_colorARect->hide();
-   connect(m_colorPanel, &ColorPanel::updateHeight, this, [=]{
-       m_colorARect->setContent(m_colorPanel);
-   });
+    m_colorARect->hide();
+    connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {
+        m_colorARect->setContent(m_colorPanel);
+    });
 
-    //fill rectangle, and oval.
-    m_fillShapeWidget = new FillshapeWidget(this);
-    m_stackWidget->addWidget(m_fillShapeWidget);
-    connect(m_fillShapeWidget, &FillshapeWidget::showColorPanel,
-                    this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_fillShapeWidget,
-            &FillshapeWidget::resetColorBtns);
+    //rectangle, triangle,oval
+    m_commonShapeWidget = new CommonshapeWidget(this);
+    m_stackWidget->addWidget(m_commonShapeWidget);
+    connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel,
+            this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget,
+            &CommonshapeWidget::resetColorBtns);
+    ///polygonalStar
+    m_polygonalStarWidget = new PolygonalStarAttributeWidget(this);
+    m_stackWidget->addWidget(m_polygonalStarWidget);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel,
+            this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget,
+            &PolygonalStarAttributeWidget::resetColorBtns);
+
+    ///polygonalStar
+    m_PolygonWidget = new PolygonAttributeWidget(this);
+    m_stackWidget->addWidget(m_PolygonWidget);
+    connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel,
+            this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget,
+            &PolygonAttributeWidget::resetColorBtns);
 
     //draw line.
     m_drawLineWidget = new LineWidget(this);
@@ -125,6 +132,9 @@ void TopToolbar::initStackWidget()
     //draw blur widget.
     m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
+
+    m_ailoringWidget = new AiloringWidget(this);
+    m_stackWidget->addWidget(m_ailoringWidget);
 
     //process  artboard's size.
     m_adjustsizeWidget = new AdjustsizeWidget(this);
@@ -144,14 +154,14 @@ void TopToolbar::initMenu()
 {
     m_mainMenu = new QMenu(this);
 
-    QAction* importAc = m_mainMenu->addAction(tr("Import"));
+    QAction *importAc = m_mainMenu->addAction(tr("Import"));
     m_mainMenu->addSeparator();
-    QAction* saveAc = m_mainMenu->addAction(tr("Save"));
-    QAction* printAc = m_mainMenu->addAction(tr("Print"));
+    QAction *saveAc = m_mainMenu->addAction(tr("Save"));
+    QAction *printAc = m_mainMenu->addAction(tr("Print"));
 //    m_mainMenu->addSeparator();
 //    QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
     m_mainMenu->addSeparator();
-    QAction* helpAc = m_mainMenu->addAction(tr("Help"));
+    QAction *helpAc = m_mainMenu->addAction(tr("Help"));
 
 //    Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
@@ -169,17 +179,38 @@ void TopToolbar::initMenu()
 
 void TopToolbar::showSaveDialog()
 {
-    SaveDialog* sd = new SaveDialog(TempFile::instance()->savedImage(), this);
+    SaveDialog *sd = new SaveDialog(TempFile::instance()->savedImage(), this);
     sd->showInCenter(window());
 }
 
 void TopToolbar::updateMiddleWidget(int type)
 {
-    switch (type)
-    {
-        case::DrawToolType::rectangle:
-        m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
-        default:
+    switch (type) {
+    case::ImportPicture:
+        m_stackWidget->setCurrentWidget(m_cutWidget);
+        break;
+    case::CommonShape:
+        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+        break;
+    case::DrawPolygonalStar:
+        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+        break;
+    case::DrawPolygon:
+        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+        break;
+    case::DrawPen:
+        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+        break;
+    case::DrawText:
+        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+        break;
+    case::DrawBlur:
+        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+        break;
+    case::Cut:
+        m_stackWidget->setCurrentWidget(m_ailoringWidget);
+        break;
+    default:
         break;
     }
 //    if (type == "image")
@@ -210,17 +241,19 @@ void TopToolbar::setMiddleStackWidget(int status)
 {
 //    m_middleWidgetStatus = status;
 //    m_colorPanel->setMiddleWidgetStatus(status);
-    switch (status)
-    {
+    switch (status) {
 //    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
 //    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
 //    case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
-    case FillShape: m_stackWidget->setCurrentWidget(m_fillShapeWidget); break;
+    case CommonShape:
+
+        break;
 //    case DrawText:   emit m_drawTextWidget->updateColorBtn();
 //        m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
 //    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
 //    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -238,13 +271,11 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
     m_colorPanel->updateColorButtonStatus();
 
     m_colorARect->raise();
-    if (visible)
-    {
+    if (visible) {
         QPoint startPos = QPoint(0, 0);
         m_colorARect->show( cursor().pos().x() - mapToGlobal(startPos).x(),
                             cursor().pos().y() + 25 - mapToGlobal(startPos).y());
-    }
-    else
+    } else
         m_colorARect->hide();
 }
 
@@ -253,8 +284,7 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
 void TopToolbar::updateColorPanelVisible(QPoint pos)
 {
     QRect colorPanelGeom = m_colorARect->geometry();
-    if (!colorPanelGeom.contains(pos))
-    {
+    if (!colorPanelGeom.contains(pos)) {
         m_colorARect->hide();
     }
 
@@ -272,7 +302,7 @@ void TopToolbar::drawShapes(QString shape)
     emit drawShapeChanged(shape);
 }
 
-QMenu* TopToolbar::mainMenu()
+QMenu *TopToolbar::mainMenu()
 {
     return m_mainMenu;
 }
@@ -286,36 +316,30 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 
 void TopToolbar::keyPressEvent(QKeyEvent *e)
 {
-    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
-    {
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier)) {
 //        qDebug() << "combine keyEvent!";
         GlobalShortcut::instance()->setShiftScStatus(true);
         GlobalShortcut::instance()->setAltScStatus(true);
     }
-    if (e->key() == Qt::Key_Alt)
-    {
+    if (e->key() == Qt::Key_Alt) {
         GlobalShortcut::instance()->setAltScStatus(true);
     }
-    if (e->key() == Qt::Key_Shift)
-    {
+    if (e->key() == Qt::Key_Shift) {
         GlobalShortcut::instance()->setShiftScStatus(true);
     }
 }
 
 void TopToolbar::keyReleaseEvent(QKeyEvent *e)
 {
-    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier))
-    {
+    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier)) {
         qDebug() << "combine keyEvent!";
         GlobalShortcut::instance()->setShiftScStatus(false);
         GlobalShortcut::instance()->setAltScStatus(false);
     }
-    if (e->key() == Qt::Key_Alt)
-    {
+    if (e->key() == Qt::Key_Alt) {
         GlobalShortcut::instance()->setAltScStatus(false);
     }
-    if (e->key() == Qt::Key_Shift)
-    {
+    if (e->key() == Qt::Key_Shift) {
         GlobalShortcut::instance()->setShiftScStatus(false);
     }
 }
@@ -323,7 +347,7 @@ void TopToolbar::keyReleaseEvent(QKeyEvent *e)
 void TopToolbar::mousePressEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "toptoolbar mousePressEvent:" << m_colorARect->hasFocus();
+//    qDebug() << "toptoolbar mousePressEvent:" << m_colorARect->hasFocus();
 
 //    if (!m_colorARect->hasFocus())
 //        m_colorARect->hide();
