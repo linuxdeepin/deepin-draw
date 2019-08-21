@@ -20,10 +20,11 @@ public:
     ~LeftToolBar();
 
 signals:
+    void sendPicPath(QStringList picPath);
     void setCurrentDrawTool(int type);
 
 public slots:
-
+    void importImage();
 private:
     QList<PushButton *> m_actionButtons;
     PushButton *m_picBtn;
