@@ -23,24 +23,27 @@ public:
     ~LeftToolBar();
 
 signals:
+    void sendPicPath(QStringList picPath);
     void setCurrentDrawTool(int type);
 
 public slots:
+    void importImage();
 
 private:
-    QMap<PushButton*,bool> m_actionPushButtons;
-    PushButton* m_rectBtn;
-    PushButton* m_roundBtn;
-    PushButton* m_triangleBtn;
-    PushButton* m_starBtn;
-    PushButton* m_polygonBtn;
-    PushButton* m_lineBtn;
-    PushButton* m_penBtn;
-    PushButton* m_textBtn;
-    PushButton* m_blurBtn;
-    PushButton* m_cutBtn;
+    QMap<PushButton *, bool> m_actionPushButtons;
+    PushButton *m_picBtn;
+    PushButton *m_rectBtn;
+    PushButton *m_roundBtn;
+    PushButton *m_triangleBtn;
+    PushButton *m_starBtn;
+    PushButton *m_polygonBtn;
+    PushButton *m_lineBtn;
+    PushButton *m_penBtn;
+    PushButton *m_textBtn;
+    PushButton *m_blurBtn;
+    PushButton *m_cutBtn;
 
-    QVBoxLayout* m_layout;
+    QVBoxLayout *m_layout;
     MiddleWidgetStatus m_middleWidgetStatus;
 
 private:

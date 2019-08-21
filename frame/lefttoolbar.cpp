@@ -2,6 +2,7 @@
 
 #include "widgets/pushbutton.h"
 
+#include <DFileDialog>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -26,10 +27,10 @@ LeftToolBar::~LeftToolBar()
 
 void LeftToolBar::initUI()
 {
-    PushButton *picBtn = new PushButton(this);
-    picBtn->setObjectName("PictureBtn");
-    picBtn->setToolTip(tr("Import"));
-    m_actionPushButtons.insert(picBtn, false);
+    m_picBtn = new PushButton(this);
+    m_picBtn->setObjectName("PictureBtn");
+    m_picBtn->setToolTip(tr("Import"));
+    m_actionPushButtons.insert(m_picBtn, false);
 
     m_rectBtn = new PushButton(this);
     m_rectBtn->setObjectName("RectBtn");
@@ -86,7 +87,7 @@ void LeftToolBar::initUI()
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
     m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(picBtn);
+    m_layout->addWidget(m_picBtn);
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_rectBtn);
     m_layout->addSpacing(BTN_SPACING);
@@ -117,6 +118,50 @@ void LeftToolBar::clearOtherSelection()
 
 }
 
+void LeftToolBar::importImage()
+{
+    DFileDialog *fileDialog = new DFileDialog(this);
+    //QString myfilte = tr("JPEG (*.png *.xpm *.jpg)");
+    QStringList filters;
+    filters << "Image files (*.png *.jpg *.bmp *.tif *.pdf *.ddf)";
+    fileDialog->setNameFilters(filters);
+    //setFilter(tr("JPEG (*.png *.xpm *.jpg)"));
+    fileDialog->setFileMode(QFileDialog::ExistingFiles);
+
+    //fileDialog->show();
+    // m_picBtn->setEnabled(false);
+
+    //onnect(fileDialog,SIGNAL(fileDialog.closed()),this,)
+
+
+
+    if (fileDialog->exec() ==   QDialog::Accepted) {
+        QStringList filenames = fileDialog->selectedFiles();
+        qDebug() << filenames << endl;
+        emit sendPicPath(filenames);
+
+        //Importer *picImporter = new Importer(this);
+        // picImporter->appendFiles(filenames);
+        //QPixmap const *pixMap = new QPixmap(filenames[0]);
+        //QPainter *painter = new QPainter(this);
+
+        //painter->setPen(pen());
+        //painter->setBrush(Qt::NoBrush);
+
+        // painter->drawPixmap(0, 0, pixMap);
+        //painter->drawLine(1, 1, 5, 5);
+
+
+    }
+    //ImageGraphicsItem *imageitem=new ImageGraphicsItem()
+    //获取图片文件路径
+    //QStringList filenames = fileDialog->selectedFiles();
+
+
+
+}
+
+
 void LeftToolBar::initConnection()
 {
     connect(m_rectBtn, &PushButton::clicked, this, [this]() {
@@ -132,4 +177,6 @@ void LeftToolBar::initConnection()
 //        emit setCurrentDrawTool(rectangle);
         DrawTool::c_drawShape = rotation;
     });
+    //链接图片导入按钮和图片导入功能
+    connect(m_picBtn, SIGNAL(clicked()), this, SLOT(importImage()));
 }

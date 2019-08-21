@@ -19,21 +19,21 @@ class MainWidget: public QWidget
 {
     Q_OBJECT
 public:
-    MainWidget(QWidget* parent = 0);
+    MainWidget(QWidget *parent = 0);
     ~MainWidget();
     LeftToolBar *getLeftToolBar();
 
-public:
-
+public slots:
+    void getPicPath(QStringList path);
 
 private:
     LeftToolBar *m_leftToolbar;
-    MainGraphicsView* m_MainGraphicsView;
-    MainGraphicsScene* m_MainGraphicsScene;
-    QLabel* m_seperatorLine;
+    MainGraphicsView *m_MainGraphicsView;
+    MainGraphicsScene *m_MainGraphicsScene;
+    QLabel *m_seperatorLine;
 
-    QVBoxLayout* m_vLayout;
-    QHBoxLayout* m_hLayout;
+    QVBoxLayout *m_vLayout;
+    QHBoxLayout *m_hLayout;
 
     int m_horizontalMargin;
     int m_verticalMargin;

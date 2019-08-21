@@ -10,7 +10,7 @@
 #include "lefttoolbar.h"
 #include "drawshape/maingraphicsview.h"
 #include "drawshape/maingraphicsscene.h"
-
+#include "drawshape/imagegraphicsitem.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -30,7 +30,7 @@ MainWidget::MainWidget(QWidget *parent)
 
     m_MainGraphicsScene = new MainGraphicsScene(this);
     m_MainGraphicsScene->setBackgroundBrush(QBrush(Qt::white));
-    m_MainGraphicsScene->setSceneRect(QRectF(0,0,1200,800));
+    m_MainGraphicsScene->setSceneRect(QRectF(0, 0, 1200, 800));
     m_MainGraphicsView = new MainGraphicsView(m_MainGraphicsScene);
     m_MainGraphicsView->showMaximized();
     m_MainGraphicsScene->setView(m_MainGraphicsView);
@@ -46,14 +46,36 @@ MainWidget::MainWidget(QWidget *parent)
     layout->addWidget(m_MainGraphicsView);
 
     setLayout(layout);
+    connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
 }
+
+
 
 
 MainWidget::~MainWidget()
 {
 }
 
-LeftToolBar* MainWidget::getLeftToolBar()
+//进行图片导入
+void MainWidget::getPicPath(QStringList path)
+{
+    qDebug() << path << path.size() << endl;
+    for (int i = 0; i < path.size(); i++) {
+        QPixmap pixmap = QPixmap (path[i]);
+        //QPointF pointf;
+        ImageGraphicsItem *graphicsItem = new ImageGraphicsItem();
+        graphicsItem->setPainter(QPointF(0, 0), pixmap);
+        m_MainGraphicsScene->addItem(graphicsItem);
+        //graphicsItem->setVisible(true);
+        //画图
+
+
+
+    }
+}
+
+
+LeftToolBar *MainWidget::getLeftToolBar()
 {
     return m_leftToolbar;
 }

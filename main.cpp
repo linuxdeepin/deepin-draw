@@ -26,6 +26,15 @@ int main(int argc, char *argv[])
     Application::loadDXcbPlugin();
 
     Application a(argc, argv);
+
+    static const QDate buildDate = QLocale( QLocale::English )
+                                   .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+    QString t_date = buildDate.toString("MMdd");
+    // Version Time
+    a.setApplicationVersion(DApplication::buildVersion(t_date));
+
+
+
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");
     a.setApplicationVersion("1.0");
@@ -47,13 +56,12 @@ int main(int argc, char *argv[])
     //Register deepin-draw's dbus service.
     QDBusConnection conn = QDBusConnection::sessionBus();
     if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
-            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w))
-    {
+            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w)) {
         qDebug() << "deepin-draw is running!";
     }
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
-                                        "Specify a path to load an image.", "PATH");
+                                       "Specify a path to load an image.", "PATH");
     QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
                                           "Show deepin draw.");
     QCommandLineParser cmdParser;
@@ -63,14 +71,13 @@ int main(int argc, char *argv[])
     cmdParser.process(a);
 
     if (cmdParser.isSet(openImageOption)) {
-            w.activeWindow();
-            w.openImage(cmdParser.value(openImageOption));
+        w.activeWindow();
+        w.openImage(cmdParser.value(openImageOption));
     } else if (cmdParser.isSet(activeWindowOption)) {
-            w.activeWindow();
+        w.activeWindow();
     } else {
         QStringList pas = cmdParser.positionalArguments();
-        if (pas.length() >= 1)
-        {
+        if (pas.length() >= 1) {
             QString path;
             if (QUrl(pas.first()).isLocalFile())
                 path =  QUrl(pas.first()).toLocalFile();
@@ -79,7 +86,7 @@ int main(int argc, char *argv[])
             w.activeWindow();
             w.openImage(QFileInfo(path).absoluteFilePath());
         } else {
-                w.show();
+            w.show();
         }
     }
 

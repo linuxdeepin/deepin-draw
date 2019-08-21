@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/basegraphicsitem.h \
     $$PWD/maingraphicsscene.h \
     $$PWD/maingraphicsview.h \
-    $$PWD/ccursorshapemanager.h
+    $$PWD/ccursorshapemanager.h \
+    $$PWD/imagegraphicsitem.h
 
 SOURCES += \
     $$PWD/drawtool.cpp \
@@ -16,7 +17,8 @@ SOURCES += \
     $$PWD/basegraphicsitem.cpp \
     $$PWD/maingraphicsview.cpp \
     $$PWD/maingraphicsscene.cpp \
-    $$PWD/ccursorshapemanager.cpp
+    $$PWD/ccursorshapemanager.cpp \
+    $$PWD/imagegraphicsitem.cpp
 
 RESOURCES += \
     $$PWD/drawshapeRes.qrc
