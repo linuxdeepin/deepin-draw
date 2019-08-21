@@ -5,13 +5,25 @@ font-weight: 300;
 }
 
 QLabel#StrokeLabel {
-color: #ffffff;
+color: #303030;
 font-size: 13px;
 font-weight: 300;
 }
 
 QLabel#BorderLabel {
 color: #303030;
+font-size: 13px;
+font-weight: 300;
+}
+
+QLabel#AnchorNumLabel {
+color: #303030;
+font-size: 13px;
+font-weight: 300;
+}
+
+QLabel#RadiusLabel {
+color: #ffffff;
 font-size: 13px;
 font-weight: 300;
 }

@@ -11,7 +11,7 @@ const int BTN_SPACING = 13;
 CutWidget::CutWidget(QWidget *parent)
     : QWidget(parent)
 {
-    QList<PushButton*> btnList;
+    QList<PushButton *> btnList;
     m_leftRotateBtn = new PushButton(this);
     m_leftRotateBtn->setCheckable(false);
     m_leftRotateBtn->setObjectName("LeftRotate");
@@ -26,7 +26,6 @@ CutWidget::CutWidget(QWidget *parent)
 
     m_cutBtn = new PushButton(this);
     m_cutBtn->setCheckable(true);
-    m_cutBtn->lockedCheckedStatus(true);
     m_cutBtn->setObjectName("CutButton");
     m_cutBtn->setToolTip(tr("Clip"));
     btnList.append(m_cutBtn);
@@ -43,28 +42,28 @@ CutWidget::CutWidget(QWidget *parent)
     m_flipVBtn->setToolTip(tr("Flip vertically"));
     btnList.append(m_flipVBtn);
 
-    connect(m_leftRotateBtn, &PushButton::clicked, this, [=]{
-        emit rotateImage(-90);
-    });
-    connect(m_rightRotateBtn, &PushButton::clicked, this, [=]{
-        emit rotateImage(90);
-    });
+//    connect(m_leftRotateBtn, &PushButton::clicked, this, [ = ] {
+//        emit rotateImage(-90);
+//    });
+//    connect(m_rightRotateBtn, &PushButton::clicked, this, [ = ] {
+//        emit rotateImage(90);
+//    });
 
-    connect(m_cutBtn, &PushButton::clicked, this, [=]{
-        emit cutImage();
-        m_leftRotateBtn->setDisabled(true);
-        m_rightRotateBtn->setDisabled(true);
-        m_flipHBtn->setDisabled(true);
-        m_flipVBtn->setDisabled(true);
-    });
-    connect(m_flipHBtn, &PushButton::clicked, this, [=]{
-         emit mirroredImage(true, false);
-    });
-    connect(m_flipVBtn, &PushButton::clicked, this, [=]{
-        emit mirroredImage(false, true);
-    });
+//    connect(m_cutBtn, &PushButton::clicked, this, [ = ] {
+//        emit cutImage();
+//        m_leftRotateBtn->setDisabled(true);
+//        m_rightRotateBtn->setDisabled(true);
+//        m_flipHBtn->setDisabled(true);
+//        m_flipVBtn->setDisabled(true);
+//    });
+//    connect(m_flipHBtn, &PushButton::clicked, this, [ = ] {
+//        emit mirroredImage(true, false);
+//    });
+//    connect(m_flipVBtn, &PushButton::clicked, this, [ = ] {
+//        emit mirroredImage(false, true);
+//    });
 
-    QHBoxLayout* layout = new QHBoxLayout(this);
+    QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();

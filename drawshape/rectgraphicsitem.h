@@ -15,9 +15,6 @@ public:
     void move( const QPointF &point );
     QGraphicsItem *duplicate () const ;
 
-
-
-
 protected:
     void updatehandles();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

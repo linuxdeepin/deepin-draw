@@ -1,21 +1,18 @@
 #ifndef RIGHTTOOLBAR_H
 #define RIGHTTOOLBAR_H
 
-
-//#include "widgets/arrowrectangle.h"
 #include "utils/global.h"
 #include "utils/baseutils.h"
-#include <dtkwidget_global.h>
 #include "drawshape/drawtool.h"
 
-#include <QFrame>
+#include <DFrame>
 
 DWIDGET_USE_NAMESPACE
 
 class PushButton;
 class QVBoxLayout;
 
-class LeftToolBar : public QFrame
+class LeftToolBar : public DFrame
 {
     Q_OBJECT
 public:
@@ -28,25 +25,26 @@ signals:
 public slots:
 
 private:
-    QMap<PushButton*,bool> m_actionPushButtons;
-    PushButton* m_rectBtn;
-    PushButton* m_roundBtn;
-    PushButton* m_triangleBtn;
-    PushButton* m_starBtn;
-    PushButton* m_polygonBtn;
-    PushButton* m_lineBtn;
-    PushButton* m_penBtn;
-    PushButton* m_textBtn;
-    PushButton* m_blurBtn;
-    PushButton* m_cutBtn;
+    QList<PushButton *> m_actionButtons;
+    PushButton *m_picBtn;
+    PushButton *m_rectBtn;
+    PushButton *m_roundBtn;
+    PushButton *m_triangleBtn;
+    PushButton *m_starBtn;
+    PushButton *m_polygonBtn;
+    PushButton *m_lineBtn;
+    PushButton *m_penBtn;
+    PushButton *m_textBtn;
+    PushButton *m_blurBtn;
+    PushButton *m_cutBtn;
 
-    QVBoxLayout* m_layout;
+    QVBoxLayout *m_layout;
     MiddleWidgetStatus m_middleWidgetStatus;
 
 private:
     void initUI();
     void initConnection();
-    void clearOtherSelection();
+    void clearOtherSelections(PushButton *clickedButton);
 };
 
 #endif // RIGHTTOOLBAR_H

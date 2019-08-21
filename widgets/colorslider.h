@@ -3,11 +3,15 @@
 
 #include <QSlider>
 #include <QPaintEvent>
+#include <DSlider>
 
-class ColorSlider : public QSlider {
+DWIDGET_USE_NAMESPACE
+
+class ColorSlider : public DSlider
+{
     Q_OBJECT
 public:
-    ColorSlider(QWidget* parent = 0);
+    ColorSlider(QWidget *parent = 0);
     ~ColorSlider();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)

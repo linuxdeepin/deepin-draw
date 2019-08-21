@@ -1,9 +1,11 @@
 #ifndef PUSHBUTTON_H
 #define PUSHBUTTON_H
 
-#include <QPushButton>
+#include <DPushButton>
 
-class PushButton : public QPushButton
+DWIDGET_USE_NAMESPACE
+
+class PushButton : public DPushButton
 {
     Q_OBJECT
     Q_PROPERTY(QString normalPic READ normalPic WRITE setNormalPic NOTIFY normalPicChanged)

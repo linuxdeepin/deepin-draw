@@ -100,7 +100,7 @@ public:
         : BaseType(parent)
     {
         m_pen = QPen(Qt::SolidLine);
-        m_brush = QBrush(QColor(rand() % 32 * 8, rand() % 32 * 8, rand() % 32 * 8));
+        m_brush = QBrush(Qt::NoBrush);
         m_width = m_height = 0;
     }
     virtual ~AbstractShapeType() {}

@@ -1,16 +1,10 @@
 #ifndef TOPTOOLBAR_H
 #define TOPTOOLBAR_H
 
-#include <QWidget>
-#include <QStackedWidget>
-#include <QPushButton>
-#include <QKeyEvent>
-
 #include "utils/baseutils.h"
-
 #include "cutwidget.h"
 #include "linewidget.h"
-#include "fillshapewidget.h"
+
 #include "textwidget.h"
 #include "blurwidget.h"
 #include "adjustsizewidget.h"
@@ -18,19 +12,36 @@
 #include "widgets/colorpanel.h"
 #include "widgets/toolbutton.h"
 
+#include <DFrame>
+#include <DMenu>
+#include <DLabel>
+
+#include <QWidget>
+#include <QStackedWidget>
+#include <QPushButton>
+#include <QKeyEvent>
+
+
+
 DWIDGET_USE_NAMESPACE
 
-class TopToolbar : public QFrame {
+class CommonshapeWidget;
+class PolygonalStarAttributeWidget;
+class PolygonAttributeWidget;
+class AiloringWidget;
+
+class TopToolbar : public DFrame
+{
     Q_OBJECT
 
 public:
-    TopToolbar(QWidget* parent = 0);
+    TopToolbar(QWidget *parent = 0);
     ~TopToolbar();
 
     void initStackWidget();
     void initMenu();
 
-    QMenu* mainMenu();
+    QMenu *mainMenu();
 
 signals:
     void drawShapeChanged(QString shape);
@@ -77,24 +88,27 @@ protected:
 private:
     QString m_path;
     QStringList m_paths;
-    QStackedWidget* m_stackWidget;
+    QStackedWidget *m_stackWidget;
     int m_textFontsize = 12;
 
 
-    QWidget* m_emptyWidget;
-    CutWidget* m_cutWidget;
-    LineWidget* m_drawLineWidget;
-    FillshapeWidget* m_fillShapeWidget;
-    TextWidget* m_drawTextWidget;
-    BlurWidget* m_drawBlurWidget;
-    AdjustsizeWidget* m_adjustsizeWidget;
+    DWidget *m_emptyWidget;
+    CommonshapeWidget *m_commonShapeWidget;
+    PolygonalStarAttributeWidget *m_polygonalStarWidget;
+    PolygonAttributeWidget *m_PolygonWidget;
+    AiloringWidget *m_ailoringWidget;
+    CutWidget *m_cutWidget;
+    LineWidget *m_drawLineWidget;
+    TextWidget *m_drawTextWidget;
+    BlurWidget *m_drawBlurWidget;
+    AdjustsizeWidget *m_adjustsizeWidget;
 
-    ArrowRectangle* m_colorARect;
-    ColorPanel* m_colorPanel;
+    ArrowRectangle *m_colorARect;
+    ColorPanel *m_colorPanel;
     MiddleWidgetStatus m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
-    QMenu* m_mainMenu;
+    DMenu *m_mainMenu;
 
 private:
     void setMiddleStackWidget(int status);

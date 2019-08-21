@@ -138,7 +138,6 @@
         <file>theme/common/images/deepin-draw-24.svg</file>
         <file>theme/common/images/deepin-draw-64.svg</file>
         <file>theme/light/MainWidget.qss</file>
-        <file>theme/light/FillshapeWidget.qss</file>
         <file>theme/light/LineWidget.qss</file>
         <file>theme/light/TextWidget.qss</file>
         <file>theme/light/LeftToolbar.qss</file>
@@ -197,5 +196,7 @@
         <file>theme/light/images/action/brush tool_active.svg</file>
         <file>theme/light/images/action/brush tool_hover.svg</file>
         <file>theme/light/images/action/round tool_normal.svg</file>
+        <file>theme/light/CommonshapeWidget.qss</file>
+        <file>theme/light/PolygonalStarAttributeWidget.qss</file>
     </qresource>
 </RCC>

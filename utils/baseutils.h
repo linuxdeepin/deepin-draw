@@ -29,12 +29,16 @@ enum DrawStatus {
 
 enum MiddleWidgetStatus {
     Empty,
-    Cut,
+    ImportPicture,
+    CommonShape,
+    DrawPolygonalStar,
+    DrawPolygon,
     DrawLine,
-    FillShape,
+    DrawPen,
     DrawText,
     DrawBlur,
-    AdjustSize,
+    Cut,
+    AdjustSize
 };
 
 QList<QColor> specifiedColorList();
@@ -51,7 +55,7 @@ QString     getFileContent(const QString &file);
 bool          isValidFormat(QString suffix);
 bool          isCommandExist(QString command);
 void  paintSelectedPoint(QPainter &painter, QPointF pos,
-                                              QPixmap pointImg);
+                         QPixmap pointImg);
 QVariantList cachePixmap(const QString &path);
 QString DetectImageFormat(const QString &filepath);
 QString allImageformat();

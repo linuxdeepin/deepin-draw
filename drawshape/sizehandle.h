@@ -61,6 +61,7 @@ private:
     const int m_dir;
     SelectionHandleState m_state;
     QPixmap m_pixMap;
+    int m_pixMapWidth;
 };
 
 #endif // SIZEHANDLE

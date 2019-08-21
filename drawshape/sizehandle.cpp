@@ -87,6 +87,7 @@ RotateHandle::RotateHandle(QGraphicsItem *parent, int d, QPixmap pixmap)
                         pixmap.rect().width(), parent)
     , m_dir(d)
     , m_pixMap(pixmap)
+    , m_pixMapWidth(pixmap.rect().width())
 {
     this->setAcceptHoverEvents(true);
     setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
@@ -133,7 +134,7 @@ void RotateHandle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     painter->save();
 
-    painter->drawPixmap(QPointF(-12, -12), m_pixMap);
+    painter->drawPixmap(QPointF(-m_pixMapWidth / 2, -m_pixMapWidth / 2), m_pixMap);
 
     painter->restore();
 }

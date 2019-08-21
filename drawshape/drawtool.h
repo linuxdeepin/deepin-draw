@@ -31,15 +31,14 @@ enum DrawToolType {
     polygon,
     line,
     pen,
-    text,
-    rotation
+    text
 };
 
 class DrawTool
 {
 public:
     DrawTool( DrawToolType shape );
-//    virtual ~DrawTool(){}
+    virtual ~DrawTool() {}
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene ) ;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene ) ;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene );
@@ -68,17 +67,6 @@ public:
     QPointF opposite_;
     QGraphicsPathItem *dashRect;
 
-};
-
-class  RotationTool : public DrawTool
-{
-public:
-    RotationTool();
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene ) ;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene ) ;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, MainGraphicsScene *scene );
-    qreal lastAngle;
-    QGraphicsPathItem *dashRect;
 };
 
 class RectTool : public DrawTool
