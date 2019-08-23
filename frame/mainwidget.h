@@ -22,6 +22,7 @@ public:
     MainWidget(QWidget *parent = 0);
     ~MainWidget();
     LeftToolBar *getLeftToolBar();
+    void contextMenuEvent(QContextMenuEvent *event);
 
 public slots:
     void getPicPath(QStringList path);
@@ -37,6 +38,9 @@ private:
 
     int m_horizontalMargin;
     int m_verticalMargin;
+
+    DMenu *m_contextMenu;
+
 };
 
 #endif // MAINWIDGET_H

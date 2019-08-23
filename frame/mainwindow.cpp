@@ -21,7 +21,7 @@ const int TITLEBAR_HEIGHT = 40;
 const int IMG_ROTATEPOINT_SPACING = 35;
 
 MainWindow::MainWindow(QWidget *parent)
-    :DMainWindow(parent)
+    : DMainWindow(parent)
 {
 //    setMouseTracking(true);
     window()->setWindowState(Qt::WindowMaximized);
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_mainWidget);
 
-    connect(m_mainWidget->getLeftToolBar(),&LeftToolBar::setCurrentDrawTool,m_topToolbar,&TopToolbar::updateMiddleWidget);
+    connect(m_mainWidget->getLeftToolBar(), &LeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
 
 //    connect(m_topToolbar, &TopToolbar::drawShapeChanged,
 //            m_mainWidget, &MainWidget::drawShapeChanged);
@@ -67,10 +67,10 @@ MainWindow::MainWindow(QWidget *parent)
 //            m_topToolbar, &TopToolbar::cutImageFinished);
 ////    connect(m_mainWidget, &MainWidget::shapePressed,
 ////            m_topToolbar, &TopToolbar::updateCurrentShape);
-    connect(dApp, &Application::popupConfirmDialog, this, [=]{
+    connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
 //        if (m_mainWidget->shapeNum() != 0)
 //        {
-            showDrawDialog();
+        showDrawDialog();
 //        } else {
 //            dApp->quit();
 //        }
@@ -82,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(m_mainWidget,MainWidget::)
 //}
 
+
 void MainWindow::loadImage(const QString &path)
 {
     window()->raise();
@@ -91,21 +92,18 @@ void MainWindow::loadImage(const QString &path)
 
 void MainWindow::openImage(const QString &path)
 {
-    if (QFileInfo(path).suffix() == "ddf" && QFileInfo(path).exists())
-    {
+    if (QFileInfo(path).suffix() == "ddf" && QFileInfo(path).exists()) {
         parseDdf(path);
     } else {
         QSize desktopSize = qApp->desktop()->size();
         QSize imageSize = QPixmap(path).size();
 
         if (QFileInfo(path).exists() && utils::image::imageSupportRead(path)
-                && imageSize.width() != 0 && imageSize.height() != 0)
-        {
-            int ww = desktopSize.width() - 2*ARTBOARD_MARGIN;
-            int wh = desktopSize.height() - 2*ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
+                && imageSize.width() != 0 && imageSize.height() != 0) {
+            int ww = desktopSize.width() - 2 * ARTBOARD_MARGIN;
+            int wh = desktopSize.height() - 2 * ARTBOARD_MARGIN - TITLEBAR_HEIGHT;
 
-            if (imageSize.width() > ww || imageSize.height() > wh)
-            {
+            if (imageSize.width() > ww || imageSize.height() > wh) {
                 resize(desktopSize.width(), desktopSize.height());
             } else {
                 emit m_topToolbar->resizeArtboard(true, QSize(imageSize.width(),
@@ -127,7 +125,7 @@ void MainWindow::activeWindow()
 
 void MainWindow::parseDdf(const QString &path)
 {
-    DrawFile* dFile = new DrawFile(this);
+    DrawFile *dFile = new DrawFile(this);
     dFile->parseddf(path);
     QSize windowSize = dFile->windowSize();
     resize(windowSize);
@@ -173,10 +171,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::showDrawDialog()
 {
-    DrawDialog*  dd = new DrawDialog(this);
+    DrawDialog  *dd = new DrawDialog(this);
     dd->showInCenter(window());
 
-    connect(dd, &DrawDialog::saveDrawImage, this, [=]{
+    connect(dd, &DrawDialog::saveDrawImage, this, [ = ] {
         TempFile::instance()->setSaveFinishedExit(true);
         emit m_topToolbar->generateSaveImage();
     });

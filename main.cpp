@@ -27,17 +27,27 @@ int main(int argc, char *argv[])
 
     Application a(argc, argv);
 
+//    QTranslator *qtTranslator = new QTranslator;
+//    if (qtTranslator->load("./language.qm")) {
+//        a.installTranslator(qtTranslator);
+//    }
+    QTranslator qtTranslator;
+    qtTranslator.load("./language.qm");
+    a.installTranslator(&qtTranslator);
+
     static const QDate buildDate = QLocale( QLocale::English )
                                    .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
     // Version Time
     a.setApplicationVersion(DApplication::buildVersion(t_date));
 
+    a.setStyle("chameleon");
+
 
 
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");
-    a.setApplicationVersion("1.0");
+    //a.setApplicationVersion("1.0");
     a.setTheme("light");
     a.setQuitOnLastWindowClosed(true);
 

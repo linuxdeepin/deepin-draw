@@ -41,7 +41,7 @@ public:
     void initStackWidget();
     void initMenu();
 
-    QMenu *mainMenu();
+    DMenu *mainMenu();
 
 signals:
     void drawShapeChanged(QString shape);

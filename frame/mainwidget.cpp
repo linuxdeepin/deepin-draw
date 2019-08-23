@@ -46,7 +46,30 @@ MainWidget::MainWidget(QWidget *parent)
     layout->addWidget(m_MainGraphicsView);
 
     setLayout(layout);
+    m_contextMenu = new DMenu(this);
+    QAction *cutAc = m_contextMenu->addAction(tr("Cut"));
+    QAction *copyAc = m_contextMenu->addAction(tr("Copy"));
+    QAction *parseAc = m_contextMenu->addAction(tr("Parse"));
+    QAction *allAc = m_contextMenu->addAction(tr("All"));
+    m_contextMenu->addSeparator();
+    QAction *deleteAc = m_contextMenu->addAction(tr("Delete"));
+    QAction *undoAc = m_contextMenu->addAction(tr("Undo"));
+    m_contextMenu->addSeparator();
+    QAction *oneLayerUpAc = m_contextMenu->addAction(tr("One layer up"));
+    QAction *oneLayerDownAc = m_contextMenu->addAction(tr("One layer down"));
+    QAction *bringToFrontAc = m_contextMenu->addAction(tr("Bring to front"));
+    QAction *sendTobackAc = m_contextMenu->addAction(tr("Send to back"));
+    QAction *leftAlignAc = m_contextMenu->addAction(tr("Left align"));
+    QAction *topAlignAc = m_contextMenu->addAction(tr("Top align"));
+    QAction *rightAlignAc = m_contextMenu->addAction(tr("Right align"));
+    QAction *centerAlignAc = m_contextMenu->addAction(tr("Center align"));
+
+
+
     connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
+    //connect(m_contextMenu,SIGNAL(conte))
+
+
 }
 
 
@@ -78,4 +101,10 @@ void MainWidget::getPicPath(QStringList path)
 LeftToolBar *MainWidget::getLeftToolBar()
 {
     return m_leftToolbar;
+}
+
+void MainWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
+    m_contextMenu->show();
 }

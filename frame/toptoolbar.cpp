@@ -152,16 +152,23 @@ void TopToolbar::initStackWidget()
 
 void TopToolbar::initMenu()
 {
-    m_mainMenu = new QMenu(this);
 
+    m_mainMenu = new DMenu(this);
+    //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
+    //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
+    //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
+
+    QAction *newConstructAc = m_mainMenu->addAction(tr("New"));
     QAction *importAc = m_mainMenu->addAction(tr("Import"));
     m_mainMenu->addSeparator();
+    QAction *exportAc = m_mainMenu->addAction(tr("Export"));
     QAction *saveAc = m_mainMenu->addAction(tr("Save"));
+    QAction *saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction *printAc = m_mainMenu->addAction(tr("Print"));
-//    m_mainMenu->addSeparator();
-//    QAction* themeAc = m_mainMenu->addAction(tr("Dark theme"));
     m_mainMenu->addSeparator();
+    QAction *themeAc = m_mainMenu->addAction(tr("Theme"));
     QAction *helpAc = m_mainMenu->addAction(tr("Help"));
+
 
 //    Q_UNUSED(themeAc);
     Q_UNUSED(helpAc);
