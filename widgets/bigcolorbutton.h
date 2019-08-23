@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-#include "utils/baseutils.h"
+//#include "utils/baseutils.h"
 
 class BigColorButton : public QPushButton
 {

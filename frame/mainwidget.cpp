@@ -46,6 +46,7 @@ MainWidget::MainWidget(QWidget *parent)
     layout->addWidget(m_MainGraphicsView);
 
     setLayout(layout);
+
     m_contextMenu = new DMenu(this);
     QAction *cutAc = m_contextMenu->addAction(tr("Cut"));
     QAction *copyAc = m_contextMenu->addAction(tr("Copy"));
@@ -70,15 +71,24 @@ MainWidget::MainWidget(QWidget *parent)
     //connect(m_contextMenu,SIGNAL(conte))
 
 
+
 }
-
-
 
 
 MainWidget::~MainWidget()
 {
 }
 
+LeftToolBar *MainWidget::getLeftToolBar()
+{
+    return m_leftToolbar;
+}
+
+void MainWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
+    m_contextMenu->show();
+}
 //进行图片导入
 void MainWidget::getPicPath(QStringList path)
 {
@@ -90,21 +100,6 @@ void MainWidget::getPicPath(QStringList path)
         graphicsItem->setPainter(QPointF(0, 0), pixmap);
         m_MainGraphicsScene->addItem(graphicsItem);
         //graphicsItem->setVisible(true);
-        //画图
-
-
 
     }
-}
-
-
-LeftToolBar *MainWidget::getLeftToolBar()
-{
-    return m_leftToolbar;
-}
-
-void MainWidget::contextMenuEvent(QContextMenuEvent *event)
-{
-    m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
-    m_contextMenu->show();
 }

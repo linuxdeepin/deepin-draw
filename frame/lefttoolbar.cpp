@@ -1,19 +1,16 @@
 #include "lefttoolbar.h"
 
-#include "widgets/pushbutton.h"
+#include "widgets/cpushbutton.h"
 
-#include <DFileDialog>
-#include <QLabel>
 #include <QVBoxLayout>
+#include <DFileDialog>
+
 
 const int BTN_SPACING = 1;
 
 LeftToolBar::LeftToolBar(QWidget *parent) : DFrame(parent)
 {
     setMaximumWidth(50);
-
-    DRAW_THEME_INIT_WIDGET("LeftToolbar");
-    setObjectName("LeftToolbar");
 
     initUI();
     initConnection();
@@ -27,68 +24,117 @@ LeftToolBar::~LeftToolBar()
 
 void LeftToolBar::initUI()
 {
-    m_picBtn = new PushButton(this);
-    m_picBtn->setObjectName("PictureBtn");
+
+    QMap<CPushButton::CButtonSattus, QString> pictureMap;
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/picture tools_active.svg");
+    m_picBtn = new CPushButton(pictureMap, this);
     m_picBtn->setToolTip(tr("Import"));
     m_actionButtons.append(m_picBtn);
 
-    m_rectBtn = new PushButton(this);
-    m_rectBtn->setObjectName("RectBtn");
+
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/rectangle tool_active.svg");
+    m_rectBtn = new CPushButton(pictureMap, this);
     m_rectBtn->setToolTip(tr("Rectangle"));
     m_actionButtons.append(m_rectBtn);
 
-    m_roundBtn = new PushButton(this);
-    m_roundBtn->setObjectName("RoundBtn");
+
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/round tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/round tool_active.svg");
+    m_roundBtn = new CPushButton(pictureMap, this);
     m_roundBtn->setToolTip(tr("Ellipse"));
     m_actionButtons.append(m_roundBtn);
 
-    m_triangleBtn = new PushButton(this);
-    m_triangleBtn->setObjectName("TriangleBtn");
+
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/triangle tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/triangle tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/triangle tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/triangle tool_active.svg");
+    m_triangleBtn = new CPushButton(pictureMap, this);
     m_triangleBtn->setToolTip(tr("Triangle"));
     m_actionButtons.append(m_triangleBtn);
 
 
-    m_starBtn = new PushButton(this);
-    m_starBtn->setObjectName("StarBtn");
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/star tool_normal.png");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/star tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/star tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/star tool_active.svg");
+    m_starBtn = new CPushButton(pictureMap, this);
     m_starBtn->setToolTip(tr("Star"));
     m_actionButtons.append(m_starBtn);
 
 
 
-    m_polygonBtn = new PushButton(this);
-    m_polygonBtn->setObjectName("PolygonBtn");
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/hexagon tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/hexagon tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/hexagon tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/hexagon tool_active.svg");
+    m_polygonBtn = new CPushButton(pictureMap, this);
     m_polygonBtn->setToolTip(tr("Polygon"));
     m_actionButtons.append(m_polygonBtn);
 
 
-    m_lineBtn = new PushButton(this);
-    m_lineBtn->setObjectName("LineBtn");
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/line tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/line tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/line tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/line tool_active.svg");
+    m_lineBtn = new CPushButton(pictureMap, this);
     m_lineBtn->setToolTip(tr("Line"));
     m_actionButtons.append(m_lineBtn);
 
 
-    m_penBtn = new PushButton(this);
-    m_penBtn->setObjectName("PenBtn");
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/brush tool_normal.png");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/brush tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/brush tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/brush tool_active.svg");
+    m_penBtn = new CPushButton(pictureMap, this);
     m_penBtn->setToolTip(tr("Pencil"));
     m_actionButtons.append(m_penBtn);
 
 
-    m_textBtn = new PushButton(this);
-    m_textBtn->setObjectName("TextBtn");
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/text tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/text tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/text tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/text tool_active.svg");
+    m_textBtn = new CPushButton(pictureMap, this);
     m_textBtn->setToolTip(tr("Text"));
     m_actionButtons.append(m_textBtn);
 
 
-    m_blurBtn = new PushButton(this);
-    m_blurBtn->setObjectName("BlurBtn");
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/smudge tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/smudge tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/smudge tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/smudge tool_active.svg");
+    m_blurBtn = new CPushButton(pictureMap, this);
     m_blurBtn->setToolTip(tr("Blur"));
     m_actionButtons.append(m_blurBtn);
 
 
-    m_cutBtn = new PushButton(this);
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/screenshot tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/screenshot too_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/screenshot tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/screenshot tool_active.svg");
+    m_cutBtn = new CPushButton(pictureMap, this);
     m_cutBtn->setObjectName("CutBtn");
     m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
+
 
 
     m_layout = new QVBoxLayout(this);
@@ -120,124 +166,103 @@ void LeftToolBar::initUI()
     setLayout(m_layout);
 }
 
-void LeftToolBar::clearOtherSelections(PushButton *clickedButton)
+void LeftToolBar::clearOtherSelections(CPushButton *clickedButton)
 {
-    foreach (PushButton *button, m_actionButtons) {
-        button->setChecked(false);
+    foreach (CPushButton *button, m_actionButtons) {
+        if (button->isChecked() && button != clickedButton) {
+            button->setChecked(false);
+            return;
+        }
     };
-
-    clickedButton->setChecked(true);
 }
-
 
 void LeftToolBar::importImage()
 {
+    qDebug() << "importImage begin" << endl;
     DFileDialog *fileDialog = new DFileDialog(this);
-    //QString myfilte = tr("JPEG (*.png *.xpm *.jpg)");
     QStringList filters;
     filters << "Image files (*.png *.jpg *.bmp *.tif *.pdf *.ddf)";
     fileDialog->setNameFilters(filters);
-    //setFilter(tr("JPEG (*.png *.xpm *.jpg)"));
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
-
-    //fileDialog->show();
-    // m_picBtn->setEnabled(false);
-
-    //onnect(fileDialog,SIGNAL(fileDialog.closed()),this,)
-
-
 
     if (fileDialog->exec() ==   QDialog::Accepted) {
         QStringList filenames = fileDialog->selectedFiles();
         qDebug() << filenames << endl;
         emit sendPicPath(filenames);
 
-        //Importer *picImporter = new Importer(this);
-        // picImporter->appendFiles(filenames);
-        //QPixmap const *pixMap = new QPixmap(filenames[0]);
-        //QPainter *painter = new QPainter(this);
-
-        //painter->setPen(pen());
-        //painter->setBrush(Qt::NoBrush);
-
-        // painter->drawPixmap(0, 0, pixMap);
-        //painter->drawLine(1, 1, 5, 5);
 
 
     }
-    //ImageGraphicsItem *imageitem=new ImageGraphicsItem()
-    //获取图片文件路径
-    //QStringList filenames = fileDialog->selectedFiles();
-
-
 
 }
 
 void LeftToolBar::initConnection()
 {
-    connect(m_picBtn, &PushButton::clicked, this, [this]() {
+
+    connect(m_picBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
         emit setCurrentDrawTool(ImportPicture);
+        importImage();
 //        DrawTool::c_drawShape = rectangle;
     });
 
     //链接图片导入按钮和图片导入功能
-    connect(m_picBtn, SIGNAL(clicked()), this, SLOT(importImage()));
+    // connect(m_picBtn, SIGNAL(clicked()), this, SLOT(importImage()));
 
-    connect(m_rectBtn, &PushButton::clicked, this, [this]() {
+    connect(m_rectBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_rectBtn);
         emit setCurrentDrawTool(CommonShape);
         DrawTool::c_drawShape = rectangle;
     });
 
-    connect(m_roundBtn, &PushButton::clicked, this, [this]() {
+    connect(m_roundBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_roundBtn);
         emit setCurrentDrawTool(CommonShape);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_triangleBtn, &PushButton::clicked, this, [this]() {
+    connect(m_triangleBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_triangleBtn);
         emit setCurrentDrawTool(CommonShape);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_starBtn, &PushButton::clicked, this, [this]() {
+    connect(m_starBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_starBtn);
         emit setCurrentDrawTool(DrawPolygonalStar);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_polygonBtn, &PushButton::clicked, this, [this]() {
+    connect(m_polygonBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_polygonBtn);
         emit setCurrentDrawTool(DrawPolygon);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_lineBtn, &PushButton::clicked, this, [this]() {
+    connect(m_lineBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_lineBtn);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_penBtn, &PushButton::clicked, this, [this]() {
+    connect(m_penBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_penBtn);
         emit setCurrentDrawTool(DrawPen);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_textBtn, &PushButton::clicked, this, [this]() {
+    connect(m_textBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_textBtn);
         emit setCurrentDrawTool(DrawText);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_blurBtn, &PushButton::clicked, this, [this]() {
+    connect(m_blurBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
         emit setCurrentDrawTool(DrawBlur);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_cutBtn, &PushButton::clicked, this, [this]() {
+    connect(m_cutBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
         emit setCurrentDrawTool(Cut);
 //        DrawTool::c_drawShape = ellipse;

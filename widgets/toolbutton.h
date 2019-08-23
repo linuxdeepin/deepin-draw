@@ -24,6 +24,8 @@ public:
         setText(text);
     }
     ~ToolButton() {}
+
 };
 
 #endif // TOOLBUTTON_H
+

@@ -10,9 +10,22 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
+const int PUSHBUTTON_FONT_SIZE = 9;
+
 
 AiloringWidget::AiloringWidget(QWidget *parent)
     : DWidget(parent)
+{
+    initUI();
+    initConnection();
+}
+
+AiloringWidget::~AiloringWidget()
+{
+
+}
+
+void AiloringWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
     sizeLabel->setText(tr("尺寸"));
@@ -31,28 +44,32 @@ AiloringWidget::AiloringWidget(QWidget *parent)
     DLabel *scaleLabel = new DLabel(this);
     scaleLabel->setText(tr("比例"));
 
-    QList<ToolButton *> lwBtnList;
-    QButtonGroup *scaleBtnGroup = new QButtonGroup(this);
-    scaleBtnGroup->setExclusive(true);
-    ToolButton *scaleBtn1 = new ToolButton("1:1", this);
-    scaleBtn1->setFixedSize(50, 23);
-    ToolButton *scaleBtn2 = new ToolButton("2:3", this);
-    scaleBtn2->setFixedSize(50, 23);
-    ToolButton *scaleBtn3 = new ToolButton("8:5", this);
-    scaleBtn3->setFixedSize(50, 23);
-    ToolButton *scaleBtn4 = new ToolButton("16:9", this);
-    scaleBtn4->setFixedSize(50, 23);
+    QFont pushBtnFont;
+    pushBtnFont.setPointSize(PUSHBUTTON_FONT_SIZE);
 
-    scaleBtnGroup->addButton(scaleBtn1);
-    scaleBtnGroup->addButton(scaleBtn2);
-    scaleBtnGroup->addButton(scaleBtn3);
-    scaleBtnGroup->addButton(scaleBtn4);
+    m_scaleBtn1_1 = new DPushButton(this);
+    m_scaleBtn1_1->setText("1:1");
+    m_scaleBtn1_1->setFont(pushBtnFont);
 
-    DLabel *freeLabel = new DLabel(this);
-    freeLabel->setText(tr("自由"));
+    m_scaleBtn2_3 = new DPushButton(this);
+    m_scaleBtn2_3->setText("2:3");
+    m_scaleBtn2_3->setFont(pushBtnFont);
 
-    DLabel *originalLabel = new DLabel(this);
-    originalLabel->setText(tr("原始"));
+    m_scaleBtn8_5 = new DPushButton(this);
+    m_scaleBtn8_5->setText("8:5");
+    m_scaleBtn8_5->setFont(pushBtnFont);
+
+    m_scaleBtn16_9 = new DPushButton(this);
+    m_scaleBtn16_9->setText("16:9");
+    m_scaleBtn16_9->setFont(pushBtnFont);
+
+    m_freeBtn = new DPushButton(this);
+    m_freeBtn->setText(tr("自由"));
+    m_freeBtn->setFont(pushBtnFont);
+
+    m_originalBtn = new DPushButton(this);
+    m_originalBtn->setText(tr("原始"));
+    m_originalBtn->setFont(pushBtnFont);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -67,23 +84,23 @@ AiloringWidget::AiloringWidget(QWidget *parent)
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(scaleLabel);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(scaleBtn1);
+    layout->addWidget(m_scaleBtn1_1);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(scaleBtn2);
+    layout->addWidget(m_scaleBtn2_3);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(scaleBtn3);
+    layout->addWidget(m_scaleBtn8_5);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(scaleBtn4);
+    layout->addWidget(m_scaleBtn16_9);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(freeLabel);
+    layout->addWidget(m_freeBtn);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(originalLabel);
+    layout->addWidget(m_originalBtn);
 
     layout->addStretch();
     setLayout(layout);
 }
 
-AiloringWidget::~AiloringWidget()
+void AiloringWidget::initConnection()
 {
 
 }

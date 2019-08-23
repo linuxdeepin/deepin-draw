@@ -59,7 +59,8 @@ CONFIG(release, debug|release) {
     system($$PWD/generate_translations.sh)
 }
 
-TRANSLATIONS=language.ts
+TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
+                $$PWD/translations/$${TARGET}_zh_CN.ts
 
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
