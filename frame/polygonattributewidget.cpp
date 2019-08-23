@@ -5,9 +5,11 @@
 #include <DSlider>
 #include <DLineEdit>
 
+
 #include <QHBoxLayout>
 #include <QButtonGroup>
 
+#include "widgets/csidewidthwidget.h"
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
@@ -15,8 +17,11 @@
 #include "utils/configsettings.h"
 #include "utils/global.h"
 
+
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
+
+//DWIDGET_USE_NAMESPACE
 
 PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
     : DWidget(parent)
@@ -55,37 +60,7 @@ PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 
-    QStringList lwBtnNameList;
-    lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
-                  << "MediumLineBtn" << "BoldLineBtn";
-
-    QList<ToolButton *> lwBtnList;
-    QButtonGroup *lwBtnGroup = new QButtonGroup(this);
-    lwBtnGroup->setExclusive(true);
-
-    for (int k = 0; k < lwBtnNameList.length(); k++) {
-        ToolButton *lwBtn = new ToolButton(this);
-        lwBtn->setObjectName(lwBtnNameList[k]);
-        lwBtnList.append(lwBtn);
-        lwBtnGroup->addButton(lwBtn);
-
-        connect(lwBtn, &ToolButton::clicked, this, [ = ] {
-            ConfigSettings::instance()->setValue("common", "lineWidth", (k + 1) * 2);
-        });
-        connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-        [ = ](const QString & group, const QString & key) {
-            if (group == "common" && key == "lineWidth") {
-                int value = ConfigSettings::instance()->value("common", "lineWidth").toInt();
-                if (value / 2 - 1 == k)
-                    lwBtn->setChecked(true);
-            }
-        });
-    }
-
-
-    int defaultLineWidth = ConfigSettings::instance()->value(
-                               "common", "lineWidth").toInt();
-    lwBtnList[std::max(defaultLineWidth / 2 - 1, 0)]->setChecked(true);
+    CSideWidthWidget *sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *sideNumLabel = new DLabel(this);
@@ -93,12 +68,11 @@ PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
     sideNumLabel->setText(tr("侧边数"));
 
     DSlider *sideNumSlider = new DSlider(this);
-    sideNumSlider->setTickInterval(1);
     sideNumSlider->setSingleStep(1);
     sideNumSlider->setMinimum(4);
     sideNumSlider->setMaximum(10);
     sideNumSlider->setMinimumWidth(200);
-    sideNumSlider->setTickPosition(DSlider::TicksBothSides);
+    sideNumSlider->setMaximumHeight(24);
     sideNumSlider->setOrientation(Qt::Horizontal);
 
     DLineEdit *sideNumEdit = new DLineEdit(this);
@@ -124,9 +98,7 @@ PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
     layout->addWidget(sepLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
-    for (int j = 0; j < lwBtnList.length(); j++) {
-        layout->addWidget(lwBtnList[j]);
-    }
+    layout->addWidget(sideWidthWidget);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(sideNumLabel);
     layout->addWidget(sideNumSlider);

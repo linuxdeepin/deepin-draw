@@ -20,7 +20,11 @@ HEADERS += \
     $$PWD/tipslabel.h \
     $$PWD/graphicsgloweffect.h \
     $$PWD/resizelabel.h \
-    $$PWD/loadtips.h
+    $$PWD/loadtips.h \
+    $$PWD/cpushbutton.h \
+    $$PWD/csidewidthwidget.h \
+    $$PWD/testwidget.h \
+    $$PWD/cclickbutton.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \
@@ -41,7 +45,11 @@ SOURCES += \
     $$PWD/tipslabel.cpp \
     $$PWD/graphicsgloweffect.cpp \
     $$PWD/resizelabel.cpp \
-    $$PWD/loadtips.cpp
+    $$PWD/loadtips.cpp \
+    $$PWD/cpushbutton.cpp \
+    $$PWD/csidewidthwidget.cpp \
+    $$PWD/testwidget.cpp \
+    $$PWD/cclickbutton.cpp
 
 RESOURCES += \
     $$PWD/widgetsRes.qrc

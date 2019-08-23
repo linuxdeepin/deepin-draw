@@ -198,5 +198,41 @@
         <file>theme/light/images/action/round tool_normal.svg</file>
         <file>theme/light/CommonshapeWidget.qss</file>
         <file>theme/light/PolygonalStarAttributeWidget.qss</file>
+        <file>theme/light/images/attribute/arrow tool_hover.svg</file>
+        <file>theme/light/images/attribute/arrow tool_disable.svg</file>
+        <file>theme/light/images/attribute/arrow tool_press.svg</file>
+        <file>theme/light/images/attribute/line tool_checked.svg</file>
+        <file>theme/light/images/attribute/arrow tool_checked.svg</file>
+        <file>theme/light/images/attribute/arrow tool_normal.svg</file>
+        <file>theme/light/images/attribute/line tool_press.svg</file>
+        <file>theme/light/images/attribute/line tool_disable.svg</file>
+        <file>theme/light/images/attribute/line tool_hover.svg</file>
+        <file>theme/light/images/attribute/line tool_normal.svg</file>
+        <file>theme/light/images/attribute/flip vertical_normal.svg</file>
+        <file>theme/light/images/attribute/fuzzy tool_checked.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_disabled.svg</file>
+        <file>theme/light/images/attribute/smudge tool_press.svg</file>
+        <file>theme/light/images/attribute/flip horizontal_disabled.svg</file>
+        <file>theme/light/images/attribute/fuzzy tool_disabled.svg</file>
+        <file>theme/light/images/attribute/contrarotate_hover.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_press.png</file>
+        <file>theme/light/images/attribute/fuzzy tool_press.svg</file>
+        <file>theme/light/images/attribute/smudge tool_disabled.svg</file>
+        <file>theme/light/images/attribute/contrarotate_press.svg</file>
+        <file>theme/light/images/attribute/smudge tool_hover.svg</file>
+        <file>theme/light/images/attribute/flip vertical_press.png</file>
+        <file>theme/light/images/attribute/fuzzy tool_normal.svg</file>
+        <file>theme/light/images/attribute/flip horizontal_hover.png</file>
+        <file>theme/light/images/attribute/clockwise rotation_normal.png</file>
+        <file>theme/light/images/attribute/flip horizontal_press.png</file>
+        <file>theme/light/images/attribute/flip vertical_disabled.svg</file>
+        <file>theme/light/images/attribute/contrarotate_disabled.svg</file>
+        <file>theme/light/images/attribute/contrarotate_normal.svg</file>
+        <file>theme/light/images/attribute/smudge tool_checked.svg</file>
+        <file>theme/light/images/attribute/flip vertical_hover.svg</file>
+        <file>theme/light/images/attribute/smudge tool_normal.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_hover.png</file>
+        <file>theme/light/images/attribute/flip horizontal_normal.svg</file>
+        <file>theme/light/images/attribute/fuzzy tool_hover.svg</file>
     </qresource>
 </RCC>

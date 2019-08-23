@@ -41,6 +41,7 @@ TopToolbar::TopToolbar(QWidget *parent)
     initStackWidget();
 
     QHBoxLayout *hLayout = new QHBoxLayout (this);
+    hLayout->setMargin(0);
     hLayout->addWidget(logoLabel, 0, Qt::AlignLeft);
 
     hLayout->addWidget(m_stackWidget, 80, Qt::AlignHCenter);

@@ -5,6 +5,8 @@
 #include <DSlider>
 #include <DLineEdit>
 
+
+
 #include <QHBoxLayout>
 #include <QButtonGroup>
 
@@ -14,6 +16,7 @@
 #include "widgets/seperatorline.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
+#include "widgets/csidewidthwidget.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -55,37 +58,7 @@ PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 
-    QStringList lwBtnNameList;
-    lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
-                  << "MediumLineBtn" << "BoldLineBtn";
-
-    QList<ToolButton *> lwBtnList;
-    QButtonGroup *lwBtnGroup = new QButtonGroup(this);
-    lwBtnGroup->setExclusive(true);
-
-    for (int k = 0; k < lwBtnNameList.length(); k++) {
-        ToolButton *lwBtn = new ToolButton(this);
-        lwBtn->setObjectName(lwBtnNameList[k]);
-        lwBtnList.append(lwBtn);
-        lwBtnGroup->addButton(lwBtn);
-
-        connect(lwBtn, &ToolButton::clicked, this, [ = ] {
-            ConfigSettings::instance()->setValue("common", "lineWidth", (k + 1) * 2);
-        });
-        connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-        [ = ](const QString & group, const QString & key) {
-            if (group == "common" && key == "lineWidth") {
-                int value = ConfigSettings::instance()->value("common", "lineWidth").toInt();
-                if (value / 2 - 1 == k)
-                    lwBtn->setChecked(true);
-            }
-        });
-    }
-
-
-    int defaultLineWidth = ConfigSettings::instance()->value(
-                               "common", "lineWidth").toInt();
-    lwBtnList[std::max(defaultLineWidth / 2 - 1, 0)]->setChecked(true);
+    CSideWidthWidget *sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *anchorNumLabel = new DLabel(this);
@@ -93,13 +66,11 @@ PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
     anchorNumLabel->setText(tr("锚点数"));
 
     DSlider *anchorNumSlider = new DSlider(this);
-    anchorNumSlider->setTickInterval(2);
-    anchorNumSlider->setSingleStep(1);
     anchorNumSlider->setOrientation(Qt::Horizontal);
     anchorNumSlider->setMinimum(3);
-    anchorNumSlider->setMinimumWidth(200);
     anchorNumSlider->setMaximum(50);
-    anchorNumSlider->setTickPosition(DSlider::TicksBothSides);
+    anchorNumSlider->setMinimumWidth(200);
+    anchorNumSlider->setMaximumHeight(24);
 
     DLineEdit *anchorNumEdit = new DLineEdit(this);
     anchorNumEdit->setMinimumWidth(50);
@@ -116,17 +87,16 @@ PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
     radiusLabel->setText(tr("半径"));
 
     DSlider *radiusNumSlider = new DSlider(this);
-    radiusNumSlider->setTickInterval(4);
-    radiusNumSlider->setSingleStep(1);
     radiusNumSlider->setOrientation(Qt::Horizontal);
     radiusNumSlider->setMinimum(0);
-    radiusNumSlider->setMinimumWidth(200);
     radiusNumSlider->setMaximum(100);
-    radiusNumSlider->setTickPosition(DSlider::TicksBothSides);
+    radiusNumSlider->setMinimumWidth(200);
+    radiusNumSlider->setMaximumHeight(24);
+
 
     DLineEdit *radiusNumEdit = new DLineEdit(this);
-    radiusNumEdit->setMinimumWidth(50);
-    radiusNumEdit->setMaximumWidth(50);
+    radiusNumEdit->setMinimumWidth(60);
+    radiusNumEdit->setMaximumWidth(60);
     radiusNumEdit->setText(QString("%1%").arg(radiusNumSlider->value()));
 
 
@@ -146,9 +116,7 @@ PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
     layout->addWidget(sepLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
-    for (int j = 0; j < lwBtnList.length(); j++) {
-        layout->addWidget(lwBtnList[j]);
-    }
+    layout->addWidget(sideWidthWidget);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(anchorNumLabel);
     layout->addWidget(anchorNumSlider);

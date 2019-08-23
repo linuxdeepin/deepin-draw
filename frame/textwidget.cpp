@@ -70,13 +70,12 @@ TextWidget::TextWidget(QWidget *parent)
     fontsizeLabel->setText(tr("字号"));
 
     DSlider *fontSizeSlider = new DSlider(this);
-    fontSizeSlider->setTickInterval(50);
-    fontSizeSlider->setSingleStep(1);
     fontSizeSlider->setOrientation(Qt::Horizontal);
     fontSizeSlider->setMinimum(0);
-    fontSizeSlider->setMinimumWidth(200);
     fontSizeSlider->setMaximum(1000);
-    fontSizeSlider->setTickPosition(DSlider::TicksBothSides);
+    fontSizeSlider->setMinimumWidth(200);
+    fontSizeSlider->setMaximumHeight(24);
+
 
     DLineEdit *fontSizeEdit = new DLineEdit(this);
     fontSizeEdit->setMinimumWidth(50);

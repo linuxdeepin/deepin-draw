@@ -1,14 +1,14 @@
 #include "linewidget.h"
 
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QDebug>
-#include <QButtonGroup>
+
 
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/toolbutton.h"
-
+#include "widgets/csidewidthwidget.h"
+#include "widgets/cpushbutton.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
 
@@ -17,8 +17,17 @@ const int BTN_SPACNT = 10;
 LineWidget::LineWidget(QWidget *parent)
     : QWidget(parent)
 {
-    DRAW_THEME_INIT_WIDGET("LineWidget");
-    this->setObjectName("LineWidget");
+    initUI();
+    initConnection();
+}
+
+LineWidget::~LineWidget()
+{
+}
+
+
+void LineWidget::initUI()
+{
     QLabel *strokeLabel = new QLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
@@ -35,74 +44,37 @@ LineWidget::LineWidget(QWidget *parent)
     lineTypeLabel->setObjectName("LineType");
     lineTypeLabel->setText(tr("类型"));
 
-    QList<ToolButton *> lineBtnList;
-    QStringList lineBtnNameList;
-    lineBtnNameList << "StraightLineBtn" << "ArrowBtn";
-    QButtonGroup *btnGroup = new QButtonGroup(this);
-    btnGroup->setExclusive(true);
 
-    for (int k = 0; k < lineBtnNameList.length(); k++) {
-        ToolButton *lineBtn = new ToolButton(this);
-        lineBtn->setObjectName(lineBtnNameList[k]);
-        lineBtnList.append(lineBtn);
-        btnGroup->addButton(lineBtn);
+    QMap<CPushButton::CButtonSattus, QString> pictureMap;
 
-        connect(lineBtn, &ToolButton::clicked, this, [ = ] {
-            ConfigSettings::instance()->setValue("line", "style", k);
-        });
-    }
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-    [ = ](const QString & group, const QString & key) {
-        if (group == "line" && key == "style") {
-            int index = ConfigSettings::instance()->value(group, key).toInt();
-            lineBtnList[index]->setChecked(true);
-        }
-    });
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
+    m_straightline = new CPushButton(pictureMap, this);
+    m_actionButtons.append(m_straightline);
 
-    int defaultIndex = ConfigSettings::instance()->value("line", "style").toInt();
-    lineBtnList[defaultIndex]->setChecked(true);
+
+    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
+    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
+    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
+    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
+    m_arrowline = new CPushButton(pictureMap, this);
+    m_actionButtons.append(m_arrowline);
+
 
     QLabel *lwLabel = new QLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 
-    QList<ToolButton *> lwBtnList;
-    QStringList lwBtnNameList;
-    lwBtnNameList << "FinerLineBtn" << "FineLineBtn"
-                  << "MediumLineBtn" << "BoldLineBtn";
-
-    QButtonGroup *lwBtnGroup = new QButtonGroup(this);
-    lwBtnGroup->setExclusive(true);
-
-    for (int i = 0; i < lwBtnNameList.length(); i++) {
-        ToolButton *lwBtn = new ToolButton(this);
-        lwBtn->setObjectName(lwBtnNameList[i]);
-        lwBtnList.append(lwBtn);
-        lwBtnGroup->addButton(lwBtn);
-        connect(lwBtn, &ToolButton::clicked, this, [ = ] {
-            ConfigSettings::instance()->setValue("common", "lineWidth", (i + 1) * 2);
-        });
-        connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-        [ = ](const QString & group, const QString & key) {
-            if (group == "common" && key == "lineWidth") {
-                int value = ConfigSettings::instance()->value("common", "lineWidth").toInt();
-                if (value / 2 - 1 == i)
-                    lwBtn->setChecked(true);
-            }
-        });
-    }
-
-    int lineWidthDefaultIndex = ConfigSettings::instance()->value(
-                                    "common", "lineWidth").toInt();
-    lwBtnList[std::max(lineWidthDefaultIndex / 2 - 1, 0)]->setChecked(true);
+    CSideWidthWidget *sideWidthWidget = new CSideWidthWidget(this);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
     layout->addWidget(lineTypeLabel);
-    for (int h = 0; h < lineBtnList.length(); h++) {
-        layout->addWidget(lineBtnList[h]);
-    }
+    layout->addWidget(m_straightline);
+    layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
     layout->addWidget(strokeButton);
     layout->addWidget(strokeLabel);
@@ -110,14 +82,32 @@ LineWidget::LineWidget(QWidget *parent)
     layout->addWidget(sep1Line, 0, Qt::AlignCenter);
 
     layout->addWidget(lwLabel);
-    for (int j = 0; j < lwBtnList.length(); j++) {
-        layout->addWidget(lwBtnList[j]);
-    }
+    layout->addWidget(sideWidthWidget);
     layout->addStretch();
     setLayout(layout);
 }
 
-LineWidget::~LineWidget()
+void LineWidget::initConnection()
 {
+    connect(m_straightline, &CPushButton::buttonClick, [this]() {
+        clearOtherSelections(m_straightline);
+
+    });
+
+    connect(m_arrowline, &CPushButton::buttonClick, [this]() {
+        clearOtherSelections(m_arrowline);
+
+    });
+}
+
+
+void LineWidget::clearOtherSelections(CPushButton *clickedButton)
+{
+    foreach (CPushButton *button, m_actionButtons) {
+        if (button->isChecked() && button != clickedButton) {
+            button->setChecked(false);
+            return;
+        }
+    };
 }
 
