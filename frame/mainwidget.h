@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 
+
 #include "toptoolbar.h"
 //#include "utils/baseutils.h"
 
@@ -40,6 +41,8 @@ private:
     int m_verticalMargin;
 
     DMenu *m_contextMenu;
+
+
 
 };
 

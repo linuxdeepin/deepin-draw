@@ -109,6 +109,7 @@ private:
     DrawStatus  m_drawStatus;
 
     DMenu *m_mainMenu;
+    DComboBox  *m_scaleComboBox;
 
 private:
     void setMiddleStackWidget(int status);

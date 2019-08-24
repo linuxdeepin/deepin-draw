@@ -71,7 +71,6 @@ MainWidget::MainWidget(QWidget *parent)
     //connect(m_contextMenu,SIGNAL(conte))
 
 
-
 }
 
 

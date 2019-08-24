@@ -44,6 +44,15 @@ TopToolbar::TopToolbar(QWidget *parent)
     hLayout->setMargin(0);
     hLayout->addWidget(logoLabel, 0, Qt::AlignLeft);
 
+    //创建画板放大缩小的combobox
+
+    m_scaleComboBox = new DComboBox(this);
+    //QComboBox *m_scaleComboBox = new QComboBox(this);
+    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
+    m_scaleComboBox->addItems(scaleList);
+    m_scaleComboBox->setCurrentIndex(1);
+    hLayout->addWidget(m_scaleComboBox, 20, Qt::AlignLeft);
+
     hLayout->addWidget(m_stackWidget, 80, Qt::AlignHCenter);
 
     setLayout(hLayout);
