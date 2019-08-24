@@ -7,5 +7,5 @@ ts_list=(`ls translations/*.ts`)
 for ts in "${ts_list[@]}"
 do
     printf "\nprocess ${ts}\n"
-    lupdate -pro ./deepin-draw.pro -ts "${ts}"
+    lupdate -pro ./draw.pro -ts "${ts}"
 done
