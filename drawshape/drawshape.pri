@@ -1,24 +1,31 @@
 HEADERS += \
-    $$PWD/drawtool.h \
-    $$PWD/shapemimedata.h \
-    $$PWD/sizehandle.h \
-    $$PWD/rectgraphicsitem.h \
-    $$PWD/basegraphicsitem.h \
-    $$PWD/maingraphicsscene.h \
-    $$PWD/maingraphicsview.h \
-    $$PWD/ccursorshapemanager.h \
-    $$PWD/imagegraphicsitem.h
+    $$PWD/globaldefine.h \
+    $$PWD/csizehandle.h \
+    $$PWD/crecttool.h \
+    $$PWD/idrawtool.h \
+    $$PWD/cdrawtoolmanagersigleton.h \
+    $$PWD/cdrawtoolfactory.h \
+    $$PWD/cdrawparamsigleton.h \
+    $$PWD/cgraphicsitem.h \
+    $$PWD/cgraphicsrectitem.h \
+    $$PWD/cselecttool.h \
+    $$PWD/cdrawscene.h
+
+
 
 SOURCES += \
-    $$PWD/drawtool.cpp \
-    $$PWD/shapemimedata.cpp \
-    $$PWD/sizehandle.cpp \
-    $$PWD/rectgraphicsitem.cpp \
-    $$PWD/basegraphicsitem.cpp \
-    $$PWD/maingraphicsview.cpp \
-    $$PWD/maingraphicsscene.cpp \
-    $$PWD/ccursorshapemanager.cpp \
-    $$PWD/imagegraphicsitem.cpp
+    $$PWD/cdrawtoolmanagersigleton.cpp \
+    $$PWD/cgraphicsrectitem.cpp \
+    $$PWD/cdrawtoolfactory.cpp \
+    $$PWD/csizehandle.cpp \
+    $$PWD/cdrawparamsigleton.cpp \
+    $$PWD/idrawtool.cpp \
+    $$PWD/cdrawscene.cpp \
+    $$PWD/crecttool.cpp \
+    $$PWD/cselecttool.cpp \
+    $$PWD/cgraphicsitem.cpp
 
-RESOURCES += \
-    $$PWD/drawshapeRes.qrc
+
+
+#RESOURCES += \
+#    $$PWD/drawshapeRes.qrc

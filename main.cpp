@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
     if (cmdParser.isSet(openImageOption)) {
         w.activeWindow();
-        w.openImage(cmdParser.value(openImageOption));
+//        w.openImage(cmdParser.value(openImageOption));
     } else if (cmdParser.isSet(activeWindowOption)) {
         w.activeWindow();
     } else {
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
             else
                 path = pas.first();
             w.activeWindow();
-            w.openImage(QFileInfo(path).absoluteFilePath());
+//            w.openImage(QFileInfo(path).absoluteFilePath());
         } else {
             w.show();
         }

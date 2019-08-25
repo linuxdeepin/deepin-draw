@@ -2,6 +2,7 @@
 #include "application.h"
 
 #include <DApplication>
+#include <DComboBox>
 
 #include <QHBoxLayout>
 
@@ -13,7 +14,7 @@
 #include "utils/global.h"
 #include "utils/imageutils.h"
 #include "utils/tempfile.h"
-#include "drawshape/drawtool.h"
+//#include "drawshape/drawtool.h"
 #include "widgets/pushbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/bigcolorbutton.h"
@@ -57,16 +58,10 @@ TopToolbar::TopToolbar(QWidget *parent)
 
     setLayout(hLayout);
 
-
-
-//    PushButton* exportBtn = new PushButton(this);
-//    exportBtn->setObjectName("ExportBtn");
-//    exportBtn->setToolTip(tr("Save"));
-//    exportBtn->setCheckable(false);
+//    setStyleSheet("background-color: rgb(255, 0, 0);");
 
     initMenu();
 
-//    connect(exportBtn, &PushButton::clicked, this, &TopToolbar::generateSaveImage);
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
 
@@ -289,9 +284,11 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
 
     m_colorARect->raise();
     if (visible) {
+
         QPoint startPos = QPoint(0, 0);
-        m_colorARect->show( cursor().pos().x() - mapToGlobal(startPos).x(),
-                            cursor().pos().y() + 25 - mapToGlobal(startPos).y());
+
+        m_colorARect->show(pos.x() - mapToGlobal(startPos).x() + 35,
+                           pos.y()  + 15 - mapToGlobal(startPos).y());
     } else
         m_colorARect->hide();
 }

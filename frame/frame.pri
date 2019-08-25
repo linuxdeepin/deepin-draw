@@ -5,13 +5,13 @@ HEADERS += \
     $$PWD/linewidget.h \
     $$PWD/textwidget.h \
     $$PWD/toptoolbar.h \
-    $$PWD/mainwidget.h \
     $$PWD/mainwindow.h \
-    $$PWD/lefttoolbar.h \
     $$PWD/polygonalstarattributewidget.h \
     $$PWD/commonshapewidget.h \
     $$PWD/polygonattributewidget.h \
-    $$PWD/ailoringwidget.h
+    $$PWD/ailoringwidget.h \
+    $$PWD/ccentralwidget.h \
+    $$PWD/clefttoolbar.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
@@ -20,13 +20,13 @@ SOURCES += \
     $$PWD/linewidget.cpp \
     $$PWD/textwidget.cpp \
     $$PWD/toptoolbar.cpp \
-    $$PWD/mainwidget.cpp \
     $$PWD/mainwindow.cpp \
-    $$PWD/lefttoolbar.cpp \
     $$PWD/polygonalstarattributewidget.cpp \
     $$PWD/commonshapewidget.cpp \
     $$PWD/polygonattributewidget.cpp \
-    $$PWD/ailoringwidget.cpp
+    $$PWD/ailoringwidget.cpp \
+    $$PWD/ccentralwidget.cpp \
+    $$PWD/clefttoolbar.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

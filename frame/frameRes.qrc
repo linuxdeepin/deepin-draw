@@ -234,5 +234,8 @@
         <file>theme/light/images/attribute/clockwise rotation_hover.png</file>
         <file>theme/light/images/attribute/flip horizontal_normal.svg</file>
         <file>theme/light/images/attribute/fuzzy tool_hover.svg</file>
+        <file>theme/light/images/action/selected_fill_active.svg</file>
+        <file>theme/light/images/action/selected_fill_hover.svg</file>
+        <file>theme/light/images/action/selected_fill_normal.svg</file>
     </qresource>
 </RCC>

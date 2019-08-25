@@ -33,7 +33,15 @@ CommonshapeWidget::CommonshapeWidget(QWidget *parent)
 
     connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         strokeBtn->resetChecked();
+//        QPoint btnPos = mapToGlobal(fillBtn->pos());
+
+//        QPoint pos(btnPos.x() + strokeBtn->width() / 2,
+//                   btnPos.y() + strokeBtn->height() + 5);
+
+
+
         emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+
 
     });
     connect(strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
