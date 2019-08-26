@@ -52,15 +52,13 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation) {
             m_currentSelectItem->resizeTo(m_dragHandle, event->scenePos());
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
-            //旋转图形 有BUG
-            QPointF center = m_currentSelectItem->boundingRect().center();
-            QPointF pos = m_currentSelectItem->pos();
-            QPointF origin = m_currentSelectItem->mapToScene(center);
-            qreal scale = m_currentSelectItem->scale();
-            m_currentSelectItem->setTransformOriginPoint(origin);
+            //旋转图形
+            QPointF center = m_currentSelectItem->rect().center();
+            m_currentSelectItem->setTransformOriginPoint(center);
             QPointF mousePoint = event->scenePos();
-            qreal len_y = mousePoint.y() - origin.y();
-            qreal len_x = mousePoint.x() - origin.x();
+            QPointF centerToScence = m_currentSelectItem->mapToScene(center);
+            qreal len_y = mousePoint.y() - centerToScence.y();
+            qreal len_x = mousePoint.x() - centerToScence.x();
             qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
             qDebug() << "angle" << angle << endl;
             if ( angle > 360 ) {
