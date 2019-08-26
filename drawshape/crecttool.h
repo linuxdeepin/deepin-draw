@@ -2,18 +2,19 @@
 #define CRECTTOOL_H
 
 #include "idrawtool.h"
-
-class CGraphicsRectItem;
+#include "cgraphicsrectitem.h"
 class CRectTool : public IDrawTool
 {
 public:
     CRectTool();
-    virtual ~CRectTool();
+    virtual ~CRectTool() Q_DECL_OVERRIDE;
 
 public:
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
 
 private:
     CGraphicsRectItem *m_pRectItem;

@@ -6,9 +6,9 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
+#include <QGraphicsView>
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_bFirst(false)
 {
 
 }
@@ -27,6 +27,15 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         break;
     default:
         break;
+    }
+}
+
+void CDrawScene::setCursor(const QCursor &cursor)
+{
+    QList<QGraphicsView *> views  = this->views();
+    if ( views.count() > 0 ) {
+        QGraphicsView *view = views.first();
+        view->setCursor(cursor);
     }
 }
 
@@ -54,5 +63,23 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
         pTool->mouseReleaseEvent(mouseEvent, this);
+    }
+}
+
+void CDrawScene::keyPressEvent(QKeyEvent *event)
+{
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if ( nullptr != pTool ) {
+        pTool->keyPressEvent(event, this);
+    }
+}
+
+void CDrawScene::keyReleaseEvent(QKeyEvent *event)
+{
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if ( nullptr != pTool ) {
+        pTool->keyReleaseEvent(event, this);
     }
 }

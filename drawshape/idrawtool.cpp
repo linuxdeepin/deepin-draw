@@ -15,6 +15,16 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 
 }
 
+void IDrawTool::keyPressEvent(QKeyEvent *event, CDrawScene *scene)
+{
+    Q_UNUSED(event)
+}
+
+void IDrawTool::keyReleaseEvent(QKeyEvent *event, CDrawScene *scene)
+{
+    Q_UNUSED(event)
+}
+
 EDrawToolMode IDrawTool::getDrawToolMode() const
 {
     return m_mode;

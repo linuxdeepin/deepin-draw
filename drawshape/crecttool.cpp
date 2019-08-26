@@ -25,6 +25,7 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
     m_pRectItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
     scene->addItem(m_pRectItem);
+    m_pRectItem->setSelected(true);
 
     m_bMousePress = true;
 }
@@ -46,4 +47,16 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     m_sPointRelease = event->scenePos();
     m_pRectItem = nullptr;
     m_bMousePress = false;
+
+    //TODO 如果没有拖动的功能   是否删除矩形
+}
+
+void CRectTool::keyPressEvent(QKeyEvent *event, CDrawScene *scene)
+{
+
+}
+
+void CRectTool::keyReleaseEvent(QKeyEvent *event, CDrawScene *scene)
+{
+
 }

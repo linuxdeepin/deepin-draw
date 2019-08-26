@@ -7,59 +7,12 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 
 }
 
-void CGraphicsItem::updateGeometry()
+int CGraphicsItem::type() const
 {
-    const QRectF &geom = this->boundingRect();
-
-    const int w = SELECTION_HANDLE_SIZE;
-    const int h = SELECTION_HANDLE_SIZE;
-
-    const Handles::iterator hend =  m_handles.end();
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
-        CSizeHandleRect *hndl = *it;;
-        switch (hndl->dir()) {
-        case CSizeHandleRect::LeftTop:
-            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Top:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::RightTop:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Right:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::RightBottom:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Bottom:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::LeftBottom:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Left:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::Center:
-            hndl->move(geom.center().x()  - w / 2, geom.center().y() - h / 2);
-            break;
-        default:
-            break;
-        }
-    }
-
+    return Type;
 }
 
-void CGraphicsItem::setState(SelectionHandleState st)
-{
-    const Handles::iterator hend =  m_handles.end();
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it)
-        (*it)->setState(st);
-}
-
-CSizeHandleRect::Direction CGraphicsItem::hitTest(const QPointF &point) const
+CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
 {
     const Handles::const_iterator hend =  m_handles.end();
     for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
@@ -70,7 +23,7 @@ CSizeHandleRect::Direction CGraphicsItem::hitTest(const QPointF &point) const
     return CSizeHandleRect::None;
 }
 
-Qt::CursorShape CGraphicsItem::getCursor(CSizeHandleRect::Direction dir)
+Qt::CursorShape CGraphicsItem::getCursor(CSizeHandleRect::EDirection dir)
 {
     switch (dir) {
     case CSizeHandleRect::Right:
@@ -95,14 +48,13 @@ Qt::CursorShape CGraphicsItem::getCursor(CSizeHandleRect::Direction dir)
     return Qt::ArrowCursor;
 }
 
-QRectF CGraphicsItem::rect() const
+void CGraphicsItem::setState(ESelectionHandleState st)
 {
-    return QRectF(0, 0, 0, 0);
-}
+    const Handles::iterator hend =  m_handles.end();
+    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::Direction dir, const QPointF &point)
-{
-
+        (*it)->setState(st);
+    }
 }
 
 QPointF CGraphicsItem::origin() const
@@ -118,13 +70,9 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
-        qDebug() << " Item Selected : " << value.toString();
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
-    } else if ( change == QGraphicsItem::ItemRotationHasChanged ) {
-        qDebug() << "Item Rotation Changed:" << value.toString();
-    } else if ( change == QGraphicsItem::ItemTransformOriginPointHasChanged ) {
-        qDebug() << "ItemTransformOriginPointHasChanged:" << value.toPointF();
     }
+
     return value;
 }
 

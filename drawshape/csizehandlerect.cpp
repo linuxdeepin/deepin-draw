@@ -1,4 +1,4 @@
-#include "csizehandle.h"
+#include "csizehandlerect.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
@@ -6,7 +6,7 @@
 #include <qdebug.h>
 
 
-CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, Direction d, QGraphicsItem *resizable)
+CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable)
     : QGraphicsRectItem(0, 0, SELECTION_HANDLE_SIZE, SELECTION_HANDLE_SIZE, parent)
     , m_dir(d)
     , m_resizable(resizable)
@@ -57,17 +57,12 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QColor c = QColor("limegreen");
     painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(c));
-
-    if ( m_dir == Center ) {
-        painter->setBrush(QBrush(Qt::blue));
-        painter->drawEllipse(rect());
-    } else
-        painter->drawRect(rect());
+    painter->drawRect(rect());
 
 }
 
 
-void CSizeHandleRect::setState(SelectionHandleState st)
+void CSizeHandleRect::setState(ESelectionHandleState st)
 {
     if (st != m_state) {
         switch (st) {

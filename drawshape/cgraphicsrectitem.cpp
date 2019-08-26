@@ -1,21 +1,29 @@
 #include "cgraphicsrectitem.h"
+#include "csizehandlerect.h"
+#include <QPainter>
 
-CGraphicsRectItem::CGraphicsRectItem(QGraphicsItem *parent)
-    : QGraphicsRectItem(parent)
+CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
+    : CGraphicsItem(parent)
 {
-    setProperty();
+    initRect();
 }
 
-CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, QGraphicsItem *parent)
-    : QGraphicsRectItem(rect, parent)
+CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
+    : CGraphicsItem(parent)
 {
-    setProperty();
+    m_topLeftPoint = rect.topLeft();
+    m_bottomRightPoint = rect.bottomRight();
+    initRect();
 }
 
-CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent)
-    : QGraphicsRectItem(x, y, w, h, parent)
+CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
+    : CGraphicsItem(parent)
 {
-    setProperty();
+    QRectF rect(x, y, w, h);
+    rect = rect.normalized();
+    m_topLeftPoint = rect.topLeft();
+    m_bottomRightPoint = rect.bottomRight();
+    initRect();
 }
 
 CGraphicsRectItem::~CGraphicsRectItem()
@@ -23,14 +31,153 @@ CGraphicsRectItem::~CGraphicsRectItem()
 
 }
 
-void CGraphicsRectItem::setProperty()
+void CGraphicsRectItem::setRect(const QRectF &rect)
 {
-    setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    prepareGeometryChange();
+    m_topLeftPoint = rect.topLeft();
+    m_bottomRightPoint = rect.bottomRight();
+    updateGeometry();
+}
+
+void CGraphicsRectItem::initRect()
+{
+    // handles
+    m_handles.reserve(CSizeHandleRect::None);
+    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
+        CSizeHandleRect *shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this);
+        m_handles.push_back(shr);
+    }
+    updateGeometry();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
 }
 
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QGraphicsRectItem::paint(painter, option, widget);
+    painter->setPen(pen());
+    painter->setBrush(brush());
+    painter->drawRect(rect());
 }
+
+void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+{
+    QPointF local = mapFromScene(point);
+    QRectF rect = this->boundingRect();
+
+    switch (dir) {
+    case CSizeHandleRect::Right:
+        if (local.x() - rect.left() > 0.1 ) {
+            rect.setRight(local.x());
+        }
+        break;
+    case CSizeHandleRect::RightTop:
+        if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+            rect.setTopRight(local);
+        }
+        break;
+    case CSizeHandleRect::RightBottom:
+        if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+            rect.setBottomRight(local);
+        }
+        break;
+    case CSizeHandleRect::LeftBottom:
+        if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+            rect.setBottomLeft(local);
+        }
+        break;
+    case CSizeHandleRect::Bottom:
+        if (local.y() - rect.top() > 0.1 ) {
+            rect.setBottom(local.y());
+        }
+        break;
+    case CSizeHandleRect::LeftTop:
+        if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+            rect.setTopLeft(local);
+        }
+        break;
+    case CSizeHandleRect::Left:
+        if (local.x() - rect.right() < 0.1 ) {
+            rect.setLeft(local.x());
+        }
+        break;
+    case CSizeHandleRect::Top:
+        if (local.y() - rect.bottom() < 0.1 ) {
+            rect.setTop(local.y());
+        }
+        break;
+    default:
+        break;
+    }
+
+    rect = rect.normalized();
+    prepareGeometryChange();
+
+    this->setRect(rect);
+    updateGeometry();
+
+}
+
+
+void CGraphicsRectItem::updateGeometry()
+{
+    const QRectF &geom = this->boundingRect();
+
+    const int w = SELECTION_HANDLE_SIZE;
+    const int h = SELECTION_HANDLE_SIZE;
+
+    const Handles::iterator hend =  m_handles.end();
+    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
+        CSizeHandleRect *hndl = *it;;
+        switch (hndl->dir()) {
+        case CSizeHandleRect::LeftTop:
+            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::Top:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::RightTop:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::Right:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
+            break;
+        case CSizeHandleRect::RightBottom:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::Bottom:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::LeftBottom:
+            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::Left:
+            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
+            break;
+        case CSizeHandleRect::Rotation:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - 15 - h / 2);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+QRectF CGraphicsRectItem::rect() const
+{
+    return QRectF(m_topLeftPoint, m_bottomRightPoint);
+}
+
+QRectF CGraphicsRectItem::boundingRect() const
+{
+    return rect();
+}
+
+//void CGraphicsRectItem::setState(SelectionHandleState st)
+//{
+//    const Handles::iterator hend =  m_handles.end();
+//    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
+//        (*it)->setState(st);
+//    }
+//}

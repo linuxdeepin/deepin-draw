@@ -27,4 +27,6 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
 
     }
+
+    return pTool;
 }

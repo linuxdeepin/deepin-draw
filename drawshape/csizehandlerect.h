@@ -1,5 +1,5 @@
-#ifndef SIZEHANDLE
-#define SIZEHANDLE
+#ifndef CSIZEHANDLERECT
+#define CSIZEHANDLERECT
 
 #include <QGraphicsRectItem>
 #include <QList>
@@ -13,21 +13,21 @@ QT_END_NAMESPACE
 
 
 enum { SELECTION_HANDLE_SIZE = 6, SELECTION_MARGIN = 10 };
-enum SelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
+enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
 class CSizeHandleRect : public QGraphicsRectItem
 {
 public:
-    enum Direction { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Center, None};
+    enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, None};
 
-    CSizeHandleRect(QGraphicsItem *parent, Direction d, QGraphicsItem *resizable);
+    CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable);
 
-    Direction dir() const
+    EDirection dir() const
     {
         return m_dir;
     }
     void updateCursor();
-    void setState(SelectionHandleState st);
+    void setState(ESelectionHandleState st);
     bool hitTest( const QPointF &point );
     void move(qreal x, qreal y );
 
@@ -35,15 +35,15 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
-    const Direction m_dir;
+    const EDirection m_dir;
     QPoint m_startPos;
     QPoint m_curPos;
     QSize m_startSize;
     QSize m_curSize;
     QGraphicsItem *m_resizable;
-    SelectionHandleState m_state;
+    ESelectionHandleState m_state;
 };
 
 
-#endif // SIZEHANDLE
+#endif // CSIZEHANDLERECT
 
