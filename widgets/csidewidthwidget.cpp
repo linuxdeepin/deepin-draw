@@ -1,6 +1,7 @@
 #include "csidewidthwidget.h"
 
 #include "cpushbutton.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 CSideWidthWidget::CSideWidthWidget(QWidget *parent)
     : DFrame(parent)
@@ -81,7 +82,7 @@ void CSideWidthWidget::initConnection()
 
     connect(m_boldButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_boldButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_boldButton));
+        emit sinalSideWidthChange(/*m_buttonMap.value(m_boldButton)*/8);
     });
 
 }
@@ -95,6 +96,8 @@ void CSideWidthWidget::clearOtherSelections(CPushButton *clickedButton)
             return;
         }
     };
+
+    CDrawParamSigleton::GetInstance()->setLineWidth(8);
 }
 
 void CSideWidthWidget::slotSideWidthChange(int sideWidth)

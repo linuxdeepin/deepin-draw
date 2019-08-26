@@ -11,6 +11,7 @@
 #include "widgets/cpushbutton.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 const int BTN_SPACNT = 10;
 
@@ -23,6 +24,12 @@ LineWidget::LineWidget(QWidget *parent)
 
 LineWidget::~LineWidget()
 {
+}
+
+void LineWidget::setLineWidth(int lineWidth)
+{
+    CDrawParamSigleton::GetInstance()->setLineWidth(lineWidth);
+    //TODO
 }
 
 
@@ -85,6 +92,8 @@ void LineWidget::initUI()
     layout->addWidget(sideWidthWidget);
     layout->addStretch();
     setLayout(layout);
+
+    connect (sideWidthWidget, SIGNAL(sinalSideWidthChange(int)), this, SLOT(setLineWidth(int)));
 }
 
 void LineWidget::initConnection()
@@ -98,6 +107,8 @@ void LineWidget::initConnection()
         clearOtherSelections(m_arrowline);
 
     });
+
+
 }
 
 

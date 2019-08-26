@@ -15,6 +15,9 @@ public:
     LineWidget(QWidget *parent = 0);
     ~LineWidget();
 
+public slots:
+    void setLineWidth(int lineWidth);
+
 signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
 
