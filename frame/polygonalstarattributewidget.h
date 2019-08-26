@@ -2,7 +2,7 @@
 #define POLYGONALSTARATTRIBUTEWIDGET_H
 
 #include <DWidget>
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
 

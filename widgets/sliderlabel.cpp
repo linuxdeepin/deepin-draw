@@ -16,7 +16,7 @@ Slider::Slider(QWidget *parent)
                   "}");
 
     setMinimumWidth(160);
-    m_slider = new QSlider(Qt::Horizontal,this);
+    m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setMinimum(0);
     m_slider->setMaximum(100);
     m_slider->setValue(100);
@@ -28,7 +28,7 @@ Slider::Slider(QWidget *parent)
                                 "font-size: 11px;}");
     m_valueLabel->setText("100%");
 
-    QHBoxLayout* mLayout = new QHBoxLayout(this);
+    QHBoxLayout *mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
     mLayout->addSpacing(1);
@@ -37,7 +37,7 @@ Slider::Slider(QWidget *parent)
     mLayout->addWidget(m_valueLabel);
     mLayout->addSpacing(4);
     setLayout(mLayout);
-    connect(m_slider, &QSlider::valueChanged, this, [=](int value){
+    connect(m_slider, &QSlider::valueChanged, this, [ = ](int value) {
         emit valueChanged(value);
         m_valueLabel->setText(QString("%1%").arg(value));
     });
@@ -57,8 +57,7 @@ int Slider::alphaValue()
 
 Slider::~Slider() {}
 
-SliderLabel::SliderLabel(QString text, DrawStatus status,
-                         MiddleWidgetStatus widgetStatus, QWidget* parent)
+SliderLabel::SliderLabel(QString text, DrawStatus status, EDrawToolMode widgetStatus, QWidget *parent)
     : QLabel(parent)
 {
     m_text = text;
@@ -77,7 +76,7 @@ SliderLabel::SliderLabel(QString text, DrawStatus status,
     updateDrawStatus(status, widgetStatus);
     m_titleLabel->setText(m_text);
 
-    QHBoxLayout* mLayout = new QHBoxLayout(this);
+    QHBoxLayout *mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
     mLayout->addWidget(m_titleLabel);
@@ -98,30 +97,27 @@ void SliderLabel::setAlpha(int val)
     m_slider->setAlphaValue(val);
 }
 
-void SliderLabel::updateDrawStatus(DrawStatus status,
-                                   MiddleWidgetStatus widgetStatus)
+void SliderLabel::updateDrawStatus(DrawStatus status, EDrawToolMode widgetStatus)
 {
     int colorAlpha;
     m_drawStatus = status;
-    m_widgetStatus = widgetStatus;
 
-    if (widgetStatus != MiddleWidgetStatus::DrawText)
-    {
-        if (m_drawStatus == DrawStatus::Fill)
-        {
-            colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
-        } else
-        {
-            colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
-        }
-    } else {
-        colorAlpha = ConfigSettings::instance()->value("text", "fillColor_alpha").toInt();
-    }
+    //////////////??????????
+//    if (widgetStatus != EDrawToolMode::DrawText) {
+//        if (m_drawStatus == DrawStatus::Fill) {
+//            colorAlpha = ConfigSettings::instance()->value("common", "fillColor_alpha").toInt();
+//        } else {
+//            colorAlpha = ConfigSettings::instance()->value("common", "strokeColor_alpha").toInt();
+//        }
+//    } else {
+//        colorAlpha = ConfigSettings::instance()->value("text", "fillColor_alpha").toInt();
+//    }
 
     m_slider->setAlphaValue(colorAlpha);
 }
 
-void SliderLabel::setTitle(const QString &text) {
+void SliderLabel::setTitle(const QString &text)
+{
     m_text = text;
     m_titleLabel->setText(m_text);
 }

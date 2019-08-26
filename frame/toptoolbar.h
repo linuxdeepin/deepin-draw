@@ -1,7 +1,7 @@
 #ifndef TOPTOOLBAR_H
 #define TOPTOOLBAR_H
 
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 #include "cutwidget.h"
 #include "linewidget.h"
 
@@ -66,7 +66,7 @@ public:
     void showSaveDialog();
     void drawShapes(QString shape);
     void showPrintDialog();
-    MiddleWidgetStatus middleWidgetStatus();
+    EDrawToolMode middleWidgetStatus();
 
 public slots:
 
@@ -81,9 +81,8 @@ public slots:
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void keyReleaseEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+
 
 private:
     QString m_path;
@@ -105,14 +104,14 @@ private:
 
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
-    MiddleWidgetStatus m_middleWidgetStatus;
+    EDrawToolMode m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
     DMenu *m_mainMenu;
     DComboBox  *m_scaleComboBox;
 
 private:
-    void setMiddleStackWidget(int status);
+
 };
 
 #endif // TOPTOOLBAR_H

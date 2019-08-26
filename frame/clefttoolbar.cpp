@@ -213,7 +213,7 @@ void CLeftToolBar::initConnection()
 
     connect(m_picBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
-        emit setCurrentDrawTool(ImportPicture);
+        emit setCurrentDrawTool(importPicture);
         importImage();
 
     });
@@ -228,31 +228,31 @@ void CLeftToolBar::initConnection()
 
     connect(m_rectBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_rectBtn);
-        emit setCurrentDrawTool(CommonShape);
+        emit setCurrentDrawTool(rectangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(rectangle);
     });
 
     connect(m_roundBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_roundBtn);
-        emit setCurrentDrawTool(CommonShape);
+        emit setCurrentDrawTool(ellipse);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_triangleBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_triangleBtn);
-        emit setCurrentDrawTool(CommonShape);
+        emit setCurrentDrawTool(triangle);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_starBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_starBtn);
-        emit setCurrentDrawTool(DrawPolygonalStar);
+        emit setCurrentDrawTool(polygonalStar);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_polygonBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_polygonBtn);
-        emit setCurrentDrawTool(DrawPolygon);
+        emit setCurrentDrawTool(polygon);
 //        DrawTool::c_drawShape = ellipse;
     });
 
@@ -263,25 +263,25 @@ void CLeftToolBar::initConnection()
 
     connect(m_penBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_penBtn);
-        emit setCurrentDrawTool(DrawPen);
+        emit setCurrentDrawTool(pen);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_textBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_textBtn);
-        emit setCurrentDrawTool(DrawText);
+        emit setCurrentDrawTool(text);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_blurBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
-        emit setCurrentDrawTool(DrawBlur);
+        emit setCurrentDrawTool(blur);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_cutBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
-        emit setCurrentDrawTool(Cut);
+        emit setCurrentDrawTool(cut);
 //        DrawTool::c_drawShape = ellipse;
     });
 }

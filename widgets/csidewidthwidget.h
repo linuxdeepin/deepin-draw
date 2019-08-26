@@ -24,7 +24,7 @@ public:
     explicit CSideWidthWidget(QWidget *parent = nullptr);
 
 signals:
-    void sinalSideWidthChange(int);
+    void signalSideWidthChange(int);
 public slots:
     void slotSideWidthChange(int);
 

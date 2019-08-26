@@ -198,72 +198,33 @@ void TopToolbar::showSaveDialog()
 void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
-    case::ImportPicture:
+    case::importPicture:
         m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
-    case::CommonShape:
+    case::rectangle:
+    case::ellipse:
+    case::triangle:
+        m_commonShapeWidget->updateCommonShapWidget();
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
-    case::DrawPolygonalStar:
+    case::polygonalStar:
         m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
         break;
-    case::DrawPolygon:
+    case::polygon:
         m_stackWidget->setCurrentWidget(m_PolygonWidget);
         break;
-    case::DrawPen:
+    case::pen:
         m_stackWidget->setCurrentWidget(m_drawLineWidget);
         break;
-    case::DrawText:
+    case::text:
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
-    case::DrawBlur:
+    case::blur:
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
         break;
-    case::Cut:
+    case::cut:
         m_stackWidget->setCurrentWidget(m_ailoringWidget);
         break;
-    default:
-        break;
-    }
-//    if (type == "image")
-//    {
-//        emit updateSelectedBtn(true);
-//        setMiddleStackWidget(MiddleWidgetStatus::Cut);
-//        m_cutWidget->cutImageBtnReset();
-//    }
-//    else if (type == "rectangle" || type == "oval")
-//    {
-//        setMiddleStackWidget(MiddleWidgetStatus::FillShape);
-//    } else if (type == "arrow" || type == "straightLine" || type == "arbitraryCurve")
-//    {
-//        setMiddleStackWidget(MiddleWidgetStatus::DrawLine);
-//    } else if (type == "blur")
-//    {
-//        setMiddleStackWidget(MiddleWidgetStatus::DrawBlur);
-//    } else if (type == "text")
-//    {
-//        setMiddleStackWidget(MiddleWidgetStatus::DrawText);
-//    } else if (type == "adjustSize")
-//    {
-//        setMiddleStackWidget(MiddleWidgetStatus::AdjustSize);
-//    }
-}
-
-void TopToolbar::setMiddleStackWidget(int status)
-{
-//    m_middleWidgetStatus = status;
-//    m_colorPanel->setMiddleWidgetStatus(status);
-    switch (status) {
-//    case Empty: m_stackWidget->setCurrentWidget(m_emptyWidget); break;
-//    case Cut: m_stackWidget->setCurrentWidget(m_cutWidget); break;
-//    case DrawLine: m_stackWidget->setCurrentWidget(m_drawLineWidget); break;
-    case CommonShape:
-
-        break;
-//    case DrawText:   emit m_drawTextWidget->updateColorBtn();
-//        m_stackWidget->setCurrentWidget(m_drawTextWidget); break;
-//    case DrawBlur: m_stackWidget->setCurrentWidget(m_drawBlurWidget); break;
-//    case AdjustSize: m_stackWidget->setCurrentWidget(m_adjustsizeWidget); break;
     default:
         break;
     }
@@ -301,14 +262,11 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
     if (!colorPanelGeom.contains(pos)) {
         m_colorARect->hide();
     }
-
-    qDebug() << "updateColorPanelVisible:" << colorPanelGeom << pos;
 }
 
-MiddleWidgetStatus TopToolbar::middleWidgetStatus()
+EDrawToolMode TopToolbar::middleWidgetStatus()
 {
     return m_middleWidgetStatus;
-
 }
 
 void TopToolbar::drawShapes(QString shape)
@@ -325,46 +283,7 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
     m_colorARect->hide();
-    Q_UNUSED(event);
-}
-
-void TopToolbar::keyPressEvent(QKeyEvent *e)
-{
-    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier)) {
-//        qDebug() << "combine keyEvent!";
-        GlobalShortcut::instance()->setShiftScStatus(true);
-        GlobalShortcut::instance()->setAltScStatus(true);
-    }
-    if (e->key() == Qt::Key_Alt) {
-        GlobalShortcut::instance()->setAltScStatus(true);
-    }
-    if (e->key() == Qt::Key_Shift) {
-        GlobalShortcut::instance()->setShiftScStatus(true);
-    }
-}
-
-void TopToolbar::keyReleaseEvent(QKeyEvent *e)
-{
-    if (e->modifiers() == (Qt::AltModifier | Qt::ShiftModifier)) {
-        qDebug() << "combine keyEvent!";
-        GlobalShortcut::instance()->setShiftScStatus(false);
-        GlobalShortcut::instance()->setAltScStatus(false);
-    }
-    if (e->key() == Qt::Key_Alt) {
-        GlobalShortcut::instance()->setAltScStatus(false);
-    }
-    if (e->key() == Qt::Key_Shift) {
-        GlobalShortcut::instance()->setShiftScStatus(false);
-    }
-}
-
-void TopToolbar::mousePressEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-//    qDebug() << "toptoolbar mousePressEvent:" << m_colorARect->hasFocus();
-
-//    if (!m_colorARect->hasFocus())
-//        m_colorARect->hide();
+    QWidget::resizeEvent(event);
 }
 
 TopToolbar::~TopToolbar()

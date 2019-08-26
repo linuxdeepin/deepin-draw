@@ -6,12 +6,13 @@
 #include <QWidget>
 
 #include "colorslider.h"
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 
-class Slider : public QLabel {
+class Slider : public QLabel
+{
     Q_OBJECT
 public:
-    Slider(QWidget* parent);
+    Slider(QWidget *parent);
     ~Slider();
 
     void setAlphaValue(int value);
@@ -21,21 +22,21 @@ signals:
     void valueChanged(int value);
 
 private:
-    QSlider* m_slider;
-    QLabel* m_valueLabel;
+    QSlider *m_slider;
+    QLabel *m_valueLabel;
 };
 
-class SliderLabel : public QLabel {
+class SliderLabel : public QLabel
+{
     Q_OBJECT
 public:
     SliderLabel(QString text, DrawStatus status,
-                MiddleWidgetStatus widgetStatus, QWidget* parent = 0);
+                EDrawToolMode widgetStatus, QWidget *parent = 0);
     ~SliderLabel();
 
     void setTitle(const QString &text);
     int alpha ();
-    void updateDrawStatus(DrawStatus status,
-                          MiddleWidgetStatus widgetStatus);
+    void updateDrawStatus(DrawStatus status, EDrawToolMode widgetStatus);
     void setAlpha(int val);
 
 signals:
@@ -44,10 +45,9 @@ signals:
 private:
     QString m_text;
     DrawStatus m_drawStatus;
-    MiddleWidgetStatus m_widgetStatus;
 
-    QLabel* m_titleLabel;
-    Slider* m_slider;
+    QLabel *m_titleLabel;
+    Slider *m_slider;
 };
 
 #endif // SLIDERLABEL_H
