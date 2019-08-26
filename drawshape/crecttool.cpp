@@ -5,6 +5,7 @@
 #include "cdrawtoolmanagersigleton.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QtMath>
 CRectTool::CRectTool ()
     : IDrawTool (rectangle)
     , m_pRectItem(nullptr)
@@ -35,8 +36,43 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     Q_UNUSED(scene)
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
-        QRectF rectF(m_sPointPress, pointMouse);
+        QPointF resultPoint = pointMouse;
+        //按下SHIFT键
+        if (m_bShiftKeyPress && !m_bAltKeyPress) {
+
+            qreal w = resultPoint.x() - m_sPointPress.x();
+            qreal h = resultPoint.y() - m_sPointPress.y();
+            qreal abslength = abs(w) - abs(h);
+            if (abslength >= 0.1) {
+                if (h >= 0) {
+                    resultPoint.setY(m_sPointPress.y() + abs(w));
+                } else {
+                    resultPoint.setY(m_sPointPress.y() - abs(w));
+                }
+
+            } else {
+                if (w >= 0) {
+                    resultPoint.setX(m_sPointPress.x() + abs(h));
+                } else {
+                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                }
+            }
+        } else if (!m_bShiftKeyPress && m_bAltKeyPress) {
+
+        }
+
+
+
+
+
+        QRectF rectF(m_sPointPress, resultPoint);
         QRectF normalRectF = rectF.normalized();
+//        QRectF result = normalRectF;
+//        if (m_bShiftKeyPress && !m_bAltKeyPress) {
+//            qreal size = (result.width() - result.height() > 0.00001) ? result.width() : result.height();
+//            result.setWidth(size);
+//            result.setHeight(size);
+//        }
         m_pRectItem->setRect(normalRectF);
     }
 }
@@ -51,12 +87,3 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     //TODO 如果没有拖动的功能   是否删除矩形
 }
 
-void CRectTool::keyPressEvent(QKeyEvent *event, CDrawScene *scene)
-{
-
-}
-
-void CRectTool::keyReleaseEvent(QKeyEvent *event, CDrawScene *scene)
-{
-
-}

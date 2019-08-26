@@ -71,7 +71,7 @@ void CDrawScene::keyPressEvent(QKeyEvent *event)
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
-        pTool->keyPressEvent(event, this);
+        pTool->keyPressEvent(event);
     }
 }
 
@@ -80,6 +80,6 @@ void CDrawScene::keyReleaseEvent(QKeyEvent *event)
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
-        pTool->keyReleaseEvent(event, this);
+        pTool->keyReleaseEvent(event);
     }
 }
