@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 
 
 class CPushButton;

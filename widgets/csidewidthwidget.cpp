@@ -66,22 +66,22 @@ void CSideWidthWidget::initConnection()
 {
     connect(m_finerButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_finerButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_finerButton));
+        emit signalSideWidthChange(m_buttonMap.value(m_finerButton));
     });
 
     connect(m_fineButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_fineButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_fineButton));
+        emit signalSideWidthChange(m_buttonMap.value(m_fineButton));
     });
 
     connect(m_mediumButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_mediumButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_mediumButton));
+        emit signalSideWidthChange(m_buttonMap.value(m_mediumButton));
     });
 
     connect(m_boldButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_boldButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_boldButton));
+        emit signalSideWidthChange(m_buttonMap.value(m_boldButton));
     });
 
 }
