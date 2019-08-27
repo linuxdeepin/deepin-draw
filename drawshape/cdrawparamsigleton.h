@@ -20,14 +20,15 @@ public:
     void setLineColor(const QColor &lineColor);
     QColor getLineColor() const;
 
-    void setFillFlag(bool flag);
-    bool getFillFlag();
-
     void setFillColor(const QColor &fillColor);
     QColor getFillColor() const;
 
+    void setPen(const QPen &pen);
     QPen getPen() const;
+
+    void setBrush(const QBrush &brush);
     QBrush getBrush() const;
+
 
     void setCurrentDrawToolMode(EDrawToolMode mode);
     EDrawToolMode getCurrentDrawToolMode() const;
@@ -35,8 +36,6 @@ public:
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
-
-    bool m_bFillFlag;
     QColor m_nFillColor;
 
     EDrawToolMode m_currentDrawToolMode;

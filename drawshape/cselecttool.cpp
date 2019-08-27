@@ -33,9 +33,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
         if ( items.count() != 0 ) {
             m_currentSelectItem = static_cast<CGraphicsItem *>(items.first());
-//            CGraphicsLineItem *item = static_cast<CGraphicsLineItem *>(m_currentSelectItem);
-//            QPointF pos = item->pos();
-//            QLineF line = item->line();
+            scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
         }
     }
 }

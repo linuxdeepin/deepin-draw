@@ -3,6 +3,7 @@
 #include "idrawtool.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "cdrawparamsigleton.h"
+#include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
@@ -37,6 +38,26 @@ void CDrawScene::setCursor(const QCursor &cursor)
         QGraphicsView *view = views.first();
         view->setCursor(cursor);
     }
+}
+
+void CDrawScene::attributeChanged()
+{
+    QList<QGraphicsItem *> items = this->selectedItems();
+
+    QGraphicsItem *item = nullptr;
+    foreach (item, items) {
+        static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+    }
+}
+
+void CDrawScene::changeAttribute(bool flag, QPen pen, QBrush brush)
+{
+    if (flag) {
+        CDrawParamSigleton::GetInstance()->setPen(pen);
+        CDrawParamSigleton::GetInstance()->setBrush(brush);
+    }
+    emit signalAttributeChanged(flag);
 }
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

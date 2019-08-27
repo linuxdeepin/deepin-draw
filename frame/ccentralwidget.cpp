@@ -1,14 +1,14 @@
 #include "ccentralwidget.h"
-
-#include <DMenu>
+#include "clefttoolbar.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cgraphicsitem.h"
 
 #include <QLabel>
 #include <QDebug>
 #include <QGraphicsView>
+#include <QGraphicsItem>
 
-
-#include "clefttoolbar.h"
-#include "drawshape/cdrawscene.h"
+#include <DMenu>
 
 
 CCentralwidget::CCentralwidget(QWidget *parent)
@@ -84,6 +84,12 @@ void CCentralwidget::slotResetOriginPoint()
     m_pGraphicsView->setSceneRect(rect);
 }
 
+void CCentralwidget::slotAttributeChanged()
+{
+    if (m_pDrawScene != nullptr) {
+        m_pDrawScene->attributeChanged();
+    }
+}
 
 void CCentralwidget::initContextMenu()
 {

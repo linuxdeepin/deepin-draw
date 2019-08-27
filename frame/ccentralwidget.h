@@ -30,6 +30,7 @@ public:
 public slots:
     void getPicPath(QStringList path);
     void slotResetOriginPoint();
+    void slotAttributeChanged();
 
 private:
     CLeftToolBar *m_leftToolbar;

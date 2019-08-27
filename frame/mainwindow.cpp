@@ -63,6 +63,7 @@ void MainWindow::initConnection()
 //            dApp->quit();
 //        }
     });
+    connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
 }
 
 

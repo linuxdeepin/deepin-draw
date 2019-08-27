@@ -5,7 +5,6 @@ CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)
-    , m_bFillFlag(false)
     , m_nFillColor(Qt::black)
     , m_currentDrawToolMode(selection)
 {
@@ -40,16 +39,6 @@ QColor CDrawParamSigleton::getLineColor() const
     return m_sLineColor;
 }
 
-void CDrawParamSigleton::setFillFlag(bool flag)
-{
-    m_bFillFlag = flag;
-}
-
-bool CDrawParamSigleton::getFillFlag()
-{
-    return m_bFillFlag;
-}
-
 void CDrawParamSigleton::setFillColor(const QColor &fillColor)
 {
     m_nFillColor = fillColor;
@@ -60,6 +49,12 @@ QColor CDrawParamSigleton::getFillColor() const
     return m_nFillColor;
 }
 
+void CDrawParamSigleton::setPen(const QPen &pen)
+{
+    m_nlineWidth = pen.width();
+    m_sLineColor = pen.color();
+}
+
 QPen CDrawParamSigleton::getPen() const
 {
     QPen pen;
@@ -67,6 +62,11 @@ QPen CDrawParamSigleton::getPen() const
     pen.setColor(m_sLineColor);
 
     return pen;
+}
+
+void CDrawParamSigleton::setBrush(const QBrush &brush)
+{
+    m_nFillColor = brush.color();
 }
 
 QBrush CDrawParamSigleton::getBrush() const

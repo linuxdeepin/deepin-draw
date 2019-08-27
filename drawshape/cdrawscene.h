@@ -1,12 +1,14 @@
 #ifndef CDRAWSCENE_H
 #define CDRAWSCENE_H
-
-#include <QGraphicsScene>
 #include "cselecttool.h"
+#include <QGraphicsScene>
+#include <QObject>
+
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
 class CDrawScene : public QGraphicsScene
 {
+    Q_OBJECT
     friend CSelectTool;
 public:
     explicit CDrawScene(QObject *parent = nullptr);
@@ -16,6 +18,23 @@ public:
      * @param cursor
      */
     void setCursor(const QCursor &cursor);
+
+    /**
+     * @brief attributeChanged 画笔画刷属性更改
+     */
+    void attributeChanged();
+
+    /**
+     * @brief changeAttribute 修改当前画笔画刷属性
+     */
+    void changeAttribute(bool flag, QPen pen = QPen(), QBrush brush = QBrush());
+
+signals:
+    /**
+     * @brief signalAttributeChanged 发送属性栏更改的信号
+     * @param flag
+     */
+    void signalAttributeChanged(bool flag);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
