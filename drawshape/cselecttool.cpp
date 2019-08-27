@@ -1,6 +1,7 @@
 #include "cselecttool.h"
 #include "cdrawscene.h"
 #include "cgraphicsitem.h"
+#include "cgraphicslineitem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QCursor>
@@ -32,6 +33,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
         if ( items.count() != 0 ) {
             m_currentSelectItem = static_cast<CGraphicsItem *>(items.first());
+//            CGraphicsLineItem *item = static_cast<CGraphicsLineItem *>(m_currentSelectItem);
+//            QPointF pos = item->pos();
+//            QLineF line = item->line();
         }
     }
 }

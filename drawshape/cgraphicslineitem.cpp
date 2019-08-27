@@ -90,10 +90,15 @@ QRectF CGraphicsLineItem::rect() const
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
+    QPointF local = mapFromScene(point);
     if (dir == CSizeHandleRect::LeftTop) {
-        m_line.setP2(point);
+        QPointF p1 = local;
+        QPointF p2 = m_line.p2();
+        setLine(p1, p2);
     } else {
-        m_line.setP1(point);
+        QPointF p1 = m_line.p1();
+        QPointF p2 = local;
+        setLine(p1, p2);
     }
 }
 
