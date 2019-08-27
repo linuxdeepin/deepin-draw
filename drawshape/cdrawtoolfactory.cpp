@@ -2,6 +2,7 @@
 #include "cselecttool.h"
 #include "crecttool.h"
 #include "cellipsetool.h"
+#include "clinetool.h"
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
@@ -12,6 +13,7 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         pTool = new CSelectTool();
         break;
     case line:
+        pTool = new CLineTool();
         break;
     case rectangle:
         pTool = new CRectTool();

@@ -25,6 +25,7 @@ void CEllipseTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     m_sPointPress = event->scenePos();
     m_pEllipseItem = new CGraphicsEllipseItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
     m_pEllipseItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+    m_pEllipseItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
     scene->addItem(m_pEllipseItem);
     m_pEllipseItem->setSelected(true);
 

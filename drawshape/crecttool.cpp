@@ -25,6 +25,7 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     m_sPointPress = event->scenePos();
     m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
     m_pRectItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+    m_pRectItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
     scene->addItem(m_pRectItem);
     m_pRectItem->setSelected(true);
 

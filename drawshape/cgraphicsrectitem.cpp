@@ -56,6 +56,8 @@ void CGraphicsRectItem::initRect()
 
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawRect(rect());
@@ -64,7 +66,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     QPointF local = mapFromScene(point);
-    QRectF rect = this->boundingRect();
+    QRectF rect = this->rect();
 
     switch (dir) {
     case CSizeHandleRect::Right:
@@ -122,14 +124,14 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsRectItem::updateGeometry()
 {
-    const QRectF &geom = this->boundingRect();
+    const QRectF &geom = this->rect();
 
     const int w = SELECTION_HANDLE_SIZE;
     const int h = SELECTION_HANDLE_SIZE;
 
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
-        CSizeHandleRect *hndl = *it;;
+        CSizeHandleRect *hndl = *it;
         switch (hndl->dir()) {
         case CSizeHandleRect::LeftTop:
             hndl->move(geom.x() - w / 2, geom.y() - h / 2);
@@ -171,7 +173,10 @@ QRectF CGraphicsRectItem::rect() const
 
 QRectF CGraphicsRectItem::boundingRect() const
 {
-    return rect();
+    QRectF rect = this->rect();
+    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+                             rect.width() + pen().width(), rect.height() + pen().width());
+    return bounding;
 }
 
 //void CGraphicsRectItem::setState(SelectionHandleState st)

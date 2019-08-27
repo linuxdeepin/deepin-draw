@@ -11,7 +11,9 @@ HEADERS += \
     $$PWD/cdrawscene.h \
     $$PWD/csizehandlerect.h \
     $$PWD/cgraphicsellipseitem.h \
-    $$PWD/cellipsetool.h
+    $$PWD/cellipsetool.h \
+    $$PWD/cgraphicslineitem.h \
+    $$PWD/clinetool.h
 
 
 
@@ -27,7 +29,9 @@ SOURCES += \
     $$PWD/cgraphicsitem.cpp \
     $$PWD/csizehandlerect.cpp \
     $$PWD/cgraphicsellipseitem.cpp \
-    $$PWD/cellipsetool.cpp
+    $$PWD/cellipsetool.cpp \
+    $$PWD/cgraphicslineitem.cpp \
+    $$PWD/clinetool.cpp
 
 
 
