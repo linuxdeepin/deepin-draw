@@ -14,7 +14,7 @@
 #include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/testwidget.h"
-#include "drawshape/cdrawparamsigleton.h"
+
 
 
 const int BTN_SPACING = 6;
@@ -36,7 +36,7 @@ void CommonshapeWidget::initUI()
     DLabel *fillLabel = new DLabel(this);
     fillLabel->setText(tr("填充"));
 
-    m_fillBtn = new BigColorButton("common", this);
+    m_fillBtn = new BigColorButton(this);
     m_strokeBtn = new BorderColorButton(this);
 
 
@@ -90,13 +90,15 @@ void CommonshapeWidget::initConnection()
     });
 
     ///线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] (int width) {
-        CDrawParamSigleton::GetInstance()->setLineWidth(width);
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+        emit signalCommonShapeChanged();
     });
 }
 
 void CommonshapeWidget::updateCommonShapWidget()
 {
-
+    m_fillBtn->updateConfigColor();
+    m_strokeBtn->updateConfigColor();
+    m_sideWidthWidget->updateSideWidth();
 }
 

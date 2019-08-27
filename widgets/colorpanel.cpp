@@ -8,10 +8,12 @@
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "drawshape/cdrawparamsigleton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
+#include "calphacontrolwidget.h"
+
 
 const int ORGIN_WIDTH = 250;
 const int PANEL_WIDTH = 222;
@@ -97,8 +99,43 @@ ColorButton::~ColorButton()
 
 ColorPanel::ColorPanel(QWidget *parent)
     : QWidget(parent)
-    , m_expand(false)
     , m_drawstatus(DrawStatus::Fill)
+    , m_expand(false)
+{
+    initUI();
+    initConnection();
+}
+
+ColorPanel::~ColorPanel()
+{
+
+}
+
+////颜色按钮点击处理
+void ColorPanel::setConfigColor(QColor color)
+{
+    /// 颜色名字
+    m_colLineEdit->setText(color.name());
+    /// 颜色Alpha值
+    m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
+
+    ///写入参数
+    if (m_drawstatus == Fill) {
+        CDrawParamSigleton::GetInstance()->setFillColor(color);
+    } else if (m_drawstatus == Stroke) {
+        CDrawParamSigleton::GetInstance()->setLineColor(color);
+    }
+
+    emit signalColorChanged();
+}
+
+void ColorPanel::slotPickedColorChanged(QColor newColor)
+{
+    resetColorBtn();
+    setConfigColor(newColor);
+}
+
+void ColorPanel::initUI()
 {
     DRAW_THEME_INIT_WIDGET("ColorPanel");
     QWidget *colorBtnWidget = new QWidget(this);
@@ -111,8 +148,8 @@ ColorPanel::ColorPanel(QWidget *parent)
 
     m_colList = specifiedColorList();
 
-    QButtonGroup *colorsButtonGroup = new QButtonGroup(this);
-    colorsButtonGroup->setExclusive(true);
+    m_colorsButtonGroup = new QButtonGroup(this);
+    m_colorsButtonGroup->setExclusive(true);
 
     QGridLayout *gLayout = new QGridLayout;
     gLayout->setVerticalSpacing(3);
@@ -124,30 +161,11 @@ ColorPanel::ColorPanel(QWidget *parent)
             cb->setDisableColor(true);
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i / 10, i % 10);
-        colorsButtonGroup->addButton(cb);
-//        qDebug() << "~~~" << i/10 << i%10;
-        connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
+        m_colorsButtonGroup->addButton(cb);
     }
 
-    m_sliderLabel = new SliderLabel(tr("Alpha"), m_drawstatus, m_widgetStatus, this);
-    connect(m_sliderLabel, &SliderLabel::alphaChanged, this, [ = ](int value) {
-//        if (m_widgetStatus != EDrawToolMode::DrawText) {
-//            if (m_drawstatus == DrawStatus::Stroke) {
-//                ConfigSettings::instance()->setValue("common", "strokeColor_alpha", value);
-//            } else {
-//                ConfigSettings::instance()->setValue("common", "fillColor_alpha", value);
-//            }
-//        } else {
-//            ConfigSettings::instance()->setValue("text", "fillColor_alpha", value);
-//        }
-    });
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-    [ = ](const QString & group, const QString & key) {
-        Q_UNUSED(group);
-        if (key == "fillColor_alpha" || key == "strokeColor_alpha") {
-            m_sliderLabel->updateDrawStatus(m_drawstatus, m_widgetStatus);
-        }
-    });
+    m_alphaControlWidget = new CAlphaControlWidget(this);
+    m_alphaControlWidget->setFixedHeight(24);
 
     QWidget *colorValueWidget = new QWidget;
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
@@ -171,29 +189,7 @@ ColorPanel::ColorPanel(QWidget *parent)
     colorLayout->addSpacing(21);
     colorLayout->addWidget(m_colorfulBtn);
 
-    PickColorWidget *pickColWidget = new PickColorWidget(this);
-    connect(this, &ColorPanel::resetColorButtons, this, [ = ] {
-        colorsButtonGroup->setExclusive(false);
-        foreach (ColorButton *cb, m_cButtonList)
-        {
-            cb->setChecked(false);
-        }
-        colorsButtonGroup->setExclusive(true);
-    });
-    connect(pickColWidget, &PickColorWidget::pickedColor, this,
-    [ = ](QColor color) {
-        Q_UNUSED(color);
-        emit resetColorButtons();
-    });
-
-    connect(pickColWidget, &PickColorWidget::pickedColor, this,
-            &ColorPanel::setConfigColor);
-
-    connect(m_colLineEdit, &QLineEdit::textChanged,  this, [ = ](QString text) {
-        if (QColor(text).isValid()) {
-            pickColWidget->setRgbValue(QColor(text));
-        }
-    });
+    m_pickColWidget = new PickColorWidget(this);
 
     QVBoxLayout *vLayout = new QVBoxLayout(colorBtnWidget);
     vLayout->setContentsMargins(4, 4, 7, 4);
@@ -201,30 +197,65 @@ ColorPanel::ColorPanel(QWidget *parent)
     vLayout->addSpacing(7);
     vLayout->addLayout(gLayout);
     vLayout->addSpacing(9);
-    vLayout->addWidget(m_sliderLabel, 0, Qt::AlignCenter);
-    vLayout->addSpacing(14);
+    vLayout->addWidget(m_alphaControlWidget);
+    vLayout->addSpacing(9);
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
     layout->addWidget(colorBtnWidget);
-    layout->addWidget(pickColWidget, 0, Qt::AlignCenter);
+    layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
 
     if (!m_expand)
-        pickColWidget->hide();
+        m_pickColWidget->hide();
+}
 
+void ColorPanel::initConnection()
+{
+    ///颜色按钮
+    foreach (ColorButton *cb, m_cButtonList) {
+        connect(cb, &ColorButton::colorButtonClicked, this, &ColorPanel::setConfigColor);
+    }
+
+    ///调试板改变
+    connect(m_pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::slotPickedColorChanged);
+
+    connect(m_colLineEdit, &QLineEdit::textChanged,  this, [ = ](QString text) {
+        if (QColor(text).isValid()) {
+            m_pickColWidget->setRgbValue(QColor(text));
+        }
+    });
+
+
+    ///Alpha
+    connect(m_alphaControlWidget, &CAlphaControlWidget::signalAlphaChanged, this, [ = ] (int alphaValue) {
+        QColor tmpColor;
+        if (m_drawstatus == Fill) {
+            tmpColor = CDrawParamSigleton::GetInstance()->getFillColor();
+            tmpColor.setAlpha(alphaValue);
+            CDrawParamSigleton::GetInstance()->setFillColor(tmpColor);
+
+        } else if (m_drawstatus == Stroke) {
+            tmpColor = CDrawParamSigleton::GetInstance()->getLineColor();
+            tmpColor.setAlpha(alphaValue);
+            CDrawParamSigleton::GetInstance()->setLineColor(tmpColor);
+        }
+        emit signalColorChanged();
+    });
+
+    ///展开按钮
     connect(m_colorfulBtn, &PushButton::clicked, this, [ = ] {
         if (m_expand)
         {
-            pickColWidget->hide();
-            pickColWidget->setPickedColor(false);
+            m_pickColWidget->hide();
+            m_pickColWidget->setPickedColor(false);
             setFixedHeight(ORIGIN_HEIGHT);
             updateGeometry();
         } else
         {
-            pickColWidget->show();
-            pickColWidget->setPickedColor(true);
+            m_pickColWidget->show();
+            m_pickColWidget->setPickedColor(true);
             setFixedHeight(EXPAND_HEIGHT);
             updateGeometry();
         }
@@ -234,64 +265,38 @@ ColorPanel::ColorPanel(QWidget *parent)
     });
 }
 
-void ColorPanel::setDrawStatus(DrawStatus status)
+void ColorPanel::resetColorBtn()
+{
+    m_colorsButtonGroup->setExclusive(false);
+    foreach (ColorButton *cb, m_cButtonList) {
+        cb->setChecked(false);
+    }
+    m_colorsButtonGroup->setExclusive(true);
+}
+
+
+void ColorPanel::updateColorPanel(DrawStatus status)
 {
     m_drawstatus = status;
 
-    QString colorName;
-    if (m_drawstatus == DrawStatus::Stroke) {
-        colorName = ConfigSettings::instance()->value("common",
-                                                      "strokeColor").toString();
-    } else {
-        colorName = ConfigSettings::instance()->value("common",
-                                                      "fillColor").toString();
+    QColor configColor;
+    if (m_drawstatus == DrawStatus::Fill) {
+        configColor = CDrawParamSigleton::GetInstance()->getFillColor();
+    } else if (m_drawstatus == DrawStatus::Stroke) {
+        configColor = CDrawParamSigleton::GetInstance()->getLineColor();
     }
+
+    ////更新颜色按钮
+    QString colorName = configColor.name();
+
+    if (m_colList.contains(colorName)) {
+        m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
+    } else {
+        resetColorBtn();
+    }
+
+    ///更新颜色名字
     m_colLineEdit->setText(colorName);
-    m_sliderLabel->updateDrawStatus(m_drawstatus, m_widgetStatus);
-}
-
-void ColorPanel::setConfigColor(QColor color)
-{
-    m_colLineEdit->setText(color.name());
-    m_sliderLabel->setAlpha(color.alpha());
-}
-
-
-void ColorPanel::setMiddleWidgetStatus(EDrawToolMode status)
-{
-    m_widgetStatus = status;
-}
-
-void ColorPanel::updateColorButtonStatus()
-{
-    ///////////////?????????????
-//    if (m_widgetStatus != EDrawToolMode::DrawText) {
-//        if (m_drawstatus == DrawStatus::Stroke) {
-//            updateColorBtnByWidget("common", "strokeColor");
-//        } else {
-//            updateColorBtnByWidget("common", "fillColor");
-//        }
-//    } else {
-//        updateColorBtnByWidget("text", "fillColor");
-//    }
-}
-
-void ColorPanel::updateColorBtnByWidget(const QString &group, const QString &key)
-{
-    bool transColorBtnChecked = ConfigSettings::instance()->value(
-                                    group, QString("%1_transparent").arg(key)).toBool();
-    if (transColorBtnChecked) {
-        m_cButtonList[0]->setChecked(true);
-    } else {
-        const QString colorName = ConfigSettings::instance()->value(group, QString("%1").arg(key)).toString();
-        if (m_colList.contains(colorName)) {
-            m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
-        } else {
-            resetColorButtons();
-        }
-    }
-}
-
-ColorPanel::~ColorPanel()
-{
+    /// 颜色Alpha值
+    m_alphaControlWidget->updateAlphaControlWidget(configColor.alpha());
 }

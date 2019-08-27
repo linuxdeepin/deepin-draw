@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
@@ -17,33 +17,20 @@ BorderColorButton::BorderColorButton(QWidget *parent)
 {
     setFixedSize(24, 24);
     setCheckable(false);
-    m_color = QColor(ConfigSettings::instance()->value("common", "strokeColor").toString());
-    qDebug() << "^^^^" << m_color.name();
-    update();
-
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
-            this, &BorderColorButton::updateConfigColor);
+    m_color = CDrawParamSigleton::GetInstance()->getLineColor();
 }
 
-void BorderColorButton::updateConfigColor(const QString &group,
-                                                                                   const QString &key)
+void BorderColorButton::updateConfigColor()
 {
-    if (group == "common" && (key == "strokeColor" || "strokeColor_transparent"))
-    {
-        m_color = QColor(ConfigSettings::instance()->value(group,  "strokeColor").toString());
-        bool transColBtnChecked = ConfigSettings::instance()->value(group,
-            "strokeColor_transparent").toBool();
+    QColor configColor = CDrawParamSigleton::GetInstance()->getLineColor();
 
-        if (transColBtnChecked)
-        {
-            m_color = QColor(Qt::transparent);
-        } else {
-            m_color = QColor(ConfigSettings::instance()->value(group,
-                                                               "strokeColor").toString());
-        }
-
-        update();
+    if (m_color == configColor) {
+        return;
     }
+
+    m_color = configColor;
+
+    update();
 }
 
 BorderColorButton::~BorderColorButton()
@@ -54,20 +41,17 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing
-                           |QPainter::SmoothPixmapTransform);
+                           | QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
 
     QColor drawColor = m_color;
-    qDebug() << "~~~~~~~" << drawColor.name();
-    if (m_isChecked || m_isHover)
-    {
+
+    if (m_isChecked || m_isHover) {
         painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
         painter.drawRoundedRect(rect(), 4, 4);
-    } else if (m_isChecked)
-    {
+    } else if (m_isChecked) {
         drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
-    } else
-    {
+    } else {
         painter.setBrush(Qt::transparent);
         painter.drawRoundedRect(rect(), 4, 4);
     }
@@ -84,8 +68,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     borderPen.setColor(QColor(0, 0, 0, 15));
     painter.setPen(borderPen);
     painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-    if (m_isChecked)
-    {
+    if (m_isChecked) {
         painter.setBrush(QColor(0, 0, 0, 35));
         painter.drawEllipse(CENTER_POINT, BTN_RADIUS - 1, BTN_RADIUS - 1);
     }
@@ -111,8 +94,7 @@ void BorderColorButton::resetChecked()
 
 void BorderColorButton::enterEvent(QEvent *)
 {
-    if (!m_isHover)
-    {
+    if (!m_isHover) {
         m_isHover = true;
         update();
     }
@@ -120,14 +102,13 @@ void BorderColorButton::enterEvent(QEvent *)
 
 void BorderColorButton::leaveEvent(QEvent *)
 {
-    if (m_isHover)
-    {
+    if (m_isHover) {
         m_isHover = false;
         update();
     }
 }
 
-void BorderColorButton::mousePressEvent(QMouseEvent* )
+void BorderColorButton::mousePressEvent(QMouseEvent * )
 {
     m_isChecked = !m_isChecked;
     btnCheckStateChanged(m_isChecked);

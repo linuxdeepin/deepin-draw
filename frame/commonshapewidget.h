@@ -21,6 +21,7 @@ public:
 signals:
     void resetColorBtns();
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    void signalCommonShapeChanged();
 
 public slots:
     void updateCommonShapWidget();

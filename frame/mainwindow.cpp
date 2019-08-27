@@ -37,9 +37,9 @@ void MainWindow::initUI()
     m_topToolbar = new TopToolbar(this);
 
     m_titlebarWidth = titlebar()->buttonAreaWidth();
-    m_topToolbar->setFixedWidth(width() - m_titlebarWidth);
+    m_topToolbar->setFixedWidth(width());
 
-    titlebar()->setCustomWidget(m_topToolbar, Qt::AlignLeft);
+    titlebar()->addWidget(m_topToolbar, Qt::AlignHCenter);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
 //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
@@ -76,7 +76,7 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    m_topToolbar->setFixedWidth(this->width() -  m_titlebarWidth);
+    m_topToolbar->setFixedWidth(this->width());
 
     int ww = window()->width();
     int wh = window()->height();

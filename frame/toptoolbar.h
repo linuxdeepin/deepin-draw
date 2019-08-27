@@ -2,15 +2,6 @@
 #define TOPTOOLBAR_H
 
 #include "drawshape/globaldefine.h"
-#include "cutwidget.h"
-#include "linewidget.h"
-
-#include "textwidget.h"
-#include "blurwidget.h"
-#include "adjustsizewidget.h"
-#include "widgets/arrowrectangle.h"
-#include "widgets/colorpanel.h"
-#include "widgets/toolbutton.h"
 
 #include <DFrame>
 #include <DMenu>
@@ -29,67 +20,50 @@ class CommonshapeWidget;
 class PolygonalStarAttributeWidget;
 class PolygonAttributeWidget;
 class AiloringWidget;
+class LineWidget;
+class CutWidget;
+class TextWidget;
+class BlurWidget;
+class AdjustsizeWidget;
+
+class ArrowRectangle;
+class ColorPanel;
 
 class TopToolbar : public DFrame
 {
     Q_OBJECT
 
 public:
-    TopToolbar(QWidget *parent = 0);
+    TopToolbar(QWidget *parent = nullptr);
     ~TopToolbar();
-
-    void initStackWidget();
-    void initMenu();
 
     DMenu *mainMenu();
 
 signals:
-    void drawShapeChanged(QString shape);
-    void rotateImage(int degree);
-    void mirroredImage(bool horizonta, bool vertical);
-    void cutImageAction();
     void generateSaveImage();
     void printImage();
-    void updatePicTooltip(bool import);
-    void fillShapeSelectedActive(bool selected);
-    void adjustArtBoardSize(QSize size);
     void importPicBtnClicked();
-    void cutImageFinished();
-    void updateSelectedBtn(bool checked);
-    void autoCrop();
-
-    void resetPicBtn();
-    void resizeArtboard(bool resized, QSize size);
+    void signalAttributeChanged();
 
 public:
 //    void showDrawDialog();
     void showSaveDialog();
-    void drawShapes(QString shape);
     void showPrintDialog();
     EDrawToolMode middleWidgetStatus();
 
 public slots:
-
     void updateMiddleWidget(int type);
-
-
-    void setDrawStatus(DrawStatus drawstatus);
-    void showColorfulPanel(DrawStatus drawstatus,
-                           QPoint pos, bool visible = true);
-//    void updateCurrentShape(QString shape);
+    void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     void updateColorPanelVisible(QPoint pos);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-
-
 
 private:
     QString m_path;
     QStringList m_paths;
     QStackedWidget *m_stackWidget;
     int m_textFontsize = 12;
-
 
     DWidget *m_emptyWidget;
     CommonshapeWidget *m_commonShapeWidget;
@@ -100,18 +74,21 @@ private:
     LineWidget *m_drawLineWidget;
     TextWidget *m_drawTextWidget;
     BlurWidget *m_drawBlurWidget;
-    AdjustsizeWidget *m_adjustsizeWidget;
+//    AdjustsizeWidget *m_adjustsizeWidget;
 
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
-    EDrawToolMode m_middleWidgetStatus;
     DrawStatus  m_drawStatus;
 
     DMenu *m_mainMenu;
     DComboBox  *m_scaleComboBox;
 
 private:
-
+    void initUI();
+    void initConnection();
+    void initComboBox();
+    void initStackWidget();
+    void initMenu();
 };
 
 #endif // TOPTOOLBAR_H

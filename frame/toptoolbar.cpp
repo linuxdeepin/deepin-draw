@@ -10,62 +10,58 @@
 #include "polygonalstarattributewidget.h"
 #include "polygonattributewidget.h"
 #include "ailoringwidget.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
-#include "utils/imageutils.h"
-#include "utils/tempfile.h"
-//#include "drawshape/drawtool.h"
-#include "widgets/pushbutton.h"
-#include "widgets/seperatorline.h"
-#include "widgets/bigcolorbutton.h"
-#include "widgets/bordercolorbutton.h"
+#include "linewidget.h"
+#include "cutwidget.h"
+#include "textwidget.h"
+#include "blurwidget.h"
+#include "adjustsizewidget.h"
+#include "widgets/arrowrectangle.h"
+#include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
-#include "widgets/textfontlabel.h"
-#include "controller/importer.h"
+#include "utils/global.h"
+#include "utils/tempfile.h"
 
 DWIDGET_USE_NAMESPACE
-
-
 
 TopToolbar::TopToolbar(QWidget *parent)
     : DFrame(parent)
 {
+    initUI();
+    initConnection();
+}
 
+TopToolbar::~TopToolbar()
+{
+
+}
+
+void TopToolbar::initUI()
+{
     DRAW_THEME_INIT_WIDGET("TopToolbar");
     setObjectName("TopToolbar");
+
+    initComboBox();
+    initStackWidget();
+    initMenu();
 
     DLabel *logoLabel = new DLabel(this);
     logoLabel->setFixedSize(QSize(32, 32));
     logoLabel->setObjectName("LogoLabel");
 
-    initStackWidget();
-
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
-    hLayout->addWidget(logoLabel, 0, Qt::AlignLeft);
-
-    //创建画板放大缩小的combobox
-
-    m_scaleComboBox = new DComboBox(this);
-    //QComboBox *m_scaleComboBox = new QComboBox(this);
-    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
-    m_scaleComboBox->addItems(scaleList);
-    m_scaleComboBox->setCurrentIndex(1);
-    hLayout->addWidget(m_scaleComboBox, 20, Qt::AlignLeft);
-
-    hLayout->addWidget(m_stackWidget, 80, Qt::AlignHCenter);
-
+    hLayout->setSpacing(0);
+    hLayout->addWidget(logoLabel);
+    hLayout->addSpacing(20);
+    hLayout->addWidget(m_scaleComboBox);
+    hLayout->addSpacing(20);
+    hLayout->addWidget(m_stackWidget);
+    hLayout->addStretch();
     setLayout(hLayout);
 
 //    setStyleSheet("background-color: rgb(255, 0, 0);");
-
-    initMenu();
-
-    connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
-
-
 
 void TopToolbar::initStackWidget()
 {
@@ -76,12 +72,6 @@ void TopToolbar::initStackWidget()
     //cut
     m_cutWidget = new CutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
-    connect(m_cutWidget, &CutWidget::rotateImage, this, &TopToolbar::rotateImage);
-    connect(m_cutWidget, &CutWidget::cutImage, this, [ = ] {
-        drawShapes("cutImage");
-    });
-    connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::mirroredImage);
-    connect(this, &TopToolbar::cutImageFinished, m_cutWidget, &CutWidget::cutImageBtnReset);
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -94,46 +84,28 @@ void TopToolbar::initStackWidget()
     m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->hide();
-    connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {
-        m_colorARect->setContent(m_colorPanel);
-    });
 
     //rectangle, triangle,oval
     m_commonShapeWidget = new CommonshapeWidget(this);
     m_stackWidget->addWidget(m_commonShapeWidget);
-    connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel,
-            this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget,
-            &CommonshapeWidget::resetColorBtns);
+
     ///polygonalStar
     m_polygonalStarWidget = new PolygonalStarAttributeWidget(this);
     m_stackWidget->addWidget(m_polygonalStarWidget);
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel,
-            this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget,
-            &PolygonalStarAttributeWidget::resetColorBtns);
+
 
     ///polygonalStar
     m_PolygonWidget = new PolygonAttributeWidget(this);
     m_stackWidget->addWidget(m_PolygonWidget);
-    connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel,
-            this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget,
-            &PolygonAttributeWidget::resetColorBtns);
 
     //draw line.
     m_drawLineWidget = new LineWidget(this);
     m_stackWidget->addWidget(m_drawLineWidget);
-    connect(m_drawLineWidget, &LineWidget::showColorPanel,
-            this, &TopToolbar::showColorfulPanel);
 
     //draw text.
     m_drawTextWidget = new TextWidget(this);
     m_stackWidget->addWidget(m_drawTextWidget);
-    connect(m_drawTextWidget, &TextWidget::showColorPanel,
-            this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget,
-            &TextWidget::resetColorBtns);
+
     //draw blur widget.
     m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
@@ -142,15 +114,8 @@ void TopToolbar::initStackWidget()
     m_stackWidget->addWidget(m_ailoringWidget);
 
     //process  artboard's size.
-    m_adjustsizeWidget = new AdjustsizeWidget(this);
-    m_stackWidget->addWidget(m_adjustsizeWidget);
-
-    connect(this, &TopToolbar::adjustArtBoardSize, m_adjustsizeWidget,
-            &AdjustsizeWidget::updateCanvasSize);
-    connect(this, &TopToolbar::resizeArtboard,
-            m_adjustsizeWidget, &AdjustsizeWidget::resizeCanvasSize);
-    connect(m_adjustsizeWidget, &AdjustsizeWidget::autoCrop, this,
-            &TopToolbar::autoCrop);
+//    m_adjustsizeWidget = new AdjustsizeWidget(this);
+//    m_stackWidget->addWidget(m_adjustsizeWidget);
 
     m_stackWidget->setCurrentWidget(m_emptyWidget);
 }
@@ -188,6 +153,16 @@ void TopToolbar::initMenu()
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 }
 
+void TopToolbar::initComboBox()
+{
+    //创建画板放大缩小的combobox
+    m_scaleComboBox = new DComboBox(this);
+    //QComboBox *m_scaleComboBox = new QComboBox(this);
+    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
+    m_scaleComboBox->addItems(scaleList);
+    m_scaleComboBox->setCurrentIndex(1);
+    m_scaleComboBox->setFixedWidth(80);
+}
 
 void TopToolbar::showSaveDialog()
 {
@@ -230,30 +205,22 @@ void TopToolbar::updateMiddleWidget(int type)
     }
 }
 
-void TopToolbar::setDrawStatus(DrawStatus drawstatus)
-{
-    m_drawStatus = drawstatus;
-}
-
 void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
 {
     Q_UNUSED(pos);
-    m_drawStatus = drawstatus;
-    m_colorPanel->setDrawStatus(m_drawStatus);
-    m_colorPanel->setMiddleWidgetStatus(m_middleWidgetStatus);
-    m_colorPanel->updateColorButtonStatus();
 
+    m_colorPanel->updateColorPanel(drawstatus);
     m_colorARect->raise();
+
     if (visible) {
 
         QPoint startPos = QPoint(0, 0);
 
-        m_colorARect->show(pos.x() - mapToGlobal(startPos).x() + 35,
+        m_colorARect->show(pos.x() - mapToGlobal(startPos).x() + 157,
                            pos.y()  + 15 - mapToGlobal(startPos).y());
     } else
         m_colorARect->hide();
 }
-
 
 
 void TopToolbar::updateColorPanelVisible(QPoint pos)
@@ -264,15 +231,6 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
     }
 }
 
-EDrawToolMode TopToolbar::middleWidgetStatus()
-{
-    return m_middleWidgetStatus;
-}
-
-void TopToolbar::drawShapes(QString shape)
-{
-    emit drawShapeChanged(shape);
-}
 
 QMenu *TopToolbar::mainMenu()
 {
@@ -286,6 +244,33 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
-TopToolbar::~TopToolbar()
+void TopToolbar::initConnection()
 {
+    //colorPanel.
+    connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
+
+    //rectangle, triangle,ellipse
+    connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_commonShapeWidget, &CommonshapeWidget::updateCommonShapWidget);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
+    ///polygonalStar
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
+
+    ///polygonalStar
+    connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
+
+    //draw line.
+    connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+
+    //draw text.
+    connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
+    //draw blur widget.
+
+    connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
+

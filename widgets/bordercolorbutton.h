@@ -14,7 +14,7 @@ public:
     void setColor(QColor color);
     void setColorIndex(int index);
     void updateCheckedStatus();
-    void updateConfigColor(const QString &group,  const QString &key);
+    void updateConfigColor();
     void resetChecked();
 
 signals:

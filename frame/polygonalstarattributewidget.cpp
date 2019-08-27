@@ -26,7 +26,7 @@ PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
 {
 //    DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
 
-    BigColorButton *fillBtn = new BigColorButton("common", this);
+    BigColorButton *fillBtn = new BigColorButton( this);
     DLabel *fillLabel = new DLabel(this);
     fillLabel->setObjectName("FillLabel");
     fillLabel->setText(tr("填充"));
