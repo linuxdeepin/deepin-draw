@@ -9,7 +9,9 @@ HEADERS += \
     $$PWD/cgraphicsrectitem.h \
     $$PWD/cselecttool.h \
     $$PWD/cdrawscene.h \
-    $$PWD/csizehandlerect.h
+    $$PWD/csizehandlerect.h \
+    $$PWD/cgraphicsellipseitem.h \
+    $$PWD/cellipsetool.h
 
 
 
@@ -23,7 +25,9 @@ SOURCES += \
     $$PWD/crecttool.cpp \
     $$PWD/cselecttool.cpp \
     $$PWD/cgraphicsitem.cpp \
-    $$PWD/csizehandlerect.cpp
+    $$PWD/csizehandlerect.cpp \
+    $$PWD/cgraphicsellipseitem.cpp \
+    $$PWD/cellipsetool.cpp
 
 
 

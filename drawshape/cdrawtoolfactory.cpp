@@ -1,6 +1,7 @@
 #include "cdrawtoolfactory.h"
 #include "cselecttool.h"
 #include "crecttool.h"
+#include "cellipsetool.h"
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
@@ -14,6 +15,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case rectangle:
         pTool = new CRectTool();
+        break;
+    case ellipse:
+        pTool = new CEllipseTool();
         break;
     default:
         break;
