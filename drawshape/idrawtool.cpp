@@ -1,4 +1,6 @@
 #include "idrawtool.h"
+#include <QDebug>
+#include <QKeyEvent>
 
 
 IDrawTool::~IDrawTool()
@@ -21,22 +23,28 @@ void IDrawTool::keyPressEvent(QKeyEvent *event)
 {
     if ( event->key() == Qt::Key_Shift) {
         m_bShiftKeyPress = true;
-    } else if (event->key() == Qt::Key_Alt) {
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
         m_bAltKeyPress = true;
     } else {
         ;
     }
+    qDebug() << "press" << event->key() << endl;
 }
 
 void IDrawTool::keyReleaseEvent(QKeyEvent *event)
 {
     if ( event->key() == Qt::Key_Shift) {
         m_bShiftKeyPress = false;
-    } else if (event->key() == Qt::Key_Alt) {
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
         m_bAltKeyPress = false;
     } else {
         ;
     }
+    qDebug() << "release" << event->key() << endl;
 }
 
 EDrawToolMode IDrawTool::getDrawToolMode() const
