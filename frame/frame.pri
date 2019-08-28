@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/polygonattributewidget.h \
     $$PWD/ailoringwidget.h \
     $$PWD/ccentralwidget.h \
-    $$PWD/clefttoolbar.h
+    $$PWD/clefttoolbar.h \
+    $$PWD/cpenwidget.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
@@ -26,7 +27,8 @@ SOURCES += \
     $$PWD/polygonattributewidget.cpp \
     $$PWD/ailoringwidget.cpp \
     $$PWD/ccentralwidget.cpp \
-    $$PWD/clefttoolbar.cpp
+    $$PWD/clefttoolbar.cpp \
+    $$PWD/cpenwidget.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

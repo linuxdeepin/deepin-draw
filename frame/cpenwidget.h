@@ -1,22 +1,23 @@
-#ifndef LINEWIDGET_H
-#define LINEWIDGET_H
+#ifndef CPENWIDGET_H
+#define CPENWIDGET_H
 
 #include <DWidget>
 
 #include "drawshape/globaldefine.h"
 
-
 class CSideWidthWidget;
 class BorderColorButton;
+class CPushButton;
 
 DWIDGET_USE_NAMESPACE
 
-class LineWidget : public DWidget
+class CPenWidget : public DWidget
 {
     Q_OBJECT
+
 public:
-    LineWidget(QWidget *parent = nullptr);
-    ~LineWidget();
+    CPenWidget(QWidget *parent = nullptr);
+    ~CPenWidget();
 
 signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
@@ -24,10 +25,14 @@ signals:
 private:
     CSideWidthWidget *m_sideWidthWidget;
     BorderColorButton *m_strokeButton;
+    QList<CPushButton *> m_actionButtons;
+    CPushButton *m_straightline;
+    CPushButton *m_arrowline;
 
 private:
-    void initUI();
     void initConnection();
+    void initUI();
+    void clearOtherSelections(CPushButton *clickedButton);
 };
 
-#endif // LINEWIDGET_H
+#endif // CPENWIDGET_H

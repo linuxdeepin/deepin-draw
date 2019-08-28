@@ -4,6 +4,7 @@
 
 CAlphaControlWidget::CAlphaControlWidget(QWidget *parent)
     : DWidget(parent)
+    , m_isUserOperation(false)
 {
     initUI();
     initConnection();
@@ -58,6 +59,16 @@ void CAlphaControlWidget::initConnection()
     connect(m_alphaSlider, &DSlider::valueChanged, this, [ = ](int value) {
         int trueValue =  value * 255 / 100;
         m_alphaLabel->setText(QString("%1%").arg(value));
-        emit signalAlphaChanged(trueValue);
+        if (m_isUserOperation) {
+            emit signalAlphaChanged(trueValue);
+        }
+    });
+
+    connect(m_alphaSlider, &DSlider::sliderPressed, this, [ = ]() {
+        m_isUserOperation = true;
+    });
+
+    connect(m_alphaSlider, &DSlider::sliderReleased, this, [ = ]() {
+        m_isUserOperation = false;
     });
 }

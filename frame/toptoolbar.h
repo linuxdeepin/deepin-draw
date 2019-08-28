@@ -20,6 +20,7 @@ class CommonshapeWidget;
 class PolygonalStarAttributeWidget;
 class PolygonAttributeWidget;
 class AiloringWidget;
+class CPenWidget;
 class LineWidget;
 class CutWidget;
 class TextWidget;
@@ -74,6 +75,7 @@ private:
     LineWidget *m_drawLineWidget;
     TextWidget *m_drawTextWidget;
     BlurWidget *m_drawBlurWidget;
+    CPenWidget *m_penWidget;
 //    AdjustsizeWidget *m_adjustsizeWidget;
 
     ArrowRectangle *m_colorARect;

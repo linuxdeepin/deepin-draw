@@ -258,6 +258,7 @@ void CLeftToolBar::initConnection()
 
     connect(m_lineBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_lineBtn);
+        emit setCurrentDrawTool(line);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
 //        DrawTool::c_drawShape = ellipse;
     });
@@ -265,14 +266,14 @@ void CLeftToolBar::initConnection()
     connect(m_penBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_penBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
-        //emit setCurrentDrawTool(pen);
+        emit setCurrentDrawTool(pen);
 //        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_textBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_textBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
-        //emit setCurrentDrawTool(text);
+        emit setCurrentDrawTool(text);
 //        DrawTool::c_drawShape = ellipse;
     });
 
