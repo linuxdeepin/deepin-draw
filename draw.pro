@@ -1,4 +1,4 @@
-QT += core gui  printsupport svg dbus
+QT += core gui  printsupport svg dbus concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

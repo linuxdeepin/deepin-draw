@@ -1,9 +1,4 @@
 #include "mainwidget.h"
-
-#include <QLabel>
-#include <QDebug>
-
-
 #include "utils/global.h"
 #include "widgets/graphicsgloweffect.h"
 #include "utils/shapesutils.h"
@@ -11,6 +6,15 @@
 #include "drawshape/maingraphicsview.h"
 #include "drawshape/maingraphicsscene.h"
 #include "drawshape/imagegraphicsitem.h"
+#include "widgets/progresslayout.h"
+
+
+
+#include <DProgressBar>
+#include <QtConcurrent>
+#include <QLabel>
+#include <QDebug>
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -47,6 +51,13 @@ MainWidget::MainWidget(QWidget *parent)
 
     setLayout(layout);
 
+    m_importProgressbar = new DProgressBar();
+
+
+    // m_importProgressbar->se;
+    m_importProgressbar->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    m_importProgressbar->hide();
+
     m_contextMenu = new DMenu(this);
     QAction *cutAc = m_contextMenu->addAction(tr("Cut"));
     QAction *copyAc = m_contextMenu->addAction(tr("Copy"));
@@ -69,7 +80,26 @@ MainWidget::MainWidget(QWidget *parent)
 
     connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
     //connect(m_contextMenu,SIGNAL(conte))
+    connect(this, SIGNAL(sendImageItem(QPixmap)), this, SLOT(addImageItem(QPixmap)));
+    connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
+//    QWidget *widget = new QWidget(this);
+//    QPalette pa1;
+////    pa1.setColor(QPalette::WindowText, Qt::black);
+////    widget->setPalette(pa1);
+//    widget->setGeometry(0, 0, 300, 100);
+//    QPalette pal(widget->palette());
+//    pal.setColor(QPalette::Background, Qt::gray);
+//    widget->setAutoFillBackground(true);
+//    widget->setPalette(pal);
+//    widget->show();
+//    widget->setStyleSheet("background-color: rgb(255,25, 155)");
+//    widget->show();
+
+    ProgressLayout *testlayout = new ProgressLayout(this);
+    testlayout->setRange(0, 100);
+    testlayout->setProgressValue(50);
+    testlayout->show();
 
 }
 
@@ -89,16 +119,55 @@ void MainWidget::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->show();
 }
 //进行图片导入
-void MainWidget::getPicPath(QStringList path)
+void MainWidget::getPicPath(QStringList pathList)
 {
-    qDebug() << path << path.size() << endl;
-    for (int i = 0; i < path.size(); i++) {
-        QPixmap pixmap = QPixmap (path[i]);
-        //QPointF pointf;
-        ImageGraphicsItem *graphicsItem = new ImageGraphicsItem();
-        graphicsItem->setPainter(QPointF(0, 0), pixmap);
-        m_MainGraphicsScene->addItem(graphicsItem);
-        //graphicsItem->setVisible(true);
+    qDebug() << pathList << pathList.size() << endl;
 
+    m_importProgressbar->setMinimum(0);
+    m_importProgressbar->setMaximum(pathList.size());
+    m_importProgressbar->setValue(0);
+    m_importProgressbar->show();
+
+    //启动图片导入线程
+    QtConcurrent::run([ = ] {
+        for (int i = 0; i < pathList.size(); i++)
+        {
+
+            QPixmap pixmap = QPixmap (pathList[i]);
+
+            emit sendImageItem(pixmap);
+            emit loadImageNum(i + 1);
+            //importProcessbar->setValue(i + 1);
+            qDebug() << "importProcessbar" << i + 1 << endl;
+        }
+    });
+
+
+}
+
+void MainWidget::setProcessBarValue(int value)
+{
+    m_importProgressbar->setValue(value);
+    m_importProgressbar->setFormat(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_importProgressbar->maximum()));
+    if (value == m_importProgressbar->maximum()) {
+        m_importProgressbar->hide();
     }
+}
+
+
+//void MainWidget::importPicture(QString path)
+//{
+//    QPixmap pixmap = QPixmap (path);
+
+//    emit sendImageItem(pixmap);
+//    //m_MainGraphicsScene->addItem(graphicsItem);
+
+
+//}
+
+void MainWidget::addImageItem( QPixmap pixMap)
+{
+    ImageGraphicsItem *graphicsItem = new ImageGraphicsItem();
+    graphicsItem->setPainter(QPointF(0, 0), pixMap);
+    m_MainGraphicsScene->addItem(graphicsItem);
 }

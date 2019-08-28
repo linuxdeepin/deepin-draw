@@ -1,0 +1,77 @@
+#include "progresslayout.h"
+#include <QLabel>
+#include <DDialog>
+
+DWIDGET_USE_NAMESPACE
+
+ProgressLayout::ProgressLayout(QWidget *parent)
+    : QDialog (parent)
+{
+    m_progressVBoxLayout = new QVBoxLayout();
+    m_label = new QLabel();
+    m_label->setText(QString("正在导入图片，请稍候"));
+    QFont ft;
+    ft.setPointSize(10);
+    m_label->setFont(ft);
+    //设置颜色
+    QPalette pa1;
+    pa1.setColor(QPalette::WindowText, Qt::black);
+    m_label->setPalette(pa1);
+
+    m_progressLabel = new QLabel();
+    m_progressbar = new DProgressBar();
+    m_progressbar->setFixedSize(400, 20);
+    m_progressVBoxLayout->addWidget(m_label, 50, Qt::AlignLeft);
+    m_progressVBoxLayout->addWidget(m_progressLabel, 50, Qt::AlignLeft);
+    m_progressVBoxLayout->addWidget(m_progressbar, 100, Qt::AlignLeft);
+    this->setLayout(m_progressVBoxLayout);
+    m_label->show();
+    DDialog *LL = new  DDialog();
+    LL->addButtons(QStringList{"shiusdh", "jsisdh"});
+    LL->setContentLayoutContentsMargins(QMargins(100, 50, 300, 250));
+    LL->show();
+
+
+    //this->setWindowFlags(Qt::FramelessWindowHint);
+
+}
+
+ProgressLayout::~ProgressLayout()
+{
+
+}
+
+//void ProgressLayout::layoutShow()
+//{
+//    m_label->show();
+//    m_progressLabel->show();
+//    m_progressbar->show();
+
+//}
+void ProgressLayout::setRange(int start, int end)
+{
+    m_start = start;
+    m_end = end;
+    m_progressbar->setMinimum(start);
+    m_progressbar->setMaximum(end);
+    m_progressbar->setValue(0);
+}
+
+void ProgressLayout::setProgressValue(int value)
+{
+    m_progressbar->setValue(value);
+    m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
+    //设置字号
+    QFont ft2;
+    ft2.setPointSize(8);
+    m_progressLabel->setFont(ft2);
+
+    //设置颜色
+    QPalette pa;
+    pa.setColor(QPalette::WindowText, Qt::blue);
+    m_progressLabel->setPalette(pa);
+
+
+}
+
+

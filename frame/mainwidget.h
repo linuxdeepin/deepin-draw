@@ -15,6 +15,7 @@
 class LeftToolBar;
 class MainGraphicsView;
 class MainGraphicsScene;
+class QPixmap;
 
 class MainWidget: public QWidget
 {
@@ -24,9 +25,16 @@ public:
     ~MainWidget();
     LeftToolBar *getLeftToolBar();
     void contextMenuEvent(QContextMenuEvent *event);
+    //void importPicture(QString path);
 
 public slots:
-    void getPicPath(QStringList path);
+    void getPicPath(QStringList pathList);
+    void addImageItem(QPixmap pixMap);
+    void setProcessBarValue(int value);
+
+signals:
+    void sendImageItem(QPixmap pixMap);
+    void loadImageNum(int num);
 
 private:
     LeftToolBar *m_leftToolbar;
@@ -41,6 +49,7 @@ private:
     int m_verticalMargin;
 
     DMenu *m_contextMenu;
+    DProgressBar *m_importProgressbar;
 
 
 

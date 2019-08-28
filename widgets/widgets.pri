@@ -24,7 +24,8 @@ HEADERS += \
     $$PWD/cpushbutton.h \
     $$PWD/csidewidthwidget.h \
     $$PWD/testwidget.h \
-    $$PWD/cclickbutton.h
+    $$PWD/cclickbutton.h \
+    $$PWD/progresslayout.h
 
 SOURCES += \
     $$PWD/drawthememanager.cpp \
@@ -49,7 +50,8 @@ SOURCES += \
     $$PWD/cpushbutton.cpp \
     $$PWD/csidewidthwidget.cpp \
     $$PWD/testwidget.cpp \
-    $$PWD/cclickbutton.cpp
+    $$PWD/cclickbutton.cpp \
+    $$PWD/progresslayout.cpp
 
 RESOURCES += \
     $$PWD/widgetsRes.qrc
