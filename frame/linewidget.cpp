@@ -96,8 +96,9 @@ void LineWidget::initConnection()
 
     connect(m_arrowline, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
-
     });
+
+
 }
 
 

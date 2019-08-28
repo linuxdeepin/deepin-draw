@@ -24,9 +24,9 @@ public:
     explicit CSideWidthWidget(QWidget *parent = nullptr);
 
 signals:
-    void sinalSideWidthChange(int);
-public slots:
-    void slotSideWidthChange(int);
+    void signalSideWidthChange();
+public:
+    void updateSideWidth();
 
 private:
     CPushButton *m_finerButton;

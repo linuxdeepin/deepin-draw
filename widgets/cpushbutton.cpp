@@ -35,9 +35,9 @@ void CPushButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
 
     QPixmap pixmap(m_pictureMap[m_currentStatus]);
-    this->setFixedSize(pixmap.size());
+    setFixedSize(pixmap.size());
     if (! pixmap.isNull()) {
-        painter.drawPixmap(this->rect(), pixmap);
+        painter.drawPixmap(rect(), pixmap);
     }
 }
 

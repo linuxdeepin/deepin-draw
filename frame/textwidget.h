@@ -3,13 +3,13 @@
 
 #include <QWidget>
 
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 
 class TextWidget : public QWidget
 {
     Q_OBJECT
 public:
-    TextWidget(QWidget* parent = 0);
+    TextWidget(QWidget *parent = 0);
     ~TextWidget();
 
 signals:

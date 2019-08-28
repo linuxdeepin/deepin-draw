@@ -1,7 +1,7 @@
 #include "bigcolorbutton.h"
 
 #include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <QDebug>
 
@@ -9,59 +9,25 @@ const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
 const QPoint CENTER_POINT = QPoint(12, 12);
 
-BigColorButton::BigColorButton(const QString &group, QWidget *parent)
+BigColorButton::BigColorButton(QWidget *parent)
     : QPushButton(parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
     setFixedSize(24, 24);
     setCheckable(false);
-    m_group = group;
 
-    if (group == "common") {
-        bool transColBtnChecked = ConfigSettings::instance()->value(
-                                      "common", "fillColor_transparent").toBool();
-        if (transColBtnChecked) {
-            m_color = QColor(Qt::transparent);
-        } else {
-            m_color = QColor(ConfigSettings::instance()->value(
-                                 "common", "fillColor").toString());
-        }
-    } else {
-        bool transColBtnChecked = ConfigSettings::instance()->value(
-                                      "text", "fillColor_transparent").toBool();
-        if (transColBtnChecked) {
-            m_color = QColor(Qt::transparent);
-        } else {
-            m_color = QColor(ConfigSettings::instance()->value(
-                                 "text", "fillColor").toString());
-        }
-    }
-
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged,
-            this, &BigColorButton::updateConfigColor);
+    m_color = CDrawParamSigleton::GetInstance()->getFillColor();
 }
 
-void BigColorButton::updateConfigColor(const QString &group,
-                                       const QString &key)
+void BigColorButton::updateConfigColor()
 {
-    if (group == m_group && (key == "fillColor"/* || key == "fillColor_alpha"*/
-                             || key == "fillColor_transparent")) {
-        qDebug() << "updateConfigColor......" << key;
-        m_color = QColor(ConfigSettings::instance()->value(
-                             m_group, "fillColor").toString());
-
-        bool transColBtnChecked = ConfigSettings::instance()->value(m_group,
-                                                                    "fillColor_transparent").toBool();
-        if (transColBtnChecked)
-            m_color = QColor(Qt::transparent);
-        else {
-            m_color = QColor(ConfigSettings::instance()->value(
-                                 m_group, "fillColor").toString());
-        }
-
-        update();
+    QColor configColor = CDrawParamSigleton::GetInstance()->getFillColor();
+    if (m_color == configColor) {
+        return;
     }
+    m_color = configColor;
+    update();
 }
 
 BigColorButton::~BigColorButton()

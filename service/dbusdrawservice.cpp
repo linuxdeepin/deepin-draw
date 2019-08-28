@@ -31,13 +31,13 @@ DBusDrawService::~DBusDrawService()
 void DBusDrawService::openImage(const QString &path)
 {
     qDebug() << "Go to open image: " << path;
-    parent()->openImage(path);
+//    parent()->openImage(path);
 }
 
 void DBusDrawService::loadImage(const QString &path)
 {
     qDebug() << "Go to load image: " << path;
-    parent()->loadImage(path);
+//    parent()->loadImage(path);
 }
 
 void DBusDrawService::activeWindow()

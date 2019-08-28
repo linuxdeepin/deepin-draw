@@ -1,24 +1,47 @@
 HEADERS += \
-    $$PWD/drawtool.h \
-    $$PWD/shapemimedata.h \
-    $$PWD/sizehandle.h \
-    $$PWD/rectgraphicsitem.h \
-    $$PWD/basegraphicsitem.h \
-    $$PWD/maingraphicsscene.h \
-    $$PWD/maingraphicsview.h \
-    $$PWD/ccursorshapemanager.h \
-    $$PWD/imagegraphicsitem.h
+    $$PWD/globaldefine.h \
+    $$PWD/crecttool.h \
+    $$PWD/idrawtool.h \
+    $$PWD/cdrawtoolmanagersigleton.h \
+    $$PWD/cdrawtoolfactory.h \
+    $$PWD/cdrawparamsigleton.h \
+    $$PWD/cgraphicsitem.h \
+    $$PWD/cgraphicsrectitem.h \
+    $$PWD/cselecttool.h \
+    $$PWD/cdrawscene.h \
+    $$PWD/csizehandlerect.h \
+    $$PWD/cgraphicsellipseitem.h \
+    $$PWD/cellipsetool.h \
+    $$PWD/cgraphicslineitem.h \
+    $$PWD/clinetool.h \
+    $$PWD/cgraphicstriangleitem.h \
+    $$PWD/ctriangletool.h \
+    $$PWD/ctexttool.h \
+    $$PWD/cgraphicstextitem.h
+
+
 
 SOURCES += \
-    $$PWD/drawtool.cpp \
-    $$PWD/shapemimedata.cpp \
-    $$PWD/sizehandle.cpp \
-    $$PWD/rectgraphicsitem.cpp \
-    $$PWD/basegraphicsitem.cpp \
-    $$PWD/maingraphicsview.cpp \
-    $$PWD/maingraphicsscene.cpp \
-    $$PWD/ccursorshapemanager.cpp \
-    $$PWD/imagegraphicsitem.cpp
+    $$PWD/cdrawtoolmanagersigleton.cpp \
+    $$PWD/cgraphicsrectitem.cpp \
+    $$PWD/cdrawtoolfactory.cpp \
+    $$PWD/cdrawparamsigleton.cpp \
+    $$PWD/idrawtool.cpp \
+    $$PWD/cdrawscene.cpp \
+    $$PWD/crecttool.cpp \
+    $$PWD/cselecttool.cpp \
+    $$PWD/cgraphicsitem.cpp \
+    $$PWD/csizehandlerect.cpp \
+    $$PWD/cgraphicsellipseitem.cpp \
+    $$PWD/cellipsetool.cpp \
+    $$PWD/cgraphicslineitem.cpp \
+    $$PWD/clinetool.cpp \
+    $$PWD/cgraphicstriangleitem.cpp \
+    $$PWD/ctriangletool.cpp \
+    $$PWD/cgraphicstextitem.cpp \
+    $$PWD/ctexttool.cpp
 
-RESOURCES += \
-    $$PWD/drawshapeRes.qrc
+
+
+#RESOURCES += \
+#    $$PWD/drawshapeRes.qrc

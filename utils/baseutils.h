@@ -22,24 +22,6 @@ enum CutRation {
     FreeRation,
 };
 
-enum DrawStatus {
-    Fill,
-    Stroke,
-};
-
-enum MiddleWidgetStatus {
-    Empty,
-    ImportPicture,
-    CommonShape,
-    DrawPolygonalStar,
-    DrawPolygon,
-    DrawLine,
-    DrawPen,
-    DrawText,
-    DrawBlur,
-    Cut,
-    AdjustSize
-};
 
 QList<QColor> specifiedColorList();
 QColor       colorIndexOf(int index);

@@ -1,5 +1,5 @@
 #include "csidewidthwidget.h"
-
+#include "drawshape/cdrawparamsigleton.h"
 #include "cpushbutton.h"
 
 CSideWidthWidget::CSideWidthWidget(QWidget *parent)
@@ -66,22 +66,26 @@ void CSideWidthWidget::initConnection()
 {
     connect(m_finerButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_finerButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_finerButton));
+        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_finerButton));
+        emit signalSideWidthChange();
     });
 
     connect(m_fineButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_fineButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_fineButton));
+        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_fineButton));
+        emit signalSideWidthChange();
     });
 
     connect(m_mediumButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_mediumButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_mediumButton));
+        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_mediumButton));
+        emit signalSideWidthChange();
     });
 
     connect(m_boldButton, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_boldButton);
-        emit sinalSideWidthChange(m_buttonMap.value(m_boldButton));
+        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_boldButton));
+        emit signalSideWidthChange();
     });
 
 }
@@ -97,8 +101,9 @@ void CSideWidthWidget::clearOtherSelections(CPushButton *clickedButton)
     };
 }
 
-void CSideWidthWidget::slotSideWidthChange(int sideWidth)
+void CSideWidthWidget::updateSideWidth()
 {
+    int sideWidth = CDrawParamSigleton::GetInstance()->getLineWidth();
     QMapIterator<CPushButton *, CLineWidth> i(m_buttonMap);
     while (i.hasNext()) {
         i.next();

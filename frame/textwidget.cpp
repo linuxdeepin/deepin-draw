@@ -25,7 +25,7 @@ TextWidget::TextWidget(QWidget *parent)
     DRAW_THEME_INIT_WIDGET("TextWidget");
     this->setObjectName("TextWidget");
 
-    BigColorButton *fillBtn = new BigColorButton("text", this);
+    BigColorButton *fillBtn = new BigColorButton( this);
     QColor color = QColor(ConfigSettings::instance()->value(
                               "text", "fillColor").toString());
     fillBtn->setColor(color);

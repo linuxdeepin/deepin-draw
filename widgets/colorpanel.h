@@ -7,15 +7,16 @@
 #include <QPaintEvent>
 #include <QApplication>
 
-#include "sliderlabel.h"
 #include "editlabel.h"
 #include "pushbutton.h"
-#include "utils/baseutils.h"
+#include "drawshape/globaldefine.h"
 
-class ColorButton : public QPushButton {
+
+class ColorButton : public QPushButton
+{
     Q_OBJECT
 public:
-    ColorButton(const QColor &color, QWidget* parent = 0);
+    ColorButton(const QColor &color, QWidget *parent = nullptr);
     ~ColorButton();
 
     void setDisableColor(bool disable);
@@ -31,38 +32,40 @@ private:
     bool      m_disable;
 };
 
-class ColorPanel : public QWidget {
+class CAlphaControlWidget;
+class PickColorWidget;
+
+class ColorPanel : public QWidget
+{
     Q_OBJECT
 public:
-    ColorPanel(QWidget* parent = 0);
+    ColorPanel(QWidget *parent = nullptr);
     ~ColorPanel();
-
-    void updateColorButtonStatus();
-    void updateColorBtnByWidget(const QString &group, const QString &key);
-    void updateConfigByWidget(const QString &group, const QString &key,
-                              QColor color);
-    void updateColorAlpha(DrawStatus status, MiddleWidgetStatus widgetStatus);
-
-    void setColor(QColor color);
-    void setDrawStatus(DrawStatus status);
-    void setConfigColor(QColor color);
-    void setMiddleWidgetStatus(MiddleWidgetStatus status);
+    void updateColorPanel(DrawStatus status);
 
 signals:
-    void colorChanged(QColor color);
     void updateHeight();
-    void resetColorButtons();
+    void signalColorChanged();
+
+public slots:
+    void slotPickedColorChanged(QColor);
+    void setConfigColor(QColor color);
 
 private:
-    SliderLabel* m_sliderLabel;
-    QLineEdit* m_colLineEdit;
-    PushButton* m_colorfulBtn;
-
+    QLineEdit *m_colLineEdit;
+    PushButton *m_colorfulBtn;
+    CAlphaControlWidget *m_alphaControlWidget;
     QList<QColor> m_colList;
-    QList<ColorButton*> m_cButtonList;
+    QList<ColorButton *> m_cButtonList;
     DrawStatus m_drawstatus;
-    MiddleWidgetStatus m_widgetStatus;
+    QButtonGroup *m_colorsButtonGroup;
+    PickColorWidget *m_pickColWidget;
     bool m_expand;
+
+private:
+    void initUI();
+    void initConnection();
+    void resetColorBtn();
 };
 
 #endif // COLORPANEL_H
