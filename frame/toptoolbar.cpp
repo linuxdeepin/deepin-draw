@@ -13,6 +13,7 @@
 #include "linewidget.h"
 #include "cutwidget.h"
 #include "textwidget.h"
+#include "cpenwidget.h"
 #include "blurwidget.h"
 #include "adjustsizewidget.h"
 #include "widgets/arrowrectangle.h"
@@ -102,6 +103,11 @@ void TopToolbar::initStackWidget()
     m_drawLineWidget = new LineWidget(this);
     m_stackWidget->addWidget(m_drawLineWidget);
 
+    //draw pen
+    m_penWidget = new CPenWidget(this);
+    m_stackWidget->addWidget(m_penWidget);
+
+
     //draw text.
     m_drawTextWidget = new TextWidget(this);
     m_stackWidget->addWidget(m_drawTextWidget);
@@ -188,8 +194,11 @@ void TopToolbar::updateMiddleWidget(int type)
     case::polygon:
         m_stackWidget->setCurrentWidget(m_PolygonWidget);
         break;
-    case::pen:
+    case::line:
         m_stackWidget->setCurrentWidget(m_drawLineWidget);
+        break;
+    case::pen:
+        m_stackWidget->setCurrentWidget(m_penWidget);
         break;
     case::text:
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
@@ -265,6 +274,9 @@ void TopToolbar::initConnection()
 
     //draw line.
     connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+
+    //draw pen.
+    connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
 
     //draw text.
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
