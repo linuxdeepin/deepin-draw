@@ -301,4 +301,6 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(line, pTool);
     pTool = CDrawToolFactory::Create(triangle);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(triangle, pTool);
+    pTool = CDrawToolFactory::Create(text);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(text, pTool);
 }

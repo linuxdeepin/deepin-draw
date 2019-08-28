@@ -1,4 +1,5 @@
 #include "idrawtool.h"
+#include "cdrawscene.h"
 #include <QDebug>
 #include <QKeyEvent>
 
@@ -19,7 +20,7 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 
 }
 
-void IDrawTool::keyPressEvent(QKeyEvent *event)
+void IDrawTool::keyPressEvent(QKeyEvent *event, CDrawScene *scene)
 {
     if ( event->key() == Qt::Key_Shift) {
         m_bShiftKeyPress = true;
@@ -31,9 +32,11 @@ void IDrawTool::keyPressEvent(QKeyEvent *event)
         ;
     }
     qDebug() << "press" << event->key() << endl;
+
+    scene->keyEvent(event);
 }
 
-void IDrawTool::keyReleaseEvent(QKeyEvent *event)
+void IDrawTool::keyReleaseEvent(QKeyEvent *event, CDrawScene *scene)
 {
     if ( event->key() == Qt::Key_Shift) {
         m_bShiftKeyPress = false;
@@ -45,6 +48,7 @@ void IDrawTool::keyReleaseEvent(QKeyEvent *event)
         ;
     }
     qDebug() << "release" << event->key() << endl;
+    scene->keyEvent(event);
 }
 
 EDrawToolMode IDrawTool::getDrawToolMode() const

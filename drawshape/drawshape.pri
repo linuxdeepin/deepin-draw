@@ -15,7 +15,9 @@ HEADERS += \
     $$PWD/cgraphicslineitem.h \
     $$PWD/clinetool.h \
     $$PWD/cgraphicstriangleitem.h \
-    $$PWD/ctriangletool.h
+    $$PWD/ctriangletool.h \
+    $$PWD/ctexttool.h \
+    $$PWD/cgraphicstextitem.h
 
 
 
@@ -35,7 +37,9 @@ SOURCES += \
     $$PWD/cgraphicslineitem.cpp \
     $$PWD/clinetool.cpp \
     $$PWD/cgraphicstriangleitem.cpp \
-    $$PWD/ctriangletool.cpp
+    $$PWD/ctriangletool.cpp \
+    $$PWD/cgraphicstextitem.cpp \
+    $$PWD/ctexttool.cpp
 
 
 

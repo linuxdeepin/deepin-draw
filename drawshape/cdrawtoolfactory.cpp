@@ -4,7 +4,7 @@
 #include "cellipsetool.h"
 #include "clinetool.h"
 #include "ctriangletool.h"
-
+#include "ctexttool.h"
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
     IDrawTool *pTool = nullptr;
@@ -24,6 +24,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case triangle:
         pTool = new CTriangleTool ();
+        break;
+    case text:
+        pTool = new CTextTool();
         break;
     default:
         break;

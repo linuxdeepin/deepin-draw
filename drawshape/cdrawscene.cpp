@@ -31,6 +31,20 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     }
 }
 
+void CDrawScene::keyEvent(QKeyEvent *keyEvent)
+{
+    switch ( keyEvent->type() ) {
+    case QEvent::KeyPress:                   // mouse button pressed
+        QGraphicsScene::keyPressEvent(keyEvent);
+        break;
+    case QEvent::KeyRelease:
+        QGraphicsScene::keyReleaseEvent(keyEvent);
+        break;
+    default:
+        break;
+    }
+}
+
 void CDrawScene::setCursor(const QCursor &cursor)
 {
     QList<QGraphicsView *> views  = this->views();
@@ -92,7 +106,7 @@ void CDrawScene::keyPressEvent(QKeyEvent *event)
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
-        pTool->keyPressEvent(event);
+        pTool->keyPressEvent(event, this);
     }
 }
 
@@ -101,6 +115,6 @@ void CDrawScene::keyReleaseEvent(QKeyEvent *event)
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
-        pTool->keyReleaseEvent(event);
+        pTool->keyReleaseEvent(event, this);
     }
 }

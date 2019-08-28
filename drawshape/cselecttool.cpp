@@ -32,8 +32,15 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         QList<QGraphicsItem *> items = scene->selectedItems();
 
         if ( items.count() != 0 ) {
-            m_currentSelectItem = static_cast<CGraphicsItem *>(items.first());
-            scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
+            QGraphicsItem *item = items.first();
+            //需要区别图元或文字
+            if (item->type() > QGraphicsItem::UserType) {
+                m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
+            } else {
+                m_currentSelectItem = nullptr;
+            }
+            //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
         }
     }
 }

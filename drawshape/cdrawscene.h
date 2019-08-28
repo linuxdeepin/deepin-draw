@@ -12,7 +12,18 @@ class CDrawScene : public QGraphicsScene
     friend CSelectTool;
 public:
     explicit CDrawScene(QObject *parent = nullptr);
+
+    /**
+     * @brief mouseEvent 从绘图工具返回鼠标事件
+     * @param mouseEvent
+     */
     void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent );
+
+    /**
+     * @brief keyEvent 从绘图工具返回键盘事件
+     * @param keyEvent
+     */
+    void keyEvent(QKeyEvent *keyEvent);
     /**
      * @brief setCursor 设置鼠标指针形状
      * @param cursor
