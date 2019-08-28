@@ -287,16 +287,14 @@ void ColorPanel::updateColorPanel(DrawStatus status)
     }
 
     ////更新颜色按钮
-    QString colorName = configColor.name();
-
-    if (m_colList.contains(colorName)) {
-        m_cButtonList[m_colList.indexOf(colorName)]->setChecked(true);
+    if (m_colList.contains(configColor)) {
+        m_cButtonList[m_colList.indexOf(configColor)]->setChecked(true);
     } else {
         resetColorBtn();
     }
 
     ///更新颜色名字
-    m_colLineEdit->setText(colorName);
+    m_colLineEdit->setText(configColor.name());
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(configColor.alpha());
 }

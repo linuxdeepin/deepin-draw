@@ -8,7 +8,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_nFillColor(Qt::black)
     , m_currentDrawToolMode(selection)
 {
-
+    m_nFillColor = QColor(Qt::transparent);
 }
 
 CDrawParamSigleton *CDrawParamSigleton::GetInstance()

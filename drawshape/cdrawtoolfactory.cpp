@@ -3,6 +3,7 @@
 #include "crecttool.h"
 #include "cellipsetool.h"
 #include "clinetool.h"
+#include "ctriangletool.h"
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
@@ -20,6 +21,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case ellipse:
         pTool = new CEllipseTool();
+        break;
+    case triangle:
+        pTool = new CTriangleTool ();
         break;
     default:
         break;

@@ -13,7 +13,9 @@ HEADERS += \
     $$PWD/cgraphicsellipseitem.h \
     $$PWD/cellipsetool.h \
     $$PWD/cgraphicslineitem.h \
-    $$PWD/clinetool.h
+    $$PWD/clinetool.h \
+    $$PWD/cgraphicstriangleitem.h \
+    $$PWD/ctriangletool.h
 
 
 
@@ -31,7 +33,9 @@ SOURCES += \
     $$PWD/cgraphicsellipseitem.cpp \
     $$PWD/cellipsetool.cpp \
     $$PWD/cgraphicslineitem.cpp \
-    $$PWD/clinetool.cpp
+    $$PWD/clinetool.cpp \
+    $$PWD/cgraphicstriangleitem.cpp \
+    $$PWD/ctriangletool.cpp
 
 
 
