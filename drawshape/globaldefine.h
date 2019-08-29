@@ -1,6 +1,6 @@
 #ifndef GLODEFINE_H
 #define GLODEFINE_H
-
+#include <QGraphicsItem>
 enum EDrawToolMode {
     selection,      //选择
     importPicture,  //导入图片
@@ -32,6 +32,17 @@ enum DrawStatus {
 enum EPenType {
     straight,   // 直线
     arrow       // 箭头
+};
+
+enum EGraphicUserType {
+    RectType = QGraphicsItem::UserType + 1,      //矩形
+    EllipseType,        //圆形
+    TriangleType,       //三角形
+    PolygonalStarType,  //多角星
+    PolygonType,        //多边形
+    LineType,           //线
+    PenType,            //画笔
+    TextType,           //文本
 };
 
 #endif // GLODEFINE_H

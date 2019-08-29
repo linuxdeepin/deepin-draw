@@ -8,7 +8,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_nFillColor(Qt::transparent)
     , m_radiusNum(100)
     , m_anchorNum(5)
-    , m_sideNum(4)
+    , m_sideNum(5)
     , m_currentPenType(EPenType::straight)
     , m_currentDrawToolMode(selection)
 {

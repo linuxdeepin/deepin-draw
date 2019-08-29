@@ -3,13 +3,14 @@
 
 #include "csizehandlerect.h"
 #include <QAbstractGraphicsShapeItem>
+#include "globaldefine.h"
 
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
     CGraphicsItem(QGraphicsItem *parent );
-    enum {Type = UserType + 1};
-    int  type() const Q_DECL_OVERRIDE;
+    enum {Type = UserType};
+    virtual int  type() const Q_DECL_OVERRIDE;
     virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const;
     virtual QPointF origin () const;
     virtual Qt::CursorShape getCursor(CSizeHandleRect::EDirection dir );

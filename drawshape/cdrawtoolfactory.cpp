@@ -5,6 +5,7 @@
 #include "clinetool.h"
 #include "ctriangletool.h"
 #include "ctexttool.h"
+#include "cpolygontool.h"
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
     IDrawTool *pTool = nullptr;
@@ -28,9 +29,11 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
     case text:
         pTool = new CTextTool();
         break;
+    case polygon:
+        pTool = new CPolygonTool();
+        break;
     default:
         break;
-
     }
 
     return pTool;

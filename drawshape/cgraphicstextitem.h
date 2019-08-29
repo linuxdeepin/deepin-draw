@@ -8,6 +8,7 @@ public:
     explicit CGraphicsTextItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsTextItem(const QString &text, QGraphicsItem *parent = nullptr);
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
+    virtual int  type() const Q_DECL_OVERRIDE;
 
 private:
     void initText();
