@@ -3,11 +3,13 @@
 #include "idrawtool.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "cdrawparamsigleton.h"
-#include "cdrawparamsigleton.h"
+#include "globaldefine.h"
+#include "cgraphicspolygonitem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
 #include <QGraphicsView>
+
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
 {
@@ -62,6 +64,9 @@ void CDrawScene::attributeChanged()
     foreach (item, items) {
         static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
         static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        if (item->type() == PolygonType) {
+            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+        }
     }
 }
 

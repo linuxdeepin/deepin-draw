@@ -26,6 +26,11 @@ QPainterPath CGraphicsEllipseItem::shape() const
     return path;
 }
 
+int CGraphicsEllipseItem::type() const
+{
+    return EllipseType;
+}
+
 void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

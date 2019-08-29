@@ -31,6 +31,11 @@ CGraphicsRectItem::~CGraphicsRectItem()
 
 }
 
+int CGraphicsRectItem::type() const
+{
+    return RectType;
+}
+
 void CGraphicsRectItem::setRect(const QRectF &rect)
 {
     prepareGeometryChange();

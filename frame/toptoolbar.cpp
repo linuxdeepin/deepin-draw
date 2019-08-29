@@ -189,18 +189,23 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
     case::polygonalStar:
+        m_polygonalStarWidget->updatePolygonalStarWidget();
         m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
         break;
     case::polygon:
+        m_PolygonWidget->updatePolygonWidget();
         m_stackWidget->setCurrentWidget(m_PolygonWidget);
         break;
     case::line:
+        m_drawLineWidget->updateLineWidget();
         m_stackWidget->setCurrentWidget(m_drawLineWidget);
         break;
     case::pen:
+        m_penWidget->updatePenWidget();
         m_stackWidget->setCurrentWidget(m_penWidget);
         break;
     case::text:
+        m_drawTextWidget->updateTextWidget();
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
     case::blur:
@@ -257,32 +262,39 @@ void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
 
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
     connect(m_colorPanel, &ColorPanel::signalColorChanged, m_commonShapeWidget, &CommonshapeWidget::updateCommonShapWidget);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
     ///polygonalStar
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
-
-    ///polygonalStar
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_polygonalStarWidget, &PolygonalStarAttributeWidget::updatePolygonalStarWidget);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalPolygonalStarAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    ///polygon
     connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
-
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_PolygonWidget, &PolygonAttributeWidget::updatePolygonWidget);
+    connect(m_PolygonWidget, &PolygonAttributeWidget::signalPolygonAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw line.
     connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawLineWidget, &LineWidget::updateLineWidget);
+    connect(m_drawLineWidget, &LineWidget::signalLineAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw pen.
     connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-
+    connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_penWidget, &CPenWidget::updatePenWidget);
+    connect(m_penWidget, &CPenWidget::signalPenAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw text.
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextWidget);
+    connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw blur widget.
-
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 }
 

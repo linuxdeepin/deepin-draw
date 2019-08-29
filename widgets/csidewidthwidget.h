@@ -13,9 +13,9 @@ class CSideWidthWidget : public DFrame
 {
 public:
     enum CLineWidth {
-        Finer = 1,
-        Fine = 2,
-        Medium = 4,
+        Finer = 2,
+        Fine = 4,
+        Medium = 6,
         Bold = 8
     };
 

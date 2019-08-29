@@ -54,6 +54,11 @@ CGraphicsLineItem::~CGraphicsLineItem()
 
 }
 
+int CGraphicsLineItem::type() const
+{
+    return LineType;
+}
+
 QPainterPath CGraphicsLineItem::shape() const
 {
     QPainterPath path;

@@ -14,6 +14,7 @@ public:
     explicit CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsRectItem()  Q_DECL_OVERRIDE;
+    virtual int  type() const Q_DECL_OVERRIDE;
     /**
      * @brief setRect 创建矩形时，用于设置矩形大小
      * @param rect

@@ -36,6 +36,11 @@ QPainterPath CGraphicsTriangleItem::shape() const
     return path;
 }
 
+int CGraphicsTriangleItem::type() const
+{
+    return TriangleType;
+}
+
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

@@ -2,8 +2,7 @@
 
 #include <DLabel>
 #include <DFontSizeManager>
-#include <DSlider>
-#include <DLineEdit>
+
 
 
 #include <QHBoxLayout>
@@ -16,6 +15,7 @@
 #include "widgets/seperatorline.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 
 const int BTN_SPACING = 6;
@@ -26,88 +26,8 @@ const int SEPARATE_SPACING = 5;
 PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
     : DWidget(parent)
 {
-//    DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
-
-    BigColorButton *fillBtn = new BigColorButton(this);
-    DLabel *fillLabel = new DLabel(this);
-    fillLabel->setObjectName("FillLabel");
-    fillLabel->setText(tr("填充"));
-
-    BorderColorButton *strokeBtn = new BorderColorButton(this);
-    strokeBtn->setObjectName("FillStrokeButton");
-
-    connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
-
-    });
-    connect(strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
-    });
-
-    connect(this, &PolygonAttributeWidget::resetColorBtns, this, [ = ] {
-        fillBtn->resetChecked();
-        strokeBtn->resetChecked();
-    });
-
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("描边"));
-
-    SeperatorLine *sepLine = new SeperatorLine(this);
-    DLabel *lwLabel = new DLabel(this);
-    lwLabel->setObjectName("BorderLabel");
-    lwLabel->setText(tr("描边粗细"));
-
-    CSideWidthWidget *sideWidthWidget = new CSideWidthWidget(this);
-
-
-    DLabel *sideNumLabel = new DLabel(this);
-    sideNumLabel->setObjectName("AnchorNumLabel");
-    sideNumLabel->setText(tr("侧边数"));
-
-    DSlider *sideNumSlider = new DSlider(this);
-    sideNumSlider->setSingleStep(1);
-    sideNumSlider->setMinimum(4);
-    sideNumSlider->setMaximum(10);
-    sideNumSlider->setMinimumWidth(200);
-    sideNumSlider->setMaximumHeight(24);
-    sideNumSlider->setOrientation(Qt::Horizontal);
-
-    DLineEdit *sideNumEdit = new DLineEdit(this);
-    sideNumEdit->setMinimumWidth(50);
-    sideNumEdit->setMaximumWidth(50);
-    sideNumEdit->setText(QString::number(sideNumSlider->value()));
-
-
-    connect(sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        sideNumEdit->setText(QString::number(value));
-    });
-
-
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
-    layout->addStretch();
-    layout->addWidget(fillBtn);
-    layout->addWidget(fillLabel);
-    layout->addWidget(strokeBtn);
-    layout->addWidget(strokeLabel);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sepLine);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lwLabel);
-    layout->addWidget(sideWidthWidget);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sideNumLabel);
-    layout->addWidget(sideNumSlider);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sideNumEdit);
-
-    layout->addStretch();
-    setLayout(layout);
-
+    initUI();
+    initConnection();
 }
 
 
@@ -115,4 +35,129 @@ PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
 PolygonAttributeWidget::~PolygonAttributeWidget()
 {
 
+}
+
+void PolygonAttributeWidget::initUI()
+{
+    //DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
+
+    m_fillBtn = new BigColorButton(this);
+    DLabel *fillLabel = new DLabel(this);
+    fillLabel->setText(tr("填充"));
+
+    m_strokeBtn = new BorderColorButton(this);
+
+    DLabel *strokeLabel = new DLabel(this);
+    strokeLabel->setText(tr("描边"));
+
+    SeperatorLine *sepLine = new SeperatorLine(this);
+    DLabel *lwLabel = new DLabel(this);
+    lwLabel->setText(tr("描边粗细"));
+
+    m_sideWidthWidget = new CSideWidthWidget(this);
+
+
+    DLabel *sideNumLabel = new DLabel(this);
+    sideNumLabel->setText(tr("侧边数"));
+
+    m_sideNumSlider = new DSlider(this);
+    m_sideNumSlider->setSingleStep(1);
+    m_sideNumSlider->setMinimum(4);
+    m_sideNumSlider->setMaximum(10);
+    m_sideNumSlider->setMinimumWidth(200);
+    m_sideNumSlider->setMaximumHeight(24);
+    m_sideNumSlider->setOrientation(Qt::Horizontal);
+
+    m_sideNumEdit = new DLineEdit(this);
+    m_sideNumEdit->setValidator(new QIntValidator(4, 10, this));
+    m_sideNumEdit->setMinimumWidth(50);
+    m_sideNumEdit->setMaximumWidth(50);
+    m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(BTN_SPACING);
+    layout->addStretch();
+    layout->addWidget(m_fillBtn);
+    layout->addWidget(fillLabel);
+    layout->addWidget(m_strokeBtn);
+    layout->addWidget(strokeLabel);
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(sepLine);
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(lwLabel);
+    layout->addWidget(m_sideWidthWidget);
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(sideNumLabel);
+    layout->addWidget(m_sideNumSlider);
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(m_sideNumEdit);
+
+    layout->addStretch();
+    setLayout(layout);
+}
+
+void PolygonAttributeWidget::initConnection()
+{
+    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+        m_strokeBtn->resetChecked();
+        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+
+    });
+    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+        m_fillBtn->resetChecked();
+        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
+    });
+
+    connect(this, &PolygonAttributeWidget::resetColorBtns, this, [ = ] {
+        m_fillBtn->resetChecked();
+        m_strokeBtn->resetChecked();
+    });
+
+    connect(m_sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        m_sideNumEdit->setText(QString::number(value));
+    });
+
+    ///线宽
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+        emit signalPolygonAttributeChanged();
+    });
+
+    ///多边形边数
+    connect(m_sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        if (m_isUsrDragSlider) {
+            m_sideNumEdit->setText(QString::number(value));
+            CDrawParamSigleton::GetInstance()->setSideNum(value);
+            emit signalPolygonAttributeChanged();
+        }
+    });
+
+    connect(m_sideNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        int value = str.trimmed().toInt();
+        m_sideNumSlider->setValue(value);
+        CDrawParamSigleton::GetInstance()->setSideNum(value);
+        emit signalPolygonAttributeChanged();
+    });
+
+    connect(m_sideNumSlider, &DSlider::sliderPressed, this, [ = ]() {
+        m_isUsrDragSlider = true;
+    });
+
+    connect(m_sideNumSlider, &DSlider::sliderReleased, this, [ = ]() {
+        m_isUsrDragSlider = false;
+    });
+}
+
+void PolygonAttributeWidget::updatePolygonWidget()
+{
+    m_fillBtn->updateConfigColor();
+    m_strokeBtn->updateConfigColor();
+    m_sideWidthWidget->updateSideWidth();
+
+    int sideNum = CDrawParamSigleton::GetInstance()->getSideNum();
+
+    if (sideNum != m_sideNumSlider->value()) {
+        m_sideNumSlider->setValue(sideNum);
+        m_sideNumEdit->setText(QString("%1").arg(sideNum));
+    }
 }

@@ -17,9 +17,11 @@ HEADERS += \
     $$PWD/cgraphicstriangleitem.h \
     $$PWD/ctriangletool.h \
     $$PWD/ctexttool.h \
-    $$PWD/cgraphicstextitem.h
-
-
+    $$PWD/cgraphicstextitem.h \
+    $$PWD/cpolygontool.h \
+    $$PWD/cgraphicspolygonitem.h \
+    $$PWD/cgraphicspolygonalstaritem.h \
+    $$PWD/cpolygonalstartool.h \
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -39,8 +41,11 @@ SOURCES += \
     $$PWD/cgraphicstriangleitem.cpp \
     $$PWD/ctriangletool.cpp \
     $$PWD/cgraphicstextitem.cpp \
-    $$PWD/ctexttool.cpp
-
+    $$PWD/ctexttool.cpp \
+    $$PWD/cpolygontool.cpp \
+    $$PWD/cgraphicspolygonitem.cpp  \
+    $$PWD/cgraphicspolygonalstaritem.cpp \
+    $$PWD/cpolygonalstartool.cpp
 
 
 #RESOURCES += \

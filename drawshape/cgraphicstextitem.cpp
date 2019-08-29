@@ -1,5 +1,5 @@
 #include "cgraphicstextitem.h"
-
+#include "globaldefine.h"
 CGraphicsTextItem::CGraphicsTextItem(QGraphicsItem *parent)
     : QGraphicsTextItem(parent)
 {
@@ -15,6 +15,11 @@ CGraphicsTextItem::CGraphicsTextItem(const QString &text, QGraphicsItem *parent)
 CGraphicsTextItem::~CGraphicsTextItem()
 {
 
+}
+
+int CGraphicsTextItem::type() const
+{
+    return TextType;
 }
 
 void CGraphicsTextItem::initText()
