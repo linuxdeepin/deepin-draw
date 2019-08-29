@@ -6,6 +6,7 @@
 #include "ctriangletool.h"
 #include "ctexttool.h"
 #include "cpolygontool.h"
+#include "cpolygonalstartool.h"
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
     IDrawTool *pTool = nullptr;
@@ -31,6 +32,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case polygon:
         pTool = new CPolygonTool();
+        break;
+    case polygonalStar:
+        pTool = new CPolygonalStarTool();
         break;
     default:
         break;

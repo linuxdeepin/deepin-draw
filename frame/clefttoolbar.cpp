@@ -248,7 +248,6 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_starBtn);
         emit setCurrentDrawTool(polygonalStar);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygonalStar);
-//        DrawTool::c_drawShape = ellipse;
     });
 
     connect(m_polygonBtn, &CPushButton::buttonClick, [this]() {
@@ -308,4 +307,6 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(text, pTool);
     pTool = CDrawToolFactory::Create(polygon);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygon, pTool);
+    pTool = CDrawToolFactory::Create(polygonalStar);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygonalStar, pTool);
 }
