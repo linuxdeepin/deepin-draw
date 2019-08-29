@@ -1,6 +1,6 @@
 #include "progresslayout.h"
 #include <QLabel>
-#include <DDialog>
+//#include <DDialog>
 
 DWIDGET_USE_NAMESPACE
 
@@ -25,13 +25,6 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     m_progressVBoxLayout->addWidget(m_progressLabel, 50, Qt::AlignLeft);
     m_progressVBoxLayout->addWidget(m_progressbar, 100, Qt::AlignLeft);
     this->setLayout(m_progressVBoxLayout);
-    m_label->show();
-    DDialog *LL = new  DDialog();
-    LL->addButtons(QStringList{"shiusdh", "jsisdh"});
-    LL->setContentLayoutContentsMargins(QMargins(100, 50, 300, 250));
-    LL->show();
-
-
     //this->setWindowFlags(Qt::FramelessWindowHint);
 
 }
@@ -41,13 +34,6 @@ ProgressLayout::~ProgressLayout()
 
 }
 
-//void ProgressLayout::layoutShow()
-//{
-//    m_label->show();
-//    m_progressLabel->show();
-//    m_progressbar->show();
-
-//}
 void ProgressLayout::setRange(int start, int end)
 {
     m_start = start;

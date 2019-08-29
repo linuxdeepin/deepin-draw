@@ -16,6 +16,7 @@ DWIDGET_USE_NAMESPACE
 class CLeftToolBar;
 class QGraphicsView;
 class CDrawScene;
+class ProgressLayout;
 
 class CCentralwidget: public DWidget
 {
@@ -26,9 +27,17 @@ public:
     CLeftToolBar *getLeftToolBar();
     void contextMenuEvent(QContextMenuEvent *event);
 
+signals:
+    void sendImageItem(QPixmap pixMap);
+    void loadImageNum(int num);
+
+
 
 public slots:
-    void getPicPath(QStringList path);
+    void getPicPath(QStringList pathList);
+    void addImageItem(QPixmap pixMap);
+    void setProcessBarValue(int value);
+
     void slotResetOriginPoint();
     void slotAttributeChanged();
 
@@ -45,7 +54,8 @@ private:
     DMenu *m_contextMenu;
     QGraphicsView *m_pGraphicsView;
     CDrawScene *m_pDrawScene;
-
+    ProgressLayout *m_progressLayout;
+    int m_picNum;
 private:
     void initUI();
     void initContextMenu();

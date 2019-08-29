@@ -15,7 +15,6 @@ public:
     ~ProgressLayout();
     void setRange(int start, int end);
     void setProgressValue(int value);
-    void layoutShow();
 
 
 

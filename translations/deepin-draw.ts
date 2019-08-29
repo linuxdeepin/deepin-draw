@@ -56,14 +56,171 @@
     </message>
 </context>
 <context>
-    <name>ColorPanel</name>
+    <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="136"/>
+        <location filename="../widgets/calphacontrolwidget.cpp" line="29"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>CCentralwidget</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="165"/>
+        <location filename="../frame/ccentralwidget.cpp" line="133"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="134"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="135"/>
+        <source>Parse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="136"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="138"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="139"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="141"/>
+        <source>One layer up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="142"/>
+        <source>One layer down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="143"/>
+        <source>Bring to front</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="144"/>
+        <source>Send to back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="145"/>
+        <source>Left align</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="146"/>
+        <source>Top align</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="147"/>
+        <source>Right align</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="148"/>
+        <source>Center align</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CLeftToolBar</name>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="42"/>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="51"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="59"/>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="69"/>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="79"/>
+        <source>Triangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="89"/>
+        <source>Star</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="99"/>
+        <source>Polygon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="109"/>
+        <source>Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="119"/>
+        <source>Pencil</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="128"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="137"/>
+        <source>Blur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/clefttoolbar.cpp" line="147"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CPenWidget</name>
+    <message>
+        <location filename="../frame/cpenwidget.cpp" line="33"/>
+        <source>颜色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpenwidget.cpp" line="41"/>
+        <source>类型</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpenwidget.cpp" line="62"/>
+        <source>描边粗细</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="175"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -71,17 +228,17 @@
 <context>
     <name>CommonshapeWidget</name>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="29"/>
+        <location filename="../frame/commonshapewidget.cpp" line="37"/>
         <source>填充</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="51"/>
+        <location filename="../frame/commonshapewidget.cpp" line="45"/>
         <source>描边</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="55"/>
+        <location filename="../frame/commonshapewidget.cpp" line="49"/>
         <source>描边粗细</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,64 +295,6 @@
     </message>
 </context>
 <context>
-    <name>LeftToolBar</name>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="35"/>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="45"/>
-        <source>Rectangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="55"/>
-        <source>Ellipse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="65"/>
-        <source>Triangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="75"/>
-        <source>Star</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="85"/>
-        <source>Polygon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="95"/>
-        <source>Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="105"/>
-        <source>Pencil</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="115"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="125"/>
-        <source>Blur</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/lefttoolbar.cpp" line="135"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>LineWidget</name>
     <message>
         <location filename="../frame/linewidget.cpp" line="33"/>
@@ -203,12 +302,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="45"/>
-        <source>类型</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/linewidget.cpp" line="68"/>
+        <location filename="../frame/linewidget.cpp" line="41"/>
         <source>描边粗细</source>
         <translation type="unfinished"></translation>
     </message>
@@ -218,79 +312,6 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="28"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWidget</name>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="51"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="52"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="53"/>
-        <source>Parse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="54"/>
-        <source>All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="56"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="57"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="59"/>
-        <source>One layer up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="60"/>
-        <source>One layer down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="61"/>
-        <source>Bring to front</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="62"/>
-        <source>Send to back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="63"/>
-        <source>Left align</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="64"/>
-        <source>Top align</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="65"/>
-        <source>Right align</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/mainwidget.cpp" line="66"/>
-        <source>Center align</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -577,47 +598,47 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="172"/>
+        <location filename="../frame/toptoolbar.cpp" line="138"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="175"/>
+        <location filename="../frame/toptoolbar.cpp" line="141"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="171"/>
+        <location filename="../frame/toptoolbar.cpp" line="137"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="174"/>
+        <location filename="../frame/toptoolbar.cpp" line="140"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="176"/>
+        <location filename="../frame/toptoolbar.cpp" line="142"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="177"/>
+        <location filename="../frame/toptoolbar.cpp" line="143"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="179"/>
+        <location filename="../frame/toptoolbar.cpp" line="145"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="180"/>
+        <location filename="../frame/toptoolbar.cpp" line="146"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="186"/>
+        <location filename="../frame/toptoolbar.cpp" line="152"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

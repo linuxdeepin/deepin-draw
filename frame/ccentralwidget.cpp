@@ -2,11 +2,13 @@
 #include "clefttoolbar.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicsitem.h"
+#include "widgets/progresslayout.h"
 
 #include <QLabel>
 #include <QDebug>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QtConcurrent>
 
 #include <DMenu>
 
@@ -37,17 +39,48 @@ void CCentralwidget::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->show();
 }
 //进行图片导入
-void CCentralwidget::getPicPath(QStringList path)
+void CCentralwidget::getPicPath(QStringList pathList)
 {
-    qDebug() << path << path.size() << endl;
-    for (int i = 0; i < path.size(); i++) {
-        QPixmap pixmap = QPixmap (path[i]);
-        //QPointF pointf;
-//        ImageGraphicsItem *graphicsItem = new ImageGraphicsItem();
-//        graphicsItem->setPainter(QPointF(0, 0), pixmap);
-//        m_MainGraphicsScene->addItem(graphicsItem);
-        //graphicsItem->setVisible(true);
 
+    qDebug() << pathList << pathList.size() << endl;
+    m_picNum = pathList.size();
+    m_progressLayout->setRange(0, pathList.size());
+    // m_progressLayout->setProgressValue(0);
+    m_progressLayout->show();
+
+    //启动图片导入线程
+    QtConcurrent::run([ = ] {
+        for (int i = 0; i < pathList.size(); i++)
+        {
+
+            QPixmap pixmap = QPixmap (pathList[i]);
+
+            emit sendImageItem(pixmap);
+            emit loadImageNum(i + 1);
+            //qDebug() << "importProcessbar" << i + 1 << endl;
+        }
+    });
+
+
+
+}
+
+void CCentralwidget::addImageItem( QPixmap pixMap)
+{
+
+    //qDebug() << "entered the  addImageItem function" << endl;
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixMap);
+    m_pDrawScene->addItem(pixmapItem);
+}
+
+
+void CCentralwidget::setProcessBarValue(int value)
+{
+    //qDebug() << "entered the  setProcessBarValue function" << endl;
+    m_progressLayout->setProgressValue(value);
+
+    if (value == m_picNum) {
+        m_progressLayout->hide();
     }
 }
 
@@ -64,6 +97,8 @@ void CCentralwidget::initUI()
     m_pDrawScene = new CDrawScene();
     m_pGraphicsView->setScene(m_pDrawScene);
 
+    m_progressLayout = new ProgressLayout(this);
+
 
     QHBoxLayout *layout = new QHBoxLayout;
 
@@ -76,6 +111,7 @@ void CCentralwidget::initUI()
     setLayout(layout);
 
     initContextMenu();
+
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -116,7 +152,10 @@ void CCentralwidget::initContextMenu()
 
 void CCentralwidget::initConnect()
 {
-//    connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
+    connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
     //connect(m_contextMenu,SIGNAL(conte))
+    connect(this, SIGNAL(sendImageItem(QPixmap)), this, SLOT(addImageItem(QPixmap)));
+    connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
+
 
 }

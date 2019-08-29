@@ -205,6 +205,7 @@ void CLeftToolBar::importImage()
         emit sendPicPath(filenames);
 
     }
+    m_picBtn->setChecked(false);
 
 }
 
