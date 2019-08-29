@@ -5,6 +5,8 @@
 #include "clinetool.h"
 #include "ctriangletool.h"
 #include "ctexttool.h"
+#include "cpolygonalstartool.h"
+
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
     IDrawTool *pTool = nullptr;
@@ -27,6 +29,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case text:
         pTool = new CTextTool();
+        break;
+    case polygonalStar:
+        pTool = new CPolygonalStarTool();
         break;
     default:
         break;

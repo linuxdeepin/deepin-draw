@@ -17,7 +17,9 @@ HEADERS += \
     $$PWD/cgraphicstriangleitem.h \
     $$PWD/ctriangletool.h \
     $$PWD/ctexttool.h \
-    $$PWD/cgraphicstextitem.h
+    $$PWD/cgraphicstextitem.h \
+    $$PWD/cgraphicspolygonalstaritem.h \
+    $$PWD/cpolygonalstartool.h
 
 
 
@@ -39,7 +41,9 @@ SOURCES += \
     $$PWD/cgraphicstriangleitem.cpp \
     $$PWD/ctriangletool.cpp \
     $$PWD/cgraphicstextitem.cpp \
-    $$PWD/ctexttool.cpp
+    $$PWD/ctexttool.cpp \
+    $$PWD/cgraphicspolygonalstaritem.cpp \
+    $$PWD/cpolygonalstartool.cpp
 
 
 
