@@ -1,110 +1,140 @@
 #include "textwidget.h"
 
 #include <DLabel>
-#include <DFontComboBox>
-#include <DSlider>
-#include <DLineEdit>
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QFont>
 
 
 #include "widgets/bigcolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/textfontlabel.h"
+#include "drawshape/cdrawparamsigleton.h"
 
-#include "utils/configsettings.h"
-#include "utils/global.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
 TextWidget::TextWidget(QWidget *parent)
-    : QWidget(parent)
+    : DWidget(parent)
 {
-    DRAW_THEME_INIT_WIDGET("TextWidget");
-    this->setObjectName("TextWidget");
+    initUI();
+    initConnection();
+}
 
-    BigColorButton *fillBtn = new BigColorButton( this);
-    QColor color = QColor(ConfigSettings::instance()->value(
-                              "text", "fillColor").toString());
-    fillBtn->setColor(color);
+TextWidget::~TextWidget()
+{
 
-    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this,
-    [ = ](const QString & group,  const QString & key) {
-        if (group == "text" && key == "fillColor") {
-            QColor color = QColor(ConfigSettings::instance()->value(
-                                      "text", "fillColor").toString());
-            fillBtn->setColor(color);
-        }
-    });
-    connect(this, &TextWidget::updateColorBtn, this, [ = ] {
-        QColor color = QColor(ConfigSettings::instance()->value(
-                                  "text", "fillColor").toString());
-        fillBtn->setColor(color);
-    });
+}
 
-    connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        showColorPanel(DrawStatus::Fill, cursor().pos(), show);
-    });
-
-    connect(this, &TextWidget::resetColorBtns, this, [ = ] {
-        fillBtn->resetChecked();
-    });
+void TextWidget::initUI()
+{
+    m_fillBtn = new BigColorButton( this);
 
     DLabel *colBtnLabel = new DLabel(this);
-    colBtnLabel->setObjectName("FillLabel");
     colBtnLabel->setText(tr("填充"));
 
     SeperatorLine *textSeperatorLine = new SeperatorLine(this);
 
     DLabel *fontFamilyLabel = new DLabel(this);
     fontFamilyLabel->setText(tr("字体"));
-    DFontComboBox *fontComBox = new DFontComboBox(this);
-    fontComBox->setFontFilters(DFontComboBox::AllFonts);
-    fontComBox->setMinimumWidth(100);
+    m_fontComBox = new DFontComboBox(this);
+    m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
+    m_fontComBox->setMinimumWidth(100);
 
 
     DLabel *fontsizeLabel = new DLabel(this);
-    fontsizeLabel->setObjectName("FontsizeLabel");
     fontsizeLabel->setText(tr("字号"));
 
-    DSlider *fontSizeSlider = new DSlider(this);
-    fontSizeSlider->setOrientation(Qt::Horizontal);
-    fontSizeSlider->setMinimum(0);
-    fontSizeSlider->setMaximum(1000);
-    fontSizeSlider->setMinimumWidth(200);
-    fontSizeSlider->setMaximumHeight(24);
+    m_fontSizeSlider = new DSlider(this);
+    m_fontSizeSlider->setOrientation(Qt::Horizontal);
+    m_fontSizeSlider->setMinimum(0);
+    m_fontSizeSlider->setMaximum(1000);
+    m_fontSizeSlider->setMinimumWidth(200);
+    m_fontSizeSlider->setMaximumHeight(24);
 
 
-    DLineEdit *fontSizeEdit = new DLineEdit(this);
-    fontSizeEdit->setMinimumWidth(50);
-    fontSizeEdit->setMaximumWidth(50);
-    fontSizeEdit->setText(QString::number(fontSizeSlider->value()));
-
-
-    connect(fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        fontSizeEdit->setText(QString::number(value));
-    });
+    m_fontSizeEdit = new DLineEdit(this);
+    m_fontSizeEdit->setValidator(new QIntValidator(0, 1000, this));
+    m_fontSizeEdit->setMinimumWidth(50);
+    m_fontSizeEdit->setMaximumWidth(50);
+    m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
-    layout->addWidget(fillBtn);
+    layout->addWidget(m_fillBtn);
     layout->addWidget(colBtnLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(textSeperatorLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontFamilyLabel);
-    layout->addWidget(fontComBox);
+    layout->addWidget(m_fontComBox);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontsizeLabel);
-    layout->addWidget(fontSizeSlider);
-    layout->addWidget(fontSizeEdit);
+    layout->addWidget(m_fontSizeSlider);
+    layout->addWidget(m_fontSizeEdit);
     layout->addStretch();
     setLayout(layout);
 }
 
-TextWidget::~TextWidget()
-{}
+void TextWidget::initConnection()
+{
+    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+        showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+    });
+
+    connect(this, &TextWidget::resetColorBtns, this, [ = ] {
+        m_fillBtn->resetChecked();
+    });
+
+    connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        m_fontSizeEdit->setText(QString::number(value));
+    });
+
+    ///字体大小
+    connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        if (m_isUsrDragSlider) {
+            m_fontSizeEdit->setText(QString::number(value));
+            QFont tmpFont = CDrawParamSigleton::GetInstance()->getTextFont();
+            tmpFont.setPointSize(value);
+            CDrawParamSigleton::GetInstance()->setTextFont(tmpFont);
+            emit signalTextAttributeChanged();
+        }
+    });
+
+    connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        int value = str.trimmed().toInt();
+        m_fontSizeSlider->setValue(value);
+        QFont tmpFont = CDrawParamSigleton::GetInstance()->getTextFont();
+        tmpFont.setPointSize(value);
+        CDrawParamSigleton::GetInstance()->setTextFont(tmpFont);
+        emit signalTextAttributeChanged();
+    });
+
+    connect(m_fontSizeSlider, &DSlider::sliderPressed, this, [ = ]() {
+        m_isUsrDragSlider = true;
+    });
+
+    connect(m_fontSizeSlider, &DSlider::sliderReleased, this, [ = ]() {
+        m_isUsrDragSlider = false;
+    });
+}
+
+void TextWidget::updateTextWidget()
+{
+    m_fillBtn->updateConfigColor();
+    QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
+    if (m_fontComBox->currentFont() != font) {
+
+    }
+
+    int fontSize = font.pointSize();
+
+    if (fontSize != m_fontSizeSlider->value()) {
+        m_fontSizeSlider->setValue(fontSize);
+        m_fontSizeEdit->setText(QString("%1").arg(fontSize));
+    }
+}

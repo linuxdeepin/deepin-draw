@@ -19,12 +19,17 @@ public:
     CPenWidget(QWidget *parent = nullptr);
     ~CPenWidget();
 
+public slots:
+    void updatePenWidget();
+
 signals:
+    void resetColorBtns();
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    void signalPenAttributeChanged();
 
 private:
     CSideWidthWidget *m_sideWidthWidget;
-    BorderColorButton *m_strokeButton;
+    BorderColorButton *m_strokeBtn;
     QList<CPushButton *> m_actionButtons;
     CPushButton *m_straightline;
     CPushButton *m_arrowline;

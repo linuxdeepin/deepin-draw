@@ -6,11 +6,10 @@
 
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
-#include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/cpushbutton.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
+#include "drawshape/cdrawparamsigleton.h"
+
 
 const int BTN_SPACNT = 10;
 
@@ -32,7 +31,7 @@ void CPenWidget::initUI()
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
 
-    m_strokeButton = new BorderColorButton(this);
+    m_strokeBtn = new BorderColorButton(this);
 
     SeperatorLine *sep1Line = new SeperatorLine(this);
 
@@ -70,7 +69,7 @@ void CPenWidget::initUI()
     layout->addWidget(m_straightline);
     layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
-    layout->addWidget(m_strokeButton);
+    layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
 
     layout->addWidget(sep1Line, 0, Qt::AlignCenter);
@@ -83,16 +82,30 @@ void CPenWidget::initUI()
 
 void CPenWidget::initConnection()
 {
-    connect(m_strokeButton, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         showColorPanel(DrawStatus::Stroke, cursor().pos(), show);
     });
 
+    connect(this, &CPenWidget::resetColorBtns, this, [ = ] {
+        m_strokeBtn->resetChecked();
+    });
+
+
     connect(m_straightline, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_straightline);
+        CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::straight);
+        emit signalPenAttributeChanged();
     });
 
     connect(m_arrowline, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
+        CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::arrow);
+        emit signalPenAttributeChanged();
+    });
+
+    ///线宽
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+        emit signalPenAttributeChanged();
     });
 }
 
@@ -106,3 +119,20 @@ void CPenWidget::clearOtherSelections(CPushButton *clickedButton)
     };
 }
 
+void CPenWidget::updatePenWidget()
+{
+    m_strokeBtn->updateConfigColor();
+    m_sideWidthWidget->updateSideWidth();
+    EPenType penType = CDrawParamSigleton::GetInstance()->getCurrentPenType();
+    if (penType == EPenType::straight) {
+        if (!m_straightline->isChecked()) {
+            m_straightline->setChecked(true);
+            m_arrowline->setChecked(false);
+        }
+    } else if (penType == EPenType::arrow) {
+        if (!m_arrowline->isChecked()) {
+            m_arrowline->setChecked(true);
+            m_straightline->setChecked(false);
+        }
+    }
+}

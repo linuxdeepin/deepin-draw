@@ -5,10 +5,14 @@ CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)
-    , m_nFillColor(Qt::black)
+    , m_nFillColor(Qt::transparent)
+    , m_radiusNum(100)
+    , m_anchorNum(5)
+    , m_sideNum(4)
+    , m_currentPenType(EPenType::straight)
     , m_currentDrawToolMode(selection)
 {
-    m_nFillColor = QColor(Qt::transparent);
+
 }
 
 CDrawParamSigleton *CDrawParamSigleton::GetInstance()
@@ -83,3 +87,55 @@ EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
 {
     return m_currentDrawToolMode;
 }
+
+int CDrawParamSigleton::getRadiusNum() const
+{
+    return m_radiusNum;
+}
+
+void CDrawParamSigleton::setRadiusNum(int radiusNum)
+{
+    m_radiusNum = radiusNum;
+}
+
+int CDrawParamSigleton::getAnchorNum() const
+{
+    return m_anchorNum;
+}
+
+void CDrawParamSigleton::setAnchorNum(int anchorNum)
+{
+    m_anchorNum = anchorNum;
+}
+
+int CDrawParamSigleton::getSideNum() const
+{
+    return m_sideNum;
+}
+
+void CDrawParamSigleton::setSideNum(int sideNum)
+{
+    m_sideNum = sideNum;
+}
+
+EPenType CDrawParamSigleton::getCurrentPenType() const
+{
+    return m_currentPenType;
+}
+
+void CDrawParamSigleton::setCurrentPenType(const EPenType &currentPenType)
+{
+    m_currentPenType = currentPenType;
+}
+
+QFont CDrawParamSigleton::getTextFont() const
+{
+    return m_textFont;
+}
+
+void CDrawParamSigleton::setTextFont(const QFont &textFont)
+{
+    m_textFont = textFont;
+}
+
+

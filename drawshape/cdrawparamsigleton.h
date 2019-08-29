@@ -4,6 +4,8 @@
 #include <QtGlobal>
 #include <QColor>
 #include <QPen>
+#include <QFont>
+
 class CDrawParamSigleton
 {
 private :
@@ -33,10 +35,37 @@ public:
     void setCurrentDrawToolMode(EDrawToolMode mode);
     EDrawToolMode getCurrentDrawToolMode() const;
 
+    int getRadiusNum() const;
+    void setRadiusNum(int radiusNum);
+
+    int getAnchorNum() const;
+    void setAnchorNum(int anchorNum);
+
+    int getSideNum() const;
+    void setSideNum(int sideNum);
+
+    EPenType getPenType() const;
+    void setPenType(const EPenType &penType);
+
+    EPenType getCurrentPenType() const;
+    void setCurrentPenType(const EPenType &currentPenType);
+
+    QFont getTextFont() const;
+    void setTextFont(const QFont &textFont);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
     QColor m_nFillColor;
+
+    int m_radiusNum; //多角星半径
+    int m_anchorNum;//多角星锚点数
+
+    int m_sideNum;//多边形边数
+
+    EPenType m_currentPenType; //当前画笔类型
+
+    QFont m_textFont; //文本字体
 
     EDrawToolMode m_currentDrawToolMode;
 };

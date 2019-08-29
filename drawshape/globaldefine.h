@@ -26,7 +26,12 @@ enum ESelectMode {
 
 enum DrawStatus {
     Fill,
-    Stroke,
+    Stroke
+};
+
+enum EPenType {
+    straight,   // 直线
+    arrow       // 箭头
 };
 
 #endif // GLODEFINE_H

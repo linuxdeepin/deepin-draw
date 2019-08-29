@@ -1,14 +1,12 @@
 #include "polygonalstarattributewidget.h"
 
 #include <DLabel>
-#include <DFontSizeManager>
-#include <DSlider>
-#include <DLineEdit>
-
-
+//#include <DFontSizeManager>
 
 #include <QHBoxLayout>
 #include <QButtonGroup>
+#include <QIntValidator>
+#include <QDebug>
 
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -17,125 +15,204 @@
 #include "utils/configsettings.h"
 #include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
     : DWidget(parent)
+    , m_isUsrDragSlider(false)
 {
-//    DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
+    initUI();
+    initConnection();
+}
 
-    BigColorButton *fillBtn = new BigColorButton( this);
+PolygonalStarAttributeWidget::~PolygonalStarAttributeWidget()
+{
+
+}
+
+void PolygonalStarAttributeWidget::initUI()
+{
+    //    DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
+
+    m_fillBtn = new BigColorButton( this);
+
     DLabel *fillLabel = new DLabel(this);
-    fillLabel->setObjectName("FillLabel");
     fillLabel->setText(tr("填充"));
 
-    BorderColorButton *strokeBtn = new BorderColorButton(this);
-    strokeBtn->setObjectName("FillStrokeButton");
-
-    connect(fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
-
-    });
-    connect(strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
-    });
-
-    connect(this, &PolygonalStarAttributeWidget::resetColorBtns, this, [ = ] {
-        fillBtn->resetChecked();
-        strokeBtn->resetChecked();
-    });
+    m_strokeBtn = new BorderColorButton(this);
 
     DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("描边"));
 
     SeperatorLine *sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 
-    CSideWidthWidget *sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *anchorNumLabel = new DLabel(this);
-    anchorNumLabel->setObjectName("AnchorNumLabel");
     anchorNumLabel->setText(tr("锚点数"));
 
-    DSlider *anchorNumSlider = new DSlider(this);
-    anchorNumSlider->setOrientation(Qt::Horizontal);
-    anchorNumSlider->setMinimum(3);
-    anchorNumSlider->setMaximum(50);
-    anchorNumSlider->setMinimumWidth(200);
-    anchorNumSlider->setMaximumHeight(24);
+    m_anchorNumSlider = new DSlider(this);
+    m_anchorNumSlider->setOrientation(Qt::Horizontal);
+    m_anchorNumSlider->setMinimum(3);
+    m_anchorNumSlider->setMaximum(50);
+    m_anchorNumSlider->setMinimumWidth(200);
+    m_anchorNumSlider->setMaximumHeight(24);
 
-    DLineEdit *anchorNumEdit = new DLineEdit(this);
-    anchorNumEdit->setMinimumWidth(50);
-    anchorNumEdit->setMaximumWidth(50);
-    anchorNumEdit->setText(QString::number(anchorNumSlider->value()));
-
-
-    connect(anchorNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        anchorNumEdit->setText(QString::number(value));
-    });
+    m_anchorNumEdit = new DLineEdit(this);
+    m_anchorNumEdit->setValidator(new QIntValidator(3, 50, this));
+    m_anchorNumEdit->setMinimumWidth(50);
+    m_anchorNumEdit->setMaximumWidth(50);
+    m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
 
     DLabel *radiusLabel = new DLabel(this);
-    radiusLabel->setObjectName("RadiusLabel");
     radiusLabel->setText(tr("半径"));
 
-    DSlider *radiusNumSlider = new DSlider(this);
-    radiusNumSlider->setOrientation(Qt::Horizontal);
-    radiusNumSlider->setMinimum(0);
-    radiusNumSlider->setMaximum(100);
-    radiusNumSlider->setMinimumWidth(200);
-    radiusNumSlider->setMaximumHeight(24);
+    m_radiusNumSlider = new DSlider(this);
+    m_radiusNumSlider->setOrientation(Qt::Horizontal);
+    m_radiusNumSlider->setMinimum(0);
+    m_radiusNumSlider->setMaximum(100);
+    m_radiusNumSlider->setMinimumWidth(200);
+    m_radiusNumSlider->setMaximumHeight(24);
 
-
-    DLineEdit *radiusNumEdit = new DLineEdit(this);
-    radiusNumEdit->setMinimumWidth(60);
-    radiusNumEdit->setMaximumWidth(60);
-    radiusNumEdit->setText(QString("%1%").arg(radiusNumSlider->value()));
-
-
-    connect(radiusNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        radiusNumEdit->setText(QString("%1%").arg(value));
-    });
+    m_radiusNumEdit = new DLineEdit(this);
+    QRegExp rx("^([1-9]{1}[0-9]{0,1}|0|100){0,1}%$");
+    QRegExpValidator *validator = new QRegExpValidator(rx, this);
+    m_radiusNumEdit->setValidator(validator);
+    m_radiusNumEdit->setMinimumWidth(60);
+    m_radiusNumEdit->setMaximumWidth(60);
+    m_radiusNumEdit->setText(QString("%1%").arg(m_radiusNumSlider->value()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
-    layout->addWidget(fillBtn);
+    layout->addWidget(m_fillBtn);
     layout->addWidget(fillLabel);
-    layout->addWidget(strokeBtn);
+    layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(sepLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
-    layout->addWidget(sideWidthWidget);
+    layout->addWidget(m_sideWidthWidget);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(anchorNumLabel);
-    layout->addWidget(anchorNumSlider);
+    layout->addWidget(m_anchorNumSlider);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(anchorNumEdit);
+    layout->addWidget(m_anchorNumEdit);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(radiusLabel);
-    layout->addWidget(radiusNumSlider);
+    layout->addWidget(m_radiusNumSlider);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(radiusNumEdit);
+    layout->addWidget(m_radiusNumEdit);
 
     layout->addStretch();
     setLayout(layout);
-
 }
 
-
-
-PolygonalStarAttributeWidget::~PolygonalStarAttributeWidget()
+void PolygonalStarAttributeWidget::initConnection()
 {
 
+    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+        m_strokeBtn->resetChecked();
+        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+
+    });
+    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+        m_fillBtn->resetChecked();
+        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
+    });
+
+    connect(this, &PolygonalStarAttributeWidget::resetColorBtns, this, [ = ] {
+        m_fillBtn->resetChecked();
+        m_strokeBtn->resetChecked();
+    });
+
+
+    ///线宽
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+        emit signalPolygonalStarAttributeChanged();
+    });
+
+    ///锚点数
+    connect(m_anchorNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        if (m_isUsrDragSlider) {
+            m_anchorNumEdit->setText(QString::number(value));
+            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+            emit signalPolygonalStarAttributeChanged();
+        }
+    });
+
+    connect(m_anchorNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        int value = str.trimmed().toInt();
+        m_anchorNumSlider->setValue(value);
+        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+        emit signalPolygonalStarAttributeChanged();
+    });
+
+    connect(m_anchorNumSlider, &DSlider::sliderPressed, this, [ = ]() {
+        m_isUsrDragSlider = true;
+    });
+
+    connect(m_anchorNumSlider, &DSlider::sliderReleased, this, [ = ]() {
+        m_isUsrDragSlider = false;
+    });
+
+    ///半径
+    connect(m_radiusNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        if (m_isUsrDragSlider) {
+            m_radiusNumEdit->setText(QString("%1%").arg(value));
+            emit signalPolygonalStarAttributeChanged();
+        }
+    });
+
+    connect(m_radiusNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        QString tmpStr = "";
+        if (str.contains("%")) {
+            tmpStr = str.split("%").first();
+        }
+        int value = tmpStr.trimmed().toInt();
+
+        if (value < 0 || value > 100) {
+            return ;
+        }
+
+        m_radiusNumSlider->setValue(value);
+        emit signalPolygonalStarAttributeChanged();
+    });
+
+    connect(m_radiusNumSlider, &DSlider::sliderPressed, this, [ = ]() {
+        m_isUsrDragSlider = true;
+    });
+
+    connect(m_radiusNumSlider, &DSlider::sliderReleased, this, [ = ]() {
+        m_isUsrDragSlider = false;
+    });
+}
+
+void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
+{
+    m_fillBtn->updateConfigColor();
+    m_strokeBtn->updateConfigColor();
+    m_sideWidthWidget->updateSideWidth();
+
+    int anchorNum = CDrawParamSigleton::GetInstance()->getAnchorNum();
+
+    if (anchorNum != m_anchorNumSlider->value()) {
+        m_anchorNumSlider->setValue(anchorNum);
+        m_anchorNumEdit->setText(QString("%1").arg(anchorNum));
+    }
+
+    int radiusNum = CDrawParamSigleton::GetInstance()->getRadiusNum();
+
+    if (radiusNum != m_anchorNumSlider->value()) {
+        m_radiusNumSlider->setValue(radiusNum);
+        m_radiusNumEdit->setText(QString("%1%").arg(radiusNum));
+    }
 }

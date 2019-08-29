@@ -32,7 +32,7 @@ void LineWidget::initUI()
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
 
-    m_strokeButton = new BorderColorButton(this);
+    m_strokeBtn = new BorderColorButton(this);
 
     SeperatorLine *sep1Line = new SeperatorLine(this);
 
@@ -46,7 +46,7 @@ void LineWidget::initUI()
     layout->setMargin(0);
     layout->addStretch();
     layout->setSpacing(BTN_SPACNT);
-    layout->addWidget(m_strokeButton);
+    layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
 
     layout->addWidget(sep1Line, 0, Qt::AlignCenter);
@@ -59,9 +59,25 @@ void LineWidget::initUI()
 
 void LineWidget::initConnection()
 {
-    connect(m_strokeButton, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         showColorPanel(DrawStatus::Stroke, cursor().pos(), show);
     });
+
+    connect(this, &LineWidget::resetColorBtns, this, [ = ] {
+        m_strokeBtn->resetChecked();
+    });
+
+    ///线宽
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+        emit signalLineAttributeChanged();
+    });
+
+}
+
+void LineWidget::updateLineWidget()
+{
+    m_strokeBtn->updateConfigColor();
+    m_sideWidthWidget->updateSideWidth();
 }
 
 
