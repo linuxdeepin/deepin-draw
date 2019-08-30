@@ -96,6 +96,7 @@ void CCentralwidget::initUI()
 //    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
     m_pDrawScene = new CDrawScene();
     m_pGraphicsView->setScene(m_pDrawScene);
+    m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
 
     m_progressLayout = new ProgressLayout(this);
 

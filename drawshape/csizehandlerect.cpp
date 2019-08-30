@@ -65,7 +65,6 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    painter->setRenderHint(QPainter::Antialiasing);
 
     if (m_dir == Rotation) {
         painter->drawPixmap(QPointF(rect().x(), rect().y()), m_rotaImage);

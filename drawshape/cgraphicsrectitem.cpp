@@ -72,8 +72,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    painter->setRenderHint(QPainter::Antialiasing);
-
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawRect(rect());
