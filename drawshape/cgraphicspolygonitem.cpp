@@ -93,3 +93,8 @@ void CGraphicsPolygonItem::calcPoints(int n)
     }
 
 }
+
+int CGraphicsPolygonItem::nPointsCount() const
+{
+    return m_nPointsCount;
+}

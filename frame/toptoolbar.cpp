@@ -245,6 +245,34 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
     }
 }
 
+void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
+{
+    if (flag) {
+        EDrawToolMode toolType = EDrawToolMode::selection;
+        switch (primitiveType) {
+        case::EGraphicUserType::RectType:
+            toolType = EDrawToolMode::rectangle;
+            break;
+        case::EGraphicUserType::EllipseType:
+            toolType = EDrawToolMode::ellipse;
+            break;
+        case::EGraphicUserType::TriangleType:
+            toolType = EDrawToolMode::triangle;
+            break;
+        case::EGraphicUserType::PolygonalStarType:
+            toolType = EDrawToolMode::polygonalStar;
+            break;
+        case::EGraphicUserType::PolygonType:
+            toolType = EDrawToolMode::polygon;
+            break;
+        case::EGraphicUserType::LineType:
+            toolType = EDrawToolMode::line;
+            break;
+        }
+        updateMiddleWidget(toolType);
+    }
+}
+
 
 QMenu *TopToolbar::mainMenu()
 {

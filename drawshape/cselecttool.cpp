@@ -36,7 +36,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             //需要区别图元或文字
             if (item->type() > QGraphicsItem::UserType) {
                 m_currentSelectItem = static_cast<CGraphicsItem *>(item);
-                scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
+                scene->changeAttribute(true, item);
             } else {
                 m_currentSelectItem = nullptr;
             }

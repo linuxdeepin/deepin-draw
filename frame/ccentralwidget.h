@@ -30,7 +30,7 @@ public:
 signals:
     void sendImageItem(QPixmap pixMap);
     void loadImageNum(int num);
-
+    void signalAttributeChangedFromScene(bool, int);
 
 
 public slots:

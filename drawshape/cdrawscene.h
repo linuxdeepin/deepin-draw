@@ -38,16 +38,18 @@ public:
     /**
      * @brief changeAttribute 修改当前画笔画刷属性
      */
-    void changeAttribute(bool flag, QPen pen = QPen(), QBrush brush = QBrush());
+    void changeAttribute(bool flag, QGraphicsItem *selectedItem);
 
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
      * @param flag
+     * @param primitiveType 图元类型
      */
-    void signalAttributeChanged(bool flag);
+    void signalAttributeChanged(bool flag, int primitiveType);
 
 protected:
+
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;

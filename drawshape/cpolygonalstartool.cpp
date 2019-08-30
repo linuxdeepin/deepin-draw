@@ -24,7 +24,9 @@ void CPolygonalStarTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawS
     scene->clearSelection();
 
     m_sPointPress = event->scenePos();
-    m_pPolygonalStarItem = new CGraphicsPolygonalStarItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+    m_pPolygonalStarItem = new CGraphicsPolygonalStarItem(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                                          CDrawParamSigleton::GetInstance()->getRadiusNum(),
+                                                          m_sPointPress.x(), m_sPointPress.y(), 0, 0);
     m_pPolygonalStarItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
     m_pPolygonalStarItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
     scene->addItem(m_pPolygonalStarItem);

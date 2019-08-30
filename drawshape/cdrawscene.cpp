@@ -5,6 +5,7 @@
 #include "cdrawparamsigleton.h"
 #include "globaldefine.h"
 #include "cgraphicspolygonitem.h"
+#include "cgraphicspolygonalstaritem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
@@ -66,17 +67,27 @@ void CDrawScene::attributeChanged()
         static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         if (item->type() == PolygonType) {
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+        } else if (item->type() == PolygonalStarType) {
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
         }
     }
 }
 
-void CDrawScene::changeAttribute(bool flag, QPen pen, QBrush brush)
+void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
     if (flag) {
-        CDrawParamSigleton::GetInstance()->setPen(pen);
-        CDrawParamSigleton::GetInstance()->setBrush(brush);
+        CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+        CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
+        ///特殊属性图元 读取额外的特殊属性并设置到全局属性中
+        if (selectedItem->type() == PolygonType) {
+            CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
+        } else if (selectedItem->type() == PolygonalStarType) {
+            CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->anchorNum());
+            CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
+        }
     }
-    emit signalAttributeChanged(flag);
+    emit signalAttributeChanged(flag, selectedItem->type());
 }
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

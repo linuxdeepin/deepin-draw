@@ -157,5 +157,7 @@ void CCentralwidget::initConnect()
     connect(this, SIGNAL(sendImageItem(QPixmap)), this, SLOT(addImageItem(QPixmap)));
     connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
+    connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
+
 
 }

@@ -56,6 +56,7 @@ public slots:
     void updateMiddleWidget(int type);
     void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     void updateColorPanelVisible(QPoint pos);
+    void slotChangeAttributeFromScene(bool flag, int primitiveType);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
