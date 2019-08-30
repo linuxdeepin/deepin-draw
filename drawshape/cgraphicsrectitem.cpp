@@ -1,6 +1,7 @@
 #include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
 #include <QPainter>
+#include <QPixmap>
 
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -49,8 +50,15 @@ void CGraphicsRectItem::initRect()
     // handles
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this);
+        CSizeHandleRect *shr = nullptr;
+        if (i == CSizeHandleRect::Rotation) {
+            QPixmap rotaImage(":/theme/resources/icon_rotate.svg");
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this, rotaImage);
+        } else {
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this);
+        }
         m_handles.push_back(shr);
+
     }
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -63,6 +71,9 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    painter->setRenderHint(QPainter::Antialiasing);
+
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawRect(rect());
@@ -163,7 +174,7 @@ void CGraphicsRectItem::updateGeometry()
             hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             break;
         case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - 15 - h / 2);
+            hndl->move(geom.x() + geom.width() / 2 - hndl->rect().width() / 2, geom.y() - 25 - hndl->rect().height() / 2);
             break;
         default:
             break;
