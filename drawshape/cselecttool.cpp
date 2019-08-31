@@ -34,7 +34,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         if ( items.count() != 0 ) {
             QGraphicsItem *item = items.first();
             //需要区别图元或文字
-            if (item->type() > QGraphicsItem::UserType) {
+            if (item->type() != TextType) {
                 m_currentSelectItem = static_cast<CGraphicsItem *>(item);
                 scene->changeAttribute(true, item);
             } else {
@@ -47,6 +47,18 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    // 再判断一次
+    if (m_currentSelectItem == nullptr) {
+        QList<QGraphicsItem *> items = scene->selectedItems();
+        if ( items.count() != 0 ) {
+            QGraphicsItem *item = items.first();
+            //需要区别图元或文字
+            if (item->type() != TextType) {
+                m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                scene->changeAttribute(true, item);
+            }
+        }
+    }
     //碰撞检测
     if (nullptr != m_currentSelectItem && !m_bMousePress) {
         CSizeHandleRect::EDirection dragHandle = m_currentSelectItem->hitTest(event->scenePos());
