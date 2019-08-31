@@ -113,6 +113,12 @@ void CEllipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pEllipseItem != nullptr)
+            scene->removeItem(m_pEllipseItem);
+        delete m_pEllipseItem;
+    }
     m_pEllipseItem = nullptr;
     m_bMousePress = false;
 

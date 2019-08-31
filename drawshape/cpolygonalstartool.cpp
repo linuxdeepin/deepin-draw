@@ -52,6 +52,12 @@ void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDra
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pPolygonalStarItem != nullptr)
+            scene->removeItem(m_pPolygonalStarItem);
+        delete m_pPolygonalStarItem;
+    }
     m_pPolygonalStarItem = nullptr;
     m_bMousePress = false;
 }

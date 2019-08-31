@@ -114,6 +114,12 @@ void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pPolygonItem != nullptr)
+            scene->removeItem(m_pPolygonItem);
+        delete m_pPolygonItem;
+    }
     m_pPolygonItem = nullptr;
     m_bMousePress = false;
 

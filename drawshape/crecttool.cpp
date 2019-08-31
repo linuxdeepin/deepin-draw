@@ -113,6 +113,12 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pRectItem != nullptr)
+            scene->removeItem(m_pRectItem);
+        delete m_pRectItem;
+    }
     m_pRectItem = nullptr;
     m_bMousePress = false;
 

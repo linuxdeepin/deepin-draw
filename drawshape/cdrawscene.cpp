@@ -118,6 +118,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if ( nullptr != pTool ) {
         pTool->mouseReleaseEvent(mouseEvent, this);
     }
+    CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
 }
 
 void CDrawScene::keyPressEvent(QKeyEvent *event)
