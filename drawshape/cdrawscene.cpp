@@ -77,8 +77,11 @@ void CDrawScene::attributeChanged()
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
     if (flag) {
-        CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-        CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
+        //排除文字图元
+        if (selectedItem->type() != TextType) {
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
+        }
         ///特殊属性图元 读取额外的特殊属性并设置到全局属性中
         if (selectedItem->type() == PolygonType) {
             CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
