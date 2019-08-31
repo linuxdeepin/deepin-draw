@@ -1,5 +1,6 @@
 #include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
+#include "cdrawparamsigleton.h"
 #include <QPainter>
 #include <QPixmap>
 
@@ -81,50 +82,342 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 {
     QPointF local = mapFromScene(point);
     QRectF rect = this->rect();
+    QPointF topLeft = rect.topLeft();
+    QPointF centerPoint = rect.center();
+    qreal w = rect.width();
+    qreal h = rect.height();
+    qreal scale = w / h;//长宽比
 
-    switch (dir) {
-    case CSizeHandleRect::Right:
-        if (local.x() - rect.left() > 0.1 ) {
-            rect.setRight(local.x());
+    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+
+    if (!shiftKeyPress && !altKeyPress) {
+        switch (dir) {
+        case CSizeHandleRect::Right:
+            if (local.x() - rect.left() > 0.1 ) {
+                rect.setRight(local.x());
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+                rect.setTopRight(local);
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+                rect.setBottomRight(local);
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+                rect.setBottomLeft(local);
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if (local.y() - rect.top() > 0.1 ) {
+                rect.setBottom(local.y());
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+                rect.setTopLeft(local);
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if (rect.right() - local.x() > 0.1 ) {
+                rect.setLeft(local.x());
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if (local.y() - rect.bottom() < 0.1 ) {
+                rect.setTop(local.y());
+            }
+            break;
+        default:
+            break;
         }
-        break;
-    case CSizeHandleRect::RightTop:
-        if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
-            rect.setTopRight(local);
+    }
+    //按住SHIFT等比拉伸
+    else if ((shiftKeyPress && !altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::Right:
+            if (local.x() - rect.left() > 0.1 ) {
+                //变换后的宽度和高度
+                qreal w2 = local.x() - rect.left();
+                qreal h2 = w2 / scale;
+                topLeft.setY(topLeft.y() - (h2 - h) / 2);
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+                //rect.setTopRight(local);
+                QPointF bottomLeft = rect.bottomLeft();
+                qreal w2 = local.x() - bottomLeft.x();
+                qreal h2 = bottomLeft.y() - local.y();
+
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                topLeft.setY(topLeft.y() - (h2 - h));
+
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+                //rect.setBottomRight(local);
+
+                qreal w2 = local.x() - topLeft.x();
+                qreal h2 = local.y() - topLeft.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+                //rect.setBottomLeft(local);
+                QPointF topRight = rect.topRight();
+                qreal w2 = topRight.x() - local.x();
+                qreal h2 = local.y() - topRight.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                topLeft.setX(topRight.x() - w2);
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if (local.y() - rect.top() > 0.1 ) {
+                //rect.setBottom(local.y());
+                qreal h2 = local.y() - topLeft.y();
+                qreal w2 = h2 * scale;
+                topLeft.setX(topLeft.x() - (w2 - w) / 2);
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+                //rect.setTopLeft(local);
+                QPointF bottomRight = rect.bottomRight();
+                qreal w2 = bottomRight.x() - local.x();
+                qreal h2 = bottomRight.y() - local.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                topLeft = bottomRight - QPointF(w2, h2);
+                rect.setTopLeft(topLeft);
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if (rect.right() - local.x() > 0.1 ) {
+                //rect.setLeft(local.x());
+                qreal w2 = rect.right() - local.x();
+                qreal h2 = w2 / scale;
+                topLeft.setX(local.x());
+                topLeft.setY(topLeft.y() - (h2 - h) / 2);
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if (local.y() - rect.bottom() < 0.1 ) {
+                //rect.setTop(local.y());
+
+                qreal h2 = rect.bottom() - local.y();
+                qreal w2 = h2 * scale;
+                topLeft.setX(topLeft.x() - (w2 - w) / 2);
+                topLeft.setY(local.y());
+                rect.setTopLeft(topLeft);
+                rect.setWidth(w2);
+                rect.setHeight(h2);
+            }
+            break;
+        default:
+            break;
         }
-        break;
-    case CSizeHandleRect::RightBottom:
-        if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
-            rect.setBottomRight(local);
+    }
+    //中心拉伸
+    else if ((!shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::Right:
+            if (local.x() - rect.left() > 0.1 ) {
+                //rect.setRight(local.x());
+                rect.setRight(local.x());
+                rect.setLeft(centerPoint.x() * 2 - local.x());
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+                rect.setTopRight(local);
+                rect.setBottomLeft(2 * centerPoint - local);
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+                rect.setBottomRight(local);
+                rect.setTopLeft(2 * centerPoint - local);
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+                rect.setBottomLeft(local);
+                rect.setTopRight(2 * centerPoint - local);
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if (local.y() - rect.top() > 0.1 ) {
+                //rect.setBottom(local.y());
+                rect.setBottom(local.y());
+                rect.setTop(centerPoint.y() * 2 - local.y());
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+                rect.setTopLeft(local);
+                rect.setBottomRight(2 * centerPoint - local);
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if (rect.right() - local.x() > 0.1 ) {
+                rect.setLeft(local.x());
+                rect.setRight(2 * centerPoint.x() - local.x());
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if (local.y() - rect.bottom() < 0.1 ) {
+                rect.setTop(local.y());
+                rect.setBottom(2 * centerPoint.y() - local.y());
+            }
+            break;
+        default:
+            break;
         }
-        break;
-    case CSizeHandleRect::LeftBottom:
-        if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
-            rect.setBottomLeft(local);
+    }
+    //等比中心拉伸
+    else if ((shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::Right:
+            if (local.x() - rect.left() > 0.1 ) {
+                //变换后的宽度和高度
+                qreal h2 = local.x() - centerPoint.x();
+                qreal w2 = h2 * scale;
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+                qreal w2 = local.x() - centerPoint.x();
+                qreal h2 = centerPoint.y() - local.y();
+
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+                //rect.setBottomRight(local);
+
+                qreal w2 = local.x() - centerPoint.x();
+                qreal h2 = local.y() - centerPoint.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+
+                qreal w2 = centerPoint.x() - local.x();
+                qreal h2 = local.y() - centerPoint.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if (local.y() - rect.top() > 0.1 ) {
+                qreal h2 = local.y() - centerPoint.y();
+                qreal w2 = h2 * scale;
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+                qreal w2 = centerPoint.x() - local.x();
+                qreal h2 = centerPoint.y() - local.y();
+                if (h2 * scale >= w2) {
+                    w2 = h2 * scale;
+                } else {
+                    h2 = w2 / scale;
+                }
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if (rect.right() - local.x() > 0.1 ) {
+                qreal w2 = centerPoint.x() - local.x();
+                qreal h2 = w2 / scale;
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if (local.y() - rect.bottom() < 0.1 ) {
+                qreal h2 = centerPoint.y() - local.y();
+                qreal w2 = h2 * scale;
+                QPointF topLeft = centerPoint - QPointF(w2, h2);
+                QPointF rightBottom = centerPoint + QPointF(w2, h2);
+                rect = QRectF(topLeft, rightBottom);
+            }
+            break;
+        default:
+            break;
         }
-        break;
-    case CSizeHandleRect::Bottom:
-        if (local.y() - rect.top() > 0.1 ) {
-            rect.setBottom(local.y());
-        }
-        break;
-    case CSizeHandleRect::LeftTop:
-        if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
-            rect.setTopLeft(local);
-        }
-        break;
-    case CSizeHandleRect::Left:
-        if (local.x() - rect.right() < 0.1 ) {
-            rect.setLeft(local.x());
-        }
-        break;
-    case CSizeHandleRect::Top:
-        if (local.y() - rect.bottom() < 0.1 ) {
-            rect.setTop(local.y());
-        }
-        break;
-    default:
-        break;
     }
 
     rect = rect.normalized();
