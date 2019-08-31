@@ -12,6 +12,7 @@
 #include "ccentralwidget.h"
 #include "toptoolbar.h"
 #include "clefttoolbar.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 
 
@@ -118,6 +119,33 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if ( event->key() == Qt::Key_Shift) {
+        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(true);
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
+        CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
+    } else {
+        ;
+    }
+    DMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if ( event->key() == Qt::Key_Shift) {
+        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(false);
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
+        CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
+    } else {
+        ;
+    }
+    DMainWindow::keyReleaseEvent(event);
+}
 
 MainWindow::~MainWindow()
 {

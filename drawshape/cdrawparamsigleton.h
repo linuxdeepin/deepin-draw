@@ -53,6 +53,12 @@ public:
     QFont getTextFont() const;
     void setTextFont(const QFont &textFont);
 
+    void setShiftKeyStatus(bool flag);
+    bool getShiftKeyStatus();
+
+    void setAltKeyStatus(bool flag);
+    bool getAltKeyStatus();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -68,6 +74,10 @@ private:
     QFont m_textFont; //文本字体
 
     EDrawToolMode m_currentDrawToolMode;
+
+    //按键状态
+    bool m_bShiftKeyPress;
+    bool m_bAltKeyPress;
 };
 
 

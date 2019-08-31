@@ -14,12 +14,6 @@ public:
     explicit CDrawScene(QObject *parent = nullptr);
 
     /**
-     * @brief mouseEvent 从绘图工具返回鼠标事件
-     * @param mouseEvent
-     */
-    void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent );
-
-    /**
      * @brief keyEvent 从绘图工具返回键盘事件
      * @param keyEvent
      */
@@ -40,6 +34,11 @@ public:
      */
     void changeAttribute(bool flag, QGraphicsItem *selectedItem);
 
+    /**
+     * @brief mouseEvent 鼠标事件
+     * @param mouseEvent
+     */
+    void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -53,8 +52,6 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 };
 

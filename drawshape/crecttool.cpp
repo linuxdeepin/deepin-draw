@@ -38,8 +38,10 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
+        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
         //按下SHIFT键
-        if (m_bShiftKeyPress && !m_bAltKeyPress) {
+        if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
@@ -63,7 +65,7 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 
         }
         //按下ALT键
-        else if (!m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (!shiftKeyPress && altKeyPress) {
 
             QPointF point1 = pointMouse;
             QPointF centerPoint = m_sPointPress;
@@ -72,7 +74,7 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
             resultRect = rectF.normalized();
         }
         //ALT SHIFT都按下
-        else if (m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (shiftKeyPress && altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
