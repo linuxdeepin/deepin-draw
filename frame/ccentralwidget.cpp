@@ -68,8 +68,10 @@ void CCentralwidget::getPicPath(QStringList pathList)
 void CCentralwidget::addImageItem( QPixmap pixMap)
 {
 
-    //qDebug() << "entered the  addImageItem function" << endl;
-    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixMap);
+    // qDebug() << "entered the  addImageItem function" << m_pGraphicsView->width() << m_pGraphicsView->height() << pixMap.width() << pixMap.height() << m_pDrawScene->width() << m_pDrawScene->height() << endl;
+    QPixmap pixmapToShow = pixMap.scaled( m_pGraphicsView->width(), m_pGraphicsView->height(), Qt::KeepAspectRatio);
+    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixmapToShow);
+    // qDebug() << "pixmapItem->boundingRect()" << pixmapItem->boundingRect() << endl;
     m_pDrawScene->addItem(pixmapItem);
 }
 

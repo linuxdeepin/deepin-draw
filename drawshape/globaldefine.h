@@ -43,6 +43,7 @@ enum EGraphicUserType {
     LineType,           //线
     PenType,            //画笔
     TextType,           //文本
+    PictureType,        //图片
 };
 
 #endif // GLODEFINE_H

@@ -22,6 +22,8 @@ HEADERS += \
     $$PWD/cgraphicspolygonitem.h \
     $$PWD/cgraphicspolygonalstaritem.h \
     $$PWD/cpolygonalstartool.h \
+    $$PWD/cpicturetool.h \
+    $$PWD/cpictureitem.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -45,7 +47,9 @@ SOURCES += \
     $$PWD/cpolygontool.cpp \
     $$PWD/cgraphicspolygonitem.cpp  \
     $$PWD/cgraphicspolygonalstaritem.cpp \
-    $$PWD/cpolygonalstartool.cpp
+    $$PWD/cpolygonalstartool.cpp \
+    $$PWD/cpicturetool.cpp \
+    $$PWD/cpictureitem.cpp
 
 
 #RESOURCES += \

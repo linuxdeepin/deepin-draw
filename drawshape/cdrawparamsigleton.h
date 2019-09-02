@@ -57,6 +57,7 @@ private:
     int m_nlineWidth;
     QColor m_sLineColor;
     QColor m_nFillColor;
+    //QStringList m_picturePathList;
 
     int m_radiusNum; //多角星半径
     int m_anchorNum;//多角星锚点数
