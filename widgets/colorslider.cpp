@@ -6,7 +6,8 @@
 #include <QStyle>
 
 ColorSlider::ColorSlider(QWidget *parent)
-    : QSlider(parent) {
+    : DSlider(parent)
+{
     setMinimum(0);
     setMaximum(360);
     setOrientation(Qt::Horizontal);
@@ -23,30 +24,32 @@ ColorSlider::~ColorSlider()
 }
 
 //h∈(0, 360), s∈(0, 1), v∈(0, 1)
-QColor ColorSlider::getColor(qreal h, qreal s, qreal v) {
-    int hi = int(h/60)%6;
-    qreal f = h/60 - hi;
+QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
+{
+    int hi = int(h / 60) % 6;
+    qreal f = h / 60 - hi;
 
-    qreal p = v*(1 - s);
-    qreal q = v*(1 - f*s);
-    qreal t = v*(1- (1 - f)*s);
+    qreal p = v * (1 - s);
+    qreal q = v * (1 - f * s);
+    qreal t = v * (1 - (1 - f) * s);
 
     if (hi == 0) {
-        return QColor(std::min(int(255*v), 255), std::min(int(255*t), 255), std::min(int(255*p), 255));
+        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
     } else if (hi == 1) {
-        return QColor(std::min(int(255*q), 255), std::min(int(255*v), 255), std::min(int(255*p), 255));
-    } else if(hi == 2) {
-        return QColor(std::min(int(255*p), 255), std::min(int(255*v), 255), std::min(int(255*t), 255));
+        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
+    } else if (hi == 2) {
+        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
     } else if (hi == 3) {
-        return QColor(std::min(int(255*p), 255), std::min(int(255*q), 255), std::min(int(255*v), 255));
-    } else if(hi == 4) {
-        return QColor(std::min(int(255*t), 255), std::min(int(255*p), 255), std::min(int(255*v), 255));
+        return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
+    } else if (hi == 4) {
+        return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
     } else {
-        return QColor(std::min(int(255*v), 255), std::min(int(255*p), 255), int(255*q));
+        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
     }
 }
 
-void ColorSlider::paintEvent(QPaintEvent *ev) {
+void ColorSlider::paintEvent(QPaintEvent *ev)
+{
     QStyleOptionSlider opt;
     initStyleOption(&opt);
 
@@ -62,15 +65,15 @@ void ColorSlider::paintEvent(QPaintEvent *ev) {
     painter.setRenderHint(QPainter::Antialiasing);
     QImage backgroundImage(rect.width(), rect.height() - spacing, QImage::Format_ARGB32);
 
-    for(qreal s = 0; s <= backgroundImage.width(); s++) {
-        for(qreal v = 0; v <= backgroundImage.height(); v++) {
-            QColor penColor = getColor(qreal(int(s/rect.width()*360)), 1, 1);
+    for (qreal s = 0; s <= backgroundImage.width(); s++) {
+        for (qreal v = 0; v <= backgroundImage.height(); v++) {
+            QColor penColor = getColor(qreal(int(s / rect.width() * 360)), 1, 1);
             backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
         }
     }
 
     painter.drawImage(QRect(rect.x(), rect.y() + 2, rect.width(),
-                                    rect.height() - spacing), backgroundImage);
+                            rect.height() - spacing), backgroundImage);
     QPen borderPen;
     borderPen.setWidth(1);
     borderPen.setColor(QColor(0, 0, 0, 26));
