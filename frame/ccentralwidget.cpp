@@ -159,6 +159,6 @@ void CCentralwidget::initConnect()
     connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
-
+    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
 
 }

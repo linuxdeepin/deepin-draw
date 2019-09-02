@@ -56,6 +56,11 @@ public slots:
     void updateMiddleWidget(int type);
     void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     void updateColorPanelVisible(QPoint pos);
+    /**
+     * @brief slotChangeAttributeFromScene 根据选中的图元更新属性栏
+     * @param flag
+     * @param primitiveType
+     */
     void slotChangeAttributeFromScene(bool flag, int primitiveType);
 
 protected:

@@ -39,8 +39,10 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
+        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
         //按下SHIFT键
-        if (m_bShiftKeyPress && !m_bAltKeyPress) {
+        if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
@@ -64,7 +66,7 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
 
         }
         //按下ALT键
-        else if (!m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (!shiftKeyPress && altKeyPress) {
 
             QPointF point1 = pointMouse;
             QPointF centerPoint = m_sPointPress;
@@ -73,7 +75,157 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
             resultRect = rectF.normalized();
         }
         //ALT SHIFT都按下
-        else if (m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (shiftKeyPress && altKeyPress) {
+            QPointF resultPoint = pointMouse;
+            qreal w = resultPoint.x() - m_sPointPress.x();
+            qreal h = resultPoint.y() - m_sPointPress.y();
+            qreal abslength = abs(w) - abs(h);
+            if (abslength >= 0.1) {
+                if (h >= 0) {
+                    resultPoint.setY(m_sPointPress.y() + abs(w));
+                } else {
+                    resultPoint.setY(m_sPointPress.y() - abs(w));
+                }
+
+            } else {
+                if (w >= 0) {
+                    resultPoint.setX(m_sPointPress.x() + abs(h));
+                } else {
+                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                }
+            }
+
+            QPointF point1 = resultPoint;
+            QPointF centerPoint = m_sPointPress;
+            QPointF point2 = 2 * centerPoint - point1;
+            QRectF rectF(point1, point2);
+            resultRect = rectF.normalized();
+
+        }
+        //都没按下
+        else {
+            QPointF resultPoint = pointMouse;
+            QRectF rectF(m_sPointPress, resultPoint);
+            resultRect = rectF.normalized();
+        }
+        m_pTriangleItem->setRect(resultRect);
+    }
+    Q_UNUSED(scene)
+    if (m_bMousePress) {
+        QPointF pointMouse = event->scenePos();
+        QRectF resultRect;
+        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        //按下SHIFT键
+        if (shiftKeyPress && !altKeyPress) {
+            QPointF resultPoint = pointMouse;
+            qreal w = resultPoint.x() - m_sPointPress.x();
+            qreal h = resultPoint.y() - m_sPointPress.y();
+            qreal abslength = abs(w) - abs(h);
+            if (abslength >= 0.1) {
+                if (h >= 0) {
+                    resultPoint.setY(m_sPointPress.y() + abs(w));
+                } else {
+                    resultPoint.setY(m_sPointPress.y() - abs(w));
+                }
+
+            } else {
+                if (w >= 0) {
+                    resultPoint.setX(m_sPointPress.x() + abs(h));
+                } else {
+                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                }
+            }
+            QRectF rectF(m_sPointPress, resultPoint);
+            resultRect = rectF.normalized();
+
+        }
+        //按下ALT键
+        else if (!shiftKeyPress && altKeyPress) {
+
+            QPointF point1 = pointMouse;
+            QPointF centerPoint = m_sPointPress;
+            QPointF point2 = 2 * centerPoint - point1;
+            QRectF rectF(point1, point2);
+            resultRect = rectF.normalized();
+        }
+        //ALT SHIFT都按下
+        else if (shiftKeyPress && altKeyPress) {
+            QPointF resultPoint = pointMouse;
+            qreal w = resultPoint.x() - m_sPointPress.x();
+            qreal h = resultPoint.y() - m_sPointPress.y();
+            qreal abslength = abs(w) - abs(h);
+            if (abslength >= 0.1) {
+                if (h >= 0) {
+                    resultPoint.setY(m_sPointPress.y() + abs(w));
+                } else {
+                    resultPoint.setY(m_sPointPress.y() - abs(w));
+                }
+
+            } else {
+                if (w >= 0) {
+                    resultPoint.setX(m_sPointPress.x() + abs(h));
+                } else {
+                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                }
+            }
+
+            QPointF point1 = resultPoint;
+            QPointF centerPoint = m_sPointPress;
+            QPointF point2 = 2 * centerPoint - point1;
+            QRectF rectF(point1, point2);
+            resultRect = rectF.normalized();
+
+        }
+        //都没按下
+        else {
+            QPointF resultPoint = pointMouse;
+            QRectF rectF(m_sPointPress, resultPoint);
+            resultRect = rectF.normalized();
+        }
+        m_pTriangleItem->setRect(resultRect);
+    }
+    Q_UNUSED(scene)
+    if (m_bMousePress) {
+        QPointF pointMouse = event->scenePos();
+        QRectF resultRect;
+        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        //按下SHIFT键
+        if (shiftKeyPress && !altKeyPress) {
+            QPointF resultPoint = pointMouse;
+            qreal w = resultPoint.x() - m_sPointPress.x();
+            qreal h = resultPoint.y() - m_sPointPress.y();
+            qreal abslength = abs(w) - abs(h);
+            if (abslength >= 0.1) {
+                if (h >= 0) {
+                    resultPoint.setY(m_sPointPress.y() + abs(w));
+                } else {
+                    resultPoint.setY(m_sPointPress.y() - abs(w));
+                }
+
+            } else {
+                if (w >= 0) {
+                    resultPoint.setX(m_sPointPress.x() + abs(h));
+                } else {
+                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                }
+            }
+            QRectF rectF(m_sPointPress, resultPoint);
+            resultRect = rectF.normalized();
+
+        }
+        //按下ALT键
+        else if (!shiftKeyPress && altKeyPress) {
+
+            QPointF point1 = pointMouse;
+            QPointF centerPoint = m_sPointPress;
+            QPointF point2 = 2 * centerPoint - point1;
+            QRectF rectF(point1, point2);
+            resultRect = rectF.normalized();
+        }
+        //ALT SHIFT都按下
+        else if (shiftKeyPress && altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
@@ -114,6 +266,12 @@ void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScen
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pTriangleItem != nullptr)
+            scene->removeItem(m_pTriangleItem);
+        delete m_pTriangleItem;
+    }
     m_pTriangleItem = nullptr;
     m_bMousePress = false;
 }

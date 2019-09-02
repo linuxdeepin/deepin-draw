@@ -46,6 +46,10 @@ signals:
      * @param primitiveType 图元类型
      */
     void signalAttributeChanged(bool flag, int primitiveType);
+    /**
+     * @brief signalChangeToSelect 发送工具栏切换为选择的信号
+     */
+    void signalChangeToSelect();
 
 protected:
 

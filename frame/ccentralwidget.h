@@ -30,7 +30,11 @@ public:
 signals:
     void sendImageItem(QPixmap pixMap);
     void loadImageNum(int num);
+    /**
+     * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号
+     */
     void signalAttributeChangedFromScene(bool, int);
+
 
 
 public slots:
