@@ -41,6 +41,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 m_currentSelectItem = nullptr;
             }
             //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
+        } else {
+            m_currentSelectItem = nullptr;
         }
     }
 }
