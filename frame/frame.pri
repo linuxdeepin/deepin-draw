@@ -1,7 +1,6 @@
 HEADERS += \
     $$PWD/adjustsizewidget.h \
     $$PWD/blurwidget.h \
-    $$PWD/cutwidget.h \
     $$PWD/linewidget.h \
     $$PWD/textwidget.h \
     $$PWD/toptoolbar.h \
@@ -9,15 +8,15 @@ HEADERS += \
     $$PWD/polygonalstarattributewidget.h \
     $$PWD/commonshapewidget.h \
     $$PWD/polygonattributewidget.h \
-    $$PWD/ailoringwidget.h \
     $$PWD/ccentralwidget.h \
     $$PWD/clefttoolbar.h \
-    $$PWD/cpenwidget.h
+    $$PWD/cpenwidget.h \
+    $$PWD/ccutwidget.h \
+    $$PWD/cpicturewidget.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
     $$PWD/blurwidget.cpp \
-    $$PWD/cutwidget.cpp \
     $$PWD/linewidget.cpp \
     $$PWD/textwidget.cpp \
     $$PWD/toptoolbar.cpp \
@@ -25,10 +24,11 @@ SOURCES += \
     $$PWD/polygonalstarattributewidget.cpp \
     $$PWD/commonshapewidget.cpp \
     $$PWD/polygonattributewidget.cpp \
-    $$PWD/ailoringwidget.cpp \
     $$PWD/ccentralwidget.cpp \
     $$PWD/clefttoolbar.cpp \
-    $$PWD/cpenwidget.cpp
+    $$PWD/cpenwidget.cpp \
+    $$PWD/ccutwidget.cpp \
+    $$PWD/cpicturewidget.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

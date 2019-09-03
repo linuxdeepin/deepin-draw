@@ -8,9 +8,9 @@
 #include "commonshapewidget.h"
 #include "polygonalstarattributewidget.h"
 #include "polygonattributewidget.h"
-#include "ailoringwidget.h"
+#include "ccutwidget.h"
 #include "linewidget.h"
-#include "cutwidget.h"
+#include "cpicturewidget.h"
 #include "textwidget.h"
 #include "cpenwidget.h"
 #include "blurwidget.h"
@@ -19,7 +19,6 @@
 #include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
-#include "utils/global.h"
 #include "utils/tempfile.h"
 
 
@@ -81,10 +80,6 @@ void TopToolbar::initStackWidget()
     m_emptyWidget = new QWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
 
-    //cut
-    m_cutWidget = new CutWidget(this);
-    m_stackWidget->addWidget(m_cutWidget);
-
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
     qApp->setProperty("_d_isDxcb", false);
@@ -96,6 +91,11 @@ void TopToolbar::initStackWidget()
     m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->hide();
+
+
+    //cut
+    m_picWidget = new CPictureWidget(this);
+    m_stackWidget->addWidget(m_picWidget);
 
     //rectangle, triangle,oval
     m_commonShapeWidget = new CommonshapeWidget(this);
@@ -127,8 +127,8 @@ void TopToolbar::initStackWidget()
     m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
 
-    m_ailoringWidget = new AiloringWidget(this);
-    m_stackWidget->addWidget(m_ailoringWidget);
+    m_cutWidget = new CCutWidget(this);
+    m_stackWidget->addWidget(m_cutWidget);
 
     //process  artboard's size.
 //    m_adjustsizeWidget = new AdjustsizeWidget(this);
@@ -177,11 +177,13 @@ void TopToolbar::showSaveDialog()
     sd->showInCenter(window());
 }
 
+
+
 void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
     case::importPicture:
-        m_stackWidget->setCurrentWidget(m_cutWidget);
+        m_stackWidget->setCurrentWidget(m_picWidget);
         break;
     case::rectangle:
     case::ellipse:
@@ -213,7 +215,7 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
         break;
     case::cut:
-        m_stackWidget->setCurrentWidget(m_ailoringWidget);
+        m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
     default:
         break;
@@ -292,6 +294,9 @@ void TopToolbar::initConnection()
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
+
+    ///picture
+    connect(m_picWidget, &CPictureWidget::signalBtnClick, this, &TopToolbar::signalPassPictureOperation);
 
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);

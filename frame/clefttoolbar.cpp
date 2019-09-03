@@ -193,7 +193,6 @@ void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
 
 void CLeftToolBar::importImage()
 {
-    qDebug() << "importImage begin" << endl;
     DFileDialog *fileDialog = new DFileDialog(this);
     QStringList filters;
     filters << "Image files (*.png *.jpg *.bmp *.tif *.pdf *.ddf)";
@@ -201,13 +200,16 @@ void CLeftToolBar::importImage()
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
 
     if (fileDialog->exec() ==   QDialog::Accepted) {
+
+
         QStringList filenames = fileDialog->selectedFiles();
         qDebug() << filenames << endl;
         emit sendPicPath(filenames);
 
+        emit setCurrentDrawTool(importPicture);
+
     }
     m_picBtn->setChecked(false);
-
 }
 
 void CLeftToolBar::initConnection()
@@ -215,9 +217,8 @@ void CLeftToolBar::initConnection()
 
     connect(m_picBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
-        emit setCurrentDrawTool(importPicture);
-        importImage();
 
+        importImage();
     });
 
     //链接图片导入按钮和图片导入功能

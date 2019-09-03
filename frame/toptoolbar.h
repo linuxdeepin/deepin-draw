@@ -18,10 +18,10 @@ DWIDGET_USE_NAMESPACE
 class CommonshapeWidget;
 class PolygonalStarAttributeWidget;
 class PolygonAttributeWidget;
-class AiloringWidget;
+class CCutWidget;
 class CPenWidget;
 class LineWidget;
-class CutWidget;
+class CPictureWidget;
 class TextWidget;
 class BlurWidget;
 class AdjustsizeWidget;
@@ -44,6 +44,7 @@ signals:
     void printImage();
     void importPicBtnClicked();
     void signalAttributeChanged();
+    void signalPassPictureOperation(int);
 
 public:
 //    void showDrawDialog();
@@ -75,8 +76,8 @@ private:
     CommonshapeWidget *m_commonShapeWidget;
     PolygonalStarAttributeWidget *m_polygonalStarWidget;
     PolygonAttributeWidget *m_PolygonWidget;
-    AiloringWidget *m_ailoringWidget;
-    CutWidget *m_cutWidget;
+    CCutWidget *m_cutWidget;
+    CPictureWidget *m_picWidget;
     LineWidget *m_drawLineWidget;
     TextWidget *m_drawTextWidget;
     BlurWidget *m_drawBlurWidget;

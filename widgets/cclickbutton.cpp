@@ -3,13 +3,25 @@
 #include <QPainter>
 #include <QDebug>
 
-CClickButton::CClickButton(const QMap<CClickBtnSatus, QString> &pictureMap, QWidget *parent) :
+CClickButton::CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, QWidget *parent) :
     DPushButton(parent),
     m_currentStatus(Normal),
     m_pictureMap(pictureMap)
 {
     m_currentPicture = m_pictureMap[m_currentStatus];
+}
 
+void CClickButton::setDisable(bool isDisable)
+{
+    if (isDisable) {
+        m_currentStatus = Disable;
+
+    } else {
+        m_currentStatus = Normal;
+    }
+    update();
+
+    setEnabled(!isDisable);
 }
 
 

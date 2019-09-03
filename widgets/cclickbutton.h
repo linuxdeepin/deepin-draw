@@ -9,15 +9,16 @@ class CClickButton : public DPushButton
 {
     Q_OBJECT
 public:
-    enum CClickBtnSatus {
+    enum EClickBtnSatus {
         Normal,
         Hover,
-        Press
+        Press,
+        Disable
     };
 
 public:
-    explicit CClickButton(const QMap<CClickBtnSatus, QString> &pictureMap, QWidget *parent = nullptr );
-
+    explicit CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, QWidget *parent = nullptr );
+    void setDisable(bool);
 
 signals:
     void buttonClick();
@@ -31,11 +32,11 @@ protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    CClickBtnSatus m_currentStatus;
+    EClickBtnSatus m_currentStatus;
 
     QPixmap m_currentPicture;
 
-    QMap<CClickBtnSatus, QString> m_pictureMap;
+    QMap<EClickBtnSatus, QString> m_pictureMap;
 };
 
 #endif // CCLICKBUTTON_H
