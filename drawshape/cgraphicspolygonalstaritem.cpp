@@ -68,10 +68,18 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawPolygon(m_polygon);
+
+    if (this->isSelected()) {
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->setPen(pen);
+        painter->drawRect(this->boundingRect());
+    }
 }
 
 int CGraphicsPolygonalStarItem::innerRadius() const

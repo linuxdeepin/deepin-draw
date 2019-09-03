@@ -31,6 +31,7 @@ CLeftToolBar::~CLeftToolBar()
 
 void CLeftToolBar::initUI()
 {
+    setFixedWidth(58);
 
     QMap<CPushButton::CButtonSattus, QString> pictureMap;
 
@@ -136,10 +137,10 @@ void CLeftToolBar::initUI()
     m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
 
-
-
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
+    m_layout->setSpacing(0);
+    m_layout->addStretch();
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_picBtn);
     m_layout->addSpacing(BTN_SPACING);
@@ -162,7 +163,9 @@ void CLeftToolBar::initUI()
     m_layout->addWidget(m_blurBtn);
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_cutBtn);
-    m_layout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding));
+    m_layout->setContentsMargins(5, 0, 5, 0);
+    m_layout->addStretch();
+//    m_layout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding));
 
     setLayout(m_layout);
 }
@@ -190,7 +193,6 @@ void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
 
 void CLeftToolBar::importImage()
 {
-    qDebug() << "importImage begin" << endl;
     DFileDialog *fileDialog = new DFileDialog(this);
     QStringList filters;
     filters << "Image files (*.png *.jpg *.bmp *.tif *.pdf *.ddf)";
@@ -198,13 +200,16 @@ void CLeftToolBar::importImage()
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
 
     if (fileDialog->exec() ==   QDialog::Accepted) {
+
+
         QStringList filenames = fileDialog->selectedFiles();
         qDebug() << filenames << endl;
         emit sendPicPath(filenames);
 
+        emit setCurrentDrawTool(importPicture);
+
     }
     m_picBtn->setChecked(false);
-
 }
 
 void CLeftToolBar::initConnection()
@@ -212,13 +217,11 @@ void CLeftToolBar::initConnection()
 
     connect(m_picBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
-        emit setCurrentDrawTool(importPicture);
-        importImage();
 
+        importImage();
     });
 
-    //链接图片导入按钮和图片导入功能
-    // connect(m_picBtn, SIGNAL(clicked()), this, SLOT(importImage()));
+
 
 
     connect(m_rectBtn, &CPushButton::buttonClick, [this]() {
@@ -304,7 +307,6 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygon, pTool);
     pTool = CDrawToolFactory::Create(polygonalStar);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygonalStar, pTool);
-    pTool = CDrawToolFactory::Create(importPicture);
-    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(importPicture, pTool);
-
+    pTool = CDrawToolFactory::Create(pen);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(pen, pTool);
 }

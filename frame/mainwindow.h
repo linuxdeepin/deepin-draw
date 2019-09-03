@@ -22,7 +22,7 @@ public:
     void showDrawDialog();
 signals:
     void signalResetOriginPoint();
-    //void picMirrorWindow(bool hor,bool ver);
+
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

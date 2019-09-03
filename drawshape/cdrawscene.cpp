@@ -6,11 +6,15 @@
 #include "globaldefine.h"
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
+#include "cgraphicstextitem.h"
+#include "frame/cpicturewidget.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
 #include <QGraphicsView>
 #include <drawshape/cpictureitem.h>
+
 
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
@@ -50,8 +54,14 @@ void CDrawScene::attributeChanged()
 
     QGraphicsItem *item = nullptr;
     foreach (item, items) {
-        static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        if (item->type() != TextType) {
+            static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
+            static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        }
+
+        if (item->type() == TextType) {
+            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        }
         if (item->type() == PolygonType) {
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
         } else if (item->type() == PolygonalStarType) {
@@ -109,40 +119,40 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     emit signalChangeToSelect();
 }
 
-void CDrawScene::picMirrorScene(bool hor, bool ver)
-{
-    qDebug() << "entered the  picMirrorScene function" << endl;
-    QList<QGraphicsItem *> items = this->selectedItems();
 
+
+void CDrawScene::picOperation(int enumstyle)
+{
+
+    qDebug() << "entered the  picOperation function" << endl;
+    QList<QGraphicsItem *> items = this->selectedItems();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
         //需要区别图元或文字
         if (item->type() == PictureType) {
             CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
             if (pictureItem != nullptr) {
-                pictureItem->setMirror(hor, ver);
+                switch (enumstyle) {
+                case CPictureWidget::LeftRotate:
+                    pictureItem->setRotation90(true);
+                    break;
+                case CPictureWidget::RightRotate:
+                    pictureItem->setRotation90(false);
+                    break;
+                case CPictureWidget::FlipHorizontal:
+                    pictureItem->setMirror(false, true);
+                    break;
+                case CPictureWidget::FlipVertical:
+                    pictureItem->setMirror(true, false);
+                    break;
+                default:
+                    break;
+                }
+
             }
         }
 
-
     }
+
 }
 
-void CDrawScene::picRotateScene(bool leftOrRight)
-{
-    qDebug() << "entered the  picRotateScene function" << endl;
-    QList<QGraphicsItem *> items = this->selectedItems();
-
-    if ( items.count() != 0 ) {
-        QGraphicsItem *item = items.first();
-        //需要区别图元或文字
-        if (item->type() == PictureType) {
-            CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
-            if (pictureItem != nullptr) {
-                pictureItem->setRotation90(leftOrRight);
-            }
-        }
-
-
-    }
-}

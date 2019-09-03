@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QList>
+#include <QIcon>
 
 QT_BEGIN_NAMESPACE
 class QFocusEvent;
@@ -12,7 +13,7 @@ class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
 
-enum { SELECTION_HANDLE_SIZE = 6, SELECTION_MARGIN = 10 };
+enum { SELECTION_HANDLE_SIZE = 16, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
 class CSizeHandleRect : public QGraphicsRectItem
@@ -43,7 +44,7 @@ private:
     QSize m_curSize;
     QGraphicsItem *m_resizable;
     ESelectionHandleState m_state;
-    QPixmap m_rotaImage;
+    QIcon m_Image;
 };
 
 

@@ -2,16 +2,15 @@
 #include "application.h"
 
 #include <DApplication>
-#include <DComboBox>
 
 #include <QHBoxLayout>
 
 #include "commonshapewidget.h"
 #include "polygonalstarattributewidget.h"
 #include "polygonattributewidget.h"
-#include "ailoringwidget.h"
+#include "ccutwidget.h"
 #include "linewidget.h"
-#include "cutwidget.h"
+#include "cpicturewidget.h"
 #include "textwidget.h"
 #include "cpenwidget.h"
 #include "blurwidget.h"
@@ -20,10 +19,8 @@
 #include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
-#include "utils/global.h"
 #include "utils/tempfile.h"
 
-DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget *parent)
     : DFrame(parent)
@@ -39,29 +36,42 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
-    DRAW_THEME_INIT_WIDGET("TopToolbar");
-    setObjectName("TopToolbar");
-
     initComboBox();
     initStackWidget();
     initMenu();
 
-    DLabel *logoLabel = new DLabel(this);
-    logoLabel->setFixedSize(QSize(32, 32));
-    logoLabel->setObjectName("LogoLabel");
+    QLabel *logoLable = new QLabel(this);
+    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+    logoLable->setFixedSize(QSize(32, 32));
 
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-    hLayout->addWidget(logoLabel);
+    hLayout->addSpacing(13);
+    hLayout->addWidget(logoLable);
     hLayout->addSpacing(20);
     hLayout->addWidget(m_scaleComboBox);
     hLayout->addSpacing(20);
     hLayout->addWidget(m_stackWidget);
-    hLayout->addStretch();
+    hLayout->setContentsMargins(0, 0, 0, 0);
+//    hLayout->addStretch();
     setLayout(hLayout);
 
+//    m_stackWidget->setStyleSheet("background-color: blue;");
 //    setStyleSheet("background-color: rgb(255, 0, 0);");
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+void TopToolbar::initComboBox()
+{
+    //创建画板放大缩小的combobox
+    m_scaleComboBox = new DComboBox(this);
+    //QComboBox *m_scaleComboBox = new QComboBox(this);
+    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
+    m_scaleComboBox->addItems(scaleList);
+    m_scaleComboBox->setCurrentIndex(1);
+    m_scaleComboBox->setFixedWidth(80);
 }
 
 void TopToolbar::initStackWidget()
@@ -69,10 +79,6 @@ void TopToolbar::initStackWidget()
     m_stackWidget = new QStackedWidget(this);
     m_emptyWidget = new QWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
-
-    //cut
-    m_cutWidget = new CutWidget(this);
-    m_stackWidget->addWidget(m_cutWidget);
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -85,6 +91,11 @@ void TopToolbar::initStackWidget()
     m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->hide();
+
+
+    //cut
+    m_picWidget = new CPictureWidget(this);
+    m_stackWidget->addWidget(m_picWidget);
 
     //rectangle, triangle,oval
     m_commonShapeWidget = new CommonshapeWidget(this);
@@ -116,8 +127,8 @@ void TopToolbar::initStackWidget()
     m_drawBlurWidget = new BlurWidget(this);
     m_stackWidget->addWidget(m_drawBlurWidget);
 
-    m_ailoringWidget = new AiloringWidget(this);
-    m_stackWidget->addWidget(m_ailoringWidget);
+    m_cutWidget = new CCutWidget(this);
+    m_stackWidget->addWidget(m_cutWidget);
 
     //process  artboard's size.
 //    m_adjustsizeWidget = new AdjustsizeWidget(this);
@@ -159,16 +170,6 @@ void TopToolbar::initMenu()
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 }
 
-void TopToolbar::initComboBox()
-{
-    //创建画板放大缩小的combobox
-    m_scaleComboBox = new DComboBox(this);
-    //QComboBox *m_scaleComboBox = new QComboBox(this);
-    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
-    m_scaleComboBox->addItems(scaleList);
-    m_scaleComboBox->setCurrentIndex(1);
-    m_scaleComboBox->setFixedWidth(80);
-}
 
 void TopToolbar::showSaveDialog()
 {
@@ -176,11 +177,13 @@ void TopToolbar::showSaveDialog()
     sd->showInCenter(window());
 }
 
+
+
 void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
     case::importPicture:
-        m_stackWidget->setCurrentWidget(m_cutWidget);
+        m_stackWidget->setCurrentWidget(m_picWidget);
         break;
     case::rectangle:
     case::ellipse:
@@ -212,7 +215,7 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
         break;
     case::cut:
-        m_stackWidget->setCurrentWidget(m_ailoringWidget);
+        m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
     default:
         break;
@@ -292,6 +295,9 @@ void TopToolbar::initConnection()
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
 
+    /////传递图片的旋转和翻转信号
+    connect(m_picWidget, &CPictureWidget::signalBtnClick, this, &TopToolbar::signalPassPictureOperation);
+
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
@@ -325,8 +331,6 @@ void TopToolbar::initConnection()
     //draw blur widget.
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 
-    //draw picture
-    connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::pictureMirror);
-    connect(m_cutWidget, &CutWidget::rotateLeftOrRight, this, &TopToolbar::pictureRotate);
+
 }
 

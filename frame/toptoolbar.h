@@ -13,16 +13,15 @@
 #include <QKeyEvent>
 
 
-
 DWIDGET_USE_NAMESPACE
 
 class CommonshapeWidget;
 class PolygonalStarAttributeWidget;
 class PolygonAttributeWidget;
-class AiloringWidget;
+class CCutWidget;
 class CPenWidget;
 class LineWidget;
-class CutWidget;
+class CPictureWidget;
 class TextWidget;
 class BlurWidget;
 class AdjustsizeWidget;
@@ -45,8 +44,9 @@ signals:
     void printImage();
     void importPicBtnClicked();
     void signalAttributeChanged();
-    void pictureMirror(bool hor, bool ver);
-    void pictureRotate(bool leftOrRight);
+    //传递图片的旋转和翻转信号
+    void signalPassPictureOperation(int);
+
 
 public:
 //    void showDrawDialog();
@@ -78,8 +78,8 @@ private:
     CommonshapeWidget *m_commonShapeWidget;
     PolygonalStarAttributeWidget *m_polygonalStarWidget;
     PolygonAttributeWidget *m_PolygonWidget;
-    AiloringWidget *m_ailoringWidget;
-    CutWidget *m_cutWidget;
+    CCutWidget *m_cutWidget;
+    CPictureWidget *m_picWidget;
     LineWidget *m_drawLineWidget;
     TextWidget *m_drawTextWidget;
     BlurWidget *m_drawBlurWidget;
@@ -89,16 +89,16 @@ private:
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
-
-    DMenu *m_mainMenu;
     DComboBox  *m_scaleComboBox;
+    DMenu *m_mainMenu;
+
 
 private:
     void initUI();
     void initConnection();
-    void initComboBox();
     void initStackWidget();
     void initMenu();
+    void initComboBox();
 };
 
 #endif // TOPTOOLBAR_H

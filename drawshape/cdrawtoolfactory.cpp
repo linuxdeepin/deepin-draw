@@ -7,6 +7,8 @@
 #include "ctexttool.h"
 #include "cpolygontool.h"
 #include "cpolygonalstartool.h"
+#include "cpentool.h"
+
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
 {
@@ -36,6 +38,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case polygonalStar:
         pTool = new CPolygonalStarTool();
+        break;
+    case pen:
+        pTool = new CPenTool();
         break;
     default:
         break;

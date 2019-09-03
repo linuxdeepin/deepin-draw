@@ -30,8 +30,8 @@ public:
 signals:
     void sendImageItem(QPixmap pixMap);
     void loadImageNum(int num);
-    void picMirrorWidget(bool hor, bool ver);
-    void picRotateWidget(bool leftOrRight);
+    //传递图片的旋转和翻转信号
+    void signalPassPictureOper(int);
 
     /**
      * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号

@@ -52,8 +52,8 @@ signals:
     void signalChangeToSelect();
 
 public slots:
-    void picMirrorScene(bool hor, bool ver);
-    void picRotateScene(bool leftOrRight);
+    void picOperation(int enumstyle);
+
 
 
 protected:

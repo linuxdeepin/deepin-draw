@@ -66,6 +66,15 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawPolygon(m_listPoints);
+
+    if (this->isSelected()) {
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->boundingRect());
+    }
 }
 
 void CGraphicsPolygonItem::calcPoints(int n)

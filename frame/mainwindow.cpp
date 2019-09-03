@@ -17,7 +17,7 @@
 
 
 const QSize WINDOW_MINISIZR = QSize(960, 540);
-//const int ARTBOARD_MARGIN = 25;
+const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
 //const int IMG_ROTATEPOINT_SPACING = 35;
 
@@ -30,21 +30,24 @@ MainWindow::MainWindow(QWidget *parent)
     initConnection();
 }
 
+
+
+
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
+//    setMinimumSize(WINDOW_MINISIZR);
 
-    setMinimumSize(WINDOW_MINISIZR);
     m_topToolbar = new TopToolbar(this);
+    m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
+    m_topToolbar->setFixedHeight(titlebar()->height());
 
-    m_titlebarWidth = titlebar()->buttonAreaWidth();
-    m_topToolbar->setFixedWidth(width());
-
-    titlebar()->addWidget(m_topToolbar, Qt::AlignHCenter);
+//    titlebar()->setIcon(QIcon (QPixmap(":/theme/common/images/logo.svg").scaled(QSize(32, 32))));
+    titlebar()->setTitle(tr("未命名画板"));
+    titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
 //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
-
 
     m_centralWidget = new CCentralwidget(this);
     m_centralWidget->setFocusPolicy(Qt::StrongFocus);
@@ -68,8 +71,7 @@ void MainWindow::initConnection()
     connect(m_centralWidget, &CCentralwidget::signalAttributeChangedFromScene, m_topToolbar, &TopToolbar::slotChangeAttributeFromScene);
 
     //链接图片选择后相应的操作
-    connect(m_topToolbar, SIGNAL(pictureMirror(bool, bool)), m_centralWidget, SIGNAL(picMirrorWidget(bool, bool)));
-    connect(m_topToolbar, SIGNAL(pictureRotate(bool)), m_centralWidget, SIGNAL(picRotateWidget( bool)));
+    connect(m_topToolbar, SIGNAL(signalPassPictureOperation(int)), m_centralWidget, SIGNAL(signalPassPictureOper(int)));
 
 }
 
@@ -84,13 +86,8 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    m_topToolbar->setFixedWidth(this->width());
+    m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
 
-    int ww = window()->width();
-    int wh = window()->height();
-
-//    ConfigSettings::instance()->setValue("window", "width", ww);
-//    ConfigSettings::instance()->setValue("window", "height", wh);
     emit signalResetOriginPoint();
 
     DMainWindow::resizeEvent(event);

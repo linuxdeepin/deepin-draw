@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QCursor>
 #include <QtMath>
+#include <QGraphicsTextItem>
+#include <QTextCursor>
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
     , m_currentSelectItem(nullptr)
@@ -38,6 +40,15 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 m_currentSelectItem = static_cast<CGraphicsItem *>(item);
                 scene->changeAttribute(true, item);
             } else {
+                QTextCursor textCursor = static_cast<QGraphicsTextItem *>(item)->textCursor();
+
+                textCursor.beginEditBlock();
+                textCursor.movePosition(QTextCursor::StartOfWord);
+                textCursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
+                textCursor.endEditBlock();
+
+                //textCursor.select(QTextCursor::Document);
+                //textCursor.removeSelectedText();
                 m_currentSelectItem = nullptr;
             }
             //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());

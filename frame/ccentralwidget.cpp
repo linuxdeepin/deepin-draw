@@ -164,8 +164,7 @@ void CCentralwidget::initConnect()
     connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
     //图片选中后相应胡操作
-    connect(this, SIGNAL(picMirrorWidget(bool, bool )), m_pDrawScene, SLOT(picMirrorScene(bool, bool )));
-    connect(this, SIGNAL(picRotateWidget(bool )), m_pDrawScene, SLOT(picRotateScene(bool )));
+    connect(this, SIGNAL(signalPassPictureOper(int )), m_pDrawScene, SLOT(picOperation(int )));
 
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
