@@ -5,10 +5,12 @@
 #include "cdrawparamsigleton.h"
 #include "globaldefine.h"
 #include "cgraphicspolygonitem.h"
+#include "cgraphicspolygonalstaritem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
 #include <QGraphicsView>
+#include <drawshape/cpictureitem.h>
 
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
@@ -27,20 +29,6 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         break;
     case QEvent::GraphicsSceneMouseRelease:
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
-        break;
-    default:
-        break;
-    }
-}
-
-void CDrawScene::keyEvent(QKeyEvent *keyEvent)
-{
-    switch ( keyEvent->type() ) {
-    case QEvent::KeyPress:                   // mouse button pressed
-        QGraphicsScene::keyPressEvent(keyEvent);
-        break;
-    case QEvent::KeyRelease:
-        QGraphicsScene::keyReleaseEvent(keyEvent);
         break;
     default:
         break;
@@ -66,17 +54,30 @@ void CDrawScene::attributeChanged()
         static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         if (item->type() == PolygonType) {
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+        } else if (item->type() == PolygonalStarType) {
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
         }
     }
 }
 
-void CDrawScene::changeAttribute(bool flag, QPen pen, QBrush brush)
+void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
     if (flag) {
-        CDrawParamSigleton::GetInstance()->setPen(pen);
-        CDrawParamSigleton::GetInstance()->setBrush(brush);
+        //排除文字图元
+        if (selectedItem->type() != TextType) {
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
+        }
+        ///特殊属性图元 读取额外的特殊属性并设置到全局属性中
+        if (selectedItem->type() == PolygonType) {
+            CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
+        } else if (selectedItem->type() == PolygonalStarType) {
+            CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->anchorNum());
+            CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
+        }
     }
-    emit signalAttributeChanged(flag);
+    emit signalAttributeChanged(flag, selectedItem->type());
 }
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -104,22 +105,44 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if ( nullptr != pTool ) {
         pTool->mouseReleaseEvent(mouseEvent, this);
     }
+    CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+    emit signalChangeToSelect();
 }
 
-void CDrawScene::keyPressEvent(QKeyEvent *event)
+void CDrawScene::picMirrorScene(bool hor, bool ver)
 {
-    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool ) {
-        pTool->keyPressEvent(event, this);
+    qDebug() << "entered the  picMirrorScene function" << endl;
+    QList<QGraphicsItem *> items = this->selectedItems();
+
+    if ( items.count() != 0 ) {
+        QGraphicsItem *item = items.first();
+        //需要区别图元或文字
+        if (item->type() == PictureType) {
+            CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
+            if (pictureItem != nullptr) {
+                pictureItem->setMirror(hor, ver);
+            }
+        }
+
+
     }
 }
 
-void CDrawScene::keyReleaseEvent(QKeyEvent *event)
+void CDrawScene::picRotateScene(bool leftOrRight)
 {
-    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool ) {
-        pTool->keyReleaseEvent(event, this);
+    qDebug() << "entered the  picRotateScene function" << endl;
+    QList<QGraphicsItem *> items = this->selectedItems();
+
+    if ( items.count() != 0 ) {
+        QGraphicsItem *item = items.first();
+        //需要区别图元或文字
+        if (item->type() == PictureType) {
+            CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
+            if (pictureItem != nullptr) {
+                pictureItem->setRotation90(leftOrRight);
+            }
+        }
+
+
     }
 }

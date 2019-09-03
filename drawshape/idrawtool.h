@@ -15,8 +15,6 @@ public:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
-    virtual void keyPressEvent(QKeyEvent *event, CDrawScene *scene);
-    virtual void keyReleaseEvent(QKeyEvent *event, CDrawScene *scene);
 
     EDrawToolMode getDrawToolMode() const;
 

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>theme/resources/icon_rotate.svg</file>
+    </qresource>
+</RCC>

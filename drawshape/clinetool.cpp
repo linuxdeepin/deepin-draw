@@ -39,7 +39,15 @@ void CLineTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 
 void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    Q_UNUSED(scene);
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pLineItem != nullptr)
+            scene->removeItem(m_pLineItem);
+        delete m_pLineItem;
+    }
+
     m_pLineItem = nullptr;
     m_bMousePress = false;
 }

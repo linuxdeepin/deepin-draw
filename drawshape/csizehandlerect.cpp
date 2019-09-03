@@ -16,6 +16,17 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsI
     hide();
 }
 
+CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, QGraphicsItem *resizable, const QPixmap &pixMap)
+    : QGraphicsRectItem(0, 0, pixMap.width(), pixMap.height(), parent)
+    , m_dir(d)
+    , m_resizable(resizable)
+    , m_state(SelectionHandleOff)
+{
+    m_rotaImage = pixMap;
+    setParentItem(parent);
+    hide();
+}
+
 void CSizeHandleRect::updateCursor()
 {
     switch (m_dir) {
@@ -54,11 +65,15 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    QColor c = QColor("limegreen");
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QBrush(c));
-    painter->drawRect(rect());
 
+    if (m_dir == Rotation) {
+        painter->drawPixmap(QPointF(rect().x(), rect().y()), m_rotaImage);
+    } else {
+        QColor c = QColor("limegreen");
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(QBrush(c));
+        painter->drawRect(rect());
+    }
 }
 
 

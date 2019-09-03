@@ -53,6 +53,46 @@ CutWidget::CutWidget(QWidget *parent)
     layout->addWidget(m_flipVBtn);
     layout->addStretch();
     setLayout(layout);
+
+    initConnect();
+}
+
+void CutWidget::initConnect()
+{
+    connect(m_flipHBtn, SIGNAL(clicked()), this, SLOT(mirrorHor()));
+    connect(m_flipVBtn, SIGNAL(clicked()), this, SLOT(mirrorVer()));
+    connect(m_leftRotateBtn, SIGNAL(clicked()), this, SLOT(rotateLeft()));
+    connect(m_rightRotateBtn, SIGNAL(clicked()), this, SLOT(rotateRight()));
+
+
+
+//    connect(m_flipHBtn, &PushButton::clicked(), [ = ] () {
+
+//    });setRotation90
+}
+
+void CutWidget::mirrorHor()
+{
+    mirroredImage(true, false);
+
+}
+
+void CutWidget::mirrorVer()
+{
+    mirroredImage(false, true);
+
+}
+
+void CutWidget::rotateLeft()
+{
+    emit rotateLeftOrRight(true);
+
+}
+
+void CutWidget::rotateRight()
+{
+    emit rotateLeftOrRight(false);
+
 }
 
 void CutWidget::updateBtns(const QString &path)

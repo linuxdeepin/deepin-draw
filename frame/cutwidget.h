@@ -9,24 +9,31 @@ class CutWidget : public QWidget
 {
     Q_OBJECT
 public:
-    CutWidget(QWidget* parent = 0);
+    CutWidget(QWidget *parent = 0);
     ~CutWidget();
 
 signals:
     void rotateImage(int degree);
     void cutImage();
     void mirroredImage(bool hor, bool ver);
+    void rotateLeftOrRight(bool leftOrRight);
 
 public slots:
-    void  updateBtns(const QString &path);
-    void  cutImageBtnReset();
+    void updateBtns(const QString &path);
+    void cutImageBtnReset();
     bool cuttingStatus();
+    void mirrorHor();
+    void mirrorVer();
+    void rotateLeft();
+    void rotateRight();
 
 private:
-    PushButton* m_leftRotateBtn;
-    PushButton* m_rightRotateBtn;
-    PushButton* m_cutBtn;
-    PushButton* m_flipHBtn;
-    PushButton* m_flipVBtn;
+    void initConnect();
+
+    PushButton *m_leftRotateBtn;
+    PushButton *m_rightRotateBtn;
+    PushButton *m_cutBtn;
+    PushButton *m_flipHBtn;
+    PushButton *m_flipVBtn;
 };
 #endif // CUTWIDGET_H

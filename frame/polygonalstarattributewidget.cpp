@@ -168,6 +168,7 @@ void PolygonalStarAttributeWidget::initConnection()
     connect(m_radiusNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         if (m_isUsrDragSlider) {
             m_radiusNumEdit->setText(QString("%1%").arg(value));
+            CDrawParamSigleton::GetInstance()->setRadiusNum(value);
             emit signalPolygonalStarAttributeChanged();
         }
     });
@@ -184,6 +185,7 @@ void PolygonalStarAttributeWidget::initConnection()
         }
 
         m_radiusNumSlider->setValue(value);
+        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
     });
 

@@ -21,6 +21,7 @@ public:
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, None};
 
     CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable);
+    CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable, const QPixmap &pixMap);
 
     EDirection dir() const
     {
@@ -42,6 +43,7 @@ private:
     QSize m_curSize;
     QGraphicsItem *m_resizable;
     ESelectionHandleState m_state;
+    QPixmap m_rotaImage;
 };
 
 

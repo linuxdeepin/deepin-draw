@@ -23,11 +23,14 @@ signals:
 
 public slots:
     void importImage();
+    /**
+     * @brief slotChangedStatusToSelect 将工具栏的状态切换为选择状态
+     */
+    void slotChangedStatusToSelect();
 
 private:
     QList<CPushButton *> m_actionButtons;
     CPushButton *m_picBtn;
-    CPushButton *m_selectBtn;
     CPushButton *m_rectBtn;
     CPushButton *m_roundBtn;
     CPushButton *m_triangleBtn;

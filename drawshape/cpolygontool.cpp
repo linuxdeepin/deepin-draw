@@ -39,8 +39,10 @@ void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
+        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
         //按下SHIFT键
-        if (m_bShiftKeyPress && !m_bAltKeyPress) {
+        if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
@@ -64,7 +66,7 @@ void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
         }
         //按下ALT键
-        else if (!m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (!shiftKeyPress && altKeyPress) {
 
             QPointF point1 = pointMouse;
             QPointF centerPoint = m_sPointPress;
@@ -73,7 +75,7 @@ void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             resultRect = rectF.normalized();
         }
         //ALT SHIFT都按下
-        else if (m_bShiftKeyPress && m_bAltKeyPress) {
+        else if (shiftKeyPress && altKeyPress) {
             QPointF resultPoint = pointMouse;
             qreal w = resultPoint.x() - m_sPointPress.x();
             qreal h = resultPoint.y() - m_sPointPress.y();
@@ -114,6 +116,12 @@ void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
 {
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
+    //如果鼠标没有移动
+    if ( event->scenePos() == m_sPointPress ) {
+        if ( m_pPolygonItem != nullptr)
+            scene->removeItem(m_pPolygonItem);
+        delete m_pPolygonItem;
+    }
     m_pPolygonItem = nullptr;
     m_bMousePress = false;
 

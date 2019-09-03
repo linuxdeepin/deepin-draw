@@ -6,11 +6,13 @@ CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)
     , m_nFillColor(Qt::transparent)
-    , m_radiusNum(100)
+    , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
     , m_currentPenType(EPenType::straight)
     , m_currentDrawToolMode(selection)
+    , m_bShiftKeyPress(false)
+    , m_bAltKeyPress(false)
 {
 
 }
@@ -136,6 +138,26 @@ QFont CDrawParamSigleton::getTextFont() const
 void CDrawParamSigleton::setTextFont(const QFont &textFont)
 {
     m_textFont = textFont;
+}
+
+void CDrawParamSigleton::setShiftKeyStatus(bool flag)
+{
+    m_bShiftKeyPress = flag;
+}
+
+bool CDrawParamSigleton::getShiftKeyStatus()
+{
+    return m_bShiftKeyPress;
+}
+
+void CDrawParamSigleton::setAltKeyStatus(bool flag)
+{
+    m_bAltKeyPress = flag;
+}
+
+bool CDrawParamSigleton::getAltKeyStatus()
+{
+    return m_bAltKeyPress;
 }
 
 

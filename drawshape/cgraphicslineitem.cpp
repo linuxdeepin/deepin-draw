@@ -146,7 +146,7 @@ void CGraphicsLineItem::updateGeometry()
             break;
         case CSizeHandleRect::Rotation:
 
-            hndl->move(centerPos.x() - w / 2, centerPos.y() - h / 2 - 15);
+            hndl->move(centerPos.x() - hndl->rect().width() / 2, centerPos.y() - hndl->rect().height() / 2 - 25);
             break;
         default:
             break;
@@ -168,7 +168,8 @@ void CGraphicsLineItem::initLine()
 
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop, this));
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom, this));
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, this));
+    QPixmap rotaImage(":/theme/resources/icon_rotate.svg");
+    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, this, rotaImage));
 
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);

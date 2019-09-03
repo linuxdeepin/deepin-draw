@@ -12,6 +12,7 @@
 #include "ccentralwidget.h"
 #include "toptoolbar.h"
 #include "clefttoolbar.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 
 
@@ -64,6 +65,11 @@ void MainWindow::initConnection()
 //        }
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
+    connect(m_centralWidget, &CCentralwidget::signalAttributeChangedFromScene, m_topToolbar, &TopToolbar::slotChangeAttributeFromScene);
+
+    //链接图片选择后相应的操作
+    connect(m_topToolbar, SIGNAL(pictureMirror(bool, bool)), m_centralWidget, SIGNAL(picMirrorWidget(bool, bool)));
+    connect(m_topToolbar, SIGNAL(pictureRotate(bool)), m_centralWidget, SIGNAL(picRotateWidget( bool)));
 
 }
 
@@ -117,6 +123,33 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if ( event->key() == Qt::Key_Shift) {
+        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(true);
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
+        CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
+    } else {
+        ;
+    }
+    DMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if ( event->key() == Qt::Key_Shift) {
+        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(false);
+    }
+    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
+    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
+        CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
+    } else {
+        ;
+    }
+    DMainWindow::keyReleaseEvent(event);
+}
 
 MainWindow::~MainWindow()
 {

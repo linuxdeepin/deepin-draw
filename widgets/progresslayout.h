@@ -3,18 +3,19 @@
 
 #include <QHBoxLayout>
 #include <DProgressBar>
-#include <QDialog>
-
+//#include <QDialog>
+#include <DWidget>
 class QLabel;
 DWIDGET_USE_NAMESPACE
 
-class ProgressLayout: public QDialog
+class ProgressLayout: public DWidget
 {
 public:
-    ProgressLayout(QWidget *parent = nullptr);
+    ProgressLayout(DWidget *parent = nullptr);
     ~ProgressLayout();
     void setRange(int start, int end);
     void setProgressValue(int value);
+    void showInCenter(QWidget *w);
 
 
 

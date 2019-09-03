@@ -3,6 +3,7 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicsitem.h"
 #include "widgets/progresslayout.h"
+#include "drawshape/cpictureitem.h"
 
 #include <QLabel>
 #include <QDebug>
@@ -46,7 +47,7 @@ void CCentralwidget::getPicPath(QStringList pathList)
     m_picNum = pathList.size();
     m_progressLayout->setRange(0, pathList.size());
     // m_progressLayout->setProgressValue(0);
-    m_progressLayout->show();
+    m_progressLayout->showInCenter(window());
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
@@ -69,9 +70,11 @@ void CCentralwidget::addImageItem( QPixmap pixMap)
 {
 
     // qDebug() << "entered the  addImageItem function" << m_pGraphicsView->width() << m_pGraphicsView->height() << pixMap.width() << pixMap.height() << m_pDrawScene->width() << m_pDrawScene->height() << endl;
-    QPixmap pixmapToShow = pixMap.scaled( m_pGraphicsView->width(), m_pGraphicsView->height(), Qt::KeepAspectRatio);
-    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixmapToShow);
+    //QPixmap pixmapToShow = pixMap.scaled( m_pGraphicsView->width(), m_pGraphicsView->height(), Qt::KeepAspectRatio);
+    //QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixmapToShow);
     // qDebug() << "pixmapItem->boundingRect()" << pixmapItem->boundingRect() << endl;
+    CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, m_pGraphicsView->width(), m_pGraphicsView->height()), pixMap);
+    pixmapItem->setSelected(true);
     m_pDrawScene->addItem(pixmapItem);
 }
 
@@ -98,8 +101,9 @@ void CCentralwidget::initUI()
 //    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
     m_pDrawScene = new CDrawScene();
     m_pGraphicsView->setScene(m_pDrawScene);
+    m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
 
-    m_progressLayout = new ProgressLayout(this);
+    m_progressLayout = new ProgressLayout();
 
 
     QHBoxLayout *layout = new QHBoxLayout;
@@ -159,5 +163,12 @@ void CCentralwidget::initConnect()
     connect(this, SIGNAL(sendImageItem(QPixmap)), this, SLOT(addImageItem(QPixmap)));
     connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
+    //图片选中后相应胡操作
+    connect(this, SIGNAL(picMirrorWidget(bool, bool )), m_pDrawScene, SLOT(picMirrorScene(bool, bool )));
+    connect(this, SIGNAL(picRotateWidget(bool )), m_pDrawScene, SLOT(picRotateScene(bool )));
+
+
+    connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
+    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
 
 }

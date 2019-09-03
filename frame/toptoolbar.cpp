@@ -245,6 +245,34 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
     }
 }
 
+void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
+{
+    if (flag) {
+        EDrawToolMode toolType = EDrawToolMode::selection;
+        switch (primitiveType) {
+        case::EGraphicUserType::RectType:
+            toolType = EDrawToolMode::rectangle;
+            break;
+        case::EGraphicUserType::EllipseType:
+            toolType = EDrawToolMode::ellipse;
+            break;
+        case::EGraphicUserType::TriangleType:
+            toolType = EDrawToolMode::triangle;
+            break;
+        case::EGraphicUserType::PolygonalStarType:
+            toolType = EDrawToolMode::polygonalStar;
+            break;
+        case::EGraphicUserType::PolygonType:
+            toolType = EDrawToolMode::polygon;
+            break;
+        case::EGraphicUserType::LineType:
+            toolType = EDrawToolMode::line;
+            break;
+        }
+        updateMiddleWidget(toolType);
+    }
+}
+
 
 QMenu *TopToolbar::mainMenu()
 {
@@ -296,5 +324,9 @@ void TopToolbar::initConnection()
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw blur widget.
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
+
+    //draw picture
+    connect(m_cutWidget, &CutWidget::mirroredImage, this, &TopToolbar::pictureMirror);
+    connect(m_cutWidget, &CutWidget::rotateLeftOrRight, this, &TopToolbar::pictureRotate);
 }
 

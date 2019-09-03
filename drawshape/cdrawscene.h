@@ -14,12 +14,6 @@ public:
     explicit CDrawScene(QObject *parent = nullptr);
 
     /**
-     * @brief mouseEvent 从绘图工具返回鼠标事件
-     * @param mouseEvent
-     */
-    void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent );
-
-    /**
      * @brief keyEvent 从绘图工具返回键盘事件
      * @param keyEvent
      */
@@ -38,21 +32,35 @@ public:
     /**
      * @brief changeAttribute 修改当前画笔画刷属性
      */
-    void changeAttribute(bool flag, QPen pen = QPen(), QBrush brush = QBrush());
+    void changeAttribute(bool flag, QGraphicsItem *selectedItem);
 
+    /**
+     * @brief mouseEvent 鼠标事件
+     * @param mouseEvent
+     */
+    void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
      * @param flag
+     * @param primitiveType 图元类型
      */
-    void signalAttributeChanged(bool flag);
+    void signalAttributeChanged(bool flag, int primitiveType);
+    /**
+     * @brief signalChangeToSelect 发送工具栏切换为选择的信号
+     */
+    void signalChangeToSelect();
+
+public slots:
+    void picMirrorScene(bool hor, bool ver);
+    void picRotateScene(bool leftOrRight);
+
 
 protected:
+
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 };
 

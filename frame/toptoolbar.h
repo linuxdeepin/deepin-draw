@@ -45,6 +45,8 @@ signals:
     void printImage();
     void importPicBtnClicked();
     void signalAttributeChanged();
+    void pictureMirror(bool hor, bool ver);
+    void pictureRotate(bool leftOrRight);
 
 public:
 //    void showDrawDialog();
@@ -56,6 +58,12 @@ public slots:
     void updateMiddleWidget(int type);
     void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     void updateColorPanelVisible(QPoint pos);
+    /**
+     * @brief slotChangeAttributeFromScene 根据选中的图元更新属性栏
+     * @param flag
+     * @param primitiveType
+     */
+    void slotChangeAttributeFromScene(bool flag, int primitiveType);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

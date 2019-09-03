@@ -4,8 +4,8 @@
 
 DWIDGET_USE_NAMESPACE
 
-ProgressLayout::ProgressLayout(QWidget *parent)
-    : QDialog (parent)
+ProgressLayout::ProgressLayout(DWidget *parent)
+    : DWidget (parent)
 {
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new QLabel();
@@ -21,17 +21,27 @@ ProgressLayout::ProgressLayout(QWidget *parent)
     m_progressLabel = new QLabel();
     m_progressbar = new DProgressBar();
     m_progressbar->setFixedSize(400, 20);
+    //m_progressbar->setTextVisiable(false);
     m_progressVBoxLayout->addWidget(m_label, 50, Qt::AlignLeft);
     m_progressVBoxLayout->addWidget(m_progressLabel, 50, Qt::AlignLeft);
     m_progressVBoxLayout->addWidget(m_progressbar, 100, Qt::AlignLeft);
+    this->setFixedSize(420, 100);
     this->setLayout(m_progressVBoxLayout);
-    //this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
 
 }
 
 ProgressLayout::~ProgressLayout()
 {
 
+}
+void ProgressLayout::showInCenter(QWidget *w)
+{
+    show();
+
+    QPoint gp = w->mapToGlobal(QPoint(0, 0));
+    move((w->width() - this->width()) / 2 + gp.x(),
+         (w->height() - this->sizeHint().height()) / 2 + gp.y());
 }
 
 void ProgressLayout::setRange(int start, int end)

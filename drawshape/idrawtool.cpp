@@ -20,37 +20,6 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 
 }
 
-void IDrawTool::keyPressEvent(QKeyEvent *event, CDrawScene *scene)
-{
-    if ( event->key() == Qt::Key_Shift) {
-        m_bShiftKeyPress = true;
-    }
-    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
-    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        m_bAltKeyPress = true;
-    } else {
-        ;
-    }
-    qDebug() << "press" << event->key() << endl;
-
-    scene->keyEvent(event);
-}
-
-void IDrawTool::keyReleaseEvent(QKeyEvent *event, CDrawScene *scene)
-{
-    if ( event->key() == Qt::Key_Shift) {
-        m_bShiftKeyPress = false;
-    }
-    //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
-    else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        m_bAltKeyPress = false;
-    } else {
-        ;
-    }
-    qDebug() << "release" << event->key() << endl;
-    scene->keyEvent(event);
-}
-
 EDrawToolMode IDrawTool::getDrawToolMode() const
 {
     return m_mode;

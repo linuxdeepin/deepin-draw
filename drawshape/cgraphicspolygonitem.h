@@ -18,7 +18,7 @@ public:
     void setRect(const QRectF &rect);
     void setPointCount(int num);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-
+    int nPointsCount() const;
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

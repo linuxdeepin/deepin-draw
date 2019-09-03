@@ -42,15 +42,6 @@ void CLeftToolBar::initUI()
     m_picBtn->setToolTip(tr("Import"));
     m_actionButtons.append(m_picBtn);
 
-
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/selected_fill_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/selected_fill_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/selected_fill_active.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/selected_fill_active.svg");
-    m_selectBtn = new CPushButton(pictureMap, this);
-    m_selectBtn->setToolTip(tr("Select"));
-    m_actionButtons.append(m_selectBtn);
-
     pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
     pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
     pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
@@ -58,8 +49,6 @@ void CLeftToolBar::initUI()
     m_rectBtn = new CPushButton(pictureMap, this);
     m_rectBtn->setToolTip(tr("Rectangle"));
     m_actionButtons.append(m_rectBtn);
-
-
 
     pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
     pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
@@ -154,8 +143,6 @@ void CLeftToolBar::initUI()
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_picBtn);
     m_layout->addSpacing(BTN_SPACING);
-    m_layout->addWidget(m_selectBtn);
-    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_rectBtn);
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_roundBtn);
@@ -179,6 +166,17 @@ void CLeftToolBar::initUI()
 
     setLayout(m_layout);
 }
+
+void CLeftToolBar::slotChangedStatusToSelect()
+{
+    foreach (CPushButton *button, m_actionButtons) {
+        if (button->isChecked()) {
+            button->setChecked(false);
+            return;
+        }
+    }
+}
+
 
 void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
 {
@@ -222,10 +220,6 @@ void CLeftToolBar::initConnection()
     //链接图片导入按钮和图片导入功能
     // connect(m_picBtn, SIGNAL(clicked()), this, SLOT(importImage()));
 
-    connect(m_selectBtn, &CPushButton::buttonClick, [this]() {
-        clearOtherSelections(m_selectBtn);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-    });
 
     connect(m_rectBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_rectBtn);
