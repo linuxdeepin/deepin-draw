@@ -42,7 +42,6 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     initPen();
     m_drawPath.moveTo(startPoint);
     m_truePath = m_drawPath;
-
 }
 
 CGraphicsPenItem::~CGraphicsPenItem()
@@ -142,12 +141,14 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
     } else {
         m_drawPath.lineTo(endPoint);
         m_truePath = m_drawPath;
-        if (m_currentType == arrow) {
-            calcVertexes(m_prePoint, endPoint);
-            m_prePoint = endPoint;
-            m_truePath.addPolygon(m_arrow);
-        }
     }
+
+    if (m_currentType == arrow) {
+        calcVertexes(m_prePoint, endPoint);
+        m_prePoint = endPoint;
+        m_truePath.addPolygon(m_arrow);
+    }
+
     updateGeometry();
 }
 
@@ -212,6 +213,16 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 }
 
+EPenType CGraphicsPenItem::currentType() const
+{
+    return m_currentType;
+}
+
+void CGraphicsPenItem::setCurrentType(const EPenType &currentType)
+{
+    m_currentType = currentType;
+}
+
 void CGraphicsPenItem::initPen()
 {
     m_handles.reserve(CSizeHandleRect::None);
@@ -256,8 +267,4 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
     m_arrow.push_back(QPointF(x1, y1));
     m_arrow.push_back(QPointF(x2, y2));
     m_arrow.push_back(currentPoint);
-
-    //|y1-y2|<|x1-x2|，画水平线
-    //|y1-y2|>|x1-x2|，画垂直线
-    //|y1-y2|=|x1-x2|，画45度直线
 }

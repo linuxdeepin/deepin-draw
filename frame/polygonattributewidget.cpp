@@ -101,12 +101,12 @@ void PolygonAttributeWidget::initConnection()
 {
     connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
 
     });
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Stroke,  getBtnPosition(m_strokeBtn), show);
     });
 
     connect(this, &PolygonAttributeWidget::resetColorBtns, this, [ = ] {
@@ -160,4 +160,13 @@ void PolygonAttributeWidget::updatePolygonWidget()
         m_sideNumSlider->setValue(sideNum);
         m_sideNumEdit->setText(QString("%1").arg(sideNum));
     }
+}
+
+QPoint PolygonAttributeWidget::getBtnPosition(const QPushButton *btn)
+{
+    QPoint btnPos = mapToGlobal(btn->pos());
+    QPoint pos(btnPos.x() + btn->width() / 2,
+               btnPos.y() + btn->height());
+
+    return pos;
 }

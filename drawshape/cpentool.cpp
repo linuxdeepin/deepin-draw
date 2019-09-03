@@ -22,7 +22,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     m_sPointPress = event->scenePos();
     m_pPenItem = new CGraphicsPenItem(m_sPointPress);
     m_pPenItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+    m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
     scene->addItem(m_pPenItem);
     m_pPenItem->setSelected(true);
 

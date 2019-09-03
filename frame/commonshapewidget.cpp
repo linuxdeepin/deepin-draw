@@ -71,17 +71,15 @@ void CommonshapeWidget::initConnection()
 {
     connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_strokeBtn->resetChecked();
-//        QPoint btnPos = mapToGlobal(fillBtn->pos());
-//        QPoint pos(btnPos.x() + strokeBtn->width() / 2,
-//                   btnPos.y() + strokeBtn->height() + 5);
-
-        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+        mapToGlobal(QPoint(1, 1));
+//        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
 
 
     });
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Stroke, getBtnPosition(m_strokeBtn), show);
     });
 
     connect(this, &CommonshapeWidget::resetColorBtns, this, [ = ] {
@@ -102,3 +100,11 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_sideWidthWidget->updateSideWidth();
 }
 
+QPoint CommonshapeWidget::getBtnPosition(const QPushButton *btn)
+{
+    QPoint btnPos = mapToGlobal(btn->pos());
+    QPoint pos(btnPos.x() + btn->width() / 2,
+               btnPos.y() + btn->height());
+
+    return pos;
+}

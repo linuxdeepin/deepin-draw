@@ -60,7 +60,12 @@ void LineWidget::initUI()
 void LineWidget::initConnection()
 {
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        showColorPanel(DrawStatus::Stroke, cursor().pos(), show);
+
+        QPoint btnPos = mapToGlobal(m_strokeBtn->pos());
+        QPoint pos(btnPos.x() + m_strokeBtn->width() / 2,
+                   btnPos.y() + m_strokeBtn->height());
+
+        showColorPanel(DrawStatus::Stroke, pos, show);
     });
 
     connect(this, &LineWidget::resetColorBtns, this, [ = ] {

@@ -34,6 +34,7 @@ private:
 private:
     void initUI();
     void initConnection();
+    QPoint getBtnPosition(const QPushButton *btn);
 };
 
 #endif // FILLSHAPEWIDGET_H

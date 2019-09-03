@@ -2,7 +2,6 @@
 #include "application.h"
 
 #include <DApplication>
-
 #include <QHBoxLayout>
 
 #include "commonshapewidget.h"
@@ -233,8 +232,8 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
 
         QPoint startPos = QPoint(0, 0);
 
-        m_colorARect->show(pos.x() - mapToGlobal(startPos).x() + 157,
-                           pos.y()  + 15 - mapToGlobal(startPos).y());
+        m_colorARect->show(pos.x() - mapToGlobal(startPos).x(),
+                           pos.y() - mapToGlobal(startPos).y());
     } else
         m_colorARect->hide();
 }
@@ -270,6 +269,9 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
             break;
         case::EGraphicUserType::LineType:
             toolType = EDrawToolMode::line;
+            break;
+        case::EGraphicUserType::PenType:
+            toolType = EDrawToolMode::pen;
             break;
         }
         updateMiddleWidget(toolType);

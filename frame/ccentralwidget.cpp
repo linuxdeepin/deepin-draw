@@ -74,7 +74,6 @@ void CCentralwidget::addImageItem( QPixmap pixMap)
     //QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixmapToShow);
     // qDebug() << "pixmapItem->boundingRect()" << pixmapItem->boundingRect() << endl;
     CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, m_pGraphicsView->width(), m_pGraphicsView->height()), pixMap);
-    pixmapItem->setSelected(true);
     m_pDrawScene->addItem(pixmapItem);
 }
 

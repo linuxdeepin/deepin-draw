@@ -83,7 +83,12 @@ void TextWidget::initUI()
 void TextWidget::initConnection()
 {
     connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+
+        QPoint btnPos = mapToGlobal(m_fillBtn->pos());
+        QPoint pos(btnPos.x() + m_fillBtn->width() / 2,
+                   btnPos.y() + m_fillBtn->height());
+
+        showColorPanel(DrawStatus::Fill, pos, show);
     });
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {

@@ -3,8 +3,6 @@
 
 #include <DFrame>
 
-
-
 class CPushButton;
 class QVBoxLayout;
 

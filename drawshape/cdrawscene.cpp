@@ -7,6 +7,7 @@
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "cgraphicstextitem.h"
+#include "cgraphicspenitem.h"
 #include "frame/cpicturewidget.h"
 
 #include <QGraphicsSceneMouseEvent>
@@ -61,8 +62,7 @@ void CDrawScene::attributeChanged()
 
         if (item->type() == TextType) {
             static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-        }
-        if (item->type() == PolygonType) {
+        } else if (item->type() == PolygonType) {
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
         } else if (item->type() == PolygonalStarType) {
             static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
@@ -85,6 +85,8 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
         } else if (selectedItem->type() == PolygonalStarType) {
             CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->anchorNum());
             CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
+        } else if (selectedItem->type() ==  PenType) {
+            CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(selectedItem)->currentType());
         }
     }
     emit signalAttributeChanged(flag, selectedItem->type());

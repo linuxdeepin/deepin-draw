@@ -121,12 +121,12 @@ void PolygonalStarAttributeWidget::initConnection()
 
     connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
 
     });
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  cursor().pos(), show);
+        emit showColorPanel(DrawStatus::Stroke,  getBtnPosition(m_strokeBtn), show);
     });
 
     connect(this, &PolygonalStarAttributeWidget::resetColorBtns, this, [ = ] {
@@ -217,4 +217,13 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
         m_radiusNumSlider->setValue(radiusNum);
         m_radiusNumEdit->setText(QString("%1%").arg(radiusNum));
     }
+}
+
+QPoint PolygonalStarAttributeWidget::getBtnPosition(const QPushButton *btn)
+{
+    QPoint btnPos = mapToGlobal(btn->pos());
+    QPoint pos(btnPos.x() + btn->width() / 2,
+               btnPos.y() + btn->height());
+
+    return pos;
 }

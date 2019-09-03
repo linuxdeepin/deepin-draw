@@ -11,16 +11,15 @@ class CGraphicsPenItem : public CGraphicsItem
 public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-
     virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
-
     QPainterPath shape() const Q_DECL_OVERRIDE;
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
+    EPenType currentType() const;
+    void setCurrentType(const EPenType &currentType);
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
