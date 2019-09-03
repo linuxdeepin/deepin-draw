@@ -12,6 +12,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsI
     , m_resizable(resizable)
     , m_state(SelectionHandleOff)
 {
+    m_Image = QIcon(":/theme/resources/node.svg");
     setParentItem(parent);
     hide();
 }
@@ -22,7 +23,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     , m_resizable(resizable)
     , m_state(SelectionHandleOff)
 {
-    m_rotaImage = pixMap;
+    m_Image = pixMap;
     setParentItem(parent);
     hide();
 }
@@ -65,15 +66,28 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+//    enum RenderHint {
+//        Antialiasing = 0x01,
+//        TextAntialiasing = 0x02,
+//        SmoothPixmapTransform = 0x04,
+//        HighQualityAntialiasing = 0x08,
+//        NonCosmeticDefaultPen = 0x10,
+//        Qt4CompatiblePainting = 0x20
+//    };
 
-    if (m_dir == Rotation) {
-        painter->drawPixmap(QPointF(rect().x(), rect().y()), m_rotaImage);
+    //painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    //painter->drawPixmap(QPointF(rect().x(), rect().y()), m_Image);
+
+    m_Image.paint(painter, rect().toRect());
+
+    /*if (m_dir == Rotation) {
+        painter->drawPixmap(QPointF(rect().x(), rect().y()), m_Image);
     } else {
         QColor c = QColor("limegreen");
         painter->setPen(Qt::NoPen);
         painter->setBrush(QBrush(c));
         painter->drawRect(rect());
-    }
+    }*/
 }
 
 

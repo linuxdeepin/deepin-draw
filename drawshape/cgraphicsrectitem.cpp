@@ -431,7 +431,7 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsRectItem::updateGeometry()
 {
-    const QRectF &geom = this->rect();
+    const QRectF &geom = this->boundingRect();
 
     const int w = SELECTION_HANDLE_SIZE;
     const int h = SELECTION_HANDLE_SIZE;

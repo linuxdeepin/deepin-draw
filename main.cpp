@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 #endif
 
     Application::loadDXcbPlugin();
-
+    Application::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     Application a(argc, argv);
 
 

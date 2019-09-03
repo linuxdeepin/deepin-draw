@@ -6,6 +6,7 @@
 #include "globaldefine.h"
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
+#include "cgraphicstextitem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
@@ -49,8 +50,14 @@ void CDrawScene::attributeChanged()
 
     QGraphicsItem *item = nullptr;
     foreach (item, items) {
-        static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        if (item->type() != TextType) {
+            static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
+            static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        }
+
+        if (item->type() == TextType) {
+            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        }
         if (item->type() == PolygonType) {
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
         } else if (item->type() == PolygonalStarType) {

@@ -56,4 +56,13 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawPolygon(item);
+
+    if (this->isSelected()) {
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->rect());
+    }
 }
