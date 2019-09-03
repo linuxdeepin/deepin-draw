@@ -12,7 +12,6 @@ CPushButton::CPushButton(const QMap<CButtonSattus, QString> &pictureMap, QWidget
     m_pictureMap(pictureMap)
 {
     m_currentPicture = m_pictureMap[m_currentStatus];
-
 }
 
 void CPushButton::setChecked(bool checked)

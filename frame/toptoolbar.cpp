@@ -2,7 +2,6 @@
 #include "application.h"
 
 #include <DApplication>
-#include <DComboBox>
 
 #include <QHBoxLayout>
 
@@ -38,24 +37,42 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
     initComboBox();
     initStackWidget();
     initMenu();
 
+    QLabel *logoLable = new QLabel(this);
+    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+    logoLable->setFixedSize(QSize(32, 32));
+
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-//    hLayout->addWidget(logoLabel);
-//    hLayout->addSpacing(20);
+    hLayout->addSpacing(13);
+    hLayout->addWidget(logoLable);
+    hLayout->addSpacing(20);
     hLayout->addWidget(m_scaleComboBox);
     hLayout->addSpacing(20);
     hLayout->addWidget(m_stackWidget);
-    hLayout->addStretch();
+    hLayout->setContentsMargins(0, 0, 0, 0);
+//    hLayout->addStretch();
     setLayout(hLayout);
 
+//    m_stackWidget->setStyleSheet("background-color: blue;");
 //    setStyleSheet("background-color: rgb(255, 0, 0);");
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+void TopToolbar::initComboBox()
+{
+    //创建画板放大缩小的combobox
+    m_scaleComboBox = new DComboBox(this);
+    //QComboBox *m_scaleComboBox = new QComboBox(this);
+    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
+    m_scaleComboBox->addItems(scaleList);
+    m_scaleComboBox->setCurrentIndex(1);
+    m_scaleComboBox->setFixedWidth(80);
 }
 
 void TopToolbar::initStackWidget()
@@ -153,16 +170,6 @@ void TopToolbar::initMenu()
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
 }
 
-void TopToolbar::initComboBox()
-{
-    //创建画板放大缩小的combobox
-    m_scaleComboBox = new DComboBox(this);
-    //QComboBox *m_scaleComboBox = new QComboBox(this);
-    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
-    m_scaleComboBox->addItems(scaleList);
-    m_scaleComboBox->setCurrentIndex(1);
-    m_scaleComboBox->setFixedWidth(80);
-}
 
 void TopToolbar::showSaveDialog()
 {

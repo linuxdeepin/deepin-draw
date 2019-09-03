@@ -86,16 +86,16 @@ private:
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
-
-    DMenu *m_mainMenu;
     DComboBox  *m_scaleComboBox;
+    DMenu *m_mainMenu;
+
 
 private:
     void initUI();
     void initConnection();
-    void initComboBox();
     void initStackWidget();
     void initMenu();
+    void initComboBox();
 };
 
 #endif // TOPTOOLBAR_H

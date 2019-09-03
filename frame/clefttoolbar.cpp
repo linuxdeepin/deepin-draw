@@ -31,6 +31,7 @@ CLeftToolBar::~CLeftToolBar()
 
 void CLeftToolBar::initUI()
 {
+    setFixedWidth(58);
 
     QMap<CPushButton::CButtonSattus, QString> pictureMap;
 
@@ -136,10 +137,10 @@ void CLeftToolBar::initUI()
     m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
 
-
-
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
+    m_layout->setSpacing(0);
+    m_layout->addStretch();
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_picBtn);
     m_layout->addSpacing(BTN_SPACING);
@@ -162,7 +163,9 @@ void CLeftToolBar::initUI()
     m_layout->addWidget(m_blurBtn);
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_cutBtn);
-    m_layout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding));
+    m_layout->setContentsMargins(5, 0, 5, 0);
+    m_layout->addStretch();
+//    m_layout->addSpacerItem(new QSpacerItem(20, 20, QSizePolicy::Expanding));
 
     setLayout(m_layout);
 }
