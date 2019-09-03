@@ -304,4 +304,6 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygon, pTool);
     pTool = CDrawToolFactory::Create(polygonalStar);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygonalStar, pTool);
+    pTool = CDrawToolFactory::Create(pen);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(pen, pTool);
 }

@@ -13,7 +13,6 @@
 #include <QKeyEvent>
 
 
-
 DWIDGET_USE_NAMESPACE
 
 class CommonshapeWidget;

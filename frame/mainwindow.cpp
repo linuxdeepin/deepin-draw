@@ -34,12 +34,12 @@ void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
 
-    setMinimumSize(WINDOW_MINISIZR);
+//    setMinimumSize(WINDOW_MINISIZR);
     m_topToolbar = new TopToolbar(this);
 
     m_titlebarWidth = titlebar()->buttonAreaWidth();
-    m_topToolbar->setFixedWidth(width());
 
+    titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
     titlebar()->addWidget(m_topToolbar, Qt::AlignHCenter);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 
@@ -80,8 +80,6 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    m_topToolbar->setFixedWidth(this->width());
-
     int ww = window()->width();
     int wh = window()->height();
 

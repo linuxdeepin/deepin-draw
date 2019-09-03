@@ -23,7 +23,6 @@
 #include "utils/global.h"
 #include "utils/tempfile.h"
 
-DWIDGET_USE_NAMESPACE
 
 TopToolbar::TopToolbar(QWidget *parent)
     : DFrame(parent)
@@ -39,22 +38,17 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
-    DRAW_THEME_INIT_WIDGET("TopToolbar");
-    setObjectName("TopToolbar");
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     initComboBox();
     initStackWidget();
     initMenu();
 
-    DLabel *logoLabel = new DLabel(this);
-    logoLabel->setFixedSize(QSize(32, 32));
-    logoLabel->setObjectName("LogoLabel");
-
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-    hLayout->addWidget(logoLabel);
-    hLayout->addSpacing(20);
+//    hLayout->addWidget(logoLabel);
+//    hLayout->addSpacing(20);
     hLayout->addWidget(m_scaleComboBox);
     hLayout->addSpacing(20);
     hLayout->addWidget(m_stackWidget);

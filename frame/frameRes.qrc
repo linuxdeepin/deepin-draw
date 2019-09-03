@@ -134,9 +134,6 @@
         <file>theme/light/images/draw/reduce_press.svg</file>
         <file>theme/light/images/cut/filp_vertical_disable.svg</file>
         <file>theme/light/images/cut/flip_horizontal_disable.svg</file>
-        <file>theme/common/images/deepin-draw-96.svg</file>
-        <file>theme/common/images/deepin-draw-24.svg</file>
-        <file>theme/common/images/deepin-draw-64.svg</file>
         <file>theme/light/MainWidget.qss</file>
         <file>theme/light/LineWidget.qss</file>
         <file>theme/light/TextWidget.qss</file>
@@ -234,5 +231,6 @@
         <file>theme/light/images/attribute/clockwise rotation_hover.png</file>
         <file>theme/light/images/attribute/flip horizontal_normal.svg</file>
         <file>theme/light/images/attribute/fuzzy tool_hover.svg</file>
+        <file>theme/common/images/logo.svg</file>
     </qresource>
 </RCC>
