@@ -21,14 +21,9 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     item->setPos(event->scenePos());
     scene->addItem(item);
     item->setFocus();
-
-    //textCursor.setBlockFormat()
-    //item->setSelected(true);
-
-//    QTextCursor textCursor = item->textCursor();
-//    textCursor.setPosition(0, QTextCursor::MoveAnchor);
-//    textCursor.setPosition(4, QTextCursor::KeepAnchor);
-    //textCursor.select(QTextCursor::Document);
+    QTextCursor textCursor = item->textCursor();
+    textCursor.select(QTextCursor::Document);
+    item->setTextCursor(textCursor);
 }
 
 void CTextTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
