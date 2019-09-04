@@ -211,6 +211,15 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setBrush(QBrush(pen().color()));
         painter->drawPolygon(m_arrow);
     }
+
+    if (this->isSelected()) {
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->boundingRect());
+    }
 }
 
 EPenType CGraphicsPenItem::currentType() const
