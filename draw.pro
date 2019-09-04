@@ -1,11 +1,11 @@
-QT += core gui  printsupport svg dbus concurrent
+QT += core gui  printsupport svg dbus concurrent dtkwidget
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
   qtHaveModule(opengl): QT += opengl
 
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += dtkwidget libexif dtkwm
+PKGCONFIG += libexif dtkwm
 LIBS += -lfreeimage
 
 TARGET = deepin-draw
