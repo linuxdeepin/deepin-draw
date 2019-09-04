@@ -138,16 +138,25 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         m_straightLine.setP1(m_drawPath.currentPosition());
         m_straightLine.setP2(endPoint);
         m_truePath.lineTo(endPoint);
+
+        if (m_currentType == arrow) {
+            calcVertexes(m_straightLine.p1(), m_straightLine.p2());
+            m_prePoint = endPoint;
+            m_truePath.addPolygon(m_arrow);
+        }
+
     } else {
         m_drawPath.lineTo(endPoint);
         m_truePath = m_drawPath;
+
+        if (m_currentType == arrow) {
+            calcVertexes(m_prePoint, endPoint);
+            m_prePoint = endPoint;
+            m_truePath.addPolygon(m_arrow);
+        }
+
     }
 
-    if (m_currentType == arrow) {
-        calcVertexes(m_prePoint, endPoint);
-        m_prePoint = endPoint;
-        m_truePath.addPolygon(m_arrow);
-    }
 
     updateGeometry();
 }
