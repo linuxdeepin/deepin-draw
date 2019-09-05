@@ -68,6 +68,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    updateGeometry();
+
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawPolygon(m_polygon);
@@ -78,7 +80,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
         pen.setColor(QColor(224, 224, 224));
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->setPen(pen);
-        painter->drawRect(this->boundingRect());
+        painter->drawRect(this->rect());
     }
 }
 

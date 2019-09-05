@@ -1,32 +1,32 @@
 #include "csizehandlerect.h"
+#include "cdrawparamsigleton.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QPainter>
-#include <qdebug.h>
+#include <QDebug>
+#include <QString>
+#include <QSvgRenderer>
 
 
-CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable)
-    : QGraphicsRectItem(0, 0, SELECTION_HANDLE_SIZE, SELECTION_HANDLE_SIZE, parent)
+CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
+    : QGraphicsSvgItem(QString(":/theme/resources/node.svg"), parent)
     , m_dir(d)
-    , m_resizable(resizable)
     , m_state(SelectionHandleOff)
 {
-    m_Image = QIcon(":/theme/resources/node.svg");
     setParentItem(parent);
     hide();
 }
 
-CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, QGraphicsItem *resizable, const QPixmap &pixMap)
-    : QGraphicsRectItem(0, 0, pixMap.width(), pixMap.height(), parent)
+CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
+    : QGraphicsSvgItem(filename, parent)
     , m_dir(d)
-    , m_resizable(resizable)
     , m_state(SelectionHandleOff)
 {
-    m_Image = pixMap;
     setParentItem(parent);
     hide();
 }
+
 
 void CSizeHandleRect::updateCursor()
 {
@@ -64,30 +64,10 @@ void CSizeHandleRect::updateCursor()
 
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-//    enum RenderHint {
-//        Antialiasing = 0x01,
-//        TextAntialiasing = 0x02,
-//        SmoothPixmapTransform = 0x04,
-//        HighQualityAntialiasing = 0x08,
-//        NonCosmeticDefaultPen = 0x10,
-//        Qt4CompatiblePainting = 0x20
-//    };
+    QRectF rect = this->boundingRect();
 
-    //painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    //painter->drawPixmap(QPointF(rect().x(), rect().y()), m_Image);
-
-    m_Image.paint(painter, rect().toRect());
-
-    /*if (m_dir == Rotation) {
-        painter->drawPixmap(QPointF(rect().x(), rect().y()), m_Image);
-    } else {
-        QColor c = QColor("limegreen");
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(QBrush(c));
-        painter->drawRect(rect());
-    }*/
+    this->renderer()->render(painter, rect);
+//    QGraphicsSvgItem::paint(painter, option, widget);
 }
 
 
@@ -110,12 +90,21 @@ void CSizeHandleRect::setState(ESelectionHandleState st)
 bool CSizeHandleRect::hitTest(const QPointF &point)
 {
     QPointF pt = mapFromScene(point);
-    return rect().contains(pt);
+    return this->boundingRect().contains(pt);
 }
 
 void CSizeHandleRect::move(qreal x, qreal y)
 {
     setPos(x, y);
+}
+
+QRectF CSizeHandleRect::boundingRect() const
+{
+    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    QRectF rect = QGraphicsSvgItem::boundingRect();
+    rect.setWidth(rect.width() / scale);
+    rect.setHeight(rect.height() / scale);
+    return rect;
 }
 
 

@@ -3,7 +3,8 @@
 
 #include <QGraphicsRectItem>
 #include <QList>
-#include <QIcon>
+#include <DSvgRenderer>
+#include <QGraphicsSvgItem>
 
 QT_BEGIN_NAMESPACE
 class QFocusEvent;
@@ -12,17 +13,18 @@ class QGraphicsScene;
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
+DWIDGET_USE_NAMESPACE
 
-enum { SELECTION_HANDLE_SIZE = 16, SELECTION_MARGIN = 10 };
+enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
-class CSizeHandleRect : public QGraphicsRectItem
+class CSizeHandleRect : public QGraphicsSvgItem
 {
 public:
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, None};
 
-    CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable);
-    CSizeHandleRect(QGraphicsItem *parent, EDirection d, QGraphicsItem *resizable, const QPixmap &pixMap);
+    CSizeHandleRect(QGraphicsItem *parent, EDirection d);
+    CSizeHandleRect(QGraphicsItem *parent, EDirection d, const QString &filename);
 
     EDirection dir() const
     {
@@ -32,19 +34,14 @@ public:
     void setState(ESelectionHandleState st);
     bool hitTest( const QPointF &point );
     void move(qreal x, qreal y );
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     const EDirection m_dir;
-    QPoint m_startPos;
-    QPoint m_curPos;
-    QSize m_startSize;
-    QSize m_curSize;
-    QGraphicsItem *m_resizable;
     ESelectionHandleState m_state;
-    QIcon m_Image;
 };
 
 

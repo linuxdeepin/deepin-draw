@@ -14,6 +14,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
     , m_bCtlKeyPress(false)
+    , m_Scale(1)
 {
 
 }
@@ -169,6 +170,16 @@ void CDrawParamSigleton::setCtlKeyStatus(bool flag)
 bool CDrawParamSigleton::getCtlKeyStatus()
 {
     return m_bCtlKeyPress;
+}
+
+void CDrawParamSigleton::setScale(qreal scale)
+{
+    m_Scale = scale;
+}
+
+qreal CDrawParamSigleton::getScale() const
+{
+    return m_Scale;
 }
 
 

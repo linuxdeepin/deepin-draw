@@ -2,6 +2,7 @@
 #define CGRAPHICSRECTITEM_H
 #include "csizehandlerect.h"
 #include "cgraphicsitem.h"
+#include "cdrawparamsigleton.h"
 #include <QtGlobal>
 #include <QVector>
 #include <QRectF>

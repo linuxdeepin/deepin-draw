@@ -163,14 +163,13 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 
 void CGraphicsPenItem::updateGeometry()
 {
-    const QRectF &geom = this->rect();
-
-    const int w = SELECTION_HANDLE_SIZE;
-    const int h = SELECTION_HANDLE_SIZE;
+    const QRectF &geom = this->boundingRect();
 
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
         CSizeHandleRect *hndl = *it;
+        qreal w = hndl->boundingRect().width();
+        qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
         case CSizeHandleRect::LeftTop:
             hndl->move(geom.x() - w / 2, geom.y() - h / 2);
@@ -197,7 +196,7 @@ void CGraphicsPenItem::updateGeometry()
             hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             break;
         case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - hndl->rect().width() / 2, geom.y() - 25 - hndl->rect().height() / 2);
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
             break;
         default:
             break;
@@ -209,6 +208,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    updateGeometry();
+
     painter->setPen(pen());
     painter->drawPath(m_drawPath);
 
@@ -247,10 +248,9 @@ void CGraphicsPenItem::initPen()
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
-            QPixmap rotaImage(":/theme/resources/icon_rotate.svg");
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this, rotaImage);
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
         } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this);
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
         }
         m_handles.push_back(shr);
 

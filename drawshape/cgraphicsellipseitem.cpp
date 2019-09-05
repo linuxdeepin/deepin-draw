@@ -44,6 +44,6 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
+        painter->drawRect(this->rect());
     }
 }

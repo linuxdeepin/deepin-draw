@@ -46,6 +46,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    updateGeometry();
     QRectF rc = rect();
 
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());

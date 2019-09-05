@@ -70,7 +70,7 @@ void TopToolbar::initComboBox()
     QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
     m_scaleComboBox->addItems(scaleList);
     m_scaleComboBox->setCurrentIndex(1);
-    m_scaleComboBox->setFixedWidth(100);
+    m_scaleComboBox->setFixedWidth(200);
     m_scaleComboBox->setEditable(true);
 
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);

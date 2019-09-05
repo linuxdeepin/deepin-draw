@@ -62,6 +62,9 @@ public:
     void setCtlKeyStatus(bool flag);
     bool getCtlKeyStatus();
 
+    void setScale(qreal scale);
+    qreal getScale() const;
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -82,6 +85,9 @@ private:
     bool m_bShiftKeyPress;
     bool m_bAltKeyPress;
     bool m_bCtlKeyPress;
+
+    //当前比例尺
+    qreal m_Scale;
 };
 
 

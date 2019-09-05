@@ -3,6 +3,9 @@
 #include <QPainter>
 #include <QPointF>
 
+#include <DSvgRenderer>
+DTK_USE_NAMESPACE
+
 static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
 {
     const qreal penWidthZero = qreal(0.00000001);
@@ -131,12 +134,11 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
 
 void CGraphicsLineItem::updateGeometry()
 {
-    const int w = SELECTION_HANDLE_SIZE;
-    const int h = SELECTION_HANDLE_SIZE;
-
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
         QPointF centerPos = (m_line.p1() + m_line.p2()) / 2;
+        qreal w = hndl->boundingRect().width();
+        qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
         case CSizeHandleRect::LeftTop:
             hndl->move(m_line.p1().x() - w / 2, m_line.p1().y() - h / 2);
@@ -146,7 +148,7 @@ void CGraphicsLineItem::updateGeometry()
             break;
         case CSizeHandleRect::Rotation:
 
-            hndl->move(centerPos.x() - hndl->rect().width() / 2, centerPos.y() - hndl->rect().height() / 2 - 25);
+            hndl->move(centerPos.x() - w / 2, centerPos.y() - h - h / 2);
             break;
         default:
             break;
@@ -158,6 +160,7 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    updateGeometry();
     painter->setPen(pen());
     painter->drawLine(m_line);
 }
@@ -166,10 +169,9 @@ void CGraphicsLineItem::initLine()
 {
     m_handles.reserve(CSizeHandleRect::None);
 
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop, this));
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom, this));
-    QPixmap rotaImage(":/theme/resources/icon_rotate.svg");
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, this, rotaImage));
+    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
+    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
+    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/resources/icon_rotate.svg")));
 
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);

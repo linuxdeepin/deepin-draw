@@ -63,6 +63,8 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    updateGeometry();
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawPolygon(m_listPoints);
@@ -73,7 +75,7 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
+        painter->drawRect(this->rect());
     }
 }
 

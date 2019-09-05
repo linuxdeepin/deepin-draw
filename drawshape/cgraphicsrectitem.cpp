@@ -1,6 +1,5 @@
 #include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
-#include "cdrawparamsigleton.h"
 #include <QPainter>
 #include <QPixmap>
 
@@ -53,10 +52,9 @@ void CGraphicsRectItem::initRect()
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
-            QPixmap rotaImage(":/theme/resources/icon_rotate.svg");
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this, rotaImage);
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
         } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), this);
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
         }
         m_handles.push_back(shr);
 
@@ -72,6 +70,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    updateGeometry();
 
     painter->setPen(pen());
     painter->setBrush(brush());
@@ -433,12 +433,11 @@ void CGraphicsRectItem::updateGeometry()
 {
     const QRectF &geom = this->boundingRect();
 
-    const int w = SELECTION_HANDLE_SIZE;
-    const int h = SELECTION_HANDLE_SIZE;
-
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
         CSizeHandleRect *hndl = *it;
+        qreal w = hndl->boundingRect().width();
+        qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
         case CSizeHandleRect::LeftTop:
             hndl->move(geom.x() - w / 2, geom.y() - h / 2);
@@ -465,11 +464,42 @@ void CGraphicsRectItem::updateGeometry()
             hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             break;
         case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - hndl->rect().width() / 2, geom.y() - 25 - hndl->rect().height() / 2);
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
             break;
         default:
             break;
         }
+        /*switch (hndl->dir()) {
+        case CSizeHandleRect::LeftTop:
+            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::Top:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::RightTop:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
+            break;
+        case CSizeHandleRect::Right:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
+            break;
+        case CSizeHandleRect::RightBottom:
+            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::Bottom:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::LeftBottom:
+            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
+            break;
+        case CSizeHandleRect::Left:
+            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
+            break;
+        case CSizeHandleRect::Rotation:
+            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - 25 - h / 2);
+            break;
+        default:
+            break;
+        }*/
     }
 }
 
