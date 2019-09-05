@@ -19,7 +19,7 @@
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 #include "utils/tempfile.h"
-
+#include <QString>
 
 TopToolbar::TopToolbar(QWidget *parent)
     : DFrame(parent)
@@ -71,6 +71,8 @@ void TopToolbar::initComboBox()
     m_scaleComboBox->addItems(scaleList);
     m_scaleComboBox->setCurrentIndex(1);
     m_scaleComboBox->setFixedWidth(80);
+
+    connect(m_scaleComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotZoom(const QString &)));
 }
 
 void TopToolbar::initStackWidget()
@@ -276,6 +278,24 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
         }
         updateMiddleWidget(toolType);
     }
+}
+
+void TopToolbar::slotZoom(const QString &scale)
+{
+    qreal fScale = 0.0;
+    if (scale == "200%") {
+        fScale = 2;
+    } else if (scale == "100%") {
+        fScale = 1;
+    } else if (scale == "75%") {
+        fScale = 0.75;
+    } else if (scale == "50%") {
+        fScale = 0.5;
+    } else if (scale == "25%") {
+        fScale = 0.25;
+    }
+
+    emit signalZoom(fScale);
 }
 
 

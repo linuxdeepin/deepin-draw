@@ -46,6 +46,8 @@ signals:
     void signalAttributeChanged();
     //传递图片的旋转和翻转信号
     void signalPassPictureOperation(int);
+    //放大缩小信号
+    void signalZoom(qreal);
 
 
 public:
@@ -64,6 +66,7 @@ public slots:
      * @param primitiveType
      */
     void slotChangeAttributeFromScene(bool flag, int primitiveType);
+    void slotZoom(const QString &scale);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

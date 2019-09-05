@@ -39,6 +39,13 @@ public:
      * @param mouseEvent
      */
     void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent);
+
+    /**
+     * @brief drawBackground
+     * @param painter
+     * @param rect
+     */
+    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号

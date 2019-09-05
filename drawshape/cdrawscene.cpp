@@ -40,6 +40,12 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     }
 }
 
+void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    QGraphicsScene::drawBackground(painter, rect);
+    painter->fillRect(sceneRect(), Qt::white);
+}
+
 void CDrawScene::setCursor(const QCursor &cursor)
 {
     QList<QGraphicsView *> views  = this->views();

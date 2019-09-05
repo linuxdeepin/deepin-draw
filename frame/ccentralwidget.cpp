@@ -16,6 +16,7 @@
 
 CCentralwidget::CCentralwidget(QWidget *parent)
     : DWidget(parent)
+    , m_scale(1.0)
 {
     initUI();
     initConnect();
@@ -98,8 +99,13 @@ void CCentralwidget::initUI()
     m_pGraphicsView = new QGraphicsView(this);
 //    m_pGraphicsView->setStyleSheet("padding: 0px; border: 0px;");
 //    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
-    m_pDrawScene = new CDrawScene();
+    m_pDrawScene = new CDrawScene(this);
+    QRectF rc = QRectF(0, 0, 800, 600);
+    m_pDrawScene->setSceneRect(rc);
+    m_pDrawScene->setBackgroundBrush(Qt::darkGray);
+
     m_pGraphicsView->setScene(m_pDrawScene);
+    m_pGraphicsView->setAlignment(Qt::AlignCenter);
     m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
 
     m_progressLayout = new ProgressLayout();
@@ -121,8 +127,8 @@ void CCentralwidget::initUI()
 
 void CCentralwidget::slotResetOriginPoint()
 {
-    QRect rect = m_pGraphicsView->viewport()->rect();
-    m_pGraphicsView->setSceneRect(rect);
+    /*QRect rect = m_pGraphicsView->viewport()->rect();
+    m_pGraphicsView->setSceneRect(rect);*/
 }
 
 void CCentralwidget::slotAttributeChanged()
@@ -130,6 +136,13 @@ void CCentralwidget::slotAttributeChanged()
     if (m_pDrawScene != nullptr) {
         m_pDrawScene->attributeChanged();
     }
+}
+
+void CCentralwidget::slotZoom(qreal scale)
+{
+    m_pGraphicsView->scale(scale / m_scale, scale / m_scale);
+
+    m_scale = scale;
 }
 
 void CCentralwidget::initContextMenu()

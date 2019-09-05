@@ -47,6 +47,7 @@ public slots:
 
     void slotResetOriginPoint();
     void slotAttributeChanged();
+    void slotZoom(qreal scale);
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -63,6 +64,7 @@ private:
     CDrawScene *m_pDrawScene;
     ProgressLayout *m_progressLayout;
     int m_picNum;
+    qreal m_scale;
 private:
     void initUI();
     void initContextMenu();
