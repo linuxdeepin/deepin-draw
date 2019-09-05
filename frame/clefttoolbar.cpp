@@ -29,6 +29,12 @@ CLeftToolBar::~CLeftToolBar()
 
 }
 
+void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
+{
+    //禁止拖动
+    Q_UNUSED(event)
+}
+
 void CLeftToolBar::initUI()
 {
     setFixedWidth(58);

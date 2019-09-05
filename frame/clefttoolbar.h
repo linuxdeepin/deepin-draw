@@ -14,7 +14,8 @@ class CLeftToolBar : public DFrame
 public:
     explicit CLeftToolBar(QWidget *parent = nullptr);
     ~CLeftToolBar();
-
+protected:
+    virtual void mouseMoveEvent(QMouseEvent *event);
 signals:
     void sendPicPath(QStringList picPath);
     void setCurrentDrawTool(int type);
