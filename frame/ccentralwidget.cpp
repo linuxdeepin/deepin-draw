@@ -4,10 +4,11 @@
 #include "drawshape/cgraphicsitem.h"
 #include "widgets/progresslayout.h"
 #include "drawshape/cpictureitem.h"
+#include "cgraphicsview.h"
 
 #include <QLabel>
 #include <QDebug>
-#include <QGraphicsView>
+
 #include <QGraphicsItem>
 #include <QtConcurrent>
 
@@ -16,7 +17,6 @@
 
 CCentralwidget::CCentralwidget(QWidget *parent)
     : DWidget(parent)
-    , m_scale(1.0)
 {
     initUI();
     initConnect();
@@ -39,6 +39,11 @@ void CCentralwidget::contextMenuEvent(QContextMenuEvent *event)
 
     m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
     m_contextMenu->show();
+}
+
+CGraphicsView *CCentralwidget::getGraphicsView() const
+{
+    return m_pGraphicsView;
 }
 //进行图片导入
 void CCentralwidget::getPicPath(QStringList pathList)
@@ -96,7 +101,7 @@ void CCentralwidget::initUI()
 
 //    m_leftToolbar->setStyleSheet("background-color: rgb(0,255, 0);");
 
-    m_pGraphicsView = new QGraphicsView(this);
+    m_pGraphicsView = new CGraphicsView(this);
 //    m_pGraphicsView->setStyleSheet("padding: 0px; border: 0px;");
 //    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
     m_pDrawScene = new CDrawScene(this);
@@ -144,9 +149,14 @@ void CCentralwidget::slotAttributeChanged()
 
 void CCentralwidget::slotZoom(qreal scale)
 {
-    m_pGraphicsView->scale(scale / m_scale, scale / m_scale);
+    m_pGraphicsView->scale(scale);
 
-    m_scale = scale;
+
+}
+
+void CCentralwidget::slotSetScale(const qreal scale)
+{
+    emit signalSetScale(scale);
 }
 
 void CCentralwidget::initContextMenu()
@@ -185,5 +195,6 @@ void CCentralwidget::initConnect()
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
+    connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
 
 }

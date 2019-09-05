@@ -14,7 +14,7 @@
 DWIDGET_USE_NAMESPACE
 
 class CLeftToolBar;
-class QGraphicsView;
+class CGraphicsView;
 class CDrawScene;
 class ProgressLayout;
 
@@ -26,6 +26,7 @@ public:
     ~CCentralwidget();
     CLeftToolBar *getLeftToolBar();
     void contextMenuEvent(QContextMenuEvent *event);
+    CGraphicsView *getGraphicsView() const;
 
 signals:
     void sendImageItem(QPixmap pixMap);
@@ -37,6 +38,7 @@ signals:
      * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号
      */
     void signalAttributeChangedFromScene(bool, int);
+    void signalSetScale(const qreal);
 
 
 
@@ -48,6 +50,7 @@ public slots:
     void slotResetOriginPoint();
     void slotAttributeChanged();
     void slotZoom(qreal scale);
+    void slotSetScale(const qreal scale);
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -60,11 +63,11 @@ private:
     int m_verticalMargin;
 
     DMenu *m_contextMenu;
-    QGraphicsView *m_pGraphicsView;
+    CGraphicsView *m_pGraphicsView;
     CDrawScene *m_pDrawScene;
     ProgressLayout *m_progressLayout;
     int m_picNum;
-    qreal m_scale;
+
 private:
     void initUI();
     void initContextMenu();

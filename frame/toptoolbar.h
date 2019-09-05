@@ -67,6 +67,7 @@ public slots:
      */
     void slotChangeAttributeFromScene(bool flag, int primitiveType);
     void slotZoom(const QString &scale);
+    void slotSetScale(const qreal scale);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

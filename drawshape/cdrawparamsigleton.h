@@ -59,6 +59,9 @@ public:
     void setAltKeyStatus(bool flag);
     bool getAltKeyStatus();
 
+    void setCtlKeyStatus(bool flag);
+    bool getCtlKeyStatus();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -78,6 +81,7 @@ private:
     //按键状态
     bool m_bShiftKeyPress;
     bool m_bAltKeyPress;
+    bool m_bCtlKeyPress;
 };
 
 

@@ -13,6 +13,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
+    , m_bCtlKeyPress(false)
 {
 
 }
@@ -158,6 +159,16 @@ void CDrawParamSigleton::setAltKeyStatus(bool flag)
 bool CDrawParamSigleton::getAltKeyStatus()
 {
     return m_bAltKeyPress;
+}
+
+void CDrawParamSigleton::setCtlKeyStatus(bool flag)
+{
+    m_bCtlKeyPress = flag;
+}
+
+bool CDrawParamSigleton::getCtlKeyStatus()
+{
+    return m_bCtlKeyPress;
 }
 
 

@@ -1,19 +1,17 @@
 #include "mainwindow.h"
-
-#include <DTitlebar>
-
-#include <QVBoxLayout>
-#include <QCheckBox>
-#include <QDebug>
-#include <QApplication>
-
 #include "widgets/dialog/drawdialog.h"
 #include "../application.h"
 #include "ccentralwidget.h"
 #include "toptoolbar.h"
 #include "clefttoolbar.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "cgraphicsview.h"
 
+#include <DTitlebar>
+#include <QVBoxLayout>
+#include <QCheckBox>
+#include <QDebug>
+#include <QApplication>
 
 
 const QSize WINDOW_MINISIZR = QSize(960, 540);
@@ -73,6 +71,7 @@ void MainWindow::initConnection()
     //链接图片选择后相应的操作
     connect(m_topToolbar, SIGNAL(signalPassPictureOperation(int)), m_centralWidget, SIGNAL(signalPassPictureOper(int)));
     connect(m_topToolbar, SIGNAL(signalZoom(qreal)), m_centralWidget, SLOT(slotZoom(qreal)));
+    connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
 
 }
 
@@ -129,6 +128,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
     else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
+    } else if (event->key() == Qt::Key_Control) {
+        CDrawParamSigleton::GetInstance()->setCtlKeyStatus(true);
     } else {
         ;
     }
@@ -143,10 +144,25 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
     else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
-    } else {
+    } else if (event->key() == Qt::Key_Control) {
+        CDrawParamSigleton::GetInstance()->setCtlKeyStatus(false);
+    }  else {
         ;
     }
     DMainWindow::keyReleaseEvent(event);
+}
+
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+    //如果按住CTRL
+    if (CDrawParamSigleton::GetInstance()->getCtlKeyStatus()) {
+        if (event->delta() > 0) {
+            m_centralWidget->getGraphicsView()->zoomOut();
+        } else {
+            m_centralWidget->getGraphicsView()->zoomIn();
+        }
+    }
+    DMainWindow::wheelEvent(event);
 }
 
 MainWindow::~MainWindow()

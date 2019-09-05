@@ -12,7 +12,8 @@ HEADERS += \
     $$PWD/clefttoolbar.h \
     $$PWD/cpenwidget.h \
     $$PWD/ccutwidget.h \
-    $$PWD/cpicturewidget.h
+    $$PWD/cpicturewidget.h \
+    $$PWD/cgraphicsview.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
@@ -28,7 +29,8 @@ SOURCES += \
     $$PWD/clefttoolbar.cpp \
     $$PWD/cpenwidget.cpp \
     $$PWD/ccutwidget.cpp \
-    $$PWD/cpicturewidget.cpp
+    $$PWD/cpicturewidget.cpp \
+    $$PWD/cgraphicsview.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

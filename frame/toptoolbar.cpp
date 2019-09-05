@@ -1,9 +1,5 @@
 #include "toptoolbar.h"
 #include "application.h"
-
-#include <DApplication>
-#include <QHBoxLayout>
-
 #include "commonshapewidget.h"
 #include "polygonalstarattributewidget.h"
 #include "polygonattributewidget.h"
@@ -19,6 +15,10 @@
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 #include "utils/tempfile.h"
+
+#include <DComboBox>
+#include <DApplication>
+#include <QHBoxLayout>
 #include <QString>
 
 TopToolbar::TopToolbar(QWidget *parent)
@@ -70,7 +70,11 @@ void TopToolbar::initComboBox()
     QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
     m_scaleComboBox->addItems(scaleList);
     m_scaleComboBox->setCurrentIndex(1);
-    m_scaleComboBox->setFixedWidth(80);
+    m_scaleComboBox->setFixedWidth(100);
+    m_scaleComboBox->setEditable(true);
+
+    m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
+    m_scaleComboBox->lineEdit()->setReadOnly(true);
 
     connect(m_scaleComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotZoom(const QString &)));
 }
@@ -293,9 +297,19 @@ void TopToolbar::slotZoom(const QString &scale)
         fScale = 0.5;
     } else if (scale == "25%") {
         fScale = 0.25;
+    } else {
+        fScale = 1;
     }
 
     emit signalZoom(fScale);
+}
+
+void TopToolbar::slotSetScale(const qreal scale)
+{
+    QString strScale = QString::number(int(scale * 100)) + "%";
+
+    m_scaleComboBox->setEditText(strScale);
+//    m_scaleComboBox->setEditable(false);
 }
 
 
