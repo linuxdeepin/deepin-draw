@@ -4,43 +4,36 @@
 #include <QtMath>
 #include <QDebug>
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
 
-}
+//}
 
-
-CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
-    : CGraphicsItem(parent)
-{
-
-}
-
-CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent)
-    : CGraphicsItem(parent)
-    , m_prePoint(startPoint)
+CGraphicsPenItem::CGraphicsPenItem(const QRectF &rect, CGraphicsItem *parent)
+    : CGraphicsRectItem (rect, parent)
+    , m_prePoint(QPointF(rect.x(), rect.y()))
     , m_isShiftPress(false)
+    , m_isDrawCompelet(false)
     , m_currentType(straight)
 {
-    initPen();
-    m_drawPath.moveTo(startPoint);
+    m_drawPath.moveTo(rect.x(), rect.y());
     m_truePath = m_drawPath;
 }
 
@@ -54,86 +47,23 @@ int CGraphicsPenItem::type() const
     return PenType;
 }
 
-QPainterPath CGraphicsPenItem::shape() const
-{
-    return  qt_graphicsItem_shapeFromPath(m_truePath, pen());
-}
 
 QRectF CGraphicsPenItem::boundingRect() const
 {
-    QRectF rect = m_truePath.controlPointRect();
+    QRectF rect = this->rect();
 
-    return QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-                  rect.width() + pen().width(), rect.height() + pen().width());
-}
+    return rect;
 
-QRectF CGraphicsPenItem::rect() const
-{
-    QRectF rect(m_truePath.controlPointRect());
-    return rect.normalized();
-}
-
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
-{
-//    QPointF local = mapFromScene(point);
-//    QRectF rect = this->rect();
-
-//    switch (dir) {
-//    case CSizeHandleRect::Right:
-//        if (local.x() - rect.left() > 0.1 ) {
-//            rect.setRight(local.x());
-//        }
-//        break;
-//    case CSizeHandleRect::RightTop:
-//        if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
-//            rect.setTopRight(local);
-//        }
-//        break;
-//    case CSizeHandleRect::RightBottom:
-//        if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
-//            rect.setBottomRight(local);
-//        }
-//        break;
-//    case CSizeHandleRect::LeftBottom:
-//        if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
-//            rect.setBottomLeft(local);
-//        }
-//        break;
-//    case CSizeHandleRect::Bottom:
-//        if (local.y() - rect.top() > 0.1 ) {
-//            rect.setBottom(local.y());
-//        }
-//        break;
-//    case CSizeHandleRect::LeftTop:
-//        if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
-//            rect.setTopLeft(local);
-//        }
-//        break;
-//    case CSizeHandleRect::Left:
-//        if (rect.right() - local.x() > 0.1 ) {
-//            rect.setLeft(local.x());
-//        }
-//        break;
-//    case CSizeHandleRect::Top:
-//        if (local.y() - rect.bottom() < 0.1 ) {
-//            rect.setTop(local.y());
-//        }
-//        break;
-//    default:
-//        break;
-//    }
-
-//    rect = rect.normalized();
-//    prepareGeometryChange();
-
-//    this->setRect(m_);
-//    updateGeometry();
+//    return  QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+//                   rect.width() + pen().width(), rect.height() + pen().width());;
 }
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
-    m_isShiftPress = isShiftPress;
     prepareGeometryChange();
+
+    m_isShiftPress = isShiftPress;
+
     if (isShiftPress) {
         m_straightLine.setP1(m_drawPath.currentPosition());
         m_straightLine.setP2(endPoint);
@@ -157,78 +87,66 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 
     }
 
+    QRectF rect = m_truePath.controlPointRect();
 
-    updateGeometry();
+    setRect(QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+                   rect.width() + pen().width(), rect.height() + pen().width()));
+//    setRect(rect);
 }
 
-void CGraphicsPenItem::updateGeometry()
+void CGraphicsPenItem::changeToPixMap()
 {
-    const QRectF &geom = this->boundingRect();
+    QRectF rect = this->rect();
 
-    const Handles::iterator hend =  m_handles.end();
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
-        CSizeHandleRect *hndl = *it;
-        qreal w = hndl->boundingRect().width();
-        qreal h = hndl->boundingRect().height();
-        switch (hndl->dir()) {
-        case CSizeHandleRect::LeftTop:
-            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Top:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::RightTop:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Right:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::RightBottom:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Bottom:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::LeftBottom:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Left:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
-            break;
-        default:
-            break;
-        }
+    prepareGeometryChange();
+
+    QPixmap tmp(rect.width(), rect.height());
+
+    tmp.fill(Qt::transparent);
+
+    QPainter painter(&tmp);
+
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(pen());
+
+    painter.translate(-rect.x(), -rect.y());
+
+    painter.drawPath(m_drawPath);
+
+    if (m_isShiftPress) {
+        painter.drawLine(m_straightLine);
     }
+
+    if (m_currentType == arrow) {
+        painter.setBrush(QBrush(pen().color()));
+        painter.drawPolygon(m_arrow);
+    }
+
+    m_pixMap = tmp;
+
+    m_isDrawCompelet = true;
+
 }
+
+
 
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
 
-    painter->setPen(pen());
-    painter->drawPath(m_drawPath);
-
-    if (m_isShiftPress) {
-        painter->drawLine(m_straightLine);
-    }
-
-    if (m_currentType == arrow) {
-        painter->setBrush(QBrush(pen().color()));
-        painter->drawPolygon(m_arrow);
-    }
-
-    if (this->isSelected()) {
-        QPen pen;
-        pen.setWidth(1);
-        pen.setColor(QColor(224, 224, 224));
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
+    if (!m_isDrawCompelet) {
+        painter->setPen(pen());
+        painter->drawPath(m_drawPath);
+        if (m_isShiftPress) {
+            painter->drawLine(m_straightLine);
+        }
+        if (m_currentType == arrow) {
+            painter->setBrush(QBrush(pen().color()));
+            painter->drawPolygon(m_arrow);
+        }
+    } else {
+        painter->drawPixmap(rect(), m_pixMap, m_pixMap.rect());
     }
 }
 
@@ -242,26 +160,6 @@ void CGraphicsPenItem::setCurrentType(const EPenType &currentType)
     m_currentType = currentType;
 }
 
-void CGraphicsPenItem::initPen()
-{
-    m_handles.reserve(CSizeHandleRect::None);
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = nullptr;
-        if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
-        } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
-        }
-        m_handles.push_back(shr);
-
-    }
-    updateGeometry();
-    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-    this->setAcceptHoverEvents(true);
-}
-
 
 void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &currentPoint)
 {
@@ -269,7 +167,7 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
 
     qreal x1, y1, x2, y2;
 
-    qreal arrow_lenght_ = 10.0 + pen().width() * 10; //箭头的斜边长
+    qreal arrow_lenght_ = 10.0 + pen().width() * 5; //箭头的斜边长
     qreal arrow_degrees_ = qDegreesToRadians(30.0); //箭头的角度/2
 
     qreal angle = atan2 (currentPoint.y() - prePoint.y(), currentPoint.x() - prePoint.x()) + M_PI;
