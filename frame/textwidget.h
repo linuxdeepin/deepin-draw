@@ -16,7 +16,7 @@ class TextWidget : public DWidget
 {
     Q_OBJECT
 public:
-    TextWidget(QWidget *parent = nullptr);
+    TextWidget(DWidget *parent = nullptr);
     ~TextWidget();
 
 public slots:

@@ -8,7 +8,7 @@
 
 const int BTN_SPACING = 13;
 
-CPictureWidget::CPictureWidget(QWidget *parent)
+CPictureWidget::CPictureWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();

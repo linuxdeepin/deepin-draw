@@ -7,9 +7,9 @@
 #include <DMenu>
 #include <DLabel>
 
-#include <QWidget>
-#include <QStackedWidget>
-#include <QPushButton>
+#include <DWidget>
+#include <DStackedWidget>
+#include <DPushButton>
 #include <QKeyEvent>
 
 
@@ -34,7 +34,7 @@ class TopToolbar : public DFrame
     Q_OBJECT
 
 public:
-    TopToolbar(QWidget *parent = nullptr);
+    TopToolbar(DWidget *parent = nullptr);
     ~TopToolbar();
 
     DMenu *mainMenu();
@@ -75,7 +75,7 @@ protected:
 private:
     QString m_path;
     QStringList m_paths;
-    QStackedWidget *m_stackWidget;
+    DStackedWidget *m_stackWidget;
     int m_textFontsize = 12;
 
     DWidget *m_emptyWidget;

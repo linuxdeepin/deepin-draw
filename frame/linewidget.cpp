@@ -14,7 +14,7 @@
 
 const int BTN_SPACNT = 10;
 
-LineWidget::LineWidget(QWidget *parent)
+LineWidget::LineWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();
@@ -28,7 +28,7 @@ LineWidget::~LineWidget()
 
 void LineWidget::initUI()
 {
-    QLabel *strokeLabel = new QLabel(this);
+    DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
 
@@ -36,7 +36,7 @@ void LineWidget::initUI()
 
     SeperatorLine *sep1Line = new SeperatorLine(this);
 
-    QLabel *lwLabel = new QLabel(this);
+    DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 

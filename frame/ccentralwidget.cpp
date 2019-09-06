@@ -7,7 +7,7 @@
 #include "cgraphicsview.h"
 #include "drawshape/cpicturetool.h"
 
-#include <QLabel>
+#include <DLabel>
 #include <QDebug>
 
 #include <QGraphicsItem>
@@ -16,7 +16,7 @@
 #include <DMenu>
 
 
-CCentralwidget::CCentralwidget(QWidget *parent)
+CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();

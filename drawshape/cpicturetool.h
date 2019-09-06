@@ -7,15 +7,15 @@
 #include"widgets/progresslayout.h"
 #include <DFileDialog>
 
-#include <QWidget>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
-class CPictureTool: public QWidget
+class CPictureTool: public DWidget
 {
     Q_OBJECT
 public:
-    CPictureTool(QWidget *parent = nullptr);
+    CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 signals:
     void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, QWidget *centralWindow);
@@ -25,7 +25,7 @@ public slots:
 
 public:
 
-    void drawPicture(CDrawScene *scene, QWidget *centralWindow);
+    void drawPicture(CDrawScene *scene, DWidget *centralWindow);
 private:
     //QList<CPictureItem *> m_picturetItems;
     ProgressLayout *m_progressLayout;

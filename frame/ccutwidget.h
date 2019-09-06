@@ -10,7 +10,7 @@ class CCutWidget : public DWidget
 {
     Q_OBJECT
 public:
-    explicit CCutWidget(QWidget *parent = nullptr);
+    explicit CCutWidget(DWidget *parent = nullptr);
     ~CCutWidget();
 signals:
 

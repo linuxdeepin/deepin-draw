@@ -8,13 +8,13 @@
 
 #include <DFileDialog>
 
-#include <QWidget>
+#include <DWidget>
 #include <QVBoxLayout>
 #include <QDebug>
 
 const int BTN_SPACING = 1;
 
-CLeftToolBar::CLeftToolBar(QWidget *parent)
+CLeftToolBar::CLeftToolBar(DWidget *parent)
     : DFrame(parent)
 {
     setMaximumWidth(50);

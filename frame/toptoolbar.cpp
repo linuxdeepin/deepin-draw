@@ -21,7 +21,7 @@
 #include <QHBoxLayout>
 #include <QString>
 
-TopToolbar::TopToolbar(QWidget *parent)
+TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
     initUI();
@@ -39,7 +39,7 @@ void TopToolbar::initUI()
     initStackWidget();
     initMenu();
 
-    QLabel *logoLable = new QLabel(this);
+    DLabel *logoLable = new DLabel(this);
     logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
     logoLable->setFixedSize(QSize(32, 32));
 
@@ -81,8 +81,8 @@ void TopToolbar::initComboBox()
 
 void TopToolbar::initStackWidget()
 {
-    m_stackWidget = new QStackedWidget(this);
-    m_emptyWidget = new QWidget(this);
+    m_stackWidget = new DStackedWidget(this);
+    m_emptyWidget = new DWidget(this);
     m_stackWidget->addWidget(m_emptyWidget);
 
     //colorPanel.
@@ -316,7 +316,7 @@ void TopToolbar::slotSetScale(const qreal scale)
 }
 
 
-QMenu *TopToolbar::mainMenu()
+DMenu *TopToolbar::mainMenu()
 {
     return m_mainMenu;
 }

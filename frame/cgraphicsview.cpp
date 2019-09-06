@@ -2,7 +2,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include <QWheelEvent>
 
-CGraphicsView::CGraphicsView(QWidget *parent)
+CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
 {

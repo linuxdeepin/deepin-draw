@@ -13,7 +13,7 @@
 
 const int BTN_SPACNT = 10;
 
-CPenWidget::CPenWidget(QWidget *parent)
+CPenWidget::CPenWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();
@@ -27,7 +27,7 @@ CPenWidget::~CPenWidget()
 
 void CPenWidget::initUI()
 {
-    QLabel *strokeLabel = new QLabel(this);
+    DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
 
@@ -35,7 +35,7 @@ void CPenWidget::initUI()
 
     SeperatorLine *sep1Line = new SeperatorLine(this);
 
-    QLabel *lineTypeLabel = new QLabel(this);
+    DLabel *lineTypeLabel = new DLabel(this);
     lineTypeLabel->setObjectName("LineType");
     lineTypeLabel->setText(tr("类型"));
 
@@ -56,7 +56,7 @@ void CPenWidget::initUI()
     m_arrowline = new CPushButton(pictureMap, this);
     m_actionButtons.append(m_arrowline);
 
-    QLabel *lwLabel = new QLabel(this);
+    DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
 

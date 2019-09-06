@@ -8,7 +8,7 @@ class CGraphicsView : public DGraphicsView
 {
     Q_OBJECT
 public:
-    CGraphicsView(QWidget *parent = nullptr);
+    CGraphicsView(DWidget *parent = nullptr);
     void zoomOut();
     void zoomIn();
     void scale(qreal scale);

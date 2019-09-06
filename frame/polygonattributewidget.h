@@ -17,7 +17,7 @@ class PolygonAttributeWidget : public DWidget
 {
     Q_OBJECT
 public:
-    PolygonAttributeWidget(QWidget *parent = nullptr);
+    PolygonAttributeWidget(DWidget *parent = nullptr);
     ~PolygonAttributeWidget();
 
 public slots:
@@ -40,7 +40,7 @@ private:
 private:
     void initUI();
     void initConnection();
-    QPoint getBtnPosition(const QPushButton *btn);
+    QPoint getBtnPosition(const DPushButton *btn);
 };
 
 

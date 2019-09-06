@@ -22,7 +22,7 @@ class CCentralwidget: public DWidget
 {
     Q_OBJECT
 public:
-    CCentralwidget(QWidget *parent = 0);
+    CCentralwidget(DWidget *parent = 0);
     ~CCentralwidget();
     CLeftToolBar *getLeftToolBar();
     void contextMenuEvent(QContextMenuEvent *event);

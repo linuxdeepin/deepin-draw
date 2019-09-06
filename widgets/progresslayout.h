@@ -3,9 +3,9 @@
 
 #include <QHBoxLayout>
 #include <DProgressBar>
-//#include <QDialog>
 #include <DWidget>
-class QLabel;
+#include <DLabel>
+
 DWIDGET_USE_NAMESPACE
 
 class ProgressLayout: public DWidget
@@ -15,13 +15,13 @@ public:
     ~ProgressLayout();
     void setRange(int start, int end);
     void setProgressValue(int value);
-    void showInCenter(QWidget *w);
+    void showInCenter(DWidget *w);
 
 
 
     QVBoxLayout *m_progressVBoxLayout;
-    QLabel *m_label;
-    QLabel *m_progressLabel;
+    DLabel *m_label;
+    DLabel *m_progressLabel;
     DProgressBar *m_progressbar;
     int m_start;
     int m_end;

@@ -15,7 +15,7 @@ class CommonshapeWidget : public DWidget
 {
     Q_OBJECT
 public:
-    CommonshapeWidget(QWidget *parent = nullptr);
+    CommonshapeWidget(DWidget *parent = nullptr);
     ~CommonshapeWidget();
 
 signals:
@@ -34,7 +34,7 @@ private:
 private:
     void initUI();
     void initConnection();
-    QPoint getBtnPosition(const QPushButton *btn);
+    QPoint getBtnPosition(const DPushButton *btn);
 };
 
 #endif // FILLSHAPEWIDGET_H

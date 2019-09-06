@@ -13,7 +13,7 @@ const int SEPARATE_SPACING = 5;
 const int PUSHBUTTON_FONT_SIZE = 9;
 
 
-CCutWidget::CCutWidget(QWidget *parent)
+CCutWidget::CCutWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();

@@ -20,7 +20,7 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
-PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(QWidget *parent)
+PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
     , m_isUsrDragSlider(false)
 {
@@ -219,7 +219,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     }
 }
 
-QPoint PolygonalStarAttributeWidget::getBtnPosition(const QPushButton *btn)
+QPoint PolygonalStarAttributeWidget::getBtnPosition(const DPushButton *btn)
 {
     QPoint btnPos = mapToGlobal(btn->pos());
     QPoint pos(btnPos.x() + btn->width() / 2,

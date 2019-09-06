@@ -16,7 +16,7 @@ class CPenWidget : public DWidget
     Q_OBJECT
 
 public:
-    CPenWidget(QWidget *parent = nullptr);
+    CPenWidget(DWidget *parent = nullptr);
     ~CPenWidget();
 
 public slots:

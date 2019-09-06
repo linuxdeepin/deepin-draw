@@ -1,5 +1,5 @@
 #include "progresslayout.h"
-#include <QLabel>
+
 //#include <DDialog>
 
 DWIDGET_USE_NAMESPACE
@@ -8,7 +8,7 @@ ProgressLayout::ProgressLayout(DWidget *parent)
     : DWidget (parent)
 {
     m_progressVBoxLayout = new QVBoxLayout();
-    m_label = new QLabel();
+    m_label = new DLabel();
     m_label->setText(QString("正在导入图片，请稍候"));
     QFont ft;
     ft.setPointSize(10);
@@ -18,7 +18,7 @@ ProgressLayout::ProgressLayout(DWidget *parent)
     pa1.setColor(QPalette::WindowText, Qt::black);
     m_label->setPalette(pa1);
 
-    m_progressLabel = new QLabel();
+    m_progressLabel = new DLabel();
     m_progressbar = new DProgressBar();
     m_progressbar->setFixedSize(400, 20);
     //m_progressbar->setTextVisiable(false);
@@ -35,7 +35,7 @@ ProgressLayout::~ProgressLayout()
 {
 
 }
-void ProgressLayout::showInCenter(QWidget *w)
+void ProgressLayout::showInCenter(DWidget *w)
 {
     show();
 

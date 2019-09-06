@@ -15,7 +15,7 @@ class LineWidget : public DWidget
 {
     Q_OBJECT
 public:
-    LineWidget(QWidget *parent = nullptr);
+    LineWidget(DWidget *parent = nullptr);
     ~LineWidget();
 
 public slots:

@@ -19,7 +19,7 @@ public:
 
     Q_OBJECT
 public:
-    CPictureWidget(QWidget *parent = nullptr);
+    CPictureWidget(DWidget *parent = nullptr);
     ~CPictureWidget();
 
 signals:

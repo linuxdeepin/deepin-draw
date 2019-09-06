@@ -12,7 +12,7 @@ class CLeftToolBar : public DFrame
 {
     Q_OBJECT
 public:
-    explicit CLeftToolBar(QWidget *parent = nullptr);
+    explicit CLeftToolBar(DWidget *parent = nullptr);
     ~CLeftToolBar();
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);

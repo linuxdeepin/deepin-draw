@@ -2,7 +2,7 @@
 
 #include <DLabel>
 
-#include <QLabel>
+#include <DLabel>
 #include <QHBoxLayout>
 #include <QFont>
 
@@ -16,7 +16,7 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
-TextWidget::TextWidget(QWidget *parent)
+TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();

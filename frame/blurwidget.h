@@ -14,7 +14,7 @@ class BlurWidget : public DWidget
 
 
 public:
-    BlurWidget(QWidget *parent = 0);
+    BlurWidget(DWidget *parent = 0);
     ~BlurWidget();
 
 private:

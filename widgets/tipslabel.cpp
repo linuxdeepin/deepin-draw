@@ -9,6 +9,7 @@ TipsLabel::TipsLabel(QWidget *parent)
                   "border-radius: 3px;"
                   "border: 1px solid rgba(0, 0, 0, 13);}");
     setAlignment(Qt::AlignCenter);
+
 }
 
 TipsLabel::~TipsLabel()

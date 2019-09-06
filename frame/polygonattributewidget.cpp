@@ -23,7 +23,7 @@ const int SEPARATE_SPACING = 5;
 
 //DWIDGET_USE_NAMESPACE
 
-PolygonAttributeWidget::PolygonAttributeWidget(QWidget *parent)
+PolygonAttributeWidget::PolygonAttributeWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();
@@ -162,7 +162,7 @@ void PolygonAttributeWidget::updatePolygonWidget()
     }
 }
 
-QPoint PolygonAttributeWidget::getBtnPosition(const QPushButton *btn)
+QPoint PolygonAttributeWidget::getBtnPosition(const DPushButton *btn)
 {
     QPoint btnPos = mapToGlobal(btn->pos());
     QPoint pos(btnPos.x() + btn->width() / 2,

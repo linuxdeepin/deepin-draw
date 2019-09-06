@@ -12,7 +12,7 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
-BlurWidget::BlurWidget(QWidget *parent)
+BlurWidget::BlurWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();

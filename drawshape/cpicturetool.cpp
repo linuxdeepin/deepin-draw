@@ -4,8 +4,8 @@
 #include <QtConcurrent>
 
 
-CPictureTool::CPictureTool(QWidget *parent)
-    : QWidget (parent)
+CPictureTool::CPictureTool(DWidget *parent)
+    : DWidget (parent)
 {
     m_progressLayout = new ProgressLayout();
     connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, QWidget *)), this, SLOT(addImages(QPixmap, int, CDrawScene *, QWidget *)));

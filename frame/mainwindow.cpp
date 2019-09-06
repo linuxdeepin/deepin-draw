@@ -19,7 +19,7 @@ const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
 //const int IMG_ROTATEPOINT_SPACING = 35;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(DWidget *parent)
     : DMainWindow(parent)
 {
 //    setMouseTracking(true);

@@ -16,7 +16,7 @@ class PolygonalStarAttributeWidget : public DWidget
 {
     Q_OBJECT
 public:
-    PolygonalStarAttributeWidget(QWidget *parent = nullptr);
+    PolygonalStarAttributeWidget(DWidget *parent = nullptr);
     ~PolygonalStarAttributeWidget();
 
 public slots:
@@ -41,7 +41,7 @@ private:
 private:
     void initUI();
     void initConnection();
-    QPoint getBtnPosition(const QPushButton *btn);
+    QPoint getBtnPosition(const DPushButton *btn);
 };
 
 #endif // POLYGONALSTARATTRIBUTEWIDGET_H

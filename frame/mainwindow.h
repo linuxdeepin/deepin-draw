@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <DMainWindow>
-
+#include <DWidget>
 #include <QMouseEvent>
 
 DWIDGET_USE_NAMESPACE
@@ -14,7 +14,7 @@ class MainWindow: public DMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(DWidget *parent = 0);
     ~MainWindow();
 
     void activeWindow();

@@ -20,7 +20,7 @@
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 
-CommonshapeWidget::CommonshapeWidget(QWidget *parent)
+CommonshapeWidget::CommonshapeWidget(DWidget *parent)
     : DWidget(parent)
 {
     initUI();
@@ -100,7 +100,7 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_sideWidthWidget->updateSideWidth();
 }
 
-QPoint CommonshapeWidget::getBtnPosition(const QPushButton *btn)
+QPoint CommonshapeWidget::getBtnPosition(const DPushButton *btn)
 {
     QPoint btnPos = mapToGlobal(btn->pos());
     QPoint pos(btnPos.x() + btn->width() / 2,
