@@ -1,28 +1,26 @@
 #ifndef CGRAPHICSPENITEM_H
 #define CGRAPHICSPENITEM_H
 
-#include "cgraphicsitem.h"
+#include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
 
 #include <QGraphicsItem>
 
-class CGraphicsPenItem : public CGraphicsItem
+class CGraphicsPenItem : public CGraphicsRectItem
 {
 public:
-    explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
-    explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
+    explicit CGraphicsPenItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
     EPenType currentType() const;
     void setCurrentType(const EPenType &currentType);
-
+    /**
+     * @brief changeToPixMap 当绘制路径完成后将路径绘制到图片里，以后此Item将只绘制图片
+     */
+    void changeToPixMap();
 protected:
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
@@ -31,13 +29,15 @@ private:
     QPolygonF m_arrow; //箭头三角形
     QPointF m_prePoint; //前一个点
     QLineF m_straightLine;
-    bool m_isShiftPress;
+    bool m_isShiftPress;//是否按住shift
+    bool m_isDrawCompelet;//是否绘制完成
     QPainterPath m_tmpPath;
 
     EPenType m_currentType;
 
+    QPixmap m_pixMap;
+
 private:
-    void initPen();
     /**
      * @brief calcVertexes 计算箭头三角形的三个点
      * @param prePoint 前一个点
