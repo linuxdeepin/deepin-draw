@@ -25,7 +25,6 @@ public:
     CCentralwidget(QWidget *parent = 0);
     ~CCentralwidget();
     CLeftToolBar *getLeftToolBar();
-    void contextMenuEvent(QContextMenuEvent *event);
     CGraphicsView *getGraphicsView() const;
 
 signals:
@@ -70,7 +69,6 @@ private:
 
 private:
     void initUI();
-    void initContextMenu();
     void initConnect();
 
 };

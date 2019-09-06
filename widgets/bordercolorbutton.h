@@ -1,10 +1,12 @@
 #ifndef BORDERCOLORBUTTON_H
 #define BORDERCOLORBUTTON_H
 
-#include <QPushButton>
+#include <DPushButton>
 #include <QWidget>
 
-class BorderColorButton : public QPushButton
+DWIDGET_USE_NAMESPACE
+
+class BorderColorButton : public DPushButton
 {
     Q_OBJECT
 public:

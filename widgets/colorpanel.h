@@ -1,7 +1,7 @@
 #ifndef COLORPANEL_H
 #define COLORPANEL_H
 
-#include <QPushButton>
+#include <DPushButton>
 #include <QWidget>
 #include <QColor>
 #include <QPaintEvent>
@@ -11,8 +11,9 @@
 #include "pushbutton.h"
 #include "drawshape/globaldefine.h"
 
+DWIDGET_USE_NAMESPACE
 
-class ColorButton : public QPushButton
+class ColorButton : public DPushButton
 {
     Q_OBJECT
 public:
@@ -35,7 +36,7 @@ private:
 class CAlphaControlWidget;
 class PickColorWidget;
 
-class ColorPanel : public QWidget
+class ColorPanel : public DWidget
 {
     Q_OBJECT
 public:

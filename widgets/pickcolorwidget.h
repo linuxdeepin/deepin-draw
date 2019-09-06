@@ -1,18 +1,20 @@
 #ifndef PICKCOLORWIDGET_H
 #define PICKCOLORWIDGET_H
 
-#include <QWidget>
+#include <DWidget>
 
 #include "editlabel.h"
 #include "pushbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 
-class PickColorWidget : public QWidget
+DWIDGET_USE_NAMESPACE
+
+class PickColorWidget : public DWidget
 {
     Q_OBJECT
 public:
-    PickColorWidget(QWidget* parent);
+    PickColorWidget(QWidget *parent);
     ~PickColorWidget();
 
     void setRgbValue(QColor color, bool isPicked = false);
@@ -23,12 +25,12 @@ signals:
     void pickedColor(QColor color);
 
 private:
-    EditLabel* m_redEditLabel;
-    EditLabel* m_greenEditLabel;
-    EditLabel* m_blueEditLabel;
-    PushButton* m_picker;
-    ColorLabel* m_colorLabel;
-    ColorSlider* m_colorSlider;
+    EditLabel *m_redEditLabel;
+    EditLabel *m_greenEditLabel;
+    EditLabel *m_blueEditLabel;
+    PushButton *m_picker;
+    ColorLabel *m_colorLabel;
+    ColorSlider *m_colorSlider;
 };
 
 #endif // PICKCOLORWIDGET_H
