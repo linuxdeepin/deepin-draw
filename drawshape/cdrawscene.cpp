@@ -101,6 +101,8 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    qDebug() << "entered the  mousePressEvent of scene function" << currentMode << importPicture << endl;
+
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool ) {
         pTool->mousePressEvent(mouseEvent, this);
@@ -132,7 +134,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::picOperation(int enumstyle)
 {
 
-    qDebug() << "entered the  picOperation function" << endl;
+    //qDebug() << "entered the  picOperation function" << endl;
     QList<QGraphicsItem *> items = this->selectedItems();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
@@ -148,10 +150,10 @@ void CDrawScene::picOperation(int enumstyle)
                     pictureItem->setRotation90(false);
                     break;
                 case CPictureWidget::FlipHorizontal:
-                    pictureItem->setMirror(false, true);
+                    pictureItem->setMirror(true, false);
                     break;
                 case CPictureWidget::FlipVertical:
-                    pictureItem->setMirror(true, false);
+                    pictureItem->setMirror(false, true);
                     break;
                 default:
                     break;

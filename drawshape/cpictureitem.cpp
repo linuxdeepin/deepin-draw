@@ -44,7 +44,7 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 //进行翻转，先转化为qimage，翻转后转化为qpixmap
 void CPictureItem::setMirror(bool hor, bool ver)
 {
-    qDebug() << "entered the  setMirror function" << endl;
+    //qDebug() << "entered the  setMirror function" << endl;
     QImage image = m_pixmap.toImage();
     QImage mirrorImage = image.mirrored(hor, ver);
     m_pixmap = QPixmap::fromImage(mirrorImage);
@@ -66,9 +66,4 @@ void CPictureItem::setRotation90(bool leftOrRight)
     }
 }
 
-//QPainterPath CPictureItem::shape() const
-//{
-//    QPainterPath path;
-//    path.addEllipse(boundingRect());
-//    return path;
-//}
+

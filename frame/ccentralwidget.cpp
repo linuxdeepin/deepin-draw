@@ -5,6 +5,7 @@
 #include "widgets/progresslayout.h"
 #include "drawshape/cpictureitem.h"
 #include "cgraphicsview.h"
+#include "drawshape/cpicturetool.h"
 
 #include <QLabel>
 #include <QDebug>
@@ -46,53 +47,13 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
     return m_pGraphicsView;
 }
 //进行图片导入
-void CCentralwidget::getPicPath(QStringList pathList)
+void CCentralwidget::importPicture()
 {
-
-    qDebug() << pathList << pathList.size() << endl;
-    m_picNum = pathList.size();
-    m_progressLayout->setRange(0, pathList.size());
-    // m_progressLayout->setProgressValue(0);
-    m_progressLayout->showInCenter(window());
-
-    //启动图片导入线程
-    QtConcurrent::run([ = ] {
-        for (int i = 0; i < pathList.size(); i++)
-        {
-
-            QPixmap pixmap = QPixmap (pathList[i]);
-
-            emit sendImageItem(pixmap);
-            emit loadImageNum(i + 1);
-            //qDebug() << "importProcessbar" << i + 1 << endl;
-        }
-    });
-
-
+    CPictureTool *pictureTool = new CPictureTool();
+    pictureTool->drawPicture(m_pDrawScene, window());
 
 }
 
-void CCentralwidget::addImageItem( QPixmap pixMap)
-{
-
-    // qDebug() << "entered the  addImageItem function" << m_pGraphicsView->width() << m_pGraphicsView->height() << pixMap.width() << pixMap.height() << m_pDrawScene->width() << m_pDrawScene->height() << endl;
-    //QPixmap pixmapToShow = pixMap.scaled( m_pGraphicsView->width(), m_pGraphicsView->height(), Qt::KeepAspectRatio);
-    //QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(pixmapToShow);
-    // qDebug() << "pixmapItem->boundingRect()" << pixmapItem->boundingRect() << endl;
-    CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, m_pGraphicsView->width(), m_pGraphicsView->height()), pixMap);
-    m_pDrawScene->addItem(pixmapItem);
-}
-
-
-void CCentralwidget::setProcessBarValue(int value)
-{
-    //qDebug() << "entered the  setProcessBarValue function" << endl;
-    m_progressLayout->setProgressValue(value);
-
-    if (value == m_picNum) {
-        m_progressLayout->hide();
-    }
-}
 
 
 void CCentralwidget::initUI()
@@ -184,13 +145,13 @@ void CCentralwidget::initContextMenu()
 
 void CCentralwidget::initConnect()
 {
-    connect(m_leftToolbar, SIGNAL(sendPicPath(QStringList)), this, SLOT(getPicPath(QStringList)));
-    //connect(m_contextMenu,SIGNAL(conte))
-    connect(this, SIGNAL(sendImageItem(QPixmap)), this, SLOT(addImageItem(QPixmap)));
-    connect(this, SIGNAL(loadImageNum(int)), this, SLOT(setProcessBarValue(int)));
 
-    //图片选中后相应胡操作
+
+    //图片选中后相应操作
     connect(this, SIGNAL(signalPassPictureOper(int )), m_pDrawScene, SLOT(picOperation(int )));
+    //导入图片信号槽
+    connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
+
 
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);

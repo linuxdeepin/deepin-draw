@@ -197,26 +197,7 @@ void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
     };
 }
 
-void CLeftToolBar::importImage()
-{
-    DFileDialog *fileDialog = new DFileDialog(this);
-    QStringList filters;
-    filters << "Image files (*.png *.jpg *.bmp *.tif *.pdf *.ddf)";
-    fileDialog->setNameFilters(filters);
-    fileDialog->setFileMode(QFileDialog::ExistingFiles);
 
-    if (fileDialog->exec() ==   QDialog::Accepted) {
-
-
-        QStringList filenames = fileDialog->selectedFiles();
-        qDebug() << filenames << endl;
-        emit sendPicPath(filenames);
-
-        emit setCurrentDrawTool(importPicture);
-
-    }
-    m_picBtn->setChecked(false);
-}
 
 void CLeftToolBar::initConnection()
 {
@@ -224,7 +205,11 @@ void CLeftToolBar::initConnection()
     connect(m_picBtn, &CPushButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
 
-        importImage();
+        emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
+        emit importPic();
+        m_picBtn->setChecked(false);
+
+
     });
 
 

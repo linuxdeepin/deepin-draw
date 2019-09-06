@@ -17,11 +17,11 @@ public:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
 signals:
-    void sendPicPath(QStringList picPath);
     void setCurrentDrawTool(int type);
+    void importPic();
 
 public slots:
-    void importImage();
+
     /**
      * @brief slotChangedStatusToSelect 将工具栏的状态切换为选择状态
      */

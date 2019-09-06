@@ -29,8 +29,7 @@ public:
     CGraphicsView *getGraphicsView() const;
 
 signals:
-    void sendImageItem(QPixmap pixMap);
-    void loadImageNum(int num);
+
     //传递图片的旋转和翻转信号
     void signalPassPictureOper(int);
 
@@ -42,10 +41,11 @@ signals:
 
 
 
+
+
 public slots:
-    void getPicPath(QStringList pathList);
-    void addImageItem(QPixmap pixMap);
-    void setProcessBarValue(int value);
+    void importPicture();
+
 
     void slotResetOriginPoint();
     void slotAttributeChanged();
