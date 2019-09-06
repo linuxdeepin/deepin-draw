@@ -428,6 +428,23 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 }
 
+CGraphicsItem *CGraphicsRectItem::duplicate() const
+{
+    CGraphicsRectItem *item = new CGraphicsRectItem(rect());
+    item->m_topLeftPoint = this->m_topLeftPoint;
+    item->m_bottomRightPoint = this->m_bottomRightPoint;
+    item->m_state = this->m_state;
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
+}
+
 
 void CGraphicsRectItem::updateGeometry()
 {

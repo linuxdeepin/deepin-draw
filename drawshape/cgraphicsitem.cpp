@@ -48,6 +48,11 @@ Qt::CursorShape CGraphicsItem::getCursor(CSizeHandleRect::EDirection dir)
     return Qt::ArrowCursor;
 }
 
+CGraphicsItem *CGraphicsItem::duplicate() const
+{
+    return nullptr;
+}
+
 void CGraphicsItem::setState(ESelectionHandleState st)
 {
     const Handles::iterator hend =  m_handles.end();

@@ -1,13 +1,13 @@
 #ifndef BIGCOLORBUTTON_H
 #define BIGCOLORBUTTON_H
 
-#include <QPushButton>
+#include <DPushButton>
 #include <QPainter>
 #include <QPaintEvent>
 
-//#include "utils/baseutils.h"
+DWIDGET_USE_NAMESPACE
 
-class BigColorButton : public QPushButton
+class BigColorButton : public DPushButton
 {
     Q_OBJECT
 public:

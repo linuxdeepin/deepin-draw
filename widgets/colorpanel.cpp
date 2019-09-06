@@ -28,7 +28,7 @@ const QSize BTN_SIZE = QSize(24, 24);
 
 
 ColorButton::ColorButton(const QColor &color, QWidget *parent)
-    : QPushButton(parent)
+    : DPushButton(parent)
     , m_disable(false)
 {
     m_color = color;
@@ -98,7 +98,7 @@ ColorButton::~ColorButton()
 }
 
 ColorPanel::ColorPanel(QWidget *parent)
-    : QWidget(parent)
+    : DWidget(parent)
     , m_drawstatus(DrawStatus::Fill)
     , m_expand(false)
 {

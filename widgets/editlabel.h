@@ -1,14 +1,16 @@
 #ifndef EDITLABEL_H
 #define EDITLABEL_H
 
-#include <QLabel>
-#include <QLineEdit>
+#include <DLabel>
+#include <DLineEdit>
 
-class EditLabel : public QLabel
+DWIDGET_USE_NAMESPACE
+
+class EditLabel : public DLabel
 {
     Q_OBJECT
 public:
-    EditLabel(QWidget* parent = 0);
+    EditLabel(QWidget *parent = 0);
     ~EditLabel();
 
     void setTitle(QString title);
@@ -21,8 +23,8 @@ signals:
     void editTextChanged(QString text);
 
 private:
-    QLabel* m_titleLabel;
-    QLineEdit* m_edit;
+    QLabel *m_titleLabel;
+    QLineEdit *m_edit;
     int m_titleSpacing;
 };
 

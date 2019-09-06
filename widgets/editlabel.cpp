@@ -9,13 +9,13 @@
 const QSize LINEEDIT_SIZE = QSize(28, 22);
 
 EditLabel::EditLabel(QWidget *parent)
-    : QLabel(parent)
+    : DLabel(parent)
     , m_titleSpacing(4)
 {
     DRAW_THEME_INIT_WIDGET("EditLabel");
-    m_titleLabel = new QLabel(this);
+    m_titleLabel = new DLabel(this);
     m_titleLabel->setObjectName("EditLabel");
-    m_edit = new QLineEdit(this);
+    m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
     m_edit->setObjectName("TitleEdit");
     QHBoxLayout *mLayout = new QHBoxLayout(this);
@@ -26,7 +26,7 @@ EditLabel::EditLabel(QWidget *parent)
     mLayout->addWidget(m_edit);
     mLayout->addStretch();
 
-    connect(m_edit, &QLineEdit::editingFinished, this, [ = ] {
+    connect(m_edit, &DLineEdit::editingFinished, this, [ = ] {
         emit editTextChanged(m_edit->text());
     });
 
