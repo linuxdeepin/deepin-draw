@@ -1,4 +1,4 @@
-QT += core gui  printsupport svg dbus concurrent dtkwidget
+QT += core gui  printsupport svg dbus concurrent dtkwidget dtkgui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,6 +26,7 @@ include(widgets/widgets.pri)
 include(drawshape/drawshape.pri)
 include(frame/frame.pri)
 include(service/service.pri)
+include(debian/control)
 
 RESOURCES +=
 

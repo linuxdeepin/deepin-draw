@@ -24,7 +24,8 @@ DrawDialog::DrawDialog(DWidget *parent)
 
     // Input content
     //const QString subStyle = getFileContent(":/drawdialog.qss");
-    DLabel *title = new DLabel(tr("Save the current contents?"), this);
+    DLabel *title = new DLabel(tr("The changes you made have not been saved yet. Do you want to save them?"), this);
+    title->setWordWrap(true);
     //title->setStyleSheet(subStyle);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignLeft);

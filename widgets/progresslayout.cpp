@@ -1,8 +1,6 @@
 #include "progresslayout.h"
-
-//#include <DDialog>
-
-DWIDGET_USE_NAMESPACE
+#include <DPalette>
+#include <DApplicationHelper>
 
 ProgressLayout::ProgressLayout(DWidget *parent)
     : DWidget (parent)
@@ -14,8 +12,8 @@ ProgressLayout::ProgressLayout(DWidget *parent)
     ft.setPointSize(10);
     m_label->setFont(ft);
     //设置颜色
-    QPalette pa1;
-    pa1.setColor(QPalette::WindowText, Qt::black);
+    DPalette pa1;
+    pa1.setColor(DPalette::WindowText, Qt::black);
     m_label->setPalette(pa1);
 
     m_progressLabel = new DLabel();
@@ -63,8 +61,8 @@ void ProgressLayout::setProgressValue(int value)
     m_progressLabel->setFont(ft2);
 
     //设置颜色
-    QPalette pa;
-    pa.setColor(QPalette::WindowText, Qt::blue);
+    DPalette pa;
+    pa.setColor(DPalette::WindowText, Qt::blue);
     m_progressLabel->setPalette(pa);
 
 

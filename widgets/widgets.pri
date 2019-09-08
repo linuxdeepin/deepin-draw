@@ -1,6 +1,6 @@
 HEADERS += \
     $$PWD/seperatorline.h \
-    $$PWD/drawthememanager.h \
+    #$$PWD/drawthememanager.h \
     $$PWD/pushbutton.h \
     $$PWD/bordercolorbutton.h \
     $$PWD/colorpanel.h \
@@ -29,7 +29,7 @@ HEADERS += \
 
 
 SOURCES += \
-    $$PWD/drawthememanager.cpp \
+    #$$PWD/drawthememanager.cpp \
     $$PWD/pushbutton.cpp \
     $$PWD/bordercolorbutton.cpp \
     $$PWD/colorpanel.cpp \
@@ -55,7 +55,7 @@ SOURCES += \
     $$PWD/calphacontrolwidget.cpp
 
 
-RESOURCES += \
-    $$PWD/widgetsRes.qrc
+#RESOURCES += \
+ #   $$PWD/widgetsRes.qrc
 
 FORMS +=

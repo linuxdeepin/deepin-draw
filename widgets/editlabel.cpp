@@ -12,7 +12,7 @@ EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
     , m_titleSpacing(4)
 {
-    DRAW_THEME_INIT_WIDGET("EditLabel");
+    //DRAW_THEME_INIT_WIDGET("EditLabel");
     m_titleLabel = new DLabel(this);
     m_titleLabel->setObjectName("EditLabel");
     m_edit = new DLineEdit(this);

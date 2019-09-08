@@ -17,7 +17,7 @@ TextFontLabel::TextFontLabel(DWidget *parent)
     : DLabel(parent),
       m_fontsize(12)
 {
-    DRAW_THEME_INIT_WIDGET("TextFontLabel");
+    //DRAW_THEME_INIT_WIDGET("TextFontLabel");
 
     this->setObjectName("TextFontLabel");
     this->setFixedSize(LINEEDIT_WIDTH +  BUTTON_WIDTH * 2,

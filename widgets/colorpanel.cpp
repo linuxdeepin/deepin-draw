@@ -137,7 +137,7 @@ void ColorPanel::slotPickedColorChanged(QColor newColor)
 
 void ColorPanel::initUI()
 {
-    DRAW_THEME_INIT_WIDGET("ColorPanel");
+    //DRAW_THEME_INIT_WIDGET("ColorPanel");
     DWidget *colorBtnWidget = new DWidget(this);
     colorBtnWidget->setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
 

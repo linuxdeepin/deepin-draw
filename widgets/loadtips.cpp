@@ -12,7 +12,7 @@ LoadTips::LoadTips(DWidget *parent)
     : DDialog(parent),
       m_counts(0)
 {
-    DRAW_THEME_INIT_WIDGET("LoadTips");
+    //DRAW_THEME_INIT_WIDGET("LoadTips");
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
 

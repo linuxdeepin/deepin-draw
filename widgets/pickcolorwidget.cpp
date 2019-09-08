@@ -14,7 +14,7 @@ const QSize PICKCOLOR_WIDGET_SIZE = QSize(222, 217);
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
-    DRAW_THEME_INIT_WIDGET("PickColorWidget");
+    //DRAW_THEME_INIT_WIDGET("PickColorWidget");
     setFixedSize(222, 217);
     DLabel *titleLabel = new DLabel(this);
     titleLabel->setText("RGB");

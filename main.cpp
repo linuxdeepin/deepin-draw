@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");
     //a.setApplicationVersion("1.0");
-    a.setTheme("light");
+    //a.setTheme("light");
     a.setQuitOnLastWindowClosed(true);
-    a.setStyle("chameleon");
+    //a.setStyle("chameleon");
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
@@ -89,6 +89,7 @@ int main(int argc, char *argv[])
 //            w.openImage(QFileInfo(path).absoluteFilePath());
         } else {
             w.show();
+
         }
     }
 

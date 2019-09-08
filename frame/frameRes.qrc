@@ -75,9 +75,6 @@
         <file>theme/dark/images/draw/straight_line_active.png</file>
         <file>theme/dark/images/draw/straight_line_hover.png</file>
         <file>theme/dark/images/draw/straight_line_normal.png</file>
-        <file>theme/light/PushButton.qss</file>
-        <file>theme/light/TextFontLabel.qss</file>
-        <file>theme/light/TopToolbar.qss</file>
         <file>theme/light/images/draw/colorful_line.png</file>
         <file>theme/light/images/draw/line_border_1_active.svg</file>
         <file>theme/light/images/draw/line_border_1_hover.svg</file>
@@ -134,10 +131,6 @@
         <file>theme/light/images/draw/reduce_press.svg</file>
         <file>theme/light/images/cut/filp_vertical_disable.svg</file>
         <file>theme/light/images/cut/flip_horizontal_disable.svg</file>
-        <file>theme/light/MainWidget.qss</file>
-        <file>theme/light/LineWidget.qss</file>
-        <file>theme/light/TextWidget.qss</file>
-        <file>theme/light/LeftToolbar.qss</file>
         <file>theme/light/images/action/rectangle tool_disable.svg</file>
         <file>theme/light/images/action/rectangle tool_active.svg</file>
         <file>theme/light/images/action/rectangle tool_normal.svg</file>
@@ -193,8 +186,6 @@
         <file>theme/light/images/action/brush tool_active.svg</file>
         <file>theme/light/images/action/brush tool_hover.svg</file>
         <file>theme/light/images/action/round tool_normal.svg</file>
-        <file>theme/light/CommonshapeWidget.qss</file>
-        <file>theme/light/PolygonalStarAttributeWidget.qss</file>
         <file>theme/light/images/attribute/arrow tool_hover.svg</file>
         <file>theme/light/images/attribute/arrow tool_disable.svg</file>
         <file>theme/light/images/attribute/arrow tool_press.svg</file>
