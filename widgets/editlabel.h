@@ -10,7 +10,7 @@ class EditLabel : public DLabel
 {
     Q_OBJECT
 public:
-    EditLabel(QWidget *parent = 0);
+    EditLabel(DWidget *parent = 0);
     ~EditLabel();
 
     void setTitle(QString title);

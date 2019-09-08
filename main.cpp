@@ -5,8 +5,8 @@
 #include <QTranslator>
 
 #include "application.h"
-#include "service/dbusdrawservice.h"
-#include "service/dbusdraw.h"
+//#include "service/dbusdrawservice.h"
+//#include "service/dbusdraw.h"
 
 #include <DLog>
 
@@ -53,14 +53,14 @@ int main(int argc, char *argv[])
     return a.exec();
 
 
-    DBusDrawService dbusService(&w);
-    Q_UNUSED(dbusService);
-    //Register deepin-draw's dbus service.
-    QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
-            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w)) {
-        qDebug() << "deepin-draw is running!";
-    }
+//    DBusDrawService dbusService(&w);
+//    Q_UNUSED(dbusService);
+//    //Register deepin-draw's dbus service.
+//    QDBusConnection conn = QDBusConnection::sessionBus();
+//    if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
+//            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w)) {
+//        qDebug() << "deepin-draw is running!";
+//    }
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");

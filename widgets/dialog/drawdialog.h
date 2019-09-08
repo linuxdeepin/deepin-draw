@@ -7,10 +7,11 @@ class DrawDialog : public Dialog
 {
     Q_OBJECT
 public:
-    explicit DrawDialog(QWidget *parent = 0);
+    explicit DrawDialog(DWidget *parent = 0);
 
 signals:
     void saveDrawImage();
+
 
 protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;

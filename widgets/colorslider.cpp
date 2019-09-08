@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QStyle>
 
-ColorSlider::ColorSlider(QWidget *parent)
+ColorSlider::ColorSlider(DWidget *parent)
     : DSlider(parent)
 {
     setMinimum(0);
@@ -13,10 +13,10 @@ ColorSlider::ColorSlider(QWidget *parent)
     setOrientation(Qt::Horizontal);
     this->setRange(5, 355);
     setFixedSize(222, 14);
-    setStyleSheet("ColorSlider::handle:horizontal {\
-                  border: 1px solid rgba(0, 0, 0, 26);\
-                  width: 4px;\
-                  margin: 0;}");
+//    setStyleSheet("ColorSlider::handle:horizontal {\
+//                  border: 1px solid rgba(0, 0, 0, 26);\
+//                  width: 4px;\
+//                  margin: 0;}");
 }
 
 ColorSlider::~ColorSlider()

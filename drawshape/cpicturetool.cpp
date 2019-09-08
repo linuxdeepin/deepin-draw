@@ -8,7 +8,7 @@ CPictureTool::CPictureTool(DWidget *parent)
     : DWidget (parent)
 {
     m_progressLayout = new ProgressLayout();
-    connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, QWidget *)), this, SLOT(addImages(QPixmap, int, CDrawScene *, QWidget *)));
+    connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *)));
 
 }
 CPictureTool::~CPictureTool()
@@ -17,7 +17,7 @@ CPictureTool::~CPictureTool()
 }
 
 
-void CPictureTool::drawPicture(CDrawScene *scene, QWidget *centralWindow)
+void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
 {
     //告知单例正在画图模式s
     // CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(importPicture);
@@ -37,7 +37,7 @@ void CPictureTool::drawPicture(CDrawScene *scene, QWidget *centralWindow)
 
         m_progressLayout->setRange(0, m_picNum);
 
-        m_progressLayout->showInCenter(centralWindow);
+        m_progressLayout->showInCenter(centralWindow->window());
         //progressLayout->show();//此处还需要找个show的zhaiti载体
 
         //启动图片导入线程
@@ -61,11 +61,33 @@ void CPictureTool::drawPicture(CDrawScene *scene, QWidget *centralWindow)
 }
 
 
-void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, QWidget *centralWindow)
+void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
 {
     scene->clearSelection();
     //CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, centralWindow->width(), centralWindow->height()), pixmap);
-    CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, pixmap.width(), pixmap.height()), pixmap);
+    int width = pixmap.width();
+    int height = pixmap.height();
+    int widgetWidth = centralWindow->width() - 58 ;
+    int widgetHeight = centralWindow->height();
+    if (height == 0) {
+        return;
+    }
+    double scale = ((double)pixmap.width() / (double)pixmap.height());
+
+
+    if (pixmap.width() > widgetWidth || pixmap.height() > widgetHeight) {
+        if (scale >= (widgetWidth / widgetHeight)) {
+            width = widgetWidth;
+            height = (int)(width / scale);
+        } else {
+            height = widgetHeight;
+            width = (int)(height * scale);
+        }
+
+    }
+    qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << centralWindow->width() << centralWindow->height() << width << height << endl;
+
+    CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, width, height), pixmap);
 
     pixmapItem->setSelected(false);
     scene->addItem(pixmapItem);

@@ -11,7 +11,7 @@ class CAlphaControlWidget : public DWidget
 {
     Q_OBJECT
 public:
-    explicit CAlphaControlWidget(QWidget *parent = nullptr);
+    explicit CAlphaControlWidget(DWidget *parent = nullptr);
     void updateAlphaControlWidget(int alpha);
 signals:
     void signalAlphaChanged(int);

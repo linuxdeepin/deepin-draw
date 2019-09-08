@@ -1,16 +1,18 @@
 #ifndef ARROWRECTANGLE_H
 #define ARROWRECTANGLE_H
 
-#include <QHideEvent>
-
 #include <darrowrectangle.h>
+
+#include <QHideEvent>
+#include <DWidget>
+
 
 DWIDGET_USE_NAMESPACE
 class ArrowRectangle : public DArrowRectangle
 {
     Q_OBJECT
 public:
-    explicit ArrowRectangle(ArrowDirection direction, QWidget *parent = nullptr);
+    explicit ArrowRectangle(ArrowDirection direction, DWidget *parent = nullptr);
     ~ArrowRectangle();
 
 signals:

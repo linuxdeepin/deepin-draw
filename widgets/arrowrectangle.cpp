@@ -2,13 +2,12 @@
 
 #include <application.h>
 
-ArrowRectangle::ArrowRectangle(ArrowDirection direction, QWidget *parent)
+ArrowRectangle::ArrowRectangle(ArrowDirection direction, DWidget *parent)
     : DArrowRectangle(direction, DArrowRectangle::FloatWidget, parent)
 {
-    connect(dApp, &Application::focusChanged, this, [=](QWidget* old, QWidget* now){
+    connect(dApp, &Application::focusChanged, this, [ = ](DWidget * old, DWidget * now) {
         Q_UNUSED(old);
-        if (now != this && !this->isAncestorOf(now))
-        {
+        if (now != this && !this->isAncestorOf(now)) {
             hide();
         }
     });

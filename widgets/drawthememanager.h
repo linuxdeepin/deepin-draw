@@ -2,12 +2,16 @@
 #define DRAWTHEMEMANAGER_H
 
 #include <QObject>
+#include <DWidget>
 
-class DrawThemeManager : public QObject {
+DWIDGET_USE_NAMESPACE
+
+class DrawThemeManager : public QObject
+{
     Q_OBJECT
-    DrawThemeManager(QObject* parent = 0);
+    DrawThemeManager(QObject *parent = 0);
 public:
-    static DrawThemeManager* instance();
+    static DrawThemeManager *instance();
 
 signals:
     void themeChanged(QString themeName);
@@ -19,7 +23,7 @@ public slots:
     void updateQss();
 
 private:
-    static DrawThemeManager* m_drawTheme;
+    static DrawThemeManager *m_drawTheme;
     QString m_currentTheme = "light";
 };
 

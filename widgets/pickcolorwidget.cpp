@@ -11,7 +11,7 @@
 
 const QSize PICKCOLOR_WIDGET_SIZE = QSize(222, 217);
 
-PickColorWidget::PickColorWidget(QWidget *parent)
+PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
     DRAW_THEME_INIT_WIDGET("PickColorWidget");

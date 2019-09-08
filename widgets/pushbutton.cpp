@@ -10,7 +10,7 @@
 #include <QPaintEvent>
 #include <QTimer>
 
-PushButton::PushButton(QWidget *parent)
+PushButton::PushButton(DWidget *parent)
     : DPushButton(parent)
     , m_checked(false)
     , m_isPressed(false)

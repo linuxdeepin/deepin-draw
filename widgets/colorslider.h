@@ -4,6 +4,7 @@
 #include <QSlider>
 #include <QPaintEvent>
 #include <DSlider>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -11,7 +12,7 @@ class ColorSlider : public DSlider
 {
     Q_OBJECT
 public:
-    ColorSlider(QWidget *parent = 0);
+    ColorSlider(DWidget *parent = 0);
     ~ColorSlider();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)

@@ -15,10 +15,10 @@ const int LINEEDIT_WIDTH = 50;
 const int ARTBOARD_MAX_WIDTH = 500000;
 const int ARTBOARD_MIN_WIDTH = 20;
 
-AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
-    : QWidget(parent)
+AdjustsizeWidget::AdjustsizeWidget(DWidget *parent)
+    : DWidget(parent)
 {
-    QLabel *casWidthLabel = new QLabel(this);
+    DLabel *casWidthLabel = new DLabel(this);
     casWidthLabel->setObjectName("CasWidthLabel");
     casWidthLabel->setText(tr("Width"));
 
@@ -26,10 +26,10 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
     m_widthLEdit->setObjectName("WidthLineEdit");
     m_widthLEdit->setFixedWidth(LINEEDIT_WIDTH);
 
-    QLabel *unitWLabel = new QLabel(this);
+    DLabel *unitWLabel = new DLabel(this);
     unitWLabel->setText("px");
 
-    QLabel *casHeightLabel = new QLabel(this);
+    DLabel *casHeightLabel = new DLabel(this);
     casHeightLabel->setObjectName("CasHeightLabel");
     casHeightLabel->setText(tr("Height"));
 
@@ -82,7 +82,7 @@ AdjustsizeWidget::AdjustsizeWidget(QWidget *parent)
         setCanvasSize(QSize(canvasWidth, canvasHeight));
     });
 
-    QLabel *unitHLabel = new QLabel(this);
+    DLabel *unitHLabel = new DLabel(this);
     unitHLabel->setText("px");
 
     ToolButton *cutTransAreaBtn = new ToolButton(this);

@@ -1,16 +1,16 @@
 #ifndef ADJUSTSIZEWIDGET_H
 #define ADJUSTSIZEWIDGET_H
 
-#include <QWidget>
+#include <DWidget>
 #include <QLineEdit>
 
 #include "widgets/fontsizelineedit.h"
-
-class AdjustsizeWidget : public QWidget
+DWIDGET_USE_NAMESPACE
+class AdjustsizeWidget : public DWidget
 {
     Q_OBJECT
 public:
-    AdjustsizeWidget(QWidget* parent = 0);
+    AdjustsizeWidget(DWidget *parent = 0);
     ~AdjustsizeWidget();
 
     void setCanvasSize(QSize size);
@@ -22,8 +22,8 @@ signals:
     void autoCrop();
 
 private:
-    FontsizeLineEdit* m_widthLEdit;
-    FontsizeLineEdit* m_heightLEdit;
+    FontsizeLineEdit *m_widthLEdit;
+    FontsizeLineEdit *m_heightLEdit;
 
     int m_artBoardWidth;
     int m_artBoardHeight;

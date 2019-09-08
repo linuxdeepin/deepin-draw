@@ -2,7 +2,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cpushbutton.h"
 
-CSideWidthWidget::CSideWidthWidget(QWidget *parent)
+CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     : DFrame(parent)
 {
     initUI();

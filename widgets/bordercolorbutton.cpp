@@ -10,7 +10,7 @@ const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
 const QPoint CENTER_POINT = QPoint(12, 12);
 
-BorderColorButton::BorderColorButton(QWidget *parent)
+BorderColorButton::BorderColorButton(DWidget *parent)
     : DPushButton(parent)
     , m_isHover(false)
     , m_isChecked(false)

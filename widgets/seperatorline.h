@@ -1,15 +1,17 @@
 #ifndef SEPERATORLINE_H
 #define SEPERATORLINE_H
 
-#include <QLabel>
-
-class SeperatorLine : public QLabel {
+#include <DLabel>
+DWIDGET_USE_NAMESPACE
+class SeperatorLine : public DLabel
+{
     Q_OBJECT
 public:
-    SeperatorLine(QWidget* parent = 0) {
+    SeperatorLine(DWidget *parent = 0)
+    {
         Q_UNUSED(parent);
         setFixedSize(1, 18);
-        setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
+        //setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
     }
     ~SeperatorLine() {}
 

@@ -1,16 +1,16 @@
 #ifndef TEXTFONTLABEL_H
 #define TEXTFONTLABEL_H
 
-#include <QLabel>
-#include <QLineEdit>
+#include <DLabel>
+#include <DLineEdit>
 
 #include "toolbutton.h"
-
-class TextFontLabel : public QLabel
+DWIDGET_USE_NAMESPACE
+class TextFontLabel : public DLabel
 {
     Q_OBJECT
 public:
-    TextFontLabel(QWidget* parent = 0);
+    TextFontLabel(DWidget *parent = 0);
     ~TextFontLabel();
 
 private:

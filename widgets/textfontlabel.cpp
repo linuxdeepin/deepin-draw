@@ -1,7 +1,7 @@
 #include "textfontlabel.h"
 
-#include <QLineEdit>
-#include <QPushButton>
+//#include <QLineEdit>
+#include <DPushButton>
 #include <QHBoxLayout>
 
 #include "fontsizelineedit.h"
@@ -13,59 +13,58 @@ const int LINEEDIT_WIDTH = 64;
 const int BUTTON_WIDTH = 25;
 const int BUTTON_HEIGHT = 26;
 
-TextFontLabel::TextFontLabel(QWidget *parent)
-    : QLabel(parent),
+TextFontLabel::TextFontLabel(DWidget *parent)
+    : DLabel(parent),
       m_fontsize(12)
 {
     DRAW_THEME_INIT_WIDGET("TextFontLabel");
 
     this->setObjectName("TextFontLabel");
-    this->setFixedSize(LINEEDIT_WIDTH +  BUTTON_WIDTH*2,
+    this->setFixedSize(LINEEDIT_WIDTH +  BUTTON_WIDTH * 2,
                        BUTTON_HEIGHT);
-    FontsizeLineEdit* fontEdit = new FontsizeLineEdit(this);
+    FontsizeLineEdit *fontEdit = new FontsizeLineEdit(this);
     fontEdit->setObjectName("FontsizeEdit");
     fontEdit->setFixedSize(LINEEDIT_WIDTH, BUTTON_HEIGHT - 2);
     m_fontsize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     fontEdit->setText(QString("%1").arg(m_fontsize));
 
-   connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this, [=](
-           const QString &group, const QString &key){
-           if (group == "text" && key == "fontsize")
-           {
-                m_fontsize = ConfigSettings::instance()->value(group, key).toInt();
-                fontEdit->setText(QString("%1").arg(m_fontsize));
-           }
-   });
-    connect(fontEdit, &QLineEdit::editingFinished, this, [=]{
+    connect(ConfigSettings::instance(), &ConfigSettings::configChanged, this, [ = ](
+    const QString & group, const QString & key) {
+        if (group == "text" && key == "fontsize") {
+            m_fontsize = ConfigSettings::instance()->value(group, key).toInt();
+            fontEdit->setText(QString("%1").arg(m_fontsize));
+        }
+    });
+    connect(fontEdit, &QLineEdit::editingFinished, this, [ = ] {
         int fontSize = fontEdit->text().toInt();
         fontSize = std::max(8, fontSize);
         fontEdit->setText(QString("%1").arg(fontSize));
         m_fontsize = fontSize;
         ConfigSettings::instance()->setValue("text", "fontsize", fontSize);
     });
-    connect(fontEdit, &FontsizeLineEdit::addSize, this, [=]{
+    connect(fontEdit, &FontsizeLineEdit::addSize, this, [ = ] {
         int fontSize = fontEdit->text().toInt();
         fontSize = std::max(8, fontSize + 1);
         m_fontsize = fontSize;
         fontEdit->setText(QString("%1").arg(fontSize));
     });
-    connect(fontEdit, &FontsizeLineEdit::reduceSize, this, [=]{
+    connect(fontEdit, &FontsizeLineEdit::reduceSize, this, [ = ] {
         int fontSize = fontEdit->text().toInt();
         fontSize = std::max(8, fontSize - 1);
         m_fontsize = fontSize;
         fontEdit->setText(QString("%1").arg(fontSize));
     });
 
-    ToolButton* addBtn = new ToolButton(this);
+    ToolButton *addBtn = new ToolButton(this);
     addBtn->setObjectName("AddFontsizeBtn");
     addBtn->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     addBtn->setAutoRepeat(true);
-    ToolButton* reduceBtn = new ToolButton(this);
+    ToolButton *reduceBtn = new ToolButton(this);
     reduceBtn->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     reduceBtn->setObjectName("ReduceFontsizeBtn");
     reduceBtn->setAutoRepeat(true);
 
-    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
     hLayout->addWidget(fontEdit, 0, Qt::AlignCenter);
@@ -75,13 +74,13 @@ TextFontLabel::TextFontLabel(QWidget *parent)
     hLayout->addWidget(reduceBtn, 0, Qt::AlignCenter);
     setLayout(hLayout);
 
-    connect(addBtn, &ToolButton::pressed, this, [=]{
+    connect(addBtn, &ToolButton::pressed, this, [ = ] {
         m_fontsize += 1;
         fontEdit->setText(QString("%1").arg(m_fontsize));
         ConfigSettings::instance()->setValue("text", "fontsize", m_fontsize);
     });
 
-    connect(reduceBtn, &ToolButton::pressed, this, [=]{
+    connect(reduceBtn, &ToolButton::pressed, this, [ = ] {
         m_fontsize -= 1;
         m_fontsize = std::max(8, m_fontsize);
         fontEdit->setText(QString("%1").arg(m_fontsize));

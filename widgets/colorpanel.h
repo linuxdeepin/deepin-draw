@@ -17,7 +17,7 @@ class ColorButton : public DPushButton
 {
     Q_OBJECT
 public:
-    ColorButton(const QColor &color, QWidget *parent = nullptr);
+    ColorButton(const QColor &color, DWidget *parent = nullptr);
     ~ColorButton();
 
     void setDisableColor(bool disable);
@@ -40,7 +40,7 @@ class ColorPanel : public DWidget
 {
     Q_OBJECT
 public:
-    ColorPanel(QWidget *parent = nullptr);
+    ColorPanel(DWidget *parent = nullptr);
     ~ColorPanel();
     void updateColorPanel(DrawStatus status);
 
@@ -53,7 +53,7 @@ public slots:
     void setConfigColor(QColor color);
 
 private:
-    QLineEdit *m_colLineEdit;
+    DLineEdit *m_colLineEdit;
     PushButton *m_colorfulBtn;
     CAlphaControlWidget *m_alphaControlWidget;
     QList<QColor> m_colList;

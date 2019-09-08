@@ -2,7 +2,7 @@
 
 #include <QHBoxLayout>
 
-CAlphaControlWidget::CAlphaControlWidget(QWidget *parent)
+CAlphaControlWidget::CAlphaControlWidget(DWidget *parent)
     : DWidget(parent)
     , m_isUserOperation(false)
 {

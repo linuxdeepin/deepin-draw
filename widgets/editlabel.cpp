@@ -8,7 +8,7 @@
 
 const QSize LINEEDIT_SIZE = QSize(28, 22);
 
-EditLabel::EditLabel(QWidget *parent)
+EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
     , m_titleSpacing(4)
 {

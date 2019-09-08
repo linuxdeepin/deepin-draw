@@ -5,7 +5,7 @@
 #include "toolbutton.h"
 #include "cpushbutton.h"
 
-TestWidget::TestWidget(QWidget *parent) : QWidget(parent)
+TestWidget::TestWidget(DWidget *parent) : DWidget(parent)
 {
     QStringList lwBtnNameList;
     lwBtnNameList << "FinerLineBtn" << "FineLineBtn"

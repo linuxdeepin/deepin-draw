@@ -19,7 +19,7 @@ public:
 
 
 public:
-    explicit CPushButton(const QMap<CButtonSattus, QString> &pictureMap, QWidget *parent = nullptr );
+    explicit CPushButton(const QMap<CButtonSattus, QString> &pictureMap, DWidget *parent = nullptr );
     void setChecked(bool);
     bool isChecked() const;
 

@@ -14,7 +14,7 @@ class PickColorWidget : public DWidget
 {
     Q_OBJECT
 public:
-    PickColorWidget(QWidget *parent);
+    PickColorWidget(DWidget *parent);
     ~PickColorWidget();
 
     void setRgbValue(QColor color, bool isPicked = false);

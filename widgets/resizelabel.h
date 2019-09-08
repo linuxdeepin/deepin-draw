@@ -12,7 +12,7 @@ class ResizeLabel : public DLabel
 {
     Q_OBJECT
 public:
-    ResizeLabel(QWidget *parent = 0);
+    ResizeLabel(DWidget *parent = 0);
     ~ResizeLabel();
 
 public slots:

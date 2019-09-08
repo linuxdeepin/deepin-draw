@@ -5,31 +5,32 @@
 #include <QShortcut>
 #include <QKeyEvent>
 #include <QDebug>
+#include <DWidget>
+
+DWIDGET_USE_NAMESPACE
 
 class FontsizeLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    FontsizeLineEdit(QWidget* parent = 0) {
+    FontsizeLineEdit(DWidget *parent = 0)
+    {
         Q_UNUSED(parent);
     }
-    ~FontsizeLineEdit(){}
+    ~FontsizeLineEdit() {}
 
 signals:
     void addSize();
     void reduceSize();
 
 protected:
-    void keyPressEvent(QKeyEvent* e)
+    void keyPressEvent(QKeyEvent *e)
     {
-        if (e->key() == Qt::Key_Up)
-        {
+        if (e->key() == Qt::Key_Up) {
             emit addSize();
-        } else if (e->key() == Qt::Key_Down)
-        {
+        } else if (e->key() == Qt::Key_Down) {
             emit reduceSize();
-        } else if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
-        {
+        } else if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter) {
             emit editingFinished();
         }
 

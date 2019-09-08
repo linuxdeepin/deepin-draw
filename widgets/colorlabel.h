@@ -13,7 +13,7 @@ class ColorLabel : public DLabel
 {
     Q_OBJECT
 public:
-    ColorLabel(QWidget *parent = 0);
+    ColorLabel(DWidget *parent = 0);
     ~ColorLabel();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)

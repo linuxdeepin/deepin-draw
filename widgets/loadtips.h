@@ -1,16 +1,17 @@
 #ifndef LOADTIPS_H
 #define LOADTIPS_H
 
-#include <QDialog>
-#include <QLabel>
+#include <DDialog>
+#include <DLabel>
 #include <DWaterProgress>
 
 DWIDGET_USE_NAMESPACE
 
-class LoadTips : public QDialog {
+class LoadTips : public DDialog
+{
     Q_OBJECT
 public:
-    LoadTips(QWidget* parent = 0);
+    LoadTips(DWidget *parent = 0);
     ~LoadTips();
 
 public:
@@ -21,8 +22,8 @@ signals:
     void finishedPainting();
 
 private:
-    DWaterProgress* m_waterProg;
-    QLabel* m_messageLabel;
+    DWaterProgress *m_waterProg;
+    DLabel *m_messageLabel;
     int m_counts;
 };
 #endif // LOADTIPS_H

@@ -21,7 +21,7 @@ public:
 
     Q_OBJECT
 public:
-    explicit CSideWidthWidget(QWidget *parent = nullptr);
+    explicit CSideWidthWidget(DWidget *parent = nullptr);
 
 signals:
     void signalSideWidthChange();

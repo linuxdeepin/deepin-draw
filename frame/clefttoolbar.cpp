@@ -35,10 +35,11 @@ void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
     Q_UNUSED(event)
 }
 
+
 void CLeftToolBar::initUI()
 {
-    setFixedWidth(58);
 
+    setFixedWidth(58);
     QMap<CPushButton::CButtonSattus, QString> pictureMap;
 
     pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");

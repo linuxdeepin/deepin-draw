@@ -2,7 +2,7 @@
 
 #include <QPainter>
 
-ResizeLabel::ResizeLabel(QWidget *parent)
+ResizeLabel::ResizeLabel(DWidget *parent)
     : DLabel(parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);

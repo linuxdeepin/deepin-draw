@@ -17,7 +17,7 @@ public:
     };
 
 public:
-    explicit CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, QWidget *parent = nullptr );
+    explicit CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, DWidget *parent = nullptr );
     void setDisable(bool);
 
 signals:

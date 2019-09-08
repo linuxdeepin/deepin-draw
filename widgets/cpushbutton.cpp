@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 
-CPushButton::CPushButton(const QMap<CButtonSattus, QString> &pictureMap, QWidget *parent) :
+CPushButton::CPushButton(const QMap<CButtonSattus, QString> &pictureMap, DWidget *parent) :
     DPushButton(parent),
     m_isHover(false),
     m_isChecked(false),

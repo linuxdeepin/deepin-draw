@@ -43,7 +43,7 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
 void CCentralwidget::importPicture()
 {
     CPictureTool *pictureTool = new CPictureTool();
-    pictureTool->drawPicture(m_pDrawScene, window());
+    pictureTool->drawPicture(m_pDrawScene, this);
 
 }
 

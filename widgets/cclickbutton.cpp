@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 
-CClickButton::CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, QWidget *parent) :
+CClickButton::CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, DWidget *parent) :
     DPushButton(parent),
     m_currentStatus(Normal),
     m_pictureMap(pictureMap)

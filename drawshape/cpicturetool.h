@@ -5,7 +5,10 @@
 #include "cpictureitem.h"
 #include "cdrawscene.h"
 #include"widgets/progresslayout.h"
+#include "frame/ccentralwidget.h"
+
 #include <DFileDialog>
+
 
 #include <DWidget>
 
@@ -18,14 +21,14 @@ public:
     CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 signals:
-    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, QWidget *centralWindow);
+    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);
 
 public slots:
-    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, QWidget *centralWindow);
+    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);
 
 public:
 
-    void drawPicture(CDrawScene *scene, DWidget *centralWindow);
+    void drawPicture(CDrawScene *scene, CCentralwidget *centralWindow);
 private:
     //QList<CPictureItem *> m_picturetItems;
     ProgressLayout *m_progressLayout;

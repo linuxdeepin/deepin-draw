@@ -1,5 +1,6 @@
 #include "drawdialog.h"
 #include "utils/baseutils.h"
+#include "savedialog.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -10,8 +11,8 @@
 
 const QSize DIALOG_SIZE = QSize(420, 120);
 
-DrawDialog::DrawDialog(QWidget* parent)
-    :Dialog(parent)
+DrawDialog::DrawDialog(DWidget *parent)
+    : Dialog(parent)
 {
     setModal(true);
     setFixedSize(DIALOG_SIZE);
@@ -22,13 +23,13 @@ DrawDialog::DrawDialog(QWidget* parent)
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     // Input content
-    const QString subStyle = getFileContent(":/drawdialog.qss");
-    QLabel *title = new QLabel(tr("Save the current contents?"), this);
-    title->setStyleSheet(subStyle);
+    //const QString subStyle = getFileContent(":/drawdialog.qss");
+    DLabel *title = new DLabel(tr("Save the current contents?"), this);
+    //title->setStyleSheet(subStyle);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignLeft);
 
-    QWidget *w = new QWidget(this);
+    DWidget *w = new DWidget(this);
     w->setFixedHeight(this->height() - 60);
 
     QVBoxLayout *layout = new QVBoxLayout(w);
@@ -39,17 +40,19 @@ DrawDialog::DrawDialog(QWidget* parent)
     layout->addStretch();
     addContent(w);
 
-    connect(this, &DrawDialog::buttonClicked, this, [=](int id){
+    connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
         qDebug() << "deepin-draw button clicked:" << id;
-        if (id == 0)
-        {
+        if (id == 0) {
             this->close();
-        }
-        else if (id == 1)
-        {
+        } else if (id == 1) {
             qApp->quit();
         } else {
             emit saveDrawImage();
+
+//            QList<QPixmap> pixs;
+//            SaveDialog *saveDraw = new SaveDialog(pixs);
+//            saveDraw->show();
+
         }
 
     });
@@ -61,3 +64,4 @@ void  DrawDialog::keyPressEvent(QKeyEvent *e)
         this->close();
     }
 }
+

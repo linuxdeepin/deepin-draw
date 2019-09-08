@@ -10,7 +10,7 @@ class BorderColorButton : public DPushButton
 {
     Q_OBJECT
 public:
-    BorderColorButton(QWidget *parent = nullptr);
+    BorderColorButton(DWidget *parent = nullptr);
     ~BorderColorButton();
 
     void setColor(QColor color);

@@ -4,13 +4,16 @@
 #include "dialog.h"
 
 #include <QKeyEvent>
-#include <QComboBox>
+#include <DComboBox>
+#include <DSlider>
+
+//该类作用是导出图片的功能，不是保存和另存为功能
 
 class SaveDialog : public Dialog
 {
     Q_OBJECT
 public:
-    explicit SaveDialog(QList<QPixmap> pixs, QWidget* parent = 0);
+    explicit SaveDialog(QList<QPixmap> pixs, DWidget *parent = 0);
 
 signals:
     void saveToPath(const QString &path);
@@ -35,10 +38,10 @@ private:
     QString m_lastDir;
 
     QList<QPixmap> m_pixmaps;
-    QSlider* m_qualitySlider;
-    QLabel* m_valueLabel;
-    QComboBox* m_contentFormatCBox;
-    QComboBox* m_contentSaveDirCBox;
+    DSlider *m_qualitySlider;
+    DLabel *m_valueLabel;
+    DComboBox *m_contentFormatCBox;
+    DComboBox *m_contentSaveDirCBox;
 };
 
 #endif // SAVEDIALOG_H

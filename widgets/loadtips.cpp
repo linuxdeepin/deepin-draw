@@ -8,8 +8,8 @@
 
 const QSize TIPS_SIZE = QSize(300, 300);
 
-LoadTips::LoadTips(QWidget *parent)
-    : QDialog(parent),
+LoadTips::LoadTips(DWidget *parent)
+    : DDialog(parent),
       m_counts(0)
 {
     DRAW_THEME_INIT_WIDGET("LoadTips");
@@ -17,32 +17,32 @@ LoadTips::LoadTips(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);
 
     setModal(true);
-    QLabel* w = new QLabel(this);
+    DLabel *w = new DLabel(this);
     w->setObjectName("TipsLabel");
     w->setFixedSize(TIPS_SIZE);
     m_waterProg = new DWaterProgress(this);
     m_waterProg->setFixedSize(QSize(200, 200));
 
-    m_messageLabel = new QLabel(this);
+    m_messageLabel = new DLabel(this);
     m_messageLabel->setObjectName("MessageLabel");
     m_messageLabel->setText(tr("Importing pictures, please wait..."));
 
-     QVBoxLayout* vLayout = new QVBoxLayout(w);
-     vLayout->setMargin(0);
-     vLayout->setSpacing(0);
-     vLayout->addStretch();
-     vLayout->addWidget(m_waterProg, 0, Qt::AlignCenter);
-     vLayout->addSpacing(20);
-     vLayout->addWidget(m_messageLabel, 0, Qt::AlignCenter);
-     vLayout->addStretch();
+    QVBoxLayout *vLayout = new QVBoxLayout(w);
+    vLayout->setMargin(0);
+    vLayout->setSpacing(0);
+    vLayout->addStretch();
+    vLayout->addWidget(m_waterProg, 0, Qt::AlignCenter);
+    vLayout->addSpacing(20);
+    vLayout->addWidget(m_messageLabel, 0, Qt::AlignCenter);
+    vLayout->addStretch();
 
-     connect(this, &LoadTips::progressValueChanged, this, [=](int value){
+    connect(this, &LoadTips::progressValueChanged, this, [ = ](int value) {
         m_counts = value;
         m_waterProg->setValue(m_counts);
-     });
-     connect(this, &LoadTips::finishedPainting, this, [=]{
-         this->hide();
-     });
+    });
+    connect(this, &LoadTips::finishedPainting, this, [ = ] {
+        this->hide();
+    });
 }
 
 void LoadTips::showTips()

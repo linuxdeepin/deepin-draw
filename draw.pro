@@ -22,7 +22,6 @@ SOURCES += main.cpp \
     application.cpp
 
 include(utils/utils.pri)
-include(controller/controller.pri)
 include(widgets/widgets.pri)
 include(drawshape/drawshape.pri)
 include(frame/frame.pri)

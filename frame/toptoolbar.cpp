@@ -21,6 +21,8 @@
 #include <QHBoxLayout>
 #include <QString>
 
+#include <DLineEdit>
+
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
@@ -69,8 +71,19 @@ void TopToolbar::initComboBox()
     //QComboBox *m_scaleComboBox = new QComboBox(this);
     QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
     m_scaleComboBox->addItems(scaleList);
-    m_scaleComboBox->setCurrentIndex(1);
-    m_scaleComboBox->setFixedWidth(200);
+    m_scaleComboBox->insertSeparator(1);
+    m_scaleComboBox->insertSeparator(3);
+    m_scaleComboBox->insertSeparator(5);
+    m_scaleComboBox->insertSeparator(7);
+    m_scaleComboBox->setCurrentIndex(2);
+    m_scaleComboBox->setFixedWidth(100);
+
+
+    //static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
+//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(2)->setTextAlignment(Qt::AlignCenter);
+//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(4)->setTextAlignment(Qt::AlignCenter);
+//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(6)->setTextAlignment(Qt::AlignCenter);
+//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(8)->setTextAlignment(Qt::AlignCenter);
     m_scaleComboBox->setEditable(true);
 
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
@@ -146,6 +159,7 @@ void TopToolbar::initMenu()
 {
 
     m_mainMenu = new DMenu(this);
+    m_mainMenu->setFixedWidth(120);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
     //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
@@ -158,7 +172,12 @@ void TopToolbar::initMenu()
     QAction *saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction *printAc = m_mainMenu->addAction(tr("Print"));
     m_mainMenu->addSeparator();
-    QAction *themeAc = m_mainMenu->addAction(tr("Theme"));
+    DMenu *themMenu = new DMenu(tr("Theme"));
+    QAction *themeLightAc = themMenu->addAction(tr("Light theme"));
+    QAction *themeDarkAc = themMenu->addAction(tr("Dark theme"));
+    QAction *themeSystemAc = themMenu->addAction(tr("System theme"));
+    m_mainMenu->addMenu(themMenu);
+
     QAction *helpAc = m_mainMenu->addAction(tr("Help"));
 
 

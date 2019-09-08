@@ -1,13 +1,14 @@
 #ifndef TESTWIDGET_H
 #define TESTWIDGET_H
 
-#include <QWidget>
+#include <DWidget>
+DWIDGET_USE_NAMESPACE
 
-class TestWidget : public QWidget
+class TestWidget : public DWidget
 {
     Q_OBJECT
 public:
-    explicit TestWidget(QWidget *parent = nullptr);
+    explicit TestWidget(DWidget *parent = nullptr);
 
 signals:
 

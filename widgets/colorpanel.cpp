@@ -27,7 +27,7 @@ const QSize SLIDER_SIZE = QSize(178, 22);
 const QSize BTN_SIZE = QSize(24, 24);
 
 
-ColorButton::ColorButton(const QColor &color, QWidget *parent)
+ColorButton::ColorButton(const QColor &color, DWidget *parent)
     : DPushButton(parent)
     , m_disable(false)
 {
@@ -97,7 +97,7 @@ ColorButton::~ColorButton()
 {
 }
 
-ColorPanel::ColorPanel(QWidget *parent)
+ColorPanel::ColorPanel(DWidget *parent)
     : DWidget(parent)
     , m_drawstatus(DrawStatus::Fill)
     , m_expand(false)
@@ -138,7 +138,7 @@ void ColorPanel::slotPickedColorChanged(QColor newColor)
 void ColorPanel::initUI()
 {
     DRAW_THEME_INIT_WIDGET("ColorPanel");
-    QWidget *colorBtnWidget = new QWidget(this);
+    DWidget *colorBtnWidget = new DWidget(this);
     colorBtnWidget->setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
 
     if (!m_expand)
@@ -167,14 +167,14 @@ void ColorPanel::initUI()
     m_alphaControlWidget = new CAlphaControlWidget(this);
     m_alphaControlWidget->setFixedHeight(24);
 
-    QWidget *colorValueWidget = new QWidget;
+    DWidget *colorValueWidget = new DWidget;
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
-    QLabel *colLabel = new QLabel(colorValueWidget);
+    DLabel *colLabel = new DLabel(colorValueWidget);
     colLabel->setObjectName("ColorLabel");
     colLabel->setFixedWidth(48);
     colLabel->setText(tr("Color"));
 
-    m_colLineEdit = new QLineEdit(colorValueWidget);
+    m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(145, 24);
     m_colorfulBtn = new PushButton(colorValueWidget);
@@ -221,7 +221,7 @@ void ColorPanel::initConnection()
     ///调试板改变
     connect(m_pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::slotPickedColorChanged);
 
-    connect(m_colLineEdit, &QLineEdit::textChanged,  this, [ = ](QString text) {
+    connect(m_colLineEdit, &DLineEdit::textChanged,  this, [ = ](QString text) {
         if (QColor(text).isValid()) {
             m_pickColWidget->setRgbValue(QColor(text));
         }

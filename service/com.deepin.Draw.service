@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.deepin.Draw
-Exec=/usr/bin/deepin-draw

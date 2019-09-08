@@ -10,7 +10,7 @@
 
 const QSize COLOR_TIPS_SIZE = QSize(50, 50);
 
-ColorLabel::ColorLabel(QWidget *parent)
+ColorLabel::ColorLabel(DWidget *parent)
     : DLabel(parent)
     , m_workToPick(false)
     , m_picking(true)
