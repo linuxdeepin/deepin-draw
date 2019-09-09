@@ -6,6 +6,9 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QtMath>
+#include <QGraphicsBlurEffect>
+
+DWIDGET_USE_NAMESPACE
 CRectTool::CRectTool ()
     : IDrawTool (rectangle)
     , m_pRectItem(nullptr)
@@ -20,16 +23,25 @@ CRectTool::~CRectTool()
 
 void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
 
-    m_sPointPress = event->scenePos();
-    m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-    m_pRectItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pRectItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-    scene->addItem(m_pRectItem);
-    m_pRectItem->setSelected(true);
+        m_sPointPress = event->scenePos();
+        m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        m_pRectItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pRectItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+//    QGraphicsBlurEffect *e0 = new QGraphicsBlurEffect();
 
-    m_bMousePress = true;
+//    e0->setBlurRadius(20);
+
+//    m_pRectItem->setGraphicsEffect(e0);
+        scene->addItem(m_pRectItem);
+        m_pRectItem->setSelected(true);
+
+        m_bMousePress = true;
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -114,6 +126,7 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     Q_UNUSED(scene)
+
     m_sPointRelease = event->scenePos();
     //如果鼠标没有移动
     if ( event->scenePos() == m_sPointPress ) {

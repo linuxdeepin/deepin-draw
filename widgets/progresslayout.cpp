@@ -2,6 +2,7 @@
 #include <DPalette>
 //#include <DApplicationHelper>
 
+DGUI_USE_NAMESPACE
 ProgressLayout::ProgressLayout(DWidget *parent)
     : DWidget (parent)
 {

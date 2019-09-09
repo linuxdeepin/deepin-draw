@@ -20,17 +20,19 @@ CPolygonTool::~CPolygonTool()
 
 void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
-
-    m_sPointPress = event->scenePos();
-    int num = CDrawParamSigleton::GetInstance()->getSideNum();
-    m_pPolygonItem = new CGraphicsPolygonItem(num, m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-    m_pPolygonItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pPolygonItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-    scene->addItem(m_pPolygonItem);
-    m_pPolygonItem->setSelected(true);
-
-    m_bMousePress = true;
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
+        m_sPointPress = event->scenePos();
+        int num = CDrawParamSigleton::GetInstance()->getSideNum();
+        m_pPolygonItem = new CGraphicsPolygonItem(num, m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        m_pPolygonItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pPolygonItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        scene->addItem(m_pPolygonItem);
+        m_pPolygonItem->setSelected(true);
+        m_bMousePress = true;
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)

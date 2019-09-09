@@ -21,18 +21,22 @@ CPolygonalStarTool::~CPolygonalStarTool()
 
 void CPolygonalStarTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
 
-    m_sPointPress = event->scenePos();
-    m_pPolygonalStarItem = new CGraphicsPolygonalStarItem(CDrawParamSigleton::GetInstance()->getAnchorNum(),
-                                                          CDrawParamSigleton::GetInstance()->getRadiusNum(),
-                                                          m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-    m_pPolygonalStarItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pPolygonalStarItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-    scene->addItem(m_pPolygonalStarItem);
-    m_pPolygonalStarItem->setSelected(true);
+        m_sPointPress = event->scenePos();
+        m_pPolygonalStarItem = new CGraphicsPolygonalStarItem(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                                              CDrawParamSigleton::GetInstance()->getRadiusNum(),
+                                                              m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        m_pPolygonalStarItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pPolygonalStarItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        scene->addItem(m_pPolygonalStarItem);
+        m_pPolygonalStarItem->setSelected(true);
 
-    m_bMousePress = true;
+        m_bMousePress = true;
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CPolygonalStarTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
