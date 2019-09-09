@@ -17,14 +17,14 @@
 
 
 const int ORGIN_WIDTH = 250;
-const int PANEL_WIDTH = 222;
+const int PANEL_WIDTH = 230;
 const int ORIGIN_HEIGHT = 213;
 const int EXPAND_HEIGHT = 430;
 const int RADIUS = 3;
 const int BORDER_WIDTH = 2;
 const QSize COLOR_BORDER_SIZE = QSize(20, 20);
-const QSize COLOR_BUTTN = QSize(14, 14);
-const QSize SLIDER_SIZE = QSize(178, 22);
+//const QSize COLOR_BUTTN = QSize(14, 14);
+//const QSize SLIDER_SIZE = QSize(178, 22);
 const QSize BTN_SIZE = QSize(24, 24);
 
 
@@ -166,6 +166,7 @@ void ColorPanel::initUI()
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
     m_alphaControlWidget->setFixedHeight(24);
+//    m_alphaControlWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
 
     DWidget *colorValueWidget = new DWidget;
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
@@ -188,11 +189,12 @@ void ColorPanel::initUI()
     m_colorfulBtn->setFixedSize(BTN_SIZE);
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
+//    colorValueWidget->setStyleSheet("background-color: rgb(0, 255, 0);");
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(colLabel);
     colorLayout->addWidget(m_colLineEdit);
-    colorLayout->addSpacing(21);
+    colorLayout->addSpacing(10);
     colorLayout->addWidget(m_colorfulBtn);
 
     m_pickColWidget = new PickColorWidget(this);

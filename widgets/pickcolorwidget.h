@@ -4,11 +4,12 @@
 #include <DWidget>
 
 #include "editlabel.h"
-#include "pushbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 
 DWIDGET_USE_NAMESPACE
+
+class CCheckButton;
 
 class PickColorWidget : public DWidget
 {
@@ -28,7 +29,7 @@ private:
     EditLabel *m_redEditLabel;
     EditLabel *m_greenEditLabel;
     EditLabel *m_blueEditLabel;
-    PushButton *m_picker;
+    CCheckButton *m_picker;
     ColorLabel *m_colorLabel;
     ColorSlider *m_colorSlider;
 };

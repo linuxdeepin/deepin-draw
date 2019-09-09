@@ -8,17 +8,19 @@
 
 #include "utils/global.h"
 #include "service/colorpickerinterface.h"
+#include "ccheckbutton.h"
 
-const QSize PICKCOLOR_WIDGET_SIZE = QSize(222, 217);
+
+const QSize PICKCOLOR_WIDGET_SIZE = QSize(230, 230);
 
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
-    //DRAW_THEME_INIT_WIDGET("PickColorWidget");
-    setFixedSize(222, 217);
+    setFixedSize(PICKCOLOR_WIDGET_SIZE);
     DLabel *titleLabel = new DLabel(this);
     titleLabel->setText("RGB");
-    titleLabel->setObjectName("TitleLabel");
+    titleLabel->setFixedWidth(38);
+
 
     m_redEditLabel = new EditLabel(this);
     m_redEditLabel->setTitle("R");
@@ -38,34 +40,37 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     connect(m_blueEditLabel, &EditLabel::editTextChanged,
             this, &PickColorWidget::updateColor);
 
-    m_picker = new PushButton(this);
+
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    m_picker = new CCheckButton(pictureMap, this, false);
     m_picker->setFixedSize(24, 24);
-    m_picker->setObjectName("PickerBtn");
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
     rgbLayout->addWidget(titleLabel);
-    rgbLayout->addSpacing(25);
+    rgbLayout->addSpacing(10);
     rgbLayout->addWidget(m_redEditLabel);
     rgbLayout->addWidget(m_greenEditLabel);
     rgbLayout->addWidget(m_blueEditLabel);
     rgbLayout->addSpacing(4);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
-    m_colorSlider->setObjectName("ColorfulSlider");
-    m_colorSlider->setFixedSize(222, 14);
-//    m_colorSlider->setMinimum(0);
-//    m_colorSlider->setMaximum(355);
+    m_colorSlider->setFixedSize(230, 25);
+
 
     m_colorLabel = new ColorLabel(this);
-    m_colorLabel->setFixedSize(222, 136);
+    m_colorLabel->setFixedSize(230, 136);
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
         m_colorLabel->setHue(val);
     });
     connect(m_colorLabel, &ColorLabel::pickedColor, this,  [ = ](QColor color) {
         setRgbValue(color, true);
     });
-    connect(m_picker, &PushButton::clicked, this, [ = ] {
+    connect(m_picker, &CCheckButton::buttonClick, this, [ = ] {
         ColorPickerInterface *cp = new ColorPickerInterface("com.deepin.Picker",
                                                             "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
         cp->StartPick(QString("%1").arg(qApp->applicationPid()));
