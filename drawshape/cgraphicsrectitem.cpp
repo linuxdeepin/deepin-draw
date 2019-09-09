@@ -421,7 +421,11 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     }
 
     rect = rect.normalized();
+    centerPoint = mapToScene(rect.center());
+    rect.setRect(centerPoint.rx() - rect.width() * 0.5, centerPoint.ry() - rect.height() * 0.5, rect.width(), rect.height());
     prepareGeometryChange();
+    setTransformOriginPoint(centerPoint);
+    this->setPos(0, 0);
 
     this->setRect(rect);
     updateGeometry();
