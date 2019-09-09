@@ -13,10 +13,17 @@ public:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual  int type() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    /**
+     * @brief duplicate 拷贝自己
+     * @return
+     */
+    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect);
     void updatePolygonalStar(int anchorNum, int innerRadius);
     int anchorNum() const;
     int innerRadius() const;
+
+    void setPolygon(const QPolygonF &polygon);
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

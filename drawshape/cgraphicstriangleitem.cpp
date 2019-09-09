@@ -41,6 +41,21 @@ int CGraphicsTriangleItem::type() const
     return TriangleType;
 }
 
+CGraphicsItem *CGraphicsTriangleItem::duplicate() const
+{
+    CGraphicsTriangleItem *item = new CGraphicsTriangleItem(rect());
+
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
+}
+
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

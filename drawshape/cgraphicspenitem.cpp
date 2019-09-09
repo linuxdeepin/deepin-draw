@@ -128,6 +128,34 @@ void CGraphicsPenItem::changeToPixMap()
 
 }
 
+CGraphicsItem *CGraphicsPenItem::duplicate() const
+{
+    if (!m_isDrawCompelet) {
+        return nullptr;
+    }
+
+    CGraphicsPenItem *item = new CGraphicsPenItem(rect());
+
+//    item->setDrawPath(m_drawPath);
+//    item->setTruePath(m_truePath);
+//    item->setArrow(m_arrow);
+//    item->setPrePoint(m_prePoint);
+//    item->setStraightLine(m_straightLine);
+    item->setIsDrawCompelet(m_isDrawCompelet);
+    item->setCurrentType(m_currentType);
+    item->setPixMap(m_pixMap);
+
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
+}
+
 
 
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -148,6 +176,41 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         painter->drawPixmap(rect(), m_pixMap, m_pixMap.rect());
     }
+}
+
+void CGraphicsPenItem::setDrawPath(const QPainterPath &drawPath)
+{
+    m_drawPath = drawPath;
+}
+
+void CGraphicsPenItem::setTruePath(const QPainterPath &truePath)
+{
+    m_truePath = truePath;
+}
+
+void CGraphicsPenItem::setArrow(const QPolygonF &arrow)
+{
+    m_arrow = arrow;
+}
+
+void CGraphicsPenItem::setPrePoint(const QPointF &prePoint)
+{
+    m_prePoint = prePoint;
+}
+
+void CGraphicsPenItem::setStraightLine(const QLineF &straightLine)
+{
+    m_straightLine = straightLine;
+}
+
+void CGraphicsPenItem::setIsDrawCompelet(bool isDrawCompelet)
+{
+    m_isDrawCompelet = isDrawCompelet;
+}
+
+void CGraphicsPenItem::setPixMap(const QPixmap &pixMap)
+{
+    m_pixMap = pixMap;
 }
 
 EPenType CGraphicsPenItem::currentType() const

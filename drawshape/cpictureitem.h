@@ -9,20 +9,24 @@
 class CPictureItem : public  CGraphicsRectItem
 {
 public:
-    explicit CPictureItem(QPixmap pixmap, CGraphicsItem *parent = nullptr);
-    explicit CPictureItem(const QRectF &rect, QPixmap pixmap, CGraphicsItem *parent = nullptr);
-    //  explicit CPictureItem(const QPixmap &pixmap, QGraphicsPixmapItem *parent = nullptr);
-    virtual ~CPictureItem()  Q_DECL_OVERRIDE;
+    explicit CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
+    explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
+    ~CPictureItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     void setMirror(bool hor, bool ver);
     void setRotation90(bool leftOrRight);
-    //virtual QPainterPath shape() const Q_DECL_OVERRIDE;
 
-//    explicit CGraphicsEllipseItem(CGraphicsItem *parent = nullptr);
-//    explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
-//    explicit CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-//    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-//    virtual int  type() const Q_DECL_OVERRIDE;
+    /**
+     * @brief duplicate 拷贝自己
+     * @return
+     */
+    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+
+
+    void setPixmap(const QPixmap &pixmap);
+
+    void setAngle(const qreal &angle);
+
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

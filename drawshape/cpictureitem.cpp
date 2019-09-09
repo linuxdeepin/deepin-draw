@@ -1,22 +1,23 @@
 #include "cpictureitem.h"
-#include "globaldefine.h"
 
 #include <QPainter>
 #include <QDebug>
 
-CPictureItem::CPictureItem(QPixmap pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent )
     : CGraphicsRectItem(parent)
+    , m_pixmap(pixmap)
+    , m_angle(0.0)
 {
-    m_pixmap = pixmap;
-    m_angle = 0.0;
+
 }
 
 
-CPictureItem::CPictureItem(const QRectF &rect, QPixmap pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent )
     : CGraphicsRectItem(rect, parent)
+    , m_pixmap(pixmap)
+    , m_angle(0.0)
 {
-    m_pixmap = pixmap;
-    m_angle = 0.0;
+
 }
 
 CPictureItem::~CPictureItem()
@@ -39,6 +40,16 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
 
+}
+
+void CPictureItem::setAngle(const qreal &angle)
+{
+    m_angle = angle;
+}
+
+void CPictureItem::setPixmap(const QPixmap &pixmap)
+{
+    m_pixmap = pixmap;
 }
 
 //进行翻转，先转化为qimage，翻转后转化为qpixmap
@@ -64,6 +75,23 @@ void CPictureItem::setRotation90(bool leftOrRight)
         m_angle = m_angle + 90.0;
         this->setRotation(m_angle);
     }
+}
+
+CGraphicsItem *CPictureItem::duplicate() const
+{
+    CPictureItem *item = new CPictureItem(rect(), m_pixmap);
+
+    item->setAngle(m_angle);
+
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
 }
 
 

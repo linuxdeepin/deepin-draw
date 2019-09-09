@@ -48,6 +48,21 @@ void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const
     calcPolygon();
 }
 
+CGraphicsItem *CGraphicsPolygonalStarItem::duplicate() const
+{
+    CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(m_anchorNum, m_innerRadius, rect());
+    item->setPolygon(m_polygon);
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
+}
+
 void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 {
     CGraphicsRectItem::setRect(rect);
@@ -82,6 +97,11 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
         painter->setPen(pen);
         painter->drawRect(this->rect());
     }
+}
+
+void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
+{
+    m_polygon = polygon;
 }
 
 int CGraphicsPolygonalStarItem::innerRadius() const

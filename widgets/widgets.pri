@@ -59,3 +59,6 @@ SOURCES += \
  #   $$PWD/widgetsRes.qrc
 
 FORMS +=
+
+RESOURCES += \
+    $$PWD/widgetsRes.qrc

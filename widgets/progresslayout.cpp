@@ -1,6 +1,6 @@
 #include "progresslayout.h"
 #include <DPalette>
-#include <DApplicationHelper>
+//#include <DApplicationHelper>
 
 ProgressLayout::ProgressLayout(DWidget *parent)
     : DWidget (parent)
