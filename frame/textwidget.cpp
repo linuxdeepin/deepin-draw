@@ -57,8 +57,8 @@ void TextWidget::initUI()
 
     m_fontSizeEdit = new DLineEdit(this);
     m_fontSizeEdit->setValidator(new QIntValidator(0, 1000, this));
-    m_fontSizeEdit->setMinimumWidth(50);
-    m_fontSizeEdit->setMaximumWidth(50);
+    m_fontSizeEdit->setClearButtonEnabled(false);
+    m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);

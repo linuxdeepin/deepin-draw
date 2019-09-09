@@ -51,8 +51,7 @@ void BlurWidget::initUI()
 
     lineWidthSlider->setMinimum(20);
     lineWidthSlider->setMaximum(160);
-    lineWidthSlider->setMinimumWidth(200);
-    lineWidthSlider->setMaximumWidth(200);
+    lineWidthSlider->setFixedWidth(200);
     lineWidthSlider->setMaximumHeight(24);
     lineWidthSlider->setOrientation(Qt::Horizontal);
 
@@ -64,7 +63,6 @@ void BlurWidget::initUI()
     connect(lineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         lineWidthLabel->setText(QString("%1px").arg(value));
     });
-
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

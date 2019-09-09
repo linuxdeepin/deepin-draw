@@ -44,8 +44,6 @@ void CAlphaControlWidget::initUI()
 
 //    layout->addStretch();
     layout->addWidget(nameLabel);
-
-    layout->addSpacing(18);
     layout->addWidget(m_alphaSlider);
     layout->addSpacing(5);
     layout->addWidget(m_alphaLabel);

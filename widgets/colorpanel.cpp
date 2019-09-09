@@ -183,7 +183,7 @@ void ColorPanel::initUI()
     pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
     pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
     pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
-    m_colorfulBtn = new CCheckButton(pictureMap, colorValueWidget);
+    m_colorfulBtn = new CCheckButton(pictureMap, colorValueWidget, false);
     m_colorfulBtn->setObjectName("ColorFulButton");
     m_colorfulBtn->setFixedSize(BTN_SIZE);
 
@@ -257,7 +257,6 @@ void ColorPanel::initConnection()
             m_pickColWidget->hide();
             m_pickColWidget->setPickedColor(false);
             setFixedHeight(ORIGIN_HEIGHT);
-            m_colorfulBtn->setChecked(false);
             updateGeometry();
         } else
         {

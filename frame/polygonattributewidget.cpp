@@ -70,8 +70,8 @@ void PolygonAttributeWidget::initUI()
 
     m_sideNumEdit = new DLineEdit(this);
     m_sideNumEdit->setValidator(new QIntValidator(4, 10, this));
-    m_sideNumEdit->setMinimumWidth(50);
-    m_sideNumEdit->setMaximumWidth(50);
+    m_sideNumEdit->setClearButtonEnabled(false);
+    m_sideNumEdit->setFixedWidth(40);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);

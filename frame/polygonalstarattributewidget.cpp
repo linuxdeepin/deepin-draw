@@ -66,8 +66,8 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_anchorNumEdit = new DLineEdit(this);
     m_anchorNumEdit->setValidator(new QIntValidator(3, 50, this));
-    m_anchorNumEdit->setMinimumWidth(50);
-    m_anchorNumEdit->setMaximumWidth(50);
+    m_anchorNumEdit->setClearButtonEnabled(false);
+    m_anchorNumEdit->setFixedWidth(40);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
 
     DLabel *radiusLabel = new DLabel(this);
@@ -84,8 +84,8 @@ void PolygonalStarAttributeWidget::initUI()
     QRegExp rx("^([1-9]{1}[0-9]{0,1}|0|100){0,1}%$");
     QRegExpValidator *validator = new QRegExpValidator(rx, this);
     m_radiusNumEdit->setValidator(validator);
-    m_radiusNumEdit->setMinimumWidth(60);
-    m_radiusNumEdit->setMaximumWidth(60);
+    m_radiusNumEdit->setClearButtonEnabled(false);
+    m_radiusNumEdit->setFixedWidth(55);
     m_radiusNumEdit->setText(QString("%1%").arg(m_radiusNumSlider->value()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
