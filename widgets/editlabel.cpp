@@ -6,7 +6,7 @@
 
 #include "utils/global.h"
 
-const QSize LINEEDIT_SIZE = QSize(28, 22);
+const QSize LINEEDIT_SIZE = QSize(44, 22);
 
 EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
@@ -17,6 +17,7 @@ EditLabel::EditLabel(DWidget *parent)
     m_titleLabel->setObjectName("EditLabel");
     m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
+    m_edit->setClearButtonEnabled(false);
     m_edit->setObjectName("TitleEdit");
     QHBoxLayout *mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);

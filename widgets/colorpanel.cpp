@@ -117,6 +117,7 @@ void ColorPanel::setConfigColor(QColor color)
 {
     /// 颜色名字
     m_colLineEdit->setText(color.name());
+
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
 
@@ -177,6 +178,7 @@ void ColorPanel::initUI()
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
+    m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->setFixedSize(145, 24);
 
     QMap<CCheckButton::EButtonSattus, QString> pictureMap;

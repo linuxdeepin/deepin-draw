@@ -26,7 +26,7 @@ include(widgets/widgets.pri)
 include(drawshape/drawshape.pri)
 include(frame/frame.pri)
 include(service/service.pri)
-include(debian/control)
+
 
 RESOURCES +=
 

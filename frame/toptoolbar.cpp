@@ -172,11 +172,11 @@ void TopToolbar::initMenu()
     QAction *saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction *printAc = m_mainMenu->addAction(tr("Print"));
     m_mainMenu->addSeparator();
-    DMenu *themMenu = new DMenu(tr("Theme"));
-    QAction *themeLightAc = themMenu->addAction(tr("Light theme"));
-    QAction *themeDarkAc = themMenu->addAction(tr("Dark theme"));
-    QAction *themeSystemAc = themMenu->addAction(tr("System theme"));
-    m_mainMenu->addMenu(themMenu);
+//    DMenu *themMenu = new DMenu(tr("Theme"));
+//    QAction *themeLightAc = themMenu->addAction(tr("Light theme"));
+//    QAction *themeDarkAc = themMenu->addAction(tr("Dark theme"));
+//    QAction *themeSystemAc = themMenu->addAction(tr("System theme"));
+//    m_mainMenu->addMenu(themMenu);
 
     QAction *helpAc = m_mainMenu->addAction(tr("Help"));
 
