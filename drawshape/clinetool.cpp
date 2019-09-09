@@ -17,15 +17,19 @@ CLineTool::~CLineTool()
 
 void CLineTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
-    m_sPointPress = event->scenePos();
-    m_pLineItem = new CGraphicsLineItem(m_sPointPress, m_sPointPress);
-    m_pLineItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pLineItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-    scene->addItem(m_pLineItem);
-    m_pLineItem->setSelected(true);
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
+        m_sPointPress = event->scenePos();
+        m_pLineItem = new CGraphicsLineItem(m_sPointPress, m_sPointPress);
+        m_pLineItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pLineItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        scene->addItem(m_pLineItem);
+        m_pLineItem->setSelected(true);
 
-    m_bMousePress = true;
+        m_bMousePress = true;
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CLineTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)

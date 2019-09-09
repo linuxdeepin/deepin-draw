@@ -18,15 +18,19 @@ CPenTool::~CPenTool()
 
 void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
-    m_sPointPress = event->scenePos();
-    m_pPenItem = new CGraphicsPenItem(QRectF(m_sPointPress.x(), m_sPointPress.y(), 0, 0));
-    m_pPenItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
-    scene->addItem(m_pPenItem);
-    m_pPenItem->setSelected(true);
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
+        m_sPointPress = event->scenePos();
+        m_pPenItem = new CGraphicsPenItem(QRectF(m_sPointPress.x(), m_sPointPress.y(), 0, 0));
+        m_pPenItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
+        scene->addItem(m_pPenItem);
+        m_pPenItem->setSelected(true);
 
-    m_bMousePress = true;
+        m_bMousePress = true;
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)

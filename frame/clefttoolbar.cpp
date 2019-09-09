@@ -1,6 +1,6 @@
 #include "clefttoolbar.h"
 
-#include "widgets/cpushbutton.h"
+#include "widgets/ccheckbutton.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawtoolfactory.h"
 #include "drawshape/cdrawtoolmanagersigleton.h"
@@ -40,106 +40,106 @@ void CLeftToolBar::initUI()
 {
 
     setFixedWidth(58);
-    QMap<CPushButton::CButtonSattus, QString> pictureMap;
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/picture tools_active.svg");
-    m_picBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/picture tools_active.svg");
+    m_picBtn = new CCheckButton(pictureMap, this);
     m_picBtn->setToolTip(tr("Import"));
     m_actionButtons.append(m_picBtn);
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/rectangle tool_active.svg");
-    m_rectBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/rectangle tool_active.svg");
+    m_rectBtn = new CCheckButton(pictureMap, this);
     m_rectBtn->setToolTip(tr("Rectangle"));
     m_actionButtons.append(m_rectBtn);
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/round tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/round tool_active.svg");
-    m_roundBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/round tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/round tool_active.svg");
+    m_roundBtn = new CCheckButton(pictureMap, this);
     m_roundBtn->setToolTip(tr("Ellipse"));
     m_actionButtons.append(m_roundBtn);
 
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/triangle tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/triangle tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/triangle tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/triangle tool_active.svg");
-    m_triangleBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/triangle tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/triangle tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/triangle tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/triangle tool_active.svg");
+    m_triangleBtn = new CCheckButton(pictureMap, this);
     m_triangleBtn->setToolTip(tr("Triangle"));
     m_actionButtons.append(m_triangleBtn);
 
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/star tool_normal.png");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/star tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/star tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/star tool_active.svg");
-    m_starBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/star tool_normal.png");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/star tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/star tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/star tool_active.svg");
+    m_starBtn = new CCheckButton(pictureMap, this);
     m_starBtn->setToolTip(tr("Star"));
     m_actionButtons.append(m_starBtn);
 
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/hexagon tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/hexagon tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/hexagon tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/hexagon tool_active.svg");
-    m_polygonBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/hexagon tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/hexagon tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/hexagon tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/hexagon tool_active.svg");
+    m_polygonBtn = new CCheckButton(pictureMap, this);
     m_polygonBtn->setToolTip(tr("Polygon"));
     m_actionButtons.append(m_polygonBtn);
 
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/line tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/line tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/line tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/line tool_active.svg");
-    m_lineBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/line tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/line tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/line tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/line tool_active.svg");
+    m_lineBtn = new CCheckButton(pictureMap, this);
     m_lineBtn->setToolTip(tr("Line"));
     m_actionButtons.append(m_lineBtn);
 
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/brush tool_normal.png");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/brush tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/brush tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/brush tool_active.svg");
-    m_penBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/brush tool_normal.png");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/brush tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/brush tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/brush tool_active.svg");
+    m_penBtn = new CCheckButton(pictureMap, this);
     m_penBtn->setToolTip(tr("Pencil"));
     m_actionButtons.append(m_penBtn);
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/text tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/text tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/text tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/text tool_active.svg");
-    m_textBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/text tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/text tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/text tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/text tool_active.svg");
+    m_textBtn = new CCheckButton(pictureMap, this);
     m_textBtn->setToolTip(tr("Text"));
     m_actionButtons.append(m_textBtn);
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/smudge tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/smudge tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/smudge tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/smudge tool_active.svg");
-    m_blurBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/smudge tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/smudge tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/smudge tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/smudge tool_active.svg");
+    m_blurBtn = new CCheckButton(pictureMap, this);
     m_blurBtn->setToolTip(tr("Blur"));
     m_actionButtons.append(m_blurBtn);
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/action/screenshot tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/action/screenshot too_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/action/screenshot tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/action/screenshot tool_active.svg");
-    m_cutBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/screenshot tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/screenshot too_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/screenshot tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/screenshot tool_active.svg");
+    m_cutBtn = new CCheckButton(pictureMap, this);
     m_cutBtn->setObjectName("CutBtn");
     m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
@@ -179,7 +179,7 @@ void CLeftToolBar::initUI()
 
 void CLeftToolBar::slotChangedStatusToSelect()
 {
-    foreach (CPushButton *button, m_actionButtons) {
+    foreach (CCheckButton *button, m_actionButtons) {
         if (button->isChecked()) {
             button->setChecked(false);
             return;
@@ -188,9 +188,9 @@ void CLeftToolBar::slotChangedStatusToSelect()
 }
 
 
-void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
+void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
 {
-    foreach (CPushButton *button, m_actionButtons) {
+    foreach (CCheckButton *button, m_actionButtons) {
         if (button->isChecked() && button != clickedButton) {
             button->setChecked(false);
             return;
@@ -203,7 +203,7 @@ void CLeftToolBar::clearOtherSelections(CPushButton *clickedButton)
 void CLeftToolBar::initConnection()
 {
 
-    connect(m_picBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_picBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_picBtn);
 
         emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
@@ -216,65 +216,65 @@ void CLeftToolBar::initConnection()
 
 
 
-    connect(m_rectBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_rectBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_rectBtn);
         emit setCurrentDrawTool(rectangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(rectangle);
     });
 
-    connect(m_roundBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_roundBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_roundBtn);
         emit setCurrentDrawTool(ellipse);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(ellipse);
     });
 
-    connect(m_triangleBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_triangleBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_triangleBtn);
         emit setCurrentDrawTool(triangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(triangle);
     });
 
-    connect(m_starBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_starBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_starBtn);
         emit setCurrentDrawTool(polygonalStar);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygonalStar);
     });
 
-    connect(m_polygonBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_polygonBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_polygonBtn);
         emit setCurrentDrawTool(polygon);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygon);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_lineBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_lineBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_lineBtn);
         emit setCurrentDrawTool(line);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_penBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_penBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_penBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
         emit setCurrentDrawTool(pen);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_textBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_textBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_textBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
         emit setCurrentDrawTool(text);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_blurBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
         emit setCurrentDrawTool(blur);
 //        DrawTool::c_drawShape = ellipse;
     });
 
-    connect(m_cutBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_cutBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
         emit setCurrentDrawTool(cut);
 //        DrawTool::c_drawShape = ellipse;

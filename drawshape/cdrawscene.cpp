@@ -100,12 +100,13 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
-    qDebug() << "entered the  mousePressEvent of scene function" << currentMode << importPicture << endl;
+    if (mouseEvent->button() & Qt::LeftButton) {
+        EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool ) {
-        pTool->mousePressEvent(mouseEvent, this);
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if ( nullptr != pTool ) {
+            pTool->mousePressEvent(mouseEvent, this);
+        }
     }
 }
 

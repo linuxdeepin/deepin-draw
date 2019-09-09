@@ -7,7 +7,7 @@
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/csidewidthwidget.h"
-#include "widgets/cpushbutton.h"
+#include "widgets/ccheckbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 
@@ -39,21 +39,21 @@ void CPenWidget::initUI()
     lineTypeLabel->setObjectName("LineType");
     lineTypeLabel->setText(tr("类型"));
 
-    QMap<CPushButton::CButtonSattus, QString> pictureMap;
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
-    m_straightline = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
+    m_straightline = new CCheckButton(pictureMap, this);
     m_actionButtons.append(m_straightline);
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
-    m_arrowline = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
+    m_arrowline = new CCheckButton(pictureMap, this);
     m_actionButtons.append(m_arrowline);
 
     DLabel *lwLabel = new DLabel(this);
@@ -96,13 +96,13 @@ void CPenWidget::initConnection()
     });
 
 
-    connect(m_straightline, &CPushButton::buttonClick, [this]() {
+    connect(m_straightline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_straightline);
         CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::straight);
         emit signalPenAttributeChanged();
     });
 
-    connect(m_arrowline, &CPushButton::buttonClick, [this]() {
+    connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
         CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::arrow);
         emit signalPenAttributeChanged();
@@ -114,9 +114,9 @@ void CPenWidget::initConnection()
     });
 }
 
-void CPenWidget::clearOtherSelections(CPushButton *clickedButton)
+void CPenWidget::clearOtherSelections(CCheckButton *clickedButton)
 {
-    foreach (CPushButton *button, m_actionButtons) {
+    foreach (CCheckButton *button, m_actionButtons) {
         if (button->isChecked() && button != clickedButton) {
             button->setChecked(false);
             return;

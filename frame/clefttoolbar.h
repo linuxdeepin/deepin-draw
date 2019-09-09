@@ -3,7 +3,7 @@
 
 #include <DFrame>
 
-class CPushButton;
+class CCheckButton;
 class QVBoxLayout;
 
 DWIDGET_USE_NAMESPACE
@@ -31,18 +31,18 @@ public slots:
     void slotChangedStatusToSelect();
 
 private:
-    QList<CPushButton *> m_actionButtons;
-    CPushButton *m_picBtn;
-    CPushButton *m_rectBtn;
-    CPushButton *m_roundBtn;
-    CPushButton *m_triangleBtn;
-    CPushButton *m_starBtn;
-    CPushButton *m_polygonBtn;
-    CPushButton *m_lineBtn;
-    CPushButton *m_penBtn;
-    CPushButton *m_textBtn;
-    CPushButton *m_blurBtn;
-    CPushButton *m_cutBtn;
+    QList<CCheckButton *> m_actionButtons;
+    CCheckButton *m_picBtn;
+    CCheckButton *m_rectBtn;
+    CCheckButton *m_roundBtn;
+    CCheckButton *m_triangleBtn;
+    CCheckButton *m_starBtn;
+    CCheckButton *m_polygonBtn;
+    CCheckButton *m_lineBtn;
+    CCheckButton *m_penBtn;
+    CCheckButton *m_textBtn;
+    CCheckButton *m_blurBtn;
+    CCheckButton *m_cutBtn;
 
     QVBoxLayout *m_layout;
 
@@ -50,7 +50,7 @@ private:
 private:
     void initUI();
     void initConnection();
-    void clearOtherSelections(CPushButton *clickedButton);
+    void clearOtherSelections(CCheckButton *clickedButton);
     void initDrawTools();
 };
 

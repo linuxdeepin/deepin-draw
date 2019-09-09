@@ -20,6 +20,26 @@ public:
      * @brief changeToPixMap 当绘制路径完成后将路径绘制到图片里，以后此Item将只绘制图片
      */
     void changeToPixMap();
+    /**
+     * @brief duplicate 拷贝自己
+     * @return
+     */
+    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+
+    void setPixMap(const QPixmap &pixMap);
+
+    void setIsDrawCompelet(bool isDrawCompelet);
+
+    void setStraightLine(const QLineF &straightLine);
+
+    void setPrePoint(const QPointF &prePoint);
+
+    void setArrow(const QPolygonF &arrow);
+
+    void setTruePath(const QPainterPath &truePath);
+
+    void setDrawPath(const QPainterPath &drawPath);
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
@@ -31,7 +51,6 @@ private:
     QLineF m_straightLine;
     bool m_isShiftPress;//是否按住shift
     bool m_isDrawCompelet;//是否绘制完成
-    QPainterPath m_tmpPath;
 
     EPenType m_currentType;
 

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QStyle>
+//#include <std>
 
 ColorSlider::ColorSlider(DWidget *parent)
     : DSlider(parent)
@@ -12,11 +13,6 @@ ColorSlider::ColorSlider(DWidget *parent)
     setMaximum(360);
     setOrientation(Qt::Horizontal);
     this->setRange(5, 355);
-    setFixedSize(222, 14);
-//    setStyleSheet("ColorSlider::handle:horizontal {\
-//                  border: 1px solid rgba(0, 0, 0, 26);\
-//                  width: 4px;\
-//                  margin: 0;}");
 }
 
 ColorSlider::~ColorSlider()
@@ -59,25 +55,28 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
     }
 
     QRect groove_rect = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
-    int spacing = 6;
-    QRect rect(groove_rect.left(), groove_rect.top(),  groove_rect.width() + 1, groove_rect.height());
+    QRect rect(groove_rect.left(), groove_rect.top(),  groove_rect.width() + 1, groove_rect.height() + 5);
+
+//    QRect rect = QRect (this->rect().x(), this->rect().y(),
+//                        this->rect().width() + 1, this->rect().height() + 5);
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    QImage backgroundImage(rect.width(), rect.height() - spacing, QImage::Format_ARGB32);
+    QImage backgroundImage(rect.width(), rect.height(), QImage::Format_ARGB32);
 
     for (qreal s = 0; s <= backgroundImage.width(); s++) {
-        for (qreal v = 0; v <= backgroundImage.height(); v++) {
+        for (qreal v = 1; v <= backgroundImage.height() ; v++) {
             QColor penColor = getColor(qreal(int(s / rect.width() * 360)), 1, 1);
             backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
         }
     }
 
-    painter.drawImage(QRect(rect.x(), rect.y() + 2, rect.width(),
-                            rect.height() - spacing), backgroundImage);
-    QPen borderPen;
-    borderPen.setWidth(1);
-    borderPen.setColor(QColor(0, 0, 0, 26));
-    painter.setPen(borderPen);
-    painter.drawRect(QRect(rect.x(), rect.y() + 3, rect.width() - 2, rect.height() - spacing - 2));
-    QSlider::paintEvent(ev);
+    painter.drawImage(QRect(rect.x(), rect.y() - 5, rect.width(),
+                            rect.height()), backgroundImage);
+//    QPen borderPen;
+//    borderPen.setWidth(1);
+//    borderPen.setColor(QColor(Qt::black));
+//    painter.setPen(borderPen);
+//    painter.drawRect(QRect(rect.x(), rect.y() - 5, rect.width() - 2, rect.height() - 2));
+//    QSlider::paintEvent(ev);
 }

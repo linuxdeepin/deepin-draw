@@ -9,6 +9,7 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "ccheckbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
@@ -16,14 +17,14 @@
 
 
 const int ORGIN_WIDTH = 250;
-const int PANEL_WIDTH = 222;
+const int PANEL_WIDTH = 230;
 const int ORIGIN_HEIGHT = 213;
 const int EXPAND_HEIGHT = 430;
 const int RADIUS = 3;
 const int BORDER_WIDTH = 2;
 const QSize COLOR_BORDER_SIZE = QSize(20, 20);
-const QSize COLOR_BUTTN = QSize(14, 14);
-const QSize SLIDER_SIZE = QSize(178, 22);
+//const QSize COLOR_BUTTN = QSize(14, 14);
+//const QSize SLIDER_SIZE = QSize(178, 22);
 const QSize BTN_SIZE = QSize(24, 24);
 
 
@@ -137,7 +138,6 @@ void ColorPanel::slotPickedColorChanged(QColor newColor)
 
 void ColorPanel::initUI()
 {
-    //DRAW_THEME_INIT_WIDGET("ColorPanel");
     DWidget *colorBtnWidget = new DWidget(this);
     colorBtnWidget->setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
 
@@ -166,6 +166,7 @@ void ColorPanel::initUI()
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
     m_alphaControlWidget->setFixedHeight(24);
+//    m_alphaControlWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
 
     DWidget *colorValueWidget = new DWidget;
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
@@ -177,16 +178,23 @@ void ColorPanel::initUI()
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(145, 24);
-    m_colorfulBtn = new PushButton(colorValueWidget);
+
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
+    m_colorfulBtn = new CCheckButton(pictureMap, colorValueWidget, false);
     m_colorfulBtn->setObjectName("ColorFulButton");
     m_colorfulBtn->setFixedSize(BTN_SIZE);
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
+//    colorValueWidget->setStyleSheet("background-color: rgb(0, 255, 0);");
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(colLabel);
     colorLayout->addWidget(m_colLineEdit);
-    colorLayout->addSpacing(21);
+    colorLayout->addSpacing(10);
     colorLayout->addWidget(m_colorfulBtn);
 
     m_pickColWidget = new PickColorWidget(this);
@@ -197,7 +205,7 @@ void ColorPanel::initUI()
     vLayout->addSpacing(7);
     vLayout->addLayout(gLayout);
     vLayout->addSpacing(9);
-    vLayout->addWidget(m_alphaControlWidget);
+    vLayout->addWidget(m_alphaControlWidget, 0, Qt::AlignCenter);
     vLayout->addSpacing(9);
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
 
@@ -245,7 +253,7 @@ void ColorPanel::initConnection()
     });
 
     ///展开按钮
-    connect(m_colorfulBtn, &PushButton::clicked, this, [ = ] {
+    connect(m_colorfulBtn, &CCheckButton::buttonClick, this, [ = ] {
         if (m_expand)
         {
             m_pickColWidget->hide();

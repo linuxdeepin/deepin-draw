@@ -1,20 +1,21 @@
-#include "cpushbutton.h"
+#include "ccheckbutton.h"
 
 #include <QPainter>
 #include <QDebug>
 
-CPushButton::CPushButton(const QMap<CButtonSattus, QString> &pictureMap, DWidget *parent) :
+CCheckButton::CCheckButton(const QMap<EButtonSattus, QString> &pictureMap, DWidget *parent, bool isCheckLock) :
     DPushButton(parent),
     m_isHover(false),
     m_isChecked(false),
     m_isPressed(false),
+    m_isCheckLock(isCheckLock),
     m_currentStatus(Normal),
     m_pictureMap(pictureMap)
 {
     m_currentPicture = m_pictureMap[m_currentStatus];
 }
 
-void CPushButton::setChecked(bool checked)
+void CCheckButton::setChecked(bool checked)
 {
     if (checked) {
         m_currentStatus = Active;
@@ -28,7 +29,7 @@ void CPushButton::setChecked(bool checked)
     update();
 }
 
-void CPushButton::paintEvent(QPaintEvent *e)
+void CCheckButton::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
     QPainter painter(this);
@@ -40,16 +41,16 @@ void CPushButton::paintEvent(QPaintEvent *e)
     }
 }
 
-bool CPushButton::isChecked() const
+bool CCheckButton::isChecked() const
 {
     return m_isChecked;
 }
 
-void CPushButton::mousePressEvent(QMouseEvent *e)
+void CCheckButton::mousePressEvent(QMouseEvent *e)
 {
     Q_UNUSED(e)
 
-    if (m_isChecked) {
+    if (m_isChecked && m_isCheckLock) {
         return;
     }
 
@@ -64,7 +65,7 @@ void CPushButton::mousePressEvent(QMouseEvent *e)
     emit buttonClick();
 }
 
-void CPushButton::mouseReleaseEvent(QMouseEvent *e)
+void CCheckButton::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e)
 
@@ -80,7 +81,7 @@ void CPushButton::mouseReleaseEvent(QMouseEvent *e)
 
 }
 
-void CPushButton::enterEvent(QEvent *e)
+void CCheckButton::enterEvent(QEvent *e)
 {
     Q_UNUSED(e)
 
@@ -91,7 +92,7 @@ void CPushButton::enterEvent(QEvent *e)
 
 }
 
-void CPushButton::leaveEvent(QEvent *e)
+void CCheckButton::leaveEvent(QEvent *e)
 {
     Q_UNUSED(e)
 

@@ -31,6 +31,21 @@ int CGraphicsEllipseItem::type() const
     return EllipseType;
 }
 
+CGraphicsItem *CGraphicsEllipseItem::duplicate() const
+{
+    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(rect());
+
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+    return item;
+}
+
 void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

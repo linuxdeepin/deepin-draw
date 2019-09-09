@@ -132,6 +132,22 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
     setLine(QLineF(x1, y1, x2, y2));
 }
 
+CGraphicsItem *CGraphicsLineItem::duplicate() const
+{
+    CGraphicsLineItem *item = new CGraphicsLineItem(m_line);
+
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue() + 0.1);
+
+    return item;
+}
+
 void CGraphicsLineItem::updateGeometry()
 {
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {

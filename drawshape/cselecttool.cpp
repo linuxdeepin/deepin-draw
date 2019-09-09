@@ -23,38 +23,33 @@ CSelectTool::~CSelectTool()
 
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    m_bMousePress = true;
-    m_sPointPress = event->scenePos();
-    //选中图元
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = true;
+        m_sPointPress = event->scenePos();
+        //选中图元
 
-    if (CSizeHandleRect::None == m_dragHandle) {
-        //要先触发scene->mouseEvent(event);  才能获取是否有图元被选中
-        scene->mouseEvent(event);
+        if (CSizeHandleRect::None == m_dragHandle) {
+            //要先触发scene->mouseEvent(event);  才能获取是否有图元被选中
+            scene->mouseEvent(event);
 
-        QList<QGraphicsItem *> items = scene->selectedItems();
+            QList<QGraphicsItem *> items = scene->selectedItems();
 
-        if ( items.count() != 0 ) {
-            QGraphicsItem *item = items.first();
-            //需要区别图元或文字
-            if (item->type() != TextType) {
-                m_currentSelectItem = static_cast<CGraphicsItem *>(item);
-                scene->changeAttribute(true, item);
+            if ( items.count() != 0 ) {
+                QGraphicsItem *item = items.first();
+                //需要区别图元或文字
+                if (item->type() != TextType) {
+                    m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                    scene->changeAttribute(true, item);
+                } else {
+                    m_currentSelectItem = nullptr;
+                }
+                //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
             } else {
-                QTextCursor textCursor = static_cast<QGraphicsTextItem *>(item)->textCursor();
-
-                textCursor.beginEditBlock();
-                textCursor.movePosition(QTextCursor::StartOfWord);
-                textCursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
-                textCursor.endEditBlock();
-
-                //textCursor.select(QTextCursor::Document);
-                //textCursor.removeSelectedText();
                 m_currentSelectItem = nullptr;
             }
-            //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
-        } else {
-            m_currentSelectItem = nullptr;
         }
+    } else {
+        scene->mouseEvent(event);
     }
 }
 

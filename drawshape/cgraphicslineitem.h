@@ -24,6 +24,12 @@ public:
     void setLine(const QPointF &p1, const QPointF &p2);
     inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2);
 
+    /**
+     * @brief duplicate 拷贝自己
+     * @return
+     */
+    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

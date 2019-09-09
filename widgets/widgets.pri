@@ -20,12 +20,11 @@ HEADERS += \
     $$PWD/graphicsgloweffect.h \
     $$PWD/resizelabel.h \
     $$PWD/loadtips.h \
-    $$PWD/cpushbutton.h \
     $$PWD/csidewidthwidget.h \
-    $$PWD/testwidget.h \
     $$PWD/cclickbutton.h \
     $$PWD/progresslayout.h \
-    $$PWD/calphacontrolwidget.h
+    $$PWD/calphacontrolwidget.h \
+    $$PWD/ccheckbutton.h
 
 
 SOURCES += \
@@ -47,15 +46,17 @@ SOURCES += \
     $$PWD/graphicsgloweffect.cpp \
     $$PWD/resizelabel.cpp \
     $$PWD/loadtips.cpp \
-    $$PWD/cpushbutton.cpp \
     $$PWD/csidewidthwidget.cpp \
-    $$PWD/testwidget.cpp \
     $$PWD/cclickbutton.cpp \
     $$PWD/progresslayout.cpp \
-    $$PWD/calphacontrolwidget.cpp
+    $$PWD/calphacontrolwidget.cpp \
+    $$PWD/ccheckbutton.cpp
 
 
 #RESOURCES += \
  #   $$PWD/widgetsRes.qrc
 
 FORMS +=
+
+RESOURCES += \
+    $$PWD/widgetsRes.qrc

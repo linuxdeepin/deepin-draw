@@ -13,7 +13,6 @@
 #include "utils/configsettings.h"
 #include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
-#include "widgets/testwidget.h"
 
 
 

@@ -7,7 +7,7 @@
 DWIDGET_USE_NAMESPACE
 
 
-class CPushButton;
+class CCheckButton;
 
 class CSideWidthWidget : public DFrame
 {
@@ -29,18 +29,18 @@ public:
     void updateSideWidth();
 
 private:
-    CPushButton *m_finerButton;
-    CPushButton *m_fineButton;
-    CPushButton *m_mediumButton;
-    CPushButton *m_boldButton;
+    CCheckButton *m_finerButton;
+    CCheckButton *m_fineButton;
+    CCheckButton *m_mediumButton;
+    CCheckButton *m_boldButton;
 
     QHBoxLayout *m_layout;
-    QMap<CPushButton *, CLineWidth> m_buttonMap;
+    QMap<CCheckButton *, CLineWidth> m_buttonMap;
 
 private:
     void initUI();
     void initConnection();
-    void clearOtherSelections(CPushButton *clickedButton);
+    void clearOtherSelections(CCheckButton *clickedButton);
 };
 
 #endif // CSIDEWIDTHWIDGET_H
