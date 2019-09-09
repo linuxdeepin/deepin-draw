@@ -8,8 +8,9 @@
 #include <QApplication>
 
 #include "editlabel.h"
-#include "pushbutton.h"
 #include "drawshape/globaldefine.h"
+
+class CCheckButton;
 
 DWIDGET_USE_NAMESPACE
 
@@ -54,7 +55,7 @@ public slots:
 
 private:
     DLineEdit *m_colLineEdit;
-    PushButton *m_colorfulBtn;
+    CCheckButton *m_colorfulBtn;
     CAlphaControlWidget *m_alphaControlWidget;
     QList<QColor> m_colList;
     QList<ColorButton *> m_cButtonList;

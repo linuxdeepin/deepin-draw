@@ -27,11 +27,11 @@ void CAlphaControlWidget::initUI()
 
     DLabel *nameLabel = new DLabel(this);
     nameLabel->setText(tr("Alpha"));
-    nameLabel->setFont(font);
+//    nameLabel->setFont(font);
 
     m_alphaLabel = new DLabel(this);
     m_alphaLabel->setFixedWidth(38);
-    m_alphaLabel->setFont(font);
+//    m_alphaLabel->setFont(font);
     m_alphaLabel->setText("0%");
 //    m_alphaLabel->setStyleSheet("background-color: rgb(255, 0, 0);");
 
@@ -42,7 +42,7 @@ void CAlphaControlWidget::initUI()
     m_alphaSlider->setOrientation(Qt::Horizontal);
 //    m_alphaSlider->setStyleSheet("background-color: rgb(0, 255, 0);");
 
-    layout->addStretch();
+//    layout->addStretch();
     layout->addWidget(nameLabel);
 
     layout->addSpacing(18);

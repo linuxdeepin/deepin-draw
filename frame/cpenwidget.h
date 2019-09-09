@@ -7,7 +7,7 @@
 
 class CSideWidthWidget;
 class BorderColorButton;
-class CPushButton;
+class CCheckButton;
 
 DWIDGET_USE_NAMESPACE
 
@@ -30,14 +30,14 @@ signals:
 private:
     CSideWidthWidget *m_sideWidthWidget;
     BorderColorButton *m_strokeBtn;
-    QList<CPushButton *> m_actionButtons;
-    CPushButton *m_straightline;
-    CPushButton *m_arrowline;
+    QList<CCheckButton *> m_actionButtons;
+    CCheckButton *m_straightline;
+    CCheckButton *m_arrowline;
 
 private:
     void initConnection();
     void initUI();
-    void clearOtherSelections(CPushButton *clickedButton);
+    void clearOtherSelections(CCheckButton *clickedButton);
 };
 
 #endif // CPENWIDGET_H

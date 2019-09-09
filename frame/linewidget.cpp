@@ -8,7 +8,7 @@
 #include "widgets/seperatorline.h"
 #include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
-#include "widgets/cpushbutton.h"
+#include "widgets/ccheckbutton.h"
 #include "utils/configsettings.h"
 #include "utils/global.h"
 

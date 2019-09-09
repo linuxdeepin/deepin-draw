@@ -6,11 +6,11 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CPushButton : public DPushButton
+class CCheckButton : public DPushButton
 {
     Q_OBJECT
 public:
-    enum CButtonSattus {
+    enum EButtonSattus {
         Normal,
         Hover,
         Press,
@@ -19,7 +19,7 @@ public:
 
 
 public:
-    explicit CPushButton(const QMap<CButtonSattus, QString> &pictureMap, DWidget *parent = nullptr );
+    explicit CCheckButton(const QMap<EButtonSattus, QString> &pictureMap, DWidget *parent = nullptr, bool isCheckLock = true);
     void setChecked(bool);
     bool isChecked() const;
 
@@ -38,12 +38,13 @@ private:
     bool m_isHover;
     bool m_isChecked;
     bool m_isPressed;
-    CButtonSattus m_currentStatus;
-    CButtonSattus m_tmpStatus;
+    bool m_isCheckLock; //是否只允许点击选中 不允许点击取消选中
+    EButtonSattus m_currentStatus;
+    EButtonSattus m_tmpStatus;
 
     QPixmap m_currentPicture;
 
-    QMap<CButtonSattus, QString> m_pictureMap;
+    QMap<EButtonSattus, QString> m_pictureMap;
 
 };
 

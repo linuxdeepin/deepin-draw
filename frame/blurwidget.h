@@ -4,7 +4,7 @@
 #include <DWidget>
 
 
-class CPushButton;
+class CCheckButton;
 
 DWIDGET_USE_NAMESPACE
 
@@ -18,12 +18,12 @@ public:
     ~BlurWidget();
 
 private:
-    QList<CPushButton *> m_actionButtons;
-    CPushButton *m_blurBtn;
-    CPushButton *m_masicBtn;
+    QList<CCheckButton *> m_actionButtons;
+    CCheckButton *m_blurBtn;
+    CCheckButton *m_masicBtn;
 
 private:
-    void clearOtherSelections(CPushButton *clickedButton);
+    void clearOtherSelections(CCheckButton *clickedButton);
     void initUI();
     void initConnection();
 };

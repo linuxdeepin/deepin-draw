@@ -9,6 +9,7 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "ccheckbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
@@ -137,7 +138,6 @@ void ColorPanel::slotPickedColorChanged(QColor newColor)
 
 void ColorPanel::initUI()
 {
-    //DRAW_THEME_INIT_WIDGET("ColorPanel");
     DWidget *colorBtnWidget = new DWidget(this);
     colorBtnWidget->setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
 
@@ -177,7 +177,13 @@ void ColorPanel::initUI()
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(145, 24);
-    m_colorfulBtn = new PushButton(colorValueWidget);
+
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
+    m_colorfulBtn = new CCheckButton(pictureMap, colorValueWidget);
     m_colorfulBtn->setObjectName("ColorFulButton");
     m_colorfulBtn->setFixedSize(BTN_SIZE);
 
@@ -197,7 +203,7 @@ void ColorPanel::initUI()
     vLayout->addSpacing(7);
     vLayout->addLayout(gLayout);
     vLayout->addSpacing(9);
-    vLayout->addWidget(m_alphaControlWidget);
+    vLayout->addWidget(m_alphaControlWidget, 0, Qt::AlignCenter);
     vLayout->addSpacing(9);
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
 
@@ -245,12 +251,13 @@ void ColorPanel::initConnection()
     });
 
     ///展开按钮
-    connect(m_colorfulBtn, &PushButton::clicked, this, [ = ] {
+    connect(m_colorfulBtn, &CCheckButton::buttonClick, this, [ = ] {
         if (m_expand)
         {
             m_pickColWidget->hide();
             m_pickColWidget->setPickedColor(false);
             setFixedHeight(ORIGIN_HEIGHT);
+            m_colorfulBtn->setChecked(false);
             updateGeometry();
         } else
         {

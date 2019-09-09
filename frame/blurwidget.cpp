@@ -7,7 +7,7 @@
 
 #include "widgets/toolbutton.h"
 #include "utils/configsettings.h"
-#include "widgets/cpushbutton.h"
+#include "widgets/ccheckbutton.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -30,21 +30,21 @@ void BlurWidget::initUI()
     penLabel->setText(tr("类型"));
 
 
-    QMap<CPushButton::CButtonSattus, QString> pictureMap;
+    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/fuzzy tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/fuzzy tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/fuzzy tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/fuzzy tool_checked.svg");
-    m_blurBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/fuzzy tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/fuzzy tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/fuzzy tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/fuzzy tool_checked.svg");
+    m_blurBtn = new CCheckButton(pictureMap, this);
     m_actionButtons.append(m_blurBtn);
 
 
-    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/attribute/smudge tool_normal.svg");
-    pictureMap[CPushButton::Hover] = QString(":/theme/light/images/attribute/smudge tool_hover.svg");
-    pictureMap[CPushButton::Press] = QString(":/theme/light/images/attribute/smudge tool_press.svg");
-    pictureMap[CPushButton::Active] = QString(":/theme/light/images/attribute/smudge tool_checked.svg");
-    m_masicBtn = new CPushButton(pictureMap, this);
+    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/smudge tool_normal.svg");
+    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/smudge tool_hover.svg");
+    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/smudge tool_press.svg");
+    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/smudge tool_checked.svg");
+    m_masicBtn = new CCheckButton(pictureMap, this);
     m_actionButtons.append(m_masicBtn);
 
     DSlider *lineWidthSlider = new DSlider(Qt::Horizontal, this);
@@ -84,20 +84,20 @@ void BlurWidget::initUI()
 
 void BlurWidget::initConnection()
 {
-    connect(m_blurBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
 
     });
 
-    connect(m_masicBtn, &CPushButton::buttonClick, [this]() {
+    connect(m_masicBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_masicBtn);
 
     });
 }
 
-void BlurWidget::clearOtherSelections(CPushButton *clickedButton)
+void BlurWidget::clearOtherSelections(CCheckButton *clickedButton)
 {
-    foreach (CPushButton *button, m_actionButtons) {
+    foreach (CCheckButton *button, m_actionButtons) {
         if (button->isChecked() && button != clickedButton) {
             button->setChecked(false);
             return;
