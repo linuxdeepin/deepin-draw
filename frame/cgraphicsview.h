@@ -5,6 +5,7 @@
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
+class CExportImageDialog;
 
 class CGraphicsView : public DGraphicsView
 {
@@ -14,6 +15,7 @@ public:
     void zoomOut();
     void zoomIn();
     void scale(qreal scale);
+    void showExportDialog();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -62,6 +64,7 @@ private:
 
     QUndoStack *m_pUndoStack;
 
+    CExportImageDialog *m_exportImageDialog;
 
 
 private:

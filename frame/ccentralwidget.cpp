@@ -103,8 +103,11 @@ void CCentralwidget::slotAttributeChanged()
 void CCentralwidget::slotZoom(qreal scale)
 {
     m_pGraphicsView->scale(scale);
+}
 
-
+void CCentralwidget::slotShowExportDialog()
+{
+    m_pGraphicsView->showExportDialog();
 }
 
 void CCentralwidget::slotSetScale(const qreal scale)

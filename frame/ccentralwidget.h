@@ -53,6 +53,7 @@ public slots:
     void slotZoom(qreal scale);
     void slotSetScale(const qreal scale);
 
+    void slotShowExportDialog();
 private:
     CLeftToolBar *m_leftToolbar;
     DLabel *m_seperatorLine;

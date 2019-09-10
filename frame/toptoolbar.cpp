@@ -192,6 +192,7 @@ void TopToolbar::initMenu()
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
+    connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
 }
 
 
