@@ -7,6 +7,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QKeyEvent>
+#include <QUndoStack>
+#include <QGraphicsItem>
 
 
 

@@ -6,26 +6,30 @@
 
 #include "utils/global.h"
 
-const QSize LINEEDIT_SIZE = QSize(44, 22);
+const QSize LINEEDIT_SIZE = QSize(37, 24);
 
 EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
-    , m_titleSpacing(4)
+    , m_titleSpacing(1)
 {
-    //DRAW_THEME_INIT_WIDGET("EditLabel");
+    QFont font = this->font();
+
+    font.setPointSize(8);
+
+
     m_titleLabel = new DLabel(this);
-    m_titleLabel->setObjectName("EditLabel");
+
     m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
     m_edit->setClearButtonEnabled(false);
-    m_edit->setObjectName("TitleEdit");
+    m_edit->setFont(font);
+
+
     QHBoxLayout *mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
     mLayout->addWidget(m_titleLabel);
-    mLayout->addSpacing(m_titleSpacing);
     mLayout->addWidget(m_edit);
-    mLayout->addStretch();
 
     connect(m_edit, &DLineEdit::editingFinished, this, [ = ] {
         emit editTextChanged(m_edit->text());

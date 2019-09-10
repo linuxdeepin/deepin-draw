@@ -120,14 +120,19 @@ void CPolygonalStarTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawSc
 
 void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    Q_UNUSED(scene)
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pPolygonalStarItem != nullptr)
-            scene->removeItem(m_pPolygonalStarItem);
-        delete m_pPolygonalStarItem;
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pPolygonalStarItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
+                scene->removeItem(m_pPolygonalStarItem);
+                delete m_pPolygonalStarItem;
+            } else {
+                emit scene->itemAdded(m_pPolygonalStarItem);
+            }
+        }
+        m_pPolygonalStarItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pPolygonalStarItem = nullptr;
-    m_bMousePress = false;
+
 }

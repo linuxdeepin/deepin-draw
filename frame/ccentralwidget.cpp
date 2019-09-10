@@ -39,6 +39,8 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
 {
     return m_pGraphicsView;
 }
+
+
 //进行图片导入
 void CCentralwidget::importPicture()
 {
@@ -83,7 +85,6 @@ void CCentralwidget::initUI()
     layout->addWidget(m_pGraphicsView);
 
     setLayout(layout);
-
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -117,17 +118,21 @@ void CCentralwidget::slotSetScale(const qreal scale)
 
 void CCentralwidget::initConnect()
 {
-
-
     //图片选中后相应操作
     connect(this, SIGNAL(signalPassPictureOper(int )), m_pDrawScene, SLOT(picOperation(int )));
     //导入图片信号槽
     connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
 
-
-
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
     connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
 
+    connect(m_pDrawScene, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
+            m_pGraphicsView, SLOT(itemMoved(QGraphicsItem *, QPointF)));
+    connect(m_pDrawScene, SIGNAL(itemAdded(QGraphicsItem *)),
+            m_pGraphicsView, SLOT(itemAdded(QGraphicsItem *)));
+    connect(m_pDrawScene, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
+            m_pGraphicsView, SLOT(itemRotate(QGraphicsItem *, qreal)));
+    connect(m_pDrawScene, SIGNAL(itemResize(QGraphicsItem *, int, const QPointF &)),
+            m_pGraphicsView, SLOT(itemResize(QGraphicsItem *, int, const QPointF &)));
 }

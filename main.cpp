@@ -11,7 +11,10 @@
 
 #include <DLog>
 
+DWIDGET_USE_NAMESPACE
+
 static QString g_appPath;//全局路径
+
 
 //获取配置文件主题类型，并重新设置
 DGuiApplicationHelper::ColorType getThemeTypeSetting()
@@ -58,7 +61,8 @@ void saveThemeTypeSetting(int type)
 }
 
 
-DWIDGET_USE_NAMESPACE
+
+
 
 int main(int argc, char *argv[])
 {
@@ -92,13 +96,18 @@ int main(int argc, char *argv[])
     //a.setStyle("chameleon");
 
     // 应用已保存的主题设置
+
     DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
+
+
+
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
     w.show();
+
 
     //监听当前应用主题切换事件
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,

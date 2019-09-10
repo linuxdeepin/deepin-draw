@@ -18,6 +18,8 @@ public:
 private:
     CGraphicsItem *m_currentSelectItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
+    bool m_bRotateAng;
+    qreal m_rotateAng;
 };
 
 #endif // CSELECTTOOL_H
