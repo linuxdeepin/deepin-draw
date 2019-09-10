@@ -53,7 +53,7 @@ void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 delete m_pLineItem;
 
             } else {
-                scene->sendAddSignal(m_pLineItem);
+                emit scene->itemAdded(m_pLineItem);
             }
         }
 

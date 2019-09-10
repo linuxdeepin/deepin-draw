@@ -12,6 +12,8 @@ CSelectTool::CSelectTool ()
     : IDrawTool (selection)
     , m_currentSelectItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
+    , m_bRotateAng(false)
+    , m_rotateAng(0)
 {
 
 }
@@ -66,6 +68,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             //需要区别图元或文字
             if (item->type() != TextType) {
                 m_currentSelectItem = currentItem;
+                m_rotateAng = m_currentSelectItem->rotation();
                 scene->changeAttribute(true, item);
             }
         }
@@ -78,6 +81,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
             scene->setCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle)));
+            m_rotateAng = m_currentSelectItem->rotation();
         }
     }
 
@@ -86,6 +90,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             m_currentSelectItem->resizeTo(m_dragHandle, event->scenePos());
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
             //旋转图形 有BUG
+            m_bRotateAng = true;
             QPointF center = m_currentSelectItem->rect().center();
             m_currentSelectItem->setTransformOriginPoint(center);
             QPointF mousePoint = event->scenePos();
@@ -99,6 +104,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
 
             m_currentSelectItem->setRotation(angle);
+
+//            scene->sendRotateSignal(m_currentSelectItem, angle);
 
         } else {
             scene->mouseEvent(event);
@@ -115,7 +122,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_sPointRelease = event->scenePos();
 
         if (m_currentSelectItem != nullptr) {
-            emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+            if (m_bRotateAng) {
+                emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
+            } else {
+                emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+            }
         }
     }
     scene->mouseEvent(event);

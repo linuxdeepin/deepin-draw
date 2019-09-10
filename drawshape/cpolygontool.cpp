@@ -124,7 +124,7 @@ void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
                 scene->removeItem(m_pPolygonItem);
                 delete m_pPolygonItem;
             } else {
-                scene->sendAddSignal(m_pPolygonItem);
+                emit scene->itemAdded(m_pPolygonItem);
             }
         }
         m_pPolygonItem = nullptr;

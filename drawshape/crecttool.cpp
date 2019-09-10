@@ -135,7 +135,7 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 delete m_pRectItem;
 
             } else {
-                scene->sendAddSignal(m_pRectItem);
+                emit scene->itemAdded(m_pRectItem);
             }
         }
         m_pRectItem = nullptr;

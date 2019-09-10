@@ -128,7 +128,7 @@ void CEllipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
                 delete m_pEllipseItem;
 
             } else {
-                scene->sendAddSignal(m_pEllipseItem);
+                emit scene->itemAdded(m_pEllipseItem);
             }
         }
         m_pEllipseItem = nullptr;

@@ -74,12 +74,12 @@ private:
     bool bControled;
 };
 
-
-class RotateShapeCommand : public QUndoCommand
+*/
+class CRotateShapeCommand : public QUndoCommand
 {
 public:
-    RotateShapeCommand(QGraphicsItem *item, const qreal oldAngle,
-                       QUndoCommand *parent = nullptr);
+    CRotateShapeCommand(QGraphicsItem *item, const qreal oldAngle,
+                        QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 private:
@@ -87,6 +87,7 @@ private:
     qreal myOldAngle;
     qreal newAngle;
 };
+/*
 
 class RemoveShapeCommand : public QUndoCommand
 {
@@ -133,7 +134,7 @@ class CAddShapeCommand : public QUndoCommand
 public:
     CAddShapeCommand(QGraphicsItem *item, QGraphicsScene *graphicsScene,
                      QUndoCommand *parent = nullptr);
-    ~CAddShapeCommand();
+    ~CAddShapeCommand() Q_DECL_OVERRIDE;
 
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;

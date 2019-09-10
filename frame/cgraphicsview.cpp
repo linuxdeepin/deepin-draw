@@ -91,8 +91,12 @@ void CGraphicsView::initContextMenu()
     //m_undoAct = m_contextMenu->addAction(tr("Undo"));
     m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
     m_contextMenu->addAction(m_undoAct);
+    m_undoAct->setShortcut(QKeySequence::Undo);
+    this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
+    m_redoAct->setShortcut(QKeySequence::Redo);
+    this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
     m_oneLayerUpAct = new QAction(tr("One layer up"));
@@ -160,11 +164,8 @@ void CGraphicsView::itemAdded(QGraphicsItem *item)
 
 void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal oldAngle)
 {
-    /*if (!activeMdiChild()) return ;
-    activeMdiChild()->setModified(true);
-
-    QUndoCommand *rotateCommand = new RotateShapeCommand(item, oldAngle);
-    undoStack->push(rotateCommand);*/
+    QUndoCommand *rotateCommand = new CRotateShapeCommand(item, oldAngle);
+    m_pUndoStack->push(rotateCommand);
 }
 
 void CGraphicsView::itemResize(QGraphicsItem *item, int handle, const QPointF &scale)

@@ -55,7 +55,7 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 delete m_pPenItem;
 
             } else {
-                scene->sendAddSignal(m_pPenItem);
+                emit scene->itemAdded(m_pPenItem);
             }
         }
         m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());

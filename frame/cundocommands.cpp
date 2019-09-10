@@ -139,9 +139,9 @@ QString createCommandString(QGraphicsItem *item, const QPointF &pos)
     return QObject::tr("Item at (%1, %2)")
            .arg(pos.x()).arg(pos.y());
 }
+*/
 
-
-RotateShapeCommand::RotateShapeCommand(QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
+CRotateShapeCommand::CRotateShapeCommand(QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     myItem = item;
@@ -150,21 +150,21 @@ RotateShapeCommand::RotateShapeCommand(QGraphicsItem *item, const qreal oldAngle
 
 }
 
-void RotateShapeCommand::undo()
+void CRotateShapeCommand::undo()
 {
     myItem->setRotation(myOldAngle);
     myItem->scene()->update();
-    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
+//    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
 }
 
-void RotateShapeCommand::redo()
+void CRotateShapeCommand::redo()
 {
     myItem->setRotation(newAngle);
     myItem->update();
-    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
+//    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
 }
 
-
+/*
 GroupShapeCommand::GroupShapeCommand(QGraphicsItemGroup *group,
                                      QGraphicsScene *graphicsScene,
                                      QUndoCommand *parent)

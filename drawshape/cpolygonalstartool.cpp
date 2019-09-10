@@ -128,7 +128,7 @@ void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDra
                 scene->removeItem(m_pPolygonalStarItem);
                 delete m_pPolygonalStarItem;
             } else {
-                scene->sendAddSignal(m_pPolygonalStarItem);
+                emit scene->itemAdded(m_pPolygonalStarItem);
             }
         }
         m_pPolygonalStarItem = nullptr;

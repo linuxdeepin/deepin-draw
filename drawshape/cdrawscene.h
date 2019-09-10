@@ -47,11 +47,7 @@ public:
      */
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
-    /**
-     * @brief sendAddSignal
-     * @param item
-     */
-    void sendAddSignal(QGraphicsItem *item);
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
