@@ -48,6 +48,7 @@ signals:
     void signalPassPictureOperation(int);
     //放大缩小信号
     void signalZoom(qreal);
+    void signalShowExportDialog();
 
 
 public:

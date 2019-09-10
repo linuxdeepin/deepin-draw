@@ -4,6 +4,7 @@
 #include "drawshape/cgraphicsitem.h"
 #include "drawshape/globaldefine.h"
 #include "cundocommands.h"
+#include "widgets/dialog/cexportimagedialog.h"
 
 #include <DMenu>
 
@@ -19,6 +20,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_scale(1)
 {
     m_pUndoStack = new QUndoStack(this);
+    m_exportImageDialog = new CExportImageDialog(this);
     initContextMenu();
     initContextMenuConnection();
 }
@@ -43,6 +45,18 @@ void CGraphicsView::scale(qreal scale)
     DGraphicsView::scale(multiple, multiple);
     m_scale = scale;
     CDrawParamSigleton::GetInstance()->setScale(m_scale);
+}
+
+void CGraphicsView::showExportDialog()
+{
+    QPixmap pixmap(scene()->sceneRect().width(), scene()->sceneRect().height());
+
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    scene()->render(&painter);
+
+    m_exportImageDialog->showMe(pixmap);
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
