@@ -1,10 +1,12 @@
 #ifndef CUNDOCOMMANDS_H
 #define CUNDOCOMMANDS_H
+#include "drawshape/csizehandlerect.h"
 #include <QUndoCommand>
 #include <QPointF>
 #include <QList>
 class QGraphicsScene;
 class QGraphicsItem;
+class CGraphicsItem;
 
 class CMoveShapeCommand : public QUndoCommand
 {
@@ -22,29 +24,27 @@ private:
     bool bMoved;
 };
 
-/*class ResizeShapeCommand : public QUndoCommand
+class CResizeShapeCommand : public QUndoCommand
 {
 public:
-    enum { Id = 1234, };
-    ResizeShapeCommand(QGraphicsItem *item,
-                       int handle,
-                       const QPointF &scale,
-                       QUndoCommand *parent = nullptr );
+    CResizeShapeCommand(CGraphicsItem *item,
+                        CSizeHandleRect::EDirection handle,
+                        QPointF beginPos,
+                        QPointF endPos,
+                        bool bShiftPress,
+                        bool bAltPress,
+                        QUndoCommand *parent = nullptr );
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
-    bool mergeWith(const QUndoCommand *command) Q_DECL_OVERRIDE;
-    int id() const Q_DECL_OVERRIDE
-    {
-        return Id;
-    }
 private:
-    QGraphicsItem  *myItem;
-    int handle_;
-    int opposite_;
-    QPointF scale_;
-    bool bResized;
-};*/
+    CGraphicsItem  *myItem;
+    CSizeHandleRect::EDirection m_handle;
+    QPointF m_beginPos;
+    QPointF m_endPos;
+    bool m_bShiftPress;
+    bool m_bAltPress;
+};
 
 /*
 
@@ -87,7 +87,7 @@ private:
     qreal myOldAngle;
     qreal newAngle;
 };
-/*
+
 
 class RemoveShapeCommand : public QUndoCommand
 {
@@ -101,7 +101,7 @@ private:
     QList<QGraphicsItem *> items;
     QGraphicsScene *myGraphicsScene;
 };
-
+/*
 class GroupShapeCommand : public QUndoCommand
 {
 public:

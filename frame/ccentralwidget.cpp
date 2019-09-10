@@ -103,12 +103,15 @@ void CCentralwidget::slotAttributeChanged()
 void CCentralwidget::slotZoom(qreal scale)
 {
     m_pGraphicsView->scale(scale);
+
+
 }
 
 void CCentralwidget::slotShowExportDialog()
 {
     m_pGraphicsView->showExportDialog();
 }
+
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {
@@ -136,6 +139,6 @@ void CCentralwidget::initConnect()
             m_pGraphicsView, SLOT(itemAdded(QGraphicsItem *)));
     connect(m_pDrawScene, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
             m_pGraphicsView, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(m_pDrawScene, SIGNAL(itemResize(QGraphicsItem *, int, const QPointF &)),
-            m_pGraphicsView, SLOT(itemResize(QGraphicsItem *, int, const QPointF &)));
+    connect(m_pDrawScene, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )),
+            m_pGraphicsView, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )));
 }

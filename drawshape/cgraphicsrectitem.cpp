@@ -80,6 +80,14 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
+    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+    resizeTo(dir, point, shiftKeyPress, altKeyPress);
+
+}
+
+void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+{
     QPointF local = mapFromScene(point);
     QRectF rect = this->rect();
     QPointF topLeft = rect.topLeft();
@@ -88,8 +96,8 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     qreal h = rect.height();
     qreal scale = w / h;//长宽比
 
-    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
 
     if (!shiftKeyPress && !altKeyPress) {
         switch (dir) {
@@ -429,7 +437,6 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
     this->setRect(rect);
     updateGeometry();
-
 }
 
 CGraphicsItem *CGraphicsRectItem::duplicate() const

@@ -20,7 +20,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_scale(1)
 {
     m_pUndoStack = new QUndoStack(this);
-    m_exportImageDialog = new CExportImageDialog(this);
+	m_exportImageDialog = new CExportImageDialog(this);
     initContextMenu();
     initContextMenuConnection();
 }
@@ -182,13 +182,10 @@ void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal oldAngle)
     m_pUndoStack->push(rotateCommand);
 }
 
-void CGraphicsView::itemResize(QGraphicsItem *item, int handle, const QPointF &scale)
+void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress)
 {
-    /*if (!activeMdiChild()) return ;
-    activeMdiChild()->setModified(true);
-
-    QUndoCommand *resizeCommand = new ResizeShapeCommand(item, handle, scale );
-    undoStack->push(resizeCommand);*/
+    QUndoCommand *resizeCommand = new CResizeShapeCommand(item, handle, beginPos,  endPos, bShiftPress, bALtPress);
+    m_pUndoStack->push(resizeCommand);
 }
 
 void CGraphicsView::slotOnCut()

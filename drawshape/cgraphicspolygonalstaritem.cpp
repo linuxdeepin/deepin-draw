@@ -42,9 +42,9 @@ QPainterPath CGraphicsPolygonalStarItem::shape() const
     return path;
 }
 
-void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    CGraphicsRectItem::resizeTo(dir, point);
+    CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
     calcPolygon();
 }
 

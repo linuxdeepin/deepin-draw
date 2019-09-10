@@ -71,7 +71,7 @@ signals:
 
     void itemRotate(QGraphicsItem *item, const qreal oldAngle );
 
-    void itemResize(QGraphicsItem *item, int handle, const QPointF &scale );
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
 
 public slots:
     void picOperation(int enumstyle);

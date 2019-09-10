@@ -15,6 +15,7 @@ public:
     virtual QPointF origin () const;
     virtual Qt::CursorShape getCursor(CSizeHandleRect::EDirection dir );
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
     virtual QRectF rect() const = 0;
     virtual CGraphicsItem *duplicate() const;
 

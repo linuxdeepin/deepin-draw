@@ -69,9 +69,9 @@ void CGraphicsPolygonItem::setPointCount(int num)
     calcPoints(m_nPointsCount);
 }
 
-void CGraphicsPolygonItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
+void CGraphicsPolygonItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    CGraphicsRectItem::resizeTo(dir, point);
+    CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
     setPointCount(m_nPointsCount);
 }
 

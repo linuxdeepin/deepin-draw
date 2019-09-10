@@ -2,9 +2,11 @@
 #define CGRAPHICSVIEW_H
 
 #include <DGraphicsView>
+#include "drawshape/csizehandlerect.h"
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
+class CGraphicsItem;
 class CExportImageDialog;
 
 class CGraphicsView : public DGraphicsView
@@ -15,7 +17,7 @@ public:
     void zoomOut();
     void zoomIn();
     void scale(qreal scale);
-    void showExportDialog();
+	void showExportDialog();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -28,7 +30,7 @@ public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &oldPosition );
     void itemAdded(QGraphicsItem *item );
     void itemRotate(QGraphicsItem *item, const qreal oldAngle );
-    void itemResize(QGraphicsItem *item, int handle, const QPointF &scale );
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
 
 
 private slots:
@@ -64,7 +66,7 @@ private:
 
     QUndoStack *m_pUndoStack;
 
-    CExportImageDialog *m_exportImageDialog;
+	CExportImageDialog *m_exportImageDialog;
 
 
 private:

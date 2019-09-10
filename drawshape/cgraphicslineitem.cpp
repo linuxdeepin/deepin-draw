@@ -110,6 +110,11 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     }
 }
 
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+{
+    resizeTo(dir, point);
+}
+
 QLineF CGraphicsLineItem::line() const
 {
     return m_line;

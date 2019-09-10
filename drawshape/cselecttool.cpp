@@ -2,6 +2,7 @@
 #include "cdrawscene.h"
 #include "cgraphicsitem.h"
 #include "cgraphicslineitem.h"
+#include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QCursor>
@@ -122,10 +123,14 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_sPointRelease = event->scenePos();
 
         if (m_currentSelectItem != nullptr) {
-            if (m_bRotateAng) {
+            if (m_dragHandle == CSizeHandleRect::Rotation) {
                 emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
-            } else {
+            } else if (m_dragHandle == CSizeHandleRect::None) {
                 emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+            } else {
+                bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+                bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+                emit scene->itemResize(m_currentSelectItem, m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
             }
         }
     }
