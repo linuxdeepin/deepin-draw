@@ -116,16 +116,21 @@ void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    Q_UNUSED(scene)
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pPolygonItem != nullptr)
-            scene->removeItem(m_pPolygonItem);
-        delete m_pPolygonItem;
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pPolygonItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
+                scene->removeItem(m_pPolygonItem);
+                delete m_pPolygonItem;
+            } else {
+                scene->sendAddSignal(m_pPolygonItem);
+            }
+        }
+        m_pPolygonItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pPolygonItem = nullptr;
-    m_bMousePress = false;
+
 
     //TODO 如果没有拖动的功能   是否删除矩形
 }

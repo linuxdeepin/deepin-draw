@@ -125,17 +125,22 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 
 void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    Q_UNUSED(scene)
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pRectItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
 
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pRectItem != nullptr)
-            scene->removeItem(m_pRectItem);
-        delete m_pRectItem;
+                scene->removeItem(m_pRectItem);
+                delete m_pRectItem;
+
+            } else {
+                scene->sendAddSignal(m_pRectItem);
+            }
+        }
+        m_pRectItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pRectItem = nullptr;
-    m_bMousePress = false;
 
     //TODO 如果没有拖动的功能   是否删除矩形
 }

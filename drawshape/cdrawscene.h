@@ -46,6 +46,12 @@ public:
      * @param rect
      */
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief sendAddSignal
+     * @param item
+     */
+    void sendAddSignal(QGraphicsItem *item);
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -58,8 +64,23 @@ signals:
      */
     void signalChangeToSelect();
 
+    /**
+     * @brief itemMoved 移动
+     * @param item
+     * @param pos
+     */
+    void itemMoved(QGraphicsItem *item, QPointF pos);
+
+    void itemAdded(QGraphicsItem *item);
+
+    void itemRotate(QGraphicsItem *item, const qreal oldAngle );
+
+    void itemResize(QGraphicsItem *item, int handle, const QPointF &scale );
+
 public slots:
     void picOperation(int enumstyle);
+
+
 
 
 

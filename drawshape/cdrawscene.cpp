@@ -46,6 +46,11 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
     painter->fillRect(sceneRect(), Qt::white);
 }
 
+void CDrawScene::sendAddSignal(QGraphicsItem *item)
+{
+    emit itemAdded(item);
+}
+
 void CDrawScene::setCursor(const QCursor &cursor)
 {
     QList<QGraphicsView *> views  = this->views();

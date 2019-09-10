@@ -45,16 +45,22 @@ void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 
 void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    Q_UNUSED(scene);
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pPenItem != nullptr)
-            scene->removeItem(m_pPenItem);
-        delete m_pPenItem;
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pPenItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
+
+                scene->removeItem(m_pPenItem);
+                delete m_pPenItem;
+
+            } else {
+                scene->sendAddSignal(m_pPenItem);
+            }
+        }
+        m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
+        m_pPenItem->changeToPixMap();
+        m_pPenItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
-    m_pPenItem->changeToPixMap();
-    m_pPenItem = nullptr;
-    m_bMousePress = false;
 }

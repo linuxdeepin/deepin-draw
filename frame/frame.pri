@@ -13,7 +13,8 @@ HEADERS += \
     $$PWD/cpenwidget.h \
     $$PWD/ccutwidget.h \
     $$PWD/cpicturewidget.h \
-    $$PWD/cgraphicsview.h
+    $$PWD/cgraphicsview.h \
+    $$PWD/cundocommands.h
 
 SOURCES += \
     $$PWD/adjustsizewidget.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     $$PWD/cpenwidget.cpp \
     $$PWD/ccutwidget.cpp \
     $$PWD/cpicturewidget.cpp \
-    $$PWD/cgraphicsview.cpp
+    $$PWD/cgraphicsview.cpp \
+    $$PWD/cundocommands.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

@@ -3,6 +3,7 @@
 #include "drawshape/cshapemimedata.h"
 #include "drawshape/cgraphicsitem.h"
 #include "drawshape/globaldefine.h"
+#include "cundocommands.h"
 
 #include <DMenu>
 
@@ -11,11 +12,13 @@
 #include <QClipboard>
 #include <QApplication>
 #include <QDebug>
+#include <QUndoStack>
 
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
 {
+    m_pUndoStack = new QUndoStack(this);
     initContextMenu();
     initContextMenuConnection();
 }
@@ -85,7 +88,11 @@ void CGraphicsView::initContextMenu()
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
 
-    m_undoAct = m_contextMenu->addAction(tr("Undo"));
+    //m_undoAct = m_contextMenu->addAction(tr("Undo"));
+    m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
+    m_contextMenu->addAction(m_undoAct);
+    m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
+    m_contextMenu->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
     m_oneLayerUpAct = new QAction(tr("One layer up"));
@@ -132,7 +139,41 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     Q_UNUSED(event)
 
     m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
+    m_undoAct->setEnabled(m_pUndoStack->canUndo());
+    m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_contextMenu->show();
+}
+
+void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)
+{
+    if ( item != nullptr) {
+        QUndoCommand *moveCommand = new CMoveShapeCommand(item, oldPosition);
+        m_pUndoStack->push(moveCommand);
+    }
+}
+
+void CGraphicsView::itemAdded(QGraphicsItem *item)
+{
+    QUndoCommand *addCommand = new CAddShapeCommand(item, item->scene());
+    m_pUndoStack->push(addCommand);
+}
+
+void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal oldAngle)
+{
+    /*if (!activeMdiChild()) return ;
+    activeMdiChild()->setModified(true);
+
+    QUndoCommand *rotateCommand = new RotateShapeCommand(item, oldAngle);
+    undoStack->push(rotateCommand);*/
+}
+
+void CGraphicsView::itemResize(QGraphicsItem *item, int handle, const QPointF &scale)
+{
+    /*if (!activeMdiChild()) return ;
+    activeMdiChild()->setModified(true);
+
+    QUndoCommand *resizeCommand = new ResizeShapeCommand(item, handle, scale );
+    undoStack->push(resizeCommand);*/
 }
 
 void CGraphicsView::slotOnCut()

@@ -118,16 +118,23 @@ void CEllipseTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CEllipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    Q_UNUSED(scene)
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pEllipseItem != nullptr)
-            scene->removeItem(m_pEllipseItem);
-        delete m_pEllipseItem;
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pEllipseItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
+
+                scene->removeItem(m_pEllipseItem);
+                delete m_pEllipseItem;
+
+            } else {
+                scene->sendAddSignal(m_pEllipseItem);
+            }
+        }
+        m_pEllipseItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pEllipseItem = nullptr;
-    m_bMousePress = false;
+
 
     //TODO 如果没有拖动的功能   是否删除矩形
 }

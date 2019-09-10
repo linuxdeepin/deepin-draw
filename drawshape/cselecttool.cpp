@@ -56,19 +56,23 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     // 再判断一次
-    if (m_currentSelectItem == nullptr) {
-        QList<QGraphicsItem *> items = scene->selectedItems();
-        if ( items.count() != 0 ) {
-            QGraphicsItem *item = items.first();
+    QList<QGraphicsItem *> items = scene->selectedItems();
+    //if (m_currentSelectItem == nullptr) {
+
+    if ( items.count() != 0 ) {
+        QGraphicsItem *item = items.first();
+        CGraphicsItem *currentItem = static_cast<CGraphicsItem *>(item);
+        if (currentItem != m_currentSelectItem) {
             //需要区别图元或文字
             if (item->type() != TextType) {
-                m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                m_currentSelectItem = currentItem;
                 scene->changeAttribute(true, item);
             }
         }
     }
+    // }
     //碰撞检测
-    if (nullptr != m_currentSelectItem && !m_bMousePress) {
+    if (items.count() != 0 && nullptr != m_currentSelectItem && !m_bMousePress) {
         CSizeHandleRect::EDirection dragHandle = m_currentSelectItem->hitTest(event->scenePos());
 
         if (dragHandle != m_dragHandle) {
@@ -106,8 +110,14 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    m_bMousePress = false;
-    m_sPointRelease = event->scenePos();
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = false;
+        m_sPointRelease = event->scenePos();
+
+        if (m_currentSelectItem != nullptr) {
+            emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+        }
+    }
     scene->mouseEvent(event);
 }
 
