@@ -59,26 +59,26 @@ void CMoveShapeCommand::redo()
 }
 //! [3]
 //! [4]
-RemoveShapeCommand::RemoveShapeCommand(QGraphicsScene *scene, QUndoCommand *parent)
+CRemoveShapeCommand::CRemoveShapeCommand(QGraphicsScene *scene, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
     items = myGraphicsScene->selectedItems();
 }
 
-RemoveShapeCommand::~RemoveShapeCommand()
+CRemoveShapeCommand::~CRemoveShapeCommand()
 {
 
 }
 //! [4]
 
 //! [5]
-void RemoveShapeCommand::undo()
+void CRemoveShapeCommand::undo()
 {
     foreach (QGraphicsItem *item, items) {
-        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-        if ( !g )
-            myGraphicsScene->addItem(item);
+//        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
+//        if ( g != nullptr )
+        myGraphicsScene->addItem(item);
     }
     myGraphicsScene->update();
     setText(QObject::tr("Undo Delete %1").arg(items.count()));
@@ -86,12 +86,12 @@ void RemoveShapeCommand::undo()
 //! [5]
 
 //! [6]
-void RemoveShapeCommand::redo()
+void CRemoveShapeCommand::redo()
 {
     foreach (QGraphicsItem *item, items) {
-        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
-        if ( !g )
-            myGraphicsScene->removeItem(item);
+//        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
+//        if ( g != nullptr )
+        myGraphicsScene->removeItem(item);
     }
     setText(QObject::tr("Redo Delete %1").arg(items.count()));
 }
@@ -349,3 +349,30 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 }
 */
 
+
+CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, QUndoCommand *parent)
+    : QUndoCommand (parent)
+    , m_pItem(item)
+    , m_oldPen(pen)
+    , m_oldBrush(brush)
+{
+    m_newPen = item->pen();
+    m_newBrush = item->brush();
+}
+
+CSetPropertyCommand::~CSetPropertyCommand()
+{
+
+}
+
+void CSetPropertyCommand::undo()
+{
+    m_pItem->setPen(m_oldPen);
+    m_pItem->setBrush(m_oldBrush);
+}
+
+void CSetPropertyCommand::redo()
+{
+    m_pItem->setPen(m_newPen);
+    m_pItem->setBrush(m_newBrush);
+}

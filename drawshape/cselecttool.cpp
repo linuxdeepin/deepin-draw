@@ -126,7 +126,13 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             if (m_dragHandle == CSizeHandleRect::Rotation) {
                 emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
             } else if (m_dragHandle == CSizeHandleRect::None) {
-                emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+                QList<QGraphicsItem *> items = scene->selectedItems();
+                if (items.count() == 1) {
+                    emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+                } else {
+                    emit scene->itemMoved(nullptr, m_sPointRelease - m_sPointPress );
+                }
+
             } else {
                 bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
                 bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();

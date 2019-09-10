@@ -17,7 +17,7 @@ public:
     void zoomOut();
     void zoomIn();
     void scale(qreal scale);
-	void showExportDialog();
+    void showExportDialog();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -31,7 +31,8 @@ public slots:
     void itemAdded(QGraphicsItem *item );
     void itemRotate(QGraphicsItem *item, const qreal oldAngle );
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
-
+    void itemRemove();
+    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush);
 
 private slots:
     void slotOnCut();
@@ -66,7 +67,7 @@ private:
 
     QUndoStack *m_pUndoStack;
 
-	CExportImageDialog *m_exportImageDialog;
+    CExportImageDialog *m_exportImageDialog;
 
 
 private:

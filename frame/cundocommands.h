@@ -4,6 +4,8 @@
 #include <QUndoCommand>
 #include <QPointF>
 #include <QList>
+#include <QBrush>
+#include <QPen>
 class QGraphicsScene;
 class QGraphicsItem;
 class CGraphicsItem;
@@ -89,17 +91,35 @@ private:
 };
 
 
-class RemoveShapeCommand : public QUndoCommand
+class CRemoveShapeCommand : public QUndoCommand
 {
 public:
-    explicit RemoveShapeCommand(QGraphicsScene *graphicsScene, QUndoCommand *parent = nullptr);
-    ~RemoveShapeCommand();
+    explicit CRemoveShapeCommand(QGraphicsScene *graphicsScene, QUndoCommand *parent = nullptr);
+    ~CRemoveShapeCommand();
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
 private:
     QList<QGraphicsItem *> items;
     QGraphicsScene *myGraphicsScene;
+};
+
+class CSetPropertyCommand : public QUndoCommand
+{
+public:
+    explicit CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, QUndoCommand *parent = nullptr);
+    ~CSetPropertyCommand();
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+
+private:
+    CGraphicsItem *m_pItem;
+    QPen m_oldPen;
+    QBrush m_oldBrush;
+    QPen m_newPen;
+    QBrush m_newBrush;
 };
 /*
 class GroupShapeCommand : public QUndoCommand

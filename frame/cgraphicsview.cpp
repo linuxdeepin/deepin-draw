@@ -20,7 +20,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_scale(1)
 {
     m_pUndoStack = new QUndoStack(this);
-	m_exportImageDialog = new CExportImageDialog(this);
+    m_exportImageDialog = new CExportImageDialog(this);
     initContextMenu();
     initContextMenuConnection();
 }
@@ -101,6 +101,7 @@ void CGraphicsView::initContextMenu()
     m_contextMenu->addAction(m_deleteAct);
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
+    connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(itemRemove()));
 
     //m_undoAct = m_contextMenu->addAction(tr("Undo"));
     m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
@@ -167,6 +168,9 @@ void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)
     if ( item != nullptr) {
         QUndoCommand *moveCommand = new CMoveShapeCommand(item, oldPosition);
         m_pUndoStack->push(moveCommand);
+    } else {
+        QUndoCommand *moveCommand = new CMoveShapeCommand(this->scene(), oldPosition);
+        m_pUndoStack->push(moveCommand);
     }
 }
 
@@ -186,6 +190,18 @@ void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection 
 {
     QUndoCommand *resizeCommand = new CResizeShapeCommand(item, handle, beginPos,  endPos, bShiftPress, bALtPress);
     m_pUndoStack->push(resizeCommand);
+}
+
+void CGraphicsView::itemRemove()
+{
+    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+    m_pUndoStack->push(deleteCommand);
+}
+
+void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush)
+{
+    QUndoCommand *setPropertyCommand = new CSetPropertyCommand(item, pen, brush);
+    m_pUndoStack->push(setPropertyCommand);
 }
 
 void CGraphicsView::slotOnCut()

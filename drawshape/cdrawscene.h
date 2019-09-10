@@ -73,11 +73,12 @@ signals:
 
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
 
+    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush);
+
+
 public slots:
+
     void picOperation(int enumstyle);
-
-
-
 
 
 protected:

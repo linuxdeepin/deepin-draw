@@ -62,8 +62,11 @@ void CDrawScene::attributeChanged()
     QGraphicsItem *item = nullptr;
     foreach (item, items) {
         if (item->type() != TextType) {
-            static_cast<CGraphicsItem *>(item)->setPen(CDrawParamSigleton::GetInstance()->getPen());
-            static_cast<CGraphicsItem *>(item)->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+            CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+            emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush());
+            tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+            tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+
         }
 
         if (item->type() == TextType) {
