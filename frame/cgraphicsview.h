@@ -26,6 +26,11 @@ private slots:
     void slotOnPaste();
     void slotOnSelectAll();
     void slotOnDelete();
+    void slotOneLayerUp();
+    void slotOneLayerDown();
+    void slotBringToFront();
+    void slotSendTobackAct();
+
 private:
     qreal m_scale; //记录当前缩放
 
@@ -36,10 +41,10 @@ private:
     QAction *m_selectAllAct;        //全选
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;
-    QAction *m_oneLayerUpAct;
-    QAction *m_oneLayerDownAct;
-    QAction *m_bringToFrontAct;
-    QAction *m_sendTobackAct;
+    QAction *m_oneLayerUpAct;       //向上一层
+    QAction *m_oneLayerDownAct;     //向下一层
+    QAction *m_bringToFrontAct;     //置于最顶层
+    QAction *m_sendTobackAct;       //置于最底层
     QAction *m_leftAlignAct;
     QAction *m_topAlignAct;
     QAction *m_rightAlignAct;
@@ -49,6 +54,7 @@ private:
 private:
     void initContextMenu();
     void initContextMenuConnection();
+
 };
 
 #endif // CGRAPHICSVIEW_H

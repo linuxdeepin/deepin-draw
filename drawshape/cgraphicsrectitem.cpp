@@ -445,7 +445,7 @@ CGraphicsItem *CGraphicsRectItem::duplicate() const
     item->setTransformOriginPoint(transformOriginPoint());
     item->setRotation(rotation());
     item->setScale(scale());
-    item->setZValue(zValue() + 0.1);
+    item->setZValue(zValue());
     return item;
 }
 

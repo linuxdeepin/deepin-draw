@@ -3,7 +3,7 @@
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>
-#include <DGuiApplicationHelper>
+//#include <DGuiApplicationHelper>
 
 #include "application.h"
 //#include "service/dbusdrawservice.h"
@@ -16,15 +16,15 @@ const QString DEEPIN_DRAW_DBUS_PATH = "/com/deepin/Draw";
 const QString DEEPIN_DRAW_DBUS_NAME = "com.deepin.Draw";
 }
 
-DGuiApplicationHelper::ColorType getThemeTypeSetting()
-{
-    // 跟随系统主题
-    return DGuiApplicationHelper::UnknownType;
-    // 亮色主题
-//     return DGuiApplicationHelper::LightType;
-    // 暗色主题
-//    return DGuiApplicationHelper::DarkType;
-}
+//DGuiApplicationHelper::ColorType getThemeTypeSetting()
+//{
+//    // 跟随系统主题
+//    return DGuiApplicationHelper::UnknownType;
+//    // 亮色主题
+////     return DGuiApplicationHelper::LightType;
+//    // 暗色主题
+////    return DGuiApplicationHelper::DarkType;
+//}
 
 
 DWIDGET_USE_NAMESPACE
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     // 应用已保存的主题设置
 
-    DGuiApplicationHelper::instance()->setThemeType(getThemeTypeSetting());
+//    DGuiApplicationHelper::instance()->setThemeType(getThemeTypeSetting());
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
@@ -66,12 +66,12 @@ int main(int argc, char *argv[])
     w.show();
 
     //主题设置信号槽
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-    [] (DGuiApplicationHelper::ColorType type) {
-        qDebug() << type;
-        // 保存程序的主题设置
-        // ... saveThemeTypeSetting(type)
-    });
+//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+//    [] (DGuiApplicationHelper::ColorType type) {
+//        qDebug() << type;
+//        // 保存程序的主题设置
+//        // ... saveThemeTypeSetting(type)
+//    });
 
 
     return a.exec();

@@ -2,6 +2,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cshapemimedata.h"
 #include "drawshape/cgraphicsitem.h"
+#include "drawshape/globaldefine.h"
 
 #include <DMenu>
 
@@ -9,6 +10,7 @@
 #include <QWheelEvent>
 #include <QClipboard>
 #include <QApplication>
+#include <QDebug>
 
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
@@ -85,10 +87,27 @@ void CGraphicsView::initContextMenu()
 
     m_undoAct = m_contextMenu->addAction(tr("Undo"));
     m_contextMenu->addSeparator();
-    m_oneLayerUpAct = m_contextMenu->addAction(tr("One layer up"));
-    m_oneLayerDownAct = m_contextMenu->addAction(tr("One layer down"));
-    m_bringToFrontAct = m_contextMenu->addAction(tr("Bring to front"));
-    m_sendTobackAct = m_contextMenu->addAction(tr("Send to back"));
+
+    m_oneLayerUpAct = new QAction(tr("One layer up"));
+    m_contextMenu->addAction(m_oneLayerUpAct);
+    m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
+    this->addAction(m_oneLayerUpAct);
+
+    m_oneLayerDownAct = new QAction(tr("One layer down"));
+    m_contextMenu->addAction(m_oneLayerDownAct);
+    m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
+    this->addAction(m_oneLayerDownAct);
+
+    m_bringToFrontAct = new QAction(tr("Bring to front"));
+    m_contextMenu->addAction(m_bringToFrontAct);
+    m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketLeft));
+    this->addAction(m_bringToFrontAct);
+
+    m_sendTobackAct = new QAction(tr("Send to back"));
+    m_contextMenu->addAction(m_sendTobackAct);
+    m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketRight));
+    this->addAction(m_sendTobackAct);
+
     m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
     m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
     m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
@@ -102,6 +121,10 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_pasteAct, SIGNAL(triggered()), this, SLOT(slotOnPaste()));
     connect(m_selectAllAct, SIGNAL(triggered()), this, SLOT(slotOnSelectAll()));
     connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(slotOnDelete()));
+    connect(m_bringToFrontAct, SIGNAL(triggered()), this, SLOT(slotBringToFront()));
+    connect(m_sendTobackAct, SIGNAL(triggered()), this, SLOT(slotSendTobackAct()));
+    connect(m_oneLayerUpAct, SIGNAL(triggered()), this, SLOT(slotOneLayerUp()));
+    connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
 }
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
@@ -151,7 +174,9 @@ void CGraphicsView::slotOnSelectAll()
 {
     scene()->clearSelection();
     foreach (QGraphicsItem *item, scene()->items()) {
-        item->setSelected(true);
+        if (item->type() > QGraphicsItem::UserType) {
+            item->setSelected(true);
+        }
     }
 }
 
@@ -161,3 +186,103 @@ void CGraphicsView::slotOnDelete()
         scene()->removeItem(item);
     }
 }
+
+void CGraphicsView::slotOneLayerUp()
+{
+    QList<QGraphicsItem *> itemList = scene()->items();
+
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
+
+    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+        return;
+    }
+
+    QGraphicsItem *selectedItem = selectedList.first();
+
+    int index = itemList.indexOf(selectedItem);
+
+    for (int i = index - 1 ; i >= 0 ; i--) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(selectedItem);
+            break;
+        }
+    }
+
+
+    scene()->update();
+}
+
+void CGraphicsView::slotOneLayerDown()
+{
+    QList<QGraphicsItem *> itemList = scene()->items();
+
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
+
+    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+        return;
+    }
+
+    QGraphicsItem *selectedItem = selectedList.first();
+
+    int index = itemList.indexOf(selectedItem);
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            selectedItem->stackBefore(itemList.at(i));
+            break;
+        }
+    }
+
+    scene()->update();
+}
+
+void CGraphicsView::slotBringToFront()
+{
+    QList<QGraphicsItem *> itemList = scene()->items();
+
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
+
+    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+        return;
+    }
+
+    QGraphicsItem *selectedItem = selectedList.first();
+
+    int index = itemList.indexOf(selectedItem);
+
+    for (int i = index - 1; i >= 0 ; i--) {
+//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(selectedItem);
+        }
+    }
+
+
+    scene()->update();
+}
+
+void CGraphicsView::slotSendTobackAct()
+{
+    QList<QGraphicsItem *> itemList = scene()->items();
+
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
+
+    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+        return;
+    }
+
+    QGraphicsItem *selectedItem = selectedList.first();
+
+    int index = itemList.indexOf(selectedItem);
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            selectedItem->stackBefore(itemList.at(i));
+        }
+    }
+
+    scene()->update();
+}
+
+
