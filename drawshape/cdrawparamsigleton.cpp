@@ -4,8 +4,8 @@ CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
 
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
-    , m_sLineColor(Qt::black)
-    , m_nFillColor(Qt::transparent)
+    , m_sLineColor(Qt::yellow)//black
+    , m_nFillColor(Qt::blue)//transparent
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)

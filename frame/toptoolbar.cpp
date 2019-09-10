@@ -20,6 +20,7 @@
 #include <DApplication>
 #include <QHBoxLayout>
 #include <QString>
+#include <QStandardItemModel>
 
 #include <DLineEdit>
 
@@ -79,7 +80,7 @@ void TopToolbar::initComboBox()
     m_scaleComboBox->setFixedWidth(100);
 
 
-    //static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
+//   static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(2)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(4)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(6)->setTextAlignment(Qt::AlignCenter);
