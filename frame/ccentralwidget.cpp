@@ -112,6 +112,11 @@ void CCentralwidget::slotShowExportDialog()
     m_pGraphicsView->showExportDialog();
 }
 
+void CCentralwidget::slotNew()
+{
+    m_pDrawScene->clear();
+}
+
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {

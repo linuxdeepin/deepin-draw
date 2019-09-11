@@ -73,6 +73,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 scene->changeAttribute(true, item);
             }
         }
+    } else {
+        m_currentSelectItem = nullptr;
     }
     // }
     //碰撞检测

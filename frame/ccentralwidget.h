@@ -54,6 +54,7 @@ public slots:
     void slotSetScale(const qreal scale);
 
     void slotShowExportDialog();
+    void slotNew();
 private:
     CLeftToolBar *m_leftToolbar;
     DLabel *m_seperatorLine;

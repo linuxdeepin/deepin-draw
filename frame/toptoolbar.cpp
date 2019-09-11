@@ -194,6 +194,7 @@ void TopToolbar::initMenu()
     connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
     connect(printAc, &QAction::triggered, this, &TopToolbar::printImage);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
+    connect(newConstructAc, &QAction::triggered, this, &TopToolbar::signalNew);
 }
 
 
