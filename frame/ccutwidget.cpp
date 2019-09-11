@@ -32,6 +32,7 @@ void CCutWidget::initUI()
 
     DLineEdit *widthEdit = new DLineEdit(this);
     widthEdit->setText(QString::number(1920));
+    widthEdit->setClearButtonEnabled(false);
     widthEdit->setFixedWidth(50);
 
     DLabel *multiLabel = new DLabel(this);
@@ -39,6 +40,7 @@ void CCutWidget::initUI()
 
     DLineEdit *heightEdit = new DLineEdit(this);
     heightEdit->setText(QString::number(1080));
+    heightEdit->setClearButtonEnabled(false);
     heightEdit->setFixedWidth(50);
 
     DLabel *scaleLabel = new DLabel(this);

@@ -65,6 +65,7 @@ private:
     void initConnection();
 
     void showDirChoseDialog();
+    bool showQuestionDialog(const QString &path);
 };
 
 #endif // CEXPORTIMAGEDIALOG_H

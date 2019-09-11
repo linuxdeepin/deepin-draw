@@ -1,13 +1,16 @@
 #include "cexportimagedialog.h"
 
 #include <DFileDialog>
+#include <DDialog>
 
 #include <QFormLayout>
 #include <QImageWriter>
 #include <QStandardPaths>
 #include <QPdfWriter>
 #include <QPainter>
+
 #include <QDebug>
+
 
 const QSize DIALOG_SIZE = QSize(330, 230);
 const QSize LINE_EDIT_SIZE = QSize(178, 30);
@@ -32,8 +35,10 @@ void CExportImageDialog::showMe(const QPixmap &pixmap)
     m_fileNameEdit->setText("deepin.jpg");
 
     if (m_savePathCombox->count() == Other + 1) {
+        m_savePathCombox->blockSignals(true);
         m_savePathCombox->removeItem(Other);
     }
+    m_savePathCombox->blockSignals(false);
 
     m_savePathCombox->setCurrentIndex(Pictures);
     m_formatCombox->setCurrentIndex(JPG);
@@ -187,18 +192,17 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     Q_UNUSED(text)
 
     if (index == 1) {
+        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
         if (m_formatCombox->currentIndex() == PDF) {
-            QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
             QPdfWriter writer(completePath);
             int ww = writer.width();
             int wh = writer.height();
             QPainter painter(&writer);
             painter.drawPixmap(0, 0, QPixmap(m_saveImage).scaled(QSize(ww, wh), Qt::KeepAspectRatio));
         } else {
-            QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
             QString formate = m_saveFormat;
             bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), 100);
-            qDebug() << "!!!!!!!!!" << isSuccess;
+            qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;;
         }
     }
     hide();
@@ -219,4 +223,25 @@ void CExportImageDialog::showDirChoseDialog()
         }
         m_savePathCombox->setCurrentText(fileDir);
     }
+}
+
+bool CExportImageDialog::showQuestionDialog(const QString &path)
+{
+    bool flag = false;
+    DDialog *dialog = new DDialog(this);
+    dialog->setModal(true);
+    dialog->setMessage((QString(tr("%1 already exists, do you want "
+                                   "to replace?")).arg(path)));
+    dialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
+    dialog->show();
+
+    connect(dialog, &DDialog::buttonClicked, this, [ & ](int index, const QString & text) {
+        Q_UNUSED(text);
+        if (index == 1) {
+            flag = true;
+        }
+        dialog->hide();
+        dialog->deleteLater();
+    });
+    return flag;
 }
