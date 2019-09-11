@@ -5,6 +5,8 @@
 #include "drawshape/globaldefine.h"
 #include "cundocommands.h"
 #include "widgets/dialog/cexportimagedialog.h"
+#include "drawshape/cgraphicspolygonitem.h"
+#include "drawshape/cgraphicspolygonalstaritem.h"
 
 #include <DMenu>
 
@@ -198,10 +200,22 @@ void CGraphicsView::itemRemove()
     m_pUndoStack->push(deleteCommand);
 }
 
-void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush)
+void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange)
 {
-    QUndoCommand *setPropertyCommand = new CSetPropertyCommand(item, pen, brush);
+    QUndoCommand *setPropertyCommand = new CSetPropertyCommand(item, pen, brush, bPenChange, bBrushChange);
     m_pUndoStack->push(setPropertyCommand);
+}
+
+void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum)
+{
+    QUndoCommand *command = new CSetPolygonAttributeCommand(item, oldNum);
+    m_pUndoStack->push(command);
+}
+
+void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
+{
+    QUndoCommand *command = new CSetPolygonStarAttributeCommand(item, oldNum, oldRadius);
+    m_pUndoStack->push(command);
 }
 
 void CGraphicsView::slotOnCut()

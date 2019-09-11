@@ -63,19 +63,31 @@ void CDrawScene::attributeChanged()
     foreach (item, items) {
         if (item->type() != TextType) {
             CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-            emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush());
-            tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-            tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
 
+            if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
+                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
+                emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
+                                        tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
+                                        tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
+                tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+                tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+            }
         }
 
         if (item->type() == TextType) {
             static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         } else if (item->type() == PolygonType) {
-            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+            if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
+                emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
+                static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+            }
         } else if (item->type() == PolygonalStarType) {
-            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
-                                                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
+            CGraphicsPolygonalStarItem *tmpItem = static_cast<CGraphicsPolygonalStarItem *>(item);
+            if (tmpItem->anchorNum() != CDrawParamSigleton::GetInstance()->getAnchorNum() || tmpItem->innerRadius() != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+                emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
+                tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                             CDrawParamSigleton::GetInstance()->getRadiusNum());
+            }
         }
     }
 }

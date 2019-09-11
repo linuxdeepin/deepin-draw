@@ -6,6 +6,9 @@
 
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
+class CGraphicsPolygonItem;
+class CGraphicsPolygonalStarItem;
+
 class CDrawScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -73,7 +76,11 @@ signals:
 
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
 
-    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush);
+    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
+
+    void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
+
+    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
 
 
 public slots:

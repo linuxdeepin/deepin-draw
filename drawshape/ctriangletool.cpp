@@ -267,10 +267,21 @@ void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScen
     Q_UNUSED(scene)
     m_sPointRelease = event->scenePos();
     //如果鼠标没有移动
-    if ( event->scenePos() == m_sPointPress ) {
-        if ( m_pTriangleItem != nullptr)
+//    if ( event->scenePos() == m_sPointPress ) {
+//        if ( m_pTriangleItem != nullptr)
+//            scene->removeItem(m_pTriangleItem);
+//        delete m_pTriangleItem;
+//    }
+    //如果鼠标没有移动
+    if ( m_pTriangleItem != nullptr) {
+        if ( event->scenePos() == m_sPointPress ) {
+
             scene->removeItem(m_pTriangleItem);
-        delete m_pTriangleItem;
+            delete m_pTriangleItem;
+
+        } else {
+            emit scene->itemAdded(m_pTriangleItem);
+        }
     }
     m_pTriangleItem = nullptr;
     m_bMousePress = false;

@@ -9,6 +9,8 @@
 class QGraphicsScene;
 class QGraphicsItem;
 class CGraphicsItem;
+class CGraphicsPolygonItem;
+class CGraphicsPolygonalStarItem;
 
 class CMoveShapeCommand : public QUndoCommand
 {
@@ -107,7 +109,7 @@ private:
 class CSetPropertyCommand : public QUndoCommand
 {
 public:
-    explicit CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, QUndoCommand *parent = nullptr);
+    explicit CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent = nullptr);
     ~CSetPropertyCommand();
 
     void undo() Q_DECL_OVERRIDE;
@@ -120,6 +122,36 @@ private:
     QBrush m_oldBrush;
     QPen m_newPen;
     QBrush m_newBrush;
+    bool m_bPenChange;
+    bool m_bBrushChange;
+};
+
+class CSetPolygonAttributeCommand: public QUndoCommand
+{
+public:
+    explicit CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int oldNum);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsPolygonItem *m_pItem;
+    int m_nOldNum;
+    int m_nNewNum;
+};
+
+class CSetPolygonStarAttributeCommand: public QUndoCommand
+{
+public:
+    explicit CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsPolygonalStarItem *m_pItem;
+    int m_nOldNum;
+    int m_nNewNum;
+    int m_nOldRadius;
+    int m_nNewRadius;
 };
 /*
 class GroupShapeCommand : public QUndoCommand

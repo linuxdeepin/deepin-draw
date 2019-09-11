@@ -3,6 +3,8 @@
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
+#include "drawshape/cgraphicspolygonitem.h"
+#include "drawshape/cgraphicspolygonalstaritem.h"
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -350,11 +352,13 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 */
 
 
-CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, QUndoCommand *parent)
+CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
     : QUndoCommand (parent)
     , m_pItem(item)
     , m_oldPen(pen)
     , m_oldBrush(brush)
+    , m_bPenChange(bPenChange)
+    , m_bBrushChange(bBrushChange)
 {
     m_newPen = item->pen();
     m_newBrush = item->brush();
@@ -367,12 +371,58 @@ CSetPropertyCommand::~CSetPropertyCommand()
 
 void CSetPropertyCommand::undo()
 {
-    m_pItem->setPen(m_oldPen);
-    m_pItem->setBrush(m_oldBrush);
+    if (m_bPenChange) {
+        m_pItem->setPen(m_oldPen);
+    }
+
+    if (m_bBrushChange) {
+        m_pItem->setBrush(m_oldBrush);
+    }
 }
 
 void CSetPropertyCommand::redo()
 {
-    m_pItem->setPen(m_newPen);
-    m_pItem->setBrush(m_newBrush);
+    if (m_bPenChange) {
+        m_pItem->setPen(m_newPen);
+    }
+
+    if (m_bBrushChange) {
+        m_pItem->setBrush(m_newBrush);
+    }
+}
+
+CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int oldNum)
+    : m_pItem(item)
+    , m_nOldNum(oldNum)
+{
+    m_nNewNum = m_pItem->nPointsCount();
+}
+
+void CSetPolygonAttributeCommand::undo()
+{
+    m_pItem->setPointCount(m_nOldNum);
+}
+
+void CSetPolygonAttributeCommand::redo()
+{
+    m_pItem->setPointCount(m_nNewNum);
+}
+
+CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
+    : m_pItem(item)
+    , m_nOldNum(oldNum)
+    , m_nOldRadius(oldRadius)
+{
+    m_nNewNum = m_pItem->anchorNum();
+    m_nNewRadius = m_pItem->innerRadius();
+}
+
+void CSetPolygonStarAttributeCommand::undo()
+{
+    m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
+}
+
+void CSetPolygonStarAttributeCommand::redo()
+{
+    m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
 }
