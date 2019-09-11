@@ -282,17 +282,25 @@ void CGraphicsView::slotOneLayerUp()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new COneLayerUpCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index - 1 ; i >= 0 ; i--) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(selectedItem);
-            break;
-        }
-    }
+//    int index = itemList.indexOf(selectedItem);
 
+//    bool isSuccess = false;
+//    for (int i = index - 1 ; i >= 0 ; i--) {
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            itemList.at(i)->stackBefore(selectedItem);
+//            isSuccess = true;
+//            break;
+//        }
+//    }
 
-    scene()->update();
+//    if (isSuccess) {
+
+//        scene()->update();
+//    }
+
 }
 
 void CGraphicsView::slotOneLayerDown()
@@ -307,17 +315,25 @@ void CGraphicsView::slotOneLayerDown()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new COneLayerDownCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index + 1; i < itemList.length() ; i++) {
+//    int index = itemList.indexOf(selectedItem);
 
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            selectedItem->stackBefore(itemList.at(i));
-            break;
-        }
-    }
+//    bool isSuccess = false;
 
-    scene()->update();
+//    for (int i = index + 1; i < itemList.length() ; i++) {
+
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            selectedItem->stackBefore(itemList.at(i));
+//            isSuccess = true;
+//            break;
+//        }
+//    }
+
+//    if (isSuccess) {
+//        scene()->update();
+//    }
 }
 
 void CGraphicsView::slotBringToFront()
@@ -334,15 +350,18 @@ void CGraphicsView::slotBringToFront()
 
     int index = itemList.indexOf(selectedItem);
 
+    bool isSuccess = false;
     for (int i = index - 1; i >= 0 ; i--) {
 //        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
         if (itemList.at(i)->type() > QGraphicsItem::UserType) {
             itemList.at(i)->stackBefore(selectedItem);
+            isSuccess = true;
         }
     }
 
-
-    scene()->update();
+    if (isSuccess) {
+        scene()->update();
+    }
 }
 
 void CGraphicsView::slotSendTobackAct()
@@ -359,13 +378,17 @@ void CGraphicsView::slotSendTobackAct()
 
     int index = itemList.indexOf(selectedItem);
 
+    bool isSuccess = false;
     for (int i = index + 1; i < itemList.length() ; i++) {
         if (itemList.at(i)->type() > QGraphicsItem::UserType) {
             selectedItem->stackBefore(itemList.at(i));
+            isSuccess = true;
         }
     }
 
-    scene()->update();
+    if (isSuccess) {
+        scene()->update();
+    }
 }
 
 

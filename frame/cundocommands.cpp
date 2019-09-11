@@ -8,6 +8,7 @@
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QDebug>
 
 CMoveShapeCommand::CMoveShapeCommand(QGraphicsScene *graphicsScene, const QPointF &delta, QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -425,4 +426,127 @@ void CSetPolygonStarAttributeCommand::undo()
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+}
+
+
+
+
+
+
+COneLayerUpCommand::COneLayerUpCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+}
+
+COneLayerUpCommand::~COneLayerUpCommand()
+{
+
+}
+
+void COneLayerUpCommand::undo()
+{
+//    qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$upUndo";
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+//    for (int i = 0; i < itemList.length(); i++) {
+//        qDebug() << "@@@@@@@@@@@@@type=" << itemList.at(i)->type() << "::i=" << i;
+//    }
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    bool isSuccess = false;
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            isSuccess = true;
+            break;
+        }
+    }
+
+    if (isSuccess) {
+        m_scene->update();
+    }
+}
+
+void COneLayerUpCommand::redo()
+{
+//    qDebug() << "########################upUndo";
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    bool isSuccess = false;
+    for (int i = index - 1 ; i >= 0 ; i--) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            isSuccess = true;
+            break;
+        }
+    }
+    if (isSuccess) {
+        m_scene->update();
+    }
+}
+
+COneLayerDownCommand::COneLayerDownCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+}
+
+COneLayerDownCommand::~COneLayerDownCommand()
+{
+
+}
+
+void COneLayerDownCommand::undo()
+{
+//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    bool isSuccess = false;
+    for (int i = index - 1 ; i >= 0 ; i--) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            isSuccess = true;
+            break;
+        }
+    }
+    if (isSuccess) {
+        m_scene->update();
+    }
+}
+
+void COneLayerDownCommand::redo()
+{
+//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downRedo";
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    bool isSuccess = false;
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            isSuccess = true;
+            break;
+        }
+    }
+
+    if (isSuccess) {
+        m_scene->update();
+    }
 }

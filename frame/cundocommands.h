@@ -197,7 +197,35 @@ private:
     QPointF initialPosition;
 };
 
+class COneLayerUpCommand : public QUndoCommand
+{
+public:
+    COneLayerUpCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene,
+                       QUndoCommand *parent = nullptr);
+    ~COneLayerUpCommand() Q_DECL_OVERRIDE;
 
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QGraphicsItem *m_selectedItem;
+    QGraphicsScene *m_scene;
+};
+
+class COneLayerDownCommand : public QUndoCommand
+{
+public:
+    COneLayerDownCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene,
+                         QUndoCommand *parent = nullptr);
+    ~COneLayerDownCommand() Q_DECL_OVERRIDE;
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QGraphicsItem *m_selectedItem;
+    QGraphicsScene *m_scene;
+};
 
 
 #endif // CUNDOCOMMANDS_H

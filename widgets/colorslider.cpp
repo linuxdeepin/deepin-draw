@@ -6,6 +6,7 @@
 #include <QStyle>
 //#include <std>
 
+
 ColorSlider::ColorSlider(DWidget *parent)
     : DSlider(parent)
 {
@@ -46,6 +47,8 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
 
 void ColorSlider::paintEvent(QPaintEvent *ev)
 {
+    Q_UNUSED(ev)
+
     QStyleOptionSlider opt;
     initStyleOption(&opt);
 
@@ -73,10 +76,18 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
 
     painter.drawImage(QRect(rect.x(), rect.y() - 5, rect.width(),
                             rect.height()), backgroundImage);
-//    QPen borderPen;
-//    borderPen.setWidth(1);
-//    borderPen.setColor(QColor(Qt::black));
-//    painter.setPen(borderPen);
-//    painter.drawRect(QRect(rect.x(), rect.y() - 5, rect.width() - 2, rect.height() - 2));
+
+    qreal delat = rect.width() / 360.; //360.为maximum()的浮点型
+    qreal x = value() * delat;
+
+
+
+    QPen pen;
+    pen.setWidth(1);
+    pen.setColor(QColor(Qt::blue));
+    painter.setPen(pen);
+    painter.setBrush(QBrush(Qt::blue));
+//    painter.drawLine(QPointF(x, rect.top()), QPointF(x, rect.bottom()));
+    painter.drawRect(QRectF(QPointF(x - 3, rect.top() - 8), QPointF(x + 2, rect.bottom())));
 //    QSlider::paintEvent(ev);
 }
