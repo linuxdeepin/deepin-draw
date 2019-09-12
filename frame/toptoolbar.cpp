@@ -333,7 +333,9 @@ void TopToolbar::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(int(scale * 100)) + "%";
 
+    m_scaleComboBox->setCurrentIndex(-1);
     m_scaleComboBox->setEditText(strScale);
+
 //    m_scaleComboBox->setEditable(false);
 }
 
