@@ -210,6 +210,8 @@ public:
 private:
     QGraphicsItem *m_selectedItem;
     QGraphicsScene *m_scene;
+    bool m_isRedoExcuteSuccess;
+    bool m_isUndoExcuteSuccess;
 };
 
 class COneLayerDownCommand : public QUndoCommand
@@ -225,7 +227,42 @@ public:
 private:
     QGraphicsItem *m_selectedItem;
     QGraphicsScene *m_scene;
+    bool m_isRedoExcuteSuccess;
+    bool m_isUndoExcuteSuccess;
 };
 
+class CBringToFrontCommand : public QUndoCommand
+{
+public:
+    CBringToFrontCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene,
+                         QUndoCommand *parent = nullptr);
+    ~CBringToFrontCommand() Q_DECL_OVERRIDE;
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QGraphicsItem *m_selectedItem;
+    QGraphicsScene *m_scene;
+    bool m_isRedoExcuteSuccess;
+    bool m_isUndoExcuteSuccess;
+};
+
+class CSendToBackCommand : public QUndoCommand
+{
+public:
+    CSendToBackCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene,
+                       QUndoCommand *parent = nullptr);
+    ~CSendToBackCommand() Q_DECL_OVERRIDE;
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QGraphicsItem *m_selectedItem;
+    QGraphicsScene *m_scene;
+    bool m_isRedoExcuteSuccess;
+    bool m_isUndoExcuteSuccess;
+};
 
 #endif // CUNDOCOMMANDS_H

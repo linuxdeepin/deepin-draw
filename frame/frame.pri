@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/adjustsizewidget.h \
     $$PWD/blurwidget.h \
     $$PWD/linewidget.h \
     $$PWD/textwidget.h \
@@ -14,10 +13,10 @@ HEADERS += \
     $$PWD/ccutwidget.h \
     $$PWD/cpicturewidget.h \
     $$PWD/cgraphicsview.h \
-    $$PWD/cundocommands.h
+    $$PWD/cundocommands.h \
+    $$PWD/ctitlewidget.h
 
 SOURCES += \
-    $$PWD/adjustsizewidget.cpp \
     $$PWD/blurwidget.cpp \
     $$PWD/linewidget.cpp \
     $$PWD/textwidget.cpp \
@@ -32,7 +31,8 @@ SOURCES += \
     $$PWD/ccutwidget.cpp \
     $$PWD/cpicturewidget.cpp \
     $$PWD/cgraphicsview.cpp \
-    $$PWD/cundocommands.cpp
+    $$PWD/cundocommands.cpp \
+    $$PWD/ctitlewidget.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

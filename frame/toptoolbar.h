@@ -24,7 +24,7 @@ class LineWidget;
 class CPictureWidget;
 class TextWidget;
 class BlurWidget;
-class AdjustsizeWidget;
+class CTitleWidget;
 
 class ArrowRectangle;
 class ColorPanel;
@@ -80,7 +80,7 @@ private:
     DStackedWidget *m_stackWidget;
     int m_textFontsize = 12;
 
-    DWidget *m_emptyWidget;
+    CTitleWidget *m_titleWidget;
     CommonshapeWidget *m_commonShapeWidget;
     PolygonalStarAttributeWidget *m_polygonalStarWidget;
     PolygonAttributeWidget *m_PolygonWidget;
@@ -90,7 +90,7 @@ private:
     TextWidget *m_drawTextWidget;
     BlurWidget *m_drawBlurWidget;
     CPenWidget *m_penWidget;
-//    AdjustsizeWidget *m_adjustsizeWidget;
+
 
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;

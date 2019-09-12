@@ -33,7 +33,6 @@ public slots:
     void itemAdded(QGraphicsItem *item );
     void itemRotate(QGraphicsItem *item, const qreal oldAngle );
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
-    void itemRemove();
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
     void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
