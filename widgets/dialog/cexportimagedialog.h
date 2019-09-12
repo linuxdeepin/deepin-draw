@@ -44,6 +44,8 @@ private slots:
     void slotOnSavePathChange(int index);
     void slotOnFormatChange(int index);
     void slotOnDialogButtonClick(int index, const QString &text);
+    void slotOnQuestionDialogButtonClick(int index, const QString &text);
+    void slotOnQualityChanged(int value);
 
 private:
     DLineEdit *m_fileNameEdit;
@@ -55,9 +57,11 @@ private:
 //    QString m_fileName;
     QString m_savePath;
     QString m_saveFormat;
-    qreal m_quality;
+    int m_quality;
 
     QPixmap m_saveImage;
+
+    DDialog *m_questionDialog;
 
 
 private:
@@ -65,7 +69,8 @@ private:
     void initConnection();
 
     void showDirChoseDialog();
-    bool showQuestionDialog(const QString &path);
+    void showQuestionDialog(const QString &path);
+    void doSave();
 };
 
 #endif // CEXPORTIMAGEDIALOG_H

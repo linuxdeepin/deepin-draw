@@ -9,7 +9,7 @@
 #include "textwidget.h"
 #include "cpenwidget.h"
 #include "blurwidget.h"
-#include "adjustsizewidget.h"
+#include "ctitlewidget.h"
 #include "widgets/arrowrectangle.h"
 #include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
@@ -96,8 +96,8 @@ void TopToolbar::initComboBox()
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new DStackedWidget(this);
-    m_emptyWidget = new DWidget(this);
-    m_stackWidget->addWidget(m_emptyWidget);
+    m_titleWidget = new CTitleWidget(this);
+    m_stackWidget->addWidget(m_titleWidget);
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -153,7 +153,7 @@ void TopToolbar::initStackWidget()
 //    m_adjustsizeWidget = new AdjustsizeWidget(this);
 //    m_stackWidget->addWidget(m_adjustsizeWidget);
 
-    m_stackWidget->setCurrentWidget(m_emptyWidget);
+    m_stackWidget->setCurrentWidget(m_titleWidget);
 }
 
 void TopToolbar::initMenu()
@@ -333,7 +333,9 @@ void TopToolbar::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(int(scale * 100)) + "%";
 
+    m_scaleComboBox->setCurrentIndex(-1);
     m_scaleComboBox->setEditText(strScale);
+
 //    m_scaleComboBox->setEditable(false);
 }
 

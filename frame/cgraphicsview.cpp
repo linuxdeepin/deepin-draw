@@ -103,7 +103,6 @@ void CGraphicsView::initContextMenu()
     m_contextMenu->addAction(m_deleteAct);
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
-    connect(m_deleteAct, SIGNAL(triggered()), this, SLOT(itemRemove()));
 
     //m_undoAct = m_contextMenu->addAction(tr("Undo"));
     m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
@@ -194,11 +193,6 @@ void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection 
     m_pUndoStack->push(resizeCommand);
 }
 
-void CGraphicsView::itemRemove()
-{
-    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
-    m_pUndoStack->push(deleteCommand);
-}
 
 void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange)
 {
@@ -221,16 +215,23 @@ void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *ite
 void CGraphicsView::slotOnCut()
 {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.isEmpty()) {
+        return;
+    }
+
     CShapeMimeData *data = new CShapeMimeData(itemList);
     QApplication::clipboard()->setMimeData(data);
 
-    foreach (QGraphicsItem *item, itemList) {
-        scene()->removeItem(item);
-    }
+    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+    m_pUndoStack->push(deleteCommand);
 }
 
 void CGraphicsView::slotOnCopy()
 {
+    if (scene()->selectedItems().isEmpty()) {
+        return;
+    }
+
     CShapeMimeData *data = new CShapeMimeData( scene()->selectedItems() );
     QApplication::clipboard()->setMimeData(data);
 }
@@ -246,7 +247,9 @@ void CGraphicsView::slotOnPaste()
             if ( copy ) {
                 copy->setSelected(true);
                 copy->moveBy(10, 10);
-                scene()->addItem(copy);
+
+                QUndoCommand *addCommand = new CAddShapeCommand(copy, this->scene());
+                m_pUndoStack->push(addCommand);
             }
         }
     }
@@ -265,9 +268,11 @@ void CGraphicsView::slotOnSelectAll()
 
 void CGraphicsView::slotOnDelete()
 {
-    foreach (QGraphicsItem *item, scene()->selectedItems()) {
-        scene()->removeItem(item);
+    if (scene()->selectedItems().isEmpty()) {
+        return;
     }
+    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+    m_pUndoStack->push(deleteCommand);
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -282,17 +287,25 @@ void CGraphicsView::slotOneLayerUp()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new COneLayerUpCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index - 1 ; i >= 0 ; i--) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(selectedItem);
-            break;
-        }
-    }
+//    int index = itemList.indexOf(selectedItem);
 
+//    bool isSuccess = false;
+//    for (int i = index - 1 ; i >= 0 ; i--) {
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            itemList.at(i)->stackBefore(selectedItem);
+//            isSuccess = true;
+//            break;
+//        }
+//    }
 
-    scene()->update();
+//    if (isSuccess) {
+
+//        scene()->update();
+//    }
+
 }
 
 void CGraphicsView::slotOneLayerDown()
@@ -307,17 +320,25 @@ void CGraphicsView::slotOneLayerDown()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new COneLayerDownCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index + 1; i < itemList.length() ; i++) {
+//    int index = itemList.indexOf(selectedItem);
 
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            selectedItem->stackBefore(itemList.at(i));
-            break;
-        }
-    }
+//    bool isSuccess = false;
 
-    scene()->update();
+//    for (int i = index + 1; i < itemList.length() ; i++) {
+
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            selectedItem->stackBefore(itemList.at(i));
+//            isSuccess = true;
+//            break;
+//        }
+//    }
+
+//    if (isSuccess) {
+//        scene()->update();
+//    }
 }
 
 void CGraphicsView::slotBringToFront()
@@ -332,17 +353,23 @@ void CGraphicsView::slotBringToFront()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new CBringToFrontCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index - 1; i >= 0 ; i--) {
-//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(selectedItem);
-        }
-    }
+//    int index = itemList.indexOf(selectedItem);
 
+//    bool isSuccess = false;
+//    for (int i = index - 1; i >= 0 ; i--) {
+////        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            itemList.at(i)->stackBefore(selectedItem);
+//            isSuccess = true;
+//        }
+//    }
 
-    scene()->update();
+//    if (isSuccess) {
+//        scene()->update();
+//    }
 }
 
 void CGraphicsView::slotSendTobackAct()
@@ -357,15 +384,22 @@ void CGraphicsView::slotSendTobackAct()
 
     QGraphicsItem *selectedItem = selectedList.first();
 
-    int index = itemList.indexOf(selectedItem);
+    QUndoCommand *command = new CSendToBackCommand(selectedItem, this->scene());
+    m_pUndoStack->push(command);
 
-    for (int i = index + 1; i < itemList.length() ; i++) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            selectedItem->stackBefore(itemList.at(i));
-        }
-    }
+//    int index = itemList.indexOf(selectedItem);
 
-    scene()->update();
+//    bool isSuccess = false;
+//    for (int i = index + 1; i < itemList.length() ; i++) {
+//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+//            selectedItem->stackBefore(itemList.at(i));
+//            isSuccess = true;
+//        }
+//    }
+
+//    if (isSuccess) {
+//        scene()->update();
+//    }
 }
 
 

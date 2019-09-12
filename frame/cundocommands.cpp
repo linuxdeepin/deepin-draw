@@ -8,6 +8,7 @@
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QDebug>
 
 CMoveShapeCommand::CMoveShapeCommand(QGraphicsScene *graphicsScene, const QPointF &delta, QUndoCommand *parent)
     : QUndoCommand(parent)
@@ -425,4 +426,268 @@ void CSetPolygonStarAttributeCommand::undo()
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+}
+
+
+
+
+
+
+COneLayerUpCommand::COneLayerUpCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+    m_isUndoExcuteSuccess = true;
+    m_isRedoExcuteSuccess = false;
+}
+
+COneLayerUpCommand::~COneLayerUpCommand()
+{
+
+}
+
+void COneLayerUpCommand::undo()
+{
+//    qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$upUndo";
+    if (!m_isRedoExcuteSuccess) {
+        return;
+    }
+
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+//    for (int i = 0; i < itemList.length(); i++) {
+//        qDebug() << "@@@@@@@@@@@@@type=" << itemList.at(i)->type() << "::i=" << i;
+//    }
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isUndoExcuteSuccess = false;
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            m_isUndoExcuteSuccess = true;
+            break;
+        }
+    }
+
+    if (m_isUndoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+void COneLayerUpCommand::redo()
+{
+//    qDebug() << "########################upUndo";
+
+    if (!m_isUndoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isRedoExcuteSuccess = false;
+    for (int i = index - 1 ; i >= 0 ; i--) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            m_isRedoExcuteSuccess = true;
+            break;
+        }
+    }
+    if (m_isRedoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+COneLayerDownCommand::COneLayerDownCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+    m_isUndoExcuteSuccess = true;
+    m_isRedoExcuteSuccess = false;
+}
+
+COneLayerDownCommand::~COneLayerDownCommand()
+{
+
+}
+
+void COneLayerDownCommand::undo()
+{
+//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
+    if (!m_isRedoExcuteSuccess) {
+        return;
+    }
+
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isUndoExcuteSuccess = false;
+    for (int i = index - 1 ; i >= 0 ; i--) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            m_isUndoExcuteSuccess = true;
+            break;
+        }
+    }
+    if (m_isUndoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+void COneLayerDownCommand::redo()
+{
+//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downRedo";
+    if (!m_isUndoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isRedoExcuteSuccess = false;
+
+    for (int i = index + 1; i < itemList.length() ; i++) {
+
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            m_isRedoExcuteSuccess = true;
+            break;
+        }
+    }
+
+    if (m_isRedoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+CBringToFrontCommand::CBringToFrontCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+    m_isUndoExcuteSuccess = true;
+    m_isRedoExcuteSuccess = false;
+}
+
+CBringToFrontCommand::~CBringToFrontCommand()
+{
+
+}
+
+void CBringToFrontCommand::undo()
+{
+    if (!m_isRedoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isUndoExcuteSuccess = false;
+    for (int i = index + 1; i < itemList.length() ; i++) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            m_isUndoExcuteSuccess = true;
+        }
+    }
+
+    if (m_isUndoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+void CBringToFrontCommand::redo()
+{
+    if (!m_isUndoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isRedoExcuteSuccess = false;
+    for (int i = index - 1; i >= 0 ; i--) {
+//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            m_isRedoExcuteSuccess = true;
+        }
+    }
+
+    if (m_isRedoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+CSendToBackCommand::CSendToBackCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+    : QUndoCommand (parent)
+{
+    m_selectedItem = selectedItem;
+    m_scene = graphicsScene;
+    m_isUndoExcuteSuccess = true;
+    m_isRedoExcuteSuccess = false;
+}
+
+CSendToBackCommand::~CSendToBackCommand()
+{
+
+}
+
+void CSendToBackCommand::undo()
+{
+    if (!m_isRedoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isUndoExcuteSuccess = false;
+    for (int i = index - 1; i >= 0 ; i--) {
+//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            itemList.at(i)->stackBefore(m_selectedItem);
+            m_isUndoExcuteSuccess = true;
+        }
+    }
+
+    if (m_isUndoExcuteSuccess) {
+        m_scene->update();
+    }
+}
+
+void CSendToBackCommand::redo()
+{
+    if (!m_isUndoExcuteSuccess) {
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = m_scene->items();
+
+    int index = itemList.indexOf(m_selectedItem);
+
+    m_isRedoExcuteSuccess = false;
+    for (int i = index + 1; i < itemList.length() ; i++) {
+        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
+            m_selectedItem->stackBefore(itemList.at(i));
+            m_isRedoExcuteSuccess = true;
+        }
+    }
+
+    if (m_isRedoExcuteSuccess) {
+        m_scene->update();
+    }
 }

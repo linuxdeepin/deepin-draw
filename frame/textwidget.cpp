@@ -49,14 +49,14 @@ void TextWidget::initUI()
 
     m_fontSizeSlider = new DSlider(this);
     m_fontSizeSlider->setOrientation(Qt::Horizontal);
-    m_fontSizeSlider->setMinimum(0);
+    m_fontSizeSlider->setMinimum(8);
     m_fontSizeSlider->setMaximum(1000);
     m_fontSizeSlider->setMinimumWidth(200);
     m_fontSizeSlider->setMaximumHeight(24);
 
 
     m_fontSizeEdit = new DLineEdit(this);
-    m_fontSizeEdit->setValidator(new QIntValidator(0, 1000, this));
+    m_fontSizeEdit->setValidator(new QIntValidator(8, 1000, this));
     m_fontSizeEdit->setClearButtonEnabled(false);
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
