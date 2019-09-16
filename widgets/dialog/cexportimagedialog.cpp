@@ -44,6 +44,7 @@ void CExportImageDialog::showMe(const QPixmap &pixmap)
     m_formatCombox->setCurrentIndex(JPG);
     m_qualitySlider->setValue(100);
 
+
     slotOnSavePathChange(Pictures);
     slotOnFormatChange(JPG);
     slotOnQualityChanged(m_qualitySlider->value());
@@ -169,6 +170,7 @@ void CExportImageDialog::slotOnFormatChange(int index)
     case PDF:
     case BMP:
     case TIF:
+        m_qualitySlider->setValue(100);
         m_qualitySlider->setEnabled(false);
         break;
     case JPG:

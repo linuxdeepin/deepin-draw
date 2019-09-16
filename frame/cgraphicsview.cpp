@@ -5,6 +5,7 @@
 #include "drawshape/globaldefine.h"
 #include "cundocommands.h"
 #include "widgets/dialog/cexportimagedialog.h"
+#include "widgets/dialog/cprintmanager.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
 
@@ -23,6 +24,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 {
     m_pUndoStack = new QUndoStack(this);
     m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
     initContextMenu();
     initContextMenuConnection();
 }
@@ -49,7 +51,7 @@ void CGraphicsView::scale(qreal scale)
     CDrawParamSigleton::GetInstance()->setScale(m_scale);
 }
 
-void CGraphicsView::showExportDialog()
+QPixmap CGraphicsView::getSceneImage()
 {
     QPixmap pixmap(scene()->sceneRect().width(), scene()->sceneRect().height());
 
@@ -58,7 +60,20 @@ void CGraphicsView::showExportDialog()
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     scene()->render(&painter);
 
-    m_exportImageDialog->showMe(pixmap);
+    return  pixmap;
+}
+
+
+void CGraphicsView::showExportDialog()
+{
+    m_exportImageDialog->showMe(getSceneImage());
+}
+
+void CGraphicsView::showPrintDialog()
+{
+    QPixmap pixMap = getSceneImage();
+
+    m_printManager->showPrintDialog(pixMap, this);
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)

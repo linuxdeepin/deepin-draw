@@ -7,6 +7,7 @@ DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
 class CGraphicsItem;
+class CPrintManager;
 class CExportImageDialog;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
@@ -20,6 +21,7 @@ public:
     void zoomIn();
     void scale(qreal scale);
     void showExportDialog();
+    void showPrintDialog();
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -71,11 +73,13 @@ private:
     QUndoStack *m_pUndoStack;
 
     CExportImageDialog *m_exportImageDialog;
+    CPrintManager *m_printManager;
 
 
 private:
     void initContextMenu();
     void initContextMenuConnection();
+    QPixmap getSceneImage();
 
 };
 

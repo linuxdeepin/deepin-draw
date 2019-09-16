@@ -12,8 +12,6 @@
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
 #include "drawshape/cdrawparamsigleton.h"
 
@@ -65,7 +63,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->setValidator(new QIntValidator(3, 50, this));
+    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(40);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
@@ -150,7 +148,13 @@ void PolygonalStarAttributeWidget::initConnection()
     });
 
     connect(m_anchorNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        if (str.isEmpty() || str == "") {
+            return ;
+        }
         int value = str.trimmed().toInt();
+        if (value >= 1 && value <= 2) {
+            return;
+        }
         m_anchorNumSlider->setValue(value);
         CDrawParamSigleton::GetInstance()->setAnchorNum(value);
         emit signalPolygonalStarAttributeChanged();
@@ -174,6 +178,10 @@ void PolygonalStarAttributeWidget::initConnection()
     });
 
     connect(m_radiusNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        if (str.isEmpty() || str == "") {
+            return ;
+        }
+
         QString tmpStr = "";
         if (str.contains("%")) {
             tmpStr = str.split("%").first();

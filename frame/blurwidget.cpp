@@ -6,7 +6,6 @@
 #include <QHBoxLayout>
 
 #include "widgets/toolbutton.h"
-#include "utils/configsettings.h"
 #include "widgets/ccheckbutton.h"
 
 const int BTN_SPACING = 6;

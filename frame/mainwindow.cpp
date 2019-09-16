@@ -77,6 +77,8 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalShowExportDialog()), m_centralWidget, SLOT(slotShowExportDialog()));
 
+    connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
+
     connect(m_topToolbar, SIGNAL(signalNew()), m_centralWidget, SLOT(slotNew()));
 
 

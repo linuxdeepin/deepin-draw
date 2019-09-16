@@ -9,8 +9,7 @@
 #include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
+
 
 const int BTN_SPACNT = 10;
 
