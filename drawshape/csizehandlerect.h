@@ -21,7 +21,7 @@ enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, Select
 class CSizeHandleRect : public QGraphicsSvgItem
 {
 public:
-    enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, None};
+    enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
 
     CSizeHandleRect(QGraphicsItem *parent, EDirection d);
     CSizeHandleRect(QGraphicsItem *parent, EDirection d, const QString &filename);

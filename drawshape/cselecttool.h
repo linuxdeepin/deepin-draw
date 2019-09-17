@@ -4,6 +4,8 @@
 #include "globaldefine.h"
 #include "csizehandlerect.h"
 
+#include <QCursor>
+
 class CGraphicsItem;
 
 class CSelectTool : public IDrawTool
@@ -20,6 +22,7 @@ private:
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
     bool m_bRotateAng;
     qreal m_rotateAng;
+    QCursor m_RotateCursor;
 };
 
 #endif // CSELECTTOOL_H

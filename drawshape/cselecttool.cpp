@@ -3,18 +3,24 @@
 #include "cgraphicsitem.h"
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
+
+#include <DApplication>
+
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QCursor>
 #include <QtMath>
 #include <QGraphicsTextItem>
 #include <QTextCursor>
+#include <QPixmap>
+
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
     , m_currentSelectItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_bRotateAng(false)
     , m_rotateAng(0)
+    , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
 {
 
 }
@@ -26,12 +32,16 @@ CSelectTool::~CSelectTool()
 
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    qDebug() << "mouse press" << endl;
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = true;
         m_sPointPress = event->scenePos();
         //选中图元
+        if (m_currentSelectItem != nullptr) {
+            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+        }
 
-        if (CSizeHandleRect::None == m_dragHandle) {
+        if (CSizeHandleRect::None == m_dragHandle || CSizeHandleRect::InRect == m_dragHandle) {
             //要先触发scene->mouseEvent(event);  才能获取是否有图元被选中
             scene->mouseEvent(event);
 
@@ -42,6 +52,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 //需要区别图元或文字
                 if (item->type() != TextType) {
                     m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                    m_dragHandle = CSizeHandleRect::InRect;
+                    qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
                     scene->changeAttribute(true, item);
                 } else {
                     m_currentSelectItem = nullptr;
@@ -83,13 +95,14 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
-            scene->setCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle)));
+//            scene->setCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress)));
+            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
             m_rotateAng = m_currentSelectItem->rotation();
         }
     }
 
     if ( m_bMousePress ) {
-        if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation) {
+        if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
             m_currentSelectItem->resizeTo(m_dragHandle, event->scenePos());
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
             //旋转图形 有BUG
@@ -123,6 +136,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = false;
         m_sPointRelease = event->scenePos();
+
+        //选中图元
+        if (m_currentSelectItem != nullptr) {
+            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+        }
 
         if (m_currentSelectItem != nullptr) {
             if (m_dragHandle == CSizeHandleRect::Rotation) {
