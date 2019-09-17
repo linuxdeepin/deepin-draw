@@ -86,6 +86,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
         }
     } else {
+        m_dragHandle = CSizeHandleRect::None;
+        qApp->setOverrideCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
     }
     // }
@@ -145,7 +147,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         if (m_currentSelectItem != nullptr) {
             if (m_dragHandle == CSizeHandleRect::Rotation) {
                 emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
-            } else if (m_dragHandle == CSizeHandleRect::None) {
+            } else if (m_dragHandle == CSizeHandleRect::InRect) {
                 QList<QGraphicsItem *> items = scene->selectedItems();
                 if (items.count() == 1) {
                     emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
