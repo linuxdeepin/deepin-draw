@@ -91,6 +91,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
 
     pixmapItem->setSelected(false);
     scene->addItem(pixmapItem);
+    emit scene->itemAdded(pixmapItem);
     //m_picturetItems << pixmapItem;
     m_progressLayout->setProgressValue(itemNumber);
     if (itemNumber == m_picNum) {
