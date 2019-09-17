@@ -14,7 +14,7 @@
 #include <QApplication>
 
 
-const QSize WINDOW_MINISIZR = QSize(960, 540);
+const QSize WINDOW_MINISIZR = QSize(1028, 800);
 const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
 //const int IMG_ROTATEPOINT_SPACING = 35;
@@ -34,7 +34,7 @@ MainWindow::MainWindow(DWidget *parent)
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
-//    setMinimumSize(WINDOW_MINISIZR);
+    setMinimumSize(WINDOW_MINISIZR);
 
     m_topToolbar = new TopToolbar(this);
     m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
