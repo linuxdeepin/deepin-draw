@@ -3,6 +3,7 @@
 #include "cgraphicsitem.h"
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
+#include "cgraphicsrotateangleitem.h"
 
 #include <DApplication>
 
@@ -21,6 +22,8 @@ CSelectTool::CSelectTool ()
     , m_bRotateAng(false)
     , m_rotateAng(0)
     , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
+    , m_initRotateItemPos(0, 0)
+    , m_RotateItem(nullptr)
 {
 
 }
@@ -123,7 +126,22 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             m_currentSelectItem->setRotation(angle);
 
-//            scene->sendRotateSignal(m_currentSelectItem, angle);
+            //显示旋转角度
+            if (m_RotateItem == nullptr) {
+                m_RotateItem = new CGraphicsRotateAngleItem(angle);
+                scene->addItem(m_RotateItem);
+                m_initRotateItemPos.setX(centerToScence.x());
+                m_initRotateItemPos.setY(centerToScence.y() - m_currentSelectItem->rect().height() / 2 - 65);
+                m_RotateItem->setPos(m_initRotateItemPos);
+            } else {
+                qreal angleRad = qDegreesToRadians(angle);
+
+                qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
+                qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
+
+                m_RotateItem->updateRotateAngle(angle);
+                m_RotateItem->setPos(x0, y0);
+            }
 
         } else {
             scene->mouseEvent(event);
@@ -146,6 +164,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         if (m_currentSelectItem != nullptr) {
             if (m_dragHandle == CSizeHandleRect::Rotation) {
+                if (m_RotateItem) {
+                    delete m_RotateItem;
+                    m_RotateItem = nullptr;
+                }
                 emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
             } else if (m_dragHandle == CSizeHandleRect::InRect) {
                 QList<QGraphicsItem *> items = scene->selectedItems();

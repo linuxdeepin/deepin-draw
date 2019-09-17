@@ -26,7 +26,8 @@ HEADERS += \
     $$PWD/cpentool.h \
     $$PWD/cpictureitem.h \
     $$PWD/cpicturetool.h \
-    $$PWD/cshapemimedata.h
+    $$PWD/cshapemimedata.h \
+    $$PWD/cgraphicsrotateangleitem.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -55,7 +56,8 @@ SOURCES += \
     $$PWD/cpentool.cpp \
     $$PWD/cpictureitem.cpp \
     $$PWD/cpicturetool.cpp \
-    $$PWD/cshapemimedata.cpp
+    $$PWD/cshapemimedata.cpp \
+    $$PWD/cgraphicsrotateangleitem.cpp
 
 
 

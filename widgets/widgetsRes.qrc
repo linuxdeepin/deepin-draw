@@ -23,5 +23,6 @@
         <file>theme/light/images/draw/tickness02_press.svg</file>
         <file>theme/light/images/draw/tickness03_normal.svg</file>
         <file>theme/light/images/draw/color_disable_active.png</file>
+        <file>theme/common/deepin-draw-board.svg</file>
     </qresource>
 </RCC>

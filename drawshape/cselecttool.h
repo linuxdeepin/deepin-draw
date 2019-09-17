@@ -7,6 +7,7 @@
 #include <QCursor>
 
 class CGraphicsItem;
+class CGraphicsRotateAngleItem;
 
 class CSelectTool : public IDrawTool
 {
@@ -23,6 +24,8 @@ private:
     bool m_bRotateAng;
     qreal m_rotateAng;
     QCursor m_RotateCursor;
+    QPointF m_initRotateItemPos;
+    CGraphicsRotateAngleItem *m_RotateItem;
 };
 
 #endif // CSELECTTOOL_H

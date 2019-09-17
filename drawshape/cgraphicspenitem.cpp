@@ -60,6 +60,7 @@ QRectF CGraphicsPenItem::boundingRect() const
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
+    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!update";
     prepareGeometryChange();
 
     m_isShiftPress = isShiftPress;
@@ -107,6 +108,7 @@ void CGraphicsPenItem::changeToPixMap()
     QPainter painter(&tmp);
 
     painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(pen());
 
     painter.translate(-rect.x(), -rect.y());
@@ -174,6 +176,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             painter->drawPolygon(m_arrow);
         }
     } else {
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
         painter->drawPixmap(rect(), m_pixMap, m_pixMap.rect());
     }
 }

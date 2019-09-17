@@ -12,7 +12,7 @@
 #include <QDebug>
 
 
-const QSize DIALOG_SIZE = QSize(330, 230);
+const QSize DIALOG_SIZE = QSize(300, 245);
 const QSize LINE_EDIT_SIZE = QSize(178, 30);
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
@@ -57,10 +57,31 @@ void CExportImageDialog::initUI()
     setFixedSize(DIALOG_SIZE);
     setModal(true);
 
-    DLabel *titleLabel = new DLabel(tr("Export"), this);
-    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
-    titleLabel->move(0, 0);
-    titleLabel->setAlignment(Qt::AlignCenter);
+    setContentsMargins(0, 0, 0, 0);
+
+    DLabel *logoLable = new DLabel(this);
+    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+    logoLable->setFixedSize(QSize(32, 32));
+
+    logoLable->move(25, 3);
+    logoLable->setAlignment(Qt::AlignLeft);
+
+    setWindowTitle(tr("Export"));;
+
+//    DLabel *titleLabel = new DLabel(tr("Export"), this);
+//    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
+
+//    QHBoxLayout *titleLayout = new QHBoxLayout(this);
+//    titleLayout->setSpacing(0);
+//    titleLayout->setMargin(0);
+//    titleLayout->addWidget(logoLable, 0, Qt::AlignLeft);
+//    titleLayout->addWidget(titleLabel, 0, Qt::AlignHCenter);
+
+
+//    titleLabel->move(0, 0);
+//    titleLabel->setAlignment(Qt::AlignCenter);
+
+
 
 
     m_fileNameEdit = new DLineEdit(this);
@@ -90,7 +111,7 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(135, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedSize(QSize(130, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
     m_qualityLabel->setFixedHeight(LINE_EDIT_SIZE.height());
@@ -103,9 +124,11 @@ void CExportImageDialog::initUI()
     qualityHLayout->addWidget(m_qualityLabel);
 
     DWidget *contentWidget = new DWidget(this);
+//    contentWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
+    contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
-    fLayout->setHorizontalSpacing(25);
+    fLayout->setHorizontalSpacing(20);
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);
@@ -119,6 +142,10 @@ void CExportImageDialog::initUI()
     m_questionDialog->setModal(true);
     m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
     m_questionDialog->setFixedSize(400, 100);
+
+
+
+//    setLayout(titleLayout);
 }
 
 void CExportImageDialog::initConnection()
