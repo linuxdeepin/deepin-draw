@@ -117,6 +117,10 @@ void CCentralwidget::slotNew()
     m_pDrawScene->clear();
 }
 
+void CCentralwidget::slotPrint()
+{
+    m_pGraphicsView->showPrintDialog();
+}
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {

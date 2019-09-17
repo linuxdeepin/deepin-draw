@@ -14,7 +14,11 @@
 #include <QApplication>
 
 
+<<<<<<< HEAD
 const QSize WINDOW_MINISIZR = QSize(1280, 800);
+=======
+const QSize WINDOW_MINISIZR = QSize(1028, 800);
+>>>>>>> 31eacebe91400ec954bd38eea37beaf006304244
 const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
 //const int IMG_ROTATEPOINT_SPACING = 35;
@@ -76,6 +80,8 @@ void MainWindow::initConnection()
     connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
 
     connect(m_topToolbar, SIGNAL(signalShowExportDialog()), m_centralWidget, SLOT(slotShowExportDialog()));
+
+    connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
 
     connect(m_topToolbar, SIGNAL(signalNew()), m_centralWidget, SLOT(slotNew()));
 

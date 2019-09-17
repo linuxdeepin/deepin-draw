@@ -3,6 +3,7 @@
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
+    , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
 {
 
 }
@@ -20,32 +21,109 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
             return (*it)->dir();
         }
     }
+    //检测是否在矩形内
+    QPointF pt = mapFromScene(point);
+    if (this->boundingRect().contains(pt)) {
+        return CSizeHandleRect::InRect;
+    }
+
     return CSizeHandleRect::None;
 }
 
-Qt::CursorShape CGraphicsItem::getCursor(CSizeHandleRect::EDirection dir)
+QCursor CGraphicsItem::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress)
 {
+    Qt::CursorShape result;
+    QCursor resultCursor;
     switch (dir) {
     case CSizeHandleRect::Right:
-        return Qt::SizeHorCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeHorCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::RightTop:
-        return Qt::SizeBDiagCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeBDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::RightBottom:
-        return Qt::SizeFDiagCursor;
+//        result =  Qt::SizeFDiagCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeFDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::LeftBottom:
-        return Qt::SizeBDiagCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeBDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::Bottom:
-        return Qt::SizeVerCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeVerCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::LeftTop:
-        return Qt::SizeFDiagCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeFDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::Left:
-        return Qt::SizeHorCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeHorCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
     case CSizeHandleRect::Top:
-        return Qt::SizeVerCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeVerCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+
+    case CSizeHandleRect::Rotation:
+        resultCursor = m_RotateCursor;
+        break;
+    case CSizeHandleRect::InRect:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::OpenHandCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::None:
+        result =  Qt::ArrowCursor;
+        resultCursor = QCursor(result);
+        break;
+    //result =  Qt::ClosedHandCursor;
     default:
+        result =  Qt::ArrowCursor;
+        resultCursor = QCursor(result);
         break;
     }
-    return Qt::ArrowCursor;
+
+    return resultCursor;
 }
 
 CGraphicsItem *CGraphicsItem::duplicate() const

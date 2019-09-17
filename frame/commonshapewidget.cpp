@@ -10,8 +10,6 @@
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
 
 

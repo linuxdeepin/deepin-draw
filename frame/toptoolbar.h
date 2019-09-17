@@ -41,7 +41,7 @@ public:
 
 signals:
     void generateSaveImage();
-    void printImage();
+    void signalPrint();
     void importPicBtnClicked();
     void signalAttributeChanged();
     //传递图片的旋转和翻转信号

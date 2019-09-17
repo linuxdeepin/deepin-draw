@@ -2,8 +2,9 @@
 #define CGRAPHICSITEM_H
 
 #include "csizehandlerect.h"
-#include <QAbstractGraphicsShapeItem>
 #include "globaldefine.h"
+#include <QAbstractGraphicsShapeItem>
+#include <QCursor>
 
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
@@ -13,7 +14,7 @@ public:
     virtual int  type() const Q_DECL_OVERRIDE;
     virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const;
     virtual QPointF origin () const;
-    virtual Qt::CursorShape getCursor(CSizeHandleRect::EDirection dir );
+    virtual QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) = 0;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
     virtual QRectF rect() const = 0;
@@ -28,6 +29,7 @@ protected:
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
     Handles m_handles;  //选中时 显示的小方框
+    QCursor m_RotateCursor;
 };
 
 #endif // CGRAPHICSITEM_H

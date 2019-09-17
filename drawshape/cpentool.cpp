@@ -2,7 +2,7 @@
 #include "cdrawscene.h"
 #include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
-
+#include <QDebug>
 
 CPenTool::CPenTool()
     : IDrawTool (pen)
@@ -36,7 +36,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     Q_UNUSED(scene)
-    if (m_bMousePress) {
+    if (m_bMousePress && nullptr != m_pPenItem) {
         QPointF pointMouse = event->scenePos();
         bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
         m_pPenItem->updatePenPath(pointMouse, shiftKeyPress);
@@ -50,16 +50,16 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         //如果鼠标没有移动
         if ( m_pPenItem != nullptr) {
             if ( event->scenePos() == m_sPointPress ) {
-
                 scene->removeItem(m_pPenItem);
                 delete m_pPenItem;
-
             } else {
+                m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
+                m_pPenItem->changeToPixMap();
+
                 emit scene->itemAdded(m_pPenItem);
             }
         }
-        m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
-        m_pPenItem->changeToPixMap();
+
         m_pPenItem = nullptr;
         m_bMousePress = false;
     }

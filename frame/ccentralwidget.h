@@ -46,15 +46,13 @@ signals:
 
 public slots:
     void importPicture();
-
-
     void slotResetOriginPoint();
     void slotAttributeChanged();
     void slotZoom(qreal scale);
     void slotSetScale(const qreal scale);
-
     void slotShowExportDialog();
     void slotNew();
+    void slotPrint();
 private:
     CLeftToolBar *m_leftToolbar;
     DLabel *m_seperatorLine;

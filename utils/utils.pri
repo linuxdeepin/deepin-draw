@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/configsettings.h \
     $$PWD/dintvalidator.h \
     $$PWD/drawfile.h \
-    $$PWD/shortcut.h
+    $$PWD/shortcut.h \
+    $$PWD/cvalidator.h
 
 SOURCES += \
     $$PWD/baseutils.cpp \
@@ -21,4 +22,5 @@ SOURCES += \
     $$PWD/shapesutils.cpp \
     $$PWD/drawfile.cpp \
     $$PWD/global.cpp \
-    $$PWD/shortcut.cpp
+    $$PWD/shortcut.cpp \
+    $$PWD/cvalidator.cpp

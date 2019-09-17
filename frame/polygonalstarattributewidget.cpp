@@ -12,9 +12,8 @@
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
-#include "utils/configsettings.h"
-#include "utils/global.h"
 #include "widgets/csidewidthwidget.h"
+#include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 const int BTN_SPACING = 6;
@@ -65,7 +64,8 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->setValidator(new QIntValidator(3, 50, this));
+    m_anchorNumEdit->setValidator(new CIntValidator(3, 50));
+//    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(40);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
@@ -150,10 +150,27 @@ void PolygonalStarAttributeWidget::initConnection()
     });
 
     connect(m_anchorNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        if (str.isEmpty() || str == "") {
+            return ;
+        }
         int value = str.trimmed().toInt();
+        if (value >= 0 && value <= 2) {
+            return;
+        }
         m_anchorNumSlider->setValue(value);
         CDrawParamSigleton::GetInstance()->setAnchorNum(value);
         emit signalPolygonalStarAttributeChanged();
+    });
+
+    connect(m_anchorNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
+        QString str = m_anchorNumEdit->text().trimmed();
+        int value = str.toInt();
+        int minValue = m_anchorNumSlider->minimum();
+        if (value == minValue && CDrawParamSigleton::GetInstance()->getAnchorNum() != minValue) {
+            m_anchorNumSlider->setValue(value);
+            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+            emit signalPolygonalStarAttributeChanged();
+        }
     });
 
     connect(m_anchorNumSlider, &DSlider::sliderPressed, this, [ = ]() {
@@ -174,11 +191,20 @@ void PolygonalStarAttributeWidget::initConnection()
     });
 
     connect(m_radiusNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        if (str.isEmpty() || str == "") {
+            m_radiusNumEdit->setText("0%");
+            return ;
+        }
+
         QString tmpStr = "";
+        int value = -1;
         if (str.contains("%")) {
             tmpStr = str.split("%").first();
+            value = tmpStr.trimmed().toInt();
+        } else {
+            value = str.toInt();
+            m_radiusNumEdit->setText(str + "%");
         }
-        int value = tmpStr.trimmed().toInt();
 
         if (value < 0 || value > 100) {
             return ;
@@ -187,6 +213,14 @@ void PolygonalStarAttributeWidget::initConnection()
         m_radiusNumSlider->setValue(value);
         CDrawParamSigleton::GetInstance()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
+    });
+
+    connect(m_radiusNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
+        QString str = m_radiusNumEdit->text().trimmed();
+
+        if (str == "%") {
+            m_radiusNumEdit->setText("0%");
+        }
     });
 
     connect(m_radiusNumSlider, &DSlider::sliderPressed, this, [ = ]() {
