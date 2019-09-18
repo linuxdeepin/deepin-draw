@@ -28,7 +28,9 @@ HEADERS += \
     $$PWD/dialog/cexportimagedialog.h \
     $$PWD/dialog/cprintmanager.h \
     $$PWD/textcolorbutton.h \
-    $$PWD/ctextedit.h
+    $$PWD/ctextedit.h \
+    $$PWD/dialog/cprogressdialog.h \
+    $$PWD/cmenu.h
 
 
 SOURCES += \
@@ -59,7 +61,9 @@ SOURCES += \
     $$PWD/dialog/cprintmanager.cpp \
     $$PWD/textcolorbutton.cpp \
     $$PWD/ctextedit.cpp \
-    $$PWD/seperatorline.cpp
+    $$PWD/seperatorline.cpp \
+    $$PWD/dialog/cprogressdialog.cpp \
+    $$PWD/cmenu.cpp
 
 
 #RESOURCES += \

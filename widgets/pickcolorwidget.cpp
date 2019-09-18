@@ -99,6 +99,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     connect(m_picker, &CCheckButton::buttonClick, this, [ = ] {
         ColorPickerInterface *cp = new ColorPickerInterface("com.deepin.Picker",
                                                             "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
+
         cp->StartPick(QString("%1").arg(qApp->applicationPid()));
         connect(cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid,
                                                                     QString colorName)
