@@ -100,7 +100,18 @@ QPainterPath CGraphicsLineItem::shape() const
     path.moveTo(m_line.p1());
     path.lineTo(m_line.p2());
 
-    return qt_graphicsItem_shapeFromPath(path, pen());
+    QPen pen = this->pen();
+    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    if (pen.width() * (int)scale < 20) {
+        if (scale > 1) {
+            pen.setWidthF(20 / scale);
+        } else {
+            pen.setWidth(20);
+        }
+
+    }
+
+    return qt_graphicsItem_shapeFromPath(path, pen);
 }
 
 QRectF CGraphicsLineItem::boundingRect() const

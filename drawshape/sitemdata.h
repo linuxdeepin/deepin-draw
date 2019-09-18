@@ -230,12 +230,14 @@ struct SGraphicsLineUnitData {
 struct SGraphicsTextUnitData {
     SGraphicsRectUnitData rect;
     QFont font;
+    bool manResizeFlag;
     QString content;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsTextUnitData &textUnitData)
     {
         out << textUnitData.rect;
         out << textUnitData.font;
+        out << textUnitData.manResizeFlag;
         out << textUnitData.content;
 
         return out;
@@ -245,6 +247,7 @@ struct SGraphicsTextUnitData {
     {
         in >> textUnitData.rect;
         in >> textUnitData.font;
+        in >> textUnitData.manResizeFlag;
         in >> textUnitData.content;
 
         return in;

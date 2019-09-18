@@ -42,7 +42,6 @@ void CLineTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         m_pLineItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
         m_pLineItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         scene->addItem(m_pLineItem);
-        m_pLineItem->setSelected(true);
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -75,6 +74,7 @@ void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             } else {
                 emit scene->itemAdded(m_pLineItem);
+                m_pLineItem->setSelected(true);
             }
         }
 

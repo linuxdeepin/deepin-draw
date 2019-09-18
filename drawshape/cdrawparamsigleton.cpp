@@ -47,7 +47,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_blurWidth(20)
     , m_thremeType(0)
 {
-    m_textFont.setPointSizeF(8);
+    m_textFont.setPointSizeF(18);
 }
 
 CDrawParamSigleton *CDrawParamSigleton::GetInstance()

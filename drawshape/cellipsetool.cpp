@@ -46,7 +46,6 @@ void CEllipseTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
         m_pEllipseItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
         m_pEllipseItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         scene->addItem(m_pEllipseItem);
-        m_pEllipseItem->setSelected(true);
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -150,6 +149,7 @@ void CEllipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
 
             } else {
                 emit scene->itemAdded(m_pEllipseItem);
+                m_pEllipseItem->setSelected(true);
             }
         }
         m_pEllipseItem = nullptr;

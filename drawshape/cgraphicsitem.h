@@ -22,6 +22,7 @@
 #include "csizehandlerect.h"
 #include "globaldefine.h"
 #include "sitemdata.h"
+#include "cdrawparamsigleton.h"
 
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>

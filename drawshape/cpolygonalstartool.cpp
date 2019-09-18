@@ -49,7 +49,7 @@ void CPolygonalStarTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawS
         m_pPolygonalStarItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
         m_pPolygonalStarItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         scene->addItem(m_pPolygonalStarItem);
-        m_pPolygonalStarItem->setSelected(true);
+
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -150,6 +150,7 @@ void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDra
                 delete m_pPolygonalStarItem;
             } else {
                 emit scene->itemAdded(m_pPolygonalStarItem);
+                m_pPolygonalStarItem->setSelected(true);
             }
         }
         m_pPolygonalStarItem = nullptr;

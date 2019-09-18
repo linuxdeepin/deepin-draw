@@ -43,8 +43,10 @@ void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
     // CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(importPicture);
     //qDebug() << "importImageSignal" <<  "drawPicture" << endl;
     DFileDialog *fileDialog = new DFileDialog();
+    //设置文件保存对话框的标题
+    fileDialog->setWindowTitle(tr("导入图片"));
     QStringList filters;
-    filters << "Image files (*.png *.jpg *.bmp *.tif)";
+    filters << "*.png *.jpg *.bmp *.tif";
     fileDialog->setNameFilters(filters);
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
 

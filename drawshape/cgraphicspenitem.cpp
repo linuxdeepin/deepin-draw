@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicspenitem.h"
+#include "cdrawparamsigleton.h"
 #include <QPen>
 #include <QPainter>
 #include <QtMath>
@@ -431,7 +432,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     if (this->isSelected()) {
         QPen pen;
-        pen.setWidth(1);
+        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));

@@ -56,8 +56,9 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
 //        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
         scene->addItem(item);
-        item->setSelected(true);
         emit scene->itemAdded(item);
+        item->setSelected(true);
+        scene->views()[0]->setFocus();
 //        item->getTextEdit()->setFocus();
         //item->getCGraphicsProxyWidget()->setFocus();
         //

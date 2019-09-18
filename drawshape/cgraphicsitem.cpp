@@ -226,9 +226,18 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
     }
 
     //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
-    if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange &&
+    /*if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange &&
             change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
-            change != QGraphicsItem::ItemSelectedHasChanged) {
+            change != QGraphicsItem::ItemSelectedHasChanged )*/
+
+    if (this->type() != BlurType && this->scene() != nullptr && (change == QGraphicsItem::ItemPositionChange ||
+                                                                 change == QGraphicsItem::ItemMatrixChange ||
+                                                                 change == QGraphicsItem::ItemZValueChange ||
+                                                                 change == QGraphicsItem::ItemZValueHasChanged ||
+                                                                 change == QGraphicsItem::ItemOpacityChange ||
+                                                                 change == QGraphicsItem::ItemOpacityHasChanged ||
+                                                                 change == QGraphicsItem::ItemRotationChange ||
+                                                                 change == QGraphicsItem::ItemRotationHasChanged)) {
         QList<QGraphicsItem *> items = this->scene()->items();//this->collidingItems();
         //QList<QGraphicsItem *> items = this->collidingItems();
         foreach (QGraphicsItem *item, items) {

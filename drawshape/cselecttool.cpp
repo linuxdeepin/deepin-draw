@@ -204,22 +204,14 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             //显示旋转角度
             if (m_RotateItem == nullptr) {
-                m_RotateItem = new CGraphicsRotateAngleItem(angle);
+
+                qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+
+                m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
                 scene->addItem(m_RotateItem);
                 m_initRotateItemPos.setX(centerToScence.x());
 
-                qreal scale = CDrawParamSigleton::GetInstance()->getScale();
-                qreal space = 65.;
-                if (scale > 1.) {
-                    qreal temp = 10 * (scale - 1.);
-                    space += temp;
-                } else if (scale < 1. && scale >= 0.5) {
-                    qreal temp  = 80 * (1. - scale);
-                    space += temp;
-                } else if (scale < 0.5) {
-                    qreal temp  = 130 * (1. - scale);
-                    space += temp;
-                }
+                qreal space = 65. / scale;
 
                 m_initRotateItemPos.setY(centerToScence.y() - m_currentSelectItem->rect().height() / 2 - space);
                 m_RotateItem->setPos(m_initRotateItemPos);

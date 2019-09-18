@@ -20,7 +20,7 @@
 #include "cgraphicsproxywidget.h"
 #include "widgets/ctextedit.h"
 #include "cdrawscene.h"
-
+#include <DApplication>
 
 #include <QTextEdit>
 #include <QPainter>
@@ -37,10 +37,12 @@
 
 
 
+
 CGraphicsTextItem::CGraphicsTextItem()
     : CGraphicsRectItem ()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
+    , m_bManResize(false)
 {
     initTextEditWidget();
 }
@@ -49,13 +51,16 @@ CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData *data, const SG
     : CGraphicsRectItem (data->rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
+    , m_bManResize(false)
 {
     initTextEditWidget();
     m_Font = data->font;
+    m_bManResize = data->manResizeFlag;
     m_pTextEdit->setHtml(data->content);
     m_pTextEdit->hide();
     QRectF rect(data->rect.topLeft, data->rect.bottomRight);
     setRect(rect);
+    m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
 CGraphicsTextItem::~CGraphicsTextItem()
@@ -105,6 +110,7 @@ void CGraphicsTextItem::initTextEditWidget()
     this->currentCharFormatChanged(fmt);
 
     m_pTextEdit->show();
+    m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -173,6 +179,11 @@ void CGraphicsTextItem::setFontSize(qreal size)
     mergeFormatOnWordOrSelection(fmt);
 
     m_Font.setPointSizeF(size);
+
+//    //只有把焦点设成这个  才可以输入文字
+//    if (this->scene() != nullptr) {
+//        this->scene()->views()[0]->setFocus();
+//    }
 }
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
@@ -181,13 +192,19 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     fmt.setFontFamily(family);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
+
+    //只有把焦点设成这个  才可以输入文字
+    if (this->scene() != nullptr) {
+        this->scene()->views()[0]->setFocus();
+    }
 }
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
+    CGraphicsRectItem::resizeTo(dir, point, false, false);
     updateWidget();
     m_pTextEdit->slot_textChanged();
+    m_bManResize = true;
 }
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
@@ -204,6 +221,11 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
     mergeFormatOnWordOrSelection(fmt);
 
     m_color = col;
+
+    //只有把焦点设成这个  才可以输入文字
+//    if (this->scene() != nullptr) {
+//        this->scene()->views()[0]->setFocus();
+//    }
 }
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -224,7 +246,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidth(1);
+        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
@@ -465,6 +487,11 @@ void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 
 }
 
+bool CGraphicsTextItem::getManResizeFlag() const
+{
+    return m_bManResize;
+}
+
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;
@@ -481,6 +508,7 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
     unit.data.pText->rect.topLeft = this->rect().topLeft();
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
+    unit.data.pText->manResizeFlag = this->m_bManResize;
     unit.data.pText->content = this->m_pTextEdit->toHtml();
 
     return  unit;

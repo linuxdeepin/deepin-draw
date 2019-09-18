@@ -20,12 +20,19 @@
 
 #include <QPainter>
 
-CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, QGraphicsItem *parent)
+CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent)
     : QGraphicsRectItem (parent)
     , m_rotateAngle(rotateAngle)
 {
-    m_width = 45;
-    m_height = 20;
+    m_width = 45.;
+    m_height = 20.;
+    m_fontSize = 11.;
+
+    m_width = m_width / scale;
+    m_height = m_height / scale;
+    m_fontSize = m_fontSize / scale;
+    m_textFont.setPointSizeF(m_fontSize);
+
     setRect(-m_width / 2, -m_height / 2, m_width, m_height);
 }
 
@@ -54,5 +61,6 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
 
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
     painter->setPen(Qt::black);
+    painter->setFont(m_textFont);
     painter->drawText(rect(), angle);
 }

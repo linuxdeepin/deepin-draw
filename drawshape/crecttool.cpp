@@ -54,7 +54,6 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
 //    m_pRectItem->setGraphicsEffect(e0);
         scene->addItem(m_pRectItem);
-        m_pRectItem->setSelected(true);
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -157,6 +156,7 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             } else {
                 emit scene->itemAdded(m_pRectItem);
+                m_pRectItem->setSelected(true);
             }
         }
         m_pRectItem = nullptr;

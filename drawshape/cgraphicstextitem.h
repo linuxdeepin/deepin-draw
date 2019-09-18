@@ -73,6 +73,7 @@ public:
 
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
+    bool getManResizeFlag() const;
 
 protected:
 
@@ -118,6 +119,7 @@ private:
 
     QMenu *m_menu;
     QAction *m_action;
+    bool m_bManResize;//人工调整后的宽度
 };
 
 #endif // CGRAPHICSTEXTITEM_H

@@ -46,7 +46,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 //        m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
         scene->addItem(m_pPenItem);
-        m_pPenItem->setSelected(true);
+
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -82,6 +82,7 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 //                m_pPenItem->changeToPixMap();
 
                 emit scene->itemAdded(m_pPenItem);
+                m_pPenItem->setSelected(true);
             }
         }
 

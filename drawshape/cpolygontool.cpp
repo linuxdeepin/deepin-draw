@@ -46,7 +46,7 @@ void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
         m_pPolygonItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
         m_pPolygonItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         scene->addItem(m_pPolygonItem);
-        m_pPolygonItem->setSelected(true);
+
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
@@ -146,6 +146,7 @@ void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
                 delete m_pPolygonItem;
             } else {
                 emit scene->itemAdded(m_pPolygonItem);
+                m_pPolygonItem->setSelected(true);
             }
         }
         m_pPolygonItem = nullptr;

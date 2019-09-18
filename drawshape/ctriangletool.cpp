@@ -47,7 +47,6 @@ void CTriangleTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_pTriangleItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
         m_pTriangleItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         scene->addItem(m_pTriangleItem);
-        m_pTriangleItem->setSelected(true);
 
         m_bMousePress = true;
     } else if (event->button() == Qt::RightButton) {
@@ -301,6 +300,7 @@ void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScen
 
             } else {
                 emit scene->itemAdded(m_pTriangleItem);
+                m_pTriangleItem->setSelected(true);
             }
         }
         m_pTriangleItem = nullptr;

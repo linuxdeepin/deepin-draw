@@ -52,7 +52,7 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pBlurItem->setPen(pen);
         m_pBlurItem->setBrush(Qt::NoBrush);
         scene->addItem(m_pBlurItem);
-        m_pBlurItem->setSelected(true);
+
         m_pBlurItem->setPixmap();
 
         m_bMousePress = true;
@@ -87,6 +87,7 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 delete m_pBlurItem;
             } else {
                 emit scene->itemAdded(m_pBlurItem);
+                m_pBlurItem->setSelected(true);
             }
         }
 

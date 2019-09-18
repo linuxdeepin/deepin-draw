@@ -20,11 +20,12 @@
 #define CGRAPHICSROTATEANGLEITEM_H
 
 #include <QGraphicsRectItem>
+#include <QFont>
 
 class CGraphicsRotateAngleItem : public QGraphicsRectItem
 {
 public:
-    explicit CGraphicsRotateAngleItem(qreal rotateAngle, QGraphicsItem *parent = nullptr);
+    explicit CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent = nullptr);
     explicit CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent = nullptr);
 
     void updateRotateAngle(qreal rotateAngle);
@@ -33,8 +34,10 @@ protected:
 
 private:
     qreal m_rotateAngle;
-    int m_width;
-    int m_height;
+    qreal m_width;
+    qreal m_height;
+    qreal m_fontSize;
+    QFont m_textFont;
 };
 
 #endif // CGRAPHICSROTATEANGLEITEM_H

@@ -124,7 +124,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidth(1);
+        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
