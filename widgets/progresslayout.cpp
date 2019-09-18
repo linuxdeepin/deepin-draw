@@ -10,7 +10,7 @@ ProgressLayout::ProgressLayout(DWidget *parent)
     m_label = new DLabel();
     m_label->setText(QString("正在导入图片，请稍候"));
     QFont ft;
-    ft.setPointSize(10);
+    ft.setPointSize(8);
     m_label->setFont(ft);
     //设置颜色
     DPalette pa1;
@@ -19,14 +19,20 @@ ProgressLayout::ProgressLayout(DWidget *parent)
 
     m_progressLabel = new DLabel();
     m_progressbar = new DProgressBar();
-    m_progressbar->setFixedSize(400, 20);
+    m_progressbar->setTextVisible(false);
+    m_progressbar->setFixedSize(340, 12);
     //m_progressbar->setTextVisiable(false);
-    m_progressVBoxLayout->addWidget(m_label, 50, Qt::AlignLeft);
-    m_progressVBoxLayout->addWidget(m_progressLabel, 50, Qt::AlignLeft);
-    m_progressVBoxLayout->addWidget(m_progressbar, 100, Qt::AlignLeft);
-    this->setFixedSize(420, 100);
+    m_progressVBoxLayout->addWidget(m_label, Qt::AlignLeft);
+    m_progressVBoxLayout->addWidget(m_progressLabel, Qt::AlignLeft);
+    m_progressVBoxLayout->addWidget(m_progressbar, Qt::AlignLeft);
+    this->setFixedSize(380, 80);
+
     this->setLayout(m_progressVBoxLayout);
-    this->setWindowFlags(Qt::FramelessWindowHint);
+    //this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    //this->setAttribute(Qt::WA_TranslucentBackground);
+    setWindowOpacity(0.7);
+
 
 }
 
@@ -58,7 +64,7 @@ void ProgressLayout::setProgressValue(int value)
     m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
     //设置字号
     QFont ft2;
-    ft2.setPointSize(8);
+    ft2.setPointSize(6);
     m_progressLabel->setFont(ft2);
 
     //设置颜色

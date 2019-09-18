@@ -173,7 +173,32 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
 
-    m_contextMenu->move(cursor().pos()); //让菜单显示的位置在鼠标的坐标上
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
+    QPoint menuPos;
+    int rx;
+    int ry;
+    //qDebug() << cursor().pos() << m_contextMenu->rect()  << this->rect() << endl;
+    if (cursor().pos().rx() - 60 > this->width() - m_contextMenu->width()) {
+        rx = this->width() - m_contextMenu->width() + 60;
+    } else {
+        rx = cursor().pos().rx();
+    }
+    int temp;
+    if (m_contextMenu->height() < 50) {
+        temp = 513;
+    } else {
+        temp = m_contextMenu->height();
+    }
+    if (cursor().pos().ry() - 40 > this->height() - temp) {
+        ry = this->height() - temp + 40;
+    } else {
+        ry = cursor().pos().ry();
+    }
+    menuPos = QPoint(rx, ry);
+
+
+    //让菜单能够完全显示
+    m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_contextMenu->show();

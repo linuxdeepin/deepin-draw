@@ -14,11 +14,8 @@
 #include <QApplication>
 
 
-<<<<<<< HEAD
 const QSize WINDOW_MINISIZR = QSize(1280, 800);
-=======
-const QSize WINDOW_MINISIZR = QSize(1028, 800);
->>>>>>> 31eacebe91400ec954bd38eea37beaf006304244
+
 const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
 //const int IMG_ROTATEPOINT_SPACING = 35;
