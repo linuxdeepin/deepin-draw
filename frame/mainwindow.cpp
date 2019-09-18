@@ -38,7 +38,8 @@
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
-const QSize WINDOW_MINISIZR = QSize(1024, 768);
+
+//const QSize WINDOW_MINISIZR = QSize(1024, 768);
 
 const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
@@ -59,7 +60,17 @@ MainWindow::MainWindow(DWidget *parent)
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
-    setMinimumSize(WINDOW_MINISIZR);
+    //根据屏幕分辨率进行最小化窗口的设置
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    int screenWidth;
+    screenWidth = screenRect.width();
+    if (screenWidth < 1152) {
+        setMinimumSize(QSize(1024, 768));
+    } else {
+        setMinimumSize(QSize(1152, 768));
+    }
+
 
     m_topToolbar = new TopToolbar(this);
     m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
@@ -239,9 +250,6 @@ void MainWindow::initScene()
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
-    if (type == 0) {
-        return;
-    }
     CDrawParamSigleton::GetInstance()->setThemeType(type);
     ///改变场景的主题
     m_centralWidget->switchTheme(type);

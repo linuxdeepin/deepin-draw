@@ -23,6 +23,7 @@
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/cdrawscene.h"
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -512,6 +513,7 @@ void COneLayerUpCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -538,6 +540,7 @@ void COneLayerUpCommand::redo()
         }
     }
     if (m_isRedoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -578,6 +581,7 @@ void COneLayerDownCommand::undo()
         }
     }
     if (m_isUndoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -606,6 +610,7 @@ void COneLayerDownCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -644,6 +649,7 @@ void CBringToFrontCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -669,6 +675,7 @@ void CBringToFrontCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -708,6 +715,7 @@ void CSendToBackCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -732,6 +740,7 @@ void CSendToBackCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }

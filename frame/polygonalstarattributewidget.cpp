@@ -98,8 +98,8 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_anchorNumSlider->setMinimum(3);
     m_anchorNumSlider->setMaximum(50);
-    if (width < 1280) {
-        m_anchorNumSlider->setFixedWidth(28);
+    if (width < 1152) {
+        m_anchorNumSlider->setFixedWidth(60);
     } else {
         m_anchorNumSlider->setFixedWidth(120);
     }
@@ -123,8 +123,8 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_radiusNumSlider->setMinimum(0);
     m_radiusNumSlider->setMaximum(100);
-    if (width < 1280) {
-        m_radiusNumSlider->setFixedWidth(28);
+    if (width < 1152) {
+        m_radiusNumSlider->setFixedWidth(60);
     } else {
         m_radiusNumSlider->setFixedWidth(120);
     }

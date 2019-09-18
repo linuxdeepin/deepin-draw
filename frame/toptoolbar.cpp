@@ -87,40 +87,48 @@ void TopToolbar::initUI()
 
 void TopToolbar::initComboBox()
 {
-    //创建画板放大缩小的combobox
-    m_scaleComboBox = new DComboBox(this);
-    //QComboBox *m_scaleComboBox = new QComboBox(this);
-    QStringList scaleList = {"200%", "100%", "75%", "50%", "25%"};
-    m_scaleComboBox->addItems(scaleList);
-    m_scaleComboBox->insertSeparator(1);
-    m_scaleComboBox->insertSeparator(3);
-    m_scaleComboBox->insertSeparator(5);
-    m_scaleComboBox->insertSeparator(7);
-    m_scaleComboBox->setCurrentIndex(2);
-    m_scaleComboBox->setFixedWidth(100);
+
+    m_scaleComboBox = new DPushButton("100%");
+    DMenu *scaleMenu = new DMenu();
+
+    QAction *scale200 = scaleMenu->addAction("200%");
+    QAction *scale100 = scaleMenu->addAction("100%");
+    QAction *scale75 = scaleMenu->addAction("75%");
+    QAction *scale50 = scaleMenu->addAction("50%");
+    QAction *scale25 = scaleMenu->addAction("25%");
 
 
+    connect(scale200, &QAction::triggered, this, [ = ]() {
+        m_scaleComboBox->setText("200%");
+        slotZoom("200%");
+    });
+    connect(scale100, &QAction::triggered, this, [ = ]() {
+        m_scaleComboBox->setText("100%");
+        slotZoom("100%");
+    });
+    connect(scale75, &QAction::triggered, this, [ = ]() {
+        m_scaleComboBox->setText("75%");
+        slotZoom("75%");
+    });
+    connect(scale50, &QAction::triggered, this, [ = ]() {
+        m_scaleComboBox->setText("50%");
+        slotZoom("50%");
+    });
+    connect(scale25, &QAction::triggered, this, [ = ]() {
+        m_scaleComboBox->setText("25%");
+        slotZoom("25%");
+    });
 
+    m_scaleComboBox->setMenu(scaleMenu);
+    m_scaleComboBox->setFixedWidth(70);
 
-//   static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
-//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(2)->setTextAlignment(Qt::AlignCenter);
-//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(4)->setTextAlignment(Qt::AlignCenter);
-//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(6)->setTextAlignment(Qt::AlignCenter);
-//    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(8)->setTextAlignment(Qt::AlignCenter);
-    m_scaleComboBox->setEditable(true);
-
-    m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
-    m_scaleComboBox->lineEdit()->setReadOnly(true);
+    //设置字体大小
     QFont ft;
     ft.setPixelSize(12);
-    m_scaleComboBox->lineEdit()->setFont(ft);
+    m_scaleComboBox->setFont(ft);
+    m_scaleComboBox->setFlat(true);
 
-//    DPalette pa = DApplicationHelper::instance()->palette(m_scaleComboBox->lineEdit());
-//    pa.setColor(DPalette::Background, Qt::transparent);
 
-//    DApplicationHelper::instance()->setPalette(m_scaleComboBox->lineEdit(), pa);
-
-    connect(m_scaleComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotZoom(const QString &)));
 }
 
 void TopToolbar::initStackWidget()
@@ -386,10 +394,7 @@ void TopToolbar::slotSetScale(const qreal scale)
 {
     QString strScale = QString::number(int(scale * 100)) + "%";
 
-    m_scaleComboBox->setCurrentIndex(-1);
-    m_scaleComboBox->setEditText(strScale);
-
-    //    m_scaleComboBox->setEditable(false);
+    m_scaleComboBox->setText(strScale);
 }
 
 void TopToolbar::slotSetCutSize()

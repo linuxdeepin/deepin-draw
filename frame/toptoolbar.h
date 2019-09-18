@@ -124,7 +124,8 @@ private:
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
-    DComboBox  *m_scaleComboBox;
+    //DComboBox  *m_scaleComboBox;
+    DPushButton  *m_scaleComboBox;
     DMenu *m_mainMenu;
 
 
