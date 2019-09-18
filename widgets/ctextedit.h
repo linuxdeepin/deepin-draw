@@ -18,7 +18,7 @@
  */
 #ifndef CTEXTEDIT_H
 #define CTEXTEDIT_H
-
+//#include "cgraphicstextitem.h"
 #include <DTextEdit>
 
 #include <DMenu>
@@ -26,11 +26,13 @@
 
 DWIDGET_USE_NAMESPACE
 
+class CGraphicsTextItem;
+
 class CTextEdit : public DTextEdit
 {
     Q_OBJECT
 public:
-    explicit CTextEdit(const QString &text, QWidget *parent = nullptr);
+    explicit CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent = nullptr);
 
     void setView(DGraphicsView *view);
 
@@ -43,6 +45,8 @@ private slots:
     void setRightAlignment();
     void setLeftAlignment();
     void setCenterAlignment();
+
+    void slot_textChanged();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
@@ -59,6 +63,7 @@ private:
     QAction *m_centerAlignAct;
 
     DGraphicsView *m_view;
+    CGraphicsTextItem *m_pItem;
 };
 
 #endif // CTEXTEDIT_H

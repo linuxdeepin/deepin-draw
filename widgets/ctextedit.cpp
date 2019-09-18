@@ -17,13 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ctextedit.h"
+#include "drawshape/cgraphicstextitem.h"
 #include <DMenu>
 #include <QAction>
 #include <QDebug>
 
 
-CTextEdit::CTextEdit(const QString &text, QWidget *parent)
+CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent)
     : DTextEdit(text, parent)
+    , m_pItem(item)
 {
     m_menu = new DMenu(this);
 
@@ -84,6 +86,8 @@ CTextEdit::CTextEdit(const QString &text, QWidget *parent)
     connect(m_topAlignAct, SIGNAL(triggered()), this, SLOT(setTopAlignment()));
     connect(m_rightAlignAct, SIGNAL(triggered()), this, SLOT(setRightAlignment()));
     connect(m_centerAlignAct, SIGNAL(triggered()), this, SLOT(setCenterAlignment()));
+
+    connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
 }
 
 void CTextEdit::setTopAlignment()
@@ -104,6 +108,16 @@ void CTextEdit::setLeftAlignment()
 void CTextEdit::setCenterAlignment()
 {
     setAlignment(Qt::AlignCenter);
+}
+
+void CTextEdit::slot_textChanged()
+{
+    QSizeF size = this->document()->size();
+    QRectF rect = m_pItem->rect();
+    if (size.height() > rect.size().height()) {
+        rect.setSize(size);
+        m_pItem->setRect(rect);
+    }
 }
 
 
