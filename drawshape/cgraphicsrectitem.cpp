@@ -574,37 +574,6 @@ void CGraphicsRectItem::updateGeometry()
         default:
             break;
         }
-        /*switch (hndl->dir()) {
-        case CSizeHandleRect::LeftTop:
-            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Top:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::RightTop:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Right:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::RightBottom:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Bottom:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::LeftBottom:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Left:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - 25 - h / 2);
-            break;
-        default:
-            break;
-        }*/
     }
 }
 

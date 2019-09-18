@@ -111,8 +111,10 @@ struct SGraphicsPictureUnitData {
 
 //画笔
 struct SGraphicsPenUnitData {
-    qint32 length;
-    QPointF *point;
+    qint8 penType;
+    QPainterPath path;
+    QPolygonF arrow;
+    QVector<QPointF> poitsVector;
 };
 
 //数据封装
@@ -125,6 +127,7 @@ union CGraphicsItemData {
     SGraphicsLineUnitData *pLine;
     SGraphicsTextUnitData *pText;
     SGraphicsPictureUnitData *pPic;
+    SGraphicsPenUnitData *pPen;
 
     CGraphicsItemData() {
         pRect = nullptr;
@@ -134,6 +137,7 @@ union CGraphicsItemData {
         pLine = nullptr;
         pText = nullptr;
         pPic = nullptr;
+        pPen = nullptr;
     }
 };
 

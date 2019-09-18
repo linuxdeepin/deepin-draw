@@ -151,6 +151,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
 
             //旋转图形
+            qreal angle = 0;
             m_bRotateAng = true;
             QPointF center = m_currentSelectItem->rect().center();
             m_currentSelectItem->setTransformOriginPoint(center);
@@ -158,7 +159,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             QPointF centerToScence = m_currentSelectItem->mapToScene(center);
             qreal len_y = mousePoint.y() - centerToScence.y();
             qreal len_x = mousePoint.x() - centerToScence.x();
-            qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
+            angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
             qDebug() << "angle" << angle << endl;
             if ( angle > 360 ) {
                 angle -= 360;
@@ -166,6 +167,22 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             if (m_currentSelectItem->type() != LineType) {
                 m_currentSelectItem->setRotation(angle);
             } else {
+                QLineF line = static_cast<CGraphicsLineItem *>(m_currentSelectItem)->line();
+                QPointF vector = line.p2() - line.p1();
+                qreal oriangle = 0;
+                if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
+                    if (line.p2().y() - line.p1().y() > 0.0001) {
+                        oriangle = 90;
+                    } else {
+                        oriangle = -90;
+                    }
+                } else {
+                    oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
+                }
+                angle = angle - oriangle;
+                if ( angle > 360 ) {
+                    angle -= 360;
+                }
                 m_currentSelectItem->setRotation(angle);
             }
 

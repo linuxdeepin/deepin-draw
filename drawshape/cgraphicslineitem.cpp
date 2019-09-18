@@ -128,15 +128,22 @@ QRectF CGraphicsLineItem::rect() const
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     QPointF local = mapFromScene(point);
+    QPointF p1;
+    QPointF p2;
+    QPointF pos = this->pos();
     if (dir == CSizeHandleRect::LeftTop) {
-        QPointF p1 = local;
-        QPointF p2 = m_line.p2();
-        setLine(p1, p2);
+        p1 = local;
+        p2 = m_line.p2();
     } else {
-        QPointF p1 = m_line.p1();
-        QPointF p2 = local;
-        setLine(p1, p2);
+        p1 = m_line.p1();
+        p2 = local;
     }
+
+    p1 = mapToScene(p1);
+    p2 = mapToScene(p2);
+    setRotation(0);
+    setPos(0, 0);
+    setLine(p1, p2);
 }
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)

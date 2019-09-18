@@ -62,7 +62,7 @@ CGraphicsTextItem::~CGraphicsTextItem()
 
 void CGraphicsTextItem::initTextEditWidget()
 {
-    m_pTextEdit = new CTextEdit(QObject::tr("输入文本"));
+    m_pTextEdit = new CTextEdit(QObject::tr("输入文本"), this);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
 
 //    connect(m_pTextEdit, &QTextEdit::currentCharFormatChanged,
@@ -192,7 +192,8 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     updateGeometry();
-    drawDocument(painter, m_pTextEdit->document(), rect());
+
+    drawDocument(painter, m_pTextEdit->document(), this->rect());
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;

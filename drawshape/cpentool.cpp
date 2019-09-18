@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "cpentool.h"
 #include "cdrawscene.h"
+#include "cgraphicspenitem.h"
 #include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -39,7 +41,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
-        m_pPenItem = new CGraphicsPenItem(QRectF(m_sPointPress.x(), m_sPointPress.y(), 0, 0));
+        m_pPenItem = new CGraphicsPenItem(m_sPointPress);
         m_pPenItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
 //        m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
@@ -72,8 +74,9 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 scene->removeItem(m_pPenItem);
                 delete m_pPenItem;
             } else {
-                m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
-                m_pPenItem->changeToPixMap();
+                m_pPenItem->drawComplete();
+//                m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
+//                m_pPenItem->changeToPixMap();
 
                 emit scene->itemAdded(m_pPenItem);
             }
