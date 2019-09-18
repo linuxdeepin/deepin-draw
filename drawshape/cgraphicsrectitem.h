@@ -20,7 +20,7 @@ public:
      * @brief setRect 创建矩形时，用于设置矩形大小
      * @param rect
      */
-    void setRect(const QRectF &rect);
+    virtual void setRect(const QRectF &rect);
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;

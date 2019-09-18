@@ -4,6 +4,8 @@
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
 #include "cgraphicsrotateangleitem.h"
+#include "cgraphicstextitem2.h"
+#include "cgraphicsproxywidget.h"
 
 #include <DApplication>
 
@@ -42,7 +44,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_sPointPress = event->scenePos();
         //选中图元
         if (m_currentSelectItem != nullptr) {
-            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
         }
 
         if (CSizeHandleRect::None == m_dragHandle || CSizeHandleRect::InRect == m_dragHandle) {
@@ -54,14 +56,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if ( items.count() != 0 ) {
                 QGraphicsItem *item = items.first();
                 //需要区别图元或文字
-                if (item->type() != TextType) {
-                    m_currentSelectItem = static_cast<CGraphicsItem *>(item);
-                    m_dragHandle = CSizeHandleRect::InRect;
-                    scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
-                    scene->changeAttribute(true, item);
-                } else {
-                    m_currentSelectItem = nullptr;
-                }
+                m_currentSelectItem = static_cast<CGraphicsItem *>(item);
+                m_dragHandle = CSizeHandleRect::InRect;
+                qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+                scene->changeAttribute(true, item);
+
                 //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
             } else {
                 m_currentSelectItem = nullptr;
@@ -82,16 +81,13 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         QGraphicsItem *item = items.first();
         CGraphicsItem *currentItem = static_cast<CGraphicsItem *>(item);
         if (currentItem != m_currentSelectItem) {
-            //需要区别图元或文字
-            if (item->type() != TextType) {
-                m_currentSelectItem = currentItem;
-                m_rotateAng = m_currentSelectItem->rotation();
-                scene->changeAttribute(true, item);
-            }
+            m_currentSelectItem = currentItem;
+            m_rotateAng = m_currentSelectItem->rotation();
+            scene->changeAttribute(true, item);
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
-        scene->views()[0]->setCursor(Qt::ArrowCursor);
+        qApp->setOverrideCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
     }
     // }
@@ -101,8 +97,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
-//            scene->setCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress)));
-            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            qApp->setOverrideCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress)));
+            //scene->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
             m_rotateAng = m_currentSelectItem->rotation();
         }
     }
@@ -160,7 +156,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         //选中图元
         if (m_currentSelectItem != nullptr) {
-            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
         }
 
         if (m_currentSelectItem != nullptr) {
@@ -186,6 +182,15 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         }
     }
     scene->mouseEvent(event);
+}
+
+void CSelectTool::selectionChange()
+{
+    if (m_currentSelectItem != nullptr) {
+        if (m_currentSelectItem->type() == TextType) {
+            static_cast<CGraphicsTextItem2 *>(m_currentSelectItem)->getCGraphicsProxyWidget()->hide();
+        }
+    }
 }
 
 

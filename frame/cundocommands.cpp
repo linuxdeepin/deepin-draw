@@ -1,6 +1,5 @@
 #include "cundocommands.h"
 #include "drawshape/globaldefine.h"
-#include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
 #include "drawshape/cgraphicspolygonitem.h"

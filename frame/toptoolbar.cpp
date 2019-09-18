@@ -301,6 +301,9 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
         case::EGraphicUserType::PenType:
             toolType = EDrawToolMode::pen;
             break;
+        case::EGraphicUserType::TextType:
+            toolType = EDrawToolMode::text;
+            break;
         case::EGraphicUserType::PictureType:
             toolType = EDrawToolMode::importPicture;
             break;

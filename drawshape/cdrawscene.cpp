@@ -6,9 +6,9 @@
 #include "globaldefine.h"
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
-#include "cgraphicstextitem.h"
 #include "cgraphicspenitem.h"
 #include "frame/cpicturewidget.h"
+#include "cgraphicstextitem2.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -20,7 +20,7 @@
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
 {
-
+    connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChange()));
 }
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -61,21 +61,22 @@ void CDrawScene::attributeChanged()
 
     QGraphicsItem *item = nullptr;
     foreach (item, items) {
-        if (item->type() != TextType) {
-            CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
 
-            if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
-                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
-                emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
-                                        tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
-                                        tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
-                tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-                tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-            }
+        if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
+                tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
+            emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
+                                    tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
+                                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
+            tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+            tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         }
 
+
         if (item->type() == TextType) {
-            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+            static_cast<CGraphicsTextItem2 *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+            static_cast<CGraphicsTextItem2 *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+            static_cast<CGraphicsTextItem2 *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
         } else if (item->type() == PolygonType) {
             if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
                 emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
@@ -96,10 +97,8 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
     if (flag) {
         //排除文字图元
-        if (selectedItem->type() != TextType) {
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
-        }
+        CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+        CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
         ///特殊属性图元 读取额外的特殊属性并设置到全局属性中
         if (selectedItem->type() == PolygonType) {
             CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
@@ -108,6 +107,8 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
             CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
         } else if (selectedItem->type() ==  PenType) {
             CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(selectedItem)->currentType());
+        } else if (selectedItem->type() == TextType) {
+
         }
     }
     emit signalAttributeChanged(flag, selectedItem->type());
@@ -180,5 +181,13 @@ void CDrawScene::picOperation(int enumstyle)
 
     }
 
+}
+
+void CDrawScene::slotSelectionChange()
+{
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    if ( nullptr != pTool ) {
+        static_cast<CSelectTool *>(pTool)->selectionChange();
+    }
 }
 

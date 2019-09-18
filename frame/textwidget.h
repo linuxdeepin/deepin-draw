@@ -10,7 +10,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class BigColorButton;
+class TextColorButton;
 
 class TextWidget : public DWidget
 {
@@ -28,7 +28,7 @@ signals:
     void signalTextAttributeChanged();
 
 private:
-    BigColorButton *m_fillBtn;
+    TextColorButton *m_fillBtn;
     DSlider *m_fontSizeSlider;
     DLineEdit *m_fontSizeEdit;
     DFontComboBox *m_fontComBox;

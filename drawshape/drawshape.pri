@@ -17,7 +17,6 @@ HEADERS += \
     $$PWD/cgraphicstriangleitem.h \
     $$PWD/ctriangletool.h \
     $$PWD/ctexttool.h \
-    $$PWD/cgraphicstextitem.h \
     $$PWD/cpolygontool.h \
     $$PWD/cgraphicspolygonitem.h \
     $$PWD/cgraphicspolygonalstaritem.h \
@@ -27,7 +26,9 @@ HEADERS += \
     $$PWD/cpictureitem.h \
     $$PWD/cpicturetool.h \
     $$PWD/cshapemimedata.h \
-    $$PWD/cgraphicsrotateangleitem.h
+    $$PWD/cgraphicsrotateangleitem.h \
+    $$PWD/cgraphicstextitem2.h \
+    $$PWD/cgraphicsproxywidget.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -46,7 +47,6 @@ SOURCES += \
     $$PWD/clinetool.cpp \
     $$PWD/cgraphicstriangleitem.cpp \
     $$PWD/ctriangletool.cpp \
-    $$PWD/cgraphicstextitem.cpp \
     $$PWD/ctexttool.cpp \
     $$PWD/cpolygontool.cpp \
     $$PWD/cgraphicspolygonitem.cpp  \
@@ -57,7 +57,9 @@ SOURCES += \
     $$PWD/cpictureitem.cpp \
     $$PWD/cpicturetool.cpp \
     $$PWD/cshapemimedata.cpp \
-    $$PWD/cgraphicsrotateangleitem.cpp
+    $$PWD/cgraphicsrotateangleitem.cpp \
+    $$PWD/cgraphicstextitem2.cpp \
+    $$PWD/cgraphicsproxywidget.cpp
 
 
 

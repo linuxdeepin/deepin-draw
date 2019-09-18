@@ -7,7 +7,7 @@
 #include <QFont>
 
 
-#include "widgets/bigcolorbutton.h"
+#include "widgets/textcolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/textfontlabel.h"
 #include "drawshape/cdrawparamsigleton.h"
@@ -30,7 +30,7 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
-    m_fillBtn = new BigColorButton( this);
+    m_fillBtn = new TextColorButton( this);
 
     DLabel *colBtnLabel = new DLabel(this);
     colBtnLabel->setText(tr("填充"));
@@ -42,7 +42,8 @@ void TextWidget::initUI()
     m_fontComBox = new DFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
     m_fontComBox->setMinimumWidth(100);
-
+    m_fontComBox->setCurrentIndex(0);
+    CDrawParamSigleton::GetInstance()->setTextFont(m_fontComBox->currentFont());
 
     DLabel *fontsizeLabel = new DLabel(this);
     fontsizeLabel->setText(tr("字号"));
@@ -53,7 +54,7 @@ void TextWidget::initUI()
     m_fontSizeSlider->setMaximum(1000);
     m_fontSizeSlider->setMinimumWidth(200);
     m_fontSizeSlider->setMaximumHeight(24);
-
+    m_fontSizeSlider->setValue(int(CDrawParamSigleton::GetInstance()->getTextSize()));
 
     m_fontSizeEdit = new DLineEdit(this);
     m_fontSizeEdit->setValidator(new QIntValidator(8, 1000, this));
@@ -82,30 +83,30 @@ void TextWidget::initUI()
 
 void TextWidget::initConnection()
 {
-    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+    connect(m_fillBtn, &TextColorButton::btnCheckStateChanged, this, [ = ](bool show) {
 
         QPoint btnPos = mapToGlobal(m_fillBtn->pos());
         QPoint pos(btnPos.x() + m_fillBtn->width() / 2,
                    btnPos.y() + m_fillBtn->height());
 
-        showColorPanel(DrawStatus::Fill, pos, show);
+        showColorPanel(DrawStatus::TextFill, pos, show);
     });
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();
+
     });
 
-    connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        m_fontSizeEdit->setText(QString::number(value));
+    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
+        CDrawParamSigleton::GetInstance()->setTextFont(QFont(str));
+        emit signalTextAttributeChanged();
     });
 
     ///字体大小
     connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
         if (m_isUsrDragSlider) {
             m_fontSizeEdit->setText(QString::number(value));
-            QFont tmpFont = CDrawParamSigleton::GetInstance()->getTextFont();
-            tmpFont.setPointSize(value);
-            CDrawParamSigleton::GetInstance()->setTextFont(tmpFont);
+            CDrawParamSigleton::GetInstance()->setTextSize(value);
             emit signalTextAttributeChanged();
         }
     });
@@ -113,9 +114,9 @@ void TextWidget::initConnection()
     connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
         int value = str.trimmed().toInt();
         m_fontSizeSlider->setValue(value);
-        QFont tmpFont = CDrawParamSigleton::GetInstance()->getTextFont();
-        tmpFont.setPointSize(value);
-        CDrawParamSigleton::GetInstance()->setTextFont(tmpFont);
+
+        m_fontSizeEdit->setText(QString::number(value));
+        CDrawParamSigleton::GetInstance()->setTextSize(value);
         emit signalTextAttributeChanged();
     });
 
@@ -133,10 +134,10 @@ void TextWidget::updateTextWidget()
     m_fillBtn->updateConfigColor();
     QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
     if (m_fontComBox->currentFont() != font) {
-
+        m_fontComBox->setFont(font);
     }
 
-    int fontSize = font.pointSize();
+    int fontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
 
     if (fontSize != m_fontSizeSlider->value()) {
         m_fontSizeSlider->setValue(fontSize);

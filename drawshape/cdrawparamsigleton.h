@@ -65,6 +65,12 @@ public:
     void setScale(qreal scale);
     qreal getScale() const;
 
+    void setTextSize(qreal size);
+    qreal getTextSize() const;
+
+    void setTextColor(const QColor &fillColor);
+    QColor getTextColor() const;
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -78,6 +84,8 @@ private:
     EPenType m_currentPenType; //当前画笔类型
 
     QFont m_textFont; //文本字体
+    qreal m_textSize; //文本大小
+    QColor m_textColor;//文本颜色
 
     EDrawToolMode m_currentDrawToolMode;
 

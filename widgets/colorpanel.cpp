@@ -125,6 +125,8 @@ void ColorPanel::setConfigColor(QColor color)
         CDrawParamSigleton::GetInstance()->setFillColor(color);
     } else if (m_drawstatus == Stroke) {
         CDrawParamSigleton::GetInstance()->setLineColor(color);
+    } else if (m_drawstatus == TextFill) {
+        CDrawParamSigleton::GetInstance()->setTextColor(color);
     }
 
     emit signalColorChanged();

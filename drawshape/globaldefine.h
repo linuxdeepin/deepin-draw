@@ -26,7 +26,8 @@ enum ESelectMode {
 
 enum DrawStatus {
     Fill,
-    Stroke
+    Stroke,
+    TextFill
 };
 
 enum EPenType {

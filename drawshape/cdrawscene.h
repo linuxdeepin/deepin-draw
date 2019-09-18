@@ -33,7 +33,7 @@ public:
     void attributeChanged();
 
     /**
-     * @brief changeAttribute 修改当前画笔画刷属性
+     * @brief changeAttribute 根据选中的图元修改当前画笔画刷属性
      */
     void changeAttribute(bool flag, QGraphicsItem *selectedItem);
 
@@ -86,6 +86,8 @@ signals:
 public slots:
 
     void picOperation(int enumstyle);
+
+    void slotSelectionChange();
 
 
 protected:

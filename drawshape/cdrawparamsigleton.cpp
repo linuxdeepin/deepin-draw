@@ -10,6 +10,9 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_anchorNum(5)
     , m_sideNum(5)
     , m_currentPenType(EPenType::straight)
+    , m_textFont(QFont())
+    , m_textSize(8)
+    , m_textColor(Qt::black)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
@@ -180,6 +183,26 @@ void CDrawParamSigleton::setScale(qreal scale)
 qreal CDrawParamSigleton::getScale() const
 {
     return m_Scale;
+}
+
+void CDrawParamSigleton::setTextSize(qreal size)
+{
+    m_textSize = size;
+}
+
+qreal CDrawParamSigleton::getTextSize() const
+{
+    return m_textSize;
+}
+
+void CDrawParamSigleton::setTextColor(const QColor &fillColor)
+{
+    m_textColor = fillColor;
+}
+
+QColor CDrawParamSigleton::getTextColor() const
+{
+    return m_textColor;
 }
 
 

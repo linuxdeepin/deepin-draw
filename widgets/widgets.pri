@@ -26,7 +26,8 @@ HEADERS += \
     $$PWD/calphacontrolwidget.h \
     $$PWD/ccheckbutton.h \
     $$PWD/dialog/cexportimagedialog.h \
-    $$PWD/dialog/cprintmanager.h
+    $$PWD/dialog/cprintmanager.h \
+    $$PWD/textcolorbutton.h
 
 
 SOURCES += \
@@ -54,7 +55,8 @@ SOURCES += \
     $$PWD/calphacontrolwidget.cpp \
     $$PWD/ccheckbutton.cpp \
     $$PWD/dialog/cexportimagedialog.cpp \
-    $$PWD/dialog/cprintmanager.cpp
+    $$PWD/dialog/cprintmanager.cpp \
+    $$PWD/textcolorbutton.cpp
 
 
 #RESOURCES += \

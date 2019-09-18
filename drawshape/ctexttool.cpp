@@ -1,8 +1,14 @@
 #include "ctexttool.h"
-#include "cgraphicstextitem.h"
 #include "cdrawscene.h"
+#include "cgraphicstextitem2.h"
+#include "cgraphicsproxywidget.h"
+#include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QTextCursor>
+#include <QWidget>
+#include <QGraphicsView>
+#include <QTextEdit>
+
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
@@ -17,13 +23,21 @@ CTextTool::~CTextTool()
 void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     if (event->button() == Qt::LeftButton) {
-        CGraphicsTextItem *item = new CGraphicsTextItem(QObject::tr("请输入文字"));
-        item->setPos(event->scenePos());
+        scene->clearSelection();
+        m_sPointPress = event->scenePos();
+//        QTextEdit *edit = new QTextEdit("wangxin");
+//        scene->addWidget(edit);
+//        edit->setFocus();
+
+        CGraphicsTextItem2 *item = new CGraphicsTextItem2();
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), 100, 100));
+        item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        item->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+        item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        item->setSelected(true);
         scene->addItem(item);
-        item->setFocus();
-        QTextCursor textCursor = item->textCursor();
-        textCursor.select(QTextCursor::Document);
-        item->setTextCursor(textCursor);
+        item->getCGraphicsProxyWidget()->setFocus();
     } else {
         scene->mouseEvent(event);
     }
