@@ -83,12 +83,15 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 {
     updateGeometry();
     QGraphicsScene *scene = this->scene();
-
     //绘制滤镜
     if (scene != nullptr) {
         //计算交叉矩形的区域
+        QRectF sceneRect = this->scene()->sceneRect();
         QRectF intersectRect = this->mapRectToScene(this->boundingRect()).intersected(this->scene()->sceneRect());
-        QPixmap tmpPixmap = m_pixmap.copy(intersectRect.toRect());
+        QPointF interTopLeft = intersectRect.topLeft() - sceneRect.topLeft();
+        QPointF interBottomRight = intersectRect.bottomRight() - sceneRect.topLeft();
+        QRectF rectCopy = QRectF(interTopLeft, interBottomRight).normalized();
+        QPixmap tmpPixmap = m_pixmap.copy(rectCopy.toRect());
         painter->save();
         painter->setClipPath(m_blurPath, Qt::IntersectClip);
         //判断和他交叉的元素，裁剪出下层的像素
@@ -103,7 +106,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
         }
-        painter->drawPixmap(this->boundingRect(), tmpPixmap, QRectF());
+        painter->drawPixmap(mapFromScene(intersectRect.topLeft()), tmpPixmap, QRectF());
         painter->restore();
     }
 
@@ -137,12 +140,14 @@ void CGraphicsMasicoItem::setPixmap()
             filterItems[i]->setVisible(false);
         }
         this->hide();
-        QRectF rect = this->scene()->sceneRect();
-        m_pixmap.scaled(rect.width(), rect.height());
+        QRect rect = this->scene()->sceneRect().toRect();
+        m_pixmap = QPixmap(rect.width(), rect.height());
         QPainter painterd(&m_pixmap);
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
         this->scene()->render(&painterd);
+
+//        m_pixmap.save("wang.jpg");
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);

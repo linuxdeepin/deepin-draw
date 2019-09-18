@@ -70,7 +70,7 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
 {
-
+    initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
@@ -276,7 +276,7 @@ void CGraphicsLineItem::initLine()
 
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/light/images/mouse_style/icon_rotate.svg")));
+    //m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/light/images/mouse_style/icon_rotate.svg")));
 
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);

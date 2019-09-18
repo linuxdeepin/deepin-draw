@@ -33,6 +33,7 @@
 #include <QMenu>
 #include <QDebug>
 #include <QObject>
+#include <QTextDocument>
 
 
 
@@ -254,16 +255,12 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
 
     painter->save();
     // 按区域绘制
-    if (r.isValid())
+    if (r.isValid()) {
         painter->setClipRect(r, Qt::IntersectClip);
-
-    QSizeF size = doc->size();
-    QTextFrameFormat fmt = doc->rootFrame()->frameFormat();
-    size.setWidth(size.width() - fmt.leftMargin() - fmt.rightMargin());
-    for (QTextBlock bl = doc->begin(); bl != doc->end(); bl = bl.next()) {
-        // 因为每个QTextDocument 中包含一个QTextLayout
-        drawTextLayout(painter, bl, size, brush);
     }
+    painter->translate(r.topLeft());
+    QTextDocument *t_doc = (QTextDocument *)doc;
+    t_doc->drawContents(painter, QRectF());
     painter->restore();
 }
 

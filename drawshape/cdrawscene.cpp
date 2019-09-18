@@ -352,3 +352,13 @@ void CDrawScene::textFontSizeChanged()
         }
     }
 }
+
+void CDrawScene::updateBlurItem()
+{
+    QList<QGraphicsItem *> items = this->items();
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+        }
+    }
+}
