@@ -1,6 +1,7 @@
 #include "ctextedit.h"
 #include <DMenu>
 #include <QAction>
+#include <QDebug>
 
 
 CTextEdit::CTextEdit(const QString &text, QWidget *parent)
@@ -13,6 +14,20 @@ CTextEdit::CTextEdit(const QString &text, QWidget *parent)
     m_pasteAction = new QAction(tr("Paste"));
     m_selectAllAction = new QAction(tr("Select All"));
 
+    QAction *deleteAct = new QAction(tr("Delete"));
+    deleteAct->setEnabled(false);
+    QAction *undoAct = new QAction(tr("Undo"));
+    undoAct->setEnabled(false);
+
+    QAction *raiseLayerAct = new QAction(tr("Raise Layer"));
+    raiseLayerAct->setEnabled(false);
+    QAction *lowerLayerAct = new QAction(tr("Lower Layer"));
+    lowerLayerAct->setEnabled(false);
+    QAction *layerToTopAct = new QAction(tr("Layer to Top"));
+    layerToTopAct->setEnabled(false);
+    QAction *layerToBottomAct = new QAction(tr("Layer to Bottom"));
+    layerToBottomAct->setEnabled(false);
+
     m_leftAlignAct = new QAction(tr("Left Alignment"));
     m_topAlignAct = new QAction(tr("Top Alignment"));
     m_rightAlignAct = new QAction(tr("Right Alignment" ));
@@ -23,6 +38,18 @@ CTextEdit::CTextEdit(const QString &text, QWidget *parent)
     m_menu->addAction(m_pasteAction);
     m_menu->addAction(m_selectAllAction);
     m_menu->addSeparator();
+
+    m_menu->addAction(deleteAct);
+    m_menu->addAction(undoAct);
+    m_menu->addSeparator();
+
+    m_menu->addAction(raiseLayerAct);
+    m_menu->addAction(lowerLayerAct);
+    m_menu->addAction(layerToTopAct);
+    m_menu->addAction(layerToBottomAct);
+
+
+
     m_menu->addAction(m_leftAlignAct);
     m_menu->addAction(m_topAlignAct);
     m_menu->addAction(m_rightAlignAct);
@@ -62,10 +89,38 @@ void CTextEdit::setCenterAlignment()
 }
 
 
+void CTextEdit::setView(DGraphicsView *view)
+{
+    m_view = view;
+
+}
+
 void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
 {
     Q_UNUSED(e)
 
-    m_menu->move(cursor().pos());
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
+    QPoint menuPos;
+    int rx;
+    int ry;
+    qDebug() << cursor().pos()  << m_view->pos() << endl;
+    if (cursor().pos().rx() - 60 > m_view->width() - m_menu->width()) {
+        rx = m_view->width() - m_menu->width() + 60;
+    } else {
+        rx = cursor().pos().rx();
+    }
+    int temp = 475;
+
+
+    if (cursor().pos().ry() - 40 > m_view->height() - temp) {
+        ry = m_view->height() - temp + 40;
+    } else {
+        ry = cursor().pos().ry();
+    }
+    menuPos = QPoint(rx, ry);
+
+
+    m_menu->move(menuPos);
+    // m_menu->move(cursor().pos());
     m_menu->show();
 }

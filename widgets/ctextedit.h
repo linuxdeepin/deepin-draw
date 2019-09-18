@@ -4,6 +4,7 @@
 #include <DTextEdit>
 
 #include <DMenu>
+#include <DGraphicsView>
 
 DWIDGET_USE_NAMESPACE
 
@@ -12,6 +13,8 @@ class CTextEdit : public DTextEdit
     Q_OBJECT
 public:
     explicit CTextEdit(const QString &text, QWidget *parent = nullptr);
+
+    void setView(DGraphicsView *view);
 
 signals:
 
@@ -34,6 +37,8 @@ private:
     QAction *m_topAlignAct;
     QAction *m_rightAlignAct;
     QAction *m_centerAlignAct;
+
+    DGraphicsView *m_view;
 };
 
 #endif // CTEXTEDIT_H
