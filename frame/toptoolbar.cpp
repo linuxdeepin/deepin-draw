@@ -39,6 +39,7 @@
 #include <QHBoxLayout>
 #include <QString>
 #include <QStandardItemModel>
+#include <DApplicationHelper>
 
 #include <DLineEdit>
 
@@ -98,6 +99,8 @@ void TopToolbar::initComboBox()
     m_scaleComboBox->setFixedWidth(110);
 
 
+
+
 //   static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(2)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(4)->setTextAlignment(Qt::AlignCenter);
@@ -107,6 +110,11 @@ void TopToolbar::initComboBox()
 
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
     m_scaleComboBox->lineEdit()->setReadOnly(true);
+
+//    DPalette pa = DApplicationHelper::instance()->palette(m_scaleComboBox->lineEdit());
+//    pa.setColor(DPalette::Background, Qt::transparent);
+
+//    DApplicationHelper::instance()->setPalette(m_scaleComboBox->lineEdit(), pa);
 
     connect(m_scaleComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotZoom(const QString &)));
 }
@@ -177,7 +185,7 @@ void TopToolbar::initStackWidget()
 void TopToolbar::initMenu()
 {
 
-    m_mainMenu = new DMenu(this);
+    m_mainMenu = new DMenu();
     //m_mainMenu->setFixedWidth(120);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
@@ -375,6 +383,11 @@ void TopToolbar::slotSetCutSize()
     m_cutWidget->updateCutSize();
 }
 
+void TopToolbar::slotSetTextFont()
+{
+    m_drawTextWidget->updateTextWidget();
+}
+
 
 DMenu *TopToolbar::mainMenu()
 {
@@ -399,6 +412,7 @@ void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
+    connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
 
     /////传递图片的旋转和翻转信号

@@ -22,6 +22,8 @@
 #include <QMap>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <DPalette>
+#include <DApplicationHelper>
 
 
 const int BTN_SPACING = 13;
@@ -46,24 +48,36 @@ void CPictureWidget::initUI()
     pictureMapClick[CClickButton::Press] = QString(":/theme/light/images/attribute/contrarotate_press.svg");
     pictureMapClick[CClickButton::Disable] = QString(":/theme/light/images/attribute/contrarotate_disabled.svg");
     m_leftRotateBtn = new CClickButton(pictureMapClick, this);
+    DPalette pa1;
+    pa1.setColor(DPalette::Background, Qt::gray);
+    m_leftRotateBtn->setPalette(pa1);
+    m_leftRotateBtn->setAutoFillBackground(true);
+
+    //m_leftRotateBtn->setb
 
     pictureMapClick[CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.png");
     pictureMapClick[CClickButton::Hover] = QString(":/theme/light/images/attribute/clockwise rotation_hover.png");
     pictureMapClick[CClickButton::Press] = QString(":/theme/light/images/attribute/clockwise rotation_press.png");
     pictureMapClick[CClickButton::Disable] = QString(":/theme/light/images/attribute/clockwise rotation_disabled.svg");
     m_rightRotateBtn = new CClickButton(pictureMapClick, this);
+    m_rightRotateBtn->setPalette(pa1);
+    m_rightRotateBtn->setAutoFillBackground(true);
 
     pictureMapClick[CClickButton::Normal] = QString(":/theme/light/images/attribute/flip horizontal_normal.svg");
     pictureMapClick[CClickButton::Hover] = QString(":/theme/light/images/attribute/flip horizontal_hover.png");
     pictureMapClick[CClickButton::Press] = QString(":/theme/light/images/attribute/flip horizontal_press.png");
     pictureMapClick[CClickButton::Disable] = QString(":/theme/light/images/attribute/flip horizontal_disabled.svg");
     m_flipHBtn = new CClickButton(pictureMapClick, this);
+    m_flipHBtn->setPalette(pa1);
+    m_flipHBtn->setAutoFillBackground(true);
 
     pictureMapClick[CClickButton::Normal] = QString(":/theme/light/images/attribute/flip vertical_normal.svg");
     pictureMapClick[CClickButton::Hover] = QString(":/theme/light/images/attribute/flip vertical_hover.svg");
     pictureMapClick[CClickButton::Press] = QString(":/theme/light/images/attribute/flip vertical_press.png");
     pictureMapClick[CClickButton::Disable] = QString(":/theme/light/images/attribute/flip vertical_disabled.svg");
     m_flipVBtn = new CClickButton(pictureMapClick, this);
+    m_flipVBtn->setPalette(pa1);
+    m_flipVBtn->setAutoFillBackground(true);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

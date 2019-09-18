@@ -117,6 +117,10 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
 
     connect(m_quitQuestionDialog, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
+
+    connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
+
+    connect(m_centralWidget, SIGNAL(saveDeepinDraw()), m_centralWidget, SLOT(slotSaveToDDF()));
 }
 
 
@@ -172,8 +176,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     } else if (event->key() == Qt::Key_Control) {
         CDrawParamSigleton::GetInstance()->setCtlKeyStatus(true);
     } else {
-        ;
     }
+
 
     DMainWindow::keyPressEvent(event);
 }

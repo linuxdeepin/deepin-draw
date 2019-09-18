@@ -42,10 +42,10 @@ public:
     void showExportDialog();
     void showPrintDialog();
     void clearScene();
-    void showSaveDDFDialog(bool type);
+    void showSaveDDFDialog(bool);
     void doSaveDDF();
     void doImport();
-    void setIsShowContext(bool isShowContext);
+    void setContextMenuAndActionEnable(bool enable);
 
 
 protected:
@@ -70,7 +70,7 @@ public slots:
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
     void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
-    void slotDoCut(QRectF);
+    void slotStopContinuousDrawing();
 
 private slots:
     void slotOnCut();
@@ -83,6 +83,7 @@ private slots:
     void slotBringToFront();
     void slotSendTobackAct();
     void slotQuitCutMode();
+    void slotDoCutScene();
 
     ///文字右键菜单槽函数
     void slotOnTextCut();
@@ -117,6 +118,7 @@ private:
 //    QAction *m_centerAlignAct;
 
     QAction *m_quitCutMode;        //退出裁剪
+    QAction *m_cutScence;          //裁剪
 
     ///文字图元右键菜单
     DMenu *m_textMenu;
@@ -140,10 +142,8 @@ private:
     QString m_ddfFileSavePath;
 
     bool m_isShowContext;
+    bool m_isStopContinuousDrawing;
 
-    QRectF m_windRect;
-
-    int m_viewWidth;
 
 private:
     void initContextMenu();

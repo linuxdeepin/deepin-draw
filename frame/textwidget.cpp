@@ -174,7 +174,8 @@ void TextWidget::updateTextWidget()
     QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
 
     if (m_fontComBox->currentText() != font.family()) {
-        m_fontComBox->setFont(font);
+        //m_fontComBox->setFont(font);
+        m_fontComBox->setCurrentFont(font);
     }
 
     int fontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());

@@ -93,6 +93,7 @@ public slots:
     void slotZoom(const QString &scale);
     void slotSetScale(const qreal scale);
     void slotSetCutSize();
+    void slotSetTextFont();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

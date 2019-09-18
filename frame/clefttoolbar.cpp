@@ -324,12 +324,13 @@ void CLeftToolBar::initConnection()
 {
 
     connect(m_picBtn, &CCheckButton::buttonClick, [this]() {
+
         clearOtherSelections(m_picBtn);
 
         emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
         emit importPic();
         m_picBtn->setChecked(false);
-
 
     });
 

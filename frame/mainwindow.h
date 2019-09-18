@@ -60,6 +60,7 @@ private:
     bool m_contrlKey;
     DrawDialog *m_quitQuestionDialog;
 
+
 private:
     void initConnection();
     void initUI();

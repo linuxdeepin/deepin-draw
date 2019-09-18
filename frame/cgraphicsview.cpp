@@ -51,7 +51,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_scale(1)
     , m_ddfFileSavePath("")
     , m_isShowContext(true)
-    , m_viewWidth(0)
+    , m_isStopContinuousDrawing(false)
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
@@ -207,6 +207,10 @@ void CGraphicsView::initContextMenu()
     m_quitCutMode = new QAction();
     m_quitCutMode->setShortcut(QKeySequence(Qt::Key_Escape));
     this->addAction(m_quitCutMode);
+
+    m_cutScence = new QAction();
+    m_cutScence->setShortcut(QKeySequence(Qt::Key_Return));
+    this->addAction(m_cutScence);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -222,6 +226,7 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
 
     connect(m_quitCutMode, SIGNAL(triggered()), this, SLOT(slotQuitCutMode()));
+    connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
 }
 
 void CGraphicsView::initTextContextMenu()
@@ -312,12 +317,16 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
 
+    if (m_isStopContinuousDrawing) {
+        m_isStopContinuousDrawing = false;
+        return;
+    }
 
     if (!m_isShowContext) {
         return;
     }
 
-    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.
     QPoint menuPos;
     int rx;
     int ry;
@@ -355,7 +364,6 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
                 ry = cursor().pos().ry();
             }
             menuPos = QPoint(rx, ry);
-            //qDebug() << cursor().pos() << m_textMenu->rect()  << this->rect() << endl;
             m_textMenu->move(menuPos);
             m_textMenu->show();
             return;
@@ -464,11 +472,11 @@ void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *ite
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::slotDoCut(QRectF rect)
+void CGraphicsView::slotStopContinuousDrawing()
 {
-    m_windRect = rect;
-    this->viewport()->update();
+    m_isStopContinuousDrawing = true;
 }
+
 
 void CGraphicsView::slotOnCut()
 {
@@ -482,6 +490,10 @@ void CGraphicsView::slotOnCut()
 
     QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
     m_pUndoStack->push(deleteCommand);
+
+    if (!m_pasteAct->isEnabled()) {
+        m_pasteAct->setEnabled(true);
+    }
 }
 
 void CGraphicsView::slotOnCopy()
@@ -492,6 +504,10 @@ void CGraphicsView::slotOnCopy()
 
     CShapeMimeData *data = new CShapeMimeData( scene()->selectedItems() );
     QApplication::clipboard()->setMimeData(data);
+
+    if (!m_pasteAct->isEnabled()) {
+        m_pasteAct->setEnabled(true);
+    }
 }
 
 void CGraphicsView::slotOnPaste()
@@ -530,12 +546,6 @@ void CGraphicsView::slotOnDelete()
         return;
     }
 
-    if (scene()->selectedItems().size() == 1) {
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(scene()->selectedItems()[0]);
-        if (tmpitem->type() == CutType) {
-            return;
-        }
-    }
     QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
     m_pUndoStack->push(deleteCommand);
 }
@@ -653,6 +663,11 @@ void CGraphicsView::slotSendTobackAct()
 void CGraphicsView::slotQuitCutMode()
 {
     static_cast<CDrawScene *>(scene())->quitCutMode();
+}
+
+void CGraphicsView::slotDoCutScene()
+{
+    static_cast<CDrawScene *>(scene())->doCutScene();
 }
 
 void CGraphicsView::slotOnTextCut()
@@ -813,9 +828,20 @@ void CGraphicsView::doImport()
     }
 }
 
-void CGraphicsView::setIsShowContext(bool isShowContext)
+void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {
-    m_isShowContext = isShowContext;
+    m_isShowContext = enable;
+    m_cutAct->setEnabled(enable);
+    m_copyAct->setEnabled(enable);
+    m_pasteAct->setEnabled(enable);
+    m_deleteAct->setEnabled(enable);
+    m_selectAllAct->setEnabled(enable);
+    m_undoAct->setEnabled(enable);
+    m_redoAct->setEnabled(enable);
+    m_oneLayerUpAct->setEnabled(enable);
+    m_oneLayerDownAct->setEnabled(enable);
+    m_bringToFrontAct->setEnabled(enable);
+    m_sendTobackAct->setEnabled(enable);
 }
 
 

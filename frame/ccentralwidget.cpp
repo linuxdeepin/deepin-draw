@@ -123,7 +123,9 @@ void CCentralwidget::initUI()
 //    itemrect->setBrush(QBrush(Qt::black));
 
 //    m_pDrawScene->addItem(itemrect);
-
+    m_saveAction = new QAction(tr("save"));
+    m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
+    this->addAction(m_saveAction);
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -176,13 +178,13 @@ void CCentralwidget::slotPrint()
 
 void CCentralwidget::slotShowCutItem()
 {
-    m_pGraphicsView->setIsShowContext(false);
+    m_pGraphicsView->setContextMenuAndActionEnable(false);
     m_pDrawScene->showCutItem();
 }
 
 void CCentralwidget::slotQuitCutMode()
 {
-    m_pGraphicsView->setIsShowContext(true);
+    m_pGraphicsView->setContextMenuAndActionEnable(true);
 }
 
 void CCentralwidget::slotSetScale(const qreal scale)
@@ -202,6 +204,7 @@ void CCentralwidget::initConnect()
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
+    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_pGraphicsView, &CGraphicsView::slotStopContinuousDrawing);
 
     connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
 
@@ -224,8 +227,10 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), m_leftToolbar, SLOT(slotQuitCutMode()));
     connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), this, SLOT(slotQuitCutMode()));
 
-    connect(m_pDrawScene, SIGNAL(signalDoCut(QRectF)), m_pGraphicsView, SLOT(slotDoCut(QRectF)));
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
+    connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
+
+    connect(m_saveAction, SIGNAL(triggered()), this, SIGNAL(saveDeepinDraw()));
 }
 
 
