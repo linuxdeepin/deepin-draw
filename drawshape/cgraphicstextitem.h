@@ -1,20 +1,22 @@
 #ifndef CGRAPHICSTEXTITEM_H
 #define CGRAPHICSTEXTITEM_H
 #include "cgraphicsrectitem.h"
+
 #include <QTextDocument>
 #include <QTextCharFormat>
 #include <QWidget>
 
-class TextEdit;
-class QTextEdit;
+class CTextEdit;
 class CGraphicsProxyWidget;
+
+
 class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
-    CGraphicsTextItem();
+    explicit CGraphicsTextItem();
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
 
-    QTextEdit *getTextEdit() const;
+    CTextEdit *getTextEdit() const;
     virtual int  type() const Q_DECL_OVERRIDE;
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
@@ -35,8 +37,6 @@ public:
     CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
 
 
-
-
 public slots:
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
@@ -48,6 +48,8 @@ protected:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 
+private slots:
+    void slot_textmenu(QPoint);
 private:
     // 绘制QTextDocument中的指定区域
     void drawDocument(QPainter *painter,
@@ -75,11 +77,14 @@ private:
 
 
 private:
-    QTextEdit *m_pTextEdit;
+    CTextEdit *m_pTextEdit;
     CGraphicsProxyWidget *m_pProxy;
 
     QFont m_Font;   //字体
     QColor m_color; //字体颜色
+
+    QMenu *m_menu;
+    QAction *m_action;
 };
 
 #endif // CGRAPHICSTEXTITEM_H

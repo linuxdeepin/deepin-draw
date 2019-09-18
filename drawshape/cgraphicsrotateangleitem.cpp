@@ -26,8 +26,15 @@ void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
 
 void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-    painter->drawText(rect(), angle);
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
-    QGraphicsRectItem::paint(painter, option, widget);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QColor("#ececf8"));
+
+    painter->drawRoundRect(rect());
+
+    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
+    painter->setPen(Qt::black);
+    painter->drawText(rect(), angle);
 }

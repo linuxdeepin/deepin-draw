@@ -13,6 +13,7 @@ class CDrawScene : public QGraphicsScene
 {
     Q_OBJECT
     friend CSelectTool;
+
 public:
     explicit CDrawScene(QObject *parent = nullptr);
 
@@ -49,7 +50,16 @@ public:
      * @param rect
      */
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    /**
+     * @brief showCutItem 显示裁剪图元
+     */
+    void showCutItem();
+    /**
+     * @brief quitCutMode 退出裁剪
+     */
+    void quitCutMode();
 
+    void setItemDisable(bool canSelecte);
 
 signals:
     /**
@@ -62,6 +72,10 @@ signals:
      * @brief signalChangeToSelect 发送工具栏切换为选择的信号
      */
     void signalChangeToSelect();
+    /**
+     * @brief signalQuitCutMode 退出裁剪模式
+     */
+    void signalQuitCutMode();
 
     /**
      * @brief itemMoved 移动
@@ -82,6 +96,9 @@ signals:
 
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
 
+    void signalDoCut(QRectF);
+
+    void signalUpdateCutSize();
 
 public slots:
 
@@ -95,6 +112,13 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+    virtual void drawItems(QPainter *painter, int numItems,
+                           QGraphicsItem *items[],
+                           const QStyleOptionGraphicsItem options[],
+                           QWidget *widget = nullptr);
+
+private:
+
 
 };
 

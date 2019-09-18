@@ -131,6 +131,11 @@ CGraphicsItem *CGraphicsItem::duplicate() const
     return nullptr;
 }
 
+CGraphicsUnit CGraphicsItem::getGraphicsUnit() const
+{
+    return CGraphicsUnit();
+}
+
 void CGraphicsItem::setState(ESelectionHandleState st)
 {
     const Handles::iterator hend =  m_handles.end();

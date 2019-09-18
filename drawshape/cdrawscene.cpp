@@ -9,6 +9,8 @@
 #include "cgraphicspenitem.h"
 #include "frame/cpicturewidget.h"
 #include "cgraphicstextitem.h"
+#include "ccuttool.h"
+
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -57,37 +59,53 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::attributeChanged()
 {
-    QList<QGraphicsItem *> items = this->selectedItems();
-
-    QGraphicsItem *item = nullptr;
-    foreach (item, items) {
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-
-        if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
-                tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
-            emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
-                                    tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
-                                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
-            tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-            tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-        }
-
-
-        if (item->type() == TextType) {
-            static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
-            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-            //static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
-        } else if (item->type() == PolygonType) {
-            if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
-                emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
-                static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    ///区分裁剪
+    if (cut == currentMode) {
+        ECutAttributeType attributeType = CDrawParamSigleton::GetInstance()->getCutAttributeType();
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
+        if (attributeType == ECutAttributeType::ButtonClickAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutType(CDrawParamSigleton::GetInstance()->getCutType(), this);
             }
-        } else if (item->type() == PolygonalStarType) {
-            CGraphicsPolygonalStarItem *tmpItem = static_cast<CGraphicsPolygonalStarItem *>(item);
-            if (tmpItem->anchorNum() != CDrawParamSigleton::GetInstance()->getAnchorNum() || tmpItem->innerRadius() != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
-                emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
-                tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
-                                             CDrawParamSigleton::GetInstance()->getRadiusNum());
+        } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutSize(CDrawParamSigleton::GetInstance()->getCutSize());
+            }
+        }
+    } else {
+        QList<QGraphicsItem *> items = this->selectedItems();
+
+        QGraphicsItem *item = nullptr;
+        foreach (item, items) {
+            CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+
+            if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
+                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
+                emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
+                                        tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
+                                        tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
+                tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+                tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+            }
+
+
+            if (item->type() == TextType) {
+                static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+                static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+                //static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+            } else if (item->type() == PolygonType) {
+                if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
+                    emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
+                    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+                }
+            } else if (item->type() == PolygonalStarType) {
+                CGraphicsPolygonalStarItem *tmpItem = static_cast<CGraphicsPolygonalStarItem *>(item);
+                if (tmpItem->anchorNum() != CDrawParamSigleton::GetInstance()->getAnchorNum() || tmpItem->innerRadius() != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+                    emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
+                    tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
+                }
             }
         }
     }
@@ -131,7 +149,7 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-        if ( nullptr != pTool ) {
+        if ( nullptr != pTool) {
             pTool->mousePressEvent(mouseEvent, this);
         }
     }
@@ -141,7 +159,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool ) {
+    if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
 }
@@ -150,13 +168,44 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool ) {
+    if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
+        if (pTool->getDrawToolMode() != cut) {
+            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+            emit signalChangeToSelect();
+        }
     }
-    CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-    emit signalChangeToSelect();
 }
 
+void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
+{
+    QRectF rect = this->sceneRect();
+    painter->setClipping(true);
+    painter->setClipRect(rect);
+    QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+}
+
+void CDrawScene::showCutItem()
+{
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    setItemDisable(false);
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if ( nullptr != pTool && cut == pTool->getDrawToolMode()) {
+        static_cast<CCutTool *>(pTool)->createCutItem(this);
+        signalUpdateCutSize();
+    }
+}
+
+void CDrawScene::quitCutMode()
+{
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
+    if (nullptr != pTool) {
+        static_cast<CCutTool *>(pTool)->deleteCutItem(this);
+        setItemDisable(true);
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit signalQuitCutMode();
+    }
+}
 
 
 void CDrawScene::picOperation(int enumstyle)
@@ -191,7 +240,6 @@ void CDrawScene::picOperation(int enumstyle)
         }
 
     }
-
 }
 
 void CDrawScene::slotSelectionChange()
@@ -202,3 +250,14 @@ void CDrawScene::slotSelectionChange()
     }
 }
 
+void CDrawScene::setItemDisable(bool canSelecte)
+{
+    ///让其他图元不可选中
+    QList<QGraphicsItem *> itemList = this->items();
+    foreach (QGraphicsItem *item, itemList) {
+        if (item->type() > QGraphicsItem::UserType) {
+            item->setFlag(QGraphicsItem::ItemIsMovable, canSelecte);
+            item->setFlag(QGraphicsItem::ItemIsSelectable, canSelecte);
+        }
+    }
+}

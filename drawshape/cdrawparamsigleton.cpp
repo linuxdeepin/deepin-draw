@@ -17,6 +17,8 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_bAltKeyPress(false)
     , m_bCtlKeyPress(false)
     , m_Scale(1)
+    , m_cutAttributeType(ECutAttributeType::NoneAttribute)
+    , m_cutType(ECutType::cut_original)
 {
     m_textFont.setPointSizeF(8);
 }
@@ -201,6 +203,46 @@ void CDrawParamSigleton::setTextColor(const QColor &fillColor)
 QColor CDrawParamSigleton::getTextColor() const
 {
     return m_textColor;
+}
+
+ECutType CDrawParamSigleton::getCutType() const
+{
+    return m_cutType;
+}
+
+void CDrawParamSigleton::setCutType(const ECutType &cutType)
+{
+    m_cutType = cutType;
+}
+
+QSize CDrawParamSigleton::getCutSize() const
+{
+    return m_cutSize;
+}
+
+void CDrawParamSigleton::setCutSize(const QSize &cutSize)
+{
+    m_cutSize = cutSize;
+}
+
+QSize CDrawParamSigleton::getCutDefaultSize() const
+{
+    return m_cutDefaultSize;
+}
+
+void CDrawParamSigleton::setCutDefaultSize(const QSize &cutSize)
+{
+    m_cutDefaultSize = cutSize;
+}
+
+ECutAttributeType CDrawParamSigleton::getCutAttributeType() const
+{
+    return m_cutAttributeType;
+}
+
+void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttributeType)
+{
+    m_cutAttributeType = cutAttributeType;
 }
 
 

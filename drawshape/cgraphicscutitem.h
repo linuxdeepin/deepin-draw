@@ -4,12 +4,7 @@
 #include "cgraphicsitem.h"
 #include "cbuttonrect.h"
 
-
-
 class CSizeHandleRect;
-
-
-
 class QGraphicsProxyWidget;
 
 class CGraphicsCutItem : public CGraphicsItem
@@ -27,8 +22,15 @@ public:
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
 
-    void showControlRects(bool);
+
     CButtonRect::EButtonType collideTest(const QPointF &point) const;
+
+    void doChangeType(int);
+    void doChangeSize(int, int);
+
+
+    bool isFreeMode() const;
+    void setIsFreeMode(bool isFreeMode);
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
@@ -43,15 +45,15 @@ private:
     void initPenAndBrush();
     void drawFourConner(QPainter *painter, QPainterPath &path, const int penWidth);
     void drawTrisectorRect(QPainter *painter, QPainterPath &path);
+    void showControlRects(bool);
 
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
     CButtonRect *m_okBtn;
     CButtonRect *m_cancelBtn;
-//    QPushButton *m_cancelBtn;
-//    QPushButton *m_cutBtn;
-    //    QGraphicsProxyWidget *m_proxy;
+    QRectF m_originalRect;
+    bool m_isFreeMode;
 
 };
 

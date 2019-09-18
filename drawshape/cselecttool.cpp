@@ -6,6 +6,8 @@
 #include "cgraphicsrotateangleitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
+#include "cgraphicscutitem.h"
+#include "widgets/ctextedit.h"
 
 #include <DApplication>
 
@@ -91,6 +93,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 {
     // 再判断一次
     QList<QGraphicsItem *> items = scene->selectedItems();
+
     //if (m_currentSelectItem == nullptr) {
 
     if ( items.count() != 0 ) {
@@ -114,6 +117,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
             if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
+
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
                 qApp->setOverrideCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress)));
@@ -148,7 +152,21 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 m_RotateItem = new CGraphicsRotateAngleItem(angle);
                 scene->addItem(m_RotateItem);
                 m_initRotateItemPos.setX(centerToScence.x());
-                m_initRotateItemPos.setY(centerToScence.y() - m_currentSelectItem->rect().height() / 2 - 65);
+
+                qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+                qreal space = 65.;
+                if (scale > 1.) {
+                    qreal temp = 10 * (scale - 1.);
+                    space += temp;
+                } else if (scale < 1. && scale >= 0.5) {
+                    qreal temp  = 80 * (1. - scale);
+                    space += temp;
+                } else if (scale < 0.5) {
+                    qreal temp  = 130 * (1. - scale);
+                    space += temp;
+                }
+
+                m_initRotateItemPos.setY(centerToScence.y() - m_currentSelectItem->rect().height() / 2 - space);
                 m_RotateItem->setPos(m_initRotateItemPos);
             } else {
                 qreal angleRad = qDegreesToRadians(angle);
@@ -166,6 +184,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     } else {
         scene->mouseEvent(event);
     }
+
 }
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -193,6 +212,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             } else if (m_dragHandle == CSizeHandleRect::InRect) {
                 QList<QGraphicsItem *> items = scene->selectedItems();
                 if (items.count() == 1) {
+
                     emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
                 } else {
                     emit scene->itemMoved(nullptr, m_sPointRelease - m_sPointPress );

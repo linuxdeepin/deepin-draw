@@ -15,6 +15,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     , m_state(SelectionHandleOff)
 {
     setParentItem(parent);
+    setCacheMode(NoCache);
     hide();
 }
 
@@ -24,6 +25,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     , m_state(SelectionHandleOff)
 {
     setParentItem(parent);
+    setCacheMode(NoCache);
     hide();
 }
 
@@ -64,10 +66,15 @@ void CSizeHandleRect::updateCursor()
 
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    painter->setClipping(false);
     QRectF rect = this->boundingRect();
 
     this->renderer()->render(painter, rect);
+    painter->setClipping(true);
+
+//    painter->setClipping(true);
 //    QGraphicsSvgItem::paint(painter, option, widget);
+
 }
 
 

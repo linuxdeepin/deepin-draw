@@ -71,6 +71,18 @@ public:
     void setTextColor(const QColor &fillColor);
     QColor getTextColor() const;
 
+    ECutType getCutType() const;
+    void setCutType(const ECutType &cutType);
+
+    QSize getCutSize() const;
+    void setCutSize(const QSize &cutSize);
+
+    QSize getCutDefaultSize() const;
+    void setCutDefaultSize(const QSize &cutSize);
+
+    ECutAttributeType getCutAttributeType() const;
+    void setCutAttributeType(const ECutAttributeType &cutAttributeType);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -96,6 +108,12 @@ private:
 
     //当前比例尺
     qreal m_Scale;
+
+    //cut
+    ECutAttributeType m_cutAttributeType;
+    ECutType m_cutType;
+    QSize m_cutSize;
+    QSize m_cutDefaultSize;
 };
 
 

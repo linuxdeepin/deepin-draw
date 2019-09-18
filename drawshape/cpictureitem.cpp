@@ -40,6 +40,17 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
 
+    if (this->isSelected()) {
+        painter->setClipping(false);
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->rect());
+        painter->setClipping(true);
+    }
+
 }
 
 void CPictureItem::setAngle(const qreal &angle)

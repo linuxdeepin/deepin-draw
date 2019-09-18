@@ -1,4 +1,5 @@
 #include "cbuttonrect.h"
+#include "cdrawparamsigleton.h"
 #include <QPainter>
 
 
@@ -13,6 +14,7 @@ CButtonRect::CButtonRect(QGraphicsItem *parent, EButtonType type)
     , m_buttonType(type)
     , m_backColor(NORMAL)
 {
+    setCacheMode(NoCache);
     if (m_buttonType == OKButton) {
         m_text = QString("裁剪");
     } else {
@@ -32,6 +34,8 @@ void CButtonRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    painter->setClipping(false);
+
     painter->setRenderHint(QPainter::Antialiasing);
 
 
@@ -40,11 +44,13 @@ void CButtonRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     painter->setBrush(m_backColor);
 //    painter->setBrush(QBrush(Qt::MaskOutColor));
 
-    painter->drawRoundRect(rect(), 30, 30);
+    painter->drawRoundRect(boundingRect(), 30, 30);
 
     painter->setPen(Qt::white);
-    QRectF textRect(rect().x(), rect().y() - 2, rect().width(), rect().height());
+    QRectF textRect(boundingRect().x(), boundingRect().y() - 2, boundingRect().width(), boundingRect().height());
     painter->drawText(textRect, Qt::AlignHCenter, m_text);
+
+    painter->setClipping(true);
 }
 
 CButtonRect::EButtonType CButtonRect::buttonType() const
@@ -61,6 +67,15 @@ bool CButtonRect::hitTest(const QPointF &point)
 {
     QPointF pt = mapFromScene(point);
     return this->boundingRect().contains(pt);
+}
+
+QRectF CButtonRect::boundingRect() const
+{
+    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    QRectF rect = QGraphicsRectItem::boundingRect();
+    rect.setWidth(rect.width() / scale);
+    rect.setHeight(rect.height() / scale);
+    return rect;
 }
 
 void CButtonRect::hoverEnterEvent(QGraphicsSceneHoverEvent *event)

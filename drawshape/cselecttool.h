@@ -3,7 +3,7 @@
 #include "idrawtool.h"
 #include "globaldefine.h"
 #include "csizehandlerect.h"
-#include "cbuttonrect.h"
+
 
 #include <QCursor>
 
@@ -30,7 +30,7 @@ private:
     QPointF m_initRotateItemPos;
     CGraphicsRotateAngleItem *m_RotateItem;
     QCursor m_textEditCursor;
-    CButtonRect::EButtonType m_buttonType;
+
 };
 
 #endif // CSELECTTOOL_H

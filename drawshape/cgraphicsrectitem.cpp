@@ -2,6 +2,9 @@
 #include "csizehandlerect.h"
 #include <QPainter>
 #include <QPixmap>
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QGraphicsBlurEffect>
 
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -24,6 +27,33 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     rect = rect.normalized();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
+    initRect();
+}
+
+CGraphicsRectItem::CGraphicsRectItem(CGraphicsUnit unit, CGraphicsItem *parent)
+    : CGraphicsItem(parent)
+{
+    QPen pen;
+    pen.setWidth(unit.head.pen.width);
+    QColor penCol(unit.head.pen.col.r,
+                  unit.head.pen.col.g,
+                  unit.head.pen.col.b,
+                  unit.head.pen.col.a);
+    pen.setColor(penCol);
+    this->setPen(pen);
+
+    QBrush brush;
+    QColor brushCol(unit.head.brush.col.r,
+                    unit.head.brush.col.g,
+                    unit.head.brush.col.b,
+                    unit.head.brush.col.a);
+    this->setBrush(brush);
+    this->setRect(QRectF(unit.data.pRect->point1, unit.data.pRect->point2));
+    this->setTransformOriginPoint(this->rect().center());
+    this->setRotation(unit.head.rotate);
+    this->setPos(unit.head.pos);
+    this->setZValue(unit.head.zValue);
+
     initRect();
 }
 
@@ -53,6 +83,7 @@ void CGraphicsRectItem::initRect()
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
             shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
+
         } else {
             shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
         }
@@ -72,10 +103,20 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
 
     updateGeometry();
-
     painter->setPen(pen());
     painter->setBrush(brush());
     painter->drawRect(rect());
+
+    if (this->isSelected()) {
+        painter->setClipping(false);
+        QPen pen;
+        pen.setWidth(1);
+        pen.setColor(QColor(224, 224, 224));
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->rect());
+        painter->setClipping(true);
+    }
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -454,6 +495,31 @@ CGraphicsItem *CGraphicsRectItem::duplicate() const
     item->setScale(scale());
     item->setZValue(zValue());
     return item;
+}
+
+CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsRectUnitData);
+    unit.head.pen.width = this->pen().width();
+    unit.head.pen.col.r = this->pen().color().red();
+    unit.head.pen.col.g = this->pen().color().green();
+    unit.head.pen.col.b = this->pen().color().blue();
+    unit.head.pen.col.a = this->pen().color().alpha();
+
+    unit.head.brush.col.r = this->brush().color().red();
+    unit.head.brush.col.g = this->brush().color().green();
+    unit.head.brush.col.b = this->brush().color().blue();
+    unit.head.brush.col.a = this->brush().color().alpha();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pRect->point1 = this->m_topLeftPoint;
+    unit.data.pRect->point2 = this->m_bottomRightPoint;
+
+    return unit;
 }
 
 

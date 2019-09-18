@@ -3,6 +3,7 @@
 
 #include "csizehandlerect.h"
 #include "globaldefine.h"
+#include "sitemdata.h"
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>
 
@@ -19,6 +20,7 @@ public:
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
     virtual QRectF rect() const = 0;
     virtual CGraphicsItem *duplicate() const;
+    virtual CGraphicsUnit getGraphicsUnit() const;
 
 protected:
     virtual void updateGeometry() = 0;

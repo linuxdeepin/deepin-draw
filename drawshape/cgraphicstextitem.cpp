@@ -1,5 +1,8 @@
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
+#include "widgets/ctextedit.h"
+
+
 #include <QTextEdit>
 #include <QPainter>
 #include <QTextBlock>
@@ -8,15 +11,20 @@
 #include <QGraphicsView>
 #include <QPointF>
 #include <QFont>
+#include <QMenu>
 #include <QDebug>
+#include <QObject>
+
 
 CGraphicsTextItem::CGraphicsTextItem()
     : CGraphicsRectItem ()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
 {
-    m_pTextEdit = new QTextEdit(QObject::tr("请输入文字"));
-    m_pTextEdit->setMinimumSize(QSize());
+
+    m_pTextEdit = new CTextEdit(QObject::tr("输入文本"));
+    m_pTextEdit->setMinimumSize(QSize(1, 1));
+
 //    connect(m_pTextEdit, &QTextEdit::currentCharFormatChanged,
 //            this, &CGraphicsTextItem2::currentCharFormatChanged);
     QTextCursor textCursor = m_pTextEdit->textCursor();
@@ -33,12 +41,20 @@ CGraphicsTextItem::CGraphicsTextItem()
     m_pProxy->setZValue(this->zValue() - 0.1);
 }
 
+
 CGraphicsTextItem::~CGraphicsTextItem()
 {
 
 }
 
-QTextEdit *CGraphicsTextItem::getTextEdit() const
+void CGraphicsTextItem::slot_textmenu(QPoint)
+{
+    m_menu->move (cursor().pos());
+    m_menu->show();
+}
+
+
+CTextEdit *CGraphicsTextItem::getTextEdit() const
 {
     return m_pTextEdit;
 }
@@ -115,7 +131,7 @@ CGraphicsItem *CGraphicsTextItem::duplicate() const
     item->setRotation(rotation());
     item->setScale(scale());
     item->setZValue(zValue());
-    item->getTextEdit()->setDocument(this->getTextEdit()->document());
+    item->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(item->getTextEdit()));
     item->getTextEdit()->hide();
     return item;
 }
@@ -143,12 +159,14 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     drawDocument(painter, m_pTextEdit->document(), rect());
     if (this->isSelected()) {
+        painter->setClipping(false);
         QPen pen;
         pen.setWidth(1);
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->rect());
+        painter->setClipping(true);
     }
 }
 

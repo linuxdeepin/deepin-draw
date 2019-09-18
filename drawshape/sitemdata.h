@@ -5,20 +5,14 @@
 #include <QBrush>
 #include <QPoint>
 #include <QTextDocument>
-enum GraphicsItemType {
-    picture,
-    circle,
-    rect,
-    polygon
-};
 
-#pragma pack(push,1)
+#pragma pack(push, 1)
 //定义图元类型
 struct SColor {
-    quint8 r;
-    quint8 g;
-    quint8 b;
-    quint8 a;
+    int r;
+    int g;
+    int b;
+    int a;
 };
 
 //画笔

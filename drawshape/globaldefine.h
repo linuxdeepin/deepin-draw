@@ -48,4 +48,19 @@ enum EGraphicUserType {
     CutType
 };
 
+enum ECutAttributeType {
+    LineEditeAttribute,
+    ButtonClickAttribute,
+    NoneAttribute
+};
+
+enum ECutType {
+    cut_1_1,
+    cut_2_3,
+    cut_8_5,
+    cut_16_9,
+    cut_free,
+    cut_original
+};
+
 #endif // GLODEFINE_H
