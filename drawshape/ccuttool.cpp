@@ -155,6 +155,8 @@ void CCutTool::createCutItem(CDrawScene *scene)
 
     m_dragHandle = CSizeHandleRect::None;
 
+    m_pCutItem->setFlag(QGraphicsItem::ItemIsMovable, true);
+    m_pCutItem->setIsFreeMode(true);
     m_pCutItem->setSelected(true);
 }
 

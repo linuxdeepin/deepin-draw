@@ -37,8 +37,6 @@ public:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
 
-    void selectionChange();
-
 private:
     CGraphicsItem *m_currentSelectItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向

@@ -38,16 +38,17 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_bCtlKeyPress(false)
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
-    , m_cutType(ECutType::cut_original)
+    , m_cutType(ECutType::cut_free)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
     , m_isModify(false)
     , m_isQuit(false)
-    , m_effect(BlurEffect)
+    , m_ddfSavePath("")
+    , m_effect(MasicoEffect)
     , m_blurWidth(20)
     , m_thremeType(0)
 {
-    m_textFont.setPointSizeF(18);
+    m_textFont.setPointSizeF(14);
 }
 
 CDrawParamSigleton *CDrawParamSigleton::GetInstance()
@@ -250,6 +251,16 @@ int CDrawParamSigleton::getThemeType() const
 void CDrawParamSigleton::setThemeType(const int type)
 {
     m_thremeType = type;
+}
+
+QString CDrawParamSigleton::getDdfSavePath() const
+{
+    return m_ddfSavePath;
+}
+
+void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
+{
+    m_ddfSavePath = ddfSavePath;
 }
 
 ECutType CDrawParamSigleton::getCutType() const

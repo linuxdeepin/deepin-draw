@@ -120,6 +120,9 @@ public:
     int getThemeType() const;
     void setThemeType(const int type);
 
+    QString getDdfSavePath() const;
+    void setDdfSavePath(const QString &ddfSavePath);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -158,6 +161,8 @@ private:
     bool m_isModify;
     //保存完成后是否需要退出
     bool m_isQuit;
+    //DDF文件保存路径
+    QString m_ddfSavePath;
 
     //blur
     EBlurEffect m_effect; //模糊效果

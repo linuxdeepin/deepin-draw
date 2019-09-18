@@ -32,8 +32,8 @@
 
 const int CORNER_WITH = 20;
 //const QString PenColorName = "#B5B5B5";
-//const QString PenColorName = "#00BFFF";
-const QString PenColorName = "#ECECF8";
+const QString PenColorName = "#00BFFF";
+//const QString PenColorName = "#ECECF8";
 
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)

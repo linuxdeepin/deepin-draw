@@ -29,6 +29,8 @@
 #include "cgraphicstextitem.h"
 #include "ccuttool.h"
 #include "cgraphicsmasicoitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicsproxywidget.h"
 
 
 #include <QGraphicsSceneMouseEvent>
@@ -41,8 +43,7 @@
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChange()));
-    //connect(this, SIGNAL(changed(const QList<QRectF> &)), this, SLOT(slot_changed(const QList<QRectF> &)));
+
 }
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -307,12 +308,10 @@ void CDrawScene::picOperation(int enumstyle)
     }
 }
 
-void CDrawScene::slotSelectionChange()
+void CDrawScene::drawToolChange(int type)
 {
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    if ( nullptr != pTool ) {
-        static_cast<CSelectTool *>(pTool)->selectionChange();
-    }
+    Q_UNUSED(type)
+    this->clearSelection();
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)

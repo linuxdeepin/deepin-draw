@@ -114,6 +114,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 m_currentSelectItem = nullptr;
             }
         }
+    } else if (event->button() == Qt::RightButton) {
+        //弹出右键菜单时 鼠标变为剪头
+        m_dragHandle = CSizeHandleRect::None;
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+        scene->mouseEvent(event);
     } else {
         scene->mouseEvent(event);
     }
@@ -318,15 +323,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         scene->changeAttribute(true, list.first());
     }
     /////////////////////////////////////////////////////////
-}
-
-void CSelectTool::selectionChange()
-{
-    if (m_currentSelectItem != nullptr) {
-        if (m_currentSelectItem->type() == TextType) {
-            static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getCGraphicsProxyWidget()->hide();
-        }
-    }
 }
 
 

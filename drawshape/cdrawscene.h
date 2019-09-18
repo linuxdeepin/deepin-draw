@@ -131,7 +131,11 @@ public slots:
 
     void picOperation(int enumstyle);
 
-    void slotSelectionChange();
+    /**
+     * @brief drawToolChange 切换绘图工具
+     * @param type
+     */
+    void drawToolChange(int type);
 
 protected:
 
