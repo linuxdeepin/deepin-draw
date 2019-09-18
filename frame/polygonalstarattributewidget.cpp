@@ -56,8 +56,8 @@ void PolygonalStarAttributeWidget::initUI()
     DLabel *anchorNumLabel = new DLabel(this);
     anchorNumLabel->setText(tr("锚点数"));
 
-    m_anchorNumSlider = new DSlider(this);
-    m_anchorNumSlider->setOrientation(Qt::Horizontal);
+    m_anchorNumSlider = new DSlider(Qt::Horizontal, this);
+    m_anchorNumSlider->slider()->setOrientation(Qt::Horizontal);
     m_anchorNumSlider->setMinimum(3);
     m_anchorNumSlider->setMaximum(50);
     m_anchorNumSlider->setMinimumWidth(200);
@@ -73,8 +73,8 @@ void PolygonalStarAttributeWidget::initUI()
     DLabel *radiusLabel = new DLabel(this);
     radiusLabel->setText(tr("半径"));
 
-    m_radiusNumSlider = new DSlider(this);
-    m_radiusNumSlider->setOrientation(Qt::Horizontal);
+    m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
+    m_radiusNumSlider->slider()->setOrientation(Qt::Horizontal);
     m_radiusNumSlider->setMinimum(0);
     m_radiusNumSlider->setMaximum(100);
     m_radiusNumSlider->setMinimumWidth(200);

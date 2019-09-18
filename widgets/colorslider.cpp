@@ -5,15 +5,18 @@
 #include <QPainter>
 #include <QStyle>
 //#include <std>
+//DWIDGET_BEGIN_NAMESPACE
+DWIDGET_USE_NAMESPACE
 
-
-ColorSlider::ColorSlider(DWidget *parent)
-    : DSlider(parent)
+ColorSlider::ColorSlider(QWidget *parent)
+    : DSlider(Qt::Horizontal, parent)
 {
     setMinimum(0);
     setMaximum(360);
+#ifdef DRAWSLIDER
     setOrientation(Qt::Horizontal);
     this->setRange(5, 355);
+#endif
 }
 
 ColorSlider::~ColorSlider()
@@ -48,7 +51,7 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
 void ColorSlider::paintEvent(QPaintEvent *ev)
 {
     Q_UNUSED(ev)
-
+#ifdef DRAWSLIDER
     QStyleOptionSlider opt;
     initStyleOption(&opt);
 
@@ -56,6 +59,7 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
     if (tickPosition() != NoTicks) {
         opt.subControls |= QStyle::SC_SliderTickmarks;
     }
+
 
     QRect groove_rect = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
     QRect rect(groove_rect.left(), groove_rect.top(),  groove_rect.width() + 1, groove_rect.height() + 5);
@@ -90,4 +94,5 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
 //    painter.drawLine(QPointF(x, rect.top()), QPointF(x, rect.bottom()));
     painter.drawRect(QRectF(QPointF(x - 3, rect.top() - 8), QPointF(x + 2, rect.bottom())));
 //    QSlider::paintEvent(ev);
+#endif
 }

@@ -47,8 +47,8 @@ void TextWidget::initUI()
     DLabel *fontsizeLabel = new DLabel(this);
     fontsizeLabel->setText(tr("字号"));
 
-    m_fontSizeSlider = new DSlider(this);
-    m_fontSizeSlider->setOrientation(Qt::Horizontal);
+    m_fontSizeSlider = new DSlider(Qt::Horizontal, this);
+    m_fontSizeSlider->slider()->setOrientation(Qt::Horizontal);
     m_fontSizeSlider->setMinimum(8);
     m_fontSizeSlider->setMaximum(1000);
     m_fontSizeSlider->setMinimumWidth(200);

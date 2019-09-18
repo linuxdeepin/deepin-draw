@@ -85,9 +85,11 @@ SaveDialog::SaveDialog(QList<QPixmap> pixs, DWidget *parent)
     m_valueLabel->setText(QString("%1").arg(sizeToHuman(
                                                 QFileInfo(m_imagePath).size())));
     QTimer *timer = new QTimer(this);
+#ifdef DRAWSLIIDER
     connect(m_qualitySlider, &QSlider::valueChanged, this, [ = ] {
         timer->start(500);
     });
+#endif
     connect(timer, &QTimer::timeout, this, [ = ] {
         updateImageSize();
     });
