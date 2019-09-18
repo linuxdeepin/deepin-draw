@@ -33,6 +33,7 @@ public:
     void updateAlphaControlWidget(int alpha);
 signals:
     void signalAlphaChanged(int);
+    void signalFinishChanged();
 
 private:
     DSlider *m_alphaSlider;

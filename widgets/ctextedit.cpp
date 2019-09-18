@@ -28,6 +28,9 @@ CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *pare
     , m_pItem(item)
 {
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
+    connect(this, &QTextEdit::currentCharFormatChanged,
+            this, &CTextEdit::currentCharFormatChanged);
+    //connect(this->document(), SIGNAL(contentsChanged), this, SLOT(slot_textChanged()));
 }
 
 //void CTextEdit::setTopAlignment()
@@ -54,10 +57,15 @@ void CTextEdit::slot_textChanged()
 {
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
-    if (size.height() > rect.size().height()) {
-        rect.setSize(size);
+    rect.setHeight(size.height());
+
+    if (m_pItem != nullptr) {
         m_pItem->setRect(rect);
     }
+//    if (size.height() > rect.size().height()) {
+//        rect.setSize(size);
+//        m_pItem->setRect(rect);
+//    }
 }
 
 
@@ -70,6 +78,21 @@ void CTextEdit::setVisible(bool visible)
         this->setTextCursor(cursor);
     }
     DTextEdit::setVisible(visible);
+}
+
+void CTextEdit::mousePressEvent(QMouseEvent *event)
+{
+    if (this->isVisible()) {
+        this->clearFocus();
+        this->setFocus();
+        currentCharFormatChanged(currentCharFormat());
+    }
+    DTextEdit::mousePressEvent(event);
+}
+
+void CTextEdit::currentCharFormatChanged(const QTextCharFormat &format)
+{
+    m_pItem->currentCharFormatChanged(format);
 }
 
 

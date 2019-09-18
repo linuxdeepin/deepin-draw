@@ -152,6 +152,7 @@ void ColorPanel::setConfigColor(QColor color)
     }
 
     emit signalColorChanged();
+    emit signalChangeFinished();
 }
 
 void ColorPanel::slotPickedColorChanged(QColor newColor)
@@ -286,6 +287,8 @@ void ColorPanel::initConnection()
 
         emit signalColorChanged();
     });
+
+    connect(m_alphaControlWidget, &CAlphaControlWidget::signalFinishChanged, this, &ColorPanel::signalChangeFinished);
 
     ///展开按钮
     connect(m_colorfulBtn, &CCheckButton::buttonClick, this, [ = ] {

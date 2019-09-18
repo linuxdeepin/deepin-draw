@@ -87,4 +87,6 @@ void CAlphaControlWidget::initConnection()
     connect(m_alphaSlider, &DSlider::sliderReleased, this, [ = ]() {
         m_isUserOperation = false;
     });
+
+    connect(m_alphaSlider, &DSlider::sliderReleased, this, &CAlphaControlWidget::signalFinishChanged);
 }

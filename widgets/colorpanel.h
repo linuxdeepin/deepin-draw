@@ -66,6 +66,7 @@ public:
 signals:
     void updateHeight();
     void signalColorChanged();
+    void signalChangeFinished();
 
 public slots:
     void slotPickedColorChanged(QColor);

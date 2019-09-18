@@ -37,9 +37,11 @@ public:
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
-signals:
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
-private slots:
+public slots:
+    void currentCharFormatChanged(const QTextCharFormat &format);
     void slot_textChanged();
 
 

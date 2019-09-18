@@ -65,13 +65,14 @@ void BigColorButton::paintEvent(QPaintEvent *)
 
     if (m_isHover || m_isChecked) {
         painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        painter.drawRoundedRect(rect(), 4, 4);
+        painter.drawRoundedRect(rect(), 6, 6);
     } else if (m_isChecked) {
         drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
     }
 
     painter.setBrush(drawColor);
-    painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
+    //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
+    painter.drawRoundedRect(QRect(4, 4, 16, 16),  6, 6);
 
     QPen borderPen;
     borderPen.setWidth(1);
@@ -82,7 +83,8 @@ void BigColorButton::paintEvent(QPaintEvent *)
     } else {
         painter.setBrush(Qt::transparent);
     }
-    painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
+    //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
+    painter.drawRoundedRect(QRect(3, 3, 18, 18),  6, 6);
 }
 
 void BigColorButton::setColor(QColor color)
