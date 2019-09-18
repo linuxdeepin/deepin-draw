@@ -57,6 +57,9 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         m_pRectItem->setSelected(true);
 
         m_bMousePress = true;
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
     } else {
         scene->mouseEvent(event);
     }

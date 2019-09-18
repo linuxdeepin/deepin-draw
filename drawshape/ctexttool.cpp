@@ -43,19 +43,26 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
+        QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
+        item->setFont(font);
 
-        QFontMetrics fm(CDrawParamSigleton::GetInstance()->getTextFont());
+        QFontMetrics fm(font);
         QRect rect = fm.boundingRect("输入文本");
 
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() + 10, rect.height() + 10));
-        item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
+        //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
         item->setSelected(true);
         scene->addItem(item);
         emit scene->itemAdded(item);
-        item->getCGraphicsProxyWidget()->setFocus();
-        item->getTextEdit()->setFocus();
+//        item->getTextEdit()->setFocus();
+        //item->getCGraphicsProxyWidget()->setFocus();
+        //
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
     } else {
         scene->mouseEvent(event);
     }

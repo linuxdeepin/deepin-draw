@@ -56,6 +56,9 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pBlurItem->setPixmap();
 
         m_bMousePress = true;
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
     } else {
         scene->mouseEvent(event);
     }

@@ -32,8 +32,8 @@
 
 const int CORNER_WITH = 20;
 //const QString PenColorName = "#B5B5B5";
-const QString PenColorName = "#00BFFF";
-
+//const QString PenColorName = "#00BFFF";
+const QString PenColorName = "#ECECF8";
 
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -103,11 +103,6 @@ void CGraphicsCutItem::initRect()
 
 //    m_proxy = new QGraphicsProxyWidget(this);
 //    m_proxy->setWidget(m_cancelBtn);
-
-    m_okBtn = new CButtonRect(this, CButtonRect::OKButton);
-    m_cancelBtn = new CButtonRect(this, CButtonRect::CancelButton);
-
-
     // handles
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {
@@ -136,9 +131,6 @@ void CGraphicsCutItem::initPenAndBrush()
 void CGraphicsCutItem::updateGeometry()
 {
     const QRectF &geom = this->boundingRect();
-
-    m_cancelBtn->move(geom.x() + geom.width() - 120, geom.y() + geom.height() - 20);
-    m_okBtn->move(geom.x() + geom.width() - 50, geom.y() + geom.height() - 20);
 
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
@@ -565,19 +557,6 @@ void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
     showControlRects(isFreeMode);
 }
 
-CButtonRect::EButtonType CGraphicsCutItem::collideTest(const QPointF &point) const
-{
-    if (m_okBtn->hitTest(point)) {
-        return m_okBtn->buttonType();
-    }
-
-    if (m_cancelBtn->hitTest(point)) {
-        return m_cancelBtn->buttonType();
-    }
-
-    return  CButtonRect::NoneButton;
-}
-
 void CGraphicsCutItem::doChangeType(int type)
 {
     QRectF rect = this->scene()->sceneRect();
@@ -661,17 +640,17 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     QPainterPath path;
     ///画4个角
-    pen.setColor(Qt::white);
     pen.setWidth(5);
     painter->setPen(pen);
     drawFourConner(painter, path, pen.width());
 
+    QPainterPath path1;
     ///画三等分矩形的直线
-    pen.setColor(QColor(PenColorName));
+//    pen.setColor(QColor(PenColorName));
     painter->setPen(pen);
     pen.setWidth(1);
     painter->setPen(pen);
-    drawTrisectorRect(painter, path);
+    drawTrisectorRect(painter, path1);
 
     ///画矩形
     pen.setStyle(Qt::DashLine);

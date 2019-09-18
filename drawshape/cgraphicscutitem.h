@@ -40,9 +40,6 @@ public:
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
 
-
-    CButtonRect::EButtonType collideTest(const QPointF &point) const;
-
     void doChangeType(int);
     void doChangeSize(int, int);
 
@@ -68,8 +65,6 @@ private:
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
-    CButtonRect *m_okBtn;
-    CButtonRect *m_cancelBtn;
     QRectF m_originalRect;
     bool m_isFreeMode;
 

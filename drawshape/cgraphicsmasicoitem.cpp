@@ -46,7 +46,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(QGraphicsItem *parent)
     , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
     , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
 {
-
+    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -54,7 +54,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
     , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
     , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
 {
-
+    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 //CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)

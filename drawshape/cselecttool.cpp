@@ -66,6 +66,7 @@ CSelectTool::~CSelectTool()
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     qDebug() << "mouse press" << endl;
+
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = true;
         m_sPointPress = event->scenePos();
@@ -106,6 +107,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 scene->changeAttribute(true, item);
 
                 //scene->changeAttribute(true, m_currentSelectItem->pen(), m_currentSelectItem->brush());
+
             } else {
                 m_currentSelectItem = nullptr;
             }
@@ -308,6 +310,20 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         }
     }
     scene->mouseEvent(event);
+
+    /////////////////////////////////////////////////////////
+    QList<QGraphicsItem *> list = scene->selectedItems();
+    if (list.count() == 2) {
+        for (QGraphicsItem *item : list) {
+            if (item == m_currentSelectItem) {
+                item->setSelected(false);
+                list.removeOne(item);
+            }
+        }
+        m_currentSelectItem = static_cast<CGraphicsItem *>(list.first());
+        scene->changeAttribute(true, list.first());
+    }
+    /////////////////////////////////////////////////////////
 }
 
 void CSelectTool::selectionChange()

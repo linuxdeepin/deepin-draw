@@ -176,6 +176,16 @@ void CGraphicsItem::move(QPointF beginPoint, QPointF movePoint)
     this->setPos(Pos + movePoint - beginPoint);
 }
 
+void CGraphicsItem::setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag)
+{
+    foreach (CSizeHandleRect *sizeHandleRect, m_handles) {
+        if (sizeHandleRect->dir() == dir) {
+            sizeHandleRect->setVisible(flag);
+            break;
+        }
+    }
+}
+
 void CGraphicsItem::setState(ESelectionHandleState st)
 {
     const Handles::iterator hend =  m_handles.end();
@@ -214,4 +224,5 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
     return value;
 }
+
 

@@ -187,7 +187,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (mouseEvent->button() & Qt::LeftButton) {
+    if (mouseEvent->button()) {
         EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
@@ -212,10 +212,10 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
-        if (pTool->getDrawToolMode() != cut) {
-            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-            emit signalChangeToSelect();
-        }
+//        if (pTool->getDrawToolMode() != cut) {
+//            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+//            emit signalChangeToSelect();
+//        }
     }
 }
 
@@ -234,18 +234,35 @@ void CDrawScene::showCutItem()
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool && cut == pTool->getDrawToolMode()) {
         static_cast<CCutTool *>(pTool)->createCutItem(this);
-        signalUpdateCutSize();
+        emit signalUpdateCutSize();
     }
 }
 
 void CDrawScene::quitCutMode()
 {
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
-    if (nullptr != pTool) {
-        static_cast<CCutTool *>(pTool)->deleteCutItem(this);
-        setItemDisable(true);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit signalQuitCutMode();
+    EDrawToolMode mode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    if (cut == mode) {
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
+        if (nullptr != pTool) {
+            static_cast<CCutTool *>(pTool)->deleteCutItem(this);
+            setItemDisable(true);
+            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+            emit signalQuitCutMode();
+        }
+    }
+}
+
+void CDrawScene::doCutScene()
+{
+    EDrawToolMode mode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    if (cut == mode) {
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
+        if (nullptr != pTool) {
+            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect();
+            setSceneRect(rect);
+            update();
+            quitCutMode();
+        }
     }
 }
 

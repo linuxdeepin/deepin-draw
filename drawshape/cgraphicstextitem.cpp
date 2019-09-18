@@ -19,6 +19,7 @@
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "widgets/ctextedit.h"
+#include "cdrawscene.h"
 
 
 #include <QTextEdit>
@@ -32,6 +33,7 @@
 #include <QMenu>
 #include <QDebug>
 #include <QObject>
+
 
 
 CGraphicsTextItem::CGraphicsTextItem()
@@ -64,14 +66,7 @@ void CGraphicsTextItem::initTextEditWidget()
 {
     m_pTextEdit = new CTextEdit(QObject::tr("输入文本"), this);
     m_pTextEdit->show();
-//    bool bflag = m_pTextEdit->isHidden();
-//    bool bflag1 = m_pTextEdit->isVisible();
-//    bool bflag2 = m_pTextEdit->isHidden();
-//    bool bflag3 = m_pTextEdit->isVisible();
     m_pTextEdit->setMinimumSize(QSize(1, 1));
-
-//    connect(m_pTextEdit, &QTextEdit::currentCharFormatChanged,
-//            this, &CGraphicsTextItem2::currentCharFormatChanged);
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
@@ -84,6 +79,17 @@ void CGraphicsTextItem::initTextEditWidget()
     m_pProxy->setWidget(m_pTextEdit);
     m_pProxy->setMinimumSize(0, 0);
     m_pProxy->setZValue(this->zValue() - 0.1);
+    m_pTextEdit->setFocus();
+
+    enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
+
+    this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Top, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::RightBottom, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Bottom, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -126,7 +132,7 @@ void CGraphicsTextItem::updateWidget()
     const QRectF &geom = this->rect();
     bool flag = m_pTextEdit->isVisible();
     m_pTextEdit->show();
-    m_pTextEdit->resize(int(geom.width()), int(geom.height()));
+    //m_pTextEdit->resize(int(geom.width()), int(geom.height()));
     m_pProxy->setPos(geom.x(), geom.y());
     if (!flag) {
         m_pTextEdit->hide();
@@ -156,6 +162,7 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 {
     CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
     updateWidget();
+    m_pTextEdit->slot_textChanged();
 }
 
 CGraphicsItem *CGraphicsTextItem::duplicate() const
@@ -192,6 +199,7 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 //        cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
     m_pTextEdit->mergeCurrentCharFormat(format);
+    m_pTextEdit->setFocus();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -215,8 +223,8 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    m_pProxy->show();
-    m_pProxy->setFocus();
+    m_pTextEdit->show();
+    //m_pProxy->setFocus();
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
@@ -283,7 +291,7 @@ void CGraphicsTextItem::drawTextLayout(QPainter *painter, const QTextBlock &bloc
             QTextLine line = layout->lineAt(i);
             // 计算输出位置X
             qreal offset = alignPos(layout->textOption().alignment(), sizeToFill.width(), line.naturalTextWidth());
-            outPos.setX(outPos.x() + offset);
+            //outPos.setX(outPos.x());
             outPos.setY(baseLine.y());
             // 获取属于本行的文本
             QString textOnLine;
@@ -297,7 +305,7 @@ void CGraphicsTextItem::drawTextLayout(QPainter *painter, const QTextBlock &bloc
                 j++;
             }
             // 绘制属于本行的Fragment中的文本
-            drawText(painter, outPos, textOnLine, chf, brush);
+            drawText(painter, outPos, textOnLine, chf, brush, offset);
             // 有换行的话，要更新BaseLine的Y及outPos的X
             if (i < lineNoEnd) {
                 // 更新基线位置Y
@@ -309,7 +317,7 @@ void CGraphicsTextItem::drawTextLayout(QPainter *painter, const QTextBlock &bloc
 }
 
 // 第三步 绘制文字
-void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, const QTextCharFormat &fmt,  const QBrush &brush)
+void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, const QTextCharFormat &fmt,  const QBrush &brush, qreal offset)
 {
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setRenderHint(QPainter::TextAntialiasing, true);
@@ -343,7 +351,7 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
         }
         painter->setPen(pen);
         // draw text.
-        painter->drawText(p + rect().topLeft(), text);
+        painter->drawText((p + QPointF(offset, 0)) + rect().topLeft(), text);
     }
 
     p += QPointF(textBoundingRect.width(), 0);
@@ -440,6 +448,9 @@ void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
     CDrawParamSigleton::GetInstance()->setTextColor(format.foreground().color());
 
     //提示更改 TODO
+    if (this->scene() != nullptr) {
+        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
+    }
 
 }
 

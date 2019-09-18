@@ -31,6 +31,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     : QGraphicsSvgItem(QString(":/theme/resources/node.svg"), parent)
     , m_dir(d)
     , m_state(SelectionHandleOff)
+    , m_bVisible(true)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
@@ -41,12 +42,12 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     : QGraphicsSvgItem(filename, parent)
     , m_dir(d)
     , m_state(SelectionHandleOff)
+    , m_bVisible(true)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
     hide();
 }
-
 
 void CSizeHandleRect::updateCursor()
 {
@@ -105,7 +106,9 @@ void CSizeHandleRect::setState(ESelectionHandleState st)
             break;
         case SelectionHandleInactive:
         case SelectionHandleActive:
-            show();
+            if (m_bVisible) {
+                show();
+            }
             break;
         }
         m_state = st;
@@ -114,8 +117,12 @@ void CSizeHandleRect::setState(ESelectionHandleState st)
 
 bool CSizeHandleRect::hitTest(const QPointF &point)
 {
-    QPointF pt = mapFromScene(point);
-    return this->boundingRect().contains(pt);
+    bool bRet = false;
+    if (m_bVisible) {
+        QPointF pt = mapFromScene(point);
+        bRet = this->boundingRect().contains(pt);
+    }
+    return bRet;
 }
 
 void CSizeHandleRect::move(qreal x, qreal y)
@@ -130,6 +137,16 @@ QRectF CSizeHandleRect::boundingRect() const
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);
     return rect;
+}
+
+void CSizeHandleRect::setVisible(bool flag)
+{
+    m_bVisible = flag;
+}
+
+bool CSizeHandleRect::getVisible() const
+{
+    return m_bVisible;
 }
 
 

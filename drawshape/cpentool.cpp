@@ -49,6 +49,9 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         m_pPenItem->setSelected(true);
 
         m_bMousePress = true;
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
     } else {
         scene->mouseEvent(event);
     }

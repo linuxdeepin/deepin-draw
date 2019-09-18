@@ -53,6 +53,8 @@ public:
     bool hitTest( const QPointF &point );
     void move(qreal x, qreal y );
     QRectF boundingRect() const Q_DECL_OVERRIDE;
+    void setVisible(bool flag);
+    bool getVisible() const;
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
@@ -60,6 +62,7 @@ protected:
 private:
     const EDirection m_dir;
     ESelectionHandleState m_state;
+    bool  m_bVisible;   //是否显示  true 显示  false不显示
 };
 
 

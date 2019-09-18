@@ -66,21 +66,21 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 {
 
     //按钮碰撞检测
-    if (nullptr != m_pCutItem && !m_bMousePress) {
-        CButtonRect::EButtonType btnType = m_pCutItem->collideTest(event->scenePos());
-        if (btnType != m_buttonType) {
-            m_buttonType = btnType;
-            if (btnType == CButtonRect::OKButton) {
-                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
-            } else if (btnType == CButtonRect::CancelButton) {
-                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
-            } else {
-                if (m_pCutItem->isFreeMode()) {
-                    qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::InRect, m_bMousePress)));
-                }
-            }
-        }
-    }
+//    if (nullptr != m_pCutItem && !m_bMousePress) {
+//        CButtonRect::EButtonType btnType = m_pCutItem->collideTest(event->scenePos());
+//        if (btnType != m_buttonType) {
+//            m_buttonType = btnType;
+//            if (btnType == CButtonRect::OKButton) {
+//                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
+//            } else if (btnType == CButtonRect::CancelButton) {
+//                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
+//            } else {
+//                if (m_pCutItem->isFreeMode()) {
+//                    qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::InRect, m_bMousePress)));
+//                }
+//            }
+//        }
+//    }
 
     //碰撞检测
     if (nullptr != m_pCutItem && m_pCutItem->isFreeMode() && !m_bMousePress) {
@@ -126,20 +126,16 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
         }
 
-        if (nullptr != m_pCutItem && CButtonRect::NoneButton != m_buttonType) {
-            if (CButtonRect::OKButton == m_buttonType) {
-                //emit scene->signalDoCut(m_pCutItem->rect());
-                scene->setSceneRect(m_pCutItem->rect());
-                scene->update();
-                scene->quitCutMode();
-
-            } else if (CButtonRect::CancelButton == m_buttonType) {
-
-                scene->quitCutMode();
-            }
-        }
-
-
+//        if (nullptr != m_pCutItem && CButtonRect::NoneButton != m_buttonType) {
+//            if (CButtonRect::OKButton == m_buttonType) {
+//                //emit scene->signalDoCut(m_pCutItem->rect());
+//                scene->setSceneRect(m_pCutItem->rect());
+//                scene->update();
+//                scene->quitCutMode();
+//            } else if (CButtonRect::CancelButton == m_buttonType) {
+//                scene->quitCutMode();
+//            }
+//        }
 
         scene->mouseEvent(event);
     }
@@ -164,15 +160,21 @@ void CCutTool::createCutItem(CDrawScene *scene)
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+
     if (nullptr != m_pCutItem) {
         scene->removeItem(m_pCutItem);
         delete m_pCutItem;
         m_pCutItem = nullptr;
     }
+
+
 }
 
 void CCutTool::changeCutType(int type, CDrawScene *scene)
 {
+    Q_UNUSED(scene)
+
     if (nullptr != m_pCutItem) {
         if (cut_free == type) {
             //scene->setItemDisable(false);
@@ -191,4 +193,17 @@ void CCutTool::changeCutSize(const QSize &size)
     if (nullptr != m_pCutItem) {
         m_pCutItem->doChangeSize(size.width(), size.height());
     }
+}
+
+QRectF CCutTool::getCutRect()
+{
+    QRectF rect;
+
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+
+    if (nullptr != m_pCutItem) {
+        rect = m_pCutItem->rect();
+    }
+
+    return rect;
 }

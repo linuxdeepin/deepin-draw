@@ -42,6 +42,7 @@ public:
     virtual CGraphicsItem *duplicate() const;
     virtual CGraphicsUnit getGraphicsUnit() const;
     virtual void move(QPointF beginPoint, QPointF movePoint);
+    void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
 
 
 protected:

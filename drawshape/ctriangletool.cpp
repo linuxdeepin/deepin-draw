@@ -39,16 +39,23 @@ CTriangleTool::~CTriangleTool()
 
 void CTriangleTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    scene->clearSelection();
+    if (event->button() == Qt::LeftButton) {
+        scene->clearSelection();
 
-    m_sPointPress = event->scenePos();
-    m_pTriangleItem = new CGraphicsTriangleItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-    m_pTriangleItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-    m_pTriangleItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-    scene->addItem(m_pTriangleItem);
-    m_pTriangleItem->setSelected(true);
+        m_sPointPress = event->scenePos();
+        m_pTriangleItem = new CGraphicsTriangleItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        m_pTriangleItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+        m_pTriangleItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        scene->addItem(m_pTriangleItem);
+        m_pTriangleItem->setSelected(true);
 
-    m_bMousePress = true;
+        m_bMousePress = true;
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
+    } else {
+        scene->mouseEvent(event);
+    }
 }
 
 void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -283,24 +290,20 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
 void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     Q_UNUSED(scene)
-    m_sPointRelease = event->scenePos();
-    //如果鼠标没有移动
-//    if ( event->scenePos() == m_sPointPress ) {
-//        if ( m_pTriangleItem != nullptr)
-//            scene->removeItem(m_pTriangleItem);
-//        delete m_pTriangleItem;
-//    }
-    //如果鼠标没有移动
-    if ( m_pTriangleItem != nullptr) {
-        if ( event->scenePos() == m_sPointPress ) {
+    if (event->button() == Qt::LeftButton) {
+        m_sPointRelease = event->scenePos();
+        //如果鼠标没有移动
+        if ( m_pTriangleItem != nullptr) {
+            if ( event->scenePos() == m_sPointPress ) {
 
-            scene->removeItem(m_pTriangleItem);
-            delete m_pTriangleItem;
+                scene->removeItem(m_pTriangleItem);
+                delete m_pTriangleItem;
 
-        } else {
-            emit scene->itemAdded(m_pTriangleItem);
+            } else {
+                emit scene->itemAdded(m_pTriangleItem);
+            }
         }
+        m_pTriangleItem = nullptr;
+        m_bMousePress = false;
     }
-    m_pTriangleItem = nullptr;
-    m_bMousePress = false;
 }

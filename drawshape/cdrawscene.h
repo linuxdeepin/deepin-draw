@@ -76,6 +76,7 @@ public:
      * @brief quitCutMode 退出裁剪
      */
     void quitCutMode();
+    void doCutScene();
 
     void setItemDisable(bool canSelecte);
 
@@ -116,9 +117,9 @@ signals:
 
     void itemBlurChange(int blurWidth, EBlurEffect effect);
 
-    void signalDoCut(QRectF);
-
     void signalUpdateCutSize();
+
+    void signalUpdateTextFont();
 
 public slots:
 

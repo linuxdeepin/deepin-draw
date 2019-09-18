@@ -70,8 +70,6 @@ public:
     void doCenterAlignment();
 
 
-
-public slots:
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
 
@@ -100,7 +98,7 @@ private:
                   QPointF &p,
                   QString &text,
                   const QTextCharFormat &fmt,
-                  const QBrush &brush);
+                  const QBrush &brush, qreal offset);
     qreal alignPos(Qt::Alignment a,
                    const qreal &width,
                    const qreal &textWidth);

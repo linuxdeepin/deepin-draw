@@ -48,7 +48,10 @@ void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
         scene->addItem(m_pPolygonItem);
         m_pPolygonItem->setSelected(true);
         m_bMousePress = true;
-    } else {
+    } else if (event->button() == Qt::RightButton) {
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+        emit scene->signalChangeToSelect();
+    }  else {
         scene->mouseEvent(event);
     }
 }

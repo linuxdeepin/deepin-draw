@@ -39,6 +39,7 @@ public:
     void deleteCutItem(CDrawScene *scene);
     void changeCutType(int, CDrawScene *scene);
     void changeCutSize(const QSize &);
+    QRectF getCutRect();
 
 private:
     CGraphicsCutItem *m_pCutItem;
