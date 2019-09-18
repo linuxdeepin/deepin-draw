@@ -18,6 +18,7 @@
  */
 #include "cgraphicsellipseitem.h"
 #include <QPainter>
+#include "cgraphicsmasicoitem.h"
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
     : CGraphicsRectItem (parent)

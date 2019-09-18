@@ -17,7 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicsitem.h"
+#include "cgraphicsmasicoitem.h"
 #include <QDebug>
+#include <QGraphicsScene>
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
@@ -167,6 +169,13 @@ CGraphicsUnit CGraphicsItem::getGraphicsUnit() const
     return CGraphicsUnit();
 }
 
+void CGraphicsItem::move(QPointF beginPoint, QPointF movePoint)
+{
+    QPointF Pos = this->pos();
+    //qDebug() << "Pos = " << Pos << "beginPoint" << beginPoint << "movePoint" << movePoint;
+    this->setPos(Pos + movePoint - beginPoint);
+}
+
 void CGraphicsItem::setState(ESelectionHandleState st)
 {
     const Handles::iterator hend =  m_handles.end();
@@ -190,6 +199,17 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 {
     if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
+    }
+
+    //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
+    if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange && change != QGraphicsItem::ItemVisibleHasChanged) {
+        QList<QGraphicsItem *> items = this->scene()->items(this->scene()->sceneRect());//this->collidingItems();
+        //QList<QGraphicsItem *> items = this->collidingItems();
+        foreach (QGraphicsItem *item, items) {
+            if (item->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            }
+        }
     }
 
     return value;

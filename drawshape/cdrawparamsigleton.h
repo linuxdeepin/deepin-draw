@@ -101,6 +101,19 @@ public:
     ECutAttributeType getCutAttributeType() const;
     void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
+
+    bool getIsModify() const;
+    void setIsModify(bool isModify);
+
+    bool getIsQuit() const;
+    void setIsQuit(bool isQuit);
+
+    EBlurEffect getBlurEffect() const;
+    void setBlurEffect(const EBlurEffect &blurEffect);
+
+    int getBlurWidth() const;
+    void setBlurWidth(const int width);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -132,6 +145,17 @@ private:
     ECutType m_cutType;
     QSize m_cutSize;
     QSize m_cutDefaultSize;
+
+
+    //图元是否有修改
+    bool m_isModify;
+    //保存完成后是否需要退出
+    bool m_isQuit;
+
+    //blur
+    EBlurEffect m_effect; //模糊效果
+    int m_blurWidth;    //模糊半径
+
 };
 
 

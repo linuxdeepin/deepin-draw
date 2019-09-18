@@ -41,6 +41,7 @@ public:
     virtual QRectF rect() const = 0;
     virtual CGraphicsItem *duplicate() const;
     virtual CGraphicsUnit getGraphicsUnit() const;
+    virtual void move(QPointF beginPoint, QPointF movePoint);
 
 
 protected:

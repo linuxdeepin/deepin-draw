@@ -39,6 +39,7 @@ public:
 protected:
     bool m_bMousePress;
     QPointF m_sPointPress;
+    QPointF m_sLastPress;
     QPointF m_sPointRelease;
 
     bool m_bShiftKeyPress;

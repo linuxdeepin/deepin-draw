@@ -37,6 +37,12 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
     , m_cutType(ECutType::cut_original)
+    , m_cutSize(1362, 790)
+    , m_cutDefaultSize(1362, 790)
+    , m_isModify(false)
+    , m_isQuit(false)
+    , m_effect(BlurEffect)
+    , m_blurWidth(20)
 {
     m_textFont.setPointSizeF(8);
 }
@@ -263,4 +269,44 @@ void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttribu
     m_cutAttributeType = cutAttributeType;
 }
 
+
+bool CDrawParamSigleton::getIsModify() const
+{
+    return m_isModify;
+}
+
+void CDrawParamSigleton::setIsModify(bool isModify)
+{
+    m_isModify = isModify;
+}
+
+bool CDrawParamSigleton::getIsQuit() const
+{
+    return m_isQuit;
+}
+
+void CDrawParamSigleton::setIsQuit(bool isQuit)
+{
+    m_isQuit = isQuit;
+}
+
+EBlurEffect CDrawParamSigleton::getBlurEffect() const
+{
+    return m_effect;
+}
+
+void CDrawParamSigleton::setBlurEffect(const EBlurEffect &blurEffect)
+{
+    m_effect = blurEffect;
+}
+
+int CDrawParamSigleton::getBlurWidth() const
+{
+    return m_blurWidth;
+}
+
+void CDrawParamSigleton::setBlurWidth(const int width)
+{
+    m_blurWidth = width;
+}
 

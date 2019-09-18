@@ -114,6 +114,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
     qreal height = pixmap.height();
     qreal widgetWidth = scene->width();
     qreal widgetHeight = scene->height();
+
     if (height == 0) {
         return;
     }

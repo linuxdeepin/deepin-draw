@@ -40,6 +40,7 @@ public:
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+
 };
 
 #endif // CGRAPHICSELLIPSEITEM_H

@@ -59,6 +59,16 @@ public:
 
     bool isEditable() const;
 
+    ///右键菜单触发功能
+    void doCut();
+    void doCopy();
+    void doPaste();
+    void doSelectAll();
+    void doTopAlignment();
+    void doRightAlignment();
+    void doLeftAlignment();
+    void doCenterAlignment();
+
 
 
 public slots:

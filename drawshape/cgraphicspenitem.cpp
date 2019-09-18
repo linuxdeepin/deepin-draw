@@ -461,6 +461,11 @@ void CGraphicsPenItem::setArrow(const QPolygonF &arrow)
     m_arrow = arrow;
 }
 
+QPainterPath CGraphicsPenItem::getPath() const
+{
+    return m_path;
+}
+
 void CGraphicsPenItem::setPath(const QPainterPath &path)
 {
     m_path = path;

@@ -28,6 +28,7 @@
 #include "frame/cpicturewidget.h"
 #include "cgraphicstextitem.h"
 #include "ccuttool.h"
+#include "cgraphicsmasicoitem.h"
 
 
 #include <QGraphicsSceneMouseEvent>
@@ -41,6 +42,7 @@ CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
 {
     connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChange()));
+    //connect(this, SIGNAL(changed(const QList<QRectF> &)), this, SLOT(slot_changed(const QList<QRectF> &)));
 }
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -98,13 +100,15 @@ void CDrawScene::attributeChanged()
         foreach (item, items) {
             CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
 
-            if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
-                    tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
-                emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
-                                        tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
-                                        tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
-                tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-                tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+            if (item->type() != BlurType) {
+                if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
+                        tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
+                    emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
+                                            tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
+                                            tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
+                    tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+                    tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+                }
             }
 
 
@@ -124,6 +128,17 @@ void CDrawScene::attributeChanged()
                     emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
                     tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
                                                  CDrawParamSigleton::GetInstance()->getRadiusNum());
+                }
+            } else if (item->type() == BlurType) {
+                CGraphicsMasicoItem *tmpItem = static_cast<CGraphicsMasicoItem *>(item);
+                if (tmpItem->getBlurWidth() != CDrawParamSigleton::GetInstance()->getBlurWidth() || tmpItem->getBlurEffect() != CDrawParamSigleton::GetInstance()->getBlurEffect()) {
+                    //emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
+                    tmpItem->setBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect());
+                    tmpItem->setBlurWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
+                    //用于撤消
+                    emit itemBlurChange(CDrawParamSigleton::GetInstance()->getBlurWidth(),
+                                        CDrawParamSigleton::GetInstance()->getBlurEffect());
+                    tmpItem->update();
                 }
             }
         }
@@ -158,6 +173,11 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
         case LineType:
             CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
             break;
+        case BlurType:
+            CDrawParamSigleton::GetInstance()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(selectedItem)->getBlurEffect());
+            CDrawParamSigleton::GetInstance()->setBlurWidth(static_cast<CGraphicsMasicoItem *>(selectedItem)->getBlurWidth());
+            break;
+
         default:
             break;
         }

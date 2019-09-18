@@ -50,7 +50,7 @@ public:
     void setPath(const QPainterPath &path);
 
     void setArrow(const QPolygonF &arrow);
-
+    QPainterPath getPath() const;
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;

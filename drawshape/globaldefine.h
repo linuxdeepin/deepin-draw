@@ -63,7 +63,8 @@ enum EGraphicUserType {
     PenType,            //画笔
     TextType,           //文本
     PictureType,        //图片
-    CutType
+    CutType,            //裁剪
+    BlurType            //模糊
 };
 
 enum ECutAttributeType {
@@ -79,6 +80,11 @@ enum ECutType {
     cut_16_9,
     cut_free,
     cut_original
+};
+
+enum EBlurEffect {
+    BlurEffect = 0,
+    MasicoEffect
 };
 
 #endif // GLODEFINE_H

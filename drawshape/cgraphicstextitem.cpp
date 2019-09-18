@@ -468,3 +468,44 @@ bool CGraphicsTextItem::isEditable() const
 {
     return m_pTextEdit->isVisible();
 }
+
+void CGraphicsTextItem::doCut()
+{
+    m_pTextEdit->cut();
+}
+
+void CGraphicsTextItem::doCopy()
+{
+    m_pTextEdit->copy();
+}
+
+void CGraphicsTextItem::doPaste()
+{
+    m_pTextEdit->paste();
+}
+
+void CGraphicsTextItem::doSelectAll()
+{
+    m_pTextEdit->selectAll();
+}
+
+void CGraphicsTextItem::doTopAlignment()
+{
+    m_pTextEdit->setAlignment(Qt::AlignJustify);
+}
+
+void CGraphicsTextItem::doRightAlignment()
+{
+    m_pTextEdit->setAlignment(Qt::AlignRight);
+}
+
+void CGraphicsTextItem::doLeftAlignment()
+{
+    m_pTextEdit->setAlignment(Qt::AlignLeft);
+}
+
+void CGraphicsTextItem::doCenterAlignment()
+{
+    m_pTextEdit->setAlignment(Qt::AlignCenter);
+}
+

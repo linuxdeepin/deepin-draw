@@ -32,7 +32,9 @@ HEADERS += \
     $$PWD/ccuttool.h \
     $$PWD/cgraphicscutitem.h \
     $$PWD/cbuttonrect.h \
-    $$PWD/sitemdata.h
+    $$PWD/sitemdata.h \
+    $$PWD/cgraphicsmasicoitem.h \
+    $$PWD/cmasicotool.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -66,7 +68,9 @@ SOURCES += \
     $$PWD/cgraphicstextitem.cpp \
     $$PWD/ccuttool.cpp \
     $$PWD/cgraphicscutitem.cpp \
-    $$PWD/cbuttonrect.cpp
+    $$PWD/cbuttonrect.cpp \
+    $$PWD/cgraphicsmasicoitem.cpp \
+    $$PWD/cmasicotool.cpp
 
 
 

@@ -27,6 +27,7 @@
 #include "cpolygonalstartool.h"
 #include "cpentool.h"
 #include "ccuttool.h"
+#include "cmasicotool.h"
 
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
@@ -64,6 +65,8 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
     case cut:
         pTool = new CCutTool();
         break;
+    case blur:
+        pTool = new CMasicoTool();
     default:
         break;
     }

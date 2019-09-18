@@ -26,6 +26,7 @@
 #include "cgraphicsproxywidget.h"
 #include "cgraphicscutitem.h"
 #include "widgets/ctextedit.h"
+#include "cgraphicsmasicoitem.h"
 
 #include <DApplication>
 
@@ -40,6 +41,7 @@
 
 #include <QTextEdit>
 #include <QSvgGenerator>
+#include <QtMath>
 
 
 CSelectTool::CSelectTool ()
@@ -67,6 +69,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = true;
         m_sPointPress = event->scenePos();
+        m_sLastPress = m_sPointPress;
         //选中图元
         if (m_currentSelectItem != nullptr) {
 
@@ -89,6 +92,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 //需要区别图元或文字
                 m_currentSelectItem = static_cast<CGraphicsItem *>(item);
                 m_dragHandle = CSizeHandleRect::InRect;
+
+                //如果是滤镜图层
+                if (m_currentSelectItem->type() == BlurType) {
+                    static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
+                }
                 if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
@@ -112,7 +120,10 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     // 再判断一次
     QList<QGraphicsItem *> items = scene->selectedItems();
 
-    //if (m_currentSelectItem == nullptr) {
+//    if (m_currentSelectItem == nullptr) {
+//        m_dragHandle = CSizeHandleRect::None;
+//        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+//    }
 
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
@@ -124,8 +135,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
-        scene->views()[0]->setCursor(Qt::ArrowCursor);
+        //scene->setCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
     }
     // }
     //碰撞检测
@@ -218,11 +230,16 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
 
         } else {
-            scene->mouseEvent(event);
+            if (m_currentSelectItem != nullptr) {
+                m_currentSelectItem->move(m_sLastPress, event->scenePos());
+            }
+            //scene->mouseEvent(event);
         }
     } else {
         scene->mouseEvent(event);
     }
+
+    m_sLastPress = event->scenePos();
 
 }
 
@@ -232,12 +249,19 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_bMousePress = false;
         m_sPointRelease = event->scenePos();
 
+        QPointF vectorPoint = m_sPointRelease - m_sPointPress;
+
         //选中图元
         if (m_currentSelectItem != nullptr) {
             if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
                 qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            }
+
+            //最后需要刷新一次
+            if (m_currentSelectItem->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
             }
         }
 
@@ -247,20 +271,28 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     delete m_RotateItem;
                     m_RotateItem = nullptr;
                 }
-                emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
+                if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
+                }
             } else if (m_dragHandle == CSizeHandleRect::InRect) {
                 QList<QGraphicsItem *> items = scene->selectedItems();
-                if (items.count() == 1) {
 
-                    emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
-                } else {
-                    emit scene->itemMoved(nullptr, m_sPointRelease - m_sPointPress );
+
+                if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    if (items.count() == 1) {
+
+                        emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+                    } else {
+                        emit scene->itemMoved(nullptr, m_sPointRelease - m_sPointPress );
+                    }
                 }
 
             } else {
                 bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
                 bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
-                emit scene->itemResize(m_currentSelectItem, m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
+                if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    emit scene->itemResize(m_currentSelectItem, m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
+                }
             }
         }
     }

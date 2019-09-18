@@ -114,6 +114,8 @@ signals:
 
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
 
+    void itemBlurChange(int blurWidth, EBlurEffect effect);
+
     void signalDoCut(QRectF);
 
     void signalUpdateCutSize();
@@ -124,7 +126,6 @@ public slots:
 
     void slotSelectionChange();
 
-
 protected:
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
@@ -133,9 +134,8 @@ protected:
     virtual void drawItems(QPainter *painter, int numItems,
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
-                           QWidget *widget = nullptr);
+                           QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
-private:
 
 
 };
