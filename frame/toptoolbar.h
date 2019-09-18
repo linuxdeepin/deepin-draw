@@ -76,6 +76,8 @@ signals:
     void signalTextFontFamilyChanged();
     void signalTextFontSizeChanged();
 
+    void signalQuitCutModeFromTopBarMenu();
+
 
 public:
 //    void showDrawDialog();
@@ -98,6 +100,8 @@ public slots:
     void slotSetScale(const qreal scale);
     void slotSetCutSize();
     void slotSetTextFont();
+private slots:
+    void slotIsCutMode(QAction *action);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

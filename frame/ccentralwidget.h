@@ -84,8 +84,6 @@ public slots:
     void slotTextFontFamilyChanged();
     void slotTextFontSizeChanged();
     void openPicture(QString path);
-
-private slots:
     void slotQuitCutMode();
 
 private:

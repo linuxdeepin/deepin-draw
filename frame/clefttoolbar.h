@@ -44,6 +44,7 @@ signals:
     void setCurrentDrawTool(int type);
     void importPic();
     void signalBegainCut();
+    void singalQuitCutModeFromLeftToolBar();
 
 public slots:
 
@@ -51,7 +52,6 @@ public slots:
      * @brief slotChangedStatusToSelect 将工具栏的状态切换为选择状态
      */
     void slotChangedStatusToSelect();
-    void slotSetDisableButtons(bool);
     void slotQuitCutMode();
     void changeButtonTheme();
 
@@ -105,6 +105,10 @@ private:
     void initDrawTools();
     void initShortCut();
     void initShortCutConnection();
+    /**
+     * @brief isCutMode 判断当前是不是裁剪模式　如果是先退出裁剪
+     */
+    void isCutMode();
 };
 
 #endif // RIGHTTOOLBAR_H

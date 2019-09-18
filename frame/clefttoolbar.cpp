@@ -89,7 +89,7 @@ void CLeftToolBar::initUI()
 
     m_picBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_picBtn->setFocusPolicy(Qt::NoFocus);
-    m_picBtn->setToolTip(tr("Import"));
+//    m_picBtn->setToolTip(tr("Import"));
     m_actionButtons.append(m_picBtn);
 
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
@@ -104,7 +104,7 @@ void CLeftToolBar::initUI()
 
     m_rectBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_rectBtn->setFocusPolicy(Qt::NoFocus);
-    m_rectBtn->setToolTip(tr("Rectangle"));
+//    m_rectBtn->setToolTip(tr("Rectangle"));
     m_actionButtons.append(m_rectBtn);
 
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
@@ -119,7 +119,7 @@ void CLeftToolBar::initUI()
 
     m_roundBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_roundBtn->setFocusPolicy(Qt::NoFocus);
-    m_roundBtn->setToolTip(tr("Ellipse"));
+//    m_roundBtn->setToolTip(tr("Ellipse"));
     m_actionButtons.append(m_roundBtn);
 
 
@@ -136,7 +136,7 @@ void CLeftToolBar::initUI()
 
     m_triangleBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_triangleBtn->setFocusPolicy(Qt::NoFocus);
-    m_triangleBtn->setToolTip(tr("Triangle"));
+//    m_triangleBtn->setToolTip(tr("Triangle"));
     m_actionButtons.append(m_triangleBtn);
 
 
@@ -153,7 +153,7 @@ void CLeftToolBar::initUI()
 
     m_starBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_starBtn->setFocusPolicy(Qt::NoFocus);
-    m_starBtn->setToolTip(tr("Star"));
+//    m_starBtn->setToolTip(tr("Star"));
     m_actionButtons.append(m_starBtn);
 
 
@@ -170,7 +170,7 @@ void CLeftToolBar::initUI()
 
     m_polygonBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_polygonBtn->setFocusPolicy(Qt::NoFocus);
-    m_polygonBtn->setToolTip(tr("Polygon"));
+//    m_polygonBtn->setToolTip(tr("Polygon"));
     m_actionButtons.append(m_polygonBtn);
 
 
@@ -187,7 +187,7 @@ void CLeftToolBar::initUI()
 
     m_lineBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_lineBtn->setFocusPolicy(Qt::NoFocus);
-    m_lineBtn->setToolTip(tr("Line"));
+//    m_lineBtn->setToolTip(tr("Line"));
     m_actionButtons.append(m_lineBtn);
 
 
@@ -204,7 +204,7 @@ void CLeftToolBar::initUI()
 
     m_penBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_penBtn->setFocusPolicy(Qt::NoFocus);
-    m_penBtn->setToolTip(tr("Pencil"));
+//    m_penBtn->setToolTip(tr("Pencil"));
     m_actionButtons.append(m_penBtn);
 
 
@@ -220,7 +220,7 @@ void CLeftToolBar::initUI()
 
     m_textBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_textBtn->setFocusPolicy(Qt::NoFocus);
-    m_textBtn->setToolTip(tr("Text"));
+//    m_textBtn->setToolTip(tr("Text"));
     m_actionButtons.append(m_textBtn);
 
 
@@ -236,7 +236,7 @@ void CLeftToolBar::initUI()
 
     m_blurBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_blurBtn->setFocusPolicy(Qt::NoFocus);
-    m_blurBtn->setToolTip(tr("Blur"));
+//    m_blurBtn->setToolTip(tr("Blur"));
     m_actionButtons.append(m_blurBtn);
 
 
@@ -252,8 +252,7 @@ void CLeftToolBar::initUI()
 
     m_cutBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_cutBtn->setFocusPolicy(Qt::NoFocus);
-    m_cutBtn->setObjectName("CutBtn");
-    m_cutBtn->setToolTip(tr("Cut"));
+//    m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
 
     m_layout = new QVBoxLayout(this);
@@ -301,8 +300,8 @@ void CLeftToolBar::slotChangedStatusToSelect()
 
 void CLeftToolBar::slotQuitCutMode()
 {
-    slotChangedStatusToSelect();
-    slotSetDisableButtons(true);
+//    slotChangedStatusToSelect();
+    m_cutBtn->setChecked(false);
     m_cutBtn->clearFocus();
 }
 
@@ -316,23 +315,7 @@ void CLeftToolBar::changeButtonTheme()
 
 
 
-void CLeftToolBar::slotSetDisableButtons(bool isEnable)
-{
-    // this->setEnabled(isEnable);
-    m_picBtn->setEnabled(isEnable);
-    m_rectBtn->setEnabled(isEnable);
-    m_roundBtn->setEnabled(isEnable);
-    m_triangleBtn->setEnabled(isEnable);
-    m_starBtn->setEnabled(isEnable);
-    m_polygonBtn->setEnabled(isEnable);
-    m_lineBtn->setEnabled(isEnable);
-    m_penBtn->setEnabled(isEnable);
-    m_textBtn->setEnabled(isEnable);
-    m_blurBtn->setEnabled(isEnable);
 
-
-
-}
 
 
 void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
@@ -427,7 +410,7 @@ void CLeftToolBar::initConnection()
 {
 
     connect(m_picBtn, &CCheckButton::buttonClick, [this]() {
-
+        isCutMode();
         clearOtherSelections(m_picBtn);
 
         emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
@@ -437,34 +420,36 @@ void CLeftToolBar::initConnection()
 
     });
 
-
-
-
     connect(m_rectBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_rectBtn);
         emit setCurrentDrawTool(rectangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(rectangle);
     });
 
     connect(m_roundBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_roundBtn);
         emit setCurrentDrawTool(ellipse);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(ellipse);
     });
 
     connect(m_triangleBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_triangleBtn);
         emit setCurrentDrawTool(triangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(triangle);
     });
 
     connect(m_starBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_starBtn);
         emit setCurrentDrawTool(polygonalStar);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygonalStar);
     });
 
     connect(m_polygonBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_polygonBtn);
         emit setCurrentDrawTool(polygon);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygon);
@@ -472,6 +457,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_lineBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_lineBtn);
         emit setCurrentDrawTool(line);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
@@ -479,6 +465,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_penBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_penBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
         emit setCurrentDrawTool(pen);
@@ -486,6 +473,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_textBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_textBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
         emit setCurrentDrawTool(text);
@@ -493,6 +481,7 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
         clearOtherSelections(m_blurBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(blur);
         emit setCurrentDrawTool(blur);
@@ -504,7 +493,6 @@ void CLeftToolBar::initConnection()
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(cut);
         emit setCurrentDrawTool(cut);
         emit signalBegainCut();
-        slotSetDisableButtons(false);
     });
 }
 
@@ -643,7 +631,7 @@ void CLeftToolBar::initShortCut()
     this->addAction(m_blurAction);
 
     m_cutAction = new QAction();
-    m_cutAction->setShortcut(QKeySequence(Qt::Key_U));
+    m_cutAction->setShortcut(QKeySequence(Qt::Key_C));
     this->addAction(m_cutAction);
 }
 
@@ -660,5 +648,12 @@ void CLeftToolBar::initShortCutConnection()
     connect(m_textAction, SIGNAL(triggered()), this, SLOT(slotShortCutText()));
     connect(m_blurAction, SIGNAL(triggered()), this, SLOT(slotShortCutBlur()));
     connect(m_cutAction, SIGNAL(triggered()), this, SLOT(slotShortCutCut()));
+}
+
+void CLeftToolBar::isCutMode()
+{
+    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+        emit singalQuitCutModeFromLeftToolBar();
+    }
 }
 

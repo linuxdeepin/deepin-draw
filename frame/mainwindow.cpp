@@ -25,7 +25,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
-#include "utils/cddfmanager.h"
+
 
 #include <DTitlebar>
 #include <QVBoxLayout>
@@ -136,6 +136,8 @@ void MainWindow::initConnection()
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
     connect(m_centralWidget, SIGNAL(saveDeepinDraw()), m_centralWidget, SLOT(slotSaveToDDF()));
+
+    connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SLOT(slotQuitCutMode()));
 }
 
 
@@ -237,13 +239,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::openImage(QString path)
 {
-    //QMessageBox::information(this, "path", path);
-    if (QFileInfo(path).suffix() == "DDF" && QFileInfo(path).exists()) {
-        CDDFManager DDFManager;
-        DDFManager.loadDDF(path, m_centralWidget->getDrawScene(), m_centralWidget->getGraphicsView());
-    } else {
-        m_centralWidget->openPicture(path);
-    }
+    m_centralWidget->getGraphicsView()->importData(path);
 }
 
 void MainWindow::initScene()

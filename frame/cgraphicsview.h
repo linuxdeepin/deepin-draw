@@ -18,9 +18,10 @@
  */
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
-
-#include <DGraphicsView>
 #include "drawshape/csizehandlerect.h"
+#include "widgets/cmenu.h"
+#include <DGraphicsView>
+
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
@@ -30,6 +31,7 @@ class CPrintManager;
 class CExportImageDialog;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
+class CMenu;
 
 class CGraphicsView : public DGraphicsView
 {
@@ -46,7 +48,7 @@ public:
     void doSaveDDF();
     void doImport();
     void setContextMenuAndActionEnable(bool enable);
-
+    void importData(const QString &path);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -72,6 +74,9 @@ public slots:
     void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
     void slotStopContinuousDrawing();
+    void slotStartLoadDDF(QRectF rect);
+    void slotAddItemFromDDF(QGraphicsItem *item );
+    void slotQuitCutMode();
 
 private slots:
     void slotOnCut();
@@ -83,7 +88,6 @@ private slots:
     void slotOneLayerDown();
     void slotBringToFront();
     void slotSendTobackAct();
-    void slotQuitCutMode();
     void slotDoCutScene();
 
     ///文字右键菜单槽函数
@@ -101,7 +105,7 @@ private slots:
 private:
     qreal m_scale; //记录当前缩放
 
-    DMenu *m_contextMenu;//右键菜单
+    CMenu *m_contextMenu;//右键菜单
     QAction *m_cutAct;              //剪切
     QAction *m_copyAct;             //拷贝
     QAction *m_pasteAct;            //粘贴
@@ -122,7 +126,7 @@ private:
     QAction *m_cutScence;          //裁剪
 
     ///文字图元右键菜单
-    DMenu *m_textMenu;
+    CMenu *m_textMenu;
     QAction *m_textCutAction;
     QAction *m_textCopyAction;
     QAction *m_textPasteAction;
@@ -140,7 +144,6 @@ private:
     bool m_visible;
 
     CDDFManager *m_DDFManager;
-    QString m_ddfFileSavePath;
 
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
@@ -151,6 +154,7 @@ private:
     void initContextMenuConnection();
     void initTextContextMenu();
     void initTextContextMenuConnection();
+    void initConnection();
     QPixmap getSceneImage();
     void setContextMenu();
 

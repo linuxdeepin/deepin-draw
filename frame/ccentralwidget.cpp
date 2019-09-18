@@ -217,7 +217,7 @@ void CCentralwidget::slotShowCutItem()
 
 void CCentralwidget::slotQuitCutMode()
 {
-    m_pGraphicsView->setContextMenuAndActionEnable(true);
+    m_pGraphicsView->slotQuitCutMode();
 }
 
 void CCentralwidget::slotSetScale(const qreal scale)
@@ -258,7 +258,6 @@ void CCentralwidget::initConnect()
             m_pGraphicsView, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
 
     connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), m_leftToolbar, SLOT(slotQuitCutMode()));
-    connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), this, SLOT(slotQuitCutMode()));
 
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
@@ -267,6 +266,11 @@ void CCentralwidget::initConnect()
 
     //主菜单栏中点击打开导入图片
     connect(m_pGraphicsView, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
+
+    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), m_pDrawScene, SLOT(drawToolChange(int)));
+
+    //左边工具按钮点击退出裁剪模式
+    connect(m_leftToolbar, SIGNAL(singalQuitCutModeFromLeftToolBar()), this, SLOT(slotQuitCutMode()));
 }
 
 

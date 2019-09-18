@@ -58,7 +58,6 @@
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
-    , m_ddfFileSavePath("")
     , m_isShowContext(true)
     , m_isStopContinuousDrawing(false)
 {
@@ -66,6 +65,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     m_pUndoStack = new QUndoStack(this);
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager();
+    m_DDFManager = new CDDFManager (this, this);
 
     initContextMenu();
     initContextMenuConnection();
@@ -73,6 +73,8 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     //文字右键菜单初始化
     initTextContextMenu();
     initTextContextMenuConnection();
+
+    initConnection();
 }
 
 void CGraphicsView::zoomOut()
@@ -147,7 +149,7 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 
 void CGraphicsView::initContextMenu()
 {
-    m_contextMenu = new DMenu(this);
+    m_contextMenu = new CMenu(this);
 
     m_cutAct = new QAction(tr("Cut"));
     m_contextMenu->addAction(m_cutAct);
@@ -243,7 +245,7 @@ void CGraphicsView::initContextMenuConnection()
 
 void CGraphicsView::initTextContextMenu()
 {
-    m_textMenu = new DMenu(this);
+    m_textMenu = new CMenu(this);
 
     m_textCutAction = new QAction(tr("Cut"));
     m_textCopyAction = new QAction(tr("Copy"));
@@ -302,6 +304,12 @@ void CGraphicsView::initTextContextMenuConnection()
     connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
     connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
     connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
+}
+
+void CGraphicsView::initConnection()
+{
+    connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
+    connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
 }
 
 
@@ -487,6 +495,18 @@ void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *ite
 void CGraphicsView::slotStopContinuousDrawing()
 {
     m_isStopContinuousDrawing = true;
+}
+
+void CGraphicsView::slotStartLoadDDF(QRectF rect)
+{
+    clearScene();
+    scene()->setSceneRect(rect);
+}
+
+void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item)
+{
+    scene()->addItem(item);
+    itemAdded(item);
 }
 
 
@@ -713,6 +733,7 @@ void CGraphicsView::slotSendTobackAct()
 
 void CGraphicsView::slotQuitCutMode()
 {
+    setContextMenuAndActionEnable(true);
     static_cast<CDrawScene *>(scene())->quitCutMode();
 }
 
@@ -818,15 +839,11 @@ void CGraphicsView::clearScene()
 
 void CGraphicsView::doSaveDDF()
 {
-    if (m_ddfFileSavePath.isEmpty() || m_ddfFileSavePath == "") {
+    QString ddfPath = CDrawParamSigleton::GetInstance()->getDdfSavePath();
+    if (ddfPath.isEmpty() || ddfPath == "") {
         showSaveDDFDialog(true);
     } else {
-        if (m_DDFManager->saveToDDF(m_ddfFileSavePath, scene())) {
-            CDrawParamSigleton::GetInstance()->setIsModify(false);
-            if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
-                qApp->quit();
-            }
-        }
+        m_DDFManager->saveToDDF(ddfPath, scene());
     }
 }
 
@@ -849,13 +866,7 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (m_DDFManager->saveToDDF(path, scene())) {
-                m_ddfFileSavePath = path;
-                CDrawParamSigleton::GetInstance()->setIsModify(false);
-                if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
-                    qApp->quit();
-                }
-            }
+            m_DDFManager->saveToDDF(path, scene());
         }
     }
 }
@@ -874,11 +885,20 @@ void CGraphicsView::doImport()
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
-        if (QFileInfo(path).suffix() == "DDF" && !path.isEmpty()) {
-            m_DDFManager->loadDDF(path, scene(), this);
+        if (!path.isEmpty() && QFileInfo(path).suffix() == "DDF") {
+            m_DDFManager->loadDDF(path);
         } else {
             emit signalImportPicture(path);
         }
+    }
+}
+
+void CGraphicsView::importData(const QString &path)
+{
+    if (!path.isEmpty() && QFileInfo(path).suffix() == "DDF") {
+        m_DDFManager->loadDDF(path);
+    } else {
+        emit signalImportPicture(path);
     }
 }
 

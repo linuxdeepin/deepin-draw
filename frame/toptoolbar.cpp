@@ -33,6 +33,7 @@
 #include "widgets/dialog/drawdialog.h"
 #include "widgets/dialog/savedialog.h"
 #include "utils/tempfile.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -236,6 +237,8 @@ void TopToolbar::initMenu()
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
     connect(newConstructAc, &QAction::triggered, this, &TopToolbar::signalNew);
+
+    connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
 }
 
 
@@ -406,6 +409,15 @@ void TopToolbar::slotSetCutSize()
 void TopToolbar::slotSetTextFont()
 {
     m_drawTextWidget->updateTextWidget();
+}
+
+void TopToolbar::slotIsCutMode(QAction *action)
+{
+    Q_UNUSED(action)
+
+//    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+//        emit signalQuitCutModeFromTopBarMenu();
+//    }
 }
 
 

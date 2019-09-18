@@ -18,12 +18,13 @@
  */
 #include "ccutwidget.h"
 #include "widgets/toolbutton.h"
+#include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QButtonGroup>
-#include <QIntValidator>
+
 
 
 const int BTN_SPACING = 6;
@@ -58,14 +59,11 @@ void CCutWidget::initUI()
     ft.setPixelSize(TEXT_SIZE);
     sizeLabel->setFont(ft);
 
-    QIntValidator v( 0, 16384, this );
-    // 这个行编辑只接受从0到100的整数
-
     m_widthEdit = new DLineEdit(this);
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(60);
-    m_widthEdit->lineEdit()->setValidator( &v );
+    m_widthEdit->lineEdit()->setValidator(new CIntValidator(200, 4096, this));
     m_widthEdit->setFont(ft);
 
     DLabel *multiLabel = new DLabel(this);
@@ -75,7 +73,7 @@ void CCutWidget::initUI()
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);
-    m_heightEdit->lineEdit()->setValidator( &v );
+    m_heightEdit->lineEdit()->setValidator(new CIntValidator(200, 4096, this) );
     m_heightEdit->setFont(ft);
 
     DLabel *scaleLabel = new DLabel(this);
