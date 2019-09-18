@@ -204,7 +204,7 @@ void TopToolbar::initMenu()
     //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
 
     QAction *newConstructAc = m_mainMenu->addAction(tr("New"));
-    QAction *importAc = m_mainMenu->addAction(tr("Import"));
+    QAction *importAc = m_mainMenu->addAction(tr("Open"));
     m_mainMenu->addSeparator();
     QAction *exportAc = m_mainMenu->addAction(tr("Export"));
     QAction *saveAc = m_mainMenu->addAction(tr("Save"));
@@ -254,6 +254,7 @@ void TopToolbar::changeTopButtonsTheme()
     m_drawLineWidget->changeButtonTheme();
     m_penWidget->changeButtonTheme();
     m_drawBlurWidget->changeButtonTheme();
+    m_drawTextWidget->updateTheme();
 }
 
 
@@ -465,7 +466,7 @@ void TopToolbar::initConnection()
     //draw text.
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextWidget);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextColor);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);

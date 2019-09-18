@@ -50,7 +50,6 @@ public:
 
     void switchTheme(int type);
 
-    void openPicture(QString path);
 
 signals:
 
@@ -84,6 +83,7 @@ public slots:
     void slotImport();
     void slotTextFontFamilyChanged();
     void slotTextFontSizeChanged();
+    void openPicture(QString path);
 
 private slots:
     void slotQuitCutMode();

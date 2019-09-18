@@ -41,7 +41,6 @@ const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 12;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
-    , m_isUsrDragSlider(false)
 {
     initUI();
     initConnection();
@@ -55,6 +54,7 @@ PolygonalStarAttributeWidget::~PolygonalStarAttributeWidget()
 void PolygonalStarAttributeWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
+    m_sepLine->updateTheme();
 }
 
 void PolygonalStarAttributeWidget::initUI()
@@ -75,7 +75,7 @@ void PolygonalStarAttributeWidget::initUI()
     strokeLabel->setText(tr("描边"));
     strokeLabel->setFont(ft);
 
-    SeperatorLine *sepLine = new SeperatorLine(this);
+    m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
     lwLabel->setFont(ft);
@@ -148,7 +148,7 @@ void PolygonalStarAttributeWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
     //layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sepLine);
+    layout->addWidget(m_sepLine);
     //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);
@@ -193,11 +193,9 @@ void PolygonalStarAttributeWidget::initConnection()
 
     ///锚点数
     connect(m_anchorNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        if (m_isUsrDragSlider) {
-            m_anchorNumEdit->setText(QString::number(value));
-            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
-            emit signalPolygonalStarAttributeChanged();
-        }
+        m_anchorNumEdit->setText(QString::number(value));
+        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+        emit signalPolygonalStarAttributeChanged();
     });
 
     connect(m_anchorNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
@@ -209,8 +207,6 @@ void PolygonalStarAttributeWidget::initConnection()
             return;
         }
         m_anchorNumSlider->setValue(value);
-        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
-        emit signalPolygonalStarAttributeChanged();
     });
 
     connect(m_anchorNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -219,26 +215,20 @@ void PolygonalStarAttributeWidget::initConnection()
         int minValue = m_anchorNumSlider->minimum();
         if (value == minValue && CDrawParamSigleton::GetInstance()->getAnchorNum() != minValue) {
             m_anchorNumSlider->setValue(value);
-            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
-            emit signalPolygonalStarAttributeChanged();
         }
-    });
-
-    connect(m_anchorNumSlider, &DSlider::sliderPressed, this, [ = ]() {
-        m_isUsrDragSlider = true;
-    });
-
-    connect(m_anchorNumSlider, &DSlider::sliderReleased, this, [ = ]() {
-        m_isUsrDragSlider = false;
     });
 
     ///半径
     connect(m_radiusNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        if (m_isUsrDragSlider) {
-            m_radiusNumEdit->setText(QString("%1%").arg(value));
-            CDrawParamSigleton::GetInstance()->setRadiusNum(value);
-            emit signalPolygonalStarAttributeChanged();
+        QString str = QString("%1%").arg(value);
+        if (str != m_radiusNumEdit->text().trimmed()) {
+            m_radiusNumEdit->setText(str);
+            if (str == "0%") {
+                m_radiusNumEdit->lineEdit()->setCursorPosition(1);
+            }
         }
+        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+        emit signalPolygonalStarAttributeChanged();
     });
 
     connect(m_radiusNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
@@ -262,8 +252,6 @@ void PolygonalStarAttributeWidget::initConnection()
         }
 
         m_radiusNumSlider->setValue(value);
-        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
-        emit signalPolygonalStarAttributeChanged();
     });
 
     connect(m_radiusNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -272,14 +260,6 @@ void PolygonalStarAttributeWidget::initConnection()
         if (str == "%") {
             m_radiusNumEdit->setText("0%");
         }
-    });
-
-    connect(m_radiusNumSlider, &DSlider::sliderPressed, this, [ = ]() {
-        m_isUsrDragSlider = true;
-    });
-
-    connect(m_radiusNumSlider, &DSlider::sliderReleased, this, [ = ]() {
-        m_isUsrDragSlider = false;
     });
 }
 

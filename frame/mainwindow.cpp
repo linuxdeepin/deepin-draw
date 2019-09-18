@@ -193,6 +193,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     } else {
     }
 
+    //    if (qApp->focusWidget() != nullptr) {
+    //        qApp->focusWidget()->clearFocus();
+    //        //qApp->focusWidget()->hide();
+    //    }
+    //    if (qApp->focusWidget() != nullptr) {
+    //        qApp->focusWidget()->hide();
+    //    }
 
     DMainWindow::keyPressEvent(event);
 }

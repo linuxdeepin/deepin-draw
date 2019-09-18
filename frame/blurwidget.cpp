@@ -32,6 +32,7 @@ DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
+const int TEXT_SIZE = 12;
 
 BlurWidget::BlurWidget(DWidget *parent)
     : DWidget(parent)
@@ -66,8 +67,11 @@ void BlurWidget::changeButtonTheme()
 void BlurWidget::initUI()
 {
     DLabel *penLabel = new DLabel(this);
-    penLabel->setObjectName("WidthLabel");
+    penLabel->setObjectName("TypeLabel");
     penLabel->setText(tr("类型"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    penLabel->setFont(ft);
 
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
@@ -106,6 +110,11 @@ void BlurWidget::initUI()
     m_blurBtn->setChecked(bEffect);
     m_masicBtn->setChecked(!bEffect);
 
+    DLabel *penWidthLabel = new DLabel(this);
+    penWidthLabel->setObjectName("PenWidthLabel");
+    penWidthLabel->setText(tr("涂抹笔粗细"));
+    penWidthLabel->setFont(ft);
+
     m_pLineWidthSlider = new DSlider(Qt::Horizontal, this);
 
     m_pLineWidthSlider->setMinimum(20);
@@ -117,6 +126,7 @@ void BlurWidget::initUI()
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("WidthLabel");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
+    m_pLineWidthLabel->setFont(ft);
 
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));
@@ -132,6 +142,8 @@ void BlurWidget::initUI()
     layout->addWidget(m_blurBtn);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_masicBtn);
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(penWidthLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_pLineWidthSlider);
     layout->addSpacing(SEPARATE_SPACING);

@@ -61,6 +61,7 @@ protected:
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 signals:
     void signalSetScale(const qreal scale);
+    void signalImportPicture(QString path);
 
 public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &oldPosition );

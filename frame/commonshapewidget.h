@@ -28,6 +28,7 @@ DWIDGET_USE_NAMESPACE
 class BorderColorButton;
 class BigColorButton;
 class CSideWidthWidget;
+class SeperatorLine;
 
 class CommonshapeWidget : public DWidget
 {
@@ -49,6 +50,7 @@ private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
+    SeperatorLine *m_sepLine;
 
 private:
     void initUI();

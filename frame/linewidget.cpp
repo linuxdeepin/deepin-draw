@@ -46,6 +46,7 @@ LineWidget::~LineWidget()
 void LineWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
+    m_sep1Line->updateTheme();
 }
 
 
@@ -60,7 +61,7 @@ void LineWidget::initUI()
 
     m_strokeBtn = new BorderColorButton(this);
 
-    SeperatorLine *sep1Line = new SeperatorLine(this);
+    m_sep1Line = new SeperatorLine(this);
 
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
@@ -76,7 +77,7 @@ void LineWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
 
-    layout->addWidget(sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
 
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);

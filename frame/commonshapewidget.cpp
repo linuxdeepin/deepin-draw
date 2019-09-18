@@ -50,6 +50,7 @@ CommonshapeWidget::~CommonshapeWidget()
 void CommonshapeWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
+    m_sepLine->updateTheme();
 }
 
 void CommonshapeWidget::initUI()
@@ -68,7 +69,7 @@ void CommonshapeWidget::initUI()
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("描边"));
     strokeLabel->setFont(ft);
-    SeperatorLine *sepLine = new SeperatorLine(this);
+    m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
@@ -85,7 +86,7 @@ void CommonshapeWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sepLine);
+    layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);

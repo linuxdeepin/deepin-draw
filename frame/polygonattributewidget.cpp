@@ -57,6 +57,7 @@ PolygonAttributeWidget::~PolygonAttributeWidget()
 void PolygonAttributeWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
+    m_sepLine->updateTheme();
 }
 
 void PolygonAttributeWidget::initUI()
@@ -76,7 +77,7 @@ void PolygonAttributeWidget::initUI()
     strokeLabel->setText(tr("描边"));
     strokeLabel->setFont(ft);
 
-    SeperatorLine *sepLine = new SeperatorLine(this);
+    m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
     lwLabel->setFont(ft);
@@ -113,7 +114,7 @@ void PolygonAttributeWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sepLine);
+    layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);
@@ -155,11 +156,9 @@ void PolygonAttributeWidget::initConnection()
 
     ///多边形边数
     connect(m_sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        if (m_isUsrDragSlider) {
-            m_sideNumEdit->setText(QString::number(value));
-            CDrawParamSigleton::GetInstance()->setSideNum(value);
-            emit signalPolygonAttributeChanged();
-        }
+        m_sideNumEdit->setText(QString::number(value));
+        CDrawParamSigleton::GetInstance()->setSideNum(value);
+        emit signalPolygonAttributeChanged();
     });
 
     connect(m_sideNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
@@ -171,8 +170,6 @@ void PolygonAttributeWidget::initConnection()
             return ;
         }
         m_sideNumSlider->setValue(value);
-        CDrawParamSigleton::GetInstance()->setSideNum(value);
-        emit signalPolygonAttributeChanged();
     });
 
     connect(m_sideNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -190,17 +187,7 @@ void PolygonAttributeWidget::initConnection()
         if (value == minvalue ) {
             m_sideNumEdit->setText(QString::number(minvalue));
             m_sideNumSlider->setValue(minvalue);
-            CDrawParamSigleton::GetInstance()->setSideNum(minvalue);
-            emit signalPolygonAttributeChanged();
         }
-    });
-
-    connect(m_sideNumSlider, &DSlider::sliderPressed, this, [ = ]() {
-        m_isUsrDragSlider = true;
-    });
-
-    connect(m_sideNumSlider, &DSlider::sliderReleased, this, [ = ]() {
-        m_isUsrDragSlider = false;
     });
 }
 

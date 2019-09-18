@@ -48,6 +48,7 @@ TextWidget::~TextWidget()
 void TextWidget::initUI()
 {
     m_fillBtn = new TextColorButton( this);
+    m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
     DLabel *colBtnLabel = new DLabel(this);
     colBtnLabel->setText(tr("填充"));
@@ -55,7 +56,7 @@ void TextWidget::initUI()
     ft.setPixelSize(TEXT_SIZE);
     colBtnLabel->setFont(ft);
 
-    SeperatorLine *textSeperatorLine = new SeperatorLine(this);
+    m_textSeperatorLine = new SeperatorLine(this);
 
     DLabel *fontFamilyLabel = new DLabel(this);
     fontFamilyLabel->setText(tr("字体"));
@@ -101,7 +102,7 @@ void TextWidget::initUI()
     layout->addWidget(m_fillBtn);
     layout->addWidget(colBtnLabel);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(textSeperatorLine);
+    layout->addWidget(m_textSeperatorLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontFamilyLabel);
     layout->addWidget(m_fontComBox);
@@ -111,6 +112,11 @@ void TextWidget::initUI()
     layout->addWidget(m_fontSizeEdit);
     layout->addStretch();
     setLayout(layout);
+}
+
+void TextWidget::updateTheme()
+{
+    m_textSeperatorLine->updateTheme();
 }
 
 void TextWidget::initConnection()
@@ -126,7 +132,6 @@ void TextWidget::initConnection()
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();
-
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
@@ -136,11 +141,9 @@ void TextWidget::initConnection()
 
     ///字体大小
     connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        if (m_isUsrDragSlider) {
-            m_fontSizeEdit->setText(QString::number(value));
-            CDrawParamSigleton::GetInstance()->setTextSize(value);
-            emit signalTextFontSizeChanged();
-        }
+        m_fontSizeEdit->setText(QString::number(value));
+        CDrawParamSigleton::GetInstance()->setTextSize(value);
+        emit signalTextFontSizeChanged();
     });
 
     connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
@@ -153,8 +156,6 @@ void TextWidget::initConnection()
         }
 
         m_fontSizeSlider->setValue(value);
-        CDrawParamSigleton::GetInstance()->setTextSize(value);
-        emit signalTextFontSizeChanged();
     });
 
     connect(m_fontSizeEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -166,17 +167,7 @@ void TextWidget::initConnection()
 
         if (value == minValue && defaultFontSize != minValue) {
             m_fontSizeSlider->setValue(value);
-            CDrawParamSigleton::GetInstance()->setTextSize(value);
-            emit signalTextFontSizeChanged();
         }
-    });
-
-    connect(m_fontSizeSlider, &DSlider::sliderPressed, this, [ = ]() {
-        m_isUsrDragSlider = true;
-    });
-
-    connect(m_fontSizeSlider, &DSlider::sliderReleased, this, [ = ]() {
-        m_isUsrDragSlider = false;
     });
 }
 
@@ -203,4 +194,13 @@ void TextWidget::updateTextWidget()
         m_fontSizeSlider->setValue(fontSize);
         m_fontSizeEdit->setText(QString("%1").arg(fontSize));
     }
+}
+
+void TextWidget::updateTextColor()
+{
+    m_fillBtn->updateConfigColor();
+//    m_fillBtn->clearFocus();
+//    if (qApp->focusWidget() != nullptr) {
+//        qApp->focusWidget()->hide();
+//    }
 }

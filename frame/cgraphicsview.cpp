@@ -863,18 +863,21 @@ void CGraphicsView::showSaveDDFDialog(bool type)
 void CGraphicsView::doImport()
 {
     DFileDialog dialog(this);
-    dialog.setWindowTitle(tr("加载文件"));//设置文件保存对话框的标题
+    dialog.setWindowTitle(tr("打开文件"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
-    dialog.setFileMode(DFileDialog::ExistingFiles);
+    dialog.setFileMode(DFileDialog::ExistingFile);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    //dialog.set
     QStringList nameFilters;
-    nameFilters << "*.DDF";
+    nameFilters << "*.DDF *.png *.jpg *.bmp *.tif";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
-        if (!path.isEmpty()) {
+        if (QFileInfo(path).suffix() == "DDF" && !path.isEmpty()) {
             m_DDFManager->loadDDF(path, scene(), this);
+        } else {
+            emit signalImportPicture(path);
         }
     }
 }

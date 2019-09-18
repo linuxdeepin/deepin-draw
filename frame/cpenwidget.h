@@ -26,6 +26,7 @@
 class CSideWidthWidget;
 class BorderColorButton;
 class CCheckButton;
+class SeperatorLine;
 
 DWIDGET_USE_NAMESPACE
 
@@ -53,6 +54,7 @@ private:
     QList<CCheckButton *> m_actionButtons;
     CCheckButton *m_straightline;
     CCheckButton *m_arrowline;
+    SeperatorLine *m_sep1Line;
 
 private:
     void initConnection();

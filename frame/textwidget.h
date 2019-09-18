@@ -29,6 +29,7 @@
 DWIDGET_USE_NAMESPACE
 
 class TextColorButton;
+class SeperatorLine;
 
 class TextWidget : public DWidget
 {
@@ -39,6 +40,8 @@ public:
 
 public slots:
     void updateTextWidget();
+    void updateTextColor();
+    void updateTheme();
 
 signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
@@ -52,7 +55,8 @@ private:
     DSlider *m_fontSizeSlider;
     DLineEdit *m_fontSizeEdit;
     DFontComboBox *m_fontComBox;
-    bool m_isUsrDragSlider;
+    SeperatorLine *m_textSeperatorLine;
+
 
 private:
     void initUI();

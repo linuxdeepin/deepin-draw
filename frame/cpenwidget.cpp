@@ -54,6 +54,7 @@ void CPenWidget::changeButtonTheme()
     int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
     m_straightline->setCurrentTheme(themeType);
     m_arrowline->setCurrentTheme(themeType);
+    m_sep1Line->updateTheme();
 }
 
 void CPenWidget::initUI()
@@ -66,7 +67,7 @@ void CPenWidget::initUI()
     strokeLabel->setFont(ft);
     m_strokeBtn = new BorderColorButton(this);
 
-    SeperatorLine *sep1Line = new SeperatorLine(this);
+    m_sep1Line = new SeperatorLine(this);
 
     DLabel *lineTypeLabel = new DLabel(this);
     lineTypeLabel->setObjectName("LineType");
@@ -119,7 +120,7 @@ void CPenWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
 
-    layout->addWidget(sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
 
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);

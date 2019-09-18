@@ -26,6 +26,7 @@
 
 class CSideWidthWidget;
 class BorderColorButton;
+class SeperatorLine;
 
 DWIDGET_USE_NAMESPACE
 
@@ -48,6 +49,7 @@ signals:
 private:
     CSideWidthWidget *m_sideWidthWidget;
     BorderColorButton *m_strokeBtn;
+    SeperatorLine *m_sep1Line;
 
 private:
     void initUI();

@@ -30,6 +30,7 @@ DWIDGET_USE_NAMESPACE
 class BigColorButton;
 class BorderColorButton;
 class CSideWidthWidget;
+class SeperatorLine;
 
 class PolygonAttributeWidget : public DWidget
 {
@@ -53,8 +54,7 @@ private:
     CSideWidthWidget *m_sideWidthWidget;
     DSlider *m_sideNumSlider;
     DLineEdit *m_sideNumEdit;
-
-    bool m_isUsrDragSlider; //是否是用户拖拽滑块
+    SeperatorLine *m_sepLine;
 
 private:
     void initUI();

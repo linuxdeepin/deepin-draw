@@ -78,7 +78,6 @@ void CCentralwidget::importPicture()
 {
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->drawPicture(m_pDrawScene, this);
-
 }
 //addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
 
@@ -265,6 +264,9 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
 
     connect(m_saveAction, SIGNAL(triggered()), this, SIGNAL(saveDeepinDraw()));
+
+    //主菜单栏中点击打开导入图片
+    connect(m_pGraphicsView, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
 }
 
 
