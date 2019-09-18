@@ -25,6 +25,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
+#include "utils/cddfmanager.h"
 
 #include <DTitlebar>
 #include <QVBoxLayout>
@@ -74,6 +75,8 @@ void MainWindow::initUI()
     m_centralWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_centralWidget);
+
+    m_quitQuestionDialog  = new DrawDialog(this);
 }
 
 void MainWindow::initConnection()
@@ -112,6 +115,8 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
     connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
+
+    connect(m_quitQuestionDialog, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
 }
 
 
@@ -136,14 +141,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::showDrawDialog()
 {
-    DrawDialog  *dd = new DrawDialog(this);
-    dd->showInCenter(window());
-
-//    connect(dd, &DrawDialog::saveDrawImage, this, [ = ] {
-//        TempFile::instance()->setSaveFinishedExit(true);
-//        emit m_topToolbar->generateSaveImage();
-//    });
-    dd->exec();
+    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
+        m_quitQuestionDialog->exec();
+    } else {
+        qApp->quit();
+    }
 }
 
 
@@ -172,91 +174,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     } else {
         ;
     }
-
-    //工具栏快捷键设置
-    if (!m_centralWidget->getTextEditable()) {
-        switch (event->key()) {
-        case Qt::Key_I:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(importPicture);
-            break;
-        case Qt::Key_R:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(rectangle);
-            break;
-        case Qt::Key_O:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(ellipse);
-            break;
-        case Qt::Key_N:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(triangle);
-            break;
-        case Qt::Key_M:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(polygonalStar);
-            break;
-        case Qt::Key_G:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(polygon);
-            break;
-        case Qt::Key_L:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(line);
-            break;
-        case Qt::Key_P:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(pen);
-            break;
-        case Qt::Key_T:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(text);
-            break;
-        case Qt::Key_B:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(blur);
-            break;
-        case Qt::Key_U:
-            m_centralWidget->getLeftToolBar()->shortCutOperation(cut);
-            break;
-        default:
-            break;
-        }
-    }
-
-
-
-//            //工具栏快捷键设置
-//            if (m_contrlKey) {
-//                switch (event->key()) {
-//                case Qt::Key_I:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(importPicture);
-//                    break;
-//                case Qt::Key_R:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(rectangle);
-//                    break;
-//                case Qt::Key_O:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(ellipse);
-//                    break;
-//                case Qt::Key_N:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(triangle);
-//                    break;
-//                case Qt::Key_M:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(polygonalStar);
-//                    break;
-//                case Qt::Key_G:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(polygon);
-//                    break;
-//                case Qt::Key_L:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(line);
-//                    break;
-//                case Qt::Key_P:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(pen);
-//                    break;
-//                case Qt::Key_T:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(text);
-//                    break;
-//                case Qt::Key_B:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(blur);
-//                    break;
-//                case Qt::Key_U:
-//                    m_centralWidget->getLeftToolBar()->shortCutOperation(cut);
-//                    break;
-//                default:
-//                    break;
-//                }
-
-
 
     DMainWindow::keyPressEvent(event);
 }
@@ -294,9 +211,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::openImage(QString path)
 {
-    QMessageBox::information(this, "path", path);
-    if (QFileInfo(path).suffix() == "ddf" && QFileInfo(path).exists()) {
-        ;
+    //QMessageBox::information(this, "path", path);
+    if (QFileInfo(path).suffix() == "DDF" && QFileInfo(path).exists()) {
+        CDDFManager DDFManager;
+        DDFManager.loadDDF(path, m_centralWidget->getDrawScene(), m_centralWidget->getGraphicsView());
     } else {
         m_centralWidget->openPicture(path);
     }
@@ -304,16 +222,10 @@ void MainWindow::openImage(QString path)
 
 void MainWindow::initScene()
 {
-//   QRect rect = qApp->desktop()->availableGeometry(m_centralWidget->getGraphicsView());
-//    int width = rect.width();
-//    int height = rect.height();
-//    height -= m_topToolbar->height();
-//    width -= m_centralWidget->getLeftToolBar()->width();
-    QRectF rect(0, 0, 1362, 790);
-    int width = rect.toRect().width();
-    int height = rect.toRect().height();
+    QSize size = CDrawParamSigleton::GetInstance()->getCutDefaultSize();
+    QRectF rect(0, 0, 0, 0);
+    rect.setSize(size);
     m_centralWidget->getDrawScene()->setSceneRect(rect);
-    CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(width, height));
     emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
 }
 

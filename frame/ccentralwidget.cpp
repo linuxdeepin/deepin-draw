@@ -80,19 +80,14 @@ void CCentralwidget::openPicture(QString path)
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
 }
-
+#include "drawshape/cgraphicsellipseitem.h"
+#include "drawshape/cgraphicstriangleitem.h"
 void CCentralwidget::initUI()
 {
     m_leftToolbar = new CLeftToolBar(this);
-
-//    m_leftToolbar->setStyleSheet("background-color: rgb(0,255, 0);");
-
     m_pGraphicsView = new CGraphicsView(this);
-
-//    m_pGraphicsView->setStyleSheet("padding: 0px; border: 0px;");
-//    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
     m_pDrawScene = new CDrawScene(this);
-    QRectF rc = QRectF(0, 0, 800, 600);
+    QRectF rc = QRectF(0, 0, 1362, 790);
     m_pDrawScene->setSceneRect(rc);
     m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
 
@@ -114,6 +109,21 @@ void CCentralwidget::initUI()
     layout->addWidget(m_leftToolbar);
     layout->addWidget(m_pGraphicsView);
     setLayout(layout);
+
+    //test
+
+//    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(QRect(360, 360, 300, 300));
+//    item->setPen(QPen(Qt::black));
+//    item->setBrush(QBrush(Qt::red));
+
+//    m_pDrawScene->addItem(item);
+
+//    CGraphicsTriangleItem *itemrect = new CGraphicsTriangleItem(QRect(300, 300, 300, 300));
+//    itemrect->setPen(QPen(Qt::black));
+//    itemrect->setBrush(QBrush(Qt::black));
+
+//    m_pDrawScene->addItem(itemrect);
+
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -217,19 +227,5 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, SIGNAL(signalDoCut(QRectF)), m_pGraphicsView, SLOT(slotDoCut(QRectF)));
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
 }
-bool CCentralwidget::getTextEditable()
-{
-    //如果是文字图元则显示其自己的右键菜单
-    if (!m_pDrawScene->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  m_pDrawScene->selectedItems().first();
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
-            //文字图元的显示需要获取view的大小，才能保证显示完整
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
+
+

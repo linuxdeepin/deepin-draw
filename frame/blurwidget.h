@@ -20,6 +20,7 @@
 #define BLURWIDGET_H
 
 #include <DWidget>
+#include <DSlider>
 
 
 class CCheckButton;
@@ -32,18 +33,25 @@ class BlurWidget : public DWidget
 
 
 public:
-    BlurWidget(DWidget *parent = 0);
+    BlurWidget(DWidget *parent = nullptr);
     ~BlurWidget();
 
-private:
-    QList<CCheckButton *> m_actionButtons;
-    CCheckButton *m_blurBtn;
-    CCheckButton *m_masicBtn;
+    void updateBlurWidget();
 
 private:
     void clearOtherSelections(CCheckButton *clickedButton);
     void initUI();
     void initConnection();
+
+signals:
+    void signalBlurAttributeChanged();
+
+private:
+    QList<CCheckButton *> m_actionButtons;
+    CCheckButton *m_blurBtn;
+    CCheckButton *m_masicBtn;
+    DLabel *m_pLineWidthLabel;
+    DSlider *m_pLineWidthSlider;
 };
 
 #endif // BLURWIDGET_H

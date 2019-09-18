@@ -27,6 +27,7 @@ DWIDGET_USE_NAMESPACE
 
 class TopToolbar;
 class CCentralwidget;
+class DrawDialog;
 
 class MainWindow: public DMainWindow
 {
@@ -57,6 +58,7 @@ private:
     CCentralwidget *m_centralWidget;
     int m_titlebarWidth;
     bool m_contrlKey;
+    DrawDialog *m_quitQuestionDialog;
 
 private:
     void initConnection();

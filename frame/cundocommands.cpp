@@ -22,6 +22,7 @@
 #include "drawshape/cgraphicsrectitem.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
+#include "drawshape/cdrawparamsigleton.h"
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -59,6 +60,8 @@ void CMoveShapeCommand::undo()
 //    setText(QObject::tr("Undo Move %1,%2")
 //            .arg(-myDelta.x()).arg(-myDelta.y()));
     bMoved = false;
+
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 //! [2]
 
@@ -76,6 +79,8 @@ void CMoveShapeCommand::redo()
             myGraphicsScene->update();
         }
     }
+
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 //! [3]
 //! [4]
@@ -101,6 +106,7 @@ void CRemoveShapeCommand::undo()
         myGraphicsScene->addItem(item);
     }
     myGraphicsScene->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
     //setText(QObject::tr("Undo Delete %1").arg(items.count()));
 }
 //! [5]
@@ -113,6 +119,7 @@ void CRemoveShapeCommand::redo()
 //        if ( g != nullptr )
         myGraphicsScene->removeItem(item);
     }
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
     //setText(QObject::tr("Redo Delete %1").arg(items.count()));
 }
 
@@ -144,6 +151,7 @@ void CAddShapeCommand::undo()
 {
     myGraphicsScene->removeItem(myDiagramItem);
     myGraphicsScene->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 //! [8]
 
@@ -154,6 +162,7 @@ void CAddShapeCommand::redo()
         myGraphicsScene->addItem(myDiagramItem);
     myDiagramItem->setPos(initialPosition);
     myGraphicsScene->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 /*
@@ -178,6 +187,7 @@ void CRotateShapeCommand::undo()
 {
     myItem->setRotation(myOldAngle);
     myItem->scene()->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
 }
 
@@ -185,6 +195,7 @@ void CRotateShapeCommand::redo()
 {
     myItem->setRotation(newAngle);
     myItem->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
 }
 
@@ -296,12 +307,14 @@ void CResizeShapeCommand::undo()
 {
     myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
     myItem->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CResizeShapeCommand::redo()
 {
     myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
     myItem->update();
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 /*
@@ -396,6 +409,7 @@ void CSetPropertyCommand::undo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_oldBrush);
     }
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CSetPropertyCommand::redo()
@@ -407,6 +421,8 @@ void CSetPropertyCommand::redo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_newBrush);
     }
+
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int oldNum)
@@ -419,11 +435,13 @@ CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *i
 void CSetPolygonAttributeCommand::undo()
 {
     m_pItem->setPointCount(m_nOldNum);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CSetPolygonAttributeCommand::redo()
 {
     m_pItem->setPointCount(m_nNewNum);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
@@ -438,11 +456,13 @@ CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygo
 void CSetPolygonStarAttributeCommand::undo()
 {
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 
@@ -493,6 +513,7 @@ void COneLayerUpCommand::undo()
 
     if (m_isUndoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -518,6 +539,7 @@ void COneLayerUpCommand::redo()
     }
     if (m_isRedoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -557,6 +579,7 @@ void COneLayerDownCommand::undo()
     }
     if (m_isUndoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -584,6 +607,7 @@ void COneLayerDownCommand::redo()
 
     if (m_isRedoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -621,6 +645,7 @@ void CBringToFrontCommand::undo()
 
     if (m_isUndoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -645,6 +670,7 @@ void CBringToFrontCommand::redo()
 
     if (m_isRedoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -683,6 +709,7 @@ void CSendToBackCommand::undo()
 
     if (m_isUndoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
 
@@ -706,5 +733,6 @@ void CSendToBackCommand::redo()
 
     if (m_isRedoExcuteSuccess) {
         m_scene->update();
+        CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }

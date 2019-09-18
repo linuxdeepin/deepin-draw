@@ -24,6 +24,7 @@
 class CCheckButton;
 class QVBoxLayout;
 
+
 DWIDGET_USE_NAMESPACE
 
 class CLeftToolBar : public DFrame
@@ -32,8 +33,6 @@ class CLeftToolBar : public DFrame
 public:
     explicit CLeftToolBar(DWidget *parent = nullptr);
     ~CLeftToolBar();
-
-    void shortCutOperation(int type);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
@@ -54,6 +53,19 @@ public slots:
     void slotSetDisableButtons(bool);
     void slotQuitCutMode();
 
+private slots:
+    void slotShortCutPictrue();
+    void slotShortCutRect();
+    void slotShortCutRound();
+    void slotShortCutTriangle();
+    void slotShortCutPolygonalStar();
+    void slotShortCutPolygon();
+    void slotShortCutLine();
+    void slotShortCutPen();
+    void slotShortCutText();
+    void slotShortCutBlur();
+    void slotShortCutCut();
+
 private:
     QList<CCheckButton *> m_actionButtons;
     CCheckButton *m_picBtn;
@@ -70,12 +82,27 @@ private:
 
     QVBoxLayout *m_layout;
 
+    QAction *m_pictureAction;
+    QAction *m_rectAction;
+    QAction *m_roundAction;
+    QAction *m_triangleAction;
+    QAction *m_starAction;
+    QAction *m_polygonAction;
+    QAction *m_lineAction;
+    QAction *m_penAction;
+    QAction *m_textAction;
+    QAction *m_blurAction;
+    QAction *m_cutAction;
+//    CCentralwidget *m_parentWidget;
+
 
 private:
     void initUI();
     void initConnection();
     void clearOtherSelections(CCheckButton *clickedButton);
     void initDrawTools();
+    void initShortCut();
+    void initShortCutConnection();
 };
 
 #endif // RIGHTTOOLBAR_H

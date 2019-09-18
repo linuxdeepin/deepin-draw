@@ -84,6 +84,17 @@ private slots:
     void slotSendTobackAct();
     void slotQuitCutMode();
 
+    ///文字右键菜单槽函数
+    void slotOnTextCut();
+    void slotOnTextCopy();
+    void slotOnTextPaste();
+    void slotOnTextSelectAll();
+    void slotOnTextTopAlignment();
+    void slotOnTextRightAlignment();
+    void slotOnTextLeftAlignment();
+    void slotOnTextCenterAlignment();
+    ///
+
 
 private:
     qreal m_scale; //记录当前缩放
@@ -100,12 +111,24 @@ private:
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
     QAction *m_sendTobackAct;       //置于最底层
-    QAction *m_leftAlignAct;
-    QAction *m_topAlignAct;
-    QAction *m_rightAlignAct;
-    QAction *m_centerAlignAct;
+//    QAction *m_leftAlignAct;
+//    QAction *m_topAlignAct;
+//    QAction *m_rightAlignAct;
+//    QAction *m_centerAlignAct;
 
     QAction *m_quitCutMode;        //退出裁剪
+
+    ///文字图元右键菜单
+    DMenu *m_textMenu;
+    QAction *m_textCutAction;
+    QAction *m_textCopyAction;
+    QAction *m_textPasteAction;
+    QAction *m_textSelectAllAction;
+    QAction *m_textLeftAlignAct;
+    QAction *m_textTopAlignAct;
+    QAction *m_textRightAlignAct;
+    QAction *m_textCenterAlignAct;
+    ///
 
     QUndoStack *m_pUndoStack;
 
@@ -125,6 +148,8 @@ private:
 private:
     void initContextMenu();
     void initContextMenuConnection();
+    void initTextContextMenu();
+    void initTextContextMenuConnection();
     QPixmap getSceneImage();
     void setContextMenu();
 

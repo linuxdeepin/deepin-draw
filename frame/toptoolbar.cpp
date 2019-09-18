@@ -197,11 +197,11 @@ void TopToolbar::initMenu()
 //    QAction *themeSystemAc = themMenu->addAction(tr("System theme"));
 //    m_mainMenu->addMenu(themMenu);
 
-    QAction *helpAc = m_mainMenu->addAction(tr("Help"));
+    // QAction *helpAc = m_mainMenu->addAction(tr("Help"));
 
 
 //    Q_UNUSED(themeAc);
-    Q_UNUSED(helpAc);
+//   Q_UNUSED(helpAc);
     QIcon t_icon = QIcon::fromTheme("deepin-draw");
     //dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
     dApp->setProductIcon(t_icon);
@@ -260,6 +260,7 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
     case::blur:
+        m_drawBlurWidget->updateBlurWidget();
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
         break;
     case::cut:
@@ -327,6 +328,9 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
             break;
         case::EGraphicUserType::PictureType:
             toolType = EDrawToolMode::importPicture;
+            break;
+        case::EGraphicUserType::BlurType:
+            toolType = EDrawToolMode::blur;
             break;
 //        case::EGraphicUserType::CutType:
 //            toolType = EDrawToolMode::cut;
@@ -431,6 +435,8 @@ void TopToolbar::initConnection()
     connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextWidget);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw blur widget.
+
+    connect(m_drawBlurWidget, &BlurWidget::signalBlurAttributeChanged, this, &TopToolbar::signalAttributeChanged);
 
     //cut
     connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);

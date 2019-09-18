@@ -57,8 +57,13 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     m_pUndoStack = new QUndoStack(this);
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager();
+
     initContextMenu();
     initContextMenuConnection();
+
+    //文字右键菜单初始化
+    initTextContextMenu();
+    initTextContextMenuConnection();
 }
 
 void CGraphicsView::zoomOut()
@@ -193,10 +198,10 @@ void CGraphicsView::initContextMenu()
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
 
-    m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
-    m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
-    m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
-    m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
+//    m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
+//    m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
+//    m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
+//    m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
 
     //退出裁剪模式快捷键
     m_quitCutMode = new QAction();
@@ -219,6 +224,69 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_quitCutMode, SIGNAL(triggered()), this, SLOT(slotQuitCutMode()));
 }
 
+void CGraphicsView::initTextContextMenu()
+{
+    m_textMenu = new DMenu(this);
+
+    m_textCutAction = new QAction(tr("Cut"));
+    m_textCopyAction = new QAction(tr("Copy"));
+    m_textPasteAction = new QAction(tr("Paste"));
+    m_textSelectAllAction = new QAction(tr("Select All"));
+
+    QAction *deleteAct = new QAction(tr("Delete"));
+    deleteAct->setEnabled(false);
+    QAction *undoAct = new QAction(tr("Undo"));
+    undoAct->setEnabled(false);
+
+    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
+    fakeRaiseLayerAct->setEnabled(false);
+    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
+    fakeLowerLayerAct->setEnabled(false);
+    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
+    fakeLayerToTopAct->setEnabled(false);
+    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
+    fakeLayerToBottomAct->setEnabled(false);
+
+    m_textLeftAlignAct = new QAction(tr("Left Alignment"));
+    m_textTopAlignAct = new QAction(tr("Top Alignment"));
+    m_textRightAlignAct = new QAction(tr("Right Alignment" ));
+    m_textCenterAlignAct = new QAction(tr("Center Alignment"));
+
+    m_textMenu->addAction(m_textCutAction);
+    m_textMenu->addAction(m_textCopyAction);
+    m_textMenu->addAction(m_textPasteAction);
+    m_textMenu->addAction(m_textSelectAllAction);
+    m_textMenu->addSeparator();
+
+    m_textMenu->addAction(deleteAct);
+    m_textMenu->addAction(undoAct);
+    m_textMenu->addSeparator();
+
+    m_textMenu->addAction(fakeRaiseLayerAct);
+    m_textMenu->addAction(fakeLowerLayerAct);
+    m_textMenu->addAction(fakeLayerToTopAct);
+    m_textMenu->addAction(fakeLayerToBottomAct);
+
+    m_textMenu->addAction(m_textLeftAlignAct);
+    m_textMenu->addAction(m_textTopAlignAct);
+    m_textMenu->addAction(m_textRightAlignAct);
+    m_textMenu->addAction(m_textCenterAlignAct);
+}
+
+void CGraphicsView::initTextContextMenuConnection()
+{
+    connect(m_textCutAction, SIGNAL(triggered()), this, SLOT(slotOnTextCut()));
+    connect(m_textCopyAction, SIGNAL(triggered()), this, SLOT(slotOnTextCopy()));
+    connect(m_textPasteAction, SIGNAL(triggered()), this, SLOT(slotOnTextPaste()));
+    connect(m_textSelectAllAction, SIGNAL(triggered()), this, SLOT(slotOnTextSelectAll()));
+
+
+    connect(m_textLeftAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextLeftAlignment()));
+    connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
+    connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
+    connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
+}
+
 
 void CGraphicsView::setContextMenu()
 {
@@ -233,10 +301,10 @@ void CGraphicsView::setContextMenu()
     m_oneLayerDownAct->setVisible(m_visible);
     m_bringToFrontAct->setVisible(m_visible);
     m_sendTobackAct->setVisible(m_visible);
-    m_leftAlignAct->setVisible(m_visible);
-    m_topAlignAct->setVisible(m_visible);
-    m_rightAlignAct->setVisible(m_visible);
-    m_centerAlignAct->setVisible(m_visible);
+//    m_leftAlignAct->setVisible(m_visible);
+//    m_topAlignAct->setVisible(m_visible);
+//    m_rightAlignAct->setVisible(m_visible);
+//    m_centerAlignAct->setVisible(m_visible);
 
 }
 
@@ -248,41 +316,6 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     if (!m_isShowContext) {
         return;
     }
-
-    //如果是文字图元则显示其自己的右键菜单
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->isVisible()) {
-            //文字图元的显示需要获取view的大小，才能保证显示完整
-            static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->setView(this);
-            QGraphicsView::contextMenuEvent(event);
-            return;
-        }
-
-        //判断选中图元中是否有非文字图元
-        bool isTextItem = true;
-
-        for (int i = 0; i < scene()->selectedItems().size(); i++) {
-            if (TextType != static_cast<CGraphicsItem *>(scene()->selectedItems()[i])->type()) {
-                isTextItem = false;
-            }
-        }
-
-        //如果选中图元中有非文字图元，则需要把对齐功能置灰
-        m_leftAlignAct->setEnabled(isTextItem);
-        m_topAlignAct->setEnabled(isTextItem);
-        m_rightAlignAct->setEnabled(isTextItem);
-        m_centerAlignAct->setEnabled(isTextItem);
-
-
-
-    }
-
-
-
-
-    setContextMenu();
 
     //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
     QPoint menuPos;
@@ -310,14 +343,46 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     menuPos = QPoint(rx, ry);
 
 
+    //如果是文字图元则显示其自己的右键菜单
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
+            m_textMenu->move(menuPos);
+            m_textMenu->show();
+            return;
+        }
+
+        //判断选中图元中是否有非文字图元
+//        bool isTextItem = true;
+
+//        for (int i = 0; i < scene()->selectedItems().size(); i++) {
+//            if (TextType != static_cast<CGraphicsItem *>(scene()->selectedItems()[i])->type()) {
+//                isTextItem = false;
+//            }
+//        }
+
+        //如果选中图元中有非文字图元，则需要把对齐功能置灰
+//        m_leftAlignAct->setEnabled(isTextItem);
+//        m_topAlignAct->setEnabled(isTextItem);
+//        m_rightAlignAct->setEnabled(isTextItem);
+//        m_centerAlignAct->setEnabled(isTextItem);
+    }
+
+
+
+
+    setContextMenu();
+
+
+
+
 //让菜单能够完全显示
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     m_contextMenu->show();
-
-
 }
 
 
@@ -456,6 +521,13 @@ void CGraphicsView::slotOnDelete()
     if (scene()->selectedItems().isEmpty()) {
         return;
     }
+
+    if (scene()->selectedItems().size() == 1) {
+        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(scene()->selectedItems()[0]);
+        if (tmpitem->type() == CutType) {
+            return;
+        }
+    }
     QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
     m_pUndoStack->push(deleteCommand);
 }
@@ -575,6 +647,94 @@ void CGraphicsView::slotQuitCutMode()
     static_cast<CDrawScene *>(scene())->quitCutMode();
 }
 
+void CGraphicsView::slotOnTextCut()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doCut();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextCopy()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doCopy();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextPaste()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doPaste();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextSelectAll()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doSelectAll();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextTopAlignment()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doTopAlignment();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextRightAlignment()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doRightAlignment();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextLeftAlignment()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doLeftAlignment();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextCenterAlignment()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doCenterAlignment();
+        }
+    }
+}
+
 void CGraphicsView::clearScene()
 {
     scene()->clearSelection();
@@ -587,7 +747,12 @@ void CGraphicsView::doSaveDDF()
     if (m_ddfFileSavePath.isEmpty() || m_ddfFileSavePath == "") {
         showSaveDDFDialog();
     } else {
-        m_DDFManager->saveToDDF(m_ddfFileSavePath, scene());
+        if (m_DDFManager->saveToDDF(m_ddfFileSavePath, scene())) {
+            CDrawParamSigleton::GetInstance()->setIsModify(false);
+            if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
+                qApp->quit();
+            }
+        }
     }
 }
 
@@ -608,6 +773,10 @@ void CGraphicsView::showSaveDDFDialog()
         if (!path.isEmpty()) {
             if (m_DDFManager->saveToDDF(path, scene())) {
                 m_ddfFileSavePath = path;
+                CDrawParamSigleton::GetInstance()->setIsModify(false);
+                if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
+                    qApp->quit();
+                }
             }
         }
     }

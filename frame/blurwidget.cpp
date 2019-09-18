@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "blurwidget.h"
+#include "widgets/toolbutton.h"
+#include "widgets/ccheckbutton.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/globaldefine.h"
 
 #include <DLabel>
 #include <DSlider>
-
 #include <QHBoxLayout>
-
-#include "widgets/toolbutton.h"
-#include "widgets/ccheckbutton.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -38,6 +38,18 @@ BlurWidget::BlurWidget(DWidget *parent)
 
 BlurWidget::~BlurWidget()
 {
+}
+
+void BlurWidget::updateBlurWidget()
+{
+    EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
+    bool bEffect = (effect == BlurEffect);
+
+    m_blurBtn->setChecked(bEffect);
+    m_masicBtn->setChecked(!bEffect);
+
+    m_pLineWidthSlider->setValue(CDrawParamSigleton::GetInstance()->getBlurWidth());
+    m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
 }
 
 void BlurWidget::initUI()
@@ -64,20 +76,28 @@ void BlurWidget::initUI()
     m_masicBtn = new CCheckButton(pictureMap, this);
     m_actionButtons.append(m_masicBtn);
 
-    DSlider *lineWidthSlider = new DSlider(Qt::Horizontal, this);
+    EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
+    bool bEffect = (effect == BlurEffect);
 
-    lineWidthSlider->setMinimum(20);
-    lineWidthSlider->setMaximum(160);
-    lineWidthSlider->setFixedWidth(200);
-    lineWidthSlider->setMaximumHeight(24);
+    m_blurBtn->setChecked(bEffect);
+    m_masicBtn->setChecked(!bEffect);
+
+    m_pLineWidthSlider = new DSlider(Qt::Horizontal, this);
+
+    m_pLineWidthSlider->setMinimum(20);
+    m_pLineWidthSlider->setMaximum(160);
+    m_pLineWidthSlider->setFixedWidth(200);
+    m_pLineWidthSlider->setMaximumHeight(24);
 
 
-    DLabel *lineWidthLabel = new DLabel(this);
-    lineWidthLabel->setObjectName("WidthLabel");
-    lineWidthLabel->setText(QString("%1px").arg(lineWidthSlider->value()));
+    m_pLineWidthLabel = new DLabel(this);
+    m_pLineWidthLabel->setObjectName("WidthLabel");
+    m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
 
-    connect(lineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        lineWidthLabel->setText(QString("%1px").arg(value));
+    connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
+        m_pLineWidthLabel->setText(QString("%1px").arg(value));
+        CDrawParamSigleton::GetInstance()->setBlurWidth(value);
+        emit signalBlurAttributeChanged();
     });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -89,9 +109,9 @@ void BlurWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_masicBtn);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lineWidthSlider);
+    layout->addWidget(m_pLineWidthSlider);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lineWidthLabel);
+    layout->addWidget(m_pLineWidthLabel);
     layout->addStretch();
     setLayout(layout);
 }
@@ -100,11 +120,15 @@ void BlurWidget::initConnection()
 {
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
+        CDrawParamSigleton::GetInstance()->setBlurEffect(BlurEffect);
+        emit signalBlurAttributeChanged();
 
     });
 
     connect(m_masicBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_masicBtn);
+        CDrawParamSigleton::GetInstance()->setBlurEffect(MasicoEffect);
+        emit signalBlurAttributeChanged();
 
     });
 }

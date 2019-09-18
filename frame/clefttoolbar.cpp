@@ -24,12 +24,14 @@
 #include "drawshape/cdrawtoolmanagersigleton.h"
 #include "drawshape/cdrawparamsigleton.h"
 
-#include <DFileDialog>
 
+#include <DFileDialog>
 #include <DWidget>
+
 #include <DApplication>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QAction>
 
 
 const int BTN_SPACING = 1;
@@ -42,6 +44,8 @@ CLeftToolBar::CLeftToolBar(DWidget *parent)
     initUI();
     initConnection();
     initDrawTools();
+    initShortCut();
+    initShortCutConnection();
 }
 
 CLeftToolBar::~CLeftToolBar()
@@ -220,6 +224,8 @@ void CLeftToolBar::slotQuitCutMode()
     slotSetDisableButtons(true);
 }
 
+
+
 void CLeftToolBar::slotSetDisableButtons(bool isEnable)
 {
     this->setEnabled(isEnable);
@@ -237,7 +243,7 @@ void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
 }
 
 //快捷键绘图操作
-void CLeftToolBar::shortCutOperation(int type)
+/*void CLeftToolBar::shortCutOperation(int type)
 {
     switch (type) {
     case importPicture:
@@ -299,6 +305,7 @@ void CLeftToolBar::shortCutOperation(int type)
     case blur:
         m_blurBtn->setChecked(true);
         clearOtherSelections(m_blurBtn);
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(blur);
         emit setCurrentDrawTool(blur);
         break;
     case cut:
@@ -311,7 +318,7 @@ void CLeftToolBar::shortCutOperation(int type)
 
     }
 
-}
+}*/
 
 void CLeftToolBar::initConnection()
 {
@@ -383,6 +390,7 @@ void CLeftToolBar::initConnection()
 
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(blur);
         emit setCurrentDrawTool(blur);
 
     });
@@ -418,4 +426,135 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(pen, pTool);
     pTool = CDrawToolFactory::Create(cut);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(cut, pTool);
+    pTool = CDrawToolFactory::Create(blur);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(blur, pTool);
 }
+
+void CLeftToolBar::slotShortCutPictrue()
+{
+    m_picBtn->setChecked(true);
+    emit m_picBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutRect()
+{
+    m_rectBtn->setChecked(true);
+    emit m_rectBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutRound()
+{
+    m_roundBtn->setChecked(true);
+    emit m_roundBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutTriangle()
+{
+    m_triangleBtn->setChecked(true);
+    emit m_triangleBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutPolygonalStar()
+{
+    m_starBtn->setChecked(true);
+    emit m_starBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutPolygon()
+{
+    m_polygonBtn->setChecked(true);
+    emit m_polygonBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutLine()
+{
+    m_lineBtn->setChecked(true);
+    emit m_lineBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutPen()
+{
+    m_penBtn->setChecked(true);
+    emit m_penBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutText()
+{
+    m_textBtn->setChecked(true);
+    emit m_textBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutBlur()
+{
+    m_blurBtn->setChecked(true);
+    emit m_blurBtn->buttonClick();
+}
+
+void CLeftToolBar::slotShortCutCut()
+{
+    m_cutBtn->setChecked(true);
+    emit m_cutBtn->buttonClick();
+}
+
+void CLeftToolBar::initShortCut()
+{
+    m_pictureAction = new QAction();
+    m_pictureAction->setShortcut(QKeySequence(Qt::Key_I));
+    this->addAction(m_pictureAction);
+
+    m_rectAction = new QAction();
+    m_rectAction->setShortcut(QKeySequence(Qt::Key_R));
+    this->addAction(m_rectAction);
+
+    m_roundAction = new QAction();
+    m_roundAction->setShortcut(QKeySequence(Qt::Key_O));
+    this->addAction(m_roundAction);
+
+    m_triangleAction = new QAction();
+    m_triangleAction->setShortcut(QKeySequence(Qt::Key_N));
+    this->addAction(m_triangleAction);
+
+    m_starAction = new QAction();
+    m_starAction->setShortcut(QKeySequence(Qt::Key_M));
+    this->addAction(m_starAction);
+
+    m_polygonAction = new QAction();
+    m_polygonAction->setShortcut(QKeySequence(Qt::Key_G));
+    this->addAction(m_polygonAction);
+
+    m_lineAction = new QAction();
+    m_lineAction->setShortcut(QKeySequence(Qt::Key_L));
+    this->addAction(m_lineAction);
+
+    m_penAction = new QAction();
+    m_penAction->setShortcut(QKeySequence(Qt::Key_P));
+    this->addAction(m_penAction);
+
+    m_textAction = new QAction();
+    m_textAction->setShortcut(QKeySequence(Qt::Key_T));
+    this->addAction(m_textAction);
+
+    m_blurAction = new QAction();
+    m_blurAction->setShortcut(QKeySequence(Qt::Key_B));
+    this->addAction(m_blurAction);
+
+    m_cutAction = new QAction();
+    m_cutAction->setShortcut(QKeySequence(Qt::Key_U));
+    this->addAction(m_cutAction);
+}
+
+void CLeftToolBar::initShortCutConnection()
+{
+    connect(m_pictureAction, SIGNAL(triggered()), this, SLOT(slotShortCutPictrue()));
+    connect(m_rectAction, SIGNAL(triggered()), this, SLOT(slotShortCutRect()));
+    connect(m_roundAction, SIGNAL(triggered()), this, SLOT(slotShortCutRound()));
+    connect(m_triangleAction, SIGNAL(triggered()), this, SLOT(slotShortCutTriangle()));
+    connect(m_starAction, SIGNAL(triggered()), this, SLOT(slotShortCutPolygonalStar()));
+    connect(m_polygonAction, SIGNAL(triggered()), this, SLOT(slotShortCutPolygon()));
+    connect(m_lineAction, SIGNAL(triggered()), this, SLOT(slotShortCutLine()));
+    connect(m_penAction, SIGNAL(triggered()), this, SLOT(slotShortCutPen()));
+    connect(m_textAction, SIGNAL(triggered()), this, SLOT(slotShortCutText()));
+    connect(m_blurAction, SIGNAL(triggered()), this, SLOT(slotShortCutBlur()));
+    connect(m_cutAction, SIGNAL(triggered()), this, SLOT(slotShortCutCut()));
+}
+
