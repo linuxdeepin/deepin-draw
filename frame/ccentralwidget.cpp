@@ -24,6 +24,7 @@
 #include "drawshape/cpictureitem.h"
 #include "cgraphicsview.h"
 #include "drawshape/cpicturetool.h"
+#include "drawshape/cgraphicstextitem.h"
 
 #include <DLabel>
 #include <QDebug>
@@ -215,4 +216,20 @@ void CCentralwidget::initConnect()
 
     connect(m_pDrawScene, SIGNAL(signalDoCut(QRectF)), m_pGraphicsView, SLOT(slotDoCut(QRectF)));
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
+}
+bool CCentralwidget::getTextEditable()
+{
+    //如果是文字图元则显示其自己的右键菜单
+    if (!m_pDrawScene->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  m_pDrawScene->selectedItems().first();
+        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
+            //文字图元的显示需要获取view的大小，才能保证显示完整
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }

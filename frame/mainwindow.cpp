@@ -173,10 +173,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         ;
     }
 
-
-
     //工具栏快捷键设置
-    if (m_contrlKey) {
+    if (!m_centralWidget->getTextEditable()) {
         switch (event->key()) {
         case Qt::Key_I:
             m_centralWidget->getLeftToolBar()->shortCutOperation(importPicture);
@@ -214,8 +212,49 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         default:
             break;
         }
-
     }
+
+
+
+//            //工具栏快捷键设置
+//            if (m_contrlKey) {
+//                switch (event->key()) {
+//                case Qt::Key_I:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(importPicture);
+//                    break;
+//                case Qt::Key_R:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(rectangle);
+//                    break;
+//                case Qt::Key_O:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(ellipse);
+//                    break;
+//                case Qt::Key_N:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(triangle);
+//                    break;
+//                case Qt::Key_M:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(polygonalStar);
+//                    break;
+//                case Qt::Key_G:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(polygon);
+//                    break;
+//                case Qt::Key_L:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(line);
+//                    break;
+//                case Qt::Key_P:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(pen);
+//                    break;
+//                case Qt::Key_T:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(text);
+//                    break;
+//                case Qt::Key_B:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(blur);
+//                    break;
+//                case Qt::Key_U:
+//                    m_centralWidget->getLeftToolBar()->shortCutOperation(cut);
+//                    break;
+//                default:
+//                    break;
+//                }
 
 
 

@@ -49,6 +49,7 @@ public:
     CDrawScene *getDrawScene() const;
 
     void openPicture(QString path);
+    bool getTextEditable();
 signals:
 
     //传递图片的旋转和翻转信号
