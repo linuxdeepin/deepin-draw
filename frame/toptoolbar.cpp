@@ -307,6 +307,9 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
         case::EGraphicUserType::PictureType:
             toolType = EDrawToolMode::importPicture;
             break;
+//        case::EGraphicUserType::CutType:
+//            toolType = EDrawToolMode::cut;
+//            break;
         }
         updateMiddleWidget(toolType);
     }
@@ -339,7 +342,12 @@ void TopToolbar::slotSetScale(const qreal scale)
     m_scaleComboBox->setCurrentIndex(-1);
     m_scaleComboBox->setEditText(strScale);
 
-//    m_scaleComboBox->setEditable(false);
+    //    m_scaleComboBox->setEditable(false);
+}
+
+void TopToolbar::slotSetCutSize()
+{
+    m_cutWidget->updateCutSize();
 }
 
 
@@ -402,6 +410,10 @@ void TopToolbar::initConnection()
     connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextWidget);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw blur widget.
+
+    //cut
+    connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+
     connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 
 

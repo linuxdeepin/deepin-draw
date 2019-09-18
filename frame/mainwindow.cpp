@@ -6,6 +6,7 @@
 #include "clefttoolbar.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "cgraphicsview.h"
+#include "drawshape/cdrawscene.h"
 
 #include <DTitlebar>
 #include <QVBoxLayout>
@@ -14,6 +15,7 @@
 #include <QApplication>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QDesktopWidget>
 
 
 const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -59,6 +61,7 @@ void MainWindow::initUI()
 void MainWindow::initConnection()
 {
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
+
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
 //        if (m_mainWidget->shapeNum() != 0)
@@ -83,6 +86,9 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
 
     connect(m_topToolbar, SIGNAL(signalNew()), m_centralWidget, SLOT(slotNew()));
+
+    connect(m_centralWidget, SIGNAL(signalUpdateCutSize()), m_topToolbar, SLOT(slotSetCutSize()));
+
 
 
 }
@@ -142,10 +148,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
     } else if (event->key() == Qt::Key_Control) {
         CDrawParamSigleton::GetInstance()->setCtlKeyStatus(true);
-        m_contrlKey = true;
     } else {
         ;
     }
+
 
 
     //工具栏快捷键设置
@@ -205,7 +211,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
     } else if (event->key() == Qt::Key_Control) {
         CDrawParamSigleton::GetInstance()->setCtlKeyStatus(false);
-        m_contrlKey = false;
+        m_contrlKey = true;
     }  else {
         ;
     }
@@ -236,8 +242,17 @@ void MainWindow::openImage(QString path)
     }
 }
 
-
-
+void MainWindow::initScene()
+{
+    QRect rect = qApp->desktop()->availableGeometry(m_centralWidget->getGraphicsView());
+    int width = rect.width();
+    int height = rect.height();
+    height -= m_topToolbar->height();
+    width -= m_centralWidget->getLeftToolBar()->width();
+    m_centralWidget->getDrawScene()->setSceneRect(QRectF(0, 0, width, height));
+    CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(width, height));
+    emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
+}
 
 
 MainWindow::~MainWindow()

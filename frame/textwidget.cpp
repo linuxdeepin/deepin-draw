@@ -1,17 +1,15 @@
 #include "textwidget.h"
 
 #include <DLabel>
-
-#include <DLabel>
-#include <QHBoxLayout>
-#include <QFont>
-
-
 #include "widgets/textcolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/textfontlabel.h"
 #include "drawshape/cdrawparamsigleton.h"
 
+#include <DLabel>
+#include <QHBoxLayout>
+#include <QFont>
+#include <QLineEdit>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -59,7 +57,7 @@ void TextWidget::initUI()
     m_fontSizeSlider->setValue(int(CDrawParamSigleton::GetInstance()->getTextSize()));
 
     m_fontSizeEdit = new DLineEdit(this);
-    m_fontSizeEdit->setValidator(new QIntValidator(8, 1000, this));
+    m_fontSizeEdit->lineEdit()->setValidator(new QIntValidator(8, 1000, this));
     m_fontSizeEdit->setClearButtonEnabled(false);
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));

@@ -21,6 +21,7 @@ public:
 
     void showDrawDialog();
     void openImage(QString path);
+    void initScene();
 signals:
     void signalResetOriginPoint();
 

@@ -65,7 +65,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->setValidator(new CIntValidator(3, 50));
+    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 50));
 //    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(40);
@@ -85,7 +85,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumEdit = new DLineEdit(this);
     QRegExp rx("^([1-9]{1}[0-9]{0,1}|0|100){0,1}%$");
     QRegExpValidator *validator = new QRegExpValidator(rx, this);
-    m_radiusNumEdit->setValidator(validator);
+    m_radiusNumEdit->lineEdit()->setValidator(validator);
     m_radiusNumEdit->setClearButtonEnabled(false);
     m_radiusNumEdit->setFixedWidth(55);
     m_radiusNumEdit->setText(QString("%1%").arg(m_radiusNumSlider->value()));

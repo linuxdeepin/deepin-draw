@@ -39,6 +39,11 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
     return m_pGraphicsView;
 }
 
+CDrawScene *CCentralwidget::getDrawScene() const
+{
+    return m_pDrawScene;
+}
+
 
 //进行图片导入
 void CCentralwidget::importPicture()
@@ -64,6 +69,7 @@ void CCentralwidget::initUI()
 //    m_leftToolbar->setStyleSheet("background-color: rgb(0,255, 0);");
 
     m_pGraphicsView = new CGraphicsView(this);
+
 //    m_pGraphicsView->setStyleSheet("padding: 0px; border: 0px;");
 //    m_pGraphicsView->setStyleSheet("background-color: rgb(255,0, 0);");
     m_pDrawScene = new CDrawScene(this);
@@ -86,10 +92,8 @@ void CCentralwidget::initUI()
 
     layout->setMargin(0);
     layout->setSpacing(0);
-
     layout->addWidget(m_leftToolbar);
     layout->addWidget(m_pGraphicsView);
-
     setLayout(layout);
 }
 
@@ -109,8 +113,6 @@ void CCentralwidget::slotAttributeChanged()
 void CCentralwidget::slotZoom(qreal scale)
 {
     m_pGraphicsView->scale(scale);
-
-
 }
 
 void CCentralwidget::slotShowExportDialog()
@@ -128,13 +130,26 @@ void CCentralwidget::slotPrint()
     m_pGraphicsView->showPrintDialog();
 }
 
+void CCentralwidget::slotShowCutItem()
+{
+    m_pGraphicsView->setIsShowContext(false);
+    m_pDrawScene->showCutItem();
+}
+
+void CCentralwidget::slotQuitCutMode()
+{
+    m_pGraphicsView->setIsShowContext(true);
+}
+
 void CCentralwidget::slotSetScale(const qreal scale)
 {
     emit signalSetScale(scale);
 }
 
+void CCentralwidget::slotDoCut(QRectF rect)
+{
 
-
+}
 
 
 void CCentralwidget::initConnect()
@@ -144,8 +159,11 @@ void CCentralwidget::initConnect()
     //导入图片信号槽
     connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
 
+    connect(m_leftToolbar, SIGNAL(signalBegainCut()), this, SLOT(slotShowCutItem()));
+
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
+
     connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
 
     connect(m_pDrawScene, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
@@ -163,4 +181,10 @@ void CCentralwidget::initConnect()
             m_pGraphicsView, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int )));
     connect(m_pDrawScene, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )),
             m_pGraphicsView, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
+
+    connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), m_leftToolbar, SLOT(slotQuitCutMode()));
+    connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), this, SLOT(slotQuitCutMode()));
+
+    connect(m_pDrawScene, SIGNAL(signalDoCut(QRectF)), m_pGraphicsView, SLOT(slotDoCut(QRectF)));
+    connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
 }

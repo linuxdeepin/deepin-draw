@@ -25,6 +25,7 @@ protected:
 signals:
     void setCurrentDrawTool(int type);
     void importPic();
+    void signalBegainCut();
 
 public slots:
 
@@ -32,6 +33,8 @@ public slots:
      * @brief slotChangedStatusToSelect 将工具栏的状态切换为选择状态
      */
     void slotChangedStatusToSelect();
+    void slotSetDisableButtons(bool);
+    void slotQuitCutMode();
 
 private:
     QList<CCheckButton *> m_actionButtons;

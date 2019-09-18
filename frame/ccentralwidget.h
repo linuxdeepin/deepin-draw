@@ -24,10 +24,11 @@ class CCentralwidget: public DWidget
 {
     Q_OBJECT
 public:
-    CCentralwidget(DWidget *parent = 0);
+    CCentralwidget(DWidget *parent = nullptr);
     ~CCentralwidget();
     CLeftToolBar *getLeftToolBar();
     CGraphicsView *getGraphicsView() const;
+    CDrawScene *getDrawScene() const;
 
     void openPicture(QString path);
 signals:
@@ -40,6 +41,9 @@ signals:
      */
     void signalAttributeChangedFromScene(bool, int);
     void signalSetScale(const qreal);
+
+    void signalForwardQuitCutMode();
+    void signalUpdateCutSize();
 
 
 
@@ -54,6 +58,13 @@ public slots:
     void slotShowExportDialog();
     void slotNew();
     void slotPrint();
+    void slotShowCutItem();
+
+
+private slots:
+    void slotDoCut(QRectF rect);
+    void slotQuitCutMode();
+
 private:
     CLeftToolBar *m_leftToolbar;
     DLabel *m_seperatorLine;

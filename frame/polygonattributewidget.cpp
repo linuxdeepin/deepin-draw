@@ -68,7 +68,7 @@ void PolygonAttributeWidget::initUI()
 
 
     m_sideNumEdit = new DLineEdit(this);
-    m_sideNumEdit->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
+    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
 //    m_sideNumEdit->setValidator(new CIntValidator(4, 10));
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(40);

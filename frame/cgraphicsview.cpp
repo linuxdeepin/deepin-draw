@@ -1,11 +1,14 @@
 #include "cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cshapemimedata.h"
 #include "drawshape/cgraphicsitem.h"
 #include "drawshape/globaldefine.h"
+#include "drawshape/cdrawscene.h"
 #include "cundocommands.h"
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
+#include "widgets/ctextedit.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cdrawscene.h"
@@ -18,11 +21,17 @@
 #include <QApplication>
 #include <QDebug>
 #include <QUndoStack>
+#include <QRectF>
+#include <QPainter>
+#include <QDesktopWidget>
 
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
+    , m_isShowContext(true)
+    , m_viewWidth(0)
 {
+    setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager();
@@ -155,6 +164,11 @@ void CGraphicsView::initContextMenu()
     m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
     m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
     m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
+
+    //退出裁剪模式快捷键
+    m_quitCutMode = new QAction();
+    m_quitCutMode->setShortcut(QKeySequence(Qt::Key_Escape));
+    this->addAction(m_quitCutMode);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -168,6 +182,8 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_sendTobackAct, SIGNAL(triggered()), this, SLOT(slotSendTobackAct()));
     connect(m_oneLayerUpAct, SIGNAL(triggered()), this, SLOT(slotOneLayerUp()));
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
+
+    connect(m_quitCutMode, SIGNAL(triggered()), this, SLOT(slotQuitCutMode()));
 }
 
 
@@ -194,8 +210,28 @@ void CGraphicsView::setContextMenu()
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
+
+
+    if (!m_isShowContext) {
+        return;
+    }
+
+    //如果是文字图元则显示其自己的右键菜单
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
+        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->isVisible()) {
+            QGraphicsView::contextMenuEvent(event);
+            return;
+        }
+    }
+
+
+
+
     setContextMenu();
-    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单高度为475或224，第一次显示的时候为100*30.
+
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
     QPoint menuPos;
     int rx;
     int ry;
@@ -227,6 +263,28 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     m_contextMenu->show();
+
+
+}
+
+
+void CGraphicsView::resizeEvent(QResizeEvent *event)
+{
+    QGraphicsView::resizeEvent(event);
+}
+
+void CGraphicsView::paintEvent(QPaintEvent *event)
+{
+    DGraphicsView::paintEvent(event);
+    QPainter painter(viewport());
+}
+
+void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
+{
+    QRectF rect = scene()->sceneRect();
+    painter->setClipping(true);
+    painter->setClipRect(rect);
+    DGraphicsView::drawItems(painter, numItems, items, options);
 }
 
 void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)
@@ -258,7 +316,6 @@ void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection 
     m_pUndoStack->push(resizeCommand);
 }
 
-
 void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange)
 {
     QUndoCommand *setPropertyCommand = new CSetPropertyCommand(item, pen, brush, bPenChange, bBrushChange);
@@ -275,6 +332,12 @@ void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *ite
 {
     QUndoCommand *command = new CSetPolygonStarAttributeCommand(item, oldNum, oldRadius);
     m_pUndoStack->push(command);
+}
+
+void CGraphicsView::slotDoCut(QRectF rect)
+{
+    m_windRect = rect;
+    this->viewport()->update();
 }
 
 void CGraphicsView::slotOnCut()
@@ -354,23 +417,6 @@ void CGraphicsView::slotOneLayerUp()
 
     QUndoCommand *command = new COneLayerUpCommand(selectedItem, this->scene());
     m_pUndoStack->push(command);
-
-//    int index = itemList.indexOf(selectedItem);
-
-//    bool isSuccess = false;
-//    for (int i = index - 1 ; i >= 0 ; i--) {
-//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            itemList.at(i)->stackBefore(selectedItem);
-//            isSuccess = true;
-//            break;
-//        }
-//    }
-
-//    if (isSuccess) {
-
-//        scene()->update();
-//    }
-
 }
 
 void CGraphicsView::slotOneLayerDown()
@@ -464,7 +510,17 @@ void CGraphicsView::slotSendTobackAct()
 
 //    if (isSuccess) {
 //        scene()->update();
-//    }
+    //    }
+}
+
+void CGraphicsView::slotQuitCutMode()
+{
+    static_cast<CDrawScene *>(scene())->quitCutMode();
+}
+
+void CGraphicsView::setIsShowContext(bool isShowContext)
+{
+    m_isShowContext = isShowContext;
 }
 
 

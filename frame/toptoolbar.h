@@ -51,6 +51,9 @@ signals:
     void signalShowExportDialog();
     void signalNew();
 
+    void signalForwardCutTypeChanged(int);
+    void signalForwardCutSizeChanged(int, int);
+
 
 public:
 //    void showDrawDialog();
@@ -70,6 +73,7 @@ public slots:
     void slotChangeAttributeFromScene(bool flag, int primitiveType);
     void slotZoom(const QString &scale);
     void slotSetScale(const qreal scale);
+    void slotSetCutSize();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

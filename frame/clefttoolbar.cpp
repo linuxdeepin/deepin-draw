@@ -189,11 +189,22 @@ void CLeftToolBar::initUI()
 void CLeftToolBar::slotChangedStatusToSelect()
 {
     foreach (CCheckButton *button, m_actionButtons) {
-        if (button->isChecked()) {
+        if (button->isChecked() /*&& button != m_cutBtn*/) {
             button->setChecked(false);
             return;
         }
     }
+}
+
+void CLeftToolBar::slotQuitCutMode()
+{
+    slotChangedStatusToSelect();
+    slotSetDisableButtons(true);
+}
+
+void CLeftToolBar::slotSetDisableButtons(bool isEnable)
+{
+    this->setEnabled(isEnable);
 }
 
 
@@ -206,8 +217,6 @@ void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
         }
     };
 }
-
-
 
 //快捷键绘图操作
 void CLeftToolBar::shortCutOperation(int type)
@@ -285,8 +294,6 @@ void CLeftToolBar::shortCutOperation(int type)
     }
 
 }
-
-
 
 void CLeftToolBar::initConnection()
 {
@@ -366,6 +373,8 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_cutBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(cut);
         emit setCurrentDrawTool(cut);
+        emit signalBegainCut();
+        slotSetDisableButtons(false);
     });
 }
 
