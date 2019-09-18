@@ -8,6 +8,19 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 
 }
 
+CGraphicsItem::CGraphicsItem(const CGraphicsUnit &unit, QGraphicsItem *parent)
+    : QAbstractGraphicsShapeItem(parent)
+    , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
+{
+
+    this->setPen(unit.head.pen);
+    this->setBrush(unit.head.brush);
+
+    this->setRotation(unit.head.rotate);
+    this->setPos(unit.head.pos);
+    this->setZValue(unit.head.zValue);
+}
+
 int CGraphicsItem::type() const
 {
     return Type;

@@ -4,6 +4,7 @@
 #include "csizehandlerect.h"
 #include "globaldefine.h"
 #include "sitemdata.h"
+
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>
 
@@ -11,6 +12,7 @@ class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
     CGraphicsItem(QGraphicsItem *parent );
+    CGraphicsItem(const CGraphicsUnit &unit, QGraphicsItem *parent);
     enum {Type = UserType};
     virtual int  type() const Q_DECL_OVERRIDE;
     virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const;
@@ -21,6 +23,7 @@ public:
     virtual QRectF rect() const = 0;
     virtual CGraphicsItem *duplicate() const;
     virtual CGraphicsUnit getGraphicsUnit() const;
+
 
 protected:
     virtual void updateGeometry() = 0;

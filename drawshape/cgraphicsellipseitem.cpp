@@ -19,6 +19,12 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, C
 
 }
 
+CGraphicsEllipseItem::CGraphicsEllipseItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsRectItem (unit, parent)
+{
+
+}
+
 QPainterPath CGraphicsEllipseItem::shape() const
 {
     QPainterPath path;
@@ -44,6 +50,26 @@ CGraphicsItem *CGraphicsEllipseItem::duplicate() const
     item->setScale(scale());
     item->setZValue(zValue());
     return item;
+}
+
+CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsCircleUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+
+    unit.data.pCircle = new SGraphicsCircleUnitData();
+    unit.data.pCircle->rect.topLeft = this->rect().topLeft();
+    unit.data.pCircle->rect.bottomRight = this->rect().bottomRight();
+
+    return unit;
 }
 
 void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

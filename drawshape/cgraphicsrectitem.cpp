@@ -30,29 +30,25 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     initRect();
 }
 
-CGraphicsRectItem::CGraphicsRectItem(CGraphicsUnit unit, CGraphicsItem *parent)
-    : CGraphicsItem(parent)
+CGraphicsRectItem::CGraphicsRectItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsItem(unit, parent)
 {
-    QPen pen;
-    pen.setWidth(unit.head.pen.width);
-    QColor penCol(unit.head.pen.col.r,
-                  unit.head.pen.col.g,
-                  unit.head.pen.col.b,
-                  unit.head.pen.col.a);
-    pen.setColor(penCol);
-    this->setPen(pen);
+    //    QPointF leftTop;
+    //    QPointF rightBottom;
 
-    QBrush brush;
-    QColor brushCol(unit.head.brush.col.r,
-                    unit.head.brush.col.g,
-                    unit.head.brush.col.b,
-                    unit.head.brush.col.a);
-    this->setBrush(brush);
-    this->setRect(QRectF(unit.data.pRect->point1, unit.data.pRect->point2));
+    //    if (RectType == unit.head.dataType) {
+    //        leftTop = QPointF(unit.data.pRect->leftTopX, unit.data.pRect->leftTopY);
+    //        rightBottom = QPointF(unit.data.pRect->rightBottomX, unit.data.pRect->rightBottomY);
+    //    } else if (PictureType == unit.head.dataType) {
+    //        leftTop = QPointF(unit.data.pPic->rect.leftTopX, unit.data.pPic->rect.leftTopY);
+    //        rightBottom = QPointF(unit.data.pPic->rect.rightBottomX, unit.data.pPic->rect.rightBottomY);
+    //    }
+
+
+    this->m_topLeftPoint = unit.data.pRect->topLeft;
+    this->m_bottomRightPoint =  unit.data.pRect->bottomRight;
     this->setTransformOriginPoint(this->rect().center());
-    this->setRotation(unit.head.rotate);
-    this->setPos(unit.head.pos);
-    this->setZValue(unit.head.zValue);
+
 
     initRect();
 }
@@ -500,24 +496,19 @@ CGraphicsItem *CGraphicsRectItem::duplicate() const
 CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;
+
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsRectUnitData);
-    unit.head.pen.width = this->pen().width();
-    unit.head.pen.col.r = this->pen().color().red();
-    unit.head.pen.col.g = this->pen().color().green();
-    unit.head.pen.col.b = this->pen().color().blue();
-    unit.head.pen.col.a = this->pen().color().alpha();
-
-    unit.head.brush.col.r = this->brush().color().red();
-    unit.head.brush.col.g = this->brush().color().green();
-    unit.head.brush.col.b = this->brush().color().blue();
-    unit.head.brush.col.a = this->brush().color().alpha();
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
 
-    unit.data.pRect->point1 = this->m_topLeftPoint;
-    unit.data.pRect->point2 = this->m_bottomRightPoint;
+
+    unit.data.pRect = new SGraphicsRectUnitData();
+    unit.data.pRect->topLeft = this->m_topLeftPoint;
+    unit.data.pRect->bottomRight = this->m_bottomRightPoint;
 
     return unit;
 }

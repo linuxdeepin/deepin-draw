@@ -8,31 +8,26 @@
 
 #pragma pack(push, 1)
 //定义图元类型
-struct SColor {
-    int r;
-    int g;
-    int b;
-    int a;
-};
 
-//画笔
-struct SPen {
-    qint32 width;
-    SColor col;
-};
 
-//画刷
-struct SBrush {
-    SColor col;
-};
+////画笔
+//struct SPen {
+//    qint32 width;
+//    QColor col;
+//};
+
+////画刷
+//struct SBrush {
+//    QColor col;
+//};
 
 //图元头部
 struct SGraphicsUnitHead {
     qint8 headCheck[4]; //头部校验
     qint32 dataType; //图元类型
     qint64 dataLength; //数据长度
-    SPen    pen;
-    SBrush  brush;
+    QPen    pen;
+    QBrush  brush;
     QPointF  pos;  //图元起始位置
     qreal rotate;   //旋转角度
     qreal zValue;  //Z值 用来保存图形层次
@@ -45,12 +40,18 @@ struct SGraphicsUnitTail {
 
 //矩形
 struct SGraphicsRectUnitData {
-    QPointF point1;
-    QPointF point2;
+    QPointF topLeft;
+    QPointF bottomRight;
 };
 
 //圆
 struct SGraphicsCircleUnitData {
+    SGraphicsRectUnitData rect;
+    //TODO 序列化和反序列化
+};
+
+//三角形
+struct SGraphicsTriangleUnitData {
     SGraphicsRectUnitData rect;
     //TODO 序列化和反序列化
 };
@@ -64,7 +65,7 @@ struct SGraphicsPolygonUnitData {
 //多角星
 struct SGraphicsPolygonStarUnitData {
     SGraphicsRectUnitData rect; //外接矩形
-    qint32 pointNum;
+    qint32 anchorNum;
     qint32 radius;      //内接半径
 };
 
@@ -77,13 +78,17 @@ struct SGraphicsLineUnitData {
 //文本
 struct SGraphicsTextUnitData {
     SGraphicsRectUnitData rect;
-    char strText[1024 * 1024 + 1]; //文本信息以HTML存储富文本内容 最大支持1024×1024字节
+    QFont font;
+    QString content;
+//    char strText[1024 * 1024 + 1]; //文本信息以HTML存储富文本内容 最大支持1024×1024字节
 };
 
 //图片
 struct SGraphicsPictureUnitData {
-    qint32 length;   //图片长度
-    const char *pic;  //图片
+//    qint32 length;   //图片长度
+//    const char *pic;  //图片
+    SGraphicsRectUnitData rect;
+    QImage image;
 };
 
 //画笔
@@ -96,11 +101,22 @@ struct SGraphicsPenUnitData {
 union CGraphicsItemData {
     SGraphicsRectUnitData *pRect;
     SGraphicsCircleUnitData *pCircle;
+    SGraphicsTriangleUnitData *pTriangle;
     SGraphicsPolygonUnitData *pPolygon;
     SGraphicsPolygonStarUnitData *pPolygonStar;
     SGraphicsLineUnitData *pLine;
     SGraphicsTextUnitData *pText;
     SGraphicsPictureUnitData *pPic;
+
+    CGraphicsItemData() {
+        pRect = nullptr;
+        pCircle = nullptr;
+        pPolygon = nullptr;
+        pPolygonStar = nullptr;
+        pLine = nullptr;
+        pText = nullptr;
+        pPic = nullptr;
+    }
 };
 
 
@@ -114,8 +130,7 @@ struct CGraphicsUnit {
 //整个图元数据
 struct CGraphics {
     qint64 unitCount;   //图元数量
-    qreal width;  //画板长度
-    qreal height;  //画板宽度
+    QRectF rect;    // 画板大小和位置
     QList<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
 };
 

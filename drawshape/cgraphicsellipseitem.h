@@ -8,6 +8,7 @@ public:
     explicit CGraphicsEllipseItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsEllipseItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     /**
@@ -15,6 +16,9 @@ public:
      * @return
      */
     CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+
+    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

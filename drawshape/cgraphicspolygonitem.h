@@ -13,6 +13,7 @@ public:
     explicit CGraphicsPolygonItem(int count, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
+    CGraphicsPolygonItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     /**
@@ -20,12 +21,14 @@ public:
      * @return
      */
     CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
-    void setRect(const QRectF &rect);
+    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void setPointCount(int num);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     int nPointsCount() const;
 
     void setListPoints(const QVector<QPointF> &listPoints);
+
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

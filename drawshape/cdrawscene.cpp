@@ -136,6 +136,9 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
             CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
             CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(selectedItem)->currentType());
             break;
+        case LineType:
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            break;
         default:
             break;
         }

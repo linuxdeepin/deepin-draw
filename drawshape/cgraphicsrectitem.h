@@ -15,7 +15,7 @@ public:
     explicit CGraphicsRectItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsRectItem(CGraphicsUnit unit, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsRectItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsRectItem()  Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     /**

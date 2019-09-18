@@ -26,6 +26,13 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w,
 
 }
 
+CGraphicsPolygonItem::CGraphicsPolygonItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsRectItem (unit, parent)
+    , m_nPointsCount(unit.data.pPolygon->pointNum)
+{
+    calcPoints(m_nPointsCount);
+}
+
 QPainterPath CGraphicsPolygonItem::shape() const
 {
     QPainterPath path;
@@ -52,6 +59,26 @@ CGraphicsItem *CGraphicsPolygonItem::duplicate() const
     item->setScale(scale());
     item->setZValue(zValue());
     return item;
+}
+
+CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsPolygonUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pPolygon = new SGraphicsPolygonUnitData();
+    unit.data.pPolygon->rect.topLeft = this->rect().topLeft();
+    unit.data.pPolygon->rect.bottomRight = this->rect().bottomRight();
+    unit.data.pPolygon->pointNum = this->m_nPointsCount;
+
+    return  unit;
 }
 
 void CGraphicsPolygonItem::setRect(const QRectF &rect)

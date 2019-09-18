@@ -52,6 +52,14 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 
 }
 
+CGraphicsLineItem::CGraphicsLineItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsItem (unit, parent)
+{
+    setLine(unit.data.pLine->point1, unit.data.pLine->point2);
+    initLine();
+}
+
+
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 
@@ -151,6 +159,25 @@ CGraphicsItem *CGraphicsLineItem::duplicate() const
     item->setZValue(zValue());
 
     return item;
+}
+
+CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsLineUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pLine = new SGraphicsLineUnitData();
+    unit.data.pLine->point1 = this->line().p1();
+    unit.data.pLine->point2 = this->line().p2();
+
+    return  unit;
 }
 
 void CGraphicsLineItem::updateGeometry()

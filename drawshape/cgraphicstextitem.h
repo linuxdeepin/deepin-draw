@@ -14,6 +14,7 @@ class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
+    explicit CGraphicsTextItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
 
     CTextEdit *getTextEdit() const;
@@ -35,6 +36,13 @@ public:
      * @return
      */
     CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
+
+    CTextEdit *getTextEdit()
+    {
+        return m_pTextEdit;
+    }
 
 
 public slots:
@@ -73,7 +81,7 @@ private:
     bool needDrawText(const QTextCharFormat &chf);
     void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
     void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
-
+    void initTextEditWidget();
 
 
 private:

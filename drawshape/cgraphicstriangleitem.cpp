@@ -22,6 +22,32 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h,
 
 }
 
+CGraphicsTriangleItem::CGraphicsTriangleItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsRectItem (unit, parent)
+{
+
+}
+
+CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsTriangleUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pTriangle = new SGraphicsTriangleUnitData();
+    unit.data.pTriangle->rect.topLeft = this->rect().topLeft();
+    unit.data.pTriangle->rect.bottomRight = this->rect().bottomRight();
+
+    return  unit;
+}
+
+
 QPainterPath CGraphicsTriangleItem::shape() const
 {
     QPainterPath path;

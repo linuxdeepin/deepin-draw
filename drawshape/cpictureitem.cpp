@@ -20,6 +20,16 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
 
 }
 
+CPictureItem::CPictureItem(const CGraphicsUnit &unit, CGraphicsItem *parent )
+    : CGraphicsRectItem(unit, parent)
+    , m_angle(0.0)
+{
+    m_pixmap = QPixmap::fromImage(unit.data.pPic->image);
+//    QByteArray byteArray(unit.data.pPic->pic, unit.data.pPic->length);
+//    m_pixmap.loadFromData(byteArray);
+}
+
+
 CPictureItem::~CPictureItem()
 {
 
@@ -105,4 +115,41 @@ CGraphicsItem *CPictureItem::duplicate() const
     return item;
 }
 
+CGraphicsUnit CPictureItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsPictureUnitData);
+
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+
+    unit.data.pPic = new SGraphicsPictureUnitData();
+    unit.data.pPic->rect.topLeft = this->rect().topLeft();
+    unit.data.pPic->rect.bottomRight = this->rect().bottomRight();
+
+//    unit.data.pPic->length =  m_pixmap.toImage().byteCount();
+//    unit.data.pPic->pic = m_pixmap.toImage().bits();
+    unit.data.pPic->image = m_pixmap.toImage();
+
+
+
+
+//    QByteArray bytearray;
+//    QBuffer buffer(&bytearray);
+//    buffer.open(QIODevice::WriteOnly);
+//    bool isSuccess = m_pixmap.save(&buffer, "PNG", 10);
+//    if (isSuccess) {
+//        unit.data.pPic->length = bytearray.length();
+//        unit.data.pPic->pic = bytearray;
+//    }
+
+
+//    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
+
+    return unit;
+}
 

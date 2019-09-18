@@ -21,7 +21,29 @@ CGraphicsTextItem::CGraphicsTextItem()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
 {
+    initTextEditWidget();
+}
 
+CGraphicsTextItem::CGraphicsTextItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsRectItem (unit, parent)
+    , m_pTextEdit(nullptr)
+    , m_pProxy(nullptr)
+{
+    initTextEditWidget();
+    m_Font = unit.data.pText->font;
+    m_pTextEdit->setHtml(unit.data.pText->content);
+    m_pTextEdit->hide();
+    QRectF rect(unit.data.pText->rect.topLeft, unit.data.pText->rect.bottomRight);
+    setRect(rect);
+}
+
+CGraphicsTextItem::~CGraphicsTextItem()
+{
+
+}
+
+void CGraphicsTextItem::initTextEditWidget()
+{
     m_pTextEdit = new CTextEdit(QObject::tr("输入文本"));
     m_pTextEdit->setMinimumSize(QSize(1, 1));
 
@@ -39,12 +61,6 @@ CGraphicsTextItem::CGraphicsTextItem()
     m_pProxy->setWidget(m_pTextEdit);
     m_pProxy->setMinimumSize(0, 0);
     m_pProxy->setZValue(this->zValue() - 0.1);
-}
-
-
-CGraphicsTextItem::~CGraphicsTextItem()
-{
-
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -391,6 +407,7 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
     }
 }
 
+
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {
     CDrawParamSigleton::GetInstance()->setTextFont(format.font().family());
@@ -399,4 +416,25 @@ void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 
     //提示更改 TODO
 
+}
+
+CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsTextUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pText = new SGraphicsTextUnitData();
+    unit.data.pText->rect.topLeft = this->rect().topLeft();
+    unit.data.pText->rect.bottomRight = this->rect().bottomRight();
+    unit.data.pText->font = this->m_Font;
+    unit.data.pText->content = this->m_pTextEdit->toHtml();
+
+    return  unit;
 }

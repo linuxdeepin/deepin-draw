@@ -28,6 +28,14 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
 
 }
 
+CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+    : CGraphicsRectItem (unit, parent)
+    , m_anchorNum(unit.data.pPolygonStar->anchorNum)
+    , m_innerRadius(unit.data.pPolygonStar->radius)
+{
+    updatePolygonalStar(m_anchorNum, m_innerRadius);
+}
+
 int CGraphicsPolygonalStarItem::type() const
 {
     return PolygonalStarType;
@@ -61,6 +69,27 @@ CGraphicsItem *CGraphicsPolygonalStarItem::duplicate() const
     item->setScale(scale());
     item->setZValue(zValue());
     return item;
+}
+
+CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit;
+
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsPolygonStarUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pPolygonStar = new SGraphicsPolygonStarUnitData();
+    unit.data.pPolygonStar->rect.topLeft = this->rect().topLeft();
+    unit.data.pPolygonStar->rect.bottomRight = this->rect().bottomRight();
+    unit.data.pPolygonStar->anchorNum = this->m_anchorNum;
+    unit.data.pPolygonStar->radius = this->m_innerRadius;
+
+    return  unit;
 }
 
 void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)

@@ -11,6 +11,7 @@ public:
     explicit CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent = nullptr);
     explicit CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
+    CGraphicsLineItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsLineItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
 
@@ -30,6 +31,9 @@ public:
      * @return
      */
     CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+
+    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
