@@ -47,7 +47,7 @@ void CPenWidget::initUI()
 {
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("颜色"));
+    strokeLabel->setText(tr("描边"));
 
     m_strokeBtn = new BorderColorButton(this);
 

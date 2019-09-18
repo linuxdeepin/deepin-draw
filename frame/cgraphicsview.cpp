@@ -317,7 +317,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         return;
     }
 
-    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.
     QPoint menuPos;
     int rx;
     int ry;
@@ -330,7 +330,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     int temp;
     //判定是长右键菜单还是短右键菜单;
     if (m_visible) {
-        temp = 475;
+        temp = 350;
     } else {
         temp = 224;
     }
@@ -348,6 +348,14 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
         if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
+            temp = 480;
+            if (cursor().pos().ry() - 40 > this->height() - temp) {
+                ry = this->height() - temp + 40;
+            } else {
+                ry = cursor().pos().ry();
+            }
+            menuPos = QPoint(rx, ry);
+            //qDebug() << cursor().pos() << m_textMenu->rect()  << this->rect() << endl;
             m_textMenu->move(menuPos);
             m_textMenu->show();
             return;
@@ -745,7 +753,7 @@ void CGraphicsView::clearScene()
 void CGraphicsView::doSaveDDF()
 {
     if (m_ddfFileSavePath.isEmpty() || m_ddfFileSavePath == "") {
-        showSaveDDFDialog();
+        showSaveDDFDialog(true);
     } else {
         if (m_DDFManager->saveToDDF(m_ddfFileSavePath, scene())) {
             CDrawParamSigleton::GetInstance()->setIsModify(false);
@@ -756,10 +764,14 @@ void CGraphicsView::doSaveDDF()
     }
 }
 
-void CGraphicsView::showSaveDDFDialog()
+void CGraphicsView::showSaveDDFDialog(bool type)
 {
     DFileDialog dialog(this);
-    dialog.setWindowTitle(tr("保存文件"));//设置文件保存对话框的标题
+    if (type) {
+        dialog.setWindowTitle(tr("保存文件"));
+    } else {
+        dialog.setWindowTitle(tr("另存为"));
+    }//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
     dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);

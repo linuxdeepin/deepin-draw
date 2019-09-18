@@ -42,7 +42,7 @@ public:
     void showExportDialog();
     void showPrintDialog();
     void clearScene();
-    void showSaveDDFDialog();
+    void showSaveDDFDialog(bool type);
     void doSaveDDF();
     void doImport();
     void setIsShowContext(bool isShowContext);

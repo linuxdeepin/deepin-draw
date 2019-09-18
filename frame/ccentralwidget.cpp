@@ -156,7 +156,7 @@ void CCentralwidget::slotSaveToDDF()
 
 void CCentralwidget::slotSaveAs()
 {
-    m_pGraphicsView->showSaveDDFDialog();
+    m_pGraphicsView->showSaveDDFDialog(false);
 }
 
 void CCentralwidget::slotImport()
