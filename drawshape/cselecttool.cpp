@@ -17,8 +17,10 @@
 #include <QTextCursor>
 #include <QPixmap>
 #include <QGraphicsView>
+
 #include <QTextEdit>
 #include <QSvgGenerator>
+
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
@@ -47,11 +49,13 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_sPointPress = event->scenePos();
         //选中图元
         if (m_currentSelectItem != nullptr) {
+
             if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
                 qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
             }
+
         }
 
         if (CSizeHandleRect::None == m_dragHandle || CSizeHandleRect::InRect == m_dragHandle) {
@@ -99,7 +103,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
-        qApp->setOverrideCursor(Qt::ArrowCursor);
+        scene->views()[0]->setCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
     }
     // }

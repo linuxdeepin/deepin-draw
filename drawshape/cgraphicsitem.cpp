@@ -23,7 +23,7 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     }
     //检测是否在矩形内
     QPointF pt = mapFromScene(point);
-    if (this->boundingRect().contains(pt)) {
+    if (this->shape().contains(pt)) {
         return CSizeHandleRect::InRect;
     }
 
