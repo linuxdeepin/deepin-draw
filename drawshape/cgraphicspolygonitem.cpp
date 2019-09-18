@@ -63,20 +63,10 @@ int CGraphicsPolygonItem::type() const
     return PolygonType;
 }
 
-CGraphicsItem *CGraphicsPolygonItem::duplicate() const
+void CGraphicsPolygonItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsPolygonItem *item = new CGraphicsPolygonItem(m_nPointsCount, rect());
-
-    item->setListPoints(m_listPoints);
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    return item;
+    CGraphicsRectItem::duplicate(item);
+    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_nPointsCount);
 }
 
 CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit() const

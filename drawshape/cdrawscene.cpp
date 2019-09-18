@@ -65,7 +65,12 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(painter, rect);
-    painter->fillRect(sceneRect(), Qt::white);
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        painter->fillRect(sceneRect(), Qt::white);
+    } else {
+        painter->fillRect(sceneRect(), QColor(40, 40, 40));
+    }
+
 }
 
 void CDrawScene::setCursor(const QCursor &cursor)
@@ -113,9 +118,10 @@ void CDrawScene::attributeChanged()
 
 
             if (item->type() == TextType) {
+                //字体大小和颜色 分开处理
                 static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
-                static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-                static_cast<CGraphicsTextItem *>(item)->update();
+                //static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+                //static_cast<CGraphicsTextItem *>(item)->update();
                 //static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
             } else if (item->type() == PolygonType) {
                 if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
@@ -317,6 +323,32 @@ void CDrawScene::setItemDisable(bool canSelecte)
         if (item->type() > QGraphicsItem::UserType) {
             item->setFlag(QGraphicsItem::ItemIsMovable, canSelecte);
             item->setFlag(QGraphicsItem::ItemIsSelectable, canSelecte);
+        }
+    }
+}
+
+void CDrawScene::textFontFamilyChanged()
+{
+    QList<QGraphicsItem *> items = this->selectedItems();
+
+    QGraphicsItem *item = nullptr;
+    foreach (item, items) {
+        if (item->type() == TextType) {
+            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+            tmpitem->setFontFamily(CDrawParamSigleton::GetInstance()->getTextFont().family());
+        }
+    }
+}
+
+void CDrawScene::textFontSizeChanged()
+{
+    QList<QGraphicsItem *> items = this->selectedItems();
+
+    QGraphicsItem *item = nullptr;
+    foreach (item, items) {
+        if (item->type() == TextType) {
+            CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+            tmpitem->setFontSize(CDrawParamSigleton::GetInstance()->getTextFont().pointSizeF());
         }
     }
 }

@@ -28,7 +28,7 @@
 class CGraphicsPolygonItem : public CGraphicsRectItem
 {
 public:
-    explicit CGraphicsPolygonItem(int count, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsPolygonItem(int count = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
@@ -38,7 +38,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void setPointCount(int num);

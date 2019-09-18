@@ -35,7 +35,7 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
@@ -48,6 +48,7 @@ public:
     void setPath(const QPainterPath &path);
 
     void setArrow(const QPolygonF &arrow);
+    QPolygonF getArrow() const;
     QPainterPath getPath() const;
 
 protected:

@@ -116,21 +116,10 @@ void CPictureItem::setRotation90(bool leftOrRight)
     }
 }
 
-CGraphicsItem *CPictureItem::duplicate() const
+void CPictureItem::duplicate(CGraphicsItem *item)
 {
-    CPictureItem *item = new CPictureItem(rect(), m_pixmap);
-
-    item->setAngle(m_angle);
-
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    return item;
+    CGraphicsRectItem::duplicate(item);
+    static_cast<CPictureItem *>(item)->setPixmap(m_pixmap);
 }
 
 CGraphicsUnit CPictureItem::getGraphicsUnit() const

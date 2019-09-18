@@ -18,6 +18,7 @@
  */
 #include "cdrawparamsigleton.h"
 
+
 CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
 
 CDrawParamSigleton::CDrawParamSigleton()
@@ -30,6 +31,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_currentPenType(EPenType::straight)
     , m_textFont(QFont())
     , m_textColor(Qt::black)
+    , m_singleFontFlag(true)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
@@ -43,6 +45,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_isQuit(false)
     , m_effect(BlurEffect)
     , m_blurWidth(20)
+    , m_thremeType(0)
 {
     m_textFont.setPointSizeF(8);
 }
@@ -227,6 +230,26 @@ void CDrawParamSigleton::setTextColor(const QColor &fillColor)
 QColor CDrawParamSigleton::getTextColor() const
 {
     return m_textColor;
+}
+
+void CDrawParamSigleton::setSingleFontFlag(bool flag)
+{
+    m_singleFontFlag = flag;
+}
+
+bool CDrawParamSigleton::getSingleFontFlag() const
+{
+    return m_singleFontFlag;
+}
+
+int CDrawParamSigleton::getThemeType() const
+{
+    return m_thremeType;
+}
+
+void CDrawParamSigleton::setThemeType(const int type)
+{
+    m_thremeType = type;
 }
 
 ECutType CDrawParamSigleton::getCutType() const

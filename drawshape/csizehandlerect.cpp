@@ -28,7 +28,7 @@
 
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
-    : QGraphicsSvgItem(QString(":/theme/resources/node.svg"), parent)
+    : QGraphicsSvgItem(QString(":/theme/light/images/size/node.svg"), parent)
     , m_dir(d)
     , m_state(SelectionHandleOff)
     , m_bVisible(true)

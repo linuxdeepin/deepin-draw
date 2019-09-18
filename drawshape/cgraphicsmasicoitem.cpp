@@ -57,6 +57,14 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
+CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsPenItem(&(data->data), head, parent)
+    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
+    , m_nBlurEffect((EBlurEffect)data->effect)
+{
+    updateBlurPath();
+}
+
 //CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
 //    : CGraphicsPenItem(unit, parent)
 //    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
@@ -146,6 +154,11 @@ void CGraphicsMasicoItem::setPixmap()
     }
 }
 
+void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
+{
+    m_pixmap = pixmap;
+}
+
 QRectF CGraphicsMasicoItem::boundingRect() const
 {
     QRectF rect = this->shape().boundingRect();;
@@ -197,11 +210,33 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
 
 CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
 {
-    CGraphicsUnit unit = CGraphicsPenItem::getGraphicsUnit();
+
+    CGraphicsUnit unit;
+
     unit.head.dataType = this->type();
     unit.head.dataLength = sizeof(SGraphicsBlurUnitData);
+    unit.head.pen = this->pen();
+    unit.head.brush = this->brush();
+    unit.head.pos = this->pos();
+    unit.head.rotate = this->rotation();
+    unit.head.zValue = this->zValue();
+
+    unit.data.pBlur = new SGraphicsBlurUnitData();
+    unit.data.pBlur->data.penType = this->currentType();
+    unit.data.pBlur->data.path = this->getPath();
+    unit.data.pBlur->data.arrow = this->getArrow();
+
+    unit.data.pBlur->effect = m_nBlurEffect;
 
     return unit;
+}
+
+void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
+{
+    CGraphicsPenItem::duplicate(item);
+    static_cast<CGraphicsMasicoItem *>(item)->setBlurEffect(m_nBlurEffect);
+    static_cast<CGraphicsMasicoItem *>(item)->updateBlurPath();
+    static_cast<CGraphicsMasicoItem *>(item)->setPixmap(m_pixmap);
 }
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)

@@ -80,6 +80,10 @@ public:
 
     void setItemDisable(bool canSelecte);
 
+    void textFontFamilyChanged();
+
+    void textFontSizeChanged();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号

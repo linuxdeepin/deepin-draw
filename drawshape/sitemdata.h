@@ -302,13 +302,11 @@ struct SGraphicsPenUnitData {
 struct SGraphicsBlurUnitData {
     SGraphicsPenUnitData data;
     qint8 effect;
-    int blurWidth;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsBlurUnitData &blurUnitData)
     {
         out << blurUnitData.data;
         out << blurUnitData.effect;
-        out << blurUnitData.blurWidth;
 
         return out;
     }
@@ -317,9 +315,6 @@ struct SGraphicsBlurUnitData {
     {
         in >> blurUnitData.data;
         in >> blurUnitData.effect;
-        in >> blurUnitData.blurWidth;
-
-
         return in;
     }
 };
@@ -399,6 +394,8 @@ struct CGraphicsUnit {
             out << *(graphicsUnitData.data.pPic);
         } else if (PenType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pPen) {
             out << *(graphicsUnitData.data.pPen);
+        } else if (BlurType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pBlur) {
+            out << *(graphicsUnitData.data.pBlur);
         }
 
         out << graphicsUnitData.tail;
@@ -446,6 +443,10 @@ struct CGraphicsUnit {
             SGraphicsPenUnitData *data = new SGraphicsPenUnitData();
             in >> *data;
             graphicsUnitData.data.pPen = data;
+        } else if (BlurType == graphicsUnitData.head.dataType) {
+            SGraphicsBlurUnitData *data = new SGraphicsBlurUnitData();
+            in >> *data;
+            graphicsUnitData.data.pBlur = data;
         }
 
         in >> graphicsUnitData.tail;

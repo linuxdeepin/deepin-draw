@@ -74,19 +74,10 @@ void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const
     calcPolygon();
 }
 
-CGraphicsItem *CGraphicsPolygonalStarItem::duplicate() const
+void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(m_anchorNum, m_innerRadius, rect());
-    item->setPolygon(m_polygon);
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    return item;
+    CGraphicsRectItem::duplicate(item);
+    static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum, m_innerRadius);
 }
 
 CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const

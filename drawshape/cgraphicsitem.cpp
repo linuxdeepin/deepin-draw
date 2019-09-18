@@ -18,19 +18,22 @@
  */
 #include "cgraphicsitem.h"
 #include "cgraphicsmasicoitem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicsproxywidget.h"
 #include <QDebug>
 #include <QGraphicsScene>
+#include <QVariant>
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
-    , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
+    , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
 {
 
 }
 
 CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
-    , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
+    , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
 {
 
     this->setPen(head.pen);
@@ -159,9 +162,16 @@ QCursor CGraphicsItem::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLef
     return resultCursor;
 }
 
-CGraphicsItem *CGraphicsItem::duplicate() const
+void CGraphicsItem::duplicate(CGraphicsItem *item)
 {
-    return nullptr;
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue());
 }
 
 CGraphicsUnit CGraphicsItem::getGraphicsUnit() const
@@ -211,8 +221,14 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
     }
 
+    if (change == QGraphicsItem::ItemSelectedHasChanged &&  this->type() == TextType && value.toBool() == false) {
+        static_cast<CGraphicsTextItem *>(this)->getCGraphicsProxyWidget()->hide();
+    }
+
     //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
-    if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange && change != QGraphicsItem::ItemVisibleHasChanged) {
+    if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange &&
+            change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
+            change != QGraphicsItem::ItemSelectedHasChanged) {
         QList<QGraphicsItem *> items = this->scene()->items();//this->collidingItems();
         //QList<QGraphicsItem *> items = this->collidingItems();
         foreach (QGraphicsItem *item, items) {

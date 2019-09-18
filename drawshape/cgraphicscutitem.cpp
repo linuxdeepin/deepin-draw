@@ -557,6 +557,11 @@ void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
     showControlRects(isFreeMode);
 }
 
+void CGraphicsCutItem::duplicate(CGraphicsItem *item)
+{
+
+}
+
 void CGraphicsCutItem::doChangeType(int type)
 {
     QRectF rect = this->scene()->sceneRect();

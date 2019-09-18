@@ -114,6 +114,12 @@ public:
     int getBlurWidth() const;
     void setBlurWidth(const int width);
 
+    void setSingleFontFlag(bool flag);
+    bool getSingleFontFlag() const;
+
+    int getThemeType() const;
+    void setThemeType(const int type);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -129,6 +135,7 @@ private:
     QFont m_textFont; //文本字体
     //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
+    bool m_singleFontFlag; //只包含一个字体
 
     EDrawToolMode m_currentDrawToolMode;
 
@@ -156,6 +163,8 @@ private:
     EBlurEffect m_effect; //模糊效果
     int m_blurWidth;    //模糊半径
 
+    //当前主题
+    int m_thremeType;
 };
 
 

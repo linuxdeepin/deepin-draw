@@ -44,7 +44,8 @@ public:
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
-    //void setFontSize(qreal size);
+    void setFontSize(qreal size);
+    void setFontFamily(const QString &family);
     void setTextColor(const QColor &col);
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
@@ -53,7 +54,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     CTextEdit *getTextEdit();
 

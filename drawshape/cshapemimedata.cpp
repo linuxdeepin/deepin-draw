@@ -18,11 +18,61 @@
  */
 #include "cshapemimedata.h"
 #include "cgraphicsitem.h"
+#include "cgraphicsrectitem.h"
+#include "cgraphicsellipseitem.h"
+#include "cgraphicslineitem.h"
+#include "cgraphicstriangleitem.h"
+#include "cgraphicspolygonitem.h"
+#include "cgraphicspolygonalstaritem.h"
+#include "cgraphicstextitem.h"
+#include "cgraphicsmasicoitem.h"
+#include "cgraphicspenitem.h"
+#include "cpictureitem.h"
 
 CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
 {
     foreach (QGraphicsItem *item, items ) {
-        CGraphicsItem *copy = static_cast<CGraphicsItem *>(item)->duplicate();
+        //CGraphicsItem *copy = static_cast<CGraphicsItem *>(item)->duplicate();
+        CGraphicsItem *copy = nullptr;
+
+        switch (item->type()) {
+        case RectType:
+            copy = new CGraphicsRectItem();
+            break;
+        case EllipseType:
+            copy = new CGraphicsEllipseItem();
+            break;
+        case TriangleType:
+            copy = new CGraphicsTriangleItem();
+            break;
+        case PolygonalStarType:
+            copy = new CGraphicsPolygonalStarItem();
+            break;
+
+        case PolygonType:
+            copy = new CGraphicsPolygonItem();
+            break;
+        case LineType:
+            copy = new CGraphicsLineItem();
+            break;
+
+        case PenType:
+            copy = new CGraphicsPenItem();
+            break;
+        case TextType:
+            copy = new CGraphicsTextItem();
+            break;
+
+        case PictureType:
+            copy = new CPictureItem();
+            break;
+        case BlurType:
+            copy = new CGraphicsMasicoItem();
+            break;
+
+        }
+
+        static_cast<CGraphicsItem *>(item)->duplicate(copy);
         if (copy) {
             m_itemList.append(copy);
         }

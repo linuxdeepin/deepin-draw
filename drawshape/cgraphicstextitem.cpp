@@ -65,11 +65,8 @@ CGraphicsTextItem::~CGraphicsTextItem()
 void CGraphicsTextItem::initTextEditWidget()
 {
     m_pTextEdit = new CTextEdit(QObject::tr("输入文本"), this);
-    m_pTextEdit->show();
     m_pTextEdit->setMinimumSize(QSize(1, 1));
-    QTextCursor textCursor = m_pTextEdit->textCursor();
-    textCursor.select(QTextCursor::Document);
-    m_pTextEdit->setTextCursor(textCursor);
+
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
@@ -90,6 +87,23 @@ void CGraphicsTextItem::initTextEditWidget()
     this->setSizeHandleRectFlag(CSizeHandleRect::Bottom, false);
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
+
+    QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
+    QColor color = CDrawParamSigleton::GetInstance()->getTextColor();
+
+    //全选会更改一次字体 所以字体获取要在这之前
+    QTextCursor textCursor = m_pTextEdit->textCursor();
+    textCursor.select(QTextCursor::Document);
+    m_pTextEdit->setTextCursor(textCursor);
+
+    //更新初始化的字体和颜色
+    QTextCharFormat fmt;
+    fmt.setFont(font);
+    fmt.setForeground(color);
+    this->mergeFormatOnWordOrSelection(fmt);
+    this->currentCharFormatChanged(fmt);
+
+    m_pTextEdit->show();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -112,7 +126,9 @@ int CGraphicsTextItem::type() const
 void CGraphicsTextItem::setRect(const QRectF &rect)
 {
     prepareGeometryChange();
-    m_pProxy->resize(rect.width(), rect.height());
+    if (m_pProxy != nullptr) {
+        m_pProxy->resize(rect.width(), rect.height());
+    }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
 }
@@ -149,14 +165,22 @@ void CGraphicsTextItem::setFont(const QFont &font)
     m_Font = font;
 }
 
-//void CGraphicsTextItem::setFontSize(qreal size)
-//{
-//    QTextCharFormat fmt;
-//    fmt.setFontPointSize(size);
-//    mergeFormatOnWordOrSelection(fmt);
+void CGraphicsTextItem::setFontSize(qreal size)
+{
+    QTextCharFormat fmt;
+    fmt.setFontPointSize(size);
+    mergeFormatOnWordOrSelection(fmt);
 
-//    m_size = size;
-//}
+    m_Font.setPointSizeF(size);
+}
+
+void CGraphicsTextItem::setFontFamily(const QString &family)
+{
+    QTextCharFormat fmt;
+    fmt.setFontFamily(family);
+    mergeFormatOnWordOrSelection(fmt);
+    m_Font.setFamily(family);
+}
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
@@ -165,21 +189,10 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_pTextEdit->slot_textChanged();
 }
 
-CGraphicsItem *CGraphicsTextItem::duplicate() const
+void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsTextItem *item = new CGraphicsTextItem();
-    item->setRect(this->rect());
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    item->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(item->getTextEdit()));
-    item->getTextEdit()->hide();
-    return item;
+    CGraphicsRectItem::duplicate(item);
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
@@ -228,6 +241,7 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
+//    m_pTextEdit->cursorPositionChanged();
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

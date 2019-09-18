@@ -44,7 +44,7 @@ void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
     //qDebug() << "importImageSignal" <<  "drawPicture" << endl;
     DFileDialog *fileDialog = new DFileDialog();
     QStringList filters;
-    filters << "Image files (*.png *.jpg *.bmp *.tif *.ddf)";
+    filters << "Image files (*.png *.jpg *.bmp *.tif)";
     fileDialog->setNameFilters(filters);
     fileDialog->setFileMode(QFileDialog::ExistingFiles);
 

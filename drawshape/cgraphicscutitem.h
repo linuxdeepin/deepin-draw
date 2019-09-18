@@ -47,6 +47,8 @@ public:
     bool isFreeMode() const;
     void setIsFreeMode(bool isFreeMode);
 
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;

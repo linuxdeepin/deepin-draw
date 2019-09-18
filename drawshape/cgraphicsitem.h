@@ -39,7 +39,7 @@ public:
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) = 0;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
     virtual QRectF rect() const = 0;
-    virtual CGraphicsItem *duplicate() const;
+    virtual void duplicate(CGraphicsItem *item);
     virtual CGraphicsUnit getGraphicsUnit() const;
     virtual void move(QPointF beginPoint, QPointF movePoint);
     void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);

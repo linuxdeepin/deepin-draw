@@ -56,19 +56,9 @@ int CGraphicsEllipseItem::type() const
     return EllipseType;
 }
 
-CGraphicsItem *CGraphicsEllipseItem::duplicate() const
+void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(rect());
-
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    return item;
+    CGraphicsRectItem::duplicate(item);
 }
 
 CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const

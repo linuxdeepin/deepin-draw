@@ -50,10 +50,10 @@ CSelectTool::CSelectTool ()
     , m_dragHandle(CSizeHandleRect::None)
     , m_bRotateAng(false)
     , m_rotateAng(0)
-    , m_rotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
+    , m_rotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
     , m_initRotateItemPos(0, 0)
     , m_RotateItem(nullptr)
-    , m_textEditCursor(QPixmap(":/theme/resources/text_mouse.svg"))
+    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
 
 }
@@ -97,6 +97,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 //如果是滤镜图层
                 if (m_currentSelectItem->type() == BlurType) {
                     static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
+                } else if (m_currentSelectItem->type() == TextType) {
+                    static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->cursorPositionChanged();
                 }
                 if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);

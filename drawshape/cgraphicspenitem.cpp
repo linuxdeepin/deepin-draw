@@ -143,24 +143,12 @@ QRectF CGraphicsPenItem::rect() const
     }
 }
 
-CGraphicsItem *CGraphicsPenItem::duplicate() const
+void CGraphicsPenItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsPenItem *item = new CGraphicsPenItem();
-    item->setCurrentType(this->m_currentType);
-    item->setPath(this->m_path);
-//    item->setPoitsPath(this->m_poitsPath);
-    item->setArrow(this->m_arrow);
-
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-
-    return item;
+    static_cast<CGraphicsPenItem *>(item)->setCurrentType(this->m_currentType);
+    static_cast<CGraphicsPenItem *>(item)->setPath(this->m_path);
+    static_cast<CGraphicsPenItem *>(item)->setArrow(this->m_arrow);
+    CGraphicsItem::duplicate(item);
 }
 
 CGraphicsUnit CGraphicsPenItem::getGraphicsUnit() const
@@ -342,10 +330,10 @@ void CGraphicsPenItem::drawComplete()
 
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    Q_UNUSED(dir)
-    Q_UNUSED(point)
     Q_UNUSED(bShiftPress)
     Q_UNUSED(bAltPress)
+
+    resizeTo(dir, point);
 
 }
 
@@ -457,6 +445,11 @@ void CGraphicsPenItem::setArrow(const QPolygonF &arrow)
     m_arrow = arrow;
 }
 
+QPolygonF CGraphicsPenItem::getArrow() const
+{
+    return m_arrow;
+}
+
 QPainterPath CGraphicsPenItem::getPath() const
 {
     return m_path;
@@ -483,7 +476,7 @@ void CGraphicsPenItem::initPen()
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
 
         } else {
             shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));

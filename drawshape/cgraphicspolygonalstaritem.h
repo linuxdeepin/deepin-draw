@@ -25,7 +25,7 @@
 class CGraphicsPolygonalStarItem : public CGraphicsRectItem
 {
 public:
-    explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsPolygonalStarItem(int anchorNum = 0, int innerRadius = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
@@ -36,7 +36,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void updatePolygonalStar(int anchorNum, int innerRadius);
     int anchorNum() const;

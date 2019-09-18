@@ -173,21 +173,12 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
     setLine(QLineF(x1, y1, x2, y2));
 }
 
-CGraphicsItem *CGraphicsLineItem::duplicate() const
+void CGraphicsLineItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsLineItem *item = new CGraphicsLineItem(m_line);
-
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-
-    return item;
+    static_cast<CGraphicsLineItem *>(item)->setLine(this->m_line);
+    CGraphicsItem::duplicate(item);
 }
+
 
 CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
 {
@@ -244,7 +235,7 @@ void CGraphicsLineItem::updateGeometry()
 
             //hndl->move(centerPos.x() - w / 2, centerPos.y() - h - h / 2);
             if (qAbs(m_line.p2().x() - m_line.p1().x()) < 0.0001) {
-                //hndl->move(centerPos.x() - w / 2 - w, centerPos.y() - h / 2);
+                hndl->move(m_line.p1().x() - h - penwidth, centerPos.y());
             } else {
                 k = -(m_line.p2().y() - m_line.p1().y()) / (m_line.p2().x() - m_line.p1().x());
                 ang = atan(k);
@@ -285,7 +276,7 @@ void CGraphicsLineItem::initLine()
 
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
-    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/resources/icon_rotate.svg")));
+    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/light/images/mouse_style/icon_rotate.svg")));
 
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);

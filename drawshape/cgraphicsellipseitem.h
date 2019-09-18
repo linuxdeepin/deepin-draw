@@ -33,7 +33,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item)  Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 

@@ -49,7 +49,8 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
 protected:
@@ -65,7 +66,6 @@ private:
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
-    ESelectionHandleState m_state; //边框选中状态
 };
 
 #endif // CGRAPHICSRECTITEM_H

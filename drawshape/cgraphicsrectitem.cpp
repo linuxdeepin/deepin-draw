@@ -96,7 +96,7 @@ void CGraphicsRectItem::initRect()
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/resources/icon_rotate.svg"));
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
 
         } else {
             shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
@@ -535,21 +535,10 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
-CGraphicsItem *CGraphicsRectItem::duplicate() const
+void CGraphicsRectItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsRectItem *item = new CGraphicsRectItem(rect());
-    item->m_topLeftPoint = this->m_topLeftPoint;
-    item->m_bottomRightPoint = this->m_bottomRightPoint;
-    item->m_state = this->m_state;
-    item->setPos(pos().x(), pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue());
-    return item;
+    static_cast<CGraphicsRectItem * >(item)->setRect(this->rect());
+    CGraphicsItem::duplicate(item);
 }
 
 CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
