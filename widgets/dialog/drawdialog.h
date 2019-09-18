@@ -25,10 +25,10 @@ class DrawDialog : public Dialog
 {
     Q_OBJECT
 public:
-    explicit DrawDialog(DWidget *parent = 0);
+    explicit DrawDialog(DWidget *parent = nullptr);
 
 signals:
-    void saveDrawImage();
+    void signalSaveToDDF();
 
 
 protected:

@@ -34,35 +34,16 @@ class CTextEdit : public DTextEdit
 public:
     explicit CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent = nullptr);
 
-    void setView(DGraphicsView *view);
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
 signals:
 
 private slots:
-    void setTopAlignment();
-    void setRightAlignment();
-    void setLeftAlignment();
-    void setCenterAlignment();
-
     void slot_textChanged();
 
-protected:
-    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    DMenu *m_menu;
-    QAction *m_cutAction;
-    QAction *m_copyAction;
-    QAction *m_pasteAction;
-    QAction *m_selectAllAction;
-    QAction *m_leftAlignAct;
-    QAction *m_topAlignAct;
-    QAction *m_rightAlignAct;
-    QAction *m_centerAlignAct;
-
-    DGraphicsView *m_view;
     CGraphicsTextItem *m_pItem;
 };
 

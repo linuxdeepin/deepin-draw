@@ -19,6 +19,7 @@
 #include "drawdialog.h"
 #include "utils/baseutils.h"
 #include "savedialog.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -60,20 +61,14 @@ DrawDialog::DrawDialog(DWidget *parent)
     addContent(w);
 
     connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
-        qDebug() << "deepin-draw button clicked:" << id;
         if (id == 0) {
             this->close();
         } else if (id == 1) {
             qApp->quit();
         } else {
-            emit saveDrawImage();
-
-//            QList<QPixmap> pixs;
-//            SaveDialog *saveDraw = new SaveDialog(pixs);
-//            saveDraw->show();
-
+            CDrawParamSigleton::GetInstance()->setIsQuit(true);
+            emit signalSaveToDDF();
         }
-
     });
 }
 
