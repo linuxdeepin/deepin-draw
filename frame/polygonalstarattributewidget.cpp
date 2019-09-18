@@ -25,6 +25,8 @@
 #include <QButtonGroup>
 #include <QIntValidator>
 #include <QDebug>
+#include <QDesktopWidget>
+#include <QApplication>
 
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -36,7 +38,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-
+const int TEXT_SIZE = 12;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
     , m_isUsrDragSlider(false)
@@ -50,6 +52,11 @@ PolygonalStarAttributeWidget::~PolygonalStarAttributeWidget()
 
 }
 
+void PolygonalStarAttributeWidget::changeButtonTheme()
+{
+    m_sideWidthWidget->changeButtonTheme();
+}
+
 void PolygonalStarAttributeWidget::initUI()
 {
     //    DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
@@ -58,28 +65,45 @@ void PolygonalStarAttributeWidget::initUI()
 
     DLabel *fillLabel = new DLabel(this);
     fillLabel->setText(tr("填充"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    fillLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setText(tr("描边"));
+    strokeLabel->setFont(ft);
 
     SeperatorLine *sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
+    lwLabel->setFont(ft);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *anchorNumLabel = new DLabel(this);
     anchorNumLabel->setText(tr("锚点数"));
+    anchorNumLabel->setFont(ft);
 
     m_anchorNumSlider = new DSlider(Qt::Horizontal, this);
+
+    //获取屏幕分辨率
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    int width;
+    width = screenRect.width();
 
 
     m_anchorNumSlider->setMinimum(3);
     m_anchorNumSlider->setMaximum(50);
-    m_anchorNumSlider->setMinimumWidth(120);
+    if (width < 1280) {
+        m_anchorNumSlider->setFixedWidth(28);
+    } else {
+        m_anchorNumSlider->setFixedWidth(120);
+    }
+
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
@@ -88,16 +112,22 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(40);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
+    m_anchorNumEdit->setFont(ft);
 
     DLabel *radiusLabel = new DLabel(this);
     radiusLabel->setText(tr("半径"));
+    radiusLabel->setFont(ft);
 
     m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
 
 
     m_radiusNumSlider->setMinimum(0);
     m_radiusNumSlider->setMaximum(100);
-    m_radiusNumSlider->setMinimumWidth(120);
+    if (width < 1280) {
+        m_radiusNumSlider->setFixedWidth(28);
+    } else {
+        m_radiusNumSlider->setFixedWidth(120);
+    }
     m_radiusNumSlider->setMaximumHeight(24);
 
     m_radiusNumEdit = new DLineEdit(this);
@@ -107,29 +137,30 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumEdit->setClearButtonEnabled(false);
     m_radiusNumEdit->setFixedWidth(55);
     m_radiusNumEdit->setText(QString("%1%").arg(m_radiusNumSlider->value()));
+    m_radiusNumEdit->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
+    //layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
     layout->addWidget(fillLabel);
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(sepLine);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(anchorNumLabel);
     layout->addWidget(m_anchorNumSlider);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_anchorNumEdit);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(radiusLabel);
     layout->addWidget(m_radiusNumSlider);
-    layout->addSpacing(SEPARATE_SPACING);
+    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_radiusNumEdit);
 
     layout->addStretch();

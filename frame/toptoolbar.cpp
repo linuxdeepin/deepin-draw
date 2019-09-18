@@ -72,8 +72,9 @@ void TopToolbar::initUI()
     hLayout->addWidget(logoLable);
     hLayout->addSpacing(20);
     hLayout->addWidget(m_scaleComboBox);
-    hLayout->addSpacing(20);
-    hLayout->addWidget(m_stackWidget);
+//    hLayout->addSpacing(20);
+    hLayout->addWidget(m_stackWidget, 0, Qt::AlignHCenter);
+    hLayout->addSpacing(33);
     hLayout->setContentsMargins(0, 0, 0, 0);
 //    hLayout->addStretch();
     setLayout(hLayout);
@@ -96,7 +97,7 @@ void TopToolbar::initComboBox()
     m_scaleComboBox->insertSeparator(5);
     m_scaleComboBox->insertSeparator(7);
     m_scaleComboBox->setCurrentIndex(2);
-    m_scaleComboBox->setFixedWidth(110);
+    m_scaleComboBox->setFixedWidth(100);
 
 
 
@@ -110,6 +111,9 @@ void TopToolbar::initComboBox()
 
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
     m_scaleComboBox->lineEdit()->setReadOnly(true);
+    QFont ft;
+    ft.setPixelSize(12);
+    m_scaleComboBox->lineEdit()->setFont(ft);
 
 //    DPalette pa = DApplicationHelper::instance()->palette(m_scaleComboBox->lineEdit());
 //    pa.setColor(DPalette::Background, Qt::transparent);
@@ -233,6 +237,16 @@ void TopToolbar::showSaveDialog()
     sd->showInCenter(window());
 }
 
+void TopToolbar::changeTopButtonsTheme()
+{
+    m_picWidget->changeButtonTheme();
+    m_commonShapeWidget->changeButtonTheme();
+    m_polygonalStarWidget->changeButtonTheme();
+    m_PolygonWidget->changeButtonTheme();
+    m_drawLineWidget->changeButtonTheme();
+    m_penWidget->changeButtonTheme();
+    m_drawBlurWidget->changeButtonTheme();
+}
 
 
 void TopToolbar::updateMiddleWidget(int type)
@@ -448,6 +462,8 @@ void TopToolbar::initConnection()
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
     connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextWidget);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
+    connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 
     connect(m_drawBlurWidget, &BlurWidget::signalBlurAttributeChanged, this, &TopToolbar::signalAttributeChanged);

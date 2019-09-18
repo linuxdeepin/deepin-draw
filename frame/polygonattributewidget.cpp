@@ -37,7 +37,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-
+const int TEXT_SIZE = 12;
 //DWIDGET_USE_NAMESPACE
 
 PolygonAttributeWidget::PolygonAttributeWidget(DWidget *parent)
@@ -54,6 +54,11 @@ PolygonAttributeWidget::~PolygonAttributeWidget()
 
 }
 
+void PolygonAttributeWidget::changeButtonTheme()
+{
+    m_sideWidthWidget->changeButtonTheme();
+}
+
 void PolygonAttributeWidget::initUI()
 {
     //DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
@@ -61,27 +66,33 @@ void PolygonAttributeWidget::initUI()
     m_fillBtn = new BigColorButton(this);
     DLabel *fillLabel = new DLabel(this);
     fillLabel->setText(tr("填充"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    fillLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setText(tr("描边"));
+    strokeLabel->setFont(ft);
 
     SeperatorLine *sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
+    lwLabel->setFont(ft);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *sideNumLabel = new DLabel(this);
     sideNumLabel->setText(tr("侧边数"));
+    sideNumLabel->setFont(ft);
 
     m_sideNumSlider = new DSlider(Qt::Horizontal, this);
 //    m_sideNumSlider->slider()->setSingleStep(1);
     m_sideNumSlider->setMinimum(4);
     m_sideNumSlider->setMaximum(10);
-    m_sideNumSlider->setMinimumWidth(200);
+    m_sideNumSlider->setMinimumWidth(120);
 
 
 
@@ -91,6 +102,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(40);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
+    m_sideNumEdit->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

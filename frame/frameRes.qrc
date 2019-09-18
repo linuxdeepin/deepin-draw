@@ -1,136 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>theme/dark/images/action/artboard_active.png</file>
-        <file>theme/dark/images/action/artboard_hover.png</file>
-        <file>theme/dark/images/action/artboard_normal.png</file>
-        <file>theme/dark/images/action/blur_active.png</file>
-        <file>theme/dark/images/action/blur_hover.png</file>
-        <file>theme/dark/images/action/blur_normal.png</file>
-        <file>theme/dark/images/action/export_active.png</file>
-        <file>theme/dark/images/action/export_hover.png</file>
-        <file>theme/dark/images/action/export_normal.png</file>
-        <file>theme/dark/images/action/Import_active.png</file>
-        <file>theme/dark/images/action/Import_hover.png</file>
-        <file>theme/dark/images/action/Import_normal.png</file>
-        <file>theme/dark/images/action/line_active.png</file>
-        <file>theme/dark/images/action/line_hover.png</file>
-        <file>theme/dark/images/action/line_mormal.png</file>
-        <file>theme/dark/images/action/oval_active.png</file>
-        <file>theme/dark/images/action/oval_hover.png</file>
-        <file>theme/dark/images/action/oval_normal.png</file>
-        <file>theme/dark/images/action/rectangle_active.png</file>
-        <file>theme/dark/images/action/rectangle_hover.png</file>
-        <file>theme/dark/images/action/rectangle_normal.png</file>
-        <file>theme/dark/images/action/text_active.png</file>
-        <file>theme/dark/images/action/text_hover.png</file>
-        <file>theme/dark/images/action/text_normal.png</file>
-        <file>theme/dark/images/cut/cut_active.png</file>
-        <file>theme/dark/images/cut/cut_hover.png</file>
-        <file>theme/dark/images/cut/cut_normal.png</file>
-        <file>theme/dark/images/cut/filp_vertical_active.png</file>
-        <file>theme/dark/images/cut/filp_vertical_hover.png</file>
-        <file>theme/dark/images/cut/filp_vertical_normal.png</file>
-        <file>theme/dark/images/cut/flip_horizontal_active.png</file>
-        <file>theme/dark/images/cut/flip_horizontal_hover.png</file>
-        <file>theme/dark/images/cut/flip_horizontal_normal.png</file>
-        <file>theme/dark/images/cut/rotate_left_active.png</file>
-        <file>theme/dark/images/cut/rotate_left_hover.png</file>
-        <file>theme/dark/images/cut/rotate_left_normal.png</file>
-        <file>theme/dark/images/cut/rotate_right_active.png</file>
-        <file>theme/dark/images/cut/rotate_right_hover.png</file>
-        <file>theme/dark/images/cut/rotate_right_normal.png</file>
-        <file>theme/dark/images/draw/arrow_active.png</file>
-        <file>theme/dark/images/draw/arrow_hover.png</file>
-        <file>theme/dark/images/draw/arrow_normal.png</file>
-        <file>theme/dark/images/draw/blur_slim_active.png</file>
-        <file>theme/dark/images/draw/blur_slim_hover.png</file>
-        <file>theme/dark/images/draw/blur_slim_normal.png</file>
-        <file>theme/dark/images/draw/blur_thick_active.png</file>
-        <file>theme/dark/images/draw/blur_thick_hover.png</file>
-        <file>theme/dark/images/draw/blur_thick_normal.png</file>
-        <file>theme/dark/images/draw/color_disable_active.png</file>
-        <file>theme/dark/images/draw/color_disable_hover.png</file>
-        <file>theme/dark/images/draw/color_disable_normal.png</file>
-        <file>theme/dark/images/draw/color_draw_active.png</file>
-        <file>theme/dark/images/draw/color_draw_hover.png</file>
-        <file>theme/dark/images/draw/color_draw_normal.png</file>
-        <file>theme/dark/images/draw/color_more_active.png</file>
-        <file>theme/dark/images/draw/color_more_hover.png</file>
-        <file>theme/dark/images/draw/color_more_normal.png</file>
-        <file>theme/dark/images/draw/curve_active.png</file>
-        <file>theme/dark/images/draw/curve_hover.png</file>
-        <file>theme/dark/images/draw/curve_normal.png</file>
-        <file>theme/dark/images/draw/line_border_1_active.png</file>
-        <file>theme/dark/images/draw/line_border_1_hover.png</file>
-        <file>theme/dark/images/draw/line_border_1_normal.png</file>
-        <file>theme/dark/images/draw/line_border_2_active.png</file>
-        <file>theme/dark/images/draw/line_border_2_hover.png</file>
-        <file>theme/dark/images/draw/line_border_2_normal.png</file>
-        <file>theme/dark/images/draw/line_border_3_active.png</file>
-        <file>theme/dark/images/draw/line_border_3_hover.png</file>
-        <file>theme/dark/images/draw/line_border_3_normal.png</file>
-        <file>theme/dark/images/draw/line_border_4_active.png</file>
-        <file>theme/dark/images/draw/line_border_4_hover.png</file>
-        <file>theme/dark/images/draw/line_border_4_normal.png</file>
-        <file>theme/dark/images/draw/straight_line_active.png</file>
-        <file>theme/dark/images/draw/straight_line_hover.png</file>
-        <file>theme/dark/images/draw/straight_line_normal.png</file>
-        <file>theme/light/images/draw/colorful_line.png</file>
-        <file>theme/light/images/draw/line_border_1_active.svg</file>
-        <file>theme/light/images/draw/line_border_1_hover.svg</file>
-        <file>theme/light/images/draw/line_border_1_normal.svg</file>
-        <file>theme/light/images/draw/line_border_2_active.svg</file>
-        <file>theme/light/images/draw/line_border_2_hover.svg</file>
-        <file>theme/light/images/draw/line_border_2_normal.svg</file>
-        <file>theme/light/images/draw/line_border_3_active.svg</file>
-        <file>theme/light/images/draw/line_border_3_hover.svg</file>
-        <file>theme/light/images/draw/line_border_3_normal.svg</file>
-        <file>theme/light/images/draw/line_border_4_active.svg</file>
-        <file>theme/light/images/draw/line_border_4_hover.svg</file>
-        <file>theme/light/images/draw/line_border_4_normal.svg</file>
-        <file>theme/light/images/draw/blur_slim_active.svg</file>
-        <file>theme/light/images/draw/blur_slim_hover.svg</file>
-        <file>theme/light/images/draw/blur_slim_normal.svg</file>
-        <file>theme/light/images/draw/blur_thick_active.svg</file>
-        <file>theme/light/images/draw/blur_thick_hover.svg</file>
-        <file>theme/light/images/draw/blur_thick_normal.svg</file>
-        <file>theme/light/images/draw/arrow_active.svg</file>
-        <file>theme/light/images/draw/arrow_hover.svg</file>
-        <file>theme/light/images/draw/arrow_normal.svg</file>
-        <file>theme/light/images/draw/curve_active.svg</file>
-        <file>theme/light/images/draw/curve_hover.svg</file>
-        <file>theme/light/images/draw/curve_normal.svg</file>
-        <file>theme/light/images/draw/straight_line_active.svg</file>
-        <file>theme/light/images/draw/straight_line_hover.svg</file>
-        <file>theme/light/images/draw/straight_line_normal.svg</file>
-        <file>theme/light/images/cut/cut_active.svg</file>
-        <file>theme/light/images/cut/cut_hover.svg</file>
-        <file>theme/light/images/cut/cut_normal.svg</file>
-        <file>theme/light/images/cut/filp_vertical_active.svg</file>
-        <file>theme/light/images/cut/filp_vertical_hover.svg</file>
-        <file>theme/light/images/cut/filp_vertical_normal.svg</file>
-        <file>theme/light/images/cut/flip_horizontal_active.svg</file>
-        <file>theme/light/images/cut/flip_horizontal_hover.svg</file>
-        <file>theme/light/images/cut/flip_horizontal_normal.svg</file>
-        <file>theme/light/images/cut/rotate_left_active.svg</file>
-        <file>theme/light/images/cut/rotate_left_disable.svg</file>
-        <file>theme/light/images/cut/rotate_left_hover.svg</file>
-        <file>theme/light/images/cut/rotate_left_normal.svg</file>
-        <file>theme/light/images/cut/rotate_right_active.svg</file>
-        <file>theme/light/images/cut/rotate_right_disable.svg</file>
-        <file>theme/light/images/cut/rotate_right_hover.svg</file>
-        <file>theme/light/images/cut/rotate_right_normal.svg</file>
-        <file>theme/light/images/draw/add_hover.svg</file>
-        <file>theme/light/images/draw/add_normal.svg</file>
-        <file>theme/light/images/draw/add_press.svg</file>
-        <file>theme/light/images/draw/color_disable_active.svg</file>
-        <file>theme/light/images/draw/color_disable_hover.svg</file>
-        <file>theme/light/images/draw/color_disable_normal.svg</file>
-        <file>theme/light/images/draw/reduce_hover.svg</file>
-        <file>theme/light/images/draw/reduce_normal.svg</file>
-        <file>theme/light/images/draw/reduce_press.svg</file>
-        <file>theme/light/images/cut/filp_vertical_disable.svg</file>
-        <file>theme/light/images/cut/flip_horizontal_disable.svg</file>
         <file>theme/light/images/action/rectangle tool_disable.svg</file>
         <file>theme/light/images/action/rectangle tool_active.svg</file>
         <file>theme/light/images/action/rectangle tool_normal.svg</file>
@@ -146,11 +15,9 @@
         <file>theme/light/images/action/smudge tool_hover.svg</file>
         <file>theme/light/images/action/screenshot too_hover.svg</file>
         <file>theme/light/images/action/triangle tool_disable.svg</file>
-        <file>theme/light/images/action/brush tool_normal.png</file>
         <file>theme/light/images/action/star tool_hover.svg</file>
         <file>theme/light/images/action/line tool_hover.svg</file>
         <file>theme/light/images/action/picture tools_normal.svg</file>
-        <file>theme/light/images/action/star tool_normal.png</file>
         <file>theme/light/images/action/screenshot tool_normal.svg</file>
         <file>theme/light/images/action/smudge tool_disable.svg</file>
         <file>theme/light/images/action/triangle tool_active.svg</file>
@@ -203,28 +70,121 @@
         <file>theme/light/images/attribute/flip horizontal_disabled.svg</file>
         <file>theme/light/images/attribute/fuzzy tool_disabled.svg</file>
         <file>theme/light/images/attribute/contrarotate_hover.svg</file>
-        <file>theme/light/images/attribute/clockwise rotation_press.png</file>
         <file>theme/light/images/attribute/fuzzy tool_press.svg</file>
         <file>theme/light/images/attribute/smudge tool_disabled.svg</file>
         <file>theme/light/images/attribute/contrarotate_press.svg</file>
         <file>theme/light/images/attribute/smudge tool_hover.svg</file>
-        <file>theme/light/images/attribute/flip vertical_press.png</file>
         <file>theme/light/images/attribute/fuzzy tool_normal.svg</file>
-        <file>theme/light/images/attribute/flip horizontal_hover.png</file>
-        <file>theme/light/images/attribute/clockwise rotation_normal.png</file>
-        <file>theme/light/images/attribute/flip horizontal_press.png</file>
         <file>theme/light/images/attribute/flip vertical_disabled.svg</file>
         <file>theme/light/images/attribute/contrarotate_disabled.svg</file>
         <file>theme/light/images/attribute/contrarotate_normal.svg</file>
         <file>theme/light/images/attribute/smudge tool_checked.svg</file>
         <file>theme/light/images/attribute/flip vertical_hover.svg</file>
         <file>theme/light/images/attribute/smudge tool_normal.svg</file>
-        <file>theme/light/images/attribute/clockwise rotation_hover.png</file>
         <file>theme/light/images/attribute/flip horizontal_normal.svg</file>
         <file>theme/light/images/attribute/fuzzy tool_hover.svg</file>
         <file>theme/common/images/logo.svg</file>
         <file>theme/common/images/deepin-draw-96.svg</file>
         <file>theme/common/images/deepin-draw-24.svg</file>
         <file>theme/common/images/deepin-draw-64.svg</file>
+        <file>theme/dark/images/action/screenshot too_hover.svg</file>
+        <file>theme/dark/images/action/line tool_disable.svg</file>
+        <file>theme/dark/images/action/star tool_press.svg</file>
+        <file>theme/dark/images/action/text tool_active.svg</file>
+        <file>theme/dark/images/action/screenshot tool_press.svg</file>
+        <file>theme/dark/images/action/line tool_hover.svg</file>
+        <file>theme/dark/images/action/round tool_press.svg</file>
+        <file>theme/dark/images/action/triangle tool_normal.svg</file>
+        <file>theme/dark/images/action/hexagon tool_disable.svg</file>
+        <file>theme/dark/images/action/text tool_hover.svg</file>
+        <file>theme/dark/images/action/hexagon tool_normal.svg</file>
+        <file>theme/dark/images/action/smudge tool_press.svg</file>
+        <file>theme/dark/images/action/smudge tool_active.svg</file>
+        <file>theme/dark/images/action/screenshot tool_disable.svg</file>
+        <file>theme/dark/images/action/line tool_active.svg</file>
+        <file>theme/dark/images/action/rectangle tool_normal.svg</file>
+        <file>theme/dark/images/action/star tool_hover.svg</file>
+        <file>theme/dark/images/action/brush tool_normal.svg</file>
+        <file>theme/dark/images/action/brush tool_press.svg</file>
+        <file>theme/dark/images/action/brush tool_hover.svg</file>
+        <file>theme/dark/images/action/triangle tool_hover.svg</file>
+        <file>theme/dark/images/action/rectangle tool__disable.svg</file>
+        <file>theme/dark/images/action/round tool_disable.svg</file>
+        <file>theme/dark/images/action/round tool_hover.svg</file>
+        <file>theme/dark/images/action/line tool_normal.svg</file>
+        <file>theme/dark/images/action/picture tools_active.svg</file>
+        <file>theme/dark/images/action/rectangle tool_active.svg</file>
+        <file>theme/dark/images/action/smudge tool_normal.svg</file>
+        <file>theme/dark/images/action/text tool_press.svg</file>
+        <file>theme/dark/images/action/picture tools__disable.svg</file>
+        <file>theme/dark/images/action/picture tools_press.svg</file>
+        <file>theme/dark/images/action/hexagon tool_press.svg</file>
+        <file>theme/dark/images/action/triangle tool_press.svg</file>
+        <file>theme/dark/images/action/round tool_active.svg</file>
+        <file>theme/dark/images/action/hexagon tool_active.svg</file>
+        <file>theme/dark/images/action/round tool_normal.svg</file>
+        <file>theme/dark/images/action/star tool_active.svg</file>
+        <file>theme/dark/images/action/text tool_normal.svg</file>
+        <file>theme/dark/images/action/rectangle tool_hover.svg</file>
+        <file>theme/dark/images/action/triangle tool_active.svg</file>
+        <file>theme/dark/images/action/picture tools_hover.svg</file>
+        <file>theme/dark/images/action/star tool_disable.svg</file>
+        <file>theme/dark/images/action/smudge tool_disable.svg</file>
+        <file>theme/dark/images/action/screenshot tool_normal.svg</file>
+        <file>theme/dark/images/action/hexagon tool_hover.svg</file>
+        <file>theme/dark/images/action/brush tool_active.svg</file>
+        <file>theme/dark/images/action/line tool_press.svg</file>
+        <file>theme/dark/images/action/brush tool_disable.svg</file>
+        <file>theme/dark/images/action/picture tools_normal.svg</file>
+        <file>theme/dark/images/action/rectangle tool_press.svg</file>
+        <file>theme/dark/images/action/triangle tool_disable.svg</file>
+        <file>theme/dark/images/action/smudge tool_hover.svg</file>
+        <file>theme/dark/images/action/text tool_disable.svg</file>
+        <file>theme/dark/images/action/screenshot tool_active.svg</file>
+        <file>theme/dark/images/attribute/flip vertical_disable.svg</file>
+        <file>theme/dark/images/attribute/flip vertical_hover.svg</file>
+        <file>theme/dark/images/attribute/contrarotate_hover.svg</file>
+        <file>theme/dark/images/attribute/flip horizontal_normal.svg</file>
+        <file>theme/dark/images/attribute/flip vertical_normal.svg</file>
+        <file>theme/dark/images/attribute/flip vertical_press.svg</file>
+        <file>theme/dark/images/attribute/flip horizontal_hover.svg</file>
+        <file>theme/dark/images/attribute/contrarotate_press.svg</file>
+        <file>theme/dark/images/attribute/smudge tool_checked.svg</file>
+        <file>theme/dark/images/attribute/arrow tool_checked.svg</file>
+        <file>theme/dark/images/attribute/arrow tool_press.svg</file>
+        <file>theme/dark/images/attribute/arrow tool_normal.svg</file>
+        <file>theme/dark/images/attribute/arrow tool_disable.svg</file>
+        <file>theme/dark/images/attribute/smudge tool_normal.svg</file>
+        <file>theme/dark/images/attribute/contrarotate_disable.svg</file>
+        <file>theme/dark/images/attribute/line tool_press.svg</file>
+        <file>theme/dark/images/attribute/clockwise rotation_hover.svg</file>
+        <file>theme/dark/images/attribute/flip horizontal_disable.svg</file>
+        <file>theme/dark/images/attribute/flip horizontal_press.svg</file>
+        <file>theme/dark/images/attribute/fuzzy tool_checked.svg</file>
+        <file>theme/dark/images/attribute/smudge tool_disable.svg</file>
+        <file>theme/dark/images/attribute/arrow tool_hover.svg</file>
+        <file>theme/dark/images/attribute/line tool_disable.svg</file>
+        <file>theme/dark/images/attribute/smudge tool_hover.svg</file>
+        <file>theme/dark/images/attribute/clockwise rotation_disable.png</file>
+        <file>theme/dark/images/attribute/line tool_hover.svg</file>
+        <file>theme/dark/images/attribute/fuzzy tool_press.svg</file>
+        <file>theme/dark/images/attribute/fuzzy tool_hover.svg</file>
+        <file>theme/dark/images/attribute/clockwise rotation_press.svg</file>
+        <file>theme/dark/images/attribute/contrarotate_normal.svg</file>
+        <file>theme/dark/images/attribute/smudge tool_press.svg</file>
+        <file>theme/dark/images/attribute/fuzzy tool_disable.svg</file>
+        <file>theme/dark/images/attribute/fuzzy tool_normal.svg</file>
+        <file>theme/dark/images/attribute/line tool_checked.svg</file>
+        <file>theme/dark/images/attribute/clockwise rotation_normal.svg</file>
+        <file>theme/dark/images/attribute/line tool_normal.svg</file>
+        <file>theme/light/images/action/brush tool_normal.svg</file>
+        <file>theme/light/images/action/star tool_normal.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_hover.svg</file>
+        <file>theme/light/images/attribute/flip vertical_press.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_normal.svg</file>
+        <file>theme/light/images/attribute/clockwise rotation_press.svg</file>
+        <file>theme/light/images/attribute/flip horizontal_press.svg</file>
+        <file>theme/light/images/attribute/flip horizontal_hover.svg</file>
+        <file>theme/dark/images/action/star tool_normal.svg</file>
     </qresource>
 </RCC>

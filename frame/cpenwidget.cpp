@@ -17,19 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpenwidget.h"
-
-#include <QHBoxLayout>
-#include <QDebug>
-
-
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
 
+#include <QHBoxLayout>
+#include <QDebug>
+
+#include <DGuiApplicationHelper>
+
+
+DGUI_USE_NAMESPACE
 
 const int BTN_SPACNT = 10;
+const int TEXT_SIZE = 12;
+
 
 CPenWidget::CPenWidget(DWidget *parent)
     : DWidget(parent)
@@ -38,9 +42,18 @@ CPenWidget::CPenWidget(DWidget *parent)
     initConnection();
 }
 
+
 CPenWidget::~CPenWidget()
 {
 
+}
+
+void CPenWidget::changeButtonTheme()
+{
+    m_sideWidthWidget->changeButtonTheme();
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_straightline->setCurrentTheme(themeType);
+    m_arrowline->setCurrentTheme(themeType);
 }
 
 void CPenWidget::initUI()
@@ -48,7 +61,9 @@ void CPenWidget::initUI()
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("描边"));
-
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    strokeLabel->setFont(ft);
     m_strokeBtn = new BorderColorButton(this);
 
     SeperatorLine *sep1Line = new SeperatorLine(this);
@@ -56,27 +71,41 @@ void CPenWidget::initUI()
     DLabel *lineTypeLabel = new DLabel(this);
     lineTypeLabel->setObjectName("LineType");
     lineTypeLabel->setText(tr("类型"));
+    lineTypeLabel->setFont(ft);
 
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
-    m_straightline = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/line tool_checked.svg");
+
+    m_straightline = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_straightline);
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
-    m_arrowline = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/arrow tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/arrow tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/arrow tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/arrow tool_checked.svg");
+
+    m_arrowline = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_arrowline);
 
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
+    lwLabel->setFont(ft);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 

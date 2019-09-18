@@ -44,6 +44,8 @@ signals:
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     void resetColorBtns();
     void signalTextAttributeChanged();
+    void signalTextFontFamilyChanged();
+    void signalTextFontSizeChanged();
 
 private:
     TextColorButton *m_fillBtn;

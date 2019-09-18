@@ -21,7 +21,10 @@
 
 #include <DMainWindow>
 #include <DWidget>
+#include <DGuiApplicationHelper>
+
 #include <QMouseEvent>
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -33,17 +36,20 @@ class MainWindow: public DMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(DWidget *parent = 0);
-    ~MainWindow();
+    MainWindow(DWidget *parent = nullptr);
+    ~MainWindow() Q_DECL_OVERRIDE;
 
     void activeWindow();
 
     void showDrawDialog();
     void openImage(QString path);
     void initScene();
+
 signals:
     void signalResetOriginPoint();
 
+public slots:
+    void slotOnThemeChanged(DGuiApplicationHelper::ColorType type);
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

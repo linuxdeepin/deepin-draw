@@ -35,6 +35,7 @@ class LineWidget : public DWidget
 public:
     LineWidget(DWidget *parent = nullptr);
     ~LineWidget();
+    void changeButtonTheme();
 
 public slots:
     void updateLineWidget();

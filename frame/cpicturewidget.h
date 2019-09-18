@@ -40,6 +40,8 @@ public:
     CPictureWidget(DWidget *parent = nullptr);
     ~CPictureWidget();
 
+    void changeButtonTheme();
+
 signals:
     void signalBtnClick(int);
 

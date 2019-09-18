@@ -20,6 +20,7 @@
 #define RIGHTTOOLBAR_H
 
 #include <DFrame>
+#include <DWidget>
 
 class CCheckButton;
 class QVBoxLayout;
@@ -52,6 +53,7 @@ public slots:
     void slotChangedStatusToSelect();
     void slotSetDisableButtons(bool);
     void slotQuitCutMode();
+    void changeButtonTheme();
 
 private slots:
     void slotShortCutPictrue();

@@ -48,6 +48,8 @@ public:
     CGraphicsView *getGraphicsView() const;
     CDrawScene *getDrawScene() const;
 
+    void switchTheme(int type);
+
     void openPicture(QString path);
 
 signals:
@@ -80,6 +82,8 @@ public slots:
     void slotSaveToDDF();
     void slotSaveAs();
     void slotImport();
+    void slotTextFontFamilyChanged();
+    void slotTextFontSizeChanged();
 
 private slots:
     void slotQuitCutMode();

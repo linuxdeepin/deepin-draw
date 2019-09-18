@@ -37,7 +37,8 @@
 #include <QDesktopWidget>
 
 
-const QSize WINDOW_MINISIZR = QSize(1280, 800);
+//const QSize WINDOW_MINISIZR = QSize(1280, 800);
+const QSize WINDOW_MINISIZR = QSize(1024, 768);
 
 const int TITLBAR_MENU = 150;
 //const int TITLEBAR_HEIGHT = 40;
@@ -93,6 +94,9 @@ void MainWindow::initConnection()
 //        }
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
+    connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
+    connect(m_topToolbar, SIGNAL(signalTextFontSizeChanged()), m_centralWidget, SLOT(slotTextFontSizeChanged()));
+
     connect(m_centralWidget, &CCentralwidget::signalAttributeChangedFromScene, m_topToolbar, &TopToolbar::slotChangeAttributeFromScene);
 
     //链接图片选择后相应的操作
@@ -233,6 +237,16 @@ void MainWindow::initScene()
     emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
 }
 
+void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
+{
+    CDrawParamSigleton::GetInstance()->setThemeType(type);
+    ///改变场景的主题
+    m_centralWidget->switchTheme(type);
+    //改变左边工具栏按钮主题
+    m_centralWidget->getLeftToolBar()->changeButtonTheme();
+    //改变顶部属性栏按钮主题
+    m_topToolbar->changeTopButtonsTheme();
+}
 
 MainWindow::~MainWindow()
 {

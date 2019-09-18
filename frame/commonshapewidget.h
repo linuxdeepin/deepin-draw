@@ -35,6 +35,7 @@ class CommonshapeWidget : public DWidget
 public:
     CommonshapeWidget(DWidget *parent = nullptr);
     ~CommonshapeWidget();
+    void changeButtonTheme();
 
 signals:
     void resetColorBtns();

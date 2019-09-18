@@ -37,6 +37,7 @@ class PolygonAttributeWidget : public DWidget
 public:
     PolygonAttributeWidget(DWidget *parent = nullptr);
     ~PolygonAttributeWidget();
+    void changeButtonTheme();
 
 public slots:
     void updatePolygonWidget();

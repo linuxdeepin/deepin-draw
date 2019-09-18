@@ -36,6 +36,7 @@ class PolygonalStarAttributeWidget : public DWidget
 public:
     PolygonalStarAttributeWidget(DWidget *parent = nullptr);
     ~PolygonalStarAttributeWidget();
+    void changeButtonTheme();
 
 public slots:
     void updatePolygonalStarWidget();

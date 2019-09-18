@@ -18,7 +18,6 @@
  */
 #include "cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cshapemimedata.h"
 #include "drawshape/cgraphicsitem.h"
 #include "drawshape/globaldefine.h"
@@ -31,6 +30,16 @@
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cdrawscene.h"
 #include "utils/cddfmanager.h"
+#include "drawshape/cgraphicsrectitem.h"
+#include "drawshape/cgraphicsellipseitem.h"
+#include "drawshape/cgraphicslineitem.h"
+#include "drawshape/cgraphicstriangleitem.h"
+#include "drawshape/cgraphicspolygonitem.h"
+#include "drawshape/cgraphicspolygonalstaritem.h"
+#include "drawshape/cgraphicstextitem.h"
+#include "drawshape/cgraphicsmasicoitem.h"
+#include "drawshape/cgraphicspenitem.h"
+#include "drawshape/cpictureitem.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -209,7 +218,10 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_quitCutMode);
 
     m_cutScence = new QAction();
-    m_cutScence->setShortcut(QKeySequence(Qt::Key_Return));
+    QList<QKeySequence> shortcuts;
+    shortcuts.append(QKeySequence(Qt::Key_Return));
+    shortcuts.append(QKeySequence(Qt::Key_Enter));
+    m_cutScence->setShortcuts(shortcuts);
     this->addAction(m_cutScence);
 }
 
@@ -517,7 +529,46 @@ void CGraphicsView::slotOnPaste()
     if ( data ) {
         scene()->clearSelection();
         foreach (CGraphicsItem *item, data->itemList() ) {
-            CGraphicsItem *copy = item->duplicate();
+            CGraphicsItem *copy = nullptr;
+
+            switch (item->type()) {
+            case RectType:
+                copy = new CGraphicsRectItem();
+                break;
+            case EllipseType:
+                copy = new CGraphicsEllipseItem();
+                break;
+            case TriangleType:
+                copy = new CGraphicsTriangleItem();
+                break;
+            case PolygonalStarType:
+                copy = new CGraphicsPolygonalStarItem();
+                break;
+
+            case PolygonType:
+                copy = new CGraphicsPolygonItem();
+                break;
+            case LineType:
+                copy = new CGraphicsLineItem();
+                break;
+
+            case PenType:
+                copy = new CGraphicsPenItem();
+                break;
+            case TextType:
+                copy = new CGraphicsTextItem();
+                break;
+
+            case PictureType:
+                copy = new CPictureItem();
+                break;
+            case BlurType:
+                copy = new CGraphicsMasicoItem();
+                break;
+
+            }
+
+            item->duplicate(copy);
             if ( copy ) {
                 copy->setSelected(true);
                 copy->moveBy(10, 10);

@@ -32,7 +32,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-
+const int TEXT_SIZE = 12;
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
 {
@@ -51,36 +51,48 @@ void TextWidget::initUI()
 
     DLabel *colBtnLabel = new DLabel(this);
     colBtnLabel->setText(tr("填充"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    colBtnLabel->setFont(ft);
 
     SeperatorLine *textSeperatorLine = new SeperatorLine(this);
 
     DLabel *fontFamilyLabel = new DLabel(this);
     fontFamilyLabel->setText(tr("字体"));
+    fontFamilyLabel->setFont(ft);
     m_fontComBox = new DFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
-    m_fontComBox->setMinimumWidth(100);
+    //m_fontComBox->setMinimumWidth(100);
+    m_fontComBox->setFixedWidth(200);
     m_fontComBox->setCurrentIndex(0);
-    m_fontComBox->setEditable(false);
+    m_fontComBox->setEditable(true);
+    m_fontComBox->lineEdit()->setReadOnly(true);
+    m_fontComBox->lineEdit()->setFont(ft);
     QString strFont = m_fontComBox->currentText();
     CDrawParamSigleton::GetInstance()->setTextFont(strFont);
+    m_fontComBox->setFocusPolicy(Qt::NoFocus);
 
     DLabel *fontsizeLabel = new DLabel(this);
     fontsizeLabel->setText(tr("字号"));
+    fontsizeLabel->setFont(ft);
 
     m_fontSizeSlider = new DSlider(Qt::Horizontal, this);
 
 
     m_fontSizeSlider->setMinimum(8);
     m_fontSizeSlider->setMaximum(1000);
-    m_fontSizeSlider->setMinimumWidth(200);
+    //m_fontSizeSlider->setMinimumWidth(200);
+    m_fontSizeSlider->setFixedWidth(120);
     m_fontSizeSlider->setMaximumHeight(24);
     m_fontSizeSlider->setValue(int(CDrawParamSigleton::GetInstance()->getTextSize()));
+    m_fontSizeSlider->slider()->setFocusPolicy(Qt::NoFocus);
 
     m_fontSizeEdit = new DLineEdit(this);
     m_fontSizeEdit->lineEdit()->setValidator(new CIntValidator(8, 1000, this));
     m_fontSizeEdit->setClearButtonEnabled(false);
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
+    m_fontSizeEdit->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -119,7 +131,7 @@ void TextWidget::initConnection()
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
         CDrawParamSigleton::GetInstance()->setTextFont(str);
-        emit signalTextAttributeChanged();
+        emit signalTextFontFamilyChanged();
     });
 
     ///字体大小
@@ -127,7 +139,7 @@ void TextWidget::initConnection()
         if (m_isUsrDragSlider) {
             m_fontSizeEdit->setText(QString::number(value));
             CDrawParamSigleton::GetInstance()->setTextSize(value);
-            emit signalTextAttributeChanged();
+            emit signalTextFontSizeChanged();
         }
     });
 
@@ -142,7 +154,7 @@ void TextWidget::initConnection()
 
         m_fontSizeSlider->setValue(value);
         CDrawParamSigleton::GetInstance()->setTextSize(value);
-        emit signalTextAttributeChanged();
+        emit signalTextFontSizeChanged();
     });
 
     connect(m_fontSizeEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -155,7 +167,7 @@ void TextWidget::initConnection()
         if (value == minValue && defaultFontSize != minValue) {
             m_fontSizeSlider->setValue(value);
             CDrawParamSigleton::GetInstance()->setTextSize(value);
-            emit signalTextAttributeChanged();
+            emit signalTextFontSizeChanged();
         }
     });
 
@@ -173,10 +185,17 @@ void TextWidget::updateTextWidget()
     m_fillBtn->updateConfigColor();
     QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
 
-    if (m_fontComBox->currentText() != font.family()) {
-        //m_fontComBox->setFont(font);
+    if (CDrawParamSigleton::GetInstance()->getSingleFontFlag()) {
         m_fontComBox->setCurrentFont(font);
+    } else {
+        m_fontComBox->setCurrentIndex(-1);
+        m_fontComBox->setCurrentText("- -");
     }
+
+//    if (m_fontComBox->currentText() != font.family()) {
+//        //m_fontComBox->setFont(font);
+
+//    }
 
     int fontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
 

@@ -53,7 +53,7 @@ class TopToolbar : public DFrame
 
 public:
     TopToolbar(DWidget *parent = nullptr);
-    ~TopToolbar();
+    ~TopToolbar() Q_DECL_OVERRIDE;
 
     DMenu *mainMenu();
 
@@ -73,12 +73,16 @@ signals:
     void signalForwardCutTypeChanged(int);
     void signalForwardCutSizeChanged(int, int);
 
+    void signalTextFontFamilyChanged();
+    void signalTextFontSizeChanged();
+
 
 public:
 //    void showDrawDialog();
     void showSaveDialog();
     void showPrintDialog();
     EDrawToolMode middleWidgetStatus();
+    void changeTopButtonsTheme();
 
 public slots:
     void updateMiddleWidget(int type);

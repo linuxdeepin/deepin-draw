@@ -37,6 +37,8 @@ public:
     CPenWidget(DWidget *parent = nullptr);
     ~CPenWidget();
 
+    void changeButtonTheme();
+
 public slots:
     void updatePenWidget();
 

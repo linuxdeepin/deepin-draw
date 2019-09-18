@@ -37,6 +37,7 @@ public:
     ~BlurWidget();
 
     void updateBlurWidget();
+    void changeButtonTheme();
 
 private:
     void clearOtherSelections(CCheckButton *clickedButton);

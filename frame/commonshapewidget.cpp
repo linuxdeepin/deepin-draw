@@ -34,6 +34,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
+const int TEXT_SIZE = 12;
 
 CommonshapeWidget::CommonshapeWidget(DWidget *parent)
     : DWidget(parent)
@@ -46,10 +47,18 @@ CommonshapeWidget::~CommonshapeWidget()
 {
 }
 
+void CommonshapeWidget::changeButtonTheme()
+{
+    m_sideWidthWidget->changeButtonTheme();
+}
+
 void CommonshapeWidget::initUI()
 {
     DLabel *fillLabel = new DLabel(this);
     fillLabel->setText(tr("填充"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    fillLabel->setFont(ft);
 
     m_fillBtn = new BigColorButton(this);
     m_strokeBtn = new BorderColorButton(this);
@@ -58,10 +67,12 @@ void CommonshapeWidget::initUI()
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("描边"));
+    strokeLabel->setFont(ft);
     SeperatorLine *sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
+    lwLabel->setFont(ft);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 

@@ -25,6 +25,10 @@
 #include <DLabel>
 #include <DSlider>
 #include <QHBoxLayout>
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
+
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -52,6 +56,13 @@ void BlurWidget::updateBlurWidget()
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
 }
 
+void BlurWidget::changeButtonTheme()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_blurBtn->setCurrentTheme(themeType);
+    m_masicBtn->setCurrentTheme(themeType);
+}
+
 void BlurWidget::initUI()
 {
     DLabel *penLabel = new DLabel(this);
@@ -59,21 +70,34 @@ void BlurWidget::initUI()
     penLabel->setText(tr("类型"));
 
 
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/fuzzy tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/fuzzy tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/fuzzy tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/fuzzy tool_checked.svg");
-    m_blurBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/fuzzy tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/fuzzy tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/fuzzy tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/fuzzy tool_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/fuzzy tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/fuzzy tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/fuzzy tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/fuzzy tool_checked.svg");
+
+    m_blurBtn = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_blurBtn);
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/attribute/smudge tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/attribute/smudge tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/attribute/smudge tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/attribute/smudge tool_checked.svg");
-    m_masicBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/smudge tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/smudge tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/smudge tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/smudge tool_checked.svg");
+
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/smudge tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/smudge tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/smudge tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/smudge tool_checked.svg");
+
+    m_masicBtn = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_masicBtn);
 
     EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
@@ -86,7 +110,7 @@ void BlurWidget::initUI()
 
     m_pLineWidthSlider->setMinimum(20);
     m_pLineWidthSlider->setMaximum(160);
-    m_pLineWidthSlider->setFixedWidth(200);
+    m_pLineWidthSlider->setFixedWidth(160);
     m_pLineWidthSlider->setMaximumHeight(24);
 
 

@@ -28,8 +28,8 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-const int PUSHBUTTON_FONT_SIZE = 9;
-
+const int PUSHBUTTON_FONT_SIZE = 12;
+const int TEXT_SIZE = 12;
 
 CCutWidget::CCutWidget(DWidget *parent)
     : DWidget(parent)
@@ -54,6 +54,9 @@ void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
     sizeLabel->setText(tr("尺寸"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    sizeLabel->setFont(ft);
 
     QIntValidator v( 0, 16384, this );
     // 这个行编辑只接受从0到100的整数
@@ -61,8 +64,9 @@ void CCutWidget::initUI()
     m_widthEdit = new DLineEdit(this);
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
-    m_widthEdit->setFixedWidth(50);
+    m_widthEdit->setFixedWidth(60);
     m_widthEdit->lineEdit()->setValidator( &v );
+    m_widthEdit->setFont(ft);
 
     DLabel *multiLabel = new DLabel(this);
     multiLabel->setText(tr("x"));
@@ -70,14 +74,16 @@ void CCutWidget::initUI()
     m_heightEdit = new DLineEdit(this);
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
-    m_heightEdit->setFixedWidth(50);
+    m_heightEdit->setFixedWidth(60);
     m_heightEdit->lineEdit()->setValidator( &v );
+    m_heightEdit->setFont(ft);
 
     DLabel *scaleLabel = new DLabel(this);
     scaleLabel->setText(tr("比例"));
+    scaleLabel->setFont(ft);
 
     QFont pushBtnFont;
-    pushBtnFont.setPointSize(PUSHBUTTON_FONT_SIZE);
+    pushBtnFont.setPixelSize(PUSHBUTTON_FONT_SIZE);
 
     m_scaleBtn1_1 = new DPushButton(this);
     m_scaleBtn1_1->setText("1:1");
@@ -98,6 +104,7 @@ void CCutWidget::initUI()
     m_freeBtn = new DPushButton(this);
     m_freeBtn->setText(tr("自由"));
     m_freeBtn->setFont(pushBtnFont);
+
 
     m_originalBtn = new DPushButton(this);
     m_originalBtn->setText(tr("原始"));

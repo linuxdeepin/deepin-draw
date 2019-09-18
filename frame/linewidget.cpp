@@ -30,6 +30,7 @@
 
 
 const int BTN_SPACNT = 10;
+const int TEXT_SIZE = 12;
 
 LineWidget::LineWidget(DWidget *parent)
     : DWidget(parent)
@@ -42,12 +43,20 @@ LineWidget::~LineWidget()
 {
 }
 
+void LineWidget::changeButtonTheme()
+{
+    m_sideWidthWidget->changeButtonTheme();
+}
+
 
 void LineWidget::initUI()
 {
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+    strokeLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
@@ -56,6 +65,7 @@ void LineWidget::initUI()
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
+    lwLabel->setFont(ft);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 

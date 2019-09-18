@@ -27,13 +27,13 @@
 #include "drawshape/cgraphicstextitem.h"
 
 #include <DLabel>
+#include <DMenu>
+#include <DGuiApplicationHelper>
 #include <QDebug>
-
 #include <QGraphicsItem>
 #include <QtConcurrent>
 
-#include <DMenu>
-
+DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
@@ -63,6 +63,15 @@ CDrawScene *CCentralwidget::getDrawScene() const
     return m_pDrawScene;
 }
 
+void CCentralwidget::switchTheme(int type)
+{
+    if (type == 1) {
+        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+    } else if (type == 2) {
+        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
+    }
+}
+
 
 //进行图片导入
 void CCentralwidget::importPicture()
@@ -89,7 +98,18 @@ void CCentralwidget::initUI()
     m_pDrawScene = new CDrawScene(this);
     QRectF rc = QRectF(0, 0, 1362, 790);
     m_pDrawScene->setSceneRect(rc);
-    m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+    //根据主题设置
+//case 1:
+//        浅色主题
+//case 2:
+//        深色主题
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+    } else {
+        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
+    }
+
+    //m_pDrawScene->setForegroundBrush(QColor(100, 100, 100));
 
     m_pGraphicsView->setScene(m_pDrawScene);
     m_pGraphicsView->setAlignment(Qt::AlignCenter);
@@ -164,6 +184,20 @@ void CCentralwidget::slotSaveAs()
 void CCentralwidget::slotImport()
 {
     m_pGraphicsView->doImport();
+}
+
+void CCentralwidget::slotTextFontFamilyChanged()
+{
+    if (m_pDrawScene != nullptr) {
+        m_pDrawScene->textFontFamilyChanged();
+    }
+}
+
+void CCentralwidget::slotTextFontSizeChanged()
+{
+    if (m_pDrawScene != nullptr) {
+        m_pDrawScene->textFontSizeChanged();
+    }
 }
 
 void CCentralwidget::slotNew()

@@ -27,12 +27,16 @@
 
 #include <DFileDialog>
 #include <DWidget>
-
+#include <DGuiApplicationHelper>
 #include <DApplication>
+
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QAction>
 
+
+
+DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 1;
 
@@ -71,106 +75,172 @@ void CLeftToolBar::initUI()
 {
 
     setFixedWidth(58);
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/picture tools_active.svg");
-    m_picBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/picture tools_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/picture tools_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/picture tools_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/picture tools_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/picture tools_active.svg");
+
+    m_picBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_picBtn->setToolTip(tr("Import"));
     m_actionButtons.append(m_picBtn);
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/rectangle tool_active.svg");
-    m_rectBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/rectangle tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/rectangle tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/rectangle tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/rectangle tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/rectangle tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/rectangle tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/rectangle tool_active.svg");
+
+    m_rectBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_rectBtn->setToolTip(tr("Rectangle"));
     m_actionButtons.append(m_rectBtn);
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/round tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/round tool_active.svg");
-    m_roundBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/round tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/round tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/round tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/round tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/round tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/round tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/round tool_active.svg");
+
+    m_roundBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_roundBtn->setToolTip(tr("Ellipse"));
     m_actionButtons.append(m_roundBtn);
 
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/triangle tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/triangle tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/triangle tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/triangle tool_active.svg");
-    m_triangleBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/triangle tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/triangle tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/triangle tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/triangle tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/triangle tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/triangle tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/triangle tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/triangle tool_active.svg");
+
+    m_triangleBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_triangleBtn->setToolTip(tr("Triangle"));
     m_actionButtons.append(m_triangleBtn);
 
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/star tool_normal.png");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/star tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/star tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/star tool_active.svg");
-    m_starBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/star tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/star tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/star tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/star tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/star tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/star tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/star tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/star tool_active.svg");
+
+    m_starBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_starBtn->setToolTip(tr("Star"));
     m_actionButtons.append(m_starBtn);
 
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/hexagon tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/hexagon tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/hexagon tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/hexagon tool_active.svg");
-    m_polygonBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/hexagon tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/hexagon tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/hexagon tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/hexagon tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/hexagon tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/hexagon tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/hexagon tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/hexagon tool_active.svg");
+
+    m_polygonBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_polygonBtn->setToolTip(tr("Polygon"));
     m_actionButtons.append(m_polygonBtn);
 
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/line tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/line tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/line tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/line tool_active.svg");
-    m_lineBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/line tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/line tool_active.svg");
+
+    m_lineBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_lineBtn->setToolTip(tr("Line"));
     m_actionButtons.append(m_lineBtn);
 
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/brush tool_normal.png");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/brush tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/brush tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/brush tool_active.svg");
-    m_penBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/brush tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/brush tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/brush tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/brush tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/brush tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/brush tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/brush tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/brush tool_active.svg");
+
+    m_penBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_penBtn->setToolTip(tr("Pencil"));
     m_actionButtons.append(m_penBtn);
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/text tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/text tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/text tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/text tool_active.svg");
-    m_textBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/text tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/text tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/text tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/text tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/text tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/text tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/text tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/text tool_active.svg");
+
+    m_textBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_textBtn->setToolTip(tr("Text"));
     m_actionButtons.append(m_textBtn);
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/smudge tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/smudge tool_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/smudge tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/smudge tool_active.svg");
-    m_blurBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/smudge tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/smudge tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/smudge tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/smudge tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/smudge tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/smudge tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/smudge tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/smudge tool_active.svg");
+
+    m_blurBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_blurBtn->setToolTip(tr("Blur"));
     m_actionButtons.append(m_blurBtn);
 
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/action/screenshot tool_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/action/screenshot too_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/action/screenshot tool_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/action/screenshot tool_active.svg");
-    m_cutBtn = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/screenshot tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/screenshot too_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/screenshot tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/screenshot tool_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/screenshot tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/screenshot too_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/screenshot tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/screenshot tool_active.svg");
+
+    m_cutBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_cutBtn->setObjectName("CutBtn");
     m_cutBtn->setToolTip(tr("Cut"));
     m_actionButtons.append(m_cutBtn);
@@ -222,6 +292,14 @@ void CLeftToolBar::slotQuitCutMode()
 {
     slotChangedStatusToSelect();
     slotSetDisableButtons(true);
+}
+
+void CLeftToolBar::changeButtonTheme()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    foreach (CCheckButton *button, m_actionButtons) {
+        button->setCurrentTheme(themeType);
+    };
 }
 
 
