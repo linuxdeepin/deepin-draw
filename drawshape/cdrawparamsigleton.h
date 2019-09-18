@@ -62,9 +62,6 @@ public:
     int getSideNum() const;
     void setSideNum(int sideNum);
 
-    EPenType getPenType() const;
-    void setPenType(const EPenType &penType);
-
     EPenType getCurrentPenType() const;
     void setCurrentPenType(const EPenType &currentPenType);
 
@@ -123,6 +120,9 @@ public:
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
 
+    ELineType getLineType() const;
+    void setLineType(const ELineType &lineType);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -170,6 +170,9 @@ private:
 
     //当前主题
     int m_thremeType;
+
+    //线型
+    ELineType m_lineType;
 };
 
 

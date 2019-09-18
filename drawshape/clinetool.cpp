@@ -57,7 +57,7 @@ void CLineTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     Q_UNUSED(scene)
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
-        m_pLineItem->setLine(m_sPointPress, pointMouse);
+        m_pLineItem->resizeTo(CSizeHandleRect::RightBottom, pointMouse);
     }
 }
 

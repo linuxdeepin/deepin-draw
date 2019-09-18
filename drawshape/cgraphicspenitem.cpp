@@ -270,9 +270,9 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
     m_path = transform.map(m_path);
 
-    if (m_currentType == arrow) {
-        m_arrow = transform.map(m_arrow);
-    }
+//    if (m_currentType == arrow) {
+    m_arrow = transform.map(m_arrow);
+//    }
 
     updateCoordinate();
 }
@@ -302,13 +302,13 @@ void CGraphicsPenItem::updateCoordinate()
     prepareGeometryChange();
     ///更新画笔路径
     m_path = path;
-    ///如果是箭头　更新箭头
+    ///更新箭头
 
-    if (m_currentType == arrow) {
-        for (QPointF &point : m_arrow) {
-            point = mapFromScene(mapToScene(point) + delta);
-        }
+//    if (m_currentType == arrow) {
+    for (QPointF &point : m_arrow) {
+        point = mapFromScene(mapToScene(point) + delta);
     }
+//    }
 
     setTransform(transform().translate(delta.x(), delta.y()));
 //    setTransformOriginPoint(m_path.controlPointRect().center());
@@ -352,7 +352,6 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         }
     } else {
         m_path.lineTo(endPoint);
-//        m_poitsPath.push_back(endPoint);
 
         ///
         m_smoothVector.push_back(endPoint);
@@ -361,9 +360,9 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         }
         ///
 
-        if (m_currentType == arrow) {
-            calcVertexes(m_smoothVector.first(), m_smoothVector.last());
-        }
+//        if (m_currentType == arrow) {
+        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
+//        }
     }
 
     updateGeometry();
@@ -469,6 +468,25 @@ EPenType CGraphicsPenItem::currentType() const
 void CGraphicsPenItem::setCurrentType(const EPenType &currentType)
 {
     m_currentType = currentType;
+}
+
+void CGraphicsPenItem::updatePenType(const EPenType &currentType)
+{
+    prepareGeometryChange();
+    m_currentType = currentType;
+//    if (currentType == arrow) {
+//        QPointF startPoint;
+//        QPointF endPoint;
+//        int totalCount = m_path.elementCount();
+//        startPoint.setX(m_path.elementAt(totalCount - 2).x);
+//        startPoint.setY(m_path.elementAt(totalCount - 2).y);
+//        endPoint.setX(m_path.elementAt(totalCount  - 1).x);
+//        endPoint.setY(m_path.elementAt(totalCount  - 1).y);
+//        calcVertexes(startPoint, endPoint);
+//        updateCoordinate();
+//    } else if (currentType == straight) {
+
+//    }
 }
 
 void CGraphicsPenItem::initPen()

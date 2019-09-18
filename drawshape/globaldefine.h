@@ -53,6 +53,11 @@ enum EPenType {
     arrow       // 箭头
 };
 
+enum ELineType {
+    straightType,   // 直线
+    arrowType      // 箭头
+};
+
 enum EGraphicUserType {
     RectType = QGraphicsItem::UserType + 1,      //矩形
     EllipseType,        //圆形

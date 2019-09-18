@@ -48,12 +48,14 @@ static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, cons
 
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
+    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
 {
     initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
+    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
 {
     m_line = line;
     initLine();
@@ -61,6 +63,7 @@ CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
 
 CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
+    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
 {
     setLine(p1.x(), p1.y(), p2.x(), p2.y());
     initLine();
@@ -69,6 +72,7 @@ CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGrap
 CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
+    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
 {
     initLine();
 }
@@ -111,6 +115,10 @@ QPainterPath CGraphicsLineItem::shape() const
 
     }
 
+    if (m_type == arrowType) {
+        path.addPolygon(m_arrow);
+    }
+
     return qt_graphicsItem_shapeFromPath(path, pen);
 }
 
@@ -138,28 +146,64 @@ QRectF CGraphicsLineItem::rect() const
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
-    QPointF local = mapFromScene(point);
-    QPointF p1;
-    QPointF p2;
-    QPointF pos = this->pos();
-    if (dir == CSizeHandleRect::LeftTop) {
-        p1 = local;
-        p2 = m_line.p2();
-    } else {
-        p1 = m_line.p1();
-        p2 = local;
-    }
+    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
 
-    p1 = mapToScene(p1);
-    p2 = mapToScene(p2);
-    setRotation(0);
-    setPos(0, 0);
-    setLine(p1, p2);
+    if (!shiftKeyPress) {
+        QPointF local = mapFromScene(point);
+        QPointF p1;
+        QPointF p2;
+        QPointF pos = this->pos();
+        if (dir == CSizeHandleRect::LeftTop) {
+            p1 = local;
+            p2 = m_line.p2();
+        } else {
+            p1 = m_line.p1();
+            p2 = local;
+        }
+
+        p1 = mapToScene(p1);
+        p2 = mapToScene(p2);
+        setRotation(0);
+        setPos(0, 0);
+        setLine(p1, p2);
+    } else {
+        QPointF local = mapFromScene(point);
+        QPointF p1;
+        QPointF p2;
+
+        if (dir == CSizeHandleRect::LeftTop) {
+            p1 = local;
+            p2 = m_line.p2();
+            QLineF v = QLineF(p1, p2);
+            if (fabs(v.dx()) - fabs(v.dy()) > 0.0001) {
+                p1.setY(p2.y());
+            } else {
+                p1.setX(p2.x());
+            }
+        } else {
+            p1 = m_line.p1();
+            p2 = local;
+
+            QLineF v = QLineF(p1, p2);
+            if (fabs(v.dx()) - fabs(v.dy()) > 0.0001) {
+                p2.setY(p1.y());
+            } else {
+                p2.setX(p1.x());
+            }
+        }
+
+        p1 = mapToScene(p1);
+        p2 = mapToScene(p2);
+        setRotation(0);
+        setPos(0, 0);
+        setLine(p1, p2);
+    }
 }
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    resizeTo(dir, point);
+
 }
 
 QLineF CGraphicsLineItem::line() const
@@ -171,6 +215,7 @@ void CGraphicsLineItem::setLine(const QLineF &line)
 {
     prepareGeometryChange();
     m_line = line;
+    calcVertexes();
     updateGeometry();
 }
 
@@ -222,6 +267,20 @@ int CGraphicsLineItem::getQuadrant() const
     } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
         nRet = 4;
     }
+
+    return nRet;
+}
+
+void CGraphicsLineItem::setLineType(ELineType type)
+{
+    prepareGeometryChange();
+    m_type = type;
+    updateGeometry();
+}
+
+ELineType CGraphicsLineItem::getLineType() const
+{
+    return m_type;
 }
 
 void CGraphicsLineItem::updateGeometry()
@@ -277,8 +336,17 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
-    painter->setPen(pen());
-    painter->drawLine(m_line);
+
+    if (m_type == arrowType) {
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(this->pen().color());
+        painter->drawPolygon(m_arrow);
+        painter->setPen(pen());
+        painter->drawLine(QLineF(m_line.p1(), m_point4));
+    } else {
+        painter->setPen(pen());
+        painter->drawLine(m_line);
+    }
 }
 
 void CGraphicsLineItem::initLine()
@@ -289,9 +357,45 @@ void CGraphicsLineItem::initLine()
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
     //m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/light/images/mouse_style/icon_rotate.svg")));
 
+    calcVertexes();
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
+}
+
+void CGraphicsLineItem::calcVertexes()
+{
+    QPointF prePoint = m_line.p1();
+    QPointF currentPoint = m_line.p2();
+    m_point4 = prePoint;
+    if (prePoint == currentPoint) {
+        return;
+    }
+
+    m_arrow.clear();
+
+    QLineF v = m_line.unitVector();
+    v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
+    v.translate(QPointF(m_line.dx(), m_line.dy()));
+
+    QLineF n = v.normalVector(); //法向量
+    n.setLength(n.length() * 0.5); //这里设定箭头的宽度
+    QLineF n2 = n.normalVector().normalVector(); //两次法向量运算以后，就得到一个反向的法向量
+
+    QPointF p1 = v.p2();
+    QPointF p2 = n.p2();
+    QPointF p3 = n2.p2();
+
+    //减去一个箭头的宽度
+    QPointF diffV = p1 - m_line.p2();
+    p1 -= diffV;
+    p2 -= diffV;
+    p3 -= diffV;
+
+    m_point4 = (p2 + p3) / 2;
+    m_arrow.push_back(p1);
+    m_arrow.push_back(p2);
+    m_arrow.push_back(p3);
 }

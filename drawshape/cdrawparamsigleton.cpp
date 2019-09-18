@@ -47,6 +47,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
     , m_thremeType(0)
+    , m_lineType(straightType)
 {
     m_textFont.setPointSizeF(14);
 }
@@ -261,6 +262,16 @@ QString CDrawParamSigleton::getDdfSavePath() const
 void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
 {
     m_ddfSavePath = ddfSavePath;
+}
+
+ELineType CDrawParamSigleton::getLineType() const
+{
+    return m_lineType;
+}
+
+void CDrawParamSigleton::setLineType(const ELineType &lineType)
+{
+    m_lineType = lineType;
 }
 
 ECutType CDrawParamSigleton::getCutType() const

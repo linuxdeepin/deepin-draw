@@ -210,7 +210,9 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);
+    static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
     static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
+    static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
@@ -259,12 +261,15 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    m_pTextEdit->show();
-    //m_pProxy->setFocus();
-    QTextCursor textCursor = m_pTextEdit->textCursor();
-    textCursor.select(QTextCursor::Document);
-    m_pTextEdit->setTextCursor(textCursor);
+    if (CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode() == selection ||
+            CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode() == text) {
+        m_pTextEdit->show();
+        //m_pProxy->setFocus();
+        QTextCursor textCursor = m_pTextEdit->textCursor();
+        textCursor.select(QTextCursor::Document);
+        m_pTextEdit->setTextCursor(textCursor);
 //    m_pTextEdit->cursorPositionChanged();
+    }
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,
@@ -490,6 +495,11 @@ void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 bool CGraphicsTextItem::getManResizeFlag() const
 {
     return m_bManResize;
+}
+
+void CGraphicsTextItem::setManResizeFlag(bool flag)
+{
+    m_bManResize = flag;
 }
 
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const

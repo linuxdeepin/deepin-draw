@@ -26,6 +26,7 @@ class QGraphicsSceneMouseEvent;
 class QKeyEvent;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
+class CGraphicsPenItem;
 
 class CDrawScene : public QGraphicsScene
 {
@@ -123,6 +124,10 @@ signals:
 
     void itemBlurChange(int blurWidth, EBlurEffect effect);
 
+    void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
+
+    void itemLineTypeChange(ELineType type);
+
     void signalUpdateCutSize();
 
     void signalUpdateTextFont();
@@ -147,7 +152,8 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
-
+private:
+    bool m_bIsEditTextFlag;
 
 };
 

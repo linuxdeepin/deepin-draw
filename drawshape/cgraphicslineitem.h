@@ -57,6 +57,17 @@ public:
 
     int getQuadrant() const;
 
+    void setLineType(ELineType type);
+
+    ELineType getLineType() const;
+
+    /**
+     * @brief calcVertexes  计算箭头
+     * @param prePoint
+     * @param currentPoint
+     */
+    void calcVertexes();
+
 
 
 
@@ -71,6 +82,11 @@ private:
 
 private:
     QLineF m_line;
+    ELineType m_type;
+
+    QPolygonF m_arrow; //箭头三角形
+    QPointF m_point4;
+
 };
 
 #endif // CGRAPHICSLINEITEM_H

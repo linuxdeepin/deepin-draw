@@ -31,7 +31,8 @@
 #include "cgraphicsmasicoitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
-
+#include "cgraphicslineitem.h"
+#include "cpictureitem.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -39,9 +40,9 @@
 #include <QGraphicsView>
 #include <drawshape/cpictureitem.h>
 
-
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
+    , m_bIsEditTextFlag(false)
 {
 
 }
@@ -136,6 +137,12 @@ void CDrawScene::attributeChanged()
                     tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
                                                  CDrawParamSigleton::GetInstance()->getRadiusNum());
                 }
+            } else if (item->type() == PenType) {
+                CGraphicsPenItem *tmpItem = static_cast<CGraphicsPenItem *>(item);
+                if (tmpItem->currentType() != CDrawParamSigleton::GetInstance()->getCurrentPenType()) {
+                    emit itemPenTypeChange(tmpItem, tmpItem->currentType());
+                    tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
+                }
             } else if (item->type() == BlurType) {
                 CGraphicsMasicoItem *tmpItem = static_cast<CGraphicsMasicoItem *>(item);
                 if (tmpItem->getBlurWidth() != CDrawParamSigleton::GetInstance()->getBlurWidth() || tmpItem->getBlurEffect() != CDrawParamSigleton::GetInstance()->getBlurEffect()) {
@@ -147,6 +154,17 @@ void CDrawScene::attributeChanged()
                                         CDrawParamSigleton::GetInstance()->getBlurEffect());
                     tmpItem->update();
                 }
+            } else if (item->type() == LineType) {
+                CGraphicsLineItem *tmpItem = static_cast<CGraphicsLineItem *>(item);
+                tmpItem->calcVertexes();
+                ELineType type = tmpItem->getLineType();
+                if (type != CDrawParamSigleton::GetInstance()->getLineType()) {
+                    tmpItem->setLineType(CDrawParamSigleton::GetInstance()->getLineType());
+                    tmpItem->update();
+                    //REDO UNDO
+                    emit itemLineTypeChange(CDrawParamSigleton::GetInstance()->getLineType());
+                }
+
             }
         }
     }
@@ -194,10 +212,22 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    m_bIsEditTextFlag = false;
+    QList<QGraphicsItem *> items = this->selectedItems();
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == TextType) {
+            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
+            break;
+        }
+    }
+
     if (mouseEvent->button()) {
         EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if (currentMode == text &&  m_bIsEditTextFlag) {
+            pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+        }
         if ( nullptr != pTool) {
             pTool->mousePressEvent(mouseEvent, this);
         }
@@ -208,6 +238,9 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if (m_bIsEditTextFlag) {
+        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    }
     if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
@@ -216,7 +249,11 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if (m_bIsEditTextFlag) {
+        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    }
     if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
 //        if (pTool->getDrawToolMode() != cut) {
@@ -255,6 +292,7 @@ void CDrawScene::quitCutMode()
             setItemDisable(true);
             CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
             emit signalQuitCutMode();
+            emit signalAttributeChanged(true, selection);
         }
     }
 }

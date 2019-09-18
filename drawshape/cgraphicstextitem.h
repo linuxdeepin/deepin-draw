@@ -74,6 +74,7 @@ public:
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
     bool getManResizeFlag() const;
+    void setManResizeFlag(bool flag);
 
 protected:
 

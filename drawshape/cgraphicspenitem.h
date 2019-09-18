@@ -51,6 +51,7 @@ public:
     QPolygonF getArrow() const;
     QPainterPath getPath() const;
 
+    void updatePenType(const EPenType &currentType);
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
