@@ -35,8 +35,10 @@ public:
     };
 
 public:
-    explicit CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, DWidget *parent = nullptr );
+    explicit CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr );
     void setDisable(bool);
+
+    void setCurrentTheme(int currentTheme);
 
 signals:
     void buttonClick();
@@ -47,14 +49,16 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+//    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+private:
+    void updateImage();
 
 private:
     EClickBtnSatus m_currentStatus;
+    int m_currentTheme;
 
-    QPixmap m_currentPicture;
 
-    QMap<EClickBtnSatus, QString> m_pictureMap;
+    QMap<int, QMap<EClickBtnSatus, QString> > m_pictureMap;
 };
 
 #endif // CCLICKBUTTON_H

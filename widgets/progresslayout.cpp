@@ -21,38 +21,41 @@
 //#include <DApplicationHelper>
 DGUI_USE_NAMESPACE
 
-ProgressLayout::ProgressLayout(DWidget *parent)
-    : DWidget (parent)
+ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
+    : DBlurEffectWidget (parent)
 {
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();
     m_label->setFixedWidth(400);
     m_label->setText(QString("正在导入图片，请稍候"));
     QFont ft;
-    ft.setPointSize(14);
+    ft.setPixelSize(16);
+    ft.setFamily(QString("SourceHanSansSC-Medium"));
     m_label->setFont(ft);
     //设置颜色
     DPalette pa1;
-    pa1.setColor(DPalette::WindowText, Qt::black);
+    pa1.setColor(DPalette::Text, QColor("#001a2e"));
     m_label->setPalette(pa1);
 
     m_progressLabel = new DLabel();
     m_progressLabel->setFixedWidth(400);
     m_progressbar = new DProgressBar();
     m_progressbar->setTextVisible(false);
-    m_progressbar->setFixedSize(420, 10);
+    m_progressbar->setFixedSize(400, 6);
     //m_progressbar->setTextVisiable(false);
-    m_progressVBoxLayout->addWidget(m_label, Qt::AlignCenter);
-    m_progressVBoxLayout->addWidget(m_progressLabel, Qt::AlignCenter);
-    m_progressVBoxLayout->addWidget(m_progressbar, Qt::AlignCenter);
-    this->setFixedSize(460, 93);
+    m_progressVBoxLayout->addWidget(m_label, 40, Qt::AlignCenter);
+    m_progressVBoxLayout->addSpacing(1);
+    m_progressVBoxLayout->addWidget(m_progressLabel, 40, Qt::AlignCenter);
+    m_progressVBoxLayout->addSpacing(1);
+    m_progressVBoxLayout->addWidget(m_progressbar, 40, Qt::AlignCenter);
+    this->setFixedSize(480, 110);
 
     this->setLayout(m_progressVBoxLayout);
     //this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     //this->setAttribute(Qt::WA_TranslucentBackground);
-    setWindowOpacity(0.5);
-
+    //setWindowOpacity(0.5);
+    this->setBlurEnabled(true);
 
 }
 
@@ -84,12 +87,13 @@ void ProgressLayout::setProgressValue(int value)
     m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
     //设置字号
     QFont ft2;
-    ft2.setPointSize(10);
+    ft2.setPixelSize(14);
+    ft2.setFamily(QString("SourceHanSansSC-Bold"));
     m_progressLabel->setFont(ft2);
 
     //设置颜色
     DPalette pa;
-    pa.setColor(DPalette::WindowText, Qt::blue);
+    pa.setColor(DPalette::WindowText, QColor("#6a829f"));
     m_progressLabel->setPalette(pa);
 
 

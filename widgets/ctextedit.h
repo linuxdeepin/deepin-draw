@@ -43,6 +43,7 @@ protected:
 public slots:
     void currentCharFormatChanged(const QTextCharFormat &format);
     void slot_textChanged();
+    void cursorPositionChanged();
 
 
 private:

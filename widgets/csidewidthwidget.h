@@ -21,6 +21,7 @@
 
 #include <DFrame>
 #include <QHBoxLayout>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -45,6 +46,7 @@ signals:
     void signalSideWidthChange();
 public:
     void updateSideWidth();
+    void changeButtonTheme();
 
 private:
     CCheckButton *m_finerButton;

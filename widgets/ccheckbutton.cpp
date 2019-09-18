@@ -17,20 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ccheckbutton.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <QPainter>
 #include <QDebug>
 
-CCheckButton::CCheckButton(const QMap<EButtonSattus, QString> &pictureMap, DWidget *parent, bool isCheckLock) :
+#include <DPalette>
+#include <DApplicationHelper>
+
+
+CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent, bool isCheckLock) :
     DPushButton(parent),
     m_isHover(false),
     m_isChecked(false),
     m_isPressed(false),
     m_isCheckLock(isCheckLock),
     m_currentStatus(Normal),
+    m_currentTheme(DGuiApplicationHelper::LightType),
     m_pictureMap(pictureMap)
+
 {
-    m_currentPicture = m_pictureMap[m_currentStatus];
+    setFixedSize(size);
+    setIconSize(size);
+
+    DPalette pa = DApplicationHelper::instance()->palette(this);
+    pa.setColor(DPalette::Button, Qt::transparent);
+    DApplicationHelper::instance()->setPalette(this, pa);
+    this->setAutoFillBackground(true);
+    this->setFlat(true);
+
+//    qDebug() << "!!!!!" << CDrawParamSigleton::GetInstance()->getThemeType();
+
+    m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
+
+    updateImage();
 }
 
 void CCheckButton::setChecked(bool checked)
@@ -44,20 +64,15 @@ void CCheckButton::setChecked(bool checked)
 
     m_isChecked = checked;
 
-    update();
+    updateImage();
 }
 
-void CCheckButton::paintEvent(QPaintEvent *e)
-{
-    QWidget::paintEvent(e);
-    QPainter painter(this);
-
-    QPixmap pixmap(m_pictureMap[m_currentStatus]);
-    setFixedSize(pixmap.size());
-    if (! pixmap.isNull()) {
-        painter.drawPixmap(rect(), pixmap);
-    }
-}
+//void CCheckButton::paintEvent(QPaintEvent *e)
+//{
+//    QPainter painter(this);
+//    painter.setBrush(Qt::transparent);
+//    DPushButton::paintEvent(e);
+//}
 
 bool CCheckButton::isChecked() const
 {
@@ -78,7 +93,7 @@ void CCheckButton::mousePressEvent(QMouseEvent *e)
 
     m_isChecked = !m_isChecked;
 
-    update();
+    updateImage();
 
     emit buttonClick();
 }
@@ -95,7 +110,7 @@ void CCheckButton::mouseReleaseEvent(QMouseEvent *e)
         m_currentStatus = Normal;
     }
 
-    update();
+    updateImage();
 
 }
 
@@ -106,7 +121,7 @@ void CCheckButton::enterEvent(QEvent *e)
     m_isHover = true;
     m_tmpStatus = m_currentStatus;
     m_currentStatus = Hover;
-    update();
+    updateImage();
 
 }
 
@@ -118,7 +133,37 @@ void CCheckButton::leaveEvent(QEvent *e)
 
     if (m_currentStatus == Hover) {
         m_currentStatus = m_tmpStatus;
-        update();
+        updateImage();
     }
+}
+
+void CCheckButton::updateImage()
+{
+//    DPalette pa = DApplicationHelper::instance()->palette(this);
+
+//    switch (m_currentStatus) {
+//    case Normal:
+//    case Active:
+//        pa.setColor(DPalette::Button, Qt::transparent);
+//        DApplicationHelper::instance()->setPalette(this, pa);
+//        this->setAutoFillBackground(true);
+//        this->setFlat(true);
+//        break;
+//    case Hover:
+//    case Press:
+//        pa.setColor(DPalette::Button, QColor("#e5e5e5"));
+//        DApplicationHelper::instance()->setPalette(this, pa);
+//        this->setAutoFillBackground(false);
+//        this->setFlat(false);
+//        break;
+//    }
+    setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
+
+}
+
+void CCheckButton::setCurrentTheme(int currentTheme)
+{
+    m_currentTheme = currentTheme;
+    updateImage();
 }
 

@@ -37,9 +37,11 @@ public:
 
 
 public:
-    explicit CCheckButton(const QMap<EButtonSattus, QString> &pictureMap, DWidget *parent = nullptr, bool isCheckLock = true);
+    explicit CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr, bool isCheckLock = true);
     void setChecked(bool);
     bool isChecked() const;
+
+    void setCurrentTheme(int currentTheme);
 
 signals:
     void buttonClick();
@@ -50,7 +52,10 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+//    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+
+private:
+    void updateImage();
 
 private:
     bool m_isHover;
@@ -59,10 +64,9 @@ private:
     bool m_isCheckLock; //是否只允许点击选中 不允许点击取消选中
     EButtonSattus m_currentStatus;
     EButtonSattus m_tmpStatus;
+    int m_currentTheme;
 
-    QPixmap m_currentPicture;
-
-    QMap<EButtonSattus, QString> m_pictureMap;
+    QMap<int, QMap<EButtonSattus, QString> > m_pictureMap;
 
 };
 

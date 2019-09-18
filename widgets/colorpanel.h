@@ -71,6 +71,7 @@ signals:
 public slots:
     void slotPickedColorChanged(QColor);
     void setConfigColor(QColor color);
+    void changeButtonTheme();
 
 private:
     DLineEdit *m_colLineEdit;

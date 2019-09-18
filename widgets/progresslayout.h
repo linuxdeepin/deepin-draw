@@ -21,15 +21,15 @@
 
 #include <QHBoxLayout>
 #include <DProgressBar>
-#include <DWidget>
+#include <DBlurEffectWidget>
 #include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
-class ProgressLayout: public DWidget
+class ProgressLayout: public DBlurEffectWidget
 {
 public:
-    ProgressLayout(DWidget *parent = nullptr);
+    ProgressLayout(DBlurEffectWidget *parent = nullptr);
     ~ProgressLayout();
     void setRange(int start, int end);
     void setProgressValue(int value);

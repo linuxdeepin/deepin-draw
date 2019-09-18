@@ -20,6 +20,8 @@
 #define SEPERATORLINE_H
 
 #include <DLabel>
+#include <DApplicationHelper>
+#include <QDebug>
 DWIDGET_USE_NAMESPACE
 class SeperatorLine : public DLabel
 {
@@ -28,8 +30,17 @@ public:
     SeperatorLine(DWidget *parent = 0)
     {
         Q_UNUSED(parent);
-        setFixedSize(1, 18);
-        //setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
+        setFixedSize(6, 24);
+//        //setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
+//        this->setFrameShape(QFrame::Box);
+//        DPalette pa;
+//        pa = DApplicationHelper::instance()->palette(this);
+//        pa.setColor(DPalette::FrameBorder, QColor("#ececf8"));
+//        DApplicationHelper::instance()->setPalette(this, pa);
+//        //this->setPalette(pa);
+        QPixmap seprtatorLine;
+        seprtatorLine = QPixmap(QString(":/theme/common/line.svg"));
+        this->setPixmap(seprtatorLine);
     }
     ~SeperatorLine() {}
 

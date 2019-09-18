@@ -28,6 +28,9 @@
 #include "service/colorpickerinterface.h"
 #include "ccheckbutton.h"
 
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 
 const QSize PICKCOLOR_WIDGET_SIZE = QSize(230, 230);
 
@@ -59,12 +62,18 @@ PickColorWidget::PickColorWidget(DWidget *parent)
             this, &PickColorWidget::updateColor);
 
 
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
-    m_picker = new CCheckButton(pictureMap, this, false);
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
+
+    m_picker = new CCheckButton(pictureMap, QSize(24, 24), this, false);
     m_picker->setFixedSize(24, 24);
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);

@@ -18,6 +18,8 @@
  */
 #include "colorpanel.h"
 
+#include <DGuiApplicationHelper>
+
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -33,6 +35,10 @@
 #include "pickcolorwidget.h"
 #include "calphacontrolwidget.h"
 
+
+
+
+DGUI_USE_NAMESPACE
 
 const int ORGIN_WIDTH = 250;
 const int PANEL_WIDTH = 230;
@@ -155,6 +161,11 @@ void ColorPanel::setConfigColor(QColor color)
     emit signalChangeFinished();
 }
 
+void ColorPanel::changeButtonTheme()
+{
+//    m_colorfulBtn
+}
+
 void ColorPanel::slotPickedColorChanged(QColor newColor)
 {
     resetColorBtn();
@@ -204,12 +215,18 @@ void ColorPanel::initUI()
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(145, 24);
 
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
-    m_colorfulBtn = new CCheckButton(pictureMap, colorValueWidget, false);
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_more_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
+
+    m_colorfulBtn = new CCheckButton(pictureMap, QSize(24, 24), colorValueWidget, false);
     m_colorfulBtn->setObjectName("ColorFulButton");
     m_colorfulBtn->setFixedSize(BTN_SIZE);
 

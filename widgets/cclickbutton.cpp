@@ -17,16 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cclickbutton.h"
+#include "drawshape/cdrawparamsigleton.h"
+
+#include <DApplicationHelper>
 
 #include <QPainter>
 #include <QDebug>
 
-CClickButton::CClickButton(const QMap<EClickBtnSatus, QString> &pictureMap, DWidget *parent) :
+CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent) :
     DPushButton(parent),
     m_currentStatus(Normal),
     m_pictureMap(pictureMap)
 {
-    m_currentPicture = m_pictureMap[m_currentStatus];
+    setFixedSize(size);
+    setIconSize(size);
+
+//    qDebug() << "@@@@@@@" << CDrawParamSigleton::GetInstance()->getThemeType();
+
+    DPalette pa = DApplicationHelper::instance()->palette(this);
+    pa.setColor(DPalette::Button, Qt::transparent);
+    DApplicationHelper::instance()->setPalette(this, pa);
+    this->setAutoFillBackground(true);
+    this->setFlat(true);
+
+
+    m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
+
+    updateImage();
 }
 
 void CClickButton::setDisable(bool isDisable)
@@ -37,23 +54,24 @@ void CClickButton::setDisable(bool isDisable)
     } else {
         m_currentStatus = Normal;
     }
-    update();
+
+    updateImage();
 
     setEnabled(!isDisable);
 }
 
 
-void CClickButton::paintEvent(QPaintEvent *e)
-{
-    QWidget::paintEvent(e);
-    QPainter painter(this);
+//void CClickButton::paintEvent(QPaintEvent *e)
+//{
+//    QWidget::paintEvent(e);
+//    QPainter painter(this);
 
-    QPixmap pixmap(m_pictureMap[m_currentStatus]);
-    this->setFixedSize(pixmap.size());
-    if (! pixmap.isNull()) {
-        painter.drawPixmap(this->rect(), pixmap);
-    }
-}
+//    QPixmap pixmap(m_pictureMap[m_currentStatus]);
+//    this->setFixedSize(pixmap.size());
+//    if (! pixmap.isNull()) {
+//        painter.drawPixmap(this->rect(), pixmap);
+//    }
+//}
 
 void CClickButton::mousePressEvent(QMouseEvent *e)
 {
@@ -61,7 +79,7 @@ void CClickButton::mousePressEvent(QMouseEvent *e)
 
     m_currentStatus = Press;
 
-    update();
+    updateImage();
 
     emit buttonClick();
 }
@@ -72,7 +90,7 @@ void CClickButton::mouseReleaseEvent(QMouseEvent *e)
 
     m_currentStatus = Normal;
 
-    update();
+    updateImage();
 
 }
 
@@ -82,7 +100,7 @@ void CClickButton::enterEvent(QEvent *e)
 
     m_currentStatus = Hover;
 
-    update();
+    updateImage();
 
 }
 
@@ -92,6 +110,17 @@ void CClickButton::leaveEvent(QEvent *e)
 
     m_currentStatus = Normal;
 
-    update();
+    updateImage();
 
+}
+
+void CClickButton::updateImage()
+{
+    setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
+}
+
+void CClickButton::setCurrentTheme(int currentTheme)
+{
+    m_currentTheme = currentTheme;
+    updateImage();
 }

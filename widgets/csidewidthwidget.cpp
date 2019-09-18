@@ -20,6 +20,10 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ccheckbutton.h"
 
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
+
 CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     : DFrame(parent)
 {
@@ -33,43 +37,60 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout (this);
     m_layout->setMargin(0);
 
-    QMap<CCheckButton::EButtonSattus, QString> pictureMap;
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness01_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness01_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/tickness01_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/tickness01_checked.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness01_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness01_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness01_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness01_checked.svg");
 
-//    pictureMap[CPushButton::Normal] = QString(":/theme/light/images/draw/line_border_1_normal.svg");
-//    pictureMap[CPushButton::Hover]  = QString(":/theme/light/images/draw/line_border_1_hover.svg");
-//    pictureMap[CPushButton::Press]  = QString(":/theme/light/images/draw/line_border_1_active.svg");
-//    pictureMap[CPushButton::Active] = QString(":/theme/light/images/draw/line_border_1_active.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness01_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness01_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness01_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness01_checked.svg");
 
-    m_finerButton = new CCheckButton(pictureMap, this);
+    m_finerButton = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_buttonMap.insert(m_finerButton, Finer);
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness02_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness02_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/tickness02_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/tickness02_checked.svg");
-    m_fineButton = new CCheckButton(pictureMap, this);
 
-    m_fineButton->minimumSize();
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness02_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness02_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness02_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness02_checked.svg");
 
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness02_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness02_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness02_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness02_checked.svg");
+
+    m_fineButton = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_buttonMap.insert(m_fineButton, Fine);
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness03_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness03_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/tickness03_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/tickness03_checked.svg");
-    m_mediumButton = new CCheckButton(pictureMap, this);
+
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness03_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness03_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness03_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness03_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness03_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness03_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness03_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness03_checked.svg");
+
+    m_mediumButton = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_buttonMap.insert(m_mediumButton, Medium);
 
-    pictureMap[CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness04_normal.svg");
-    pictureMap[CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness04_hover.svg");
-    pictureMap[CCheckButton::Press] = QString(":/theme/light/images/draw/tickness04_press.svg");
-    pictureMap[CCheckButton::Active] = QString(":/theme/light/images/draw/tickness04_checked.svg");
-    m_boldButton = new CCheckButton(pictureMap, this);
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness04_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness04_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness04_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness04_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness04_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness04_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness04_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness04_checked.svg");
+
+    m_boldButton = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_buttonMap.insert(m_boldButton, Bold);
 
     m_layout->addWidget(m_finerButton);
@@ -132,6 +153,14 @@ void CSideWidthWidget::updateSideWidth()
         } else {
             i.key()->setChecked(false);
         }
+    }
+}
+
+void CSideWidthWidget::changeButtonTheme()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    foreach (CCheckButton *button, m_buttonMap.keys()) {
+        button->setCurrentTheme(themeType);
     }
 }
 
