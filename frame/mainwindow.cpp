@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "mainwindow.h"
 #include "widgets/dialog/drawdialog.h"
 #include "../application.h"
@@ -91,8 +109,9 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
 
-    connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
+    connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
+    connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
 }
 
 
@@ -246,12 +265,15 @@ void MainWindow::openImage(QString path)
 
 void MainWindow::initScene()
 {
-    QRect rect = qApp->desktop()->availableGeometry(m_centralWidget->getGraphicsView());
-    int width = rect.width();
-    int height = rect.height();
-    height -= m_topToolbar->height();
-    width -= m_centralWidget->getLeftToolBar()->width();
-    m_centralWidget->getDrawScene()->setSceneRect(QRectF(0, 0, width, height));
+//   QRect rect = qApp->desktop()->availableGeometry(m_centralWidget->getGraphicsView());
+//    int width = rect.width();
+//    int height = rect.height();
+//    height -= m_topToolbar->height();
+//    width -= m_centralWidget->getLeftToolBar()->width();
+    QRectF rect(0, 0, 1362, 790);
+    int width = rect.toRect().width();
+    int height = rect.toRect().height();
+    m_centralWidget->getDrawScene()->setSceneRect(rect);
     CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(width, height));
     emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
 }

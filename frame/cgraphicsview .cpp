@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
- *
- * Author:     WangXing
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 #include "cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cgraphicstextitem.h"
@@ -49,9 +31,9 @@
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
-    , m_ddfFileSavePath("")
     , m_isShowContext(true)
     , m_viewWidth(0)
+
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
@@ -185,12 +167,12 @@ void CGraphicsView::initContextMenu()
 
     m_bringToFrontAct = new QAction(tr("Layer to Top"));
     m_contextMenu->addAction(m_bringToFrontAct);
-    m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketRight));
+    m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketLeft));
     this->addAction(m_bringToFrontAct);
 
     m_sendTobackAct = new QAction(tr("Layer to Bottom"));
     m_contextMenu->addAction(m_sendTobackAct);
-    m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
+    m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketRight));
     this->addAction(m_sendTobackAct);
 
     m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
@@ -584,31 +566,20 @@ void CGraphicsView::clearScene()
 
 void CGraphicsView::doSaveDDF()
 {
-    if (m_ddfFileSavePath.isEmpty() || m_ddfFileSavePath == "") {
-        showSaveDDFDialog();
-    } else {
-        m_DDFManager->saveToDDF(m_ddfFileSavePath, scene());
-    }
-}
-
-void CGraphicsView::showSaveDDFDialog()
-{
     DFileDialog dialog(this);
     dialog.setWindowTitle(tr("保存文件"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
-    dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
+    dialog.setOptions(QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.selectFile(tr("画图.DDF"));//设置默认的文件名
     QStringList nameFilters;
-    nameFilters << "*.DDF";
+    nameFilters << "DDF";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (m_DDFManager->saveToDDF(path, scene())) {
-                m_ddfFileSavePath = path;
-            }
+            m_DDFManager->saveToDDF(path, scene());
         }
     }
 }

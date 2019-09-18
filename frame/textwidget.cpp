@@ -1,9 +1,28 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     Renran
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "textwidget.h"
 
 #include <DLabel>
 #include "widgets/textcolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/textfontlabel.h"
+#include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 #include <DLabel>
@@ -41,6 +60,7 @@ void TextWidget::initUI()
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
     m_fontComBox->setMinimumWidth(100);
     m_fontComBox->setCurrentIndex(0);
+    m_fontComBox->setEditable(false);
     QString strFont = m_fontComBox->currentText();
     CDrawParamSigleton::GetInstance()->setTextFont(strFont);
 
@@ -57,7 +77,7 @@ void TextWidget::initUI()
     m_fontSizeSlider->setValue(int(CDrawParamSigleton::GetInstance()->getTextSize()));
 
     m_fontSizeEdit = new DLineEdit(this);
-    m_fontSizeEdit->lineEdit()->setValidator(new QIntValidator(8, 1000, this));
+    m_fontSizeEdit->lineEdit()->setValidator(new CIntValidator(8, 1000, this));
     m_fontSizeEdit->setClearButtonEnabled(false);
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
@@ -112,12 +132,31 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
+        if (str.isEmpty() || str == "") {
+            return ;
+        }
         int value = str.trimmed().toInt();
-        m_fontSizeSlider->setValue(value);
+        if (value >= 0 && value < m_fontSizeSlider->slider()->minimum()) {
+            return ;
+        }
 
-        m_fontSizeEdit->setText(QString::number(value));
+        m_fontSizeSlider->setValue(value);
         CDrawParamSigleton::GetInstance()->setTextSize(value);
         emit signalTextAttributeChanged();
+    });
+
+    connect(m_fontSizeEdit, &DLineEdit::editingFinished, this, [ = ]() {
+        QString str = m_fontSizeEdit->text().trimmed();
+        int value = str.toInt();
+        int minValue = m_fontSizeSlider->minimum();
+
+        int defaultFontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
+
+        if (value == minValue && defaultFontSize != minValue) {
+            m_fontSizeSlider->setValue(value);
+            CDrawParamSigleton::GetInstance()->setTextSize(value);
+            emit signalTextAttributeChanged();
+        }
     });
 
     connect(m_fontSizeSlider, &DSlider::sliderPressed, this, [ = ]() {
