@@ -28,17 +28,17 @@ CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
 
 }
 
-CGraphicsItem::CGraphicsItem(const CGraphicsUnit &unit, QGraphicsItem *parent)
+CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_RotateCursor(QPixmap(":/theme/resources/rotate_mouse.svg"))
 {
 
-    this->setPen(unit.head.pen);
-    this->setBrush(unit.head.brush);
+    this->setPen(head.pen);
+    this->setBrush(head.brush);
 
-    this->setRotation(unit.head.rotate);
-    this->setPos(unit.head.pos);
-    this->setZValue(unit.head.zValue);
+    this->setRotation(head.rotate);
+    this->setPos(head.pos);
+    this->setZValue(head.zValue);
 }
 
 int CGraphicsItem::type() const
@@ -203,7 +203,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
     //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
     if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange && change != QGraphicsItem::ItemVisibleHasChanged) {
-        QList<QGraphicsItem *> items = this->scene()->items(this->scene()->sceneRect());//this->collidingItems();
+        QList<QGraphicsItem *> items = this->scene()->items();//this->collidingItems();
         //QList<QGraphicsItem *> items = this->collidingItems();
         foreach (QGraphicsItem *item, items) {
             if (item->type() == BlurType) {

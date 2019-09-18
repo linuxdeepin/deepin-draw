@@ -28,7 +28,7 @@ public:
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsPolygonalStarItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual  int type() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;

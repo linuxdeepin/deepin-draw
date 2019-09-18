@@ -38,11 +38,11 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
 
 }
 
-CPictureItem::CPictureItem(const CGraphicsUnit &unit, CGraphicsItem *parent )
-    : CGraphicsRectItem(unit, parent)
+CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent )
+    : CGraphicsRectItem(data->rect, head, parent)
     , m_angle(0.0)
 {
-    m_pixmap = QPixmap::fromImage(unit.data.pPic->image);
+    m_pixmap = QPixmap::fromImage(data->image);
 //    QByteArray byteArray(unit.data.pPic->pic, unit.data.pPic->length);
 //    m_pixmap.loadFromData(byteArray);
 }

@@ -1,5 +1,6 @@
 #include "cgraphicsmasicoitem.h"
 #include "cdrawparamsigleton.h"
+#include "sitemdata.h"
 #include <QGraphicsScene>
 #include <QPainter>
 
@@ -56,13 +57,14 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
 
 }
 
-CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsPenItem(unit, parent)
-    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
-    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
-{
-
-}
+//CGraphicsMasicoItem::CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
+//    : CGraphicsPenItem(unit, parent)
+//    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
+//    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
+//{
+//    m_nBlurEffect = static_cast<EBlurEffect>(unit.data.pBlur->effect);
+//    setBlurWidth(unit.data.pBlur->blurWidth);
+//}
 
 int CGraphicsMasicoItem::type() const
 {
@@ -191,6 +193,15 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     pen.setWidth(width);
     this->setPen(pen);
     updateBlurPath();
+}
+
+CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
+{
+    CGraphicsUnit unit = CGraphicsPenItem::getGraphicsUnit();
+    unit.head.dataType = this->type();
+    unit.head.dataLength = sizeof(SGraphicsBlurUnitData);
+
+    return unit;
 }
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)

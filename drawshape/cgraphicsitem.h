@@ -30,7 +30,7 @@ class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
     CGraphicsItem(QGraphicsItem *parent );
-    CGraphicsItem(const CGraphicsUnit &unit, QGraphicsItem *parent);
+    CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
     enum {Type = UserType};
     virtual int  type() const Q_DECL_OVERRIDE;
     virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const;

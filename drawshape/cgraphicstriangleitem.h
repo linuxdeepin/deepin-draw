@@ -27,7 +27,7 @@ public:
     explicit CGraphicsTriangleItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsTriangleItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 protected:

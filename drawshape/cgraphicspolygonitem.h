@@ -31,7 +31,7 @@ public:
     explicit CGraphicsPolygonItem(int count, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    CGraphicsPolygonItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     /**

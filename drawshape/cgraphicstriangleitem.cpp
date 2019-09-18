@@ -40,8 +40,8 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h,
 
 }
 
-CGraphicsTriangleItem::CGraphicsTriangleItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsRectItem (unit, parent)
+CGraphicsTriangleItem::CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data->rect, head, parent)
 {
 
 }

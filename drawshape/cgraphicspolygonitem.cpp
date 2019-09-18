@@ -44,9 +44,9 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w,
 
 }
 
-CGraphicsPolygonItem::CGraphicsPolygonItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsRectItem (unit, parent)
-    , m_nPointsCount(unit.data.pPolygon->pointNum)
+CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data->rect, head, parent)
+    , m_nPointsCount(data->pointNum)
 {
     calcPoints(m_nPointsCount);
 }

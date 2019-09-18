@@ -29,7 +29,7 @@ class CGraphicsPenItem : public CGraphicsItem
 public:
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    explicit CGraphicsPenItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     QPainterPath shape() const Q_DECL_OVERRIDE;
@@ -45,8 +45,6 @@ public:
     void updateCoordinate();
     void drawComplete();
 
-    void setPoitsPath(const QVector<QPointF> &poitsPath);
-
     void setPath(const QPainterPath &path);
 
     void setArrow(const QPolygonF &arrow);
@@ -58,7 +56,6 @@ protected:
 
 private:
     QPainterPath m_path;
-    QVector<QPointF> m_poitsPath;
     QPolygonF m_arrow; //箭头三角形
     QLineF m_straightLine;
     bool m_isShiftPress;

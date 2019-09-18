@@ -48,8 +48,8 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     initRect();
 }
 
-CGraphicsRectItem::CGraphicsRectItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsItem(unit, parent)
+CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsItem(head, parent)
 {
     //    QPointF leftTop;
     //    QPointF rightBottom;
@@ -63,8 +63,8 @@ CGraphicsRectItem::CGraphicsRectItem(const CGraphicsUnit &unit, CGraphicsItem *p
     //    }
 
 
-    this->m_topLeftPoint = unit.data.pRect->topLeft;
-    this->m_bottomRightPoint =  unit.data.pRect->bottomRight;
+    this->m_topLeftPoint = rectData.topLeft;
+    this->m_bottomRightPoint =  rectData.bottomRight;
     this->setTransformOriginPoint(this->rect().center());
 
 

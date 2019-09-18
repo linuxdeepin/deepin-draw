@@ -23,6 +23,7 @@
 #include <QBrush>
 #include <QPoint>
 #include <QTextDocument>
+#include "drawshape/globaldefine.h"
 
 #pragma pack(push, 1)
 //定义图元类型
@@ -49,35 +50,136 @@ struct SGraphicsUnitHead {
     QPointF  pos;  //图元起始位置
     qreal rotate;   //旋转角度
     qreal zValue;  //Z值 用来保存图形层次
+
+    friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
+    {
+        out << head.headCheck[0];
+        out << head.headCheck[1];
+        out << head.headCheck[2];
+        out << head.headCheck[3];
+        out << head.dataType;
+        out << head.dataLength;
+        out << head.pen;
+        out << head.brush;
+        out << head.pos;
+        out << head.rotate;
+        out << head.zValue;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsUnitHead &head)
+    {
+        in >> head.headCheck[0];
+        in >> head.headCheck[1];
+        in >> head.headCheck[2];
+        in >> head.headCheck[3];
+        in >> head.dataType;
+        in >> head.dataLength;
+        in >> head.pen;
+        in >> head.brush;
+        in >> head.pos;
+        in >> head.rotate;
+        in >> head.zValue;
+        return in;
+    }
 };
 
 //图元尾部
 struct SGraphicsUnitTail {
     qint8 tailCheck[4]; //尾部校验
+
+
+    friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitTail &tail)
+    {
+        out << tail.tailCheck[0];
+        out << tail.tailCheck[1];
+        out << tail.tailCheck[2];
+        out << tail.tailCheck[3];
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsUnitTail &tail)
+    {
+        in >> tail.tailCheck[0];
+        in >> tail.tailCheck[1];
+        in >> tail.tailCheck[2];
+        in >> tail.tailCheck[3];
+
+        return in;
+    }
 };
 
 //矩形
 struct SGraphicsRectUnitData {
     QPointF topLeft;
     QPointF bottomRight;
+    friend QDataStream &operator<<(QDataStream &out, const SGraphicsRectUnitData &rectUnitData)
+    {
+        out << rectUnitData.topLeft;
+        out << rectUnitData.bottomRight;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsRectUnitData &rectUnitData)
+    {
+        in >> rectUnitData.topLeft;
+        in >> rectUnitData.bottomRight;
+        return in;
+    }
 };
 
 //圆
 struct SGraphicsCircleUnitData {
     SGraphicsRectUnitData rect;
-    //TODO 序列化和反序列化
+    friend  QDataStream &operator<<(QDataStream &out, const SGraphicsCircleUnitData &cirUnitData)
+    {
+        out << cirUnitData.rect;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsCircleUnitData &cirUnitData)
+    {
+        in >> cirUnitData.rect;
+        return in;
+    }
 };
 
 //三角形
 struct SGraphicsTriangleUnitData {
     SGraphicsRectUnitData rect;
     //TODO 序列化和反序列化
+    friend  QDataStream &operator<<(QDataStream &out, const SGraphicsTriangleUnitData &triangleUnitData)
+    {
+        out << triangleUnitData.rect;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsTriangleUnitData &triangleUnitData)
+    {
+        in >> triangleUnitData.rect;
+        return in;
+    }
 };
 
 //多边形
 struct SGraphicsPolygonUnitData {
     SGraphicsRectUnitData rect; //外接矩形
     quint8 pointNum;
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsPolygonUnitData &polygonUnitData)
+    {
+        out << polygonUnitData.rect;
+        out << polygonUnitData.pointNum;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsPolygonUnitData &polygonUnitData)
+    {
+        in >> polygonUnitData.rect;
+        in >> polygonUnitData.pointNum;
+        return in;
+    }
 };
 
 //多角星
@@ -85,12 +187,43 @@ struct SGraphicsPolygonStarUnitData {
     SGraphicsRectUnitData rect; //外接矩形
     qint32 anchorNum;
     qint32 radius;      //内接半径
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsPolygonStarUnitData &polygonStarUnitData)
+    {
+        out << polygonStarUnitData.rect;
+        out << polygonStarUnitData.anchorNum;
+        out << polygonStarUnitData.radius;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsPolygonStarUnitData &polygonStarUnitData)
+    {
+        in >> polygonStarUnitData.rect;
+        in >> polygonStarUnitData.anchorNum;
+        in >> polygonStarUnitData.radius;
+        return in;
+    }
 };
 
 //线
 struct SGraphicsLineUnitData {
     QPointF point1;
     QPointF point2;
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsLineUnitData &lineUnitData)
+    {
+        out << lineUnitData.point1;
+        out << lineUnitData.point2;
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsLineUnitData &lineUnitData)
+    {
+        in >> lineUnitData.point1;
+        in >> lineUnitData.point2;
+        return in;
+    }
 };
 
 //文本
@@ -98,15 +231,46 @@ struct SGraphicsTextUnitData {
     SGraphicsRectUnitData rect;
     QFont font;
     QString content;
-//    char strText[1024 * 1024 + 1]; //文本信息以HTML存储富文本内容 最大支持1024×1024字节
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsTextUnitData &textUnitData)
+    {
+        out << textUnitData.rect;
+        out << textUnitData.font;
+        out << textUnitData.content;
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsTextUnitData &textUnitData)
+    {
+        in >> textUnitData.rect;
+        in >> textUnitData.font;
+        in >> textUnitData.content;
+
+        return in;
+    }
 };
 
 //图片
 struct SGraphicsPictureUnitData {
-//    qint32 length;   //图片长度
-//    const char *pic;  //图片
     SGraphicsRectUnitData rect;
     QImage image;
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsPictureUnitData &pictureUnitData)
+    {
+        out << pictureUnitData.rect;
+        out << pictureUnitData.image;
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
+    {
+        in >> pictureUnitData.rect;
+        in >> pictureUnitData.image;
+
+        return in;
+    }
 };
 
 //画笔
@@ -114,7 +278,50 @@ struct SGraphicsPenUnitData {
     qint8 penType;
     QPainterPath path;
     QPolygonF arrow;
-    QVector<QPointF> poitsVector;
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
+    {
+        out << penUnitData.penType;
+        out << penUnitData.path;
+        out << penUnitData.arrow;
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
+    {
+        in >> penUnitData.penType;
+        in >> penUnitData.path;
+        in >> penUnitData.arrow;
+
+
+        return in;
+    }
+};
+
+struct SGraphicsBlurUnitData {
+    SGraphicsPenUnitData data;
+    qint8 effect;
+    int blurWidth;
+
+    friend  QDataStream &operator << (QDataStream &out, const SGraphicsBlurUnitData &blurUnitData)
+    {
+        out << blurUnitData.data;
+        out << blurUnitData.effect;
+        out << blurUnitData.blurWidth;
+
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, SGraphicsBlurUnitData &blurUnitData)
+    {
+        in >> blurUnitData.data;
+        in >> blurUnitData.effect;
+        in >> blurUnitData.blurWidth;
+
+
+        return in;
+    }
 };
 
 //数据封装
@@ -128,6 +335,7 @@ union CGraphicsItemData {
     SGraphicsTextUnitData *pText;
     SGraphicsPictureUnitData *pPic;
     SGraphicsPenUnitData *pPen;
+    SGraphicsBlurUnitData *pBlur;
 
     CGraphicsItemData() {
         pRect = nullptr;
@@ -138,7 +346,27 @@ union CGraphicsItemData {
         pText = nullptr;
         pPic = nullptr;
         pPen = nullptr;
+        pBlur = nullptr;
     }
+
+//    friend  QDataStream &operator << (QDataStream &out, const CGraphicsItemData &itemData) {
+//        out << penUnitData.penType;
+//        out << penUnitData.path;
+//        out << penUnitData.arrow;
+//        out << penUnitData.poitsVector;
+
+//        return out;
+//    }
+
+//    friend QDataStream &operator >>( QDataStream &in, CGraphicsItemData &itemData) {
+//        in >> penUnitData.penType;
+//        in >> penUnitData.path;
+//        in >> penUnitData.arrow;
+//        in >> penUnitData.poitsVector;
+
+//        return in;
+//    }
+
 };
 
 
@@ -147,13 +375,109 @@ struct CGraphicsUnit {
     SGraphicsUnitHead head;
     CGraphicsItemData data;
     SGraphicsUnitTail tail;
+
+
+    friend  QDataStream &operator << (QDataStream &out, const CGraphicsUnit &graphicsUnitData)
+    {
+        out << graphicsUnitData.head;
+
+        if (RectType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pRect) {
+            out << *(graphicsUnitData.data.pRect);
+        } else if (EllipseType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pCircle) {
+            out << *(graphicsUnitData.data.pCircle);
+        } else if (TriangleType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pTriangle) {
+            out << *(graphicsUnitData.data.pTriangle);
+        } else if (PolygonType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pPolygon) {
+            out << *(graphicsUnitData.data.pPolygon);
+        } else if (PolygonalStarType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pPolygonStar) {
+            out << *(graphicsUnitData.data.pPolygonStar);
+        } else if (LineType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pLine) {
+            out << *(graphicsUnitData.data.pLine);
+        } else if (TextType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pText) {
+            out << *(graphicsUnitData.data.pText);
+        } else if (PictureType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pPic) {
+            out << *(graphicsUnitData.data.pPic);
+        } else if (PenType == graphicsUnitData.head.dataType && nullptr != graphicsUnitData.data.pPen) {
+            out << *(graphicsUnitData.data.pPen);
+        }
+
+        out << graphicsUnitData.tail;
+        return out;
+    }
+
+    friend QDataStream &operator >>( QDataStream &in, CGraphicsUnit &graphicsUnitData)
+    {
+
+        in >> graphicsUnitData.head;
+
+        if (RectType == graphicsUnitData.head.dataType) {
+            SGraphicsRectUnitData *data = new  SGraphicsRectUnitData();
+            in >> *data;
+            graphicsUnitData.data.pRect = data;
+        } else if (EllipseType == graphicsUnitData.head.dataType) {
+            SGraphicsCircleUnitData *data = new  SGraphicsCircleUnitData();
+            in >> *data;
+            graphicsUnitData.data.pCircle = data;
+        } else if (TriangleType == graphicsUnitData.head.dataType) {
+            SGraphicsTriangleUnitData *data = new SGraphicsTriangleUnitData();
+            in >> *data;
+            graphicsUnitData.data.pTriangle = data;
+        } else if (PolygonType == graphicsUnitData.head.dataType) {
+            SGraphicsPolygonUnitData *data = new SGraphicsPolygonUnitData();
+            in >> *data;
+            graphicsUnitData.data.pPolygon = data;
+        } else if (PolygonalStarType == graphicsUnitData.head.dataType) {
+            SGraphicsPolygonStarUnitData *data = new SGraphicsPolygonStarUnitData();
+            in >> *data;
+            graphicsUnitData.data.pPolygonStar = data;
+        } else if (LineType == graphicsUnitData.head.dataType) {
+            SGraphicsLineUnitData *data = new SGraphicsLineUnitData();
+            in >> *data;
+            graphicsUnitData.data.pLine = data;
+        } else if (TextType == graphicsUnitData.head.dataType) {
+            SGraphicsTextUnitData *data = new SGraphicsTextUnitData();
+            in >> *data;
+            graphicsUnitData.data.pText = data;
+        } else if (PictureType == graphicsUnitData.head.dataType) {
+            SGraphicsPictureUnitData *data = new SGraphicsPictureUnitData();
+            in >> *data;
+            graphicsUnitData.data.pPic = data;
+        } else if (PenType == graphicsUnitData.head.dataType) {
+            SGraphicsPenUnitData *data = new SGraphicsPenUnitData();
+            in >> *data;
+            graphicsUnitData.data.pPen = data;
+        }
+
+        in >> graphicsUnitData.tail;
+
+        return in;
+    }
+
 };
 
 //整个图元数据
 struct CGraphics {
     qint64 unitCount;   //图元数量
     QRectF rect;    // 画板大小和位置
-    QList<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
+    QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
+
+    friend QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
+    {
+        out << graphics.unitCount;
+        out << graphics.rect;
+        out << graphics.vecGraphicsUnit;
+
+        return out;
+    }
+
+    friend  QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
+    {
+        in >> graphics.unitCount;
+        in >> graphics.rect;
+        in >> graphics.vecGraphicsUnit;
+
+        return in;
+    }
 };
 
 

@@ -11,7 +11,7 @@ class CGraphicsMasicoItem : public CGraphicsPenItem
 public:
     explicit CGraphicsMasicoItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
-    explicit CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+//    explicit CGraphicsMasicoItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
     virtual int  type() const Q_DECL_OVERRIDE;
     void setPixmap();
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -22,6 +22,8 @@ public:
     void setBlurEffect(EBlurEffect effect);
     int getBlurWidth() const;
     void setBlurWidth(int width);
+    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
 private:
     QList<QGraphicsItem *> filterItems(QList<QGraphicsItem *> items);
 

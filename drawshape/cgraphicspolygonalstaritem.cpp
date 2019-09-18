@@ -46,10 +46,10 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
 
 }
 
-CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsRectItem (unit, parent)
-    , m_anchorNum(unit.data.pPolygonStar->anchorNum)
-    , m_innerRadius(unit.data.pPolygonStar->radius)
+CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data->rect, head, parent)
+    , m_anchorNum(data->anchorNum)
+    , m_innerRadius(data->radius)
 {
     updatePolygonalStar(m_anchorNum, m_innerRadius);
 }

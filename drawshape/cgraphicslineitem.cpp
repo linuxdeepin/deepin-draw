@@ -73,10 +73,10 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 
 }
 
-CGraphicsLineItem::CGraphicsLineItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsItem (unit, parent)
+CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsItem (head, parent)
 {
-    setLine(unit.data.pLine->point1, unit.data.pLine->point2);
+    setLine(data->point1, data->point2);
     initLine();
 }
 

@@ -42,16 +42,16 @@ CGraphicsTextItem::CGraphicsTextItem()
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsRectItem (unit, parent)
+CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data->rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
 {
     initTextEditWidget();
-    m_Font = unit.data.pText->font;
-    m_pTextEdit->setHtml(unit.data.pText->content);
+    m_Font = data->font;
+    m_pTextEdit->setHtml(data->content);
     m_pTextEdit->hide();
-    QRectF rect(unit.data.pText->rect.topLeft, unit.data.pText->rect.bottomRight);
+    QRectF rect(data->rect.topLeft, data->rect.bottomRight);
     setRect(rect);
 }
 
@@ -63,6 +63,11 @@ CGraphicsTextItem::~CGraphicsTextItem()
 void CGraphicsTextItem::initTextEditWidget()
 {
     m_pTextEdit = new CTextEdit(QObject::tr("输入文本"), this);
+    m_pTextEdit->show();
+//    bool bflag = m_pTextEdit->isHidden();
+//    bool bflag1 = m_pTextEdit->isVisible();
+//    bool bflag2 = m_pTextEdit->isHidden();
+//    bool bflag3 = m_pTextEdit->isVisible();
     m_pTextEdit->setMinimumSize(QSize(1, 1));
 
 //    connect(m_pTextEdit, &QTextEdit::currentCharFormatChanged,
@@ -466,7 +471,7 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 
 bool CGraphicsTextItem::isEditable() const
 {
-    return m_pTextEdit->isVisible();
+    return !m_pTextEdit->isHidden();
 }
 
 void CGraphicsTextItem::doCut()

@@ -38,8 +38,8 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, C
 
 }
 
-CGraphicsEllipseItem::CGraphicsEllipseItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsRectItem (unit, parent)
+CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data->rect, head, parent)
 {
 
 }

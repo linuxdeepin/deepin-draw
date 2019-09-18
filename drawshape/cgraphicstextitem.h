@@ -32,7 +32,7 @@ class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
-    explicit CGraphicsTextItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
 
     CTextEdit *getTextEdit() const;

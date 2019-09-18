@@ -29,7 +29,7 @@ class CPictureItem : public  CGraphicsRectItem
 public:
     explicit CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
     explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
-    explicit CPictureItem(const CGraphicsUnit &unit, CGraphicsItem *parent = nullptr);
+    explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
     void setMirror(bool hor, bool ver);

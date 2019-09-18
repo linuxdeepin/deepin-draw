@@ -230,8 +230,19 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
 
         } else {
-            if (m_currentSelectItem != nullptr) {
-                m_currentSelectItem->move(m_sLastPress, event->scenePos());
+            if (m_currentSelectItem != nullptr ) {
+                if (m_currentSelectItem->type() != TextType) {
+                    m_currentSelectItem->move(m_sLastPress, event->scenePos());
+                } else {
+                    //文字图元非编辑状态下是移动图元 编辑状态下是选中文字
+                    if (!static_cast<CGraphicsTextItem *>(m_currentSelectItem)->isEditable()) {
+                        m_currentSelectItem->move(m_sLastPress, event->scenePos());
+                    } else {
+                        scene->mouseEvent(event);
+                    }
+                }
+            } else {
+                scene->mouseEvent(event);
             }
             //scene->mouseEvent(event);
         }

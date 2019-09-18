@@ -62,20 +62,20 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 {
     initPen();
     m_path.moveTo(startPoint);
-    m_poitsPath.push_back(startPoint);
+//    m_poitsPath.push_back(startPoint);
     m_smoothVector.push_back(startPoint);
 }
 
-CGraphicsPenItem::CGraphicsPenItem(const CGraphicsUnit &unit, CGraphicsItem *parent)
-    : CGraphicsItem(unit, parent)
+CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsItem(head, parent)
 {
     initPen();
 
     prepareGeometryChange();
-    m_currentType = static_cast<EPenType>(unit.data.pPen->penType);
-    m_poitsPath = unit.data.pPen->poitsVector;
-    m_arrow = unit.data.pPen->arrow;
-    m_path = unit.data.pPen->path;
+    m_currentType = static_cast<EPenType>(data->penType);
+//    m_poitsPath = data->poitsVector;
+    m_arrow = data->arrow;
+    m_path = data->path;
     updateGeometry();
 }
 
@@ -148,7 +148,7 @@ CGraphicsItem *CGraphicsPenItem::duplicate() const
     CGraphicsPenItem *item = new CGraphicsPenItem();
     item->setCurrentType(this->m_currentType);
     item->setPath(this->m_path);
-    item->setPoitsPath(this->m_poitsPath);
+//    item->setPoitsPath(this->m_poitsPath);
     item->setArrow(this->m_arrow);
 
     item->setPos(pos().x(), pos().y());
@@ -179,7 +179,7 @@ CGraphicsUnit CGraphicsPenItem::getGraphicsUnit() const
     unit.data.pPen->penType = this->m_currentType;
     unit.data.pPen->path = this->m_path;
     unit.data.pPen->arrow = this->m_arrow;
-    unit.data.pPen->poitsVector = this->m_poitsPath;
+//    unit.data.pPen->poitsVector = this->m_poitsPath;
 
     return unit;
 }
@@ -277,9 +277,9 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     }
 
-    for (QPointF &point : m_poitsPath) {
-        point = transform.map(point);
-    }
+    prepareGeometryChange();
+
+    m_path = transform.map(m_path);
 
     if (m_currentType == arrow) {
         m_arrow = transform.map(m_arrow);
@@ -297,23 +297,15 @@ void CGraphicsPenItem::updateCoordinate()
     delta = pt1 - pt2;
 
     QPainterPath path;
-    QPolygonF arrowPts;
 
-    int i = 0;
 
-    for (QPointF &point : m_poitsPath) {
-        point = mapFromScene(mapToScene(point) + delta);
+    for (int i = 0; i < m_path.elementCount(); i++) {
+        QPainterPath::Element element = m_path.elementAt(i);
+        QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y)) + delta);
         if (i == 0) {
             path.moveTo(point);
         } else {
             path.lineTo(point);
-        }
-        i++;
-    }
-
-    if (m_currentType == arrow) {
-        for (QPointF &point : m_arrow) {
-            arrowPts.push_back(mapFromScene(mapToScene(point) + delta));
         }
     }
 
@@ -322,8 +314,11 @@ void CGraphicsPenItem::updateCoordinate()
     ///更新画笔路径
     m_path = path;
     ///如果是箭头　更新箭头
+
     if (m_currentType == arrow) {
-        m_arrow = arrowPts;
+        for (QPointF &point : m_arrow) {
+            point = mapFromScene(mapToScene(point) + delta);
+        }
     }
 
     setTransform(transform().translate(delta.x(), delta.y()));
@@ -338,7 +333,8 @@ void CGraphicsPenItem::drawComplete()
 {
     if (m_isShiftPress) {
         m_isShiftPress = false;
-        m_poitsPath.push_back(m_straightLine.p2());
+//        m_poitsPath.push_back(m_straightLine.p2());
+        m_path.lineTo(m_straightLine.p2());
     }
 
     updateCoordinate();
@@ -367,7 +363,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         }
     } else {
         m_path.lineTo(endPoint);
-        m_poitsPath.push_back(endPoint);
+//        m_poitsPath.push_back(endPoint);
 
         ///
         m_smoothVector.push_back(endPoint);
@@ -469,12 +465,6 @@ QPainterPath CGraphicsPenItem::getPath() const
 void CGraphicsPenItem::setPath(const QPainterPath &path)
 {
     m_path = path;
-}
-
-
-void CGraphicsPenItem::setPoitsPath(const QVector<QPointF> &poitsPath)
-{
-    m_poitsPath = poitsPath;
 }
 
 EPenType CGraphicsPenItem::currentType() const

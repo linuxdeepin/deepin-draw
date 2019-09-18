@@ -21,11 +21,11 @@
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawparamsigleton.h"
+#include "widgets/ctextedit.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QTextCursor>
 #include <QWidget>
 #include <QGraphicsView>
-#include <QTextEdit>
 
 CTextTool::CTextTool()
     : IDrawTool(text)
@@ -55,6 +55,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->getCGraphicsProxyWidget()->setFocus();
+        item->getTextEdit()->setFocus();
     } else {
         scene->mouseEvent(event);
     }
