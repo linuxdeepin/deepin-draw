@@ -31,8 +31,6 @@
 #include "widgets/arrowrectangle.h"
 #include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
-#include "widgets/dialog/savedialog.h"
-#include "utils/tempfile.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 #include <DComboBox>
@@ -63,8 +61,13 @@ void TopToolbar::initUI()
     initMenu();
 
     DLabel *logoLable = new DLabel(this);
-    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+//    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+//    logoLable->setFixedSize(QSize(32, 32));
+
+    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(32, 32));
+    logoLable->setPixmap(pixmap);
     logoLable->setFixedSize(QSize(32, 32));
+
 
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
@@ -223,8 +226,15 @@ void TopToolbar::initMenu()
 
 //    Q_UNUSED(themeAc);
 //   Q_UNUSED(helpAc);
-    QIcon t_icon = QIcon::fromTheme("deepin-draw");
+    // QIcon t_icon = QIcon::fromTheme("deepin-draw");
+    QIcon t_icon;
     //dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
+    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(48, 48) );
+    //pixmap.setDevicePixelRatio(devicePixelRatioF());
+    t_icon.addPixmap(pixmap);
+
+
+
     dApp->setProductIcon(t_icon);
     dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
                                        " You can freely draw on the layer or simply edit images. "));
@@ -242,11 +252,6 @@ void TopToolbar::initMenu()
 }
 
 
-void TopToolbar::showSaveDialog()
-{
-    SaveDialog *sd = new SaveDialog(TempFile::instance()->savedImage(), this);
-    sd->showInCenter(window());
-}
 
 void TopToolbar::changeTopButtonsTheme()
 {
@@ -264,6 +269,10 @@ void TopToolbar::changeTopButtonsTheme()
 void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
+    case::selection:
+        m_titleWidget->updateTitleWidget();
+        m_stackWidget->setCurrentWidget(m_titleWidget);
+        break;
     case::importPicture:
         m_stackWidget->setCurrentWidget(m_picWidget);
         break;
@@ -444,7 +453,7 @@ void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-    connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
+    //connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
 
     /////传递图片的旋转和翻转信号
@@ -488,8 +497,6 @@ void TopToolbar::initConnection()
 
     //cut
     connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-
-    connect(TempFile::instance(), &TempFile::saveDialogPopup, this, &TopToolbar::showSaveDialog);
 
 
 }

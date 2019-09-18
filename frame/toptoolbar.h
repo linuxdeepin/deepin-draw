@@ -80,8 +80,6 @@ signals:
 
 
 public:
-//    void showDrawDialog();
-    void showSaveDialog();
     void showPrintDialog();
     EDrawToolMode middleWidgetStatus();
     void changeTopButtonsTheme();

@@ -31,7 +31,7 @@ public:
     explicit CTitleWidget(DWidget *parent = nullptr);
     ~CTitleWidget();
 
-    void setTitle(const QString &title);
+    void updateTitleWidget();
 
 private:
     DLabel *m_title;

@@ -257,6 +257,9 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )),
             m_pGraphicsView, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
 
+    connect(m_pDrawScene, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, int )),
+            m_pGraphicsView, SLOT(itemPenTypeChange(CGraphicsPenItem *, int)));
+
     connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), m_leftToolbar, SLOT(slotQuitCutMode()));
 
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);

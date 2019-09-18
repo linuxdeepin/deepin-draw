@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ctitlewidget.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <QHBoxLayout>
 
@@ -43,7 +44,13 @@ CTitleWidget::~CTitleWidget()
 
 }
 
-void CTitleWidget::setTitle(const QString &title)
+void CTitleWidget::updateTitleWidget()
 {
-    m_title->setText(title);
+    QString path = CDrawParamSigleton::GetInstance()->getDdfSavePath();
+    if (path.isEmpty()) {
+        m_title->setText(tr("未命名画板"));
+    } else {
+
+    }
 }
+

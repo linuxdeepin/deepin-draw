@@ -88,8 +88,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/picture tools_active.svg");
 
     m_picBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_picBtn->setFocusPolicy(Qt::NoFocus);
-//    m_picBtn->setToolTip(tr("Import"));
+    //m_picBtn->setFocusPolicy(Qt::NoFocus);
+    m_picBtn->setToolTip(tr("Import(I)"));
     m_actionButtons.append(m_picBtn);
 
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/rectangle tool_normal.svg");
@@ -103,8 +103,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/rectangle tool_active.svg");
 
     m_rectBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_rectBtn->setFocusPolicy(Qt::NoFocus);
-//    m_rectBtn->setToolTip(tr("Rectangle"));
+    //m_rectBtn->setFocusPolicy(Qt::NoFocus);
+    m_rectBtn->setToolTip(tr("Rectangle(R)"));
     m_actionButtons.append(m_rectBtn);
 
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/round tool_normal.svg");
@@ -118,8 +118,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/round tool_active.svg");
 
     m_roundBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_roundBtn->setFocusPolicy(Qt::NoFocus);
-//    m_roundBtn->setToolTip(tr("Ellipse"));
+    //m_roundBtn->setFocusPolicy(Qt::NoFocus);
+    m_roundBtn->setToolTip(tr("Ellipse(O)"));
     m_actionButtons.append(m_roundBtn);
 
 
@@ -135,8 +135,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/triangle tool_active.svg");
 
     m_triangleBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_triangleBtn->setFocusPolicy(Qt::NoFocus);
-//    m_triangleBtn->setToolTip(tr("Triangle"));
+    //m_triangleBtn->setFocusPolicy(Qt::NoFocus);
+    m_triangleBtn->setToolTip(tr("Triangle(N)"));
     m_actionButtons.append(m_triangleBtn);
 
 
@@ -152,8 +152,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/star tool_active.svg");
 
     m_starBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_starBtn->setFocusPolicy(Qt::NoFocus);
-//    m_starBtn->setToolTip(tr("Star"));
+    //m_starBtn->setFocusPolicy(Qt::NoFocus);
+    m_starBtn->setToolTip(tr("Star(M)"));
     m_actionButtons.append(m_starBtn);
 
 
@@ -169,8 +169,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/hexagon tool_active.svg");
 
     m_polygonBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_polygonBtn->setFocusPolicy(Qt::NoFocus);
-//    m_polygonBtn->setToolTip(tr("Polygon"));
+    //m_polygonBtn->setFocusPolicy(Qt::NoFocus);
+    m_polygonBtn->setToolTip(tr("Polygon(G)"));
     m_actionButtons.append(m_polygonBtn);
 
 
@@ -186,8 +186,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/line tool_active.svg");
 
     m_lineBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_lineBtn->setFocusPolicy(Qt::NoFocus);
-//    m_lineBtn->setToolTip(tr("Line"));
+    //m_lineBtn->setFocusPolicy(Qt::NoFocus);
+    m_lineBtn->setToolTip(tr("Line(L)"));
     m_actionButtons.append(m_lineBtn);
 
 
@@ -203,8 +203,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/brush tool_active.svg");
 
     m_penBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_penBtn->setFocusPolicy(Qt::NoFocus);
-//    m_penBtn->setToolTip(tr("Pencil"));
+    //m_penBtn->setFocusPolicy(Qt::NoFocus);
+    m_penBtn->setToolTip(tr("Pencil(P)"));
     m_actionButtons.append(m_penBtn);
 
 
@@ -219,8 +219,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/text tool_active.svg");
 
     m_textBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_textBtn->setFocusPolicy(Qt::NoFocus);
-//    m_textBtn->setToolTip(tr("Text"));
+    //m_textBtn->setFocusPolicy(Qt::NoFocus);
+    m_textBtn->setToolTip(tr("Text(T)"));
     m_actionButtons.append(m_textBtn);
 
 
@@ -235,8 +235,8 @@ void CLeftToolBar::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/smudge tool_active.svg");
 
     m_blurBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
-    m_blurBtn->setFocusPolicy(Qt::NoFocus);
-//    m_blurBtn->setToolTip(tr("Blur"));
+    //m_blurBtn->setFocusPolicy(Qt::NoFocus);
+    m_blurBtn->setToolTip(tr("Blur(B)"));
     m_actionButtons.append(m_blurBtn);
 
 
@@ -252,7 +252,7 @@ void CLeftToolBar::initUI()
 
     m_cutBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_cutBtn->setFocusPolicy(Qt::NoFocus);
-//    m_cutBtn->setToolTip(tr("Cut"));
+    m_cutBtn->setToolTip(tr("Cut(C)"));
     m_actionButtons.append(m_cutBtn);
 
     m_layout = new QVBoxLayout(this);

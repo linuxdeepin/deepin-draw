@@ -31,6 +31,7 @@ class CPrintManager;
 class CExportImageDialog;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
+class CGraphicsPenItem;
 class CMenu;
 
 class CGraphicsView : public DGraphicsView
@@ -73,6 +74,7 @@ public slots:
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
     void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
+    void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
     void slotStopContinuousDrawing();
     void slotStartLoadDDF(QRectF rect);
     void slotAddItemFromDDF(QGraphicsItem *item );
@@ -100,6 +102,7 @@ private slots:
     void slotOnTextLeftAlignment();
     void slotOnTextCenterAlignment();
     ///
+
 
 
 private:

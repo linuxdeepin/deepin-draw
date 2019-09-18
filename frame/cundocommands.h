@@ -29,6 +29,7 @@ class QGraphicsItem;
 class CGraphicsItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
+class CGraphicsPenItem;
 
 class CMoveShapeCommand : public QUndoCommand
 {
@@ -171,6 +172,20 @@ private:
     int m_nOldRadius;
     int m_nNewRadius;
 };
+
+class CSetPenAttributeCommand: public QUndoCommand
+{
+public:
+    explicit CSetPenAttributeCommand(CGraphicsPenItem *item, int oldType);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsPenItem *m_pItem;
+    int m_oldType;
+    int m_newType;
+};
+
 /*
 class GroupShapeCommand : public QUndoCommand
 {

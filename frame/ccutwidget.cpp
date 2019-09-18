@@ -182,6 +182,7 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutType(cut_original);
         emit signalCutAttributeChanged();
 
+
         this->updateCutSize();
     });
 
@@ -191,6 +192,7 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);
         CDrawParamSigleton::GetInstance()->setCutSize(QSize(w, h));
         emit signalCutAttributeChanged();
+
     });
 
     connect(m_heightEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -199,5 +201,6 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);
         CDrawParamSigleton::GetInstance()->setCutSize(QSize(w, h));
         emit signalCutAttributeChanged();
+
     });
 }

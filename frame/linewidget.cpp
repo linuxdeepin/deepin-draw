@@ -52,10 +52,52 @@ void LineWidget::changeButtonTheme()
 
 void LineWidget::initUI()
 {
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+
+    DLabel *lineTypeLabel = new DLabel(this);
+    lineTypeLabel->setObjectName("LineType");
+    lineTypeLabel->setText(tr("类型"));
+    lineTypeLabel->setFont(ft);
+
+    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/line tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/line tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/line tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/line tool_checked.svg");
+
+    m_straightline = new CCheckButton(pictureMap, QSize(36, 36), this);
+    m_actionButtons.append(m_straightline);
+
+
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/arrow tool_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/arrow tool_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/arrow tool_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/arrow tool_checked.svg");
+
+    m_arrowline = new CCheckButton(pictureMap, QSize(36, 36), this);
+    m_actionButtons.append(m_arrowline);
+
+    if (CDrawParamSigleton::GetInstance()->getLineType() == straightType) {
+        m_straightline->setChecked(true);
+    } else {
+        m_arrowline->setChecked(true);
+    }
+
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
     strokeLabel->setText(tr("颜色"));
-    QFont ft;
     ft.setPixelSize(TEXT_SIZE);
     strokeLabel->setFont(ft);
 
@@ -73,6 +115,9 @@ void LineWidget::initUI()
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
+    layout->addWidget(lineTypeLabel);
+    layout->addWidget(m_straightline);
+    layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
     layout->addWidget(m_strokeBtn);
     layout->addWidget(strokeLabel);
@@ -105,12 +150,35 @@ void LineWidget::initConnection()
         emit signalLineAttributeChanged();
     });
 
+    connect(m_straightline, &CCheckButton::buttonClick, [this]() {
+        clearOtherSelections(m_straightline);
+        CDrawParamSigleton::GetInstance()->setLineType(straightType);
+        emit signalLineAttributeChanged();
+    });
+
+    connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
+        clearOtherSelections(m_arrowline);
+        CDrawParamSigleton::GetInstance()->setLineType(arrowType);
+        emit signalLineAttributeChanged();
+    });
+
+
 }
 
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
+}
+
+void LineWidget::clearOtherSelections(CCheckButton *clickedButton)
+{
+    foreach (CCheckButton *button, m_actionButtons) {
+        if (button->isChecked() && button != clickedButton) {
+            button->setChecked(false);
+            return;
+        }
+    };
 }
 
 

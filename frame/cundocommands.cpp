@@ -22,6 +22,7 @@
 #include "drawshape/cgraphicsrectitem.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
+#include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cdrawscene.h"
 #include <QUndoCommand>
@@ -405,6 +406,9 @@ void CSetPropertyCommand::undo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_oldPen);
+        if (m_pItem->type() == LineType) {
+            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+        }
     }
 
     if (m_bBrushChange) {
@@ -417,6 +421,9 @@ void CSetPropertyCommand::redo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_newPen);
+        if (m_pItem->type() == LineType) {
+            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+        }
     }
 
     if (m_bBrushChange) {
@@ -466,6 +473,23 @@ void CSetPolygonStarAttributeCommand::redo()
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
+
+CSetPenAttributeCommand::CSetPenAttributeCommand(CGraphicsPenItem *item, int oldType)
+    : m_pItem(item)
+    , m_oldType(oldType)
+{
+    m_newType = item->currentType();
+}
+
+void CSetPenAttributeCommand::undo()
+{
+    m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
+}
+
+void CSetPenAttributeCommand::redo()
+{
+    m_pItem->updatePenType(static_cast<EPenType>(m_newType));
+}
 
 
 
@@ -745,3 +769,4 @@ void CSendToBackCommand::redo()
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
 }
+

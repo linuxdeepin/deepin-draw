@@ -127,6 +127,7 @@ void BlurWidget::initUI()
     m_pLineWidthLabel->setObjectName("WidthLabel");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
     m_pLineWidthLabel->setFont(ft);
+    m_pLineWidthLabel->setFixedWidth(60);
 
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));

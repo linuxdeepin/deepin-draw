@@ -77,7 +77,6 @@ void MainWindow::initUI()
     m_topToolbar->setFixedHeight(titlebar()->height());
 
 //    titlebar()->setIcon(QIcon (QPixmap(":/theme/common/images/logo.svg").scaled(QSize(32, 32))));
-    titlebar()->setTitle(tr("未命名画板"));
     titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
 

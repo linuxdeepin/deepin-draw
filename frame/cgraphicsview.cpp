@@ -486,6 +486,12 @@ void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNu
     m_pUndoStack->push(command);
 }
 
+void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, int oldType)
+{
+    QUndoCommand *command = new CSetPenAttributeCommand(item, oldType);
+    m_pUndoStack->push(command);
+}
+
 void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
 {
     QUndoCommand *command = new CSetPolygonStarAttributeCommand(item, oldNum, oldRadius);
@@ -507,6 +513,10 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item)
 {
     scene()->addItem(item);
     itemAdded(item);
+    if (item->type() == BlurType) {
+        static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+    }
+
 }
 
 

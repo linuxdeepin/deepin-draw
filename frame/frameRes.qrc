@@ -141,7 +141,6 @@
         <file>theme/dark/images/action/smudge tool_hover.svg</file>
         <file>theme/dark/images/action/text tool_disable.svg</file>
         <file>theme/dark/images/action/screenshot tool_active.svg</file>
-        <file>theme/dark/images/attribute/flip vertical_disable.svg</file>
         <file>theme/dark/images/attribute/flip vertical_hover.svg</file>
         <file>theme/dark/images/attribute/contrarotate_hover.svg</file>
         <file>theme/dark/images/attribute/flip horizontal_normal.svg</file>
@@ -155,17 +154,14 @@
         <file>theme/dark/images/attribute/arrow tool_normal.svg</file>
         <file>theme/dark/images/attribute/arrow tool_disable.svg</file>
         <file>theme/dark/images/attribute/smudge tool_normal.svg</file>
-        <file>theme/dark/images/attribute/contrarotate_disable.svg</file>
         <file>theme/dark/images/attribute/line tool_press.svg</file>
         <file>theme/dark/images/attribute/clockwise rotation_hover.svg</file>
-        <file>theme/dark/images/attribute/flip horizontal_disable.svg</file>
         <file>theme/dark/images/attribute/flip horizontal_press.svg</file>
         <file>theme/dark/images/attribute/fuzzy tool_checked.svg</file>
         <file>theme/dark/images/attribute/smudge tool_disable.svg</file>
         <file>theme/dark/images/attribute/arrow tool_hover.svg</file>
         <file>theme/dark/images/attribute/line tool_disable.svg</file>
         <file>theme/dark/images/attribute/smudge tool_hover.svg</file>
-        <file>theme/dark/images/attribute/clockwise rotation_disable.png</file>
         <file>theme/dark/images/attribute/line tool_hover.svg</file>
         <file>theme/dark/images/attribute/fuzzy tool_press.svg</file>
         <file>theme/dark/images/attribute/fuzzy tool_hover.svg</file>
@@ -186,5 +182,9 @@
         <file>theme/light/images/attribute/flip horizontal_press.svg</file>
         <file>theme/light/images/attribute/flip horizontal_hover.svg</file>
         <file>theme/dark/images/action/star tool_normal.svg</file>
+        <file>theme/dark/images/attribute/flip vertical_disabled.svg</file>
+        <file>theme/dark/images/attribute/flip horizontal_disabled.svg</file>
+        <file>theme/dark/images/attribute/clockwise rotation_disabled.svg</file>
+        <file>theme/dark/images/attribute/contrarotate_disabled.svg</file>
     </qresource>
 </RCC>

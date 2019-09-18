@@ -27,6 +27,7 @@
 class CSideWidthWidget;
 class BorderColorButton;
 class SeperatorLine;
+class CCheckButton;
 
 DWIDGET_USE_NAMESPACE
 
@@ -50,10 +51,14 @@ private:
     CSideWidthWidget *m_sideWidthWidget;
     BorderColorButton *m_strokeBtn;
     SeperatorLine *m_sep1Line;
+    CCheckButton *m_straightline;
+    CCheckButton *m_arrowline;
+    QList<CCheckButton *> m_actionButtons;
 
 private:
     void initUI();
     void initConnection();
+    void clearOtherSelections(CCheckButton *clickedButton);
 };
 
 #endif // LINEWIDGET_H
