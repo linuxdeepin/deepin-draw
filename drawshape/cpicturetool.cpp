@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     JiangChangli
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cpicturetool.h"
 
 #include <QDebug>
@@ -92,29 +110,31 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
     //CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, centralWindow->width(), centralWindow->height()), pixmap);
 
     //调整图片在画板中显示的大小
-    int width = pixmap.width();
-    int height = pixmap.height();
-    int widgetWidth = scene->width();
-    int widgetHeight = scene->height();
+    qreal width = pixmap.width();
+    qreal height = pixmap.height();
+    qreal widgetWidth = scene->width();
+    qreal widgetHeight = scene->height();
     if (height == 0) {
         return;
     }
-    double scale = ((double)pixmap.width() / (double)pixmap.height());
+    qreal scale;
+    scale = ((qreal)pixmap.width() / (qreal)pixmap.height());
 
 
     if (pixmap.width() > widgetWidth || pixmap.height() > widgetHeight) {
-        if (scale >= (widgetWidth / widgetHeight)) {
+        if (scale >= (widgetWidth /  widgetHeight)) {
             width = widgetWidth;
-            height = (int)(width / scale);
+            height = (width / scale);
         } else {
             height = widgetHeight;
-            width = (int)(height * scale);
+            width = (height * scale);
         }
 
     }
-    //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << centralWindow->width() << centralWindow->height() << width << height << endl;
+    //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << scene->width() << scene->height() << width << height << (double)(widgetWidth / widgetHeight) << endl;
 
-    CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, width, height), pixmap);
+
+    CPictureItem *pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), width, height), pixmap);
 
     pixmapItem->setSelected(false);
     scene->addItem(pixmapItem);

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "widgets/ctextedit.h"
@@ -165,14 +183,15 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = m_pTextEdit->textCursor();
-    //if (!cursor.hasSelection())
-    //cursor.select(QTextCursor::WordUnderCursor);
+//    if (!cursor.hasSelection())
+//        cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
     m_pTextEdit->mergeCurrentCharFormat(format);
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    updateGeometry();
     drawDocument(painter, m_pTextEdit->document(), rect());
     if (this->isSelected()) {
         painter->setClipping(false);
@@ -181,7 +200,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->rect());
+        painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
 }
@@ -437,4 +456,14 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
     unit.data.pText->content = this->m_pTextEdit->toHtml();
 
     return  unit;
+}
+
+CTextEdit *CGraphicsTextItem::getTextEdit()
+{
+    return m_pTextEdit;
+}
+
+bool CGraphicsTextItem::isEditable() const
+{
+    return m_pTextEdit->isVisible();
 }

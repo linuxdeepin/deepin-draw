@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
 #include <QPainter>
@@ -110,7 +128,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->rect());
+        painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
 }
@@ -519,6 +537,7 @@ void CGraphicsRectItem::updateGeometry()
     const QRectF &geom = this->boundingRect();
 
     const Handles::iterator hend =  m_handles.end();
+    QPointF pos;
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
         CSizeHandleRect *hndl = *it;
         qreal w = hndl->boundingRect().width();
@@ -534,6 +553,7 @@ void CGraphicsRectItem::updateGeometry()
             hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
             break;
         case CSizeHandleRect::Right:
+            pos = QPointF(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             break;
         case CSizeHandleRect::RightBottom:

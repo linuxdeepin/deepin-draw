@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cselecttool.h"
 #include "cdrawscene.h"
 #include "cgraphicsitem.h"
@@ -131,7 +149,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
             m_currentSelectItem->resizeTo(m_dragHandle, event->scenePos());
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
-            //旋转图形 有BUG
+
+            //旋转图形
             m_bRotateAng = true;
             QPointF center = m_currentSelectItem->rect().center();
             m_currentSelectItem->setTransformOriginPoint(center);
@@ -144,8 +163,11 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             if ( angle > 360 ) {
                 angle -= 360;
             }
-
-            m_currentSelectItem->setRotation(angle);
+            if (m_currentSelectItem->type() != LineType) {
+                m_currentSelectItem->setRotation(angle);
+            } else {
+                m_currentSelectItem->setRotation(angle);
+            }
 
             //显示旋转角度
             if (m_RotateItem == nullptr) {

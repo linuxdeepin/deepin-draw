@@ -1,9 +1,30 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     Renran
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cgraphicslineitem.h"
+
+#include <DSvgRenderer>
+
 #include <QPen>
 #include <QPainter>
 #include <QPointF>
+#include <QtMath>
 
-#include <DSvgRenderer>
 DTK_USE_NAMESPACE
 
 static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
@@ -180,11 +201,29 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
     return  unit;
 }
 
+int CGraphicsLineItem::getQuadrant() const
+{
+    int nRet = 1;
+    if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+        nRet = 1;
+    } else if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+        nRet = 2;
+    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+        nRet = 3;
+    } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+        nRet = 4;
+    }
+}
+
 void CGraphicsLineItem::updateGeometry()
 {
+    qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
         QPointF centerPos = (m_line.p1() + m_line.p2()) / 2;
+
+        qreal k = 0;
+        qreal ang = 0;
         qreal w = hndl->boundingRect().width();
         qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
@@ -196,7 +235,27 @@ void CGraphicsLineItem::updateGeometry()
             break;
         case CSizeHandleRect::Rotation:
 
-            hndl->move(centerPos.x() - w / 2, centerPos.y() - h - h / 2);
+            //hndl->move(centerPos.x() - w / 2, centerPos.y() - h - h / 2);
+            if (qAbs(m_line.p2().x() - m_line.p1().x()) < 0.0001) {
+                //hndl->move(centerPos.x() - w / 2 - w, centerPos.y() - h / 2);
+            } else {
+                k = -(m_line.p2().y() - m_line.p1().y()) / (m_line.p2().x() - m_line.p1().x());
+                ang = atan(k);
+
+                //增加线宽的长度防止缩放造成位置不正确
+                qreal x = qAbs((h + penwidth) * sin(ang));
+                qreal y = qAbs((h + penwidth) * cos(ang));
+                //第一象限
+                if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+                    hndl->move(centerPos.x() - w / 2 - x, centerPos.y() - h / 2 - y);
+                } else if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+                    hndl->move(centerPos.x() - w / 2 + x, centerPos.y() - h / 2 - y);
+                } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+                    hndl->move(centerPos.x() - w / 2 + x, centerPos.y() - h / 2 + y);
+                } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+                    hndl->move(centerPos.x() - w / 2 - x, centerPos.y() - h / 2 + y);
+                }
+            }
             break;
         default:
             break;
