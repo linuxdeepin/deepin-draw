@@ -111,7 +111,7 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(130, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedSize(QSize(100, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
     m_qualityLabel->setFixedHeight(LINE_EDIT_SIZE.height());
@@ -119,8 +119,9 @@ void CExportImageDialog::initUI()
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);
     qualityHLayout->setSpacing(0);
+    qualityHLayout->addSpacing(3);
     qualityHLayout->addWidget(m_qualitySlider);
-    qualityHLayout->addSpacing(10);
+    qualityHLayout->addSpacing(20);
     qualityHLayout->addWidget(m_qualityLabel);
 
     DWidget *contentWidget = new DWidget(this);

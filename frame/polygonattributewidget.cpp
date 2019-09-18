@@ -68,8 +68,8 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSlider->slider()->setOrientation(Qt::Horizontal);
 
     m_sideNumEdit = new DLineEdit(this);
-//    m_sideNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([4-9]{1})|(10))$")));
-    m_sideNumEdit->setValidator(new CIntValidator(4, 10));
+    m_sideNumEdit->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
+//    m_sideNumEdit->setValidator(new CIntValidator(4, 10));
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(40);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
@@ -147,9 +147,18 @@ void PolygonAttributeWidget::initConnection()
 
     connect(m_sideNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
         QString str = m_sideNumEdit->text().trimmed();
-        int value = str.toInt();
         int minvalue = m_sideNumSlider->minimum();
-        if (value == minvalue && CDrawParamSigleton::GetInstance()->getSideNum() != minvalue) {
+        int value = 0;
+        if (str.isEmpty() || str == "") {
+            value = minvalue;
+        } else {
+            if ( str.toInt() == 1) {
+                value = minvalue;
+            }
+        }
+
+        if (value == minvalue ) {
+            m_sideNumEdit->setText(QString::number(minvalue));
             m_sideNumSlider->setValue(minvalue);
             CDrawParamSigleton::GetInstance()->setSideNum(minvalue);
             emit signalPolygonAttributeChanged();

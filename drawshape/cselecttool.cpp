@@ -14,6 +14,7 @@
 #include <QGraphicsTextItem>
 #include <QTextCursor>
 #include <QPixmap>
+#include <QGraphicsView>
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
@@ -41,7 +42,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_sPointPress = event->scenePos();
         //选中图元
         if (m_currentSelectItem != nullptr) {
-            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
         }
 
         if (CSizeHandleRect::None == m_dragHandle || CSizeHandleRect::InRect == m_dragHandle) {
@@ -56,7 +57,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (item->type() != TextType) {
                     m_currentSelectItem = static_cast<CGraphicsItem *>(item);
                     m_dragHandle = CSizeHandleRect::InRect;
-                    qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+                    scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
                     scene->changeAttribute(true, item);
                 } else {
                     m_currentSelectItem = nullptr;
@@ -90,7 +91,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
-        qApp->setOverrideCursor(Qt::ArrowCursor);
+        scene->views()[0]->setCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
     }
     // }
@@ -101,7 +102,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
 //            scene->setCursor(QCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress)));
-            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
             m_rotateAng = m_currentSelectItem->rotation();
         }
     }
@@ -159,7 +160,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         //选中图元
         if (m_currentSelectItem != nullptr) {
-            qApp->setOverrideCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
+            scene->views()[0]->setCursor(m_currentSelectItem->getCursor(m_dragHandle, m_bMousePress));
         }
 
         if (m_currentSelectItem != nullptr) {

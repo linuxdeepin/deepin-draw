@@ -201,6 +201,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
+    m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     m_contextMenu->show();
 }
 
