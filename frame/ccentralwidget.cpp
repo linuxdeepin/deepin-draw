@@ -75,7 +75,7 @@ void CCentralwidget::initUI()
     m_pDrawScene = new CDrawScene(this);
     QRectF rc = QRectF(0, 0, 800, 600);
     m_pDrawScene->setSceneRect(rc);
-    m_pDrawScene->setBackgroundBrush(Qt::darkGray);
+    m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
 
     m_pGraphicsView->setScene(m_pDrawScene);
     m_pGraphicsView->setAlignment(Qt::AlignCenter);
@@ -120,9 +120,19 @@ void CCentralwidget::slotShowExportDialog()
     m_pGraphicsView->showExportDialog();
 }
 
+void CCentralwidget::slotSaveToDDF()
+{
+    m_pGraphicsView->doSaveDDF();
+}
+
+void CCentralwidget::slotImport()
+{
+    m_pGraphicsView->doImport();
+}
+
 void CCentralwidget::slotNew()
 {
-    m_pDrawScene->clear();
+    m_pGraphicsView->clearScene();
 }
 
 void CCentralwidget::slotPrint()

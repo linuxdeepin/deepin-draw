@@ -12,14 +12,17 @@
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cdrawscene.h"
+#include "utils/cddfmanager.h"
 
 #include <DMenu>
+#include <DFileDialog>
 
 #include <QAction>
 #include <QWheelEvent>
 #include <QClipboard>
 #include <QApplication>
 #include <QDebug>
+#include <QStandardPaths>
 #include <QUndoStack>
 #include <QRectF>
 #include <QPainter>
@@ -221,9 +224,29 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
         if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->isVisible()) {
+            //文字图元的显示需要获取view的大小，才能保证显示完整
+            static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->setView(this);
             QGraphicsView::contextMenuEvent(event);
             return;
         }
+
+        //判断选中图元中是否有非文字图元
+        bool isTextItem = true;
+
+        for (int i = 0; i < scene()->selectedItems().size(); i++) {
+            if (TextType != static_cast<CGraphicsItem *>(scene()->selectedItems()[i])->type()) {
+                isTextItem = false;
+            }
+        }
+
+        //如果选中图元中有非文字图元，则需要把对齐功能置灰
+        m_leftAlignAct->setEnabled(isTextItem);
+        m_topAlignAct->setEnabled(isTextItem);
+        m_rightAlignAct->setEnabled(isTextItem);
+        m_centerAlignAct->setEnabled(isTextItem);
+
+
+
     }
 
 
@@ -516,6 +539,52 @@ void CGraphicsView::slotSendTobackAct()
 void CGraphicsView::slotQuitCutMode()
 {
     static_cast<CDrawScene *>(scene())->quitCutMode();
+}
+
+void CGraphicsView::clearScene()
+{
+    scene()->clearSelection();
+    m_pUndoStack->clear();
+    scene()->clear();
+}
+
+void CGraphicsView::doSaveDDF()
+{
+    DFileDialog dialog(this);
+    dialog.setWindowTitle(tr("保存文件"));//设置文件保存对话框的标题
+    dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
+    dialog.setOptions(QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);//只显示文件夹
+    dialog.setViewMode(DFileDialog::List);
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    dialog.selectFile(tr("画图.DDF"));//设置默认的文件名
+    QStringList nameFilters;
+    nameFilters << "DDF";
+    dialog.setNameFilters(nameFilters);//设置文件类型过滤器
+    if (dialog.exec()) {
+        QString path = dialog.selectedFiles().first();
+        if (!path.isEmpty()) {
+            m_DDFManager->saveToDDF(path, scene());
+        }
+    }
+}
+
+void CGraphicsView::doImport()
+{
+    DFileDialog dialog(this);
+    dialog.setWindowTitle(tr("加载文件"));//设置文件保存对话框的标题
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
+    dialog.setViewMode(DFileDialog::List);
+    dialog.setFileMode(DFileDialog::ExistingFiles);
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    QStringList nameFilters;
+    nameFilters << "*.DDF";
+    dialog.setNameFilters(nameFilters);//设置文件类型过滤器
+    if (dialog.exec()) {
+        QString path = dialog.selectedFiles().first();
+        if (!path.isEmpty()) {
+            m_DDFManager->loadDDF(path, scene(), this);
+        }
+    }
 }
 
 void CGraphicsView::setIsShowContext(bool isShowContext)

@@ -40,9 +40,9 @@ public:
     DMenu *mainMenu();
 
 signals:
-    void generateSaveImage();
+    void signalSaveToDDF();
     void signalPrint();
-    void importPicBtnClicked();
+    void signalImport();
     void signalAttributeChanged();
     //传递图片的旋转和翻转信号
     void signalPassPictureOperation(int);

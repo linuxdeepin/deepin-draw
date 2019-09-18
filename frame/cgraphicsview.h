@@ -6,6 +6,7 @@
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
+class CDDFManager;
 class CGraphicsItem;
 class CPrintManager;
 class CExportImageDialog;
@@ -22,7 +23,9 @@ public:
     void scale(qreal scale);
     void showExportDialog();
     void showPrintDialog();
-
+    void clearScene();
+    void doSaveDDF();
+    void doImport();
     void setIsShowContext(bool isShowContext);
 
 protected:
@@ -89,6 +92,8 @@ private:
     CExportImageDialog *m_exportImageDialog;
     CPrintManager *m_printManager;
     bool m_visible;
+
+    CDDFManager *m_DDFManager;
 
     bool m_isShowContext;
 

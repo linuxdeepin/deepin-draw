@@ -89,7 +89,9 @@ void MainWindow::initConnection()
 
     connect(m_centralWidget, SIGNAL(signalUpdateCutSize()), m_topToolbar, SLOT(slotSetCutSize()));
 
+    connect(m_topToolbar, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
 
+    connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
 
 }
 

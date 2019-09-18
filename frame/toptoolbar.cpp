@@ -189,9 +189,9 @@ void TopToolbar::initMenu()
                                        " You can freely draw on the layer or simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
-    connect(importAc, &QAction::triggered, this, &TopToolbar::importPicBtnClicked);
+    connect(importAc, &QAction::triggered, this, &TopToolbar::signalImport);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
-    connect(saveAc, &QAction::triggered, this, &TopToolbar::generateSaveImage);
+    connect(saveAc, &QAction::triggered, this, &TopToolbar::signalSaveToDDF);
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
     connect(newConstructAc, &QAction::triggered, this, &TopToolbar::signalNew);

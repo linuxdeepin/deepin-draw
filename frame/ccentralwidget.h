@@ -59,7 +59,8 @@ public slots:
     void slotNew();
     void slotPrint();
     void slotShowCutItem();
-
+    void slotSaveToDDF();
+    void slotImport();
 
 private slots:
     void slotDoCut(QRectF rect);
