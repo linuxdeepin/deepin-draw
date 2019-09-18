@@ -28,6 +28,7 @@
 DWIDGET_USE_NAMESPACE
 
 class CCheckButton;
+class ColorPickerInterface;
 
 class PickColorWidget : public DWidget
 {
@@ -50,6 +51,7 @@ private:
     CCheckButton *m_picker;
     ColorLabel *m_colorLabel;
     ColorSlider *m_colorSlider;
+    ColorPickerInterface *m_cp;
 };
 
 #endif // PICKCOLORWIDGET_H

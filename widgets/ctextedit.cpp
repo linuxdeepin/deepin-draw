@@ -27,6 +27,7 @@
 CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent)
     : DTextEdit(text, parent)
     , m_pItem(item)
+    , m_widthF(0)
 {
     //初始化字体
     //this->mergeCurrentCharFormat();
@@ -77,9 +78,22 @@ void CTextEdit::slot_textChanged()
     rect.setHeight(size.height());
     rect.setWidth(size.width());
 
+    //判断是否出界
+    QPointF bottomRight = rect.bottomRight();
+    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
+    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
+        this->setLineWrapMode(WidgetWidth);
+        this->document()->setTextWidth(m_widthF);
+        size = this->document()->size();
+        rect.setHeight(size.height());
+        rect.setWidth(size.width());
+    }
+
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);
     }
+
+    m_widthF = rect.width();
 //    if (size.height() > rect.size().height()) {
 //        rect.setSize(size);
 //        m_pItem->setRect(rect);

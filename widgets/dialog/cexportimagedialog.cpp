@@ -78,8 +78,11 @@ void CExportImageDialog::initUI()
     setContentsMargins(0, 0, 0, 0);
 
     DLabel *logoLable = new DLabel(this);
-    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+    //logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
+    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(32, 32));
+    logoLable->setPixmap(pixmap);
     logoLable->setFixedSize(QSize(32, 32));
+
 
     logoLable->move(25, 3);
     logoLable->setAlignment(Qt::AlignLeft);

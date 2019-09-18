@@ -18,7 +18,6 @@
  */
 #include "drawdialog.h"
 #include "utils/baseutils.h"
-#include "savedialog.h"
 #include "drawshape/cdrawparamsigleton.h"
 
 #include <QHBoxLayout>

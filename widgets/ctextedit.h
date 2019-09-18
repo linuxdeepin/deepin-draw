@@ -48,6 +48,7 @@ public slots:
 
 private:
     CGraphicsTextItem *m_pItem;
+    qreal m_widthF;
 };
 
 #endif // CTEXTEDIT_H

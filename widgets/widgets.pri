@@ -13,7 +13,6 @@ HEADERS += \
     $$PWD/toolbutton.h \
     $$PWD/dialog/drawdialog.h \
     $$PWD/dialog/dialog.h \
-    $$PWD/dialog/savedialog.h \
     $$PWD/arrowrectangle.h \
     $$PWD/fontsizelineedit.h \
     $$PWD/tipslabel.h \
@@ -46,7 +45,6 @@ SOURCES += \
     $$PWD/textfontlabel.cpp \
     $$PWD/dialog/drawdialog.cpp \
     $$PWD/dialog/dialog.cpp \
-    $$PWD/dialog/savedialog.cpp \
     $$PWD/arrowrectangle.cpp \
     $$PWD/tipslabel.cpp \
     $$PWD/graphicsgloweffect.cpp \

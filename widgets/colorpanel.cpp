@@ -205,7 +205,8 @@ void ColorPanel::initUI()
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(150, 24);
     m_colLineEdit->setClearButtonEnabled(false);
-    m_colLineEdit->lineEdit()->setEnabled(false);
+    //m_colLineEdit->lineEdit()->setEnabled(false);
+    m_colLineEdit->lineEdit()->setReadOnly(true);
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");

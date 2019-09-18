@@ -42,6 +42,8 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     titleLabel->setText("RGB");
     titleLabel->setFixedWidth(38);
 
+    m_cp = new ColorPickerInterface("com.deepin.Picker",
+                                    "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
 
     m_redEditLabel = new EditLabel(this);
     m_redEditLabel->setTitle("R");
@@ -97,6 +99,24 @@ PickColorWidget::PickColorWidget(DWidget *parent)
         setRgbValue(color, true);
     });
     connect(m_picker, &CCheckButton::buttonClick, this, [ = ] {
+//        QDBusPendingReply<> reply =  m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
+//        reply.waitForFinished();
+//        if (reply.isError())
+//        {
+//            QDBusError error = reply.error();
+//            qDebug() << "faild@@@@@@@@@@@" << error;
+//        } else
+//        {
+//            qDebug() << "success!!!!!!!!!";
+//            connect(m_cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid,
+//            QString colorName) {
+//                if (uuid == QString("%1").arg(qApp->applicationPid())) {
+//                    setRgbValue(QColor(colorName), true);
+//                }
+//                m_picker->setChecked(false);
+//            });
+//        }
+
         ColorPickerInterface *cp = new ColorPickerInterface("com.deepin.Picker",
                                                             "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
 
@@ -110,6 +130,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
             m_picker->setChecked(false);
             cp->deleteLater();
         });
+
     });
 
     QVBoxLayout *mLayout = new QVBoxLayout;
