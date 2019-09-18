@@ -40,13 +40,13 @@
 
 DGUI_USE_NAMESPACE
 
-const int ORGIN_WIDTH = 250;
-const int PANEL_WIDTH = 230;
-const int ORIGIN_HEIGHT = 213;
-const int EXPAND_HEIGHT = 430;
-const int RADIUS = 3;
+const int ORGIN_WIDTH = 246;
+const int PANEL_WIDTH = 226;
+const int ORIGIN_HEIGHT = 250;
+const int EXPAND_HEIGHT = 470;
+const int RADIUS = 8;
 const int BORDER_WIDTH = 2;
-const QSize COLOR_BORDER_SIZE = QSize(20, 20);
+const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 //const QSize COLOR_BUTTN = QSize(14, 14);
 //const QSize SLIDER_SIZE = QSize(178, 22);
 const QSize BTN_SIZE = QSize(24, 24);
@@ -76,37 +76,29 @@ void ColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
-    painter.setPen(m_color);
-
-    if (m_color == QColor(Qt::transparent)) {
-        painter.drawPixmap(QRect(3, 3, this->width() - 6, this->height() - 6),
-                           QPixmap(":/theme/light/images/draw/color_disable_active.png"));
-        if (isChecked()) {
-            painter.setBrush(QBrush());
-            QPen borderPen;
-            borderPen.setWidth(BORDER_WIDTH);
-            borderPen.setColor("#01bdff");
-            painter.setPen(borderPen);
-            painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
-                                          this->height() - 2), RADIUS, RADIUS);
-        }
-        return;
-    }
-
     painter.setBrush(QBrush(m_color));
 
     QPen pen;
-    pen.setWidth(1);
-    pen.setColor(QColor(0, 0, 0, 26));
+    pen.setWidth(2);
+    if (m_color == QColor(Qt::transparent)) {
+        pen.setColor(QColor("#cccccc"));
+    } else {
+        pen.setColor(QColor(0, 0, 0, 20));
+    }
     painter.setPen(pen);
     painter.drawRoundedRect(QRect(3, 3, this->width() - 6,
                                   this->height() - 6), RADIUS, RADIUS);
+    if (m_color == QColor(Qt::transparent)) {
+        pen.setColor(QColor("#ff804d"));
+        painter.setPen(pen);
+        painter.drawLine(6, this->height() - 6, this->width() - 6, 6);
+    }
 
     if (isChecked()) {
         painter.setBrush(QBrush());
         QPen borderPen;
         borderPen.setWidth(BORDER_WIDTH);
-        borderPen.setColor("#01bdff");
+        borderPen.setColor("#008eff");
         painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
                                       this->height() - 2), RADIUS, RADIUS);
@@ -177,34 +169,32 @@ void ColorPanel::initUI()
     DWidget *colorBtnWidget = new DWidget(this);
     colorBtnWidget->setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
 
-    if (!m_expand)
-        setFixedSize(ORGIN_WIDTH, ORIGIN_HEIGHT);
-    else
-        setFixedSize(ORGIN_WIDTH, EXPAND_HEIGHT);
-
     m_colList = specifiedColorList();
 
     m_colorsButtonGroup = new QButtonGroup(this);
     m_colorsButtonGroup->setExclusive(true);
 
     QGridLayout *gLayout = new QGridLayout;
-    gLayout->setVerticalSpacing(3);
-    gLayout->setHorizontalSpacing(3);
+    gLayout->setVerticalSpacing(4);
+    gLayout->setHorizontalSpacing(4);
 
     for (int i = 0; i < m_colList.length(); i++) {
         ColorButton *cb = new ColorButton(m_colList[i], this);
+        cb->setFocusPolicy(Qt::NoFocus);
         if (i == 0)
             cb->setDisableColor(true);
         m_cButtonList.append(cb);
-        gLayout->addWidget(cb, i / 10, i % 10);
+        gLayout->addWidget(cb, i / 6, i % 6);
         m_colorsButtonGroup->addButton(cb);
     }
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
-    m_alphaControlWidget->setFixedHeight(24);
-//    m_alphaControlWidget->setStyleSheet("background-color: rgb(255, 0, 0);");
+    m_alphaControlWidget->setFocusPolicy(Qt::NoFocus);
+//    m_alphaControlWidget->setFixedHeight(24);
+    m_alphaControlWidget->setFixedWidth(236);
 
     DWidget *colorValueWidget = new DWidget;
+    colorValueWidget->setFocusPolicy(Qt::NoFocus);
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
     DLabel *colLabel = new DLabel(colorValueWidget);
     colLabel->setObjectName("ColorLabel");
@@ -213,7 +203,7 @@ void ColorPanel::initUI()
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
-    m_colLineEdit->setFixedSize(145, 24);
+    m_colLineEdit->setFixedSize(150, 24);
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
@@ -227,8 +217,9 @@ void ColorPanel::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
 
     m_colorfulBtn = new CCheckButton(pictureMap, QSize(24, 24), colorValueWidget, false);
+    m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
     m_colorfulBtn->setObjectName("ColorFulButton");
-    m_colorfulBtn->setFixedSize(BTN_SIZE);
+
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
 //    colorValueWidget->setStyleSheet("background-color: rgb(0, 255, 0);");
@@ -240,15 +231,16 @@ void ColorPanel::initUI()
     colorLayout->addWidget(m_colorfulBtn);
 
     m_pickColWidget = new PickColorWidget(this);
+    m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
     QVBoxLayout *vLayout = new QVBoxLayout(colorBtnWidget);
-    vLayout->setContentsMargins(4, 4, 7, 4);
+    vLayout->setContentsMargins(10, 0, 10, 0);
     vLayout->setSpacing(0);
-    vLayout->addSpacing(7);
+    vLayout->addSpacing(20);
     vLayout->addLayout(gLayout);
-    vLayout->addSpacing(9);
+    vLayout->addSpacing(10);
     vLayout->addWidget(m_alphaControlWidget, 0, Qt::AlignCenter);
-    vLayout->addSpacing(9);
+//    vLayout->addSpacing(10);
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -301,6 +293,9 @@ void ColorPanel::initConnection()
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setTextColor(tmpColor);
         }
+//        if (qApp->focusWidget() != nullptr) {
+//            qApp->focusWidget()->hide();
+//        }
 
         emit signalColorChanged();
     });

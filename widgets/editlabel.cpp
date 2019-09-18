@@ -30,16 +30,14 @@ EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
     , m_titleSpacing(1)
 {
-    QFont font = this->font();
-
-    font.setPointSize(8);
-
-
     m_titleLabel = new DLabel(this);
 
     m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
     m_edit->setClearButtonEnabled(false);
+
+    QFont font = m_edit->font();
+    font.setPixelSize(8);
     m_edit->setFont(font);
 
 

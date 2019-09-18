@@ -302,6 +302,6 @@ void CExportImageDialog::doSave()
         painter.drawPixmap(0, 0, QPixmap(m_saveImage).scaled(QSize(ww, wh), Qt::KeepAspectRatio));
     } else {
         bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
-        qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;;
+        //qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;;
     }
 }

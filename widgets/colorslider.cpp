@@ -64,20 +64,28 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
 //        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
 //    }
 
-    if (hi == 0) {
-        return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
-    } else if (hi == 1) {
-        return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
-    } else if (hi == 2) {
-        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
-    } else if (hi == 3) {
-        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
-    } else if (hi == 4) {
-        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
-    } else {
-        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
+    if (q < 0) {
+        q = 0;
     }
 
+    QColor color;
+
+    if (hi == 0) {
+        color =  QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
+    } else if (hi == 1) {
+        color =  QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
+    } else if (hi == 2) {
+        color =  QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
+    } else if (hi == 3) {
+        color = QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
+    } else if (hi == 4) {
+        color = QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
+    } else {
+        color = QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
+    }
+
+
+    return color;
 }
 
 void ColorSlider::paintEvent(QPaintEvent *ev)
@@ -106,8 +114,9 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
     for (qreal s = 0; s <= backgroundImage.width(); s++) {
         for (qreal v = 1; v <= backgroundImage.height() ; v++) {
             QColor penColor = getColor(qreal(int(s / rect.width() * 360)), 1, 1);
-
-
+            if (!penColor.isValid()) {
+                continue;
+            }
             backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
         }
     }

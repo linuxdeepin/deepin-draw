@@ -19,6 +19,7 @@
 #include "ctextedit.h"
 #include "drawshape/cgraphicstextitem.h"
 #include <DMenu>
+#include <DApplication>
 #include <QAction>
 #include <QDebug>
 #include <QTextBlock>
@@ -33,8 +34,10 @@ CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *pare
 //    connect(this, &QTextEdit::currentCharFormatChanged,
 //            this, &CTextEdit::currentCharFormatChanged);
 
-    connect(this, SIGNAL(selectionChanged()),
+    connect(this, SIGNAL(cursorPositionChanged()),
             this, SLOT(cursorPositionChanged()));
+
+    this->setLineWrapMode(NoWrap);
     //connect(this->document(), SIGNAL(contentsChanged), this, SLOT(slot_textChanged()));
 }
 
@@ -65,9 +68,14 @@ void CTextEdit::slot_textChanged()
         m_pItem->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
     }
 
+    if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
+        this->setLineWrapMode(WidgetWidth);
+    }
+
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
     rect.setHeight(size.height());
+    rect.setWidth(size.width());
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);
@@ -187,11 +195,11 @@ void CTextEdit::currentCharFormatChanged(const QTextCharFormat &format)
         CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
         m_pItem->currentCharFormatChanged(format);
     }*/
-    qDebug() << "currentCharFormatChanged " << "selection" << this->textCursor().hasSelection()
-             << "start pos" << this->textCursor().selectionStart()
-             << "end pos" << this->textCursor().selectionEnd()
-             << "pos" << this->textCursor().position()
-             << endl;
+//    qDebug() << "currentCharFormatChanged " << "selection" << this->textCursor().hasSelection()
+//             << "start pos" << this->textCursor().selectionStart()
+//             << "end pos" << this->textCursor().selectionEnd()
+//             << "pos" << this->textCursor().position()
+//             << endl;
 }
 
 

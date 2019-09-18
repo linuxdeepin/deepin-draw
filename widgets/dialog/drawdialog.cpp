@@ -66,6 +66,8 @@ DrawDialog::DrawDialog(DWidget *parent)
         } else if (id == 1) {
             qApp->quit();
         } else {
+            //点击发出保存信号后，要先把询问对话框关闭了
+            this->close();
             CDrawParamSigleton::GetInstance()->setIsQuit(true);
             emit signalSaveToDDF();
         }

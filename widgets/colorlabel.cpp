@@ -127,6 +127,9 @@ void ColorLabel::paintEvent(QPaintEvent *)
     for (qreal s = 0; s < this->width(); s++) {
         for (qreal v = 0; v < this->height(); v++) {
             QColor penColor = getColor(m_hue, s / this->width(), v / this->height());
+            if (!penColor.isValid()) {
+                continue;
+            }
             backgroundImage.setPixelColor(int(s), this->height() - 1 - int(v), penColor);
         }
     }

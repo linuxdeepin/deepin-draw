@@ -38,7 +38,7 @@ signals:
 private:
     DSlider *m_alphaSlider;
     DLabel *m_alphaLabel;
-    bool m_isUserOperation;
+
 
 private:
     void initUI();

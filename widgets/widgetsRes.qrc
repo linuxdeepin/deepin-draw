@@ -41,5 +41,6 @@
         <file>theme/dark/images/draw/tickness04_hover.svg</file>
         <file>theme/dark/images/draw/tickness02_press.svg</file>
         <file>theme/common/line.svg</file>
+        <file>theme/common/linedark.svg</file>
     </qresource>
 </RCC>

@@ -22,27 +22,17 @@
 #include <DLabel>
 #include <DApplicationHelper>
 #include <QDebug>
+#include <drawshape/cdrawparamsigleton.h>
 DWIDGET_USE_NAMESPACE
 class SeperatorLine : public DLabel
 {
     Q_OBJECT
 public:
-    SeperatorLine(DWidget *parent = 0)
-    {
-        Q_UNUSED(parent);
-        setFixedSize(6, 24);
-//        //setStyleSheet("border: 1px solid rgba(0, 0, 0, 0.1);");
-//        this->setFrameShape(QFrame::Box);
-//        DPalette pa;
-//        pa = DApplicationHelper::instance()->palette(this);
-//        pa.setColor(DPalette::FrameBorder, QColor("#ececf8"));
-//        DApplicationHelper::instance()->setPalette(this, pa);
-//        //this->setPalette(pa);
-        QPixmap seprtatorLine;
-        seprtatorLine = QPixmap(QString(":/theme/common/line.svg"));
-        this->setPixmap(seprtatorLine);
-    }
-    ~SeperatorLine() {}
+    SeperatorLine(DWidget *parent = 0);
+
+    ~SeperatorLine();
+
+    void updateTheme();
 
 };
 #endif // SEPERATORLINE_H

@@ -32,7 +32,7 @@
 
 DGUI_USE_NAMESPACE
 
-const QSize PICKCOLOR_WIDGET_SIZE = QSize(230, 230);
+const QSize PICKCOLOR_WIDGET_SIZE = QSize(226, 230);
 
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
@@ -86,11 +86,10 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     rgbLayout->addSpacing(4);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
-    m_colorSlider->setFixedSize(230, 25);
-
+    m_colorSlider->setFixedSize(226, 25);
 
     m_colorLabel = new ColorLabel(this);
-    m_colorLabel->setFixedSize(230, 136);
+    m_colorLabel->setFixedSize(226, 136);
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
         m_colorLabel->setHue(val);
     });

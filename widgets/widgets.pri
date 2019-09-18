@@ -58,7 +58,8 @@ SOURCES += \
     $$PWD/dialog/cexportimagedialog.cpp \
     $$PWD/dialog/cprintmanager.cpp \
     $$PWD/textcolorbutton.cpp \
-    $$PWD/ctextedit.cpp
+    $$PWD/ctextedit.cpp \
+    $$PWD/seperatorline.cpp
 
 
 #RESOURCES += \
