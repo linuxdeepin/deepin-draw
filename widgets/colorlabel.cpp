@@ -55,19 +55,34 @@ QColor ColorLabel::getColor(qreal h, qreal s, qreal v)
     qreal q = v * (1 - f * s);
     qreal t = v * (1 - (1 - f) * s);
 
+//    if (hi == 0) {
+//        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
+//    } else if (hi == 1) {
+//        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
+//    } else if (hi == 2) {
+//        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
+//    } else if (hi == 3) {
+//        return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
+//    } else if (hi == 4) {
+//        return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
+//    } else {
+//        return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
+//    }
+
     if (hi == 0) {
-        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
-    } else if (hi == 1) {
-        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
-    } else if (hi == 2) {
-        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
-    } else if (hi == 3) {
         return QColor(std::min(int(255 * p), 255), std::min(int(255 * q), 255), std::min(int(255 * v), 255));
-    } else if (hi == 4) {
+    } else if (hi == 1) {
         return QColor(std::min(int(255 * t), 255), std::min(int(255 * p), 255), std::min(int(255 * v), 255));
-    } else {
+    } else if (hi == 2) {
         return QColor(std::min(int(255 * v), 255), std::min(int(255 * p), 255), int(255 * q));
+    } else if (hi == 3) {
+        return QColor(std::min(int(255 * v), 255), std::min(int(255 * t), 255), std::min(int(255 * p), 255));
+    } else if (hi == 4) {
+        return QColor(std::min(int(255 * q), 255), std::min(int(255 * v), 255), std::min(int(255 * p), 255));
+    } else {
+        return QColor(std::min(int(255 * p), 255), std::min(int(255 * v), 255), std::min(int(255 * t), 255));
     }
+
 }
 
 void ColorLabel::setHue(int hue)

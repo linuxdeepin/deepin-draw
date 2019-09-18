@@ -21,13 +21,13 @@
 
 //#include <QSlider>
 #include <QPaintEvent>
-#include <DSlider>
+#include <QSlider>
 #include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
 
-class ColorSlider : public DSlider
+class ColorSlider : public QSlider
 {
     Q_OBJECT
 public:

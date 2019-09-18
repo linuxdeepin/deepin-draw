@@ -69,7 +69,8 @@ void TextColorButton::paintEvent(QPaintEvent *)
     }
 
     painter.setBrush(drawColor);
-    painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
+    //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
+    painter.drawRoundedRect(QRect(4, 4, 16, 16),  6, 6);
 
     QPen borderPen;
     borderPen.setWidth(1);
@@ -80,7 +81,8 @@ void TextColorButton::paintEvent(QPaintEvent *)
     } else {
         painter.setBrush(Qt::transparent);
     }
-    painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
+    //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
+    painter.drawRoundedRect(QRect(3, 3, 18, 18),  6, 6);
 }
 
 void TextColorButton::setColor(QColor color)
