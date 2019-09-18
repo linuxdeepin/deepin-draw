@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     Renran
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "cexportimagedialog.h"
 
 #include <DFileDialog>
@@ -12,8 +30,8 @@
 #include <QDebug>
 
 
-const QSize DIALOG_SIZE = QSize(300, 245);
-const QSize LINE_EDIT_SIZE = QSize(178, 30);
+const QSize DIALOG_SIZE = QSize(380, 280);
+const QSize LINE_EDIT_SIZE = QSize(250, 35);
 
 CExportImageDialog::CExportImageDialog(DWidget *parent)
     : DDialog(parent)
@@ -82,10 +100,9 @@ void CExportImageDialog::initUI()
 //    titleLabel->setAlignment(Qt::AlignCenter);
 
 
-
-
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
+    m_fileNameEdit->setClearButtonEnabled(false);
 
 
     m_savePathCombox = new DComboBox(this);
@@ -129,7 +146,7 @@ void CExportImageDialog::initUI()
     contentWidget->setContentsMargins(0, 0, 0, 0);
     QFormLayout *fLayout = new QFormLayout(contentWidget);
     fLayout->setFormAlignment(Qt::AlignJustify);
-    fLayout->setHorizontalSpacing(20);
+    fLayout->setHorizontalSpacing(10);
     fLayout->addRow(tr("Name:"), m_fileNameEdit);
     fLayout->addRow(tr("Save to:"), m_savePathCombox);
     fLayout->addRow(tr("Format:"), m_formatCombox);

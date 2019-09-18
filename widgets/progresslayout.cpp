@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     JiangChangli
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "progresslayout.h"
 #include <DPalette>
 //#include <DApplicationHelper>
@@ -22,18 +40,18 @@ ProgressLayout::ProgressLayout(DWidget *parent)
     m_progressLabel->setFixedWidth(400);
     m_progressbar = new DProgressBar();
     m_progressbar->setTextVisible(false);
-    m_progressbar->setFixedSize(400, 10);
+    m_progressbar->setFixedSize(420, 10);
     //m_progressbar->setTextVisiable(false);
     m_progressVBoxLayout->addWidget(m_label, Qt::AlignCenter);
     m_progressVBoxLayout->addWidget(m_progressLabel, Qt::AlignCenter);
     m_progressVBoxLayout->addWidget(m_progressbar, Qt::AlignCenter);
-    this->setFixedSize(480, 93);
+    this->setFixedSize(460, 93);
 
     this->setLayout(m_progressVBoxLayout);
     //this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     //this->setAttribute(Qt::WA_TranslucentBackground);
-    setWindowOpacity(0.7);
+    setWindowOpacity(0.5);
 
 
 }

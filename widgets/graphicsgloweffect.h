@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2015 ~ 2017 Deepin Technology Co., Ltd.
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,22 +37,58 @@ public:
     void draw(QPainter *painter);
     QRectF boundingRectFor(const QRectF &rect) const;
 
-    inline void setOffset(qreal dx, qreal dy) {m_xOffset = dx; m_yOffset = dy;}
+    inline void setOffset(qreal dx, qreal dy)
+    {
+        m_xOffset = dx;
+        m_yOffset = dy;
+    }
 
-    inline void setXOffset(qreal dx) {m_xOffset = dx;}
-    inline qreal xOffset() const {return m_xOffset;}
+    inline void setXOffset(qreal dx)
+    {
+        m_xOffset = dx;
+    }
+    inline qreal xOffset() const
+    {
+        return m_xOffset;
+    }
 
-    inline void setYOffset(qreal dy) {m_yOffset = dy;}
-    inline qreal yOffset() const {return m_yOffset;}
+    inline void setYOffset(qreal dy)
+    {
+        m_yOffset = dy;
+    }
+    inline qreal yOffset() const
+    {
+        return m_yOffset;
+    }
 
-    inline void setDistance(qreal distance) { m_distance = distance; updateBoundingRect(); }
-    inline qreal distance() const { return m_distance; }
+    inline void setDistance(qreal distance)
+    {
+        m_distance = distance;
+        updateBoundingRect();
+    }
+    inline qreal distance() const
+    {
+        return m_distance;
+    }
 
-    inline void setBlurRadius(qreal blurRadius) { m_blurRadius = blurRadius; updateBoundingRect(); }
-    inline qreal blurRadius() const { return m_blurRadius; }
+    inline void setBlurRadius(qreal blurRadius)
+    {
+        m_blurRadius = blurRadius;
+        updateBoundingRect();
+    }
+    inline qreal blurRadius() const
+    {
+        return m_blurRadius;
+    }
 
-    inline void setColor(const QColor &color) { m_color = color; }
-    inline QColor color() const { return m_color; }
+    inline void setColor(const QColor &color)
+    {
+        m_color = color;
+    }
+    inline QColor color() const
+    {
+        return m_color;
+    }
 
 protected:
     void cachePixmap(const QPixmap &source);
