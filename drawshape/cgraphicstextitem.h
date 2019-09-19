@@ -44,8 +44,12 @@ public:
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
+<<<<<<< HEAD
     void setFontSize(qreal size);
     void setFontFamily(const QString &family);
+=======
+    //void setFontSize(qreal size);
+>>>>>>> fix: fix draw text bug
     void setTextColor(const QColor &col);
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;

@@ -107,6 +107,7 @@ void CDrawScene::attributeChanged()
         foreach (item, items) {
             CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
 
+<<<<<<< HEAD
             if (item->type() != BlurType) {
                 if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
                         tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
@@ -116,6 +117,16 @@ void CDrawScene::attributeChanged()
                     tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
                     tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
                 }
+=======
+        if (item->type() == TextType) {
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+            //static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+        } else if (item->type() == PolygonType) {
+            if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
+                emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
+                static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+>>>>>>> fix: fix draw text bug
             }
 
 

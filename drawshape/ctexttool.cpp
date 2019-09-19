@@ -52,9 +52,19 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         QRect rect = fm.boundingRect("输入文本");
 
 
+<<<<<<< HEAD
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
         //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
 //        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+=======
+        CGraphicsTextItem *item = new CGraphicsTextItem();
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), 200, 30));
+        item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        //item->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+        //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        item->setSelected(true);
+>>>>>>> fix: fix draw text bug
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
