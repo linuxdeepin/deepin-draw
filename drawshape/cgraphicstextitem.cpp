@@ -172,7 +172,6 @@ void CGraphicsTextItem::setFont(const QFont &font)
     m_Font = font;
 }
 
-<<<<<<< HEAD
 void CGraphicsTextItem::setFontSize(qreal size)
 {
     QTextCharFormat fmt;
@@ -199,16 +198,6 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
         this->scene()->views()[0]->setFocus();
     }
 }
-=======
-//void CGraphicsTextItem::setFontSize(qreal size)
-//{
-//    QTextCharFormat fmt;
-//    fmt.setFontPointSize(size);
-//    mergeFormatOnWordOrSelection(fmt);
-
-//    m_size = size;
-//}
->>>>>>> fix: fix draw text bug
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
