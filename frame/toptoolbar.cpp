@@ -355,6 +355,13 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
+void TopToolbar::enterEvent(QEvent *event)
+{
+    Q_UNUSED(event)
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+    DFrame::enterEvent(event);
+}
+
 void TopToolbar::initConnection()
 {
     //colorPanel.

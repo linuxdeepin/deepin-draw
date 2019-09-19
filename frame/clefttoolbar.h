@@ -18,6 +18,8 @@ public:
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void enterEvent(QEvent *event);                      //进入QWidget瞬间事件
+
 
 signals:
     void setCurrentDrawTool(int type);

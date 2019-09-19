@@ -15,6 +15,7 @@ CGraphicsTextItem::CGraphicsTextItem()
     , m_pProxy(nullptr)
 {
     m_pTextEdit = new QTextEdit(QObject::tr("请输入文字"));
+    m_pTextEdit->setMinimumSize(QSize());
 //    connect(m_pTextEdit, &QTextEdit::currentCharFormatChanged,
 //            this, &CGraphicsTextItem2::currentCharFormatChanged);
     QTextCursor textCursor = m_pTextEdit->textCursor();
@@ -23,10 +24,11 @@ CGraphicsTextItem::CGraphicsTextItem()
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
-//    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pProxy = new CGraphicsProxyWidget(this);
     m_pProxy->setWidget(m_pTextEdit);
+    m_pProxy->setMinimumSize(0, 0);
     m_pProxy->setZValue(this->zValue() - 0.1);
 }
 
@@ -68,7 +70,7 @@ void CGraphicsTextItem::updateWidget()
     const QRectF &geom = this->rect();
     bool flag = m_pTextEdit->isVisible();
     m_pTextEdit->show();
-    m_pTextEdit->resize(geom.width(), geom.height());
+    m_pTextEdit->resize(int(geom.width()), int(geom.height()));
     m_pProxy->setPos(geom.x(), geom.y());
     if (!flag) {
         m_pTextEdit->hide();
@@ -133,8 +135,13 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event)
+
     m_pProxy->show();
     m_pProxy->setFocus();
+    QTextCursor textCursor = m_pTextEdit->textCursor();
+    textCursor.select(QTextCursor::Document);
+    m_pTextEdit->setTextCursor(textCursor);
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

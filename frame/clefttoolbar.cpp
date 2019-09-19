@@ -9,8 +9,10 @@
 #include <DFileDialog>
 
 #include <DWidget>
+#include <DApplication>
 #include <QVBoxLayout>
 #include <QDebug>
+
 
 const int BTN_SPACING = 1;
 
@@ -33,6 +35,13 @@ void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
 {
     //禁止拖动
     Q_UNUSED(event)
+}
+
+void CLeftToolBar::enterEvent(QEvent *event)
+{
+    Q_UNUSED(event)
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+    DFrame::enterEvent(event);
 }
 
 

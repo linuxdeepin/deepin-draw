@@ -25,9 +25,10 @@ private:
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
     bool m_bRotateAng;
     qreal m_rotateAng;
-    QCursor m_RotateCursor;
+    QCursor m_rotateCursor;
     QPointF m_initRotateItemPos;
     CGraphicsRotateAngleItem *m_RotateItem;
+    QCursor m_textEditCursor;
 };
 
 #endif // CSELECTTOOL_H

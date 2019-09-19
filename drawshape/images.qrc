@@ -3,5 +3,6 @@
         <file>theme/resources/icon_rotate.svg</file>
         <file>theme/resources/node.svg</file>
         <file>theme/resources/rotate_mouse.svg</file>
+        <file>theme/resources/text_mouse.svg</file>
     </qresource>
 </RCC>
