@@ -37,6 +37,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         item->setSelected(true);
         scene->addItem(item);
+        emit scene->itemAdded(item);
         item->getCGraphicsProxyWidget()->setFocus();
     } else {
         scene->mouseEvent(event);

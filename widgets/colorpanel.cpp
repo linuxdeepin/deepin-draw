@@ -294,6 +294,8 @@ void ColorPanel::updateColorPanel(DrawStatus status)
         configColor = CDrawParamSigleton::GetInstance()->getFillColor();
     } else if (m_drawstatus == DrawStatus::Stroke) {
         configColor = CDrawParamSigleton::GetInstance()->getLineColor();
+    } else if (m_drawstatus == DrawStatus::TextFill) {
+        configColor = CDrawParamSigleton::GetInstance()->getTextColor();
     }
 
     ////更新颜色按钮

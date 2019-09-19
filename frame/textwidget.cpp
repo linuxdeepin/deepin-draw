@@ -43,7 +43,8 @@ void TextWidget::initUI()
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
     m_fontComBox->setMinimumWidth(100);
     m_fontComBox->setCurrentIndex(0);
-    CDrawParamSigleton::GetInstance()->setTextFont(m_fontComBox->currentFont());
+    QString strFont = m_fontComBox->currentText();
+    CDrawParamSigleton::GetInstance()->setTextFont(strFont);
 
     DLabel *fontsizeLabel = new DLabel(this);
     fontsizeLabel->setText(tr("字号"));
@@ -98,7 +99,7 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
-        CDrawParamSigleton::GetInstance()->setTextFont(QFont(str));
+        CDrawParamSigleton::GetInstance()->setTextFont(str);
         emit signalTextAttributeChanged();
     });
 
@@ -133,7 +134,8 @@ void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
     QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
-    if (m_fontComBox->currentFont() != font) {
+
+    if (m_fontComBox->currentText() != font.family()) {
         m_fontComBox->setFont(font);
     }
 

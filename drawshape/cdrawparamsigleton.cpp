@@ -11,7 +11,6 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_sideNum(5)
     , m_currentPenType(EPenType::straight)
     , m_textFont(QFont())
-    , m_textSize(8)
     , m_textColor(Qt::black)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
@@ -19,7 +18,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_bCtlKeyPress(false)
     , m_Scale(1)
 {
-
+    m_textFont.setPointSizeF(8);
 }
 
 CDrawParamSigleton *CDrawParamSigleton::GetInstance()
@@ -140,9 +139,9 @@ QFont CDrawParamSigleton::getTextFont() const
     return m_textFont;
 }
 
-void CDrawParamSigleton::setTextFont(const QFont &textFont)
+void CDrawParamSigleton::setTextFont(const QString &strFont)
 {
-    m_textFont = textFont;
+    m_textFont.setFamily(strFont);
 }
 
 void CDrawParamSigleton::setShiftKeyStatus(bool flag)
@@ -187,12 +186,12 @@ qreal CDrawParamSigleton::getScale() const
 
 void CDrawParamSigleton::setTextSize(qreal size)
 {
-    m_textSize = size;
+    m_textFont.setPointSizeF(size);
 }
 
 qreal CDrawParamSigleton::getTextSize() const
 {
-    return m_textSize;
+    return m_textFont.pointSizeF();
 }
 
 void CDrawParamSigleton::setTextColor(const QColor &fillColor)

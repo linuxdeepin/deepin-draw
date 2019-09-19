@@ -51,7 +51,7 @@ public:
     void setCurrentPenType(const EPenType &currentPenType);
 
     QFont getTextFont() const;
-    void setTextFont(const QFont &textFont);
+    void setTextFont(const QString &strFont);
 
     void setShiftKeyStatus(bool flag);
     bool getShiftKeyStatus();
@@ -84,7 +84,7 @@ private:
     EPenType m_currentPenType; //当前画笔类型
 
     QFont m_textFont; //文本字体
-    qreal m_textSize; //文本大小
+    //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
 
     EDrawToolMode m_currentDrawToolMode;

@@ -23,8 +23,8 @@ CGraphicsTextItem::CGraphicsTextItem()
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
-    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pProxy = new CGraphicsProxyWidget(this);
     m_pProxy->setWidget(m_pTextEdit);
     m_pProxy->setZValue(this->zValue() - 0.1);
@@ -349,7 +349,7 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
 
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {
-    CDrawParamSigleton::GetInstance()->setTextFont(format.font());
+    CDrawParamSigleton::GetInstance()->setTextFont(format.font().family());
     CDrawParamSigleton::GetInstance()->setTextSize(format.font().pointSize());
     CDrawParamSigleton::GetInstance()->setTextColor(format.foreground().color());
 
