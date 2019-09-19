@@ -23,7 +23,7 @@ public:
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
-    void setFontSize(qreal size);
+    //void setFontSize(qreal size);
     void setTextColor(const QColor &col);
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
@@ -72,7 +72,6 @@ private:
     CGraphicsProxyWidget *m_pProxy;
 
     QFont m_Font;   //字体
-    qreal m_size;     //字体大小
     QColor m_color; //字体颜色
 };
 

@@ -87,14 +87,14 @@ void CGraphicsTextItem::setFont(const QFont &font)
     m_Font = font;
 }
 
-void CGraphicsTextItem::setFontSize(qreal size)
-{
-    QTextCharFormat fmt;
-    fmt.setFontPointSize(size);
-    mergeFormatOnWordOrSelection(fmt);
+//void CGraphicsTextItem::setFontSize(qreal size)
+//{
+//    QTextCharFormat fmt;
+//    fmt.setFontPointSize(size);
+//    mergeFormatOnWordOrSelection(fmt);
 
-    m_size = size;
-}
+//    m_size = size;
+//}
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
