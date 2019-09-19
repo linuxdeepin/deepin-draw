@@ -4,7 +4,7 @@
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
 #include "cgraphicsrotateangleitem.h"
-#include "cgraphicstextitem2.h"
+#include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 
 #include <DApplication>
@@ -188,7 +188,7 @@ void CSelectTool::selectionChange()
 {
     if (m_currentSelectItem != nullptr) {
         if (m_currentSelectItem->type() == TextType) {
-            static_cast<CGraphicsTextItem2 *>(m_currentSelectItem)->getCGraphicsProxyWidget()->hide();
+            static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getCGraphicsProxyWidget()->hide();
         }
     }
 }

@@ -1,6 +1,6 @@
 #include "ctexttool.h"
 #include "cdrawscene.h"
-#include "cgraphicstextitem2.h"
+#include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawparamsigleton.h"
 #include <QGraphicsSceneMouseEvent>
@@ -29,7 +29,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 //        scene->addWidget(edit);
 //        edit->setFocus();
 
-        CGraphicsTextItem2 *item = new CGraphicsTextItem2();
+        CGraphicsTextItem *item = new CGraphicsTextItem();
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), 100, 100));
         item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());

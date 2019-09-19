@@ -8,7 +8,7 @@
 #include "cgraphicspolygonalstaritem.h"
 #include "cgraphicspenitem.h"
 #include "frame/cpicturewidget.h"
-#include "cgraphicstextitem2.h"
+#include "cgraphicstextitem.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -74,9 +74,9 @@ void CDrawScene::attributeChanged()
 
 
         if (item->type() == TextType) {
-            static_cast<CGraphicsTextItem2 *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
-            static_cast<CGraphicsTextItem2 *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-            static_cast<CGraphicsTextItem2 *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+            static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+            static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
         } else if (item->type() == PolygonType) {
             if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
                 emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
