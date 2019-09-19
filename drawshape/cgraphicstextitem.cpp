@@ -55,8 +55,8 @@ void CGraphicsTextItem::initTextEditWidget()
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
-//    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pProxy = new CGraphicsProxyWidget(this);
     m_pProxy->setWidget(m_pTextEdit);
     m_pProxy->setMinimumSize(0, 0);
