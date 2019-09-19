@@ -102,6 +102,23 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateWidget();
 }
 
+CGraphicsItem *CGraphicsTextItem::duplicate() const
+{
+    CGraphicsTextItem *item = new CGraphicsTextItem();
+    item->setRect(this->rect());
+    item->setPos(pos().x(), pos().y());
+    item->setPen(pen());
+    item->setBrush(brush());
+    item->setTransform(transform());
+    item->setTransformOriginPoint(transformOriginPoint());
+    item->setRotation(rotation());
+    item->setScale(scale());
+    item->setZValue(zValue());
+    item->getTextEdit()->setDocument(this->getTextEdit()->document());
+    item->getTextEdit()->hide();
+    return item;
+}
+
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     QTextCharFormat fmt;
