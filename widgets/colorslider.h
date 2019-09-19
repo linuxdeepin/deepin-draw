@@ -13,7 +13,7 @@ class ColorSlider : public DSlider
 {
     Q_OBJECT
 public:
-    ColorSlider(QWidget *parent = nullptr);
+    ColorSlider(DWidget *parent = nullptr);
     ~ColorSlider();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)

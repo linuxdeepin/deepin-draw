@@ -2,6 +2,8 @@
 
 #include <QDebug>
 #include <QtConcurrent>
+#include <DMessageBox>
+#include <QGraphicsItem>
 
 
 CPictureTool::CPictureTool(DWidget *parent)
@@ -34,6 +36,29 @@ void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
         QStringList filenames = fileDialog->selectedFiles();
         // qDebug() << filenames << endl;
         m_picNum = filenames.size();
+        int exitPicNum = 0;
+
+        //获取已导入图片数量
+        QList<QGraphicsItem *> items = scene->items();
+
+        if ( items.count() != 0 ) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items[i]->type() == PictureType) {
+                    exitPicNum = exitPicNum + 1;
+                };
+
+            }
+
+        }
+
+        //大于30张报错，主要是适应各种系统环境，不给内存太大压力
+        if (exitPicNum + m_picNum > 30) {
+            // DMessageBox messageBox= new DMessageBox();
+            DMessageBox::warning(nullptr, tr("Import warning"), tr("30 pictures are allowed to be imported at most, "
+                                                                   "already imported %1 pictures, please try again").arg(exitPicNum));
+            return;
+
+        }
 
         m_progressLayout->setRange(0, m_picNum);
 
@@ -65,10 +90,12 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
 {
     scene->clearSelection();
     //CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, centralWindow->width(), centralWindow->height()), pixmap);
+
+    //调整图片在画板中显示的大小
     int width = pixmap.width();
     int height = pixmap.height();
-    int widgetWidth = centralWindow->width() - 58 ;
-    int widgetHeight = centralWindow->height();
+    int widgetWidth = scene->width();
+    int widgetHeight = scene->height();
     if (height == 0) {
         return;
     }
@@ -85,7 +112,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
         }
 
     }
-    qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << centralWindow->width() << centralWindow->height() << width << height << endl;
+    //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << centralWindow->width() << centralWindow->height() << width << height << endl;
 
     CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, width, height), pixmap);
 

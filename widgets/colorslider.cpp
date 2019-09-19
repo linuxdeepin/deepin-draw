@@ -8,7 +8,7 @@
 //DWIDGET_BEGIN_NAMESPACE
 DWIDGET_USE_NAMESPACE
 
-ColorSlider::ColorSlider(QWidget *parent)
+ColorSlider::ColorSlider(DWidget *parent)
     : DSlider(Qt::Horizontal, parent)
 {
     setMinimum(0);
