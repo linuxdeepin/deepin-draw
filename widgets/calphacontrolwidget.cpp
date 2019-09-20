@@ -36,7 +36,8 @@ void CAlphaControlWidget::initUI()
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
     m_alphaSlider->setMinimum(0);
     m_alphaSlider->setMaximum(100);
-//    m_alphaSlider->slider()->setOrientation(Qt::Horizontal);
+
+
     m_alphaSlider->setFixedWidth(130);
 
 //    m_alphaSlider->setStyleSheet("background-color: rgb(0, 255, 0);");

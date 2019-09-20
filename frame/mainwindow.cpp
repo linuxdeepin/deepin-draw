@@ -12,6 +12,8 @@
 #include <QCheckBox>
 #include <QDebug>
 #include <QApplication>
+#include <QFileInfo>
+#include <QMessageBox>
 
 
 const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -140,9 +142,56 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
     } else if (event->key() == Qt::Key_Control) {
         CDrawParamSigleton::GetInstance()->setCtlKeyStatus(true);
+        m_contrlKey = true;
     } else {
         ;
     }
+
+
+    //工具栏快捷键设置
+    if (m_contrlKey) {
+        switch (event->key()) {
+        case Qt::Key_I:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(importPicture);
+            break;
+        case Qt::Key_R:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(rectangle);
+            break;
+        case Qt::Key_O:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(ellipse);
+            break;
+        case Qt::Key_N:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(triangle);
+            break;
+        case Qt::Key_M:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(polygonalStar);
+            break;
+        case Qt::Key_G:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(polygon);
+            break;
+        case Qt::Key_L:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(line);
+            break;
+        case Qt::Key_P:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(pen);
+            break;
+        case Qt::Key_T:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(text);
+            break;
+        case Qt::Key_B:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(blur);
+            break;
+        case Qt::Key_U:
+            m_centralWidget->getLeftToolBar()->shortCutOperation(cut);
+            break;
+        default:
+            break;
+        }
+
+    }
+
+
+
     DMainWindow::keyPressEvent(event);
 }
 
@@ -156,6 +205,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
     } else if (event->key() == Qt::Key_Control) {
         CDrawParamSigleton::GetInstance()->setCtlKeyStatus(false);
+        m_contrlKey = false;
     }  else {
         ;
     }
@@ -174,6 +224,21 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
     DMainWindow::wheelEvent(event);
 }
+
+
+void MainWindow::openImage(QString path)
+{
+    QMessageBox::information(this, "path", path);
+    if (QFileInfo(path).suffix() == "ddf" && QFileInfo(path).exists()) {
+        ;
+    } else {
+        m_centralWidget->openPicture(path);
+    }
+}
+
+
+
+
 
 MainWindow::~MainWindow()
 {

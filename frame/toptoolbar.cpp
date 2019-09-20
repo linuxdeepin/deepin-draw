@@ -77,7 +77,7 @@ void TopToolbar::initComboBox()
     m_scaleComboBox->insertSeparator(5);
     m_scaleComboBox->insertSeparator(7);
     m_scaleComboBox->setCurrentIndex(2);
-    m_scaleComboBox->setFixedWidth(100);
+    m_scaleComboBox->setFixedWidth(110);
 
 
 //   static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
@@ -160,7 +160,7 @@ void TopToolbar::initMenu()
 {
 
     m_mainMenu = new DMenu(this);
-    m_mainMenu->setFixedWidth(120);
+    //m_mainMenu->setFixedWidth(120);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
     //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));

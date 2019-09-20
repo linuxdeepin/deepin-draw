@@ -20,6 +20,7 @@ public:
     void activeWindow();
 
     void showDrawDialog();
+    void openImage(QString path);
 signals:
     void signalResetOriginPoint();
 
@@ -36,6 +37,7 @@ private:
     TopToolbar *m_topToolbar;
     CCentralwidget *m_centralWidget;
     int m_titlebarWidth;
+    bool m_contrlKey;
 
 private:
     void initConnection();

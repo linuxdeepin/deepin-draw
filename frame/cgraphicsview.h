@@ -26,7 +26,6 @@ public:
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void signalSetScale(const qreal scale);
@@ -75,12 +74,14 @@ private:
 
     CExportImageDialog *m_exportImageDialog;
     CPrintManager *m_printManager;
+    bool m_visible;
 
 
 private:
     void initContextMenu();
     void initContextMenuConnection();
     QPixmap getSceneImage();
+    void setContextMenu();
 
 };
 

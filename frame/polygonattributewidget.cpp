@@ -64,8 +64,8 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSlider->setMinimum(4);
     m_sideNumSlider->setMaximum(10);
     m_sideNumSlider->setMinimumWidth(200);
-    m_sideNumSlider->setMaximumHeight(24);
-//    m_sideNumSlider->slider()->setOrientation(Qt::Horizontal);
+
+
 
     m_sideNumEdit = new DLineEdit(this);
     m_sideNumEdit->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));

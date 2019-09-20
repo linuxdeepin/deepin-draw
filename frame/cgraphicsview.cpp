@@ -8,6 +8,7 @@
 #include "widgets/dialog/cprintmanager.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
+#include "drawshape/cdrawscene.h"
 
 #include <DMenu>
 
@@ -107,7 +108,7 @@ void CGraphicsView::initContextMenu()
     m_pasteAct->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
 
-    m_selectAllAct = new QAction(tr("All"));
+    m_selectAllAct = new QAction(tr("Select all"));
     m_contextMenu->addAction(m_selectAllAct);
     m_selectAllAct->setShortcut(QKeySequence::SelectAll);
     this->addAction(m_selectAllAct);
@@ -125,27 +126,27 @@ void CGraphicsView::initContextMenu()
     m_undoAct->setShortcut(QKeySequence::Undo);
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
-    m_contextMenu->addAction(m_redoAct);
-    m_redoAct->setShortcut(QKeySequence::Redo);
-    this->addAction(m_redoAct);
+//    m_contextMenu->addAction(m_redoAct);
+//   m_redoAct->setShortcut(QKeySequence::Redo);
+//    this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
-    m_oneLayerUpAct = new QAction(tr("One layer up"));
+    m_oneLayerUpAct = new QAction(tr("Raise Layer"));
     m_contextMenu->addAction(m_oneLayerUpAct);
     m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
     this->addAction(m_oneLayerUpAct);
 
-    m_oneLayerDownAct = new QAction(tr("One layer down"));
+    m_oneLayerDownAct = new QAction(tr("Lower Layer"));
     m_contextMenu->addAction(m_oneLayerDownAct);
     m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
     this->addAction(m_oneLayerDownAct);
 
-    m_bringToFrontAct = new QAction(tr("Bring to front"));
+    m_bringToFrontAct = new QAction(tr("Layer to Top"));
     m_contextMenu->addAction(m_bringToFrontAct);
     m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketLeft));
     this->addAction(m_bringToFrontAct);
 
-    m_sendTobackAct = new QAction(tr("Send to back"));
+    m_sendTobackAct = new QAction(tr("Layer to Bottom"));
     m_contextMenu->addAction(m_sendTobackAct);
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_BracketRight));
     this->addAction(m_sendTobackAct);
@@ -169,11 +170,32 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
 }
 
+
+void CGraphicsView::setContextMenu()
+{
+    CDrawScene *scene = static_cast<CDrawScene *>(this->scene());
+
+    if (scene->selectedItems().size() != 0) {
+        m_visible = true;
+    } else {
+        m_visible = false;
+    }
+    m_oneLayerUpAct->setVisible(m_visible);
+    m_oneLayerDownAct->setVisible(m_visible);
+    m_bringToFrontAct->setVisible(m_visible);
+    m_sendTobackAct->setVisible(m_visible);
+    m_leftAlignAct->setVisible(m_visible);
+    m_topAlignAct->setVisible(m_visible);
+    m_rightAlignAct->setVisible(m_visible);
+    m_centerAlignAct->setVisible(m_visible);
+
+}
+
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
-
-    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单长宽为94*513，第一次显示的时候为100*30.
+    setContextMenu();
+    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单高度为475或224，第一次显示的时候为100*30.
     QPoint menuPos;
     int rx;
     int ry;
@@ -184,11 +206,13 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         rx = cursor().pos().rx();
     }
     int temp;
-    if (m_contextMenu->height() < 50) {
-        temp = 513;
+    //判定是长右键菜单还是短右键菜单;
+    if (m_visible) {
+        temp = 475;
     } else {
-        temp = m_contextMenu->height();
+        temp = 224;
     }
+
     if (cursor().pos().ry() - 40 > this->height() - temp) {
         ry = this->height() - temp + 40;
     } else {
@@ -197,19 +221,12 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     menuPos = QPoint(rx, ry);
 
 
-    //让菜单能够完全显示
+//让菜单能够完全显示
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     m_contextMenu->show();
-}
-
-void CGraphicsView::resizeEvent(QResizeEvent *event)
-{
-//    fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
-    scene()->setSceneRect(this->viewport()->rect());
-    QGraphicsView::resizeEvent(event);
 }
 
 void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)

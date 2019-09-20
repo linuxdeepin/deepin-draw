@@ -28,7 +28,6 @@ CCentralwidget::~CCentralwidget()
 {
 
 }
-
 CLeftToolBar *CCentralwidget::getLeftToolBar()
 {
     return m_leftToolbar;
@@ -48,8 +47,15 @@ void CCentralwidget::importPicture()
     pictureTool->drawPicture(m_pDrawScene, this);
 
 }
+//addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
 
-
+//点击图片进行导入
+void CCentralwidget::openPicture(QString path)
+{
+    QPixmap pixmap = QPixmap(path);
+    CPictureTool *pictureTool = new CPictureTool();
+    pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
+}
 
 void CCentralwidget::initUI()
 {
@@ -68,8 +74,6 @@ void CCentralwidget::initUI()
     m_pGraphicsView->setScene(m_pDrawScene);
     m_pGraphicsView->setAlignment(Qt::AlignCenter);
     m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
-
-//    m_pGraphicsView->fitInView(rc, Qt::KeepAspectRatio);
 
     //自动设置滚动条
     m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);

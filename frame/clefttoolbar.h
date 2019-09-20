@@ -15,6 +15,7 @@ public:
     explicit CLeftToolBar(DWidget *parent = nullptr);
     ~CLeftToolBar();
 
+    void shortCutOperation(int type);
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event);

@@ -29,6 +29,7 @@ public:
     CLeftToolBar *getLeftToolBar();
     CGraphicsView *getGraphicsView() const;
 
+    void openPicture(QString path);
 signals:
 
     //传递图片的旋转和翻转信号
