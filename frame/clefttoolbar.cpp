@@ -27,13 +27,9 @@
 
 #include <DFileDialog>
 #include <DWidget>
-<<<<<<< HEAD
 #include <DGuiApplicationHelper>
 #include <DApplication>
 
-=======
-#include <DApplication>
->>>>>>> fix: fix draw text error and mouse display error
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QAction>
@@ -41,7 +37,6 @@
 
 
 DGUI_USE_NAMESPACE
-
 
 const int BTN_SPACING = 1;
 
