@@ -70,7 +70,6 @@ QPen CDrawParamSigleton::getPen() const
     QPen pen;
     pen.setWidth(m_nlineWidth);
     pen.setColor(m_sLineColor);
-
     return pen;
 }
 

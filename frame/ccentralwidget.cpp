@@ -69,6 +69,8 @@ void CCentralwidget::initUI()
     m_pGraphicsView->setAlignment(Qt::AlignCenter);
     m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
 
+//    m_pGraphicsView->fitInView(rc, Qt::KeepAspectRatio);
+
     //自动设置滚动条
     m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     m_pGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);

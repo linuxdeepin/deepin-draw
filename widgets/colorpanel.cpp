@@ -116,7 +116,11 @@ ColorPanel::~ColorPanel()
 void ColorPanel::setConfigColor(QColor color)
 {
     /// 颜色名字
-    m_colLineEdit->setText(color.name());
+    QString colorName = "";
+    if (color.name().contains("#")) {
+        colorName = color.name().split("#").last();
+    }
+    m_colLineEdit->setText(colorName);
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
 
@@ -232,6 +236,12 @@ void ColorPanel::initConnection()
     connect(m_pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::slotPickedColorChanged);
 
     connect(m_colLineEdit, &DLineEdit::textChanged,  this, [ = ](QString text) {
+        QString colorName = "#";
+        if (text.contains("#")) {
+            colorName = text;
+        } else {
+            colorName += text;
+        }
         if (QColor(text).isValid()) {
             m_pickColWidget->setRgbValue(QColor(text));
         }
@@ -255,6 +265,7 @@ void ColorPanel::initConnection()
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setTextColor(tmpColor);
         }
+
         emit signalColorChanged();
     });
 
@@ -310,7 +321,11 @@ void ColorPanel::updateColorPanel(DrawStatus status)
     }
 
     ///更新颜色名字
-    m_colLineEdit->setText(configColor.name());
+    QString colorName = "";
+    if (configColor.name().contains("#")) {
+        colorName = configColor.name().split("#").last();
+    }
+    m_colLineEdit->setText(colorName);
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(configColor.alpha());
 }

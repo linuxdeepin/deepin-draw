@@ -23,6 +23,7 @@ BigColorButton::BigColorButton(DWidget *parent)
 void BigColorButton::updateConfigColor()
 {
     QColor configColor = CDrawParamSigleton::GetInstance()->getFillColor();
+
     if (m_color == configColor) {
         return;
     }

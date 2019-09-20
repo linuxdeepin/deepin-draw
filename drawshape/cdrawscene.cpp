@@ -96,19 +96,30 @@ void CDrawScene::attributeChanged()
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
     if (flag) {
-        //排除文字图元
-        CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-        CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
-        ///特殊属性图元 读取额外的特殊属性并设置到全局属性中
-        if (selectedItem->type() == PolygonType) {
+        switch (selectedItem->type()) {
+        case RectType:
+        case EllipseType:
+        case TriangleType:
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
+            break;
+        case PolygonType:
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
             CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
-        } else if (selectedItem->type() == PolygonalStarType) {
+            break;
+        case PolygonalStarType:
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
             CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->anchorNum());
             CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
-        } else if (selectedItem->type() ==  PenType) {
+            break;
+        case PenType:
+            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
             CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(selectedItem)->currentType());
-        } else if (selectedItem->type() == TextType) {
-
+            break;
+        default:
+            break;
         }
     }
     emit signalAttributeChanged(flag, selectedItem->type());

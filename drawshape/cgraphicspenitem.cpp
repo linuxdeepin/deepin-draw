@@ -4,6 +4,9 @@
 #include <QtMath>
 #include <QDebug>
 
+
+const int AverageCount = 10;
+
 //static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
 //{
 //    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
@@ -35,6 +38,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QRectF &rect, CGraphicsItem *parent)
 {
     m_drawPath.moveTo(rect.x(), rect.y());
     m_truePath = m_drawPath;
+    m_prePointList.push_back(QPointF(rect.x(), rect.y()));
 }
 
 CGraphicsPenItem::~CGraphicsPenItem()
@@ -60,7 +64,6 @@ QRectF CGraphicsPenItem::boundingRect() const
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
-    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!update";
     prepareGeometryChange();
 
     m_isShiftPress = isShiftPress;
@@ -72,6 +75,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 
         if (m_currentType == arrow) {
             calcVertexes(m_straightLine.p1(), m_straightLine.p2());
+
             m_prePoint = endPoint;
             m_truePath.addPolygon(m_arrow);
         }
@@ -80,9 +84,17 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         m_drawPath.lineTo(endPoint);
         m_truePath = m_drawPath;
 
-        if (m_currentType == arrow) {
+        if (m_currentType == arrow ) {
+
+            m_prePointList.push_back(endPoint);
+            if (m_prePointList.count() >= AverageCount) {
+                m_prePointList.removeFirst();
+            }
+
+            m_prePoint = m_prePointList.first();
+
             calcVertexes(m_prePoint, endPoint);
-            m_prePoint = endPoint;
+//            m_prePoint = endPoint;
             m_truePath.addPolygon(m_arrow);
         }
 
@@ -229,6 +241,10 @@ void CGraphicsPenItem::setCurrentType(const EPenType &currentType)
 
 void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &currentPoint)
 {
+    if (prePoint == currentPoint) {
+        return;
+    }
+
     m_arrow.clear();
 
     qreal x1, y1, x2, y2;

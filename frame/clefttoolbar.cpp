@@ -253,40 +253,40 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_polygonBtn);
         emit setCurrentDrawTool(polygon);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygon);
-//        DrawTool::c_drawShape = ellipse;
+
     });
 
     connect(m_lineBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_lineBtn);
         emit setCurrentDrawTool(line);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
-//        DrawTool::c_drawShape = ellipse;
+
     });
 
     connect(m_penBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_penBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
         emit setCurrentDrawTool(pen);
-//        DrawTool::c_drawShape = ellipse;
+
     });
 
     connect(m_textBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_textBtn);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
         emit setCurrentDrawTool(text);
-//        DrawTool::c_drawShape = ellipse;
+
     });
 
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
         emit setCurrentDrawTool(blur);
-//        DrawTool::c_drawShape = ellipse;
+
     });
 
     connect(m_cutBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(cut);
         emit setCurrentDrawTool(cut);
-//        DrawTool::c_drawShape = ellipse;
     });
 }
 
@@ -310,4 +310,6 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(polygonalStar, pTool);
     pTool = CDrawToolFactory::Create(pen);
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(pen, pTool);
+    pTool = CDrawToolFactory::Create(cut);
+    CDrawToolManagerSigleton::GetInstance()->insertDrawTool(cut, pTool);
 }

@@ -26,6 +26,7 @@ public:
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void signalSetScale(const qreal scale);

@@ -205,6 +205,13 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->show();
 }
 
+void CGraphicsView::resizeEvent(QResizeEvent *event)
+{
+//    fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+    scene()->setSceneRect(this->viewport()->rect());
+    QGraphicsView::resizeEvent(event);
+}
+
 void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)
 {
     if ( item != nullptr) {

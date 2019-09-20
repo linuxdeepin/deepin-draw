@@ -8,6 +8,7 @@
 #include "cpolygontool.h"
 #include "cpolygonalstartool.h"
 #include "cpentool.h"
+#include "ccuttool.h"
 
 
 IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
@@ -41,6 +42,9 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case pen:
         pTool = new CPenTool();
+        break;
+    case cut:
+        pTool = new CCutTool();
         break;
     default:
         break;

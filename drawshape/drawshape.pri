@@ -29,6 +29,9 @@ HEADERS += \
     $$PWD/cgraphicsrotateangleitem.h \
     $$PWD/cgraphicsproxywidget.h \
     $$PWD/cgraphicstextitem.h \
+    $$PWD/ccuttool.h \
+    $$PWD/cgraphicscutitem.h \
+    $$PWD/cbuttonrect.h \
     $$PWD/sitemdata.h
 
 SOURCES += \
@@ -60,7 +63,10 @@ SOURCES += \
     $$PWD/cshapemimedata.cpp \
     $$PWD/cgraphicsrotateangleitem.cpp \
     $$PWD/cgraphicsproxywidget.cpp \
-    $$PWD/cgraphicstextitem.cpp
+    $$PWD/cgraphicstextitem.cpp \
+    $$PWD/ccuttool.cpp \
+    $$PWD/cgraphicscutitem.cpp \
+    $$PWD/cbuttonrect.cpp
 
 
 

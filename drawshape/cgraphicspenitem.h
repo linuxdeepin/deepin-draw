@@ -49,6 +49,7 @@ private:
     QPolygonF m_arrow; //箭头三角形
     QPointF m_prePoint; //前一个点
     QLineF m_straightLine;
+    QList<QPointF> m_prePointList;
     bool m_isShiftPress;//是否按住shift
     bool m_isDrawCompelet;//是否绘制完成
 

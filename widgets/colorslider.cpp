@@ -11,8 +11,8 @@ DWIDGET_USE_NAMESPACE
 ColorSlider::ColorSlider(DWidget *parent)
     : DSlider(Qt::Horizontal, parent)
 {
-    setMinimum(0);
-    setMaximum(360);
+    setMinimum(5);
+    setMaximum(355);
 #ifdef DRAWSLIDER
     setOrientation(Qt::Horizontal);
     this->setRange(5, 355);
@@ -51,48 +51,47 @@ QColor ColorSlider::getColor(qreal h, qreal s, qreal v)
 void ColorSlider::paintEvent(QPaintEvent *ev)
 {
     Q_UNUSED(ev)
-#ifdef DRAWSLIDER
-    QStyleOptionSlider opt;
-    initStyleOption(&opt);
 
-    opt.subControls = QStyle::SC_SliderGroove | QStyle::SC_SliderHandle;
-    if (tickPosition() != NoTicks) {
-        opt.subControls |= QStyle::SC_SliderTickmarks;
-    }
+//    QStyleOptionSlider opt;
+//    initStyleOption(&opt);
 
-
-    QRect groove_rect = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
-    QRect rect(groove_rect.left(), groove_rect.top(),  groove_rect.width() + 1, groove_rect.height() + 5);
-
-//    QRect rect = QRect (this->rect().x(), this->rect().y(),
-//                        this->rect().width() + 1, this->rect().height() + 5);
-
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    QImage backgroundImage(rect.width(), rect.height(), QImage::Format_ARGB32);
-
-    for (qreal s = 0; s <= backgroundImage.width(); s++) {
-        for (qreal v = 1; v <= backgroundImage.height() ; v++) {
-            QColor penColor = getColor(qreal(int(s / rect.width() * 360)), 1, 1);
-            backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
-        }
-    }
-
-    painter.drawImage(QRect(rect.x(), rect.y() - 5, rect.width(),
-                            rect.height()), backgroundImage);
-
-    qreal delat = rect.width() / 360.; //360.为maximum()的浮点型
-    qreal x = value() * delat;
+//    opt.subControls = QStyle::SC_SliderGroove | QStyle::SC_SliderHandle;
+//    if (tickPosition() != NoTicks) {
+//        opt.subControls |= QStyle::SC_SliderTickmarks;
+//    }
 
 
+//    QRect groove_rect = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
+//    QRect rect(groove_rect.left(), groove_rect.top(),  groove_rect.width() + 1, groove_rect.height() + 5);
 
-    QPen pen;
-    pen.setWidth(1);
-    pen.setColor(QColor(Qt::blue));
-    painter.setPen(pen);
-    painter.setBrush(QBrush(Qt::blue));
-//    painter.drawLine(QPointF(x, rect.top()), QPointF(x, rect.bottom()));
-    painter.drawRect(QRectF(QPointF(x - 3, rect.top() - 8), QPointF(x + 2, rect.bottom())));
-//    QSlider::paintEvent(ev);
-#endif
+////    QRect rect = QRect (this->rect().x(), this->rect().y(),
+////                        this->rect().width() + 1, this->rect().height() + 5);
+
+//    QPainter painter(this);
+//    painter.setRenderHint(QPainter::Antialiasing);
+//    QImage backgroundImage(rect.width(), rect.height(), QImage::Format_ARGB32);
+
+//    for (qreal s = 0; s <= backgroundImage.width(); s++) {
+//        for (qreal v = 1; v <= backgroundImage.height() ; v++) {
+//            QColor penColor = getColor(qreal(int(s / rect.width() * 360)), 1, 1);
+//            backgroundImage.setPixelColor(std::min(int(s), rect.width() - 1), backgroundImage.height() - int(v), penColor);
+//        }
+//    }
+
+//    painter.drawImage(QRect(rect.x(), rect.y() - 5, rect.width(),
+//                            rect.height()), backgroundImage);
+
+//    qreal delat = rect.width() / 360.; //360.为maximum()的浮点型
+//    qreal x = value() * delat;
+
+
+
+//    QPen pen;
+//    pen.setWidth(1);
+//    pen.setColor(QColor(Qt::blue));
+//    painter.setPen(pen);
+//    painter.setBrush(QBrush(Qt::blue));
+////    painter.drawLine(QPointF(x, rect.top()), QPointF(x, rect.bottom()));
+//    painter.drawRect(QRectF(QPointF(x - 3, rect.top() - 8), QPointF(x + 2, rect.bottom())));
+//    DSlider::paintEvent(ev);
 }

@@ -12,7 +12,7 @@ CAlphaControlWidget::CAlphaControlWidget(DWidget *parent)
 
 void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
 {
-    int percentValue = alpha / 255 * 100;
+    int percentValue = (float)alpha / 255 * 100;
     m_alphaSlider->setValue(percentValue);
 }
 
@@ -36,7 +36,7 @@ void CAlphaControlWidget::initUI()
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
     m_alphaSlider->setMinimum(0);
     m_alphaSlider->setMaximum(100);
-    m_alphaSlider->slider()->setOrientation(Qt::Horizontal);
+//    m_alphaSlider->slider()->setOrientation(Qt::Horizontal);
     m_alphaSlider->setFixedWidth(130);
 
 //    m_alphaSlider->setStyleSheet("background-color: rgb(0, 255, 0);");
@@ -54,7 +54,7 @@ void CAlphaControlWidget::initUI()
 void CAlphaControlWidget::initConnection()
 {
     connect(m_alphaSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        int trueValue =  value * 255 / 100;
+        int trueValue =  (float)value * 255 / 100;
         m_alphaLabel->setText(QString("%1%").arg(value));
         if (m_isUserOperation) {
             emit signalAlphaChanged(trueValue);

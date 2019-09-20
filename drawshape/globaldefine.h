@@ -45,6 +45,7 @@ enum EGraphicUserType {
     PenType,            //画笔
     TextType,           //文本
     PictureType,        //图片
+    CutType
 };
 
 #endif // GLODEFINE_H

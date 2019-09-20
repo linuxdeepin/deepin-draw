@@ -52,7 +52,7 @@ void BlurWidget::initUI()
     lineWidthSlider->setMaximum(160);
     lineWidthSlider->setFixedWidth(200);
     lineWidthSlider->setMaximumHeight(24);
-    lineWidthSlider->slider()->setOrientation(Qt::Horizontal);
+//    lineWidthSlider->slider()->setOrientation(Qt::Horizontal);
 
 
     DLabel *lineWidthLabel = new DLabel(this);
