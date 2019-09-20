@@ -28,7 +28,8 @@ HEADERS += \
     $$PWD/cshapemimedata.h \
     $$PWD/cgraphicsrotateangleitem.h \
     $$PWD/cgraphicsproxywidget.h \
-    $$PWD/cgraphicstextitem.h
+    $$PWD/cgraphicstextitem.h \
+    $$PWD/sitemdata.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \

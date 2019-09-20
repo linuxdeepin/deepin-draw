@@ -8,6 +8,7 @@
 #include <QGraphicsView>
 #include <QPointF>
 #include <QFont>
+#include <QDebug>
 
 CGraphicsTextItem::CGraphicsTextItem()
     : CGraphicsRectItem ()
@@ -121,6 +122,7 @@ CGraphicsItem *CGraphicsTextItem::duplicate() const
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
+    qDebug() << col.alpha();
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);

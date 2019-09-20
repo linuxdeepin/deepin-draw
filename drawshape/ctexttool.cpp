@@ -19,30 +19,16 @@ CTextTool::~CTextTool()
 {
 
 }
-#include <QLabel>
+
 void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
-//        QLabel *edit = new QLabel("请输入汉字");
-//        edit->setStyleSheet("background-color: rgb(255, 0, 0);");
-////        edit->setWindowFlags(Qt::FramelessWindowHint);
-////        edit->setFrameShape(QTextEdit::NoFrame);
-//        edit->resize(5, 200);
-//        edit->show();
-
-
-
-//        scene->addWidget(edit);
-//        edit->setFocus();
-
         CGraphicsTextItem *item = new CGraphicsTextItem();
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), 200, 30));
         item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
-        //item->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
-        //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
         item->setSelected(true);
         scene->addItem(item);
         emit scene->itemAdded(item);

@@ -18,6 +18,7 @@
 #include <QPixmap>
 #include <QGraphicsView>
 #include <QTextEdit>
+#include <QSvgGenerator>
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)

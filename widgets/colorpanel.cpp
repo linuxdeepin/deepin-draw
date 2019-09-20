@@ -250,6 +250,10 @@ void ColorPanel::initConnection()
             tmpColor = CDrawParamSigleton::GetInstance()->getLineColor();
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setLineColor(tmpColor);
+        } else if (m_drawstatus == TextFill) {
+            tmpColor = CDrawParamSigleton::GetInstance()->getTextColor();
+            tmpColor.setAlpha(alphaValue);
+            CDrawParamSigleton::GetInstance()->setTextColor(tmpColor);
         }
         emit signalColorChanged();
     });
