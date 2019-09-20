@@ -33,7 +33,7 @@ struct SBrush {
 };
 
 //图元头部
-struct SGraphicUnitHead {
+struct SGraphicsUnitHead {
     qint8 headCheck[4]; //头部校验
     qint32 dataType; //图元类型
     qint64 dataLength; //数据长度
@@ -45,31 +45,31 @@ struct SGraphicUnitHead {
 };
 
 //图元尾部
-struct SGraphicUnitTail {
+struct SGraphicsUnitTail {
     qint8 tailCheck[4]; //尾部校验
 };
 
 //矩形
-struct SGraphicRectUnitData {
+struct SGraphicsRectUnitData {
     QPointF point1;
     QPointF point2;
 };
 
 //圆
-struct SGraphicCircleUnitData {
-    SGraphicRectUnitData rect;
+struct SGraphicsCircleUnitData {
+    SGraphicsRectUnitData rect;
     //TODO 序列化和反序列化
 };
 
 //多边形
 struct SGraphicsPolygonUnitData {
-    SGraphicRectUnitData rect; //外接矩形
+    SGraphicsRectUnitData rect; //外接矩形
     quint8 pointNum;
 };
 
 //多角星
 struct SGraphicsPolygonStarUnitData {
-    SGraphicRectUnitData rect; //外接矩形
+    SGraphicsRectUnitData rect; //外接矩形
     qint32 pointNum;
     qint32 radius;      //内接半径
 };
@@ -82,47 +82,47 @@ struct SGraphicsLineUnitData {
 
 //文本
 struct SGraphicsTextUnitData {
-    SGraphicRectUnitData rect;
+    SGraphicsRectUnitData rect;
     char strText[1024 * 1024 + 1]; //文本信息以HTML存储富文本内容 最大支持1024×1024字节
 };
 
 //图片
-struct SGraphicPictureUnitData {
+struct SGraphicsPictureUnitData {
     qint32 length;   //图片长度
     const char *pic;  //图片
 };
 
 //画笔
-struct SGraphicPenUnitData {
+struct SGraphicsPenUnitData {
     qint32 length;
     QPointF *point;
 };
 
 //数据封装
-union CGraphicItemData {
-    SGraphicRectUnitData *pRect;
-    SGraphicCircleUnitData *pCircle;
+union CGraphicsItemData {
+    SGraphicsRectUnitData *pRect;
+    SGraphicsCircleUnitData *pCircle;
     SGraphicsPolygonUnitData *pPolygon;
     SGraphicsPolygonStarUnitData *pPolygonStar;
     SGraphicsLineUnitData *pLine;
     SGraphicsTextUnitData *pText;
-    SGraphicPictureUnitData *pPic;
+    SGraphicsPictureUnitData *pPic;
 };
 
 
 //单个图数据
-struct CGraphicUnit {
-    SGraphicUnitHead head;
-    CGraphicItemData data;
-    SGraphicUnitTail tail;
+struct CGraphicsUnit {
+    SGraphicsUnitHead head;
+    CGraphicsItemData data;
+    SGraphicsUnitTail tail;
 };
 
 //整个图元数据
-struct CGraphic {
+struct CGraphics {
     qint64 unitCount;   //图元数量
     qreal width;  //画板长度
     qreal height;  //画板宽度
-    QList<CGraphicUnit> vecGraphicUnit; //所有图元集合
+    QList<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
 };
 
 
