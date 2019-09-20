@@ -27,7 +27,8 @@ HEADERS += \
     $$PWD/ccheckbutton.h \
     $$PWD/dialog/cexportimagedialog.h \
     $$PWD/dialog/cprintmanager.h \
-    $$PWD/textcolorbutton.h
+    $$PWD/textcolorbutton.h \
+    $$PWD/ctextedit.h
 
 
 SOURCES += \
@@ -56,7 +57,8 @@ SOURCES += \
     $$PWD/ccheckbutton.cpp \
     $$PWD/dialog/cexportimagedialog.cpp \
     $$PWD/dialog/cprintmanager.cpp \
-    $$PWD/textcolorbutton.cpp
+    $$PWD/textcolorbutton.cpp \
+    $$PWD/ctextedit.cpp
 
 
 #RESOURCES += \

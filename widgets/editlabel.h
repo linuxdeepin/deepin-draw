@@ -23,8 +23,8 @@ signals:
     void editTextChanged(QString text);
 
 private:
-    QLabel *m_titleLabel;
-    QLineEdit *m_edit;
+    DLabel *m_titleLabel;
+    DLineEdit *m_edit;
     int m_titleSpacing;
 };
 
