@@ -172,11 +172,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="110"/>
-        <source>All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../frame/cgraphicsview.cpp" line="117"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
@@ -187,28 +182,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="127"/>
-        <source>Redo</source>
+        <location filename="../frame/cgraphicsview.cpp" line="110"/>
+        <source>Select all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="133"/>
-        <source>One layer up</source>
+        <source>Raise Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="138"/>
-        <source>One layer down</source>
+        <source>Lower Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="143"/>
-        <source>Bring to front</source>
+        <source>Layer to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="148"/>
-        <source>Send to back</source>
+        <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -341,7 +336,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="176"/>
+        <location filename="../widgets/colorpanel.cpp" line="180"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -411,7 +406,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="45"/>
+        <location filename="../frame/mainwindow.cpp" line="47"/>
         <source>未命名画板</source>
         <translation type="unfinished"></translation>
     </message>

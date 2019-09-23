@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTranslator>
 #include <DGuiApplicationHelper>
+#include <QMessageBox>
 
 #include "application.h"
 //#include "service/dbusdrawservice.h"
@@ -106,7 +107,8 @@ int main(int argc, char *argv[])
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
-    w.show();
+    //w.show();
+    w.hide();
 
 
     //监听当前应用主题切换事件
@@ -118,7 +120,7 @@ int main(int argc, char *argv[])
     });
 
 
-    return a.exec();
+    // return a.exec();
 
 
 //    DBusDrawService dbusService(&w);
@@ -129,6 +131,9 @@ int main(int argc, char *argv[])
 //            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w)) {
 //        qDebug() << "deepin-draw is running!";
 //    }
+
+
+
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
                                        "Specify a path to load an image.", "PATH");
@@ -142,11 +147,13 @@ int main(int argc, char *argv[])
 
     if (cmdParser.isSet(openImageOption)) {
         w.activeWindow();
-//        w.openImage(cmdParser.value(openImageOption));
+        w.openImage(cmdParser.value(openImageOption));
+        //QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
     } else if (cmdParser.isSet(activeWindowOption)) {
         w.activeWindow();
     } else {
         QStringList pas = cmdParser.positionalArguments();
+        //QMessageBox::information(&w, "cmdParser.positionalArguments()", cmdParser.positionalArguments()[0]);
         if (pas.length() >= 1) {
             QString path;
             if (QUrl(pas.first()).isLocalFile())
@@ -154,8 +161,10 @@ int main(int argc, char *argv[])
             else
                 path = pas.first();
             w.activeWindow();
-//            w.openImage(QFileInfo(path).absoluteFilePath());
+            w.openImage(QFileInfo(path).absoluteFilePath());
+            //QMessageBox::information(&w, "path", path);
         } else {
+            //QMessageBox::information(&w, "path", "last situation");
             w.show();
 
         }

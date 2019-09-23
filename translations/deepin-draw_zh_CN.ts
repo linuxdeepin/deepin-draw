@@ -250,9 +250,8 @@
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="110"/>
         <source>All</source>
-        <translation>全选</translation>
+        <translation type="vanished">全选</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="117"/>
@@ -265,28 +264,48 @@
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="127"/>
         <source>Redo</source>
-        <translation>重做</translation>
+        <translation type="vanished">重做</translation>
+    </message>
+    <message>
+        <source>One layer up</source>
+        <translation type="vanished">向上一层</translation>
+    </message>
+    <message>
+        <source>One layer down</source>
+        <translation type="vanished">向下一层</translation>
+    </message>
+    <message>
+        <source>Bring to front</source>
+        <translation type="vanished">置于顶层</translation>
+    </message>
+    <message>
+        <source>Send to back</source>
+        <translation type="vanished">置于底层</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="110"/>
+        <source>Select all</source>
+        <translation>全选</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="133"/>
-        <source>One layer up</source>
+        <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="138"/>
-        <source>One layer down</source>
+        <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="143"/>
-        <source>Bring to front</source>
+        <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="148"/>
-        <source>Send to back</source>
+        <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
     <message>
@@ -307,7 +326,7 @@
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="156"/>
         <source>Center align</source>
-        <translation>中间对齐</translation>
+        <translation>居中对齐</translation>
     </message>
 </context>
 <context>
@@ -377,12 +396,12 @@
     <message>
         <location filename="../frame/cpenwidget.cpp" line="32"/>
         <source>颜色</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="40"/>
         <source>类型</source>
-        <translation type="unfinished">类型</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="61"/>
@@ -427,7 +446,7 @@
         <translation type="vanished">透明度</translation>
     </message>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="176"/>
+        <location filename="../widgets/colorpanel.cpp" line="180"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -672,7 +691,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="45"/>
+        <location filename="../frame/mainwindow.cpp" line="47"/>
         <source>未命名画板</source>
         <translation type="unfinished"></translation>
     </message>
