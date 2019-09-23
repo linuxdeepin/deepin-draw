@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
 
     //监听当前应用主题切换事件
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, &w, &MainWindow::slotOnThemeChanged);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
     [] (DGuiApplicationHelper::ColorType type) {
         // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
         saveThemeTypeSetting(type);
