@@ -18,6 +18,8 @@
  */
 #include "frame/mainwindow.h"
 #include "application.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "frame/ccentralwidget.h"
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>
@@ -80,9 +82,6 @@ void saveThemeTypeSetting(int type)
 }
 
 
-
-
-
 int main(int argc, char *argv[])
 {
 #if defined(STATIC_LIB)
@@ -117,8 +116,9 @@ int main(int argc, char *argv[])
     //a.setStyle("chameleon");
 
     // 应用已保存的主题设置
-
-    DGuiApplicationHelper::instance()->setPaletteType(getThemeTypeSetting());
+    DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
+    CDrawParamSigleton::GetInstance()->setThemeType(type);
+    DGuiApplicationHelper::instance()->setPaletteType(type);
 
 
 
@@ -127,14 +127,17 @@ int main(int argc, char *argv[])
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
+//    w = new MainWindow;
 //    //w.show();
     w.hide();
 
 
     //监听当前应用主题切换事件
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged, &w, &MainWindow::slotOnThemeChanged);
+
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [] (DGuiApplicationHelper::ColorType type) {
-        qDebug() << type;
         // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
         saveThemeTypeSetting(type);
     });
