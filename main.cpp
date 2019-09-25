@@ -5,6 +5,7 @@
 #include <QTranslator>
 #include <DGuiApplicationHelper>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "application.h"
 //#include "service/dbusdrawservice.h"
@@ -132,7 +133,10 @@ int main(int argc, char *argv[])
 //        qDebug() << "deepin-draw is running!";
 //    }
 
-
+    //qDebug() << argc << *argv << endl;
+//    for (int i = 0 ; i < 100; i++) {
+//        qDebug() << i << (argv[i]) << endl; ;
+//    }
 
 
     QCommandLineOption openImageOption(QStringList() << "o" << "open",
