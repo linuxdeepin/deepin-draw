@@ -87,7 +87,11 @@ void CCentralwidget::initUI()
     m_leftToolbar = new CLeftToolBar(this);
     m_pGraphicsView = new CGraphicsView(this);
     m_pDrawScene = new CDrawScene(this);
+<<<<<<< HEAD
     QRectF rc = QRectF(0, 0, 1362, 790);
+=======
+    QRectF rc = QRectF(0, 0, 800, 600);
+>>>>>>> fix: modify init scene size
     m_pDrawScene->setSceneRect(rc);
     m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
 
