@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
     MainWindow w;
-    //w.show();
+//    //w.show();
     w.hide();
 
 
@@ -173,6 +173,8 @@ int main(int argc, char *argv[])
 
         }
     }
+
+    w.initScene();
 
     return a.exec();
 }
