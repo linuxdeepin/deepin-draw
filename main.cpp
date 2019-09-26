@@ -1,5 +1,5 @@
 #include "frame/mainwindow.h"
-
+#include "application.h"
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>
@@ -7,7 +7,6 @@
 #include <QMessageBox>
 #include <QDebug>
 
-#include "application.h"
 //#include "service/dbusdrawservice.h"
 //#include "service/dbusdraw.h"
 
