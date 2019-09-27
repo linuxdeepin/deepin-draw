@@ -25,6 +25,7 @@
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicstriangleitem.h"
 #include "drawshape/cgraphicstextitem.h"
+#include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "frame/cgraphicsview.h"
@@ -53,8 +54,8 @@ bool CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
-        //暂时先不能保存画笔
-        if (tempItem->type() >= RectType && CutType != item->type() && PenType != item->type()) {
+
+        if (tempItem->type() >= RectType && CutType != item->type() ) {
             CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
             graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
@@ -97,6 +98,9 @@ bool CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         } else if (PictureType == unit.head.dataType && nullptr != unit.data.pPic) {
             delete unit.data.pPic;
             unit.data.pPic = nullptr;
+        } else if (PenType == unit.head.dataType && nullptr != unit.data.pPen) {
+            delete unit.data.pPen;
+            unit.data.pPen = nullptr;
         }
     }
 
@@ -190,6 +194,14 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
             if (unit.data.pPic) {
                 delete unit.data.pPic;
                 unit.data.pPic = nullptr;
+            }
+        } else if (PenType == unit.head.dataType) {
+            CGraphicsPenItem *item = new CGraphicsPenItem(unit);
+            scene->addItem(item);
+
+            if (unit.data.pPen) {
+                delete unit.data.pPen;
+                unit.data.pPen = nullptr;
             }
 
         }

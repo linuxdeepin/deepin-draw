@@ -75,6 +75,11 @@ inline QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
             out << unit.data.pPic->rect.topLeft;
             out << unit.data.pPic->rect.bottomRight;
             out << unit.data.pPic->image;
+        } else if (PenType == unit.head.dataType && nullptr != unit.data.pPen) {
+            out << unit.data.pPen->penType;
+            out << unit.data.pPen->path;
+            out << unit.data.pPen->arrow;
+            out << unit.data.pPen->poitsVector;
         }
         //tail
         out << unit.tail.tailCheck[0];
@@ -156,6 +161,14 @@ inline QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
             in >> data->rect.bottomRight;
             in >> data->image;
             unit.data.pPic = data;
+        } else if (PenType == unit.head.dataType) {
+            SGraphicsPenUnitData *data = new SGraphicsPenUnitData();
+            in >> data->penType;
+            in >> data->path;
+            in >> data->arrow;
+            in >> data->poitsVector;
+
+            unit.data.pPen = data;
         }
 
         //tail
