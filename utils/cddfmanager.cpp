@@ -101,6 +101,9 @@ bool CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         } else if (PenType == unit.head.dataType && nullptr != unit.data.pPen) {
             delete unit.data.pPen;
             unit.data.pPen = nullptr;
+        } else if (BlurType == unit.head.dataType && nullptr != unit.data.pBlur) {
+            delete unit.data.pBlur;
+            unit.data.pBlur = nullptr;
         }
     }
 
@@ -132,7 +135,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
 
     foreach (CGraphicsUnit unit, graphics.vecGraphicsUnit) {
         if (RectType == unit.head.dataType) {
-            CGraphicsRectItem *item = new CGraphicsRectItem(unit);
+            CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
             scene->addItem(item);
 
             if (unit.data.pRect) {
@@ -140,7 +143,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pRect = nullptr;
             }
         } else if (EllipseType == unit.head.dataType) {
-            CGraphicsEllipseItem *item = new CGraphicsEllipseItem(unit);
+            CGraphicsEllipseItem *item = new CGraphicsEllipseItem(unit.data.pCircle, unit.head);
             scene->addItem(item);
 
             if (unit.data.pCircle) {
@@ -148,7 +151,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pCircle = nullptr;
             }
         } else if (TriangleType == unit.head.dataType) {
-            CGraphicsTriangleItem *item = new CGraphicsTriangleItem(unit);
+            CGraphicsTriangleItem *item = new CGraphicsTriangleItem(unit.data.pTriangle, unit.head);
             scene->addItem(item);
 
             if (unit.data.pTriangle) {
@@ -156,7 +159,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pTriangle = nullptr;
             }
         } else if (PolygonType == unit.head.dataType) {
-            CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit);
+            CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
             scene->addItem(item);
 
             if (unit.data.pPolygon) {
@@ -164,7 +167,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pPolygon = nullptr;
             }
         } else if (PolygonalStarType == unit.head.dataType) {
-            CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(unit);
+            CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(unit.data.pPolygonStar, unit.head);
             scene->addItem(item);
 
             if (unit.data.pPolygonStar) {
@@ -172,7 +175,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pPolygonStar = nullptr;
             }
         } else if (LineType == unit.head.dataType) {
-            CGraphicsLineItem *item = new CGraphicsLineItem(unit);
+            CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
             scene->addItem(item);
 
             if (unit.data.pLine) {
@@ -180,7 +183,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pLine = nullptr;
             }
         } else if (TextType == unit.head.dataType) {
-            CGraphicsTextItem *item = new CGraphicsTextItem(unit);
+            CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
             scene->addItem(item);
 
             if (unit.data.pText) {
@@ -188,7 +191,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pText = nullptr;
             }
         } else if (PictureType == unit.head.dataType) {
-            CPictureItem *item = new CPictureItem(unit);
+            CPictureItem *item = new CPictureItem(unit.data.pPic, unit.head);
             scene->addItem(item);
 
             if (unit.data.pPic) {
@@ -196,7 +199,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
                 unit.data.pPic = nullptr;
             }
         } else if (PenType == unit.head.dataType) {
-            CGraphicsPenItem *item = new CGraphicsPenItem(unit);
+            CGraphicsPenItem *item = new CGraphicsPenItem(unit.data.pPen, unit.head);
             scene->addItem(item);
 
             if (unit.data.pPen) {

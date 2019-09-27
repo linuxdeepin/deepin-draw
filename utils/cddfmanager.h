@@ -23,6 +23,7 @@
 #include "drawshape/sitemdata.h"
 #include "drawshape/globaldefine.h"
 
+/*
 inline QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
 {
     out << graphics.unitCount;
@@ -183,6 +184,7 @@ inline QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
     return in;
 }
 
+*/
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -198,8 +200,6 @@ public:
     bool saveToDDF(const QString &path, const QGraphicsScene *scene);
 
     bool loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsView *view);
-
-signals:
 
 public slots:
 
