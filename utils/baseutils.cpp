@@ -135,26 +135,14 @@ QList<QColor> specifiedColorList()
 {
     QList<QColor> colorList;
     colorList
-            << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fe3c3b")
-            << QColor("#fd6867") << QColor("#fd9694") << QColor("#fcc4c1")
-            << QColor("#f8e0d6") << QColor("#e4c299") << QColor("#f2aa46")
-            << QColor("#fd9d0f") << QColor("#f6b443") << QColor("#eecb77")
-            << QColor("#f0ee4e") << QColor("#f4fb00") << QColor("#f6f96d")
-            << QColor("#f4f6a6") << QColor("#f3f3d6") << QColor("#e9eedc")
-            << QColor("#dde8cb") << QColor("#ccdfb0") << QColor("#9cd972")
-            << QColor("#4ec918") << QColor("#5cc850") << QColor("#6bc989")
-            << QColor("#53ac6d") << QColor("#72b88e") << QColor("#7cc8cd")
-            << QColor("#97d1d4") << QColor("#c9e1e1") << QColor("#c1dee7")
-            << QColor("#93ceed") << QColor("#76c3f1") << QColor("#49b2f6")
-            << QColor("#119fff") << QColor("#0192ea") << QColor("#3d7ddd")
-            << QColor("#92cdfb") << QColor("#99cffa") << QColor("#ececf8")
-            << QColor("#ccc9f9") << QColor("#b2acf9") << QColor("#958ef9")
-            << QColor("#7c6ffa") << QColor("#8a47fb") << QColor("#6b1aef")
-            << QColor("#952dfd") << QColor("#af39e4") << QColor("#c174da")
-            << QColor("#c587d9") << QColor("#dbb4c1") << QColor("#cf8c86")
-            << QColor("#b45f51") << QColor("#865e4f") << QColor("#694d48")
-            << QColor("#ffffff") << QColor("#d4d4d4") << QColor("#919191")
-            << QColor("#626262") << QColor("#404040") << QColor("#000000");
+            << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fcfd0e")
+            << QColor("#45fd14") << QColor("#52fef6") << QColor("#f600ff")
+            << QColor("#ff7087") << QColor("#fe3c3b") << QColor("#ff930e")
+            << QColor("#fffd83") << QColor("#6bc989") << QColor("#4ec918")
+            << QColor("#0290ea") << QColor("#49b2f6") << QColor("#72c8ff")
+            << QColor("#958ef9") << QColor("#8a47fb") << QColor("#6b1aee")
+            << QColor("#ffffff") << QColor("#e3e3e3") << QColor("#adadad")
+            << QColor("#6f6f6f") << QColor("#404040") << QColor("#000000");
     return colorList;
 }
 
