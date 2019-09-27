@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "shapesutils.h"
 
 #include <QDebug>
@@ -26,13 +44,11 @@ void Toolshape::registerMetaType()
 const QPointF Toolshape::topLeftPointF()
 {
     qreal x1 = 8000, y1 = 8000;
-    for(int i = 0; i < mainPoints.length(); i++)
-    {
+    for (int i = 0; i < mainPoints.length(); i++) {
         x1 = std::min(x1, mainPoints[i].x() - lineWidth);
         y1 = std::min(y1, mainPoints[i].y() - lineWidth);
     }
-    for(int j = 0; j < points.length(); j++)
-    {
+    for (int j = 0; j < points.length(); j++) {
         x1 = std::min(x1, points[j].x() - lineWidth);
         y1 = std::min(y1, points[j].y() - lineWidth);
     }
@@ -44,13 +60,11 @@ const QPointF Toolshape::topLeftPointF()
 const QPointF Toolshape::bottomRightPointF()
 {
     qreal x2 = 0, y2 = 0;
-    for(int i = 0; i < mainPoints.length(); i++)
-    {
+    for (int i = 0; i < mainPoints.length(); i++) {
         x2 = std::max(x2, mainPoints[i].x());
         y2 = std::max(y2, mainPoints[i].y());
     }
-    for(int j = 0; j < points.length(); j++)
-    {
+    for (int j = 0; j < points.length(); j++) {
         x2 = std::max(x2, points[j].x());
         y2 = std::max(y2, points[j].y());
     }
@@ -63,7 +77,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj)
     argument.nospace()
             << obj.type << ","
             << "[" << obj.mainPoints << "]" << ","
-            << obj.index<<","
+            << obj.index << ","
             << obj.lineWidth << ","
             << obj.fillColor << ","
             << obj.strokeColor << ","

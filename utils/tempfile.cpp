@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "tempfile.h"
 
 #include <QTemporaryFile>
@@ -5,11 +23,10 @@
 
 #include "baseutils.h"
 
-TempFile* TempFile::m_tempFile = nullptr;
-TempFile* TempFile::instance()
+TempFile *TempFile::m_tempFile = nullptr;
+TempFile *TempFile::instance()
 {
-    if (!m_tempFile)
-    {
+    if (!m_tempFile) {
         m_tempFile = new TempFile();
     }
 
@@ -20,8 +37,7 @@ TempFile::TempFile(QObject *parent)
     : QObject(parent)
 {
     QTemporaryFile blurFile;
-    if (blurFile.open())
-    {
+    if (blurFile.open()) {
         m_blurFile = blurFile.fileName() + ".png";
     }
     qDebug() << "Blur File:" << m_blurFile;
@@ -31,11 +47,9 @@ TempFile::~TempFile() {}
 
 QString TempFile::getBlurFileName()
 {
-    if (!m_blurFile.isEmpty())
-    {
+    if (!m_blurFile.isEmpty()) {
         return m_blurFile;
-    } else
-    {
+    } else {
         return "/tmp/deepin-draw-blur.png";
     }
 }
@@ -46,8 +60,7 @@ QString TempFile::getRandomFile(const QString &filepath,
     QString hashKey = createHash(filepath);
     QTemporaryFile randomFile;
     QString randomFilename;
-    if (randomFile.open())
-    {
+    if (randomFile.open()) {
         if (imageFormat == ".png" || imageFormat == ".pdf")
             randomFilename = randomFile.fileName() + ".png";
         else

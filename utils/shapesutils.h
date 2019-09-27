@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #ifndef SHAPESUTILS_H
 #define SHAPESUTILS_H
 
@@ -9,27 +27,28 @@ typedef QList<QPointF> FourPoints;
 Q_DECLARE_METATYPE(FourPoints)
 
 /* shape*/
-class Toolshape {
+class Toolshape
+{
 public:
-     QString type = "";
-     FourPoints mainPoints;
-     int index = -1;
-     int lineWidth = 0;
-     QColor fillColor;
-     QColor strokeColor;
-     bool isBlur = false;
-     bool isMosaic = false;
-     bool isStraight = false;
-     bool isHorFlip = false;
-     bool isVerFlip = false;
-     QString imagePath = "";
-     QString text ="";
-     qreal rotate = 0;
-     qreal scaledRation = 1;
-     QSize imageSize = QSize();
-     int fontSize = 1;
+    QString type = "";
+    FourPoints mainPoints;
+    int index = -1;
+    int lineWidth = 0;
+    QColor fillColor;
+    QColor strokeColor;
+    bool isBlur = false;
+    bool isMosaic = false;
+    bool isStraight = false;
+    bool isHorFlip = false;
+    bool isVerFlip = false;
+    QString imagePath = "";
+    QString text = "";
+    qreal rotate = 0;
+    qreal scaledRation = 1;
+    QSize imageSize = QSize();
+    int fontSize = 1;
 
-     QPixmap blurBackground;
+    QPixmap blurBackground;
 
     QList<QPointF> points;
     QList<QPointF> portion;

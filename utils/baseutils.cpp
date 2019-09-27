@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "baseutils.h"
 
 #include <QPixmap>
@@ -17,8 +35,8 @@ QSize      initArtboardSize(QPoint pos)
 {
     int artboardActualWidth = 0, artboardActualHeight = 0;
     QSize desktopSize = DScreenWindowsUtil::instance(pos
-                                                     )->primaryScreen()->size();
-    qDebug() << "init artboardSize:" << pos<<  desktopSize;
+                                                    )->primaryScreen()->size();
+    qDebug() << "init artboardSize:" << pos <<  desktopSize;
     artboardActualWidth = desktopSize.width();
     artboardActualHeight = desktopSize.height();
 
@@ -31,11 +49,10 @@ QSize      getArtboardSize(QPoint pos)
     int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
     qDebug() << "origin artboardSize:" << artboardActualWidth << artboardActualHeight;
 
-    if (artboardActualWidth == 0 || artboardActualHeight == 0)
-    {
+    if (artboardActualWidth == 0 || artboardActualHeight == 0) {
         QSize desktopSize = DScreenWindowsUtil::instance(pos
-                                                         )->primaryScreen()->size();
-        qDebug() << "init artboardSize:" << pos<<  desktopSize;
+                                                        )->primaryScreen()->size();
+        qDebug() << "init artboardSize:" << pos <<  desktopSize;
 
         artboardActualWidth = desktopSize.width();
         artboardActualHeight = desktopSize.height();
@@ -46,16 +63,15 @@ QSize      getArtboardSize(QPoint pos)
 QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
 {
     qreal winWidth = qreal(windowSize.width()),
-             winHeight = qreal(windowSize.height());
-    qreal widthRation = qreal(artboardSize.width())/qreal(windowSize.width());
-    qreal heightRation = qreal(artboardSize.height())/qreal(windowSize.height());
+          winHeight = qreal(windowSize.height());
+    qreal widthRation = qreal(artboardSize.width()) / qreal(windowSize.width());
+    qreal heightRation = qreal(artboardSize.height()) / qreal(windowSize.height());
     qDebug() << "GetCanvasSize:" << widthRation << heightRation;
 
-    if (widthRation > heightRation)
-    {
-        winHeight = qreal(artboardSize.height())/widthRation;
+    if (widthRation > heightRation) {
+        winHeight = qreal(artboardSize.height()) / widthRation;
     } else {
-        winWidth = qreal(artboardSize.width())/heightRation;
+        winWidth = qreal(artboardSize.width()) / heightRation;
     }
 
     return QSize(int(winWidth), int(winHeight));
@@ -66,33 +82,33 @@ QCursor setCursorShape(QString cursorName)
     QCursor customShape = QCursor();
     if (cursorName == "rotate") {
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
+                                  ":/theme/light/images/mouse_style/shape/rotate_mouse.png"), 5, 5);
     } else if (cursorName == "rectangle") {
         qDebug() << "rectangle ...";
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
+                                  ":/theme/light/images/mouse_style/shape/mouse_rectangle.svg"), 7, 17);
     } else if (cursorName == "oval") {
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/mouse_oval.svg"), 7, 17);
+                                  ":/theme/light/images/mouse_style/shape/mouse_oval.svg"), 7, 17);
     } else if (cursorName == "arrow") {
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
+                                  ":/theme/light/images/mouse_style/shape/arrow_mouse.png"), 5, 5);
     } else if (cursorName == "text") {
         customShape = QCursor(QPixmap(
-                      ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
+                                  ":/theme/light/images/mouse_style/shape/text_mouse.png"), 5, 5);
     } else if (cursorName == "straightLine") {
         customShape = QCursor(QPixmap(QString(
-                    ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
+                                          ":/theme/light/images/mouse_style/shape/line_mouse.png")), 2, 9);
     } else if (cursorName == "arbitraryCurve") {
         customShape = QCursor(QPixmap(
-                    ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 4, 13);
+                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 4, 13);
     } else if (cursorName == "pickcolor") {
         customShape = QCursor(QPixmap(
-                     ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
+                                  ":/theme/light/images/mouse_style/shape/pen_mouse.png"), 2, 9);
     } else if (cursorName == "bottomleft" || cursorName == "bottomright"
                || cursorName == "topleft" || cursorName == "topright") {
         customShape = QCursor(QPixmap(
-        QString(":/theme/light/images/mouse_style/shape/%1_mouse.svg").arg(cursorName)));
+                                  QString(":/theme/light/images/mouse_style/shape/%1_mouse.svg").arg(cursorName)));
     }
 
     return customShape;
@@ -108,8 +124,7 @@ QString getFileContent(const QString &file)
 {
     QFile f(file);
     QString fileContent = "";
-    if (f.open(QFile::ReadOnly))
-    {
+    if (f.open(QFile::ReadOnly)) {
         fileContent = QLatin1String(f.readAll());
         f.close();
     }
@@ -120,26 +135,26 @@ QList<QColor> specifiedColorList()
 {
     QList<QColor> colorList;
     colorList
-    << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fe3c3b")
-    << QColor("#fd6867") << QColor("#fd9694") << QColor("#fcc4c1")
-    << QColor("#f8e0d6") << QColor("#e4c299") << QColor("#f2aa46")
-    << QColor("#fd9d0f") << QColor("#f6b443") << QColor("#eecb77")
-    << QColor("#f0ee4e") << QColor("#f4fb00") << QColor("#f6f96d")
-    << QColor("#f4f6a6") << QColor("#f3f3d6") << QColor("#e9eedc")
-    << QColor("#dde8cb") << QColor("#ccdfb0") << QColor("#9cd972")
-    << QColor("#4ec918") << QColor("#5cc850") << QColor("#6bc989")
-    << QColor("#53ac6d") << QColor("#72b88e") << QColor("#7cc8cd")
-    << QColor("#97d1d4") << QColor("#c9e1e1") << QColor("#c1dee7")
-    << QColor("#93ceed") << QColor("#76c3f1") << QColor("#49b2f6")
-    << QColor("#119fff") << QColor("#0192ea") << QColor("#3d7ddd")
-    << QColor("#92cdfb") << QColor("#99cffa") << QColor("#ececf8")
-    << QColor("#ccc9f9") << QColor("#b2acf9") << QColor("#958ef9")
-    << QColor("#7c6ffa") << QColor("#8a47fb") << QColor("#6b1aef")
-    << QColor("#952dfd") << QColor("#af39e4") << QColor("#c174da")
-    << QColor("#c587d9") << QColor("#dbb4c1") << QColor("#cf8c86")
-    << QColor("#b45f51") << QColor("#865e4f") << QColor("#694d48")
-    << QColor("#ffffff") << QColor("#d4d4d4") << QColor("#919191")
-    << QColor("#626262") << QColor("#404040") << QColor("#000000");
+            << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fe3c3b")
+            << QColor("#fd6867") << QColor("#fd9694") << QColor("#fcc4c1")
+            << QColor("#f8e0d6") << QColor("#e4c299") << QColor("#f2aa46")
+            << QColor("#fd9d0f") << QColor("#f6b443") << QColor("#eecb77")
+            << QColor("#f0ee4e") << QColor("#f4fb00") << QColor("#f6f96d")
+            << QColor("#f4f6a6") << QColor("#f3f3d6") << QColor("#e9eedc")
+            << QColor("#dde8cb") << QColor("#ccdfb0") << QColor("#9cd972")
+            << QColor("#4ec918") << QColor("#5cc850") << QColor("#6bc989")
+            << QColor("#53ac6d") << QColor("#72b88e") << QColor("#7cc8cd")
+            << QColor("#97d1d4") << QColor("#c9e1e1") << QColor("#c1dee7")
+            << QColor("#93ceed") << QColor("#76c3f1") << QColor("#49b2f6")
+            << QColor("#119fff") << QColor("#0192ea") << QColor("#3d7ddd")
+            << QColor("#92cdfb") << QColor("#99cffa") << QColor("#ececf8")
+            << QColor("#ccc9f9") << QColor("#b2acf9") << QColor("#958ef9")
+            << QColor("#7c6ffa") << QColor("#8a47fb") << QColor("#6b1aef")
+            << QColor("#952dfd") << QColor("#af39e4") << QColor("#c174da")
+            << QColor("#c587d9") << QColor("#dbb4c1") << QColor("#cf8c86")
+            << QColor("#b45f51") << QColor("#865e4f") << QColor("#694d48")
+            << QColor("#ffffff") << QColor("#d4d4d4") << QColor("#919191")
+            << QColor("#626262") << QColor("#404040") << QColor("#000000");
     return colorList;
 }
 
@@ -166,7 +181,7 @@ bool          isValidFormat(QString suffix)
 {
     QStringList validFormat;
     validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm"
-                         << "pgm" << "xbm" << "xpm";
+                << "pgm" << "xbm" << "xpm";
     if (validFormat.contains(suffix)) {
         return true;
     } else {
@@ -176,7 +191,7 @@ bool          isValidFormat(QString suffix)
 
 bool          isCommandExist(QString command)
 {
-    QProcess* proc = new QProcess;
+    QProcess *proc = new QProcess;
     QString cm = QString("which %1\n").arg(command);
     proc->start(cm);
     proc->waitForFinished(1000);
@@ -302,7 +317,7 @@ QString DetectImageFormat(const QString &filepath)
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 &&
-        data.indexOf("#define max_height ") > -1) {
+            data.indexOf("#define max_height ") > -1) {
         return "xbm";
     }
 
@@ -325,7 +340,7 @@ QString allImageformat()
 QString createHash(const QString &str)
 {
     return QString(QCryptographicHash::hash(str.toUtf8(),
-                             QCryptographicHash::Md5).toHex());
+                                            QCryptographicHash::Md5).toHex());
 }
 
 QString sizeToHuman(const qlonglong bytes)
@@ -333,26 +348,21 @@ QString sizeToHuman(const qlonglong bytes)
     qlonglong sb = 1024;
     if (bytes < sb) {
         return QString::number(bytes) + " B";
-    }
-    else if (bytes < sb * sb) {
+    } else if (bytes < sb * sb) {
         QString vs = QString::number((double)bytes / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number((int)vs.toDouble()) + " KB";
-        }
-        else {
+        } else {
             return vs + " KB";
         }
-    }
-    else if (bytes < sb * sb * sb) {
+    } else if (bytes < sb * sb * sb) {
         QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
             return QString::number((int)vs.toDouble()) + " MB";
-        }
-        else {
+        } else {
             return vs + " MB";
         }
-    }
-    else {
+    } else {
         return QString::number(bytes);
     }
 }
@@ -368,13 +378,13 @@ QCursor blurToolCursor(const int &lineWidth)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     painter.setBrush(QBrush());
     painter.setPen(borderPen);
-    painter.drawEllipse(cursorPix.rect().center(), lineWidth/2 - 1, lineWidth/2 - 1);
+    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
 
     QPen pen;
     pen.setWidth(1);
     pen.setColor(QColor(Qt::white));
     painter.setPen(pen);
-    painter.drawEllipse(cursorPix.rect().center(), lineWidth/2 - 1, lineWidth/2 - 1);
+    painter.drawEllipse(cursorPix.rect().center(), lineWidth / 2 - 1, lineWidth / 2 - 1);
 
     return QCursor(cursorPix, -1, -1);
 }
@@ -400,10 +410,10 @@ QCursor pickColorCursor()
     QPainter painter(&cursorPix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     painter.setPen(blackPen);
-    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 1, tipWidth/2 - 1);
-    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 3, tipWidth/2 - 3);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth / 2 - 1, tipWidth / 2 - 1);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth / 2 - 3, tipWidth / 2 - 3);
     painter.setPen(whitePen);
-    painter.drawEllipse(cursorPix.rect().center(), tipWidth/2 - 2, tipWidth/2 -2);
+    painter.drawEllipse(cursorPix.rect().center(), tipWidth / 2 - 2, tipWidth / 2 - 2);
 
     return QCursor(cursorPix, -1, -1);
 }
@@ -415,8 +425,7 @@ QString getStringFromShape(Toolshape shape)
     copyShapeObj.insert("index", shape.index);
 
     QJsonArray mainPoints;
-    for(int k = 0; k < shape.mainPoints.length(); k++)
-    {
+    for (int k = 0; k < shape.mainPoints.length(); k++) {
         mainPoints.append(QJsonValue(double(shape.mainPoints[k].x())));
         mainPoints.append(QJsonValue(double(shape.mainPoints[k].y())));
     }
@@ -434,8 +443,7 @@ QString getStringFromShape(Toolshape shape)
     copyShapeObj.insert("rotate", shape.rotate);
     copyShapeObj.insert("scaledRation", shape.scaledRation);
     QJsonArray size;
-    for(int k = 0; k < 2; k++)
-    {
+    for (int k = 0; k < 2; k++) {
         size.append(QJsonValue(shape.imageSize.width()));
         size.append(QJsonValue(shape.imageSize.height()));
     }
@@ -443,15 +451,13 @@ QString getStringFromShape(Toolshape shape)
     copyShapeObj.insert("fontSize", shape.fontSize);
 
     QJsonArray points;
-    for(int k = 0; k < shape.points.length(); k++)
-    {
+    for (int k = 0; k < shape.points.length(); k++) {
         points.append(QJsonValue(double(shape.points[k].x())));
         points.append(QJsonValue(double(shape.points[k].y())));
     }
     copyShapeObj.insert("points", QJsonValue(points));
     QJsonArray portion;
-    for(int k = 0; k < shape.portion.length(); k++)
-    {
+    for (int k = 0; k < shape.portion.length(); k++) {
         portion.append(QJsonValue(double(shape.portion[k].x())));
         portion.append(QJsonValue(double(shape.portion[k].y())));
     }
@@ -463,7 +469,7 @@ Toolshape getShapeInfoFromJsonStr(QString jsonStr)
 {
     Toolshape resultShape = Toolshape();
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toLocal8Bit().data());
-    if( jsonDoc.isNull() ){
+    if ( jsonDoc.isNull() ) {
         qDebug() << "jsonDoc isEmpty...";
         return  resultShape;
     } else {
@@ -474,9 +480,8 @@ Toolshape getShapeInfoFromJsonStr(QString jsonStr)
     resultShape.type = jsonObj.value("type").toString();
     resultShape.index = jsonObj.value("index").toInt();
     QVariantList mainPoints = jsonObj.value("mainPoints").toArray().toVariantList();
-    for(int j = 0; j < mainPoints.length(); j+=2)
-    {
-        resultShape.mainPoints[j/2] = QPointF(mainPoints[j].toReal(), mainPoints[j+1].toReal());
+    for (int j = 0; j < mainPoints.length(); j += 2) {
+        resultShape.mainPoints[j / 2] = QPointF(mainPoints[j].toReal(), mainPoints[j + 1].toReal());
     }
 
     resultShape.lineWidth = jsonObj.value("lineWidth").toInt();
@@ -491,23 +496,20 @@ Toolshape getShapeInfoFromJsonStr(QString jsonStr)
     resultShape.rotate = jsonObj.value("rotate").toVariant().toReal();
     resultShape.scaledRation = jsonObj.value("scaledRation").toVariant().toReal();
     QVariantList sizeList = jsonObj.value("imageSize").toArray().toVariantList();
-    if (sizeList.length() >= 2)
-    {
+    if (sizeList.length() >= 2) {
         resultShape.imageSize = QSize(sizeList[0].toInt(), sizeList[1].toInt());
     }
     qDebug() << "ImageSize...........:" << resultShape.imageSize;
     resultShape.fontSize = jsonObj.value("fontSize").toVariant().toReal();
 
     QVariantList points = jsonObj.value("points").toArray().toVariantList();
-    for(int j = 0; j < points.length(); j+=2)
-    {
-        resultShape.points.append(QPointF(points[j].toReal(), points[j+1].toReal()));
+    for (int j = 0; j < points.length(); j += 2) {
+        resultShape.points.append(QPointF(points[j].toReal(), points[j + 1].toReal()));
     }
 
     QVariantList portion = jsonObj.value("portion").toArray().toVariantList();
-    for(int j = 0; j < portion.length(); j++)
-    {
-        resultShape.portion.append(QPointF(portion[j].toReal(), portion[j+1].toReal()));
+    for (int j = 0; j < portion.length(); j++) {
+        resultShape.portion.append(QPointF(portion[j].toReal(), portion[j + 1].toReal()));
     }
     return resultShape;
 }

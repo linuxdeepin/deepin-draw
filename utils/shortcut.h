@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2016 ~ 2017 Deepin Technology Co., Ltd.
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +23,13 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-struct ShortcutItem{
+struct ShortcutItem {
     QString name;
     QString value;
-    ShortcutItem(QString n,QString v):name(n),value(v){}
+    ShortcutItem(QString n, QString v): name(n), value(v) {}
 };
 
-struct ShortcutGroup{
+struct ShortcutGroup {
     QString groupName;
     QList<ShortcutItem> groupItems;
 };

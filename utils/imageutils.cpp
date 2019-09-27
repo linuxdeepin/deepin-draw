@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/imageutils_libexif.h"
@@ -48,22 +66,21 @@ bool imageSupportSave(const QString &path)
     // RAW image decode is tool slow, and mose of these was not support save
     // RAW formats render incorrect by freeimage
     const QStringList raws = QStringList()
-            << "CR2" << "CRW"   // Canon cameras
-            << "DCR" << "KDC"   // Kodak cameras
-            << "MRW"            // Minolta cameras
-            << "NEF"            // Nikon cameras
-            << "ORF"            // Olympus cameras
-            << "PEF"            // Pentax cameras
-            << "RAF"            // Fuji cameras
-            << "SRF"            // Sony cameras
-            << "X3F";           // Sigma cameras
+                             << "CR2" << "CRW"   // Canon cameras
+                             << "DCR" << "KDC"   // Kodak cameras
+                             << "MRW"            // Minolta cameras
+                             << "NEF"            // Nikon cameras
+                             << "ORF"            // Olympus cameras
+                             << "PEF"            // Pentax cameras
+                             << "RAF"            // Fuji cameras
+                             << "SRF"            // Sony cameras
+                             << "X3F";           // Sigma cameras
 
 
     if (raws.indexOf(suffix.toUpper()) != -1
             || QImageReader(path).imageCount() > 1) {
         return false;
-    }
-    else {
+    } else {
         return freeimage::canSave(path);
     }
 }
@@ -200,8 +217,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QDirIterator dirIterator(dir,
                              QDir::Files,
                              QDirIterator::Subdirectories);
-    while(dirIterator.hasNext())
-    {
+    while (dirIterator.hasNext()) {
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
@@ -257,14 +273,14 @@ QStringList  supportedSuffixList()
 {
     QStringList suffixList;
     suffixList << "*.bmp" << "*.bmp24"
-                     << "*.ico" << "*.jpg" << "*.jpe" << "*.jpeg" << "*.jpeg24"
-                     << "*.jng"  << "*.pcd " << "*.pcx "
-                      << "*.png" << "*.tga" << "*.tif "<<  "*.tiff" << "*.tiff24"
-                      << "*.psd" << "*.xpm" << "*.dds" << "*.gif" << "*.sgi"
-                      << "*.j2k" << "*jp2" << "*.pct" << "*.webp" << "*.wdp"
-                      << "*.cr2" << "*.pef" << "*.arw " << "*.nef" << "*.icb " << "*.dng"
-                      << "*.vda" << "*.vst" << "*.raf" << "*.orf" << "*.svg"
-                      << "*.ptif" << "*.mef" << "*.mrw" << "*.xbm";
+               << "*.ico" << "*.jpg" << "*.jpe" << "*.jpeg" << "*.jpeg24"
+               << "*.jng"  << "*.pcd " << "*.pcx "
+               << "*.png" << "*.tga" << "*.tif " <<  "*.tiff" << "*.tiff24"
+               << "*.psd" << "*.xpm" << "*.dds" << "*.gif" << "*.sgi"
+               << "*.j2k" << "*jp2" << "*.pct" << "*.webp" << "*.wdp"
+               << "*.cr2" << "*.pef" << "*.arw " << "*.nef" << "*.icb " << "*.dng"
+               << "*.vda" << "*.vst" << "*.raf" << "*.orf" << "*.svg"
+               << "*.ptif" << "*.mef" << "*.mrw" << "*.xbm";
     return suffixList;
 }
 }  // namespace image

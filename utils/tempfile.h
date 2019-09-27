@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #ifndef TEMPFILE_H
 #define TEMPFILE_H
 
@@ -29,12 +47,12 @@ signals:
     void saveDialogPopup();
 
 private:
-    static TempFile* m_tempFile;
-    TempFile(QObject* parent = 0);
+    static TempFile *m_tempFile;
+    TempFile(QObject *parent = 0);
     ~TempFile();
 
     QString m_blurFile;
-    QMap<QString , QString> m_pathMap;
+    QMap<QString, QString> m_pathMap;
     QList<QPixmap> m_pixmaps;
     Toolshapes m_shapes;
     bool m_exit = false;

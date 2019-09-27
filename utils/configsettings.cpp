@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
+ *
+ * Author:     WangXing
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "configsettings.h"
 
 #include <QDir>
@@ -8,16 +26,15 @@
 #include <QDebug>
 
 const QString CONFIG_PATH = QDir::homePath() +
-        "/.config/deepin/deepin-draw/config.conf";
+                            "/.config/deepin/deepin-draw/config.conf";
 
 ConfigSettings::ConfigSettings(QObject *parent)
     : QObject(parent)
 {
-    m_settings = new  QSettings("deepin","/deepin-draw/config", this);
+    m_settings = new  QSettings("deepin", "/deepin-draw/config", this);
 //    QSize canvasSize = qApp->desktop()->size();
 
-    if (!QFileInfo(CONFIG_PATH).exists())
-    {
+    if (!QFileInfo(CONFIG_PATH).exists()) {
         setValue("common", "strokeColor_transparent", false);
         setValue("common", "strokeColor_alpha", 100);
         setValue("common", "strokeColor", "#dddddd");
@@ -44,11 +61,10 @@ ConfigSettings::ConfigSettings(QObject *parent)
     qDebug() << "Setting file:" << m_settings->fileName();
 }
 
-ConfigSettings* ConfigSettings::m_configSettings = nullptr;
-ConfigSettings* ConfigSettings::instance()
+ConfigSettings *ConfigSettings::m_configSettings = nullptr;
+ConfigSettings *ConfigSettings::instance()
 {
-    if (!m_configSettings)
-    {
+    if (!m_configSettings) {
         m_configSettings = new ConfigSettings();
     }
 
@@ -56,7 +72,7 @@ ConfigSettings* ConfigSettings::instance()
 }
 
 void ConfigSettings::setValue(const QString &group, const QString &key,
-              QVariant val)
+                              QVariant val)
 {
     m_settings->beginGroup(group);
     m_settings->setValue(key, val);
