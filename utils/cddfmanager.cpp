@@ -235,7 +235,6 @@ void CDDFManager::loadDDF(const QString &path)
                 } else if (BlurType == unit.head.dataType) {
                     CGraphicsMasicoItem *item = new CGraphicsMasicoItem(unit.data.pBlur, unit.head);
                     emit signalAddItem(item);
-                    item->setPixmap();
 
                     if (unit.data.pBlur) {
                         delete unit.data.pBlur;
