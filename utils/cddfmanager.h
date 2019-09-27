@@ -8,8 +8,7 @@
 inline QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
 {
     out << graphics.unitCount;
-    out << graphics.width;
-    out << graphics.height;
+    out << graphics.rect;
 
     foreach (CGraphicsUnit unit, graphics.vecGraphicsUnit) {
 
@@ -72,8 +71,7 @@ inline QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
 inline QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
 {
     in >> graphics.unitCount;
-    in >> graphics.width;
-    in >> graphics.height;
+    in >> graphics.rect;
 
 //    QList<CGraphicsUnit> vecGraphicsUnit;
 

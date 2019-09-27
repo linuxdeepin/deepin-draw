@@ -44,9 +44,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
     }
 
     graphics.unitCount = primitiveCount;
-    graphics.width = scene->sceneRect().width();
-    graphics.height = scene->sceneRect().height();
-
+    graphics.rect = scene->sceneRect();
 
     QFile writeFile(path);
 
@@ -106,6 +104,7 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
     }
 
     view->clearScene();
+    scene->setSceneRect(graphics.rect);
 
     foreach (CGraphicsUnit unit, graphics.vecGraphicsUnit) {
         if (RectType == unit.head.dataType) {
