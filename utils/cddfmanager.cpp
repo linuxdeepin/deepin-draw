@@ -30,199 +30,249 @@
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
 #include "frame/cgraphicsview.h"
+#include "widgets/dialog/cprogressdialog.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QtConcurrent>
 
 
-CDDFManager::CDDFManager(QObject *parent) : QObject(parent)
+CDDFManager::CDDFManager(QObject *parent, DWidget *widget)
+    : QObject(parent),
+      m_CProgressDialog(new CProgressDialog(widget))
 {
-
+    connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
+    connect(this, SIGNAL(signalSaveDDFComplete()), m_CProgressDialog, SLOT(hide()));
+    connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
+    connect(this, SIGNAL(signalLoadDDFComplete()), m_CProgressDialog, SLOT(hide()));
+    connect(this, SIGNAL(signalLoadDDFComplete()), this, SLOT(slotLoadDDFComplete()));
 }
 
-bool CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
+
+void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 {
-
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
-
-    if (itemList.isEmpty()) {
-        return false;
+    if (itemList.count() <= 0) {
+        return;
     }
 
+
     int primitiveCount = 0;
-    CGraphics graphics;
+    m_path = path;
+    m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
 
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
         if (tempItem->type() >= RectType && CutType != item->type() ) {
             CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
-            graphics.vecGraphicsUnit.push_back(graphicsUnit);
+            m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
         }
     }
 
-    graphics.unitCount = primitiveCount;
-    graphics.rect = scene->sceneRect();
+    m_graphics.unitCount = primitiveCount;
+    m_graphics.rect = scene->sceneRect();
 
-    QFile writeFile(path);
+    QtConcurrent::run([ = ] {
+        QFile writeFile(path);
 
-    if (writeFile.open(QIODevice::WriteOnly)) {
-        QDataStream out(&writeFile);
-        out << graphics;
-        writeFile.close();
-    }
+        if (writeFile.open(QIODevice::WriteOnly))
+        {
+            QDataStream out(&writeFile);
+            out << m_graphics.unitCount;
+            out << m_graphics.rect;
 
-    foreach (CGraphicsUnit unit, graphics.vecGraphicsUnit) {
-        if (RectType == unit.head.dataType && nullptr != unit.data.pRect) {
-            delete unit.data.pRect;
-            unit.data.pRect = nullptr;
-        } else if (EllipseType == unit.head.dataType && nullptr != unit.data.pCircle) {
-            delete unit.data.pCircle;
-            unit.data.pCircle = nullptr;
-        } else if (TriangleType == unit.head.dataType && nullptr != unit.data.pTriangle) {
-            delete unit.data.pTriangle;
-            unit.data.pTriangle = nullptr;
-        } else if (PolygonType == unit.head.dataType && nullptr != unit.data.pPolygon) {
-            delete unit.data.pPolygon;
-            unit.data.pPolygon = nullptr;
-        } else if (polygonalStar == unit.head.dataType && nullptr != unit.data.pPolygonStar) {
-            delete unit.data.pPolygonStar;
-            unit.data.pPolygonStar = nullptr;
-        } else if (LineType == unit.head.dataType && nullptr != unit.data.pLine) {
-            delete unit.data.pLine;
-            unit.data.pLine = nullptr;
-        } else if (TextType == unit.head.dataType && nullptr != unit.data.pText) {
-            delete unit.data.pText;
-            unit.data.pText = nullptr;
-        } else if (PictureType == unit.head.dataType && nullptr != unit.data.pPic) {
-            delete unit.data.pPic;
-            unit.data.pPic = nullptr;
-        } else if (PenType == unit.head.dataType && nullptr != unit.data.pPen) {
-            delete unit.data.pPen;
-            unit.data.pPen = nullptr;
-        } else if (BlurType == unit.head.dataType && nullptr != unit.data.pBlur) {
-            delete unit.data.pBlur;
-            unit.data.pBlur = nullptr;
+            int count = 0;
+            int totalCount = m_graphics.vecGraphicsUnit.count();
+            int process = 0;
+
+            for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
+                out << unit;
+
+                ///进度条处理
+                count ++;
+                process = (float)count / totalCount * 100;
+                emit signalUpdateProcessBar(process);
+
+                ///释放内存
+                if (RectType == unit.head.dataType && nullptr != unit.data.pRect) {
+                    delete unit.data.pRect;
+                    unit.data.pRect = nullptr;
+                } else if (EllipseType == unit.head.dataType && nullptr != unit.data.pCircle) {
+                    delete unit.data.pCircle;
+                    unit.data.pCircle = nullptr;
+                } else if (TriangleType == unit.head.dataType && nullptr != unit.data.pTriangle) {
+                    delete unit.data.pTriangle;
+                    unit.data.pTriangle = nullptr;
+                } else if (PolygonType == unit.head.dataType && nullptr != unit.data.pPolygon) {
+                    delete unit.data.pPolygon;
+                    unit.data.pPolygon = nullptr;
+                } else if (polygonalStar == unit.head.dataType && nullptr != unit.data.pPolygonStar) {
+                    delete unit.data.pPolygonStar;
+                    unit.data.pPolygonStar = nullptr;
+                } else if (LineType == unit.head.dataType && nullptr != unit.data.pLine) {
+                    delete unit.data.pLine;
+                    unit.data.pLine = nullptr;
+                } else if (TextType == unit.head.dataType && nullptr != unit.data.pText) {
+                    delete unit.data.pText;
+                    unit.data.pText = nullptr;
+                } else if (PictureType == unit.head.dataType && nullptr != unit.data.pPic) {
+                    delete unit.data.pPic;
+                    unit.data.pPic = nullptr;
+                } else if (PenType == unit.head.dataType && nullptr != unit.data.pPen) {
+                    delete unit.data.pPen;
+                    unit.data.pPen = nullptr;
+                } else if (BlurType == unit.head.dataType && nullptr != unit.data.pBlur) {
+                    delete unit.data.pBlur;
+                    unit.data.pBlur = nullptr;
+                }
+            }
+            writeFile.close();
+            m_graphics.vecGraphicsUnit.clear();
         }
-    }
-
-    return true;
+        emit signalSaveDDFComplete();
+    });
 }
 
-bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsView *view)
+void CDDFManager::loadDDF(const QString &path)
 {
-    QFile readFile(path);
+    m_CProgressDialog->showProgressDialog(CProgressDialog::LoadDDF);
 
-    if (!readFile.open(QIODevice::ReadOnly)) {
-        return false;
-    }
+    QtConcurrent::run([ = ] {
+        QFile readFile(path);
 
-    CGraphics graphics;
+        if (readFile.open(QIODevice::ReadOnly))
+        {
+            QDataStream in(&readFile);
 
-    QDataStream in(&readFile);
+            in >> m_graphics.unitCount;
+            in >> m_graphics.rect;
 
-    in >> graphics;
+            emit signalStartLoadDDF(m_graphics.rect);
 
-    readFile.close();
+            int count = 0;
+            int process = 0;
 
-    if (graphics.unitCount <= 0) {
-        return false;
-    }
+            for (int i = 0; i < m_graphics.unitCount; i++) {
+                CGraphicsUnit unit;
+                in >> unit;
 
-    view->clearScene();
-    scene->setSceneRect(graphics.rect);
+                if (RectType == unit.head.dataType) {
+                    CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
+                    emit signalAddItem(item);
 
-    foreach (CGraphicsUnit unit, graphics.vecGraphicsUnit) {
-        if (RectType == unit.head.dataType) {
-            CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
-            scene->addItem(item);
+                    if (unit.data.pRect) {
+                        delete unit.data.pRect;
+                        unit.data.pRect = nullptr;
+                    }
+                } else if (EllipseType == unit.head.dataType) {
+                    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(unit.data.pCircle, unit.head);
+                    emit signalAddItem(item);
 
-            if (unit.data.pRect) {
-                delete unit.data.pRect;
-                unit.data.pRect = nullptr;
+                    if (unit.data.pCircle) {
+                        delete unit.data.pCircle;
+                        unit.data.pCircle = nullptr;
+                    }
+                } else if (TriangleType == unit.head.dataType) {
+                    CGraphicsTriangleItem *item = new CGraphicsTriangleItem(unit.data.pTriangle, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pTriangle) {
+                        delete unit.data.pTriangle;
+                        unit.data.pTriangle = nullptr;
+                    }
+                } else if (PolygonType == unit.head.dataType) {
+                    CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pPolygon) {
+                        delete unit.data.pPolygon;
+                        unit.data.pPolygon = nullptr;
+                    }
+                } else if (PolygonalStarType == unit.head.dataType) {
+                    CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(unit.data.pPolygonStar, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pPolygonStar) {
+                        delete unit.data.pPolygonStar;
+                        unit.data.pPolygonStar = nullptr;
+                    }
+                } else if (LineType == unit.head.dataType) {
+                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pLine) {
+                        delete unit.data.pLine;
+                        unit.data.pLine = nullptr;
+                    }
+                } else if (TextType == unit.head.dataType) {
+                    CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pText) {
+                        delete unit.data.pText;
+                        unit.data.pText = nullptr;
+                    }
+                } else if (PictureType == unit.head.dataType) {
+                    CPictureItem *item = new CPictureItem(unit.data.pPic, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pPic) {
+                        delete unit.data.pPic;
+                        unit.data.pPic = nullptr;
+                    }
+                } else if (PenType == unit.head.dataType) {
+                    CGraphicsPenItem *item = new CGraphicsPenItem(unit.data.pPen, unit.head);
+                    emit signalAddItem(item);
+
+                    if (unit.data.pPen) {
+                        delete unit.data.pPen;
+                        unit.data.pPen = nullptr;
+                    }
+
+                } else if (BlurType == unit.head.dataType) {
+                    CGraphicsMasicoItem *item = new CGraphicsMasicoItem(unit.data.pBlur, unit.head);
+                    emit signalAddItem(item);
+                    item->setPixmap();
+
+                    if (unit.data.pBlur) {
+                        delete unit.data.pBlur;
+                        unit.data.pBlur = nullptr;
+                    }
+
+                }
+
+                ///进度条处理
+                count ++;
+                process = (float)count / m_graphics.unitCount * 100;
+                emit signalUpdateProcessBar(process);
+
+
             }
-        } else if (EllipseType == unit.head.dataType) {
-            CGraphicsEllipseItem *item = new CGraphicsEllipseItem(unit.data.pCircle, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pCircle) {
-                delete unit.data.pCircle;
-                unit.data.pCircle = nullptr;
-            }
-        } else if (TriangleType == unit.head.dataType) {
-            CGraphicsTriangleItem *item = new CGraphicsTriangleItem(unit.data.pTriangle, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pTriangle) {
-                delete unit.data.pTriangle;
-                unit.data.pTriangle = nullptr;
-            }
-        } else if (PolygonType == unit.head.dataType) {
-            CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pPolygon) {
-                delete unit.data.pPolygon;
-                unit.data.pPolygon = nullptr;
-            }
-        } else if (PolygonalStarType == unit.head.dataType) {
-            CGraphicsPolygonalStarItem *item = new CGraphicsPolygonalStarItem(unit.data.pPolygonStar, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pPolygonStar) {
-                delete unit.data.pPolygonStar;
-                unit.data.pPolygonStar = nullptr;
-            }
-        } else if (LineType == unit.head.dataType) {
-            CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pLine) {
-                delete unit.data.pLine;
-                unit.data.pLine = nullptr;
-            }
-        } else if (TextType == unit.head.dataType) {
-            CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pText) {
-                delete unit.data.pText;
-                unit.data.pText = nullptr;
-            }
-        } else if (PictureType == unit.head.dataType) {
-            CPictureItem *item = new CPictureItem(unit.data.pPic, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pPic) {
-                delete unit.data.pPic;
-                unit.data.pPic = nullptr;
-            }
-        } else if (PenType == unit.head.dataType) {
-            CGraphicsPenItem *item = new CGraphicsPenItem(unit.data.pPen, unit.head);
-            scene->addItem(item);
-
-            if (unit.data.pPen) {
-                delete unit.data.pPen;
-                unit.data.pPen = nullptr;
-            }
-
-        } else if (BlurType == unit.head.dataType) {
-            CGraphicsMasicoItem *item = new CGraphicsMasicoItem(unit.data.pBlur, unit.head);
-            scene->addItem(item);
-            item->setPixmap();
-
-            if (unit.data.pBlur) {
-                delete unit.data.pBlur;
-                unit.data.pBlur = nullptr;
-            }
-
+            readFile.close();
+            emit signalLoadDDFComplete();
         }
-    }
+    });
 
-    return true;
 }
+
+void CDDFManager::slotLoadDDFComplete()
+{
+
+}
+
+void CDDFManager::slotSaveDDFComplete()
+{
+    CDrawParamSigleton::GetInstance()->setDdfSavePath(m_path);
+    CDrawParamSigleton::GetInstance()->setIsModify(false);
+    if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
+        qApp->quit();
+    }
+}
+
+
 
 
 
