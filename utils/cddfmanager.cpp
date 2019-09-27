@@ -28,6 +28,7 @@
 #include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
+#include "drawshape/cgraphicsmasicoitem.h"
 #include "frame/cgraphicsview.h"
 
 #include <QGraphicsItem>
@@ -205,6 +206,16 @@ bool CDDFManager::loadDDF(const QString &path, QGraphicsScene *scene, CGraphicsV
             if (unit.data.pPen) {
                 delete unit.data.pPen;
                 unit.data.pPen = nullptr;
+            }
+
+        } else if (BlurType == unit.head.dataType) {
+            CGraphicsMasicoItem *item = new CGraphicsMasicoItem(unit.data.pBlur, unit.head);
+            scene->addItem(item);
+            item->setPixmap();
+
+            if (unit.data.pBlur) {
+                delete unit.data.pBlur;
+                unit.data.pBlur = nullptr;
             }
 
         }
