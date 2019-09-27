@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/dintvalidator.h \
     $$PWD/drawfile.h \
     $$PWD/shortcut.h \
-    $$PWD/cvalidator.h
+    $$PWD/cvalidator.h \
+    $$PWD/cddfmanager.h
 
 SOURCES += \
     $$PWD/baseutils.cpp \
@@ -23,4 +24,5 @@ SOURCES += \
     $$PWD/drawfile.cpp \
     $$PWD/global.cpp \
     $$PWD/shortcut.cpp \
-    $$PWD/cvalidator.cpp
+    $$PWD/cvalidator.cpp \
+    $$PWD/cddfmanager.cpp
