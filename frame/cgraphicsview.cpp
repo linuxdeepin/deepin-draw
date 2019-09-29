@@ -322,39 +322,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         return;
     }
 
-<<<<<<< HEAD
     if (!m_isShowContext) {
         return;
-=======
-    //如果是文字图元则显示其自己的右键菜单
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-        if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->isVisible()) {
-            //文字图元的显示需要获取view的大小，才能保证显示完整
-            static_cast<CGraphicsTextItem *>(tmpitem)->getTextEdit()->setView(this);
-            QGraphicsView::contextMenuEvent(event);
-            return;
-        }
-
-        //判断选中图元中是否有非文字图元
-        bool isTextItem = true;
-
-        for (int i = 0; i < scene()->selectedItems().size(); i++) {
-            if (TextType != static_cast<CGraphicsItem *>(scene()->selectedItems()[i])->type()) {
-                isTextItem = false;
-            }
-        }
-
-        //如果选中图元中有非文字图元，则需要把对齐功能置灰
-        m_leftAlignAct->setEnabled(isTextItem);
-        m_topAlignAct->setEnabled(isTextItem);
-        m_rightAlignAct->setEnabled(isTextItem);
-        m_centerAlignAct->setEnabled(isTextItem);
-
-
-
->>>>>>> fix:contextMenu
     }
 
     //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.
