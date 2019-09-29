@@ -97,6 +97,7 @@ void CCentralwidget::initUI()
     m_pDrawScene = new CDrawScene(this);
     QRectF rc = QRectF(0, 0, 1362, 790);
     m_pDrawScene->setSceneRect(rc);
+<<<<<<< HEAD
     //根据主题设置
 //case 1:
 //        浅色主题
@@ -109,6 +110,9 @@ void CCentralwidget::initUI()
     }
 
     //m_pDrawScene->setForegroundBrush(QColor(100, 100, 100));
+=======
+    m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+>>>>>>> fix: fix panel background color
 
     m_pGraphicsView->setScene(m_pDrawScene);
     m_pGraphicsView->setAlignment(Qt::AlignCenter);
