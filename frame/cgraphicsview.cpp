@@ -52,6 +52,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_ddfFileSavePath("")
     , m_isShowContext(true)
     , m_viewWidth(0)
+
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
