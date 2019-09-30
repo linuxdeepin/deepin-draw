@@ -71,12 +71,6 @@ public:
 
 
 
-    CTextEdit *getTextEdit()
-    {
-        return m_pTextEdit;
-    }
-
-
 public slots:
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
