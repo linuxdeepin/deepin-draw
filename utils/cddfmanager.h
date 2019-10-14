@@ -81,6 +81,20 @@ inline QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
             out << unit.data.pPen->path;
             out << unit.data.pPen->arrow;
             out << unit.data.pPen->poitsVector;
+        } else if (BlurType == unit.head.dataType && nullptr != unit.data.pBlur) {
+            out << unit.data.pBlur->data.penType;
+            out << unit.data.pBlur->data.path;
+            out << unit.data.pBlur->data.arrow;
+            out << unit.data.pBlur->data.poitsVector;
+            out << unit.data.pBlur->effect;
+            out << unit.data.pBlur->blurWidth;
+        } else if (BlurType == unit.head.dataType && nullptr != unit.data.pBlur) {
+            out >> unit.data.pBlur->data.penType;
+            out >> unit.data.pBlur->data.path;
+            out >> unit.data.pBlur->data.arrow;
+            out >> unit.data.pBlur->data.poitsVector;
+            out >> unit.data.pBlur->effect;
+            out >> unit.data.pBlur->blurWidth;
         }
         //tail
         out << unit.tail.tailCheck[0];
