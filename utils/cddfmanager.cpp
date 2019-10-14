@@ -55,7 +55,7 @@ bool CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
-        if (tempItem->type() >= RectType && CutType != item->type() ) {
+        if (tempItem->type() > QGraphicsItem::UserType ) {
             CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
             graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
