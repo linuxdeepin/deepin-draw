@@ -90,11 +90,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             if ( items.count() != 0 ) {
                 QGraphicsItem *item = items.first();
-                ////////////////////////////只能单选
-                if (m_currentSelectItem != nullptr) {
-                    m_currentSelectItem->setSelected(false);
-                }
-                ///////////////////////////
                 //需要区别图元或文字
                 m_currentSelectItem = static_cast<CGraphicsItem *>(item);
                 m_dragHandle = CSizeHandleRect::InRect;
@@ -136,11 +131,6 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         QGraphicsItem *item = items.first();
         CGraphicsItem *currentItem = static_cast<CGraphicsItem *>(item);
         if (currentItem != m_currentSelectItem) {
-            ///////////////////
-            if (m_currentSelectItem != nullptr) {
-                m_currentSelectItem->setSelected(false);
-            }
-            ///////////////////
             m_currentSelectItem = currentItem;
             m_rotateAng = m_currentSelectItem->rotation();
             scene->changeAttribute(true, item);
