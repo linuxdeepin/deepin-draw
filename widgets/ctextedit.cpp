@@ -85,7 +85,10 @@ void CTextEdit::mousePressEvent(QMouseEvent *event)
     if (this->isVisible()) {
         this->clearFocus();
         this->setFocus();
+<<<<<<< HEAD
         currentCharFormatChanged(currentCharFormat());
+=======
+>>>>>>> fix: fix draw text item bug
     }
     DTextEdit::mousePressEvent(event);
 }
