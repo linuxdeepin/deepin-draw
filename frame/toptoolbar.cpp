@@ -102,6 +102,8 @@ void TopToolbar::initComboBox()
 
 
 
+
+
 //   static_cast<QStandardItemModel *>(static_cast<QComboBox *>(m_scaleComboBox)->view()->model())->item(0)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(2)->setTextAlignment(Qt::AlignCenter);
 //    static_cast<QStandardItemModel *>(m_scaleComboBox->view()->model())->item(4)->setTextAlignment(Qt::AlignCenter);
@@ -114,6 +116,11 @@ void TopToolbar::initComboBox()
     QFont ft;
     ft.setPixelSize(12);
     m_scaleComboBox->lineEdit()->setFont(ft);
+
+//    DPalette pa = DApplicationHelper::instance()->palette(m_scaleComboBox->lineEdit());
+//    pa.setColor(DPalette::Background, Qt::transparent);
+
+//    DApplicationHelper::instance()->setPalette(m_scaleComboBox->lineEdit(), pa);
 
 //    DPalette pa = DApplicationHelper::instance()->palette(m_scaleComboBox->lineEdit());
 //    pa.setColor(DPalette::Background, Qt::transparent);
