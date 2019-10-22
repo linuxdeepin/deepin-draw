@@ -239,6 +239,9 @@ void MainWindow::initScene()
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
+    if (type == 0) {
+        return;
+    }
     CDrawParamSigleton::GetInstance()->setThemeType(type);
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
