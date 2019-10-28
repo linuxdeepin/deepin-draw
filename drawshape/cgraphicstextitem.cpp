@@ -238,12 +238,6 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     cursor.mergeCharFormat(format);
     m_pTextEdit->mergeCurrentCharFormat(format);
     m_pTextEdit->setFocus();
-//    qApp->focusChanged(qApp->focusWidget(), m_pTextEdit);
-
-//    if (qApp->focusWidget() != nullptr) {
-//        qApp->focusWidget()->hide();
-//    }
-
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
