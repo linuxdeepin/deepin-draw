@@ -41,10 +41,6 @@ EditLabel::EditLabel(DWidget *parent)
     font.setPixelSize(8);
     m_edit->setFont(font);
 
-    QFont font = m_edit->font();
-    font.setPixelSize(8);
-    m_edit->setFont(font);
-
 
     QHBoxLayout *mLayout = new QHBoxLayout(this);
     mLayout->setMargin(0);
