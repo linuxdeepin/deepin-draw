@@ -35,7 +35,8 @@ EditLabel::EditLabel(DWidget *parent)
     m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
     m_edit->setClearButtonEnabled(false);
-    m_edit->lineEdit()->setEnabled(false);
+    //m_edit->lineEdit()->setEnabled(false);
+    m_edit->lineEdit()->setReadOnly(true);
 
     QFont font = m_edit->font();
     font.setPixelSize(8);
