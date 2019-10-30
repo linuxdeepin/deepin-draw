@@ -147,9 +147,6 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
-private:
-    bool m_bIsEditTextFlag;
-
 
 
 };
