@@ -191,8 +191,13 @@ void TextWidget::updateTextWidget()
     int fontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
 
     if (fontSize != m_fontSizeSlider->value()) {
+        m_fontSizeSlider->blockSignals(true);
         m_fontSizeSlider->setValue(fontSize);
+        m_fontSizeSlider->blockSignals(false);
+
+        m_fontSizeEdit->blockSignals(true);
         m_fontSizeEdit->setText(QString("%1").arg(fontSize));
+        m_fontSizeEdit->blockSignals(false);
     }
 }
 

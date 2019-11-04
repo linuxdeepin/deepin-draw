@@ -76,8 +76,6 @@ signals:
     void signalTextFontFamilyChanged();
     void signalTextFontSizeChanged();
 
-    void signalQuitCutModeFromTopBarMenu();
-
 
 public:
     void showPrintDialog();

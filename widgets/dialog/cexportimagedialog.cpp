@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cexportimagedialog.h"
+#include "widgets/csvglabel.h"
 
 #include <DFileDialog>
 #include <DDialog>
@@ -77,10 +78,7 @@ void CExportImageDialog::initUI()
 
     setContentsMargins(0, 0, 0, 0);
 
-    DLabel *logoLable = new DLabel(this);
-    //logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
-    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(32, 32));
-    logoLable->setPixmap(pixmap);
+    CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
     logoLable->setFixedSize(QSize(32, 32));
 
 

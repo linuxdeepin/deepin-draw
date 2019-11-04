@@ -19,9 +19,8 @@
 #ifndef ARROWRECTANGLE_H
 #define ARROWRECTANGLE_H
 
-#include <darrowrectangle.h>
-
 #include <QHideEvent>
+#include <DArrowRectangle>
 #include <DWidget>
 
 

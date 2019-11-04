@@ -49,13 +49,15 @@ signals:
 public slots:
 
     /**
-     * @brief slotChangedStatusToSelect 将工具栏的状态切换为选择状态
+     * @brief slotChangedStatusToSelect 清空工具栏选中
      */
-    void slotChangedStatusToSelect();
+
     void slotQuitCutMode();
     void changeButtonTheme();
+    void slotShortCutSelect();
 
 private slots:
+
     void slotShortCutPictrue();
     void slotShortCutRect();
     void slotShortCutRound();
@@ -68,8 +70,11 @@ private slots:
     void slotShortCutBlur();
     void slotShortCutCut();
 
+    void slotClearToolSelection();
+
 private:
     QList<CCheckButton *> m_actionButtons;
+    CCheckButton *m_selectBtn;
     CCheckButton *m_picBtn;
     CCheckButton *m_rectBtn;
     CCheckButton *m_roundBtn;
@@ -84,6 +89,7 @@ private:
 
     QVBoxLayout *m_layout;
 
+    QAction *m_selectAction;
     QAction *m_pictureAction;
     QAction *m_rectAction;
     QAction *m_roundAction;

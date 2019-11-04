@@ -186,5 +186,15 @@
         <file>theme/dark/images/attribute/flip horizontal_disabled.svg</file>
         <file>theme/dark/images/attribute/clockwise rotation_disabled.svg</file>
         <file>theme/dark/images/attribute/contrarotate_disabled.svg</file>
+        <file>theme/dark/images/action/choose tools_press.svg</file>
+        <file>theme/dark/images/action/choose tools_normal.svg</file>
+        <file>theme/dark/images/action/choose tools_hover.svg</file>
+        <file>theme/dark/images/action/choose tools_disable.svg</file>
+        <file>theme/dark/images/action/choose tools_active.svg</file>
+        <file>theme/light/images/action/choose tools_press.svg</file>
+        <file>theme/light/images/action/choose tools_disable.svg</file>
+        <file>theme/light/images/action/choose tools_normal.svg</file>
+        <file>theme/light/images/action/choose tools_active.svg</file>
+        <file>theme/light/images/action/choose tools_hover.svg</file>
     </qresource>
 </RCC>

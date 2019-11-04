@@ -29,7 +29,8 @@ HEADERS += \
     $$PWD/textcolorbutton.h \
     $$PWD/ctextedit.h \
     $$PWD/dialog/cprogressdialog.h \
-    $$PWD/cmenu.h
+    $$PWD/cmenu.h \
+    $$PWD/csvglabel.h
 
 
 SOURCES += \
@@ -61,7 +62,8 @@ SOURCES += \
     $$PWD/ctextedit.cpp \
     $$PWD/seperatorline.cpp \
     $$PWD/dialog/cprogressdialog.cpp \
-    $$PWD/cmenu.cpp
+    $$PWD/cmenu.cpp \
+    $$PWD/csvglabel.cpp
 
 
 #RESOURCES += \

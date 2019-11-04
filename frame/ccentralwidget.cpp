@@ -198,7 +198,9 @@ void CCentralwidget::slotTextFontSizeChanged()
 
 void CCentralwidget::slotNew()
 {
+    CDrawParamSigleton::GetInstance()->setDdfSavePath("");
     m_pGraphicsView->clearScene();
+    m_leftToolbar->slotShortCutSelect();
 }
 
 void CCentralwidget::slotPrint()
@@ -212,9 +214,16 @@ void CCentralwidget::slotShowCutItem()
     m_pDrawScene->showCutItem();
 }
 
-void CCentralwidget::slotQuitCutMode()
+void CCentralwidget::slotOnEscButtonClick()
 {
-    m_pGraphicsView->slotQuitCutMode();
+    //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
+    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+        m_pGraphicsView->slotQuitCutMode();
+    } else {
+        m_leftToolbar->slotShortCutSelect();
+    }
+    ///清空场景中选中图元
+    m_pDrawScene->clearSelection();
 }
 
 void CCentralwidget::slotSetScale(const qreal scale)
@@ -233,8 +242,8 @@ void CCentralwidget::initConnect()
     connect(m_leftToolbar, SIGNAL(signalBegainCut()), this, SLOT(slotShowCutItem()));
 
     connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
-    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotChangedStatusToSelect);
-    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_pGraphicsView, &CGraphicsView::slotStopContinuousDrawing);
+//    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotClearToolSelection);
+//    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_pGraphicsView, &CGraphicsView::slotStopContinuousDrawing);
 
     connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
 
@@ -264,6 +273,7 @@ void CCentralwidget::initConnect()
 
 
     connect(m_pGraphicsView, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
+    connect(m_pGraphicsView, SIGNAL(singalTransmitEndLoadDDF()), m_leftToolbar, SLOT(slotShortCutSelect()));
 
     //主菜单栏中点击打开导入图片
     connect(m_pGraphicsView, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
@@ -271,7 +281,7 @@ void CCentralwidget::initConnect()
     connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), m_pDrawScene, SLOT(drawToolChange(int)));
 
     //左边工具按钮点击退出裁剪模式
-    connect(m_leftToolbar, SIGNAL(singalQuitCutModeFromLeftToolBar()), this, SLOT(slotQuitCutMode()));
+//    connect(m_leftToolbar, SIGNAL(singalQuitCutModeFromLeftToolBar()), this, SLOT(slotQuitCutMode()));
 }
 
 

@@ -67,6 +67,7 @@ private:
     int m_titlebarWidth;
     bool m_contrlKey;
     DrawDialog *m_quitQuestionDialog;
+    QAction *m_quitMode;
 
 
 private:

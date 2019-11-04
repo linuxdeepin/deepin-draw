@@ -59,6 +59,9 @@ void CCheckButton::setChecked(bool checked)
         m_currentStatus = Active;
 
     } else {
+        if (hasFocus()) {
+            clearFocus();
+        }
         m_currentStatus = Normal;
     }
 

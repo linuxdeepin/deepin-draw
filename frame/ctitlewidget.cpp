@@ -50,7 +50,9 @@ void CTitleWidget::updateTitleWidget()
     if (path.isEmpty()) {
         m_title->setText(tr("未命名画板"));
     } else {
-
+        int index = path.lastIndexOf("/");
+        QString name = path.mid(index + 1);
+        m_title->setText(name);
     }
 }
 

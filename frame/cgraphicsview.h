@@ -66,6 +66,7 @@ signals:
     void signalSetScale(const qreal scale);
     void signalImportPicture(QString path);
     void signalTransmitContinueDoOtherThing();
+    void singalTransmitEndLoadDDF();
 
 public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &oldPosition );
@@ -126,7 +127,7 @@ private:
 //    QAction *m_rightAlignAct;
 //    QAction *m_centerAlignAct;
 
-    QAction *m_quitCutMode;        //退出裁剪
+
     QAction *m_cutScence;          //裁剪
 
     ///文字图元右键菜单

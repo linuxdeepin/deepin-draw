@@ -49,7 +49,7 @@ protected:
 
 private:
     QColor m_color;
-    bool      m_disable;
+    bool m_disable;
 };
 
 class CAlphaControlWidget;

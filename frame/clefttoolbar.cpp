@@ -77,6 +77,21 @@ void CLeftToolBar::initUI()
     setFixedWidth(58);
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/choose tools_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/choose tools_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/choose tools_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/action/choose tools_active.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/action/choose tools_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/action/choose tools_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/action/choose tools_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/action/choose tools_active.svg");
+
+    m_selectBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
+    //m_picBtn->setFocusPolicy(Qt::NoFocus);
+    m_selectBtn->setToolTip(tr("Select(V)"));
+    m_actionButtons.append(m_selectBtn);
+
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/action/picture tools_press.svg");
@@ -260,6 +275,8 @@ void CLeftToolBar::initUI()
     m_layout->setSpacing(0);
     m_layout->addStretch();
     m_layout->addSpacing(BTN_SPACING);
+    m_layout->addWidget(m_selectBtn);
+    m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_picBtn);
     m_layout->addSpacing(BTN_SPACING);
     m_layout->addWidget(m_rectBtn);
@@ -288,7 +305,7 @@ void CLeftToolBar::initUI()
     setLayout(m_layout);
 }
 
-void CLeftToolBar::slotChangedStatusToSelect()
+void CLeftToolBar::slotClearToolSelection()
 {
     foreach (CCheckButton *button, m_actionButtons) {
         if (button->isChecked() /*&& button != m_cutBtn*/) {
@@ -300,9 +317,7 @@ void CLeftToolBar::slotChangedStatusToSelect()
 
 void CLeftToolBar::slotQuitCutMode()
 {
-//    slotChangedStatusToSelect();
-    m_cutBtn->setChecked(false);
-    m_cutBtn->clearFocus();
+    slotShortCutSelect();
 }
 
 void CLeftToolBar::changeButtonTheme()
@@ -312,11 +327,6 @@ void CLeftToolBar::changeButtonTheme()
         button->setCurrentTheme(themeType);
     };
 }
-
-
-
-
-
 
 void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
 {
@@ -332,6 +342,14 @@ void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
 
 void CLeftToolBar::initConnection()
 {
+
+    connect(m_selectBtn, &CCheckButton::buttonClick, [this]() {
+        isCutMode();
+        clearOtherSelections(m_selectBtn);
+        emit setCurrentDrawTool(selection);
+        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+
+    });
 
     connect(m_picBtn, &CCheckButton::buttonClick, [this]() {
         isCutMode();
@@ -446,6 +464,12 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(blur, pTool);
 }
 
+void CLeftToolBar::slotShortCutSelect()
+{
+    m_selectBtn->setChecked(true);
+    emit m_selectBtn->buttonClick();
+}
+
 void CLeftToolBar::slotShortCutPictrue()
 {
     m_picBtn->setChecked(true);
@@ -514,53 +538,58 @@ void CLeftToolBar::slotShortCutCut()
 
 void CLeftToolBar::initShortCut()
 {
-    m_pictureAction = new QAction();
+    m_selectAction = new QAction(this);
+    m_selectAction->setShortcut(QKeySequence(Qt::Key_V));
+    this->addAction(m_selectAction);
+
+    m_pictureAction = new QAction(this);
     m_pictureAction->setShortcut(QKeySequence(Qt::Key_I));
     this->addAction(m_pictureAction);
 
-    m_rectAction = new QAction();
+    m_rectAction = new QAction(this);
     m_rectAction->setShortcut(QKeySequence(Qt::Key_R));
     this->addAction(m_rectAction);
 
-    m_roundAction = new QAction();
+    m_roundAction = new QAction(this);
     m_roundAction->setShortcut(QKeySequence(Qt::Key_O));
     this->addAction(m_roundAction);
 
-    m_triangleAction = new QAction();
+    m_triangleAction = new QAction(this);
     m_triangleAction->setShortcut(QKeySequence(Qt::Key_S));
     this->addAction(m_triangleAction);
 
-    m_starAction = new QAction();
+    m_starAction = new QAction(this);
     m_starAction->setShortcut(QKeySequence(Qt::Key_F));
     this->addAction(m_starAction);
 
-    m_polygonAction = new QAction();
+    m_polygonAction = new QAction(this);
     m_polygonAction->setShortcut(QKeySequence(Qt::Key_H));
     this->addAction(m_polygonAction);
 
-    m_lineAction = new QAction();
+    m_lineAction = new QAction(this);
     m_lineAction->setShortcut(QKeySequence(Qt::Key_L));
     this->addAction(m_lineAction);
 
-    m_penAction = new QAction();
+    m_penAction = new QAction(this);
     m_penAction->setShortcut(QKeySequence(Qt::Key_P));
     this->addAction(m_penAction);
 
-    m_textAction = new QAction();
+    m_textAction = new QAction(this);
     m_textAction->setShortcut(QKeySequence(Qt::Key_T));
     this->addAction(m_textAction);
 
-    m_blurAction = new QAction();
+    m_blurAction = new QAction(this);
     m_blurAction->setShortcut(QKeySequence(Qt::Key_B));
     this->addAction(m_blurAction);
 
-    m_cutAction = new QAction();
+    m_cutAction = new QAction(this);
     m_cutAction->setShortcut(QKeySequence(Qt::Key_C));
     this->addAction(m_cutAction);
 }
 
 void CLeftToolBar::initShortCutConnection()
 {
+    connect(m_selectAction, SIGNAL(triggered()), this, SLOT(slotShortCutSelect()));
     connect(m_pictureAction, SIGNAL(triggered()), this, SLOT(slotShortCutPictrue()));
     connect(m_rectAction, SIGNAL(triggered()), this, SLOT(slotShortCutRect()));
     connect(m_roundAction, SIGNAL(triggered()), this, SLOT(slotShortCutRound()));

@@ -32,6 +32,7 @@
 #include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "widgets/csvglabel.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -60,14 +61,8 @@ void TopToolbar::initUI()
     initStackWidget();
     initMenu();
 
-    DLabel *logoLable = new DLabel(this);
-//    logoLable->setPixmap(QPixmap(":/theme/common/images/logo.svg"));
-//    logoLable->setFixedSize(QSize(32, 32));
-
-    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(32, 32));
-    logoLable->setPixmap(pixmap);
+    CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
     logoLable->setFixedSize(QSize(32, 32));
-
 
     QHBoxLayout *hLayout = new QHBoxLayout (this);
     hLayout->setMargin(0);
@@ -212,7 +207,7 @@ void TopToolbar::initMenu()
     m_mainMenu->addSeparator();
     QAction *exportAc = m_mainMenu->addAction(tr("Export"));
 
-    m_saveAction = new QAction(tr("Save"));
+    m_saveAction = new QAction(tr("Save"), this);
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);

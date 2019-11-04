@@ -52,7 +52,6 @@ public:
 
 
 signals:
-
     //传递图片的旋转和翻转信号
     void signalPassPictureOper(int);
 
@@ -66,6 +65,7 @@ signals:
     void signalUpdateCutSize();
     void signalUpdateTextFont();
     void signalContinueDoOtherThing();
+
 
 
 public slots:
@@ -84,7 +84,8 @@ public slots:
     void slotTextFontFamilyChanged();
     void slotTextFontSizeChanged();
     void openPicture(QString path);
-    void slotQuitCutMode();
+    void slotOnEscButtonClick();
+
 
 private:
     CLeftToolBar *m_leftToolbar;

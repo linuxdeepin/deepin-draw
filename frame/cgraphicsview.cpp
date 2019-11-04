@@ -152,29 +152,29 @@ void CGraphicsView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
 
-    m_cutAct = new QAction(tr("Cut"));
+    m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
     m_cutAct->setShortcut(QKeySequence::Cut);
     this->addAction(m_cutAct);
 
-    m_copyAct = new QAction(tr("Copy"));
+    m_copyAct = new QAction(tr("Copy"), this);
     m_contextMenu->addAction(m_copyAct);
     m_copyAct->setShortcut(QKeySequence::Copy);
     this->addAction(m_copyAct);
 
-    m_pasteAct = new QAction(tr("Paste"));
+    m_pasteAct = new QAction(tr("Paste"), this);
     m_contextMenu->addAction(m_pasteAct);
     m_pasteAct->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
 
-    m_selectAllAct = new QAction(tr("Select all"));
+    m_selectAllAct = new QAction(tr("Select all"), this);
     m_contextMenu->addAction(m_selectAllAct);
     m_selectAllAct->setShortcut(QKeySequence::SelectAll);
     this->addAction(m_selectAllAct);
 
     m_contextMenu->addSeparator();
 
-    m_deleteAct = new QAction(tr("Delete"));
+    m_deleteAct = new QAction(tr("Delete"), this);
     m_contextMenu->addAction(m_deleteAct);
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
@@ -190,22 +190,22 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
-    m_oneLayerUpAct = new QAction(tr("Raise Layer"));
+    m_oneLayerUpAct = new QAction(tr("Raise Layer"), this);
     m_contextMenu->addAction(m_oneLayerUpAct);
     m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
     this->addAction(m_oneLayerUpAct);
 
-    m_oneLayerDownAct = new QAction(tr("Lower Layer"));
+    m_oneLayerDownAct = new QAction(tr("Lower Layer"), this);
     m_contextMenu->addAction(m_oneLayerDownAct);
     m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
     this->addAction(m_oneLayerDownAct);
 
-    m_bringToFrontAct = new QAction(tr("Layer to Top"));
+    m_bringToFrontAct = new QAction(tr("Layer to Top"), this);
     m_contextMenu->addAction(m_bringToFrontAct);
     m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketRight));
     this->addAction(m_bringToFrontAct);
 
-    m_sendTobackAct = new QAction(tr("Layer to Bottom"));
+    m_sendTobackAct = new QAction(tr("Layer to Bottom"), this);
     m_contextMenu->addAction(m_sendTobackAct);
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
@@ -215,12 +215,8 @@ void CGraphicsView::initContextMenu()
 //    m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
 //    m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
 
-    //退出裁剪模式快捷键
-    m_quitCutMode = new QAction();
-    //m_quitCutMode->setShortcut(QKeySequence(Qt::Key_Escape));
-    this->addAction(m_quitCutMode);
 
-    m_cutScence = new QAction();
+    m_cutScence = new QAction(this);
     QList<QKeySequence> shortcuts;
     shortcuts.append(QKeySequence(Qt::Key_Return));
     shortcuts.append(QKeySequence(Qt::Key_Enter));
@@ -239,8 +235,6 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_sendTobackAct, SIGNAL(triggered()), this, SLOT(slotSendTobackAct()));
     connect(m_oneLayerUpAct, SIGNAL(triggered()), this, SLOT(slotOneLayerUp()));
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
-
-    connect(m_quitCutMode, SIGNAL(triggered()), this, SLOT(slotQuitCutMode()));
     connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
 }
 
@@ -312,6 +306,7 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
     connect(m_DDFManager, SIGNAL(signalContinueDoOtherThing()), this, SIGNAL(signalTransmitContinueDoOtherThing()));
+    connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }
 
 
@@ -339,10 +334,10 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     Q_UNUSED(event)
 
-    if (m_isStopContinuousDrawing) {
-        m_isStopContinuousDrawing = false;
-        return;
-    }
+//    if (m_isStopContinuousDrawing) {
+//        m_isStopContinuousDrawing = false;
+//        return;
+//    }
 
     if (!m_isShowContext) {
         return;
@@ -746,7 +741,7 @@ void CGraphicsView::slotSendTobackAct()
 void CGraphicsView::slotQuitCutMode()
 {
     setContextMenuAndActionEnable(true);
-    static_cast<CDrawScene *>(scene())->doCutScene();
+    static_cast<CDrawScene *>(scene())->quitCutMode();
 }
 
 void CGraphicsView::slotDoCutScene()

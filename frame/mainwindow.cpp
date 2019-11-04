@@ -55,8 +55,6 @@ MainWindow::MainWindow(DWidget *parent)
 }
 
 
-
-
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
@@ -70,7 +68,6 @@ void MainWindow::initUI()
     } else {
         setMinimumSize(QSize(1152, 768));
     }
-
 
     m_topToolbar = new TopToolbar(this);
     m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
@@ -88,6 +85,11 @@ void MainWindow::initUI()
     setCentralWidget(m_centralWidget);
 
     m_quitQuestionDialog  = new DrawDialog(this);
+
+    //ESC快捷键功能
+    m_quitMode = new QAction(this);
+    m_quitMode->setShortcut(QKeySequence(Qt::Key_Escape));
+    this->addAction(m_quitMode);
 }
 
 void MainWindow::initConnection()
@@ -132,9 +134,9 @@ void MainWindow::initConnection()
 
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
-    connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SLOT(slotQuitCutMode()));
-
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
+
+    connect(m_quitMode, SIGNAL(triggered()), m_centralWidget, SLOT(slotOnEscButtonClick()));
 
 }
 
@@ -145,7 +147,6 @@ void MainWindow::activeWindow()
     window()->raise();
     window()->activateWindow();
 }
-
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
@@ -183,6 +184,7 @@ void MainWindow::slotContinueDoSomeThing()
         break;
     }
 }
+
 
 void MainWindow::showDrawDialog()
 {
