@@ -25,27 +25,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="57"/>
+        <location filename="../frame/ccutwidget.cpp" line="67"/>
         <source>尺寸</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="70"/>
+        <location filename="../frame/ccutwidget.cpp" line="80"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="80"/>
+        <location filename="../frame/ccutwidget.cpp" line="90"/>
         <source>比例</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="103"/>
+        <location filename="../frame/ccutwidget.cpp" line="113"/>
         <source>自由</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="108"/>
+        <location filename="../frame/ccutwidget.cpp" line="117"/>
         <source>原始</source>
         <translation type="unfinished"></translation>
     </message>
@@ -162,111 +162,111 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="155"/>
-        <location filename="../frame/cgraphicsview.cpp" line="245"/>
+        <location filename="../frame/cgraphicsview.cpp" line="156"/>
+        <location filename="../frame/cgraphicsview.cpp" line="247"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="160"/>
-        <location filename="../frame/cgraphicsview.cpp" line="246"/>
+        <location filename="../frame/cgraphicsview.cpp" line="161"/>
+        <location filename="../frame/cgraphicsview.cpp" line="248"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="165"/>
-        <location filename="../frame/cgraphicsview.cpp" line="247"/>
+        <location filename="../frame/cgraphicsview.cpp" line="166"/>
+        <location filename="../frame/cgraphicsview.cpp" line="249"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="177"/>
-        <location filename="../frame/cgraphicsview.cpp" line="250"/>
+        <location filename="../frame/cgraphicsview.cpp" line="178"/>
+        <location filename="../frame/cgraphicsview.cpp" line="252"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="183"/>
-        <location filename="../frame/cgraphicsview.cpp" line="252"/>
+        <location filename="../frame/cgraphicsview.cpp" line="184"/>
+        <location filename="../frame/cgraphicsview.cpp" line="254"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="170"/>
+        <location filename="../frame/cgraphicsview.cpp" line="171"/>
         <source>Select all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="187"/>
+        <location filename="../frame/cgraphicsview.cpp" line="188"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="193"/>
-        <location filename="../frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../frame/cgraphicsview.cpp" line="194"/>
+        <location filename="../frame/cgraphicsview.cpp" line="257"/>
         <source>Raise Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="198"/>
-        <location filename="../frame/cgraphicsview.cpp" line="257"/>
+        <location filename="../frame/cgraphicsview.cpp" line="199"/>
+        <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Lower Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="203"/>
-        <location filename="../frame/cgraphicsview.cpp" line="259"/>
+        <location filename="../frame/cgraphicsview.cpp" line="204"/>
+        <location filename="../frame/cgraphicsview.cpp" line="261"/>
         <source>Layer to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="208"/>
-        <location filename="../frame/cgraphicsview.cpp" line="261"/>
+        <location filename="../frame/cgraphicsview.cpp" line="209"/>
+        <location filename="../frame/cgraphicsview.cpp" line="263"/>
         <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../frame/cgraphicsview.cpp" line="250"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="264"/>
+        <location filename="../frame/cgraphicsview.cpp" line="266"/>
         <source>Left Alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="265"/>
+        <location filename="../frame/cgraphicsview.cpp" line="267"/>
         <source>Top Alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="266"/>
+        <location filename="../frame/cgraphicsview.cpp" line="268"/>
         <source>Right Alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="267"/>
+        <location filename="../frame/cgraphicsview.cpp" line="269"/>
         <source>Center Alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="868"/>
+        <location filename="../frame/cgraphicsview.cpp" line="871"/>
         <source>保存文件</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="870"/>
+        <location filename="../frame/cgraphicsview.cpp" line="873"/>
         <source>另存为</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="876"/>
+        <location filename="../frame/cgraphicsview.cpp" line="879"/>
         <source>画图.DDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="891"/>
+        <location filename="../frame/cgraphicsview.cpp" line="894"/>
         <source>打开文件</source>
         <translation type="unfinished"></translation>
     </message>
@@ -382,13 +382,13 @@
 <context>
     <name>CProgressDialog</name>
     <message>
-        <location filename="../widgets/dialog/cprogressdialog.cpp" line="20"/>
-        <location filename="../widgets/dialog/cprogressdialog.cpp" line="58"/>
+        <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
+        <location filename="../widgets/dialog/cprogressdialog.cpp" line="61"/>
         <source>正在导出</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cprogressdialog.cpp" line="60"/>
+        <location filename="../widgets/dialog/cprogressdialog.cpp" line="63"/>
         <source>正在导入</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,7 +405,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="202"/>
+        <location filename="../widgets/colorpanel.cpp" line="234"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -446,7 +446,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="45"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="62"/>
         <source>The changes you made have not been saved yet. Do you want to save them?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -454,17 +454,17 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="60"/>
+        <location filename="../frame/linewidget.cpp" line="63"/>
         <source>类型</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="100"/>
-        <source>颜色</source>
+        <location filename="../frame/linewidget.cpp" line="103"/>
+        <source>描边</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="110"/>
+        <location filename="../frame/linewidget.cpp" line="113"/>
         <source>描边粗细</source>
         <translation type="unfinished"></translation>
     </message>
@@ -554,77 +554,128 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
-        <source>Save</source>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="37"/>
+        <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
-        <source>Rectangle</source>
+        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
-        <source>Ellipse</source>
+        <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
-        <source>Pencil</source>
+        <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
-        <source>Text</source>
+        <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="43"/>
-        <source>Select</source>
+        <location filename="../utils/shortcut.cpp" line="44"/>
+        <source>Selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="42"/>
-        <source>Blur</source>
+        <location filename="../utils/shortcut.cpp" line="45"/>
+        <source>Export Picture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
-        <source>Cut</source>
+        <source>Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
-        <source>Copy</source>
+        <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
-        <source>Paste</source>
+        <source>Triangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
-        <source>Delete</source>
+        <source>Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
-        <source>Raise Layer</source>
+        <source>Polygon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
-        <source>Lower Layer</source>
+        <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="52"/>
-        <source>Layer to Top</source>
+        <source>Pencil</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="53"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="54"/>
+        <source>Blur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="55"/>
+        <location filename="../utils/shortcut.cpp" line="59"/>
+        <source>Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="60"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="61"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="62"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="63"/>
+        <source>Raise Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="64"/>
+        <source>Lower Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="65"/>
+        <source>Layer to Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="66"/>
         <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -632,17 +683,17 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="54"/>
+        <location filename="../frame/textwidget.cpp" line="55"/>
         <source>填充</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="62"/>
+        <location filename="../frame/textwidget.cpp" line="63"/>
         <source>字体</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="77"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>字号</source>
         <translation type="unfinished"></translation>
     </message>
@@ -650,42 +701,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="210"/>
+        <location filename="../frame/toptoolbar.cpp" line="239"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="205"/>
+        <location filename="../frame/toptoolbar.cpp" line="223"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="206"/>
+        <location filename="../frame/toptoolbar.cpp" line="228"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="208"/>
+        <location filename="../frame/toptoolbar.cpp" line="234"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="215"/>
+        <location filename="../frame/toptoolbar.cpp" line="244"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="216"/>
+        <location filename="../frame/toptoolbar.cpp" line="249"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="239"/>
+        <location filename="../frame/toptoolbar.cpp" line="264"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="242"/>
+        <location filename="../frame/toptoolbar.cpp" line="267"/>
         <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
