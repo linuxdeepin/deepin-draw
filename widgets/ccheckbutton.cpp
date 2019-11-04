@@ -27,7 +27,7 @@
 
 
 CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent, bool isCheckLock) :
-    DPushButton(parent),
+    DToolButton(parent),
     m_isHover(false),
     m_isChecked(false),
     m_isPressed(false),
@@ -49,7 +49,7 @@ CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictu
     pa.setColor(DPalette::Button, Qt::transparent);
     DApplicationHelper::instance()->setPalette(this, pa);
     this->setAutoFillBackground(true);
-    this->setFlat(true);
+    // this->setFlat(true);
 
 //    qDebug() << "!!!!!" << CDrawParamSigleton::GetInstance()->getThemeType();
 

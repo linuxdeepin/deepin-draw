@@ -33,7 +33,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
-    setFixedSize(24, 24);
+    setFixedSize(54, 36);
     setCheckable(false);
     m_color = CDrawParamSigleton::GetInstance()->getLineColor();
 }
@@ -64,28 +64,28 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
     QColor drawColor = m_color;
 
-    if (m_isChecked || m_isHover) {
-        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        painter.drawRoundedRect(rect(), 6, 6);
-    } else if (m_isChecked) {
-        drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
-    } else {
-        painter.setBrush(Qt::transparent);
-        painter.drawRoundedRect(rect(), 6, 6);
-    }
+//    if (m_isChecked || m_isHover) {
+//        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
+//        painter.drawRoundedRect(rect(), 6, 6);
+//    } else if (m_isChecked) {
+//        drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
+//    } else {
+//        painter.setBrush(Qt::transparent);
+//        painter.drawRoundedRect(rect(), 6, 6);
+//    }
 
     QPen pen;
     pen.setWidth(2);
     pen.setColor(drawColor);
     painter.setPen(pen);
-    painter.setBrush(Qt::transparent);
+    // painter.setBrush(Qt::transparent);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-    painter.drawRoundedRect(QRect(4, 4, 16, 16), 6, 6);
+    painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
 
     QPen borderPen;
     borderPen.setWidth(1);
     //borderPen.setColor(QColor(0, 0, 0, 15));
-    if (m_color == Qt::transparent) {
+    if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
         borderPen.setColor(Qt::gray);
     } else {
         borderPen.setColor(Qt::transparent);
@@ -93,13 +93,27 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     //borderPen.setColor(Qt::gray);
     painter.setPen(borderPen);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-    painter.drawRoundedRect(QRect(4, 4, 16, 16), 6, 6);
+    painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
 
     if (m_isChecked) {
-        painter.setBrush(QColor(0, 0, 0, 35));
+        //painter.setBrush(QColor(0, 0, 0, 35));
         //painter.drawEllipse(CENTER_POINT, BTN_RADIUS - 1, BTN_RADIUS - 1);
-        painter.drawRoundedRect(QRect(5, 5, 14, 14), 6, 6);
+        painter.drawRoundedRect(QRect(5, 11, 14, 14), 6, 6);
     }
+
+    QPen textPen;
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        textPen.setColor(QColor("#414D68"));
+    } else {
+        textPen.setColor(QColor("#C0C6D4"));
+    }
+
+    painter.setPen(textPen);
+    QFont ft;
+    ft.setPixelSize(12);
+    painter.setFont(ft);
+
+    painter.drawText(26, 9, 32, 16, 1, tr("描边"));
 }
 
 void BorderColorButton::setColor(QColor color)

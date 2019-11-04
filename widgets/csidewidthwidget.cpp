@@ -36,7 +36,7 @@ void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout (this);
     m_layout->setMargin(0);
-    m_layout->setSpacing(0);
+    m_layout->setSpacing(8);
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 

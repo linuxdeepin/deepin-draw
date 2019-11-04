@@ -34,6 +34,8 @@
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QtConcurrent>
+#include <QDesktopWidget>
+#include <QApplication>
 
 DGUI_USE_NAMESPACE
 
@@ -98,7 +100,13 @@ void CCentralwidget::initUI()
     m_leftToolbar = new CLeftToolBar(this);
     m_pGraphicsView = new CGraphicsView(this);
     m_pDrawScene =  CDrawScene::GetInstance();
-    QRectF rc = QRectF(0, 0, 1362, 790);
+    //设置scene大小为屏幕分辨率
+    //获取屏幕分辨率
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
+
+    QRectF rc = QRectF(0, 0, screenRect.width(), screenRect.height());
     m_pDrawScene->setSceneRect(rc);
     //根据主题设置
 //case 1:
@@ -145,6 +153,9 @@ void CCentralwidget::initUI()
 //    itemrect->setBrush(QBrush(Qt::black));
 
 //    m_pDrawScene->addItem(itemrect);
+
+    //初始设置显示为75%；
+    m_pGraphicsView->scale(0.75);
 }
 
 void CCentralwidget::slotResetOriginPoint()

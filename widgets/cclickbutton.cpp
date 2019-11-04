@@ -30,7 +30,7 @@ CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pict
     m_pictureMap(pictureMap)
 {
     setFixedSize(size);
-    setIconSize(QSize(48, 48));
+    setIconSize(size);
 
 //    qDebug() << "@@@@@@@" << CDrawParamSigleton::GetInstance()->getThemeType();
 
@@ -82,6 +82,7 @@ void CClickButton::mousePressEvent(QMouseEvent *e)
     updateImage();
 
     emit buttonClick();
+    DPushButton::mousePressEvent(e);
 }
 
 void CClickButton::mouseReleaseEvent(QMouseEvent *e)
@@ -91,6 +92,8 @@ void CClickButton::mouseReleaseEvent(QMouseEvent *e)
     m_currentStatus = Normal;
 
     updateImage();
+
+    DPushButton::mouseReleaseEvent(e);
 
 }
 
@@ -102,6 +105,7 @@ void CClickButton::enterEvent(QEvent *e)
 
     updateImage();
 
+    DPushButton::enterEvent(e);
 }
 
 void CClickButton::leaveEvent(QEvent *e)
@@ -112,6 +116,7 @@ void CClickButton::leaveEvent(QEvent *e)
 
     updateImage();
 
+    DPushButton::leaveEvent(e);
 }
 
 void CClickButton::updateImage()

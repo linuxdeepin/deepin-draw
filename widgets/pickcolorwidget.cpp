@@ -109,6 +109,11 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     connect(m_colorLabel, &ColorLabel::pickedColor, this,  [ = ](QColor color) {
         setRgbValue(color, true);
     });
+
+    connect(m_colorLabel, &ColorLabel::signalPreViewColor, this,  [ = ](QColor color) {
+        preSetRgbValue(color);
+    });
+
     connect(m_picker, &CCheckButton::mouseRelease, this, [ = ] {
         m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
 //        QDBusPendingReply<> reply =  m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
@@ -165,6 +170,15 @@ void PickColorWidget::setRgbValue(QColor color, bool isPicked)
 
     if (isPicked)
         emit pickedColor(color);
+}
+
+void PickColorWidget::preSetRgbValue(QColor color)
+{
+    m_redEditLabel->setEditText(QString("%1").arg(color.red()));
+    m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
+    m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
+
+    emit signalPreSetColorName(color);
 }
 
 void PickColorWidget::updateColor()

@@ -45,6 +45,7 @@ public:
 signals:
     void clicked();
     void pickedColor(QColor color);
+    void signalPreViewColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent *);

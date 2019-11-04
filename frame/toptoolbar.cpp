@@ -88,7 +88,7 @@ void TopToolbar::initUI()
 void TopToolbar::initComboBox()
 {
 
-    m_scaleComboBox = new CPushButton("100%", this);
+    m_scaleComboBox = new CPushButton("75%", this);
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
 
     DMenu *scaleMenu = new DMenu();
@@ -128,7 +128,7 @@ void TopToolbar::initComboBox()
     });
 
     m_scaleComboBox->setMenu(scaleMenu);
-    m_scaleComboBox->setFixedWidth(70);
+    m_scaleComboBox->setFixedWidth(60);
 
     //设置字体大小
     QFont ft;
@@ -148,10 +148,11 @@ void TopToolbar::initComboBox()
     });
     connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
         //设置编辑时颜色
-        DPalette pa1 = m_scaleComboBox->palette();
-        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
-        m_scaleComboBox->setPalette(pa1);
+//        DPalette pa1 = m_scaleComboBox->palette();
+//        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
+//        m_scaleComboBox->setPalette(pa1);
         //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+        setScaleTextColor();
     });
 
 }
@@ -301,6 +302,7 @@ void TopToolbar::changeTopButtonsTheme()
     m_drawBlurWidget->changeButtonTheme();
     m_drawTextWidget->updateTheme();
     m_colorPanel->changeButtonTheme();
+    m_cutWidget->changeButtonTheme();
     setScaleTextColor();
 }
 

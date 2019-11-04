@@ -19,12 +19,13 @@
 #ifndef AILORINGWIDGET_H
 #define AILORINGWIDGET_H
 
+#include "widgets/seperatorline.h"
 #include <DWidget>
 #include <DLineEdit>
 
 DWIDGET_USE_NAMESPACE
 
-
+class CClickButton;
 class CCutWidget : public DWidget
 {
     Q_OBJECT
@@ -37,6 +38,7 @@ public:
 
     void updateCutSize();
     void clearAllChecked();
+    void changeButtonTheme();
 
 signals:
     void signalCutAttributeChanged();
@@ -55,6 +57,10 @@ private:
 
     DLineEdit *m_widthEdit;
     DLineEdit *m_heightEdit;
+
+    CClickButton *m_cutBtn;
+    CClickButton *m_cancelBtn;
+    SeperatorLine *m_sepLine;
 
 private:
     void initUI();

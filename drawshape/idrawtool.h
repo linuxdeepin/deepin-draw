@@ -20,7 +20,9 @@
 #define CDRAWTOOL_H
 
 #include "globaldefine.h"
+#include "csizehandlerect.h"
 #include <QList>
+#include <QCursor>
 
 class QGraphicsSceneMouseEvent;
 class CDrawScene;
@@ -36,6 +38,8 @@ public:
 
     EDrawToolMode getDrawToolMode() const;
 
+    QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false);
+
 protected:
     bool m_bMousePress;
     QPointF m_sPointPress;
@@ -48,6 +52,7 @@ protected:
 
 private:
     EDrawToolMode m_mode;
+    QCursor m_RotateCursor;
 
 };
 

@@ -79,6 +79,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
 void CGraphicsView::zoomOut()
 {
+    qDebug() << "m_scale=" << m_scale;
     if (1.1 * m_scale - 8 <= 0.01) {
         this->scale(1.1 * m_scale);
         emit signalSetScale(m_scale);
@@ -117,7 +118,10 @@ QPixmap CGraphicsView::getSceneImage()
     QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
+//    CDrawParamSigleton::GetInstance()->setThemeType(1);
     scene()->render(&painter);
+//    CDrawParamSigleton::GetInstance()->setThemeType(2);
 
     return  pixmap;
 }
@@ -223,6 +227,14 @@ void CGraphicsView::initContextMenu()
     shortcuts.append(QKeySequence(Qt::Key_Enter));
     m_cutScence->setShortcuts(shortcuts);
     this->addAction(m_cutScence);
+
+    m_primitiveZoomInAction = new QAction(this);
+    m_primitiveZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
+    this->addAction(m_primitiveZoomInAction);
+
+    m_primitiveZoomOutAction = new QAction(this);
+    m_primitiveZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
+    this->addAction(m_primitiveZoomOutAction);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -237,6 +249,16 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_oneLayerUpAct, SIGNAL(triggered()), this, SLOT(slotOneLayerUp()));
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
     connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
+
+    connect(m_primitiveZoomInAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomIn()));
+    connect(m_primitiveZoomOutAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomOut()));
+    //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
+    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
+        m_bringToFrontAct->setEnabled(true);
+        m_sendTobackAct->setEnabled(true);
+        m_oneLayerUpAct->setEnabled(true);
+        m_oneLayerDownAct->setEnabled(true);
+    });
 }
 
 void CGraphicsView::initTextContextMenu()
@@ -313,25 +335,6 @@ void CGraphicsView::initConnection()
 }
 
 
-void CGraphicsView::setContextMenu()
-{
-    CDrawScene *scene = static_cast<CDrawScene *>(this->scene());
-
-    if (scene->selectedItems().size() != 0) {
-        m_visible = true;
-    } else {
-        m_visible = false;
-    }
-    m_oneLayerUpAct->setVisible(m_visible);
-    m_oneLayerDownAct->setVisible(m_visible);
-    m_bringToFrontAct->setVisible(m_visible);
-    m_sendTobackAct->setVisible(m_visible);
-//    m_leftAlignAct->setVisible(m_visible);
-//    m_topAlignAct->setVisible(m_visible);
-//    m_rightAlignAct->setVisible(m_visible);
-//    m_centerAlignAct->setVisible(m_visible);
-
-}
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
@@ -346,40 +349,36 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         return;
     }
 
-    //获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.//获取右键菜单的显示位置，左边工具栏宽度为60，顶端参数配置栏高度为40，右键菜单三种分别为224\350\480.
+    //获取右键菜单的显示位置，左边工具栏宽度为162，顶端参数配置栏高度为50，右键菜单三种分别为224\350\480.
     QPoint menuPos;
     int rx;
     int ry;
     //qDebug() << cursor().pos() << m_contextMenu->rect()  << this->rect() << endl;
-    if (cursor().pos().rx() - 60 > this->width() - m_contextMenu->width()) {
-        rx = this->width() - m_contextMenu->width() + 60;
+    if (cursor().pos().rx() - 50 > this->width() - 182) {
+        rx = this->width() - 182 + 50;
     } else {
         rx = cursor().pos().rx();
     }
     int temp;
-    //判定是长右键菜单还是短右键菜单;
-    if (m_visible) {
-        temp = 350;
-    } else {
-        temp = 224;
-    }
-
-    if (cursor().pos().ry() - 40 > this->height() - temp) {
-        ry = this->height() - temp + 40;
-    } else {
-        ry = cursor().pos().ry();
-    }
-    menuPos = QPoint(rx, ry);
 
 
-    //如果是文字图元则显示其自己的右键菜单
     if (!scene()->selectedItems().isEmpty()) {
+
+        m_copyAct->setEnabled(true);
+        m_cutAct->setEnabled(true);
+        m_deleteAct->setEnabled(true);
+        m_bringToFrontAct->setVisible(true);
+        m_sendTobackAct->setVisible(true);
+        m_oneLayerUpAct->setVisible(true);
+        m_oneLayerDownAct->setVisible(true);
+        m_visible = true;
+        //如果是文字图元则显示其自己的右键菜单
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
         if (TextType == item->type() &&  static_cast<CGraphicsTextItem *>(tmpitem)->isEditable()) {
             temp = 480;
-            if (cursor().pos().ry() - 40 > this->height() - temp) {
-                ry = this->height() - temp + 40;
+            if (cursor().pos().ry() - 50 > this->height() - temp) {
+                ry = this->height() - temp + 45;
             } else {
                 ry = cursor().pos().ry();
             }
@@ -388,39 +387,52 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             m_textMenu->show();
             return;
         }
+    } else {
+        m_copyAct->setEnabled(false);
+        m_cutAct->setEnabled(false);
+        m_deleteAct->setEnabled(false);
 
-        //判断选中图元中是否有非文字图元
-//        bool isTextItem = true;
+        m_bringToFrontAct->setVisible(false);
+        m_sendTobackAct->setVisible(false);
+        m_oneLayerUpAct->setVisible(false);
+        m_oneLayerDownAct->setVisible(false);
+        m_visible = false;
+    }
+    //判定是长右键菜单还是短右键菜单;
+    if (m_visible) {
+        temp = 350;
+    } else {
+        temp = 224;
+    }
 
-//        for (int i = 0; i < scene()->selectedItems().size(); i++) {
-//            if (TextType != static_cast<CGraphicsItem *>(scene()->selectedItems()[i])->type()) {
-//                isTextItem = false;
-//            }
-//        }
+    if (cursor().pos().ry() - 50 > this->height() - temp) {
+        ry = this->height() - temp + 45;
+    } else {
+        ry = cursor().pos().ry();
+    }
+    menuPos = QPoint(rx, ry);
 
-        //如果选中图元中有非文字图元，则需要把对齐功能置灰
-//        m_leftAlignAct->setEnabled(isTextItem);
-//        m_topAlignAct->setEnabled(isTextItem);
-//        m_rightAlignAct->setEnabled(isTextItem);
-//        m_centerAlignAct->setEnabled(isTextItem);
+    if (scene()->items().isEmpty()) {
+        m_selectAllAct->setEnabled(false);
+    } else {
+        m_selectAllAct->setEnabled(true);
     }
 
 
+    bool layerUp = canLayerUp();
+    m_oneLayerUpAct->setEnabled(layerUp);
+    m_bringToFrontAct->setEnabled(layerUp);
 
+    bool layerDown = canLayerDown();
+    m_oneLayerDownAct->setEnabled(layerDown);
+    m_sendTobackAct->setEnabled(layerDown);
 
-    setContextMenu();
-
-
-
-
-//让菜单能够完全显示
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     m_contextMenu->show();
 }
-
 
 void CGraphicsView::resizeEvent(QResizeEvent *event)
 {
@@ -632,13 +644,12 @@ void CGraphicsView::slotOnDelete()
 
 void CGraphicsView::slotOneLayerUp()
 {
-    QList<QGraphicsItem *> itemList = scene()->items();
+    if (!canLayerUp()) {
+        return;
+    }
 
     QList<QGraphicsItem *> selectedList = scene()->selectedItems();
 
-    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
-        return;
-    }
 
     QGraphicsItem *selectedItem = selectedList.first();
 
@@ -648,96 +659,47 @@ void CGraphicsView::slotOneLayerUp()
 
 void CGraphicsView::slotOneLayerDown()
 {
-    QList<QGraphicsItem *> itemList = scene()->items();
+    if (!canLayerDown()) {
+        return;
+    }
 
     QList<QGraphicsItem *> selectedList = scene()->selectedItems();
 
-    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
-        return;
-    }
+
 
     QGraphicsItem *selectedItem = selectedList.first();
 
     QUndoCommand *command = new COneLayerDownCommand(selectedItem, this->scene());
     m_pUndoStack->push(command);
 
-//    int index = itemList.indexOf(selectedItem);
-
-//    bool isSuccess = false;
-
-//    for (int i = index + 1; i < itemList.length() ; i++) {
-
-//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            selectedItem->stackBefore(itemList.at(i));
-//            isSuccess = true;
-//            break;
-//        }
-//    }
-
-//    if (isSuccess) {
-//        scene()->update();
-//    }
 }
 
 void CGraphicsView::slotBringToFront()
 {
-    QList<QGraphicsItem *> itemList = scene()->items();
-
-    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-
-    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+    if (!canLayerUp()) {
         return;
     }
+
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
 
     QGraphicsItem *selectedItem = selectedList.first();
 
     QUndoCommand *command = new CBringToFrontCommand(selectedItem, this->scene());
     m_pUndoStack->push(command);
-
-//    int index = itemList.indexOf(selectedItem);
-
-//    bool isSuccess = false;
-//    for (int i = index - 1; i >= 0 ; i--) {
-////        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            itemList.at(i)->stackBefore(selectedItem);
-//            isSuccess = true;
-//        }
-//    }
-
-//    if (isSuccess) {
-//        scene()->update();
-//    }
 }
 
 void CGraphicsView::slotSendTobackAct()
 {
-    QList<QGraphicsItem *> itemList = scene()->items();
-
-    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
-
-    if (selectedList.length() <= 0 ||  itemList.length() == 1) {
+    if (!canLayerDown()) {
         return;
     }
+    QList<QGraphicsItem *> selectedList = scene()->selectedItems();
 
     QGraphicsItem *selectedItem = selectedList.first();
 
     QUndoCommand *command = new CSendToBackCommand(selectedItem, this->scene());
     m_pUndoStack->push(command);
 
-//    int index = itemList.indexOf(selectedItem);
-
-//    bool isSuccess = false;
-//    for (int i = index + 1; i < itemList.length() ; i++) {
-//        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            selectedItem->stackBefore(itemList.at(i));
-//            isSuccess = true;
-//        }
-//    }
-
-//    if (isSuccess) {
-//        scene()->update();
-    //    }
 }
 
 void CGraphicsView::slotQuitCutMode()
@@ -754,6 +716,30 @@ void CGraphicsView::slotDoCutScene()
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
 {
     setContextMenuAndActionEnable(true);
+}
+
+void CGraphicsView::slotPrimitiveZoomIn()
+{
+    if (m_scale + 0.25 <= 8) {
+        this->scale(m_scale + 0.25);
+        emit signalSetScale(m_scale);
+    } else {
+        m_scale = 8;
+        this->scale(m_scale);
+        emit signalSetScale(m_scale);
+    }
+}
+
+void CGraphicsView::slotPrimitiveZoomOut()
+{
+    if (m_scale - 0.25 >= 0.01) {
+        this->scale(m_scale - 0.25);
+        emit signalSetScale(m_scale);
+    } else {
+        m_scale = 0.25;
+        this->scale(m_scale);
+        emit signalSetScale(m_scale);
+    }
 }
 
 void CGraphicsView::slotOnTextCut()
@@ -942,4 +928,68 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
     m_sendTobackAct->setEnabled(enable);
 }
 
+bool CGraphicsView::canLayerUp()
+{
+    QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
+    QList<QGraphicsItem *> allItems = scene()->items();
+
+    int trueItemCount = 0;
+
+    foreach (QGraphicsItem *item, allItems) {
+        if (item->type() > QGraphicsItem::UserType) {
+            trueItemCount ++;
+            if (trueItemCount > 1) {
+                break;
+            }
+        }
+    }
+
+    if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
+        return false;
+    }
+    QGraphicsItem *selectItem = selectedItems.first();
+
+
+
+    int index = allItems.indexOf(selectItem);
+
+    if (index == selectItem->childItems().count()) {
+        return false;
+    }
+
+    return true;
+}
+
+bool CGraphicsView::canLayerDown()
+{
+    QList<QGraphicsItem *> selectedItems = scene()->selectedItems();
+    QList<QGraphicsItem *> allItems = scene()->items(Qt::AscendingOrder);
+
+    int trueItemCount = 0;
+
+    foreach (QGraphicsItem *item, allItems) {
+        if (item->type() > QGraphicsItem::UserType) {
+            trueItemCount ++;
+            if (trueItemCount > 1) {
+                break;
+            }
+        }
+    }
+
+    if (selectedItems.count() > 1 || selectedItems.count() <= 0 || trueItemCount <= 1) {
+        return false;
+    }
+
+    QGraphicsItem *item = selectedItems.first();
+
+
+
+    int index = allItems.indexOf(item);
+
+    if (index == 0) {
+        return false;
+    }
+
+    return true;
+}
 

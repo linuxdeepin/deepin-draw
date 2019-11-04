@@ -44,6 +44,8 @@ public:
 
 signals:
     void pickedColor(QColor color);
+    void signalPreSetColorName(QColor color);
+
 
 private:
     EditLabel *m_redEditLabel;
@@ -53,6 +55,9 @@ private:
     ColorLabel *m_colorLabel;
     ColorSlider *m_colorSlider;
     ColorPickerInterface *m_cp;
+
+private:
+    void preSetRgbValue(QColor color);
 };
 
 #endif // PICKCOLORWIDGET_H

@@ -80,7 +80,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     painter.setBrush(QBrush(m_color));
 
     QPen pen;
-    pen.setWidth(2);
+    pen.setWidth(1);
     if (m_color == QColor(Qt::transparent)) {
         pen.setColor(QColor("#cccccc"));
     } else {
@@ -304,6 +304,17 @@ void ColorPanel::initConnection()
 
     ///调试板改变
     connect(m_pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::slotPickedColorChanged);
+
+    ///调色板颜色预览
+    connect(m_pickColWidget, &PickColorWidget::signalPreSetColorName, [ = ](QColor color) {
+        QString colorName = "";
+        if (color.name().contains("#")) {
+            colorName = color.name().split("#").last();
+        }
+        m_colLineEdit->blockSignals(true);
+        m_colLineEdit->setText(colorName);
+        m_colLineEdit->blockSignals(false);
+    });
 
     connect(m_colLineEdit, &DLineEdit::textChanged,  this, [ = ](QString text) {
         if (text.length() < 6) {

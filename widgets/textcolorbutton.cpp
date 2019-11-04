@@ -31,7 +31,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
-    setFixedSize(24, 24);
+    setFixedSize(54, 36);
     setCheckable(false);
 
     m_color = CDrawParamSigleton::GetInstance()->getTextColor();
@@ -61,28 +61,48 @@ void TextColorButton::paintEvent(QPaintEvent *)
     painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
     QColor drawColor = m_color;
 
-    if (m_isHover || m_isChecked) {
-        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        painter.drawRoundedRect(rect(), 4, 4);
-    } else if (m_isChecked) {
-        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
-    }
+//    if (m_isHover || m_isChecked) {
+//        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
+//        painter.drawRoundedRect(rect(), 4, 4);
+//    } else if (m_isChecked) {
+//        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
+//    }
 
     painter.setBrush(drawColor);
     //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
-    painter.drawRoundedRect(QRect(4, 4, 16, 16),  6, 6);
+    painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
 
     QPen borderPen;
     borderPen.setWidth(1);
-    borderPen.setColor(QColor(0, 0, 0, 15));
-    painter.setPen(borderPen);
-    if (m_isChecked) {
-        painter.setBrush(QColor(0, 0, 0, 55));
+//    borderPen.setColor(QColor(0, 0, 0, 15));
+//    painter.setPen(borderPen);
+//    if (m_isChecked) {
+//        painter.setBrush(QColor(0, 0, 0, 55));
+//    } else {
+//        painter.setBrush(Qt::transparent);
+//    }
+    if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
+        borderPen.setColor(Qt::gray);
     } else {
-        painter.setBrush(Qt::transparent);
+        borderPen.setColor(Qt::transparent);
     }
+    painter.setPen(borderPen);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-    painter.drawRoundedRect(QRect(3, 3, 18, 18),  6, 6);
+    painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+
+    QPen textPen;
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        textPen.setColor(QColor("#414D68"));
+    } else {
+        textPen.setColor(QColor("#C0C6D4"));
+    }
+
+    painter.setPen(textPen);
+    QFont ft;
+    ft.setPixelSize(12);
+    painter.setFont(ft);
+
+    painter.drawText(26, 9, 32, 16, 0, tr("填充"));
 }
 
 void TextColorButton::setColor(QColor color)

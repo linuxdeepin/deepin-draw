@@ -36,8 +36,8 @@
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
+const int BTN_SPACING = 5;
+const int SEPARATE_SPACING = 4;
 const int TEXT_SIZE = 12;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
@@ -63,29 +63,31 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_fillBtn = new BigColorButton( this);
 
-    DLabel *fillLabel = new DLabel(this);
-    fillLabel->setText(tr("填充"));
+//    DLabel *fillLabel = new DLabel(this);
+//    fillLabel->setText(tr("填充"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    fillLabel->setFont(ft);
+//    fillLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setText(tr("描边"));
-    strokeLabel->setFont(ft);
+//    DLabel *strokeLabel = new DLabel(this);
+//    strokeLabel->setText(tr("描边"));
+//    strokeLabel->setFont(ft);
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
-    lwLabel->setFont(ft);
+    QFont ft1;
+    ft1.setPixelSize(TEXT_SIZE - 1);
+    lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *anchorNumLabel = new DLabel(this);
     anchorNumLabel->setText(tr("锚点数"));
-    anchorNumLabel->setFont(ft);
+    anchorNumLabel->setFont(ft1);
 
     m_anchorNumSlider = new DSlider(Qt::Horizontal, this);
 
@@ -97,9 +99,9 @@ void PolygonalStarAttributeWidget::initUI()
 
 
     m_anchorNumSlider->setMinimum(3);
-    m_anchorNumSlider->setMaximum(200);
+    m_anchorNumSlider->setMaximum(50);
     if (width < 1152) {
-        m_anchorNumSlider->setFixedWidth(60);
+        m_anchorNumSlider->setFixedWidth(50);
     } else {
         m_anchorNumSlider->setFixedWidth(120);
     }
@@ -110,20 +112,20 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 200));
 //    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
-    m_anchorNumEdit->setFixedWidth(40);
+    m_anchorNumEdit->setFixedWidth(45);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
     m_anchorNumEdit->setFont(ft);
 
     DLabel *radiusLabel = new DLabel(this);
     radiusLabel->setText(tr("半径"));
-    radiusLabel->setFont(ft);
+    radiusLabel->setFont(ft1);
 
     m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
 
     m_radiusNumSlider->setMinimum(0);
     m_radiusNumSlider->setMaximum(100);
     if (width < 1152) {
-        m_radiusNumSlider->setFixedWidth(60);
+        m_radiusNumSlider->setFixedWidth(45);
     } else {
         m_radiusNumSlider->setFixedWidth(120);
     }
@@ -143,23 +145,24 @@ void PolygonalStarAttributeWidget::initUI()
     //layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-    layout->addWidget(fillLabel);
+    //layout->addWidget(fillLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_strokeBtn);
-    layout->addWidget(strokeLabel);
-    //layout->addSpacing(SEPARATE_SPACING);
+    // layout->addWidget(strokeLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
-    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);
-    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(anchorNumLabel);
     layout->addWidget(m_anchorNumSlider);
-    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_anchorNumEdit);
-    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(radiusLabel);
     layout->addWidget(m_radiusNumSlider);
-    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_radiusNumEdit);
 
     layout->addStretch();
@@ -205,7 +208,11 @@ void PolygonalStarAttributeWidget::initConnection()
         if (value >= 0 && value <= 2) {
             return;
         }
+        m_anchorNumSlider->blockSignals(true);
         m_anchorNumSlider->setValue(value);
+        m_anchorNumSlider->blockSignals(false);
+        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+        emit signalPolygonalStarAttributeChanged();
     });
 
     connect(m_anchorNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -213,7 +220,11 @@ void PolygonalStarAttributeWidget::initConnection()
         int value = str.toInt();
         int minValue = m_anchorNumSlider->minimum();
         if (value == minValue && CDrawParamSigleton::GetInstance()->getAnchorNum() != minValue) {
+            m_anchorNumSlider->blockSignals(true);
             m_anchorNumSlider->setValue(value);
+            m_anchorNumSlider->blockSignals(false);
+            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+            emit signalPolygonalStarAttributeChanged();
         }
     });
 

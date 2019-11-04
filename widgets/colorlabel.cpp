@@ -22,6 +22,8 @@
 #include <QDebug>
 #include <QApplication>
 #include <QImage>
+#include <QRgb>
+
 #include <cmath>
 
 #include "utils/baseutils.h"
@@ -39,7 +41,6 @@ ColorLabel::ColorLabel(DWidget *parent)
     connect(this, &ColorLabel::clicked, this, [ = ] {
         if (m_picking && m_workToPick)
         {
-            qDebug() << "clickedPos:" << m_clickedPos;
             pickColor(m_clickedPos, true);
         }
     });
@@ -93,6 +94,10 @@ void ColorLabel::setHue(int hue)
 
 void ColorLabel::pickColor(QPoint pos, bool picked)
 {
+    if (pos.x() < 0 || pos.y() < 0 || pos.x() >= this->width() || pos.y() >= this->height()) {
+        return;
+    }
+
     QPixmap pickPixmap;
     pickPixmap = this->grab(QRect(0, 0, this->width(), this->height()));
     QImage pickImg = pickPixmap.toImage();
@@ -104,8 +109,11 @@ void ColorLabel::pickColor(QPoint pos, bool picked)
         m_pickedColor = QColor(0, 0, 0);
     }
 
-    if (picked)
+    if (picked) {
         emit pickedColor(m_pickedColor);
+    } else {
+        emit signalPreViewColor(m_pickedColor);
+    }
 }
 
 QColor ColorLabel::getPickedColor()
@@ -172,10 +180,10 @@ void ColorLabel::mouseMoveEvent(QMouseEvent *e)
     if (!m_workToPick)
         return;
 
-    if (m_pressed) {
-        m_tipPoint = this->mapFromGlobal(cursor().pos());
-        pickColor(m_tipPoint, true);
-    }
+//    if (m_pressed) {
+    m_tipPoint = this->mapFromGlobal(cursor().pos());
+    pickColor(m_tipPoint, false);
+//    }
     update();
     QLabel::mouseMoveEvent(e);
 }

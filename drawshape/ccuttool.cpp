@@ -53,11 +53,11 @@ void CCutTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         //选中图元
         if (m_pCutItem != nullptr) {
             if (CButtonRect::NoneButton != m_buttonType) {
-                qApp->setOverrideCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
-                qApp->setOverrideCursor(m_pCutItem->getCursor(m_dragHandle, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
             }
-//            qApp->setOverrideCursor(m_pCutItem->getCursor(m_dragHandle, m_bMousePress));
+//            qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
         }
         scene->mouseEvent(event);
     } else {
@@ -73,12 +73,12 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 //        if (btnType != m_buttonType) {
 //            m_buttonType = btnType;
 //            if (btnType == CButtonRect::OKButton) {
-//                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
+//                qApp->setOverrideCursor(QCursor(getCursor(CSizeHandleRect::None, m_bMousePress)));
 //            } else if (btnType == CButtonRect::CancelButton) {
-//                qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress)));
+//                qApp->setOverrideCursor(QCursor(getCursor(CSizeHandleRect::None, m_bMousePress)));
 //            } else {
 //                if (m_pCutItem->isFreeMode()) {
-//                    qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(CSizeHandleRect::InRect, m_bMousePress)));
+//                    qApp->setOverrideCursor(QCursor(getCursor(CSizeHandleRect::InRect, m_bMousePress)));
 //                }
 //            }
 //        }
@@ -90,7 +90,7 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 
         if (dragHandle != m_dragHandle ) {
             m_dragHandle = dragHandle;
-            qApp->setOverrideCursor(QCursor(m_pCutItem->getCursor(m_dragHandle, m_bMousePress)));
+            qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
         }
     }
 
@@ -122,9 +122,9 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
         if (m_pCutItem != nullptr) {
             if (CButtonRect::NoneButton != m_buttonType) {
-                qApp->setOverrideCursor(m_pCutItem->getCursor(CSizeHandleRect::None, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
-                qApp->setOverrideCursor(m_pCutItem->getCursor(m_dragHandle, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
             }
         }
 

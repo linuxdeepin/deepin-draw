@@ -456,6 +456,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
         painter->drawPixmap(0, 0, m_tmpPix);
     } else {
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
         painter->setPen(pen);
         painter->drawPath(m_path);
     }

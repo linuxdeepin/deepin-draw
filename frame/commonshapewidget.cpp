@@ -55,25 +55,27 @@ void CommonshapeWidget::changeButtonTheme()
 
 void CommonshapeWidget::initUI()
 {
-    DLabel *fillLabel = new DLabel(this);
-    fillLabel->setText(tr("填充"));
+//    DLabel *fillLabel = new DLabel(this);
+//    fillLabel->setText(tr("填充"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    fillLabel->setFont(ft);
+//    fillLabel->setFont(ft);
 
     m_fillBtn = new BigColorButton(this);
     m_strokeBtn = new BorderColorButton(this);
 
 
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("描边"));
-    strokeLabel->setFont(ft);
+//    DLabel *strokeLabel = new DLabel(this);
+//    strokeLabel->setObjectName("StrokeLabel");
+//    strokeLabel->setText(tr("描边"));
+//    strokeLabel->setFont(ft);
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
-    lwLabel->setFont(ft);
+    QFont ft1;
+    ft1.setPixelSize(TEXT_SIZE - 1);
+    lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
@@ -82,9 +84,9 @@ void CommonshapeWidget::initUI()
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-    layout->addWidget(fillLabel);
+    //layout->addWidget(fillLabel);
     layout->addWidget(m_strokeBtn);
-    layout->addWidget(strokeLabel);
+    //layout->addWidget(strokeLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);

@@ -65,12 +65,12 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/contrarotate_normal.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/contrarotate_hover.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/contrarotate_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/contrarotate_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/contrarotate_disable.svg");
 
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/contrarotate_normal.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/contrarotate_hover.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/contrarotate_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/contrarotate_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/contrarotate_disable.svg");
 
 
     m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
@@ -79,12 +79,12 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/clockwise rotation_hover.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/clockwise rotation_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/clockwise rotation_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/clockwise rotation_disable.svg");
 
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/clockwise rotation_normal.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/clockwise rotation_hover.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/clockwise rotation_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/clockwise rotation_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/clockwise rotation_disable.svg");
 
 
 
@@ -94,12 +94,12 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip horizontal_normal.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/flip horizontal_hover.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/flip horizontal_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip horizontal_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip horizontal_disable.svg");
 
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/flip horizontal_normal.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/flip horizontal_hover.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip horizontal_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disable.svg");
 
     m_flipHBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 
@@ -107,12 +107,12 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip vertical_normal.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/flip vertical_hover.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/flip vertical_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip vertical_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip vertical_disable.svg");
 
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/flip vertical_normal.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/flip vertical_hover.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip vertical_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disabled.svg");
+    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disable.svg");
 
     m_flipVBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 

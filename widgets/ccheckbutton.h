@@ -21,10 +21,11 @@
 
 #include <DPushButton>
 #include <QMap>
+#include <DToolButton>
 
 DWIDGET_USE_NAMESPACE
 
-class CCheckButton : public DPushButton
+class CCheckButton : public DToolButton
 {
     Q_OBJECT
 public:

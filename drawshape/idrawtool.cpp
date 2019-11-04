@@ -35,6 +35,7 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
     , m_mode(mode)
+    , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
 {
 
 }
@@ -42,4 +43,100 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 EDrawToolMode IDrawTool::getDrawToolMode() const
 {
     return m_mode;
+}
+
+QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress)
+{
+    Qt::CursorShape result;
+    QCursor resultCursor;
+    switch (dir) {
+    case CSizeHandleRect::Right:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeHorCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::RightTop:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeBDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::RightBottom:
+//        result =  Qt::SizeFDiagCursor;
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeFDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeBDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::Bottom:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeVerCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::LeftTop:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeFDiagCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::Left:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeHorCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::Top:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::SizeVerCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+
+    case CSizeHandleRect::Rotation:
+        resultCursor = m_RotateCursor;
+        break;
+    case CSizeHandleRect::InRect:
+        if (bMouseLeftPress) {
+            result =  Qt::ClosedHandCursor;
+        } else {
+            result =  Qt::OpenHandCursor;
+        }
+        resultCursor = QCursor(result);
+        break;
+    case CSizeHandleRect::None:
+        result =  Qt::ArrowCursor;
+        resultCursor = QCursor(result);
+        break;
+    //result =  Qt::ClosedHandCursor;
+    default:
+        result =  Qt::ArrowCursor;
+        resultCursor = QCursor(result);
+        break;
+    }
+
+    return resultCursor;
 }

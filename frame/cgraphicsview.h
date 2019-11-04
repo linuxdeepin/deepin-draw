@@ -109,6 +109,9 @@ private slots:
      */
     void slotRestContextMenuAfterQuitCut();
 
+    void slotPrimitiveZoomIn();
+    void slotPrimitiveZoomOut();
+
 private:
     qreal m_scale; //记录当前缩放
 
@@ -128,6 +131,9 @@ private:
 //    QAction *m_topAlignAct;
 //    QAction *m_rightAlignAct;
 //    QAction *m_centerAlignAct;
+
+    QAction *m_primitiveZoomInAction;
+    QAction *m_primitiveZoomOutAction;
 
 
     QAction *m_cutScence;          //裁剪
@@ -163,8 +169,9 @@ private:
     void initTextContextMenuConnection();
     void initConnection();
     QPixmap getSceneImage();
-    void setContextMenu();
 
+    bool canLayerUp();
+    bool canLayerDown();
 };
 
 #endif // CGRAPHICSVIEW_H

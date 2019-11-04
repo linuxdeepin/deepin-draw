@@ -59,12 +59,12 @@ void CPenWidget::changeButtonTheme()
 
 void CPenWidget::initUI()
 {
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("描边"));
+//    DLabel *strokeLabel = new DLabel(this);
+//    strokeLabel->setObjectName("StrokeLabel");
+//    strokeLabel->setText(tr("描边"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    strokeLabel->setFont(ft);
+//    strokeLabel->setFont(ft);
     m_strokeBtn = new BorderColorButton(this);
 
     m_sep1Line = new SeperatorLine(this);
@@ -73,6 +73,7 @@ void CPenWidget::initUI()
     lineTypeLabel->setObjectName("LineType");
     lineTypeLabel->setText(tr("类型"));
     lineTypeLabel->setFont(ft);
+
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 
@@ -106,7 +107,9 @@ void CPenWidget::initUI()
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
-    lwLabel->setFont(ft);
+    QFont ft1;
+    ft1.setPixelSize(TEXT_SIZE - 1);
+    lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
@@ -117,8 +120,9 @@ void CPenWidget::initUI()
     layout->addWidget(m_straightline);
     layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
+    layout->addSpacing(16);
     layout->addWidget(m_strokeBtn);
-    layout->addWidget(strokeLabel);
+    // layout->addWidget(strokeLabel);
 
     layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
 

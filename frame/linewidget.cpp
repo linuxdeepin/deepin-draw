@@ -98,11 +98,11 @@ void LineWidget::initUI()
         m_arrowline->setChecked(true);
     }
 
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("描边"));
-    ft.setPixelSize(TEXT_SIZE);
-    strokeLabel->setFont(ft);
+//    DLabel *strokeLabel = new DLabel(this);
+//    strokeLabel->setObjectName("StrokeLabel");
+//    strokeLabel->setText(tr("描边"));
+//    ft.setPixelSize(TEXT_SIZE);
+//    strokeLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
@@ -111,7 +111,9 @@ void LineWidget::initUI()
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
     lwLabel->setText(tr("描边粗细"));
-    lwLabel->setFont(ft);
+    QFont ft1;
+    ft1.setPixelSize(TEXT_SIZE - 1);
+    lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
@@ -122,8 +124,9 @@ void LineWidget::initUI()
     layout->addWidget(m_straightline);
     layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
+    layout->addSpacing(16);
     layout->addWidget(m_strokeBtn);
-    layout->addWidget(strokeLabel);
+    //layout->addWidget(strokeLabel);
 
     layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
 

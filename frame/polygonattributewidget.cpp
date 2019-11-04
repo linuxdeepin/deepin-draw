@@ -65,42 +65,43 @@ void PolygonAttributeWidget::initUI()
     //DFontSizeManager::instance()->bind(this, DFontSizeManager::T1);
 
     m_fillBtn = new BigColorButton(this);
-    DLabel *fillLabel = new DLabel(this);
-    fillLabel->setText(tr("填充"));
+//    DLabel *fillLabel = new DLabel(this);
+//    fillLabel->setText(tr("填充"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    fillLabel->setFont(ft);
+//    fillLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
 
-    DLabel *strokeLabel = new DLabel(this);
-    strokeLabel->setText(tr("描边"));
-    strokeLabel->setFont(ft);
+//    DLabel *strokeLabel = new DLabel(this);
+//    strokeLabel->setText(tr("描边"));
+//    strokeLabel->setFont(ft);
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setText(tr("描边粗细"));
-    lwLabel->setFont(ft);
+    QFont ft1;
+    ft1.setPixelSize(TEXT_SIZE - 1);
+    lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
 
     DLabel *sideNumLabel = new DLabel(this);
     sideNumLabel->setText(tr("侧边数"));
-    sideNumLabel->setFont(ft);
+    sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSlider(Qt::Horizontal, this);
 //    m_sideNumSlider->slider()->setSingleStep(1);
-    m_sideNumSlider->setMinimum(4);
-    m_sideNumSlider->setMaximum(200);
+    m_sideNumSlider->setMinimum(3);
+    m_sideNumSlider->setMaximum(10);
     m_sideNumSlider->setMinimumWidth(120);
 
-
     m_sideNumEdit = new DLineEdit(this);
-//    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
-//    m_sideNumEdit->setValidator(new CIntValidator(4, 10));
+//    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([3-9]{1})|([1-2]{1}[0]{0,1}))$")));
+    m_sideNumEdit->lineEdit()->setValidator(new CIntValidator(3, 200));
     m_sideNumEdit->setClearButtonEnabled(false);
-    m_sideNumEdit->setFixedWidth(40);
+    m_sideNumEdit->setFixedWidth(50);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
     m_sideNumEdit->setFont(ft);
 
@@ -109,9 +110,10 @@ void PolygonAttributeWidget::initUI()
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-    layout->addWidget(fillLabel);
+    //layout->addWidget(fillLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_strokeBtn);
-    layout->addWidget(strokeLabel);
+    //layout->addWidget(strokeLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
@@ -165,27 +167,27 @@ void PolygonAttributeWidget::initConnection()
             return ;
         }
         int value = str.trimmed().toInt();
-        if (value == 1) {
+        if (value >= 0 && value <= 2) {
             return ;
         }
+        m_sideNumSlider->blockSignals(true);
         m_sideNumSlider->setValue(value);
+        m_sideNumSlider->blockSignals(false);
+        CDrawParamSigleton::GetInstance()->setSideNum(value);
+        emit signalPolygonAttributeChanged();
     });
 
     connect(m_sideNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
         QString str = m_sideNumEdit->text().trimmed();
+        int value = str.toInt();
         int minvalue = m_sideNumSlider->minimum();
-        int value = 0;
-        if (str.isEmpty() || str == "") {
-            value = minvalue;
-        } else {
-            if ( str.toInt() == 1) {
-                value = minvalue;
-            }
-        }
 
-        if (value == minvalue ) {
-            m_sideNumEdit->setText(QString::number(minvalue));
+        if (value == minvalue && CDrawParamSigleton::GetInstance()->getSideNum() != minvalue) {
+            m_sideNumSlider->blockSignals(true);
             m_sideNumSlider->setValue(minvalue);
+            m_sideNumSlider->blockSignals(false);
+            CDrawParamSigleton::GetInstance()->setSideNum(value);
+            emit signalPolygonAttributeChanged();
         }
     });
 }

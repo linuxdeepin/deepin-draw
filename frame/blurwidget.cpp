@@ -143,7 +143,7 @@ void BlurWidget::initUI()
     layout->addWidget(m_blurBtn);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_masicBtn);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addSpacing(SEPARATE_SPACING + 8);
     layout->addWidget(penWidthLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_pLineWidthSlider);

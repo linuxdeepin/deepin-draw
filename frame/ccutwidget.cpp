@@ -17,15 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ccutwidget.h"
+#include "drawshape/cdrawscene.h"
 #include "widgets/toolbutton.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
-
+#include "widgets/cclickbutton.h"
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QButtonGroup>
+#include <DGuiApplicationHelper>
 
 
+DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -37,6 +40,7 @@ CCutWidget::CCutWidget(DWidget *parent)
 {
     initUI();
     initConnection();
+
 }
 
 CCutWidget::~CCutWidget()
@@ -61,6 +65,14 @@ void CCutWidget::clearAllChecked()
     m_originalBtn->setChecked(false);
 }
 
+void CCutWidget::changeButtonTheme()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_cutBtn->setCurrentTheme(themeType);
+    m_cancelBtn->setCurrentTheme(themeType);
+    m_sepLine->updateTheme();
+}
+
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
@@ -73,7 +85,7 @@ void CCutWidget::initUI()
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(60);
-    m_widthEdit->lineEdit()->setValidator(new CIntValidator(200, 4096, this));
+    m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 4096, this));
     m_widthEdit->setFont(ft);
 
     DLabel *multiLabel = new DLabel(this);
@@ -83,7 +95,7 @@ void CCutWidget::initUI()
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);
-    m_heightEdit->lineEdit()->setValidator(new CIntValidator(200, 4096, this) );
+    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 4096, this) );
     m_heightEdit->setFont(ft);
 
     DLabel *scaleLabel = new DLabel(this);
@@ -126,6 +138,42 @@ void CCutWidget::initUI()
 
     m_freeBtn->setChecked(true);
 
+
+    m_sepLine = new SeperatorLine(this);
+
+
+    QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMap;
+
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cutting_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cutting_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cutting_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cutting_disable.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cutting_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cutting_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cutting_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cutting_disable.svg");
+
+
+    m_cutBtn = new CClickButton(pictureMap, QSize(46, 46), this);
+//    m_cutBtn->setCheckable(false);
+//    m_cutBtn->setFocusPolicy(Qt::NoFocus);
+
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cancel_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cancel_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cancel_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cancel_disable.svg");
+
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cancel_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cancel_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cancel_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cancel_disable.svg");
+
+
+    m_cancelBtn = new CClickButton(pictureMap, QSize(46, 46), this);
+//    m_cancelBtn->setCheckable(false);
+//    m_cancelBtn->setFocusPolicy(Qt::NoFocus);
+
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
@@ -150,6 +198,12 @@ void CCutWidget::initUI()
     layout->addWidget(m_freeBtn);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_originalBtn);
+
+    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(m_sepLine);
+    //layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(m_cancelBtn);
+    layout->addWidget(m_cutBtn);
 
     layout->addStretch();
     setLayout(layout);
@@ -259,5 +313,15 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutSize(QSize(w, h));
         emit signalCutAttributeChanged();
 
+    });
+
+    connect(m_cutBtn, &DPushButton::clicked, this, [ = ]() {
+
+        CDrawScene::GetInstance()->doCutScene();
+    });
+
+    connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
+
+        CDrawScene::GetInstance()->quitCutMode();
     });
 }

@@ -51,11 +51,11 @@ void TextWidget::initUI()
     m_fillBtn = new TextColorButton( this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
-    DLabel *colBtnLabel = new DLabel(this);
-    colBtnLabel->setText(tr("填充"));
+//    DLabel *colBtnLabel = new DLabel(this);
+//    colBtnLabel->setText(tr("填充"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-    colBtnLabel->setFont(ft);
+//    colBtnLabel->setFont(ft);
 
     m_textSeperatorLine = new SeperatorLine(this);
 
@@ -102,7 +102,7 @@ void TextWidget::initUI()
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-    layout->addWidget(colBtnLabel);
+//    layout->addWidget(colBtnLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_textSeperatorLine);
     layout->addSpacing(SEPARATE_SPACING);

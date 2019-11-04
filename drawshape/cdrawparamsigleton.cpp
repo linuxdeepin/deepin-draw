@@ -103,6 +103,9 @@ QPen CDrawParamSigleton::getPen() const
     pen.setWidth(m_nlineWidth);
     pen.setColor(m_sLineColor);
     pen.setJoinStyle(Qt::MiterJoin);
+    pen.setStyle(Qt::SolidLine);
+    pen.setCapStyle(Qt::RoundCap);
+
 //    pen.setMiterLimit(30);
     return pen;
 }

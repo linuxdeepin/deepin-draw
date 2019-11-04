@@ -73,7 +73,7 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
     if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
         painter->fillRect(sceneRect(), Qt::white);
     } else {
-        painter->fillRect(sceneRect(), QColor(40, 40, 40));
+        painter->fillRect(sceneRect(), QColor(55, 55, 55));
     }
     /*QGraphicsScene::drawBackground(painter, rect);
 
@@ -105,7 +105,6 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
         painter->fillPath(path, QColor(40, 40, 40));
         painter->drawPath(path);
     }*/
-
 }
 
 CDrawScene *CDrawScene::GetInstance()
@@ -329,10 +328,9 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
-    QPainterPath path;
-    path.addRoundedRect(sceneRect(), 20, 20);
     painter->setClipping(true);
-    painter->setClipPath(path);
+    painter->setClipRect(sceneRect());
+
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
 }
 
