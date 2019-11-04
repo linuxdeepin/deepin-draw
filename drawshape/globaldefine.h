@@ -92,4 +92,10 @@ enum EBlurEffect {
     MasicoEffect
 };
 
+enum ESaveDDFTriggerAction {
+    QuitApp,
+    LoadDDF,
+    NewDrawingBoard,
+    SaveAction
+};
 #endif // GLODEFINE_H

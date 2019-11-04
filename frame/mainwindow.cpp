@@ -96,12 +96,8 @@ void MainWindow::initConnection()
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
-//        if (m_mainWidget->shapeNum() != 0)
-//        {
-        showDrawDialog();
-//        } else {
-//            dApp->quit();
-//        }
+        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
+        slotIsNeedSave();
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
@@ -120,7 +116,7 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
 
-    connect(m_topToolbar, SIGNAL(signalNew()), m_centralWidget, SLOT(slotNew()));
+    connect(m_topToolbar, SIGNAL(signalNew()), this, SLOT(slotIsNeedSave()));
 
     connect(m_centralWidget, SIGNAL(signalUpdateCutSize()), m_topToolbar, SLOT(slotSetCutSize()));
 
@@ -128,15 +124,20 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
-    connect(m_topToolbar, SIGNAL(signalImport()), m_centralWidget, SLOT(slotImport()));
+    connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotIsNeedSave()));
 
     connect(m_quitQuestionDialog, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
 
+    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), this, SLOT(slotContinueDoSomeThing()));
+
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
-    connect(m_centralWidget, SIGNAL(saveDeepinDraw()), m_centralWidget, SLOT(slotSaveToDDF()));
+//    connect(m_centralWidget, SIGNAL(saveDeepinDraw()), m_centralWidget, SLOT(slotSaveToDDF()));
 
     connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SLOT(slotQuitCutMode()));
+
+    connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
+
 }
 
 
@@ -158,11 +159,37 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     this->update();
 }
 
+void MainWindow::slotIsNeedSave()
+{
+    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
+        m_quitQuestionDialog->show();
+    } else {
+        slotContinueDoSomeThing();
+    }
+}
+
+void MainWindow::slotContinueDoSomeThing()
+{
+    ESaveDDFTriggerAction triggerType =  CDrawParamSigleton::GetInstance()->getSaveDDFTriggerAction();
+    switch (triggerType) {
+    case QuitApp:
+        qApp->quit();
+        break;
+    case LoadDDF:
+        m_centralWidget->slotImport();
+        break;
+    case NewDrawingBoard:
+        m_centralWidget->slotNew();
+        break;
+    default:
+        break;
+    }
+}
 
 void MainWindow::showDrawDialog()
 {
     if (CDrawParamSigleton::GetInstance()->getIsModify()) {
-        m_quitQuestionDialog->exec();
+        m_quitQuestionDialog->show();
     } else {
         qApp->quit();
     }

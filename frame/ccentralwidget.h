@@ -65,6 +65,7 @@ signals:
     void signalForwardQuitCutMode();
     void signalUpdateCutSize();
     void signalUpdateTextFont();
+    void signalContinueDoOtherThing();
 
     void saveDeepinDraw();
 

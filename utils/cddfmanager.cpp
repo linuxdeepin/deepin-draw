@@ -266,8 +266,8 @@ void CDDFManager::slotSaveDDFComplete()
 {
     CDrawParamSigleton::GetInstance()->setDdfSavePath(m_path);
     CDrawParamSigleton::GetInstance()->setIsModify(false);
-    if (CDrawParamSigleton::GetInstance()->getIsQuit()) {
-        qApp->quit();
+    if (ESaveDDFTriggerAction::SaveAction != CDrawParamSigleton::GetInstance()->getSaveDDFTriggerAction()) {
+        emit signalContinueDoOtherThing();
     }
 }
 

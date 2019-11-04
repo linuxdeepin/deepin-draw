@@ -21,18 +21,23 @@
 
 #include "dialog.h"
 
+
 class DrawDialog : public Dialog
 {
     Q_OBJECT
 public:
     explicit DrawDialog(DWidget *parent = nullptr);
 
+
 signals:
     void signalSaveToDDF();
+    void singalDoNotSaveToDDF();
 
 
 protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+
+
 };
 
 #endif // DRAWDIALOG_H

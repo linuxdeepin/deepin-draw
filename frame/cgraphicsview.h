@@ -65,6 +65,7 @@ protected:
 signals:
     void signalSetScale(const qreal scale);
     void signalImportPicture(QString path);
+    void signalTransmitContinueDoOtherThing();
 
 public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &oldPosition );

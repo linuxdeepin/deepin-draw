@@ -50,6 +50,7 @@ signals:
     void signalUpdateProcessBar(int);
     void signalStartLoadDDF(QRectF rect);
     void signalAddItem(QGraphicsItem *item);
+    void signalContinueDoOtherThing();
 
 private slots:
     void slotSaveDDFComplete();

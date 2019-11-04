@@ -42,7 +42,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
     , m_isModify(false)
-    , m_isQuit(false)
+    , m_saveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
@@ -274,6 +274,18 @@ void CDrawParamSigleton::setLineType(const ELineType &lineType)
     m_lineType = lineType;
 }
 
+ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const
+{
+    return m_saveDDFTriggerAction;
+}
+
+void CDrawParamSigleton::setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction)
+{
+    m_saveDDFTriggerAction = saveDDFTriggerAction;
+}
+
+
+
 ECutType CDrawParamSigleton::getCutType() const
 {
     return m_cutType;
@@ -325,15 +337,6 @@ void CDrawParamSigleton::setIsModify(bool isModify)
     m_isModify = isModify;
 }
 
-bool CDrawParamSigleton::getIsQuit() const
-{
-    return m_isQuit;
-}
-
-void CDrawParamSigleton::setIsQuit(bool isQuit)
-{
-    m_isQuit = isQuit;
-}
 
 EBlurEffect CDrawParamSigleton::getBlurEffect() const
 {

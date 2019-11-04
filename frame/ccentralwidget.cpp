@@ -267,6 +267,8 @@ void CCentralwidget::initConnect()
 
     connect(m_saveAction, SIGNAL(triggered()), this, SIGNAL(saveDeepinDraw()));
 
+    connect(m_pGraphicsView, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
+
     //主菜单栏中点击打开导入图片
     connect(m_pGraphicsView, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
 

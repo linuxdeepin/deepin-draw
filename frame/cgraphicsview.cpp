@@ -310,6 +310,7 @@ void CGraphicsView::initConnection()
 {
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
+    connect(m_DDFManager, SIGNAL(signalContinueDoOtherThing()), this, SIGNAL(signalTransmitContinueDoOtherThing()));
 }
 
 
@@ -842,8 +843,11 @@ void CGraphicsView::slotOnTextCenterAlignment()
 
 void CGraphicsView::clearScene()
 {
+    ///清除场景选中
     scene()->clearSelection();
+    //清空撤销栈
     m_pUndoStack->clear();
+    //清空场景
     scene()->clear();
 }
 

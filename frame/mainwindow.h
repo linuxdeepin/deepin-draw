@@ -40,16 +40,18 @@ public:
     ~MainWindow() Q_DECL_OVERRIDE;
 
     void activeWindow();
-
     void showDrawDialog();
     void openImage(QString path);
     void initScene();
+
 
 signals:
     void signalResetOriginPoint();
 
 public slots:
     void slotOnThemeChanged(DGuiApplicationHelper::ColorType type);
+    void slotIsNeedSave();
+    void slotContinueDoSomeThing();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

@@ -240,13 +240,13 @@ void TopToolbar::initMenu()
                                        " You can freely draw on the layer or simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
-    connect(importAc, &QAction::triggered, this, &TopToolbar::signalImport);
+    connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
-    connect(saveAc, &QAction::triggered, this, &TopToolbar::signalSaveToDDF);
-    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::signalSaveAs);
+    connect(saveAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
+    connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
-    connect(newConstructAc, &QAction::triggered, this, &TopToolbar::signalNew);
+    connect(newConstructAc, &QAction::triggered, this, &TopToolbar::slotOnNewConstructAction);
 
     connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
 }
@@ -310,6 +310,7 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
     default:
+
         break;
     }
 }
@@ -426,7 +427,31 @@ void TopToolbar::slotIsCutMode(QAction *action)
 
 //    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
 //        emit signalQuitCutModeFromTopBarMenu();
-//    }
+    //    }
+}
+
+void TopToolbar::slotOnImportAction()
+{
+    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+    emit signalImport();
+}
+
+void TopToolbar::slotOnNewConstructAction()
+{
+    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+    emit signalNew();
+}
+
+void TopToolbar::slotOnSaveAction()
+{
+    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
+    emit signalSaveToDDF();
+}
+
+void TopToolbar::slotOnSaveAsAction()
+{
+    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
+    emit signalSaveAs();
 }
 
 

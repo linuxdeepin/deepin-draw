@@ -100,6 +100,10 @@ public slots:
     void slotSetTextFont();
 private slots:
     void slotIsCutMode(QAction *action);
+    void slotOnImportAction();
+    void slotOnNewConstructAction();
+    void slotOnSaveAction();
+    void slotOnSaveAsAction();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

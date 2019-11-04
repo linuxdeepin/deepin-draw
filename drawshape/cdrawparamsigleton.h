@@ -102,9 +102,6 @@ public:
     bool getIsModify() const;
     void setIsModify(bool isModify);
 
-    bool getIsQuit() const;
-    void setIsQuit(bool isQuit);
-
     EBlurEffect getBlurEffect() const;
     void setBlurEffect(const EBlurEffect &blurEffect);
 
@@ -122,6 +119,9 @@ public:
 
     ELineType getLineType() const;
     void setLineType(const ELineType &lineType);
+
+    ESaveDDFTriggerAction getSaveDDFTriggerAction() const;
+    void setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction);
 
 private:
     int m_nlineWidth;
@@ -159,8 +159,8 @@ private:
 
     //图元是否有修改
     bool m_isModify;
-    //保存完成后是否需要退出
-    bool m_isQuit;
+    //保存DDF文件的触发者
+    ESaveDDFTriggerAction m_saveDDFTriggerAction;
     //DDF文件保存路径
     QString m_ddfSavePath;
 
