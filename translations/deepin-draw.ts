@@ -61,108 +61,108 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="87"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="90"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="109"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="112"/>
         <source>Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="110"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="113"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="111"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="114"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="112"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="115"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="113"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="116"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="114"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="117"/>
         <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="115"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="118"/>
         <source>Select Other Dir</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="120"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="123"/>
         <source>jpg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="121"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="124"/>
         <source>png</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="122"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="125"/>
         <source>bmp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="123"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="126"/>
         <source>tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="124"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="127"/>
         <source>pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="150"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="153"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="151"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="154"/>
         <source>Save to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="152"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="155"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="153"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="156"/>
         <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="156"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="161"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="159"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="157"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="160"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="161"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="164"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="290"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="293"/>
         <source>%1 already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -259,22 +259,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="860"/>
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>保存文件</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="862"/>
+        <location filename="../frame/cgraphicsview.cpp" line="870"/>
         <source>另存为</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="868"/>
+        <location filename="../frame/cgraphicsview.cpp" line="876"/>
         <source>画图.DDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="883"/>
+        <location filename="../frame/cgraphicsview.cpp" line="891"/>
         <source>打开文件</source>
         <translation type="unfinished"></translation>
     </message>
@@ -298,17 +298,17 @@
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="139"/>
-        <source>Triangle(N)</source>
+        <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="156"/>
-        <source>Star(M)</source>
+        <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="173"/>
-        <source>Polygon(G)</source>
+        <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -399,7 +399,8 @@
 <context>
     <name>CTitleWidget</name>
     <message>
-        <location filename="../frame/ctitlewidget.cpp" line="29"/>
+        <location filename="../frame/ctitlewidget.cpp" line="30"/>
+        <location filename="../frame/ctitlewidget.cpp" line="51"/>
         <source>未命名画板</source>
         <translation type="unfinished"></translation>
     </message>
@@ -433,22 +434,22 @@
 <context>
     <name>DrawDialog</name>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="40"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="39"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="41"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="40"/>
         <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="42"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="46"/>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="45"/>
         <source>The changes you made have not been saved yet. Do you want to save them?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -476,14 +477,6 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <location filename="../frame/mainwindow.cpp" line="80"/>
-        <source>未命名画板</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -543,124 +536,6 @@
     <message>
         <location filename="../drawshape/cgraphicstextitem.cpp" line="73"/>
         <source>输入文本</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SaveDialog</name>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="48"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="58"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="57"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="192"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="69"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="221"/>
-        <source>Pictures</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="69"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="224"/>
-        <source>Documents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="69"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="227"/>
-        <source>Downloads</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="70"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="230"/>
-        <source>Desktop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="70"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="233"/>
-        <source>Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="70"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="236"/>
-        <source>Music</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="71"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="133"/>
-        <location filename="../widgets/dialog/savedialog.cpp" line="239"/>
-        <source>Select other directories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="79"/>
-        <source>PNG</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="79"/>
-        <source>DDF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="79"/>
-        <source>JPG</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="79"/>
-        <source>BMP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="80"/>
-        <source>TIF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="126"/>
-        <source>Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="127"/>
-        <source>Save to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="128"/>
-        <source>Format:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="129"/>
-        <source>Quality:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="190"/>
-        <source>%1 already exists, do you want to replace?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="192"/>
-        <source>Replace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/dialog/savedialog.cpp" line="304"/>
-        <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -778,37 +653,37 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="211"/>
+        <location filename="../frame/toptoolbar.cpp" line="214"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="207"/>
+        <location filename="../frame/toptoolbar.cpp" line="210"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="208"/>
+        <location filename="../frame/toptoolbar.cpp" line="211"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="210"/>
+        <location filename="../frame/toptoolbar.cpp" line="213"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="212"/>
+        <location filename="../frame/toptoolbar.cpp" line="215"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="213"/>
+        <location filename="../frame/toptoolbar.cpp" line="216"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="235"/>
+        <location filename="../frame/toptoolbar.cpp" line="239"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

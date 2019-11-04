@@ -136,7 +136,7 @@ void CLeftToolBar::initUI()
 
     m_triangleBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     //m_triangleBtn->setFocusPolicy(Qt::NoFocus);
-    m_triangleBtn->setToolTip(tr("Triangle(N)"));
+    m_triangleBtn->setToolTip(tr("Triangle(S)"));
     m_actionButtons.append(m_triangleBtn);
 
 
@@ -153,7 +153,7 @@ void CLeftToolBar::initUI()
 
     m_starBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     //m_starBtn->setFocusPolicy(Qt::NoFocus);
-    m_starBtn->setToolTip(tr("Star(M)"));
+    m_starBtn->setToolTip(tr("Star(F)"));
     m_actionButtons.append(m_starBtn);
 
 
@@ -170,7 +170,7 @@ void CLeftToolBar::initUI()
 
     m_polygonBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     //m_polygonBtn->setFocusPolicy(Qt::NoFocus);
-    m_polygonBtn->setToolTip(tr("Polygon(G)"));
+    m_polygonBtn->setToolTip(tr("Polygon(H)"));
     m_actionButtons.append(m_polygonBtn);
 
 
@@ -328,83 +328,7 @@ void CLeftToolBar::clearOtherSelections(CCheckButton *clickedButton)
     };
 }
 
-//快捷键绘图操作
-/*void CLeftToolBar::shortCutOperation(int type)
-{
-    switch (type) {
-    case importPicture:
-        m_picBtn->setChecked(true);
-        clearOtherSelections(m_picBtn);
-        emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
-        emit importPic();
-        m_picBtn->setChecked(false);
-        break;
-    case rectangle:
-        m_rectBtn->setChecked(true);
-        clearOtherSelections(m_rectBtn);
-        emit setCurrentDrawTool(rectangle);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(rectangle);
-        qDebug() << "entered shortCutOperation" << endl;
-        break;
-    case ellipse:
-        m_roundBtn->setChecked(true);
-        clearOtherSelections(m_roundBtn);
-        emit setCurrentDrawTool(ellipse);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(ellipse);
-        break;
-    case triangle:
-        m_triangleBtn->setChecked(true);
-        clearOtherSelections(m_triangleBtn);
-        emit setCurrentDrawTool(triangle);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(triangle);
-        break;
-    case polygonalStar:
-        m_starBtn->setChecked(true);
-        clearOtherSelections(m_starBtn);
-        emit setCurrentDrawTool(polygonalStar);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygonalStar);
-        break;
-    case polygon:
-        m_polygonBtn->setChecked(true);
-        clearOtherSelections(m_polygonBtn);
-        emit setCurrentDrawTool(polygon);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygon);
-        break;
-    case line:
-        m_lineBtn->setChecked(true);
-        clearOtherSelections(m_lineBtn);
-        emit setCurrentDrawTool(line);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
-        break;
-    case pen:
-        m_penBtn->setChecked(true);
-        clearOtherSelections(m_penBtn);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
-        emit setCurrentDrawTool(pen);
-        break;
-    case text:
-        m_textBtn->setChecked(true);
-        clearOtherSelections(m_textBtn);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
-        emit setCurrentDrawTool(text);
-        break;
-    case blur:
-        m_blurBtn->setChecked(true);
-        clearOtherSelections(m_blurBtn);
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(blur);
-        emit setCurrentDrawTool(blur);
-        break;
-    case cut:
-        m_cutBtn->setChecked(true);
-        clearOtherSelections(m_cutBtn);
-        emit setCurrentDrawTool(cut);
-        break;
-    default:
-        break;
 
-    }
-
-}*/
 
 void CLeftToolBar::initConnection()
 {
@@ -603,15 +527,15 @@ void CLeftToolBar::initShortCut()
     this->addAction(m_roundAction);
 
     m_triangleAction = new QAction();
-    m_triangleAction->setShortcut(QKeySequence(Qt::Key_N));
+    m_triangleAction->setShortcut(QKeySequence(Qt::Key_S));
     this->addAction(m_triangleAction);
 
     m_starAction = new QAction();
-    m_starAction->setShortcut(QKeySequence(Qt::Key_M));
+    m_starAction->setShortcut(QKeySequence(Qt::Key_F));
     this->addAction(m_starAction);
 
     m_polygonAction = new QAction();
-    m_polygonAction->setShortcut(QKeySequence(Qt::Key_G));
+    m_polygonAction->setShortcut(QKeySequence(Qt::Key_H));
     this->addAction(m_polygonAction);
 
     m_lineAction = new QAction();
