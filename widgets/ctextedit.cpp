@@ -193,6 +193,11 @@ void CTextEdit::setVisible(bool visible)
     DTextEdit::setVisible(visible);
 }
 
+void CTextEdit::setLastDocumentWidth(qreal width)
+{
+    m_widthF = width;
+}
+
 void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
     if (this->isVisible()) {

@@ -75,12 +75,13 @@ public:
     void currentCharFormatChanged(const QTextCharFormat &format);
     bool getManResizeFlag() const;
     void setManResizeFlag(bool flag);
+    void setLastDocumentWidth(qreal width);
 
 protected:
-
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+
 
 
 private slots:
@@ -109,6 +110,7 @@ private:
     void clearLetterSpacing(QTextDocument *doc, int *blockNum = nullptr);
     void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
     void initTextEditWidget();
+
 
 
 private:

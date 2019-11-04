@@ -113,6 +113,11 @@ void CGraphicsTextItem::initTextEditWidget()
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
+void CGraphicsTextItem::setLastDocumentWidth(qreal width)
+{
+    m_pTextEdit->setLastDocumentWidth(width);
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());

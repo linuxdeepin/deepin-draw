@@ -55,6 +55,12 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
         //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
 //        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
+            item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
+        } else {
+            item->setLastDocumentWidth(0);
+        }
+
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);

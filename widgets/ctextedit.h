@@ -37,6 +37,8 @@ public:
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
+    void setLastDocumentWidth(qreal width);
+
 protected:
     virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
