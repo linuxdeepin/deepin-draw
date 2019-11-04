@@ -63,6 +63,7 @@ DrawDialog::DrawDialog(DWidget *parent)
         if (id == 0) {
             this->close();
         } else if (id == 1) {
+            this->close();
             emit singalDoNotSaveToDDF();
         } else {
             //点击发出保存信号后，要先把询问对话框关闭了
