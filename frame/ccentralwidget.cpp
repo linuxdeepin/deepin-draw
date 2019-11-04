@@ -25,6 +25,8 @@
 #include "cgraphicsview.h"
 #include "drawshape/cpicturetool.h"
 #include "drawshape/cgraphicstextitem.h"
+#include "drawshape/cgraphicsellipseitem.h"
+#include "drawshape/cgraphicstriangleitem.h"
 
 #include <DLabel>
 #include <DMenu>
@@ -88,13 +90,12 @@ void CCentralwidget::openPicture(QString path)
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
 }
-#include "drawshape/cgraphicsellipseitem.h"
-#include "drawshape/cgraphicstriangleitem.h"
+
 void CCentralwidget::initUI()
 {
     m_leftToolbar = new CLeftToolBar(this);
     m_pGraphicsView = new CGraphicsView(this);
-    m_pDrawScene = new CDrawScene(this);
+    m_pDrawScene =  CDrawScene::GetInstance();
     QRectF rc = QRectF(0, 0, 1362, 790);
     m_pDrawScene->setSceneRect(rc);
     //根据主题设置
@@ -199,6 +200,7 @@ void CCentralwidget::slotTextFontSizeChanged()
 void CCentralwidget::slotNew()
 {
     CDrawParamSigleton::GetInstance()->setDdfSavePath("");
+    CDrawParamSigleton::GetInstance()->setIsModify(false);
     m_pGraphicsView->clearScene();
     m_leftToolbar->slotShortCutSelect();
 }
@@ -266,7 +268,8 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, int )),
             m_pGraphicsView, SLOT(itemPenTypeChange(CGraphicsPenItem *, int)));
 
-    connect(m_pDrawScene, SIGNAL(signalQuitCutMode()), m_leftToolbar, SLOT(slotQuitCutMode()));
+    connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
+    connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_pGraphicsView, SLOT(slotRestContextMenuAfterQuitCut()));
 
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
@@ -280,8 +283,11 @@ void CCentralwidget::initConnect()
 
     connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), m_pDrawScene, SLOT(drawToolChange(int)));
 
-    //左边工具按钮点击退出裁剪模式
-//    connect(m_leftToolbar, SIGNAL(singalQuitCutModeFromLeftToolBar()), this, SLOT(slotQuitCutMode()));
+    //如果是裁剪模式点击左边工具栏按钮则执行裁剪
+    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), m_pGraphicsView, SLOT(slotDoCutScene()));
+
+    //如果是裁剪模式点击工具栏的菜单则执行裁剪
+    connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), m_pGraphicsView, SLOT(slotDoCutScene()));
 }
 
 

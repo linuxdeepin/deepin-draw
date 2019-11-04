@@ -103,9 +103,10 @@ private slots:
     void slotOnTextRightAlignment();
     void slotOnTextLeftAlignment();
     void slotOnTextCenterAlignment();
-    ///
-
-
+    /**
+     * @brief slotRestContextMenuAfterQuitCut 退出裁剪重置右键菜单
+     */
+    void slotRestContextMenuAfterQuitCut();
 
 private:
     qreal m_scale; //记录当前缩放

@@ -45,7 +45,7 @@ const int PANEL_WIDTH = 226;
 const int ORIGIN_HEIGHT = 250;
 const int EXPAND_HEIGHT = 470;
 const int RADIUS = 8;
-const int BORDER_WIDTH = 2;
+const int BORDER_WIDTH = 1;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 //const QSize COLOR_BUTTN = QSize(14, 14);
 //const QSize SLIDER_SIZE = QSize(178, 22);
@@ -79,7 +79,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     painter.setBrush(QBrush(m_color));
 
     QPen pen;
-    pen.setWidth(2);
+    pen.setWidth(1);
     if (m_color == QColor(Qt::transparent)) {
         pen.setColor(QColor("#cccccc"));
     } else {

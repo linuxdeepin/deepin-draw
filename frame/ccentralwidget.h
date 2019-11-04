@@ -65,6 +65,7 @@ signals:
     void signalUpdateCutSize();
     void signalUpdateTextFont();
     void signalContinueDoOtherThing();
+    void signalTransmitQuitCutModeFromTopBarMenu();
 
 
 

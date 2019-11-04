@@ -44,15 +44,10 @@ signals:
     void setCurrentDrawTool(int type);
     void importPic();
     void signalBegainCut();
-    void singalQuitCutModeFromLeftToolBar();
+    void singalDoCutFromLeftToolBar();
 
 public slots:
-
-    /**
-     * @brief slotChangedStatusToSelect 清空工具栏选中
-     */
-
-    void slotQuitCutMode();
+    void slotAfterQuitCut();
     void changeButtonTheme();
     void slotShortCutSelect();
 

@@ -740,13 +740,17 @@ void CGraphicsView::slotSendTobackAct()
 
 void CGraphicsView::slotQuitCutMode()
 {
-    setContextMenuAndActionEnable(true);
     static_cast<CDrawScene *>(scene())->quitCutMode();
 }
 
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
+}
+
+void CGraphicsView::slotRestContextMenuAfterQuitCut()
+{
+    setContextMenuAndActionEnable(true);
 }
 
 void CGraphicsView::slotOnTextCut()

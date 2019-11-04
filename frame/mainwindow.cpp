@@ -138,6 +138,8 @@ void MainWindow::initConnection()
 
     connect(m_quitMode, SIGNAL(triggered()), m_centralWidget, SLOT(slotOnEscButtonClick()));
 
+    connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()));
+
 }
 
 

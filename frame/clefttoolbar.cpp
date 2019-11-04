@@ -315,9 +315,11 @@ void CLeftToolBar::slotClearToolSelection()
     }
 }
 
-void CLeftToolBar::slotQuitCutMode()
+void CLeftToolBar::slotAfterQuitCut()
 {
-    slotShortCutSelect();
+    if (m_cutBtn->isChecked()) {
+        slotShortCutSelect();
+    }
 }
 
 void CLeftToolBar::changeButtonTheme()
@@ -344,17 +346,16 @@ void CLeftToolBar::initConnection()
 {
 
     connect(m_selectBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_selectBtn);
+        isCutMode();
         emit setCurrentDrawTool(selection);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-
     });
 
     connect(m_picBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
-        clearOtherSelections(m_picBtn);
 
+        clearOtherSelections(m_picBtn);
+        isCutMode();
         emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
         emit importPic();
@@ -363,68 +364,68 @@ void CLeftToolBar::initConnection()
     });
 
     connect(m_rectBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_rectBtn);
+        isCutMode();
         emit setCurrentDrawTool(rectangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(rectangle);
     });
 
     connect(m_roundBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_roundBtn);
+        isCutMode();
         emit setCurrentDrawTool(ellipse);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(ellipse);
     });
 
     connect(m_triangleBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_triangleBtn);
+        isCutMode();
         emit setCurrentDrawTool(triangle);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(triangle);
     });
 
     connect(m_starBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_starBtn);
+        isCutMode();
         emit setCurrentDrawTool(polygonalStar);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygonalStar);
     });
 
     connect(m_polygonBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_polygonBtn);
+        isCutMode();
         emit setCurrentDrawTool(polygon);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(polygon);
 
     });
 
     connect(m_lineBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_lineBtn);
+        isCutMode();
         emit setCurrentDrawTool(line);
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(line);
 
     });
 
     connect(m_penBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_penBtn);
+        isCutMode();
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(pen);
         emit setCurrentDrawTool(pen);
 
     });
 
     connect(m_textBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_textBtn);
+        isCutMode();
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(text);
         emit setCurrentDrawTool(text);
 
     });
 
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
-        isCutMode();
         clearOtherSelections(m_blurBtn);
+        isCutMode();
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(blur);
         emit setCurrentDrawTool(blur);
 
@@ -606,7 +607,7 @@ void CLeftToolBar::initShortCutConnection()
 void CLeftToolBar::isCutMode()
 {
     if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
-        emit singalQuitCutModeFromLeftToolBar();
+        emit singalDoCutFromLeftToolBar();
     }
 }
 

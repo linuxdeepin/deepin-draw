@@ -196,7 +196,7 @@ void TopToolbar::initStackWidget()
 void TopToolbar::initMenu()
 {
 
-    m_mainMenu = new DMenu();
+    m_mainMenu = new DMenu(this);
     //m_mainMenu->setFixedWidth(120);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
@@ -424,10 +424,9 @@ void TopToolbar::slotSetTextFont()
 void TopToolbar::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
-
-//    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
-//        emit signalQuitCutModeFromTopBarMenu();
-    //    }
+    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+        emit signalQuitCutModeFromTopBarMenu();
+    }
 }
 
 void TopToolbar::slotOnImportAction()
