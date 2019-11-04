@@ -33,6 +33,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QAction>
+#include <DApplicationHelper>
 
 
 
@@ -40,9 +41,12 @@ DGUI_USE_NAMESPACE
 
 const int BTN_SPACING = 1;
 
-CLeftToolBar::CLeftToolBar(DWidget *parent)
-    : DWidget(parent)
+CLeftToolBar::CLeftToolBar(DFrame *parent)
+    : DFrame(parent)
 {
+    this->setFrameRounded(false);
+    this->setFrameShape(QFrame::NoFrame);
+
     setMaximumWidth(50);
 
     initUI();
@@ -73,6 +77,25 @@ void CLeftToolBar::enterEvent(QEvent *event)
 
 void CLeftToolBar::initUI()
 {
+    //设置颜色
+//    DPalette pa;
+//    pa = DApplicationHelper::instance()->palette(this);
+
+
+//    //if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+//    pa.setColor(DPalette::Background, QColor("#FFFFFF"));
+//    this->setBackgroundRole(DPalette::Background);
+//    this->setPalette(pa);
+    //}
+//    else {
+//        pa.setColor(DPalette::Background, QColor("#6a829f"));
+//        this->setPalette(pa);
+//    }
+    DPalette pa;
+    pa = DApplicationHelper::instance()->palette(this);
+    pa.setColor(DPalette::Background, QColor("#FFFFFF"));
+    this->setPalette(pa);
+    this->setBackgroundRole(DPalette::Background);
 
     setFixedWidth(58);
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;

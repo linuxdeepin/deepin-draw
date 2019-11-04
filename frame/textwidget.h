@@ -24,6 +24,7 @@
 #include <DWidget>
 #include <DSlider>
 #include <DLineEdit>
+#include <QAction>
 
 
 
@@ -60,6 +61,8 @@ private:
 
     QString m_oriFamily;
     bool m_bSelect;
+    QAction *m_fontSizeAddAction;
+    QAction *m_fontSizeReduceAction;
 
 
 private:

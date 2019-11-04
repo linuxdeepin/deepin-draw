@@ -22,7 +22,7 @@
 #include <DFontSizeManager>
 
 
-
+#include <QAction>
 #include <QHBoxLayout>
 #include <QButtonGroup>
 
@@ -79,7 +79,7 @@ void PolygonAttributeWidget::initUI()
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("描边粗细"));
+    lwLabel->setText(tr("Border Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);
@@ -88,7 +88,7 @@ void PolygonAttributeWidget::initUI()
 
 
     DLabel *sideNumLabel = new DLabel(this);
-    sideNumLabel->setText(tr("侧边数"));
+    sideNumLabel->setText(tr("SidesNumber"));
     sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSlider(Qt::Horizontal, this);
@@ -99,11 +99,19 @@ void PolygonAttributeWidget::initUI()
 
     m_sideNumEdit = new DLineEdit(this);
 //    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([3-9]{1})|([1-2]{1}[0]{0,1}))$")));
-    m_sideNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999));
+    m_sideNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999, this));
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(50);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
     m_sideNumEdit->setFont(ft);
+    m_sideNumAddAction = new QAction(this);
+    m_sideNumAddAction->setShortcut(QKeySequence(Qt::Key_Up));
+    this->addAction(m_sideNumAddAction);
+    m_sideNumReduceAction = new QAction(this);
+    m_sideNumReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
+    this->addAction(m_sideNumReduceAction);
+
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -192,6 +200,32 @@ void PolygonAttributeWidget::initConnection()
             m_sideNumSlider->blockSignals(false);
             CDrawParamSigleton::GetInstance()->setSideNum(value);
             emit signalPolygonAttributeChanged();
+        }
+    });
+
+    connect(m_sideNumAddAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_sideNumEdit->lineEdit()->hasFocus()) {
+            int sideNum = m_sideNumEdit->lineEdit()->text().trimmed().toInt();
+            sideNum++;
+            if (sideNum > 200) {
+                return ;
+            }
+            QString text = QString::number(sideNum);
+            m_sideNumEdit->setText(text);
+            emit m_sideNumEdit->lineEdit()->textEdited(text);
+        }
+    });
+
+    connect(m_sideNumReduceAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_sideNumEdit->lineEdit()->hasFocus()) {
+            int sideNum = m_sideNumEdit->lineEdit()->text().trimmed().toInt();
+            sideNum --;
+            if (sideNum < 3) {
+                return ;
+            }
+            QString text = QString::number(sideNum);
+            m_sideNumEdit->setText(text);
+            emit m_sideNumEdit->lineEdit()->textEdited(text);
         }
     });
 }

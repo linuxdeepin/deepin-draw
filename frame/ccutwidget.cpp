@@ -76,7 +76,8 @@ void CCutWidget::changeButtonTheme()
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
-    sizeLabel->setText(tr("尺寸"));
+    //sizeLabel->setText(tr("尺寸"));
+    sizeLabel->setText(tr("Size"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
     sizeLabel->setFont(ft);
@@ -98,8 +99,20 @@ void CCutWidget::initUI()
     m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 4096, this) );
     m_heightEdit->setFont(ft);
 
+    m_SizeAddAction = new QAction(this);
+    m_SizeAddAction->setShortcut(QKeySequence(Qt::Key_Up));
+    this->addAction(m_SizeAddAction);
+
+    m_SizeReduceAction = new QAction(this);
+    m_SizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
+    this->addAction(m_SizeReduceAction);
+
+
+
     DLabel *scaleLabel = new DLabel(this);
-    scaleLabel->setText(tr("比例"));
+    //scaleLabel->setText(tr("比例"));
+    scaleLabel->setText(tr("Ratio"));
+
     scaleLabel->setFont(ft);
 
     QFont pushBtnFont;
@@ -122,11 +135,13 @@ void CCutWidget::initUI()
     m_scaleBtn16_9->setFont(pushBtnFont);
 
     m_freeBtn = new DPushButton(this);
-    m_freeBtn->setText(tr("自由"));
+    //m_freeBtn->setText(tr("自由"));
+    m_freeBtn->setText(tr("Free"));
     m_freeBtn->setFont(pushBtnFont);
 
     m_originalBtn = new DPushButton(this);
-    m_originalBtn->setText(tr("原始"));
+    //m_originalBtn->setText(tr("原始"));
+    m_originalBtn->setText(tr("Origin"));
     m_originalBtn->setFont(pushBtnFont);
 
     m_scaleBtn1_1->setCheckable(true);
@@ -324,4 +339,50 @@ void CCutWidget::initConnection()
 
         CDrawScene::GetInstance()->quitCutMode();
     });
+
+    connect(m_SizeAddAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_widthEdit->lineEdit()->hasFocus()) {
+            int widthSizeNum = m_widthEdit->lineEdit()->text().trimmed().toInt();
+            widthSizeNum++;
+            if (widthSizeNum > 4096) {
+                return ;
+            }
+            QString text = QString::number(widthSizeNum);
+            m_widthEdit->setText(text);
+            emit m_widthEdit->lineEdit()->textEdited(text);
+        } else if (m_heightEdit->lineEdit()->hasFocus()) {
+            int heightSizeNum = m_heightEdit->lineEdit()->text().trimmed().toInt();
+            heightSizeNum++;
+            if (heightSizeNum > 4096) {
+                return ;
+            }
+            QString text = QString::number(heightSizeNum);
+            m_heightEdit->setText(text);
+            emit m_heightEdit->lineEdit()->textEdited(text);
+        }
+    });
+
+    connect(m_SizeReduceAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_widthEdit->lineEdit()->hasFocus()) {
+            int widthSizeNum = m_widthEdit->lineEdit()->text().trimmed().toInt();
+            widthSizeNum--;
+            if (widthSizeNum < 10) {
+                return ;
+            }
+            QString text = QString::number(widthSizeNum);
+            m_widthEdit->setText(text);
+            emit m_widthEdit->lineEdit()->textEdited(text);
+        } else if (m_heightEdit->lineEdit()->hasFocus()) {
+            int heightSizeNum = m_heightEdit->lineEdit()->text().trimmed().toInt();
+            heightSizeNum--;
+            if (heightSizeNum < 10) {
+                return ;
+            }
+            QString text = QString::number(heightSizeNum);
+            m_heightEdit->setText(text);
+            emit m_heightEdit->lineEdit()->textEdited(text);
+        }
+    });
+
+
 }

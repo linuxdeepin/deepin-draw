@@ -33,7 +33,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
-    setFixedSize(54, 36);
+    setFixedSize(56, 36);
     setCheckable(false);
     m_color = CDrawParamSigleton::GetInstance()->getLineColor();
 }
@@ -113,7 +113,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     ft.setPixelSize(12);
     painter.setFont(ft);
 
-    painter.drawText(26, 9, 32, 16, 1, tr("描边"));
+    painter.drawText(26, 9, 32, 16, 1, tr("Stroke"));
 }
 
 void BorderColorButton::setColor(QColor color)

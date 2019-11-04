@@ -22,6 +22,7 @@
 #include "widgets/seperatorline.h"
 #include <DWidget>
 #include <DLineEdit>
+#include <QAction>
 
 DWIDGET_USE_NAMESPACE
 
@@ -61,6 +62,9 @@ private:
     CClickButton *m_cutBtn;
     CClickButton *m_cancelBtn;
     SeperatorLine *m_sepLine;
+
+    QAction *m_SizeAddAction;
+    QAction *m_SizeReduceAction;
 
 private:
     void initUI();

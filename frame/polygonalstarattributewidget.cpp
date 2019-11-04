@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QAction>
 
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -77,7 +78,7 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("描边粗细"));
+    lwLabel->setText(tr("Border Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);
@@ -86,7 +87,7 @@ void PolygonalStarAttributeWidget::initUI()
 
 
     DLabel *anchorNumLabel = new DLabel(this);
-    anchorNumLabel->setText(tr("锚点数"));
+    anchorNumLabel->setText(tr("AnchorPoints"));
     anchorNumLabel->setFont(ft1);
 
     m_anchorNumSlider = new DSlider(Qt::Horizontal, this);
@@ -109,15 +110,16 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999));
+    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999, this));
 //    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(45);
     m_anchorNumEdit->setText(QString::number(m_anchorNumSlider->value()));
     m_anchorNumEdit->setFont(ft);
 
+
     DLabel *radiusLabel = new DLabel(this);
-    radiusLabel->setText(tr("半径"));
+    radiusLabel->setText(tr("Radius"));
     radiusLabel->setFont(ft1);
 
     m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
@@ -139,6 +141,16 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumEdit->setFixedWidth(55);
     m_radiusNumEdit->setText(QString("%1%").arg(m_radiusNumSlider->value()));
     m_radiusNumEdit->setFont(ft);
+
+
+    m_addAction = new QAction(this);
+    m_addAction->setShortcut(QKeySequence(Qt::Key_Up));
+    this->addAction(m_addAction);
+
+    m_reduceAction = new QAction(this);
+    m_reduceAction->setShortcut(QKeySequence(Qt::Key_Down));
+    this->addAction(m_reduceAction);
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -273,6 +285,62 @@ void PolygonalStarAttributeWidget::initConnection()
 
         if (str == "%") {
             m_radiusNumEdit->setText("0%");
+        }
+    });
+
+    connect(m_addAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_anchorNumEdit->lineEdit()->hasFocus()) {
+            int anchorNum = m_anchorNumEdit->lineEdit()->text().trimmed().toInt();
+            anchorNum++;
+            if (anchorNum > 200) {
+                return ;
+            }
+            QString text = QString::number(anchorNum);
+            m_anchorNumEdit->setText(text);
+            emit m_anchorNumEdit->lineEdit()->textEdited(text);
+        } else if (m_radiusNumEdit->lineEdit()->hasFocus()) {
+            QString str = m_radiusNumEdit->lineEdit()->text().trimmed();
+            int radiusNum = 0;
+            if (str.contains("%")) {
+                radiusNum = str.split("%").first().toInt();
+            } else {
+                radiusNum = str.toInt();
+            }
+            radiusNum++;
+            if (radiusNum > 100) {
+                return ;
+            }
+            QString text = QString::number(radiusNum);
+            m_radiusNumEdit->setText(text);
+            emit m_radiusNumEdit->lineEdit()->textEdited(text);
+        }
+    });
+
+    connect(m_reduceAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_anchorNumEdit->lineEdit()->hasFocus()) {
+            int anchorNum = m_anchorNumEdit->lineEdit()->text().trimmed().toInt();
+            anchorNum --;
+            if (anchorNum < 3) {
+                return ;
+            }
+            QString text = QString::number(anchorNum);
+            m_anchorNumEdit->setText(text);
+            emit m_anchorNumEdit->lineEdit()->textEdited(text);
+        } else if (m_radiusNumEdit->lineEdit()->hasFocus()) {
+            QString str = m_radiusNumEdit->lineEdit()->text().trimmed();
+            int radiusNum = 0;
+            if (str.contains("%")) {
+                radiusNum = str.split("%").first().toInt();
+            } else {
+                radiusNum = str.toInt();
+            }
+            radiusNum--;
+            if (radiusNum < 0) {
+                return ;
+            }
+            QString text = QString::number(radiusNum);
+            m_radiusNumEdit->setText(text);
+            emit m_radiusNumEdit->lineEdit()->textEdited(text);
         }
     });
 }

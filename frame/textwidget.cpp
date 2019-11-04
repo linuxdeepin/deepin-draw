@@ -60,7 +60,7 @@ void TextWidget::initUI()
     m_textSeperatorLine = new SeperatorLine(this);
 
     DLabel *fontFamilyLabel = new DLabel(this);
-    fontFamilyLabel->setText(tr("字体"));
+    fontFamilyLabel->setText(tr("Font"));
     fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
@@ -76,7 +76,8 @@ void TextWidget::initUI()
     m_fontComBox->setFocusPolicy(Qt::NoFocus);
 
     DLabel *fontsizeLabel = new DLabel(this);
-    fontsizeLabel->setText(tr("字号"));
+    //fontsizeLabel->setText(tr("字号"));
+    fontsizeLabel->setText(tr("Size"));
     fontsizeLabel->setFont(ft);
 
     m_fontSizeSlider = new DSlider(Qt::Horizontal, this);
@@ -96,6 +97,16 @@ void TextWidget::initUI()
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
     m_fontSizeEdit->setFont(ft);
+
+
+    m_fontSizeAddAction = new QAction(this);
+    m_fontSizeAddAction->setShortcut(QKeySequence(Qt::Key_Up));
+    this->addAction(m_fontSizeAddAction);
+    m_fontSizeReduceAction = new QAction(this);
+    m_fontSizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
+    this->addAction(m_fontSizeReduceAction);
+
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -191,6 +202,32 @@ void TextWidget::initConnection()
 
         if (value == minValue && defaultFontSize != minValue) {
             m_fontSizeSlider->setValue(value);
+        }
+    });
+
+    connect(m_fontSizeAddAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_fontSizeEdit->lineEdit()->hasFocus()) {
+            int sideNum = m_fontSizeEdit->lineEdit()->text().trimmed().toInt();
+            sideNum++;
+            if (sideNum > 500) {
+                return ;
+            }
+            QString text = QString::number(sideNum);
+            m_fontSizeEdit->setText(text);
+            emit m_fontSizeEdit->lineEdit()->textEdited(text);
+        }
+    });
+
+    connect(m_fontSizeReduceAction, &QAction::triggered, this, [ = ](bool) {
+        if (m_fontSizeEdit->lineEdit()->hasFocus()) {
+            int sideNum = m_fontSizeEdit->lineEdit()->text().trimmed().toInt();
+            sideNum --;
+            if (sideNum < 8) {
+                return ;
+            }
+            QString text = QString::number(sideNum);
+            m_fontSizeEdit->setText(text);
+            emit m_fontSizeEdit->lineEdit()->textEdited(text);
         }
     });
 }

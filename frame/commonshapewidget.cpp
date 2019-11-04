@@ -72,7 +72,8 @@ void CommonshapeWidget::initUI()
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("BorderLabel");
-    lwLabel->setText(tr("描边粗细"));
+    //lwLabel->setText(tr("描边粗细"));
+    lwLabel->setText(tr("Border Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);

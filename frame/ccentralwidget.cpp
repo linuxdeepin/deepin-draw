@@ -111,8 +111,14 @@ void CCentralwidget::openPicture(QString path)
 
 void CCentralwidget::initUI()
 {
-    m_leftToolbar = new CLeftToolBar(this);
+    m_leftToolbar = new CLeftToolBar();
     m_pGraphicsView = new CGraphicsView(this);
+    //m_pGraphicsView->setStyleSheet("border:0px");
+    //m_pGraphicsView->setWindowFlags(Qt::FramelessWindowHint);
+
+    m_pGraphicsView->setFrameShape(QFrame::NoFrame);
+
+
     m_pDrawScene =  CDrawScene::GetInstance();
     //设置scene大小为屏幕分辨率
     //获取屏幕分辨率

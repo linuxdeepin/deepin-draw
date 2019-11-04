@@ -27,7 +27,7 @@ CTitleWidget::CTitleWidget(DWidget *parent)
 {
     m_title = new DLabel(this);
 
-    m_title->setText(tr("未命名画板"));
+    m_title->setText(tr("Unnamed Draw"));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(0);
@@ -48,7 +48,7 @@ void CTitleWidget::updateTitleWidget()
 {
     QString path = CDrawParamSigleton::GetInstance()->getDdfSavePath();
     if (path.isEmpty()) {
-        m_title->setText(tr("未命名画板"));
+        m_title->setText(tr("Unnamed Draw"));
     } else {
         int index = path.lastIndexOf("/");
         QString name = path.mid(index + 1);

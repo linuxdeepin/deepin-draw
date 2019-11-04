@@ -56,6 +56,8 @@ private:
     DSlider *m_radiusNumSlider;//半径滑块
     DLineEdit *m_radiusNumEdit;//半径编辑框
     SeperatorLine *m_sepLine;
+    QAction *m_addAction;
+    QAction *m_reduceAction;
 
 
 private:

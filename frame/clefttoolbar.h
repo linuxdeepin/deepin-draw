@@ -28,11 +28,11 @@ class QVBoxLayout;
 
 DWIDGET_USE_NAMESPACE
 
-class CLeftToolBar : public DWidget
+class CLeftToolBar : public DFrame
 {
     Q_OBJECT
 public:
-    explicit CLeftToolBar(DWidget *parent = nullptr);
+    explicit CLeftToolBar(DFrame *parent = nullptr);
     ~CLeftToolBar();
 
 protected:

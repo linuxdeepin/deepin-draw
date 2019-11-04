@@ -34,7 +34,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     , m_isChecked(false)
 {
     //setFixedSize(24, 24);
-    setFixedSize(54, 36);
+    setFixedSize(56, 36);
     setCheckable(false);
 
     m_color = CDrawParamSigleton::GetInstance()->getFillColor();
@@ -106,7 +106,7 @@ void BigColorButton::paintEvent(QPaintEvent *)
     ft.setPixelSize(12);
     painter.setFont(ft);
 
-    painter.drawText(26, 9, 32, 16, 0, tr("填充"));
+    painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
 
 }
 

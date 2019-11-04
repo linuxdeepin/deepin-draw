@@ -55,6 +55,8 @@ private:
     DSlider *m_sideNumSlider;
     DLineEdit *m_sideNumEdit;
     SeperatorLine *m_sepLine;
+    QAction *m_sideNumAddAction;
+    QAction *m_sideNumReduceAction;
 
 private:
     void initUI();

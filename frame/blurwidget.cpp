@@ -66,7 +66,10 @@ void BlurWidget::initUI()
 {
     DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("TypeLabel");
-    penLabel->setText(tr("类型"));
+    //penLabel->setText(tr("类型"));
+
+    penLabel->setText(tr("Type"));
+
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
     penLabel->setFont(ft);
@@ -110,7 +113,10 @@ void BlurWidget::initUI()
 
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("PenWidthLabel");
-    penWidthLabel->setText(tr("涂抹笔粗细"));
+    //penWidthLabel->setText(tr("涂抹笔粗细"));
+
+    penWidthLabel->setText(tr("Pen Width"));
+
     penWidthLabel->setFont(ft);
 
     m_pLineWidthSlider = new DSlider(Qt::Horizontal, this);
@@ -122,7 +128,7 @@ void BlurWidget::initUI()
 
 
     m_pLineWidthLabel = new DLabel(this);
-    m_pLineWidthLabel->setObjectName("WidthLabel");
+    m_pLineWidthLabel->setObjectName("Width Label");
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
     m_pLineWidthLabel->setFont(ft);
     m_pLineWidthLabel->setFixedWidth(60);

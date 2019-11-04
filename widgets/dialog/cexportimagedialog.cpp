@@ -101,8 +101,11 @@ void CExportImageDialog::initUI()
     logoLable->setFixedSize(QSize(32, 32));
 
 
-    logoLable->move(25, 3);
+    logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
+//    QFont ft;
+//    ft.setPixelSize(17);
+//    this->setFont(ft);
 
     setWindowTitle(tr("Export"));;
 

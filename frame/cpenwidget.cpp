@@ -70,8 +70,8 @@ void CPenWidget::initUI()
     m_sep1Line = new SeperatorLine(this);
 
     DLabel *lineTypeLabel = new DLabel(this);
-    lineTypeLabel->setObjectName("LineType");
-    lineTypeLabel->setText(tr("类型"));
+    lineTypeLabel->setObjectName("Line Type");
+    lineTypeLabel->setText(tr("Type"));
     lineTypeLabel->setFont(ft);
 
 
@@ -105,8 +105,8 @@ void CPenWidget::initUI()
     m_actionButtons.append(m_arrowline);
 
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setObjectName("BorderLabel");
-    lwLabel->setText(tr("描边粗细"));
+    lwLabel->setObjectName("Border Label");
+    lwLabel->setText(tr("Border Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);
