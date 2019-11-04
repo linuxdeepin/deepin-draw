@@ -28,6 +28,7 @@
 #include <DApplicationHelper>
 #include <DGuiApplicationHelper>
 
+
 DGUI_USE_NAMESPACE
 
 
@@ -70,7 +71,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/contrarotate_disabled.svg");
 
 
-    m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(36, 36), this);
+    m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.svg");
@@ -85,7 +86,7 @@ void CPictureWidget::initUI()
 
 
 
-    m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(36, 36), this);
+    m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip horizontal_normal.svg");
@@ -98,7 +99,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip horizontal_press.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disabled.svg");
 
-    m_flipHBtn = new CClickButton(pictureMapClick, QSize(36, 36), this);
+    m_flipHBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip vertical_normal.svg");
@@ -111,7 +112,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip vertical_press.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disabled.svg");
 
-    m_flipVBtn = new CClickButton(pictureMapClick, QSize(36, 36), this);
+    m_flipVBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
 
 
     QHBoxLayout *layout = new QHBoxLayout(this);

@@ -28,7 +28,7 @@ class QVBoxLayout;
 
 DWIDGET_USE_NAMESPACE
 
-class CLeftToolBar : public DFrame
+class CLeftToolBar : public DWidget
 {
     Q_OBJECT
 public:

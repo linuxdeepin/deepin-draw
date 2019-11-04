@@ -25,7 +25,7 @@
 DGUI_USE_NAMESPACE
 
 CSideWidthWidget::CSideWidthWidget(DWidget *parent)
-    : DFrame(parent)
+    : DWidget(parent)
 {
     initUI();
     initConnection();
@@ -36,6 +36,7 @@ void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout (this);
     m_layout->setMargin(0);
+    m_layout->setSpacing(0);
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
 

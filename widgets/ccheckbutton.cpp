@@ -35,7 +35,6 @@ CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictu
     m_currentStatus(Normal),
     m_currentTheme(DGuiApplicationHelper::LightType),
     m_pictureMap(pictureMap)
-
 {
     setFixedSize(size);
     setIconSize(size);
@@ -161,7 +160,6 @@ void CCheckButton::updateImage()
 //        break;
 //    }
     setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
-
 }
 
 void CCheckButton::setCurrentTheme(int currentTheme)

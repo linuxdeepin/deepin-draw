@@ -20,6 +20,7 @@
 #define CUTWIDGET_H
 
 #include <DWidget>
+#include <DImageButton>
 
 class CClickButton;
 

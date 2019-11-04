@@ -136,6 +136,8 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
 void CDDFManager::loadDDF(const QString &path)
 {
+    emit signalClearSceneBeforLoadDDF();
+
     m_CProgressDialog->showProgressDialog(CProgressDialog::LoadDDF);
     m_path = path;
 

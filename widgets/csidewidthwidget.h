@@ -28,7 +28,7 @@ DWIDGET_USE_NAMESPACE
 
 class CCheckButton;
 
-class CSideWidthWidget : public DFrame
+class CSideWidthWidget : public DWidget
 {
 public:
     enum CLineWidth {

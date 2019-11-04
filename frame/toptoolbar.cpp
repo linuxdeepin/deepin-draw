@@ -229,16 +229,19 @@ void TopToolbar::initMenu()
     // QIcon t_icon = QIcon::fromTheme("deepin-draw");
     QIcon t_icon;
     //dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
-    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(48, 48) );
+    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(64, 64) );
     //pixmap.setDevicePixelRatio(devicePixelRatioF());
     t_icon.addPixmap(pixmap);
 
 
 
     dApp->setProductIcon(t_icon);
-    dApp->setApplicationDescription(tr("Deepin Draw is a lightweight drawing tool."
-                                       " You can freely draw on the layer or simply edit images. "));
+    dApp->setProductName(tr("Draw"));
+
+
+    dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
+    //dApp->setApplicationAcknowledgementPage("https://www.chinauos.com/");
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);

@@ -41,7 +41,7 @@ DGUI_USE_NAMESPACE
 const int BTN_SPACING = 1;
 
 CLeftToolBar::CLeftToolBar(DWidget *parent)
-    : DFrame(parent)
+    : DWidget(parent)
 {
     setMaximumWidth(50);
 
@@ -67,7 +67,7 @@ void CLeftToolBar::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
     qApp->setOverrideCursor(Qt::ArrowCursor);
-    DFrame::enterEvent(event);
+    DWidget::enterEvent(event);
 }
 
 

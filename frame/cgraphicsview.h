@@ -44,7 +44,6 @@ public:
     void scale(qreal scale);
     void showExportDialog();
     void showPrintDialog();
-    void clearScene();
     void showSaveDDFDialog(bool);
     void doSaveDDF();
     void doImport();
@@ -81,6 +80,7 @@ public slots:
     void slotStartLoadDDF(QRectF rect);
     void slotAddItemFromDDF(QGraphicsItem *item );
     void slotQuitCutMode();
+    void clearScene();
 
 private slots:
     void slotOnCut();
