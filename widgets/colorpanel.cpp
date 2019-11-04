@@ -182,7 +182,9 @@ void ColorPanel::setConfigColorByColorName(QColor color)
 
 void ColorPanel::changeButtonTheme()
 {
-    //    m_colorfulBtn
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_colorfulBtn->setCurrentTheme(themeType);
+    m_pickColWidget->updateButtonTheme(themeType);
 }
 
 void ColorPanel::mouseMoveEvent(QMouseEvent *event)

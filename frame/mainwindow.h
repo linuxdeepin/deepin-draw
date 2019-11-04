@@ -52,6 +52,7 @@ public slots:
     void slotOnThemeChanged(DGuiApplicationHelper::ColorType type);
     void slotIsNeedSave();
     void slotContinueDoSomeThing();
+    void onViewShortcut();
 
 
 protected:
@@ -69,6 +70,7 @@ private:
     bool m_contrlKey;
     DrawDialog *m_quitQuestionDialog;
     QAction *m_quitMode;
+    QAction *m_showCut;
 
 
 private:

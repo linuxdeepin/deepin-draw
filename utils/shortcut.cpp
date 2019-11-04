@@ -31,16 +31,29 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     group2.groupName = tr("Drawing");
     group3.groupName = tr("Graphics/Images");
 
-    group1.groupItems <<
-                      ShortcutItem(tr("Save"), "Ctrl + s");
+
+
+    group1.groupItems << ShortcutItem(tr("New"), "Ctrl+N")
+                      << ShortcutItem(tr("Open"), "Ctrl+O")
+                      << ShortcutItem(tr("Export"), "Ctrl+E")
+                      << ShortcutItem(tr("Save"), "Ctrl+S")
+                      << ShortcutItem(tr("Save as"), "Ctrl+Shift+S")
+                      << ShortcutItem(tr("Print"), "Ctrl+P");
 
     group2.groupItems <<
-                      ShortcutItem(tr("Rectangle"), "r") <<
-                      ShortcutItem(tr("Ellipse"), "o") <<
-                      ShortcutItem(tr("Pencil"), "p") <<
-                      ShortcutItem(tr("Text"), "t") <<
-                      ShortcutItem(tr("Blur"), "b") <<
-                      ShortcutItem(tr("Select"), "v");
+                      ShortcutItem(tr("Selected"),  "v") <<
+                      ShortcutItem(tr("Export Picture"),  "i") <<
+                      ShortcutItem(tr("Rectangle"),        "r") <<
+                      ShortcutItem(tr("Ellipse"),        "o") <<
+                      ShortcutItem(tr("Triangle"),        "s") <<
+                      ShortcutItem(tr("Star"),        "f") <<
+                      ShortcutItem(tr("Polygon"),        "h") <<
+                      ShortcutItem(tr("Line"),        "l") <<
+                      ShortcutItem(tr("Pencil"),        "p") <<
+                      ShortcutItem(tr("Text"),           "t") <<
+                      ShortcutItem(tr("Blur"),           "b") <<
+                      ShortcutItem(tr("Cut"),         "c");
+
 
     group3.groupItems <<
                       ShortcutItem(tr("Cut"), "Ctrl + x") <<

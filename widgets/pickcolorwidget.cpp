@@ -170,6 +170,11 @@ void PickColorWidget::setPickedColor(bool picked)
     m_colorLabel->setPickColor(picked);
 }
 
+void PickColorWidget::updateButtonTheme(int theme)
+{
+    m_picker->setCurrentTheme(theme);
+}
+
 PickColorWidget::~PickColorWidget()
 {
 }

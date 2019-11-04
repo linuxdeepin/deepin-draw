@@ -86,8 +86,8 @@ void TopToolbar::initUI()
 
 void TopToolbar::initComboBox()
 {
-
-    m_scaleComboBox = new DPushButton("100%");
+    m_scaleComboBox = new CPushButton("100%", this);
+    m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
     DMenu *scaleMenu = new DMenu();
     scaleMenu->setFixedWidth(162);
 
@@ -127,28 +127,24 @@ void TopToolbar::initComboBox()
     ft.setPixelSize(12);
     m_scaleComboBox->setFont(ft);
     m_scaleComboBox->setFlat(true);
+
+    //设置初始字体颜色
+    setScaleTextColor();
+
     connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-        //设置颜色
+        //设置编辑时颜色
         DPalette pa1 = m_scaleComboBox->palette();
         pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
         m_scaleComboBox->setPalette(pa1);
         qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
     });
     connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
-        //设置颜色
+        //设置编辑时颜色
         DPalette pa1 = m_scaleComboBox->palette();
         pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
         m_scaleComboBox->setPalette(pa1);
-        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
     });
-    /*
-    connect(m_scaleComboBox, &DPushButton::pressed, this, [ = ]() {
-        //设置颜色
-        DPalette pa1 = m_scaleComboBox->palette();
-        pa1.setColor(DPalette::ButtonText, Qt::red ); //QColor("#000000")
-        m_scaleComboBox->setPalette(pa1);
-        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-    });*/
 
 }
 
@@ -224,31 +220,38 @@ void TopToolbar::initMenu()
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
     //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
 
-    QAction *newConstructAc = m_mainMenu->addAction(tr("New"));
-    QAction *importAc = m_mainMenu->addAction(tr("Open"));
+    m_newAction = new QAction(tr("New"), this);
+    m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
+    m_mainMenu->addAction(m_newAction);
+    this->addAction(m_newAction);
+
+    QAction *importAc = new QAction(tr("Open"), this);
+    importAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
+    m_mainMenu->addAction(importAc);
+    this->addAction(importAc);
     m_mainMenu->addSeparator();
-    QAction *exportAc = m_mainMenu->addAction(tr("Export"));
+
+    QAction *exportAc = new QAction(tr("Export"), this);
+    exportAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_E));
+    m_mainMenu->addAction(exportAc);
+    this->addAction(exportAc);
 
     m_saveAction = new QAction(tr("Save"), this);
     m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     m_mainMenu->addAction(m_saveAction);
     this->addAction(m_saveAction);
 
-    QAction *saveAsAc = m_mainMenu->addAction(tr("Save as"));
-    QAction *printAc = m_mainMenu->addAction(tr("Print"));
+    QAction *saveAsAc = new QAction(tr("Save as"), this);
+    saveAsAc->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_S));
+    m_mainMenu->addAction(saveAsAc);
+    this->addAction(saveAsAc);
+
+    QAction *printAc = new QAction(tr("Print"), this);
+    printAc->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
+    m_mainMenu->addAction(printAc);
+    this->addAction(printAc);
     m_mainMenu->addSeparator();
-//    DMenu *themMenu = new DMenu(tr("Theme"));
-//    QAction *themeLightAc = themMenu->addAction(tr("Light theme"));
-//    QAction *themeDarkAc = themMenu->addAction(tr("Dark theme"));
-//    QAction *themeSystemAc = themMenu->addAction(tr("System theme"));
-//    m_mainMenu->addMenu(themMenu);
 
-    // QAction *helpAc = m_mainMenu->addAction(tr("Help"));
-
-
-//    Q_UNUSED(themeAc);
-//   Q_UNUSED(helpAc);
-    // QIcon t_icon = QIcon::fromTheme("deepin-draw");
     QIcon t_icon;
     //dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
     QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(64, 64) );
@@ -271,9 +274,10 @@ void TopToolbar::initMenu()
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);
-    connect(newConstructAc, &QAction::triggered, this, &TopToolbar::slotOnNewConstructAction);
+    connect(m_newAction, &QAction::triggered, this, &TopToolbar::slotOnNewConstructAction);
 
     connect(m_mainMenu, &DMenu::triggered, this, &TopToolbar::slotIsCutMode);
+    connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
 }
 
 
@@ -288,8 +292,20 @@ void TopToolbar::changeTopButtonsTheme()
     m_penWidget->changeButtonTheme();
     m_drawBlurWidget->changeButtonTheme();
     m_drawTextWidget->updateTheme();
+    m_colorPanel->changeButtonTheme();
+    setScaleTextColor();
 }
 
+void TopToolbar::setScaleTextColor()
+{
+    DPalette pa1 = m_scaleComboBox->palette();
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pa1.setColor(DPalette::ButtonText, "#414D68");
+    } else {
+        pa1.setColor(DPalette::ButtonText, "#C0C6D4");
+    }
+    m_scaleComboBox->setPalette(pa1);
+}
 
 void TopToolbar::updateMiddleWidget(int type)
 {
@@ -462,8 +478,10 @@ void TopToolbar::slotOnImportAction()
 
 void TopToolbar::slotOnNewConstructAction()
 {
-    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
-    emit signalNew();
+    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
+        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+        emit signalNew();
+    }
 }
 
 void TopToolbar::slotOnSaveAction()
@@ -476,6 +494,11 @@ void TopToolbar::slotOnSaveAsAction()
 {
     CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     emit signalSaveAs();
+}
+
+void TopToolbar::slotMenuShow()
+{
+    m_newAction->setEnabled(CDrawParamSigleton::GetInstance()->getIsModify());
 }
 
 

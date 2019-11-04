@@ -31,7 +31,8 @@ HEADERS += \
     $$PWD/dialog/cprogressdialog.h \
     $$PWD/cmenu.h \
     $$PWD/csvglabel.h \
-    $$PWD/cfontcombobox.h
+    $$PWD/cfontcombobox.h \
+    $$PWD/cpushbutton.h
 
 
 SOURCES += \
@@ -65,7 +66,8 @@ SOURCES += \
     $$PWD/dialog/cprogressdialog.cpp \
     $$PWD/cmenu.cpp \
     $$PWD/csvglabel.cpp \
-    $$PWD/cfontcombobox.cpp
+    $$PWD/cfontcombobox.cpp \
+    $$PWD/cpushbutton.cpp
 
 
 #RESOURCES += \

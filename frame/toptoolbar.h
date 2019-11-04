@@ -20,6 +20,7 @@
 #define TOPTOOLBAR_H
 
 #include "drawshape/globaldefine.h"
+#include "widgets/cpushbutton.h"
 
 #include <DFrame>
 #include <DMenu>
@@ -27,7 +28,6 @@
 
 #include <DWidget>
 #include <DStackedWidget>
-#include <DPushButton>
 #include <QKeyEvent>
 
 
@@ -106,6 +106,7 @@ private slots:
     void slotOnNewConstructAction();
     void slotOnSaveAction();
     void slotOnSaveAsAction();
+    void slotMenuShow();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
@@ -133,10 +134,11 @@ private:
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
     //DComboBox  *m_scaleComboBox;
-    DPushButton  *m_scaleComboBox;
+    CPushButton  *m_scaleComboBox;
     DMenu *m_mainMenu;
 
     QAction *m_saveAction;
+    QAction *m_newAction;
 
 private:
     void initUI();
@@ -144,6 +146,7 @@ private:
     void initStackWidget();
     void initMenu();
     void initComboBox();
+    void setScaleTextColor();
 };
 
 #endif // TOPTOOLBAR_H

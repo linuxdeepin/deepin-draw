@@ -24,6 +24,8 @@
 #include <QList>
 #include <QBrush>
 #include <QPen>
+
+
 class QGraphicsScene;
 class QGraphicsItem;
 class CGraphicsItem;
@@ -279,6 +281,7 @@ private:
     QGraphicsScene *m_scene;
     bool m_isRedoExcuteSuccess;
     bool m_isUndoExcuteSuccess;
+    QVector<QGraphicsItem *> m_movedItems;
 };
 
 class CSendToBackCommand : public QUndoCommand
@@ -296,6 +299,7 @@ private:
     QGraphicsScene *m_scene;
     bool m_isRedoExcuteSuccess;
     bool m_isUndoExcuteSuccess;
+    QVector<QGraphicsItem *> m_movedItems;
 };
 
 #endif // CUNDOCOMMANDS_H

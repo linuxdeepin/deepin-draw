@@ -74,5 +74,5 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     }
 
     painter->setFont(m_textFont);
-    painter->drawText(rect(), angle);
+    painter->drawText(rect(), Qt::AlignCenter, angle);
 }

@@ -113,12 +113,18 @@ void CCutWidget::initUI()
     m_freeBtn->setText(tr("自由"));
     m_freeBtn->setFont(pushBtnFont);
 
-    m_freeBtn->setChecked(true);
-
-
     m_originalBtn = new DPushButton(this);
     m_originalBtn->setText(tr("原始"));
     m_originalBtn->setFont(pushBtnFont);
+
+    m_scaleBtn1_1->setCheckable(true);
+    m_scaleBtn2_3->setCheckable(true);
+    m_scaleBtn8_5->setCheckable(true);
+    m_scaleBtn16_9->setCheckable(true);
+    m_freeBtn->setCheckable(true);
+    m_originalBtn->setCheckable(true);
+
+    m_freeBtn->setChecked(true);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

@@ -40,6 +40,7 @@ public:
     void setRgbValue(QColor color, bool isPicked = false);
     void updateColor();
     void setPickedColor(bool picked);
+    void updateButtonTheme(int);
 
 signals:
     void pickedColor(QColor color);

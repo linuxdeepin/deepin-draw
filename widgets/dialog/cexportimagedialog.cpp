@@ -160,7 +160,7 @@ void CExportImageDialog::initUI()
     m_questionDialog = new DDialog(this);
     m_questionDialog->setModal(true);
     m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
-    m_questionDialog->setFixedSize(400, 100);
+    m_questionDialog->setFixedSize(400, 170);
 
 
 
@@ -288,7 +288,7 @@ void CExportImageDialog::showDirChoseDialog()
 
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
-    m_questionDialog->setMessage((QString(tr("%1 already exists, do you want to replace?")).arg(path)));
+    m_questionDialog->setMessage((QString(tr("%1 \nalready exists, do you want to replace?")).arg(path)));
     m_questionDialog->show();
 }
 

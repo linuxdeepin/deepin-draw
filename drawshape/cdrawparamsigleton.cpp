@@ -102,7 +102,7 @@ QPen CDrawParamSigleton::getPen() const
     pen.setWidth(m_nlineWidth);
     pen.setColor(m_sLineColor);
     pen.setJoinStyle(Qt::MiterJoin);
-    pen.setMiterLimit(30);
+//    pen.setMiterLimit(30);
     return pen;
 }
 

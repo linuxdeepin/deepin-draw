@@ -660,16 +660,13 @@ void CBringToFrontCommand::undo()
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
     m_isUndoExcuteSuccess = false;
-    for (int i = index + 1; i < itemList.length() ; i++) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            m_selectedItem->stackBefore(itemList.at(i));
-            m_isUndoExcuteSuccess = true;
-        }
+
+    while (!m_movedItems.isEmpty()) {
+        QGraphicsItem *item = m_movedItems.first();
+        m_selectedItem->stackBefore(item);
+        m_isUndoExcuteSuccess = true;
+        m_movedItems.removeOne(item);
     }
 
     if (m_isUndoExcuteSuccess) {
@@ -691,9 +688,12 @@ void CBringToFrontCommand::redo()
 
     m_isRedoExcuteSuccess = false;
     for (int i = index - 1; i >= 0 ; i--) {
-//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+
         if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(m_selectedItem);
+//            qDebug() << "*********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+            QGraphicsItem *item = itemList.at(i);
+            item ->stackBefore(m_selectedItem);
+            m_movedItems.push_back(item);
             m_isRedoExcuteSuccess = true;
         }
     }
@@ -725,17 +725,14 @@ void CSendToBackCommand::undo()
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
     m_isUndoExcuteSuccess = false;
-    for (int i = index - 1; i >= 0 ; i--) {
-//        qDebug() << "@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(m_selectedItem);
-            m_isUndoExcuteSuccess = true;
-        }
+
+
+    while (!m_movedItems.isEmpty()) {
+        QGraphicsItem *item = m_movedItems.last();
+        item->stackBefore(m_selectedItem);
+        m_isUndoExcuteSuccess = true;
+        m_movedItems.removeOne(item);
     }
 
     if (m_isUndoExcuteSuccess) {
@@ -758,7 +755,10 @@ void CSendToBackCommand::redo()
     m_isRedoExcuteSuccess = false;
     for (int i = index + 1; i < itemList.length() ; i++) {
         if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            m_selectedItem->stackBefore(itemList.at(i));
+//            qDebug() << "**********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+            QGraphicsItem *item = itemList.at(i);
+            m_selectedItem->stackBefore(item);
+            m_movedItems.push_back(item);
             m_isRedoExcuteSuccess = true;
         }
     }

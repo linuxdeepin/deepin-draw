@@ -30,7 +30,7 @@ public slots:
 
 private:
     DProgressBar *m_progressBar;
-    DLabel *m_label;
+
 
 private:
     void initUI();

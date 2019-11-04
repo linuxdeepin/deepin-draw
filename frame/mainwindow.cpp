@@ -25,7 +25,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
-
+#include "utils/shortcut.h"
 
 #include <DTitlebar>
 #include <QVBoxLayout>
@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include <QProcess>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -91,6 +92,10 @@ void MainWindow::initUI()
     m_quitMode = new QAction(this);
     m_quitMode->setShortcut(QKeySequence(Qt::Key_Escape));
     this->addAction(m_quitMode);
+
+    m_showCut = new QAction(this);
+    m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
+    this->addAction(m_showCut);
 }
 
 void MainWindow::initConnection()
@@ -143,6 +148,8 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
 
+    connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
+
 }
 
 
@@ -188,6 +195,23 @@ void MainWindow::slotContinueDoSomeThing()
     default:
         break;
     }
+}
+
+void MainWindow::onViewShortcut()
+{
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j=" + sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << "-b" << param1 << param2;
+
+    QProcess *shortcutViewProc = new QProcess(this);
+    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
+    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
 }
 
 

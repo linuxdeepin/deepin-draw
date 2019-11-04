@@ -33,13 +33,13 @@
 #include "cgraphicsproxywidget.h"
 #include "cgraphicslineitem.h"
 #include "cpictureitem.h"
+#include "drawshape/cpictureitem.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QRect>
 #include <QGraphicsView>
-#include <drawshape/cpictureitem.h>
-
+#include <QtMath>
 
 CDrawScene *CDrawScene::m_pInstance = nullptr;
 
@@ -70,10 +70,34 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(painter, rect);
+
+    QPainterPath path;
+    path.addRoundedRect(sceneRect(), 20, 20);
+
+    int SHADOW_WIDTH = 10;
+    QRectF sceneRect = this->sceneRect();
     if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-        painter->fillRect(sceneRect(), Qt::white);
+
+        painter->setPen(Qt::NoPen);
+        painter->fillPath(path, Qt::white);
+        painter->drawPath(path);
+
+        QColor color(50, 50, 50, 30);
+        for (int i = 0; i < SHADOW_WIDTH; i++) {
+            color.setAlpha(120 - qSqrt(i) * 40);
+            painter->setPen(color);
+
+            QPainterPath tmpPath;
+            tmpPath.addRoundedRect(sceneRect.x() - i, sceneRect.y() - i, sceneRect.width() + 2 * i, sceneRect.height() + 2 * i, 20, 20);
+            painter->drawPath(tmpPath);
+            // 圆角阴影边框;
+            //painter->drawRoundedRect(SHADOW_WIDTH - i, SHADOW_WIDTH - i, sceneRect().width() - (SHADOW_WIDTH - i) * 2, sceneRect().height() - (SHADOW_WIDTH - i) * 2, 4, 4);
+        }
+        //painter->fillRect(sceneRect(), Qt::white);
     } else {
-        painter->fillRect(sceneRect(), QColor(40, 40, 40));
+        painter->setPen(Qt::NoPen);
+        painter->fillPath(path, QColor(40, 40, 40));
+        painter->drawPath(path);
     }
 
 }
@@ -299,9 +323,10 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
-    QRectF rect = this->sceneRect();
+    QPainterPath path;
+    path.addRoundedRect(sceneRect(), 20, 20);
     painter->setClipping(true);
-    painter->setClipRect(rect);
+    painter->setClipPath(path);
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
 }
 
