@@ -22,6 +22,7 @@
 #include <DWidget>
 #include <DSlider>
 #include <DLabel>
+#include <DLineEdit>
 
 DWIDGET_USE_NAMESPACE
 
@@ -37,7 +38,7 @@ signals:
 
 private:
     DSlider *m_alphaSlider;
-    DLabel *m_alphaLabel;
+    DLineEdit *m_alphaLabel;
 
 
 private:

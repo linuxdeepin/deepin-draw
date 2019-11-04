@@ -92,13 +92,12 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSlider = new DSlider(Qt::Horizontal, this);
 //    m_sideNumSlider->slider()->setSingleStep(1);
     m_sideNumSlider->setMinimum(4);
-    m_sideNumSlider->setMaximum(10);
+    m_sideNumSlider->setMaximum(200);
     m_sideNumSlider->setMinimumWidth(120);
 
 
-
     m_sideNumEdit = new DLineEdit(this);
-    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
+//    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([4-9]{1})|([1]{1}[0]{0,1}))$")));
 //    m_sideNumEdit->setValidator(new CIntValidator(4, 10));
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(40);

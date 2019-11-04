@@ -28,7 +28,7 @@ class EditLabel : public DLabel
 {
     Q_OBJECT
 public:
-    EditLabel(DWidget *parent = 0);
+    EditLabel(DWidget *parent = nullptr);
     ~EditLabel();
 
     void setTitle(QString title);

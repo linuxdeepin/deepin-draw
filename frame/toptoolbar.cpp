@@ -40,6 +40,7 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <DApplicationHelper>
+#include <QWidgetAction>
 
 #include <DLineEdit>
 
@@ -86,8 +87,10 @@ void TopToolbar::initUI()
 
 void TopToolbar::initComboBox()
 {
+
     m_scaleComboBox = new CPushButton("100%", this);
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
+
     DMenu *scaleMenu = new DMenu();
     scaleMenu->setFixedWidth(162);
 
@@ -99,22 +102,27 @@ void TopToolbar::initComboBox()
 
 
     connect(scale200, &QAction::triggered, this, [ = ]() {
+        setScaleTextColor();
         m_scaleComboBox->setText("200%");
         slotZoom("200%");
     });
     connect(scale100, &QAction::triggered, this, [ = ]() {
+        setScaleTextColor();
         m_scaleComboBox->setText("100%");
         slotZoom("100%");
     });
     connect(scale75, &QAction::triggered, this, [ = ]() {
+        setScaleTextColor();
         m_scaleComboBox->setText("75%");
         slotZoom("75%");
     });
     connect(scale50, &QAction::triggered, this, [ = ]() {
+        setScaleTextColor();
         m_scaleComboBox->setText("50%");
         slotZoom("50%");
     });
     connect(scale25, &QAction::triggered, this, [ = ]() {
+        setScaleTextColor();
         m_scaleComboBox->setText("25%");
         slotZoom("25%");
     });

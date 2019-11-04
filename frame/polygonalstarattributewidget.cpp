@@ -97,7 +97,7 @@ void PolygonalStarAttributeWidget::initUI()
 
 
     m_anchorNumSlider->setMinimum(3);
-    m_anchorNumSlider->setMaximum(50);
+    m_anchorNumSlider->setMaximum(200);
     if (width < 1152) {
         m_anchorNumSlider->setFixedWidth(60);
     } else {
@@ -107,7 +107,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 50));
+    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 200));
 //    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(40);
@@ -119,7 +119,6 @@ void PolygonalStarAttributeWidget::initUI()
     radiusLabel->setFont(ft);
 
     m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
-
 
     m_radiusNumSlider->setMinimum(0);
     m_radiusNumSlider->setMaximum(100);

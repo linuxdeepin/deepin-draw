@@ -44,7 +44,7 @@ DGUI_USE_NAMESPACE
 const int ORGIN_WIDTH = 246;
 const int PANEL_WIDTH = 226;
 const int ORIGIN_HEIGHT = 250;
-const int EXPAND_HEIGHT = 470;
+const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
 const int BORDER_WIDTH = 1;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
@@ -225,19 +225,22 @@ void ColorPanel::initUI()
     m_alphaControlWidget = new CAlphaControlWidget(this);
     m_alphaControlWidget->setFocusPolicy(Qt::NoFocus);
 //    m_alphaControlWidget->setFixedHeight(24);
-    m_alphaControlWidget->setFixedWidth(236);
+//    m_alphaControlWidget->setFixedWidth(236);
 
     DWidget *colorValueWidget = new DWidget;
     colorValueWidget->setFocusPolicy(Qt::NoFocus);
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
     DLabel *colLabel = new DLabel(colorValueWidget);
+    QFont colLabelFont = colLabel->font();
+    colLabelFont.setPixelSize(12);
     colLabel->setObjectName("ColorLabel");
-    colLabel->setFixedWidth(48);
+    colLabel->setFixedWidth(45);
     colLabel->setText(tr("Color"));
+    colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("ColorLineEdit");
-    m_colLineEdit->setFixedSize(150, 24);
+    m_colLineEdit->setFixedSize(131, 36);
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6,8}"), this));
     //m_colLineEdit->lineEdit()->setEnabled(false);
@@ -253,7 +256,7 @@ void ColorPanel::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_more_active.svg");
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_more_active.svg");
 
-    m_colorfulBtn = new CCheckButton(pictureMap, QSize(24, 24), colorValueWidget, false);
+    m_colorfulBtn = new CCheckButton(pictureMap, QSize(36, 36), colorValueWidget, false);
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
     m_colorfulBtn->setObjectName("ColorFulButton");
 
@@ -270,15 +273,17 @@ void ColorPanel::initUI()
     m_pickColWidget = new PickColorWidget(this);
     m_pickColWidget->setFocusPolicy(Qt::NoFocus);
 
+
     QVBoxLayout *vLayout = new QVBoxLayout(colorBtnWidget);
-    vLayout->setContentsMargins(10, 0, 10, 0);
+//    vLayout->setContentsMargins(10, 0, 10, 0);
     vLayout->setSpacing(0);
-    vLayout->addSpacing(20);
+    vLayout->addSpacing(10);
     vLayout->addLayout(gLayout);
     vLayout->addSpacing(10);
     vLayout->addWidget(m_alphaControlWidget, 0, Qt::AlignCenter);
-//    vLayout->addSpacing(10);
+    vLayout->addSpacing(10);
     vLayout->addWidget(colorValueWidget, 0, Qt::AlignCenter);
+//    vLayout->addSpacing(10);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
@@ -320,15 +325,23 @@ void ColorPanel::initConnection()
         QColor tmpColor;
         if (m_drawstatus == Fill) {
             tmpColor = CDrawParamSigleton::GetInstance()->getFillColor();
+            if (tmpColor == Qt::transparent) {
+                return;
+            }
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setFillColor(tmpColor);
-
         } else if (m_drawstatus == Stroke) {
             tmpColor = CDrawParamSigleton::GetInstance()->getLineColor();
+            if (tmpColor == Qt::transparent) {
+                return;
+            }
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setLineColor(tmpColor);
         } else if (m_drawstatus == TextFill) {
             tmpColor = CDrawParamSigleton::GetInstance()->getTextColor();
+            if (tmpColor == Qt::transparent) {
+                return;
+            }
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setTextColor(tmpColor);
         }

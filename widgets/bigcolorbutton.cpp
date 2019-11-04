@@ -77,7 +77,12 @@ void BigColorButton::paintEvent(QPaintEvent *)
     QPen borderPen;
     borderPen.setWidth(1);
     //borderPen.setColor(QColor(0, 0, 0, 15));
-    borderPen.setColor(Qt::gray);
+    //borderPen.setColor(Qt::gray);
+    if (m_color == Qt::transparent) {
+        borderPen.setColor(Qt::gray);
+    } else {
+        borderPen.setColor(Qt::transparent);
+    }
     painter.setPen(borderPen);
     if (m_isChecked) {
         painter.setBrush(QColor(0, 0, 0, 55));

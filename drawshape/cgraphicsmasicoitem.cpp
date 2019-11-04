@@ -119,7 +119,11 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        pen.setColor(QColor(224, 224, 224));
+        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+            pen.setColor(QColor(224, 224, 224));
+        } else {
+            pen.setColor(QColor(69, 69, 69));
+        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -148,7 +152,7 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
         this->scene()->render(&painterd);
 
-        m_pixmap.save("./wang.jpg");
+        //m_pixmap.save("./wang.jpg");
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);

@@ -131,7 +131,11 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        pen.setColor(QColor(224, 224, 224));
+        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+            pen.setColor(QColor(224, 224, 224));
+        } else {
+            pen.setColor(QColor(69, 69, 69));
+        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -143,7 +147,7 @@ void CGraphicsPolygonItem::calcPoints(int n)
 {
     prepareGeometryChange();
     m_listPoints.clear();
-    qreal angle = 90 * M_PI / 180;
+    qreal angle = 90. * M_PI / 180.;
     QPointF pointCenter = this->rect().center();
     qreal w = this->rect().width();
     qreal h = this->rect().height();
@@ -151,7 +155,7 @@ void CGraphicsPolygonItem::calcPoints(int n)
     qreal r = R / 2;
 
     if (n > 0) {
-        qreal preAngle = 360 / n * M_PI / 180;
+        qreal preAngle = 360. / n * M_PI / 180.;
         for (int i = 0; i != n; i++) {
             ////程序坐标的Y轴和数学坐标中的Y轴是相反的
             //qreal x = pointCenter.x() + cos(angle + preAngle * i) * r;

@@ -80,12 +80,17 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     painter.setPen(pen);
     painter.setBrush(Qt::transparent);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-    painter.drawRoundedRect(QRect(5, 5, 14, 14), 6, 6);
+    painter.drawRoundedRect(QRect(4, 4, 16, 16), 6, 6);
 
     QPen borderPen;
     borderPen.setWidth(1);
     //borderPen.setColor(QColor(0, 0, 0, 15));
-    borderPen.setColor(Qt::gray);
+    if (m_color == Qt::transparent) {
+        borderPen.setColor(Qt::gray);
+    } else {
+        borderPen.setColor(Qt::transparent);
+    }
+    //borderPen.setColor(Qt::gray);
     painter.setPen(borderPen);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
     painter.drawRoundedRect(QRect(4, 4, 16, 16), 6, 6);

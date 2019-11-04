@@ -24,18 +24,23 @@
 #include <QPainter>
 #include <QDebug>
 #include <QString>
-#include <QSvgRenderer>
+
 
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
-    : QGraphicsSvgItem(QString(":/theme/light/images/size/node.svg"), parent)
+    : QGraphicsSvgItem(parent)
     , m_dir(d)
     , m_state(SelectionHandleOff)
     , m_bVisible(true)
+    , m_lightRenderer(QString(":/theme/light/images/size/node.svg"))
+    , m_darkRenderer(QString(":/theme/dark/images/size/node-dark.svg"))
+    , m_isRotation(false)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
+    setSharedRenderer(&m_lightRenderer);
     hide();
+
 }
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
@@ -43,6 +48,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     , m_dir(d)
     , m_state(SelectionHandleOff)
     , m_bVisible(true)
+    , m_isRotation(true)
 {
     setParentItem(parent);
     setCacheMode(NoCache);
@@ -85,6 +91,17 @@ void CSizeHandleRect::updateCursor()
 
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
+    if (!m_isRotation) {
+        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
+            setSharedRenderer(&m_lightRenderer);
+        } else if (CDrawParamSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
+            setSharedRenderer(&m_darkRenderer);
+        }
+    }
+
     painter->setClipping(false);
     QRectF rect = this->boundingRect();
 
@@ -148,7 +165,6 @@ bool CSizeHandleRect::getVisible() const
 {
     return m_bVisible;
 }
-
 
 
 

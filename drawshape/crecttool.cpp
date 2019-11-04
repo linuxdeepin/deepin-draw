@@ -26,7 +26,8 @@
 #include <QtMath>
 #include <QGraphicsBlurEffect>
 
-DWIDGET_USE_NAMESPACE
+
+
 CRectTool::CRectTool ()
     : IDrawTool (rectangle)
     , m_pRectItem(nullptr)

@@ -21,7 +21,7 @@
 
 #include <QGraphicsRectItem>
 #include <QList>
-#include <DSvgRenderer>
+#include <QSvgRenderer>
 #include <QGraphicsSvgItem>
 
 QT_BEGIN_NAMESPACE
@@ -31,7 +31,6 @@ class QGraphicsScene;
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
-DWIDGET_USE_NAMESPACE
 
 enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
@@ -56,6 +55,8 @@ public:
     void setVisible(bool flag);
     bool getVisible() const;
 
+
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
@@ -63,6 +64,10 @@ private:
     const EDirection m_dir;
     ESelectionHandleState m_state;
     bool  m_bVisible;   //是否显示  true 显示  false不显示
+    QSvgRenderer m_lightRenderer;
+    QSvgRenderer m_darkRenderer;
+    bool m_isRotation;
+
 };
 
 

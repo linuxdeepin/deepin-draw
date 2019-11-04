@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cdrawparamsigleton.h"
+#include <QGuiApplication>
 
 
 CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
@@ -183,7 +184,12 @@ void CDrawParamSigleton::setShiftKeyStatus(bool flag)
 
 bool CDrawParamSigleton::getShiftKeyStatus()
 {
-    return m_bShiftKeyPress;
+    bool bRet = false;
+    if (QGuiApplication::queryKeyboardModifiers() & Qt::ShiftModifier) {
+        bRet = true;
+    }
+
+    return bRet;
 }
 
 void CDrawParamSigleton::setAltKeyStatus(bool flag)
@@ -193,7 +199,12 @@ void CDrawParamSigleton::setAltKeyStatus(bool flag)
 
 bool CDrawParamSigleton::getAltKeyStatus()
 {
-    return m_bAltKeyPress;
+    bool bRet = false;
+    if (QGuiApplication::queryKeyboardModifiers() & Qt::AltModifier) {
+        bRet = true;
+    }
+
+    return bRet;
 }
 
 void CDrawParamSigleton::setCtlKeyStatus(bool flag)
@@ -203,7 +214,12 @@ void CDrawParamSigleton::setCtlKeyStatus(bool flag)
 
 bool CDrawParamSigleton::getCtlKeyStatus()
 {
-    return m_bCtlKeyPress;
+    bool bRet = false;
+    if (QGuiApplication::queryKeyboardModifiers() & Qt::ControlModifier) {
+        bRet = true;
+    }
+
+    return bRet;
 }
 
 void CDrawParamSigleton::setScale(qreal scale)

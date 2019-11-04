@@ -32,18 +32,29 @@
 
 DGUI_USE_NAMESPACE
 
-const QSize PICKCOLOR_WIDGET_SIZE = QSize(226, 230);
+const QSize PICKCOLOR_WIDGET_SIZE = QSize(226, 220);
 
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
 {
     setFixedSize(PICKCOLOR_WIDGET_SIZE);
     DLabel *titleLabel = new DLabel(this);
+    QFont  titleLabelFont = titleLabel->font();
+    titleLabelFont.setPixelSize(12);
     titleLabel->setText("RGB");
-    titleLabel->setFixedWidth(38);
+    titleLabel->setFixedWidth(30);
+    titleLabel->setFont(titleLabelFont);
 
     m_cp = new ColorPickerInterface("com.deepin.Picker",
                                     "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
+
+    connect(m_cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid, QString colorName) {
+        if (uuid == QString("%1").arg(qApp->applicationPid())) {
+            setRgbValue(QColor(colorName), true);
+        }
+        m_picker->setChecked(false);
+    });
+
 
     m_redEditLabel = new EditLabel(this);
     m_redEditLabel->setTitle("R");
@@ -75,8 +86,8 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
 
-    m_picker = new CCheckButton(pictureMap, QSize(24, 24), this, false);
-    m_picker->setFixedSize(24, 24);
+    m_picker = new CCheckButton(pictureMap, QSize(36, 36), this, false);
+
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
@@ -85,7 +96,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     rgbLayout->addWidget(m_redEditLabel);
     rgbLayout->addWidget(m_greenEditLabel);
     rgbLayout->addWidget(m_blueEditLabel);
-    rgbLayout->addSpacing(4);
+    rgbLayout->addSpacing(10);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
     m_colorSlider->setFixedSize(226, 25);
@@ -98,7 +109,8 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     connect(m_colorLabel, &ColorLabel::pickedColor, this,  [ = ](QColor color) {
         setRgbValue(color, true);
     });
-    connect(m_picker, &CCheckButton::buttonClick, this, [ = ] {
+    connect(m_picker, &CCheckButton::mouseRelease, this, [ = ] {
+        m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
 //        QDBusPendingReply<> reply =  m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
 //        reply.waitForFinished();
 //        if (reply.isError())
@@ -117,29 +129,30 @@ PickColorWidget::PickColorWidget(DWidget *parent)
 //            });
 //        }
 
-        ColorPickerInterface *cp = new ColorPickerInterface("com.deepin.Picker",
-                                                            "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
+//        ColorPickerInterface *cp = new ColorPickerInterface("com.deepin.Picker",
+//                                                            "/com/deepin/Picker", QDBusConnection::sessionBus(), this);
 
-        cp->StartPick(QString("%1").arg(qApp->applicationPid()));
-        connect(cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid,
-                                                                    QString colorName)
-        {
-            if (uuid == QString("%1").arg(qApp->applicationPid())) {
-                setRgbValue(QColor(colorName), true);
-            }
-            m_picker->setChecked(false);
-            cp->deleteLater();
-        });
+//        cp->StartPick(QString("%1").arg(qApp->applicationPid()));
+//        connect(cp, &ColorPickerInterface::colorPicked, this, [ = ](QString uuid,
+//                                                                    QString colorName)
+//        {
+//            if (uuid == QString("%1").arg(qApp->applicationPid())) {
+//                setRgbValue(QColor(colorName), true);
+//            }
+//            m_picker->setChecked(false);
+//            cp->deleteLater();
+//        });
 
     });
 
     QVBoxLayout *mLayout = new QVBoxLayout;
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
-    mLayout->addSpacing(16);
+//    mLayout->addSpacing(2);
     mLayout->addLayout(rgbLayout);
     mLayout->addSpacing(10);
     mLayout->addWidget(m_colorLabel, 0, Qt::AlignCenter);
+    mLayout->addSpacing(10);
     mLayout->addWidget(m_colorSlider, 0, Qt::AlignCenter);
     setLayout(mLayout);
 }

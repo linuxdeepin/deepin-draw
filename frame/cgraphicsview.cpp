@@ -335,12 +335,12 @@ void CGraphicsView::setContextMenu()
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
-    Q_UNUSED(event)
+    QPointF pos = this->mapToScene(event->pos());
+    QRectF rect = this->scene()->sceneRect();
 
-//    if (m_isStopContinuousDrawing) {
-//        m_isStopContinuousDrawing = false;
-//        return;
-//    }
+    if (!rect.contains(pos)) {
+        return;
+    }
 
     if (!m_isShowContext) {
         return;

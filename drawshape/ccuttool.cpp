@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
+DWIDGET_USE_NAMESPACE
+
 
 CCutTool::CCutTool()
     : IDrawTool (cut)

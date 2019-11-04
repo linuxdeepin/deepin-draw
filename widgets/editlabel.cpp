@@ -24,13 +24,17 @@
 
 #include "utils/global.h"
 
-const QSize LINEEDIT_SIZE = QSize(37, 24);
+const QSize LINEEDIT_SIZE = QSize(37, 36);
 
 EditLabel::EditLabel(DWidget *parent)
     : DLabel(parent)
     , m_titleSpacing(1)
 {
     m_titleLabel = new DLabel(this);
+
+    QFont titleLabelFont = m_titleLabel->font();
+    titleLabelFont.setPixelSize(8);
+    m_titleLabel->setFont(titleLabelFont);
 
     m_edit = new DLineEdit(this);
     m_edit->setFixedSize(LINEEDIT_SIZE);
@@ -44,6 +48,7 @@ EditLabel::EditLabel(DWidget *parent)
 
 
     QHBoxLayout *mLayout = new QHBoxLayout(this);
+    setContentsMargins(0, 0, 0, 0);
     mLayout->setMargin(0);
     mLayout->setSpacing(0);
     mLayout->addWidget(m_titleLabel);

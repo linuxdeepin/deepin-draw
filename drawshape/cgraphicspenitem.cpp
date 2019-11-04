@@ -474,7 +474,11 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     if (this->isSelected()) {
         QPen pen;
         pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        pen.setColor(QColor(224, 224, 224));
+        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+            pen.setColor(QColor(224, 224, 224));
+        } else {
+            pen.setColor(QColor(69, 69, 69));
+        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

@@ -45,6 +45,7 @@ public:
 
 signals:
     void buttonClick();
+    void mouseRelease();
 public slots:
 
 protected:

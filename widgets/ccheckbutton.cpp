@@ -120,6 +120,7 @@ void CCheckButton::mouseReleaseEvent(QMouseEvent *e)
 
     updateImage();
 
+    emit mouseRelease();
 }
 
 void CCheckButton::enterEvent(QEvent *e)
