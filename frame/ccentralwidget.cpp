@@ -165,6 +165,7 @@ void CCentralwidget::slotZoom(qreal scale)
 
 void CCentralwidget::slotShowExportDialog()
 {
+    m_pDrawScene->clearSelection();
     m_pGraphicsView->showExportDialog();
 }
 
