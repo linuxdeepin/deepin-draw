@@ -99,7 +99,7 @@ void PolygonAttributeWidget::initUI()
 
     m_sideNumEdit = new DLineEdit(this);
 //    m_sideNumEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("^(()|([3-9]{1})|([1-2]{1}[0]{0,1}))$")));
-    m_sideNumEdit->lineEdit()->setValidator(new CIntValidator(3, 200));
+    m_sideNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999));
     m_sideNumEdit->setClearButtonEnabled(false);
     m_sideNumEdit->setFixedWidth(50);
     m_sideNumEdit->setText(QString::number(m_sideNumSlider->value()));
@@ -170,6 +170,10 @@ void PolygonAttributeWidget::initConnection()
         if (value >= 0 && value <= 2) {
             return ;
         }
+        if (value > 200) {
+            value = 200;
+        }
+        m_sideNumEdit->setText(QString::number(value));
         m_sideNumSlider->blockSignals(true);
         m_sideNumSlider->setValue(value);
         m_sideNumSlider->blockSignals(false);

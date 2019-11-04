@@ -1,11 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>theme/light/images/draw/color_draw_active.svg</file>
-        <file>theme/light/images/draw/color_draw_hover.svg</file>
-        <file>theme/light/images/draw/color_draw_normal.svg</file>
-        <file>theme/light/images/draw/color_more_active.svg</file>
-        <file>theme/light/images/draw/color_more_hover.svg</file>
-        <file>theme/light/images/draw/color_more_normal.svg</file>
         <file>theme/light/images/draw/tickness01_checked.svg</file>
         <file>theme/light/images/draw/tickness03_press.svg</file>
         <file>theme/light/images/draw/tickness01_normal.svg</file>
@@ -42,5 +36,28 @@
         <file>theme/dark/images/draw/tickness02_press.svg</file>
         <file>theme/common/line.svg</file>
         <file>theme/common/linedark.svg</file>
+        <file>theme/dark/images/draw/color_disable_active.png</file>
+        <file>theme/dark/images/draw/color_disable_hover.png</file>
+        <file>theme/dark/images/draw/color_disable_normal.png</file>
+        <file>theme/dark/images/draw/colorful_line.png</file>
+        <file>theme/dark/images/draw/dorpper_hover.svg</file>
+        <file>theme/dark/images/draw/dorpper_normal.svg</file>
+        <file>theme/dark/images/draw/dorpper_press.svg</file>
+        <file>theme/dark/images/draw/palette_hover.svg</file>
+        <file>theme/dark/images/draw/palette_normal.svg</file>
+        <file>theme/dark/images/draw/palette_press.svg</file>
+        <file>theme/light/images/draw/color_disable_hover.png</file>
+        <file>theme/light/images/draw/color_disable_normal.png</file>
+        <file>theme/light/images/draw/colorful_line.png</file>
+        <file>theme/light/images/draw/dorpper_hover.svg</file>
+        <file>theme/light/images/draw/dorpper_normal.svg</file>
+        <file>theme/light/images/draw/dorpper_press.svg</file>
+        <file>theme/light/images/draw/palette_hover.svg</file>
+        <file>theme/light/images/draw/palette_normal.svg</file>
+        <file>theme/light/images/draw/palette_press.svg</file>
+        <file>theme/dark/images/draw/dorpper_active.svg</file>
+        <file>theme/dark/images/draw/palette_active.svg</file>
+        <file>theme/light/images/draw/dorpper_active.svg</file>
+        <file>theme/light/images/draw/palette_active.svg</file>
     </qresource>
 </RCC>

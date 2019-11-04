@@ -207,9 +207,10 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
     CGraphicsRectItem::resizeTo(dir, point, false, false);
-    updateWidget();
-    m_pTextEdit->slot_textChanged();
     m_bManResize = true;
+    updateWidget();
+    m_pTextEdit->resizeDocument();
+
 }
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)

@@ -22,6 +22,7 @@
 #include <DDialog>
 #include <DLabel>
 #include <DWaterProgress>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 

@@ -91,7 +91,7 @@ void TextWidget::initUI()
     m_fontSizeSlider->slider()->setFocusPolicy(Qt::NoFocus);
 
     m_fontSizeEdit = new DLineEdit(this);
-    m_fontSizeEdit->lineEdit()->setValidator(new CIntValidator(8, 500, this));
+    m_fontSizeEdit->lineEdit()->setValidator(new CIntValidator(8, 999, this));
     m_fontSizeEdit->setClearButtonEnabled(false);
     m_fontSizeEdit->setFixedWidth(55);
     m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
@@ -174,6 +174,10 @@ void TextWidget::initConnection()
         if (value >= 0 && value < m_fontSizeSlider->slider()->minimum()) {
             return ;
         }
+        if (value > 500) {
+            value = 500;
+        }
+        m_fontSizeEdit->setText(QString::number(value));
 
         m_fontSizeSlider->setValue(value);
     });

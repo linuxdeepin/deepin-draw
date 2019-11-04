@@ -76,17 +76,18 @@ PickColorWidget::PickColorWidget(DWidget *parent)
 
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/dorpper_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/dorpper_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/dorpper_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/dorpper_active.svg");
 
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_draw_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/light/images/draw/color_draw_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/light/images/draw/color_draw_active.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/light/images/draw/color_draw_active.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/dorpper_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/dorpper_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/dorpper_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/dorpper_active.svg");
 
     m_picker = new CCheckButton(pictureMap, QSize(36, 36), this, false);
+
 
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);

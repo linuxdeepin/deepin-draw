@@ -109,7 +109,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumSlider->setMaximumHeight(24);
 
     m_anchorNumEdit = new DLineEdit(this);
-    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 200));
+    m_anchorNumEdit->lineEdit()->setValidator(new CIntValidator(3, 999));
 //    m_anchorNumEdit->setValidator(new QRegExpValidator(QRegExp("^(([3-9]{1})|(^[1-4]{1}[0-9]{1}$)|(50))$"), this));
     m_anchorNumEdit->setClearButtonEnabled(false);
     m_anchorNumEdit->setFixedWidth(45);
@@ -208,6 +208,10 @@ void PolygonalStarAttributeWidget::initConnection()
         if (value >= 0 && value <= 2) {
             return;
         }
+        if (value > 200) {
+            value = 200;
+        }
+        m_anchorNumEdit->setText(QString::number(value));
         m_anchorNumSlider->blockSignals(true);
         m_anchorNumSlider->setValue(value);
         m_anchorNumSlider->blockSignals(false);

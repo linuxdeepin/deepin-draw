@@ -198,6 +198,40 @@ void CTextEdit::setLastDocumentWidth(qreal width)
     m_widthF = width;
 }
 
+void CTextEdit::resizeDocument()
+{
+    if (this->document()->isEmpty()) {
+        m_pItem->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
+        m_pItem->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+    }
+
+    if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
+        this->setLineWrapMode(WidgetWidth);
+    }
+
+    QSizeF size = this->document()->size();
+    QRectF rect = m_pItem->rect();
+    rect.setHeight(size.height());
+    //rect.setWidth(size.width());
+
+    //判断是否出界
+    //QPointF bottomRight = rect.bottomRight();
+    //QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
+    /*if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
+        this->setLineWrapMode(WidgetWidth);
+        this->document()->setTextWidth(m_widthF);
+        size = this->document()->size();
+        rect.setHeight(size.height());
+        rect.setWidth(size.width());
+    }*/
+
+    if (m_pItem != nullptr) {
+        m_pItem->setRect(rect);
+    }
+
+    m_widthF = rect.width();
+}
+
 void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
     if (this->isVisible()) {

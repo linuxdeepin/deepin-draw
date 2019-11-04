@@ -27,8 +27,6 @@ DWIDGET_USE_NAMESPACE
 class QUndoStack;
 class CDDFManager;
 class CGraphicsItem;
-class CPrintManager;
-class CExportImageDialog;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
@@ -42,14 +40,13 @@ public:
     void zoomOut();
     void zoomIn();
     void scale(qreal scale);
-    void showExportDialog();
-    void showPrintDialog();
     void showSaveDDFDialog(bool);
     void doSaveDDF();
     void doImport();
     void setContextMenuAndActionEnable(bool enable);
     void importData(const QString &path);
     void disableCutShortcut(bool);
+
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -60,6 +57,8 @@ protected:
     virtual void drawItems(QPainter *painter, int numItems,
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[]) Q_DECL_OVERRIDE;
+
+    virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 signals:
@@ -151,9 +150,6 @@ private:
     ///
 
     QUndoStack *m_pUndoStack;
-
-    CExportImageDialog *m_exportImageDialog;
-    CPrintManager *m_printManager;
     bool m_visible;
 
     CDDFManager *m_DDFManager;
@@ -168,8 +164,6 @@ private:
     void initTextContextMenu();
     void initTextContextMenuConnection();
     void initConnection();
-    QPixmap getSceneImage();
-
     bool canLayerUp();
     bool canLayerDown();
 };

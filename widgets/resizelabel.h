@@ -20,6 +20,8 @@
 #define RESIZELABEL_H
 
 #include <DLabel>
+#include <DWidget>
+
 #include <QPaintEvent>
 
 #include "utils/shapesutils.h"

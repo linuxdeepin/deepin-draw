@@ -20,9 +20,12 @@
 #define SEPERATORLINE_H
 
 #include <DLabel>
+#include <DWidget>
+
 #include <DApplicationHelper>
 #include <QDebug>
-#include <drawshape/cdrawparamsigleton.h>
+
+
 DWIDGET_USE_NAMESPACE
 class SeperatorLine : public DLabel
 {

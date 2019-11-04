@@ -377,12 +377,26 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 
     prepareGeometryChange();
     m_isShiftPress = isShiftPress;
-    m_path.lineTo(endPoint);
-    m_smoothVector.push_back(endPoint);
-    if (m_smoothVector.count() > SmoothMaxCount) {
-        m_smoothVector.removeFirst();
+
+    if (isShiftPress) {
+        m_straightLine.setP1(m_path.currentPosition());
+        m_straightLine.setP2(endPoint);
+
+        //if (m_currentType == arrow) {
+        calcVertexes(m_straightLine.p1(), m_straightLine.p2());
+        //}
+    } else {
+        m_path.lineTo(endPoint);
+        m_smoothVector.push_back(endPoint);
+        if (m_smoothVector.count() > SmoothMaxCount) {
+            m_smoothVector.removeFirst();
+        }
+        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
+
     }
-    calcVertexes(m_smoothVector.first(), m_smoothVector.last());
+
+
+
     updateGeometry();
 }
 

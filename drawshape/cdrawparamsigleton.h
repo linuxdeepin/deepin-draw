@@ -123,6 +123,9 @@ public:
     ESaveDDFTriggerAction getSaveDDFTriggerAction() const;
     void setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction);
 
+    int getRenderImage() const;
+    void setRenderImage(int renderImage);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -173,6 +176,8 @@ private:
 
     //线型
     ELineType m_lineType;
+
+    int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
 };
 
 

@@ -23,8 +23,6 @@
 #include "drawshape/globaldefine.h"
 #include "drawshape/cdrawscene.h"
 #include "cundocommands.h"
-#include "widgets/dialog/cexportimagedialog.h"
-#include "widgets/dialog/cprintmanager.h"
 #include "widgets/ctextedit.h"
 #include "drawshape/cgraphicspolygonitem.h"
 #include "drawshape/cgraphicspolygonalstaritem.h"
@@ -63,8 +61,6 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
-    m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager();
     m_DDFManager = new CDDFManager (this, this);
 
     initContextMenu();
@@ -111,34 +107,6 @@ void CGraphicsView::scale(qreal scale)
     CDrawParamSigleton::GetInstance()->setScale(m_scale);
 }
 
-QPixmap CGraphicsView::getSceneImage()
-{
-    QPixmap pixmap(scene()->sceneRect().width(), scene()->sceneRect().height());
-
-    QPainter painter(&pixmap);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-
-//    CDrawParamSigleton::GetInstance()->setThemeType(1);
-    scene()->render(&painter);
-//    CDrawParamSigleton::GetInstance()->setThemeType(2);
-
-    return  pixmap;
-}
-
-
-void CGraphicsView::showExportDialog()
-{
-    scene()->clearSelection();
-    m_exportImageDialog->showMe(getSceneImage());
-}
-
-void CGraphicsView::showPrintDialog()
-{
-    QPixmap pixMap = getSceneImage();
-
-    m_printManager->showPrintDialog(pixMap, this);
-}
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
@@ -251,6 +219,7 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
 
     connect(m_primitiveZoomInAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomIn()));
+
     connect(m_primitiveZoomOutAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomOut()));
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
     connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
@@ -450,6 +419,12 @@ void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *it
     painter->setClipping(true);
     painter->setClipRect(rect);
     DGraphicsView::drawItems(painter, numItems, items, options);
+}
+
+void CGraphicsView::leaveEvent(QEvent *event)
+{
+    Q_UNUSED(event)
+    qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 //QPainter *CGraphicsView::sharedPainter() const
@@ -735,6 +710,7 @@ void CGraphicsView::slotPrimitiveZoomOut()
     if (m_scale - 0.25 >= 0.01) {
         this->scale(m_scale - 0.25);
         emit signalSetScale(m_scale);
+
     } else {
         m_scale = 0.25;
         this->scale(m_scale);

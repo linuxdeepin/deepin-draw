@@ -22,12 +22,10 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/globaldefine.h"
 
-#include <DLabel>
 #include <DSlider>
 #include <QHBoxLayout>
 #include <DGuiApplicationHelper>
 
-DGUI_USE_NAMESPACE
 
 
 const int BTN_SPACING = 6;

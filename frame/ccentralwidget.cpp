@@ -27,8 +27,9 @@
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicsellipseitem.h"
 #include "drawshape/cgraphicstriangleitem.h"
+#include "widgets/dialog/cexportimagedialog.h"
+#include "widgets/dialog/cprintmanager.h"
 
-#include <DLabel>
 #include <DMenu>
 #include <DGuiApplicationHelper>
 #include <QDebug>
@@ -36,12 +37,16 @@
 #include <QtConcurrent>
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QPdfWriter>
 
 DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
 {
+    m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
+
     initUI();
     initConnect();
 }
@@ -78,6 +83,15 @@ void CCentralwidget::switchTheme(int type)
     m_pDrawScene->switchTheme(type);
 }
 
+void CCentralwidget::resetSceneBackgroundBrush()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    if (themeType == 1) {
+        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+    } else if (themeType == 2) {
+        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
+    }
+}
 
 //进行图片导入
 void CCentralwidget::importPicture()
@@ -176,11 +190,6 @@ void CCentralwidget::slotZoom(qreal scale)
     m_pGraphicsView->scale(scale);
 }
 
-void CCentralwidget::slotShowExportDialog()
-{
-    m_pGraphicsView->showExportDialog();
-}
-
 void CCentralwidget::slotSaveToDDF()
 {
     m_pGraphicsView->doSaveDDF();
@@ -220,7 +229,9 @@ void CCentralwidget::slotNew()
 
 void CCentralwidget::slotPrint()
 {
-    m_pGraphicsView->showPrintDialog();
+    m_pDrawScene->clearSelection();
+    QPixmap pixMap = getSceneImage(1);
+    m_printManager->showPrintDialog(pixMap, this);
 }
 
 void CCentralwidget::slotShowCutItem()
@@ -247,12 +258,63 @@ void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
     m_pGraphicsView->disableCutShortcut(isFocus);
 }
 
+void CCentralwidget::slotDoSaveImage()
+{
+    int type = m_exportImageDialog->getImageType();
+    QString completePath = m_exportImageDialog->getSavePath();
+    if (type == CExportImageDialog::PDF) {
+        QPixmap pixmap = getSceneImage(1);
+        QPdfWriter writer(completePath);
+        int ww = pixmap.width();
+        int wh = pixmap.height();
+        writer.setResolution(96);
+        writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
+        QPainter painter(&writer);
+        painter.drawPixmap(0, 0, pixmap);
+    } else if (type == CExportImageDialog::PNG) {
+        QString format = m_exportImageDialog->getImageFormate();
+        int quality = m_exportImageDialog->getQuality();
+        QPixmap pixmap = getSceneImage(2);
+        pixmap.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+    } else {
+        QString format = m_exportImageDialog->getImageFormate();
+        int quality = m_exportImageDialog->getQuality();
+        QPixmap pixmap = getSceneImage(1);
+        pixmap.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+    }
+}
+
+void CCentralwidget::slotShowExportDialog()
+{
+    m_pDrawScene->clearSelection();
+    m_exportImageDialog->showMe();
+}
+
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {
     emit signalSetScale(scale);
 }
 
+QPixmap CCentralwidget::getSceneImage(int type)
+{
+    QPixmap pixmap(m_pDrawScene->sceneRect().width(), m_pDrawScene->sceneRect().height());
+    CDrawParamSigleton::GetInstance()->setRenderImage(type);
+    if (type == 2) {
+        pixmap.fill(Qt::transparent);
+        m_pDrawScene->setBackgroundBrush(Qt::transparent);
+    }
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    m_pDrawScene->render(&painter);
+    if (type == 2) {
+        resetSceneBackgroundBrush();
+    }
+    CDrawParamSigleton::GetInstance()->setRenderImage(0);
+
+    return  pixmap;
+}
 
 void CCentralwidget::initConnect()
 {
@@ -308,6 +370,8 @@ void CCentralwidget::initConnect()
 
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), m_pGraphicsView, SLOT(slotDoCutScene()));
+
+    connect(m_exportImageDialog, SIGNAL(signalDoSave()), this, SLOT(slotDoSaveImage()));
 }
 
 

@@ -49,6 +49,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_blurWidth(20)
     , m_thremeType(0)
     , m_lineType(straightType)
+    , m_renderImage(0)
 {
     m_textFont.setPointSizeF(14);
 }
@@ -303,6 +304,16 @@ ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const
 void CDrawParamSigleton::setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction)
 {
     m_saveDDFTriggerAction = saveDDFTriggerAction;
+}
+
+int CDrawParamSigleton::getRenderImage() const
+{
+    return m_renderImage;
+}
+
+void CDrawParamSigleton::setRenderImage(int renderImage)
+{
+    m_renderImage = renderImage;
 }
 
 ECutType CDrawParamSigleton::getCutType() const

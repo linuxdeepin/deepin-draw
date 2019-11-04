@@ -23,6 +23,7 @@
 #include <DProgressBar>
 #include <DBlurEffectWidget>
 #include <DLabel>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 

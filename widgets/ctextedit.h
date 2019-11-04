@@ -39,6 +39,8 @@ public:
 
     void setLastDocumentWidth(qreal width);
 
+    void resizeDocument();
+
 protected:
     virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 

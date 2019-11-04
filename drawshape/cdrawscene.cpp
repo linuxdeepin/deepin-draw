@@ -70,11 +70,20 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(painter, rect);
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-        painter->fillRect(sceneRect(), Qt::white);
+    if (CDrawParamSigleton::GetInstance()->getRenderImage() > 0) {
+        if (CDrawParamSigleton::GetInstance()->getRenderImage() == 1) {
+            painter->fillRect(sceneRect(), Qt::white);
+        } else {
+            painter->fillRect(sceneRect(), Qt::transparent);
+        }
     } else {
-        painter->fillRect(sceneRect(), QColor(55, 55, 55));
+        if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+            painter->fillRect(sceneRect(), Qt::white);
+        } else {
+            painter->fillRect(sceneRect(), QColor(55, 55, 55));
+        }
     }
+
     /*QGraphicsScene::drawBackground(painter, rect);
 
     QPainterPath path;
@@ -369,6 +378,15 @@ void CDrawScene::doCutScene()
             setSceneRect(rect);
             update();
             quitCutMode();
+        }
+    }
+
+    //更新模糊图元
+    QList<QGraphicsItem *> items = this->items(this->sceneRect());
+
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }
 }

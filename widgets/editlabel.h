@@ -21,6 +21,7 @@
 
 #include <DLabel>
 #include <DLineEdit>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 

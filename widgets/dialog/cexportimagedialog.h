@@ -32,7 +32,7 @@ DWIDGET_USE_NAMESPACE
 class CExportImageDialog : public DDialog
 {
     Q_OBJECT
-
+public:
     enum ESaveFormat {
         JPG,
         PNG,
@@ -56,7 +56,11 @@ public:
     explicit CExportImageDialog(DWidget *parent = nullptr);
     ~CExportImageDialog();
 
-    void showMe(const QPixmap &pixmap);
+    void showMe();
+    int getImageType() const;
+    QString getSavePath() const;
+    QString getImageFormate() const;
+    int getQuality() const;
 
 private slots:
     void slotOnSavePathChange(int index);
@@ -64,6 +68,8 @@ private slots:
     void slotOnDialogButtonClick(int index, const QString &text);
     void slotOnQuestionDialogButtonClick(int index, const QString &text);
     void slotOnQualityChanged(int value);
+signals:
+    void signalDoSave();
 
 private:
     DLineEdit *m_fileNameEdit;
@@ -76,8 +82,6 @@ private:
     QString m_savePath;
     QString m_saveFormat;
     int m_quality;
-
-    QPixmap m_saveImage;
 
     DDialog *m_questionDialog;
 

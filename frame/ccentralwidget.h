@@ -36,7 +36,9 @@ DWIDGET_USE_NAMESPACE
 class CLeftToolBar;
 class CGraphicsView;
 class CDrawScene;
+class CPrintManager;
 class ProgressLayout;
+class CExportImageDialog;
 
 class CCentralwidget: public DWidget
 {
@@ -68,7 +70,6 @@ signals:
     void signalTransmitQuitCutModeFromTopBarMenu();
 
 
-
 public slots:
     void importPicture();
     void slotResetOriginPoint();
@@ -88,6 +89,8 @@ public slots:
     void slotOnEscButtonClick();
     void slotCutLineEditeFocusChange(bool);
 
+private slots:
+    void slotDoSaveImage();
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -96,6 +99,8 @@ private:
     QVBoxLayout *m_vLayout;
     QHBoxLayout *m_hLayout;
 
+    CExportImageDialog *m_exportImageDialog;
+    CPrintManager *m_printManager;
 
 
     int m_horizontalMargin;
@@ -110,7 +115,8 @@ private:
 private:
     void initUI();
     void initConnect();
-
+    QPixmap getSceneImage(int type);
+    void resetSceneBackgroundBrush();
 };
 
 #endif // MAINWIDGET_H

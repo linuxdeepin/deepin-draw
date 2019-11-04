@@ -20,6 +20,8 @@
 #define COLORLABEL_H
 
 #include <DLabel>
+#include <DWidget>
+
 #include <QPaintEvent>
 #include <QEnterEvent>
 #include <QMouseEvent>

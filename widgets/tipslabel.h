@@ -20,7 +20,11 @@
 #define TIPSLABEL_H
 
 #include <DLabel>
+#include <DWidget>
+
 DWIDGET_USE_NAMESPACE
+
+
 class TipsLabel : public DLabel
 {
     Q_OBJECT

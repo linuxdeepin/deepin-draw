@@ -1,4 +1,5 @@
 #include "seperatorline.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 SeperatorLine::SeperatorLine(DWidget *parent)
     : DLabel(parent)

@@ -17,16 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "linewidget.h"
-
-#include <QHBoxLayout>
-#include <QDebug>
-
-
+#include "drawshape/cdrawparamsigleton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
+
+#include <QHBoxLayout>
+#include <QDebug>
+
+
 
 
 const int BTN_SPACNT = 10;

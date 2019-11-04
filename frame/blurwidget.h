@@ -21,6 +21,7 @@
 
 #include <DWidget>
 #include <DSlider>
+#include <DLabel>
 
 
 class CCheckButton;
@@ -30,7 +31,6 @@ DWIDGET_USE_NAMESPACE
 class BlurWidget : public DWidget
 {
     Q_OBJECT
-
 
 public:
     BlurWidget(DWidget *parent = nullptr);

@@ -47,10 +47,8 @@ CExportImageDialog::~CExportImageDialog()
 
 }
 
-void CExportImageDialog::showMe(const QPixmap &pixmap)
+void CExportImageDialog::showMe()
 {
-    m_saveImage = pixmap;
-
     m_fileNameEdit->setText("deepin.jpg");
 
 
@@ -70,6 +68,26 @@ void CExportImageDialog::showMe(const QPixmap &pixmap)
     slotOnQualityChanged(m_qualitySlider->value());
 
     show();
+}
+
+int CExportImageDialog::getImageType() const
+{
+    return  m_formatCombox->currentIndex();
+}
+
+QString CExportImageDialog::getSavePath() const
+{
+    return m_savePath + "/" + m_fileNameEdit->text().trimmed();
+}
+
+QString CExportImageDialog::getImageFormate() const
+{
+    return  m_saveFormat;
+}
+
+int CExportImageDialog::getQuality() const
+{
+    return m_quality;
 }
 
 void CExportImageDialog::initUI()
@@ -249,7 +267,7 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
             hide();
             showQuestionDialog(completePath);
         } else {
-            doSave();
+            emit signalDoSave();
             hide();
         }
     }
@@ -259,7 +277,8 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
 {
     Q_UNUSED(text);
     if (index == 1) {
-        doSave();
+        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+        emit signalDoSave();
     }
     m_questionDialog->hide();
 }
@@ -296,28 +315,5 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
 void CExportImageDialog::doSave()
 {
     QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
-    if (m_formatCombox->currentIndex() == PDF) {
-        //to test the pdf efficiency
-        QDateTime current_date_time = QDateTime::currentDateTime();
-        QString current_date = current_date_time.toString("yyyy.MM.dd hh:mm:ss.zzz ddd");
-        qDebug() << "Begin to create a PDF file" << current_date << endl;
-        QPdfWriter writer(completePath);
-        QDateTime current_date_time1 = QDateTime::currentDateTime();
-        QString current_date1 = current_date_time1.toString("yyyy.MM.dd hh:mm:ss.zzz ddd");
-        qDebug() << "finished to create a PDF file" << current_date1 << endl;
-        int ww = writer.width();
-        int wh = writer.height();
-        QPainter painter(&writer);
-        QDateTime current_date_time2 = QDateTime::currentDateTime();
-        QString current_date2 = current_date_time2.toString("yyyy.MM.dd hh:mm:ss.zzz ddd");
-        qDebug() << "Begin to draw a PDF file" << current_date2 << endl;
-        painter.drawPixmap(0, 0, QPixmap(m_saveImage).scaled(QSize(ww, wh), Qt::KeepAspectRatio));
-        QDateTime current_date_time3 = QDateTime::currentDateTime();
-        QString current_date3 = current_date_time3.toString("yyyy.MM.dd hh:mm:ss.zzz ddd");
-        qDebug() << "finished to draw a PDF file" << current_date3 << endl;
 
-    } else {
-        bool isSuccess = m_saveImage.save(completePath, m_saveFormat.toUpper().toLocal8Bit().data(), m_quality);
-        //qDebug() << "!!!!!!!!!" << isSuccess << "::" << completePath << "::" << m_saveFormat;;
-    }
 }

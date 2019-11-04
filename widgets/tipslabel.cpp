@@ -18,6 +18,7 @@
  */
 #include "tipslabel.h"
 
+
 TipsLabel::TipsLabel(DWidget *parent)
     : DLabel(parent)
 {
