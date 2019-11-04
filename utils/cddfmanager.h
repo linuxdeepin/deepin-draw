@@ -41,7 +41,7 @@ public:
 
     void saveToDDF(const QString &path, const QGraphicsScene *scene);
 
-    void loadDDF(const QString &path);
+    void loadDDF(const QString &path, bool isOpenByDDF = false);
 signals:
     void signalSaveDDFComplete();
     void signalLoadDDFComplete();

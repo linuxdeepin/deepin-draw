@@ -36,9 +36,11 @@ public:
     ~CCutWidget();
 
     void updateCutSize();
+    void clearAllChecked();
 
 signals:
     void signalCutAttributeChanged();
+    void signalCutLineEditIsfocus(bool);
 
 public slots:
 

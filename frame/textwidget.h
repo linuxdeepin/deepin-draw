@@ -18,13 +18,14 @@
  */
 #ifndef TEXTWIDGET_H
 #define TEXTWIDGET_H
+#include "drawshape/globaldefine.h"
+#include "widgets/cfontcombobox.h"
 
 #include <DWidget>
 #include <DSlider>
 #include <DLineEdit>
-#include <DFontComboBox>
 
-#include "drawshape/globaldefine.h"
+
 
 DWIDGET_USE_NAMESPACE
 
@@ -54,8 +55,11 @@ private:
     TextColorButton *m_fillBtn;
     DSlider *m_fontSizeSlider;
     DLineEdit *m_fontSizeEdit;
-    DFontComboBox *m_fontComBox;
+    CFontComboBox *m_fontComBox;
     SeperatorLine *m_textSeperatorLine;
+
+    QString m_oriFamily;
+    bool m_bSelect;
 
 
 private:

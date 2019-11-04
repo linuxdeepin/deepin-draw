@@ -49,6 +49,7 @@ public:
     void doImport();
     void setContextMenuAndActionEnable(bool enable);
     void importData(const QString &path);
+    void disableCutShortcut(bool);
 
 protected:
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;

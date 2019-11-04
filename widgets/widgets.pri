@@ -30,7 +30,8 @@ HEADERS += \
     $$PWD/ctextedit.h \
     $$PWD/dialog/cprogressdialog.h \
     $$PWD/cmenu.h \
-    $$PWD/csvglabel.h
+    $$PWD/csvglabel.h \
+    $$PWD/cfontcombobox.h
 
 
 SOURCES += \
@@ -63,7 +64,8 @@ SOURCES += \
     $$PWD/seperatorline.cpp \
     $$PWD/dialog/cprogressdialog.cpp \
     $$PWD/cmenu.cpp \
-    $$PWD/csvglabel.cpp
+    $$PWD/csvglabel.cpp \
+    $$PWD/cfontcombobox.cpp
 
 
 #RESOURCES += \

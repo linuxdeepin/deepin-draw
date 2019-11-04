@@ -78,6 +78,8 @@ signals:
 
     void signalQuitCutModeFromTopBarMenu();
 
+    void signalCutLineEditIsfocus(bool);
+
 
 public:
     void showPrintDialog();

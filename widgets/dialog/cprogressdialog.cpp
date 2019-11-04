@@ -3,6 +3,9 @@
 #include <DLabel>
 
 #include <QVBoxLayout>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QDebug>
 
 CProgressDialog::CProgressDialog(DWidget *parent)
     : DDialog(parent)
@@ -52,7 +55,7 @@ void CProgressDialog::slotupDateProcessBar(int value)
     m_progressBar->setValue(value);
 }
 
-void CProgressDialog::showProgressDialog(EProgressDialogType type)
+void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenByDDF)
 {
     if (SaveDDF == type) {
         m_label->setText(tr("正在导出"));
@@ -61,5 +64,26 @@ void CProgressDialog::showProgressDialog(EProgressDialogType type)
     }
     m_progressBar->reset();
 
+    if (isOpenByDDF) {
+        showInCenter();
+    } else {
+        show();
+
+        QWidget *mainWindow = this->parentWidget()->parentWidget()->window();
+        QPoint gp = mainWindow->mapToGlobal(QPoint(0, 0));
+        move((mainWindow->width() - this->width()) / 2 + gp.x(),
+             (mainWindow->height() - this->sizeHint().height()) / 2 + gp.y());
+    }
+}
+
+void CProgressDialog::showInCenter()
+{
     show();
+
+    QRect rect = qApp->desktop()->screenGeometry();
+
+    QPoint center = rect.center();
+    QPoint pos = center - QPoint(this->width() / 2, this->height() / 2);
+    this->move(pos);
+
 }

@@ -21,7 +21,7 @@ public:
 
 public:
     explicit CProgressDialog(DWidget *parent = nullptr);
-    void showProgressDialog(EProgressDialogType type);
+    void showProgressDialog(EProgressDialogType type, bool isOpenByDDF = false);
 
 signals:
 
@@ -32,10 +32,9 @@ private:
     DProgressBar *m_progressBar;
     DLabel *m_label;
 
-
 private:
     void initUI();
-
+    void showInCenter();
 
 };
 

@@ -86,6 +86,7 @@ public slots:
     void slotTextFontSizeChanged();
     void openPicture(QString path);
     void slotOnEscButtonClick();
+    void slotCutLineEditeFocusChange(bool);
 
 
 private:

@@ -51,6 +51,16 @@ void CCutWidget::updateCutSize()
     m_heightEdit->setText(QString::number(size.height()));
 }
 
+void CCutWidget::clearAllChecked()
+{
+    m_scaleBtn1_1->setChecked(false);
+    m_scaleBtn2_3->setChecked(false);
+    m_scaleBtn8_5->setChecked(false);
+    m_scaleBtn16_9->setChecked(false);
+    m_freeBtn->setChecked(false);
+    m_originalBtn->setChecked(false);
+}
+
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
@@ -103,6 +113,8 @@ void CCutWidget::initUI()
     m_freeBtn->setText(tr("自由"));
     m_freeBtn->setFont(pushBtnFont);
 
+    m_freeBtn->setChecked(true);
+
 
     m_originalBtn = new DPushButton(this);
     m_originalBtn->setText(tr("原始"));
@@ -144,6 +156,9 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutType(cut_1_1);
         emit signalCutAttributeChanged();
 
+        clearAllChecked();
+        m_scaleBtn1_1->setChecked(true);
+
         this->updateCutSize();
     });
 
@@ -151,6 +166,9 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutAttributeType(ButtonClickAttribute);
         CDrawParamSigleton::GetInstance()->setCutType(cut_2_3);
         emit signalCutAttributeChanged();
+
+        clearAllChecked();
+        m_scaleBtn2_3->setChecked(true);
 
         this->updateCutSize();
     });
@@ -160,6 +178,9 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutType(cut_8_5);
         emit signalCutAttributeChanged();
 
+        clearAllChecked();
+        m_scaleBtn8_5->setChecked(true);
+
         this->updateCutSize();
     });
 
@@ -168,12 +189,19 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutType(cut_16_9);
         emit signalCutAttributeChanged();
 
+        clearAllChecked();
+        m_scaleBtn16_9->setChecked(true);
+
         this->updateCutSize();
     });
 
     connect(m_freeBtn, &DPushButton::clicked, this, [ = ]() {
         CDrawParamSigleton::GetInstance()->setCutAttributeType(ButtonClickAttribute);
         CDrawParamSigleton::GetInstance()->setCutType(cut_free);
+
+        clearAllChecked();
+        m_freeBtn->setChecked(true);
+
         emit signalCutAttributeChanged();
     });
 
@@ -182,11 +210,29 @@ void CCutWidget::initConnection()
         CDrawParamSigleton::GetInstance()->setCutType(cut_original);
         emit signalCutAttributeChanged();
 
+        clearAllChecked();
+        m_originalBtn->setChecked(true);
 
         this->updateCutSize();
     });
 
+    connect(m_widthEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
+//        qDebug() << "@@@@@@@@@@@@@WidthFocus=" << isfocus;
+        emit signalCutLineEditIsfocus(isfocus);
+    });
+
+    connect(m_heightEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
+//        qDebug() << "@@@@@@@@@@@@@HeightFocus=" << isfocus;
+        emit signalCutLineEditIsfocus(isfocus);
+    });
+
+
     connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
+
+        if (m_widthEdit->lineEdit()->hasFocus()) {
+            m_widthEdit->lineEdit()->clearFocus();
+        }
+
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);
@@ -196,6 +242,11 @@ void CCutWidget::initConnection()
     });
 
     connect(m_heightEdit, &DLineEdit::editingFinished, this, [ = ]() {
+
+        if (m_heightEdit->lineEdit()->hasFocus()) {
+            m_heightEdit->lineEdit()->clearFocus();
+        }
+
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);

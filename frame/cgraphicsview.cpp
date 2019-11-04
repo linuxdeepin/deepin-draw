@@ -151,6 +151,7 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 void CGraphicsView::initContextMenu()
 {
     m_contextMenu = new CMenu(this);
+    m_contextMenu->setFixedWidth(182);
 
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
@@ -241,6 +242,7 @@ void CGraphicsView::initContextMenuConnection()
 void CGraphicsView::initTextContextMenu()
 {
     m_textMenu = new CMenu(this);
+    m_textMenu->setFixedWidth(182);
 
     m_textCutAction = new QAction(tr("Cut"));
     m_textCopyAction = new QAction(tr("Copy"));
@@ -746,6 +748,7 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
+    //    qDebug() << "***************DoCut";
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
@@ -910,11 +913,18 @@ void CGraphicsView::doImport()
 void CGraphicsView::importData(const QString &path)
 {
     if (!path.isEmpty() && QFileInfo(path).suffix() == "DDF") {
-        m_DDFManager->loadDDF(path);
+        m_DDFManager->loadDDF(path, true);
     } else {
         emit signalImportPicture(path);
     }
 }
+
+void CGraphicsView::disableCutShortcut(bool isFocus)
+{
+    m_cutScence->setEnabled(!isFocus);
+//    qDebug() << "m_cutScence->isEnabled()=" << m_cutScence->isEnabled();
+}
+
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {

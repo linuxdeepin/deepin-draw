@@ -68,10 +68,15 @@ signals:
     void signalColorChanged();
     void signalChangeFinished();
 
+
 public slots:
     void slotPickedColorChanged(QColor);
     void setConfigColor(QColor color);
     void changeButtonTheme();
+
+protected:
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
 
 private:
     DLineEdit *m_colLineEdit;
@@ -88,6 +93,7 @@ private:
     void initUI();
     void initConnection();
     void resetColorBtn();
+    void setConfigColorByColorName(QColor color);
 };
 
 #endif // COLORPANEL_H

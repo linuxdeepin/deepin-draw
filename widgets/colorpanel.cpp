@@ -25,6 +25,7 @@
 #include <QGridLayout>
 #include <QButtonGroup>
 #include <QDebug>
+#include <QRegExpValidator>
 
 #include "utils/global.h"
 #include "utils/baseutils.h"
@@ -136,9 +137,14 @@ void ColorPanel::setConfigColor(QColor color)
     if (color.name().contains("#")) {
         colorName = color.name().split("#").last();
     }
+    m_colLineEdit->blockSignals(true);
     m_colLineEdit->setText(colorName);
+    m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
+
+    ///更新RBG值
+    m_pickColWidget->setRgbValue(color);
 
     ///写入参数
     if (m_drawstatus == Fill) {
@@ -153,9 +159,35 @@ void ColorPanel::setConfigColor(QColor color)
     emit signalChangeFinished();
 }
 
+////颜色按钮点击处理
+void ColorPanel::setConfigColorByColorName(QColor color)
+{
+    /// 颜色Alpha值
+    m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
+
+    ///更新RBG值
+    m_pickColWidget->setRgbValue(color);
+
+    ///写入参数
+    if (m_drawstatus == Fill) {
+        CDrawParamSigleton::GetInstance()->setFillColor(color);
+    } else if (m_drawstatus == Stroke) {
+        CDrawParamSigleton::GetInstance()->setLineColor(color);
+    } else if (m_drawstatus == TextFill) {
+        CDrawParamSigleton::GetInstance()->setTextColor(color);
+    }
+
+    emit signalColorChanged();
+}
+
 void ColorPanel::changeButtonTheme()
 {
-//    m_colorfulBtn
+    //    m_colorfulBtn
+}
+
+void ColorPanel::mouseMoveEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event)
 }
 
 void ColorPanel::slotPickedColorChanged(QColor newColor)
@@ -205,8 +237,8 @@ void ColorPanel::initUI()
     m_colLineEdit->setObjectName("ColorLineEdit");
     m_colLineEdit->setFixedSize(150, 24);
     m_colLineEdit->setClearButtonEnabled(false);
+    m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6,8}"), this));
     //m_colLineEdit->lineEdit()->setEnabled(false);
-    m_colLineEdit->lineEdit()->setReadOnly(true);
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/color_more_normal.svg");
@@ -267,14 +299,16 @@ void ColorPanel::initConnection()
     connect(m_pickColWidget, &PickColorWidget::pickedColor, this, &ColorPanel::slotPickedColorChanged);
 
     connect(m_colLineEdit, &DLineEdit::textChanged,  this, [ = ](QString text) {
-        QString colorName = "#";
-        if (text.contains("#")) {
-            colorName = text;
-        } else {
-            colorName += text;
+        if (text.length() < 6) {
+            return ;
         }
-        if (QColor(text).isValid()) {
-            m_pickColWidget->setRgbValue(QColor(text));
+
+        QString colorName = text.insert(0, "#");
+        QColor newColor(colorName);
+
+        if (newColor.isValid()) {
+            setConfigColorByColorName(newColor);
+
         }
     });
 
@@ -361,7 +395,12 @@ void ColorPanel::updateColorPanel(DrawStatus status)
     if (configColor.name().contains("#")) {
         colorName = configColor.name().split("#").last();
     }
+    m_colLineEdit->blockSignals(true);
     m_colLineEdit->setText(colorName);
+    m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(configColor.alpha());
+
+    ///更新RBG值
+    m_pickColWidget->setRgbValue(configColor);
 }

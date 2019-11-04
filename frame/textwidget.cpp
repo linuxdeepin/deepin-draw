@@ -35,6 +35,7 @@ const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 12;
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
+    , m_bSelect(false)
 {
     initUI();
     initConnection();
@@ -61,9 +62,10 @@ void TextWidget::initUI()
     DLabel *fontFamilyLabel = new DLabel(this);
     fontFamilyLabel->setText(tr("字体"));
     fontFamilyLabel->setFont(ft);
-    m_fontComBox = new DFontComboBox(this);
+    m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
     //m_fontComBox->setMinimumWidth(100);
+
     m_fontComBox->setFixedWidth(200);
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
@@ -135,8 +137,26 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
+        m_bSelect = false;
         CDrawParamSigleton::GetInstance()->setTextFont(str);
         emit signalTextFontFamilyChanged();
+    });
+
+    connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
+
+        m_bSelect = true;
+        m_oriFamily = CDrawParamSigleton::GetInstance()->getTextFont().family();
+        CDrawParamSigleton::GetInstance()->setTextFont(str);
+        emit signalTextFontFamilyChanged();
+    });
+
+    connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
+
+        if (m_bSelect) {
+            CDrawParamSigleton::GetInstance()->setTextFont(m_oriFamily);
+            emit signalTextFontFamilyChanged();
+            m_bSelect = false;
+        }
     });
 
     ///字体大小

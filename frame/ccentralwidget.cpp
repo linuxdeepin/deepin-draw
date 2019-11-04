@@ -72,6 +72,8 @@ void CCentralwidget::switchTheme(int type)
     } else if (type == 2) {
         m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
     }
+
+    m_pDrawScene->switchTheme(type);
 }
 
 
@@ -227,6 +229,13 @@ void CCentralwidget::slotOnEscButtonClick()
     ///清空场景中选中图元
     m_pDrawScene->clearSelection();
 }
+
+
+void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
+{
+    m_pGraphicsView->disableCutShortcut(isFocus);
+}
+
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {

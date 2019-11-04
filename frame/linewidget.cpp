@@ -47,6 +47,9 @@ void LineWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
     m_sep1Line->updateTheme();
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_straightline->setCurrentTheme(themeType);
+    m_arrowline->setCurrentTheme(themeType);
 }
 
 
@@ -97,7 +100,7 @@ void LineWidget::initUI()
 
     DLabel *strokeLabel = new DLabel(this);
     strokeLabel->setObjectName("StrokeLabel");
-    strokeLabel->setText(tr("颜色"));
+    strokeLabel->setText(tr("描边"));
     ft.setPixelSize(TEXT_SIZE);
     strokeLabel->setFont(ft);
 
@@ -169,6 +172,14 @@ void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
+
+    if (CDrawParamSigleton::GetInstance()->getLineType() == straightType) {
+        m_straightline->setChecked(true);
+        clearOtherSelections(m_straightline);
+    } else {
+        m_arrowline->setChecked(true);
+        clearOtherSelections(m_arrowline);
+    }
 }
 
 void LineWidget::clearOtherSelections(CCheckButton *clickedButton)

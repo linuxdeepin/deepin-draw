@@ -89,6 +89,7 @@ void TopToolbar::initComboBox()
 
     m_scaleComboBox = new DPushButton("100%");
     DMenu *scaleMenu = new DMenu();
+    scaleMenu->setFixedWidth(162);
 
     QAction *scale200 = scaleMenu->addAction("200%");
     QAction *scale100 = scaleMenu->addAction("100%");
@@ -126,7 +127,28 @@ void TopToolbar::initComboBox()
     ft.setPixelSize(12);
     m_scaleComboBox->setFont(ft);
     m_scaleComboBox->setFlat(true);
-
+    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
+        //设置颜色
+        DPalette pa1 = m_scaleComboBox->palette();
+        pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
+        m_scaleComboBox->setPalette(pa1);
+        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+    });
+    connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
+        //设置颜色
+        DPalette pa1 = m_scaleComboBox->palette();
+        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
+        m_scaleComboBox->setPalette(pa1);
+        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+    });
+    /*
+    connect(m_scaleComboBox, &DPushButton::pressed, this, [ = ]() {
+        //设置颜色
+        DPalette pa1 = m_scaleComboBox->palette();
+        pa1.setColor(DPalette::ButtonText, Qt::red ); //QColor("#000000")
+        m_scaleComboBox->setPalette(pa1);
+        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+    });*/
 
 }
 
@@ -197,7 +219,7 @@ void TopToolbar::initMenu()
 {
 
     m_mainMenu = new DMenu(this);
-    //m_mainMenu->setFixedWidth(120);
+    m_mainMenu->setFixedWidth(162);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
     //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
@@ -524,7 +546,7 @@ void TopToolbar::initConnection()
 
     //cut
     connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-
+    connect(m_cutWidget, &CCutWidget::signalCutLineEditIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
 
 }
 

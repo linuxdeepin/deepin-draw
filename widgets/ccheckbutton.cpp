@@ -37,7 +37,13 @@ CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictu
     m_pictureMap(pictureMap)
 {
     setFixedSize(size);
-    setIconSize(size);
+
+
+    if (size.width() <= 36) {
+        setIconSize(size);
+    } else {
+        setIconSize(QSize(60, 60));
+    }
 
     DPalette pa = DApplicationHelper::instance()->palette(this);
     pa.setColor(DPalette::Button, Qt::transparent);
