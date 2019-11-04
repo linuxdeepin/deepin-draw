@@ -30,7 +30,7 @@
     <message>
         <location filename="../frame/blurwidget.cpp" line="115"/>
         <source>涂抹笔粗细</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -353,9 +353,9 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="887"/>
+        <location filename="../frame/cgraphicsview.cpp" line="891"/>
         <source>打开文件</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Left align</source>
@@ -374,17 +374,17 @@
         <translation type="vanished">居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="864"/>
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>保存文件</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="866"/>
+        <location filename="../frame/cgraphicsview.cpp" line="870"/>
         <source>另存为</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="872"/>
+        <location filename="../frame/cgraphicsview.cpp" line="876"/>
         <source>画图.DDF</source>
         <translation></translation>
     </message>
@@ -473,7 +473,7 @@
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="92"/>
         <source>Select(V)</source>
-        <translation type="unfinished"></translation>
+        <translation>选择（V）</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="154"/>
@@ -539,7 +539,7 @@
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="47"/>
         <source>导入图片</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="77"/>
@@ -567,12 +567,12 @@
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="20"/>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="58"/>
         <source>正在导出</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="60"/>
         <source>正在导入</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -817,7 +817,7 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="60"/>
         <source>类型</source>
-        <translation type="unfinished">类型</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="100"/>
@@ -964,14 +964,8 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="118"/>
-        <source>deepin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="119"/>
         <source>deepin-draw</source>
-        <translation>画板</translation>
+        <translation type="vanished">画板</translation>
     </message>
 </context>
 <context>
@@ -1288,6 +1282,16 @@
         <translation>打印</translation>
     </message>
     <message>
+        <location filename="../frame/toptoolbar.cpp" line="239"/>
+        <source>Draw</source>
+        <translation>画板</translation>
+    </message>
+    <message>
+        <location filename="../frame/toptoolbar.cpp" line="242"/>
+        <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <translation>画板是一款轻量级的绘图工具，可在画板上自由绘图或对图片进行简单的编辑。</translation>
+    </message>
+    <message>
         <source>Theme</source>
         <translation type="vanished">主题</translation>
     </message>
@@ -1308,9 +1312,8 @@
         <translation type="vanished">帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="239"/>
         <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
-        <translation>深度画板是一款轻量级的绘图工具。可以在画板上自由绘图或对图片进行简单的编辑。</translation>
+        <translation type="vanished">画板是一款轻量级的绘图工具，可在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>
 </context>
 </TS>

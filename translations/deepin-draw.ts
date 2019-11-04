@@ -251,22 +251,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="864"/>
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>保存文件</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="866"/>
+        <location filename="../frame/cgraphicsview.cpp" line="870"/>
         <source>另存为</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="872"/>
+        <location filename="../frame/cgraphicsview.cpp" line="876"/>
         <source>画图.DDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="887"/>
+        <location filename="../frame/cgraphicsview.cpp" line="891"/>
         <source>打开文件</source>
         <translation type="unfinished"></translation>
     </message>
@@ -535,16 +535,6 @@
         <source>输入文本</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../main.cpp" line="118"/>
-        <source>deepin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.cpp" line="119"/>
-        <source>deepin-draw</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Shortcut</name>
@@ -691,7 +681,12 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="239"/>
-        <source>Deepin Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/toptoolbar.cpp" line="242"/>
+        <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
