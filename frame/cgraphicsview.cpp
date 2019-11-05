@@ -217,7 +217,7 @@ void CGraphicsView::initContextMenu()
 
     //退出裁剪模式快捷键
     m_quitCutMode = new QAction();
-    m_quitCutMode->setShortcut(QKeySequence(Qt::Key_Escape));
+    //m_quitCutMode->setShortcut(QKeySequence(Qt::Key_Escape));
     this->addAction(m_quitCutMode);
 
     m_cutScence = new QAction();
@@ -746,7 +746,7 @@ void CGraphicsView::slotSendTobackAct()
 void CGraphicsView::slotQuitCutMode()
 {
     setContextMenuAndActionEnable(true);
-    static_cast<CDrawScene *>(scene())->quitCutMode();
+    static_cast<CDrawScene *>(scene())->doCutScene();
 }
 
 void CGraphicsView::slotDoCutScene()
