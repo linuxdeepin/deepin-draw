@@ -47,7 +47,7 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pBlurItem = new CGraphicsMasicoItem(m_sPointPress);
         QPen pen;
         pen.setWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
-        QColor color(100, 100, 100, 50);
+        QColor color(255, 255, 255, 0);
         pen.setColor(color);
         m_pBlurItem->setPen(pen);
         m_pBlurItem->setBrush(Qt::NoBrush);

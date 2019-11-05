@@ -34,7 +34,8 @@ class CDrawScene : public QGraphicsScene
     friend CSelectTool;
 
 public:
-    explicit CDrawScene(QObject *parent = nullptr);
+    static CDrawScene *m_pInstance;
+    static CDrawScene *GetInstance();
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -101,7 +102,7 @@ signals:
     /**
      * @brief signalQuitCutMode 退出裁剪模式
      */
-    void signalQuitCutMode();
+    void signalQuitCutAndChangeToSelect();
 
     /**
      * @brief itemMoved 移动
@@ -151,6 +152,9 @@ protected:
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+
+private:
+    explicit CDrawScene(QObject *parent = nullptr);
 
 private:
     bool m_bIsEditTextFlag;

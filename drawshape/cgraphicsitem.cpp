@@ -20,6 +20,7 @@
 #include "cgraphicsmasicoitem.h"
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
+#include "cdrawscene.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QVariant>
@@ -230,15 +231,16 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
             change != QGraphicsItem::ItemSelectedHasChanged )*/
 
-    if (this->type() != BlurType && this->scene() != nullptr && (change == QGraphicsItem::ItemPositionChange ||
-                                                                 change == QGraphicsItem::ItemMatrixChange ||
-                                                                 change == QGraphicsItem::ItemZValueChange ||
-                                                                 change == QGraphicsItem::ItemZValueHasChanged ||
-                                                                 change == QGraphicsItem::ItemOpacityChange ||
-                                                                 change == QGraphicsItem::ItemOpacityHasChanged ||
-                                                                 change == QGraphicsItem::ItemRotationChange ||
-                                                                 change == QGraphicsItem::ItemRotationHasChanged)) {
-        QList<QGraphicsItem *> items = this->scene()->items();//this->collidingItems();
+    if (this->type() != BlurType && (change == QGraphicsItem::ItemPositionChange ||
+                                     change == QGraphicsItem::ItemMatrixChange ||
+                                     change == QGraphicsItem::ItemZValueChange ||
+                                     change == QGraphicsItem::ItemZValueHasChanged ||
+                                     change == QGraphicsItem::ItemOpacityChange ||
+                                     change == QGraphicsItem::ItemOpacityHasChanged ||
+                                     change == QGraphicsItem::ItemRotationChange ||
+                                     change == QGraphicsItem::ItemRotationHasChanged ||
+                                     (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr))) {
+        QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
         //QList<QGraphicsItem *> items = this->collidingItems();
         foreach (QGraphicsItem *item, items) {
             if (item->type() == BlurType) {

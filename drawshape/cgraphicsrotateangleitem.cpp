@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicsrotateangleitem.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <QPainter>
 
@@ -55,12 +56,23 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(widget)
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor("#ececf8"));
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        painter->setBrush(QColor("#ececf8"));
+    } else {
+        painter->setBrush(QColor("#000000"));
+    }
+
 
     painter->drawRoundRect(rect());
 
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-    painter->setPen(Qt::black);
+
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        painter->setPen(Qt::black);
+    } else {
+        painter->setPen(Qt::white);
+    }
+
     painter->setFont(m_textFont);
     painter->drawText(rect(), angle);
 }

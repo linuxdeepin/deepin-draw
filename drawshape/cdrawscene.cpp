@@ -40,6 +40,9 @@
 #include <QGraphicsView>
 #include <drawshape/cpictureitem.h>
 
+
+CDrawScene *CDrawScene::m_pInstance = nullptr;
+
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
     , m_bIsEditTextFlag(false)
@@ -73,6 +76,14 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
         painter->fillRect(sceneRect(), QColor(40, 40, 40));
     }
 
+}
+
+CDrawScene *CDrawScene::GetInstance()
+{
+    if (m_pInstance == nullptr) {
+        m_pInstance  = new CDrawScene();
+    }
+    return m_pInstance;
 }
 
 void CDrawScene::setCursor(const QCursor &cursor)
@@ -212,10 +223,14 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    //判断如果点在字体内，则变为选择工具
+    QPointF pos = mouseEvent->scenePos();
+    CGraphicsTextItem *textItem = nullptr;
     m_bIsEditTextFlag = false;
     QList<QGraphicsItem *> items = this->selectedItems();
     foreach (QGraphicsItem *item, items) {
         if (item->type() == TextType) {
+            textItem = static_cast<CGraphicsTextItem *>(item);
             m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
             break;
         }
@@ -225,7 +240,7 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-        if (currentMode == text &&  m_bIsEditTextFlag) {
+        if (currentMode == text &&  m_bIsEditTextFlag && textItem->rect().contains(pos)) {
             pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
         }
         if ( nullptr != pTool) {
@@ -236,9 +251,18 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    m_bIsEditTextFlag = false;
+    QList<QGraphicsItem *> items = this->selectedItems();
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == TextType) {
+            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
+            break;
+        }
+    }
+
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if (m_bIsEditTextFlag) {
+    if (currentMode == text && m_bIsEditTextFlag) {
         pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
     }
     if ( nullptr != pTool) {
@@ -248,10 +272,19 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    m_bIsEditTextFlag = false;
+    QList<QGraphicsItem *> items = this->selectedItems();
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == TextType) {
+            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
+            break;
+        }
+    }
+
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if (m_bIsEditTextFlag) {
+    if (currentMode == text && m_bIsEditTextFlag) {
         pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
     }
     if ( nullptr != pTool) {
@@ -290,7 +323,8 @@ void CDrawScene::quitCutMode()
         if (nullptr != pTool) {
             static_cast<CCutTool *>(pTool)->deleteCutItem(this);
             setItemDisable(true);
-            emit signalQuitCutMode();
+            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
+            emit signalQuitCutAndChangeToSelect();
         }
     }
 }

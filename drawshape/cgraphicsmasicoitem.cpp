@@ -148,7 +148,6 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
         this->scene()->render(&painterd);
 
-//        m_pixmap.save("wang.jpg");
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);
