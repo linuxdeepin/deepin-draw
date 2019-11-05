@@ -165,7 +165,7 @@ struct SGraphicsTriangleUnitData {
 //多边形
 struct SGraphicsPolygonUnitData {
     SGraphicsRectUnitData rect; //外接矩形
-    quint8 pointNum;
+    qint32 pointNum;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPolygonUnitData &polygonUnitData)
     {

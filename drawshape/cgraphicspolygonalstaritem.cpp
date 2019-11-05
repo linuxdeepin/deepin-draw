@@ -64,8 +64,14 @@ QPainterPath CGraphicsPolygonalStarItem::shape() const
     QPainterPath path;
 
     path.addPolygon(m_polygon);
+    path.closeSubpath();
+    return qt_graphicsItem_shapeFromPath(path, pen());
+}
 
-    return path;
+QRectF CGraphicsPolygonalStarItem::boundingRect() const
+{
+    QRectF rect = shape().controlPointRect();
+    return rect.united(this->rect());
 }
 
 void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)

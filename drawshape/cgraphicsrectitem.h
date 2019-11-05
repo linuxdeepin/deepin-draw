@@ -42,6 +42,7 @@ public:
      */
     virtual void setRect(const QRectF &rect);
     virtual QRectF rect() const Q_DECL_OVERRIDE;
+    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;

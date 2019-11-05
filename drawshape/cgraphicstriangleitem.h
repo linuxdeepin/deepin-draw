@@ -33,6 +33,7 @@ public:
 protected:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
+    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     /**
      * @brief duplicate 拷贝自己
      * @return

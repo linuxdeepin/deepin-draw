@@ -18,6 +18,7 @@
  */
 #include "cgraphicspenitem.h"
 #include "cdrawparamsigleton.h"
+#include "cdrawscene.h"
 #include <QPen>
 #include <QPainter>
 #include <QtMath>
@@ -51,6 +52,8 @@ static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, cons
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isShiftPress(false)
+    , m_isDrawing(false)
+    , m_drawIndex(0)
 {
     initPen();
 }
@@ -59,6 +62,8 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     : CGraphicsItem(parent)
     , m_isShiftPress(false)
     , m_currentType(straight)
+    , m_isDrawing(false)
+    , m_drawIndex(0)
 
 {
     initPen();
@@ -69,6 +74,9 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
 
 CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsItem(head, parent)
+    , m_isShiftPress(false)
+    , m_isDrawing(false)
+    , m_drawIndex(0)
 {
     initPen();
 
@@ -100,31 +108,33 @@ QPainterPath CGraphicsPenItem::shape() const
 
     if (arrow == m_currentType) {
         path.addPolygon(m_arrow);
-        return  qt_graphicsItem_shapeFromPath(path, pen());
     }
-
+    path.closeSubpath();
     return  qt_graphicsItem_shapeFromPath(path, pen());
 
 }
 
 QRectF CGraphicsPenItem::boundingRect() const
 {
-    QRectF rect;
-    QPainterPath path;
-    path = m_path;
+//    QRectF rect;
+//    QPainterPath path;
+//    path = m_path;
 
-    if (m_isShiftPress) {
-        path.lineTo(m_straightLine.p2());
-    }
-    if (arrow == m_currentType) {
-        path.addPolygon(m_arrow);
-        rect = path.controlPointRect();
-    } else {
-        rect  = path.controlPointRect();
-    }
+//    if (m_isShiftPress) {
+//        path.lineTo(m_straightLine.p2());
+//    }
+//    if (arrow == m_currentType) {
+//        path.addPolygon(m_arrow);
+//        rect = path.controlPointRect();
+//    } else {
+//        rect  = path.controlPointRect();
+//    }
 
-    return QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-                  rect.width() + pen().width(), rect.height() + pen().width());
+//    return QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+//                  rect.width() + pen().width(), rect.height() + pen().width());
+
+    return shape().controlPointRect();
+
 }
 
 QRectF CGraphicsPenItem::rect() const
@@ -340,16 +350,16 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
-    m_isShiftPress = isShiftPress;
-    prepareGeometryChange();
+
+    /*prepareGeometryChange();
 
     if (isShiftPress) {
         m_straightLine.setP1(m_path.currentPosition());
         m_straightLine.setP2(endPoint);
 
-        if (m_currentType == arrow) {
+        //if (m_currentType == arrow) {
             calcVertexes(m_straightLine.p1(), m_straightLine.p2());
-        }
+        //}
     } else {
         m_path.lineTo(endPoint);
 
@@ -360,11 +370,19 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         }
         ///
 
-//        if (m_currentType == arrow) {
+    //        if (m_currentType == arrow) {
         calcVertexes(m_smoothVector.first(), m_smoothVector.last());
-//        }
-    }
+    //        }
+    }*/
 
+    prepareGeometryChange();
+    m_isShiftPress = isShiftPress;
+    m_path.lineTo(endPoint);
+    m_smoothVector.push_back(endPoint);
+    if (m_smoothVector.count() > SmoothMaxCount) {
+        m_smoothVector.removeFirst();
+    }
+    calcVertexes(m_smoothVector.first(), m_smoothVector.last());
     updateGeometry();
 }
 
@@ -416,16 +434,39 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
+    QPen pen = this->pen();
+    pen.setJoinStyle(Qt::BevelJoin);
 
-    painter->setPen(pen());
-    painter->drawPath(m_path);
+    if (0) { //如果正在绘图，就在辅助画布上绘制
+        QPainter pp(&m_tmpPix);
+        pp.setRenderHint(QPainter::Antialiasing);
+        pp.setRenderHint(QPainter::SmoothPixmapTransform);
+        pp.setPen(pen);
+
+        if (m_path.elementCount() > 0) {
+            for (int i = m_drawIndex; i != m_path.elementCount() ; i++) {
+                if ( i == 0) {
+                    continue;
+                }
+                pp.drawLine(QPointF(m_path.elementAt(i - 1)), QPointF(m_path.elementAt(i)));
+            }
+
+            m_drawIndex = m_path.elementCount() - 1;
+        }
+
+        painter->drawPixmap(0, 0, m_tmpPix);
+    } else {
+        painter->setPen(pen);
+        painter->drawPath(m_path);
+    }
+
 
     if (m_isShiftPress) {
         painter->drawLine(m_straightLine);
     }
 
     if (m_currentType == arrow) {
-        painter->setBrush(QBrush(pen().color()));
+        painter->setBrush(QBrush(this->pen().color()));
         painter->drawPolygon(m_arrow);
     }
 
@@ -486,7 +527,22 @@ void CGraphicsPenItem::updatePenType(const EPenType &currentType)
 //        updateCoordinate();
 //    } else if (currentType == straight) {
 
-//    }
+    //    }
+}
+
+void CGraphicsPenItem::setPixmap()
+{
+    QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
+    m_tmpPix = QPixmap(rect.width(), rect.height());
+    QPainter painterd(&m_tmpPix);
+    painterd.setRenderHint(QPainter::Antialiasing);
+    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+    CDrawScene::GetInstance()->render(&painterd);
+}
+
+void CGraphicsPenItem::setDrawFlag(bool flag)
+{
+    m_isDrawing = flag;
 }
 
 void CGraphicsPenItem::initPen()

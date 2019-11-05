@@ -27,25 +27,6 @@
 
 DTK_USE_NAMESPACE
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    const qreal penWidthZero = qreal(0.00000001);
-
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
-}
-
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_type(CDrawParamSigleton::GetInstance()->getLineType())
@@ -285,6 +266,8 @@ ELineType CGraphicsLineItem::getLineType() const
 
 void CGraphicsLineItem::updateGeometry()
 {
+    const QRectF &geom = this->boundingRect();
+
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;

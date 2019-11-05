@@ -76,13 +76,18 @@ QPainterPath CGraphicsTriangleItem::shape() const
     QPolygonF item;
     item << rc.bottomLeft() << top << rc.bottomRight();
     path.addPolygon(item);
-
-    return path;
+    path.closeSubpath();
+    return qt_graphicsItem_shapeFromPath(path, pen());
 }
 
 int CGraphicsTriangleItem::type() const
 {
     return TriangleType;
+}
+
+QRectF CGraphicsTriangleItem::boundingRect() const
+{
+    return shape().controlPointRect();
 }
 
 void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)

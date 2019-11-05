@@ -612,6 +612,14 @@ QRectF CGraphicsRectItem::rect() const
     return QRectF(m_topLeftPoint, m_bottomRightPoint);
 }
 
+QPainterPath CGraphicsRectItem::shape() const
+{
+    QPainterPath path;
+    path.addRect(rect());
+    path.closeSubpath();
+    return qt_graphicsItem_shapeFromPath(path, pen());
+}
+
 QRectF CGraphicsRectItem::boundingRect() const
 {
     QRectF rect = this->rect();

@@ -45,6 +45,8 @@ public:
     virtual void move(QPointF beginPoint, QPointF movePoint);
     void setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag);
 
+    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen);
+
 
 protected:
     virtual void updateGeometry() = 0;

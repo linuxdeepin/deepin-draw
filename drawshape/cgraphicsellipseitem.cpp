@@ -48,7 +48,8 @@ QPainterPath CGraphicsEllipseItem::shape() const
 {
     QPainterPath path;
     path.addEllipse(rect());
-    return path;
+    path.closeSubpath();
+    return qt_graphicsItem_shapeFromPath(path, pen());
 }
 
 int CGraphicsEllipseItem::type() const

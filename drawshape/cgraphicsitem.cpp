@@ -25,6 +25,29 @@
 #include <QGraphicsScene>
 #include <QVariant>
 
+QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+{
+    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+    const qreal penWidthZero = qreal(0.00000001);
+
+    if (path == QPainterPath() || pen == Qt::NoPen)
+        return path;
+    QPainterPathStroker ps;
+    ps.setCapStyle(pen.capStyle());
+    if (pen.widthF() <= 0.0)
+        ps.setWidth(penWidthZero);
+    else
+        ps.setWidth(pen.widthF());
+    ps.setJoinStyle(pen.joinStyle());
+    ps.setMiterLimit(pen.miterLimit());
+    QPainterPath p = ps.createStroke(path);
+    p.addPath(path);
+    return p;
+
+}
+
+
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
     , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
@@ -231,13 +254,10 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
             change != QGraphicsItem::ItemSelectedHasChanged )*/
 
-    if (this->type() != BlurType && (change == QGraphicsItem::ItemPositionChange ||
+    if (this->type() != BlurType && (change == QGraphicsItem::ItemPositionHasChanged ||
                                      change == QGraphicsItem::ItemMatrixChange ||
-                                     change == QGraphicsItem::ItemZValueChange ||
                                      change == QGraphicsItem::ItemZValueHasChanged ||
-                                     change == QGraphicsItem::ItemOpacityChange ||
                                      change == QGraphicsItem::ItemOpacityHasChanged ||
-                                     change == QGraphicsItem::ItemRotationChange ||
                                      change == QGraphicsItem::ItemRotationHasChanged ||
                                      (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr))) {
         QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();

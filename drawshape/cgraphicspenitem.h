@@ -52,6 +52,10 @@ public:
     QPainterPath getPath() const;
 
     void updatePenType(const EPenType &currentType);
+    void setPixmap();
+
+    void setDrawFlag(bool flag);
+
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
@@ -62,9 +66,10 @@ private:
     QLineF m_straightLine;
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;
-
-
     EPenType m_currentType;
+    QPixmap m_tmpPix;
+    bool m_isDrawing;//是否正在绘图
+    int m_drawIndex;
 
 private:
     void initPen();

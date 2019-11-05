@@ -55,7 +55,14 @@ QPainterPath CGraphicsPolygonItem::shape() const
 {
     QPainterPath path;
     path.addPolygon(m_listPoints);
-    return path;
+    path.closeSubpath();
+    return qt_graphicsItem_shapeFromPath(path, pen());
+}
+
+QRectF CGraphicsPolygonItem::boundingRect() const
+{
+    QRectF rect = shape().controlPointRect();
+    return rect.united(this->rect());
 }
 
 int CGraphicsPolygonItem::type() const
