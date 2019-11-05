@@ -67,7 +67,6 @@ signals:
     void signalUpdateTextFont();
     void signalContinueDoOtherThing();
 
-    void saveDeepinDraw();
 
 public slots:
     void importPicture();
@@ -94,7 +93,7 @@ private:
     QVBoxLayout *m_vLayout;
     QHBoxLayout *m_hLayout;
 
-    QAction *m_saveAction;
+
 
     int m_horizontalMargin;
     int m_verticalMargin;

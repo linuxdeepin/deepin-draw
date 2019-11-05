@@ -125,6 +125,7 @@ QPixmap CGraphicsView::getSceneImage()
 
 void CGraphicsView::showExportDialog()
 {
+    scene()->clearSelection();
     m_exportImageDialog->showMe(getSceneImage());
 }
 

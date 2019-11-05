@@ -132,8 +132,6 @@ void MainWindow::initConnection()
 
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
-    connect(m_centralWidget, SIGNAL(saveDeepinDraw()), m_centralWidget, SLOT(slotSaveToDDF()));
-
     connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SLOT(slotQuitCutMode()));
 
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));

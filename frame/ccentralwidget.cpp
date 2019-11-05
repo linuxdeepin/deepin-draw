@@ -142,9 +142,6 @@ void CCentralwidget::initUI()
 //    itemrect->setBrush(QBrush(Qt::black));
 
 //    m_pDrawScene->addItem(itemrect);
-    m_saveAction = new QAction(tr("save"));
-    m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
-    this->addAction(m_saveAction);
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -167,7 +164,6 @@ void CCentralwidget::slotZoom(qreal scale)
 
 void CCentralwidget::slotShowExportDialog()
 {
-    m_pDrawScene->clearSelection();
     m_pGraphicsView->showExportDialog();
 }
 
@@ -266,7 +262,6 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
 
-    connect(m_saveAction, SIGNAL(triggered()), this, SIGNAL(saveDeepinDraw()));
 
     connect(m_pGraphicsView, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
 

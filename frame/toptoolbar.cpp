@@ -211,7 +211,12 @@ void TopToolbar::initMenu()
     QAction *importAc = m_mainMenu->addAction(tr("Open"));
     m_mainMenu->addSeparator();
     QAction *exportAc = m_mainMenu->addAction(tr("Export"));
-    QAction *saveAc = m_mainMenu->addAction(tr("Save"));
+
+    m_saveAction = new QAction(tr("Save"));
+    m_saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
+    m_mainMenu->addAction(m_saveAction);
+    this->addAction(m_saveAction);
+
     QAction *saveAsAc = m_mainMenu->addAction(tr("Save as"));
     QAction *printAc = m_mainMenu->addAction(tr("Print"));
     m_mainMenu->addSeparator();
@@ -242,7 +247,7 @@ void TopToolbar::initMenu()
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
-    connect(saveAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
+    connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
     connect(exportAc, &QAction::triggered, this, &TopToolbar::signalShowExportDialog);

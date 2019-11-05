@@ -134,6 +134,7 @@ private:
     DPushButton  *m_scaleComboBox;
     DMenu *m_mainMenu;
 
+    QAction *m_saveAction;
 
 private:
     void initUI();
