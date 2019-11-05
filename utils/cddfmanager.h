@@ -51,6 +51,7 @@ signals:
     void signalStartLoadDDF(QRectF rect);
     void signalAddItem(QGraphicsItem *item);
     void signalContinueDoOtherThing();
+    void singalEndLoadDDF();
 
 private slots:
     void slotSaveDDFComplete();
