@@ -15,6 +15,8 @@ isEmpty(PREFIX){
     PREFIX = /usr
 }
 
+include(./qtsingleapplication/qtsingleapplication.pri)
+
 HEADERS += \
     application.h
 

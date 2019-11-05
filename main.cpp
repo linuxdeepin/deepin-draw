@@ -94,6 +94,13 @@ int main(int argc, char *argv[])
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     Application a(argc, argv);
 
+//    Application a("myapp_id", argc, argv);
+    if (a.isRunning()) { //判断实例是否已经运行
+        qDebug() << "deepin-draw is already running";
+        a.sendMessage("raise_window_noop", 4000); //4s后激活前个实例
+        return EXIT_SUCCESS;
+    }
+
 
     static const QDate buildDate = QLocale( QLocale::English )
                                    .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");

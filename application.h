@@ -20,6 +20,7 @@
 #define APPLICATION_H
 
 #include <DApplication>
+#include "qtsingleapplication.h"
 
 class Application;
 
@@ -30,7 +31,7 @@ class Application;
 
 DWIDGET_USE_NAMESPACE
 
-class Application : public DApplication
+class Application : public QtSingleApplication
 {
     Q_OBJECT
 public:
