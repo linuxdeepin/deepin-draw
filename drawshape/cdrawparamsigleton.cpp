@@ -102,7 +102,7 @@ QPen CDrawParamSigleton::getPen() const
     pen.setWidth(m_nlineWidth);
     pen.setColor(m_sLineColor);
     pen.setJoinStyle(Qt::MiterJoin);
-    pen.setMiterLimit(999999);
+    pen.setMiterLimit(30);
     return pen;
 }
 
@@ -285,8 +285,6 @@ void CDrawParamSigleton::setSaveDDFTriggerAction(const ESaveDDFTriggerAction &sa
 {
     m_saveDDFTriggerAction = saveDDFTriggerAction;
 }
-
-
 
 ECutType CDrawParamSigleton::getCutType() const
 {

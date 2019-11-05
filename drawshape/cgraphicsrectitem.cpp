@@ -622,10 +622,12 @@ QPainterPath CGraphicsRectItem::shape() const
 
 QRectF CGraphicsRectItem::boundingRect() const
 {
-    QRectF rect = this->rect();
-    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-                             rect.width() + pen().width(), rect.height() + pen().width());
-    return bounding;
+//    QRectF rect = this->rect();
+//    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+//                             rect.width() + pen().width(), rect.height() + pen().width());
+//    return bounding;
+
+    return shape().controlPointRect();
 }
 
 //void CGraphicsRectItem::setState(SelectionHandleState st)

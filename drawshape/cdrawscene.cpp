@@ -208,6 +208,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
             break;
         case LineType:
             CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
+            CDrawParamSigleton::GetInstance()->setLineType(static_cast<CGraphicsLineItem *>(selectedItem)->getLineType());
             break;
         case BlurType:
             CDrawParamSigleton::GetInstance()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(selectedItem)->getBlurEffect());
@@ -431,3 +432,15 @@ void CDrawScene::updateBlurItem()
         }
     }
 }
+
+void CDrawScene::switchTheme(int type)
+{
+    QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
+    //QList<QGraphicsItem *> items = this->collidingItems();
+    for (int i = items.size() - 1; i >= 0; i-- ) {
+        if (items[i]->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+        }
+    }
+}
+

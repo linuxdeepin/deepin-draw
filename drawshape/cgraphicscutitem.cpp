@@ -185,6 +185,14 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 {
     bool shiftKeyPress = false;//CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
     bool altKeyPress = false;//CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+
+    if (CDrawParamSigleton::GetInstance()->getCutType() == cut_original) {
+        return;
+    } else if (CDrawParamSigleton::GetInstance()->getCutType() != cut_free) {
+        shiftKeyPress = true;
+    }
+
+
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
 }
 
@@ -204,43 +212,98 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     if (!shiftKeyPress && !altKeyPress) {
         switch (dir) {
         case CSizeHandleRect::Right:
-            if (local.x() - rect.left() > 0.1 ) {
+            if (local.x() - rect.left() >= 200) {
                 rect.setRight(local.x());
+            } else {
+                rect.setRight(rect.left() + 200);
             }
             break;
         case CSizeHandleRect::RightTop:
-            if (local.x() - rect.left() > 0.1 && local.y() - rect.bottom() < 0.1) {
+            /*if (local.x() - rect.left() >= 200 &&  rect.bottom() - local.y() >= 200) {
                 rect.setTopRight(local);
+            } else if (local.x() - rect.left() < 200) {
+                rect.setRight(local.x());
+            }*/
+            if (local.x() - rect.left() >= 200) {
+                rect.setRight(local.x());
+            } else {
+                rect.setRight(rect.left() + 200);
             }
+
+            if (rect.bottom() - local.y() >= 200) {
+                rect.setTop(local.y());
+            } else {
+                rect.setTop(rect.bottom() - 200);
+            }
+
             break;
         case CSizeHandleRect::RightBottom:
-            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
-                rect.setBottomRight(local);
+//            if (local.x() - rect.left() > 0.1 && local.y() - rect.top() > 0.1) {
+//                rect.setBottomRight(local);
+//            }
+            if (local.x() - rect.left() >= 200) {
+                rect.setRight(local.x());
+            } else {
+                rect.setRight(rect.left() + 200);
+            }
+
+            if (local.y() - rect.top() >= 200) {
+                rect.setBottom(local.y());
+            } else {
+                rect.setBottom(rect.top() + 200);
             }
             break;
         case CSizeHandleRect::LeftBottom:
-            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
-                rect.setBottomLeft(local);
+//            if (local.x() - rect.right() < 0.1 && local.y() - rect.top() > 0.1) {
+//                rect.setBottomLeft(local);
+//            }
+            if (rect.right() - local.x() >= 200) {
+                rect.setLeft(local.x());
+            } else {
+                rect.setLeft(rect.right() - 200);
+            }
+
+            if (local.y() - rect.top() >= 200) {
+                rect.setBottom(local.y());
+            } else {
+                rect.setBottom(rect.top() + 200);
             }
             break;
         case CSizeHandleRect::Bottom:
-            if (local.y() - rect.top() > 0.1 ) {
+            if (local.y() - rect.top() >= 200 ) {
                 rect.setBottom(local.y());
+            } else {
+                rect.setBottom(rect.top() + 200);
             }
             break;
         case CSizeHandleRect::LeftTop:
-            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
-                rect.setTopLeft(local);
+//            if (local.x() - rect.right() < 0.1 && local.y() - rect.bottom() < 0.1 ) {
+//                rect.setTopLeft(local);
+//            }
+            if (rect.right() - local.x() >= 200) {
+                rect.setLeft(local.x());
+            } else {
+                rect.setLeft(rect.right() - 200);
+            }
+
+            if ( rect.bottom() - local.y() >= 200) {
+                rect.setTop(local.y());
+            } else {
+                rect.setTop(rect.bottom() - 200);
             }
             break;
         case CSizeHandleRect::Left:
-            if (rect.right() - local.x() > 0.1 ) {
+            if (rect.right() - local.x() >= 200 ) {
                 rect.setLeft(local.x());
+            } else {
+                rect.setLeft(rect.right() - 200);
             }
             break;
         case CSizeHandleRect::Top:
-            if (local.y() - rect.bottom() < 0.1 ) {
+            if (rect.bottom() - local.y() >= 200 ) {
                 rect.setTop(local.y());
+            } else {
+                rect.setTop(rect.bottom() - 200);
             }
             break;
         default:
@@ -251,9 +314,12 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     else if ((shiftKeyPress && !altKeyPress) ) {
         switch (dir) {
         case CSizeHandleRect::Right:
-            if (local.x() - rect.left() > 0.1 ) {
+            if (local.x() - rect.left() >= 200 ) {
                 //变换后的宽度和高度
                 qreal w2 = local.x() - rect.left();
+                if (w2 < 200) {
+                    w2 = 200;
+                }
                 qreal h2 = w2 / scale;
                 topLeft.setY(topLeft.y() - (h2 - h) / 2);
                 rect.setTopLeft(topLeft);
@@ -268,9 +334,20 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
                 qreal w2 = local.x() - bottomLeft.x();
                 qreal h2 = bottomLeft.y() - local.y();
 
-                if (h2 * scale >= w2) {
+//                if (h2 * scale >= w2) {
+//                    w2 = h2 * scale;
+//                } else {
+//                    h2 = w2 / scale;
+//                }
+                if (scale >= 1) {
+                    if ( h2 < 200) {
+                        h2 = 200;
+                    }
                     w2 = h2 * scale;
                 } else {
+                    if ( w2 < 200) {
+                        w2 = 200;
+                    }
                     h2 = w2 / scale;
                 }
                 topLeft.setY(topLeft.y() - (h2 - h));
@@ -286,11 +363,30 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
                 qreal w2 = local.x() - topLeft.x();
                 qreal h2 = local.y() - topLeft.y();
-                if (h2 * scale >= w2) {
+                if (scale >= 1) {
+                    if ( h2 < 200) {
+                        h2 = 200;
+                    }
                     w2 = h2 * scale;
                 } else {
+                    if ( w2 < 200) {
+                        w2 = 200;
+                    }
                     h2 = w2 / scale;
                 }
+//                if (h2 * scale >= w2) {
+//                    if (h2 < 200) {
+//                        h2 = 200;
+//                    }
+//                    w2 = h2 * scale;
+//                } else {
+
+//                    if (w2 < 200) {
+//                        w2 = 200;
+//                    }
+//                    h2 = w2 / scale;
+//                }
+
                 rect.setWidth(w2);
                 rect.setHeight(h2);
             }
@@ -301,9 +397,20 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
                 QPointF topRight = rect.topRight();
                 qreal w2 = topRight.x() - local.x();
                 qreal h2 = local.y() - topRight.y();
-                if (h2 * scale >= w2) {
+//                if (h2 * scale >= w2) {
+//                    w2 = h2 * scale;
+//                } else {
+//                    h2 = w2 / scale;
+//                }
+                if (scale >= 1) {
+                    if ( h2 < 200) {
+                        h2 = 200;
+                    }
                     w2 = h2 * scale;
                 } else {
+                    if ( w2 < 200) {
+                        w2 = 200;
+                    }
                     h2 = w2 / scale;
                 }
                 topLeft.setX(topRight.x() - w2);
@@ -317,6 +424,9 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
             if (local.y() - rect.top() > 0.1 ) {
                 //rect.setBottom(local.y());
                 qreal h2 = local.y() - topLeft.y();
+                if (h2 < 200) {
+                    h2 = 200;
+                }
                 qreal w2 = h2 * scale;
                 topLeft.setX(topLeft.x() - (w2 - w) / 2);
                 rect.setTopLeft(topLeft);
@@ -330,9 +440,20 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
                 QPointF bottomRight = rect.bottomRight();
                 qreal w2 = bottomRight.x() - local.x();
                 qreal h2 = bottomRight.y() - local.y();
-                if (h2 * scale >= w2) {
+//                if (h2 * scale >= w2) {
+//                    w2 = h2 * scale;
+//                } else {
+//                    h2 = w2 / scale;
+//                }
+                if (scale >= 1) {
+                    if ( h2 < 200) {
+                        h2 = 200;
+                    }
                     w2 = h2 * scale;
                 } else {
+                    if ( w2 < 200) {
+                        w2 = 200;
+                    }
                     h2 = w2 / scale;
                 }
                 topLeft = bottomRight - QPointF(w2, h2);
@@ -343,8 +464,11 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
             if (rect.right() - local.x() > 0.1 ) {
                 //rect.setLeft(local.x());
                 qreal w2 = rect.right() - local.x();
+                if (w2 < 200) {
+                    w2 = 200;
+                }
                 qreal h2 = w2 / scale;
-                topLeft.setX(local.x());
+                topLeft.setX(rect.right() - w2);
                 topLeft.setY(topLeft.y() - (h2 - h) / 2);
                 rect.setTopLeft(topLeft);
                 rect.setWidth(w2);
@@ -356,9 +480,12 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
                 //rect.setTop(local.y());
 
                 qreal h2 = rect.bottom() - local.y();
+                if (h2 < 200) {
+                    h2 = 200;
+                }
                 qreal w2 = h2 * scale;
                 topLeft.setX(topLeft.x() - (w2 - w) / 2);
-                topLeft.setY(local.y());
+                topLeft.setY(rect.bottom() - h2);
                 rect.setTopLeft(topLeft);
                 rect.setWidth(w2);
                 rect.setHeight(h2);
@@ -369,7 +496,7 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         }
     }
     //中心拉伸
-    else if ((!shiftKeyPress && altKeyPress) ) {
+    /*else if ((!shiftKeyPress && altKeyPress) ) {
         switch (dir) {
         case CSizeHandleRect::Right:
             if (local.x() - rect.left() > 0.1 ) {
@@ -424,9 +551,9 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         default:
             break;
         }
-    }
+    }*/
     //等比中心拉伸
-    else if ((shiftKeyPress && altKeyPress) ) {
+    /*else if ((shiftKeyPress && altKeyPress) ) {
         switch (dir) {
         case CSizeHandleRect::Right:
             if (local.x() - rect.left() > 0.1 ) {
@@ -528,7 +655,7 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         default:
             break;
         }
-    }
+    }*/
 
     rect = rect.normalized();
     centerPoint = mapToScene(rect.center());
@@ -619,9 +746,9 @@ void CGraphicsCutItem::doChangeType(int type)
 
 void CGraphicsCutItem::doChangeSize(int w, int h)
 {
-//    if (w > m_originalRect.width() || h > m_originalRect.height()) {
-//        return;
-//    }
+    //    if (w > m_originalRect.width() || h > m_originalRect.height()) {
+    //        return;
+    //    }
     setRect(QRectF(rect().x(), rect().y(), w, h));
 }
 
@@ -651,7 +778,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     QPainterPath path1;
     ///画三等分矩形的直线
-//    pen.setColor(QColor(PenColorName));
+    //    pen.setColor(QColor(PenColorName));
     painter->setPen(pen);
     pen.setWidth(1);
     painter->setPen(pen);

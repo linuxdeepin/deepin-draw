@@ -466,6 +466,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     }
 
     if (m_currentType == arrow) {
+        painter->setPen(Qt::NoPen);
         painter->setBrush(QBrush(this->pen().color()));
         painter->drawPolygon(m_arrow);
     }
@@ -577,8 +578,8 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
 
     qreal x1, y1, x2, y2;
 
-    qreal arrow_lenght_ = 20.0 + pen().width() * 3; //箭头的斜边长
-    qreal arrow_degrees_ = qDegreesToRadians(30.0); //箭头的角度/2
+    qreal arrow_lenght_ = 10.0 + pen().width() * 3; //箭头的斜边长
+    qreal arrow_degrees_ = qDegreesToRadians(25.0); //箭头的角度/2
 
     qreal angle = atan2 (currentPoint.y() - prePoint.y(), currentPoint.x() - prePoint.x()) + M_PI;
 
