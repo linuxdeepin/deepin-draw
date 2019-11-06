@@ -68,10 +68,10 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 //        item->getTextEdit()->setFocus();
         //item->getCGraphicsProxyWidget()->setFocus();
         //
-    } else if (event->button() == Qt::RightButton) {
+    } /*else if (event->button() == Qt::RightButton) {
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
         emit scene->signalChangeToSelect();
-    } else {
+    } */else {
         scene->mouseEvent(event);
     }
 }

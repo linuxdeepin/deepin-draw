@@ -49,10 +49,10 @@ void CTriangleTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         scene->addItem(m_pTriangleItem);
 
         m_bMousePress = true;
-    } else if (event->button() == Qt::RightButton) {
+    } /*else if (event->button() == Qt::RightButton) {
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
         emit scene->signalChangeToSelect();
-    } else {
+    }*/ else {
         scene->mouseEvent(event);
     }
 }
