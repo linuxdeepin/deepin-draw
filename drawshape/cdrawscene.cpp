@@ -290,9 +290,7 @@ void CDrawScene::quitCutMode()
         if (nullptr != pTool) {
             static_cast<CCutTool *>(pTool)->deleteCutItem(this);
             setItemDisable(true);
-            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
             emit signalQuitCutMode();
-            emit signalAttributeChanged(true, selection);
         }
     }
 }

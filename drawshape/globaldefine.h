@@ -31,8 +31,7 @@ enum EDrawToolMode {
     pen,            //画笔
     text,           //文本
     blur,           //模糊
-    cut,            //切图
-    notool          //空状态
+    cut            //裁剪画板
 };
 
 enum ESelectMode {
