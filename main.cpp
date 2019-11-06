@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     Application::loadDXcbPlugin();
-    Application::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
 //    Application a("myapp_id", argc, argv);
@@ -147,6 +147,7 @@ int main(int argc, char *argv[])
     [] (DGuiApplicationHelper::ColorType type) {
         // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
         saveThemeTypeSetting(type);
+        DGuiApplicationHelper::instance()->setPaletteType(type);
     });
 
 
