@@ -79,7 +79,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     painter.setBrush(QBrush(m_color));
 
     QPen pen;
-    pen.setWidth(2);
+    pen.setWidth(1);
     if (m_color == QColor(Qt::transparent)) {
         pen.setColor(QColor("#cccccc"));
     } else {
