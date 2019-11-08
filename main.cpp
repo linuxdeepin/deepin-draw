@@ -115,8 +115,8 @@ int main(int argc, char *argv[])
 
 
 
-    a.setOrganizationName(QObject::tr("deepin"));
-    a.setApplicationName(QObject::tr("deepin-draw"));
+    a.setOrganizationName("deepin");
+    a.setApplicationName("deepin-draw");
     //a.setApplicationVersion("1.0");
     //a.setTheme("light");
     a.setQuitOnLastWindowClosed(true);
