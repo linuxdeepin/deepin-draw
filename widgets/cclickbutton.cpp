@@ -30,7 +30,7 @@ CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pict
     m_pictureMap(pictureMap)
 {
     setFixedSize(size);
-    setIconSize(QSize(48, 48));
+    setIconSize(size);
 
 //    qDebug() << "@@@@@@@" << CDrawParamSigleton::GetInstance()->getThemeType();
 
