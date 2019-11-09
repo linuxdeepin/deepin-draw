@@ -31,7 +31,6 @@ public slots:
 private:
     DProgressBar *m_progressBar;
 
-
 private:
     void initUI();
     void showInCenter();
