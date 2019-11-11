@@ -70,10 +70,19 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawBackground(painter, rect);
+
+    QPainterPath path;
+    path.addRoundedRect(sceneRect(), 20, 20);
+
     if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-        painter->fillRect(sceneRect(), Qt::white);
+        painter->setPen(Qt::NoPen);
+        painter->fillPath(path, Qt::white);
+        painter->drawPath(path);
+        //painter->fillRect(sceneRect(), Qt::white);
     } else {
-        painter->fillRect(sceneRect(), QColor(40, 40, 40));
+        painter->setPen(Qt::NoPen);
+        painter->fillPath(path, QColor(40, 40, 40));
+        painter->drawPath(path);
     }
     /*QGraphicsScene::drawBackground(painter, rect);
 
