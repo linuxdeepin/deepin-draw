@@ -74,10 +74,25 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
     QPainterPath path;
     path.addRoundedRect(sceneRect(), 20, 20);
 
+    int SHADOW_WIDTH = 10;
+    QRectF sceneRect = this->sceneRect();
     if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+
         painter->setPen(Qt::NoPen);
         painter->fillPath(path, Qt::white);
         painter->drawPath(path);
+
+        QColor color(50, 50, 50, 30);
+        for (int i = 0; i < SHADOW_WIDTH; i++) {
+            color.setAlpha(120 - qSqrt(i) * 40);
+            painter->setPen(color);
+
+            QPainterPath tmpPath;
+            tmpPath.addRoundedRect(sceneRect.x() - i, sceneRect.y() - i, sceneRect.width() + 2 * i, sceneRect.height() + 2 * i, 20, 20);
+            painter->drawPath(tmpPath);
+            // 圆角阴影边框;
+            //painter->drawRoundedRect(SHADOW_WIDTH - i, SHADOW_WIDTH - i, sceneRect().width() - (SHADOW_WIDTH - i) * 2, sceneRect().height() - (SHADOW_WIDTH - i) * 2, 4, 4);
+        }
         //painter->fillRect(sceneRect(), Qt::white);
     } else {
         painter->setPen(Qt::NoPen);
