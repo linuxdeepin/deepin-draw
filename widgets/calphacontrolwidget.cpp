@@ -42,10 +42,12 @@ void CAlphaControlWidget::initUI()
 
 
     DLabel *nameLabel = new DLabel(this);
-    nameLabel->setText(tr("Alpha"));
+
+    nameLabel->setText(tr("Opacity"));
+
     QFont nameLabelFont = nameLabel->font();
     nameLabelFont.setPixelSize(12);
-    nameLabel->setFixedWidth(42);
+    nameLabel->setFixedWidth(47);
     nameLabel->setFont(nameLabelFont);
 
 
@@ -57,6 +59,7 @@ void CAlphaControlWidget::initUI()
     m_alphaLabel->lineEdit()->setReadOnly(true);
     m_alphaLabel->setText("0%");
     QFont alphaLabelFont = m_alphaLabel->font();
+    m_alphaLabel->lineEdit()->setTextMargins(0, 0, 0, 0);
     alphaLabelFont.setPixelSize(9);
     m_alphaLabel->setFont(alphaLabelFont);
 

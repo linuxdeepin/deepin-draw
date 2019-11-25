@@ -255,7 +255,7 @@ void CGraphicsView::initTextContextMenu()
     fakeLayerToBottomAct->setEnabled(false);
 
     m_textLeftAlignAct = new QAction(tr("Left Alignment"));
-    m_textTopAlignAct = new QAction(tr("Top Alignment"));
+    //m_textTopAlignAct = new QAction(tr("Top Alignment"));
     m_textRightAlignAct = new QAction(tr("Right Alignment" ));
     m_textCenterAlignAct = new QAction(tr("Center Alignment"));
 
@@ -275,7 +275,7 @@ void CGraphicsView::initTextContextMenu()
     m_textMenu->addAction(fakeLayerToBottomAct);
 
     m_textMenu->addAction(m_textLeftAlignAct);
-    m_textMenu->addAction(m_textTopAlignAct);
+    //m_textMenu->addAction(m_textTopAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
 }
@@ -289,7 +289,7 @@ void CGraphicsView::initTextContextMenuConnection()
 
 
     connect(m_textLeftAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextLeftAlignment()));
-    connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
+    //connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
     connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
     connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
 }

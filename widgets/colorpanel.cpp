@@ -233,13 +233,13 @@ void ColorPanel::initUI()
     DLabel *colLabel = new DLabel(colorValueWidget);
     QFont colLabelFont = colLabel->font();
     colLabelFont.setPixelSize(12);
-    colLabel->setObjectName("ColorLabel");
+    colLabel->setObjectName("Color Label");
     colLabel->setFixedWidth(45);
     colLabel->setText(tr("Color"));
     colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
-    m_colLineEdit->setObjectName("ColorLineEdit");
+    m_colLineEdit->setObjectName("Color Line Edit");
     m_colLineEdit->setFixedSize(131, 36);
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6,8}"), this));

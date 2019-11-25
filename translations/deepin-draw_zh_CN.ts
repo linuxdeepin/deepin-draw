@@ -40,7 +40,17 @@
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="118"/>
+        <location filename="../frame/blurwidget.cpp" line="91"/>
+        <source>Fuzzy</source>
+        <translation>模糊</translation>
+    </message>
+    <message>
+        <location filename="../frame/blurwidget.cpp" line="107"/>
+        <source>Mosaic</source>
+        <translation>马赛克</translation>
+    </message>
+    <message>
+        <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Pen Width</source>
         <translation>涂抹笔粗细</translation>
     </message>
@@ -60,9 +70,13 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../widgets/calphacontrolwidget.cpp" line="45"/>
         <source>Alpha</source>
-        <translation>透明度</translation>
+        <translation type="vanished">透明度</translation>
+    </message>
+    <message>
+        <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
+        <source>Opacity</source>
+        <translation>不透明度</translation>
     </message>
 </context>
 <context>
@@ -367,9 +381,8 @@ already exists, do you want to replace?</source>
         <translation>左对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="258"/>
         <source>Top Alignment</source>
-        <translation>顶对齐</translation>
+        <translation type="vanished">顶对齐</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="259"/>
@@ -669,9 +682,13 @@ already exists, do you want to replace?</source>
 <context>
     <name>CTitleWidget</name>
     <message>
-        <location filename="../frame/ctitlewidget.cpp" line="30"/>
-        <location filename="../frame/ctitlewidget.cpp" line="51"/>
         <source>Unnamed Draw</source>
+        <translation type="vanished">未命名画板</translation>
+    </message>
+    <message>
+        <location filename="../frame/ctitlewidget.cpp" line="30"/>
+        <location filename="../frame/ctitlewidget.cpp" line="52"/>
+        <source>Untitled Draw</source>
         <translation>未命名画板</translation>
     </message>
 </context>
@@ -1262,9 +1279,13 @@ already exists, do you want to replace?</source>
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../widgets/textcolorbutton.cpp" line="105"/>
         <source>Fill</source>
-        <translation>填充</translation>
+        <translation type="vanished">填充</translation>
+    </message>
+    <message>
+        <location filename="../widgets/textcolorbutton.cpp" line="105"/>
+        <source>Color</source>
+        <translation>颜色</translation>
     </message>
 </context>
 <context>

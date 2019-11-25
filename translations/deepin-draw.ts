@@ -17,7 +17,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="118"/>
+        <location filename="../frame/blurwidget.cpp" line="91"/>
+        <source>Fuzzy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/blurwidget.cpp" line="107"/>
+        <source>Mosaic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Pen Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -33,8 +43,8 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../widgets/calphacontrolwidget.cpp" line="45"/>
-        <source>Alpha</source>
+        <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
+        <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -253,11 +263,6 @@ already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="258"/>
-        <source>Top Alignment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Right Alignment</source>
         <translation type="unfinished"></translation>
@@ -409,8 +414,8 @@ already exists, do you want to replace?</source>
     <name>CTitleWidget</name>
     <message>
         <location filename="../frame/ctitlewidget.cpp" line="30"/>
-        <location filename="../frame/ctitlewidget.cpp" line="51"/>
-        <source>Unnamed Draw</source>
+        <location filename="../frame/ctitlewidget.cpp" line="52"/>
+        <source>Untitled Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -661,7 +666,7 @@ already exists, do you want to replace?</source>
     <name>TextColorButton</name>
     <message>
         <location filename="../widgets/textcolorbutton.cpp" line="105"/>
-        <source>Fill</source>
+        <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

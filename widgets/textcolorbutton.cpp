@@ -102,7 +102,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
     ft.setPixelSize(12);
     painter.setFont(ft);
 
-    painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
+    painter.drawText(26, 9, 32, 16, 0, tr("Color"));
 }
 
 void TextColorButton::setColor(QColor color)

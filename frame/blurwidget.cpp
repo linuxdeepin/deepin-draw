@@ -88,6 +88,7 @@ void BlurWidget::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/fuzzy tool_checked.svg");
 
     m_blurBtn = new CCheckButton(pictureMap, QSize(36, 36), this);
+    m_blurBtn->setToolTip(tr("Fuzzy"));
     m_actionButtons.append(m_blurBtn);
 
 
@@ -103,6 +104,7 @@ void BlurWidget::initUI()
     pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/smudge tool_checked.svg");
 
     m_masicBtn = new CCheckButton(pictureMap, QSize(36, 36), this);
+    m_masicBtn->setToolTip(tr("Mosaic"));
     m_actionButtons.append(m_masicBtn);
 
     EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
@@ -112,7 +114,7 @@ void BlurWidget::initUI()
     m_masicBtn->setChecked(!bEffect);
 
     DLabel *penWidthLabel = new DLabel(this);
-    penWidthLabel->setObjectName("PenWidthLabel");
+    penWidthLabel->setObjectName("Pen Width Label");
     //penWidthLabel->setText(tr("涂抹笔粗细"));
 
     penWidthLabel->setText(tr("Pen Width"));
