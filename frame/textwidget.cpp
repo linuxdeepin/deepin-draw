@@ -238,7 +238,8 @@ void TextWidget::updateTextWidget()
     QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
 
     if (CDrawParamSigleton::GetInstance()->getSingleFontFlag()) {
-        m_fontComBox->setCurrentFont(font);
+        m_fontComBox->setCurrentText(font.family());
+//        m_fontComBox->setCurrentFont(font);
     } else {
         m_fontComBox->setCurrentIndex(-1);
         m_fontComBox->setCurrentText("- -");
