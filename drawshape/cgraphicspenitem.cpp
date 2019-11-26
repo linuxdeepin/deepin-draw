@@ -280,8 +280,10 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
     m_path = transform.map(m_path);
 
+    calcVertexes();
+
 //    if (m_currentType == arrow) {
-    m_arrow = transform.map(m_arrow);
+    //m_arrow = transform.map(m_arrow);
 //    }
 
     updateCoordinate();
@@ -402,9 +404,11 @@ void CGraphicsPenItem::drawComplete()
         prepareGeometryChange();
         m_path = vout;
 
+        calcVertexes();
     }
 
     updateCoordinate();
+
 }
 
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
@@ -462,7 +466,6 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         calcVertexes(m_smoothVector.first(), m_smoothVector.last());
 
     }
-    update();
 
 
 
@@ -686,7 +689,7 @@ void CGraphicsPenItem::initPen()
 
 void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &currentPoint)
 {
-    if (prePoint == currentPoint) {
+    /*if (prePoint == currentPoint) {
         return;
     }
 
@@ -709,5 +712,46 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
 
     m_arrow.push_back(QPointF(x1, y1));
     m_arrow.push_back(QPointF(x2, y2));
-    m_arrow.push_back(currentPoint);
+    m_arrow.push_back(currentPoint);*/
+
+//    QPointF prePoint = prePoint;
+//    QPointF currentPoint = currentPoint;
+//    m_point4 = prePoint;
+    if (prePoint == currentPoint) {
+        return;
+    }
+
+    m_arrow.clear();
+
+    QLineF line(prePoint, currentPoint);
+
+    QLineF v = line.unitVector();
+    v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
+    v.translate(QPointF(line.dx(), line.dy()));
+
+    QLineF n = v.normalVector(); //法向量
+    n.setLength(n.length() * 0.5); //这里设定箭头的宽度
+    QLineF n2 = n.normalVector().normalVector(); //两次法向量运算以后，就得到一个反向的法向量
+
+    QPointF p1 = v.p2();
+    QPointF p2 = n.p2();
+    QPointF p3 = n2.p2();
+
+    //减去一个箭头的宽度
+//    QPointF diffV = p1 - m_line.p2();
+//    p1 -= diffV;
+//    p2 -= diffV;
+//    p3 -= diffV;
+
+//    m_point4 = (p2 + p3) / 2;
+    m_arrow.push_back(p1);
+    m_arrow.push_back(p2);
+    m_arrow.push_back(p3);
+}
+
+void CGraphicsPenItem::calcVertexes()
+{
+    qint32 count = m_path.elementCount();
+
+    calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
 }

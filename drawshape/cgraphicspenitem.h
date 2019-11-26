@@ -56,6 +56,8 @@ public:
 
     void setDrawFlag(bool flag);
 
+    void calcVertexes();
+
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
@@ -70,6 +72,7 @@ private:
     QPixmap m_tmpPix;
     bool m_isDrawing;//是否正在绘图
     int m_drawIndex;
+    QPointF m_point4;
 
 private:
     void initPen();
@@ -79,6 +82,8 @@ private:
      * @param currentPoint 当前点
      */
     void calcVertexes(const QPointF &prePoint, const QPointF &currentPoint);
+
+
 
     //qreal GetThreeBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal t);
 

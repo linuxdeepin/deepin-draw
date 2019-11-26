@@ -76,7 +76,7 @@
     <message>
         <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
         <source>Alpha</source>
-        <translation>透明度</translation>
+        <translation>不透明度</translation>
     </message>
     <message>
         <source>Opacity</source>
@@ -755,14 +755,14 @@ already exists, do you want to replace?</source>
 <context>
     <name>CTitleWidget</name>
     <message>
+        <location filename="../frame/ctitlewidget.cpp" line="29"/>
+        <location filename="../frame/ctitlewidget.cpp" line="49"/>
         <source>Unnamed Draw</source>
-        <translation type="vanished">未命名画板</translation>
+        <translation>未命名画板</translation>
     </message>
     <message>
-        <location filename="../frame/ctitlewidget.cpp" line="30"/>
-        <location filename="../frame/ctitlewidget.cpp" line="52"/>
         <source>Untitled Draw</source>
-        <translation>未命名画板</translation>
+        <translation type="vanished">未命名画板</translation>
     </message>
 </context>
 <context>
@@ -1462,7 +1462,7 @@ already exists, do you want to replace?</source>
         <translation type="vanished">选中</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="252"/>
+        <location filename="../frame/toptoolbar.cpp" line="253"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1471,37 +1471,37 @@ already exists, do you want to replace?</source>
         <translation type="vanished">所有图片</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="236"/>
+        <location filename="../frame/toptoolbar.cpp" line="237"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="241"/>
+        <location filename="../frame/toptoolbar.cpp" line="242"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="247"/>
+        <location filename="../frame/toptoolbar.cpp" line="248"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="257"/>
+        <location filename="../frame/toptoolbar.cpp" line="258"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="262"/>
+        <location filename="../frame/toptoolbar.cpp" line="263"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="277"/>
+        <location filename="../frame/toptoolbar.cpp" line="278"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="280"/>
+        <location filename="../frame/toptoolbar.cpp" line="281"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>

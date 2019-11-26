@@ -31,7 +31,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     , m_isHover(false)
     , m_isChecked(false)
 {
-    setFixedSize(54, 36);
+    setFixedSize(56, 36);
     setCheckable(false);
 
     m_color = CDrawParamSigleton::GetInstance()->getTextColor();

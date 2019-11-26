@@ -192,6 +192,7 @@ void CDrawScene::attributeChanged()
                     emit itemPenTypeChange(tmpItem, tmpItem->currentType());
                     tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
                 }
+                tmpItem->calcVertexes();
             } else if (item->type() == BlurType) {
                 CGraphicsMasicoItem *tmpItem = static_cast<CGraphicsMasicoItem *>(item);
                 if (tmpItem->getBlurWidth() != CDrawParamSigleton::GetInstance()->getBlurWidth() || tmpItem->getBlurEffect() != CDrawParamSigleton::GetInstance()->getBlurEffect()) {

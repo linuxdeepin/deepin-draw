@@ -171,7 +171,7 @@ void ColorLabel::mousePressEvent(QMouseEvent *e)
 
     m_pressed = true;
     m_tipPoint = this->mapFromGlobal(cursor().pos());
-    pickColor(m_tipPoint, true);
+//    pickColor(m_tipPoint, true);
     QLabel::mousePressEvent(e);
 }
 
@@ -180,10 +180,10 @@ void ColorLabel::mouseMoveEvent(QMouseEvent *e)
     if (!m_workToPick)
         return;
 
-//    if (m_pressed) {
-    m_tipPoint = this->mapFromGlobal(cursor().pos());
-    pickColor(m_tipPoint, false);
-//    }
+    if (m_pressed) {
+        m_tipPoint = this->mapFromGlobal(cursor().pos());
+        pickColor(m_tipPoint, false);
+    }
     update();
     QLabel::mouseMoveEvent(e);
 }

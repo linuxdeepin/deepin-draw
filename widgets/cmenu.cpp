@@ -12,6 +12,17 @@ CMenu::CMenu(const QString &title, QWidget *parent)
 
 }
 
+void CMenu::setVisible(bool visible)
+{
+    //解决快捷键失效的BUG
+    if (!visible) {
+        foreach (QAction *action, this->actions()) {
+            action->setEnabled(true);
+        }
+    }
+    DMenu::setVisible(visible);
+}
+
 void CMenu::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
