@@ -86,7 +86,7 @@ void CCutWidget::initUI()
     m_widthEdit->setText(QString::number(800));
     m_widthEdit->setClearButtonEnabled(false);
     m_widthEdit->setFixedWidth(60);
-    m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 4096, this));
+    m_widthEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_widthEdit->setFont(ft);
 
     DLabel *multiLabel = new DLabel(this);
@@ -96,7 +96,7 @@ void CCutWidget::initUI()
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);
-    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 4096, this) );
+    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this) );
     m_heightEdit->setFont(ft);
 
     m_SizeAddAction = new QAction(this);
@@ -310,6 +310,10 @@ void CCutWidget::initConnection()
 
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
+        if (w > 4096) {
+            w = 4096;
+            m_widthEdit->setText(QString::number(w));
+        }
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);
         CDrawParamSigleton::GetInstance()->setCutSize(QSize(w, h));
         emit signalCutAttributeChanged();
@@ -324,6 +328,11 @@ void CCutWidget::initConnection()
 
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
+        if (h > 4096) {
+            h = 4096;
+            m_heightEdit->setText(QString::number(h));
+
+        }
         CDrawParamSigleton::GetInstance()->setCutAttributeType(LineEditeAttribute);
         CDrawParamSigleton::GetInstance()->setCutSize(QSize(w, h));
         emit signalCutAttributeChanged();
