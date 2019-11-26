@@ -419,9 +419,6 @@ void CDrawScene::picOperation(int enumstyle)
                 default:
                     break;
                 }
-                //更新模糊图元
-                updateBlurItem();
-
             }
         }
 
