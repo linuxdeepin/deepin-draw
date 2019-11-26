@@ -267,13 +267,11 @@ void TopToolbar::initMenu()
     m_mainMenu->addSeparator();
 
     QIcon t_icon;
-    //dApp->setProductIcon(QIcon(QPixmap(":/theme/common/images/deepin-draw-96.svg")));
-    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(64, 64) );
-    //pixmap.setDevicePixelRatio(devicePixelRatioF());
-    t_icon.addPixmap(pixmap);
+//    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(64, 64) );
+//    t_icon.addPixmap(pixmap);
 
 
-
+    t_icon = QIcon::fromTheme("deepin-draw");
     dApp->setProductIcon(t_icon);
     dApp->setProductName(tr("Draw"));
 

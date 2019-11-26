@@ -278,22 +278,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="833"/>
+        <location filename="../frame/cgraphicsview.cpp" line="845"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="835"/>
+        <location filename="../frame/cgraphicsview.cpp" line="847"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="841"/>
+        <location filename="../frame/cgraphicsview.cpp" line="853"/>
         <source>Unnamed.DDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="856"/>
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -301,62 +301,62 @@
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="116"/>
+        <location filename="../frame/clefttoolbar.cpp" line="106"/>
         <source>Select(V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="131"/>
+        <location filename="../frame/clefttoolbar.cpp" line="121"/>
         <source>Import(I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="146"/>
+        <location filename="../frame/clefttoolbar.cpp" line="136"/>
         <source>Rectangle(R)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="161"/>
+        <location filename="../frame/clefttoolbar.cpp" line="151"/>
         <source>Ellipse(O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="178"/>
+        <location filename="../frame/clefttoolbar.cpp" line="168"/>
         <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="195"/>
+        <location filename="../frame/clefttoolbar.cpp" line="185"/>
         <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="212"/>
+        <location filename="../frame/clefttoolbar.cpp" line="202"/>
         <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="229"/>
+        <location filename="../frame/clefttoolbar.cpp" line="219"/>
         <source>Line(L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="246"/>
+        <location filename="../frame/clefttoolbar.cpp" line="236"/>
         <source>Pencil(P)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="262"/>
+        <location filename="../frame/clefttoolbar.cpp" line="252"/>
         <source>Text(T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="278"/>
+        <location filename="../frame/clefttoolbar.cpp" line="268"/>
         <source>Blur(B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="294"/>
+        <location filename="../frame/clefttoolbar.cpp" line="284"/>
         <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -508,6 +508,14 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <location filename="../frame/mainwindow.cpp" line="62"/>
+        <source>Deepin Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PolygonAttributeWidget</name>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="82"/>
@@ -559,144 +567,183 @@
 <context>
     <name>Shortcut</name>
     <message>
-        <location filename="../utils/shortcut.cpp" line="30"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="32"/>
-        <source>Graphics/Images</source>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Shapes/Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
-        <source>New</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
-        <source>Open</source>
+        <location filename="../utils/shortcut.cpp" line="34"/>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
-        <source>Export</source>
+        <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
-        <source>Save</source>
+        <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
-        <source>Save as</source>
+        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="42"/>
+        <source>Save as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="43"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="44"/>
-        <source>Selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="45"/>
-        <source>Export Picture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
-        <source>Rectangle</source>
+        <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
-        <source>Ellipse</source>
+        <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
-        <source>Triangle</source>
+        <source>Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
-        <source>Star</source>
+        <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
-        <source>Polygon</source>
+        <source>Triangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
-        <source>Line</source>
+        <source>Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="52"/>
-        <source>Pencil</source>
+        <source>Polygon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="53"/>
-        <source>Text</source>
+        <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="54"/>
-        <source>Blur</source>
+        <source>Pencil</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="56"/>
+        <source>Blur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="57"/>
+        <source>Crop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="58"/>
+        <source>Expand canvas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utils/shortcut.cpp" line="59"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="60"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="61"/>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="62"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="63"/>
-        <source>Raise Layer</source>
+        <source>Shrink canvas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="64"/>
-        <source>Lower Layer</source>
+        <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="65"/>
-        <source>Layer to Top</source>
+        <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="66"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="67"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="68"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="69"/>
+        <source>Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="70"/>
+        <source>Raise Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="71"/>
+        <source>Lower Layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="72"/>
+        <source>Layer to Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="73"/>
         <source>Layer to Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="77"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="78"/>
+        <source>Display shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

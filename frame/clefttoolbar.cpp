@@ -80,11 +80,12 @@ void CLeftToolBar::initUI()
     //设置颜色
     DPalette pa = this->palette();
 
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-        pa.setColor(DPalette::Background, QColor("#FFFFFF"));
-    } else {
-        pa.setColor(DPalette::Background, QColor("#282828"));
-    }
+//    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+//        pa.setColor(DPalette::Background, QColor("#FFFFFF"));
+//    } else {
+//        pa.setColor(DPalette::Background, QColor("#282828"));
+//    }
+    pa.setColor(DPalette::Background, DPalette::Base);
     this->setPalette(pa);
     this->setAutoFillBackground(true);
 

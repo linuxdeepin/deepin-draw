@@ -97,6 +97,8 @@ void CTextEdit::slot_textChanged()
 
     m_widthF = rect.width();
 
+    cursorPositionChanged();
+
     //更新字图元
     CDrawScene::GetInstance()->updateBlurItem();
 //    if (size.height() > rect.size().height()) {

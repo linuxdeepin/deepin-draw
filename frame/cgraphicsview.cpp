@@ -122,7 +122,7 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 
 void CGraphicsView::initContextMenu()
 {
-    m_contextMenu = new CMenu(this);
+    m_contextMenu = new DMenu(this);
     m_contextMenu->setFixedWidth(182);
 
     m_cutAct = new QAction(tr("Cut"), this);
@@ -332,15 +332,6 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
 
     if (!scene()->selectedItems().isEmpty()) {
-
-        m_copyAct->setEnabled(true);
-        m_cutAct->setEnabled(true);
-        m_deleteAct->setEnabled(true);
-        m_bringToFrontAct->setVisible(true);
-        m_sendTobackAct->setVisible(true);
-        m_oneLayerUpAct->setVisible(true);
-        m_oneLayerDownAct->setVisible(true);
-        m_visible = true;
         //如果是文字图元则显示其自己的右键菜单
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
@@ -354,7 +345,16 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             menuPos = QPoint(rx, ry);
             m_textMenu->move(menuPos);
             m_textMenu->show();
+            m_visible = true;
             return;
+        } else {
+            m_copyAct->setEnabled(true);
+            m_cutAct->setEnabled(true);
+            m_deleteAct->setEnabled(true);
+            m_bringToFrontAct->setVisible(true);
+            m_sendTobackAct->setVisible(true);
+            m_oneLayerUpAct->setVisible(true);
+            m_oneLayerDownAct->setVisible(true);
         }
     } else {
         m_copyAct->setEnabled(false);

@@ -421,22 +421,22 @@ already exists, do you want to replace?</source>
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="833"/>
+        <location filename="../frame/cgraphicsview.cpp" line="845"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="835"/>
+        <location filename="../frame/cgraphicsview.cpp" line="847"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="841"/>
+        <location filename="../frame/cgraphicsview.cpp" line="853"/>
         <source>Unnamed.DDF</source>
         <translation>未命名.DDF</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="856"/>
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -524,12 +524,12 @@ already exists, do you want to replace?</source>
         <translation type="vanished">剪切</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="131"/>
+        <location filename="../frame/clefttoolbar.cpp" line="121"/>
         <source>Import(I)</source>
         <translation>导入（I）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="146"/>
+        <location filename="../frame/clefttoolbar.cpp" line="136"/>
         <source>Rectangle(R)</source>
         <translation>矩形（R）</translation>
     </message>
@@ -538,7 +538,7 @@ already exists, do you want to replace?</source>
         <translation type="obsolete">R</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="161"/>
+        <location filename="../frame/clefttoolbar.cpp" line="151"/>
         <source>Ellipse(O)</source>
         <translation>椭圆（O）</translation>
     </message>
@@ -555,47 +555,47 @@ already exists, do you want to replace?</source>
         <translation type="vanished">多边形（G）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="116"/>
+        <location filename="../frame/clefttoolbar.cpp" line="106"/>
         <source>Select(V)</source>
         <translation>选择（V）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="178"/>
+        <location filename="../frame/clefttoolbar.cpp" line="168"/>
         <source>Triangle(S)</source>
         <translation>三角形（S）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="195"/>
+        <location filename="../frame/clefttoolbar.cpp" line="185"/>
         <source>Star(F)</source>
         <translation>星形（F）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="212"/>
+        <location filename="../frame/clefttoolbar.cpp" line="202"/>
         <source>Polygon(H)</source>
         <translation>多边形（H）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="229"/>
+        <location filename="../frame/clefttoolbar.cpp" line="219"/>
         <source>Line(L)</source>
         <translation>画线（L）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="246"/>
+        <location filename="../frame/clefttoolbar.cpp" line="236"/>
         <source>Pencil(P)</source>
         <translation>画笔（P）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="262"/>
+        <location filename="../frame/clefttoolbar.cpp" line="252"/>
         <source>Text(T)</source>
         <translation>文字（T）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="278"/>
+        <location filename="../frame/clefttoolbar.cpp" line="268"/>
         <source>Blur(B)</source>
         <translation>模糊（B）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="294"/>
+        <location filename="../frame/clefttoolbar.cpp" line="284"/>
         <source>Crop(C)</source>
         <translation>裁剪（C）</translation>
     </message>
@@ -962,13 +962,6 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
-    <message>
-        <source>Deepin Draw</source>
-        <translation>画板</translation>
-    </message>
-</context>
-<context>
     <name>MainWidget</name>
     <message>
         <source>Cut</source>
@@ -1025,6 +1018,14 @@ already exists, do you want to replace?</source>
     <message>
         <source>Center align</source>
         <translation type="vanished">中间对齐</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <location filename="../frame/mainwindow.cpp" line="62"/>
+        <source>Deepin Draw</source>
+        <translation>画板</translation>
     </message>
 </context>
 <context>
@@ -1260,149 +1261,192 @@ already exists, do you want to replace?</source>
 <context>
     <name>Shortcut</name>
     <message>
-        <location filename="../utils/shortcut.cpp" line="30"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Files</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
         <translation>绘图</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Graphics/Images</source>
-        <translation>图形/图片</translation>
+        <translation type="vanished">图形/图片</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="39"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="42"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="43"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="44"/>
         <source>Selected</source>
-        <translation>选中</translation>
+        <translation type="vanished">选择</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="45"/>
-        <source>Export Picture</source>
-        <translation>导出</translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="46"/>
+        <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Rectangle</source>
         <translation>矩形</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="47"/>
+        <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Ellipse</source>
         <translation>椭圆</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="48"/>
+        <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Triangle</source>
         <translation>三角形</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="49"/>
+        <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Star</source>
         <translation>星形</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="50"/>
+        <location filename="../utils/shortcut.cpp" line="52"/>
         <source>Polygon</source>
         <translation>多边形</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="51"/>
+        <location filename="../utils/shortcut.cpp" line="53"/>
         <source>Line</source>
-        <translation>线形</translation>
+        <translation>画线</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="52"/>
+        <location filename="../utils/shortcut.cpp" line="54"/>
         <source>Pencil</source>
         <translation>画笔</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="53"/>
+        <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Text</source>
         <translation>文字</translation>
     </message>
     <message>
+        <location filename="../utils/shortcut.cpp" line="46"/>
         <source>Select</source>
-        <translation type="vanished">选中</translation>
+        <translation>选中</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="54"/>
+        <location filename="../utils/shortcut.cpp" line="33"/>
+        <source>Shapes/Images</source>
+        <translation>图形/图片</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="34"/>
+        <source>Settings</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="47"/>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="56"/>
         <source>Blur</source>
         <translation>模糊</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="55"/>
+        <location filename="../utils/shortcut.cpp" line="57"/>
+        <source>Crop</source>
+        <translation>裁剪</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="58"/>
+        <source>Expand canvas</source>
+        <translation>画布放大</translation>
+    </message>
+    <message>
         <location filename="../utils/shortcut.cpp" line="59"/>
+        <source>Shrink canvas</source>
+        <translation>画布缩小</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="64"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="60"/>
+        <location filename="../utils/shortcut.cpp" line="65"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="61"/>
+        <location filename="../utils/shortcut.cpp" line="66"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="62"/>
+        <location filename="../utils/shortcut.cpp" line="67"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="63"/>
+        <location filename="../utils/shortcut.cpp" line="68"/>
+        <source>Undo</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="69"/>
+        <source>Redo</source>
+        <translation>重做</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="70"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="64"/>
+        <location filename="../utils/shortcut.cpp" line="71"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="65"/>
+        <location filename="../utils/shortcut.cpp" line="72"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="66"/>
+        <location filename="../utils/shortcut.cpp" line="73"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="77"/>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="78"/>
+        <source>Display shortcuts</source>
+        <translation>显示快捷键</translation>
     </message>
 </context>
 <context>

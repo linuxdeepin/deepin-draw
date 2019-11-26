@@ -118,7 +118,7 @@ private slots:
 private:
     qreal m_scale; //记录当前缩放
 
-    CMenu *m_contextMenu;//右键菜单
+    DMenu *m_contextMenu;//右键菜单
     QAction *m_cutAct;              //剪切
     QAction *m_copyAct;             //拷贝
     QAction *m_pasteAct;            //粘贴
