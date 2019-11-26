@@ -28,7 +28,7 @@
     </message>
     <message>
         <location filename="../frame/blurwidget.cpp" line="120"/>
-        <source>Pen Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

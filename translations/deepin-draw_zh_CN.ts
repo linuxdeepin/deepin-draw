@@ -27,8 +27,9 @@
 <context>
     <name>BlurWidget</name>
     <message>
+        <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Width</source>
-        <translation type="vanished">粗细</translation>
+        <translation>粗细</translation>
     </message>
     <message>
         <source>类型</source>
@@ -54,9 +55,8 @@
         <translation>马赛克</translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Pen Width</source>
-        <translation>涂抹笔粗细</translation>
+        <translation type="vanished">涂抹笔粗细</translation>
     </message>
     <message>
         <source>Penwidth</source>
@@ -577,7 +577,7 @@ already exists, do you want to replace?</source>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="229"/>
         <source>Line(L)</source>
-        <translation>线形（L）</translation>
+        <translation>画线（L）</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="246"/>

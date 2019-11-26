@@ -25,6 +25,8 @@
 #include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cdrawscene.h"
+#include "drawshape/cgraphicslineitem.h"
+#include "drawshape/cgraphicsmasicoitem.h"
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -388,13 +390,13 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
     : QUndoCommand (parent)
     , m_pItem(item)
-    , m_oldPen(pen)
-    , m_oldBrush(brush)
+    , m_newPen(pen)
+    , m_newBrush(brush)
     , m_bPenChange(bPenChange)
     , m_bBrushChange(bBrushChange)
 {
-    m_newPen = item->pen();
-    m_newBrush = item->brush();
+    m_oldPen = item->pen();
+    m_oldBrush = item->brush();
 }
 
 CSetPropertyCommand::~CSetPropertyCommand()
@@ -415,6 +417,7 @@ void CSetPropertyCommand::undo()
         m_pItem->setBrush(m_oldBrush);
     }
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 
 void CSetPropertyCommand::redo()
@@ -431,68 +434,92 @@ void CSetPropertyCommand::redo()
     }
 
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 
-CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int oldNum)
+CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int newNum)
     : m_pItem(item)
-    , m_nOldNum(oldNum)
+    , m_nNewNum(newNum)
 {
-    m_nNewNum = m_pItem->nPointsCount();
+    m_nOldNum = m_pItem->nPointsCount();
 }
 
 void CSetPolygonAttributeCommand::undo()
 {
     m_pItem->setPointCount(m_nOldNum);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CSetPolygonAttributeCommand::redo()
 {
     m_pItem->setPointCount(m_nNewNum);
+
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
-CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
+CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
     : m_pItem(item)
-    , m_nOldNum(oldNum)
-    , m_nOldRadius(oldRadius)
+    , m_nNewNum(newNum)
+    , m_nNewRadius(newRadius)
 {
-    m_nNewNum = m_pItem->anchorNum();
-    m_nNewRadius = m_pItem->innerRadius();
+    m_nOldNum = m_pItem->anchorNum();
+    m_nOldRadius = m_pItem->innerRadius();
 }
 
 void CSetPolygonStarAttributeCommand::undo()
 {
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 
 
-CSetPenAttributeCommand::CSetPenAttributeCommand(CGraphicsPenItem *item, int oldType)
+CSetPenAttributeCommand::CSetPenAttributeCommand(CGraphicsPenItem *item, int newType)
     : m_pItem(item)
-    , m_oldType(oldType)
+    , m_newType(newType)
 {
-    m_newType = item->currentType();
+    m_oldType = item->currentType();
 }
 
 void CSetPenAttributeCommand::undo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 
 void CSetPenAttributeCommand::redo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_newType));
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 
+CSetLineAttributeCommand::CSetLineAttributeCommand(CGraphicsLineItem *item, int newType)
+    : m_pItem(item)
+    , m_newType(newType)
+{
+    m_oldType = item->getLineType();
+}
 
+void CSetLineAttributeCommand::undo()
+{
+    m_pItem->setLineType(static_cast<ELineType>(m_oldType));
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+}
 
+void CSetLineAttributeCommand::redo()
+{
+    m_pItem->setLineType(static_cast<ELineType>(m_newType));
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+}
 
 
 COneLayerUpCommand::COneLayerUpCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
@@ -770,3 +797,28 @@ void CSendToBackCommand::redo()
     }
 }
 
+
+CSetBlurAttributeCommand::CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio)
+    : m_pItem(item)
+    , m_nNewType(newType)
+    , m_nNewRadius(newRadio)
+{
+    m_nOldType = item->getBlurEffect();
+    m_nOldRadius = item->getBlurWidth();
+}
+
+void CSetBlurAttributeCommand::undo()
+{
+    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
+    m_pItem->setBlurWidth(m_nOldRadius);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+}
+
+void CSetBlurAttributeCommand::redo()
+{
+    m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
+    m_pItem->setBlurWidth(m_nNewRadius);
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+}

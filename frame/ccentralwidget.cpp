@@ -356,6 +356,12 @@ void CCentralwidget::initConnect()
     connect(m_pDrawScene, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, int )),
             m_pGraphicsView, SLOT(itemPenTypeChange(CGraphicsPenItem *, int)));
 
+    connect(m_pDrawScene, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int )),
+            m_pGraphicsView, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int )));
+
+    connect(m_pDrawScene, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, int )),
+            m_pGraphicsView, SLOT(itemLineTypeChange(CGraphicsLineItem *, int)));
+
     connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
     connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_pGraphicsView, SLOT(slotRestContextMenuAfterQuitCut()));
 

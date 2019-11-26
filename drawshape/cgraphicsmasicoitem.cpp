@@ -201,6 +201,7 @@ EBlurEffect CGraphicsMasicoItem::getBlurEffect() const
 
 void CGraphicsMasicoItem::setBlurEffect(EBlurEffect effect)
 {
+    prepareGeometryChange();
     m_nBlurEffect = effect;
     updateBlurPath();
 }
@@ -212,6 +213,7 @@ int CGraphicsMasicoItem::getBlurWidth() const
 
 void CGraphicsMasicoItem::setBlurWidth(int width)
 {
+    prepareGeometryChange();
     QPen pen = this->pen();
     pen.setWidth(width);
     this->setPen(pen);

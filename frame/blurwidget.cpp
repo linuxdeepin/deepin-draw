@@ -115,9 +115,9 @@ void BlurWidget::initUI()
 
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("Width");
-    //penWidthLabel->setText(tr("涂抹笔粗细"));
+    //penWidthLabel->setText(tr("粗细"));
 
-    penWidthLabel->setText(tr("Pen Width"));
+    penWidthLabel->setText(tr("Width"));
 
     penWidthLabel->setFont(ft);
 

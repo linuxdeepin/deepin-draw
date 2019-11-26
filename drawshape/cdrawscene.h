@@ -27,6 +27,8 @@ class QKeyEvent;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
+class CGraphicsLineItem;
+class CGraphicsMasicoItem;
 
 class CDrawScene : public QGraphicsScene
 {
@@ -124,11 +126,11 @@ signals:
 
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
 
-    void itemBlurChange(int blurWidth, EBlurEffect effect);
+    void itemBlurChange(CGraphicsMasicoItem *item, int effect, int blurWidth);
 
     void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
 
-    void itemLineTypeChange(ELineType type);
+    void itemLineTypeChange(CGraphicsLineItem *item, int type);
 
     void signalUpdateCutSize();
 

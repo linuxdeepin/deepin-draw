@@ -32,6 +32,8 @@ class CGraphicsItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
+class CGraphicsLineItem;
+class CGraphicsMasicoItem;
 
 class CMoveShapeCommand : public QUndoCommand
 {
@@ -150,7 +152,7 @@ private:
 class CSetPolygonAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int oldNum);
+    explicit CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int newNum);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -163,7 +165,7 @@ private:
 class CSetPolygonStarAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
+    explicit CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -178,7 +180,7 @@ private:
 class CSetPenAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetPenAttributeCommand(CGraphicsPenItem *item, int oldType);
+    explicit CSetPenAttributeCommand(CGraphicsPenItem *item, int newType);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -187,6 +189,20 @@ private:
     int m_oldType;
     int m_newType;
 };
+
+class CSetLineAttributeCommand: public QUndoCommand
+{
+public:
+    explicit CSetLineAttributeCommand(CGraphicsLineItem *item, int newType);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsLineItem *m_pItem;
+    int m_oldType;
+    int m_newType;
+};
+
 
 /*
 class GroupShapeCommand : public QUndoCommand
@@ -300,6 +316,21 @@ private:
     bool m_isRedoExcuteSuccess;
     bool m_isUndoExcuteSuccess;
     QVector<QGraphicsItem *> m_movedItems;
+};
+
+class CSetBlurAttributeCommand: public QUndoCommand
+{
+public:
+    explicit CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsMasicoItem *m_pItem;
+    int m_nOldType;
+    int m_nNewType;
+    int m_nOldRadius;
+    int m_nNewRadius;
 };
 
 #endif // CUNDOCOMMANDS_H

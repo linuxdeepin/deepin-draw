@@ -159,11 +159,11 @@ void CDrawScene::attributeChanged()
             if (item->type() != BlurType) {
                 if (tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen() ||
                         tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush() ) {
-                    emit itemPropertyChange(tmpitem, tmpitem->pen(), tmpitem->brush(),
+                    emit itemPropertyChange(tmpitem, CDrawParamSigleton::GetInstance()->getPen(), CDrawParamSigleton::GetInstance()->getBrush(),
                                             tmpitem->pen() != CDrawParamSigleton::GetInstance()->getPen(),
                                             tmpitem->brush() != CDrawParamSigleton::GetInstance()->getBrush());
-                    tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-                    tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+//                    tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
+//                    tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
                 }
             }
 
@@ -171,37 +171,37 @@ void CDrawScene::attributeChanged()
             if (item->type() == TextType) {
                 //字体大小和颜色 分开处理
                 static_cast<CGraphicsTextItem *>(item)->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
-                //static_cast<CGraphicsTextItem *>(item)->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-                //static_cast<CGraphicsTextItem *>(item)->update();
-                //static_cast<CGraphicsTextItem *>(item)->setFontSize(CDrawParamSigleton::GetInstance()->getTextSize());
+
             } else if (item->type() == PolygonType) {
                 if (CDrawParamSigleton::GetInstance()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
-                    emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
-                    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
+                    emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), CDrawParamSigleton::GetInstance()->getSideNum());
+//                    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
                 }
             } else if (item->type() == PolygonalStarType) {
                 CGraphicsPolygonalStarItem *tmpItem = static_cast<CGraphicsPolygonalStarItem *>(item);
                 if (tmpItem->anchorNum() != CDrawParamSigleton::GetInstance()->getAnchorNum() || tmpItem->innerRadius() != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
-                    emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
-                    tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
-                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
+
+//                    int oldAnchorNum = tmpItem->anchorNum();
+//                    int oldRadius = tmpItem->innerRadius();
+//                    tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
+//                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
+                    emit itemPolygonalStarPointChange(tmpItem, CDrawParamSigleton::GetInstance()->getAnchorNum(), CDrawParamSigleton::GetInstance()->getRadiusNum());
                 }
             } else if (item->type() == PenType) {
                 CGraphicsPenItem *tmpItem = static_cast<CGraphicsPenItem *>(item);
                 if (tmpItem->currentType() != CDrawParamSigleton::GetInstance()->getCurrentPenType()) {
-                    emit itemPenTypeChange(tmpItem, tmpItem->currentType());
-                    tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
+                    emit itemPenTypeChange(tmpItem, CDrawParamSigleton::GetInstance()->getCurrentPenType());
+                    //tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
                 }
                 tmpItem->calcVertexes();
             } else if (item->type() == BlurType) {
                 CGraphicsMasicoItem *tmpItem = static_cast<CGraphicsMasicoItem *>(item);
                 if (tmpItem->getBlurWidth() != CDrawParamSigleton::GetInstance()->getBlurWidth() || tmpItem->getBlurEffect() != CDrawParamSigleton::GetInstance()->getBlurEffect()) {
                     //emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
-                    tmpItem->setBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect());
-                    tmpItem->setBlurWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
+//                    tmpItem->setBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect());
+//                    tmpItem->setBlurWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
                     //用于撤消
-                    emit itemBlurChange(CDrawParamSigleton::GetInstance()->getBlurWidth(),
-                                        CDrawParamSigleton::GetInstance()->getBlurEffect());
+                    emit itemBlurChange(tmpItem, (int)CDrawParamSigleton::GetInstance()->getBlurEffect(), CDrawParamSigleton::GetInstance()->getBlurWidth());
                     tmpItem->update();
                 }
             } else if (item->type() == LineType) {
@@ -209,10 +209,11 @@ void CDrawScene::attributeChanged()
                 tmpItem->calcVertexes();
                 ELineType type = tmpItem->getLineType();
                 if (type != CDrawParamSigleton::GetInstance()->getLineType()) {
-                    tmpItem->setLineType(CDrawParamSigleton::GetInstance()->getLineType());
+                    //tmpItem->setLineType(CDrawParamSigleton::GetInstance()->getLineType());
                     tmpItem->update();
                     //REDO UNDO
-                    emit itemLineTypeChange(CDrawParamSigleton::GetInstance()->getLineType());
+                    emit itemLineTypeChange(tmpItem, CDrawParamSigleton::GetInstance()->getLineType());
+                    tmpItem->update();
                 }
 
             }

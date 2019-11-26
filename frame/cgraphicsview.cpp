@@ -432,13 +432,13 @@ void CGraphicsView::leaveEvent(QEvent *event)
 //    return m_painter;
 //}
 
-void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &oldPosition)
+void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
 {
     if ( item != nullptr) {
-        QUndoCommand *moveCommand = new CMoveShapeCommand(item, oldPosition);
+        QUndoCommand *moveCommand = new CMoveShapeCommand(item, newPosition);
         m_pUndoStack->push(moveCommand);
     } else {
-        QUndoCommand *moveCommand = new CMoveShapeCommand(this->scene(), oldPosition);
+        QUndoCommand *moveCommand = new CMoveShapeCommand(this->scene(), newPosition);
         m_pUndoStack->push(moveCommand);
     }
 }
@@ -449,9 +449,9 @@ void CGraphicsView::itemAdded(QGraphicsItem *item)
     m_pUndoStack->push(addCommand);
 }
 
-void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal oldAngle)
+void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal newAngle)
 {
-    QUndoCommand *rotateCommand = new CRotateShapeCommand(item, oldAngle);
+    QUndoCommand *rotateCommand = new CRotateShapeCommand(item, newAngle);
     m_pUndoStack->push(rotateCommand);
 }
 
@@ -467,21 +467,33 @@ void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush bru
     m_pUndoStack->push(setPropertyCommand);
 }
 
-void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum)
+void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum)
 {
-    QUndoCommand *command = new CSetPolygonAttributeCommand(item, oldNum);
+    QUndoCommand *command = new CSetPolygonAttributeCommand(item, newNum);
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, int oldType)
+void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, int newType)
 {
-    QUndoCommand *command = new CSetPenAttributeCommand(item, oldType);
+    QUndoCommand *command = new CSetPenAttributeCommand(item, newType);
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius)
+void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, int newType)
 {
-    QUndoCommand *command = new CSetPolygonStarAttributeCommand(item, oldNum, oldRadius);
+    QUndoCommand *command = new CSetLineAttributeCommand(item, newType);
+    m_pUndoStack->push(command);
+}
+
+void CGraphicsView::itemBlurChange(CGraphicsMasicoItem *item, int effect, int blurWidth)
+{
+    QUndoCommand *command = new CSetBlurAttributeCommand(item, effect, blurWidth);
+    m_pUndoStack->push(command);
+}
+
+void CGraphicsView::itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
+{
+    QUndoCommand *command = new CSetPolygonStarAttributeCommand(item, newNum, newRadius);
     m_pUndoStack->push(command);
 }
 

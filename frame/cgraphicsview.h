@@ -31,6 +31,8 @@ class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CMenu;
+class CGraphicsLineItem;
+class CGraphicsMasicoItem;
 
 class CGraphicsView : public DGraphicsView
 {
@@ -68,14 +70,16 @@ signals:
     void singalTransmitEndLoadDDF();
 
 public slots:
-    void itemMoved(QGraphicsItem *item, const QPointF &oldPosition );
+    void itemMoved(QGraphicsItem *item, const QPointF &newPosition );
     void itemAdded(QGraphicsItem *item );
-    void itemRotate(QGraphicsItem *item, const qreal oldAngle );
+    void itemRotate(QGraphicsItem *item, const qreal newAngle );
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
-    void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
-    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
-    void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
+    void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
+    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
+    void itemPenTypeChange(CGraphicsPenItem *item, int newType);
+    void itemLineTypeChange(CGraphicsLineItem *item, int newType);
+    void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
     void slotStopContinuousDrawing();
     void slotStartLoadDDF(QRectF rect);
     void slotAddItemFromDDF(QGraphicsItem *item );
