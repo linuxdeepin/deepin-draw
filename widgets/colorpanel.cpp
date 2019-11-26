@@ -219,7 +219,7 @@ void ColorPanel::initUI()
             cb->setDisableColor(true);
         m_cButtonList.append(cb);
         gLayout->addWidget(cb, i / 6, i % 6);
-        m_colorsButtonGroup->addButton(cb);
+        m_colorsButtonGroup->addButton(cb, i);
     }
 
     m_alphaControlWidget = new CAlphaControlWidget(this);
@@ -336,21 +336,21 @@ void ColorPanel::initConnection()
         QColor tmpColor;
         if (m_drawstatus == Fill) {
             tmpColor = CDrawParamSigleton::GetInstance()->getFillColor();
-            if (tmpColor == Qt::transparent) {
+            if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setFillColor(tmpColor);
         } else if (m_drawstatus == Stroke) {
             tmpColor = CDrawParamSigleton::GetInstance()->getLineColor();
-            if (tmpColor == Qt::transparent) {
+            if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);
             CDrawParamSigleton::GetInstance()->setLineColor(tmpColor);
         } else if (m_drawstatus == TextFill) {
             tmpColor = CDrawParamSigleton::GetInstance()->getTextColor();
-            if (tmpColor == Qt::transparent) {
+            if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);

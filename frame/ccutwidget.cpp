@@ -76,8 +76,7 @@ void CCutWidget::changeButtonTheme()
 void CCutWidget::updateButtonStatus()
 {
     if (!m_freeBtn->isChecked()) {
-        clearAllChecked();
-        m_freeBtn->setChecked(true);
+        emit m_freeBtn->clicked(true);
     }
 }
 

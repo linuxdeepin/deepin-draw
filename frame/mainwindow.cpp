@@ -103,6 +103,8 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 }
 
+
+
 void MainWindow::initConnection()
 {
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);

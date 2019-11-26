@@ -266,7 +266,7 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
     //判断如果点在字体内，则变为选择工具
-    QPointF pos = mouseEvent->scenePos();
+    /*QPointF pos = mouseEvent->scenePos();
     CGraphicsTextItem *textItem = nullptr;
     m_bIsEditTextFlag = false;
     QList<QGraphicsItem *> items = this->selectedItems();
@@ -276,37 +276,36 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
             m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
             break;
         }
-    }
+    }*/
 
-    if (mouseEvent->button()) {
-        EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
-        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-        if (currentMode == text &&  m_bIsEditTextFlag && textItem->rect().contains(pos)) {
-            pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-        }
-        if ( nullptr != pTool) {
-            pTool->mousePressEvent(mouseEvent, this);
-        }
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    /*if (currentMode == text &&  m_bIsEditTextFlag && textItem->rect().contains(pos)) {
+        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    }*/
+    if ( nullptr != pTool) {
+        pTool->mousePressEvent(mouseEvent, this);
     }
 }
 
 void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    m_bIsEditTextFlag = false;
+    /*m_bIsEditTextFlag = false;
     QList<QGraphicsItem *> items = this->selectedItems();
     foreach (QGraphicsItem *item, items) {
         if (item->type() == TextType) {
             m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
             break;
         }
-    }
+    }*/
 
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if (currentMode == text && m_bIsEditTextFlag) {
+    /*if (currentMode == text && m_bIsEditTextFlag) {
         pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    }
+    }*/
     if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
@@ -314,21 +313,21 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    m_bIsEditTextFlag = false;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    foreach (QGraphicsItem *item, items) {
-        if (item->type() == TextType) {
-            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
-            break;
-        }
-    }
+//    m_bIsEditTextFlag = false;
+//    QList<QGraphicsItem *> items = this->selectedItems();
+//    foreach (QGraphicsItem *item, items) {
+//        if (item->type() == TextType) {
+//            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
+//            break;
+//        }
+//    }
 
     EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if (currentMode == text && m_bIsEditTextFlag) {
-        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    }
+//    if (currentMode == text && m_bIsEditTextFlag) {
+//        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+//    }
     if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
 //        if (pTool->getDrawToolMode() != cut) {
@@ -381,6 +380,7 @@ void CDrawScene::doCutScene()
             setSceneRect(rect);
             update();
             quitCutMode();
+            CDrawParamSigleton::GetInstance()->setIsModify(true);
         }
     }
 

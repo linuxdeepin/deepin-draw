@@ -1,9 +1,16 @@
 #include "cgraphicsmasicoitem.h"
 #include "cdrawparamsigleton.h"
 #include "sitemdata.h"
+#include "cgraphicstextitem.h"
+#include "widgets/ctextedit.h"
+#include "cgraphicsproxywidget.h"
+#include <DApplication>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QGraphicsView>
+#include <QDebug>
+
+DWIDGET_USE_NAMESPACE
 
 static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
 {
@@ -138,10 +145,19 @@ void CGraphicsMasicoItem::setPixmap()
         QList<QGraphicsItem * > items = this->scene()->items();
         QList<QGraphicsItem * > filterItems = this->filterItems(items);
         QList<bool> filterItemsSelectFlags;
+        int textItemIndex = -1;
+        QTextCursor textCursor;
 
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
+
+            if (filterItems[i]->type() == TextType) {
+                if (static_cast<CGraphicsTextItem *>(filterItems[i])->isEditable()) {
+                    textItemIndex = i;
+                    textCursor = static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->textCursor();
+                }
+            }
             filterItems[i]->setVisible(false);
         }
         this->hide();
@@ -154,14 +170,26 @@ void CGraphicsMasicoItem::setPixmap()
 
         //m_pixmap.save("./wang.jpg");
 
+        this->show();
+        this->setSelected(flag);
+
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);
             filterItems[i]->setSelected(filterItemsSelectFlags[i]);
+            if (textItemIndex == i) {
+                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->show();
+                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setTextCursor(textCursor);
+                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus();
+//                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->activateWindow();
+                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
+            }
         }
 
-        this->show();
-        this->setSelected(flag);
+        qDebug() << "textItemIndex = " << textItemIndex << endl;
+
+
     }
+    this->scene()->views()[0]->setFocus();
 }
 
 void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)

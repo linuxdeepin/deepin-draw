@@ -857,6 +857,9 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
+            if (!path.endsWith(".DDF")) {
+                path = path + ".DDF";
+            }
             m_DDFManager->saveToDDF(path, scene());
         }
     }

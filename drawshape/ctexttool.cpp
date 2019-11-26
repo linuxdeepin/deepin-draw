@@ -64,7 +64,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
-        scene->views()[0]->setFocus();
+//        scene->views()[0]->setFocus();
 //        item->getTextEdit()->setFocus();
         //item->getCGraphicsProxyWidget()->setFocus();
         //

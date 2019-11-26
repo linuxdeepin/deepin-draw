@@ -196,6 +196,10 @@ void CTextEdit::setVisible(bool visible)
         QTextCursor cursor = this->textCursor();
         cursor.select(QTextCursor::Document);
         this->setTextCursor(cursor);
+
+        this->releaseKeyboard();
+    } else {
+        this->grabKeyboard();
     }
     DTextEdit::setVisible(visible);
 }

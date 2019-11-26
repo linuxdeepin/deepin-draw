@@ -43,7 +43,7 @@ EditLabel::EditLabel(DWidget *parent)
     m_edit->lineEdit()->setReadOnly(true);
 
     QFont font = m_edit->font();
-    font.setPixelSize(8);
+    font.setPixelSize(6);
     m_edit->setFont(font);
 
 

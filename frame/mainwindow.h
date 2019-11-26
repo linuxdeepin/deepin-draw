@@ -78,6 +78,7 @@ private:
 private:
     void initConnection();
     void initUI();
+
 };
 
 #endif // MAINWINDOW_H
