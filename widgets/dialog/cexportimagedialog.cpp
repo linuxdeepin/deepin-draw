@@ -151,10 +151,10 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(100, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedSize(QSize(185, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
-    m_qualityLabel->setFixedHeight(LINE_EDIT_SIZE.height());
+    m_qualityLabel->setFixedSize(QSize(45, LINE_EDIT_SIZE.height()));
 
     QHBoxLayout *qualityHLayout = new QHBoxLayout;
     qualityHLayout->setMargin(0);

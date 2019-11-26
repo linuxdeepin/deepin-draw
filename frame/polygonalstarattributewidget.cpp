@@ -247,12 +247,8 @@ void PolygonalStarAttributeWidget::initConnection()
     ///半径
     connect(m_radiusNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         QString str = QString("%1%").arg(value);
-        if (str != m_radiusNumEdit->text().trimmed()) {
-            m_radiusNumEdit->setText(str);
-            if (str == "0%") {
-                m_radiusNumEdit->lineEdit()->setCursorPosition(1);
-            }
-        }
+
+        m_radiusNumEdit->setText(str);
         CDrawParamSigleton::GetInstance()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
     });
@@ -276,15 +272,38 @@ void PolygonalStarAttributeWidget::initConnection()
         if (value < 0 || value > 100) {
             return ;
         }
-
+        if (value == CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+            return ;
+        }
+        m_radiusNumSlider->blockSignals(true);
         m_radiusNumSlider->setValue(value);
+        m_radiusNumSlider->blockSignals(false);
+        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+        emit signalPolygonalStarAttributeChanged();
+        if (str.length() > 1) {
+            m_radiusNumEdit->lineEdit()->setCursorPosition(str.length() - 1);
+        }
     });
 
     connect(m_radiusNumEdit, &DLineEdit::editingFinished, this, [ = ]() {
         QString str = m_radiusNumEdit->text().trimmed();
-
         if (str == "%") {
             m_radiusNumEdit->setText("0%");
+        }
+        QString tmpStr = "";
+        int value = -1;
+        if (str.contains("%")) {
+            tmpStr = str.split("%").first();
+            value = tmpStr.trimmed().toInt();
+        } else {
+            value = str.toInt();
+        }
+        if (value != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+            m_radiusNumSlider->blockSignals(true);
+            m_radiusNumSlider->setValue(value);
+            m_radiusNumSlider->blockSignals(false);
+            CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+            emit signalPolygonalStarAttributeChanged();
         }
     });
 

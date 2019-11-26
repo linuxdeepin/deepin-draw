@@ -482,72 +482,84 @@ void CLeftToolBar::initDrawTools()
 
 void CLeftToolBar::slotShortCutSelect()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_selectBtn->setChecked(true);
     emit m_selectBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutPictrue()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_picBtn->setChecked(true);
     emit m_picBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutRect()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_rectBtn->setChecked(true);
     emit m_rectBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutRound()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_roundBtn->setChecked(true);
     emit m_roundBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutTriangle()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_triangleBtn->setChecked(true);
     emit m_triangleBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutPolygonalStar()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_starBtn->setChecked(true);
     emit m_starBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutPolygon()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_polygonBtn->setChecked(true);
     emit m_polygonBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutLine()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_lineBtn->setChecked(true);
     emit m_lineBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutPen()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_penBtn->setChecked(true);
     emit m_penBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutText()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_textBtn->setChecked(true);
     emit m_textBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutBlur()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_blurBtn->setChecked(true);
     emit m_blurBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutCut()
 {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     m_cutBtn->setChecked(true);
     emit m_cutBtn->buttonClick();
 }

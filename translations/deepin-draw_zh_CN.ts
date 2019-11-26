@@ -153,22 +153,22 @@
         <translation type="vanished">字号</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="80"/>
+        <location filename="../frame/ccutwidget.cpp" line="88"/>
         <source>Dimensions</source>
         <translation>尺寸</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="93"/>
+        <location filename="../frame/ccutwidget.cpp" line="101"/>
         <source>x</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="114"/>
+        <location filename="../frame/ccutwidget.cpp" line="122"/>
         <source>Aspect ratio</source>
         <translation>比例</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="144"/>
+        <location filename="../frame/ccutwidget.cpp" line="152"/>
         <source>Original</source>
         <translation>原始</translation>
     </message>
@@ -177,7 +177,7 @@
         <translation type="vanished">比例</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="139"/>
+        <location filename="../frame/ccutwidget.cpp" line="147"/>
         <source>Free</source>
         <translation>自由</translation>
     </message>
@@ -436,9 +436,8 @@ already exists, do you want to replace?</source>
         <translation>未命名.DDF</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="868"/>
         <source>Open</source>
-        <translation>打开</translation>
+        <translation type="vanished">打开</translation>
     </message>
     <message>
         <source>Left Alignment</source>
@@ -524,12 +523,12 @@ already exists, do you want to replace?</source>
         <translation type="vanished">剪切</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="121"/>
+        <location filename="../frame/clefttoolbar.cpp" line="122"/>
         <source>Import(I)</source>
         <translation>导入（I）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="136"/>
+        <location filename="../frame/clefttoolbar.cpp" line="137"/>
         <source>Rectangle(R)</source>
         <translation>矩形（R）</translation>
     </message>
@@ -538,7 +537,7 @@ already exists, do you want to replace?</source>
         <translation type="obsolete">R</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="151"/>
+        <location filename="../frame/clefttoolbar.cpp" line="152"/>
         <source>Ellipse(O)</source>
         <translation>椭圆（O）</translation>
     </message>
@@ -555,47 +554,47 @@ already exists, do you want to replace?</source>
         <translation type="vanished">多边形（G）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="106"/>
+        <location filename="../frame/clefttoolbar.cpp" line="107"/>
         <source>Select(V)</source>
         <translation>选择（V）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="168"/>
+        <location filename="../frame/clefttoolbar.cpp" line="169"/>
         <source>Triangle(S)</source>
         <translation>三角形（S）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="185"/>
+        <location filename="../frame/clefttoolbar.cpp" line="186"/>
         <source>Star(F)</source>
         <translation>星形（F）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="202"/>
+        <location filename="../frame/clefttoolbar.cpp" line="203"/>
         <source>Polygon(H)</source>
         <translation>多边形（H）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="219"/>
+        <location filename="../frame/clefttoolbar.cpp" line="220"/>
         <source>Line(L)</source>
         <translation>画线（L）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="236"/>
+        <location filename="../frame/clefttoolbar.cpp" line="237"/>
         <source>Pencil(P)</source>
         <translation>画笔（P）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="252"/>
+        <location filename="../frame/clefttoolbar.cpp" line="253"/>
         <source>Text(T)</source>
         <translation>文字（T）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="268"/>
+        <location filename="../frame/clefttoolbar.cpp" line="269"/>
         <source>Blur(B)</source>
         <translation>模糊（B）</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="284"/>
+        <location filename="../frame/clefttoolbar.cpp" line="285"/>
         <source>Crop(C)</source>
         <translation>裁剪（C）</translation>
     </message>
@@ -1023,9 +1022,18 @@ already exists, do you want to replace?</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="62"/>
         <source>Deepin Draw</source>
+        <translation type="vanished">画板</translation>
+    </message>
+    <message>
+        <location filename="../frame/mainwindow.cpp" line="65"/>
+        <source>Draw</source>
         <translation>画板</translation>
+    </message>
+    <message>
+        <location filename="../frame/mainwindow.cpp" line="216"/>
+        <source>Open</source>
+        <translation>打开</translation>
     </message>
 </context>
 <context>
@@ -1547,12 +1555,12 @@ already exists, do you want to replace?</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="278"/>
+        <location filename="../frame/toptoolbar.cpp" line="276"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="281"/>
+        <location filename="../frame/toptoolbar.cpp" line="279"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>

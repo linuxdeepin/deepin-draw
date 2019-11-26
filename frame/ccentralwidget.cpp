@@ -93,6 +93,13 @@ void CCentralwidget::resetSceneBackgroundBrush()
     }
 }
 
+void CCentralwidget::initSceneRect()
+{
+    QSize size = CDrawParamSigleton::GetInstance()->getCutDefaultSize();
+    QRectF rc = QRectF(0, 0, size.width(), size.height());
+    m_pDrawScene->setSceneRect(rc);
+}
+
 //进行图片导入
 void CCentralwidget::importPicture()
 {
@@ -126,8 +133,8 @@ void CCentralwidget::initUI()
     QRect screenRect = desktopWidget->screenGeometry();
     CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
 
-    QRectF rc = QRectF(0, 0, screenRect.width(), screenRect.height());
-    m_pDrawScene->setSceneRect(rc);
+    initSceneRect();
+
     //根据主题设置
 //case 1:
 //        浅色主题
@@ -227,6 +234,7 @@ void CCentralwidget::slotNew()
     CDrawParamSigleton::GetInstance()->setIsModify(false);
     m_pGraphicsView->clearScene();
     m_leftToolbar->slotShortCutSelect();
+    initSceneRect();
 }
 
 void CCentralwidget::slotPrint()

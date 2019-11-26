@@ -264,6 +264,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
     //判断如果点在字体内，则变为选择工具
     QPointF pos = mouseEvent->scenePos();
     CGraphicsTextItem *textItem = nullptr;

@@ -51,6 +51,7 @@ public:
     CDrawScene *getDrawScene() const;
 
     void switchTheme(int type);
+    void initSceneRect();
 
 
 signals:
@@ -116,6 +117,7 @@ private:
     void initConnect();
     QPixmap getSceneImage(int type);
     void resetSceneBackgroundBrush();
+
 };
 
 #endif // MAINWIDGET_H

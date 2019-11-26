@@ -180,7 +180,7 @@ void CCutWidget::initUI()
 
     m_cutBtn = new CClickButton(pictureMap, QSize(46, 46), this);
 //    m_cutBtn->setCheckable(false);
-//    m_cutBtn->setFocusPolicy(Qt::NoFocus);
+//    m_cutBtn->setFocusPolicy(Qt::ClickFocus);
 
     pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cancel_normal.svg");
     pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cancel_hover.svg");
@@ -348,6 +348,14 @@ void CCutWidget::initConnection()
     });
 
     connect(m_cutBtn, &DPushButton::clicked, this, [ = ]() {
+
+        if (m_widthEdit->lineEdit()->hasFocus()) {
+            m_widthEdit->lineEdit()->clearFocus();
+        }
+
+        if (m_heightEdit->lineEdit()->hasFocus()) {
+            m_heightEdit->lineEdit()->clearFocus();
+        }
 
         CDrawScene::GetInstance()->doCutScene();
     });

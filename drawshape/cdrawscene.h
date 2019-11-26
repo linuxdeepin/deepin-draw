@@ -136,6 +136,8 @@ signals:
 
     void signalUpdateTextFont();
 
+    void signalUpdateColorPanelVisible(QPoint pos);
+
 public slots:
 
     void picOperation(int enumstyle);

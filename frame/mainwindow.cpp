@@ -62,7 +62,7 @@ MainWindow::MainWindow(DWidget *parent)
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
-    setWindowTitle(tr("Deepin Draw"));
+    setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
@@ -155,6 +155,7 @@ void MainWindow::initConnection()
 
     connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
 
+    connect(CDrawScene::GetInstance(), SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
 }
 
 
@@ -192,16 +193,18 @@ void MainWindow::slotContinueDoSomeThing()
         qApp->quit();
         break;
     case LoadDDF:
-        m_centralWidget->getGraphicsView()->importData(m_tmpLoadFilePath);
+        m_centralWidget->getGraphicsView()->importData(CDrawParamSigleton::GetInstance()->getDdfSavePath());
         break;
     case StartByDDF:
-        m_centralWidget->getGraphicsView()->importData(m_tmpLoadFilePath, true);
+        m_centralWidget->getGraphicsView()->importData(CDrawParamSigleton::GetInstance()->getDdfSavePath(), true);
         break;
     case NewDrawingBoard:
         m_centralWidget->slotNew();
         break;
     case ImportPictrue:
-        m_centralWidget->openPicture(m_tmpLoadFilePath);
+        m_centralWidget->getGraphicsView()->clearScene();
+        m_centralWidget->getLeftToolBar()->slotShortCutSelect();
+        m_centralWidget->openPicture(CDrawParamSigleton::GetInstance()->getDdfSavePath());
         break;
     default:
         break;
@@ -228,7 +231,7 @@ void MainWindow::slotShowOpenFileDialog()
             } else {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
             }
-            m_tmpLoadFilePath = path;
+            CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
             slotIsNeedSave();
         }
     }
@@ -340,9 +343,12 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
         } else {
             CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
         }
+
+        CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
+        slotIsNeedSave();
+
     }
-    m_tmpLoadFilePath = path;
-    slotIsNeedSave();
+
 }
 
 void MainWindow::initScene()

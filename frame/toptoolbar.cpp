@@ -129,7 +129,7 @@ void TopToolbar::initComboBox()
     });
 
     m_scaleComboBox->setMenu(scaleMenu);
-    m_scaleComboBox->setFixedWidth(60);
+    m_scaleComboBox->setFixedWidth(70);
 
     //设置字体大小
     QFont ft;
