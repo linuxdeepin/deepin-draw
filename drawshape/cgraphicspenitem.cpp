@@ -336,6 +336,74 @@ void CGraphicsPenItem::drawComplete()
         m_path.lineTo(m_straightLine.p2());
     }
 
+//    if (m_path.elementCount() > 3) {
+
+//        QPainterPath vout;
+
+
+//        for (int i = 0; i < m_path.elementCount() - 3; i += 3) {
+//            QPainterPath::Element p0 = m_path.elementAt(i);
+//            QPainterPath::Element p1 = m_path.elementAt(i + 1);
+//            QPainterPath::Element p2 = m_path.elementAt(i + 2);
+//            QPainterPath::Element p3 = m_path.elementAt(i + 3);
+
+
+//            if (0 == i) {
+//                QPointF dot1 = GetThreeBezierValue(p0, p1, p2, p3, 0.);
+//                vout.moveTo(dot1);
+//            }
+//            QPointF dot2 = GetThreeBezierValue(p0, p1, p2, p3, 1 / 3.0);
+//            QPointF dot3 = GetThreeBezierValue(p0, p1, p2, p3, 2 / 3.0);
+//            QPointF dot4 = GetThreeBezierValue(p0, p1, p2, p3, 1.0);
+
+//            vout.lineTo(dot2);
+//            vout.lineTo(dot3);
+//            vout.lineTo(dot4);
+
+//        }
+
+//        m_path = vout;
+
+//    }
+
+
+    if (m_path.elementCount() > 5) {
+
+        QPainterPath vout;
+
+
+        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
+            QPainterPath::Element p0 = m_path.elementAt(i);
+            QPainterPath::Element p1 = m_path.elementAt(i + 1);
+            QPainterPath::Element p2 = m_path.elementAt(i + 2);
+            QPainterPath::Element p3 = m_path.elementAt(i + 3);
+            QPainterPath::Element p4 = m_path.elementAt(i + 4);
+            QPainterPath::Element p5 = m_path.elementAt(i + 5);
+
+
+            if (0 == i) {
+                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
+                vout.moveTo(dot1);
+            }
+            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
+            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
+            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
+            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
+            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
+
+
+            vout.lineTo(dot2);
+            vout.lineTo(dot3);
+            vout.lineTo(dot4);
+            vout.lineTo(dot5);
+            vout.lineTo(dot6);
+
+        }
+
+        m_path = vout;
+
+    }
+
     updateCoordinate();
 }
 
@@ -394,10 +462,38 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         calcVertexes(m_smoothVector.first(), m_smoothVector.last());
 
     }
+    update();
 
 
 
     updateGeometry();
+}
+
+
+
+//qreal CGraphicsPenItem::GetThreeBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal t)
+//{
+//    return pow(1 - t, 3.0) * p0 + 3 * t * (1 - t) * (1 - t) * p1 + 3 * t * t * (1 - t) * p2 + t * t * t * p3;
+//}
+
+qreal CGraphicsPenItem::GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t)
+{
+
+    return pow(1 - t, 5.0) * p0 + 5 * pow(1 - t, 4.0) * t * p1 + 10 * pow(1 - t, 3.0) * pow(t, 2.0) * p2 + 10 * pow(1 - t, 2.0) * pow(t, 3.0) * p3 + 5 * pow(1 - t, 1.0) * pow(t, 4.0) * p4 + pow(t, 5.0) * p5;
+}
+
+//QPointF CGraphicsPenItem::GetThreeBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, qreal t)
+//{
+//    QPointF dot;
+//    dot = QPointF(GetThreeBezierValue(p0.x, p1.x, p2.x, p3.x, t), GetThreeBezierValue(p0.y, p1.y, p2.y, p3.y, t));
+//    return dot;
+//}
+
+QPointF CGraphicsPenItem::GetBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, QPainterPath::Element p4, QPainterPath::Element p5, qreal t)
+{
+    QPointF dot;
+    dot = QPointF(GetBezierValue(p0.x, p1.x, p2.x, p3.x, p4.x, p5.x, t), GetBezierValue(p0.y, p1.y, p2.y, p3.y,  p4.y, p5.y, t));
+    return dot;
 }
 
 void CGraphicsPenItem::updateGeometry()

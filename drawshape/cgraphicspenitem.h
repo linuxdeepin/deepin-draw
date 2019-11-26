@@ -80,7 +80,11 @@ private:
      */
     void calcVertexes(const QPointF &prePoint, const QPointF &currentPoint);
 
+    //qreal GetThreeBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal t);
 
+    //QPointF GetThreeBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, qreal t);
+    qreal GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t);
+    QPointF GetBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, QPainterPath::Element p4, QPainterPath::Element p5, qreal t);
 };
 
 #endif // CGRAPHICSPENITEM_H
