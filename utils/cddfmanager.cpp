@@ -50,10 +50,13 @@ CDDFManager::CDDFManager(QObject *parent, DWidget *widget)
 
 void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 {
+
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
-    if (itemList.count() <= 0) {
-        return;
-    }
+
+    //即使无图元也可以进行保存
+//    if (itemList.count() <= 0) {
+//        return;
+//    }
 
 
     int primitiveCount = 0;

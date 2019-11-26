@@ -116,6 +116,29 @@ void CCentralwidget::openPicture(QString path)
     pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
 }
 
+//粘贴或者拖曳导入图片
+void CCentralwidget::slotPastePicture(QStringList picturePathList)
+{
+    CPictureTool *pictureTool = new CPictureTool();
+    pictureTool->drawPicture(picturePathList, m_pDrawScene, this);
+}
+
+//粘贴或者拖曳加载DDF
+void CCentralwidget::slotPasteDDF(QStringList ddfPathList)
+{
+    //如果有多个ddf文件被加载，只需加载第一个
+    QString ddfPath = ddfPathList.first();
+    //下面启动DDF加载，需要判断是否需要保存当前画板
+
+}
+
+void CCentralwidget::slotPastePixmap(QPixmap pixmap)
+{
+    CPictureTool *pictureTool = new CPictureTool();
+
+    pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
+}
+
 void CCentralwidget::initUI()
 {
     m_leftToolbar = new CLeftToolBar();
@@ -388,6 +411,11 @@ void CCentralwidget::initConnect()
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), m_pGraphicsView, SLOT(slotDoCutScene()));
 
     connect(m_exportImageDialog, SIGNAL(signalDoSave()), this, SLOT(slotDoSaveImage()));
+
+    connect(m_pGraphicsView, SIGNAL(signalPastePicture(QStringList)), this, SLOT(slotPastePicture(QStringList)));
+    connect(m_pGraphicsView, SIGNAL(signalPasteDDF(QStringList)), this, SLOT(slotPasteDDF(QStringList)));
+    connect(m_pGraphicsView, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));
+
 }
 
 

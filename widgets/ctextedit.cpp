@@ -25,9 +25,10 @@
 #include <QAction>
 #include <QDebug>
 #include <QTextBlock>
+#include <QTextEdit>
 
-CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent)
-    : DTextEdit(text, parent)
+CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
+    : QTextEdit(parent)
     , m_pItem(item)
     , m_widthF(0)
 {
@@ -41,6 +42,7 @@ CTextEdit::CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *pare
             this, SLOT(cursorPositionChanged()));
 
     this->setLineWrapMode(NoWrap);
+    this->setFrameStyle(NoFrame);
     //connect(this->document(), SIGNAL(contentsChanged), this, SLOT(slot_textChanged()));
 }
 
@@ -201,7 +203,7 @@ void CTextEdit::setVisible(bool visible)
     } else {
         this->grabKeyboard();
     }
-    DTextEdit::setVisible(visible);
+    QTextEdit::setVisible(visible);
 }
 
 void CTextEdit::setLastDocumentWidth(qreal width)
@@ -250,7 +252,7 @@ void CTextEdit::mousePressEvent(QMouseEvent *event)
         this->setFocus();
         currentCharFormatChanged(currentCharFormat());
     }
-    DTextEdit::mousePressEvent(event);
+    QTextEdit::mousePressEvent(event);
 }
 
 void CTextEdit::currentCharFormatChanged(const QTextCharFormat &format)

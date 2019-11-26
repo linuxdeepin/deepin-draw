@@ -28,11 +28,11 @@ DWIDGET_USE_NAMESPACE
 
 class CGraphicsTextItem;
 
-class CTextEdit : public DTextEdit
+class CTextEdit : public QTextEdit
 {
     Q_OBJECT
 public:
-    explicit CTextEdit(const QString &text, CGraphicsTextItem *item, QWidget *parent = nullptr);
+    explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
 
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;

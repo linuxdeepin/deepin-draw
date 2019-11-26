@@ -38,6 +38,7 @@
 #include "drawshape/cgraphicsmasicoitem.h"
 #include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cpictureitem.h"
+#include "drawshape/cpicturetool.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -526,6 +527,7 @@ void CGraphicsView::slotOnCut()
     }
 
     CShapeMimeData *data = new CShapeMimeData(itemList);
+    data->setText("");
     QApplication::clipboard()->setMimeData(data);
 
     QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
@@ -543,6 +545,7 @@ void CGraphicsView::slotOnCopy()
     }
 
     CShapeMimeData *data = new CShapeMimeData( scene()->selectedItems() );
+    data->setText("");
     QApplication::clipboard()->setMimeData(data);
 
     if (!m_pasteAct->isEnabled()) {
@@ -552,62 +555,102 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste()
 {
+
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
-    CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
-    if ( data ) {
-        scene()->clearSelection();
-        foreach (CGraphicsItem *item, data->itemList() ) {
-            CGraphicsItem *copy = nullptr;
 
-            switch (item->type()) {
-            case RectType:
-                copy = new CGraphicsRectItem();
-                break;
-            case EllipseType:
-                copy = new CGraphicsEllipseItem();
-                break;
-            case TriangleType:
-                copy = new CGraphicsTriangleItem();
-                break;
-            case PolygonalStarType:
-                copy = new CGraphicsPolygonalStarItem();
-                break;
-
-            case PolygonType:
-                copy = new CGraphicsPolygonItem();
-                break;
-            case LineType:
-                copy = new CGraphicsLineItem();
-                break;
-
-            case PenType:
-                copy = new CGraphicsPenItem();
-                break;
-            case TextType:
-                copy = new CGraphicsTextItem();
-                break;
-
-            case PictureType:
-                copy = new CPictureItem();
-                break;
-            case BlurType:
-                copy = new CGraphicsMasicoItem();
-                break;
-
+    QString filePath;
+    QStringList filePathList;
+    QStringList picturePathList;
+    QStringList ddfPathList;
+    QStringList tempfilePathList;
+    filePath = mp->text();
+    //qDebug() << "QMimeData" << filePath << endl;
+    if (filePath != "") {
+        tempfilePathList = filePath.split("\n");
+        for (int i = 0; i < tempfilePathList.size(); i++) {
+            if (tempfilePathList[i].endsWith(".DDF")) {
+                ddfPathList.append(tempfilePathList[i]);
+            } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
+                       || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+                //图片格式："*.png *.jpg *.bmp *.tif"
+                picturePathList.append(tempfilePathList[i]);
             }
 
-            item->duplicate(copy);
-            if ( copy ) {
-                copy->setSelected(true);
-                copy->moveBy(10, 10);
+        }
+    }
 
-                QUndoCommand *addCommand = new CAddShapeCommand(copy, this->scene());
-                m_pUndoStack->push(addCommand);
+//   qDebug() << "picturePathList" << picturePathList << endl;
+//    qDebug() << "ddfPathList" << ddfPathList << endl;
+    //粘贴剪切板中的图片
+    if (picturePathList.size() > 0) {
+        emit signalPastePicture(picturePathList);
+    } else if (ddfPathList.size() > 0) {
+        //加载剪切板中的ddf文件
+        emit signalPasteDDF(ddfPathList);
+    } else if (mp->hasImage()) {
+        QVariant imageData = mp->imageData();
+        QPixmap pixmap = imageData.value<QPixmap>();
+        if (!pixmap.isNull()) {
+            emit signalPastePixmap(pixmap);
+        }
+    } else {
+        //粘贴画板内部图元
+        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        if ( data ) {
+            scene()->clearSelection();
+            foreach (CGraphicsItem *item, data->itemList() ) {
+                CGraphicsItem *copy = nullptr;
+
+                switch (item->type()) {
+                case RectType:
+                    copy = new CGraphicsRectItem();
+                    break;
+                case EllipseType:
+                    copy = new CGraphicsEllipseItem();
+                    break;
+                case TriangleType:
+                    copy = new CGraphicsTriangleItem();
+                    break;
+                case PolygonalStarType:
+                    copy = new CGraphicsPolygonalStarItem();
+                    break;
+
+                case PolygonType:
+                    copy = new CGraphicsPolygonItem();
+                    break;
+                case LineType:
+                    copy = new CGraphicsLineItem();
+                    break;
+
+                case PenType:
+                    copy = new CGraphicsPenItem();
+                    break;
+                case TextType:
+                    copy = new CGraphicsTextItem();
+                    break;
+
+                case PictureType:
+                    copy = new CPictureItem();
+                    break;
+                case BlurType:
+                    copy = new CGraphicsMasicoItem();
+                    break;
+
+                }
+
+                item->duplicate(copy);
+                if ( copy ) {
+                    copy->setSelected(true);
+                    copy->moveBy(10, 10);
+
+                    QUndoCommand *addCommand = new CAddShapeCommand(copy, this->scene());
+                    m_pUndoStack->push(addCommand);
+                }
             }
         }
     }
-}
 
+}
 
 void CGraphicsView::slotOnSelectAll()
 {
@@ -957,4 +1000,57 @@ bool CGraphicsView::canLayerDown()
 
     return true;
 }
+
+//拖曳加载文件
+void CGraphicsView::dropEvent(QDropEvent *e)
+{
+    if (e->mimeData()->hasText()) {
+        // qDebug() << e->mimeData()->text();
+        QString filePath;
+        //QStringList filePathList;
+        QStringList picturePathList;
+        QStringList ddfPathList;
+        QStringList tempfilePathList;
+        filePath = e->mimeData()->text();
+        //qDebug() << "QMimeData" << filePath << endl;
+        if (filePath != "") {
+            tempfilePathList = filePath.split("\n");
+            for (int i = 0; i < tempfilePathList.size(); i++) {
+                if (tempfilePathList[i].endsWith(".DDF")) {
+                    ddfPathList.append(tempfilePathList[i].replace("file://", ""));
+                } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
+                           || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+                    //图片格式："*.png *.jpg *.bmp *.tif"
+                    picturePathList.append(tempfilePathList[i].replace("file://", ""));
+                }
+
+            }
+        }
+
+        //qDebug() << "picturePathList" << picturePathList << endl;
+        //粘贴拖动图片
+        if (picturePathList.size() > 0) {
+            emit signalPastePicture(picturePathList);
+        } else if (ddfPathList.size() > 0) {
+            //加载拖动的ddf文件
+            emit signalPasteDDF(ddfPathList);
+        }
+    }
+}
+
+void CGraphicsView::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::MoveAction);
+    event->accept();
+}
+
+void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->setDropAction(Qt::MoveAction);
+    event->accept();
+}
+
+
+
+
 

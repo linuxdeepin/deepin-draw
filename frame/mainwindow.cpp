@@ -204,9 +204,10 @@ void MainWindow::slotContinueDoSomeThing()
         m_centralWidget->slotNew();
         break;
     case ImportPictrue:
+        CDrawParamSigleton::GetInstance()->setDdfSavePath("");
         m_centralWidget->getGraphicsView()->clearScene();
         m_centralWidget->getLeftToolBar()->slotShortCutSelect();
-        m_centralWidget->openPicture(CDrawParamSigleton::GetInstance()->getDdfSavePath());
+        m_centralWidget->openPicture(tmpPictruePath);
         break;
     default:
         break;
@@ -230,10 +231,11 @@ void MainWindow::slotShowOpenFileDialog()
         if (!path.isEmpty()) {
             if (QFileInfo(path).suffix() == "DDF") {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+                CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
             } else {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+                tmpPictruePath = path;
             }
-            CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
             slotIsNeedSave();
         }
     }
@@ -342,15 +344,13 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
             } else {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
             }
+            CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
         } else {
             CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+            tmpPictruePath = path;
         }
-
-        CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
         slotIsNeedSave();
-
     }
-
 }
 
 void MainWindow::initScene()

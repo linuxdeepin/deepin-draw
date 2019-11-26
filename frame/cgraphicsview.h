@@ -61,12 +61,21 @@ protected:
 
     virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 
+    void dropEvent(QDropEvent *e);
+
+    void dragEnterEvent(QDragEnterEvent *event);
+
+    void dragMoveEvent(QDragMoveEvent *event);
+
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 signals:
     void signalSetScale(const qreal scale);
     void signalImportPicture(QString path);
     void signalTransmitContinueDoOtherThing();
     void singalTransmitEndLoadDDF();
+    void signalPastePicture(QStringList picturePathList);
+    void signalPasteDDF(QStringList ddfPathList);
+    void signalPastePixmap(QPixmap pixmap);
 
 public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &newPosition );

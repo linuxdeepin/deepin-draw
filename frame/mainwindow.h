@@ -73,6 +73,7 @@ private:
     DrawDialog *m_quitQuestionDialog;
     QAction *m_quitMode;
     QAction *m_showCut;
+    QString tmpPictruePath;
 
 
 private:

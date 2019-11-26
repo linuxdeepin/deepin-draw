@@ -46,10 +46,12 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
         QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
+        item->getTextEdit()->setText("输入文本");
+        item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 //        item->setFont(font);
 
         QFontMetrics fm(font);
-        QRect rect = fm.boundingRect("输入文本");
+        QRect rect = fm.boundingRect(item->getTextEdit()->document()->toPlainText());
 
 
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));

@@ -485,7 +485,6 @@ void TopToolbar::slotIsCutMode(QAction *action)
         emit signalQuitCutModeFromTopBarMenu();
     }
 }
-
 void TopToolbar::slotOnImportAction()
 {
     CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);

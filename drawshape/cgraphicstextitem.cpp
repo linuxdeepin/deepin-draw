@@ -70,7 +70,7 @@ CGraphicsTextItem::~CGraphicsTextItem()
 
 void CGraphicsTextItem::initTextEditWidget()
 {
-    m_pTextEdit = new CTextEdit(QObject::tr("输入文本"), this);
+    m_pTextEdit = new CTextEdit(this);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
 
 

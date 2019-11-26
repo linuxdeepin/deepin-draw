@@ -88,6 +88,9 @@ public slots:
     void openPicture(QString path);
     void slotOnEscButtonClick();
     void slotCutLineEditeFocusChange(bool);
+    void slotPastePicture(QStringList picturePathList);
+    void slotPasteDDF(QStringList ddfPathList);
+    void slotPastePixmap(QPixmap pixmap);
 
 private slots:
     void slotDoSaveImage();

@@ -47,6 +47,7 @@ public slots:
 public:
 
     void drawPicture(CDrawScene *scene, CCentralwidget *centralWindow);
+    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow);
 private:
     //QList<CPictureItem *> m_picturetItems;
     ProgressLayout *m_progressLayout;
