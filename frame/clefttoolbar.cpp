@@ -96,6 +96,7 @@ void CLeftToolBar::initUI()
 //    pa.setColor(DPalette::Background, QColor("#FFFFFF"));
 //    this->setPalette(pa);
 //    this->setBackgroundRole(DPalette::Background);
+    this->setBackgroundRole(DPalette::Base);
 
     setFixedWidth(58);
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;

@@ -419,11 +419,14 @@ void CDrawScene::picOperation(int enumstyle)
                 default:
                     break;
                 }
+                //更新模糊图元
+                updateBlurItem();
 
             }
         }
 
     }
+
 }
 
 void CDrawScene::drawToolChange(int type)
@@ -455,6 +458,7 @@ void CDrawScene::textFontFamilyChanged()
             tmpitem->setFontFamily(CDrawParamSigleton::GetInstance()->getTextFont().family());
         }
     }
+    updateBlurItem();
 }
 
 void CDrawScene::textFontSizeChanged()
@@ -468,6 +472,7 @@ void CDrawScene::textFontSizeChanged()
             tmpitem->setFontSize(CDrawParamSigleton::GetInstance()->getTextFont().pointSizeF());
         }
     }
+    updateBlurItem();
 }
 
 void CDrawScene::updateBlurItem()

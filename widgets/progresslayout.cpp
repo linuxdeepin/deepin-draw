@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "progresslayout.h"
+#include "drawshape/cdrawparamsigleton.h"
 #include <DPalette>
-//#include <DApplicationHelper>
+#include <DApplicationHelper>
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
@@ -27,14 +28,17 @@ ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();
     m_label->setFixedWidth(400);
-    m_label->setText(QString("正在导入图片，请稍候"));
+    //m_label->setText(QString("正在导入图片，请稍候"));
+
+    m_label->setText(tr("Importing, please wait"));
+
     QFont ft;
     ft.setPixelSize(16);
     ft.setFamily(QString("SourceHanSansSC-Medium"));
     m_label->setFont(ft);
     //设置颜色
     DPalette pa1;
-    pa1.setColor(DPalette::Text, QColor("#001a2e"));
+    pa1.setColor(DPalette::WindowText, QColor("#001a2e"));
     m_label->setPalette(pa1);
 
     m_progressLabel = new DLabel();
@@ -84,7 +88,10 @@ void ProgressLayout::setRange(int start, int end)
 void ProgressLayout::setProgressValue(int value)
 {
     m_progressbar->setValue(value);
-    m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
+    //m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
+
+    m_progressLabel->setText(tr("Already imported %1/%2 pictures").arg(value).arg(m_end));
+
     //设置字号
     QFont ft2;
     ft2.setPixelSize(14);
@@ -95,6 +102,28 @@ void ProgressLayout::setProgressValue(int value)
     DPalette pa;
     pa.setColor(DPalette::WindowText, QColor("#6a829f"));
     m_progressLabel->setPalette(pa);
+
+//    DPalette pa;
+//    pa = DApplicationHelper::instance()->palette(m_progressLabel);
+//    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+//        pa.setColor(DPalette::TextTitle, QColor("#6a829f"));
+//    } else {
+//        pa.setColor(DPalette::TextTitle, QColor("#6D7C88"));
+//    }
+//    m_progressLabel->setPalette(pa);
+//    m_progressLabel->setForegroundRole(DPalette::TextTitle);
+
+//    DPalette pa1;
+//    pa1 = DApplicationHelper::instance()->palette(m_label);
+//    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+//        pa1.setColor(DPalette::TextTitle, QColor("#001a2e"));
+//    } else {
+//        pa1.setColor(DPalette::TextTitle, QColor("#A8B7D1"));
+//    }
+//    m_label->setPalette(pa1);
+//    m_label->setForegroundRole(DPalette::TextTitle);
+
+
 
 
 }

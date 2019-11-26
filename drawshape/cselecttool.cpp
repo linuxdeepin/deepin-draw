@@ -252,6 +252,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     }
 
     m_sLastPress = event->scenePos();
+    static_cast<CDrawScene *> (scene)->updateBlurItem();
 
 }
 

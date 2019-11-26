@@ -139,21 +139,25 @@ void TopToolbar::initComboBox()
     //设置初始字体颜色
     setScaleTextColor();
 
-    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-        //设置编辑时颜色
-        DPalette pa1 = m_scaleComboBox->palette();
-        pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
-        m_scaleComboBox->setPalette(pa1);
-        qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-    });
-    connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
-        //设置编辑时颜色
-//        DPalette pa1 = m_scaleComboBox->palette();
-//        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
-//        m_scaleComboBox->setPalette(pa1);
-        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-        setScaleTextColor();
-    });
+//    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
+//        //设置编辑时颜色
+////        DPalette pa1 = m_scaleComboBox->palette();
+////        pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
+////        m_scaleComboBox->setPalette(pa1);
+//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+
+//        m_scaleComboBox->setForegroundRole(DPalette::Highlight);
+//        //m_scaleComboBox->setBackgroundRole(DPalette::Base);
+
+//    });
+//    connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
+//        //设置编辑时颜色
+////        DPalette pa1 = m_scaleComboBox->palette();
+////        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
+////        m_scaleComboBox->setPalette(pa1);
+//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
+//        setScaleTextColor();
+//    });
 
 }
 
@@ -308,13 +312,15 @@ void TopToolbar::changeTopButtonsTheme()
 
 void TopToolbar::setScaleTextColor()
 {
-    DPalette pa1 = m_scaleComboBox->palette();
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-        pa1.setColor(DPalette::ButtonText, "#414D68");
-    } else {
-        pa1.setColor(DPalette::ButtonText, "#C0C6D4");
-    }
-    m_scaleComboBox->setPalette(pa1);
+//    DPalette pa1 = m_scaleComboBox->palette();
+//    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+//        pa1.setColor(DPalette::ButtonText, "#414D68");
+//    } else {
+//        pa1.setColor(DPalette::ButtonText, "#C0C6D4");
+//    }
+//    m_scaleComboBox->setPalette(pa1);
+    // m_scaleComboBox->setForegroundRole(DPalette::Text);
+
 }
 
 void TopToolbar::updateMiddleWidget(int type)

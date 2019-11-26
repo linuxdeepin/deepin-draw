@@ -296,62 +296,62 @@ already exists, do you want to replace?</source>
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="115"/>
+        <location filename="../frame/clefttoolbar.cpp" line="116"/>
         <source>Select(V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="130"/>
+        <location filename="../frame/clefttoolbar.cpp" line="131"/>
         <source>Import(I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="145"/>
+        <location filename="../frame/clefttoolbar.cpp" line="146"/>
         <source>Rectangle(R)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="160"/>
+        <location filename="../frame/clefttoolbar.cpp" line="161"/>
         <source>Ellipse(O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="177"/>
+        <location filename="../frame/clefttoolbar.cpp" line="178"/>
         <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="194"/>
+        <location filename="../frame/clefttoolbar.cpp" line="195"/>
         <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="211"/>
+        <location filename="../frame/clefttoolbar.cpp" line="212"/>
         <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="228"/>
+        <location filename="../frame/clefttoolbar.cpp" line="229"/>
         <source>Line(L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="245"/>
+        <location filename="../frame/clefttoolbar.cpp" line="246"/>
         <source>Pencil(P)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="261"/>
+        <location filename="../frame/clefttoolbar.cpp" line="262"/>
         <source>Text(T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="277"/>
+        <location filename="../frame/clefttoolbar.cpp" line="278"/>
         <source>Blur(B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="293"/>
+        <location filename="../frame/clefttoolbar.cpp" line="294"/>
         <source>Cut(C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -507,6 +507,19 @@ already exists, do you want to replace?</source>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="122"/>
         <source>Radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProgressLayout</name>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="33"/>
+        <source>Importing, please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="93"/>
+        <source>Already imported %1/%2 pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -686,42 +699,42 @@ already exists, do you want to replace?</source>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="248"/>
+        <location filename="../frame/toptoolbar.cpp" line="252"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="232"/>
+        <location filename="../frame/toptoolbar.cpp" line="236"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="237"/>
+        <location filename="../frame/toptoolbar.cpp" line="241"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="243"/>
+        <location filename="../frame/toptoolbar.cpp" line="247"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="253"/>
+        <location filename="../frame/toptoolbar.cpp" line="257"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="258"/>
+        <location filename="../frame/toptoolbar.cpp" line="262"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="273"/>
+        <location filename="../frame/toptoolbar.cpp" line="277"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="276"/>
+        <location filename="../frame/toptoolbar.cpp" line="280"/>
         <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
