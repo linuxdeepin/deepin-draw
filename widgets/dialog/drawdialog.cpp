@@ -59,7 +59,10 @@ DrawDialog::DrawDialog(DWidget *parent)
 //    layout->addStretch();
 //    addContent(w);
 
-    setTitle(tr("The changes you made have not been saved yet. Do you want to save them?"));
+    //setTitle(tr("The changes you made have not been saved yet. Do you want to save them?"));
+
+    //是否保存当前画板内容？
+    setTitle(tr("Save the current contents?"));
 
     connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
         if (id == 0) {

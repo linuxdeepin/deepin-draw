@@ -18,7 +18,7 @@
     </message>
     <message>
         <location filename="../frame/blurwidget.cpp" line="91"/>
-        <source>Fuzzy</source>
+        <source>Blur</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -44,7 +44,7 @@
     <name>CAlphaControlWidget</name>
     <message>
         <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
-        <source>Opacity</source>
+        <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -52,7 +52,7 @@
     <name>CCutWidget</name>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="80"/>
-        <source>Size</source>
+        <source>Dimensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -62,17 +62,17 @@
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="114"/>
-        <source>Ratio</source>
+        <source>Aspect ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ccutwidget.cpp" line="144"/>
+        <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="139"/>
         <source>Free</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/ccutwidget.cpp" line="144"/>
-        <source>Origin</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -114,8 +114,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
+        <source>Unnamed.jpg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
-        <source>Select Other Dir</source>
+        <source>Select other directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -180,9 +185,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="314"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="315"/>
         <source>%1 
-already exists, do you want to replace?</source>
+ already exists, do you want to replace it?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -259,37 +264,37 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="257"/>
-        <source>Left Alignment</source>
+        <source>Text Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="259"/>
-        <source>Right Alignment</source>
+        <source>Text Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="260"/>
-        <source>Center Alignment</source>
+        <source>Text Align Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="833"/>
-        <source>保存文件</source>
+        <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="835"/>
-        <source>另存为</source>
+        <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="841"/>
-        <source>画图.DDF</source>
+        <source>Unnamed.DDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="856"/>
-        <source>打开文件</source>
+        <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -352,7 +357,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="294"/>
-        <source>Cut(C)</source>
+        <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -365,7 +370,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="109"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -384,6 +389,29 @@ already exists, do you want to replace?</source>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="77"/>
         <source>30 pictures are allowed to be imported at most, already imported %1 pictures, please try again</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CPictureWidget</name>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="77"/>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="93"/>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="107"/>
+        <source>Flip horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="121"/>
+        <source>Flip vertically</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -431,7 +459,7 @@ already exists, do you want to replace?</source>
     <name>CommonshapeWidget</name>
     <message>
         <location filename="../frame/commonshapewidget.cpp" line="76"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -453,8 +481,8 @@ already exists, do you want to replace?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="62"/>
-        <source>The changes you made have not been saved yet. Do you want to save them?</source>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="65"/>
+        <source>Save the current contents?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -467,7 +495,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="114"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -483,12 +511,12 @@ already exists, do you want to replace?</source>
     <name>PolygonAttributeWidget</name>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="82"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="91"/>
-        <source>SidesNumber</source>
+        <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -496,30 +524,17 @@ already exists, do you want to replace?</source>
     <name>PolygonalStarAttributeWidget</name>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
-        <source>AnchorPoints</source>
+        <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="122"/>
-        <source>Radius</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ProgressLayout</name>
-    <message>
-        <location filename="../widgets/progresslayout.cpp" line="33"/>
-        <source>Importing, please wait</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../widgets/progresslayout.cpp" line="93"/>
-        <source>Already imported %1/%2 pictures</source>
+        <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -528,6 +543,16 @@ already exists, do you want to replace?</source>
     <message>
         <location filename="../drawshape/cgraphicstextitem.cpp" line="73"/>
         <source>输入文本</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="33"/>
+        <source>Importing pictures, please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="92"/>
+        <source>Already imported %1/%2 pictures</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -735,7 +760,7 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="280"/>
-        <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
+        <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

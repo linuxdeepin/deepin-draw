@@ -40,8 +40,12 @@
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="91"/>
         <source>Fuzzy</source>
+        <translation type="vanished">模糊</translation>
+    </message>
+    <message>
+        <location filename="../frame/blurwidget.cpp" line="91"/>
+        <source>Blur</source>
         <translation>模糊</translation>
     </message>
     <message>
@@ -70,13 +74,13 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
+        <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
         <source>Alpha</source>
-        <translation type="vanished">透明度</translation>
+        <translation>透明度</translation>
     </message>
     <message>
-        <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
         <source>Opacity</source>
-        <translation>不透明度</translation>
+        <translation type="vanished">不透明度</translation>
     </message>
 </context>
 <context>
@@ -145,9 +149,13 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="80"/>
         <source>Size</source>
-        <translation>字号</translation>
+        <translation type="vanished">字号</translation>
+    </message>
+    <message>
+        <location filename="../frame/ccutwidget.cpp" line="80"/>
+        <source>Dimensions</source>
+        <translation>尺寸</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="93"/>
@@ -156,8 +164,17 @@
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="114"/>
-        <source>Ratio</source>
+        <source>Aspect ratio</source>
         <translation>比例</translation>
+    </message>
+    <message>
+        <location filename="../frame/ccutwidget.cpp" line="144"/>
+        <source>Original</source>
+        <translation>原始</translation>
+    </message>
+    <message>
+        <source>Ratio</source>
+        <translation type="vanished">比例</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="139"/>
@@ -165,9 +182,8 @@
         <translation>自由</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="144"/>
         <source>Origin</source>
-        <translation>原始</translation>
+        <translation type="vanished">原始</translation>
     </message>
 </context>
 <context>
@@ -208,9 +224,18 @@
         <translation>音乐</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
         <source>Select Other Dir</source>
-        <translation>选择其他文件夹</translation>
+        <translation type="vanished">选择其他文件夹</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
+        <source>Unnamed.jpg</source>
+        <translation>未命名.jpg</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
+        <source>Select other directories</source>
+        <translation>选择其他目录</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="143"/>
@@ -274,10 +299,15 @@
         <translation>替换</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="314"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="315"/>
+        <source>%1 
+ already exists, do you want to replace it?</source>
+        <translation>%1 已经存在，您是否要替换？</translation>
+    </message>
+    <message>
         <source>%1 
 already exists, do you want to replace?</source>
-        <translation>&quot;%1&quot;已经存在，您是否要替换？</translation>
+        <translation type="vanished">&quot;%1&quot;已经存在，您是否要替换？</translation>
     </message>
     <message>
         <source>%1 already exists, do you want to replace?</source>
@@ -377,27 +407,54 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="257"/>
-        <source>Left Alignment</source>
+        <source>Text Align Left</source>
         <translation>左对齐</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="259"/>
+        <source>Text Align Right</source>
+        <translation>右对齐</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="260"/>
+        <source>Text Align Center</source>
+        <translation>居中对齐</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="833"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="835"/>
+        <source>Save as</source>
+        <translation>另存为</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="841"/>
+        <source>Unnamed.DDF</source>
+        <translation>未命名.DDF</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="856"/>
+        <source>Open</source>
+        <translation>打开</translation>
+    </message>
+    <message>
+        <source>Left Alignment</source>
+        <translation type="vanished">左对齐</translation>
     </message>
     <message>
         <source>Top Alignment</source>
         <translation type="vanished">顶对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Right Alignment</source>
-        <translation>右对齐</translation>
+        <translation type="vanished">右对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="260"/>
         <source>Center Alignment</source>
-        <translation>居中对齐</translation>
-    </message>
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="856"/>
-        <source>打开文件</source>
-        <translation></translation>
+        <translation type="vanished">居中对齐</translation>
     </message>
     <message>
         <source>Left align</source>
@@ -414,21 +471,6 @@ already exists, do you want to replace?</source>
     <message>
         <source>Center align</source>
         <translation type="vanished">居中对齐</translation>
-    </message>
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="833"/>
-        <source>保存文件</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="835"/>
-        <source>另存为</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="841"/>
-        <source>画图.DDF</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -554,8 +596,12 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="294"/>
+        <source>Crop(C)</source>
+        <translation>裁剪（C）</translation>
+    </message>
+    <message>
         <source>Cut(C)</source>
-        <translation>裁切（C）</translation>
+        <translation type="vanished">裁切（C）</translation>
     </message>
 </context>
 <context>
@@ -571,8 +617,12 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="109"/>
-        <source>Border Width</source>
+        <source>Width</source>
         <translation>描边粗细</translation>
+    </message>
+    <message>
+        <source>Border Width</source>
+        <translation type="vanished">描边粗细</translation>
     </message>
     <message>
         <source>BorderWidth</source>
@@ -598,6 +648,29 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
+    <name>CPictureWidget</name>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="77"/>
+        <source>Rotate 90° CCW</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="93"/>
+        <source>Rotate 90° CW</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="107"/>
+        <source>Flip horizontally</source>
+        <translation>水平翻转</translation>
+    </message>
+    <message>
+        <location filename="../frame/cpicturewidget.cpp" line="121"/>
+        <source>Flip vertically</source>
+        <translation>垂直翻转</translation>
+    </message>
+</context>
+<context>
     <name>CPrintManager</name>
     <message>
         <location filename="../widgets/dialog/cprintmanager.cpp" line="57"/>
@@ -612,7 +685,7 @@ already exists, do you want to replace?</source>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Exporting</source>
-        <translation>涂抹笔粗细</translation>
+        <translation>正在导出</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
@@ -711,8 +784,12 @@ already exists, do you want to replace?</source>
         <translation type="vanished">描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="76"/>
         <source>Border Width</source>
+        <translation type="vanished">描边粗细</translation>
+    </message>
+    <message>
+        <location filename="../frame/commonshapewidget.cpp" line="76"/>
+        <source>Width</source>
         <translation>描边粗细</translation>
     </message>
 </context>
@@ -772,13 +849,13 @@ already exists, do you want to replace?</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/drawdialog.cpp" line="62"/>
         <source>The changes you made have not been saved yet. Do you want to save them?</source>
-        <translation>您所做的修改尚未保存，是否保存？</translation>
+        <translation type="vanished">您所做的修改尚未保存，是否保存？</translation>
     </message>
     <message>
+        <location filename="../widgets/dialog/drawdialog.cpp" line="65"/>
         <source>Save the current contents?</source>
-        <translation type="vanished">是否保存当前画板内容？</translation>
+        <translation>是否保存当前画板内容？</translation>
     </message>
 </context>
 <context>
@@ -854,8 +931,9 @@ already exists, do you want to replace?</source>
         <translation type="vanished">样式</translation>
     </message>
     <message>
+        <location filename="../frame/linewidget.cpp" line="114"/>
         <source>Width</source>
-        <translation type="vanished">粗细</translation>
+        <translation>描边粗细</translation>
     </message>
     <message>
         <source>类型</source>
@@ -867,9 +945,8 @@ already exists, do you want to replace?</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="114"/>
         <source>Border Width</source>
-        <translation>描边粗细</translation>
+        <translation type="vanished">描边粗细</translation>
     </message>
     <message>
         <source>BorderWidth</source>
@@ -950,13 +1027,21 @@ already exists, do you want to replace?</source>
         <translation type="vanished">描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/polygonattributewidget.cpp" line="82"/>
         <source>Border Width</source>
+        <translation type="vanished">描边粗细</translation>
+    </message>
+    <message>
+        <source>SidesNumber</source>
+        <translation type="vanished">侧边数</translation>
+    </message>
+    <message>
+        <location filename="../frame/polygonattributewidget.cpp" line="82"/>
+        <source>Width</source>
         <translation>描边粗细</translation>
     </message>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="91"/>
-        <source>SidesNumber</source>
+        <source>Sides</source>
         <translation>侧边数</translation>
     </message>
 </context>
@@ -967,32 +1052,46 @@ already exists, do you want to replace?</source>
         <translation type="vanished">描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
         <source>Border Width</source>
+        <translation type="vanished">描边粗细</translation>
+    </message>
+    <message>
+        <source>AnchorPoints</source>
+        <translation type="vanished">锚点数</translation>
+    </message>
+    <message>
+        <source>Radius</source>
+        <translation type="vanished">半径</translation>
+    </message>
+    <message>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
+        <source>Width</source>
         <translation>描边粗细</translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
-        <source>AnchorPoints</source>
-        <translation>锚点数</translation>
+        <source>Points</source>
+        <translation>锚点</translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="122"/>
-        <source>Radius</source>
+        <source>Diameter</source>
         <translation>半径</translation>
     </message>
 </context>
 <context>
     <name>ProgressLayout</name>
     <message>
-        <location filename="../widgets/progresslayout.cpp" line="33"/>
         <source>Importing, please wait</source>
-        <translation>正在导入图片，请稍候</translation>
+        <translation type="vanished">正在导入图片，请稍候</translation>
     </message>
     <message>
-        <location filename="../widgets/progresslayout.cpp" line="93"/>
+        <source>Importing pictures, please wait...</source>
+        <translation type="vanished">正在导入图片，请稍候...</translation>
+    </message>
+    <message>
         <source>Already imported %1/%2 pictures</source>
-        <translation>已导入%1/%2张</translation>
+        <translation type="vanished">已导入%1/%2张</translation>
     </message>
 </context>
 <context>
@@ -1013,6 +1112,16 @@ already exists, do you want to replace?</source>
     <message>
         <source>deepin-draw</source>
         <translation type="vanished">画板</translation>
+    </message>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="33"/>
+        <source>Importing pictures, please wait...</source>
+        <translation>正在导入图片，请稍候...</translation>
+    </message>
+    <message>
+        <location filename="../widgets/progresslayout.cpp" line="92"/>
+        <source>Already imported %1/%2 pictures</source>
+        <translation>已导入%1/%2张</translation>
     </message>
 </context>
 <context>
@@ -1393,8 +1502,12 @@ already exists, do you want to replace?</source>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="280"/>
+        <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
+        <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
+    </message>
+    <message>
         <source>Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. </source>
-        <translation>画板是一款轻量级的绘图工具，可在画板上自由绘图或对图片进行简单的编辑。</translation>
+        <translation type="vanished">画板是一款轻量级的绘图工具，可在画板上自由绘图或对图片进行简单的编辑。</translation>
     </message>
     <message>
         <source>Theme</source>

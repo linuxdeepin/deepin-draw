@@ -291,7 +291,7 @@ void CLeftToolBar::initUI()
 
     m_cutBtn = new CCheckButton(pictureMap, QSize(48, 48), this);
     m_cutBtn->setFocusPolicy(Qt::NoFocus);
-    m_cutBtn->setToolTip(tr("Cut(C)"));
+    m_cutBtn->setToolTip(tr("Crop(C)"));
     m_actionButtons.append(m_cutBtn);
 
     m_layout = new QVBoxLayout(this);

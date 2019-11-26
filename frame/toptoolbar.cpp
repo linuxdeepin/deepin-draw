@@ -276,8 +276,8 @@ void TopToolbar::initMenu()
     dApp->setProductIcon(t_icon);
     dApp->setProductName(tr("Draw"));
 
-
-    dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool. You can freely draw on the layer or simply edit images. "));
+    //画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。
+    dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool for users to freely draw and simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
     //dApp->setApplicationAcknowledgementPage("https://www.chinauos.com/");
 

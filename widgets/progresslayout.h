@@ -29,6 +29,8 @@ DWIDGET_USE_NAMESPACE
 
 class ProgressLayout: public DBlurEffectWidget
 {
+
+    Q_OBJECT
 public:
     ProgressLayout(DBlurEffectWidget *parent = nullptr);
     ~ProgressLayout();

@@ -49,7 +49,7 @@ CExportImageDialog::~CExportImageDialog()
 
 void CExportImageDialog::showMe()
 {
-    m_fileNameEdit->setText("deepin.jpg");
+    m_fileNameEdit->setText(tr("Unnamed.jpg"));
 
 
     if (m_savePathCombox->count() == Other + 1) {
@@ -135,7 +135,7 @@ void CExportImageDialog::initUI()
     m_savePathCombox->insertItem(Desktop, tr("Desktop"));
     m_savePathCombox->insertItem(Videos, tr("Videos"));
     m_savePathCombox->insertItem(Music, tr("Music"));
-    m_savePathCombox->insertItem(UsrSelect, tr("Select Other Dir"));
+    m_savePathCombox->insertItem(UsrSelect, tr("Select other directories"));
     m_savePathCombox->setFixedSize(LINE_EDIT_SIZE);
 
 
@@ -311,7 +311,8 @@ void CExportImageDialog::showDirChoseDialog()
 
 void CExportImageDialog::showQuestionDialog(const QString &path)
 {
-    m_questionDialog->setMessage((QString(tr("%1 \nalready exists, do you want to replace?")).arg(path)));
+    //“XXX”已经存在，您是否要替换？
+    m_questionDialog->setMessage((QString(tr("%1 \n already exists, do you want to replace it?")).arg(path)));
     m_questionDialog->show();
 }
 

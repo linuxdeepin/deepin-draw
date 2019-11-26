@@ -79,7 +79,7 @@ void PolygonAttributeWidget::initUI()
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("Border Width"));
+    lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);
@@ -88,7 +88,7 @@ void PolygonAttributeWidget::initUI()
 
 
     DLabel *sideNumLabel = new DLabel(this);
-    sideNumLabel->setText(tr("SidesNumber"));
+    sideNumLabel->setText(tr("Sides"));
     sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSlider(Qt::Horizontal, this);

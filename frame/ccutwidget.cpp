@@ -77,7 +77,7 @@ void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
     //sizeLabel->setText(tr("尺寸"));
-    sizeLabel->setText(tr("Size"));
+    sizeLabel->setText(tr("Dimensions"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
     sizeLabel->setFont(ft);
@@ -111,7 +111,7 @@ void CCutWidget::initUI()
 
     DLabel *scaleLabel = new DLabel(this);
     //scaleLabel->setText(tr("比例"));
-    scaleLabel->setText(tr("Ratio"));
+    scaleLabel->setText(tr("Aspect ratio"));
 
     scaleLabel->setFont(ft);
 
@@ -141,7 +141,7 @@ void CCutWidget::initUI()
 
     m_originalBtn = new DPushButton(this);
     //m_originalBtn->setText(tr("原始"));
-    m_originalBtn->setText(tr("Origin"));
+    m_originalBtn->setText(tr("Original"));
     m_originalBtn->setFont(pushBtnFont);
 
     m_scaleBtn1_1->setCheckable(true);

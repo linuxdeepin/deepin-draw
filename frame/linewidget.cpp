@@ -111,7 +111,7 @@ void LineWidget::initUI()
 
     DLabel *lwLabel = new DLabel(this);
     lwLabel->setObjectName("Border Label");
-    lwLabel->setText(tr("Border Width"));
+    lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);

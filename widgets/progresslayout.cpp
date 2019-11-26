@@ -20,6 +20,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include <DPalette>
 #include <DApplicationHelper>
+#include <QObject>
 DGUI_USE_NAMESPACE
 
 ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
@@ -28,9 +29,8 @@ ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
     m_progressVBoxLayout = new QVBoxLayout();
     m_label = new DLabel();
     m_label->setFixedWidth(400);
-    //m_label->setText(QString("正在导入图片，请稍候"));
 
-    m_label->setText(tr("Importing, please wait"));
+    m_label->setText(QObject::tr("Importing pictures, please wait..."));
 
     QFont ft;
     ft.setPixelSize(16);
@@ -88,9 +88,8 @@ void ProgressLayout::setRange(int start, int end)
 void ProgressLayout::setProgressValue(int value)
 {
     m_progressbar->setValue(value);
-    //m_progressLabel->setText(QString::fromLocal8Bit("已导入%1/%2张").arg(value).arg(m_end));
-
-    m_progressLabel->setText(tr("Already imported %1/%2 pictures").arg(value).arg(m_end));
+    //已导入%1/%2张
+    m_progressLabel->setText(QObject::tr("Already imported %1/%2 pictures").arg(value).arg(m_end));
 
     //设置字号
     QFont ft2;

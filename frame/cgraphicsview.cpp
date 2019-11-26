@@ -158,7 +158,7 @@ void CGraphicsView::initContextMenu()
     m_undoAct->setShortcut(QKeySequence::Undo);
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
-    m_contextMenu->addAction(m_redoAct);
+    //m_contextMenu->addAction(m_redoAct);
     m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
     this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
@@ -254,10 +254,10 @@ void CGraphicsView::initTextContextMenu()
     QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
     fakeLayerToBottomAct->setEnabled(false);
 
-    m_textLeftAlignAct = new QAction(tr("Left Alignment"));
+    m_textLeftAlignAct = new QAction(tr("Text Align Left"));
     //m_textTopAlignAct = new QAction(tr("Top Alignment"));
-    m_textRightAlignAct = new QAction(tr("Right Alignment" ));
-    m_textCenterAlignAct = new QAction(tr("Center Alignment"));
+    m_textRightAlignAct = new QAction(tr("Text Align Right" ));
+    m_textCenterAlignAct = new QAction(tr("Text Align Center"));
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
@@ -830,15 +830,15 @@ void CGraphicsView::showSaveDDFDialog(bool type)
 {
     DFileDialog dialog(this);
     if (type) {
-        dialog.setWindowTitle(tr("保存文件"));
+        dialog.setWindowTitle(tr("Save"));
     } else {
-        dialog.setWindowTitle(tr("另存为"));
+        dialog.setWindowTitle(tr("Save as"));
     }//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptSave);//设置文件对话框为保存模式
     dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    dialog.selectFile(tr("画图.DDF"));//设置默认的文件名
+    dialog.selectFile(tr("Unnamed.DDF"));//设置默认的文件名
     QStringList nameFilters;
     nameFilters << "*.DDF";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
@@ -853,7 +853,7 @@ void CGraphicsView::showSaveDDFDialog(bool type)
 void CGraphicsView::doImport()
 {
     DFileDialog dialog(this);
-    dialog.setWindowTitle(tr("打开文件"));//设置文件保存对话框的标题
+    dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
     dialog.setFileMode(DFileDialog::ExistingFile);

@@ -43,7 +43,7 @@ void CAlphaControlWidget::initUI()
 
     DLabel *nameLabel = new DLabel(this);
 
-    nameLabel->setText(tr("Opacity"));
+    nameLabel->setText(tr("Alpha"));
 
     QFont nameLabelFont = nameLabel->font();
     nameLabelFont.setPixelSize(12);

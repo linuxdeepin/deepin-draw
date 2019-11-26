@@ -399,7 +399,7 @@ void CGraphicsPenItem::drawComplete()
             vout.lineTo(dot6);
 
         }
-
+        prepareGeometryChange();
         m_path = vout;
 
     }

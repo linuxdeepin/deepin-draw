@@ -74,6 +74,7 @@ void CPictureWidget::initUI()
 
 
     m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.svg");
@@ -89,6 +90,7 @@ void CPictureWidget::initUI()
 
 
     m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip horizontal_normal.svg");
@@ -102,6 +104,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disable.svg");
 
     m_flipHBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_flipHBtn->setToolTip(tr("Flip horizontally"));
 
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip vertical_normal.svg");
@@ -115,6 +118,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disable.svg");
 
     m_flipVBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_flipVBtn->setToolTip(tr("Flip vertically"));
 
 
     QHBoxLayout *layout = new QHBoxLayout(this);

@@ -78,7 +78,7 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_sepLine = new SeperatorLine(this);
     DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("Border Width"));
+    lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
     lwLabel->setFont(ft1);
@@ -87,7 +87,7 @@ void PolygonalStarAttributeWidget::initUI()
 
 
     DLabel *anchorNumLabel = new DLabel(this);
-    anchorNumLabel->setText(tr("AnchorPoints"));
+    anchorNumLabel->setText(tr("Points"));
     anchorNumLabel->setFont(ft1);
 
     m_anchorNumSlider = new DSlider(Qt::Horizontal, this);
@@ -119,7 +119,7 @@ void PolygonalStarAttributeWidget::initUI()
 
 
     DLabel *radiusLabel = new DLabel(this);
-    radiusLabel->setText(tr("Radius"));
+    radiusLabel->setText(tr("Diameter"));
     radiusLabel->setFont(ft1);
 
     m_radiusNumSlider = new DSlider(Qt::Horizontal, this);
