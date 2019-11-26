@@ -458,7 +458,6 @@ void CDrawScene::textFontFamilyChanged()
             tmpitem->setFontFamily(CDrawParamSigleton::GetInstance()->getTextFont().family());
         }
     }
-    updateBlurItem();
 }
 
 void CDrawScene::textFontSizeChanged()
@@ -472,7 +471,6 @@ void CDrawScene::textFontSizeChanged()
             tmpitem->setFontSize(CDrawParamSigleton::GetInstance()->getTextFont().pointSizeF());
         }
     }
-    updateBlurItem();
 }
 
 void CDrawScene::updateBlurItem()
