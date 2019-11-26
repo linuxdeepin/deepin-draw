@@ -206,10 +206,6 @@ void CCentralwidget::slotSaveAs()
     m_pGraphicsView->showSaveDDFDialog(false);
 }
 
-void CCentralwidget::slotImport()
-{
-    m_pGraphicsView->doImport();
-}
 
 void CCentralwidget::slotTextFontFamilyChanged()
 {

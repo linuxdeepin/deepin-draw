@@ -26,7 +26,6 @@
 #include <QLabel>
 #include <QPainter>
 #include <QPaintEvent>
-#include <QTimer>
 
 PushButton::PushButton(DWidget *parent)
     : DPushButton(parent)

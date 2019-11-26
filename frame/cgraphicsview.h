@@ -44,9 +44,8 @@ public:
     void scale(qreal scale);
     void showSaveDDFDialog(bool);
     void doSaveDDF();
-    void doImport();
     void setContextMenuAndActionEnable(bool enable);
-    void importData(const QString &path);
+    void importData(const QString &path, bool isOpenByDDF = false);
     void disableCutShortcut(bool);
 
 

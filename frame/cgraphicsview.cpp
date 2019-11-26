@@ -862,35 +862,9 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     }
 }
 
-void CGraphicsView::doImport()
+void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
 {
-    DFileDialog dialog(this);
-    dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
-    dialog.setViewMode(DFileDialog::List);
-    dialog.setFileMode(DFileDialog::ExistingFile);
-    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    //dialog.set
-    QStringList nameFilters;
-    nameFilters << "*.DDF *.png *.jpg *.bmp *.tif";
-    dialog.setNameFilters(nameFilters);//设置文件类型过滤器
-    if (dialog.exec()) {
-        QString path = dialog.selectedFiles().first();
-        if (!path.isEmpty() && QFileInfo(path).suffix() == "DDF") {
-            m_DDFManager->loadDDF(path);
-        } else {
-            emit signalImportPicture(path);
-        }
-    }
-}
-
-void CGraphicsView::importData(const QString &path)
-{
-    if (!path.isEmpty() && QFileInfo(path).suffix() == "DDF") {
-        m_DDFManager->loadDDF(path, true);
-    } else {
-        emit signalImportPicture(path);
-    }
+    m_DDFManager->loadDDF(path, isOpenByDDF);
 }
 
 void CGraphicsView::disableCutShortcut(bool isFocus)

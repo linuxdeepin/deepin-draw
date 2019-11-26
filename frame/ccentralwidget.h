@@ -82,7 +82,6 @@ public slots:
     void slotShowCutItem();
     void slotSaveToDDF();
     void slotSaveAs();
-    void slotImport();
     void slotTextFontFamilyChanged();
     void slotTextFontSizeChanged();
     void openPicture(QString path);

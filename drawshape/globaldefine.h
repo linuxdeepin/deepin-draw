@@ -93,9 +93,11 @@ enum EBlurEffect {
 };
 
 enum ESaveDDFTriggerAction {
-    QuitApp,
-    LoadDDF,
-    NewDrawingBoard,
-    SaveAction
+    QuitApp, //保存完后退出画板
+    LoadDDF, //保存完后导入ＤＤＦ文件
+    StartByDDF,
+    NewDrawingBoard,//保存完后新建画板
+    ImportPictrue,//保存完后打开图片文件
+    SaveAction//正常保存　保存完后不做任何事
 };
 #endif // GLODEFINE_H

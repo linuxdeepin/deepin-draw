@@ -28,6 +28,8 @@
 #include "utils/shortcut.h"
 
 #include <DTitlebar>
+#include <DFileDialog>
+
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QDebug>
@@ -36,6 +38,7 @@
 #include <QMessageBox>
 #include <QDesktopWidget>
 #include <QProcess>
+#include <QStandardPaths>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -72,6 +75,7 @@ void MainWindow::initUI()
     }
 
     m_topToolbar = new TopToolbar(this);
+    m_topToolbar->setFrameShape(DFrame::NoFrame);
     m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
     m_topToolbar->setFixedHeight(titlebar()->height());
     //qDebug() << "titlebar()->height()" << titlebar()->height() << endl;
@@ -133,7 +137,7 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
-    connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotIsNeedSave()));
+    connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
 
     connect(m_quitQuestionDialog, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
 
@@ -188,13 +192,45 @@ void MainWindow::slotContinueDoSomeThing()
         qApp->quit();
         break;
     case LoadDDF:
-        m_centralWidget->slotImport();
+        m_centralWidget->getGraphicsView()->importData(m_tmpLoadFilePath);
+        break;
+    case StartByDDF:
+        m_centralWidget->getGraphicsView()->importData(m_tmpLoadFilePath, true);
         break;
     case NewDrawingBoard:
         m_centralWidget->slotNew();
         break;
+    case ImportPictrue:
+        m_centralWidget->openPicture(m_tmpLoadFilePath);
+        break;
     default:
         break;
+    }
+}
+
+void MainWindow::slotShowOpenFileDialog()
+{
+    DFileDialog dialog(this);
+    dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
+    dialog.setViewMode(DFileDialog::List);
+    dialog.setFileMode(DFileDialog::ExistingFile);
+    dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
+    //dialog.set
+    QStringList nameFilters;
+    nameFilters << "*.DDF *.png *.jpg *.bmp *.tif";
+    dialog.setNameFilters(nameFilters);//设置文件类型过滤器
+    if (dialog.exec()) {
+        QString path = dialog.selectedFiles().first();
+        if (!path.isEmpty()) {
+            if (QFileInfo(path).suffix() == "DDF") {
+                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+            } else {
+                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+            }
+            m_tmpLoadFilePath = path;
+            slotIsNeedSave();
+        }
     }
 }
 
@@ -292,10 +328,21 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     DMainWindow::wheelEvent(event);
 }
 
-
-void MainWindow::openImage(QString path)
+void MainWindow::openImage(QString path, bool isStartByDDF)
 {
-    m_centralWidget->getGraphicsView()->importData(path);
+    if (!path.isEmpty()) {
+        if (QFileInfo(path).suffix() == "DDF") {
+            if (isStartByDDF) {
+                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
+            } else {
+                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+            }
+        } else {
+            CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+        }
+    }
+    m_tmpLoadFilePath = path;
+    slotIsNeedSave();
 }
 
 void MainWindow::initScene()

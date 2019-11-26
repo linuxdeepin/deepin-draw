@@ -41,7 +41,7 @@ public:
 
     void activeWindow();
     void showDrawDialog();
-    void openImage(QString path);
+    void openImage(QString path, bool isStartByDDF = false);
     void initScene();
 
 
@@ -63,6 +63,8 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
+private slots:
+    void slotShowOpenFileDialog();
 private:
     TopToolbar *m_topToolbar;
     CCentralwidget *m_centralWidget;
@@ -71,6 +73,7 @@ private:
     DrawDialog *m_quitQuestionDialog;
     QAction *m_quitMode;
     QAction *m_showCut;
+    QString m_tmpLoadFilePath;
 
 
 private:
