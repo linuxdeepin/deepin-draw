@@ -147,7 +147,7 @@ QRectF CGraphicsPenItem::rect() const
     }
 
     if (arrow == m_currentType) {
-        path.addPolygon(m_arrow);
+//        path.addPolygon(m_arrow);
         return path.controlPointRect().normalized();
     } else {
         return path.controlPointRect().normalized();
