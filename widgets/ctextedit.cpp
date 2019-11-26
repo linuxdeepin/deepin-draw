@@ -18,6 +18,8 @@
  */
 #include "ctextedit.h"
 #include "drawshape/cgraphicstextitem.h"
+#include "drawshape/cdrawscene.h"
+#include "drawshape/cgraphicsmasicoitem.h"
 #include <DMenu>
 #include <DApplication>
 #include <QAction>
@@ -94,6 +96,9 @@ void CTextEdit::slot_textChanged()
     }
 
     m_widthF = rect.width();
+
+    //更新字图元
+    CDrawScene::GetInstance()->updateBlurItem();
 //    if (size.height() > rect.size().height()) {
 //        rect.setSize(size);
 //        m_pItem->setRect(rect);

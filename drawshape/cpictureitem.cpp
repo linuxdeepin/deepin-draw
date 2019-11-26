@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpictureitem.h"
-
+#include "cdrawscene.h"
 #include <QPainter>
 #include <QDebug>
 
@@ -99,6 +99,7 @@ void CPictureItem::setMirror(bool hor, bool ver)
     QImage mirrorImage = image.mirrored(hor, ver);
     m_pixmap = QPixmap::fromImage(mirrorImage);
     update();
+    CDrawScene::GetInstance()->updateBlurItem();
 }
 
 
@@ -114,6 +115,8 @@ void CPictureItem::setRotation90(bool leftOrRight)
         m_angle = m_angle + 90.0;
         this->setRotation(m_angle);
     }
+
+    CDrawScene::GetInstance()->updateBlurItem();
 }
 
 void CPictureItem::duplicate(CGraphicsItem *item)

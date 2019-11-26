@@ -161,14 +161,17 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
                                      change == QGraphicsItem::ItemZValueHasChanged ||
                                      change == QGraphicsItem::ItemOpacityHasChanged ||
                                      change == QGraphicsItem::ItemRotationHasChanged ||
+                                     change == QGraphicsItem::ItemTransformOriginPointHasChanged ||
                                      (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr))) {
-        QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
-        //QList<QGraphicsItem *> items = this->collidingItems();
-        foreach (QGraphicsItem *item, items) {
-            if (item->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-            }
-        }
+//        QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
+//        //QList<QGraphicsItem *> items = this->collidingItems();
+//        foreach (QGraphicsItem *item, items) {
+//            if (item->type() == BlurType) {
+//                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+//            }
+//        }
+
+        CDrawScene::GetInstance()->updateBlurItem();
     }
 
     return value;
