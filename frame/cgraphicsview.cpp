@@ -222,12 +222,12 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_primitiveZoomOutAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomOut()));
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
-    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
-        m_bringToFrontAct->setEnabled(true);
-        m_sendTobackAct->setEnabled(true);
-        m_oneLayerUpAct->setEnabled(true);
-        m_oneLayerDownAct->setEnabled(true);
-    });
+//    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
+//        m_bringToFrontAct->setEnabled(true);
+//        m_sendTobackAct->setEnabled(true);
+//        m_oneLayerUpAct->setEnabled(true);
+//        m_oneLayerDownAct->setEnabled(true);
+//    });
 }
 
 void CGraphicsView::initTextContextMenu()
