@@ -46,6 +46,7 @@ class CTitleWidget;
 
 class ArrowRectangle;
 class ColorPanel;
+class CMenu;
 
 class TopToolbar : public DFrame
 {
@@ -135,7 +136,7 @@ private:
     DrawStatus  m_drawStatus;
     //DComboBox  *m_scaleComboBox;
     CPushButton  *m_scaleComboBox;
-    DMenu *m_mainMenu;
+    CMenu *m_mainMenu;
 
     QAction *m_saveAction;
     QAction *m_newAction;

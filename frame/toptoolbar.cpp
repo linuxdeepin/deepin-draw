@@ -33,6 +33,7 @@
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
+#include "widgets/cmenu.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -227,7 +228,7 @@ void TopToolbar::initStackWidget()
 void TopToolbar::initMenu()
 {
 
-    m_mainMenu = new DMenu(this);
+    m_mainMenu = new CMenu(this);
     m_mainMenu->setFixedWidth(162);
     //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
     //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
