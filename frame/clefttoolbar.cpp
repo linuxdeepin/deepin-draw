@@ -78,25 +78,15 @@ void CLeftToolBar::enterEvent(QEvent *event)
 void CLeftToolBar::initUI()
 {
     //设置颜色
-//    DPalette pa;
-//    pa = DApplicationHelper::instance()->palette(this);
+    DPalette pa = this->palette();
 
-
-//    //if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-//    pa.setColor(DPalette::Background, QColor("#FFFFFF"));
-//    this->setBackgroundRole(DPalette::Background);
-//    this->setPalette(pa);
-    //}
-//    else {
-//        pa.setColor(DPalette::Background, QColor("#6a829f"));
-//        this->setPalette(pa);
-//    }
-//    DPalette pa;
-//    pa = DApplicationHelper::instance()->palette(this);
-//    pa.setColor(DPalette::Background, QColor("#FFFFFF"));
-//    this->setPalette(pa);
-//    this->setBackgroundRole(DPalette::Background);
-    this->setBackgroundRole(DPalette::Base);
+    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pa.setColor(DPalette::Background, QColor("#FFFFFF"));
+    } else {
+        pa.setColor(DPalette::Background, QColor("#282828"));
+    }
+    this->setPalette(pa);
+    this->setAutoFillBackground(true);
 
     setFixedWidth(58);
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
