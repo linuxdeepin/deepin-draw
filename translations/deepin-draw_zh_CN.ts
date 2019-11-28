@@ -961,6 +961,13 @@ already exists, do you want to replace?</source>
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>Deepin Draw</source>
+        <translation>画板</translation>
+    </message>
+</context>
+<context>
     <name>MainWidget</name>
     <message>
         <source>Cut</source>
