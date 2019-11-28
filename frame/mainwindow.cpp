@@ -59,6 +59,7 @@ MainWindow::MainWindow(DWidget *parent)
 void MainWindow::initUI()
 {
     window()->setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("Deepin Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
