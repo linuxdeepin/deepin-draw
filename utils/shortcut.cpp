@@ -43,8 +43,8 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       << ShortcutItem(tr("Print"), "Ctrl+P");
 
     group2.groupItems <<
-                      ShortcutItem(tr("Selected"),  "V") <<
-                      ShortcutItem(tr("Export Picture"),  "I") <<
+                      ShortcutItem(tr("Select"),  "V") <<
+                      ShortcutItem(tr("Import"),  "I") <<
                       ShortcutItem(tr("Rectangle"),        "R") <<
                       ShortcutItem(tr("Ellipse"),        "O") <<
                       ShortcutItem(tr("Triangle"),        "S") <<
