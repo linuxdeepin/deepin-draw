@@ -70,7 +70,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
                       ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
                       ShortcutItem(tr("Layer to Top"), "Ctrl + Shift + ]") <<
-                      ShortcutItem(tr("Layer to Bottom"), "Ctrl + Shift + [");
+                      ShortcutItem(tr("Layer to Bottom"), "Ctrl + Shift + Z");
 
 
     group4.groupItems <<
