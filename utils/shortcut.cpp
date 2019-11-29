@@ -41,24 +41,24 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       << ShortcutItem(tr("Print"), "Ctrl+P");
 
     group2.groupItems <<
-                      ShortcutItem(tr("Selected"),  "v") <<
-                      ShortcutItem(tr("Export Picture"),  "i") <<
-                      ShortcutItem(tr("Rectangle"),        "r") <<
-                      ShortcutItem(tr("Ellipse"),        "o") <<
-                      ShortcutItem(tr("Triangle"),        "s") <<
-                      ShortcutItem(tr("Star"),        "f") <<
-                      ShortcutItem(tr("Polygon"),        "h") <<
-                      ShortcutItem(tr("Line"),        "l") <<
-                      ShortcutItem(tr("Pencil"),        "p") <<
-                      ShortcutItem(tr("Text"),           "t") <<
-                      ShortcutItem(tr("Blur"),           "b") <<
-                      ShortcutItem(tr("Cut"),         "c");
+                      ShortcutItem(tr("Selected"),  "V") <<
+                      ShortcutItem(tr("Export Picture"),  "I") <<
+                      ShortcutItem(tr("Rectangle"),        "R") <<
+                      ShortcutItem(tr("Ellipse"),        "O") <<
+                      ShortcutItem(tr("Triangle"),        "S") <<
+                      ShortcutItem(tr("Star"),        "F") <<
+                      ShortcutItem(tr("Polygon"),        "H") <<
+                      ShortcutItem(tr("Line"),        "L") <<
+                      ShortcutItem(tr("Pencil"),        "P") <<
+                      ShortcutItem(tr("Text"),           "T") <<
+                      ShortcutItem(tr("Blur"),           "B") <<
+                      ShortcutItem(tr("Cut"),         "C");
 
 
     group3.groupItems <<
-                      ShortcutItem(tr("Cut"), "Ctrl + x") <<
-                      ShortcutItem(tr("Copy"), "Ctrl + c") <<
-                      ShortcutItem(tr("Paste"), "Ctrl + v") <<
+                      ShortcutItem(tr("Cut"), "Ctrl + X") <<
+                      ShortcutItem(tr("Copy"), "Ctrl + C") <<
+                      ShortcutItem(tr("Paste"), "Ctrl + V") <<
                       ShortcutItem(tr("Delete"), "Delete") <<
                       ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
                       ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
