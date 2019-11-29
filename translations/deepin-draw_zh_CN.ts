@@ -436,6 +436,10 @@ already exists, do you want to replace?</source>
         <translation>未命名.DDF</translation>
     </message>
     <message>
+<<<<<<< HEAD
+=======
+        <location filename="../frame/cgraphicsview.cpp" line="868"/>
+>>>>>>> fix: fix short cut display bug
         <source>Open</source>
         <translation type="vanished">打开</translation>
     </message>
@@ -523,12 +527,20 @@ already exists, do you want to replace?</source>
         <translation type="vanished">剪切</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="122"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="121"/>
+>>>>>>> fix: fix short cut display bug
         <source>Import(I)</source>
         <translation>导入（I）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="137"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="136"/>
+>>>>>>> fix: fix short cut display bug
         <source>Rectangle(R)</source>
         <translation>矩形（R）</translation>
     </message>
@@ -537,7 +549,11 @@ already exists, do you want to replace?</source>
         <translation type="obsolete">R</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="152"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="151"/>
+>>>>>>> fix: fix short cut display bug
         <source>Ellipse(O)</source>
         <translation>椭圆（O）</translation>
     </message>
@@ -554,47 +570,83 @@ already exists, do you want to replace?</source>
         <translation type="vanished">多边形（G）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="107"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="106"/>
+>>>>>>> fix: fix short cut display bug
         <source>Select(V)</source>
         <translation>选择（V）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="169"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="168"/>
+>>>>>>> fix: fix short cut display bug
         <source>Triangle(S)</source>
         <translation>三角形（S）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="186"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="185"/>
+>>>>>>> fix: fix short cut display bug
         <source>Star(F)</source>
         <translation>星形（F）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="203"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="202"/>
+>>>>>>> fix: fix short cut display bug
         <source>Polygon(H)</source>
         <translation>多边形（H）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="220"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="219"/>
+>>>>>>> fix: fix short cut display bug
         <source>Line(L)</source>
         <translation>画线（L）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="237"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="236"/>
+>>>>>>> fix: fix short cut display bug
         <source>Pencil(P)</source>
         <translation>画笔（P）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="253"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="252"/>
+>>>>>>> fix: fix short cut display bug
         <source>Text(T)</source>
         <translation>文字（T）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="269"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="268"/>
+>>>>>>> fix: fix short cut display bug
         <source>Blur(B)</source>
         <translation>模糊（B）</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="285"/>
+=======
+        <location filename="../frame/clefttoolbar.cpp" line="284"/>
+>>>>>>> fix: fix short cut display bug
         <source>Crop(C)</source>
         <translation>裁剪（C）</translation>
     </message>
@@ -1022,6 +1074,7 @@ already exists, do you want to replace?</source>
 <context>
     <name>MainWindow</name>
     <message>
+<<<<<<< HEAD
         <source>Deepin Draw</source>
         <translation type="vanished">画板</translation>
     </message>
@@ -1035,6 +1088,12 @@ already exists, do you want to replace?</source>
         <source>Open</source>
         <translation>打开</translation>
     </message>
+=======
+        <location filename="../frame/mainwindow.cpp" line="62"/>
+        <source>Deepin Draw</source>
+        <translation>画板</translation>
+    </message>
+>>>>>>> fix: fix short cut display bug
 </context>
 <context>
     <name>PolygonAttributeWidget</name>
