@@ -26,10 +26,12 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutGroup group1;
     ShortcutGroup group2;
     ShortcutGroup group3;
+    ShortcutGroup group4;
 
     group1.groupName = tr("Files");
     group2.groupName = tr("Drawing");
-    group3.groupName = tr("Graphics/Images");
+    group3.groupName = tr("Shapes/Images");
+    group4.groupName = tr("Settings");
 
 
 
@@ -52,7 +54,10 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Pencil"),        "P") <<
                       ShortcutItem(tr("Text"),           "T") <<
                       ShortcutItem(tr("Blur"),           "B") <<
-                      ShortcutItem(tr("Cut"),         "C");
+                      ShortcutItem(tr("Crop"),         "C") <<
+                      ShortcutItem(tr("Expand canvas"),         "Ctrl + \"+\"") <<
+                      ShortcutItem(tr("Shrink canvas"),         "Ctrl + \"-\"")
+                      ;
 
 
     group3.groupItems <<
@@ -60,12 +65,19 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Copy"), "Ctrl + C") <<
                       ShortcutItem(tr("Paste"), "Ctrl + V") <<
                       ShortcutItem(tr("Delete"), "Delete") <<
+                      ShortcutItem(tr("Undo"), "Ctrl + Z") <<
+                      ShortcutItem(tr("Redo"), "Ctrl + Shift + Z") <<
                       ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
                       ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
                       ShortcutItem(tr("Layer to Top"), "Ctrl + Shift + ]") <<
-                      ShortcutItem(tr("Layer to Bottom"), "Ctrl + Shift + [");
+                      ShortcutItem(tr("Layer to Bottom"), "Ctrl + Shift + Z");
 
-    m_shortcutGroups << group1 << group2 << group3;
+
+    group4.groupItems <<
+                      ShortcutItem(tr("Help"), "F1") <<
+                      ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
+
+    m_shortcutGroups << group1 << group2 << group3 << group4;
 
     //convert to json object
     QJsonArray jsonGroups;
