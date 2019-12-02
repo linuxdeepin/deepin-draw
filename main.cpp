@@ -94,13 +94,34 @@ int main(int argc, char *argv[])
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
-//    Application a("myapp_id", argc, argv);
+    QCommandLineOption openImageOption(QStringList() << "o" << "open",
+                                       "Specify a path to load an image.", "PATH");
+    QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
+                                          "Show deepin draw.");
+    QCommandLineParser cmdParser;
+    cmdParser.setApplicationDescription("deepin-draw");
+    cmdParser.addOption(openImageOption);
+    cmdParser.addOption(activeWindowOption);
+    cmdParser.process(a);
+
+    QString path = "";
+    QStringList pas = cmdParser.positionalArguments();
+    if (pas.length() >= 1) {
+        if (QUrl(pas.first()).isLocalFile())
+            path =  QUrl(pas.first()).toLocalFile();
+        else
+            path = pas.first();
+    }
+
     if (a.isRunning()) { //判断实例是否已经运行
         qDebug() << "deepin-draw is already running";
-        a.sendMessage("raise_window_noop", 4000); //4s后激活前个实例
+        a.sendMessage(path, 4000); //4s后激活前个实例
         return EXIT_SUCCESS;
     }
 
+//    QObject::connect(qApp, &Application::messageReceived, qApp, [ = ](const QString & message) {
+
+//    });
 
     static const QDate buildDate = QLocale( QLocale::English )
                                    .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
@@ -133,13 +154,25 @@ int main(int argc, char *argv[])
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
-    MainWindow w;
-//    w = new MainWindow;
-//    //w.show();
+    static MainWindow w;
+
+//    QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
+
+    a.setActivationWindow(&w);
+
+    //QObject::connect(&a, &QtSingleApplication::messageReceived, &a, &QtSingleApplication::activateWindow);
+    QObject::connect(&a, &Application::messageReceived, &a, [ = ](const QString & message) {
+
+        //MainWindow *window = static_cast<MainWindow *>(qApp->activeWindow());
+        w.activeWindow();
+        if (message != "") {
+            //window->openImage(message);
+            w.openImage(QFileInfo(message).absoluteFilePath());
+        }
+    });
+
     w.hide();
-
-
-    //监听当前应用主题切换事件
+//监听当前应用主题切换事件
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
 
@@ -151,7 +184,7 @@ int main(int argc, char *argv[])
     });
 
 
-    // return a.exec();
+// return a.exec();
 
 
 //    DBusDrawService dbusService(&w);
@@ -163,21 +196,20 @@ int main(int argc, char *argv[])
 //        qDebug() << "deepin-draw is running!";
 //    }
 
-    //qDebug() << argc << *argv << endl;
+//qDebug() << argc << *argv << endl;
 //    for (int i = 0 ; i < 100; i++) {
 //        qDebug() << i << (argv[i]) << endl; ;
 //    }
 
-
-    QCommandLineOption openImageOption(QStringList() << "o" << "open",
-                                       "Specify a path to load an image.", "PATH");
-    QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
-                                          "Show deepin draw.");
-    QCommandLineParser cmdParser;
-    cmdParser.setApplicationDescription("deepin-draw");
-    cmdParser.addOption(openImageOption);
-    cmdParser.addOption(activeWindowOption);
-    cmdParser.process(a);
+//    QCommandLineOption openImageOption(QStringList() << "o" << "open",
+//                                       "Specify a path to load an image.", "PATH");
+//    QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
+//                                          "Show deepin draw.");
+//    QCommandLineParser cmdParser;
+//    cmdParser.setApplicationDescription("deepin-draw");
+//    cmdParser.addOption(openImageOption);
+//    cmdParser.addOption(activeWindowOption);
+//    cmdParser.process(a);
 
     if (cmdParser.isSet(openImageOption)) {
         w.activeWindow();
