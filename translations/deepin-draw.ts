@@ -292,122 +292,66 @@
         <source>Unnamed.DDF</source>
         <translation type="unfinished"></translation>
     </message>
-<<<<<<< HEAD
-=======
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="868"/>
-        <source>Open</source>
-        <translation type="unfinished"></translation>
-    </message>
->>>>>>> fix: fix short cut display bug
 </context>
 <context>
     <name>CLeftToolBar</name>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="107"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="106"/>
->>>>>>> fix: fix short cut display bug
         <source>Select(V)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="122"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="121"/>
->>>>>>> fix: fix short cut display bug
         <source>Import(I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="137"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="136"/>
->>>>>>> fix: fix short cut display bug
         <source>Rectangle(R)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="152"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="151"/>
->>>>>>> fix: fix short cut display bug
         <source>Ellipse(O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="169"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="168"/>
->>>>>>> fix: fix short cut display bug
         <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="186"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="185"/>
->>>>>>> fix: fix short cut display bug
         <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="203"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="202"/>
->>>>>>> fix: fix short cut display bug
         <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="220"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="219"/>
->>>>>>> fix: fix short cut display bug
         <source>Line(L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="237"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="236"/>
->>>>>>> fix: fix short cut display bug
         <source>Pencil(P)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="253"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="252"/>
->>>>>>> fix: fix short cut display bug
         <source>Text(T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="269"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="268"/>
->>>>>>> fix: fix short cut display bug
         <source>Blur(B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/clefttoolbar.cpp" line="285"/>
-=======
-        <location filename="../frame/clefttoolbar.cpp" line="284"/>
->>>>>>> fix: fix short cut display bug
         <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -561,7 +505,6 @@
 <context>
     <name>MainWindow</name>
     <message>
-<<<<<<< HEAD
         <location filename="../frame/mainwindow.cpp" line="65"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
@@ -569,10 +512,6 @@
     <message>
         <location filename="../frame/mainwindow.cpp" line="216"/>
         <source>Open</source>
-=======
-        <location filename="../frame/mainwindow.cpp" line="62"/>
-        <source>Deepin Draw</source>
->>>>>>> fix: fix short cut display bug
         <translation type="unfinished"></translation>
     </message>
 </context>
