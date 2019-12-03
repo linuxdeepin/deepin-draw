@@ -40,6 +40,8 @@ public:
     void updateCutSize();
     void clearAllChecked();
     void changeButtonTheme();
+    void updateButtonStatus();
+
 
 signals:
     void signalCutAttributeChanged();

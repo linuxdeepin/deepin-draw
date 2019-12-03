@@ -19,11 +19,11 @@
 #ifndef CCLICKBUTTON_H
 #define CCLICKBUTTON_H
 
-#include <DPushButton>
+#include <DToolButton>
 
 DWIDGET_USE_NAMESPACE
 
-class CClickButton : public DPushButton
+class CClickButton : public DToolButton
 {
     Q_OBJECT
 public:

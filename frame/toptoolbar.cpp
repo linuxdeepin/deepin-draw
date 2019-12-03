@@ -363,6 +363,7 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
         break;
     case::cut:
+        m_cutWidget->updateButtonStatus();
         m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
     default:

@@ -73,6 +73,14 @@ void CCutWidget::changeButtonTheme()
     m_sepLine->updateTheme();
 }
 
+void CCutWidget::updateButtonStatus()
+{
+    if (!m_freeBtn->isChecked()) {
+        clearAllChecked();
+        m_freeBtn->setChecked(true);
+    }
+}
+
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);

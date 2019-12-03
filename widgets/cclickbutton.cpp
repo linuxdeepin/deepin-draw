@@ -25,7 +25,7 @@
 #include <QDebug>
 
 CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent) :
-    DPushButton(parent),
+    DToolButton(parent),
     m_currentStatus(Normal),
     m_pictureMap(pictureMap)
 {
@@ -38,7 +38,7 @@ CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pict
     pa.setColor(DPalette::Button, Qt::transparent);
     DApplicationHelper::instance()->setPalette(this, pa);
     this->setAutoFillBackground(true);
-    this->setFlat(true);
+//    this->setFlat(true);
 
 
     m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
@@ -82,7 +82,7 @@ void CClickButton::mousePressEvent(QMouseEvent *e)
     updateImage();
 
     emit buttonClick();
-    DPushButton::mousePressEvent(e);
+    DToolButton::mousePressEvent(e);
 }
 
 void CClickButton::mouseReleaseEvent(QMouseEvent *e)
@@ -93,7 +93,7 @@ void CClickButton::mouseReleaseEvent(QMouseEvent *e)
 
     updateImage();
 
-    DPushButton::mouseReleaseEvent(e);
+    DToolButton::mouseReleaseEvent(e);
 
 }
 
@@ -105,7 +105,7 @@ void CClickButton::enterEvent(QEvent *e)
 
     updateImage();
 
-    DPushButton::enterEvent(e);
+    DToolButton::enterEvent(e);
 }
 
 void CClickButton::leaveEvent(QEvent *e)
@@ -116,7 +116,7 @@ void CClickButton::leaveEvent(QEvent *e)
 
     updateImage();
 
-    DPushButton::leaveEvent(e);
+    DToolButton::leaveEvent(e);
 }
 
 void CClickButton::updateImage()
