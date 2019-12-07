@@ -874,9 +874,7 @@ void CGraphicsView::clearScene()
 void CGraphicsView::doSaveDDF()
 {
     QString ddfPath = CDrawParamSigleton::GetInstance()->getDdfSavePath();
-//    if (ddfPath.isEmpty() || ddfPath == "") {
-//        showSaveDDFDialog(true);
-    if (!ddfPath.endsWith(".DDF")) {
+    if (ddfPath.isEmpty() || ddfPath == "") {
         showSaveDDFDialog(true);
     } else {
         m_DDFManager->saveToDDF(ddfPath, scene());
