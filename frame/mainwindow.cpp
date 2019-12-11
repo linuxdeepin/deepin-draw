@@ -61,7 +61,6 @@ MainWindow::MainWindow(DWidget *parent)
 
 void MainWindow::initUI()
 {
-    window()->setWindowState(Qt::WindowMaximized);
     setWindowTitle(tr("Draw"));
     //根据屏幕分辨率进行最小化窗口的设置
     QDesktopWidget *desktopWidget = QApplication::desktop();
@@ -158,6 +157,8 @@ void MainWindow::initConnection()
     connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
 
     connect(CDrawScene::GetInstance(), SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
+
+    connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QString)), this, SLOT(slotLoadDragOrPasteFile(QString)));
 }
 
 
@@ -258,6 +259,35 @@ void MainWindow::onViewShortcut()
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
 }
 
+void MainWindow::slotLoadDragOrPasteFile(QString files)
+{
+    QStringList tempfilePathList = files.split("\n");
+    QString ddfPath = "";
+    QStringList picturePathList;
+    for (int i = 0; i < tempfilePathList.size(); i++) {
+        if (tempfilePathList[i].endsWith(".DDF")) {
+            ddfPath = tempfilePathList[i].replace("file://", "");
+            break;
+        } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
+                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+            //图片格式："*.png *.jpg *.bmp *.tif"
+            picturePathList.append(tempfilePathList[i].replace("file://", ""));
+        }
+    }
+
+    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+        m_centralWidget->getGraphicsView()->slotQuitCutMode();
+    }
+
+    if (!ddfPath.isEmpty()) {
+        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+        CDrawParamSigleton::GetInstance()->setDdfSavePath(ddfPath);
+        slotIsNeedSave();
+    } else if (picturePathList.count() > 0) {
+        m_centralWidget->slotPastePicture(picturePathList);
+    }
+}
+
 
 void MainWindow::showDrawDialog()
 {
@@ -338,6 +368,9 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 void MainWindow::openImage(QString path, bool isStartByDDF)
 {
     if (!path.isEmpty()) {
+        if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+            m_centralWidget->getGraphicsView()->slotQuitCutMode();
+        }
         if (QFileInfo(path).suffix() == "DDF") {
             if (isStartByDDF) {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);

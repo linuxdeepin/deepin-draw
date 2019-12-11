@@ -798,8 +798,9 @@ void CSendToBackCommand::redo()
 }
 
 
-CSetBlurAttributeCommand::CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio)
-    : m_pItem(item)
+CSetBlurAttributeCommand::CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)
+    : QUndoCommand(parent)
+    , m_pItem(item)
     , m_nNewType(newType)
     , m_nNewRadius(newRadio)
 {
@@ -821,4 +822,26 @@ void CSetBlurAttributeCommand::redo()
     m_pItem->setBlurWidth(m_nNewRadius);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+}
+
+CSceneCutCommand::CSceneCutCommand(QRectF rect, QUndoCommand *parent)
+    : QUndoCommand (parent)
+    , m_newRect(rect)
+{
+    m_oldRect = CDrawScene::GetInstance()->sceneRect();
+}
+
+CSceneCutCommand::~CSceneCutCommand()
+{
+
+}
+
+void CSceneCutCommand::undo()
+{
+    CDrawScene::GetInstance()->setSceneRect(m_oldRect);
+}
+
+void CSceneCutCommand::redo()
+{
+    CDrawScene::GetInstance()->setSceneRect(m_newRect);
 }

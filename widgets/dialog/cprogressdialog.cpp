@@ -27,7 +27,7 @@ void CProgressDialog::initUI()
     m_progressBar->setMaximum(100);
     m_progressBar->setValue(0);
     m_progressBar->setAlignment(Qt::AlignHCenter);
-    m_progressBar->setFixedHeight(20);
+    m_progressBar->setFixedHeight(8);
 
 
     DWidget *widget = new DWidget(this);

@@ -35,6 +35,7 @@ CCutTool::CCutTool()
     , m_pCutItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_buttonType(CButtonRect::NoneButton)
+    , m_bModify(false)
 
 {
 
@@ -97,8 +98,10 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
     if ( nullptr != m_pCutItem && m_pCutItem->isFreeMode() && m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None  && m_dragHandle != CSizeHandleRect::InRect) {
             m_pCutItem->resizeTo(m_dragHandle, event->scenePos());
+            m_bModify = true;
             emit static_cast<CDrawScene *>(scene)->signalUpdateCutSize();
         } else {
+            m_bModify = true;
             scene->mouseEvent(event);
         }
     } else {
@@ -160,6 +163,7 @@ void CCutTool::createCutItem(CDrawScene *scene)
     m_pCutItem->setFlag(QGraphicsItem::ItemIsMovable, true);
     m_pCutItem->setIsFreeMode(true);
     m_pCutItem->setSelected(true);
+    m_bModify = false;
 }
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
@@ -210,4 +214,14 @@ QRectF CCutTool::getCutRect()
     }
 
     return rect;
+}
+
+bool CCutTool::getModifyFlag() const
+{
+    return m_bModify;
+}
+
+void CCutTool::setModifyFlag(bool flag)
+{
+    m_bModify = flag;
 }

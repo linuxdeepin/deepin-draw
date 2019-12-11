@@ -138,6 +138,8 @@ signals:
 
     void signalUpdateColorPanelVisible(QPoint pos);
 
+    void signalSceneCut(QRectF newRect);
+
 public slots:
 
     void picOperation(int enumstyle);

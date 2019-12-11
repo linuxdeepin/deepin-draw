@@ -557,37 +557,14 @@ void CGraphicsView::slotOnPaste()
 {
 
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    QString filePath = mp->text();
 
-    QString filePath;
-    QStringList filePathList;
-    QStringList picturePathList;
-    QStringList ddfPathList;
-    QStringList tempfilePathList;
-    filePath = mp->text();
-    //qDebug() << "QMimeData" << filePath << endl;
+    //粘贴文件路径
     if (filePath != "") {
-        tempfilePathList = filePath.split("\n");
-        for (int i = 0; i < tempfilePathList.size(); i++) {
-            if (tempfilePathList[i].endsWith(".DDF")) {
-                ddfPathList.append(tempfilePathList[i]);
-            } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                       || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
-                //图片格式："*.png *.jpg *.bmp *.tif"
-                picturePathList.append(tempfilePathList[i]);
-            }
-
-        }
+        emit signalLoadDragOrPasteFile(filePath);
     }
-
-//   qDebug() << "picturePathList" << picturePathList << endl;
-//    qDebug() << "ddfPathList" << ddfPathList << endl;
     //粘贴剪切板中的图片
-    if (picturePathList.size() > 0) {
-        emit signalPastePicture(picturePathList);
-    } else if (ddfPathList.size() > 0) {
-        //加载剪切板中的ddf文件
-        emit signalPasteDDF(ddfPathList);
-    } else if (mp->hasImage()) {
+    else if (mp->hasImage()) {
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();
         if (!pixmap.isNull()) {
@@ -865,10 +842,17 @@ void CGraphicsView::clearScene()
 {
     ///清除场景选中
     scene()->clearSelection();
+
     //清空撤销栈
     m_pUndoStack->clear();
     //清空场景
     scene()->clear();
+}
+
+void CGraphicsView::itemSceneCut(QRectF newRect)
+{
+    QUndoCommand *sceneCutCommand = new CSceneCutCommand(newRect);
+    m_pUndoStack->push(sceneCutCommand);
 }
 
 void CGraphicsView::doSaveDDF()
@@ -1005,35 +989,9 @@ bool CGraphicsView::canLayerDown()
 void CGraphicsView::dropEvent(QDropEvent *e)
 {
     if (e->mimeData()->hasText()) {
-        // qDebug() << e->mimeData()->text();
-        QString filePath;
-        //QStringList filePathList;
-        QStringList picturePathList;
-        QStringList ddfPathList;
-        QStringList tempfilePathList;
-        filePath = e->mimeData()->text();
-        //qDebug() << "QMimeData" << filePath << endl;
+        QString filePath = e->mimeData()->text();
         if (filePath != "") {
-            tempfilePathList = filePath.split("\n");
-            for (int i = 0; i < tempfilePathList.size(); i++) {
-                if (tempfilePathList[i].endsWith(".DDF")) {
-                    ddfPathList.append(tempfilePathList[i].replace("file://", ""));
-                } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                           || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
-                    //图片格式："*.png *.jpg *.bmp *.tif"
-                    picturePathList.append(tempfilePathList[i].replace("file://", ""));
-                }
-
-            }
-        }
-
-        //qDebug() << "picturePathList" << picturePathList << endl;
-        //粘贴拖动图片
-        if (picturePathList.size() > 0) {
-            emit signalPastePicture(picturePathList);
-        } else if (ddfPathList.size() > 0) {
-            //加载拖动的ddf文件
-            emit signalPasteDDF(ddfPathList);
+            emit signalLoadDragOrPasteFile(filePath);
         }
     }
 }

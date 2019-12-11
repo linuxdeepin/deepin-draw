@@ -69,6 +69,7 @@ signals:
     void signalUpdateTextFont();
     void signalContinueDoOtherThing();
     void signalTransmitQuitCutModeFromTopBarMenu();
+    void signalTransmitLoadDragOrPasteFile(QString);
 
 
 public slots:
@@ -89,8 +90,8 @@ public slots:
     void slotOnEscButtonClick();
     void slotCutLineEditeFocusChange(bool);
     void slotPastePicture(QStringList picturePathList);
-    void slotPasteDDF(QStringList ddfPathList);
     void slotPastePixmap(QPixmap pixmap);
+
 
 private slots:
     void slotDoSaveImage();

@@ -173,7 +173,6 @@ int main(int argc, char *argv[])
         }
     });
 
-    w->hide();
 //监听当前应用主题切换事件
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, w, &MainWindow::slotOnThemeChanged);
@@ -239,6 +238,7 @@ int main(int argc, char *argv[])
     }
 
     w->initScene();
+    w->showMaximized();
 
     return a.exec();
 }

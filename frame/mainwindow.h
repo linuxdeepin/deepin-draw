@@ -53,6 +53,7 @@ public slots:
     void slotIsNeedSave();
     void slotContinueDoSomeThing();
     void onViewShortcut();
+    void slotLoadDragOrPasteFile(QString files);
 
 
 protected:

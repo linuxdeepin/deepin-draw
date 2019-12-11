@@ -41,10 +41,15 @@ public:
     void changeCutSize(const QSize &);
     QRectF getCutRect();
 
+    bool getModifyFlag() const;
+    void setModifyFlag(bool flag);
+
 private:
     CGraphicsCutItem *m_pCutItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
     CButtonRect::EButtonType m_buttonType;
+
+    bool m_bModify;
 
 };
 

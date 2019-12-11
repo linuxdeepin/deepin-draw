@@ -321,7 +321,7 @@ private:
 class CSetBlurAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio);
+    explicit CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -331,6 +331,20 @@ private:
     int m_nNewType;
     int m_nOldRadius;
     int m_nNewRadius;
+};
+
+class CSceneCutCommand : public QUndoCommand
+{
+public:
+    CSceneCutCommand(QRectF rect, QUndoCommand *parent = nullptr);
+    ~CSceneCutCommand() Q_DECL_OVERRIDE;
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QRectF m_newRect;
+    QRectF m_oldRect;
 };
 
 #endif // CUNDOCOMMANDS_H

@@ -61,11 +61,11 @@ protected:
 
     virtual void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 
-    void dropEvent(QDropEvent *e);
+    void dropEvent(QDropEvent *e) Q_DECL_OVERRIDE;
 
-    void dragEnterEvent(QDragEnterEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
-    void dragMoveEvent(QDragMoveEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 signals:
@@ -73,9 +73,8 @@ signals:
     void signalImportPicture(QString path);
     void signalTransmitContinueDoOtherThing();
     void singalTransmitEndLoadDDF();
-    void signalPastePicture(QStringList picturePathList);
-    void signalPasteDDF(QStringList ddfPathList);
     void signalPastePixmap(QPixmap pixmap);
+    void signalLoadDragOrPasteFile(QString);
 
 public slots:
     void itemMoved(QGraphicsItem *item, const QPointF &newPosition );
@@ -93,6 +92,7 @@ public slots:
     void slotAddItemFromDDF(QGraphicsItem *item );
     void slotQuitCutMode();
     void clearScene();
+    void itemSceneCut(QRectF newRect);
 
 private slots:
     void slotOnCut();
