@@ -40,6 +40,7 @@ public:
     ~CPictureTool();
 signals:
     void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);
+    void signalPicturesImportingFinished();
 
 public slots:
     void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);

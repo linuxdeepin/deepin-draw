@@ -87,12 +87,63 @@ void CMoveShapeCommand::redo()
     CDrawParamSigleton::GetInstance()->setIsModify(true);
 }
 //! [3]
+
+CDeleteShapeCommand::CDeleteShapeCommand(QGraphicsScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
+{
+    myGraphicsScene = scene;
+    m_items = items;
+    m_oldIndex = -1;
+}
+
+CDeleteShapeCommand::~CDeleteShapeCommand()
+{
+
+}
+
+void CDeleteShapeCommand::undo()
+{
+    foreach (QGraphicsItem *item, m_items) {
+        myGraphicsScene->addItem(item);
+    }
+    myGraphicsScene->update();
+    if (m_oldIndex != -1) {
+        QList<QGraphicsItem *> itemList = myGraphicsScene->items(/*Qt::AscendingOrder*/);
+        for (int i = 0; i < m_oldIndex + 1 ; i++) {
+//            qDebug() << "!!!!!!!!!!!item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+            if (itemList.at(i)->type() > QGraphicsItem::UserType /*&& itemList.at(i) != m_items.first()*/) {
+//                qDebug() << "@@@@@@@@@@@@@@@@item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+                QGraphicsItem *item = itemList.at(i);
+                m_items.first()->stackBefore(item);
+            }
+        }
+    }
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem();
+}
+
+void CDeleteShapeCommand::redo()
+{
+    if (m_items.count() == 1) {
+        QList<QGraphicsItem *> itemList = myGraphicsScene->items();
+//        for (int i = 0; i < itemList.count(); i++) {
+//            qDebug() << "**********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
+//        }
+        m_oldIndex = itemList.indexOf(m_items.first());
+    }
+
+    foreach (QGraphicsItem *item, m_items) {
+        myGraphicsScene->removeItem(item);
+    }
+    CDrawParamSigleton::GetInstance()->setIsModify(true);
+}
+
+
 //! [4]
 CRemoveShapeCommand::CRemoveShapeCommand(QGraphicsScene *scene, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
-    items = myGraphicsScene->selectedItems();
+    items = scene->selectedItems();
 }
 
 CRemoveShapeCommand::~CRemoveShapeCommand()
@@ -845,3 +896,5 @@ void CSceneCutCommand::redo()
 {
     CDrawScene::GetInstance()->setSceneRect(m_newRect);
 }
+
+

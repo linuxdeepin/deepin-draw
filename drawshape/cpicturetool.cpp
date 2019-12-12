@@ -169,33 +169,33 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
         scene->clearSelection();
         //CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, centralWindow->width(), centralWindow->height()), pixmap);
 
-        //调整图片在画板中显示的大小
-        qreal width = pixmap.width();
-        qreal height = pixmap.height();
-        qreal widgetWidth = scene->width();
-        qreal widgetHeight = scene->height();
+//        //调整图片在画板中显示的大小
+//        qreal width = pixmap.width();
+//        qreal height = pixmap.height();
+//        qreal widgetWidth = scene->width();
+//        qreal widgetHeight = scene->height();
 
-        if (height == 0) {
-            return;
-        }
-        qreal scale;
-        scale = ((qreal)pixmap.width() / (qreal)pixmap.height());
+//        if (height == 0) {
+//            return;
+//        }
+//        qreal scale;
+//        scale = ((qreal)pixmap.width() / (qreal)pixmap.height());
 
 
-        if (pixmap.width() > widgetWidth || pixmap.height() > widgetHeight) {
-            if (scale >= (widgetWidth /  widgetHeight)) {
-                width = widgetWidth;
-                height = (width / scale);
-            } else {
-                height = widgetHeight;
-                width = (height * scale);
-            }
+//        if (pixmap.width() > widgetWidth || pixmap.height() > widgetHeight) {
+//            if (scale >= (widgetWidth /  widgetHeight)) {
+//                width = widgetWidth;
+//                height = (width / scale);
+//            } else {
+//                height = widgetHeight;
+//                width = (height * scale);
+//            }
 
-        }
+//        }
         //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << scene->width() << scene->height() << width << height << (double)(widgetWidth / widgetHeight) << endl;
 
 
-        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), width, height), pixmap);
+        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()), pixmap);
 
         pixmapItem->setSelected(false);
         scene->addItem(pixmapItem);
@@ -207,9 +207,12 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
         m_progressLayout->close();
         delete m_progressLayout;
         if (!pixmap.isNull()) {
+            scene->clearSelection();
             pixmapItem->setSelected(true);
         }
+        emit signalPicturesImportingFinished();
     }
+
 
 
 }

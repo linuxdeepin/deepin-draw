@@ -105,8 +105,12 @@ void CCentralwidget::importPicture()
 {
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->drawPicture(m_pDrawScene, this);
+    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
+        delete pictureTool;
+        //qDebug() << "importPicture delete pictureTool1" << endl;
+    });
 }
-//addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
+
 
 //点击图片进行导入
 void CCentralwidget::openPicture(QString path)
@@ -114,6 +118,10 @@ void CCentralwidget::openPicture(QString path)
     QPixmap pixmap = QPixmap(path);
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
+    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
+        delete pictureTool;
+        //qDebug() << "importPicture delete pictureTool2" << endl;
+    });
 }
 
 //粘贴或者拖曳导入图片
@@ -121,6 +129,10 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList)
 {
     CPictureTool *pictureTool = new CPictureTool();
     pictureTool->drawPicture(picturePathList, m_pDrawScene, this);
+    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
+        delete pictureTool;
+        // qDebug() << "importPicture delete pictureTool3" << endl;
+    });
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)
@@ -128,6 +140,10 @@ void CCentralwidget::slotPastePixmap(QPixmap pixmap)
     CPictureTool *pictureTool = new CPictureTool();
 
     pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
+    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
+        delete pictureTool;
+        // qDebug() << "importPicture delete pictureTool4" << endl;
+    });
 }
 
 void CCentralwidget::initUI()

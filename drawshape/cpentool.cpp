@@ -45,7 +45,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         m_pPenItem->setDrawFlag(true);
         QPen pen = CDrawParamSigleton::GetInstance()->getPen();
         m_pPenItem->setPen(pen);
-//        m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
         m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
         m_pPenItem->setPixmap();
         scene->addItem(m_pPenItem);

@@ -115,11 +115,25 @@ private:
     qreal newAngle;
 };
 
+class CDeleteShapeCommand : public QUndoCommand
+{
+public:
+    explicit CDeleteShapeCommand(QGraphicsScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent = nullptr);
+    ~CDeleteShapeCommand();
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    QList<QGraphicsItem *> m_items;
+    QGraphicsScene *myGraphicsScene;
+    int m_oldIndex;
+};
+
 
 class CRemoveShapeCommand : public QUndoCommand
 {
 public:
-    explicit CRemoveShapeCommand(QGraphicsScene *graphicsScene, QUndoCommand *parent = nullptr);
+    explicit CRemoveShapeCommand(QGraphicsScene *scene, QUndoCommand *parent = nullptr);
     ~CRemoveShapeCommand();
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;

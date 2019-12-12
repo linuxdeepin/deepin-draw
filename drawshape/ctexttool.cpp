@@ -48,6 +48,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         CGraphicsTextItem *item = new CGraphicsTextItem();
         item->getTextEdit()->setText("输入文本");
         item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        item->getTextEdit()->selectAll();
 //        item->setFont(font);
 
         QFontMetrics fm(font);

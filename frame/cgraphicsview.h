@@ -120,13 +120,14 @@ private slots:
      */
     void slotRestContextMenuAfterQuitCut();
 
-    void slotPrimitiveZoomIn();
-    void slotPrimitiveZoomOut();
+    void slotViewZoomIn();
+    void slotViewZoomOut();
+    void slotViewOrignal();
 
 private:
     qreal m_scale; //记录当前缩放
 
-    DMenu *m_contextMenu;//右键菜单
+    CMenu *m_contextMenu;//右键菜单
     QAction *m_cutAct;              //剪切
     QAction *m_copyAct;             //拷贝
     QAction *m_pasteAct;            //粘贴
@@ -143,14 +144,15 @@ private:
 //    QAction *m_rightAlignAct;
 //    QAction *m_centerAlignAct;
 
-    QAction *m_primitiveZoomInAction;
-    QAction *m_primitiveZoomOutAction;
+    QAction *m_viewZoomInAction;
+    QAction *m_viewZoomOutAction;
+    QAction *m_viewOriginalAction;
 
 
     QAction *m_cutScence;          //裁剪
 
     ///文字图元右键菜单
-    CMenu *m_textMenu;
+    DMenu *m_textMenu;
     QAction *m_textCutAction;
     QAction *m_textCopyAction;
     QAction *m_textPasteAction;

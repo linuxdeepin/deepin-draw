@@ -123,7 +123,7 @@ void CGraphicsView::wheelEvent(QWheelEvent *event)
 
 void CGraphicsView::initContextMenu()
 {
-    m_contextMenu = new DMenu(this);
+    m_contextMenu = new CMenu(this);
     m_contextMenu->setFixedWidth(182);
 
     m_cutAct = new QAction(tr("Cut"), this);
@@ -197,13 +197,19 @@ void CGraphicsView::initContextMenu()
     m_cutScence->setShortcuts(shortcuts);
     this->addAction(m_cutScence);
 
-    m_primitiveZoomInAction = new QAction(this);
-    m_primitiveZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
-    this->addAction(m_primitiveZoomInAction);
+    m_viewZoomInAction = new QAction(this);
+    m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
+    this->addAction(m_viewZoomInAction);
 
-    m_primitiveZoomOutAction = new QAction(this);
-    m_primitiveZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
-    this->addAction(m_primitiveZoomOutAction);
+    m_viewZoomOutAction = new QAction(this);
+    m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
+    this->addAction(m_viewZoomOutAction);
+
+
+
+    m_viewOriginalAction = new QAction(this);
+    m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
+    this->addAction(m_viewOriginalAction);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -219,9 +225,10 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_oneLayerDownAct, SIGNAL(triggered()), this, SLOT(slotOneLayerDown()));
     connect(m_cutScence, SIGNAL(triggered()), this, SLOT(slotDoCutScene()));
 
-    connect(m_primitiveZoomInAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomIn()));
+    connect(m_viewZoomInAction, SIGNAL(triggered()), this, SLOT(slotViewZoomIn()));
+    connect(m_viewZoomOutAction, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
+    connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
-    connect(m_primitiveZoomOutAction, SIGNAL(triggered()), this, SLOT(slotPrimitiveZoomOut()));
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
 //    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
 //        m_bringToFrontAct->setEnabled(true);
@@ -233,7 +240,7 @@ void CGraphicsView::initContextMenuConnection()
 
 void CGraphicsView::initTextContextMenu()
 {
-    m_textMenu = new CMenu(this);
+    m_textMenu = new DMenu(this);
     m_textMenu->setFixedWidth(182);
 
     m_textCutAction = new QAction(tr("Cut"));
@@ -558,18 +565,20 @@ void CGraphicsView::slotOnPaste()
 
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
     QString filePath = mp->text();
+    //qDebug() << "slotOnPaste"  << endl;
 
-    //粘贴文件路径
-    if (filePath != "") {
-        emit signalLoadDragOrPasteFile(filePath);
-    }
-    //粘贴剪切板中的图片
-    else if (mp->hasImage()) {
+    if (mp->hasImage()) {
+        //粘贴剪切板中的图片
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();
         if (!pixmap.isNull()) {
             emit signalPastePixmap(pixmap);
         }
+        //qDebug() << "imageData" << imageData << endl;
+    } else if (filePath != "") {
+        //粘贴文件路径
+        emit signalLoadDragOrPasteFile(filePath);
+        //qDebug() << "filePath" << filePath << endl;
     } else {
         //粘贴画板内部图元
         CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
@@ -641,11 +650,29 @@ void CGraphicsView::slotOnSelectAll()
 
 void CGraphicsView::slotOnDelete()
 {
-    if (scene()->selectedItems().isEmpty()) {
+    QList<QGraphicsItem *> seleteItems = scene()->selectedItems();
+    QList<QGraphicsItem *> allItems;
+
+    if (seleteItems.isEmpty()) {
         return;
     }
 
-    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+    for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType ) {
+            allItems.push_back(item);
+        }
+
+    }
+
+    if (allItems.count() != seleteItems.count()) {
+        if (seleteItems.count() > 1) {
+            return;
+        }
+        allItems.clear();
+        allItems.push_back(seleteItems.first());
+    }
+
+    QUndoCommand *deleteCommand = new CDeleteShapeCommand(this->scene(), allItems);
     m_pUndoStack->push(deleteCommand);
 }
 
@@ -725,7 +752,7 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
     setContextMenuAndActionEnable(true);
 }
 
-void CGraphicsView::slotPrimitiveZoomIn()
+void CGraphicsView::slotViewZoomIn()
 {
     if (m_scale + 0.25 <= 8) {
         this->scale(m_scale + 0.25);
@@ -737,7 +764,7 @@ void CGraphicsView::slotPrimitiveZoomIn()
     }
 }
 
-void CGraphicsView::slotPrimitiveZoomOut()
+void CGraphicsView::slotViewZoomOut()
 {
     if (m_scale - 0.25 >= 0.01) {
         this->scale(m_scale - 0.25);
@@ -748,6 +775,12 @@ void CGraphicsView::slotPrimitiveZoomOut()
         this->scale(m_scale);
         emit signalSetScale(m_scale);
     }
+}
+
+void CGraphicsView::slotViewOrignal()
+{
+    this->scale(0.75);
+    emit signalSetScale(m_scale);
 }
 
 void CGraphicsView::slotOnTextCut()
