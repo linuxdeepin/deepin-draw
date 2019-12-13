@@ -375,6 +375,7 @@ void CLeftToolBar::initConnection()
         CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
         emit importPic();
         m_picBtn->setChecked(false);
+        //m_selectBtn->setChecked(true);
 
     });
 

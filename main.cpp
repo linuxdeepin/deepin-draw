@@ -32,7 +32,7 @@
 
 #include <DLog>
 
-DWIDGET_USE_NAMESPACE
+//DWIDGET_USE_NAMESPACE
 
 static QString g_appPath;//全局路径
 static MainWindow *w;

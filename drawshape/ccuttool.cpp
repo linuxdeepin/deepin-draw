@@ -194,6 +194,8 @@ void CCutTool::changeCutType(int type, CDrawScene *scene)
             m_pCutItem->doChangeType(type);
         }
     }
+
+    m_bModify = true;
 }
 
 void CCutTool::changeCutSize(const QSize &size)
@@ -201,6 +203,8 @@ void CCutTool::changeCutSize(const QSize &size)
     if (nullptr != m_pCutItem) {
         m_pCutItem->doChangeSize(size.width(), size.height());
     }
+
+    m_bModify = true;
 }
 
 QRectF CCutTool::getCutRect()

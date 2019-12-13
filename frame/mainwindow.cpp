@@ -148,7 +148,7 @@ void MainWindow::initConnection()
 
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
 
-    connect(m_quitMode, SIGNAL(triggered()), m_centralWidget, SLOT(slotOnEscButtonClick()));
+    connect(m_quitMode, SIGNAL(triggered()), this, SLOT(slotOnEscButtonClick()));
 
     connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()));
 
@@ -286,6 +286,12 @@ void MainWindow::slotLoadDragOrPasteFile(QString files)
     } else if (picturePathList.count() > 0) {
         m_centralWidget->slotPastePicture(picturePathList);
     }
+}
+
+void MainWindow::slotOnEscButtonClick()
+{
+    m_topToolbar->hideColorPanel();
+    m_centralWidget->onEscButtonClick();
 }
 
 

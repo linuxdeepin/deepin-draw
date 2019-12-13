@@ -522,6 +522,11 @@ DMenu *TopToolbar::mainMenu()
     return m_mainMenu;
 }
 
+void TopToolbar::hideColorPanel()
+{
+    m_colorARect->hide();
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();

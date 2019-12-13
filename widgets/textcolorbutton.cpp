@@ -19,8 +19,12 @@
 #include "textcolorbutton.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/mainwindow.h"
 
+#include <DGuiApplicationHelper>
 #include <QDebug>
+
+DWIDGET_USE_NAMESPACE
 
 const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
@@ -33,6 +37,13 @@ TextColorButton::TextColorButton(DWidget *parent)
 {
     setFixedSize(56, 36);
     setCheckable(false);
+
+    //深色主题下
+    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
+        QColor color("#C0C6D4");
+        CDrawParamSigleton::GetInstance()->setTextColor(color);
+    }
 
     m_color = CDrawParamSigleton::GetInstance()->getTextColor();
 }

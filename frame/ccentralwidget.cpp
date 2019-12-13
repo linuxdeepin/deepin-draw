@@ -29,6 +29,7 @@
 #include "drawshape/cgraphicstriangleitem.h"
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
+#include "drawshape/cpicturetool.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -54,6 +55,7 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 
 CCentralwidget::~CCentralwidget()
 {
+    delete m_pictureTool;
 
 }
 CLeftToolBar *CCentralwidget::getLeftToolBar()
@@ -103,12 +105,22 @@ void CCentralwidget::initSceneRect()
 //进行图片导入
 void CCentralwidget::importPicture()
 {
-    CPictureTool *pictureTool = new CPictureTool();
-    pictureTool->drawPicture(m_pDrawScene, this);
-    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
-        delete pictureTool;
-        //qDebug() << "importPicture delete pictureTool1" << endl;
-    });
+
+    DFileDialog *fileDialog = new DFileDialog();
+    //设置文件保存对话框的标题
+    fileDialog->setWindowTitle(tr("导入图片"));
+    QStringList filters;
+    filters << "*.png *.jpg *.bmp *.tif";
+    fileDialog->setNameFilters(filters);
+    fileDialog->setFileMode(QFileDialog::ExistingFiles);
+
+    if (fileDialog->exec() ==   QDialog::Accepted) {
+        QStringList filenames = fileDialog->selectedFiles();
+        slotPastePicture(filenames);
+    } else {
+        m_leftToolbar->slotShortCutSelect();
+    }
+
 }
 
 
@@ -116,34 +128,21 @@ void CCentralwidget::importPicture()
 void CCentralwidget::openPicture(QString path)
 {
     QPixmap pixmap = QPixmap(path);
-    CPictureTool *pictureTool = new CPictureTool();
-    pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
-    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
-        delete pictureTool;
-        //qDebug() << "importPicture delete pictureTool2" << endl;
-    });
+    slotPastePixmap(pixmap);
 }
 
-//粘贴或者拖曳导入图片
+//导入图片
 void CCentralwidget::slotPastePicture(QStringList picturePathList)
 {
-    CPictureTool *pictureTool = new CPictureTool();
-    pictureTool->drawPicture(picturePathList, m_pDrawScene, this);
-    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
-        delete pictureTool;
-        // qDebug() << "importPicture delete pictureTool3" << endl;
-    });
+
+    m_pictureTool->drawPicture(picturePathList, m_pDrawScene, this);
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)
 {
-    CPictureTool *pictureTool = new CPictureTool();
 
-    pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
-    connect(pictureTool, &CPictureTool::signalPicturesImportingFinished, this, [ = ]() {
-        delete pictureTool;
-        // qDebug() << "importPicture delete pictureTool4" << endl;
-    });
+    m_pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
+
 }
 
 void CCentralwidget::initUI()
@@ -152,6 +151,8 @@ void CCentralwidget::initUI()
     m_pGraphicsView = new CGraphicsView(this);
     //m_pGraphicsView->setStyleSheet("border:0px");
     //m_pGraphicsView->setWindowFlags(Qt::FramelessWindowHint);
+
+    m_pictureTool = new CPictureTool();
 
     m_pGraphicsView->setFrameShape(QFrame::NoFrame);
 
@@ -280,7 +281,7 @@ void CCentralwidget::slotShowCutItem()
     m_pDrawScene->showCutItem();
 }
 
-void CCentralwidget::slotOnEscButtonClick()
+void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
     if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {

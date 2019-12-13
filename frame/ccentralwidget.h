@@ -31,6 +31,7 @@
 
 
 
+
 DWIDGET_USE_NAMESPACE
 
 class CLeftToolBar;
@@ -39,6 +40,7 @@ class CDrawScene;
 class CPrintManager;
 class ProgressLayout;
 class CExportImageDialog;
+class CPictureTool;
 
 class CCentralwidget: public DWidget
 {
@@ -87,7 +89,7 @@ public slots:
     void slotTextFontFamilyChanged();
     void slotTextFontSizeChanged();
     void openPicture(QString path);
-    void slotOnEscButtonClick();
+    void onEscButtonClick();
     void slotCutLineEditeFocusChange(bool);
     void slotPastePicture(QStringList picturePathList);
     void slotPastePixmap(QPixmap pixmap);
@@ -114,6 +116,7 @@ private:
     CGraphicsView *m_pGraphicsView;
     CDrawScene *m_pDrawScene;
     ProgressLayout *m_progressLayout;
+    CPictureTool *m_pictureTool;
     int m_picNum;
 
 private:

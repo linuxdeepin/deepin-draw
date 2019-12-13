@@ -407,7 +407,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
-    m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
+    //m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
+    m_pasteAct->setEnabled(true);
     m_contextMenu->show();
 }
 
@@ -528,17 +529,50 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item)
 
 void CGraphicsView::slotOnCut()
 {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.isEmpty()) {
+//    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+//    if (itemList.isEmpty()) {
+//        return;
+//    }
+
+//    CShapeMimeData *data = new CShapeMimeData(itemList);
+//    data->setText("");
+//    QApplication::clipboard()->setMimeData(data);
+
+//    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+//    m_pUndoStack->push(deleteCommand);
+
+//    if (!m_pasteAct->isEnabled()) {
+//        m_pasteAct->setEnabled(true);
+//    }
+
+    QList<QGraphicsItem *> seleteItems = scene()->selectedItems();
+    QList<QGraphicsItem *> allItems;
+
+    if (seleteItems.isEmpty()) {
         return;
     }
 
-    CShapeMimeData *data = new CShapeMimeData(itemList);
+    for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType ) {
+            allItems.push_back(item);
+        }
+
+    }
+
+    if (allItems.count() != seleteItems.count()) {
+        if (seleteItems.count() > 1) {
+            return;
+        }
+        allItems.clear();
+        allItems.push_back(seleteItems.first());
+    }
+
+    QUndoCommand *deleteCommand = new CDeleteShapeCommand(this->scene(), allItems);
+    m_pUndoStack->push(deleteCommand);
+
+    CShapeMimeData *data = new CShapeMimeData(allItems);
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
-
-    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
-    m_pUndoStack->push(deleteCommand);
 
     if (!m_pasteAct->isEnabled()) {
         m_pasteAct->setEnabled(true);
@@ -779,7 +813,7 @@ void CGraphicsView::slotViewZoomOut()
 
 void CGraphicsView::slotViewOrignal()
 {
-    this->scale(0.75);
+    this->scale(1.0);
     emit signalSetScale(m_scale);
 }
 
@@ -942,7 +976,7 @@ void CGraphicsView::setContextMenuAndActionEnable(bool enable)
     m_isShowContext = enable;
     m_cutAct->setEnabled(enable);
     m_copyAct->setEnabled(enable);
-    m_pasteAct->setEnabled(enable);
+    //m_pasteAct->setEnabled(enable);
     m_deleteAct->setEnabled(enable);
     m_selectAllAct->setEnabled(enable);
     m_undoAct->setEnabled(enable);

@@ -890,11 +890,14 @@ CSceneCutCommand::~CSceneCutCommand()
 void CSceneCutCommand::undo()
 {
     CDrawScene::GetInstance()->setSceneRect(m_oldRect);
+    CDrawScene::GetInstance()->update();
+
 }
 
 void CSceneCutCommand::redo()
 {
     CDrawScene::GetInstance()->setSceneRect(m_newRect);
+    CDrawScene::GetInstance()->update();
 }
 
 

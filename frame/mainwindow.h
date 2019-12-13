@@ -54,6 +54,7 @@ public slots:
     void slotContinueDoSomeThing();
     void onViewShortcut();
     void slotLoadDragOrPasteFile(QString files);
+    void slotOnEscButtonClick();
 
 
 protected:

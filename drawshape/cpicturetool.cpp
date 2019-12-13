@@ -33,7 +33,7 @@ CPictureTool::CPictureTool(DWidget *parent)
 }
 CPictureTool::~CPictureTool()
 {
-
+    delete m_progressLayout;
 }
 
 
@@ -205,7 +205,6 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
     m_progressLayout->setProgressValue(itemNumber);
     if (itemNumber == m_picNum) {
         m_progressLayout->close();
-        delete m_progressLayout;
         if (!pixmap.isNull()) {
             scene->clearSelection();
             pixmapItem->setSelected(true);

@@ -58,6 +58,8 @@ public:
 
     DMenu *mainMenu();
 
+    void hideColorPanel();
+
 signals:
     void signalSaveToDDF();
     void signalSaveAs();
