@@ -58,7 +58,6 @@ public:
 
     void showMe();
     int getImageType() const;
-    QString getSavePath() const;
     QString getImageFormate() const;
     int getQuality() const;
 
@@ -69,7 +68,7 @@ private slots:
     void slotOnQuestionDialogButtonClick(int index, const QString &text);
     void slotOnQualityChanged(int value);
 signals:
-    void signalDoSave();
+    void signalDoSave(QString);
 
 private:
     DLineEdit *m_fileNameEdit;
@@ -92,7 +91,8 @@ private:
 
     void showDirChoseDialog();
     void showQuestionDialog(const QString &path);
-    void doSave();
+    bool isHaveSuffix(const QString &src);
+    QString getCompleteSavePath();
 };
 
 #endif // CEXPORTIMAGEDIALOG_H

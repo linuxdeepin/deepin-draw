@@ -55,7 +55,7 @@ EditLabel::EditLabel(DWidget *parent)
     mLayout->addWidget(m_edit);
 
     connect(m_edit, &DLineEdit::editingFinished, this, [ = ] {
-        emit editTextChanged(m_edit->text());
+//        emit editTextChanged(m_edit->text());
     });
 
     setLayout(mLayout);

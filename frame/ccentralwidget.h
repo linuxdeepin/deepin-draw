@@ -96,7 +96,7 @@ public slots:
 
 
 private slots:
-    void slotDoSaveImage();
+    void slotDoSaveImage(QString completePath);
 
 private:
     CLeftToolBar *m_leftToolbar;

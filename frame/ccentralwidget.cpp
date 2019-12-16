@@ -299,10 +299,9 @@ void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
     m_pGraphicsView->disableCutShortcut(isFocus);
 }
 
-void CCentralwidget::slotDoSaveImage()
+void CCentralwidget::slotDoSaveImage(QString completePath)
 {
     int type = m_exportImageDialog->getImageType();
-    QString completePath = m_exportImageDialog->getSavePath();
     if (type == CExportImageDialog::PDF) {
         QPixmap pixmap = getSceneImage(1);
         QPdfWriter writer(completePath);
@@ -418,7 +417,7 @@ void CCentralwidget::initConnect()
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), m_pGraphicsView, SLOT(slotDoCutScene()));
 
-    connect(m_exportImageDialog, SIGNAL(signalDoSave()), this, SLOT(slotDoSaveImage()));
+    connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 
     connect(m_pGraphicsView, SIGNAL(signalLoadDragOrPasteFile(QString)), this, SIGNAL(signalTransmitLoadDragOrPasteFile(QString)));
     connect(m_pGraphicsView, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));

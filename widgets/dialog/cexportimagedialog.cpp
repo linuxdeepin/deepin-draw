@@ -27,7 +27,7 @@
 #include <QStandardPaths>
 #include <QPdfWriter>
 #include <QPainter>
-
+#include <QCloseEvent>
 #include <QDebug>
 #include <QDateTime>
 
@@ -73,11 +73,6 @@ void CExportImageDialog::showMe()
 int CExportImageDialog::getImageType() const
 {
     return  m_formatCombox->currentIndex();
-}
-
-QString CExportImageDialog::getSavePath() const
-{
-    return m_savePath + "/" + m_fileNameEdit->text().trimmed();
 }
 
 QString CExportImageDialog::getImageFormate() const
@@ -184,7 +179,7 @@ void CExportImageDialog::initUI()
     m_questionDialog->addButtons(QStringList() << tr("Cancel") << tr("Replace"));
     m_questionDialog->setFixedSize(400, 170);
 
-
+    setOnButtonClickedClose(false);
 
 //    setLayout(titleLayout);
 }
@@ -253,9 +248,12 @@ void CExportImageDialog::slotOnFormatChange(int index)
 
     QString name = m_fileNameEdit->text().trimmed();
 
-    name = name.mid(0, name.lastIndexOf(".") + 1);
-
-    name += m_saveFormat;
+    if (isHaveSuffix(name)) {
+        name = name.mid(0, name.lastIndexOf(".") + 1);
+        name += m_saveFormat;
+    } else {
+        name = name + "." + m_saveFormat;
+    }
 
     m_fileNameEdit->setText(name);
 }
@@ -265,14 +263,19 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     Q_UNUSED(text)
 
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+        QString completePath = getCompleteSavePath();
+        if (completePath == "") {
+            return;
+        }
         if (QFileInfo(completePath).exists()) {
             hide();
             showQuestionDialog(completePath);
         } else {
-            emit signalDoSave();
+            emit signalDoSave(completePath);
             hide();
         }
+    } else if (index == 0) {
+        hide();
     }
 }
 
@@ -280,8 +283,8 @@ void CExportImageDialog::slotOnQuestionDialogButtonClick(int index, const QStrin
 {
     Q_UNUSED(text);
     if (index == 1) {
-        QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
-        emit signalDoSave();
+        QString completePath = getCompleteSavePath();
+        emit signalDoSave(completePath);
     }
     m_questionDialog->hide();
 }
@@ -316,8 +319,25 @@ void CExportImageDialog::showQuestionDialog(const QString &path)
     m_questionDialog->show();
 }
 
-void CExportImageDialog::doSave()
+bool CExportImageDialog::isHaveSuffix(const QString &src)
 {
-    QString completePath = m_savePath + "/" + m_fileNameEdit->text().trimmed();
+    bool flag = false;
+    if (src.endsWith(".jpg") || src.endsWith(".png") || src.endsWith(".bmp")
+            || src.endsWith(".tif") || src.endsWith(".pdf")) {
+        flag = true;
+    }
+    return flag;
+}
 
+QString CExportImageDialog::getCompleteSavePath()
+{
+    QString fileName = m_fileNameEdit->text().trimmed();
+    if (fileName.isEmpty() || fileName == "") {
+        return "";
+    }
+    if (!isHaveSuffix(fileName)) {
+        fileName += m_formatCombox->currentText();
+    }
+
+    return m_savePath + "/" + fileName;
 }
