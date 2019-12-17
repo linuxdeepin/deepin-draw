@@ -30,7 +30,9 @@ CAlphaControlWidget::CAlphaControlWidget(DWidget *parent)
 void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
 {
     int percentValue = (float)alpha / 255 * 100;
+    m_alphaSlider->blockSignals(true);
     m_alphaSlider->setValue(percentValue);
+    m_alphaSlider->blockSignals(false);
 }
 
 void CAlphaControlWidget::initUI()

@@ -373,14 +373,18 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     int anchorNum = CDrawParamSigleton::GetInstance()->getAnchorNum();
 
     if (anchorNum != m_anchorNumSlider->value()) {
+        m_anchorNumSlider->blockSignals(true);
         m_anchorNumSlider->setValue(anchorNum);
+        m_anchorNumSlider->blockSignals(false);
         m_anchorNumEdit->setText(QString("%1").arg(anchorNum));
     }
 
     int radiusNum = CDrawParamSigleton::GetInstance()->getRadiusNum();
 
     if (radiusNum != m_anchorNumSlider->value()) {
+        m_radiusNumSlider->blockSignals(true);
         m_radiusNumSlider->setValue(radiusNum);
+        m_radiusNumSlider->blockSignals(false);
         m_radiusNumEdit->setText(QString("%1%").arg(radiusNum));
     }
 }

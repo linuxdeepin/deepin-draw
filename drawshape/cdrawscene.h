@@ -166,6 +166,15 @@ private:
 private:
     bool m_bIsEditTextFlag;
 
+    QCursor m_drawMouse;
+    QCursor m_lineMouse;
+    QCursor m_pengatonMouse;
+    QCursor m_rectangleMouse;
+    QCursor m_roundMouse;
+    QCursor m_starMouse;
+    QCursor m_triangleMouse;
+
+
 };
 
 #endif // CDRAWSCENE_H

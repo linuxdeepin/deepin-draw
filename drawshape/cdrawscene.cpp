@@ -40,12 +40,20 @@
 #include <QRect>
 #include <QGraphicsView>
 #include <QtMath>
+#include <DApplication>
 
 CDrawScene *CDrawScene::m_pInstance = nullptr;
 
 CDrawScene::CDrawScene(QObject *parent)
     : QGraphicsScene(parent)
     , m_bIsEditTextFlag(false)
+    , m_drawMouse(QPixmap(":/icons/draw_mouse.svg"))
+    , m_lineMouse(QPixmap(":/icons/line_mouse.svg"))
+    , m_pengatonMouse(QPixmap(":/icons/pengaton_mouse.svg"))
+    , m_rectangleMouse(QPixmap(":/icons/rectangle_mouse.svg"))
+    , m_roundMouse(QPixmap(":/icons/round_mouse.svg"))
+    , m_starMouse(QPixmap(":/icons/star_mouse.svg"))
+    , m_triangleMouse(QPixmap(":/icons/triangle_mouse.svg"))
 {
 
 }
@@ -432,8 +440,64 @@ void CDrawScene::picOperation(int enumstyle)
 
 void CDrawScene::drawToolChange(int type)
 {
-    Q_UNUSED(type)
     this->clearSelection();
+    EDrawToolMode toolType = (EDrawToolMode)type;
+    switch (toolType) {
+
+//    selection,      //选择
+//    importPicture,  //导入图片
+//    rectangle,      //矩形
+//    ellipse,        //圆形
+//    triangle,       //三角形
+//    polygonalStar,  //多角星
+//    polygon,        //多边形
+//    line,           //线
+//    pen,            //画笔
+//    text,           //文本
+//    blur,           //模糊
+//    cut            //裁剪画板
+    case selection:
+        qApp->setOverrideCursor(m_drawMouse);
+        break;
+    case importPicture:
+        qApp->setOverrideCursor(m_lineMouse);
+        break;
+    case rectangle:
+        qApp->setOverrideCursor(m_rectangleMouse);
+        break;
+    case ellipse:
+        qApp->setOverrideCursor(m_roundMouse);
+        break;
+    case triangle:
+        qApp->setOverrideCursor(m_triangleMouse);
+        break;
+    case polygonalStar:
+        qApp->setOverrideCursor(m_starMouse);
+        break;
+    case polygon:
+        qApp->setOverrideCursor(m_pengatonMouse);
+        break;
+    case line:
+        qApp->setOverrideCursor(m_lineMouse);
+        break;
+    case pen:
+        qApp->setOverrideCursor(m_drawMouse);
+        break;
+    case text:
+        //qApp->setOverrideCursor(m_lineMouse);
+        break;
+    case blur:
+        qApp->setOverrideCursor(m_drawMouse);
+        break;
+    case cut:
+        //qApp->setOverrideCursor(m_lineMouse);
+        break;
+
+    default:
+        break;
+
+    }
+
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)

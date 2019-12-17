@@ -239,7 +239,9 @@ void PolygonAttributeWidget::updatePolygonWidget()
     int sideNum = CDrawParamSigleton::GetInstance()->getSideNum();
 
     if (sideNum != m_sideNumSlider->value()) {
+        m_sideNumSlider->blockSignals(true);
         m_sideNumSlider->setValue(sideNum);
+        m_sideNumSlider->blockSignals(false);
         m_sideNumEdit->setText(QString("%1").arg(sideNum));
     }
 }

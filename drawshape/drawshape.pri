@@ -78,4 +78,5 @@ SOURCES += \
 #    $$PWD/drawshapeRes.qrc
 
 RESOURCES += \
-    $$PWD/images.qrc
+    $$PWD/images.qrc \
+    $$PWD/icons.qrc

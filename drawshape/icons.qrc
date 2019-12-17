@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/draw_mouse.svg</file>
+        <file>icons/triangle_mouse.svg</file>
+        <file>icons/star_mouse.svg</file>
+        <file>icons/round_mouse.svg</file>
+        <file>icons/line_mouse.svg</file>
+        <file>icons/pengaton_mouse.svg</file>
+        <file>icons/rectangle_mouse.svg</file>
+    </qresource>
+</RCC>

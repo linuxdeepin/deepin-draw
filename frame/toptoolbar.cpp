@@ -165,8 +165,7 @@ void TopToolbar::initComboBox()
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new DStackedWidget(this);
-    m_titleWidget = new CTitleWidget(this);
-    m_stackWidget->addWidget(m_titleWidget);
+
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -180,8 +179,11 @@ void TopToolbar::initStackWidget()
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->hide();
 
+    //select
+    m_titleWidget = new CTitleWidget(this);
+    m_stackWidget->addWidget(m_titleWidget);
 
-    //cut
+    //picture
     m_picWidget = new CPictureWidget(this);
     m_stackWidget->addWidget(m_picWidget);
 
@@ -541,12 +543,32 @@ void TopToolbar::enterEvent(QEvent *event)
     DFrame::enterEvent(event);
 }
 
+void TopToolbar::slotUpdateCurrentAttributeBar()
+{
+    QWidget *currentWidget = m_stackWidget->currentWidget();
+    if (currentWidget == m_commonShapeWidget) {
+        m_commonShapeWidget->updateCommonShapWidget();
+    } else if (currentWidget == m_polygonalStarWidget) {
+        m_polygonalStarWidget->updatePolygonalStarWidget();
+    } else if (currentWidget == m_PolygonWidget) {
+        m_PolygonWidget->updatePolygonWidget();
+    } else if (currentWidget == m_drawLineWidget) {
+        m_drawLineWidget->updateLineWidget();
+    } else if (currentWidget == m_penWidget) {
+        m_penWidget->updatePenWidget();
+    } else if (currentWidget == m_drawTextWidget) {
+        m_drawTextWidget->updateTextColor();
+    }
+}
+
 void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
     //connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::slotUpdateCurrentAttributeBar);
+
 
     /////传递图片的旋转和翻转信号
     connect(m_picWidget, &CPictureWidget::signalBtnClick, this, &TopToolbar::signalPassPictureOperation);
@@ -554,32 +576,26 @@ void TopToolbar::initConnection()
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_commonShapeWidget, &CommonshapeWidget::updateCommonShapWidget);
     connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
     ///polygonalStar
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_polygonalStarWidget, &PolygonalStarAttributeWidget::updatePolygonalStarWidget);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalPolygonalStarAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     ///polygon
     connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_PolygonWidget, &PolygonAttributeWidget::updatePolygonWidget);
     connect(m_PolygonWidget, &PolygonAttributeWidget::signalPolygonAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw line.
     connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawLineWidget, &LineWidget::updateLineWidget);
     connect(m_drawLineWidget, &LineWidget::signalLineAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw pen.
     connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_penWidget, &CPenWidget::updatePenWidget);
     connect(m_penWidget, &CPenWidget::signalPenAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw text.
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, m_drawTextWidget, &TextWidget::updateTextColor);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);

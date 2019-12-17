@@ -336,7 +336,7 @@ QString CExportImageDialog::getCompleteSavePath()
         return "";
     }
     if (!isHaveSuffix(fileName)) {
-        fileName += m_formatCombox->currentText();
+        fileName = fileName + "." + m_formatCombox->currentText();
     }
 
     return m_savePath + "/" + fileName;

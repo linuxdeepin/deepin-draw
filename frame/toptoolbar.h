@@ -110,6 +110,7 @@ private slots:
     void slotOnSaveAction();
     void slotOnSaveAsAction();
     void slotMenuShow();
+    void slotUpdateCurrentAttributeBar();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
