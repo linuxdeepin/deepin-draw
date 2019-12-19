@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,8 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+
+    virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 signals:

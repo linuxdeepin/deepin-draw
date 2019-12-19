@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
+#include "widgets/ctextedit.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QVariant>
@@ -148,7 +149,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
     }
 
     if (change == QGraphicsItem::ItemSelectedHasChanged &&  this->type() == TextType && value.toBool() == false) {
-        static_cast<CGraphicsTextItem *>(this)->getCGraphicsProxyWidget()->hide();
+        static_cast<CGraphicsTextItem *>(this)->getTextEdit()->hide();
     }
 
     //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
@@ -156,13 +157,16 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
             change != QGraphicsItem::ItemSelectedHasChanged )*/
 
-    if (this->type() != BlurType && (change == QGraphicsItem::ItemPositionHasChanged ||
-                                     change == QGraphicsItem::ItemMatrixChange ||
-                                     change == QGraphicsItem::ItemZValueHasChanged ||
-                                     change == QGraphicsItem::ItemOpacityHasChanged ||
-                                     change == QGraphicsItem::ItemRotationHasChanged ||
-                                     change == QGraphicsItem::ItemTransformOriginPointHasChanged ||
-                                     (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr))) {
+    //未来做多选操作，需要把刷新功能做到undoredo来统一管理
+    //全选的由其它地方处理刷新 否则会出现卡顿
+    if (/*(change == QGraphicsItem::ItemSelectedHasChanged && !CDrawParamSigleton::GetInstance()->getSelectAllFlag())  ||*/
+        change == QGraphicsItem::ItemPositionHasChanged ||
+        change == QGraphicsItem::ItemMatrixChange ||
+        change == QGraphicsItem::ItemZValueHasChanged ||
+        change == QGraphicsItem::ItemOpacityHasChanged ||
+        change == QGraphicsItem::ItemRotationHasChanged ||
+        change == QGraphicsItem::ItemTransformOriginPointHasChanged /*||
+                                     (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr)*/) {
 //        QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
 //        //QList<QGraphicsItem *> items = this->collidingItems();
 //        foreach (QGraphicsItem *item, items) {
@@ -171,7 +175,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 //            }
 //        }
 
-        CDrawScene::GetInstance()->updateBlurItem();
+        CDrawScene::GetInstance()->updateBlurItem(this);
     }
 
     return value;

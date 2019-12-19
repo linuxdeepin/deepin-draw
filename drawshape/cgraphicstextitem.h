@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,7 +81,6 @@ protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
 
 
 private slots:

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -674,12 +674,16 @@ void CGraphicsView::slotOnPaste()
 
 void CGraphicsView::slotOnSelectAll()
 {
+    CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
     scene()->clearSelection();
     foreach (QGraphicsItem *item, scene()->items()) {
         if (item->type() > QGraphicsItem::UserType) {
             item->setSelected(true);
         }
     }
+    CDrawScene::GetInstance()->updateBlurItem();
+
+    CDrawParamSigleton::GetInstance()->setSelectAllFlag(false);
 }
 
 void CGraphicsView::slotOnDelete()
@@ -1073,6 +1077,12 @@ void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->setDropAction(Qt::MoveAction);
     event->accept();
+}
+
+void CGraphicsView::enterEvent(QEvent *event)
+{
+    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    CDrawScene::GetInstance()->changeMouseShape(currentMode);
 }
 
 

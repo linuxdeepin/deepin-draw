@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,9 @@ CDrawScene::CDrawScene(QObject *parent)
     , m_roundMouse(QPixmap(":/icons/round_mouse.svg"))
     , m_starMouse(QPixmap(":/icons/star_mouse.svg"))
     , m_triangleMouse(QPixmap(":/icons/triangle_mouse.svg"))
+    , m_textMouse(QPixmap(":/icons/text_mouse.svg"), 3, 2)
+    , m_brushMouse(QPixmap(":/icons/brush_mouse.svg"), 7, 26)
+    , m_blurMouse(QPixmap(":/icons/smudge_mouse.png"))
 {
 
 }
@@ -433,34 +436,23 @@ void CDrawScene::picOperation(int enumstyle)
                 }
             }
         }
-
     }
-
 }
 
 void CDrawScene::drawToolChange(int type)
 {
     this->clearSelection();
-    EDrawToolMode toolType = (EDrawToolMode)type;
-    switch (toolType) {
+    changeMouseShape(static_cast<EDrawToolMode>(type));
+}
 
-//    selection,      //选择
-//    importPicture,  //导入图片
-//    rectangle,      //矩形
-//    ellipse,        //圆形
-//    triangle,       //三角形
-//    polygonalStar,  //多角星
-//    polygon,        //多边形
-//    line,           //线
-//    pen,            //画笔
-//    text,           //文本
-//    blur,           //模糊
-//    cut            //裁剪画板
+void CDrawScene::changeMouseShape(EDrawToolMode type)
+{
+    switch (type) {
     case selection:
-        qApp->setOverrideCursor(m_drawMouse);
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         break;
     case importPicture:
-        qApp->setOverrideCursor(m_lineMouse);
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         break;
     case rectangle:
         qApp->setOverrideCursor(m_rectangleMouse);
@@ -481,23 +473,23 @@ void CDrawScene::drawToolChange(int type)
         qApp->setOverrideCursor(m_lineMouse);
         break;
     case pen:
-        qApp->setOverrideCursor(m_drawMouse);
+        qApp->setOverrideCursor(m_brushMouse);
         break;
     case text:
-        //qApp->setOverrideCursor(m_lineMouse);
+        qApp->setOverrideCursor(m_textMouse);
         break;
     case blur:
-        qApp->setOverrideCursor(m_drawMouse);
+        qApp->setOverrideCursor(m_blurMouse);
         break;
     case cut:
-        //qApp->setOverrideCursor(m_lineMouse);
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         break;
 
     default:
+        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         break;
 
     }
-
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)
@@ -538,13 +530,44 @@ void CDrawScene::textFontSizeChanged()
     }
 }
 
-void CDrawScene::updateBlurItem()
+
+//if (thisZValue > itemZValue) {
+//    retList.push_back(item);
+//} else if (thisZValue == itemZValue) {
+//    int indexOther = allitems.indexOf(item);
+//    if (index > indexOther) {
+//        retList.push_back(item);
+//    }
+//}
+
+void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
     QList<QGraphicsItem *> items = this->items();
-    foreach (QGraphicsItem *item, items) {
-        if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+    if (changeItem != nullptr) {
+        int index = items.indexOf(changeItem);
+        qreal zValue = changeItem->zValue();
+        foreach (QGraphicsItem *item, items) {
+            if (item->type() == BlurType) {
+                int blurIndex = items.indexOf(item);
+                qreal blurZValue = item->zValue();
+
+
+                if (blurZValue > zValue) {
+                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+                }
+                //判断在模糊图元下的图元才更新
+                else if ((qFuzzyCompare(blurZValue, zValue) && index > blurIndex) || index == -1) {
+                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+                }
+            }
         }
+    } else {
+        foreach (QGraphicsItem *item, items) {
+            if (item->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            }
+        }
+
     }
 }
 

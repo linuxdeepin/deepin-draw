@@ -58,7 +58,7 @@ public:
 
     DMenu *mainMenu();
 
-    void hideColorPanel();
+
 
 signals:
     void signalSaveToDDF();
@@ -103,6 +103,7 @@ public slots:
     void slotSetScale(const qreal scale);
     void slotSetCutSize();
     void slotSetTextFont();
+    void slotHideColorPanel();
 private slots:
     void slotIsCutMode(QAction *action);
     void slotOnImportAction();

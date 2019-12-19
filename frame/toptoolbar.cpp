@@ -92,7 +92,7 @@ void TopToolbar::initComboBox()
     m_scaleComboBox = new CPushButton("75%", this);
     m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
 
-    DMenu *scaleMenu = new DMenu();
+    DMenu *scaleMenu = new DMenu(m_scaleComboBox);
     scaleMenu->setFixedWidth(162);
 
     QAction *scale200 = scaleMenu->addAction("200%");
@@ -127,6 +127,11 @@ void TopToolbar::initComboBox()
         m_scaleComboBox->setText("25%");
         slotZoom("25%");
     });
+
+    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
+        slotHideColorPanel();
+    });
+
 
     m_scaleComboBox->setMenu(scaleMenu);
     m_scaleComboBox->setFixedWidth(70);
@@ -369,7 +374,6 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_cutWidget);
         break;
     default:
-
         break;
     }
 }
@@ -515,6 +519,7 @@ void TopToolbar::slotOnSaveAsAction()
 
 void TopToolbar::slotMenuShow()
 {
+    slotHideColorPanel();
     m_newAction->setEnabled(CDrawParamSigleton::GetInstance()->getIsModify());
 }
 
@@ -524,9 +529,11 @@ DMenu *TopToolbar::mainMenu()
     return m_mainMenu;
 }
 
-void TopToolbar::hideColorPanel()
+void TopToolbar::slotHideColorPanel()
 {
-    m_colorARect->hide();
+    if (!m_colorARect->isHidden()) {
+        m_colorARect->hide();
+    }
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *event)

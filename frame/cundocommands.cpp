@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,6 +135,7 @@ void CDeleteShapeCommand::redo()
         myGraphicsScene->removeItem(item);
     }
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem();
 }
 
 
@@ -615,7 +616,7 @@ void COneLayerUpCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -642,7 +643,7 @@ void COneLayerUpCommand::redo()
         }
     }
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -683,7 +684,7 @@ void COneLayerDownCommand::undo()
         }
     }
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -712,7 +713,7 @@ void COneLayerDownCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -748,7 +749,7 @@ void CBringToFrontCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -777,7 +778,7 @@ void CBringToFrontCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -814,7 +815,7 @@ void CSendToBackCommand::undo()
     }
 
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }
@@ -842,7 +843,7 @@ void CSendToBackCommand::redo()
     }
 
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem();
+        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
         CDrawParamSigleton::GetInstance()->setIsModify(true);
     }

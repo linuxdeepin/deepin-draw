@@ -1,7 +1,7 @@
-/*
+﻿/*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,7 +102,11 @@ void CTextEdit::slot_textChanged()
     cursorPositionChanged();
 
     //更新字图元
-    CDrawScene::GetInstance()->updateBlurItem();
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+
+    this->setFocus();
+
+//    qDebug() << "this focus = " << this->hasFocus() << endl;
 //    if (size.height() > rect.size().height()) {
 //        rect.setSize(size);
 //        m_pItem->setRect(rect);
@@ -187,6 +191,9 @@ void CTextEdit::cursorPositionChanged()
             CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
             m_pItem->currentCharFormatChanged(cursor.charFormat());
         }
+
+        CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+        //this->setFocus();
     }
 }
 
@@ -194,16 +201,18 @@ void CTextEdit::cursorPositionChanged()
 
 void CTextEdit::setVisible(bool visible)
 {
+
+    QTextEdit::setVisible(visible);
     if (!visible) {
         QTextCursor cursor = this->textCursor();
         cursor.select(QTextCursor::Document);
         this->setTextCursor(cursor);
+        CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 
-        this->releaseKeyboard();
+        //this->releaseKeyboard();
     } else {
-        this->grabKeyboard();
+        //this->grabKeyboard();
     }
-    QTextEdit::setVisible(visible);
 }
 
 void CTextEdit::setLastDocumentWidth(qreal width)

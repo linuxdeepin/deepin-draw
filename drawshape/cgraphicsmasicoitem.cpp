@@ -179,17 +179,17 @@ void CGraphicsMasicoItem::setPixmap()
             if (textItemIndex == i) {
                 static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->show();
                 static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setTextCursor(textCursor);
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus();
+                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus(Qt::MouseFocusReason);
 //                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->activateWindow();
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
+                //static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
             }
         }
 
-        qDebug() << "textItemIndex = " << textItemIndex << endl;
+//        qDebug() << "textItemIndex = " << textItemIndex << endl;
 
 
     }
-    this->scene()->views()[0]->setFocus();
+    //this->scene()->views()[0]->setFocus();
 }
 
 void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
@@ -294,7 +294,7 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
                 qreal itemZValue = item->zValue();
                 if (thisZValue > itemZValue) {
                     retList.push_back(item);
-                } else if (thisZValue == itemZValue) {
+                } else if (qFuzzyCompare(thisZValue, itemZValue)) {
                     int indexOther = allitems.indexOf(item);
                     if (index > indexOther) {
                         retList.push_back(item);

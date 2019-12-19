@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_thremeType(0)
     , m_lineType(straightType)
     , m_renderImage(0)
+    , m_bSelectAlling(false)
 {
     m_textFont.setPointSizeF(14);
 }
@@ -314,6 +315,16 @@ int CDrawParamSigleton::getRenderImage() const
 void CDrawParamSigleton::setRenderImage(int renderImage)
 {
     m_renderImage = renderImage;
+}
+
+bool CDrawParamSigleton::getSelectAllFlag() const
+{
+    return m_bSelectAlling;
+}
+
+void CDrawParamSigleton::setSelectAllFlag(bool flag)
+{
+    m_bSelectAlling = flag;
 }
 
 ECutType CDrawParamSigleton::getCutType() const

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -126,6 +126,9 @@ public:
     int getRenderImage() const;
     void setRenderImage(int renderImage);
 
+    bool getSelectAllFlag() const;
+    void setSelectAllFlag(bool flag);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -178,6 +181,8 @@ private:
     ELineType m_lineType;
 
     int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
+
+    bool m_bSelectAlling; //是否正在全选
 };
 
 

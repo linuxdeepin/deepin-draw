@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -88,7 +88,11 @@ public:
 
     void textFontSizeChanged();
 
-    void updateBlurItem();
+    /**
+     * @brief updateBlurItem 刷新
+     * @param changeItem 引起变化的图元
+     */
+    void updateBlurItem(QGraphicsItem *changeItem = nullptr);
 
     void switchTheme(int type);
 signals:
@@ -150,6 +154,12 @@ public slots:
      */
     void drawToolChange(int type);
 
+    /**
+     * @brief changeMouseShape 切换鼠标形状
+     * @param type
+     */
+    void changeMouseShape(EDrawToolMode type);
+
 protected:
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
@@ -159,6 +169,8 @@ protected:
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+
+
 
 private:
     explicit CDrawScene(QObject *parent = nullptr);
@@ -173,6 +185,10 @@ private:
     QCursor m_roundMouse;
     QCursor m_starMouse;
     QCursor m_triangleMouse;
+    QCursor m_textMouse;
+    QCursor m_brushMouse;
+    QCursor m_blurMouse;
+
 
 
 };

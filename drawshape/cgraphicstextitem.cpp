@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -280,6 +280,9 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         m_pTextEdit->setTextCursor(textCursor);
 //    m_pTextEdit->cursorPositionChanged();
     }
+
+    CDrawScene::GetInstance()->updateBlurItem(this);
+    m_pTextEdit->setFocus();
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

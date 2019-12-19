@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,6 +107,7 @@ void MainWindow::initUI()
 void MainWindow::initConnection()
 {
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
+    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::slotHideColorPanel);
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
@@ -290,7 +291,7 @@ void MainWindow::slotLoadDragOrPasteFile(QString files)
 
 void MainWindow::slotOnEscButtonClick()
 {
-    m_topToolbar->hideColorPanel();
+    m_topToolbar->slotHideColorPanel();
     m_centralWidget->onEscButtonClick();
 }
 

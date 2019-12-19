@@ -99,7 +99,7 @@ void CPictureItem::setMirror(bool hor, bool ver)
     QImage mirrorImage = image.mirrored(hor, ver);
     m_pixmap = QPixmap::fromImage(mirrorImage);
     update();
-    CDrawScene::GetInstance()->updateBlurItem();
+    CDrawScene::GetInstance()->updateBlurItem(this);
 }
 
 
@@ -116,7 +116,7 @@ void CPictureItem::setRotation90(bool leftOrRight)
         this->setRotation(m_angle);
     }
 
-    CDrawScene::GetInstance()->updateBlurItem();
+    CDrawScene::GetInstance()->updateBlurItem(this);
 }
 
 void CPictureItem::duplicate(CGraphicsItem *item)

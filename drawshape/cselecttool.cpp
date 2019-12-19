@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXing
+ * Author:     WangXin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,6 +91,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 QGraphicsItem *item = items.first();
                 //需要区别图元或文字
                 m_currentSelectItem = item;
+                CDrawScene::GetInstance()->updateBlurItem(m_currentSelectItem);
                 m_dragHandle = CSizeHandleRect::InRect;
 
                 //如果是滤镜图层
@@ -111,6 +112,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             } else {
                 m_currentSelectItem = nullptr;
+                CDrawScene::GetInstance()->updateBlurItem();
             }
         }
     } else if (event->button() == Qt::RightButton) {
