@@ -106,22 +106,6 @@ void CCheckButton::mousePressEvent(QMouseEvent *e)
     emit buttonClick();
 }
 
-void CCheckButton::mouseReleaseEvent(QMouseEvent *e)
-{
-    Q_UNUSED(e)
-
-    m_isPressed = false;
-
-    if (m_isChecked) {
-        m_currentStatus = Active;
-    } else {
-        m_currentStatus = Normal;
-    }
-
-    updateImage();
-
-    emit mouseRelease();
-}
 
 void CCheckButton::enterEvent(QEvent *e)
 {

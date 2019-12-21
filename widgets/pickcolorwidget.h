@@ -27,7 +27,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CCheckButton;
+class CIconButton;
 class ColorPickerInterface;
 
 class PickColorWidget : public DWidget
@@ -51,7 +51,7 @@ private:
     EditLabel *m_redEditLabel;
     EditLabel *m_greenEditLabel;
     EditLabel *m_blueEditLabel;
-    CCheckButton *m_picker;
+    CIconButton *m_picker;
     ColorLabel *m_colorLabel;
     ColorSlider *m_colorSlider;
     ColorPickerInterface *m_cp;

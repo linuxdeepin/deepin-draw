@@ -32,7 +32,8 @@ HEADERS += \
     $$PWD/cmenu.h \
     $$PWD/csvglabel.h \
     $$PWD/cfontcombobox.h \
-    $$PWD/cpushbutton.h
+    $$PWD/cpushbutton.h \
+    $$PWD/ciconbutton.h
 
 
 SOURCES += \
@@ -67,7 +68,8 @@ SOURCES += \
     $$PWD/cmenu.cpp \
     $$PWD/csvglabel.cpp \
     $$PWD/cfontcombobox.cpp \
-    $$PWD/cpushbutton.cpp
+    $$PWD/cpushbutton.cpp \
+    $$PWD/ciconbutton.cpp
 
 
 #RESOURCES += \

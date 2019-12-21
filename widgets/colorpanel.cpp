@@ -30,7 +30,7 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
-#include "ccheckbutton.h"
+#include "ciconbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
@@ -41,16 +41,12 @@
 
 DGUI_USE_NAMESPACE
 
-const int ORGIN_WIDTH = 246;
-const int PANEL_WIDTH = 226;
+const int ORGIN_WIDTH = 314;
+const int PANEL_WIDTH = 294;
 const int ORIGIN_HEIGHT = 250;
 const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
-const int BORDER_WIDTH = 1;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
-//const QSize COLOR_BUTTN = QSize(14, 14);
-//const QSize SLIDER_SIZE = QSize(178, 22);
-const QSize BTN_SIZE = QSize(24, 24);
 
 
 ColorButton::ColorButton(const QColor &color, DWidget *parent)
@@ -84,7 +80,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     if (m_color == QColor(Qt::transparent)) {
         pen.setColor(QColor("#cccccc"));
     } else {
-        pen.setColor(QColor(0, 0, 0, 20));
+        pen.setColor(QColor(0, 0, 0, 55));
     }
     painter.setPen(pen);
     painter.drawRoundedRect(QRect(3, 3, this->width() - 6,
@@ -98,7 +94,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     if (isChecked()) {
         painter.setBrush(QBrush());
         QPen borderPen;
-        borderPen.setWidth(BORDER_WIDTH);
+        borderPen.setWidth(2);
         borderPen.setColor("#008eff");
         painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
@@ -142,7 +138,6 @@ void ColorPanel::setConfigColor(QColor color)
     m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
-
     ///更新RBG值
     m_pickColWidget->setRgbValue(color);
 
@@ -218,7 +213,7 @@ void ColorPanel::initUI()
         if (i == 0)
             cb->setDisableColor(true);
         m_cButtonList.append(cb);
-        gLayout->addWidget(cb, i / 6, i % 6);
+        gLayout->addWidget(cb, i / 8, i % 8);
         m_colorsButtonGroup->addButton(cb, i);
     }
 
@@ -232,40 +227,38 @@ void ColorPanel::initUI()
     colorValueWidget->setFixedWidth(PANEL_WIDTH);
     DLabel *colLabel = new DLabel(colorValueWidget);
     QFont colLabelFont = colLabel->font();
-    colLabelFont.setPixelSize(12);
-    colLabel->setObjectName("Color Label");
-    colLabel->setFixedWidth(45);
+    colLabelFont.setPixelSize(13);
+    colLabel->setFixedWidth(26);
     colLabel->setText(tr("Color"));
     colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);
     m_colLineEdit->setObjectName("Color Line Edit");
-    m_colLineEdit->setFixedSize(131, 36);
+    m_colLineEdit->setFixedSize(180, 36);
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6,8}"), this));
     //m_colLineEdit->lineEdit()->setEnabled(false);
 
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/palette_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/palette_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/palette_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/palette_active.svg");
+    QMap<int, QMap<CIconButton::EIconButtonSattus, QString> > pictureMap;
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/palette_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Hover] = QString(":/theme/light/images/draw/palette_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Press] = QString(":/theme/light/images/draw/palette_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Active] = QString(":/theme/light/images/draw/palette_active.svg");
 
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/palette_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/palette_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/palette_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/palette_active.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Normal] = QString(":/theme/dark/images/draw/palette_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Hover] = QString(":/theme/dark/images/draw/palette_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/palette_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/palette_active.svg");
 
-    m_colorfulBtn = new CCheckButton(pictureMap, QSize(36, 36), colorValueWidget, false);
+    m_colorfulBtn = new CIconButton(pictureMap, QSize(55, 36), colorValueWidget, false);
     m_colorfulBtn->setFocusPolicy(Qt::NoFocus);
-    m_colorfulBtn->setObjectName("ColorFulButton");
-
 
     QHBoxLayout *colorLayout = new QHBoxLayout(colorValueWidget);
 //    colorValueWidget->setStyleSheet("background-color: rgb(0, 255, 0);");
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(colLabel);
+    colorLayout->addSpacing(23);
     colorLayout->addWidget(m_colLineEdit);
     colorLayout->addSpacing(10);
     colorLayout->addWidget(m_colorfulBtn);
@@ -366,7 +359,7 @@ void ColorPanel::initConnection()
     connect(m_alphaControlWidget, &CAlphaControlWidget::signalFinishChanged, this, &ColorPanel::signalChangeFinished);
 
     ///展开按钮
-    connect(m_colorfulBtn, &CCheckButton::buttonClick, this, [ = ] {
+    connect(m_colorfulBtn, &CIconButton::buttonClick, this, [ = ] {
         if (m_expand)
         {
             m_pickColWidget->hide();

@@ -26,13 +26,13 @@
 
 #include "utils/global.h"
 #include "service/colorpickerinterface.h"
-#include "ccheckbutton.h"
+#include "ciconbutton.h"
 
 #include <DGuiApplicationHelper>
 
 DGUI_USE_NAMESPACE
 
-const QSize PICKCOLOR_WIDGET_SIZE = QSize(226, 220);
+const QSize PICKCOLOR_WIDGET_SIZE = QSize(294, 215);
 
 PickColorWidget::PickColorWidget(DWidget *parent)
     : DWidget(parent)
@@ -40,9 +40,9 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     setFixedSize(PICKCOLOR_WIDGET_SIZE);
     DLabel *titleLabel = new DLabel(this);
     QFont  titleLabelFont = titleLabel->font();
-    titleLabelFont.setPixelSize(12);
+    titleLabelFont.setPixelSize(13);
     titleLabel->setText("RGB");
-    titleLabel->setFixedWidth(30);
+    titleLabel->setFixedWidth(27);
     titleLabel->setFont(titleLabelFont);
 
     m_cp = new ColorPickerInterface("com.deepin.Picker",
@@ -57,53 +57,45 @@ PickColorWidget::PickColorWidget(DWidget *parent)
 
 
     m_redEditLabel = new EditLabel(this);
-    m_redEditLabel->setTitle("R");
-    m_redEditLabel->setEditText("255");
-    connect(m_redEditLabel, &EditLabel::editTextChanged,
-            this, &PickColorWidget::updateColor);
 
     m_greenEditLabel = new EditLabel(this);
-    m_greenEditLabel->setTitle("G");
-    m_greenEditLabel->setEditText("255");
-    connect(m_greenEditLabel, &EditLabel::editTextChanged,
-            this, &PickColorWidget::updateColor);
 
     m_blueEditLabel = new EditLabel(this);
-    m_blueEditLabel->setTitle("B");
-    m_blueEditLabel->setEditText("255");
-    connect(m_blueEditLabel, &EditLabel::editTextChanged,
-            this, &PickColorWidget::updateColor);
 
 
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/dorpper_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/dorpper_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/dorpper_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/dorpper_active.svg");
 
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/dorpper_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/dorpper_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/dorpper_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/dorpper_active.svg");
+    QMap<int, QMap<CIconButton::EIconButtonSattus, QString> > pictureMap;
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/dorpper_normal.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Hover] = QString(":/theme/light/images/draw/dorpper_hover.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Press] = QString(":/theme/light/images/draw/dorpper_press.svg");
+    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Active] = QString(":/theme/light/images/draw/dorpper_active.svg");
 
-    m_picker = new CCheckButton(pictureMap, QSize(36, 36), this, false);
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Normal] = QString(":/theme/dark/images/draw/dorpper_normal.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Hover] = QString(":/theme/dark/images/draw/dorpper_hover.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/dorpper_press.svg");
+    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/dorpper_active.svg");
+
+    m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
 
 
     QHBoxLayout *rgbLayout = new QHBoxLayout;
     rgbLayout->setMargin(0);
     rgbLayout->setSpacing(0);
     rgbLayout->addWidget(titleLabel);
-    rgbLayout->addSpacing(10);
+    rgbLayout->addSpacing(22);
     rgbLayout->addWidget(m_redEditLabel);
+    rgbLayout->addSpacing(7);
     rgbLayout->addWidget(m_greenEditLabel);
+    rgbLayout->addSpacing(8);
     rgbLayout->addWidget(m_blueEditLabel);
     rgbLayout->addSpacing(10);
     rgbLayout->addWidget(m_picker);
     m_colorSlider = new ColorSlider(this);
-    m_colorSlider->setFixedSize(226, 25);
+//    m_colorSlider->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 25);
 
     m_colorLabel = new ColorLabel(this);
-    m_colorLabel->setFixedSize(226, 136);
+    m_colorLabel->setFixedSize(PICKCOLOR_WIDGET_SIZE.width(), 136);
+
     connect(m_colorSlider, &ColorSlider::valueChanged, m_colorLabel, [ = ](int val) {
         m_colorLabel->setHue(val);
     });
@@ -115,7 +107,7 @@ PickColorWidget::PickColorWidget(DWidget *parent)
         preSetRgbValue(color);
     });
 
-    connect(m_picker, &CCheckButton::mouseRelease, this, [ = ] {
+    connect(m_picker, &CIconButton::mouseRelease, this, [ = ] {
         m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
 //        QDBusPendingReply<> reply =  m_cp->StartPick(QString("%1").arg(qApp->applicationPid()));
 //        reply.waitForFinished();
@@ -158,16 +150,16 @@ PickColorWidget::PickColorWidget(DWidget *parent)
     mLayout->addLayout(rgbLayout);
     mLayout->addSpacing(10);
     mLayout->addWidget(m_colorLabel, 0, Qt::AlignCenter);
-    mLayout->addSpacing(10);
+    mLayout->addSpacing(11);
     mLayout->addWidget(m_colorSlider, 0, Qt::AlignCenter);
     setLayout(mLayout);
 }
 
 void PickColorWidget::setRgbValue(QColor color, bool isPicked)
 {
-    m_redEditLabel->setEditText(QString("%1").arg(color.red()));
-    m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
-    m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
+    m_redEditLabel->setText(QString("%1").arg(color.red()));
+    m_greenEditLabel->setText(QString("%1").arg(color.green()));
+    m_blueEditLabel->setText(QString("%1").arg(color.blue()));
 
     if (isPicked)
         emit pickedColor(color);
@@ -175,18 +167,18 @@ void PickColorWidget::setRgbValue(QColor color, bool isPicked)
 
 void PickColorWidget::preSetRgbValue(QColor color)
 {
-    m_redEditLabel->setEditText(QString("%1").arg(color.red()));
-    m_greenEditLabel->setEditText(QString("%1").arg(color.green()));
-    m_blueEditLabel->setEditText(QString("%1").arg(color.blue()));
+    m_redEditLabel->setText(QString("%1").arg(color.red()));
+    m_greenEditLabel->setText(QString("%1").arg(color.green()));
+    m_blueEditLabel->setText(QString("%1").arg(color.blue()));
 
     emit signalPreSetColorName(color);
 }
 
 void PickColorWidget::updateColor()
 {
-    int r = m_redEditLabel->editText().toInt();
-    int g = m_greenEditLabel->editText().toInt();
-    int b = m_blueEditLabel->editText().toInt();
+    int r = m_redEditLabel->text().toInt();
+    int g = m_greenEditLabel->text().toInt();
+    int b = m_blueEditLabel->text().toInt();
 
     if (QColor(r, g, b).isValid()) {
         emit pickedColor(QColor(r, g, b));

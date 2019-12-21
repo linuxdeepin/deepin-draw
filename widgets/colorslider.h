@@ -22,16 +22,13 @@
 //#include <QSlider>
 #include <QPaintEvent>
 #include <QSlider>
-#include <DWidget>
-
-DWIDGET_USE_NAMESPACE
 
 
 class ColorSlider : public QSlider
 {
     Q_OBJECT
 public:
-    ColorSlider(DWidget *parent = nullptr);
+    ColorSlider(QWidget *parent = nullptr);
     ~ColorSlider();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)
@@ -42,6 +39,7 @@ protected:
 
 private:
     int m_value;
+    QImage m_backgroundImage;
 };
 
 #endif // COLORSLIDER_H

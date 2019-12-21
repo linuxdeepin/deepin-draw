@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXin
+ * Author:     WangXing
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,14 +135,11 @@ QList<QColor> specifiedColorList()
 {
     QList<QColor> colorList;
     colorList
-            << QColor(Qt::transparent)  << QColor("#ff0c0c") << QColor("#fcfd0e")
-            << QColor("#45fd14") << QColor("#52fef6") << QColor("#f600ff")
-            << QColor("#ff7087") << QColor("#fe3c3b") << QColor("#ff930e")
-            << QColor("#fffd83") << QColor("#6bc989") << QColor("#4ec918")
-            << QColor("#0290ea") << QColor("#49b2f6") << QColor("#72c8ff")
-            << QColor("#958ef9") << QColor("#8a47fb") << QColor("#6b1aee")
-            << QColor("#ffffff") << QColor("#e3e3e3") << QColor("#adadad")
-            << QColor("#6f6f6f") << QColor("#404040") << QColor("#000000");
+            << QColor(Qt::transparent)  << QColor("#ff0c0c")  << QColor("#eb6100") << QColor("#fcfd0e") << QColor("#45FD14") << QColor("#52FEF6") << QColor("#2E00FF") << QColor("#F600FF")
+            << QColor("#FF7087")  << QColor("#FE3C3B")  << QColor("#EC6941") << QColor("#FF9E0E") << QColor("#FFFD83") << QColor("#8FC31F") << QColor("#6BC989") << QColor("#4EC918")
+            << QColor("#0292EA")  << QColor("#49B2F6")  << QColor("#72C8FF") << QColor("#85CCC8") << QColor("#89ABDA") << QColor("#958EF9") << QColor("#8A47FB") << QColor("#6B1AEE")
+            << QColor("#FFFFFF")  << QColor("#E3E3E3")  << QColor("#C9C9C9") << QColor("#ADADAD") << QColor("#6F6F6F") << QColor("#404040") << QColor("#1B1B1B") << QColor("#000000");
+
     return colorList;
 }
 

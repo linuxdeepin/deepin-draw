@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
- * Author:     WangXin
+ * Author:     WangXing
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,32 +19,18 @@
 #ifndef EDITLABEL_H
 #define EDITLABEL_H
 
-#include <DLabel>
 #include <DLineEdit>
 #include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
-class EditLabel : public DLabel
+class EditLabel : public DLineEdit
 {
     Q_OBJECT
 public:
     EditLabel(DWidget *parent = nullptr);
     ~EditLabel();
 
-    void setTitle(QString title);
-    void setEditText(QString text);
-    void setEditWidth(int width);
-    void setTitleSpacing(int spacing);
-    QString editText();
-
-signals:
-    void editTextChanged(QString text);
-
-private:
-    DLabel *m_titleLabel;
-    DLineEdit *m_edit;
-    int m_titleSpacing;
 };
 
 #endif // EDITLABEL_H

@@ -28,7 +28,7 @@
 #include "editlabel.h"
 #include "drawshape/globaldefine.h"
 
-class CCheckButton;
+class CIconButton;
 
 DWIDGET_USE_NAMESPACE
 
@@ -80,7 +80,7 @@ protected:
 
 private:
     DLineEdit *m_colLineEdit;
-    CCheckButton *m_colorfulBtn;
+    CIconButton *m_colorfulBtn;
     CAlphaControlWidget *m_alphaControlWidget;
     QList<QColor> m_colList;
     QList<ColorButton *> m_cButtonList;
