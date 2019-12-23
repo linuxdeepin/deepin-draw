@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
     <title>palette_normal</title>
     <desc>Created with Sketch.</desc>
     <defs>
@@ -57,7 +57,6 @@
     <g id="画板" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="调色板" transform="translate(-72.000000, -16.000000)">
             <g id="palette_normal" transform="translate(72.000000, 16.000000)">
-                <rect id="Rectangle" fill-opacity="0.1" fill="#000000" opacity="0.800000012" x="0" y="0" width="36" height="36" rx="8"></rect>
                 <g id="Group-4" transform="translate(10.000000, 10.000000)">
                     <path d="M3.91185699,1.12200046 L5.35227781,3.61688252 C4.64297654,4.04627209 4.04627209,4.64297654 3.61688252,5.35227781 L1.12200046,3.91185699 C1.80470019,2.76573599 2.76573599,1.80470019 3.91185699,1.12200046 L3.91185699,1.12200046 Z" id="Path" fill="url(#linearGradient-1)"></path>
                     <path d="M4.19000896,0.963773817 C5.32277982,0.349102399 6.62062129,0 8,0 L8,2.88 C7.14527236,2.88 6.33946224,3.08944082 5.63109099,3.45980111 L4.19000896,0.963773817 L4.19000896,0.963773817 Z" id="Path" fill="url(#linearGradient-2)"></path>

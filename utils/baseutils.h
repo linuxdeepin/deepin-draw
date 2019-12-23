@@ -27,9 +27,9 @@
 
 #include "shapesutils.h"
 
-#include <dscreenwindowsutil.h>
+//#include <dscreenwindowsutil.h>
 
-DWM_USE_NAMESPACE
+//DWM_USE_NAMESPACE
 
 
 enum CutRation {

@@ -34,8 +34,10 @@
 QSize      initArtboardSize(QPoint pos)
 {
     int artboardActualWidth = 0, artboardActualHeight = 0;
-    QSize desktopSize = DScreenWindowsUtil::instance(pos
-                                                    )->primaryScreen()->size();
+//    QSize desktopSize = DScreenWindowsUtil::instance(pos
+//                                                    )->primaryScreen()->size();
+    QSize desktopSize = QApplication::desktop()->screen()->size();
+
     qDebug() << "init artboardSize:" << pos <<  desktopSize;
     artboardActualWidth = desktopSize.width();
     artboardActualHeight = desktopSize.height();
@@ -50,8 +52,11 @@ QSize      getArtboardSize(QPoint pos)
     qDebug() << "origin artboardSize:" << artboardActualWidth << artboardActualHeight;
 
     if (artboardActualWidth == 0 || artboardActualHeight == 0) {
-        QSize desktopSize = DScreenWindowsUtil::instance(pos
-                                                        )->primaryScreen()->size();
+//        QSize desktopSize = DScreenWindowsUtil::instance(pos
+//                                                        )->primaryScreen()->size();
+
+        QSize desktopSize = QApplication::desktop()->screen()->size();
+
         qDebug() << "init artboardSize:" << pos <<  desktopSize;
 
         artboardActualWidth = desktopSize.width();
