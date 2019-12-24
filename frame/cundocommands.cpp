@@ -470,6 +470,7 @@ void CSetPropertyCommand::undo()
     }
     CDrawParamSigleton::GetInstance()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 void CSetPropertyCommand::redo()
@@ -487,6 +488,7 @@ void CSetPropertyCommand::redo()
 
     CDrawParamSigleton::GetInstance()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int newNum)
@@ -501,6 +503,7 @@ void CSetPolygonAttributeCommand::undo()
     m_pItem->setPointCount(m_nOldNum);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 void CSetPolygonAttributeCommand::redo()
@@ -509,6 +512,7 @@ void CSetPolygonAttributeCommand::redo()
 
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
@@ -525,6 +529,7 @@ void CSetPolygonStarAttributeCommand::undo()
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 void CSetPolygonStarAttributeCommand::redo()
@@ -532,6 +537,7 @@ void CSetPolygonStarAttributeCommand::redo()
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 
@@ -546,12 +552,14 @@ void CSetPenAttributeCommand::undo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 void CSetPenAttributeCommand::redo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_newType));
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 CSetLineAttributeCommand::CSetLineAttributeCommand(CGraphicsLineItem *item, int newType)
@@ -565,12 +573,14 @@ void CSetLineAttributeCommand::undo()
 {
     m_pItem->setLineType(static_cast<ELineType>(m_oldType));
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 void CSetLineAttributeCommand::redo()
 {
     m_pItem->setLineType(static_cast<ELineType>(m_newType));
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
 

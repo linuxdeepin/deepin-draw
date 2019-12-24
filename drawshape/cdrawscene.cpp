@@ -443,6 +443,7 @@ void CDrawScene::drawToolChange(int type)
 {
     this->clearSelection();
     changeMouseShape(static_cast<EDrawToolMode>(type));
+    CDrawScene::GetInstance()->updateBlurItem();
 }
 
 void CDrawScene::changeMouseShape(EDrawToolMode type)
