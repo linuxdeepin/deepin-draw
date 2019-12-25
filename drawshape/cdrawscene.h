@@ -105,7 +105,7 @@ signals:
     /**
      * @brief signalChangeToSelect 发送工具栏切换为选择的信号
      */
-//    void signalChangeToSelect();
+    void signalChangeToSelect();
     /**
      * @brief signalQuitCutMode 退出裁剪模式
      */

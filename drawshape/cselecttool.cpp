@@ -112,6 +112,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             } else {
                 m_currentSelectItem = nullptr;
+                emit scene->signalChangeToSelect();
                 CDrawScene::GetInstance()->updateBlurItem();
             }
         }
@@ -121,6 +122,12 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_dragHandle = CSizeHandleRect::None;
         qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         scene->mouseEvent(event);
+
+        //判断是否在画板空白处点击右键(在画板空白处点击右键会自动取消选中)
+        if (scene->selectedItems().count() == 0) {
+            emit scene->signalChangeToSelect();
+        }
+
     } else {
         scene->mouseEvent(event);
     }
