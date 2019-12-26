@@ -166,6 +166,10 @@ void CGraphicsMasicoItem::setPixmap()
         QPainter painterd(&m_pixmap);
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+
+//        m_pixmap.fill(Qt::transparent);
+//        this->scene()->setBackgroundBrush(Qt::transparent);
+
         this->scene()->render(&painterd);
 
         //m_pixmap.save("./wang.jpg");
@@ -291,6 +295,11 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
             if (item->type() > QGraphicsItem::UserType) {
+
+                if (item->type() == BlurType && item != this) {
+                    retList.push_back(item);
+                    continue;
+                }
                 qreal itemZValue = item->zValue();
                 if (thisZValue > itemZValue) {
                     retList.push_back(item);

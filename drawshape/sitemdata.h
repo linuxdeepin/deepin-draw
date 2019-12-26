@@ -42,14 +42,14 @@
 
 //图元头部
 struct SGraphicsUnitHead {
-    qint8 headCheck[4]; //头部校验
-    qint32 dataType; //图元类型
-    qint64 dataLength; //数据长度
-    QPen    pen;
-    QBrush  brush;
-    QPointF  pos;  //图元起始位置
-    qreal rotate;   //旋转角度
-    qreal zValue;  //Z值 用来保存图形层次
+    qint8 headCheck[4];          //头部校验
+    qint32 dataType;             //图元类型
+    qint64 dataLength;           //数据长度
+    QPen    pen;                 //图元使用的画笔信息
+    QBrush  brush;               //图元使用的画刷信息
+    QPointF  pos;                //图元起始位置
+    qreal rotate;                //旋转角度
+    qreal zValue;                //Z值 用来保存图形层次
 
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsUnitHead &head)
     {
@@ -324,16 +324,16 @@ struct SGraphicsBlurUnitData {
 
 //数据封装
 union CGraphicsItemData {
-    SGraphicsRectUnitData *pRect;
-    SGraphicsCircleUnitData *pCircle;
-    SGraphicsTriangleUnitData *pTriangle;
-    SGraphicsPolygonUnitData *pPolygon;
-    SGraphicsPolygonStarUnitData *pPolygonStar;
-    SGraphicsLineUnitData *pLine;
-    SGraphicsTextUnitData *pText;
-    SGraphicsPictureUnitData *pPic;
-    SGraphicsPenUnitData *pPen;
-    SGraphicsBlurUnitData *pBlur;
+    SGraphicsRectUnitData *pRect;                 //矩形图元数据
+    SGraphicsCircleUnitData *pCircle;             //椭圆图元数据
+    SGraphicsTriangleUnitData *pTriangle;         //三角形图元数据
+    SGraphicsPolygonUnitData *pPolygon;           //多边形图元数据
+    SGraphicsPolygonStarUnitData *pPolygonStar;   //星形图元数据
+    SGraphicsLineUnitData *pLine;                 //直线图元数据
+    SGraphicsTextUnitData *pText;                 //文字图元数据
+    SGraphicsPictureUnitData *pPic;               //图片图元数据
+    SGraphicsPenUnitData *pPen;                   //画笔图元数据
+    SGraphicsBlurUnitData *pBlur;                 //模糊图元数据
 
     CGraphicsItemData() {
         pRect = nullptr;
@@ -370,9 +370,9 @@ union CGraphicsItemData {
 
 //单个图数据
 struct CGraphicsUnit {
-    SGraphicsUnitHead head;
-    CGraphicsItemData data;
-    SGraphicsUnitTail tail;
+    SGraphicsUnitHead head;          //单个图元的头部信息及校验
+    CGraphicsItemData data;          //单个图元的数据部分
+    SGraphicsUnitTail tail;          //单个图元的尾部校验
 
 
     friend  QDataStream &operator << (QDataStream &out, const CGraphicsUnit &graphicsUnitData)

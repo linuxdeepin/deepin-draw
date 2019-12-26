@@ -77,7 +77,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 void CGraphicsView::zoomOut()
 {
     qDebug() << "m_scale=" << m_scale;
-    if (1.1 * m_scale - 8 <= 0.01) {
+    if (1.1 * m_scale - 8 <= 0.00001) {
         this->scale(1.1 * m_scale);
         emit signalSetScale(m_scale);
     } else {
@@ -89,7 +89,7 @@ void CGraphicsView::zoomOut()
 
 void CGraphicsView::zoomIn()
 {
-    if (0.9 * m_scale - 0.25 >= 0.01) {
+    if (0.9 * m_scale - 0.25 >= 0.00001) {
         this->scale(0.9 * m_scale);
         emit signalSetScale(m_scale);
 
@@ -804,7 +804,7 @@ void CGraphicsView::slotViewZoomIn()
 
 void CGraphicsView::slotViewZoomOut()
 {
-    if (m_scale - 0.25 >= 0.01) {
+    if (m_scale - 0.25 >= 0.00001) {
         this->scale(m_scale - 0.25);
         emit signalSetScale(m_scale);
 

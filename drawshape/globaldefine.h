@@ -79,12 +79,12 @@ enum ECutAttributeType {
 };
 
 enum ECutType {
-    cut_1_1,
-    cut_2_3,
-    cut_8_5,
-    cut_16_9,
-    cut_free,
-    cut_original
+    cut_1_1,        //1:1裁剪
+    cut_2_3,        //2:3裁剪
+    cut_8_5,        //8:5裁剪
+    cut_16_9,       //16:9裁剪
+    cut_free,        //自由裁剪
+    cut_original     //裁剪框恢复画板初始大小
 };
 
 enum EBlurEffect {
@@ -93,11 +93,11 @@ enum EBlurEffect {
 };
 
 enum ESaveDDFTriggerAction {
-    QuitApp, //保存完后退出画板
-    LoadDDF, //保存完后导入ＤＤＦ文件
-    StartByDDF,
-    NewDrawingBoard,//保存完后新建画板
-    ImportPictrue,//保存完后打开图片文件
-    SaveAction//正常保存　保存完后不做任何事
+    QuitApp,             //保存完后退出画板
+    LoadDDF,             //保存完后导入ＤＤＦ文件
+    StartByDDF,          //通过DDF文件打开后弹出保存
+    NewDrawingBoard,     //保存完后新建画板
+    ImportPictrue,       //保存完后打开图片文件
+    SaveAction           //正常保存,保存完后不做任何事
 };
 #endif // GLODEFINE_H
