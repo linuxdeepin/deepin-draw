@@ -234,43 +234,59 @@ void CDrawScene::attributeChanged()
 
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 {
-    if (flag) {
-        switch (selectedItem->type()) {
-        case RectType:
-        case EllipseType:
-        case TriangleType:
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
-            break;
-        case PolygonType:
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
-            CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(selectedItem)->nPointsCount());
-            break;
-        case PolygonalStarType:
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(selectedItem)->brush());
-            CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->anchorNum());
-            CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(selectedItem)->innerRadius());
-            break;
-        case PenType:
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(selectedItem)->currentType());
-            break;
-        case LineType:
-            CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(selectedItem)->pen());
-            CDrawParamSigleton::GetInstance()->setLineType(static_cast<CGraphicsLineItem *>(selectedItem)->getLineType());
-            break;
-        case BlurType:
-            CDrawParamSigleton::GetInstance()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(selectedItem)->getBlurEffect());
-            CDrawParamSigleton::GetInstance()->setBlurWidth(static_cast<CGraphicsMasicoItem *>(selectedItem)->getBlurWidth());
-            break;
-
-        default:
-            break;
+    QGraphicsItem *tmpItem = selectedItem;
+    QList<QGraphicsItem *> items = this->selectedItems();
+    int count = items.count();
+    //多选状态
+    if (count > 1) {
+        CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
+        if (flag) {
+            emit signalAttributeChanged(flag, RectType);
         }
+
+    } else if (count == 1) {
+        if (selectedItem == nullptr) {
+            tmpItem = items[0];
+        }
+
+        if (flag) {
+            switch (tmpItem->type()) {
+            case RectType:
+            case EllipseType:
+            case TriangleType:
+                CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
+                break;
+            case PolygonType:
+                CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
+                CDrawParamSigleton::GetInstance()->setSideNum(static_cast<CGraphicsPolygonItem *>(tmpItem)->nPointsCount());
+                break;
+            case PolygonalStarType:
+                CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                CDrawParamSigleton::GetInstance()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
+                CDrawParamSigleton::GetInstance()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(tmpItem)->anchorNum());
+                CDrawParamSigleton::GetInstance()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(tmpItem)->innerRadius());
+                break;
+            case PenType:
+                CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                CDrawParamSigleton::GetInstance()->setCurrentPenType(static_cast<CGraphicsPenItem *>(tmpItem)->currentType());
+                break;
+            case LineType:
+                CDrawParamSigleton::GetInstance()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                CDrawParamSigleton::GetInstance()->setLineType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineType());
+                break;
+            case BlurType:
+                CDrawParamSigleton::GetInstance()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurEffect());
+                CDrawParamSigleton::GetInstance()->setBlurWidth(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurWidth());
+                break;
+
+            default:
+                break;
+            }
+        }
+        emit signalAttributeChanged(flag, tmpItem->type());
     }
-    emit signalAttributeChanged(flag, selectedItem->type());
 }
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

@@ -260,10 +260,12 @@ void PolygonalStarAttributeWidget::initConnection()
         }
 
         QString tmpStr = "";
+        bool hasPercent = false;
         int value = -1;
         if (str.contains("%")) {
             tmpStr = str.split("%").first();
             value = tmpStr.trimmed().toInt();
+            hasPercent = true;
         } else {
             value = str.toInt();
             m_radiusNumEdit->setText(str + "%");
@@ -280,7 +282,7 @@ void PolygonalStarAttributeWidget::initConnection()
         m_radiusNumSlider->blockSignals(false);
         CDrawParamSigleton::GetInstance()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
-        if (str.length() > 1) {
+        if (str.length() > 1 && hasPercent) {
             m_radiusNumEdit->lineEdit()->setCursorPosition(str.length() - 1);
         }
     });

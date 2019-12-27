@@ -903,12 +903,16 @@ void CSceneCutCommand::undo()
     CDrawScene::GetInstance()->setSceneRect(m_oldRect);
     CDrawScene::GetInstance()->update();
 
+    CDrawScene::GetInstance()->updateBlurItem();
+
 }
 
 void CSceneCutCommand::redo()
 {
     CDrawScene::GetInstance()->setSceneRect(m_newRect);
     CDrawScene::GetInstance()->update();
+
+    CDrawScene::GetInstance()->updateBlurItem();
 }
 
 

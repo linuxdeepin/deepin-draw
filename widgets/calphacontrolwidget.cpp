@@ -33,6 +33,7 @@ void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
     m_alphaSlider->blockSignals(true);
     m_alphaSlider->setValue(percentValue);
     m_alphaSlider->blockSignals(false);
+    m_alphaLabel->setText(QString("%1%").arg(percentValue));
 }
 
 void CAlphaControlWidget::initUI()

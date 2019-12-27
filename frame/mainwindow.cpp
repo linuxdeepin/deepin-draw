@@ -82,6 +82,7 @@ void MainWindow::initUI()
 //    titlebar()->setIcon(QIcon (QPixmap(":/theme/common/images/logo.svg").scaled(QSize(32, 32))));
     titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
+    titlebar()->setFocusPolicy(Qt::NoFocus);
 
 //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
 
