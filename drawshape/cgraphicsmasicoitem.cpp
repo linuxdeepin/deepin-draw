@@ -4,6 +4,7 @@
 #include "cgraphicstextitem.h"
 #include "widgets/ctextedit.h"
 #include "cgraphicsproxywidget.h"
+#include "cdrawscene.h"
 #include <DApplication>
 #include <QGraphicsScene>
 #include <QPainter>
@@ -163,16 +164,22 @@ void CGraphicsMasicoItem::setPixmap()
         this->hide();
         QRect rect = this->scene()->sceneRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
+        m_pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painterd(&m_pixmap);
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-//        m_pixmap.fill(Qt::transparent);
-//        this->scene()->setBackgroundBrush(Qt::transparent);
+        CDrawParamSigleton::GetInstance()->setRenderImage(2);
+
+        this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        //m_pixmap.save("./wang.jpg");
+        CDrawParamSigleton::GetInstance()->setRenderImage(0);
+        CDrawScene::GetInstance()->resetSceneBackgroundBrush();
+//        this->scene()->setBackgroundBrush(Qt::transparent);
+
+        //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
 
         this->show();
         this->setSelected(flag);

@@ -127,6 +127,16 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
     }*/
 }
 
+void CDrawScene::resetSceneBackgroundBrush()
+{
+    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    if (themeType == 1) {
+        this->setBackgroundBrush(QColor(248, 248, 251));
+    } else if (themeType == 2) {
+        this->setBackgroundBrush(QColor(35, 35, 35));
+    }
+}
+
 CDrawScene *CDrawScene::GetInstance()
 {
     if (m_pInstance == nullptr) {

@@ -73,6 +73,10 @@ public:
      */
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
     /**
+     * @brief resetSceneBackgroundBrush  重新设置背景颜色
+     */
+    void resetSceneBackgroundBrush();
+    /**
      * @brief showCutItem 显示裁剪图元
      */
     void showCutItem();

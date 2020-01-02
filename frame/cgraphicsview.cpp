@@ -53,6 +53,7 @@
 #include <QRectF>
 #include <QPainter>
 #include <QDesktopWidget>
+#include <QClipboard>
 
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
@@ -593,11 +594,12 @@ void CGraphicsView::slotOnCopy()
 void CGraphicsView::slotOnPaste()
 {
 
+    QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
     QString filePath = mp->text();
     //qDebug() << "slotOnPaste"  << endl;
 
-    if (mp->hasImage()) {
+    if (!map.isNull()) {
         //粘贴剪切板中的图片
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();

@@ -24,6 +24,7 @@
 #include <QFileInfo>
 #include <QPrintPreviewDialog>
 #include <QPainter>
+
 #include <QDebug>
 
 DWIDGET_USE_NAMESPACE
@@ -46,11 +47,9 @@ void CPrintManager::showPrintDialog(const QPixmap &pixmap, DWidget *widget)
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageSize(QPrinter::Custom);
-    printer.setPaperSize(QPrinter::Custom);
     printer.setPaperSize(QSize(m_pixMap.width(), m_pixMap.height()),
                          QPrinter::DevicePixel);
     printer.setPageMargins(0., 0., 0., 0., QPrinter::DevicePixel);
-    printer.setFullPage(true);
 
     QString desktopDir = QStandardPaths::writableLocation(
                              QStandardPaths::DesktopLocation);
@@ -82,6 +81,7 @@ void CPrintManager::slotPrintPreview(QPrinter *printerPixmap)
     QRect wRect;
 
     wRect = printerPixmap->pageRect();
+
     if (m_pixMap.width() > wRect.width() || m_pixMap.height() > wRect.height()) {
         m_pixMap = m_pixMap.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
