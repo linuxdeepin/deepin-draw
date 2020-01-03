@@ -117,6 +117,8 @@ private slots:
     void slotOnTextRightAlignment();
     void slotOnTextLeftAlignment();
     void slotOnTextCenterAlignment();
+    void slotOnTextUndo();
+    void slotOnTextRedo();
     /**
      * @brief slotRestContextMenuAfterQuitCut 退出裁剪重置右键菜单
      */
@@ -163,6 +165,8 @@ private:
     QAction *m_textTopAlignAct;
     QAction *m_textRightAlignAct;
     QAction *m_textCenterAlignAct;
+    QAction *m_textUndoAct;             //文字撤销
+    QAction *m_textRedoAct;             //文字重做
     ///
 
     QUndoStack *m_pUndoStack;

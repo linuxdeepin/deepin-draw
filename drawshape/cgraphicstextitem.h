@@ -69,6 +69,8 @@ public:
     void doRightAlignment();
     void doLeftAlignment();
     void doCenterAlignment();
+    void doUndo();
+    void doRedo();
 
 
     //选中后 更改字体和颜色

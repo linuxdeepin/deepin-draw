@@ -587,3 +587,13 @@ void CGraphicsTextItem::doCenterAlignment()
     m_pTextEdit->setAlignment(Qt::AlignCenter);
 }
 
+void CGraphicsTextItem::doUndo()
+{
+    m_pTextEdit->undo();
+}
+
+void CGraphicsTextItem::doRedo()
+{
+    m_pTextEdit->redo();
+}
+

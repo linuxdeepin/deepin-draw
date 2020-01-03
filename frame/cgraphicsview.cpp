@@ -156,7 +156,7 @@ void CGraphicsView::initContextMenu()
     m_undoAct->setShortcut(QKeySequence::Undo);
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
-    //m_contextMenu->addAction(m_redoAct);
+    m_contextMenu->addAction(m_redoAct);
     m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
     this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
@@ -264,6 +264,9 @@ void CGraphicsView::initTextContextMenu()
     m_textRightAlignAct = new QAction(tr("Text Align Right" ));
     m_textCenterAlignAct = new QAction(tr("Text Align Center"));
 
+    m_textUndoAct = new QAction(tr("Undo"));
+    m_textRedoAct = new QAction(tr("Redo"));
+
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
     m_textMenu->addAction(m_textPasteAction);
@@ -271,7 +274,10 @@ void CGraphicsView::initTextContextMenu()
     m_textMenu->addSeparator();
 
     m_textMenu->addAction(deleteAct);
-    m_textMenu->addAction(undoAct);
+    //m_textMenu->addAction(undoAct);
+    m_textMenu->addAction(m_textUndoAct);
+    m_textMenu->addAction(m_textRedoAct);
+
     m_textMenu->addSeparator();
 
     m_textMenu->addAction(fakeRaiseLayerAct);
@@ -297,6 +303,9 @@ void CGraphicsView::initTextContextMenuConnection()
     //connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
     connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
     connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
+
+    connect(m_textUndoAct, SIGNAL(triggered()), this, SLOT(slotOnTextUndo()));
+    connect(m_textRedoAct, SIGNAL(triggered()), this, SLOT(slotOnTextRedo()));
 }
 
 void CGraphicsView::initConnection()
@@ -603,15 +612,19 @@ void CGraphicsView::slotOnPaste()
         //粘贴剪切板中的图片
         QVariant imageData = mp->imageData();
         QPixmap pixmap = imageData.value<QPixmap>();
+
+        qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
             emit signalPastePixmap(pixmap);
         }
-        //qDebug() << "imageData" << imageData << endl;
+        qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {
         //粘贴文件路径
         emit signalLoadDragOrPasteFile(filePath);
         //qDebug() << "filePath" << filePath << endl;
     } else {
+        qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
+
         //粘贴画板内部图元
         CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
         if ( data ) {
@@ -902,6 +915,28 @@ void CGraphicsView::slotOnTextCenterAlignment()
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
         if (TextType == item->type() &&  tmpitem->isEditable()) {
             tmpitem->doCenterAlignment();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextUndo()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doUndo();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextRedo()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doRedo();
         }
     }
 }

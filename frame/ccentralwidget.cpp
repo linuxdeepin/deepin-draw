@@ -108,7 +108,8 @@ void CCentralwidget::importPicture()
 
     DFileDialog *fileDialog = new DFileDialog();
     //设置文件保存对话框的标题
-    fileDialog->setWindowTitle(tr("导入图片"));
+    //fileDialog->setWindowTitle(tr("导入图片"));
+    fileDialog->setWindowTitle(tr("Import"));
     QStringList filters;
     filters << "*.png *.jpg *.bmp *.tif";
     fileDialog->setNameFilters(filters);

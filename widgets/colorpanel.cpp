@@ -228,7 +228,7 @@ void ColorPanel::initUI()
     DLabel *colLabel = new DLabel(colorValueWidget);
     QFont colLabelFont = colLabel->font();
     colLabelFont.setPixelSize(13);
-    colLabel->setFixedWidth(26);
+    colLabel->setFixedWidth(35);
     colLabel->setText(tr("Color"));
     colLabel->setFont(colLabelFont);
 
@@ -258,7 +258,7 @@ void ColorPanel::initUI()
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
     colorLayout->addWidget(colLabel);
-    colorLayout->addSpacing(23);
+    colorLayout->addSpacing(14);
     colorLayout->addWidget(m_colLineEdit);
     colorLayout->addSpacing(10);
     colorLayout->addWidget(m_colorfulBtn);
