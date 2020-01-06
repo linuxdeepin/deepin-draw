@@ -138,7 +138,7 @@ void CGraphicsView::initContextMenu()
     m_pasteAct->setShortcut(QKeySequence::Paste);
     this->addAction(m_pasteAct);
 
-    m_selectAllAct = new QAction(tr("Select all"), this);
+    m_selectAllAct = new QAction(tr("Select All"), this);
     m_contextMenu->addAction(m_selectAllAct);
     m_selectAllAct->setShortcut(QKeySequence::SelectAll);
     this->addAction(m_selectAllAct);

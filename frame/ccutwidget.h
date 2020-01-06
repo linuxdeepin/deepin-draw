@@ -71,6 +71,7 @@ private:
 private:
     void initUI();
     void initConnection();
+    void activeFreeMode();
 };
 
 #endif // AILORINGWIDGET_H

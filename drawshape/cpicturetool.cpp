@@ -22,6 +22,7 @@
 #include <QtConcurrent>
 #include <DMessageBox>
 #include <QGraphicsItem>
+#include <DDialog>
 
 
 CPictureTool::CPictureTool(DWidget *parent)
@@ -37,73 +38,73 @@ CPictureTool::~CPictureTool()
 }
 
 
-void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
-{
-    //告知单例正在画图模式s
-    // CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(importPicture);
-    //qDebug() << "importImageSignal" <<  "drawPicture" << endl;
-    DFileDialog *fileDialog = new DFileDialog();
-    //设置文件保存对话框的标题
-    fileDialog->setWindowTitle(tr("导入图片"));
-    QStringList filters;
-    filters << "*.png *.jpg *.bmp *.tif";
-    fileDialog->setNameFilters(filters);
-    fileDialog->setFileMode(QFileDialog::ExistingFiles);
+//void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
+//{
+//    //告知单例正在画图模式s
+//    // CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(importPicture);
+//    //qDebug() << "importImageSignal" <<  "drawPicture" << endl;
+//    DFileDialog *fileDialog = new DFileDialog();
+//    //设置文件保存对话框的标题
+//    fileDialog->setWindowTitle(tr("导入图片"));
+//    QStringList filters;
+//    filters << "*.png *.jpg *.bmp *.tif";
+//    fileDialog->setNameFilters(filters);
+//    fileDialog->setFileMode(QFileDialog::ExistingFiles);
 
-    if (fileDialog->exec() ==   QDialog::Accepted) {
-
-
-        QStringList filenames = fileDialog->selectedFiles();
-        // qDebug() << filenames << endl;
-        m_picNum = filenames.size();
-        int exitPicNum = 0;
-
-        //获取已导入图片数量
-        QList<QGraphicsItem *> items = scene->items();
-
-        if ( items.count() != 0 ) {
-            for (int i = 0; i < items.size(); i++) {
-                if (items[i]->type() == PictureType) {
-                    exitPicNum = exitPicNum + 1;
-                };
-
-            }
-
-        }
-
-        //大于30张报错，主要是适应各种系统环境，不给内存太大压力
-        if (exitPicNum + m_picNum > 30) {
-            // DMessageBox messageBox= new DMessageBox();
-            DMessageBox::warning(nullptr, tr("Import warning"), tr("30 pictures are allowed to be imported at most, "
-                                                                   "already imported %1 pictures, please try again").arg(exitPicNum));
-            return;
-
-        }
-
-        m_progressLayout->setRange(0, m_picNum);
-
-        m_progressLayout->showInCenter(centralWindow->window());
-        //progressLayout->show();//此处还需要找个show的zhaiti载体
-
-        //启动图片导入线程
-        QtConcurrent::run([ = ] {
-            for (int i = 0; i < m_picNum; i++)
-            {
-
-                QPixmap pixmap = QPixmap (filenames[i]);
-
-                emit addImageSignal(pixmap, i + 1, scene, centralWindow);
-                // emit loadImageNum(i + 1);
-                //qDebug() << "importProcessbar" << i + 1 << endl;
-
-            }
-
-        });
+//    if (fileDialog->exec() ==   QDialog::Accepted) {
 
 
-    }
+//        QStringList filenames = fileDialog->selectedFiles();
+//        // qDebug() << filenames << endl;
+//        m_picNum = filenames.size();
+//        int exitPicNum = 0;
 
-}
+//        //获取已导入图片数量
+//        QList<QGraphicsItem *> items = scene->items();
+
+//        if ( items.count() != 0 ) {
+//            for (int i = 0; i < items.size(); i++) {
+//                if (items[i]->type() == PictureType) {
+//                    exitPicNum = exitPicNum + 1;
+//                };
+
+//            }
+
+//        }
+
+//        //大于30张报错，主要是适应各种系统环境，不给内存太大压力
+//        if (exitPicNum + m_picNum > 30) {
+//            // DMessageBox messageBox= new DMessageBox();
+//            DMessageBox::warning(nullptr, tr("Import warning"), tr("30 pictures are allowed to be imported at most, "
+//                                                                   "already imported %1 pictures, please try again").arg(exitPicNum));
+//            return;
+
+//        }
+
+//        m_progressLayout->setRange(0, m_picNum);
+
+//        m_progressLayout->showInCenter(centralWindow->window());
+//        //progressLayout->show();//此处还需要找个show的zhaiti载体
+
+//        //启动图片导入线程
+//        QtConcurrent::run([ = ] {
+//            for (int i = 0; i < m_picNum; i++)
+//            {
+
+//                QPixmap pixmap = QPixmap (filenames[i]);
+
+//                emit addImageSignal(pixmap, i + 1, scene, centralWindow);
+//                // emit loadImageNum(i + 1);
+//                //qDebug() << "importProcessbar" << i + 1 << endl;
+
+//            }
+
+//        });
+
+
+//    }
+
+//}
 
 
 void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow)
@@ -129,9 +130,14 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
     if (exitPicNum + m_picNum > 30) {
-        // DMessageBox messageBox= new DMessageBox();
-        DMessageBox::warning(nullptr, tr("Import warning"), tr("30 pictures are allowed to be imported at most, "
-                                                               "already imported %1 pictures, please try again").arg(exitPicNum));
+
+        Dtk::Widget::DDialog warnDlg(this);
+        warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
+        warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
+        warnDlg.addButtons(QStringList() << tr("Confirm"));
+        warnDlg.setDefaultButton(0);
+        warnDlg.exec();
+
         return;
 
     }

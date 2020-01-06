@@ -75,9 +75,7 @@ void CCutWidget::changeButtonTheme()
 
 void CCutWidget::updateButtonStatus()
 {
-    if (!m_freeBtn->isChecked()) {
-        emit m_freeBtn->clicked(true);
-    }
+    activeFreeMode();
 }
 
 void CCutWidget::initUI()
@@ -299,7 +297,7 @@ void CCutWidget::initConnection()
     });
 
     connect(m_widthEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
-//        qDebug() << "@@@@@@@@@@@@@WidthFocus=" << isfocus;
+        qDebug() << "@@@@@@@@@@@@@WidthFocus=" << isfocus;
         emit signalCutLineEditIsfocus(isfocus);
     });
 
@@ -313,7 +311,10 @@ void CCutWidget::initConnection()
 
         if (m_widthEdit->lineEdit()->hasFocus()) {
             m_widthEdit->lineEdit()->clearFocus();
+            return ;
         }
+
+        activeFreeMode();
 
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
@@ -331,7 +332,10 @@ void CCutWidget::initConnection()
 
         if (m_heightEdit->lineEdit()->hasFocus()) {
             m_heightEdit->lineEdit()->clearFocus();
+            return;
         }
+
+        activeFreeMode();
 
         int w = m_widthEdit->text().trimmed().toInt();
         int h = m_heightEdit->text().trimmed().toInt();
@@ -409,4 +413,11 @@ void CCutWidget::initConnection()
     });
 
 
+}
+
+void CCutWidget::activeFreeMode()
+{
+    if (!m_freeBtn->isChecked()) {
+        emit m_freeBtn->clicked(true);
+    }
 }

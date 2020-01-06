@@ -46,9 +46,9 @@ void CProgressDialog::slotupDateProcessBar(int value)
 void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenByDDF)
 {
     if (SaveDDF == type) {
-        setTitle(tr("Exporting"));
+        setTitle(tr("Saving"));
     } else if (LoadDDF == type) {
-        setTitle(tr("Importing"));
+        setTitle(tr("Opening"));
     }
     m_progressBar->reset();
 

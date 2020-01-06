@@ -62,7 +62,8 @@ CONFIG(release, debug|release) {
 }
 
 TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
-                $$PWD/translations/$${TARGET}_zh_CN.ts
+                $$PWD/translations/$${TARGET}_zh_CN.ts \
+                $$PWD/translations/$${TARGET}_en_US.ts
 
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm

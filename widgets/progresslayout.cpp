@@ -89,7 +89,7 @@ void ProgressLayout::setProgressValue(int value)
 {
     m_progressbar->setValue(value);
     //已导入%1/%2张
-    m_progressLabel->setText(QObject::tr("Already imported %1/%2 pictures").arg(value).arg(m_end));
+    m_progressLabel->setText(QObject::tr("%1/%2 pictures imported").arg(value).arg(m_end));
 
     //设置字号
     QFont ft2;

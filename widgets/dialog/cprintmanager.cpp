@@ -45,10 +45,11 @@ void CPrintManager::showPrintDialog(const QPixmap &pixmap, DWidget *widget)
     m_pixMap = pixmap;
 
     QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPageSize(QPrinter::Custom);
-    printer.setPaperSize(QSize(m_pixMap.width(), m_pixMap.height()),
-                         QPrinter::DevicePixel);
+    printer.setOutputFormat(QPrinter::NativeFormat);
+    printer.setPageSize(QPrinter::A4);
+    printer.setPaperSize(QPrinter::A4);
+//    printer.setPaperSize(QSize(m_pixMap.width(), m_pixMap.height()),
+//                         QPrinter::DevicePixel);
     printer.setPageMargins(0., 0., 0., 0., QPrinter::DevicePixel);
 
     QString desktopDir = QStandardPaths::writableLocation(
