@@ -30,14 +30,50 @@ class CDrawScene;
 class IDrawTool
 {
 public:
+    /**
+     * @brief IDrawTool 构造函数
+     * @param mode 工具类型
+     */
     IDrawTool(EDrawToolMode mode);
+
+    /**
+     * @brief ~IDrawTool 析构函数
+     */
     virtual ~IDrawTool() = 0;
+
+    /**
+     * @brief mousePressEvent 鼠标按下事件
+     * @param event 事件
+     * @param scene 场景
+     */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
+
+    /**
+     * @brief mouseMoveEvent 鼠标移动事件
+     * @param event 事件
+     * @param scene 场景
+     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
+
+    /**
+     * @brief mouseReleaseEvent 鼠标放开事件
+     * @param event 事件
+     * @param scene 场景
+     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
 
+    /**
+     * @brief getDrawToolMode 获取当前工具类型
+     * @return 工具类型
+     */
     EDrawToolMode getDrawToolMode() const;
 
+    /**
+     * @brief getCursor 获取鼠标显示的样式
+     * @param dir 方向
+     * @param bMouseLeftPress true: 鼠标按下 false:鼠标没按下
+     * @return
+     */
     QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false);
 
 protected:

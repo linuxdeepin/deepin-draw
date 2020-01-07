@@ -20,7 +20,7 @@ void CProgressDialog::initUI()
     setCloseButtonVisible(false);
 
     //setTitle(tr("正在导出"));
-    setTitle(tr("Exporting"));
+    setTitle(tr("Exporting..."));
 
     m_progressBar = new DProgressBar(this);
     m_progressBar->setMinimum(0);
@@ -46,9 +46,9 @@ void CProgressDialog::slotupDateProcessBar(int value)
 void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenByDDF)
 {
     if (SaveDDF == type) {
-        setTitle(tr("Saving"));
+        setTitle(tr("Saving..."));
     } else if (LoadDDF == type) {
-        setTitle(tr("Opening"));
+        setTitle(tr("Opening..."));
     }
     m_progressBar->reset();
 

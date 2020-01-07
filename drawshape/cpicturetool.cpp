@@ -134,7 +134,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
         Dtk::Widget::DDialog warnDlg(this);
         warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
         warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
-        warnDlg.addButtons(QStringList() << tr("Confirm"));
+        warnDlg.addButtons(QStringList() << tr("OK"));
         warnDlg.setDefaultButton(0);
         warnDlg.exec();
 

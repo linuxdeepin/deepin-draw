@@ -132,11 +132,6 @@ void CGraphicsItem::setState(ESelectionHandleState st)
     }
 }
 
-QPointF CGraphicsItem::origin() const
-{
-    return QPointF(0, 0);
-}
-
 void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
 

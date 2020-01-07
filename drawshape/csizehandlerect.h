@@ -35,6 +35,9 @@ QT_END_NAMESPACE
 enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
+/**
+ * @brief The CSizeHandleRect class 外接矩形类
+ */
 class CSizeHandleRect : public QGraphicsSvgItem
 {
 public:
