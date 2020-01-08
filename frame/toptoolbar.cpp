@@ -103,27 +103,22 @@ void TopToolbar::initComboBox()
 
 
     connect(scale200, &QAction::triggered, this, [ = ]() {
-        setScaleTextColor();
         m_scaleComboBox->setText("200%");
         slotZoom("200%");
     });
     connect(scale100, &QAction::triggered, this, [ = ]() {
-        setScaleTextColor();
         m_scaleComboBox->setText("100%");
         slotZoom("100%");
     });
     connect(scale75, &QAction::triggered, this, [ = ]() {
-        setScaleTextColor();
         m_scaleComboBox->setText("75%");
         slotZoom("75%");
     });
     connect(scale50, &QAction::triggered, this, [ = ]() {
-        setScaleTextColor();
         m_scaleComboBox->setText("50%");
         slotZoom("50%");
     });
     connect(scale25, &QAction::triggered, this, [ = ]() {
-        setScaleTextColor();
         m_scaleComboBox->setText("25%");
         slotZoom("25%");
     });
@@ -141,9 +136,6 @@ void TopToolbar::initComboBox()
     ft.setPixelSize(12);
     m_scaleComboBox->setFont(ft);
     m_scaleComboBox->setFlat(true);
-
-    //设置初始字体颜色
-    setScaleTextColor();
 
 //    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
 //        //设置编辑时颜色
@@ -313,21 +305,10 @@ void TopToolbar::changeTopButtonsTheme()
     m_drawTextWidget->updateTheme();
     m_colorPanel->changeButtonTheme();
     m_cutWidget->changeButtonTheme();
-    setScaleTextColor();
-}
-
-void TopToolbar::setScaleTextColor()
-{
-//    DPalette pa1 = m_scaleComboBox->palette();
-//    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-//        pa1.setColor(DPalette::ButtonText, "#414D68");
-//    } else {
-//        pa1.setColor(DPalette::ButtonText, "#C0C6D4");
-//    }
-//    m_scaleComboBox->setPalette(pa1);
-    // m_scaleComboBox->setForegroundRole(DPalette::Text);
 
 }
+
+
 
 void TopToolbar::updateMiddleWidget(int type)
 {

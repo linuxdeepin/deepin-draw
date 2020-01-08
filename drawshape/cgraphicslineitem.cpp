@@ -62,6 +62,7 @@ CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SG
     : CGraphicsItem (head, parent)
 {
     setLine(data->point1, data->point2);
+    m_type = static_cast<ELineType>(data->type);
     initLine();
 }
 
@@ -232,6 +233,7 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
     unit.data.pLine = new SGraphicsLineUnitData();
     unit.data.pLine->point1 = this->line().p1();
     unit.data.pLine->point2 = this->line().p2();
+    unit.data.pLine->type = m_type;
 
     return  unit;
 }

@@ -4,7 +4,7 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../widgets/bigcolorbutton.cpp" line="109"/>
+        <location filename="../widgets/bigcolorbutton.cpp" line="115"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
@@ -35,7 +35,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../widgets/bordercolorbutton.cpp" line="116"/>
+        <location filename="../widgets/bordercolorbutton.cpp" line="119"/>
         <source>Stroke</source>
         <translation type="unfinished"></translation>
     </message>
@@ -43,35 +43,43 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../widgets/calphacontrolwidget.cpp" line="46"/>
+        <location filename="../widgets/calphacontrolwidget.cpp" line="49"/>
         <source>Alpha</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CCentralwidget</name>
+    <message>
+        <location filename="../frame/ccentralwidget.cpp" line="112"/>
+        <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="88"/>
+        <location filename="../frame/ccutwidget.cpp" line="85"/>
         <source>Dimensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="101"/>
+        <location filename="../frame/ccutwidget.cpp" line="98"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="122"/>
+        <location filename="../frame/ccutwidget.cpp" line="119"/>
         <source>Aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="152"/>
+        <location filename="../frame/ccutwidget.cpp" line="149"/>
         <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="147"/>
+        <location filename="../frame/ccutwidget.cpp" line="144"/>
         <source>Free</source>
         <translation type="unfinished"></translation>
     </message>
@@ -79,37 +87,37 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="110"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="105"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="132"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="127"/>
         <source>Pictures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="133"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="128"/>
         <source>Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="134"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="129"/>
         <source>Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="135"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="136"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="137"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,73 +127,73 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>Select other directories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="143"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
         <source>jpg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="144"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>png</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="145"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="140"/>
         <source>bmp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="146"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="141"/>
         <source>tif</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="147"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="142"/>
         <source>pdf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="173"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="174"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Save to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="176"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="179"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="184"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="174"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="184"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="315"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="319"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation type="unfinished"></translation>
@@ -194,101 +202,99 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="128"/>
-        <location filename="../frame/cgraphicsview.cpp" line="238"/>
+        <location filename="../frame/cgraphicsview.cpp" line="126"/>
+        <location filename="../frame/cgraphicsview.cpp" line="243"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="133"/>
-        <location filename="../frame/cgraphicsview.cpp" line="239"/>
+        <location filename="../frame/cgraphicsview.cpp" line="131"/>
+        <location filename="../frame/cgraphicsview.cpp" line="244"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="138"/>
-        <location filename="../frame/cgraphicsview.cpp" line="240"/>
+        <location filename="../frame/cgraphicsview.cpp" line="136"/>
+        <location filename="../frame/cgraphicsview.cpp" line="245"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="150"/>
-        <location filename="../frame/cgraphicsview.cpp" line="243"/>
+        <location filename="../frame/cgraphicsview.cpp" line="148"/>
+        <location filename="../frame/cgraphicsview.cpp" line="248"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="156"/>
-        <location filename="../frame/cgraphicsview.cpp" line="245"/>
+        <location filename="../frame/cgraphicsview.cpp" line="154"/>
+        <location filename="../frame/cgraphicsview.cpp" line="250"/>
+        <location filename="../frame/cgraphicsview.cpp" line="267"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="143"/>
-        <source>Select all</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/cgraphicsview.cpp" line="160"/>
+        <location filename="../frame/cgraphicsview.cpp" line="158"/>
+        <location filename="../frame/cgraphicsview.cpp" line="268"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="166"/>
-        <location filename="../frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../frame/cgraphicsview.cpp" line="164"/>
+        <location filename="../frame/cgraphicsview.cpp" line="253"/>
         <source>Raise Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="171"/>
-        <location filename="../frame/cgraphicsview.cpp" line="250"/>
+        <location filename="../frame/cgraphicsview.cpp" line="169"/>
+        <location filename="../frame/cgraphicsview.cpp" line="255"/>
         <source>Lower Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="176"/>
-        <location filename="../frame/cgraphicsview.cpp" line="252"/>
+        <location filename="../frame/cgraphicsview.cpp" line="174"/>
+        <location filename="../frame/cgraphicsview.cpp" line="257"/>
         <source>Layer to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="181"/>
-        <location filename="../frame/cgraphicsview.cpp" line="254"/>
+        <location filename="../frame/cgraphicsview.cpp" line="179"/>
+        <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="241"/>
+        <location filename="../frame/cgraphicsview.cpp" line="141"/>
+        <location filename="../frame/cgraphicsview.cpp" line="246"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="257"/>
+        <location filename="../frame/cgraphicsview.cpp" line="262"/>
         <source>Text Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="259"/>
+        <location filename="../frame/cgraphicsview.cpp" line="264"/>
         <source>Text Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="260"/>
+        <location filename="../frame/cgraphicsview.cpp" line="265"/>
         <source>Text Align Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="845"/>
+        <location filename="../frame/cgraphicsview.cpp" line="975"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="847"/>
+        <location filename="../frame/cgraphicsview.cpp" line="977"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="853"/>
+        <location filename="../frame/cgraphicsview.cpp" line="983"/>
         <source>Unnamed.DDF</source>
         <translation type="unfinished"></translation>
     </message>
@@ -372,18 +378,13 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="47"/>
-        <source>导入图片</source>
+        <location filename="../drawshape/cpicturetool.cpp" line="136"/>
+        <source>You can import up to 30 pictures, please try again!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="77"/>
-        <source>Import warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="77"/>
-        <source>30 pictures are allowed to be imported at most, already imported %1 pictures, please try again</source>
+        <location filename="../drawshape/cpicturetool.cpp" line="137"/>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -411,25 +412,20 @@
     </message>
 </context>
 <context>
-    <name>CPrintManager</name>
-    <message>
-        <location filename="../widgets/dialog/cprintmanager.cpp" line="57"/>
-        <location filename="../widgets/dialog/cprintmanager.cpp" line="63"/>
-        <source>DeepIn</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CProgressDialog</name>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
+        <source>Exporting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
-        <source>Exporting</source>
+        <source>Saving...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
-        <source>Importing</source>
+        <source>Opening...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -438,15 +434,7 @@
     <message>
         <location filename="../frame/ctitlewidget.cpp" line="29"/>
         <location filename="../frame/ctitlewidget.cpp" line="49"/>
-        <source>Unnamed Draw</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ColorPanel</name>
-    <message>
-        <location filename="../widgets/colorpanel.cpp" line="238"/>
-        <source>Color</source>
+        <source>Unnamed Drawing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -505,12 +493,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="65"/>
+        <location filename="../frame/mainwindow.cpp" line="64"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="216"/>
+        <location filename="../frame/mainwindow.cpp" line="223"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -549,18 +537,18 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../drawshape/cgraphicstextitem.cpp" line="73"/>
-        <source>输入文本</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../widgets/progresslayout.cpp" line="33"/>
         <source>Importing pictures, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../widgets/progresslayout.cpp" line="92"/>
-        <source>Already imported %1/%2 pictures</source>
+        <source>%1/%2 pictures imported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../drawshape/ctexttool.cpp" line="50"/>
+        <source>Input text here</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -750,7 +738,7 @@
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../widgets/textcolorbutton.cpp" line="105"/>
+        <location filename="../widgets/textcolorbutton.cpp" line="119"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -771,42 +759,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="253"/>
+        <location filename="../frame/toptoolbar.cpp" line="252"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="237"/>
+        <location filename="../frame/toptoolbar.cpp" line="236"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="242"/>
+        <location filename="../frame/toptoolbar.cpp" line="241"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="248"/>
+        <location filename="../frame/toptoolbar.cpp" line="247"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="258"/>
+        <location filename="../frame/toptoolbar.cpp" line="257"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="263"/>
+        <location filename="../frame/toptoolbar.cpp" line="262"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="276"/>
+        <location filename="../frame/toptoolbar.cpp" line="275"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="279"/>
+        <location filename="../frame/toptoolbar.cpp" line="278"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

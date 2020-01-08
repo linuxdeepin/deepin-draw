@@ -72,7 +72,10 @@ void BigColorButton::paintEvent(QPaintEvent *)
 //        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
 //    }
 
+
     painter.setBrush(drawColor);
+
+
     //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
     painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
 
@@ -84,6 +87,9 @@ void BigColorButton::paintEvent(QPaintEvent *)
         borderPen.setColor(Qt::gray);
     } else {
         borderPen.setColor(Qt::transparent);
+    }
+    if (m_color.alpha() == 0) {
+        borderPen.setColor(Qt::gray);
     }
     painter.setPen(borderPen);
 //    if (m_isChecked) {

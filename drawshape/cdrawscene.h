@@ -122,34 +122,105 @@ signals:
      */
     void itemMoved(QGraphicsItem *item, QPointF pos);
 
+    /**
+     * @brief itemAdded 增加图元
+     * @param item
+     */
     void itemAdded(QGraphicsItem *item);
 
+    /**
+     * @brief itemRotate 旋转图元
+     * @param item
+     * @param oldAngle
+     */
     void itemRotate(QGraphicsItem *item, const qreal oldAngle );
 
+    /**
+     * @brief itemResize 更改图元大小
+     * @param item
+     * @param handle
+     * @param beginPos
+     * @param endPos
+     * @param bShiftPress
+     * @param bALtPress
+     */
     void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
 
+    /**
+     * @brief itemPropertyChange 图元属性修改
+     * @param item
+     * @param pen
+     * @param brush
+     * @param bPenChange
+     * @param bBrushChange
+     */
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
 
+    /**
+     * @brief itemPolygonPointChange 多边形边数更改
+     * @param item
+     * @param oldNum
+     */
     void itemPolygonPointChange(CGraphicsPolygonItem *item, int oldNum);
 
+    /**
+     * @brief itemPolygonalStarPointChange 星形边数更改
+     * @param item
+     * @param oldNum
+     * @param oldRadius
+     */
     void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int oldNum, int oldRadius);
 
+    /**
+     * @brief itemBlurChange 模糊图元属性更改
+     * @param item
+     * @param effect
+     * @param blurWidth
+     */
     void itemBlurChange(CGraphicsMasicoItem *item, int effect, int blurWidth);
 
+    /**
+     * @brief itemPenTypeChange 画笔图元更改
+     * @param item
+     * @param oldType
+     */
     void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
 
+    /**
+     * @brief itemLineTypeChange 线图元属性更改
+     * @param item
+     * @param type
+     */
     void itemLineTypeChange(CGraphicsLineItem *item, int type);
 
+    /**
+     * @brief signalUpdateCutSize 更新裁剪的大小
+     */
     void signalUpdateCutSize();
 
+    /**
+     * @brief signalUpdateTextFont 更新文字字体
+     */
     void signalUpdateTextFont();
 
+    /**
+     * @brief signalUpdateColorPanelVisible 更新调色板显示
+     * @param pos
+     */
     void signalUpdateColorPanelVisible(QPoint pos);
 
+    /**
+     * @brief signalSceneCut 裁剪场景
+     * @param newRect
+     */
     void signalSceneCut(QRectF newRect);
 
 public slots:
 
+    /**
+     * @brief picOperation 图片操作
+     * @param enumstyle 操作方式
+     */
     void picOperation(int enumstyle);
 
     /**
@@ -166,9 +237,32 @@ public slots:
 
 protected:
 
+    /**
+     * @brief mousePressEvent 鼠标按下事件
+     * @param mouseEvent
+     */
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief mouseMoveEvent 鼠标移动事件
+     * @param mouseEvent
+     */
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief mouseReleaseEvent 鼠标放开事件
+     * @param mouseEvent
+     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief drawItems 绘制所有图元
+     * @param painter
+     * @param numItems
+     * @param items
+     * @param options
+     * @param widget
+     */
     virtual void drawItems(QPainter *painter, int numItems,
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
@@ -177,6 +271,10 @@ protected:
 
 
 private:
+    /**
+     * @brief CDrawScene 构造函数
+     * @param parent
+     */
     explicit CDrawScene(QObject *parent = nullptr);
 
 private:

@@ -1,10 +1,10 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
 <context>
     <name>BigColorButton</name>
     <message>
         <location filename="../widgets/bigcolorbutton.cpp" line="115"/>
         <source>Fill</source>
-        <translation>Riempi</translation>
+        <translation>Fill</translation>
     </message>
 </context>
 <context>
@@ -12,22 +12,22 @@
     <message>
         <location filename="../frame/blurwidget.cpp" line="71"/>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../frame/blurwidget.cpp" line="91"/>
         <source>Blur</source>
-        <translation>Sfocato</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../frame/blurwidget.cpp" line="107"/>
         <source>Mosaic</source>
-        <translation>Mosaico</translation>
+        <translation>Mosaic</translation>
     </message>
     <message>
         <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -35,7 +35,7 @@
     <message>
         <location filename="../widgets/bordercolorbutton.cpp" line="119"/>
         <source>Stroke</source>
-        <translation>Tratto</translation>
+        <translation>Stroke</translation>
     </message>
 </context>
 <context>
@@ -51,7 +51,7 @@
     <message>
         <location filename="../frame/ccentralwidget.cpp" line="112"/>
         <source>Import Picture</source>
-        <translation>Importa immagine</translation>
+        <translation>Import Picture</translation>
     </message>
 </context>
 <context>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../frame/ccutwidget.cpp" line="85"/>
         <source>Dimensions</source>
-        <translation>Dimensioni</translation>
+        <translation>Dimensions</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="98"/>
@@ -69,17 +69,17 @@
     <message>
         <location filename="../frame/ccutwidget.cpp" line="119"/>
         <source>Aspect ratio</source>
-        <translation>Proporzioni</translation>
+        <translation>Aspect ratio</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="144"/>
         <source>Free</source>
-        <translation>Libero</translation>
+        <translation>Free</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="149"/>
         <source>Original</source>
-        <translation>Originale</translation>
+        <translation>Original</translation>
     </message>
 </context>
 <context>
@@ -87,27 +87,27 @@
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
         <source>Unnamed.jpg</source>
-        <translation>SenzaNome.jpg</translation>
+        <translation>Unnamed.jpg</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="105"/>
         <source>Export</source>
-        <translation>Esporta</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="127"/>
         <source>Pictures</source>
-        <translation>Immagini</translation>
+        <translation>Pictures</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="128"/>
         <source>Documents</source>
-        <translation>Documenti</translation>
+        <translation>Documents</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="129"/>
         <source>Downloads</source>
-        <translation>Download</translation>
+        <translation>Downloads</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="130"/>
@@ -117,17 +117,17 @@
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>Videos</source>
-        <translation>Video</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>Music</source>
-        <translation>Musica</translation>
+        <translation>Music</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>Select other directories</source>
-        <translation>Seleziona un altro percorso</translation>
+        <translation>Select other directories</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
@@ -157,45 +157,45 @@
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="168"/>
         <source>Name:</source>
-        <translation>Nome: </translation>
+        <translation>Name:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Save to:</source>
-        <translation>Salva in: </translation>
+        <translation>Save to:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Format:</source>
-        <translation>Formato: </translation>
+        <translation>Format:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Quality:</source>
-        <translation>Qualità: </translation>
+        <translation>Quality:</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="174"/>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="175"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
         <source>Replace</source>
-        <translation>Sostituisci</translation>
+        <translation>Replace</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="319"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1 
- esiste già, desideri sovrascriverlo?</translation>
+ already exists, do you want to replace it?</translation>
     </message>
 </context>
 <context>
@@ -204,98 +204,98 @@
         <location filename="../frame/cgraphicsview.cpp" line="126"/>
         <location filename="../frame/cgraphicsview.cpp" line="243"/>
         <source>Cut</source>
-        <translation>Taglia</translation>
+        <translation>Cut</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="131"/>
         <location filename="../frame/cgraphicsview.cpp" line="244"/>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="136"/>
         <location filename="../frame/cgraphicsview.cpp" line="245"/>
         <source>Paste</source>
-        <translation>Incolla</translation>
+        <translation>Paste</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="141"/>
         <location filename="../frame/cgraphicsview.cpp" line="246"/>
         <source>Select All</source>
-        <translation>Seleziona tutto</translation>
+        <translation>Select All</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="148"/>
         <location filename="../frame/cgraphicsview.cpp" line="248"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="154"/>
         <location filename="../frame/cgraphicsview.cpp" line="250"/>
         <location filename="../frame/cgraphicsview.cpp" line="267"/>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="158"/>
         <location filename="../frame/cgraphicsview.cpp" line="268"/>
         <source>Redo</source>
-        <translation>Ripeti</translation>
+        <translation>Redo</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="164"/>
         <location filename="../frame/cgraphicsview.cpp" line="253"/>
         <source>Raise Layer</source>
-        <translation>Alza livello</translation>
+        <translation>Raise Layer</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="169"/>
         <location filename="../frame/cgraphicsview.cpp" line="255"/>
         <source>Lower Layer</source>
-        <translation>Abbassa livello</translation>
+        <translation>Lower Layer</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="174"/>
         <location filename="../frame/cgraphicsview.cpp" line="257"/>
         <source>Layer to Top</source>
-        <translation>Livello in primo piano</translation>
+        <translation>Layer to Top</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="179"/>
         <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Layer to Bottom</source>
-        <translation>Livello in secondo piano</translation>
+        <translation>Layer to Bottom</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="262"/>
         <source>Text Align Left</source>
-        <translation>Testo allineato a sinistra</translation>
+        <translation>Text Align Left</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="264"/>
         <source>Text Align Right</source>
-        <translation>Testo allineato a destra</translation>
+        <translation>Text Align Right</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="265"/>
         <source>Text Align Center</source>
-        <translation>Testo allineato al centro</translation>
+        <translation>Text Align Center</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="975"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="977"/>
         <source>Save as</source>
-        <translation>Salva come</translation>
+        <translation>Save as</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
         <source>Unnamed.DDF</source>
-        <translation>SenzaNome.DDF</translation>
+        <translation>Unnamed.DDF</translation>
     </message>
 </context>
 <context>
@@ -303,62 +303,62 @@
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="107"/>
         <source>Select(V)</source>
-        <translation>Seleziona(V)</translation>
+        <translation>Select(V)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="122"/>
         <source>Import(I)</source>
-        <translation>Importa(I)</translation>
+        <translation>Import(I)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="137"/>
         <source>Rectangle(R)</source>
-        <translation>Rettangolo(R)</translation>
+        <translation>Rectangle(R)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="152"/>
         <source>Ellipse(O)</source>
-        <translation>Ellisse(O)</translation>
+        <translation>Ellipse(O)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="169"/>
         <source>Triangle(S)</source>
-        <translation>Triangolo(S)</translation>
+        <translation>Triangle(S)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="186"/>
         <source>Star(F)</source>
-        <translation>Stella(F)</translation>
+        <translation>Star(F)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="203"/>
         <source>Polygon(H)</source>
-        <translation>Poligono(H)</translation>
+        <translation>Polygon(H)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="220"/>
         <source>Line(L)</source>
-        <translation>Linea(L)</translation>
+        <translation>Line(L)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="237"/>
         <source>Pencil(P)</source>
-        <translation>Penna(P)</translation>
+        <translation>Pencil(P)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="253"/>
         <source>Text(T)</source>
-        <translation>Testo(T)</translation>
+        <translation>Text(T)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="269"/>
         <source>Blur(B)</source>
-        <translation>Sfocato(B)</translation>
+        <translation>Blur(B)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="285"/>
         <source>Crop(C)</source>
-        <translation>Ritaglia(C)</translation>
+        <translation>Crop(C)</translation>
     </message>
 </context>
 <context>
@@ -366,12 +366,12 @@
     <message>
         <location filename="../frame/cpenwidget.cpp" line="74"/>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="109"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="136"/>
         <source>You can import up to 30 pictures, please try again!</source>
-        <translation>Puoi importare al massimo 30 immagini, riprova!</translation>
+        <translation>You can import up to 30 pictures, please try again!</translation>
     </message>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
@@ -392,22 +392,22 @@
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="77"/>
         <source>Rotate 90° CCW</source>
-        <translation>Ruota di 90° antiorari</translation>
+        <translation>Rotate 90° CCW</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="93"/>
         <source>Rotate 90° CW</source>
-        <translation>Ruota di 90° orari</translation>
+        <translation>Rotate 90° CW</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="107"/>
         <source>Flip horizontally</source>
-        <translation>Capovolgi orizzontalmente</translation>
+        <translation>Flip horizontally</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="121"/>
         <source>Flip vertically</source>
-        <translation>Capovolgi verticalmente</translation>
+        <translation>Flip vertically</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <source>Exporting...</source>
-        <translation>Esportazione in corso...</translation>
+        <translation>Exporting...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation>Salvataggio in corso...</translation>
+        <translation>Saving...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation>Apertura in corso...</translation>
+        <translation>Opening...</translation>
     </message>
 </context>
 <context>
@@ -434,7 +434,7 @@
         <location filename="../frame/ctitlewidget.cpp" line="29"/>
         <location filename="../frame/ctitlewidget.cpp" line="49"/>
         <source>Unnamed Drawing</source>
-        <translation>Disegno senza nome</translation>
+        <translation>Unnamed Drawing</translation>
     </message>
 </context>
 <context>
@@ -442,7 +442,7 @@
     <message>
         <location filename="../frame/commonshapewidget.cpp" line="76"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -450,22 +450,22 @@
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="39"/>
         <source>Cancel</source>
-        <translation>Annulla</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="40"/>
         <source>Discard</source>
-        <translation>Scarta</translation>
+        <translation>Discard</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="41"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="65"/>
         <source>Save the current contents?</source>
-        <translation>Salvare i contenuti attuali?</translation>
+        <translation>Save the current contents?</translation>
     </message>
 </context>
 <context>
@@ -473,12 +473,12 @@
     <message>
         <location filename="../frame/linewidget.cpp" line="64"/>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <location filename="../frame/linewidget.cpp" line="114"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -486,7 +486,7 @@
     <message>
         <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Importazione immagini, prego attendere...</translation>
+        <translation>Importing pictures, please wait...</translation>
     </message>
 </context>
 <context>
@@ -494,12 +494,12 @@
     <message>
         <location filename="../frame/mainwindow.cpp" line="64"/>
         <source>Draw</source>
-        <translation>Disegno</translation>
+        <translation>Draw</translation>
     </message>
     <message>
         <location filename="../frame/mainwindow.cpp" line="223"/>
         <source>Open</source>
-        <translation>Apri</translation>
+        <translation>Open</translation>
     </message>
 </context>
 <context>
@@ -507,12 +507,12 @@
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="82"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="91"/>
         <source>Sides</source>
-        <translation>Lati</translation>
+        <translation>Sides</translation>
     </message>
 </context>
 <context>
@@ -520,17 +520,17 @@
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
         <source>Width</source>
-        <translation>Larghezza</translation>
+        <translation>Width</translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
         <source>Points</source>
-        <translation>Punti</translation>
+        <translation>Points</translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="122"/>
         <source>Diameter</source>
-        <translation>Diametro</translation>
+        <translation>Diameter</translation>
     </message>
 </context>
 <context>
@@ -538,17 +538,17 @@
     <message>
         <location filename="../drawshape/ctexttool.cpp" line="50"/>
         <source>Input text here</source>
-        <translation>Scrivi qui</translation>
+        <translation>Input text here</translation>
     </message>
     <message>
         <location filename="../widgets/progresslayout.cpp" line="33"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Importazione immagini, prego attendere...</translation>
+        <translation>Importing pictures, please wait...</translation>
     </message>
     <message>
         <location filename="../widgets/progresslayout.cpp" line="92"/>
         <source>%1/%2 pictures imported</source>
-        <translation>%1/%2 immagini importate</translation>
+        <translation>%1/%2 pictures imported</translation>
     </message>
 </context>
 <context>
@@ -556,182 +556,182 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Files</source>
-        <translation>File</translation>
+        <translation>Files</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Drawing</source>
-        <translation>Disegno</translation>
+        <translation>Drawing</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Shapes/Images</source>
-        <translation>Forme/Immagini</translation>
+        <translation>Shapes/Images</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Settings</source>
-        <translation>Impostazioni</translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>New</source>
-        <translation>Nuovo</translation>
+        <translation>New</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Open</source>
-        <translation>Apri</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Export</source>
-        <translation>Esporta</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="42"/>
         <source>Save as</source>
-        <translation>Salva come</translation>
+        <translation>Save as</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="43"/>
         <source>Print</source>
-        <translation>Stampa</translation>
+        <translation>Print</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="46"/>
         <source>Select</source>
-        <translation>Seleziona</translation>
+        <translation>Select</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="47"/>
         <source>Import</source>
-        <translation>Importa</translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Rectangle</source>
-        <translation>Rettangolo</translation>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Ellipse</source>
-        <translation>Ellisse</translation>
+        <translation>Ellipse</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Triangle</source>
-        <translation>Triangolo</translation>
+        <translation>Triangle</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Star</source>
-        <translation>Stella</translation>
+        <translation>Star</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="52"/>
         <source>Polygon</source>
-        <translation>Poligono</translation>
+        <translation>Polygon</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="53"/>
         <source>Line</source>
-        <translation>Linea</translation>
+        <translation>Line</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="54"/>
         <source>Pencil</source>
-        <translation>Penna</translation>
+        <translation>Pencil</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Text</source>
-        <translation>Testo</translation>
+        <translation>Text</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="56"/>
         <source>Blur</source>
-        <translation>Opaco</translation>
+        <translation>Blur</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="57"/>
         <source>Crop</source>
-        <translation>Ritaglia</translation>
+        <translation>Crop</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="58"/>
         <source>Expand canvas</source>
-        <translation>Espandi tela</translation>
+        <translation>Expand canvas</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="59"/>
         <source>Shrink canvas</source>
-        <translation>Ristringi tela</translation>
+        <translation>Shrink canvas</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="64"/>
         <source>Cut</source>
-        <translation>Taglia</translation>
+        <translation>Cut</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="65"/>
         <source>Copy</source>
-        <translation>Copia</translation>
+        <translation>Copy</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="66"/>
         <source>Paste</source>
-        <translation>Incolla</translation>
+        <translation>Paste</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="67"/>
         <source>Delete</source>
-        <translation>Elimina</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="68"/>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="69"/>
         <source>Redo</source>
-        <translation>Ripeti</translation>
+        <translation>Redo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="70"/>
         <source>Raise Layer</source>
-        <translation>Alza livello</translation>
+        <translation>Raise Layer</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="71"/>
         <source>Lower Layer</source>
-        <translation>Abbassa livello</translation>
+        <translation>Lower Layer</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="72"/>
         <source>Layer to Top</source>
-        <translation>Livello in primo piano</translation>
+        <translation>Layer to Top</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="73"/>
         <source>Layer to Bottom</source>
-        <translation>Livello in secondo piano</translation>
+        <translation>Layer to Bottom</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="77"/>
         <source>Help</source>
-        <translation>Aiuto</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="78"/>
         <source>Display shortcuts</source>
-        <translation>Visualizza scorciatoie</translation>
+        <translation>Display shortcuts</translation>
     </message>
 </context>
 <context>
@@ -739,7 +739,7 @@
     <message>
         <location filename="../widgets/textcolorbutton.cpp" line="119"/>
         <source>Color</source>
-        <translation>Colore</translation>
+        <translation>Color</translation>
     </message>
 </context>
 <context>
@@ -752,7 +752,7 @@
     <message>
         <location filename="../frame/textwidget.cpp" line="80"/>
         <source>Size</source>
-        <translation>Dimensione</translation>
+        <translation>Size</translation>
     </message>
 </context>
 <context>
@@ -760,43 +760,42 @@
     <message>
         <location filename="../frame/toptoolbar.cpp" line="236"/>
         <source>New</source>
-        <translation>Nuovo</translation>
+        <translation>New</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="241"/>
         <source>Open</source>
-        <translation>Apri</translation>
+        <translation>Open</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="247"/>
         <source>Export</source>
-        <translation>Esporta</translation>
+        <translation>Export</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="252"/>
         <source>Save</source>
-        <translation>Salva</translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="257"/>
         <source>Save as</source>
-        <translation>Salva come</translation>
+        <translation>Save as</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="262"/>
         <source>Print</source>
-        <translation>Stampa</translation>
+        <translation>Print</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="275"/>
         <source>Draw</source>
-        <translation>Disegno</translation>
+        <translation>Draw</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="278"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
-        <translation>Draw è un tool di disegno leggero che permette agli utenti di disegnare ed editare le immagini con semplicità.
-Localizzazione italiana a cura di Massimo A. Carofano.</translation>
+        <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>
 </context>
 </TS>

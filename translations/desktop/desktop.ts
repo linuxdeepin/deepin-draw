@@ -1,3 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1"><context><name>desktop</name><message><location filename="Desktop Entry]Comment" line="0"/><location filename="Desktop Entry]Name" line="0"/><source>Deepin Draw</source><translation type="unfinished"/></message></context></TS>
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1"><context><name>desktop</name><message><location filename="Desktop Entry]Comment" line="0"/><location filename="Desktop Entry]Name" line="0"/><source>Deepin Draw</source><translation>Deepin Draw</translation></message></context></TS>

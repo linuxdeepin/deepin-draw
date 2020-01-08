@@ -41,30 +41,86 @@ protected:
 
 
 signals:
+    /**
+     * @brief setCurrentDrawTool 设置当前画图工具信号
+     * @param type　画图工具类型
+     */
     void setCurrentDrawTool(int type);
+    /**
+     * @brief importPic　导入图片信号
+     */
     void importPic();
+    /**
+     * @brief signalBegainCut　开始裁剪信号
+     */
     void signalBegainCut();
+    /**
+     * @brief singalDoCutFromLeftToolBar　点击左边工具栏执行裁剪信号
+     */
     void singalDoCutFromLeftToolBar();
 
 public slots:
+    /**
+     * @brief slotAfterQuitCut　退出裁剪后更新工具栏
+     */
     void slotAfterQuitCut();
+    /**
+     * @brief changeButtonTheme　改变工具栏按钮主题
+     */
     void changeButtonTheme();
+    /**
+     * @brief slotShortCutSelect　选择按钮快捷键功能
+     */
     void slotShortCutSelect();
 
 private slots:
-
+    /**
+     * @brief slotShortCutPictrue　选择按钮快捷键
+     */
     void slotShortCutPictrue();
+    /**
+     * @brief slotShortCutRect　矩形按钮快捷键
+     */
     void slotShortCutRect();
+    /**
+     * @brief slotShortCutRound　圆形按钮快捷键
+     */
     void slotShortCutRound();
+    /**
+     * @brief slotShortCutTriangle　三角形按钮快捷键
+     */
     void slotShortCutTriangle();
+    /**
+     * @brief slotShortCutPolygonalStar　星型按钮快捷键
+     */
     void slotShortCutPolygonalStar();
+    /**
+     * @brief slotShortCutPolygon　多边形按钮快捷键
+     */
     void slotShortCutPolygon();
+    /**
+     * @brief slotShortCutLine　线段按钮快捷键
+     */
     void slotShortCutLine();
+    /**
+     * @brief slotShortCutPen　画笔按钮快捷键
+     */
     void slotShortCutPen();
+    /**
+     * @brief slotShortCutText　文字按钮快捷键
+     */
     void slotShortCutText();
+    /**
+     * @brief slotShortCutBlur　模糊按钮快捷键
+     */
     void slotShortCutBlur();
+    /**
+     * @brief slotShortCutCut　裁剪按钮快捷键
+     */
     void slotShortCutCut();
-
+    /**
+     * @brief slotClearToolSelection　清除工具栏选中状态
+     */
     void slotClearToolSelection();
 
 private:
@@ -100,11 +156,30 @@ private:
 
 
 private:
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection　初始化连接
+     */
     void initConnection();
+    /**
+     * @brief clearOtherSelections　清除其他按钮选中
+     * @param clickedButton
+     */
     void clearOtherSelections(CCheckButton *clickedButton);
+    /**
+     * @brief initDrawTools　初始化画图工具
+     */
     void initDrawTools();
+    /**
+     * @brief initShortCut　初始化快捷键ａｃｔｉｏｎ
+     */
     void initShortCut();
+    /**
+     * @brief initShortCutConnection　初始化快捷键连接
+     */
     void initShortCutConnection();
     /**
      * @brief isCutMode 判断当前是不是裁剪模式　如果是先退出裁剪

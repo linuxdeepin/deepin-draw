@@ -209,11 +209,13 @@ struct SGraphicsPolygonStarUnitData {
 struct SGraphicsLineUnitData {
     QPointF point1;
     QPointF point2;
+    qint32 type;//0: 无剪头 1: 有前头
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsLineUnitData &lineUnitData)
     {
         out << lineUnitData.point1;
         out << lineUnitData.point2;
+        out << lineUnitData.type;
 
         return out;
     }
@@ -222,6 +224,7 @@ struct SGraphicsLineUnitData {
     {
         in >> lineUnitData.point1;
         in >> lineUnitData.point2;
+        in >> lineUnitData.type;
         return in;
     }
 };

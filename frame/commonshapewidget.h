@@ -36,14 +36,32 @@ class CommonshapeWidget : public DWidget
 public:
     CommonshapeWidget(DWidget *parent = nullptr);
     ~CommonshapeWidget();
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
 
 signals:
+    /**
+     * @brief resetColorBtns　重置颜色按钮
+     */
     void resetColorBtns();
+    /**
+     * @brief showColorPanel　显示调色板信号
+     * @param drawstatus　颜色状态
+     * @param pos　位置
+     * @param visible　是否显示
+     */
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    /**
+     * @brief signalCommonShapeChanged 属性变化信号
+     */
     void signalCommonShapeChanged();
 
 public slots:
+    /**
+     * @brief updateCommonShapWidget 更新属性栏
+     */
     void updateCommonShapWidget();
 
 private:
@@ -53,8 +71,19 @@ private:
     SeperatorLine *m_sepLine;
 
 private:
+    /**
+     * @brief initUI 初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection 初始化连接
+     */
     void initConnection();
+    /**
+     * @brief getBtnPosition　获取按钮位置
+     * @param btn
+     * @return
+     */
     QPoint getBtnPosition(const DPushButton *btn);
 };
 

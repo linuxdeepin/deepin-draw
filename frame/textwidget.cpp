@@ -73,7 +73,7 @@ void TextWidget::initUI()
     m_fontComBox->lineEdit()->setFont(ft);
     QString strFont = m_fontComBox->currentText();
     CDrawParamSigleton::GetInstance()->setTextFont(strFont);
-    m_fontComBox->setFocusPolicy(Qt::NoFocus);
+
 
     DLabel *fontsizeLabel = new DLabel(this);
     //fontsizeLabel->setText(tr("字号"));

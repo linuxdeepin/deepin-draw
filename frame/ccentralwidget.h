@@ -42,6 +42,9 @@ class ProgressLayout;
 class CExportImageDialog;
 class CPictureTool;
 
+/**
+ * @brief The CCentralwidget class 中间控件类
+ */
 class CCentralwidget: public DWidget
 {
     Q_OBJECT

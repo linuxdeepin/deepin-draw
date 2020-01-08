@@ -297,7 +297,6 @@ void CCutWidget::initConnection()
     });
 
     connect(m_widthEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
-        qDebug() << "@@@@@@@@@@@@@WidthFocus=" << isfocus;
         emit signalCutLineEditIsfocus(isfocus);
     });
 

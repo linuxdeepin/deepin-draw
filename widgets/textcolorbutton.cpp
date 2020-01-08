@@ -97,6 +97,9 @@ void TextColorButton::paintEvent(QPaintEvent *)
     } else {
         borderPen.setColor(Qt::transparent);
     }
+    if (m_color.alpha() == 0) {
+        borderPen.setColor(Qt::gray);
+    }
     painter.setPen(borderPen);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
     painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);

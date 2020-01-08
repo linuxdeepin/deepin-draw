@@ -47,20 +47,20 @@ void CPrintManager::showPrintDialog(const QPixmap &pixmap, DWidget *widget)
     QPrinter printer;
     printer.setOutputFormat(QPrinter::NativeFormat);
     printer.setPageSize(QPrinter::A4);
-    printer.setPaperSize(QPrinter::A4);
+    printer.setPaperSize(QPrinter::Custom);
 //    printer.setPaperSize(QSize(m_pixMap.width(), m_pixMap.height()),
 //                         QPrinter::DevicePixel);
-    printer.setPageMargins(0., 0., 0., 0., QPrinter::DevicePixel);
+    //printer.setPageMargins(0., 0., 0., 0., QPrinter::DevicePixel);
 
     QString desktopDir = QStandardPaths::writableLocation(
                              QStandardPaths::DesktopLocation);
-    QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg(tr("DeepIn"));
+    QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
 
     if (QFileInfo(filePath).exists()) {
         int num = 0;
         while (QFileInfo(filePath).exists()) {
             num++;
-            filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg(tr("DeepIn")).arg(num);
+            filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
         }
     }
     printer.setOutputFileName(filePath);
@@ -78,17 +78,20 @@ void CPrintManager::slotPrintPreview(QPrinter *printerPixmap)
     QPainter painter(printerPixmap);
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    QRectF drawRectF;
-    QRect wRect;
 
-    wRect = printerPixmap->pageRect();
+    QRect wRect  = printerPixmap->pageRect();
+    QPixmap tmpMap;
 
     if (m_pixMap.width() > wRect.width() || m_pixMap.height() > wRect.height()) {
-        m_pixMap = m_pixMap.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        tmpMap = m_pixMap.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    } else {
+        tmpMap = m_pixMap;
     }
-    drawRectF = QRectF(qreal(wRect.width() - m_pixMap.width()) / 2,
-                       qreal(wRect.height() - m_pixMap.height()) / 2,
-                       m_pixMap.width(), m_pixMap.height());
-    painter.drawPixmap(drawRectF.x(), drawRectF.y(), m_pixMap.width(),
-                       m_pixMap.height(), m_pixMap);
+
+    QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                              qreal(wRect.height() - tmpMap.height()) / 2,
+                              tmpMap.width(), tmpMap.height());
+    painter.drawPixmap(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                       tmpMap.height(), tmpMap);
+
 }

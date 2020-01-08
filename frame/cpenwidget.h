@@ -37,15 +37,32 @@ class CPenWidget : public DWidget
 public:
     CPenWidget(DWidget *parent = nullptr);
     ~CPenWidget();
-
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
 
 public slots:
+    /**
+     * @brief updatePenWidget　更新属性栏
+     */
     void updatePenWidget();
 
 signals:
+    /**
+     * @brief resetColorBtns　重置颜色按钮信号
+     */
     void resetColorBtns();
+    /**
+     * @brief showColorPanel　显示调色板信号
+     * @param drawstatus　颜色状态
+     * @param pos　位置
+     * @param visible　是否显示
+     */
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    /**
+     * @brief signalPenAttributeChanged　属性变化信号
+     */
     void signalPenAttributeChanged();
 
 private:
@@ -57,8 +74,18 @@ private:
     SeperatorLine *m_sep1Line;
 
 private:
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initConnection();
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief clearOtherSelections　清除其他按钮选中状态
+     * @param clickedButton
+     */
     void clearOtherSelections(CCheckButton *clickedButton);
 };
 

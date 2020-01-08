@@ -90,6 +90,9 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     } else {
         borderPen.setColor(Qt::transparent);
     }
+    if (m_color.alpha() == 0) {
+        borderPen.setColor(Qt::gray);
+    }
     //borderPen.setColor(Qt::gray);
     painter.setPen(borderPen);
     //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);

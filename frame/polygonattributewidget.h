@@ -38,14 +38,32 @@ class PolygonAttributeWidget : public DWidget
 public:
     PolygonAttributeWidget(DWidget *parent = nullptr);
     ~PolygonAttributeWidget();
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
 
 public slots:
+    /**
+     * @brief updatePolygonWidget　更新属性栏
+     */
     void updatePolygonWidget();
 
 signals:
+    /**
+     * @brief resetColorBtns　重置颜色按钮
+     */
     void resetColorBtns();
+    /**
+     * @brief showColorPanel　显示调色板信号
+     * @param drawstatus　颜色状态
+     * @param pos　位置
+     * @param visible　是否显示
+     */
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    /**
+     * @brief signalPolygonAttributeChanged　属性变化信号
+     */
     void signalPolygonAttributeChanged();
 
 private:
@@ -59,8 +77,19 @@ private:
     QAction *m_sideNumReduceAction;
 
 private:
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection　初始化连接
+     */
     void initConnection();
+    /**
+     * @brief getBtnPosition 获取按钮位置
+     * @param btn　按钮
+     * @return
+     */
     QPoint getBtnPosition(const DPushButton *btn);
 };
 
