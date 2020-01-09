@@ -41,15 +41,42 @@ public:
     ~TextWidget();
 
 public slots:
+    /**
+     * @brief updateTextWidget 更新属性栏
+     */
     void updateTextWidget();
+    /**
+     * @brief updateTextColor　跟新文字颜色
+     */
     void updateTextColor();
+    /**
+     * @brief updateTheme　更新主题
+     */
     void updateTheme();
 
 signals:
+    /**
+     * @brief showColorPanel　显示调色板信号
+     * @param drawstatus　颜色状态
+     * @param pos　位置
+     * @param visible　是否显示
+     */
     void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    /**
+     * @brief resetColorBtns　重置颜色按钮
+     */
     void resetColorBtns();
+    /**
+     * @brief signalTextAttributeChanged 属性变化信号
+     */
     void signalTextAttributeChanged();
+    /**
+     * @brief signalTextFontFamilyChanged　字体改变信号
+     */
     void signalTextFontFamilyChanged();
+    /**
+     * @brief signalTextFontSizeChanged　字体大小改变信号
+     */
     void signalTextFontSizeChanged();
 
 private:
@@ -66,7 +93,13 @@ private:
 
 
 private:
+    /**
+     * @brief initUI 初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection 初始化连接
+     */
     void initConnection();
 };
 

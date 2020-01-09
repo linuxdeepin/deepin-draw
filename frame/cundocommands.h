@@ -34,7 +34,9 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
-
+/**
+ * @brief The CMoveShapeCommand class 移动图元撤消重做命令
+ */
 class CMoveShapeCommand : public QUndoCommand
 {
 public:
@@ -51,6 +53,9 @@ private:
     bool bMoved;
 };
 
+/**
+ * @brief The CResizeShapeCommand class  拉伸图元撤消重做命令
+ */
 class CResizeShapeCommand : public QUndoCommand
 {
 public:
@@ -102,6 +107,10 @@ private:
 };
 
 */
+
+/**
+ * @brief The CRotateShapeCommand class 旋转撤销重做命令
+ */
 class CRotateShapeCommand : public QUndoCommand
 {
 public:
@@ -115,6 +124,9 @@ private:
     qreal newAngle;
 };
 
+/**
+ * @brief The CDeleteShapeCommand class 全选删除图元撤消重做命令
+ */
 class CDeleteShapeCommand : public QUndoCommand
 {
 public:
@@ -130,6 +142,9 @@ private:
 };
 
 
+/**
+ * @brief The CRemoveShapeCommand class 删除单个图元撤消重做命令
+ */
 class CRemoveShapeCommand : public QUndoCommand
 {
 public:
@@ -143,6 +158,9 @@ private:
     QGraphicsScene *myGraphicsScene;
 };
 
+/**
+ * @brief The CSetPropertyCommand class 设置图元属性撤消重做命令
+ */
 class CSetPropertyCommand : public QUndoCommand
 {
 public:
@@ -163,6 +181,10 @@ private:
     bool m_bBrushChange;
 };
 
+
+/**
+ * @brief The CSetPolygonAttributeCommand class 设置多边形撤消重做命令
+ */
 class CSetPolygonAttributeCommand: public QUndoCommand
 {
 public:
@@ -176,6 +198,9 @@ private:
     int m_nNewNum;
 };
 
+/**
+ * @brief The CSetPolygonStarAttributeCommand class 设置星形属性撤消重做命令
+ */
 class CSetPolygonStarAttributeCommand: public QUndoCommand
 {
 public:
@@ -191,6 +216,9 @@ private:
     int m_nNewRadius;
 };
 
+/**
+ * @brief The CSetPenAttributeCommand class 设置画笔属性命令
+ */
 class CSetPenAttributeCommand: public QUndoCommand
 {
 public:
@@ -204,6 +232,9 @@ private:
     int m_newType;
 };
 
+/**
+ * @brief The CSetLineAttributeCommand class 线属性设置
+ */
 class CSetLineAttributeCommand: public QUndoCommand
 {
 public:
@@ -246,6 +277,9 @@ private:
     QGraphicsScene *myGraphicsScene;
 };*/
 
+/**
+ * @brief The CAddShapeCommand class 新增图元撤消重做命令
+ */
 class CAddShapeCommand : public QUndoCommand
 {
 public:
@@ -262,6 +296,9 @@ private:
     QPointF initialPosition;
 };
 
+/**
+ * @brief The COneLayerUpCommand class 图元向上一层撤消重做命令
+ */
 class COneLayerUpCommand : public QUndoCommand
 {
 public:
@@ -279,6 +316,9 @@ private:
     bool m_isUndoExcuteSuccess;
 };
 
+/**
+ * @brief The COneLayerDownCommand class 图元向下一层撤消重做命令
+ */
 class COneLayerDownCommand : public QUndoCommand
 {
 public:
@@ -296,6 +336,9 @@ private:
     bool m_isUndoExcuteSuccess;
 };
 
+/**
+ * @brief The CBringToFrontCommand class 图元置顶撤消重做命令
+ */
 class CBringToFrontCommand : public QUndoCommand
 {
 public:
@@ -314,6 +357,9 @@ private:
     QVector<QGraphicsItem *> m_movedItems;
 };
 
+/**
+ * @brief The CSendToBackCommand class 图元置底撤消重做命令
+ */
 class CSendToBackCommand : public QUndoCommand
 {
 public:
@@ -332,6 +378,9 @@ private:
     QVector<QGraphicsItem *> m_movedItems;
 };
 
+/**
+ * @brief The CSetBlurAttributeCommand class 模糊图元撤消重做命令
+ */
 class CSetBlurAttributeCommand: public QUndoCommand
 {
 public:
@@ -347,6 +396,9 @@ private:
     int m_nNewRadius;
 };
 
+/**
+ * @brief The CSceneCutCommand class  裁剪撤消重做命令
+ */
 class CSceneCutCommand : public QUndoCommand
 {
 public:

@@ -40,10 +40,15 @@ public:
 public:
     CPictureWidget(DWidget *parent = nullptr);
     ~CPictureWidget();
-
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
 
 signals:
+    /**
+     * @brief signalBtnClick 按钮点击事件
+     */
     void signalBtnClick(int);
 
 private:
@@ -53,7 +58,13 @@ private:
     CClickButton *m_flipVBtn;
 
 private:
+    /**
+     * @brief initUI 初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection 初始化连接
+     */
     void initConnection();
 
 };

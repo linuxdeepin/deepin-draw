@@ -30,7 +30,9 @@ class CTitleWidget : public DWidget
 public:
     explicit CTitleWidget(DWidget *parent = nullptr);
     ~CTitleWidget();
-
+    /**
+     * @brief updateTitleWidget 更新标题栏
+     */
     void updateTitleWidget();
 
 private:

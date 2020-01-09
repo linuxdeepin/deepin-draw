@@ -35,16 +35,34 @@ class BlurWidget : public DWidget
 public:
     BlurWidget(DWidget *parent = nullptr);
     ~BlurWidget();
-
+    /**
+     * @brief updateBlurWidget 更新属性栏
+     */
     void updateBlurWidget();
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
 
 private:
+    /**
+     * @brief clearOtherSelections　清除按钮选中状态
+     * @param clickedButton
+     */
     void clearOtherSelections(CCheckButton *clickedButton);
+    /**
+     * @brief initUI 初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection 初始化连接
+     */
     void initConnection();
 
 signals:
+    /**
+     * @brief signalBlurAttributeChanged 属性变化信号
+     */
     void signalBlurAttributeChanged();
 
 private:

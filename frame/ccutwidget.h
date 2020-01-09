@@ -37,14 +37,32 @@ public:
     explicit CCutWidget(DWidget *parent = nullptr);
     ~CCutWidget();
 
+    /**
+     * @brief updateCutSize 更新裁剪尺寸
+     */
     void updateCutSize();
+    /**
+     * @brief clearAllChecked　清除所有按钮选中
+     */
     void clearAllChecked();
+    /**
+     * @brief changeButtonTheme 根据主题改变按钮主题
+     */
     void changeButtonTheme();
+    /**
+     * @brief updateButtonStatus　更新按钮状态
+     */
     void updateButtonStatus();
 
 
 signals:
+    /**
+     * @brief signalCutAttributeChanged　裁剪属性改变型号
+     */
     void signalCutAttributeChanged();
+    /**
+     * @brief signalCutLineEditIsfocus　裁剪尺寸输入框焦点变化信号
+     */
     void signalCutLineEditIsfocus(bool);
 
 public slots:
@@ -69,8 +87,17 @@ private:
     QAction *m_SizeReduceAction;
 
 private:
+    /**
+     * @brief initUI 初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection 初始化连接
+     */
     void initConnection();
+    /**
+     * @brief activeFreeMode 激活自由按钮
+     */
     void activeFreeMode();
 };
 
