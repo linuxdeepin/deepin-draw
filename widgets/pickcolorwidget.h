@@ -36,14 +36,36 @@ class PickColorWidget : public DWidget
 public:
     PickColorWidget(DWidget *parent);
     ~PickColorWidget();
-
+    /**
+     * @brief setRgbValue 设置ＲＧＢ值
+     * @param color　颜色
+     * @param isPicked　是否获取颜色
+     */
     void setRgbValue(QColor color, bool isPicked = false);
+    /**
+     * @brief updateColor　更新颜色
+     */
     void updateColor();
+    /**
+     * @brief setPickedColor　设置是否获取颜色
+     * @param picked　是否获取颜色
+     */
     void setPickedColor(bool picked);
+    /**
+     * @brief updateButtonTheme　更新按钮主题
+     */
     void updateButtonTheme(int);
 
 signals:
+    /**
+     * @brief pickedColor　获取颜色信号
+     * @param color　颜色
+     */
     void pickedColor(QColor color);
+    /**
+     * @brief signalPreSetColorName　颜色预览信号
+     * @param color　颜色
+     */
     void signalPreSetColorName(QColor color);
 
 

@@ -38,10 +38,17 @@ class ColorButton : public DPushButton
 public:
     ColorButton(const QColor &color, DWidget *parent = nullptr);
     ~ColorButton();
-
+    /**
+     * @brief setDisableColor
+     * @param disable
+     */
     void setDisableColor(bool disable);
 
 signals:
+    /**
+     * @brief colorButtonClicked
+     * @param color
+     */
     void colorButtonClicked(QColor color);
 
 protected:
@@ -61,20 +68,46 @@ class ColorPanel : public DWidget
 public:
     ColorPanel(DWidget *parent = nullptr);
     ~ColorPanel();
+    /**
+     * @brief updateColorPanel 更新调色板
+     * @param status　状态
+     */
     void updateColorPanel(DrawStatus status);
 
 signals:
+    /**
+     * @brief updateHeight　更新调色板高度信号
+     */
     void updateHeight();
+    /**
+     * @brief signalColorChanged　发送调色改变信号
+     */
     void signalColorChanged();
+    /**
+     * @brief signalChangeFinished　发送改变结束信号
+     */
     void signalChangeFinished();
 
 
 public slots:
+    /**
+     * @brief slotPickedColorChanged　获取选择颜色
+     */
     void slotPickedColorChanged(QColor);
+    /**
+     * @brief setConfigColor　设置配置颜色
+     * @param color
+     */
     void setConfigColor(QColor color);
+    /**
+     * @brief changeButtonTheme　改变按钮主题
+     */
     void changeButtonTheme();
 
 protected:
+    /**
+     * @brief mouseMoveEvent　鼠标移动事件
+     */
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 
@@ -90,9 +123,22 @@ private:
     bool m_expand;
 
 private:
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection　初始化连接
+     */
     void initConnection();
+    /**
+     * @brief resetColorBtn　重置颜色按钮
+     */
     void resetColorBtn();
+    /**
+     * @brief setConfigColorByColorName　通过颜色名字设置颜色
+     * @param color　颜色
+     */
     void setConfigColorByColorName(QColor color);
 };
 

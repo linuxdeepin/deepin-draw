@@ -384,7 +384,7 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>D&apos;acord</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@ ja existeix, voleu que es reemplaci?</translation>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <source>Exporting...</source>
-        <translation type="unfinished"/>
+        <translation>S&apos;exporta...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Es desa...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>S&apos;obre...</translation>
     </message>
 </context>
 <context>

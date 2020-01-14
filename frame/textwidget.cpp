@@ -21,7 +21,6 @@
 #include <DLabel>
 #include "widgets/textcolorbutton.h"
 #include "widgets/seperatorline.h"
-#include "widgets/textfontlabel.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 

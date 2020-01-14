@@ -26,6 +26,7 @@
 #include "cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "utils/shortcut.h"
+#include "utils/global.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -39,6 +40,7 @@
 #include <QDesktopWidget>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QSettings>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -315,6 +317,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    QString fileName = Global::configPath() + "/config.conf";
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+
+
     emit dApp->popupConfirmDialog();
     event->ignore();
 }
@@ -403,6 +411,14 @@ void MainWindow::initScene()
     emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
 }
 
+void MainWindow::readSettings()
+{
+    QString fileName = Global::configPath() + "/config.conf";
+    QSettings settings(fileName, QSettings::IniFormat);
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+}
+
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
     CDrawParamSigleton::GetInstance()->setThemeType(type);
@@ -416,4 +432,5 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 
 MainWindow::~MainWindow()
 {
+
 }

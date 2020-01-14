@@ -384,7 +384,7 @@
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <source>Exporting...</source>
-        <translation type="unfinished"/>
+        <translation>Eksporterer...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Gemmer...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Åbner...</translation>
     </message>
 </context>
 <context>

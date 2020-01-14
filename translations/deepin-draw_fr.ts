@@ -384,7 +384,7 @@ existe déjà, voulez-vous le remplacer ? </translation>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -415,17 +415,17 @@ existe déjà, voulez-vous le remplacer ? </translation>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <source>Exporting...</source>
-        <translation type="unfinished"/>
+        <translation>Exportation...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Sauvegarde...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Ouverture...</translation>
     </message>
 </context>
 <context>

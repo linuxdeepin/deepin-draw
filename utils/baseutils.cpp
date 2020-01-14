@@ -29,7 +29,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#include "utils/configsettings.h"
 
 QSize      initArtboardSize(QPoint pos)
 {
@@ -45,25 +44,7 @@ QSize      initArtboardSize(QPoint pos)
     return QSize(artboardActualWidth, artboardActualHeight);
 }
 
-QSize      getArtboardSize(QPoint pos)
-{
-    int artboardActualWidth = ConfigSettings::instance()->value("artboard", "width").toInt();
-    int artboardActualHeight = ConfigSettings::instance()->value("artboard", "height").toInt();
-    qDebug() << "origin artboardSize:" << artboardActualWidth << artboardActualHeight;
 
-    if (artboardActualWidth == 0 || artboardActualHeight == 0) {
-//        QSize desktopSize = DScreenWindowsUtil::instance(pos
-//                                                        )->primaryScreen()->size();
-
-        QSize desktopSize = QApplication::desktop()->screen()->size();
-
-        qDebug() << "init artboardSize:" << pos <<  desktopSize;
-
-        artboardActualWidth = desktopSize.width();
-        artboardActualHeight = desktopSize.height();
-    }
-    return QSize(artboardActualWidth, artboardActualHeight);
-}
 
 QSize      getCanvasSize(QSize artboardSize, QSize windowSize)
 {
@@ -408,98 +389,3 @@ QCursor pickColorCursor()
     return QCursor(cursorPix, -1, -1);
 }
 
-QString getStringFromShape(Toolshape shape)
-{
-    QJsonObject copyShapeObj;
-    copyShapeObj.insert("type", shape.type);
-    copyShapeObj.insert("index", shape.index);
-
-    QJsonArray mainPoints;
-    for (int k = 0; k < shape.mainPoints.length(); k++) {
-        mainPoints.append(QJsonValue(double(shape.mainPoints[k].x())));
-        mainPoints.append(QJsonValue(double(shape.mainPoints[k].y())));
-    }
-    copyShapeObj.insert("mainPoints", QJsonValue(mainPoints));
-    copyShapeObj.insert("lineWidth", shape.lineWidth);
-    copyShapeObj.insert("fillColor", shape.fillColor.name());
-    copyShapeObj.insert("strokeColor", shape.strokeColor.name());
-    copyShapeObj.insert("isBlur", shape.isBlur);
-    copyShapeObj.insert("isMosaic", shape.isMosaic);
-    copyShapeObj.insert("isStraight", shape.isStraight);
-    copyShapeObj.insert("isHorFlip", shape.isHorFlip);
-    copyShapeObj.insert("isVerFlip", shape.isVerFlip);
-    copyShapeObj.insert("imagePath", shape.imagePath);
-    copyShapeObj.insert("text", shape.text);
-    copyShapeObj.insert("rotate", shape.rotate);
-    copyShapeObj.insert("scaledRation", shape.scaledRation);
-    QJsonArray size;
-    for (int k = 0; k < 2; k++) {
-        size.append(QJsonValue(shape.imageSize.width()));
-        size.append(QJsonValue(shape.imageSize.height()));
-    }
-    copyShapeObj.insert("imageSize", QJsonValue(size));
-    copyShapeObj.insert("fontSize", shape.fontSize);
-
-    QJsonArray points;
-    for (int k = 0; k < shape.points.length(); k++) {
-        points.append(QJsonValue(double(shape.points[k].x())));
-        points.append(QJsonValue(double(shape.points[k].y())));
-    }
-    copyShapeObj.insert("points", QJsonValue(points));
-    QJsonArray portion;
-    for (int k = 0; k < shape.portion.length(); k++) {
-        portion.append(QJsonValue(double(shape.portion[k].x())));
-        portion.append(QJsonValue(double(shape.portion[k].y())));
-    }
-    copyShapeObj.insert("portion", QJsonValue(portion));
-    return QString(QJsonDocument(copyShapeObj).toJson());
-}
-
-Toolshape getShapeInfoFromJsonStr(QString jsonStr)
-{
-    Toolshape resultShape = Toolshape();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toLocal8Bit().data());
-    if ( jsonDoc.isNull() ) {
-        qDebug() << "jsonDoc isEmpty...";
-        return  resultShape;
-    } else {
-        qDebug() << "jsonDoc is valid!";
-    }
-
-    QJsonObject jsonObj = jsonDoc.object();
-    resultShape.type = jsonObj.value("type").toString();
-    resultShape.index = jsonObj.value("index").toInt();
-    QVariantList mainPoints = jsonObj.value("mainPoints").toArray().toVariantList();
-    for (int j = 0; j < mainPoints.length(); j += 2) {
-        resultShape.mainPoints[j / 2] = QPointF(mainPoints[j].toReal(), mainPoints[j + 1].toReal());
-    }
-
-    resultShape.lineWidth = jsonObj.value("lineWidth").toInt();
-    resultShape.fillColor =  QColor(jsonObj.value("fillColor").toString());
-    resultShape.strokeColor = QColor(jsonObj.value("strokeColor").toString());
-    resultShape.isBlur = jsonObj.value("isBlur").toBool();
-    resultShape.isMosaic = jsonObj.value("isMosaic").toBool();
-    resultShape.isHorFlip = jsonObj.value("isHorFlip").toBool();
-    resultShape.isVerFlip = jsonObj.value("isVerFlip").toBool();
-    resultShape.imagePath = jsonObj.value("imagePath").toString();
-    resultShape.text = jsonObj.value("text").toString();
-    resultShape.rotate = jsonObj.value("rotate").toVariant().toReal();
-    resultShape.scaledRation = jsonObj.value("scaledRation").toVariant().toReal();
-    QVariantList sizeList = jsonObj.value("imageSize").toArray().toVariantList();
-    if (sizeList.length() >= 2) {
-        resultShape.imageSize = QSize(sizeList[0].toInt(), sizeList[1].toInt());
-    }
-    qDebug() << "ImageSize...........:" << resultShape.imageSize;
-    resultShape.fontSize = jsonObj.value("fontSize").toVariant().toReal();
-
-    QVariantList points = jsonObj.value("points").toArray().toVariantList();
-    for (int j = 0; j < points.length(); j += 2) {
-        resultShape.points.append(QPointF(points[j].toReal(), points[j + 1].toReal()));
-    }
-
-    QVariantList portion = jsonObj.value("portion").toArray().toVariantList();
-    for (int j = 0; j < portion.length(); j++) {
-        resultShape.portion.append(QPointF(portion[j].toReal(), portion[j + 1].toReal()));
-    }
-    return resultShape;
-}

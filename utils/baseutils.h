@@ -25,7 +25,6 @@
 #include <QFontMetrics>
 #include <QPainter>
 
-#include "shapesutils.h"
 
 //#include <dscreenwindowsutil.h>
 
@@ -46,7 +45,6 @@ QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 
 QSize      initArtboardSize(QPoint pos);
-QSize      getArtboardSize(QPoint pos);
 QSize      getCanvasSize(QSize artboardSize, QSize windowSize);
 
 QCursor setCursorShape(QString cursorName);
@@ -64,7 +62,5 @@ QString sizeToHuman(const qlonglong bytes);
 QCursor blurToolCursor(const int &lineWidth);
 QCursor pickColorCursor();
 
-/* Convert shape info to jsonObject*/
-QString getStringFromShape(Toolshape shape);
-Toolshape getShapeInfoFromJsonStr(QString jsonStr);
+
 #endif // BASEUTILS_H

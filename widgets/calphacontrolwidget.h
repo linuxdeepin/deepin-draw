@@ -31,9 +31,19 @@ class CAlphaControlWidget : public DWidget
     Q_OBJECT
 public:
     explicit CAlphaControlWidget(DWidget *parent = nullptr);
+    /**
+     * @brief updateAlphaControlWidget　通过颜色Ａｌｐｈａ值更新控件
+     * @param alpha　颜色ａｌｐｈａ值
+     */
     void updateAlphaControlWidget(int alpha);
 signals:
+    /**
+     * @brief signalAlphaChanged　ａｌｐｈａ值改变信号
+     */
     void signalAlphaChanged(int);
+    /**
+     * @brief signalFinishChanged　改变结束信号
+     */
     void signalFinishChanged();
 
 private:
@@ -42,7 +52,13 @@ private:
 
 
 private:
+    /**
+     * @brief initUI　初始化ＵＩ
+     */
     void initUI();
+    /**
+     * @brief initConnection　初始化连接
+     */
     void initConnection();
 };
 

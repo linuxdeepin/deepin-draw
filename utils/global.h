@@ -71,4 +71,13 @@ private:
     bool m_altSc = false;
     static  GlobalShortcut *m_globalSc;
 };
+
+class Global
+{
+public:
+    static QString configPath();
+    static QString cacheDir();
+};
+
+
 #endif // GLOBAL_H

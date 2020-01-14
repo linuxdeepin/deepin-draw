@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "global.h"
+#include <DStandardPaths>
+
+DCORE_USE_NAMESPACE;
+
 
 GlobalShortcut *GlobalShortcut::m_globalSc = nullptr;
 
@@ -38,4 +42,17 @@ GlobalShortcut::~GlobalShortcut()
 {
     m_shiftSc = false;
     m_altSc = false;
+}
+
+
+QString Global::configPath()
+{
+    QString userConfigPath = DStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    return userConfigPath;
+}
+
+QString Global::cacheDir()
+{
+    auto userCachePath = DStandardPaths::standardLocations(QStandardPaths::CacheLocation).value(0);
+    return userCachePath;
 }

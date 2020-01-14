@@ -9,16 +9,12 @@ HEADERS += \
     $$PWD/colorslider.h \
     $$PWD/bigcolorbutton.h \
     $$PWD/pickcolorwidget.h \
-    $$PWD/textfontlabel.h \
     $$PWD/toolbutton.h \
     $$PWD/dialog/drawdialog.h \
     $$PWD/dialog/dialog.h \
     $$PWD/arrowrectangle.h \
     $$PWD/fontsizelineedit.h \
-    $$PWD/tipslabel.h \
     $$PWD/graphicsgloweffect.h \
-    $$PWD/resizelabel.h \
-    $$PWD/loadtips.h \
     $$PWD/csidewidthwidget.h \
     $$PWD/cclickbutton.h \
     $$PWD/progresslayout.h \
@@ -46,14 +42,10 @@ SOURCES += \
     $$PWD/colorslider.cpp \
     $$PWD/bigcolorbutton.cpp \
     $$PWD/pickcolorwidget.cpp \
-    $$PWD/textfontlabel.cpp \
     $$PWD/dialog/drawdialog.cpp \
     $$PWD/dialog/dialog.cpp \
     $$PWD/arrowrectangle.cpp \
-    $$PWD/tipslabel.cpp \
     $$PWD/graphicsgloweffect.cpp \
-    $$PWD/resizelabel.cpp \
-    $$PWD/loadtips.cpp \
     $$PWD/csidewidthwidget.cpp \
     $$PWD/cclickbutton.cpp \
     $$PWD/progresslayout.cpp \
