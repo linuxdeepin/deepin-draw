@@ -35,7 +35,7 @@
 //DWIDGET_USE_NAMESPACE
 
 static QString g_appPath;//全局路径
-static MainWindow *w;
+//static MainWindow *w;
 
 
 //获取配置文件主题类型，并重新设置
@@ -155,27 +155,30 @@ int main(int argc, char *argv[])
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
-    w = new MainWindow();
+    MainWindow w;
 
 
 //    QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
 
-    a.setActivationWindow(w);
+    a.setActivationWindow(&w);
 
     //QObject::connect(&a, &QtSingleApplication::messageReceived, &a, &QtSingleApplication::activateWindow);
     QObject::connect(&a, &Application::messageReceived, &a, [ = ](const QString & message) {
 
         //MainWindow *window = static_cast<MainWindow *>(qApp->activeWindow());
         qDebug() << "!!!!!!!!!!!!!!!message=" << message;
-        w->activeWindow();
+        //w.activeWindow();
+        //a.activateWindow();
         if (message != "") {
-            w->openImage(QFileInfo(message).absoluteFilePath());
+            //w.openImage(QFileInfo(message).absoluteFilePath());
+            QWidget *w = static_cast<Application *>(qApp)->activationWindow();
+            static_cast<MainWindow *>(w)->openImage(QFileInfo(message).absoluteFilePath());
         }
     });
 
 //监听当前应用主题切换事件
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, w, &MainWindow::slotOnThemeChanged);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [] (DGuiApplicationHelper::ColorType type) {
@@ -213,11 +216,11 @@ int main(int argc, char *argv[])
 //    cmdParser.process(a);
 
     if (cmdParser.isSet(openImageOption)) {
-        w->activeWindow();
-        w->openImage(cmdParser.value(openImageOption), true);
+        w.activeWindow();
+        w.openImage(cmdParser.value(openImageOption), true);
         //QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
     } else if (cmdParser.isSet(activeWindowOption)) {
-        w->activeWindow();
+        w.activeWindow();
     } else {
         QStringList pas = cmdParser.positionalArguments();
         //QMessageBox::information(&w, "cmdParser.positionalArguments()", cmdParser.positionalArguments()[0]);
@@ -227,18 +230,19 @@ int main(int argc, char *argv[])
                 path =  QUrl(pas.first()).toLocalFile();
             else
                 path = pas.first();
-            w->activeWindow();
-            w->openImage(QFileInfo(path).absoluteFilePath(), true);
+            w.activeWindow();
+            w.openImage(QFileInfo(path).absoluteFilePath(), true);
             //QMessageBox::information(&w, "path", path);
         } else {
             //QMessageBox::information(&w, "path", "last situation");
-            w->show();
+            w.show();
 
         }
     }
 
-    w->initScene();
-    w->showMaximized();
+    w.initScene();
+    //w.showMaximized();
+    w.readSettings();
 
     return a.exec();
 }
