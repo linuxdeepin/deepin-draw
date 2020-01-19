@@ -30,7 +30,8 @@ include(frame/frame.pri)
 include(service/service.pri)
 
 
-RESOURCES +=
+RESOURCES += \
+    icon/icons.qrc
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-draw
@@ -56,6 +57,7 @@ manual_icon.files = logo/deepin-draw.svg
 app_icon.path = $$APPICONDIR
 app_icon.files = logo/deepin-draw.svg
 
+
 # Automating generation .qm files from .ts files
 CONFIG(release, debug|release) {
     system($$PWD/generate_translations.sh)
@@ -71,11 +73,14 @@ translations.files = translations/*.qm
 service.path = $${PREFIX}/share/dbus-1/services
 service.files = service/com.deepin.Draw.service
 
+mime_file.path = /usr/share/mime/packages
+mime_file.files = $$PWD/mimetype/*.xml
+
 exists(app_icon.files) {
     message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon manual_icon formatFile translations service#manual
+INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file
 
 DISTFILES += \
     logo/deepin-draw-16.svg \

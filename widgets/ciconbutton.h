@@ -24,6 +24,8 @@ public:
     bool isChecked() const;
 
     void setCurrentTheme(int currentTheme);
+    void setIconMode();
+    void setButtonIcon(QIcon t_icon);
 
 signals:
     void buttonClick();
@@ -48,6 +50,8 @@ private:
     EIconButtonSattus m_currentStatus;
     EIconButtonSattus m_tmpStatus;
     int m_currentTheme;
+    int m_iconMode = false;//是否属于icon模式的图标
+    QIcon m_normalIcon;//normal状态下的icon图标切图
 
     QMap<int, QMap<EIconButtonSattus, QString> > m_pictureMap;
 

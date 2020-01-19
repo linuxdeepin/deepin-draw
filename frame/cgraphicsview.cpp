@@ -980,15 +980,15 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    dialog.selectFile(tr("Unnamed.DDF"));//设置默认的文件名
+    dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
     QStringList nameFilters;
-    nameFilters << "*.DDF";
+    nameFilters << "*.ddf";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (!path.endsWith(".DDF")) {
-                path = path + ".DDF";
+            if (!path.endsWith(".ddf")) {
+                path = path + ".ddf";
             }
             m_DDFManager->saveToDDF(path, scene());
         }

@@ -70,7 +70,7 @@ bool CIconButton::isChecked() const
 
 void CIconButton::mousePressEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e)
+//    Q_UNUSED(e)
 
     if (m_isChecked && m_isCheckLock) {
         return;
@@ -85,11 +85,12 @@ void CIconButton::mousePressEvent(QMouseEvent *e)
     updateImage();
 
     emit buttonClick();
+    DIconButton::mousePressEvent(e);
 }
 
 void CIconButton::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e)
+//    Q_UNUSED(e)
 
     m_isPressed = false;
 
@@ -102,22 +103,24 @@ void CIconButton::mouseReleaseEvent(QMouseEvent *e)
     updateImage();
 
     emit mouseRelease();
+    DIconButton::mouseReleaseEvent(e);
 }
 
 void CIconButton::enterEvent(QEvent *e)
 {
-    Q_UNUSED(e)
+//    Q_UNUSED(e)
 
     m_isHover = true;
     m_tmpStatus = m_currentStatus;
     m_currentStatus = Hover;
     updateImage();
+    DIconButton::enterEvent(e);
 
 }
 
 void CIconButton::leaveEvent(QEvent *e)
 {
-    Q_UNUSED(e)
+//    Q_UNUSED(e)
 
     m_isHover = false;
 
@@ -125,16 +128,31 @@ void CIconButton::leaveEvent(QEvent *e)
         m_currentStatus = m_tmpStatus;
         updateImage();
     }
+    DIconButton::leaveEvent(e);
 }
 
 void CIconButton::updateImage()
 {
-    setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
+    if (!m_iconMode) {
+        setIcon(QIcon(m_pictureMap[m_currentTheme][m_currentStatus]));
+    }
 }
 
 void CIconButton::setCurrentTheme(int currentTheme)
 {
     m_currentTheme = currentTheme;
+
     updateImage();
+
+}
+
+void CIconButton::setIconMode()
+{
+    m_iconMode = true;
+}
+
+void CIconButton::setButtonIcon(QIcon t_icon)
+{
+    m_normalIcon = t_icon;
 }
 

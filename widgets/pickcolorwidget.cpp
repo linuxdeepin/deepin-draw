@@ -65,17 +65,24 @@ PickColorWidget::PickColorWidget(DWidget *parent)
 
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString> > pictureMap;
-    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/dorpper_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Hover] = QString(":/theme/light/images/draw/dorpper_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Press] = QString(":/theme/light/images/draw/dorpper_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Active] = QString(":/theme/light/images/draw/dorpper_active.svg");
 
-    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Normal] = QString(":/theme/dark/images/draw/dorpper_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Hover] = QString(":/theme/dark/images/draw/dorpper_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/dorpper_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/dorpper_active.svg");
+//    QIcon t_dorpperIcon = QIcon::fromTheme("dorpper_normal");
 
+//    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/dorpper_normal.svg");
+//    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Hover] = QString(":/theme/light/images/draw/dorpper_hover.svg");
+//    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Press] = QString(":/theme/light/images/draw/dorpper_press.svg");
+//    pictureMap[DGuiApplicationHelper::LightType][CIconButton::Active] = QString(":/theme/light/images/draw/dorpper_active.svg");
+
+//    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Normal] = QString(":/theme/dark/images/draw/dorpper_normal.svg");
+//    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Hover] = QString(":/theme/dark/images/draw/dorpper_hover.svg");
+//    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Press] = QString(":/theme/dark/images/draw/dorpper_press.svg");
+//    pictureMap[DGuiApplicationHelper::DarkType][CIconButton::Active] = QString(":/theme/dark/images/draw/dorpper_active.svg");
+
+    //取色器使用系统托管icon方式设置图标
     m_picker = new CIconButton(pictureMap, QSize(55, 36), this, false);
+    m_picker->setIconMode();
+    m_picker->setIconSize(QSize(36, 36));
+    m_picker->setIcon(QIcon::fromTheme("dorpper_normal"));
 
 
     QHBoxLayout *rgbLayout = new QHBoxLayout;
