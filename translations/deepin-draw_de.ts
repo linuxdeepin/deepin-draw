@@ -294,8 +294,12 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <source>Unnamed.ddf</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Unnamed.DDF</source>
-        <translation>Unbenannt.DDF</translation>
+        <translation type="vanished">Unbenannt.DDF</translation>
     </message>
 </context>
 <context>
@@ -328,7 +332,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="186"/>
         <source>Star(F)</source>
-        <translation type="unfinished"/>
+        <translation>Stern(F)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="203"/>
@@ -384,7 +388,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -415,17 +419,17 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="23"/>
         <source>Exporting...</source>
-        <translation type="unfinished"/>
+        <translation>Exportiere...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="49"/>
         <source>Saving...</source>
-        <translation type="unfinished"/>
+        <translation>Speichere...</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cprogressdialog.cpp" line="51"/>
         <source>Opening...</source>
-        <translation type="unfinished"/>
+        <translation>Öffne...</translation>
     </message>
 </context>
 <context>
@@ -435,6 +439,14 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
         <location filename="../frame/ctitlewidget.cpp" line="49"/>
         <source>Unnamed Drawing</source>
         <translation>Unbenannte Zeichnung</translation>
+    </message>
+</context>
+<context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <source>Color</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -484,20 +496,19 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
 <context>
     <name>LoadTips</name>
     <message>
-        <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Bilder werden importiert, bitte warten...</translation>
+        <translation type="vanished">Bilder werden importiert, bitte warten...</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="64"/>
+        <location filename="../frame/mainwindow.cpp" line="66"/>
         <source>Draw</source>
         <translation>Zeichnen</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="223"/>
+        <location filename="../frame/mainwindow.cpp" line="225"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
@@ -631,7 +642,7 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
     <message>
         <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Star</source>
-        <translation type="unfinished"/>
+        <translation>Stern</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="52"/>
@@ -745,12 +756,12 @@ existiert bereits. Wollen Sie es überschreiben?</translation>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="63"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation>Schriftart</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="80"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>

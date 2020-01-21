@@ -4,7 +4,7 @@
     <message>
         <location filename="../widgets/bigcolorbutton.cpp" line="115"/>
         <source>Fill</source>
-        <translation>Preencher</translation>
+        <translation>Preenchimento</translation>
     </message>
 </context>
 <context>
@@ -27,7 +27,7 @@
     <message>
         <location filename="../frame/blurwidget.cpp" line="120"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Tamanho</translation>
     </message>
 </context>
 <context>
@@ -35,7 +35,7 @@
     <message>
         <location filename="../widgets/bordercolorbutton.cpp" line="119"/>
         <source>Stroke</source>
-        <translation>Traçado</translation>
+        <translation>Contorno</translation>
     </message>
 </context>
 <context>
@@ -43,7 +43,7 @@
     <message>
         <location filename="../widgets/calphacontrolwidget.cpp" line="49"/>
         <source>Alpha</source>
-        <translation>Alfa</translation>
+        <translation>Opacidade</translation>
     </message>
 </context>
 <context>
@@ -87,7 +87,7 @@
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
         <source>Unnamed.jpg</source>
-        <translation>Sem nome.jpg</translation>
+        <translation>Sem título.jpg</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="105"/>
@@ -247,25 +247,25 @@ já existe, deseja substituí-lo?</translation>
         <location filename="../frame/cgraphicsview.cpp" line="164"/>
         <location filename="../frame/cgraphicsview.cpp" line="253"/>
         <source>Raise Layer</source>
-        <translation>Camada Superior</translation>
+        <translation>Subir Camada</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="169"/>
         <location filename="../frame/cgraphicsview.cpp" line="255"/>
         <source>Lower Layer</source>
-        <translation>Camada Inferior</translation>
+        <translation>Descer Camada</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="174"/>
         <location filename="../frame/cgraphicsview.cpp" line="257"/>
         <source>Layer to Top</source>
-        <translation>Camada para cima</translation>
+        <translation>Camada para o topo</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="179"/>
         <location filename="../frame/cgraphicsview.cpp" line="259"/>
         <source>Layer to Bottom</source>
-        <translation>Camada para baixo</translation>
+        <translation>Camada para o fundo</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="262"/>
@@ -294,8 +294,12 @@ já existe, deseja substituí-lo?</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <source>Unnamed.ddf</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Unnamed.DDF</source>
-        <translation>Sem nome.DDF</translation>
+        <translation type="vanished">Sem nome.DDF</translation>
     </message>
 </context>
 <context>
@@ -371,7 +375,7 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../frame/cpenwidget.cpp" line="109"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Espessura</translation>
     </message>
 </context>
 <context>
@@ -392,22 +396,22 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="77"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rodar 90° CCW</translation>
+        <translation>Rodar 90° ESQ</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="93"/>
         <source>Rotate 90° CW</source>
-        <translation>Rodar 90° CW</translation>
+        <translation>Rodar 90° DRT</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="107"/>
         <source>Flip horizontally</source>
-        <translation>Virar horizontalmente</translation>
+        <translation>Inverter na horizontal</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="121"/>
         <source>Flip vertically</source>
-        <translation>Virar verticalmente</translation>
+        <translation>Inverter na vertical</translation>
     </message>
 </context>
 <context>
@@ -438,11 +442,19 @@ já existe, deseja substituí-lo?</translation>
     </message>
 </context>
 <context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>CommonshapeWidget</name>
     <message>
         <location filename="../frame/commonshapewidget.cpp" line="76"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Espessura</translation>
     </message>
 </context>
 <context>
@@ -478,26 +490,25 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../frame/linewidget.cpp" line="114"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Espessura</translation>
     </message>
 </context>
 <context>
     <name>LoadTips</name>
     <message>
-        <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>A importar imagens, aguarde...</translation>
+        <translation type="vanished">A importar imagens, aguarde...</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="64"/>
+        <location filename="../frame/mainwindow.cpp" line="66"/>
         <source>Draw</source>
         <translation>Desenho</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="223"/>
+        <location filename="../frame/mainwindow.cpp" line="225"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -507,7 +518,7 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="82"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Espessura</translation>
     </message>
     <message>
         <location filename="../frame/polygonattributewidget.cpp" line="91"/>
@@ -520,7 +531,7 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
         <source>Width</source>
-        <translation>Largura</translation>
+        <translation>Espessura</translation>
     </message>
     <message>
         <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
@@ -706,22 +717,22 @@ já existe, deseja substituí-lo?</translation>
     <message>
         <location filename="../utils/shortcut.cpp" line="70"/>
         <source>Raise Layer</source>
-        <translation>Camada Superior</translation>
+        <translation>Subir Camada</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="71"/>
         <source>Lower Layer</source>
-        <translation>Camada Inferior</translation>
+        <translation>Descer Camada</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="72"/>
         <source>Layer to Top</source>
-        <translation>Camada para cima</translation>
+        <translation>Camada para o topo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="73"/>
         <source>Layer to Bottom</source>
-        <translation>Camada para baixo</translation>
+        <translation>Camada para o fundo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="77"/>
@@ -745,12 +756,12 @@ já existe, deseja substituí-lo?</translation>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="63"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation>Fonte</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="80"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>Size</source>
         <translation>Tamanho</translation>
     </message>

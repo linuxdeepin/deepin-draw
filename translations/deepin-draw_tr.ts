@@ -4,7 +4,7 @@
     <message>
         <location filename="../widgets/bigcolorbutton.cpp" line="115"/>
         <source>Fill</source>
-        <translation>Doldur</translation>
+        <translation>Dolgu</translation>
     </message>
 </context>
 <context>
@@ -35,7 +35,7 @@
     <message>
         <location filename="../widgets/bordercolorbutton.cpp" line="119"/>
         <source>Stroke</source>
-        <translation>Kalınlık</translation>
+        <translation>Tarz</translation>
     </message>
 </context>
 <context>
@@ -294,8 +294,12 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <source>Unnamed.ddf</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Unnamed.DDF</source>
-        <translation>İsimsiz.DDF</translation>
+        <translation type="vanished">İsimsiz.DDF</translation>
     </message>
 </context>
 <context>
@@ -438,6 +442,14 @@ zaten var, değiştirmek istiyor musunuz?</translation>
     </message>
 </context>
 <context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <source>Color</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>CommonshapeWidget</name>
     <message>
         <location filename="../frame/commonshapewidget.cpp" line="76"/>
@@ -484,20 +496,19 @@ zaten var, değiştirmek istiyor musunuz?</translation>
 <context>
     <name>LoadTips</name>
     <message>
-        <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Resimler içe aktarılıyor, lütfen bekleyin...</translation>
+        <translation type="vanished">Resimler içe aktarılıyor, lütfen bekleyin...</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="64"/>
+        <location filename="../frame/mainwindow.cpp" line="66"/>
         <source>Draw</source>
         <translation>Çizim</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="223"/>
+        <location filename="../frame/mainwindow.cpp" line="225"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
@@ -745,12 +756,12 @@ zaten var, değiştirmek istiyor musunuz?</translation>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="63"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation>Yazı tipi</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="80"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>Size</source>
         <translation>Boyut</translation>
     </message>

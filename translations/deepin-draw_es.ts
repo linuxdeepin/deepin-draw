@@ -294,8 +294,12 @@ ya existe, ¿quieres reemplazar?</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <source>Unnamed.ddf</source>
+        <translation>Sinnombre.ddf</translation>
+    </message>
+    <message>
         <source>Unnamed.DDF</source>
-        <translation>Sinnombre.DDF</translation>
+        <translation type="vanished">Sinnombre.DDF</translation>
     </message>
 </context>
 <context>
@@ -438,6 +442,14 @@ ya existe, ¿quieres reemplazar?</translation>
     </message>
 </context>
 <context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <source>Color</source>
+        <translation>Color</translation>
+    </message>
+</context>
+<context>
     <name>CommonshapeWidget</name>
     <message>
         <location filename="../frame/commonshapewidget.cpp" line="76"/>
@@ -484,20 +496,19 @@ ya existe, ¿quieres reemplazar?</translation>
 <context>
     <name>LoadTips</name>
     <message>
-        <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Importando imagen, espere...</translation>
+        <translation type="vanished">Importando imagen, espere...</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="64"/>
+        <location filename="../frame/mainwindow.cpp" line="66"/>
         <source>Draw</source>
         <translation>Dibujar</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="223"/>
+        <location filename="../frame/mainwindow.cpp" line="225"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -745,12 +756,12 @@ ya existe, ¿quieres reemplazar?</translation>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="63"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="80"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>Size</source>
         <translation>Tamaño</translation>
     </message>

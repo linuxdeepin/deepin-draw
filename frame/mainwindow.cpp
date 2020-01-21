@@ -321,7 +321,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QSettings settings(fileName, QSettings::IniFormat);
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
-    qDebug() << "fileName" << fileName << endl;
+
+
     emit dApp->popupConfirmDialog();
     event->ignore();
 }

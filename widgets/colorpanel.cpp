@@ -229,7 +229,7 @@ void ColorPanel::initUI()
     QFont colLabelFont = colLabel->font();
     colLabelFont.setPixelSize(13);
     colLabel->setFixedWidth(35);
-    colLabel->setText(("Color"));
+    colLabel->setText(tr("Color"));
     colLabel->setFont(colLabelFont);
 
     m_colLineEdit = new DLineEdit(colorValueWidget);

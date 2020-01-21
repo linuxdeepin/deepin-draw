@@ -69,7 +69,7 @@
     <message>
         <location filename="../frame/ccutwidget.cpp" line="119"/>
         <source>Aspect ratio</source>
-        <translation>Proporção da tela</translation>
+        <translation>Proporção de tela</translation>
     </message>
     <message>
         <location filename="../frame/ccutwidget.cpp" line="144"/>
@@ -87,7 +87,7 @@
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
         <source>Unnamed.jpg</source>
-        <translation>Unnamed.jpg</translation>
+        <translation>Sem Título.jpg</translation>
     </message>
     <message>
         <location filename="../widgets/dialog/cexportimagedialog.cpp" line="105"/>
@@ -204,7 +204,7 @@ já existe. Substituí-lo?</translation>
         <location filename="../frame/cgraphicsview.cpp" line="126"/>
         <location filename="../frame/cgraphicsview.cpp" line="243"/>
         <source>Cut</source>
-        <translation>Cortar</translation>
+        <translation>Recortar</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="131"/>
@@ -294,8 +294,12 @@ já existe. Substituí-lo?</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <source>Unnamed.ddf</source>
+        <translation>Sem Título.ddf</translation>
+    </message>
+    <message>
         <source>Unnamed.DDF</source>
-        <translation>Unnamed.DDF</translation>
+        <translation type="vanished">Sem Título.DDF</translation>
     </message>
 </context>
 <context>
@@ -303,37 +307,37 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="107"/>
         <source>Select(V)</source>
-        <translation>Selecionar(V)</translation>
+        <translation>Selecionar (V)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="122"/>
         <source>Import(I)</source>
-        <translation>Importar(I)</translation>
+        <translation>Importar (I)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="137"/>
         <source>Rectangle(R)</source>
-        <translation>Retângulo(R)</translation>
+        <translation>Retângulo (R)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="152"/>
         <source>Ellipse(O)</source>
-        <translation>Elipse(O)</translation>
+        <translation>Elipse (O)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="169"/>
         <source>Triangle(S)</source>
-        <translation>Triângulo(S)</translation>
+        <translation>Triângulo (S)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="186"/>
         <source>Star(F)</source>
-        <translation>Estrela(F)</translation>
+        <translation>Estrela (F)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="203"/>
         <source>Polygon(H)</source>
-        <translation>Polígono(H)</translation>
+        <translation>Polígono (H)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="220"/>
@@ -343,22 +347,22 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="237"/>
         <source>Pencil(P)</source>
-        <translation>Lápis(P)</translation>
+        <translation>Lápis (P)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="253"/>
         <source>Text(T)</source>
-        <translation>Texto(T)</translation>
+        <translation>Texto (T)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="269"/>
         <source>Blur(B)</source>
-        <translation>Borrar(B)</translation>
+        <translation>Borrar (B)</translation>
     </message>
     <message>
         <location filename="../frame/clefttoolbar.cpp" line="285"/>
         <source>Crop(C)</source>
-        <translation>Recortar(C)</translation>
+        <translation>Recortar (C)</translation>
     </message>
 </context>
 <context>
@@ -384,7 +388,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="137"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -392,12 +396,12 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="77"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rotacionar 90° CCW</translation>
+        <translation>Rotacionar 90° Sentido Anti-horário</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="93"/>
         <source>Rotate 90° CW</source>
-        <translation>Rotacionar 90° CW</translation>
+        <translation>Rotacionar 90° Sentido Horário</translation>
     </message>
     <message>
         <location filename="../frame/cpicturewidget.cpp" line="107"/>
@@ -434,7 +438,15 @@ já existe. Substituí-lo?</translation>
         <location filename="../frame/ctitlewidget.cpp" line="29"/>
         <location filename="../frame/ctitlewidget.cpp" line="49"/>
         <source>Unnamed Drawing</source>
-        <translation>Desenho Sem Nome</translation>
+        <translation>Sem Título</translation>
+    </message>
+</context>
+<context>
+    <name>ColorPanel</name>
+    <message>
+        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <source>Color</source>
+        <translation>Cor</translation>
     </message>
 </context>
 <context>
@@ -465,7 +477,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../widgets/dialog/drawdialog.cpp" line="65"/>
         <source>Save the current contents?</source>
-        <translation>Salvar o conteúdo atual?</translation>
+        <translation>Salvar conteúdo?</translation>
     </message>
 </context>
 <context>
@@ -484,20 +496,19 @@ já existe. Substituí-lo?</translation>
 <context>
     <name>LoadTips</name>
     <message>
-        <location filename="../widgets/loadtips.cpp" line="46"/>
         <source>Importing pictures, please wait...</source>
-        <translation>Importando imagens, aguarde...</translation>
+        <translation type="vanished">Importando imagens, aguarde...</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="64"/>
+        <location filename="../frame/mainwindow.cpp" line="66"/>
         <source>Draw</source>
         <translation>Desenhos</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="223"/>
+        <location filename="../frame/mainwindow.cpp" line="225"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -676,7 +687,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../utils/shortcut.cpp" line="64"/>
         <source>Cut</source>
-        <translation>Cortar</translation>
+        <translation>Recortar</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="65"/>
@@ -731,7 +742,7 @@ já existe. Substituí-lo?</translation>
     <message>
         <location filename="../utils/shortcut.cpp" line="78"/>
         <source>Display shortcuts</source>
-        <translation>Mostrar atalhos</translation>
+        <translation>Exibir atalhos</translation>
     </message>
 </context>
 <context>
@@ -745,12 +756,12 @@ já existe. Substituí-lo?</translation>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="63"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation>Fonte</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="80"/>
+        <location filename="../frame/textwidget.cpp" line="79"/>
         <source>Size</source>
         <translation>Tamanho</translation>
     </message>
