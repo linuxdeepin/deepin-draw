@@ -131,7 +131,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
     if (exitPicNum + m_picNum > 30) {
 
-        Dtk::Widget::DDialog warnDlg(this);
+        Dtk::Widget::DDialog warnDlg(centralWindow);
         warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
         warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
         warnDlg.addButtons(QStringList() << tr("OK"));

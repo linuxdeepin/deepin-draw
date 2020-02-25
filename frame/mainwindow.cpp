@@ -229,12 +229,12 @@ void MainWindow::slotShowOpenFileDialog()
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.set
     QStringList nameFilters;
-    nameFilters << "*.DDF *.png *.jpg *.bmp *.tif";
+    nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (QFileInfo(path).suffix() == "DDF") {
+            if (QFileInfo(path).suffix().toLower() == "ddf") {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
                 CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
             } else {
@@ -269,7 +269,8 @@ void MainWindow::slotLoadDragOrPasteFile(QString files)
     QString ddfPath = "";
     QStringList picturePathList;
     for (int i = 0; i < tempfilePathList.size(); i++) {
-        if (tempfilePathList[i].endsWith(".DDF")) {
+        //if (tempfilePathList[i].endsWith(".ddf")) {
+        if (QFileInfo(tempfilePathList[i]).suffix().toLower() == ("ddf")) {
             ddfPath = tempfilePathList[i].replace("file://", "");
             break;
         } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
@@ -387,7 +388,7 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
         if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
             m_centralWidget->getGraphicsView()->slotQuitCutMode();
         }
-        if (QFileInfo(path).suffix() == "DDF") {
+        if (QFileInfo(path).suffix().toLower()  == "ddf") {
             if (isStartByDDF) {
                 CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
             } else {
