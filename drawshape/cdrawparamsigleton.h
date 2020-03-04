@@ -26,14 +26,9 @@
 
 class CDrawParamSigleton
 {
-private :
-    static CDrawParamSigleton *m_pInstance;
+public:
     CDrawParamSigleton();
 
-public :
-    static CDrawParamSigleton *GetInstance();
-
-public:
     void setLineWidth(int lineWidth);
     int getLineWidth() const;
 
@@ -111,9 +106,6 @@ public:
     void setSingleFontFlag(bool flag);
     bool getSingleFontFlag() const;
 
-    int getThemeType() const;
-    void setThemeType(const int type);
-
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
 
@@ -173,9 +165,6 @@ private:
     //blur
     EBlurEffect m_effect; //模糊效果
     int m_blurWidth;    //模糊半径
-
-    //当前主题
-    int m_thremeType;
 
     //线型
     ELineType m_lineType;

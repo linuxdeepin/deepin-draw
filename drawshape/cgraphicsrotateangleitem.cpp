@@ -18,6 +18,7 @@
  */
 #include "cgraphicsrotateangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 
 #include <QPainter>
 
@@ -56,7 +57,7 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(widget)
 
     painter->setPen(Qt::NoPen);
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         painter->setBrush(QColor("#ececf8"));
     } else {
         painter->setBrush(QColor("#000000"));
@@ -67,7 +68,7 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
 
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
 
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         painter->setPen(Qt::black);
     } else {
         painter->setPen(Qt::white);

@@ -21,6 +21,9 @@
 #include "cgraphicstriangleitem.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QtMath>
@@ -44,8 +47,8 @@ void CTriangleTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         m_sPointPress = event->scenePos();
         m_pTriangleItem = new CGraphicsTriangleItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-        m_pTriangleItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        m_pTriangleItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        m_pTriangleItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
+        m_pTriangleItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
         scene->addItem(m_pTriangleItem);
 
         m_bMousePress = true;
@@ -63,8 +66,8 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
         //按下SHIFT键
         if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;
@@ -138,8 +141,8 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
         //按下SHIFT键
         if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;
@@ -213,8 +216,8 @@ void CTriangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
         //按下SHIFT键
         if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;

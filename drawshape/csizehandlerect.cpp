@@ -18,14 +18,15 @@
  */
 #include "csizehandlerect.h"
 #include "cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QPainter>
 #include <QDebug>
 #include <QString>
-
-
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     : QGraphicsSvgItem(parent)
@@ -95,9 +96,9 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(widget)
 
     if (!m_isRotation) {
-        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
+        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
-        } else if (CDrawParamSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
+        } else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
             setSharedRenderer(&m_darkRenderer);
         }
     }
@@ -149,7 +150,7 @@ void CSizeHandleRect::move(qreal x, qreal y)
 
 QRectF CSizeHandleRect::boundingRect() const
 {
-    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
     QRectF rect = QGraphicsSvgItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);

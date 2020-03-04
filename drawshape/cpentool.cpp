@@ -21,6 +21,9 @@
 #include "cdrawscene.h"
 #include "cgraphicspenitem.h"
 #include "cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
@@ -43,10 +46,10 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         m_sPointPress = event->scenePos();
         m_pPenItem = new CGraphicsPenItem(m_sPointPress);
         m_pPenItem->setDrawFlag(true);
-        QPen pen = CDrawParamSigleton::GetInstance()->getPen();
+        QPen pen = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen();
         m_pPenItem->setPen(pen);
-        m_pPenItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-        m_pPenItem->setCurrentType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
+        m_pPenItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pPenItem->setCurrentType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentPenType());
         m_pPenItem->setPixmap();
         scene->addItem(m_pPenItem);
 
@@ -65,7 +68,7 @@ void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
     Q_UNUSED(scene)
     if (m_bMousePress && nullptr != m_pPenItem) {
         QPointF pointMouse = event->scenePos();
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
         m_pPenItem->updatePenPath(pointMouse, shiftKeyPress);
     }
 }

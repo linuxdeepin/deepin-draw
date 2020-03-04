@@ -36,6 +36,8 @@
 #include "widgets/csidewidthwidget.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
@@ -208,7 +210,7 @@ void PolygonalStarAttributeWidget::initConnection()
     ///锚点数
     connect(m_anchorNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_anchorNumEdit->setText(QString::number(value));
-        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
         emit signalPolygonalStarAttributeChanged();
     });
 
@@ -227,7 +229,7 @@ void PolygonalStarAttributeWidget::initConnection()
         m_anchorNumSlider->blockSignals(true);
         m_anchorNumSlider->setValue(value);
         m_anchorNumSlider->blockSignals(false);
-        CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
         emit signalPolygonalStarAttributeChanged();
     });
 
@@ -235,11 +237,11 @@ void PolygonalStarAttributeWidget::initConnection()
         QString str = m_anchorNumEdit->text().trimmed();
         int value = str.toInt();
         int minValue = m_anchorNumSlider->minimum();
-        if (value == minValue && CDrawParamSigleton::GetInstance()->getAnchorNum() != minValue) {
+        if (value == minValue && CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAnchorNum() != minValue) {
             m_anchorNumSlider->blockSignals(true);
             m_anchorNumSlider->setValue(value);
             m_anchorNumSlider->blockSignals(false);
-            CDrawParamSigleton::GetInstance()->setAnchorNum(value);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
             emit signalPolygonalStarAttributeChanged();
         }
     });
@@ -249,7 +251,7 @@ void PolygonalStarAttributeWidget::initConnection()
         QString str = QString("%1%").arg(value);
 
         m_radiusNumEdit->setText(str);
-        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
     });
 
@@ -274,13 +276,13 @@ void PolygonalStarAttributeWidget::initConnection()
         if (value < 0 || value > 100) {
             return ;
         }
-        if (value == CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+        if (value == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum()) {
             return ;
         }
         m_radiusNumSlider->blockSignals(true);
         m_radiusNumSlider->setValue(value);
         m_radiusNumSlider->blockSignals(false);
-        CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
         if (str.length() > 1 && hasPercent) {
             m_radiusNumEdit->lineEdit()->setCursorPosition(str.length() - 1);
@@ -300,11 +302,11 @@ void PolygonalStarAttributeWidget::initConnection()
         } else {
             value = str.toInt();
         }
-        if (value != CDrawParamSigleton::GetInstance()->getRadiusNum()) {
+        if (value != CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum()) {
             m_radiusNumSlider->blockSignals(true);
             m_radiusNumSlider->setValue(value);
             m_radiusNumSlider->blockSignals(false);
-            CDrawParamSigleton::GetInstance()->setRadiusNum(value);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
             emit signalPolygonalStarAttributeChanged();
         }
     });
@@ -372,7 +374,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
 
-    int anchorNum = CDrawParamSigleton::GetInstance()->getAnchorNum();
+    int anchorNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAnchorNum();
 
     if (anchorNum != m_anchorNumSlider->value()) {
         m_anchorNumSlider->blockSignals(true);
@@ -381,7 +383,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
         m_anchorNumEdit->setText(QString("%1").arg(anchorNum));
     }
 
-    int radiusNum = CDrawParamSigleton::GetInstance()->getRadiusNum();
+    int radiusNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum();
 
     if (radiusNum != m_anchorNumSlider->value()) {
         m_radiusNumSlider->blockSignals(true);

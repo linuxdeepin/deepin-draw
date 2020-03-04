@@ -18,6 +18,9 @@
  */
 #include "cgraphicsrectitem.h"
 #include "csizehandlerect.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QPainter>
 #include <QPixmap>
 #include <QGraphicsScene>
@@ -124,8 +127,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             pen.setColor(QColor(224, 224, 224));
         } else {
             pen.setColor(QColor(69, 69, 69));
@@ -180,8 +183,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
-    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
 
 }

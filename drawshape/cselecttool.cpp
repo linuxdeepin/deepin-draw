@@ -27,6 +27,8 @@
 #include "cgraphicscutitem.h"
 #include "widgets/ctextedit.h"
 #include "cgraphicsmasicoitem.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DApplication>
 
@@ -219,7 +221,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             //显示旋转角度
             if (m_RotateItem == nullptr) {
 
-                qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+                qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
 
                 m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
                 scene->addItem(m_RotateItem);
@@ -309,8 +311,8 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
 
             } else {
-                bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-                bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+                bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+                bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
                 if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
                     emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
                 }

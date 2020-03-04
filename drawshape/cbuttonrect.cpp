@@ -18,8 +18,10 @@
  */
 #include "cbuttonrect.h"
 #include "cdrawparamsigleton.h"
-#include <QPainter>
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
+#include <QPainter>
 
 const int WIDTH = 60;
 const int HEIGHT = 20;
@@ -89,7 +91,7 @@ bool CButtonRect::hitTest(const QPointF &point)
 
 QRectF CButtonRect::boundingRect() const
 {
-    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
     QRectF rect = QGraphicsRectItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);

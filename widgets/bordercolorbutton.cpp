@@ -23,6 +23,8 @@
 
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 const qreal COLOR_RADIUS = 4;
 const int BTN_RADIUS = 8;
@@ -35,12 +37,12 @@ BorderColorButton::BorderColorButton(DWidget *parent)
 {
     setFixedSize(62, 36);
     setCheckable(false);
-    m_color = CDrawParamSigleton::GetInstance()->getLineColor();
+    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
 
 void BorderColorButton::updateConfigColor()
 {
-    QColor configColor = CDrawParamSigleton::GetInstance()->getLineColor();
+    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 
     if (m_color == configColor) {
         return;
@@ -105,7 +107,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     }
 
     QPen textPen;
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         textPen.setColor(QColor("#414D68"));
     } else {
         textPen.setColor(QColor("#C0C6D4"));

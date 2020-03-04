@@ -22,6 +22,9 @@
 #include "cgraphicsproxywidget.h"
 #include "cdrawparamsigleton.h"
 #include "widgets/ctextedit.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QTextCursor>
 #include <QWidget>
@@ -43,8 +46,8 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
-        CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
-        QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
+        QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
         //item->getTextEdit()->setText(tr("输入文本"));
         item->getTextEdit()->setText(QObject::tr("Input text here"));

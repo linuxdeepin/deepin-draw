@@ -30,6 +30,7 @@
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
 #include "drawshape/cpicturetool.h"
+#include "frame/cviewmanagement.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -87,7 +88,7 @@ void CCentralwidget::switchTheme(int type)
 
 void CCentralwidget::resetSceneBackgroundBrush()
 {
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     if (themeType == 1) {
         m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
     } else if (themeType == 2) {
@@ -97,7 +98,7 @@ void CCentralwidget::resetSceneBackgroundBrush()
 
 void CCentralwidget::initSceneRect()
 {
-    QSize size = CDrawParamSigleton::GetInstance()->getCutDefaultSize();
+    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
     QRectF rc = QRectF(0, 0, size.width(), size.height());
     m_pDrawScene->setSceneRect(rc);
 }
@@ -157,13 +158,14 @@ void CCentralwidget::initUI()
 
     m_pGraphicsView->setFrameShape(QFrame::NoFrame);
 
+    CManageViewSigleton::GetInstance()->addView(m_pGraphicsView);
 
     m_pDrawScene =  CDrawScene::GetInstance();
     //设置scene大小为屏幕分辨率
     //获取屏幕分辨率
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
-    CDrawParamSigleton::GetInstance()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
 
     initSceneRect();
 
@@ -172,7 +174,7 @@ void CCentralwidget::initUI()
 //        浅色主题
 //case 2:
 //        深色主题
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
     } else {
         m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
@@ -262,8 +264,8 @@ void CCentralwidget::slotTextFontSizeChanged()
 
 void CCentralwidget::slotNew()
 {
-    CDrawParamSigleton::GetInstance()->setDdfSavePath("");
-    CDrawParamSigleton::GetInstance()->setIsModify(false);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
     m_pGraphicsView->clearScene();
     m_leftToolbar->slotShortCutSelect();
     initSceneRect();
@@ -285,7 +287,7 @@ void CCentralwidget::slotShowCutItem()
 void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
-    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
         m_pGraphicsView->slotQuitCutMode();
     } else {
         m_leftToolbar->slotShortCutSelect();
@@ -340,7 +342,7 @@ void CCentralwidget::slotSetScale(const qreal scale)
 QPixmap CCentralwidget::getSceneImage(int type)
 {
     QPixmap pixmap(m_pDrawScene->sceneRect().width(), m_pDrawScene->sceneRect().height());
-    CDrawParamSigleton::GetInstance()->setRenderImage(type);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(type);
     if (type == 2) {
         pixmap.fill(Qt::transparent);
         m_pDrawScene->setBackgroundBrush(Qt::transparent);
@@ -352,7 +354,7 @@ QPixmap CCentralwidget::getSceneImage(int type)
     if (type == 2) {
         resetSceneBackgroundBrush();
     }
-    CDrawParamSigleton::GetInstance()->setRenderImage(0);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
 
     return  pixmap;
 }

@@ -34,6 +34,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
 #include "widgets/cmenu.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -468,40 +470,40 @@ void TopToolbar::slotSetTextFont()
 void TopToolbar::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
-    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
         emit signalQuitCutModeFromTopBarMenu();
     }
 }
 void TopToolbar::slotOnImportAction()
 {
-    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
     emit signalImport();
 }
 
 void TopToolbar::slotOnNewConstructAction()
 {
-    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
-        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
         emit signalNew();
     }
 }
 
 void TopToolbar::slotOnSaveAction()
 {
-    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     emit signalSaveToDDF();
 }
 
 void TopToolbar::slotOnSaveAsAction()
 {
-    CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     emit signalSaveAs();
 }
 
 void TopToolbar::slotMenuShow()
 {
     slotHideColorPanel();
-    m_newAction->setEnabled(CDrawParamSigleton::GetInstance()->getIsModify());
+    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify());
 }
 
 

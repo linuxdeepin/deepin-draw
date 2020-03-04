@@ -19,6 +19,8 @@
 #include "textcolorbutton.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 #include "frame/mainwindow.h"
 
 #include <DGuiApplicationHelper>
@@ -42,15 +44,15 @@ TextColorButton::TextColorButton(DWidget *parent)
     DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
     if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
         QColor color("#C0C6D4");
-        CDrawParamSigleton::GetInstance()->setTextColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
 
-    m_color = CDrawParamSigleton::GetInstance()->getTextColor();
+    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 }
 
 void TextColorButton::updateConfigColor()
 {
-    QColor configColor = CDrawParamSigleton::GetInstance()->getTextColor();
+    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
     if (m_color == configColor) {
         return;
     }
@@ -105,7 +107,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
     painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
 
     QPen textPen;
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         textPen.setColor(QColor("#414D68"));
     } else {
         textPen.setColor(QColor("#C0C6D4"));

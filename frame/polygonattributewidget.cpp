@@ -21,7 +21,6 @@
 #include <DLabel>
 #include <DFontSizeManager>
 
-
 #include <QAction>
 #include <QHBoxLayout>
 #include <QButtonGroup>
@@ -33,7 +32,8 @@
 #include "widgets/seperatorline.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
-
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -166,7 +166,7 @@ void PolygonAttributeWidget::initConnection()
     ///多边形边数
     connect(m_sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_sideNumEdit->setText(QString::number(value));
-        CDrawParamSigleton::GetInstance()->setSideNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
         emit signalPolygonAttributeChanged();
     });
 
@@ -185,7 +185,7 @@ void PolygonAttributeWidget::initConnection()
         m_sideNumSlider->blockSignals(true);
         m_sideNumSlider->setValue(value);
         m_sideNumSlider->blockSignals(false);
-        CDrawParamSigleton::GetInstance()->setSideNum(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
         emit signalPolygonAttributeChanged();
     });
 
@@ -194,11 +194,11 @@ void PolygonAttributeWidget::initConnection()
         int value = str.toInt();
         int minvalue = m_sideNumSlider->minimum();
 
-        if (value == minvalue && CDrawParamSigleton::GetInstance()->getSideNum() != minvalue) {
+        if (value == minvalue && CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum() != minvalue) {
             m_sideNumSlider->blockSignals(true);
             m_sideNumSlider->setValue(minvalue);
             m_sideNumSlider->blockSignals(false);
-            CDrawParamSigleton::GetInstance()->setSideNum(value);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
             emit signalPolygonAttributeChanged();
         }
     });
@@ -236,7 +236,7 @@ void PolygonAttributeWidget::updatePolygonWidget()
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
 
-    int sideNum = CDrawParamSigleton::GetInstance()->getSideNum();
+    int sideNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum();
 
     if (sideNum != m_sideNumSlider->value()) {
         m_sideNumSlider->blockSignals(true);

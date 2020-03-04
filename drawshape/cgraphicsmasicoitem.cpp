@@ -5,6 +5,9 @@
 #include "widgets/ctextedit.h"
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <DApplication>
 #include <QGraphicsScene>
 #include <QPainter>
@@ -52,23 +55,23 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QRectF &rect, CGraphicsItem *pare
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(QGraphicsItem *parent)
     : CGraphicsPenItem(parent)
-    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
-    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
+    , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
+    , m_nBlurEffect(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect())
 {
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent)
     : CGraphicsPenItem(startPoint, parent)
-    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
-    , m_nBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect())
+    , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
+    , m_nBlurEffect(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect())
 {
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 }
 
 CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsPenItem(&(data->data), head, parent)
-    , m_pixmap(CDrawParamSigleton::GetInstance()->getCutSize())
+    , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
     , m_nBlurEffect((EBlurEffect)data->effect)
 {
     updateBlurPath();
@@ -126,8 +129,8 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             pen.setColor(QColor(224, 224, 224));
         } else {
             pen.setColor(QColor(69, 69, 69));
@@ -169,13 +172,13 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-        CDrawParamSigleton::GetInstance()->setRenderImage(2);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        CDrawParamSigleton::GetInstance()->setRenderImage(0);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
         CDrawScene::GetInstance()->resetSceneBackgroundBrush();
 //        this->scene()->setBackgroundBrush(Qt::transparent);
 

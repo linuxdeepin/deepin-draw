@@ -21,12 +21,12 @@
 #include "widgets/ccheckbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/globaldefine.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DSlider>
 #include <QHBoxLayout>
 #include <DGuiApplicationHelper>
-
-
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -45,19 +45,19 @@ BlurWidget::~BlurWidget()
 
 void BlurWidget::updateBlurWidget()
 {
-    EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
+    EBlurEffect effect = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect();
     bool bEffect = (effect == BlurEffect);
 
     m_blurBtn->setChecked(bEffect);
     m_masicBtn->setChecked(!bEffect);
 
-    m_pLineWidthSlider->setValue(CDrawParamSigleton::GetInstance()->getBlurWidth());
+    m_pLineWidthSlider->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
 }
 
 void BlurWidget::changeButtonTheme()
 {
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     m_blurBtn->setCurrentTheme(themeType);
     m_masicBtn->setCurrentTheme(themeType);
 }
@@ -107,7 +107,7 @@ void BlurWidget::initUI()
     m_masicBtn->setToolTip(tr("Mosaic"));
     m_actionButtons.append(m_masicBtn);
 
-    EBlurEffect effect = CDrawParamSigleton::GetInstance()->getBlurEffect();
+    EBlurEffect effect = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect();
     bool bEffect = (effect == BlurEffect);
 
     m_blurBtn->setChecked(bEffect);
@@ -137,7 +137,7 @@ void BlurWidget::initUI()
 
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));
-        CDrawParamSigleton::GetInstance()->setBlurWidth(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
         emit signalBlurAttributeChanged();
     });
 
@@ -163,14 +163,14 @@ void BlurWidget::initConnection()
 {
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
-        CDrawParamSigleton::GetInstance()->setBlurEffect(BlurEffect);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(BlurEffect);
         emit signalBlurAttributeChanged();
 
     });
 
     connect(m_masicBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_masicBtn);
-        CDrawParamSigleton::GetInstance()->setBlurEffect(MasicoEffect);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(MasicoEffect);
         emit signalBlurAttributeChanged();
 
     });

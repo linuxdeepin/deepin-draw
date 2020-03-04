@@ -25,6 +25,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 #include "utils/shortcut.h"
 #include "utils/global.h"
 
@@ -75,6 +77,11 @@ void MainWindow::initUI()
         setMinimumSize(QSize(1152, 768));
     }
 
+    m_centralWidget = new CCentralwidget(this);
+    m_centralWidget->setFocusPolicy(Qt::StrongFocus);
+    setContentsMargins(QMargins(0, 0, 0, 0));
+    setCentralWidget(m_centralWidget);
+
     m_topToolbar = new TopToolbar(this);
     m_topToolbar->setFrameShape(DFrame::NoFrame);
     m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
@@ -87,11 +94,6 @@ void MainWindow::initUI()
     titlebar()->setFocusPolicy(Qt::NoFocus);
 
 //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
-
-    m_centralWidget = new CCentralwidget(this);
-    m_centralWidget->setFocusPolicy(Qt::StrongFocus);
-    setContentsMargins(QMargins(0, 0, 0, 0));
-    setCentralWidget(m_centralWidget);
 
     m_quitQuestionDialog  = new DrawDialog(this);
 
@@ -114,7 +116,7 @@ void MainWindow::initConnection()
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
-        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         slotIsNeedSave();
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
@@ -185,7 +187,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::slotIsNeedSave()
 {
-    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
         m_quitQuestionDialog->show();
     } else {
         slotContinueDoSomeThing();
@@ -194,22 +196,22 @@ void MainWindow::slotIsNeedSave()
 
 void MainWindow::slotContinueDoSomeThing()
 {
-    ESaveDDFTriggerAction triggerType =  CDrawParamSigleton::GetInstance()->getSaveDDFTriggerAction();
+    ESaveDDFTriggerAction triggerType =  CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction();
     switch (triggerType) {
     case QuitApp:
         qApp->quit();
         break;
     case LoadDDF:
-        m_centralWidget->getGraphicsView()->importData(CDrawParamSigleton::GetInstance()->getDdfSavePath());
+        m_centralWidget->getGraphicsView()->importData(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath());
         break;
     case StartByDDF:
-        m_centralWidget->getGraphicsView()->importData(CDrawParamSigleton::GetInstance()->getDdfSavePath(), true);
+        m_centralWidget->getGraphicsView()->importData(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath(), true);
         break;
     case NewDrawingBoard:
         m_centralWidget->slotNew();
         break;
     case ImportPictrue:
-        CDrawParamSigleton::GetInstance()->setDdfSavePath("");
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
         m_centralWidget->getGraphicsView()->clearScene();
         m_centralWidget->getLeftToolBar()->slotShortCutSelect();
         m_centralWidget->openPicture(tmpPictruePath);
@@ -235,10 +237,10 @@ void MainWindow::slotShowOpenFileDialog()
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
             if (QFileInfo(path).suffix().toLower() == "ddf") {
-                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-                CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
             } else {
-                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
                 tmpPictruePath = path;
             }
             slotIsNeedSave();
@@ -280,13 +282,13 @@ void MainWindow::slotLoadDragOrPasteFile(QString files)
         }
     }
 
-    if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
         m_centralWidget->getGraphicsView()->slotQuitCutMode();
     }
 
     if (!ddfPath.isEmpty()) {
-        CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-        CDrawParamSigleton::GetInstance()->setDdfSavePath(ddfPath);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
         slotIsNeedSave();
     } else if (picturePathList.count() > 0) {
         m_centralWidget->slotPastePicture(picturePathList);
@@ -302,7 +304,7 @@ void MainWindow::slotOnEscButtonClick()
 
 void MainWindow::showDrawDialog()
 {
-    if (CDrawParamSigleton::GetInstance()->getIsModify()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
         m_quitQuestionDialog->show();
     } else {
         qApp->quit();
@@ -331,13 +333,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if ( event->key() == Qt::Key_Shift) {
-        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(true);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
     else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        CDrawParamSigleton::GetInstance()->setAltKeyStatus(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAltKeyStatus(true);
     } else if (event->key() == Qt::Key_Control) {
-        CDrawParamSigleton::GetInstance()->setCtlKeyStatus(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(true);
     } else {
     }
 
@@ -355,13 +357,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if ( event->key() == Qt::Key_Shift) {
-        CDrawParamSigleton::GetInstance()->setShiftKeyStatus(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(false);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
     else if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_Meta) {
-        CDrawParamSigleton::GetInstance()->setAltKeyStatus(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAltKeyStatus(false);
     } else if (event->key() == Qt::Key_Control) {
-        CDrawParamSigleton::GetInstance()->setCtlKeyStatus(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(false);
         m_contrlKey = true;
     }  else {
         ;
@@ -372,7 +374,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
     //如果按住CTRL
-    if (CDrawParamSigleton::GetInstance()->getCtlKeyStatus()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCtlKeyStatus()) {
         if (event->delta() > 0) {
             m_centralWidget->getGraphicsView()->zoomOut();
         } else {
@@ -385,18 +387,18 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 void MainWindow::openImage(QString path, bool isStartByDDF)
 {
     if (!path.isEmpty()) {
-        if (cut == CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode()) {
+        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
             m_centralWidget->getGraphicsView()->slotQuitCutMode();
         }
         if (QFileInfo(path).suffix().toLower()  == "ddf") {
             if (isStartByDDF) {
-                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
             } else {
-                CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
             }
-            CDrawParamSigleton::GetInstance()->setDdfSavePath(path);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
         } else {
-            CDrawParamSigleton::GetInstance()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
             tmpPictruePath = path;
         }
         slotIsNeedSave();
@@ -405,7 +407,7 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
 
 void MainWindow::initScene()
 {
-    QSize size = CDrawParamSigleton::GetInstance()->getCutDefaultSize();
+    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
     QRectF rect(0, 0, 0, 0);
     rect.setSize(size);
     m_centralWidget->getDrawScene()->setSceneRect(rect);
@@ -422,7 +424,7 @@ void MainWindow::readSettings()
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
-    CDrawParamSigleton::GetInstance()->setThemeType(type);
+    CManageViewSigleton::GetInstance()->setThemeType(type);
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
     //改变左边工具栏按钮主题

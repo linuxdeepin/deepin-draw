@@ -20,6 +20,9 @@
 #include "cgraphicsproxywidget.h"
 #include "widgets/ctextedit.h"
 #include "cdrawscene.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <DApplication>
 
 #include <QTextEdit>
@@ -94,8 +97,8 @@ void CGraphicsTextItem::initTextEditWidget()
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 
-    QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
-    QColor color = CDrawParamSigleton::GetInstance()->getTextColor();
+    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+    QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
@@ -254,8 +257,8 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             pen.setColor(QColor(224, 224, 224));
         } else {
             pen.setColor(QColor(69, 69, 69));
@@ -271,8 +274,8 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    if (CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode() == selection ||
-            CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode() == text) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
         //m_pProxy->setFocus();
         QTextCursor textCursor = m_pTextEdit->textCursor();
@@ -494,9 +497,9 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
 
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {
-    CDrawParamSigleton::GetInstance()->setTextFont(format.font().family());
-    CDrawParamSigleton::GetInstance()->setTextSize(format.font().pointSize());
-    CDrawParamSigleton::GetInstance()->setTextColor(format.foreground().color());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
 
     //提示更改 TODO
     if (this->scene() != nullptr) {

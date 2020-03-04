@@ -18,6 +18,8 @@
  */
 #include "ctitlewidget.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QHBoxLayout>
 
@@ -44,7 +46,7 @@ CTitleWidget::~CTitleWidget()
 
 void CTitleWidget::updateTitleWidget()
 {
-    QString path = CDrawParamSigleton::GetInstance()->getDdfSavePath();
+    QString path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
     if (path.isEmpty()) {
         m_title->setText(tr("Unnamed Drawing"));
     } else {

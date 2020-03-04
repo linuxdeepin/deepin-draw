@@ -39,6 +39,8 @@
 #include "drawshape/cgraphicspenitem.h"
 #include "drawshape/cpictureitem.h"
 #include "drawshape/cpicturetool.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -60,6 +62,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     , m_scale(1)
     , m_isShowContext(true)
     , m_isStopContinuousDrawing(false)
+    , m_drawParam(new CDrawParamSigleton())
 {
     setOptimizationFlags(IndirectPainting);
     m_pUndoStack = new QUndoStack(this);
@@ -102,7 +105,7 @@ void CGraphicsView::scale(qreal scale)
     qreal multiple = scale / m_scale;
     DGraphicsView::scale(multiple, multiple);
     m_scale = scale;
-    CDrawParamSigleton::GetInstance()->setScale(m_scale);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setScale(m_scale);
 }
 
 
@@ -960,7 +963,7 @@ void CGraphicsView::itemSceneCut(QRectF newRect)
 
 void CGraphicsView::doSaveDDF()
 {
-    QString ddfPath = CDrawParamSigleton::GetInstance()->getDdfSavePath();
+    QString ddfPath = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
     if (ddfPath.isEmpty() || ddfPath == "") {
         showSaveDDFDialog(true);
     } else {
@@ -1003,7 +1006,12 @@ void CGraphicsView::importData(const QString &path, bool isOpenByDDF)
 void CGraphicsView::disableCutShortcut(bool isFocus)
 {
     m_cutScence->setEnabled(!isFocus);
-//    qDebug() << "m_cutScence->isEnabled()=" << m_cutScence->isEnabled();
+    //    qDebug() << "m_cutScence->isEnabled()=" << m_cutScence->isEnabled();
+}
+
+CDrawParamSigleton *CGraphicsView::getDrawParam()
+{
+    return m_drawParam;
 }
 
 
@@ -1113,7 +1121,7 @@ void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 
 void CGraphicsView::enterEvent(QEvent *event)
 {
-    EDrawToolMode currentMode = CDrawParamSigleton::GetInstance()->getCurrentDrawToolMode();
+    EDrawToolMode currentMode = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
     CDrawScene::GetInstance()->changeMouseShape(currentMode);
 }
 

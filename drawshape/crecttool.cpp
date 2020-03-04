@@ -21,12 +21,13 @@
 #include "cgraphicsrectitem.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QtMath>
 #include <QGraphicsBlurEffect>
-
-
 
 CRectTool::CRectTool ()
     : IDrawTool (rectangle)
@@ -47,8 +48,8 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
         m_sPointPress = event->scenePos();
         m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-        m_pRectItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        m_pRectItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        m_pRectItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
+        m_pRectItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
 //    QGraphicsBlurEffect *e0 = new QGraphicsBlurEffect();
 
 //    e0->setBlurRadius(20);
@@ -71,8 +72,8 @@ void CRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
         //按下SHIFT键
         if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;

@@ -19,6 +19,7 @@
 #include "cpicturewidget.h"
 #include "widgets/cclickbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 
 #include <QMap>
 #include <QHBoxLayout>
@@ -28,11 +29,7 @@
 #include <DApplicationHelper>
 #include <DGuiApplicationHelper>
 
-
-
-
 DGUI_USE_NAMESPACE
-
 
 const int BTN_SPACING = 13;
 
@@ -49,7 +46,7 @@ CPictureWidget::~CPictureWidget()
 
 void CPictureWidget::changeButtonTheme()
 {
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
 
     m_leftRotateBtn->setCurrentTheme(themeType);
     m_rightRotateBtn->setCurrentTheme(themeType);

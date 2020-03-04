@@ -18,6 +18,7 @@
  */
 #include "cclickbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 
 #include <DApplicationHelper>
 
@@ -41,7 +42,7 @@ CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pict
 //    this->setFlat(true);
 
 
-    m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_currentTheme = CManageViewSigleton::GetInstance()->getThemeType();
 
     updateImage();
 }

@@ -18,6 +18,8 @@
  */
 #include "csidewidthwidget.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 #include "ccheckbutton.h"
 
 #include <DGuiApplicationHelper>
@@ -106,25 +108,25 @@ void CSideWidthWidget::initConnection()
 {
     connect(m_finerButton, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_finerButton);
-        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_finerButton));
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_finerButton));
         emit signalSideWidthChange();
     });
 
     connect(m_fineButton, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_fineButton);
-        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_fineButton));
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_fineButton));
         emit signalSideWidthChange();
     });
 
     connect(m_mediumButton, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_mediumButton);
-        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_mediumButton));
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_mediumButton));
         emit signalSideWidthChange();
     });
 
     connect(m_boldButton, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_boldButton);
-        CDrawParamSigleton::GetInstance()->setLineWidth(m_buttonMap.value(m_boldButton));
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_boldButton));
         emit signalSideWidthChange();
     });
 
@@ -143,7 +145,7 @@ void CSideWidthWidget::clearOtherSelections(CCheckButton *clickedButton)
 
 void CSideWidthWidget::updateSideWidth()
 {
-    int sideWidth = CDrawParamSigleton::GetInstance()->getLineWidth();
+    int sideWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
     QMapIterator<CCheckButton *, CLineWidth> i(m_buttonMap);
     while (i.hasNext()) {
         i.next();
@@ -159,7 +161,7 @@ void CSideWidthWidget::updateSideWidth()
 
 void CSideWidthWidget::changeButtonTheme()
 {
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     foreach (CCheckButton *button, m_buttonMap.keys()) {
         button->setCurrentTheme(themeType);
     }

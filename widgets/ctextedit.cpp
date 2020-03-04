@@ -20,6 +20,9 @@
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <DMenu>
 #include <DApplication>
 #include <QAction>
@@ -69,8 +72,8 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
 void CTextEdit::slot_textChanged()
 {
     if (this->document()->isEmpty()) {
-        m_pItem->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-        m_pItem->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
+        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
     }
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
@@ -116,8 +119,8 @@ void CTextEdit::slot_textChanged()
 void CTextEdit::cursorPositionChanged()
 {
     if (this->document()->isEmpty()) {
-        m_pItem->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-        m_pItem->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
+        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
     } else {
         QTextCursor cursor = this->textCursor();
         if (cursor.hasSelection()) {
@@ -144,7 +147,7 @@ void CTextEdit::cursorPositionChanged()
                         if (flag) {
                             chfFirst = fragment.charFormat();
                             fontFamily = chfFirst.font().family();
-                            CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
+                            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
                             m_pItem->currentCharFormatChanged(chfFirst);
                             flag = false;
 
@@ -166,14 +169,14 @@ void CTextEdit::cursorPositionChanged()
                                     break;
                                 }
                                 if (fontFamily != chf.font().family()) {
-                                    CDrawParamSigleton::GetInstance()->setSingleFontFlag(false);
+                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(false);
                                     m_pItem->currentCharFormatChanged(chfFirst);
                                     break;
                                 }
 
                             } else {
                                 if (fontFamily != chf.font().family()) {
-                                    CDrawParamSigleton::GetInstance()->setSingleFontFlag(false);
+                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(false);
                                     m_pItem->currentCharFormatChanged(chfFirst);
                                     break;
                                 }
@@ -188,7 +191,7 @@ void CTextEdit::cursorPositionChanged()
                 m_pItem->currentCharFormatChanged(cursor.charFormat());
             }
         } else {
-            CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
             m_pItem->currentCharFormatChanged(cursor.charFormat());
         }
 
@@ -223,8 +226,8 @@ void CTextEdit::setLastDocumentWidth(qreal width)
 void CTextEdit::resizeDocument()
 {
     if (this->document()->isEmpty()) {
-        m_pItem->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-        m_pItem->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
+        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
+        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
     }
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {

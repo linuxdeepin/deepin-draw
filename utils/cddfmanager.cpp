@@ -30,6 +30,7 @@
 #include "drawshape/cgraphicspolygonalstaritem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
 #include "frame/cgraphicsview.h"
+#include "frame/cviewmanagement.h"
 #include "widgets/dialog/cprogressdialog.h"
 
 #include <QGraphicsItem>
@@ -264,17 +265,17 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 void CDDFManager::slotLoadDDFComplete()
 {
     m_CProgressDialog->hide();
-    CDrawParamSigleton::GetInstance()->setDdfSavePath(m_path);
-    CDrawParamSigleton::GetInstance()->setIsModify(false);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(m_path);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
     emit singalEndLoadDDF();
 }
 
 void CDDFManager::slotSaveDDFComplete()
 {
     m_CProgressDialog->hide();
-    CDrawParamSigleton::GetInstance()->setDdfSavePath(m_path);
-    CDrawParamSigleton::GetInstance()->setIsModify(false);
-    if (ESaveDDFTriggerAction::SaveAction != CDrawParamSigleton::GetInstance()->getSaveDDFTriggerAction()) {
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(m_path);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
+    if (ESaveDDFTriggerAction::SaveAction != CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction()) {
         emit signalContinueDoOtherThing();
     }
 }

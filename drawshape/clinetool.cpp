@@ -20,7 +20,11 @@
 #include "cdrawscene.h"
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
+
 CLineTool::CLineTool()
     : IDrawTool(line)
     , m_pLineItem(nullptr)
@@ -39,8 +43,8 @@ void CLineTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->clearSelection();
         m_sPointPress = event->scenePos();
         m_pLineItem = new CGraphicsLineItem(m_sPointPress, m_sPointPress);
-        m_pLineItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        m_pLineItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        m_pLineItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
+        m_pLineItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
         scene->addItem(m_pLineItem);
 
         m_bMousePress = true;

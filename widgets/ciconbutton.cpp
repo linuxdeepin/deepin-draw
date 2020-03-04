@@ -19,6 +19,7 @@
 
 #include "ciconbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -40,7 +41,7 @@ CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pic
     setFixedSize(size);
     setIconSize(size);
 
-    m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_currentTheme = CManageViewSigleton::GetInstance()->getThemeType();
 
     updateImage();
 }

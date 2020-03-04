@@ -20,6 +20,8 @@
 
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QDebug>
 #include <QTextItem>
@@ -37,12 +39,12 @@ BigColorButton::BigColorButton(DWidget *parent)
     setFixedSize(56, 36);
     setCheckable(false);
 
-    m_color = CDrawParamSigleton::GetInstance()->getFillColor();
+    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 }
 
 void BigColorButton::updateConfigColor()
 {
-    QColor configColor = CDrawParamSigleton::GetInstance()->getFillColor();
+    QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 
     if (m_color == configColor) {
         return;
@@ -101,7 +103,7 @@ void BigColorButton::paintEvent(QPaintEvent *)
     painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
 
     QPen textPen;
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         textPen.setColor(QColor("#414D68"));
     } else {
         textPen.setColor(QColor("#C0C6D4"));

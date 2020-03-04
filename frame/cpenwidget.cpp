@@ -22,6 +22,8 @@
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -51,7 +53,7 @@ CPenWidget::~CPenWidget()
 void CPenWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     m_straightline->setCurrentTheme(themeType);
     m_arrowline->setCurrentTheme(themeType);
     m_sep1Line->updateTheme();
@@ -150,13 +152,13 @@ void CPenWidget::initConnection()
 
     connect(m_straightline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_straightline);
-        CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::straight);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentPenType(EPenType::straight);
         emit signalPenAttributeChanged();
     });
 
     connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
-        CDrawParamSigleton::GetInstance()->setCurrentPenType(EPenType::arrow);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentPenType(EPenType::arrow);
         emit signalPenAttributeChanged();
     });
 
@@ -180,7 +182,7 @@ void CPenWidget::updatePenWidget()
 {
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
-    EPenType penType = CDrawParamSigleton::GetInstance()->getCurrentPenType();
+    EPenType penType = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentPenType();
     if (penType == EPenType::straight) {
         if (!m_straightline->isChecked()) {
             m_straightline->setChecked(true);

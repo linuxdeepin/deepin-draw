@@ -18,7 +18,7 @@
  */
 #include "frame/mainwindow.h"
 #include "application.h"
-#include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 #include "frame/ccentralwidget.h"
 #include <QCommandLineOption>
 #include <QObject>
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 
     // 应用已保存的主题设置
     DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
-    CDrawParamSigleton::GetInstance()->setThemeType(type);
+    CManageViewSigleton::GetInstance()->setThemeType(type);
     DGuiApplicationHelper::instance()->setPaletteType(type);
 
 

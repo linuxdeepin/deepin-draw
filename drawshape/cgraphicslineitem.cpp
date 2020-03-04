@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicslineitem.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DSvgRenderer>
 
@@ -29,14 +31,14 @@ DTK_USE_NAMESPACE
 
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
+    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
 {
     initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
+    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
 {
     m_line = line;
     initLine();
@@ -44,7 +46,7 @@ CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
 
 CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
+    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
 {
     setLine(p1.x(), p1.y(), p2.x(), p2.y());
     initLine();
@@ -53,7 +55,7 @@ CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGrap
 CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
-    , m_type(CDrawParamSigleton::GetInstance()->getLineType())
+    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
 {
     initLine();
 }
@@ -87,7 +89,7 @@ QPainterPath CGraphicsLineItem::shape() const
     path.lineTo(m_line.p2());
 
     QPen pen = this->pen();
-    qreal scale = CDrawParamSigleton::GetInstance()->getScale();
+    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
     if (pen.width() * (int)scale < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
@@ -128,8 +130,8 @@ QRectF CGraphicsLineItem::rect() const
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
-    bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-    bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
 
     if (!shiftKeyPress) {
         QPointF local = mapFromScene(point);

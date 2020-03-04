@@ -21,7 +21,8 @@
 #include "frame/ccutwidget.h"
 #include "globaldefine.h"
 #include "cdrawparamsigleton.h"
-
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QPushButton>
 #include <QPainter>
@@ -52,11 +53,11 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
 //    this->setRect(rect);
 
     m_originalRect = QRectF(0, 0, 0, 0);
-    m_originalRect.setSize(CDrawParamSigleton::GetInstance()->getCutDefaultSize());
+    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
 
     initPenAndBrush();
     initRect();
-    CDrawParamSigleton::GetInstance()->setCutSize(rect.size().toSize());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
 CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
@@ -68,7 +69,7 @@ CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphics
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
     m_originalRect = QRectF(0, 0, 0, 0);
-    m_originalRect.setSize(CDrawParamSigleton::GetInstance()->getCutDefaultSize());
+    m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
     initPenAndBrush();
     initRect();
 }
@@ -90,7 +91,7 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     m_bottomRightPoint = rect.bottomRight();
     updateGeometry();
 
-    CDrawParamSigleton::GetInstance()->setCutSize(rect.size().toSize());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
     //this->scene()->setSceneRect(rect);
 }
 
@@ -186,9 +187,9 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     bool shiftKeyPress = false;//CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
     bool altKeyPress = false;//CDrawParamSigleton::GetInstance()->getAltKeyStatus();
 
-    if (CDrawParamSigleton::GetInstance()->getCutType() == cut_original) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() == cut_original) {
         return;
-    } else if (CDrawParamSigleton::GetInstance()->getCutType() != cut_free) {
+    } else if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() != cut_free) {
         shiftKeyPress = true;
     }
 

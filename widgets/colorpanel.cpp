@@ -30,13 +30,14 @@
 #include "utils/global.h"
 #include "utils/baseutils.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include "ciconbutton.h"
 #include "colorlabel.h"
 #include "colorslider.h"
 #include "pickcolorwidget.h"
 #include "calphacontrolwidget.h"
-
-
 
 
 DGUI_USE_NAMESPACE
@@ -143,11 +144,11 @@ void ColorPanel::setConfigColor(QColor color)
 
     ///写入参数
     if (m_drawstatus == Fill) {
-        CDrawParamSigleton::GetInstance()->setFillColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
     } else if (m_drawstatus == Stroke) {
-        CDrawParamSigleton::GetInstance()->setLineColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
     } else if (m_drawstatus == TextFill) {
-        CDrawParamSigleton::GetInstance()->setTextColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
 
     emit signalColorChanged();
@@ -165,11 +166,11 @@ void ColorPanel::setConfigColorByColorName(QColor color)
 
     ///写入参数
     if (m_drawstatus == Fill) {
-        CDrawParamSigleton::GetInstance()->setFillColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
     } else if (m_drawstatus == Stroke) {
-        CDrawParamSigleton::GetInstance()->setLineColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
     } else if (m_drawstatus == TextFill) {
-        CDrawParamSigleton::GetInstance()->setTextColor(color);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
 
     emit signalColorChanged();
@@ -177,7 +178,7 @@ void ColorPanel::setConfigColorByColorName(QColor color)
 
 void ColorPanel::changeButtonTheme()
 {
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     m_colorfulBtn->setCurrentTheme(themeType);
     m_pickColWidget->updateButtonTheme(themeType);
 }
@@ -328,26 +329,26 @@ void ColorPanel::initConnection()
     connect(m_alphaControlWidget, &CAlphaControlWidget::signalAlphaChanged, this, [ = ] (int alphaValue) {
         QColor tmpColor;
         if (m_drawstatus == Fill) {
-            tmpColor = CDrawParamSigleton::GetInstance()->getFillColor();
+            tmpColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);
-            CDrawParamSigleton::GetInstance()->setFillColor(tmpColor);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(tmpColor);
         } else if (m_drawstatus == Stroke) {
-            tmpColor = CDrawParamSigleton::GetInstance()->getLineColor();
+            tmpColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);
-            CDrawParamSigleton::GetInstance()->setLineColor(tmpColor);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(tmpColor);
         } else if (m_drawstatus == TextFill) {
-            tmpColor = CDrawParamSigleton::GetInstance()->getTextColor();
+            tmpColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
             tmpColor.setAlpha(alphaValue);
-            CDrawParamSigleton::GetInstance()->setTextColor(tmpColor);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(tmpColor);
         }
 //        if (qApp->focusWidget() != nullptr) {
 //            qApp->focusWidget()->hide();
@@ -395,11 +396,11 @@ void ColorPanel::updateColorPanel(DrawStatus status)
 
     QColor configColor;
     if (m_drawstatus == DrawStatus::Fill) {
-        configColor = CDrawParamSigleton::GetInstance()->getFillColor();
+        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
     } else if (m_drawstatus == DrawStatus::Stroke) {
-        configColor = CDrawParamSigleton::GetInstance()->getLineColor();
+        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
     } else if (m_drawstatus == DrawStatus::TextFill) {
-        configColor = CDrawParamSigleton::GetInstance()->getTextColor();
+        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
     }
 
     ////更新颜色按钮

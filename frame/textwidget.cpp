@@ -23,6 +23,8 @@
 #include "widgets/seperatorline.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
@@ -71,7 +73,7 @@ void TextWidget::initUI()
     m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
     QString strFont = m_fontComBox->currentText();
-    CDrawParamSigleton::GetInstance()->setTextFont(strFont);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
 
     DLabel *fontsizeLabel = new DLabel(this);
@@ -87,7 +89,7 @@ void TextWidget::initUI()
     //m_fontSizeSlider->setMinimumWidth(200);
     m_fontSizeSlider->setFixedWidth(120);
     m_fontSizeSlider->setMaximumHeight(24);
-    m_fontSizeSlider->setValue(int(CDrawParamSigleton::GetInstance()->getTextSize()));
+    m_fontSizeSlider->setValue(int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize()));
     m_fontSizeSlider->slider()->setFocusPolicy(Qt::NoFocus);
 
     m_fontSizeEdit = new DLineEdit(this);
@@ -148,22 +150,22 @@ void TextWidget::initConnection()
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
         m_bSelect = false;
-        CDrawParamSigleton::GetInstance()->setTextFont(str);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
 
         m_bSelect = true;
-        m_oriFamily = CDrawParamSigleton::GetInstance()->getTextFont().family();
-        CDrawParamSigleton::GetInstance()->setTextFont(str);
+        m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
 
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
 
         if (m_bSelect) {
-            CDrawParamSigleton::GetInstance()->setTextFont(m_oriFamily);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
             emit signalTextFontFamilyChanged();
             m_bSelect = false;
         }
@@ -172,7 +174,7 @@ void TextWidget::initConnection()
     ///字体大小
     connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_fontSizeEdit->setText(QString::number(value));
-        CDrawParamSigleton::GetInstance()->setTextSize(value);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(value);
         emit signalTextFontSizeChanged();
     });
 
@@ -197,7 +199,7 @@ void TextWidget::initConnection()
         int value = str.toInt();
         int minValue = m_fontSizeSlider->minimum();
 
-        int defaultFontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
+        int defaultFontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
 
         if (value == minValue && defaultFontSize != minValue) {
             m_fontSizeSlider->setValue(value);
@@ -234,9 +236,9 @@ void TextWidget::initConnection()
 void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
-    QFont font = CDrawParamSigleton::GetInstance()->getTextFont();
+    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
 
-    if (CDrawParamSigleton::GetInstance()->getSingleFontFlag()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
         m_fontComBox->setCurrentText(font.family());
 //        m_fontComBox->setCurrentFont(font);
     } else {
@@ -249,7 +251,7 @@ void TextWidget::updateTextWidget()
 
 //    }
 
-    int fontSize = int(CDrawParamSigleton::GetInstance()->getTextSize());
+    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
 
     if (fontSize != m_fontSizeSlider->value()) {
         m_fontSizeSlider->blockSignals(true);

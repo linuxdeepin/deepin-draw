@@ -27,6 +27,9 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -65,7 +68,7 @@ void CMoveShapeCommand::undo()
 //            .arg(-myDelta.x()).arg(-myDelta.y()));
     bMoved = false;
 
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 //! [2]
 
@@ -84,7 +87,7 @@ void CMoveShapeCommand::redo()
         }
     }
 
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 //! [3]
 
@@ -117,7 +120,7 @@ void CDeleteShapeCommand::undo()
             }
         }
     }
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem();
 }
 
@@ -134,7 +137,7 @@ void CDeleteShapeCommand::redo()
     foreach (QGraphicsItem *item, m_items) {
         myGraphicsScene->removeItem(item);
     }
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem();
 }
 
@@ -162,7 +165,7 @@ void CRemoveShapeCommand::undo()
         myGraphicsScene->addItem(item);
     }
     myGraphicsScene->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     //setText(QObject::tr("Undo Delete %1").arg(items.count()));
 }
 //! [5]
@@ -175,7 +178,7 @@ void CRemoveShapeCommand::redo()
 //        if ( g != nullptr )
         myGraphicsScene->removeItem(item);
     }
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     //setText(QObject::tr("Redo Delete %1").arg(items.count()));
 }
 
@@ -207,7 +210,7 @@ void CAddShapeCommand::undo()
 {
     myGraphicsScene->removeItem(myDiagramItem);
     myGraphicsScene->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 //! [8]
 
@@ -218,7 +221,7 @@ void CAddShapeCommand::redo()
         myGraphicsScene->addItem(myDiagramItem);
     myDiagramItem->setPos(initialPosition);
     myGraphicsScene->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 
 /*
@@ -243,7 +246,7 @@ void CRotateShapeCommand::undo()
 {
     myItem->setRotation(myOldAngle);
     myItem->scene()->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
 }
 
@@ -251,7 +254,7 @@ void CRotateShapeCommand::redo()
 {
     myItem->setRotation(newAngle);
     myItem->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
 }
 
@@ -363,14 +366,14 @@ void CResizeShapeCommand::undo()
 {
     myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
     myItem->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 
 void CResizeShapeCommand::redo()
 {
     myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
     myItem->update();
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
 }
 
 /*
@@ -468,7 +471,7 @@ void CSetPropertyCommand::undo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_oldBrush);
     }
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
@@ -486,7 +489,7 @@ void CSetPropertyCommand::redo()
         m_pItem->setBrush(m_newBrush);
     }
 
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
@@ -502,7 +505,7 @@ void CSetPolygonAttributeCommand::undo()
 {
     m_pItem->setPointCount(m_nOldNum);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
@@ -511,7 +514,7 @@ void CSetPolygonAttributeCommand::redo()
     m_pItem->setPointCount(m_nNewNum);
 
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
@@ -528,7 +531,7 @@ void CSetPolygonStarAttributeCommand::undo()
 {
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
@@ -536,7 +539,7 @@ void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->updateBlurItem(m_pItem);
 }
 
@@ -628,7 +631,7 @@ void COneLayerUpCommand::undo()
     if (m_isUndoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -655,7 +658,7 @@ void COneLayerUpCommand::redo()
     if (m_isRedoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -696,7 +699,7 @@ void COneLayerDownCommand::undo()
     if (m_isUndoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -725,7 +728,7 @@ void COneLayerDownCommand::redo()
     if (m_isRedoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -761,7 +764,7 @@ void CBringToFrontCommand::undo()
     if (m_isUndoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -790,7 +793,7 @@ void CBringToFrontCommand::redo()
     if (m_isRedoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -827,7 +830,7 @@ void CSendToBackCommand::undo()
     if (m_isUndoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -855,7 +858,7 @@ void CSendToBackCommand::redo()
     if (m_isRedoExcuteSuccess) {
         static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
         m_scene->update();
-        CDrawParamSigleton::GetInstance()->setIsModify(true);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     }
 }
 
@@ -874,7 +877,7 @@ void CSetBlurAttributeCommand::undo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
     m_pItem->setBlurWidth(m_nOldRadius);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 
@@ -882,7 +885,7 @@ void CSetBlurAttributeCommand::redo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
     m_pItem->setBlurWidth(m_nNewRadius);
-    CDrawParamSigleton::GetInstance()->setIsModify(true);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
     CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
 }
 

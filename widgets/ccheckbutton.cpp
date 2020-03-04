@@ -18,6 +18,7 @@
  */
 #include "ccheckbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "frame/cviewmanagement.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -53,7 +54,7 @@ CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictu
 
 //    qDebug() << "!!!!!" << CDrawParamSigleton::GetInstance()->getThemeType();
 
-    m_currentTheme = CDrawParamSigleton::GetInstance()->getThemeType();
+    m_currentTheme = CManageViewSigleton::GetInstance()->getThemeType();
 
     updateImage();
 }

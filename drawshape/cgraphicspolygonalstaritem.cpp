@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicspolygonalstaritem.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QPainter>
 #include <QtMath>
@@ -136,8 +138,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     if (this->isSelected()) {
         painter->setClipping(false);
         QPen pen;
-        pen.setWidthF(1 / CDrawParamSigleton::GetInstance()->getScale());
-        if ( CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
+        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             pen.setColor(QColor(224, 224, 224));
         } else {
             pen.setColor(QColor(69, 69, 69));

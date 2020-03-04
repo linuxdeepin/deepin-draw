@@ -19,9 +19,6 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 
-
-CDrawParamSigleton *CDrawParamSigleton::m_pInstance = nullptr;
-
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
@@ -47,20 +44,11 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
-    , m_thremeType(0)
     , m_lineType(straightType)
     , m_renderImage(0)
     , m_bSelectAlling(false)
 {
     m_textFont.setPointSizeF(14);
-}
-
-CDrawParamSigleton *CDrawParamSigleton::GetInstance()
-{
-    if (m_pInstance == nullptr) {
-        m_pInstance  = new CDrawParamSigleton();
-    }
-    return m_pInstance;
 }
 
 void CDrawParamSigleton::setLineWidth(int lineWidth)
@@ -265,16 +253,6 @@ void CDrawParamSigleton::setSingleFontFlag(bool flag)
 bool CDrawParamSigleton::getSingleFontFlag() const
 {
     return m_singleFontFlag;
-}
-
-int CDrawParamSigleton::getThemeType() const
-{
-    return m_thremeType;
-}
-
-void CDrawParamSigleton::setThemeType(const int type)
-{
-    m_thremeType = type;
 }
 
 QString CDrawParamSigleton::getDdfSavePath() const

@@ -22,9 +22,11 @@
 #include "cdrawscene.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
-
 
 CMasicoTool::CMasicoTool()
     : IDrawTool (blur)
@@ -46,7 +48,7 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
         m_pBlurItem = new CGraphicsMasicoItem(m_sPointPress);
         QPen pen;
-        pen.setWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
+        pen.setWidth(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
         QColor color(255, 255, 255, 0);
         pen.setColor(color);
         m_pBlurItem->setPen(pen);
@@ -69,7 +71,7 @@ void CMasicoTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     Q_UNUSED(scene)
     if (m_bMousePress && nullptr != m_pBlurItem) {
         QPointF pointMouse = event->scenePos();
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
         m_pBlurItem->updatePenPath(pointMouse, shiftKeyPress);
         m_pBlurItem->updateBlurPath();
     }

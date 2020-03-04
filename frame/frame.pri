@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/cpicturewidget.h \
     $$PWD/cgraphicsview.h \
     $$PWD/cundocommands.h \
-    $$PWD/ctitlewidget.h
+    $$PWD/ctitlewidget.h \
+    $$PWD/cviewmanagement.h
 
 SOURCES += \
     $$PWD/blurwidget.cpp \
@@ -32,7 +33,8 @@ SOURCES += \
     $$PWD/cpicturewidget.cpp \
     $$PWD/cgraphicsview.cpp \
     $$PWD/cundocommands.cpp \
-    $$PWD/ctitlewidget.cpp
+    $$PWD/ctitlewidget.cpp \
+    $$PWD/cviewmanagement.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

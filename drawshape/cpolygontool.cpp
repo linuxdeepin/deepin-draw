@@ -21,6 +21,9 @@
 #include "cgraphicsellipseitem.h"
 #include "cdrawparamsigleton.h"
 #include "cdrawtoolmanagersigleton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QtMath>
@@ -41,10 +44,10 @@ void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
-        int num = CDrawParamSigleton::GetInstance()->getSideNum();
+        int num = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum();
         m_pPolygonItem = new CGraphicsPolygonItem(num, m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-        m_pPolygonItem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-        m_pPolygonItem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
+        m_pPolygonItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
+        m_pPolygonItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
         scene->addItem(m_pPolygonItem);
 
         m_bMousePress = true;
@@ -62,8 +65,8 @@ void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if (m_bMousePress) {
         QPointF pointMouse = event->scenePos();
         QRectF resultRect;
-        bool shiftKeyPress = CDrawParamSigleton::GetInstance()->getShiftKeyStatus();
-        bool altKeyPress = CDrawParamSigleton::GetInstance()->getAltKeyStatus();
+        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
         //按下SHIFT键
         if (shiftKeyPress && !altKeyPress) {
             QPointF resultPoint = pointMouse;

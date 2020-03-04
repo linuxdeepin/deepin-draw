@@ -28,10 +28,6 @@
 #include <QUndoStack>
 #include <QGraphicsItem>
 
-
-
-
-
 DWIDGET_USE_NAMESPACE
 
 class CLeftToolBar;
@@ -75,7 +71,6 @@ public:
      * @brief initSceneRect　初始化场景矩形
      */
     void initSceneRect();
-
 
 signals:
     /**

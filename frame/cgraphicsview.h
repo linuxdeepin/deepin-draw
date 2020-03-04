@@ -33,6 +33,7 @@ class CGraphicsPenItem;
 class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
+class CDrawParamSigleton;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -89,6 +90,11 @@ public:
      * @brief disableCutShortcut 禁用裁剪
      */
     void disableCutShortcut(bool);
+
+    /**
+     * @brief getCDrawParam　获取绘制数据
+     */
+    CDrawParamSigleton *getDrawParam();
 
 
 protected:
@@ -476,6 +482,7 @@ private:
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
 
+    CDrawParamSigleton *m_drawParam;//数据
 
 private:
     /**

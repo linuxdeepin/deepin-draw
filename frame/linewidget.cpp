@@ -23,12 +23,11 @@
 #include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
-
-
-
 
 const int BTN_SPACNT = 10;
 const int TEXT_SIZE = 12;
@@ -48,7 +47,7 @@ void LineWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
     m_sep1Line->updateTheme();
-    int themeType = CDrawParamSigleton::GetInstance()->getThemeType();
+    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     m_straightline->setCurrentTheme(themeType);
     m_arrowline->setCurrentTheme(themeType);
 }
@@ -93,7 +92,7 @@ void LineWidget::initUI()
     m_arrowline = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_arrowline);
 
-    if (CDrawParamSigleton::GetInstance()->getLineType() == straightType) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType() == straightType) {
         m_straightline->setChecked(true);
     } else {
         m_arrowline->setChecked(true);
@@ -159,13 +158,13 @@ void LineWidget::initConnection()
 
     connect(m_straightline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_straightline);
-        CDrawParamSigleton::GetInstance()->setLineType(straightType);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(straightType);
         emit signalLineAttributeChanged();
     });
 
     connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
-        CDrawParamSigleton::GetInstance()->setLineType(arrowType);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(arrowType);
         emit signalLineAttributeChanged();
     });
 
@@ -177,7 +176,7 @@ void LineWidget::updateLineWidget()
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
 
-    if (CDrawParamSigleton::GetInstance()->getLineType() == straightType) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType() == straightType) {
         m_straightline->setChecked(true);
         clearOtherSelections(m_straightline);
     } else {
