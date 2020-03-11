@@ -245,4 +245,5 @@ int main(int argc, char *argv[])
     w.readSettings();
 
     return a.exec();
+
 }
