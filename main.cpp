@@ -20,10 +20,13 @@
 #include "application.h"
 #include "frame/cviewmanagement.h"
 #include "frame/ccentralwidget.h"
+
+#include <DGuiApplicationHelper>
+#include <DApplicationSettings>
+
 #include <QCommandLineOption>
 #include <QObject>
 #include <QTranslator>
-#include <DGuiApplicationHelper>
 #include <QMessageBox>
 #include <QDebug>
 
@@ -146,11 +149,10 @@ int main(int argc, char *argv[])
 
     // 应用已保存的主题设置
     DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
-    CManageViewSigleton::GetInstance()->setThemeType(type);
-    DGuiApplicationHelper::instance()->setPaletteType(type);
-
-
-
+    //CManageViewSigleton::GetInstance()->setThemeType(type);
+    //DGuiApplicationHelper::instance()->setPaletteType(type);
+    DApplicationSettings saveTheme;
+    CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
@@ -180,12 +182,12 @@ int main(int argc, char *argv[])
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-    [] (DGuiApplicationHelper::ColorType type) {
-        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
-        saveThemeTypeSetting(type);
-        DGuiApplicationHelper::instance()->setPaletteType(type);
-    });
+//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+//    [] (DGuiApplicationHelper::ColorType type) {
+//        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
+//        saveThemeTypeSetting(type);
+//        DGuiApplicationHelper::instance()->setPaletteType(type);
+//    });
 
 
 // return a.exec();
@@ -245,5 +247,4 @@ int main(int argc, char *argv[])
     w.readSettings();
 
     return a.exec();
-
 }

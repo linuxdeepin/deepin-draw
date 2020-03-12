@@ -44,6 +44,7 @@
 
 #include <DMenu>
 #include <DFileDialog>
+#include <DDialog>
 
 #include <QAction>
 #include <QWheelEvent>
@@ -56,6 +57,7 @@
 #include <QPainter>
 #include <QDesktopWidget>
 #include <QClipboard>
+#include <QMessageBox>
 
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
@@ -992,6 +994,16 @@ void CGraphicsView::showSaveDDFDialog(bool type)
         if (!path.isEmpty()) {
             if (QFileInfo(path).suffix().toLower() != ("ddf")) {
                 path = path + ".ddf";
+            }
+            // 判断路径是否超过255字符
+            if(path.length()>255) {
+                Dtk::Widget::DDialog dialog(this);
+                dialog.setTextFormat(Qt::RichText);
+                dialog.addButton(tr("OK"));
+                dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+                dialog.setMessage(tr("The file name is too long"));
+                dialog.exec();
+                return;
             }
             m_DDFManager->saveToDDF(path, scene());
         }
