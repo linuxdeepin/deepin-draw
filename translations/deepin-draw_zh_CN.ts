@@ -51,16 +51,13 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="243"/>
+        <location filename="../frame/ccentralwidget.cpp" line="113"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="58"/>
-        <location filename="../frame/ccentralwidget.cpp" line="278"/>
-        <location filename="../frame/ccentralwidget.cpp" line="283"/>
         <source>Unnamed Draw</source>
-        <translation>未命名画板</translation>
+        <translation type="vanished">未命名画板</translation>
     </message>
 </context>
 <context>
@@ -302,27 +299,27 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1137"/>
+        <location filename="../frame/cgraphicsview.cpp" line="980"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1139"/>
+        <location filename="../frame/cgraphicsview.cpp" line="982"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1145"/>
+        <location filename="../frame/cgraphicsview.cpp" line="988"/>
         <source>Unnamed.ddf</source>
         <translation>未命名.dff</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1159"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1002"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1161"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1004"/>
         <source>The file name is too long</source>
         <translation>文件名过长，请尝试用短点的名字</translation>
     </message>
@@ -464,14 +461,14 @@
 <context>
     <name>CTitleWidget</name>
     <message>
-        <source>Unnamed Drawing</source>
-        <translation type="vanished">未命名画板</translation>
-    </message>
-    <message>
         <location filename="../frame/ctitlewidget.cpp" line="31"/>
         <location filename="../frame/ctitlewidget.cpp" line="51"/>
+        <source>Unnamed Drawing</source>
+        <translation>未命名画板</translation>
+    </message>
+    <message>
         <source>Draw</source>
-        <translation>画板</translation>
+        <translation type="vanished">画板</translation>
     </message>
 </context>
 <context>
@@ -541,7 +538,7 @@
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="280"/>
+        <location filename="../frame/mainwindow.cpp" line="227"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -603,7 +600,12 @@
         <translation type="vanished">文件未保存</translation>
     </message>
     <message>
-        <location filename="../frame/cviewmanagement.cpp" line="170"/>
+        <location filename="../drawshape/cdrawparamsigleton.cpp" line="325"/>
+        <source>Draw</source>
+        <translation>画板</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/cdrawparamsigleton.cpp" line="326"/>
         <source>File not saved</source>
         <translation>文件未保存</translation>
     </message>
