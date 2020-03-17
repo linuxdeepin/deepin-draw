@@ -546,6 +546,10 @@ void CGraphicsItemSelectedMgr::updateGeometry()
             break;
         }
     }
+    if (m_listItems.size() == 1) {
+        m_listItems.at(0)->setSelected(true);
+        this->setSelected(false);
+    }
 }
 
 //void CGraphicsItemSelectedMgr::mousePressEvent(QGraphicsSceneMouseEvent *event)
