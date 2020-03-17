@@ -821,6 +821,7 @@ void CGraphicsView::slotOnSelectAll()
     if (curScene->getItemsMgr()->getItems().isEmpty()) {
         return;
     }
+    curScene->clearSelection();
     curScene->getItemsMgr()->show();
     curScene->getItemsMgr()->setSelected(true);
 
