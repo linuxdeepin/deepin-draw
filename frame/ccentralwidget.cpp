@@ -205,6 +205,9 @@ void CCentralwidget::createNewScense(QString scenceName)
 
     // 连接view保存文件状态
     connect(newview, SIGNAL(signalSaveFileStatus(bool)), this, SLOT(slotSaveFileStatus(bool)));
+
+    // 连接view保存文件名字过长
+    connect(newview, SIGNAL(signalSaveFileNameTooLong()), this, SLOT(slotSaveFileNameTooLong()));
 }
 
 void CCentralwidget::closeCurrentScenseView()
@@ -486,6 +489,11 @@ void CCentralwidget::slotQuitApp()
             }
         }
     }
+}
+
+void CCentralwidget::slotSaveFileNameTooLong()
+{
+    slotSaveToDDF(true);
 }
 
 void CCentralwidget::viewChanged(QString viewName)

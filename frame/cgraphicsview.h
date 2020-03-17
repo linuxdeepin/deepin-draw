@@ -217,6 +217,11 @@ signals:
      */
     void signalSaveFileStatus(bool);
 
+    /**
+     * @brief signalSaveFileNameTooLong 保存文件名字过长信号
+     */
+    void signalSaveFileNameTooLong();
+
 public slots:
 
     /**

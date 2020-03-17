@@ -1214,12 +1214,13 @@ void CGraphicsView::showSaveDDFDialog(bool type)
             }
             // 判断路径是否超过255字符
             if (path.length() > 255) {
-                Dtk::Widget::DDialog dialog(this);
-                dialog.setTextFormat(Qt::RichText);
-                dialog.addButton(tr("OK"));
-                dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-                dialog.setMessage(tr("The file name is too long"));
-                dialog.exec();
+                Dtk::Widget::DDialog log(this);
+                log.setTextFormat(Qt::RichText);
+                log.addButton(tr("OK"));
+                log.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+                log.setMessage(tr("The file name is too long"));
+                log.exec();
+                emit signalSaveFileNameTooLong();
                 return;
             }
             m_DDFManager->saveToDDF(path, scene());
