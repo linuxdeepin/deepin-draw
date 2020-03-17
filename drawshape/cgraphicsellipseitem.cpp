@@ -89,11 +89,11 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
-    painter->setPen(pen());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
     painter->drawEllipse(rect());
 //    painter->drawRect(rect());
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());

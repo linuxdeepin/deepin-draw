@@ -104,7 +104,7 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     return CSizeHandleRect::None;
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale)
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
 
 }

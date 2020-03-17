@@ -55,6 +55,7 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 //    e0->setBlurRadius(20);
 
 //    m_pRectItem->setGraphicsEffect(e0);
+        m_pRectItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pRectItem);
 
         m_bMousePress = true;

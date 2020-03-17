@@ -27,6 +27,7 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+#include "drawshape/cgraphicsitemselectedmgr.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
@@ -34,21 +35,31 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QDebug>
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() <= info2->zValue();
+}
+//降序排列用
+static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() >= info2->zValue();
+}
 
-CMoveShapeCommand::CMoveShapeCommand(QGraphicsScene *graphicsScene, const QPointF &delta, QUndoCommand *parent)
+CMoveShapeCommand::CMoveShapeCommand(CDrawScene *scene, const QPointF &delta, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     myItem = nullptr;
-    myItems = graphicsScene->selectedItems();
-    myGraphicsScene = graphicsScene;
+    myItems = scene->selectedItems();
+    myGraphicsScene = scene;
     myDelta = delta;
     bMoved = true;
 }
 
-CMoveShapeCommand::CMoveShapeCommand(QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent)
+CMoveShapeCommand::CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
-    myGraphicsScene = nullptr;
+    myGraphicsScene = scene;
     myItem = item;
     myDelta = delta;
     bMoved = true;
@@ -57,6 +68,7 @@ CMoveShapeCommand::CMoveShapeCommand(QGraphicsItem *item, const QPointF &delta, 
 //! [2]
 void CMoveShapeCommand::undo()
 {
+    qDebug() << "CMoveShapeCommand undo";
     if ( myItem )
         myItem->moveBy(-myDelta.x(), -myDelta.y());
     else if ( myItems.count() > 0 ) {
@@ -68,13 +80,17 @@ void CMoveShapeCommand::undo()
 //            .arg(-myDelta.x()).arg(-myDelta.y()));
     bMoved = false;
 
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
+    if (!myGraphicsScene->views().isEmpty()) {
+        myGraphicsScene->views().first()->update();
+    }
 }
 //! [2]
 
 //! [3]
 void CMoveShapeCommand::redo()
 {
+    qDebug() << "CMoveShapeCommand redo";
     if ( !bMoved ) {
         if ( myItem ) {
             myItem->moveBy(myDelta.x(), myDelta.y());
@@ -87,11 +103,14 @@ void CMoveShapeCommand::redo()
         }
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
+    if (!myGraphicsScene->views().isEmpty()) {
+        myGraphicsScene->views().first()->update();
+    }
 }
 //! [3]
 
-CDeleteShapeCommand::CDeleteShapeCommand(QGraphicsScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
+CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
 {
     myGraphicsScene = scene;
     m_items = items;
@@ -105,6 +124,7 @@ CDeleteShapeCommand::~CDeleteShapeCommand()
 
 void CDeleteShapeCommand::undo()
 {
+    qDebug() << "CDeleteShapeCommand undo";
     foreach (QGraphicsItem *item, m_items) {
         myGraphicsScene->addItem(item);
     }
@@ -120,12 +140,14 @@ void CDeleteShapeCommand::undo()
             }
         }
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem();
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem();
 }
 
 void CDeleteShapeCommand::redo()
 {
+    qDebug() << "CDeleteShapeCommand redo";
+    qDebug() << "multSelectItems count = ";
     if (m_items.count() == 1) {
         QList<QGraphicsItem *> itemList = myGraphicsScene->items();
 //        for (int i = 0; i < itemList.count(); i++) {
@@ -137,17 +159,21 @@ void CDeleteShapeCommand::redo()
     foreach (QGraphicsItem *item, m_items) {
         myGraphicsScene->removeItem(item);
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem();
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem();
 }
 
 
 //! [4]
-CRemoveShapeCommand::CRemoveShapeCommand(QGraphicsScene *scene, QUndoCommand *parent)
+CRemoveShapeCommand::CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
-    items = scene->selectedItems();
+    for (auto item : scene->selectedItems()) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            items.append(item);
+        }
+    }
 }
 
 CRemoveShapeCommand::~CRemoveShapeCommand()
@@ -159,13 +185,15 @@ CRemoveShapeCommand::~CRemoveShapeCommand()
 //! [5]
 void CRemoveShapeCommand::undo()
 {
+    qDebug() << "CRemoveShapeCommand undo";
     foreach (QGraphicsItem *item, items) {
 //        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
 //        if ( g != nullptr )
         myGraphicsScene->addItem(item);
     }
     myGraphicsScene->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem();
     //setText(QObject::tr("Undo Delete %1").arg(items.count()));
 }
 //! [5]
@@ -173,12 +201,13 @@ void CRemoveShapeCommand::undo()
 //! [6]
 void CRemoveShapeCommand::redo()
 {
+    qDebug() << "CRemoveShapeCommand redo";
     foreach (QGraphicsItem *item, items) {
 //        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup *>(item->parentItem());
 //        if ( g != nullptr )
         myGraphicsScene->removeItem(item);
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
     //setText(QObject::tr("Redo Delete %1").arg(items.count()));
 }
 
@@ -186,42 +215,105 @@ void CRemoveShapeCommand::redo()
 
 //! [7]
 
-CAddShapeCommand::CAddShapeCommand(QGraphicsItem *item,
-                                   QGraphicsScene *scene, QUndoCommand *parent)
+CAddShapeCommand::CAddShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
     static int itemCount = 0;
 
     myGraphicsScene = scene;
-    myDiagramItem = item;
-    initialPosition = item->pos();
+    m_items = items;
+    //myDiagramItem = item;
+    //initialPosition = item->pos();
     ++itemCount;
 }
 //! [7]
 
 CAddShapeCommand::~CAddShapeCommand()
 {
-    if (!myDiagramItem->scene())
-        delete myDiagramItem;
+
 }
 
 //! [8]
 void CAddShapeCommand::undo()
 {
-    myGraphicsScene->removeItem(myDiagramItem);
+    qDebug() << "CAddShapeCommand undo";
+    //myGraphicsScene->removeItem(myDiagramItem);
     myGraphicsScene->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
+
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = 0; i < m_items.size(); i++) {
+        QGraphicsItem *item = m_items.at(i);
+        if (allItems.contains(static_cast<CGraphicsItem *>(item))) {
+            myGraphicsScene->removeItem(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(item))) {
+            myGraphicsScene->getItemsMgr()->removeFromGroup(static_cast<CGraphicsItem *>(item));
+        }
+    }
+
+    if (myGraphicsScene->getItemsMgr()->getItems().count() <= 1) {
+        myGraphicsScene->getItemsMgr()->setSelected(false);
+    }
+
+    //重置保存的最大z值
+    allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
+    }
 }
 //! [8]
 
 //! [9]
 void CAddShapeCommand::redo()
 {
-    if ( myDiagramItem->scene() == nullptr )
-        myGraphicsScene->addItem(myDiagramItem);
-    myDiagramItem->setPos(initialPosition);
+    qDebug() << "CAddShapeCommand redo";
+//    if ( myDiagramItem->scene() == nullptr )
+//        myGraphicsScene->addItem(myDiagramItem);
+//    myDiagramItem->setPos(initialPosition);
+
+    qDebug() << "myGraphicsScene->getMaxZValue() = " << myGraphicsScene->getMaxZValue();
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    for (int i = 0; i < m_items.size(); i++) {
+        QGraphicsItem *item = m_items.at(i);
+        if (!allItems.contains(static_cast<CGraphicsItem *>(item))) {
+            item->setZValue(myGraphicsScene->getMaxZValue() + 1);
+            myGraphicsScene->addItem(item);
+            myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
+        }
+    }
+
+    //重置保存的最大z值
+    allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
+    }
+
     myGraphicsScene->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem();
 }
 
 /*
@@ -233,9 +325,10 @@ QString createCommandString(QGraphicsItem *item, const QPointF &pos)
 }
 */
 
-CRotateShapeCommand::CRotateShapeCommand(QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
+CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item, const qreal oldAngle, QUndoCommand *parent)
     : QUndoCommand(parent)
 {
+    myGraphicsScene = scene;
     myItem = item;
     myOldAngle = oldAngle;
     newAngle = item->rotation();
@@ -246,7 +339,7 @@ void CRotateShapeCommand::undo()
 {
     myItem->setRotation(myOldAngle);
     myItem->scene()->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
 }
 
@@ -254,7 +347,7 @@ void CRotateShapeCommand::redo()
 {
     myItem->setRotation(newAngle);
     myItem->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
 }
 
@@ -350,7 +443,7 @@ void UnGroupShapeCommand::redo()
 */
 
 
-CResizeShapeCommand::CResizeShapeCommand(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
+CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
     : QUndoCommand(parent)
     , myItem(item)
     , m_handle(handle)
@@ -359,21 +452,27 @@ CResizeShapeCommand::CResizeShapeCommand(CGraphicsItem *item, CSizeHandleRect::E
     , m_bShiftPress(bShiftPress)
     , m_bAltPress(bALtPress)
 {
-
+    myGraphicsScene = scene;
 }
 
 void CResizeShapeCommand::undo()
 {
-    myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
-    myItem->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    qDebug() << "CResizeShapeCommand undo";
+    if (myItem != nullptr) {
+        myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
+        myItem->update();
+    }
+    myGraphicsScene->setModify(true);
 }
 
 void CResizeShapeCommand::redo()
 {
-    myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
-    myItem->update();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    qDebug() << "CResizeShapeCommand redo";
+    if (myItem != nullptr) {
+        myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
+        myItem->update();
+    }
+    myGraphicsScene->setModify(true);
 }
 
 /*
@@ -442,7 +541,7 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 */
 
 
-CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
+CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
     : QUndoCommand (parent)
     , m_pItem(item)
     , m_newPen(pen)
@@ -450,6 +549,7 @@ CSetPropertyCommand::CSetPropertyCommand(CGraphicsItem *item, QPen pen, QBrush b
     , m_bPenChange(bPenChange)
     , m_bBrushChange(bBrushChange)
 {
+    myGraphicsScene = scene;
     m_oldPen = item->pen();
     m_oldBrush = item->brush();
 }
@@ -471,9 +571,9 @@ void CSetPropertyCommand::undo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_oldBrush);
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetPropertyCommand::redo()
@@ -489,40 +589,43 @@ void CSetPropertyCommand::redo()
         m_pItem->setBrush(m_newBrush);
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CGraphicsPolygonItem *item, int newNum)
+CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum)
     : m_pItem(item)
     , m_nNewNum(newNum)
 {
+    myGraphicsScene = scene;
     m_nOldNum = m_pItem->nPointsCount();
 }
 
 void CSetPolygonAttributeCommand::undo()
 {
     m_pItem->setPointCount(m_nOldNum);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetPolygonAttributeCommand::redo()
 {
     m_pItem->setPointCount(m_nNewNum);
 
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
+CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CDrawScene *scene, CGraphicsPolygonalStarItem *item, int newNum, int newRadius)
     : m_pItem(item)
     , m_nNewNum(newNum)
     , m_nNewRadius(newRadius)
 {
+    myGraphicsScene = scene;
     m_nOldNum = m_pItem->anchorNum();
     m_nOldRadius = m_pItem->innerRadius();
 }
@@ -530,68 +633,92 @@ CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CGraphicsPolygo
 void CSetPolygonStarAttributeCommand::undo()
 {
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 
-CSetPenAttributeCommand::CSetPenAttributeCommand(CGraphicsPenItem *item, int newType)
+CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, int newType)
     : m_pItem(item)
     , m_newType(newType)
 {
+    myGraphicsScene = scene;
     m_oldType = item->currentType();
 }
 
 void CSetPenAttributeCommand::undo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetPenAttributeCommand::redo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_newType));
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-CSetLineAttributeCommand::CSetLineAttributeCommand(CGraphicsLineItem *item, int newType)
+CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, int newType)
     : m_pItem(item)
     , m_newType(newType)
 {
+    myGraphicsScene = scene;
     m_oldType = item->getLineType();
 }
 
 void CSetLineAttributeCommand::undo()
 {
     m_pItem->setLineType(static_cast<ELineType>(m_oldType));
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetLineAttributeCommand::redo()
 {
     m_pItem->setLineType(static_cast<ELineType>(m_newType));
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 
-COneLayerUpCommand::COneLayerUpCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+COneLayerUpCommand::COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand (parent)
 {
-    m_selectedItem = selectedItem;
-    m_scene = graphicsScene;
+    myGraphicsScene = scene;
+    QList<QGraphicsItem *> curItems;
+    for (auto item : scene->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (curItems.isEmpty()) {
+                if (items.contains(item)) {
+                    curItems.append(item);
+                }
+            } else {
+                if (items.contains(item)) {
+                    curItems.append(item);
+                } else {
+                    m_items.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (item, curItems));
+                    curItems.clear();
+                }
+            }
+        }
+    }
+    m_oldItemZValue.clear();
+    m_selectItems = items;
     m_isUndoExcuteSuccess = true;
     m_isRedoExcuteSuccess = false;
 }
@@ -603,70 +730,134 @@ COneLayerUpCommand::~COneLayerUpCommand()
 
 void COneLayerUpCommand::undo()
 {
-//    qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$upUndo";
+    qDebug() << "COneLayerUpCommand undo";
     if (!m_isRedoExcuteSuccess) {
         return;
     }
 
+    QList<QGraphicsItem *> itemList = myGraphicsScene->items();
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
+    m_isRedoExcuteSuccess = false;
 
-//    for (int i = 0; i < itemList.length(); i++) {
-//        qDebug() << "@@@@@@@@@@@@@type=" << itemList.at(i)->type() << "::i=" << i;
-//    }
-
-    int index = itemList.indexOf(m_selectedItem);
-
-    m_isUndoExcuteSuccess = false;
-
-    for (int i = index + 1; i < itemList.length() ; i++) {
-
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            m_selectedItem->stackBefore(itemList.at(i));
-            m_isUndoExcuteSuccess = true;
-            break;
+    int count = m_oldItemZValue.count();
+    for (int i = 0; i < count; i++) {
+        QGraphicsItem *item = m_oldItemZValue.keys().at(i);
+        item->setZValue(m_oldItemZValue[item]);
+        myGraphicsScene->updateBlurItem(item);
+        m_isRedoExcuteSuccess = true;
+    }
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
 
-    if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+    if (m_isRedoExcuteSuccess) {
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
 void COneLayerUpCommand::redo()
 {
+    qDebug() << "COneLayerUpCommand redo";
 //    qDebug() << "########################upUndo";
 
     if (!m_isUndoExcuteSuccess) {
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
     m_isRedoExcuteSuccess = false;
-    for (int i = index - 1 ; i >= 0 ; i--) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(m_selectedItem);
-            m_isRedoExcuteSuccess = true;
-            break;
+    //移除z值为0的和多选管理图元
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+            continue;
+        }
+    }
+    //升序排列
+    qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortASC);
+    for (int selectIndex = 0; selectIndex < m_selectItems.size(); selectIndex++) {
+        QGraphicsItem *selectItem = m_selectItems.at(selectIndex);
+        QGraphicsItem *selectItemNext = nullptr;
+        if ((selectIndex + 1) < m_selectItems.size()) {
+            selectItemNext = m_selectItems.at(selectIndex + 1);
+        }
+        m_isRedoExcuteSuccess = true;
+        qSort(allItems.begin(), allItems.end(), zValueSortASC);
+        for (int allItemIndex = 0; allItemIndex < allItems.size(); allItemIndex++) {
+            QGraphicsItem *allItem = allItems.at(allItemIndex);
+            if (allItem->zValue() > selectItem->zValue()) {
+                if (allItem == selectItemNext) {
+                    break;
+                }
+                //记录原来z值
+                m_oldItemZValue[allItem] = allItem->zValue();
+                m_oldItemZValue[selectItem] = selectItem->zValue();
+
+                qreal tmpZValue = selectItem->zValue();
+                selectItem->setZValue(allItem->zValue());
+                allItem->setZValue(tmpZValue);
+                myGraphicsScene->updateBlurItem(allItem);
+                myGraphicsScene->updateBlurItem(selectItem);
+                break;
+            }
+        }
+    }
+    //重置保存的最大z值
+    allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
-COneLayerDownCommand::COneLayerDownCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+COneLayerDownCommand::COneLayerDownCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand (parent)
 {
-    m_selectedItem = selectedItem;
-    m_scene = graphicsScene;
+    myGraphicsScene = scene;
+    QList<QGraphicsItem *> curItems;
+    QGraphicsItem *preItem = nullptr;
+    for (auto item : scene->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (items.contains(item)) {
+                if (preItem != nullptr) {
+                    curItems.append(item);
+                }
+            } else {
+                if (!curItems.isEmpty()) {
+                    m_items.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (preItem, curItems));
+                    curItems.clear();
+                }
+                preItem = item;
+            }
+        }
+    }
+    if (preItem != nullptr && !curItems.isEmpty()) {
+        m_items.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (preItem, curItems));
+    }
+    m_oldItemZValue.clear();
+    m_selectItems = items;
     m_isUndoExcuteSuccess = true;
     m_isRedoExcuteSuccess = false;
 }
@@ -678,65 +869,144 @@ COneLayerDownCommand::~COneLayerDownCommand()
 
 void COneLayerDownCommand::undo()
 {
-//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
+    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downUndo";
     if (!m_isRedoExcuteSuccess) {
         return;
     }
 
+    m_isRedoExcuteSuccess = false;
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
-    m_isUndoExcuteSuccess = false;
-    for (int i = index - 1 ; i >= 0 ; i--) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            itemList.at(i)->stackBefore(m_selectedItem);
-            m_isUndoExcuteSuccess = true;
-            break;
+    int count = m_oldItemZValue.count();
+    for (int i = 0; i < count; i++) {
+        QGraphicsItem *item = m_oldItemZValue.keys().at(i);
+        item->setZValue(m_oldItemZValue[item]);
+        myGraphicsScene->updateBlurItem(item);
+        m_isRedoExcuteSuccess = true;
+    }
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
-    if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+
+    if (m_isRedoExcuteSuccess) {
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
 void COneLayerDownCommand::redo()
 {
-//    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!downRedo";
+    qDebug() << "COneLayerDownCommand::redo";
     if (!m_isUndoExcuteSuccess) {
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
     m_isRedoExcuteSuccess = false;
-
-    for (int i = index + 1; i < itemList.length() ; i++) {
-
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-            m_selectedItem->stackBefore(itemList.at(i));
-            m_isRedoExcuteSuccess = true;
-            break;
+    //移除z值为0的和多选管理图元
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+            int count = allItems.size();
+            qDebug() << "count = " << count;
+            for (int i = allItems.size() - 1; i >= 0; i--) {
+                qDebug() << "i = " << i;
+                qDebug() << "allItems zValue = " << allItems.at(i)->zValue();
+            }
+            continue;
         }
     }
+    qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortDES);
+    QGraphicsItem *selectItemNext = nullptr;
+    for (int selectIndex = 0; selectIndex < m_selectItems.size(); selectIndex++) {
+        QGraphicsItem *selectItem = m_selectItems.at(selectIndex);
+        selectItemNext = nullptr;
+        if ((selectIndex + 1) < m_selectItems.size()) {
+            selectItemNext = m_selectItems.at(selectIndex + 1);
+        }
+        m_isRedoExcuteSuccess = true;
+        qSort(allItems.begin(), allItems.end(), zValueSortDES);
+        for (int allItemIndex = 0; allItemIndex < allItems.size(); allItemIndex++) {
+            QGraphicsItem *allItem = allItems.at(allItemIndex);
+            if (allItem->zValue() < selectItem->zValue()) {
+                if (allItem == selectItemNext) {
+                    break;
+                }
+                //记录原来z值
+                m_oldItemZValue[allItem] = allItem->zValue();
+                m_oldItemZValue[selectItem] = selectItem->zValue();
 
+                qreal tmpZValue = selectItem->zValue();
+                selectItem->setZValue(allItem->zValue());
+                allItem->setZValue(tmpZValue);
+                myGraphicsScene->updateBlurItem(allItem);
+                myGraphicsScene->updateBlurItem(selectItem);
+                break;
+            }
+        }
+    }
+    //重置保存的最大z值
+    allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
+    }
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
-CBringToFrontCommand::CBringToFrontCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand (parent)
 {
-    m_selectedItem = selectedItem;
-    m_scene = graphicsScene;
+    myGraphicsScene = scene;
+    for (auto item : scene->items()) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (items.contains(item)) {
+                m_items.append(item);
+            }
+        }
+    }
+    QList<QGraphicsItem *> curItems;
+    for (auto item : scene->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (curItems.isEmpty()) {
+                if (items.contains(item)) {
+                    curItems.append(item);
+                }
+            } else {
+                if (items.contains(item)) {
+                    curItems.append(item);
+                } else {
+                    m_changedItems.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (item, curItems));
+                    curItems.clear();
+                }
+            }
+        }
+    }
+    for (auto item : items) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            m_oldItemZValue[item] = item->zValue();
+        }
+    }
+    m_selectItems = items;
     m_isUndoExcuteSuccess = true;
     m_isRedoExcuteSuccess = false;
 }
@@ -753,18 +1023,28 @@ void CBringToFrontCommand::undo()
     }
 
     m_isUndoExcuteSuccess = false;
-
-    while (!m_movedItems.isEmpty()) {
-        QGraphicsItem *item = m_movedItems.first();
-        m_selectedItem->stackBefore(item);
-        m_isUndoExcuteSuccess = true;
-        m_movedItems.removeOne(item);
+    int count = m_oldItemZValue.count();
+    for (int i = 0; i < count; i++) {
+        QGraphicsItem *item = m_oldItemZValue.keys().at(i);
+        item->setZValue(m_oldItemZValue[item]);
+        myGraphicsScene->updateBlurItem(item);
+        m_isRedoExcuteSuccess = true;
+    }
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
     }
 
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
@@ -774,34 +1054,62 @@ void CBringToFrontCommand::redo()
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
     m_isRedoExcuteSuccess = false;
-    for (int i = index - 1; i >= 0 ; i--) {
 
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            qDebug() << "*********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-            QGraphicsItem *item = itemList.at(i);
-            item ->stackBefore(m_selectedItem);
-            m_movedItems.push_back(item);
-            m_isRedoExcuteSuccess = true;
-        }
+    qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortASC);
+    qreal maxZValue = myGraphicsScene->getMaxZValue();
+    for (int selectIndex = 0; selectIndex < m_selectItems.size(); selectIndex++) {
+        QGraphicsItem *selectItem = m_selectItems.at(selectIndex);
+        maxZValue = myGraphicsScene->getMaxZValue();
+        selectItem->setZValue(maxZValue + 1);
+        myGraphicsScene->setMaxZValue(maxZValue + 1);
+        myGraphicsScene->updateBlurItem(selectItem);
+        m_isRedoExcuteSuccess = true;
     }
-
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
-CSendToBackCommand::CSendToBackCommand(QGraphicsItem *selectedItem, QGraphicsScene *graphicsScene, QUndoCommand *parent)
+CSendToBackCommand::CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
     : QUndoCommand (parent)
 {
-    m_selectedItem = selectedItem;
-    m_scene = graphicsScene;
+    myGraphicsScene = scene;
+    for (auto item : scene->items()) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (items.contains(item)) {
+                m_items.append(item);
+            }
+        }
+    }
+    QList<QGraphicsItem *> curItems;
+    QGraphicsItem *preItem = nullptr;
+    for (auto item : scene->items(Qt::AscendingOrder)) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            if (items.contains(item)) {
+                if (preItem != nullptr) {
+                    curItems.append(item);
+                }
+            } else {
+                if (!curItems.isEmpty()) {
+                    m_changedItems.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (preItem, curItems));
+                    curItems.clear();
+                }
+                preItem = item;
+            }
+        }
+    }
+    if (preItem != nullptr && !curItems.isEmpty()) {
+        m_changedItems.append(qMakePair<QGraphicsItem *, QList<QGraphicsItem *> > (preItem, curItems));
+    }
+    m_oldItemZValue.clear();
+    for (auto item : items) {
+        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+            m_oldItemZValue[item] = item->zValue();
+        }
+    }
+    m_selectItems = items;
     m_isUndoExcuteSuccess = true;
     m_isRedoExcuteSuccess = false;
 }
@@ -813,62 +1121,88 @@ CSendToBackCommand::~CSendToBackCommand()
 
 void CSendToBackCommand::undo()
 {
+    qDebug() << "CSendToBackCommand::undo";
     if (!m_isRedoExcuteSuccess) {
         return;
     }
 
     m_isUndoExcuteSuccess = false;
-
-
-    while (!m_movedItems.isEmpty()) {
-        QGraphicsItem *item = m_movedItems.last();
-        item->stackBefore(m_selectedItem);
-        m_isUndoExcuteSuccess = true;
-        m_movedItems.removeOne(item);
+    int count = m_oldItemZValue.count();
+    for (int i = 0; i < count; i++) {
+        QGraphicsItem *item = m_oldItemZValue.keys().at(i);
+        item->setZValue(m_oldItemZValue[item]);
+        myGraphicsScene->updateBlurItem(item);
+        m_isRedoExcuteSuccess = true;
     }
-
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
+            myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
+    }
     if (m_isUndoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
 void CSendToBackCommand::redo()
 {
+    qDebug() << "CSendToBackCommand::redo";
     if (!m_isUndoExcuteSuccess) {
         return;
     }
 
-    QList<QGraphicsItem *> itemList = m_scene->items();
-
-    int index = itemList.indexOf(m_selectedItem);
-
-    m_isRedoExcuteSuccess = false;
-    for (int i = index + 1; i < itemList.length() ; i++) {
-        if (itemList.at(i)->type() > QGraphicsItem::UserType) {
-//            qDebug() << "**********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-            QGraphicsItem *item = itemList.at(i);
-            m_selectedItem->stackBefore(item);
-            m_movedItems.push_back(item);
-            m_isRedoExcuteSuccess = true;
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+            continue;
+        }
+        for (int j = 0; j < m_selectItems.size(); j++) {
+            QGraphicsItem *selectItem = m_selectItems.at(j);
+            if (allItem == selectItem) {
+                allItems.removeAt(i);
+                break;
+            }
         }
     }
 
+    qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortASC);
+    myGraphicsScene->setMaxZValue(m_selectItems.last()->zValue());
+    qSort(allItems.begin(), allItems.end(), zValueSortASC);
+    for (int allItemIndex = 0; allItemIndex < allItems.size(); allItemIndex++) {
+        QGraphicsItem *allItem = allItems.at(allItemIndex);
+        m_oldItemZValue[allItem] = allItem->zValue();
+        allItem->setZValue(myGraphicsScene->getMaxZValue() + 1);
+        myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
+        m_isRedoExcuteSuccess = true;
+    }
+
     if (m_isRedoExcuteSuccess) {
-        static_cast<CDrawScene *>(m_scene)->updateBlurItem(m_selectedItem);
-        m_scene->update();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
+        myGraphicsScene->update();
+        myGraphicsScene->setModify(true);
     }
 }
 
 
-CSetBlurAttributeCommand::CSetBlurAttributeCommand(CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)
+CSetBlurAttributeCommand::CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_pItem(item)
     , m_nNewType(newType)
     , m_nNewRadius(newRadio)
 {
+    myGraphicsScene = scene;
     m_nOldType = item->getBlurEffect();
     m_nOldRadius = item->getBlurWidth();
 }
@@ -877,23 +1211,30 @@ void CSetBlurAttributeCommand::undo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
     m_pItem->setBlurWidth(m_nOldRadius);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    if (nullptr != m_pItem->scene()) {
+        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        curScene->changeAttribute(true, m_pItem);
+    }
 }
 
 void CSetBlurAttributeCommand::redo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
     m_pItem->setBlurWidth(m_nNewRadius);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(true);
-    CDrawScene::GetInstance()->changeAttribute(true, m_pItem);
+    myGraphicsScene->setModify(true);
+    if (nullptr != m_pItem->scene()) {
+        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        curScene->changeAttribute(true, m_pItem);
+    }
 }
 
-CSceneCutCommand::CSceneCutCommand(QRectF rect, QUndoCommand *parent)
+CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent)
     : QUndoCommand (parent)
     , m_newRect(rect)
 {
-    m_oldRect = CDrawScene::GetInstance()->sceneRect();
+    myGraphicsScene = scene;
+    m_oldRect = scene->sceneRect();
 }
 
 CSceneCutCommand::~CSceneCutCommand()
@@ -903,19 +1244,55 @@ CSceneCutCommand::~CSceneCutCommand()
 
 void CSceneCutCommand::undo()
 {
-    CDrawScene::GetInstance()->setSceneRect(m_oldRect);
-    CDrawScene::GetInstance()->update();
+    myGraphicsScene->setSceneRect(m_oldRect);
+    myGraphicsScene->update();
 
-    CDrawScene::GetInstance()->updateBlurItem();
-
+    myGraphicsScene->updateBlurItem();
 }
 
 void CSceneCutCommand::redo()
 {
-    CDrawScene::GetInstance()->setSceneRect(m_newRect);
-    CDrawScene::GetInstance()->update();
+    myGraphicsScene->setSceneRect(m_newRect);
+    myGraphicsScene->update();
 
-    CDrawScene::GetInstance()->updateBlurItem();
+    myGraphicsScene->updateBlurItem();
 }
 
 
+CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bAltPress, QUndoCommand *parent)
+{
+    myGraphicsScene = scene;
+    m_handle = handle;
+    m_endPos = endPos;
+    m_beginPos = beginPos;
+    m_bShiftPress = bShiftPress;
+    m_bAltPress = bAltPress;
+    m_offsetPos = m_beginPos - m_endPos;
+}
+
+void CMultResizeShapeCommand::undo()
+{
+    myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_offsetPos, m_bShiftPress, m_bAltPress);
+}
+
+void CMultResizeShapeCommand::redo()
+{
+
+}
+
+CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
+{
+    myGraphicsScene = scene;
+    m_endPos = endPos;
+    m_beginPos = beginPos;
+}
+
+void CMultMoveShapeCommand::undo()
+{
+    myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
+}
+
+void CMultMoveShapeCommand::redo()
+{
+
+}

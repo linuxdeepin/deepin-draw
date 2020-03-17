@@ -27,6 +27,7 @@
 #include <QKeyEvent>
 #include <QUndoStack>
 #include <QGraphicsItem>
+#include <QStackedLayout>
 
 DWIDGET_USE_NAMESPACE
 
@@ -37,6 +38,7 @@ class CPrintManager;
 class ProgressLayout;
 class CExportImageDialog;
 class CPictureTool;
+class CMultipTabBarWidget;
 
 /**
  * @brief The CCentralwidget class 中间控件类
@@ -71,6 +73,12 @@ public:
      * @brief initSceneRect　初始化场景矩形
      */
     void initSceneRect();
+    /**
+     * @brief createNewScense　创建一个新的场景
+     * @param scenceName 场景名字
+     */
+    void createNewScenseByDragFile(QString scenceName);
+    void createNewScenseByscencePath(QString scencePath);
 
 signals:
     /**
@@ -109,8 +117,24 @@ signals:
     /**
      * @brief signalTransmitLoadDragOrPasteFile　传递拖拽或粘贴文件到画板信号
      */
-    void signalTransmitLoadDragOrPasteFile(QString);
-
+    void signalTransmitLoadDragOrPasteFile(QStringList);
+    /**
+     * @brief signalAddNewScence　创建新场景信号
+     */
+    void signalAddNewScence(CDrawScene *sence);
+    /**
+     * @brief signalCloseModifyScence　关闭当前修改窗口信号
+     */
+    void signalCloseModifyScence();
+    /**
+     * @brief signalDDFFileOpened　文件已经被打开信号
+     * @param filename
+     */
+    void signalDDFFileOpened(QString filename);
+    /**
+     * @brief signalLastTabBarRequestClose　最后一个标签被关闭信号
+     */
+    void signalLastTabBarRequestClose();
 
 public slots:
     /**
@@ -153,8 +177,13 @@ public slots:
     void slotShowCutItem();
     /**
      * @brief slotSaveToDDF　保存为ＤＤＦ文件
+     * @param isCloseNow 是否关闭当前保存的这个文件
      */
-    void slotSaveToDDF();
+    void slotSaveToDDF(bool isCloseNow = false);
+    /**
+     * @brief slotDoNotSaveToDDF　不保存为ＤＤＦ文件
+     */
+    void slotDoNotSaveToDDF();
     /**
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */
@@ -190,7 +219,26 @@ public slots:
      * @param pixmap　图片
      */
     void slotPastePixmap(QPixmap pixmap);
-
+    /**
+     * @description: slotLoadDragOrPasteFile 当从拖拽或者粘贴板中加载数据
+     * @param:  path 需要加载的路径
+    */
+    void slotLoadDragOrPasteFile(QString path);
+    void slotLoadDragOrPasteFile(QStringList files);
+    /**
+     * @description: 新增加一个画板视图函数
+     * @param:  viewName
+     * @return: 无
+    */
+    void addView(QString viewName);
+    /**
+     * @brief slotRectRediusChanged 矩形圆角变化信号
+     */
+    void slotRectRediusChanged(int value);
+    /**
+     * @brief slotQuitApp 退出程序处理事件
+     */
+    void slotQuitApp();
 
 private slots:
     /**
@@ -199,26 +247,52 @@ private slots:
      */
     void slotDoSaveImage(QString completePath);
 
+    /**
+     * @description: 标签选择改变后，画板切换对应视图信号函数
+     * @param:  viewName 改变对应的标签名字
+     * @return: 无
+    */
+    void viewChanged(QString viewName);
+
+    /**
+     * @description: 当标签点击删除后的操作
+     * @param:  viewName 需要关闭的标签名字
+     * @return: 无
+    */
+    void tabItemCloseRequested(QString viewName);
+
+    /**
+     * @description: 关闭指定名字标签
+     * @param:  viewNames 需要关闭的标签名字序列
+     * @return: 无
+    */
+    void tabItemsCloseRequested(QStringList viewNames);
+
+    /**
+     * @brief currentScenseViewIsModify　当前场景状态被改变
+     */
+    void currentScenseViewIsModify(bool isModify);
+
+    /**
+     * @description: slotSaveFileStatus 保存文件状态
+     * @param:  status 保存状态
+    */
+    void slotSaveFileStatus(bool status);
+
 private:
     CLeftToolBar *m_leftToolbar;
-    DLabel *m_seperatorLine;
-
-    QVBoxLayout *m_vLayout;
-    QHBoxLayout *m_hLayout;
 
     CExportImageDialog *m_exportImageDialog;
     CPrintManager *m_printManager;
 
-
-    int m_horizontalMargin;
-    int m_verticalMargin;
-
-    DMenu *m_contextMenu;
-    CGraphicsView *m_pGraphicsView;
-    CDrawScene *m_pDrawScene;
-    ProgressLayout *m_progressLayout;
     CPictureTool *m_pictureTool;
-    int m_picNum;
+
+    // 顶部多标签菜单栏
+    CMultipTabBarWidget *m_topMutipTabBarWidget; // 顶部多标签栏组件
+    QHBoxLayout *m_hLayout; // 水平布局
+    QStackedLayout *m_stackedLayout; // 视图布局器
+    int systemTheme = 0;// 保存系统主题
+    bool m_isCloseNow; // 判断是否是ctrl+s保存
 
 private:
     /**
@@ -234,11 +308,20 @@ private:
      * @param type
      * @return
      */
-    QPixmap getSceneImage(int type);
+    QImage getSceneImage(int type);
     /**
      * @brief resetSceneBackgroundBrush　重置场景画刷
      */
-    void resetSceneBackgroundBrush();
+    void resetSceneBackgroundBrush(); 
+    /**
+     * @brief createNewScense　创建一个新的场景
+     * @param scenceName 场景名字
+     */
+    void createNewScense(QString scenceName);
+    /**
+     * @brief closeCurrentScenseView　关闭当前选中场景
+     */
+    void closeCurrentScenseView();
 
 };
 

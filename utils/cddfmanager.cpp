@@ -39,9 +39,10 @@
 #include <QtConcurrent>
 
 
-CDDFManager::CDDFManager(QObject *parent, DWidget *widget)
-    : QObject(parent),
-      m_CProgressDialog(new CProgressDialog(widget))
+CDDFManager::CDDFManager(CGraphicsView *view)
+    : QObject(view)
+    , m_CProgressDialog(new CProgressDialog(view))
+    , m_view(view)
 {
     connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
     connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
@@ -265,22 +266,17 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 void CDDFManager::slotLoadDDFComplete()
 {
     m_CProgressDialog->hide();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(m_path);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
+    m_view->getDrawParam()->setDdfSavePath(m_path);
+    m_view->setModify(false);
     emit singalEndLoadDDF();
 }
 
 void CDDFManager::slotSaveDDFComplete()
 {
     m_CProgressDialog->hide();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(m_path);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
-    if (ESaveDDFTriggerAction::SaveAction != CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction()) {
+    m_view->getDrawParam()->setDdfSavePath(m_path);
+    m_view->setModify(false);
+    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {
         emit signalContinueDoOtherThing();
     }
 }
-
-
-
-
-

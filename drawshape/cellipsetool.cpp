@@ -49,6 +49,7 @@ void CEllipseTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
         m_pEllipseItem = new CGraphicsEllipseItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
         m_pEllipseItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pEllipseItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pEllipseItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pEllipseItem);
 
         m_bMousePress = true;

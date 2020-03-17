@@ -162,12 +162,18 @@ void PolygonAttributeWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalPolygonAttributeChanged();
     });
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    });
 
     ///多边形边数
     connect(m_sideNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_sideNumEdit->setText(QString::number(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
         emit signalPolygonAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     connect(m_sideNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {

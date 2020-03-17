@@ -68,6 +68,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
             item->setLastDocumentWidth(0);
         }
 
+        item->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);

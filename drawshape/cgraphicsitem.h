@@ -79,7 +79,7 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale);
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
 
     /**
      * @brief duplicate 复制this图元到item图元

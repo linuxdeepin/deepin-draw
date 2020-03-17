@@ -24,10 +24,6 @@
 #include <QPen>
 #include <QFont>
 
-#include <QDBusReply>
-#include <QDBusInterface>
-#include <QDBusUnixFileDescriptor>
-
 class CDrawParamSigleton
 {
 public:
@@ -98,8 +94,8 @@ public:
     void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
 
-    bool getIsModify() const;
-    void setIsModify(bool isModify);
+    bool getModify() const;
+    void setModify(bool isModify);
 
     EBlurEffect getBlurEffect() const;
     void setBlurEffect(const EBlurEffect &blurEffect);
@@ -125,11 +121,16 @@ public:
     bool getSelectAllFlag() const;
     void setSelectAllFlag(bool flag);
 
-private:
     /**
-     * @brief initBlockShutdown 柱塞关机
-     */
-    void initBlockShutdown();
+       * @brief viewName　获取视图名字
+       * @return 返回视图名字
+       */
+    QString viewName() const;
+    /**
+        * @brief setViewName　设置视图名字
+        * @param name 视图名字
+        */
+    void setViewName(QString name);
 
 private:
     int m_nlineWidth;
@@ -183,9 +184,7 @@ private:
 
     bool m_bSelectAlling; //是否正在全选
 
-    QDBusReply<QDBusUnixFileDescriptor> m_reply;
-    QDBusInterface *m_pLoginManager = nullptr;
-    QList<QVariant> m_arg;
+    QString m_viewName;//视图名字
 };
 
 

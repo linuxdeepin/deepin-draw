@@ -190,6 +190,90 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 }
 
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+{
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
+    QRectF rect = this->rect();
+    QPointF bottomRight = rect.bottomRight();
+    QPointF topLeft = rect.topLeft();
+    QPointF topRight = rect.topRight();
+    QPointF bottomLeft = rect.bottomLeft();
+
+    QPointF p1;
+    QPointF p2;
+    p2 = m_line.p2();
+    p1 = m_line.p1();
+
+    //if (!shiftKeyPress && !altKeyPress) {
+    switch (dir) {
+    case CSizeHandleRect::LeftTop:
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::Top:
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::RightTop:
+        topRight.setX(topRight.x() + rect.width() * xScale);
+        topRight.setY(topRight.y() + rect.height() * yScale);
+        rect.setTopRight(topRight);
+        break;
+    case CSizeHandleRect::Right:
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::RightBottom:
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::Bottom:
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        bottomLeft.setX(bottomLeft.x() + rect.width() * xScale);
+        bottomLeft.setY(bottomLeft.y() + rect.height()*yScale);
+        rect.setBottomLeft(bottomLeft);
+        break;
+    case CSizeHandleRect::Left:
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    default:
+        break;
+    }
+    //}
+    //setLine(p1, p2);
+    if (p1.x() <= p2.x()) {
+        if (p1.y() <= p2.y()) {
+            p1 = rect.topLeft();
+            p2 = rect.bottomRight();
+        } else {
+            p1 = rect.bottomLeft();
+            p2 = rect.topRight();
+        }
+    } else {
+        if (p1.y() <= p2.y()) {
+            p1 = rect.topRight();
+            p2 = rect.bottomLeft();
+        } else {
+            p1 = rect.bottomRight();
+            p2 = rect.topLeft();
+        }
+    }
+    setLine(p1, p2);
+    this->moveBy(offset.x(), offset.y());
+    updateGeometry();
+}
+
 QLineF CGraphicsLineItem::line() const
 {
     return m_line;
@@ -328,10 +412,10 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setPen(Qt::NoPen);
         painter->setBrush(this->pen().color());
         painter->drawPolygon(m_arrow);
-        painter->setPen(pen());
+        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
         painter->drawLine(QLineF(m_line.p1(), m_point4));
     } else {
-        painter->setPen(pen());
+        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
         painter->drawLine(m_line);
     }
 }

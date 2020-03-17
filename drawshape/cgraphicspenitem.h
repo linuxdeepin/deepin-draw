@@ -23,7 +23,7 @@
 #include "csizehandlerect.h"
 
 #include <QGraphicsItem>
-
+class QPainterPath;
 class CGraphicsPenItem : public CGraphicsItem
 {
 public:
@@ -39,6 +39,14 @@ public:
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+    /**
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @param dir 8个方向
+     * @param offset x，y方向移动距离
+     * @param xScale X轴放大缩小比例
+     * @param yScale y轴放大缩小比例
+     */
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
     EPenType currentType() const;
     void setCurrentType(const EPenType &currentType);

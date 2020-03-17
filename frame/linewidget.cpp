@@ -155,17 +155,25 @@ void LineWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalLineAttributeChanged();
     });
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    });
 
     connect(m_straightline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_straightline);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(straightType);
         emit signalLineAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(arrowType);
         emit signalLineAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
 

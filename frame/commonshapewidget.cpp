@@ -121,6 +121,10 @@ void CommonshapeWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalCommonShapeChanged();
     });
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    });
 }
 
 void CommonshapeWidget::updateCommonShapWidget()

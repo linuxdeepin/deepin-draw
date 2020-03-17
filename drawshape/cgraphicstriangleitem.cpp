@@ -111,11 +111,11 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     QPolygonF item;
     item << rc.bottomLeft() << top << rc.bottomRight();
 
-    painter->setPen(pen());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
     painter->drawPolygon(item);
 
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());

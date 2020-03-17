@@ -206,12 +206,18 @@ void PolygonalStarAttributeWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalPolygonalStarAttributeChanged();
     });
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    });
 
     ///锚点数
     connect(m_anchorNumSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_anchorNumEdit->setText(QString::number(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
         emit signalPolygonalStarAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     connect(m_anchorNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
@@ -253,6 +259,8 @@ void PolygonalStarAttributeWidget::initConnection()
         m_radiusNumEdit->setText(str);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
         emit signalPolygonalStarAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     connect(m_radiusNumEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {

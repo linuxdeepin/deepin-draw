@@ -29,6 +29,9 @@ class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
+class CGraphicsItemSelectedMgr;
+class CDrawParamSigleton;
+class CGraphicsView;
 
 class CDrawScene : public QGraphicsScene
 {
@@ -36,8 +39,16 @@ class CDrawScene : public QGraphicsScene
     friend CSelectTool;
 
 public:
-    static CDrawScene *m_pInstance;
-    static CDrawScene *GetInstance();
+    /**
+     * @brief CDrawScene 构造函数
+     * @param parent
+     */
+    explicit CDrawScene(CGraphicsView *view = nullptr);
+    ~CDrawScene();
+    /**
+     * @brief initScene 初始化一个新的场景
+     */
+    void initScene();
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -99,6 +110,28 @@ public:
     void updateBlurItem(QGraphicsItem *changeItem = nullptr);
 
     void switchTheme(int type);
+
+    CGraphicsItemSelectedMgr *getItemsMgr() const;
+
+    /**
+     * @brief getCDrawParam　获取绘制数据
+     */
+    CDrawParamSigleton *getDrawParam();
+
+    bool getModify() const;
+    void setModify(bool isModify);
+
+    /**
+     * @brief setMaxZValue 记录图元最大z值
+     * @param zValue 图元z值
+     */
+    void setMaxZValue(qreal zValue);
+
+    /**
+     * @brief getMaxZValue　获取图元最大z值
+     */
+    qreal getMaxZValue();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -215,6 +248,12 @@ signals:
      */
     void signalSceneCut(QRectF newRect);
 
+    /**
+     * @brief signalIsModify 是否更改
+     * @param newRect
+     */
+    void signalIsModify(bool isModify);
+
 public slots:
 
     /**
@@ -234,6 +273,11 @@ public slots:
      * @param type
      */
     void changeMouseShape(EDrawToolMode type);
+
+    /**
+     * @brief clearMutiSelectedState 清除多选状态
+     */
+    void clearMutiSelectedState();
 
 protected:
 
@@ -268,16 +312,9 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
-
-
 private:
-    /**
-     * @brief CDrawScene 构造函数
-     * @param parent
-     */
-    explicit CDrawScene(QObject *parent = nullptr);
+    CDrawParamSigleton *m_drawParam;//数据
 
-private:
     bool m_bIsEditTextFlag;
 
     QCursor m_drawMouse;
@@ -290,8 +327,9 @@ private:
     QCursor m_textMouse;
     QCursor m_brushMouse;
     QCursor m_blurMouse;
+    qreal m_maxZValue;
 
-
+    CGraphicsItemSelectedMgr *m_pGroupItem;
 
 };
 

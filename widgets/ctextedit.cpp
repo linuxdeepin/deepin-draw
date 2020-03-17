@@ -104,8 +104,11 @@ void CTextEdit::slot_textChanged()
 
     cursorPositionChanged();
 
-    //更新字图元
-    CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+    if (nullptr != m_pItem->scene()) {
+        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        //更新字图元
+        curScene->updateBlurItem(m_pItem);
+    }
 
     this->setFocus();
 
@@ -195,7 +198,11 @@ void CTextEdit::cursorPositionChanged()
             m_pItem->currentCharFormatChanged(cursor.charFormat());
         }
 
-        CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+        if (nullptr != m_pItem->scene()) {
+            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+            curScene->updateBlurItem(m_pItem);
+        }
+
         //this->setFocus();
     }
 }
@@ -210,7 +217,10 @@ void CTextEdit::setVisible(bool visible)
         QTextCursor cursor = this->textCursor();
         cursor.select(QTextCursor::Document);
         this->setTextCursor(cursor);
-        CDrawScene::GetInstance()->updateBlurItem(m_pItem);
+        if (nullptr != m_pItem->scene()) {
+            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+            curScene->updateBlurItem(m_pItem);
+        }
 
         //this->releaseKeyboard();
     } else {

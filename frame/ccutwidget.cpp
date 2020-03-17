@@ -361,12 +361,17 @@ void CCutWidget::initConnection()
             m_heightEdit->lineEdit()->clearFocus();
         }
 
-        CDrawScene::GetInstance()->doCutScene();
+        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+            curScene->doCutScene();
+        }
     });
 
     connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
-
-        CDrawScene::GetInstance()->quitCutMode();
+        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+            curScene->quitCutMode();
+        }
     });
 
     connect(m_SizeAddAction, &QAction::triggered, this, [ = ](bool) {

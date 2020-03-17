@@ -24,6 +24,7 @@
 
 #include <QPen>
 #include <QPainter>
+#include <QPainterPath>
 #include <QtMath>
 #include <QDebug>
 
@@ -423,6 +424,536 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 }
 
+void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+{
+    QRectF rect = this->rect();
+    QPointF bottomRight = rect.bottomRight();
+    QPointF topLeft = rect.topLeft();
+    QPointF topRight = rect.topRight();
+    QPointF bottomLeft = rect.bottomLeft();
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
+    QTransform transform;
+    QPainterPath path;
+    QPolygonF arrow;
+    QPointF arrowOffset;
+    if (!shiftKeyPress && !altKeyPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //按住SHIFT等比拉伸
+    else if ((shiftKeyPress && !altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //中心拉伸
+    else if ((!shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //等比中心拉伸
+    else if ((shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x + (element.x - rect.left()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y + (element.y - rect.top()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_path.elementCount(); i++) {
+                QPainterPath::Element element = m_path.elementAt(i);
+                QPointF point = mapFromScene(mapToScene(QPointF(element.x - (element.x - rect.right()) * xScale, element.y - (element.y - rect.bottom()) * yScale)));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_path.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    for (int i = 0; i < m_arrow.size(); i++) {
+        QPointF point = mapFromScene(mapToScene(QPointF(m_arrow.at(i).x() + arrowOffset.x(), m_arrow.at(i).y() + arrowOffset.y())));
+        arrow.append(point);
+    }
+    m_arrow = arrow;
+    m_path = path;
+    this->moveBy(offset.x(), offset.y());
+    updateGeometry();
+}
+
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
 
@@ -575,6 +1106,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setRenderHint(QPainter::Antialiasing);
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
         painter->setPen(pen);
+
+        painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->pen());
         painter->drawPath(m_path);
     }
 
@@ -589,7 +1122,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->drawPolygon(m_arrow);
     }
 
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
         if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -655,12 +1188,15 @@ void CGraphicsPenItem::updatePenType(const EPenType &currentType)
 
 void CGraphicsPenItem::setPixmap()
 {
-    QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
-    m_tmpPix = QPixmap(rect.width(), rect.height());
-    QPainter painterd(&m_tmpPix);
-    painterd.setRenderHint(QPainter::Antialiasing);
-    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-    CDrawScene::GetInstance()->render(&painterd);
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        QRect rect = curScene->sceneRect().toRect();
+        m_tmpPix = QPixmap(rect.width(), rect.height());
+        QPainter painterd(&m_tmpPix);
+        painterd.setRenderHint(QPainter::Antialiasing);
+        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+        curScene->render(&painterd);
+    }
 }
 
 void CGraphicsPenItem::setDrawFlag(bool flag)

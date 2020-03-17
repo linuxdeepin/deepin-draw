@@ -37,7 +37,7 @@ class CDDFManager : public QObject
     Q_OBJECT
 
 public:
-    explicit CDDFManager(QObject *parent = nullptr, DWidget *widget = nullptr);
+    explicit CDDFManager(CGraphicsView *view = nullptr);
     /**
      * @brief saveToDDF 保存ＤＤＦ文件
      * @param path　路径
@@ -106,11 +106,10 @@ private slots:
 
 
 private:
+    CGraphicsView *m_view;
     CGraphics m_graphics;
     CProgressDialog *m_CProgressDialog;
     QString m_path;
-
-
 };
 
 #endif // CDDFMANAGER_H

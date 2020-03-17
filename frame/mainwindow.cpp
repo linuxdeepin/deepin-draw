@@ -105,9 +105,55 @@ void MainWindow::initUI()
     m_showCut = new QAction(this);
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
+
+    // 标签关闭提示框
+    m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    m_dialog.setMessage(tr("Is Close Draw?"));
+    m_dialog.addButton(tr("OK"),true,DDialog::ButtonNormal);
+    m_dialog.addButton(tr("Cancel"),false,DDialog::ButtonNormal);
+    connect(&m_dialog,&DDialog::buttonClicked,this,[=](int id){
+        if(0==id){
+            qApp->quit();
+        }
+    });
 }
 
+void MainWindow::showDragOrOpenFile(QStringList files,bool isOPenFile)
+{
+    QString ddfPath = "";
+    QStringList picturePathList;
+    for (int i = 0; i < files.size(); i++) {
+        //if (tempfilePathList[i].endsWith(".ddf")) {
+        if (QFileInfo(files[i]).suffix().toLower() == ("ddf")) {
+            ddfPath = files[i].replace("file://", "");
+            if (!ddfPath.isEmpty()) {
+                // 创建一个新的窗口用于显示拖拽的图像
+                m_centralWidget->createNewScenseByscencePath(ddfPath);
 
+                if(isOPenFile) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
+                }else {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+                }
+
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
+                slotIsNeedSave();
+            }
+        } else if (files[i].endsWith(".png") || files[i].endsWith(".jpg")
+                   || files[i].endsWith(".bmp") || files[i].endsWith(".tif") ) {
+            //图片格式："*.png *.jpg *.bmp *.tif"
+            picturePathList.append(files[i].replace("file://", ""));
+        }
+    }
+
+    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+        m_centralWidget->getGraphicsView()->slotQuitCutMode();
+    }
+
+    if (picturePathList.count() > 0) {
+        m_centralWidget->slotPastePicture(picturePathList);
+    }
+}
 
 void MainWindow::initConnection()
 {
@@ -117,7 +163,7 @@ void MainWindow::initConnection()
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
-        slotIsNeedSave();
+        m_centralWidget->slotQuitApp();
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
@@ -136,19 +182,23 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalPrint()), m_centralWidget, SLOT(slotPrint()));
 
-    connect(m_topToolbar, SIGNAL(signalNew()), this, SLOT(slotIsNeedSave()));
+    connect(m_topToolbar, SIGNAL(signalNew()), this, SLOT(slotNewDrawScence()));
 
     connect(m_centralWidget, SIGNAL(signalUpdateCutSize()), m_topToolbar, SLOT(slotSetCutSize()));
 
-    connect(m_topToolbar, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
+    connect(m_topToolbar, SIGNAL(signalSaveToDDF()), this, SLOT(slotTopToolBarSaveToDDF()));
 
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
     connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
 
-    connect(m_quitQuestionDialog, SIGNAL(signalSaveToDDF()), m_centralWidget, SLOT(slotSaveToDDF()));
+    connect(m_quitQuestionDialog, &DrawDialog::signalSaveToDDF, this,[=](){
+        m_centralWidget->slotSaveToDDF(true);
+    });
 
-    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), this, SLOT(slotContinueDoSomeThing()));
+    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), m_centralWidget, SLOT(slotDoNotSaveToDDF()));
+
+//    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), this, SLOT(slotContinueDoSomeThing()));
 
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
@@ -162,11 +212,28 @@ void MainWindow::initConnection()
 
     connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
 
-    connect(CDrawScene::GetInstance(), SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
+    //每次添加标签需要连接
+//    if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+//        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+//        connect(curScene, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
+//    }
 
-    connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QString)), this, SLOT(slotLoadDragOrPasteFile(QString)));
+    connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QStringList)), this, SLOT(slotLoadDragOrPasteFile(QStringList)));
+
+    // 有新的场景创建后需要都进行连接的信号
+    connect(m_centralWidget,&CCentralwidget::signalAddNewScence,this,[=](CDrawScene *sence){
+        connect(sence, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
+    });
+
+    // 关闭当前窗口提示是否需要进行保存
+    connect(m_centralWidget,&CCentralwidget::signalCloseModifyScence,this,&MainWindow::slotIsNeedSave);
+
+    // 连接ddf文件已经被打开信号
+    connect(m_centralWidget,&CCentralwidget::signalDDFFileOpened,this,&MainWindow::slotDDFFileOpened);
+
+    // 连接最后一个标签被关闭
+    connect(m_centralWidget,&CCentralwidget::signalLastTabBarRequestClose,this,&MainWindow::slotLastTabBarRequestClose);
 }
-
 
 void MainWindow::activeWindow()
 {
@@ -187,7 +254,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::slotIsNeedSave()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
         m_quitQuestionDialog->show();
     } else {
         slotContinueDoSomeThing();
@@ -227,25 +294,48 @@ void MainWindow::slotShowOpenFileDialog()
     dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
-    dialog.setFileMode(DFileDialog::ExistingFile);
+    dialog.setFileMode(DFileDialog::ExistingFiles);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.set
     QStringList nameFilters;
     nameFilters << "*.ddf *.png *.jpg *.bmp *.tif";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
+    QStringList picturePathList;
     if (dialog.exec()) {
-        QString path = dialog.selectedFiles().first();
-        if (!path.isEmpty()) {
-            if (QFileInfo(path).suffix().toLower() == "ddf") {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
-            } else {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
-                tmpPictruePath = path;
-            }
-            slotIsNeedSave();
-        }
+        QStringList tempfilePathList = dialog.selectedFiles();
+        m_centralWidget->slotLoadDragOrPasteFile(tempfilePathList);
     }
+}
+
+void MainWindow::slotDDFFileOpened(QString filename)
+{
+    Q_UNUSED(filename)
+//    Dtk::Widget::DDialog dialog(this);
+//    dialog.setTextFormat(Qt::RichText);
+//    dialog.addButton(tr("OK"));
+//    dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//    dialog.setMessage(filename + tr(" Opened"));
+//    dialog.exec();
+}
+
+void MainWindow::slotTopToolBarSaveToDDF()
+{
+    // ctrl+s 直接保存ddf文件
+    qDebug()<<"ctrl+s";
+    m_centralWidget->slotSaveToDDF();
+}
+
+void MainWindow::slotLastTabBarRequestClose()
+{
+    qDebug()<<"slotLastTabBarRequestClose: not show quit dialog";
+    // 退出程序
+    qApp->quit();
+    //    m_dialog.exec();
+}
+
+void MainWindow::slotNewDrawScence()
+{
+    m_centralWidget->slotNew();
 }
 
 void MainWindow::onViewShortcut()
@@ -265,34 +355,9 @@ void MainWindow::onViewShortcut()
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
 }
 
-void MainWindow::slotLoadDragOrPasteFile(QString files)
+void MainWindow::slotLoadDragOrPasteFile(QStringList files)
 {
-    QStringList tempfilePathList = files.split("\n");
-    QString ddfPath = "";
-    QStringList picturePathList;
-    for (int i = 0; i < tempfilePathList.size(); i++) {
-        //if (tempfilePathList[i].endsWith(".ddf")) {
-        if (QFileInfo(tempfilePathList[i]).suffix().toLower() == ("ddf")) {
-            ddfPath = tempfilePathList[i].replace("file://", "");
-            break;
-        } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
-            //图片格式："*.png *.jpg *.bmp *.tif"
-            picturePathList.append(tempfilePathList[i].replace("file://", ""));
-        }
-    }
-
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        m_centralWidget->getGraphicsView()->slotQuitCutMode();
-    }
-
-    if (!ddfPath.isEmpty()) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
-        slotIsNeedSave();
-    } else if (picturePathList.count() > 0) {
-        m_centralWidget->slotPastePicture(picturePathList);
-    }
+    showDragOrOpenFile(files,false);
 }
 
 void MainWindow::slotOnEscButtonClick()
@@ -301,16 +366,14 @@ void MainWindow::slotOnEscButtonClick()
     m_centralWidget->onEscButtonClick();
 }
 
-
 void MainWindow::showDrawDialog()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
+    if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
         m_quitQuestionDialog->show();
     } else {
         qApp->quit();
     }
 }
-
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {

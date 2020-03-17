@@ -482,10 +482,9 @@ void TopToolbar::slotOnImportAction()
 
 void TopToolbar::slotOnNewConstructAction()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
-        emit signalNew();
-    }
+
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+    emit signalNew();
 }
 
 void TopToolbar::slotOnSaveAction()
@@ -503,7 +502,7 @@ void TopToolbar::slotOnSaveAsAction()
 void TopToolbar::slotMenuShow()
 {
     slotHideColorPanel();
-    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify());
+//    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
 
 

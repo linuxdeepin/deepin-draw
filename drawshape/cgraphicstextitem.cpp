@@ -254,7 +254,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     updateGeometry();
 
     drawDocument(painter, m_pTextEdit->document(), this->rect());
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
@@ -284,7 +284,10 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 //    m_pTextEdit->cursorPositionChanged();
     }
 
-    CDrawScene::GetInstance()->updateBlurItem(this);
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
     m_pTextEdit->setFocus();
 }
 

@@ -51,6 +51,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         m_pPenItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
         m_pPenItem->setCurrentType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentPenType());
         m_pPenItem->setPixmap();
+        m_pPenItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pPenItem);
 
 

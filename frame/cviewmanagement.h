@@ -20,6 +20,9 @@
 #define CMANAGEVIEWSIGLETON_H
 
 #include <QList>
+#include <QDBusReply>
+#include <QDBusInterface>
+#include <QDBusUnixFileDescriptor>
 
 class CGraphicsView;
 
@@ -57,6 +60,23 @@ public:
      * @brief setCurView 删除窗口
      */
     void removeView(CGraphicsView *view);
+    /**
+     * @brief CheckIsModify 检测是否修改
+     */
+    void CheckIsModify();
+    /**
+     * @brief getViewByViewName
+     */
+    CGraphicsView *getViewByViewName(QString name);
+    /**
+     * @brief getViewByFilePath
+     */
+    CGraphicsView *getViewByFilePath(QString path);
+private:
+    /**
+     * @brief initBlockShutdown 柱塞关机
+     */
+    void initBlockShutdown();
 
 private:
     //当前主题
@@ -65,6 +85,10 @@ private:
     QList<CGraphicsView *> m_allViews;
     //当前索引
     int m_curIndex = -1;
+
+    QDBusReply<QDBusUnixFileDescriptor> m_reply;
+    QDBusInterface *m_pLoginManager = nullptr;
+    QList<QVariant> m_arg;
 };
 
 

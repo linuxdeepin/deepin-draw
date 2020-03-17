@@ -176,6 +176,8 @@ void TextWidget::initConnection()
         m_fontSizeEdit->setText(QString::number(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(value);
         emit signalTextFontSizeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::TextFill, QPoint(), false);
     });
 
     connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {

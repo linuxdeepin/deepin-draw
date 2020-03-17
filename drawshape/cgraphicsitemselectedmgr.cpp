@@ -116,12 +116,12 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     }
 }
 
-void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset)
+void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset, bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
     prepareGeometryChange();
-    const QRectF &geomMult = this->boundingRect();
+    const QRectF &geomMult = mapRectToScene(this->boundingRect());
     double xScale = 1;
     double yScale = 1;
     QPointF rectCffset(0, 0);
@@ -135,7 +135,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() / geomMult.height();
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
@@ -144,7 +144,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = 0;
                     rectCffset.setX(0);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -153,7 +153,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() / geomMult.height();
                     rectCffset.setX((itemRect.left() - geomMult.left()) * (xScale ));
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * (yScale));
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
@@ -162,7 +162,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = 0;
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
                     rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -171,7 +171,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale =  offset.y() / geomMult.height();
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale );
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
@@ -180,7 +180,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = 0;
                     rectCffset.setX(0);
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -189,7 +189,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() / geomMult.height();
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
@@ -198,7 +198,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = 0;
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -219,7 +219,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
@@ -228,7 +228,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = yScale;
                     rectCffset.setX(-(itemRect.right() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -242,7 +242,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
@@ -251,7 +251,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = xScale;
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -265,7 +265,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
@@ -274,7 +274,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = yScale;
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -288,7 +288,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
@@ -297,7 +297,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = xScale;
                     rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
                     rectCffset.setY(-(itemRect.bottom() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -313,7 +313,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() * 2 / geomMult.height();
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
@@ -322,7 +322,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = 0;
                     rectCffset.setX(0);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -331,7 +331,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() * 2 / geomMult.height();
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
@@ -340,7 +340,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = 0;
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -349,7 +349,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() * 2 / geomMult.height();
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
@@ -358,7 +358,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = 0;
                     rectCffset.setX(0);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -367,7 +367,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = offset.y() * 2 / geomMult.height();
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
@@ -376,7 +376,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = 0;
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -397,7 +397,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
@@ -406,7 +406,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = yScale;
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -420,7 +420,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
@@ -429,7 +429,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = xScale;
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -443,7 +443,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
@@ -452,7 +452,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     xScale = yScale;
                     rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -466,7 +466,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     }
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
@@ -475,7 +475,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     yScale = xScale;
                     rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
                     rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale);
+                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:

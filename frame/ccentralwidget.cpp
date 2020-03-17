@@ -31,6 +31,8 @@
 #include "widgets/dialog/cprintmanager.h"
 #include "drawshape/cpicturetool.h"
 #include "frame/cviewmanagement.h"
+#include "drawshape/cdrawparamsigleton.h"
+#include "frame/cmultiptabbarwidget.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -45,14 +47,20 @@ DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
+    , m_isCloseNow(false)
 {
+    m_stackedLayout = new QStackedLayout();
+    m_hLayout = new QHBoxLayout();
     m_exportImageDialog = new CExportImageDialog(this);
     m_printManager = new CPrintManager();
+    m_pictureTool = new CPictureTool(this);
+    m_leftToolbar = new CLeftToolBar();
+    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
+    m_topMutipTabBarWidget->setDefaultTabBarName(tr("Unnamed"));
 
     initUI();
     initConnect();
 }
-
 
 CCentralwidget::~CCentralwidget()
 {
@@ -64,35 +72,34 @@ CLeftToolBar *CCentralwidget::getLeftToolBar()
     return m_leftToolbar;
 }
 
-
 CGraphicsView *CCentralwidget::getGraphicsView() const
 {
-    return m_pGraphicsView;
+    return CManageViewSigleton::GetInstance()->getCurView();
 }
 
 CDrawScene *CCentralwidget::getDrawScene() const
 {
-    return m_pDrawScene;
+    return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 }
 
 void CCentralwidget::switchTheme(int type)
 {
     if (type == 1) {
-        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+        CManageViewSigleton::GetInstance()->getCurView()->scene()->setBackgroundBrush(QColor(248, 248, 251));
     } else if (type == 2) {
-        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
+        CManageViewSigleton::GetInstance()->getCurView()->scene()->setBackgroundBrush(QColor(35, 35, 35));
     }
-
-    m_pDrawScene->switchTheme(type);
+    systemTheme = type;
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->switchTheme(type);
 }
 
 void CCentralwidget::resetSceneBackgroundBrush()
 {
     int themeType = CManageViewSigleton::GetInstance()->getThemeType();
     if (themeType == 1) {
-        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(QColor(248, 248, 251));
     } else if (themeType == 2) {
-        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(QColor(35, 35, 35));
     }
 }
 
@@ -100,7 +107,162 @@ void CCentralwidget::initSceneRect()
 {
     QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
     QRectF rc = QRectF(0, 0, size.width(), size.height());
-    m_pDrawScene->setSceneRect(rc);
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setSceneRect(rc);
+}
+
+void CCentralwidget::createNewScenseByDragFile(QString scenceName)
+{
+
+    // [0] 判断是否已经打开此文件,已经打开则显示此文件
+    if (m_topMutipTabBarWidget->tabBarNameIsExist(scenceName)) {
+        qDebug() << "create same name Scence,deepin-draw will not create.";
+        return;
+    }
+    createNewScense(scenceName);
+    m_topMutipTabBarWidget->addTabBarItem(scenceName);
+}
+
+void CCentralwidget::createNewScenseByscencePath(QString scencePath)
+{
+    QString tabbarName = scencePath.split('/').last();
+    // 取消ddf后缀
+    tabbarName.replace(".ddf","");
+    createNewScenseByDragFile(tabbarName);
+    m_topMutipTabBarWidget->setTabBarTooltipName(tabbarName, tabbarName);
+}
+
+void CCentralwidget::createNewScense(QString scenceName)
+{
+    CGraphicsView *newview = new CGraphicsView(this);
+    CManageViewSigleton::GetInstance()->addView(newview);
+    auto curScene = new CDrawScene(newview);
+    newview->setFrameShape(QFrame::NoFrame);
+    newview->getDrawParam()->setViewName(scenceName);
+
+    emit signalAddNewScence(curScene);
+
+    //设置scene大小为屏幕分辨率
+    //获取屏幕分辨率
+    QDesktopWidget *desktopWidget = QApplication::desktop();
+    QRect screenRect = desktopWidget->screenGeometry();
+    newview->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
+
+    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+        curScene->setBackgroundBrush(QColor(248, 248, 251));
+    } else {
+        curScene->setBackgroundBrush(QColor(35, 35, 35));
+    }
+
+    newview->setAlignment(Qt::AlignCenter);
+    newview->setRenderHint(QPainter::Antialiasing);//设置反走样
+
+    //自动设置滚动条
+    newview->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    newview->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    newview->scale(0.75);
+
+    m_stackedLayout->addWidget(newview);
+
+    QSize size = newview->getDrawParam()->getCutDefaultSize();
+    QRectF rc = QRectF(0, 0, size.width(), size.height());
+    static_cast<CDrawScene *>(newview->scene())->setSceneRect(rc);
+
+    connect(curScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
+    connect(newview, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
+    connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
+    connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
+    //图片选中后相应操作
+    connect(this, SIGNAL(signalPassPictureOper(int)), curScene, SLOT(picOperation(int )));
+
+    connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
+    connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
+
+    connect(newview, SIGNAL(signalLoadDragOrPasteFile(QString)), this, SLOT(slotLoadDragOrPasteFile(QString)));
+
+    connect(newview, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));
+
+    connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
+    connect(newview, SIGNAL(singalTransmitEndLoadDDF()), m_leftToolbar, SLOT(slotShortCutSelect()));
+
+    //主菜单栏中点击打开导入图片
+    connect(newview, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
+
+    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), curScene, SLOT(drawToolChange(int)));
+
+    //如果是裁剪模式点击左边工具栏按钮则执行裁剪
+    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
+
+    //如果是裁剪模式点击工具栏的菜单则执行裁剪
+    connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
+
+    // 当场景内容被改变需要进行的操作
+    connect(curScene, SIGNAL(signalIsModify(bool)), this, SLOT(currentScenseViewIsModify(bool)));
+
+    // 连接view保存文件状态
+    connect(newview, SIGNAL(signalSaveFileStatus(bool)), this, SLOT(slotSaveFileStatus(bool)));
+}
+
+void CCentralwidget::closeCurrentScenseView()
+{
+    CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
+    if (nullptr != closeView) {
+        QString viewname = closeView->getDrawParam()->viewName();
+        qDebug() << "closeCurrentScenseView:" << viewname;
+
+        // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
+        if ( /*!closeView->getDrawParam()->getModify()
+                     && */1 == m_topMutipTabBarWidget->count()
+             /*&& closeView->getDrawParam()->getDdfSavePath().isEmpty()*/) {
+
+            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
+            emit signalLastTabBarRequestClose();
+            return;
+        }
+
+        closeView->setParent(nullptr);
+        m_stackedLayout->removeWidget(closeView);
+        CManageViewSigleton::GetInstance()->removeView(closeView);
+        m_topMutipTabBarWidget->closeTabBarItem(viewname);
+    }
+    m_leftToolbar->slotShortCutSelect();
+}
+
+void CCentralwidget::currentScenseViewIsModify(bool isModify)
+{
+    QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
+    qDebug() << "viewName：" << viewName << " modify:" << isModify;
+    // 通过末尾加一个空格来区分该标题是否已经被修改过
+    if (isModify && !viewName.endsWith(" ")) {
+        // 组装新的标题
+        QString newViewName = "* " + viewName + " ";
+        // 替换标签
+        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
+    } else if (!isModify && viewName.endsWith(" ")) {
+        // 组装新的标题
+        QString newViewName = viewName;
+        newViewName.replace(newViewName.indexOf("* "), 2, "");
+        newViewName.replace(newViewName.lastIndexOf(" "), 1, "");
+
+        // 替换标签
+        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
+
+    }
+}
+
+void CCentralwidget::slotSaveFileStatus(bool status)
+{
+    if (status) {
+        qDebug()<<"Ctrl_S Save:"<<m_isCloseNow;
+        if(!m_isCloseNow) {
+            // nothing  to do
+            m_isCloseNow = false;
+        }else {
+            closeCurrentScenseView();
+        }
+    }
 }
 
 //进行图片导入
@@ -125,7 +287,6 @@ void CCentralwidget::importPicture()
 
 }
 
-
 //点击图片进行导入
 void CCentralwidget::openPicture(QString path)
 {
@@ -136,296 +297,344 @@ void CCentralwidget::openPicture(QString path)
 //导入图片
 void CCentralwidget::slotPastePicture(QStringList picturePathList)
 {
-
-    m_pictureTool->drawPicture(picturePathList, m_pDrawScene, this);
+    m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)
 {
-
-    m_pictureTool->addImages(pixmap, 1, m_pDrawScene, this);
-
+    m_pictureTool->addImages(pixmap, 1, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
 }
 
 void CCentralwidget::initUI()
 {
-    m_leftToolbar = new CLeftToolBar();
-    m_pGraphicsView = new CGraphicsView(this);
-    //m_pGraphicsView->setStyleSheet("border:0px");
-    //m_pGraphicsView->setWindowFlags(Qt::FramelessWindowHint);
-
-    m_pictureTool = new CPictureTool();
-
-    m_pGraphicsView->setFrameShape(QFrame::NoFrame);
-
-    CManageViewSigleton::GetInstance()->addView(m_pGraphicsView);
-
-    m_pDrawScene =  CDrawScene::GetInstance();
-    //设置scene大小为屏幕分辨率
-    //获取屏幕分辨率
-    QDesktopWidget *desktopWidget = QApplication::desktop();
-    QRect screenRect = desktopWidget->screenGeometry();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
-
+    createNewScense(tr("Unnamed"));
+    CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName("Unnamed"));
     initSceneRect();
 
-    //根据主题设置
-//case 1:
-//        浅色主题
-//case 2:
-//        深色主题
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        m_pDrawScene->setBackgroundBrush(QColor(248, 248, 251));
-    } else {
-        m_pDrawScene->setBackgroundBrush(QColor(35, 35, 35));
-    }
+    // 顶部菜单栏进行创建
+    m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"));
 
-    //m_pDrawScene->setForegroundBrush(QColor(100, 100, 100));
+    m_hLayout->setMargin(0);
+    m_hLayout->setSpacing(0);
+    m_hLayout->addWidget(m_leftToolbar);
+    m_hLayout->addLayout(m_stackedLayout);
 
-    m_pGraphicsView->setScene(m_pDrawScene);
-    m_pGraphicsView->setAlignment(Qt::AlignCenter);
-    m_pGraphicsView->setRenderHint(QPainter::Antialiasing);//设置反走样
-
-    //自动设置滚动条
-    m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_pGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-    m_progressLayout = new ProgressLayout();
-
-
-    QHBoxLayout *layout = new QHBoxLayout;
-
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(m_leftToolbar);
-    layout->addWidget(m_pGraphicsView);
-    setLayout(layout);
-
-    //test
-
-//    CGraphicsEllipseItem *item = new CGraphicsEllipseItem(QRect(360, 360, 300, 300));
-//    item->setPen(QPen(Qt::black));
-//    item->setBrush(QBrush(Qt::red));
-
-//    m_pDrawScene->addItem(item);
-
-//    CGraphicsTriangleItem *itemrect = new CGraphicsTriangleItem(QRect(300, 300, 300, 300));
-//    itemrect->setPen(QPen(Qt::black));
-//    itemrect->setBrush(QBrush(Qt::black));
-
-//    m_pDrawScene->addItem(itemrect);
-
-    //初始设置显示为75%；
-    m_pGraphicsView->scale(0.75);
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(m_topMutipTabBarWidget);
+    vLayout->addLayout(m_hLayout);
+    setLayout(vLayout);
 }
 
 void CCentralwidget::slotResetOriginPoint()
 {
-    /*QRect rect = m_pGraphicsView->viewport()->rect();
-    m_pGraphicsView->setSceneRect(rect);*/
+    /*QRect rect = CManageViewSigleton::GetInstance()->getCurView()->viewport()->rect();
+    CManageViewSigleton::GetInstance()->getCurView()->setSceneRect(rect);*/
 }
 
 void CCentralwidget::slotAttributeChanged()
 {
-    if (m_pDrawScene != nullptr) {
-        m_pDrawScene->attributeChanged();
+    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->attributeChanged();
     }
 }
 
 void CCentralwidget::slotZoom(qreal scale)
 {
-    m_pGraphicsView->scale(scale);
+    CManageViewSigleton::GetInstance()->getCurView()->scale(scale);
 }
 
-void CCentralwidget::slotSaveToDDF()
+void CCentralwidget::slotSaveToDDF(bool isCloseNow)
 {
-    m_pGraphicsView->doSaveDDF();
+    // 是否保存后关闭该图元
+    m_isCloseNow = isCloseNow;
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
+    CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF();
+    // 释放资源需要等待view提示是否保存成功
+}
+
+void CCentralwidget::slotDoNotSaveToDDF()
+{
+    closeCurrentScenseView();
+//    if ( 1 == m_topMutipTabBarWidget->count()) {
+//        qDebug() << "close last one ScenseView.";
+//        emit signalLastTabBarRequestClose();
+//        return;
+//    }
 }
 
 void CCentralwidget::slotSaveAs()
 {
-    m_pGraphicsView->showSaveDDFDialog(false);
+    CManageViewSigleton::GetInstance()->getCurView()->showSaveDDFDialog(false);
 }
-
 
 void CCentralwidget::slotTextFontFamilyChanged()
 {
-    if (m_pDrawScene != nullptr) {
-        m_pDrawScene->textFontFamilyChanged();
+    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->textFontFamilyChanged();
     }
 }
 
 void CCentralwidget::slotTextFontSizeChanged()
 {
-    if (m_pDrawScene != nullptr) {
-        m_pDrawScene->textFontSizeChanged();
+    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->textFontSizeChanged();
     }
 }
 
 void CCentralwidget::slotNew()
 {
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
-    m_pGraphicsView->clearScene();
-    m_leftToolbar->slotShortCutSelect();
-    initSceneRect();
+    m_topMutipTabBarWidget->addTabBarItem();
 }
 
 void CCentralwidget::slotPrint()
 {
-    m_pDrawScene->clearSelection();
-    QPixmap pixMap = getSceneImage(1);
-    m_printManager->showPrintDialog(pixMap, this);
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+    QImage image = getSceneImage(1);
+    m_printManager->showPrintDialog(image, this);
 }
 
 void CCentralwidget::slotShowCutItem()
 {
-    m_pGraphicsView->setContextMenuAndActionEnable(false);
-    m_pDrawScene->showCutItem();
+    CManageViewSigleton::GetInstance()->getCurView()->setContextMenuAndActionEnable(false);
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->showCutItem();
 }
 
 void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        m_pGraphicsView->slotQuitCutMode();
+        CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
     } else {
         m_leftToolbar->slotShortCutSelect();
     }
     ///清空场景中选中图元
-    m_pDrawScene->clearSelection();
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
-
 
 void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
 {
-    m_pGraphicsView->disableCutShortcut(isFocus);
+    CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(isFocus);
 }
 
 void CCentralwidget::slotDoSaveImage(QString completePath)
 {
     int type = m_exportImageDialog->getImageType();
     if (type == CExportImageDialog::PDF) {
-        QPixmap pixmap = getSceneImage(1);
+        QImage image = getSceneImage(1);
         QPdfWriter writer(completePath);
-        int ww = pixmap.width();
-        int wh = pixmap.height();
+        int ww = image.width();
+        int wh = image.height();
         writer.setResolution(96);
         writer.setPageSizeMM(QSizeF(25.4 * ww / 96, 25.4 * wh / 96));
         QPainter painter(&writer);
-        painter.drawPixmap(0, 0, pixmap);
+        painter.drawImage(0, 0, image);
     } else if (type == CExportImageDialog::PNG) {
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
-        QPixmap pixmap = getSceneImage(2);
-        pixmap.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+        QImage image = getSceneImage(2);
+        image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
     } else {
         QString format = m_exportImageDialog->getImageFormate();
         int quality = m_exportImageDialog->getQuality();
-        QPixmap pixmap = getSceneImage(1);
-        pixmap.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
+        QImage image = getSceneImage(1);
+        image.save(completePath, format.toUpper().toLocal8Bit().data(), quality);
     }
+}
+
+void CCentralwidget::addView(QString viewName)
+{
+    qDebug() << "addView:" << viewName;
+    createNewScense(viewName);
+    CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName(viewName));
+}
+
+void CCentralwidget::slotRectRediusChanged(int value)
+{
+    qDebug() << "value" << value;
+}
+
+void CCentralwidget::slotQuitApp()
+{
+    int count = m_topMutipTabBarWidget->count();
+    for (int i = 0; i < count; i++) {
+        QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        if(closeView==nullptr) {
+            qDebug() << "close error view:" << current_name;
+            continue;
+        } else {
+
+            // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
+            if ( !closeView->getDrawParam()->getModify()
+                         && 1 == m_topMutipTabBarWidget->count()
+                 && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
+                emit signalLastTabBarRequestClose();
+                return;
+            }
+
+            qDebug() << "close view:" << current_name;
+            bool editFlag = closeView->getDrawParam()->getModify();
+
+            this->tabItemCloseRequested(current_name);
+
+            if(editFlag){
+                break;
+            }
+        }
+    }
+}
+
+void CCentralwidget::viewChanged(QString viewName)
+{
+    qDebug() << "viewChanged" << viewName;
+
+    // [0] 判断当前新显示的视图是否为空
+    CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByViewName(viewName);
+    if (nullptr == view) {
+        qDebug() << "can not find viewName:" << viewName;
+
+        // 判断标签栏是否还有元素，值为0时表示关闭所有的视图,此时应该最少保持有一个窗口在显示
+        if (0 == m_topMutipTabBarWidget->count()) {
+            qDebug() << "window has none view,create new view at least one";
+            // [0] 判断是否已经打开此文件,已经打开则显示此文件
+            QString nextTabBarName = m_topMutipTabBarWidget->getNextTabBarDefaultName();
+            if (m_topMutipTabBarWidget->tabBarNameIsExist(nextTabBarName)) {
+                qDebug() << "create same name Scence,deepin-draw will not create.";
+                return;
+            }
+            createNewScense(nextTabBarName);
+            m_topMutipTabBarWidget->addTabBarItem();
+        }
+        return;
+    }
+
+    // [1] 鼠标选择工具回到默认状态
+    m_leftToolbar->slotShortCutSelect();
+
+    // [2] 替换最新的视图到当前显示界上
+    CManageViewSigleton::GetInstance()->setCurView(view);
+    m_stackedLayout->setCurrentWidget(view);
+    //initSceneRect();
+
+    // [3] 鼠标选择工具回到默认状态
+    m_leftToolbar->slotShortCutSelect();
+
+    // [4] 还原比例显示
+    slotSetScale(view->getScale());
+
+    // [5] 更新主题
+    switchTheme(systemTheme);
+}
+
+void CCentralwidget::tabItemCloseRequested(QString viewName)
+{
+    bool modify = CManageViewSigleton::GetInstance()->getViewByViewName(viewName)->getDrawParam()->getModify();
+    qDebug() << "tabItemCloseRequested:" << viewName << "modify:" << modify;
+    // 判断当前关闭项是否已经被修改
+    if (!modify) {
+        closeCurrentScenseView();
+        return;
+    } else {
+        emit signalCloseModifyScence();
+    }
+}
+
+void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
+{
+    for (int i=0; i < viewNames.count(); i++) {
+        QString current_name = viewNames.at(i);
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        qDebug() << "close view:" << current_name;
+        if(closeView==nullptr) {
+            qDebug() << "close error view:" << current_name;
+            continue;
+        } else {
+
+//            qDebug() << "close view:" << current_name;
+            bool editFlag = closeView->getDrawParam()->getModify();
+
+            m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
+
+            if(editFlag){
+                emit signalCloseModifyScence();
+                break;
+            }else {
+                closeCurrentScenseView();
+            }
+        }
+    }
+}
+
+void CCentralwidget::slotLoadDragOrPasteFile(QString path)
+{
+    // 此函数主要是截断是否已经有打开过的ddf文件，避免重复打开操作
+    QStringList tempfilePathList = path.split("\n");
+    slotLoadDragOrPasteFile(tempfilePathList);
+}
+
+void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
+{
+    qDebug() << "slotLoadDragOrPasteFile:" << files;
+    QString ddfPath = "";
+    for (int i = 0; i < files.size(); i++) {
+        if (QFileInfo(files[i]).suffix().toLower() == ("ddf")) {
+            ddfPath = files[i].replace("file://", "");
+            QString fileName = ddfPath;
+            fileName = fileName.split('/').last();
+            // 如果ddf打开则自动跳转到打开的标签，不存在则打开文件
+            if (m_topMutipTabBarWidget->tabBarNameIsExist(fileName)) {
+                emit signalDDFFileOpened(fileName);
+                return;
+            }
+        }
+    }
+    emit signalTransmitLoadDragOrPasteFile(files);
 }
 
 void CCentralwidget::slotShowExportDialog()
 {
-    m_pDrawScene->clearSelection();
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
     m_exportImageDialog->showMe();
 }
-
 
 void CCentralwidget::slotSetScale(const qreal scale)
 {
     emit signalSetScale(scale);
 }
 
-QPixmap CCentralwidget::getSceneImage(int type)
+QImage CCentralwidget::getSceneImage(int type)
 {
-    QPixmap pixmap(m_pDrawScene->sceneRect().width(), m_pDrawScene->sceneRect().height());
+    QImage image(static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().width(), static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().height(), QImage::Format_ARGB32);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(type);
     if (type == 2) {
-        pixmap.fill(Qt::transparent);
-        m_pDrawScene->setBackgroundBrush(Qt::transparent);
+        image.fill(Qt::transparent);
+        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(Qt::transparent);
     }
-    QPainter painter(&pixmap);
+    QPainter painter(&image);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    m_pDrawScene->render(&painter);
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
     if (type == 2) {
         resetSceneBackgroundBrush();
     }
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
 
-    return  pixmap;
+    return  image;
 }
 
 void CCentralwidget::initConnect()
 {
-    //图片选中后相应操作
-    connect(this, SIGNAL(signalPassPictureOper(int )), m_pDrawScene, SLOT(picOperation(int )));
     //导入图片信号槽
     connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
-
     connect(m_leftToolbar, SIGNAL(signalBegainCut()), this, SLOT(slotShowCutItem()));
-
-    connect(m_pDrawScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
-    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
-//    connect(m_pDrawScene, &CDrawScene::signalChangeToSelect, m_pGraphicsView, &CGraphicsView::slotStopContinuousDrawing);
-
-    connect(m_pGraphicsView, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
-
-    connect(m_pDrawScene, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
-            m_pGraphicsView, SLOT(itemMoved(QGraphicsItem *, QPointF)));
-    connect(m_pDrawScene, SIGNAL(itemAdded(QGraphicsItem *)),
-            m_pGraphicsView, SLOT(itemAdded(QGraphicsItem *)));
-    connect(m_pDrawScene, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
-            m_pGraphicsView, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(m_pDrawScene, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )),
-            m_pGraphicsView, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )));
-    connect(m_pDrawScene, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
-            m_pGraphicsView, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
-
-    connect(m_pDrawScene, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int )),
-            m_pGraphicsView, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int )));
-    connect(m_pDrawScene, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )),
-            m_pGraphicsView, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
-
-    connect(m_pDrawScene, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, int )),
-            m_pGraphicsView, SLOT(itemPenTypeChange(CGraphicsPenItem *, int)));
-
-    connect(m_pDrawScene, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int )),
-            m_pGraphicsView, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int )));
-
-    connect(m_pDrawScene, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, int )),
-            m_pGraphicsView, SLOT(itemLineTypeChange(CGraphicsLineItem *, int)));
-
-    connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
-    connect(m_pDrawScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_pGraphicsView, SLOT(slotRestContextMenuAfterQuitCut()));
-
-    connect(m_pDrawScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
-    connect(m_pDrawScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
-
-
-    connect(m_pGraphicsView, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
-    connect(m_pGraphicsView, SIGNAL(singalTransmitEndLoadDDF()), m_leftToolbar, SLOT(slotShortCutSelect()));
-
-    //主菜单栏中点击打开导入图片
-    connect(m_pGraphicsView, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
-
-    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), m_pDrawScene, SLOT(drawToolChange(int)));
-
-    //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), m_pGraphicsView, SLOT(slotDoCutScene()));
-
-    //如果是裁剪模式点击工具栏的菜单则执行裁剪
-    connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), m_pGraphicsView, SLOT(slotDoCutScene()));
 
     connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 
-    connect(m_pGraphicsView, SIGNAL(signalLoadDragOrPasteFile(QString)), this, SIGNAL(signalTransmitLoadDragOrPasteFile(QString)));
-    connect(m_pGraphicsView, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));
-    connect(m_pDrawScene, SIGNAL(signalSceneCut(QRectF)), m_pGraphicsView, SLOT(itemSceneCut(QRectF)));
-
+    // 连接顶部菜单添加、标签改变、删除信号
+    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);
+    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalItemChanged, this, &CCentralwidget::viewChanged);
+    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemCloseRequested, this, &CCentralwidget::tabItemCloseRequested);
+    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::tabItemsCloseRequested);
 }
 
 

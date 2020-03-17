@@ -25,6 +25,7 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QDebug>
 #include <QGraphicsBlurEffect>
 
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
@@ -120,11 +121,11 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
 
     updateGeometry();
-    painter->setPen(pen());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
     painter->drawRect(rect());
 
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
@@ -539,6 +540,72 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     this->setPos(0, 0);
 
     this->setRect(rect);
+    updateGeometry();
+}
+
+void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+{
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
+    QRectF rect = this->rect();
+    QPointF bottomRight = rect.bottomRight();
+    QPointF topLeft = rect.topLeft();
+    QPointF topRight = rect.topRight();
+    QPointF bottomLeft = rect.bottomLeft();
+    switch (dir) {
+    case CSizeHandleRect::LeftTop:
+        qDebug() << "CSizeHandleRect::LeftTop" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::Top:
+        qDebug() << "CSizeHandleRect::Top" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::RightTop:
+        qDebug() << "CSizeHandleRect::RightTop" <<  endl;
+        topRight.setX(topRight.x() + rect.width() * xScale);
+        topRight.setY(topRight.y() + rect.height() * yScale);
+        rect.setTopRight(topRight);
+        break;
+    case CSizeHandleRect::Right:
+        qDebug() << "CSizeHandleRect::Right" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::RightBottom:
+        qDebug() << "CSizeHandleRect::RightBottom" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::Bottom:
+        qDebug() << "CSizeHandleRect::Bottom" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        qDebug() << "CSizeHandleRect::LeftBottom" <<  endl;
+        bottomLeft.setX(bottomLeft.x() + rect.width() * xScale);
+        bottomLeft.setY(bottomLeft.y() + rect.height()*yScale);
+        rect.setBottomLeft(bottomLeft);
+        break;
+    case CSizeHandleRect::Left:
+        qDebug() << "CSizeHandleRect::Left" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    default:
+        break;
+    }
+    this->setRect(rect);
+    this->moveBy(offset.x(), offset.y());
     updateGeometry();
 }
 

@@ -101,6 +101,17 @@ void ColorButton::paintEvent(QPaintEvent *)
         painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
                                       this->height() - 2), RADIUS, RADIUS);
     }
+    //手动输入时，重置按钮选中状态
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor() == m_color) {
+        this->setChecked(true);
+        painter.setBrush(QBrush());
+        QPen borderPen;
+        borderPen.setWidth(2);
+        borderPen.setColor("#008eff");
+        painter.setPen(borderPen);
+        painter.drawRoundedRect(QRect(1, 1, this->width() - 2,
+                                      this->height() - 2), RADIUS, RADIUS);
+    }
 }
 
 void ColorButton::setDisableColor(bool disable)
@@ -173,6 +184,8 @@ void ColorPanel::setConfigColorByColorName(QColor color)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
 
+    resetColorBtn();
+    update();
     emit signalColorChanged();
 }
 
@@ -354,6 +367,8 @@ void ColorPanel::initConnection()
 //            qApp->focusWidget()->hide();
 //        }
 
+        resetColorBtn();
+        update();
         emit signalColorChanged();
     });
 

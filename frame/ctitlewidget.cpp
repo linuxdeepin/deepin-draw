@@ -28,7 +28,7 @@ CTitleWidget::CTitleWidget(DWidget *parent)
     : DWidget(parent)
 {
     m_title = new DLabel(this);
-    m_title->setText(tr("Unnamed Drawing"));
+    m_title->setText(tr("Draw"));
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -46,13 +46,16 @@ CTitleWidget::~CTitleWidget()
 
 void CTitleWidget::updateTitleWidget()
 {
-    QString path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
-    if (path.isEmpty()) {
-        m_title->setText(tr("Unnamed Drawing"));
-    } else {
-        int index = path.lastIndexOf("/");
-        QString name = path.mid(index + 1);
-        m_title->setText(name);
-    }
+    // 此处标题只显示画板字样
+    m_title->setText(tr("Draw"));
+
+//    QString path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
+//    if (path.isEmpty()) {
+//        m_title->setText(tr("Draw"));
+//    } else {
+//        int index = path.lastIndexOf("/");
+//        QString name = path.mid(index + 1);
+//        m_title->setText(name);
+//    }
 }
 

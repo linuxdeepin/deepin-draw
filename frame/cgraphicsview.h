@@ -25,6 +25,7 @@
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
+class QUndoCommand;
 class CDDFManager;
 class CGraphicsItem;
 class CGraphicsPolygonItem;
@@ -64,6 +65,12 @@ public:
     void scale(qreal scale);
 
     /**
+     * @brief scale 获取缩放接口
+     * @return scale 缩放比例
+     */
+    qreal getScale();
+
+    /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
     void showSaveDDFDialog(bool);
@@ -95,7 +102,13 @@ public:
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
+    /**
+     * @brief pushUndoStack　入撤销栈
+     */
+    void pushUndoStack(QUndoCommand *cmd);
 
+    bool getModify() const;
+    void setModify(bool isModify);
 
 protected:
     /**
@@ -197,6 +210,11 @@ signals:
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
      */
     void signalLoadDragOrPasteFile(QString);
+
+    /**
+     * @brief signalSaveFileStatus 保存文件状态信号
+     */
+    void signalSaveFileStatus(bool);
 
 public slots:
 
@@ -481,8 +499,6 @@ private:
 
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
-
-    CDrawParamSigleton *m_drawParam;//数据
 
 private:
     /**

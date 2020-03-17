@@ -7,6 +7,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
 
 #include <DApplication>
 #include <QGraphicsScene>
@@ -126,7 +127,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->setBrush(brush());
     painter->drawPath(getPath());
 
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
@@ -152,6 +153,12 @@ void CGraphicsMasicoItem::setPixmap()
         int textItemIndex = -1;
         QTextCursor textCursor;
 
+        auto curScene = static_cast<CDrawScene *>(scene());
+        auto itemsMgr = curScene->getItemsMgr();
+        auto itemsMgrFlag = itemsMgr->isVisible();
+        if (itemsMgrFlag) {
+            itemsMgr->setVisible(false);
+        }
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
@@ -172,14 +179,19 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        curScene->getDrawParam()->setRenderImage(2);
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
-        CDrawScene::GetInstance()->resetSceneBackgroundBrush();
+        curScene->getDrawParam()->setRenderImage(0);
+
+        curScene->resetSceneBackgroundBrush();
+        if (itemsMgrFlag) {
+            itemsMgr->setVisible(true);
+        }
+
 //        this->scene()->setBackgroundBrush(Qt::transparent);
 
         //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
@@ -304,20 +316,15 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
-            if (item->type() > QGraphicsItem::UserType) {
+            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType ) {
 
                 if (item->type() == BlurType && item != this) {
                     retList.push_back(item);
                     continue;
                 }
                 qreal itemZValue = item->zValue();
-                if (thisZValue > itemZValue) {
+                if (thisZValue < itemZValue) {
                     retList.push_back(item);
-                } else if (qFuzzyCompare(thisZValue, itemZValue)) {
-                    int indexOther = allitems.indexOf(item);
-                    if (index > indexOther) {
-                        retList.push_back(item);
-                    }
                 }
             }
         }

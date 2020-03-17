@@ -27,6 +27,10 @@
 
 class CGraphicsItem;
 class CGraphicsRotateAngleItem;
+class CGraphicsItemSelectedMgr;
+class CGraphicsRectItem;
+class GraphicsEllipseItem;
+class QUndoCommand;
 
 class CSelectTool : public IDrawTool
 {
@@ -51,15 +55,25 @@ public:
      * @param scene 场景句柄
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
-
+private:
+    /**
+     * @brief pintToRect　任意两点确定一个矩形
+     * @param point1 任意一点
+     * @param point2 任意一点
+     */
+    QRectF pointToRect(QPointF point1, QPointF point2);
 private:
     QGraphicsItem *m_currentSelectItem;
+    QGraphicsRectItem *m_frameSelectItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
     bool m_bRotateAng;
     qreal m_rotateAng;
     QPointF m_initRotateItemPos;
     CGraphicsRotateAngleItem *m_RotateItem;
     QCursor m_textEditCursor;
+    bool m_doCopy;
+    bool m_doMove;
+    bool m_doResize;
 
 };
 

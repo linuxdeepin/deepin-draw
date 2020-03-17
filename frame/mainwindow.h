@@ -22,6 +22,7 @@
 #include <DMainWindow>
 #include <DWidget>
 #include <DGuiApplicationHelper>
+#include <DDialog>
 
 #include <QMouseEvent>
 
@@ -89,7 +90,7 @@ public slots:
      * @brief slotLoadDragOrPasteFile　粘贴或拖拽文件槽函数
      * @param files
      */
-    void slotLoadDragOrPasteFile(QString files);
+    void slotLoadDragOrPasteFile(QStringList files);
     /**
      * @brief slotOnEscButtonClick　ＥＳＣ按钮槽函数
      */
@@ -110,6 +111,23 @@ private slots:
      * @brief slotShowOpenFileDialog　显示打开文件对话框
      */
     void slotShowOpenFileDialog();
+    /**
+     * @brief slotDDFFileOpened　显示打开文件对话框
+     */
+    void slotDDFFileOpened(QString filename);
+    /**
+     * @brief slotTopToolBarSaveToDDF　保存ddf文件
+     */
+    void slotTopToolBarSaveToDDF();
+    /**
+     * @brief slotLastTabBarRequestClose　最后一个标签被关闭
+     */
+    void slotLastTabBarRequestClose();
+    /**
+     * @brief slotNewDrawScence　新建一个标签
+     */
+    void slotNewDrawScence();
+
 private:
     TopToolbar *m_topToolbar;
     CCentralwidget *m_centralWidget;
@@ -119,6 +137,7 @@ private:
     QAction *m_quitMode;
     QAction *m_showCut;
     QString tmpPictruePath;
+    DDialog m_dialog; // 最后一个标签被关闭提示框
 
 
 private:
@@ -130,6 +149,12 @@ private:
      * @brief initUI　初始化ＵＩ
      */
     void initUI();
+    /**
+     * @brief showDragOrOpenFile　显示拖拽或者打开文件
+     * @param files 文件列表路径
+     * @param isOPenFile 是否是打开文件
+     */
+    void showDragOrOpenFile(QStringList files,bool isOPenFile);
 
 };
 

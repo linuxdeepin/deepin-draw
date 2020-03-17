@@ -154,17 +154,25 @@ void CPenWidget::initConnection()
         clearOtherSelections(m_straightline);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentPenType(EPenType::straight);
         emit signalPenAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_arrowline);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentPenType(EPenType::arrow);
         emit signalPenAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     ///线宽
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalPenAttributeChanged();
+    });
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 }
 

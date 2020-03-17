@@ -56,7 +56,7 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    painter->setPen(Qt::NoPen);
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         painter->setBrush(QColor("#ececf8"));
     } else {
