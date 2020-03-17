@@ -150,7 +150,9 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 void CCutTool::createCutItem(CDrawScene *scene)
 {
     if (nullptr != m_pCutItem ) {
-        return;
+        delete m_pCutItem;
+        m_pCutItem = nullptr;
+//        return;
     }
 
     scene->clearSelection();
