@@ -475,7 +475,7 @@ void CDrawScene::doCutScene()
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
         if (nullptr != pTool) {
             QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect();
-            if (static_cast<CCutTool *>(pTool)->getModifyFlag()) {
+            if (!rect.isNull() && static_cast<CCutTool *>(pTool)->getModifyFlag()) {
                 emit signalSceneCut(rect);
             }
             quitCutMode();

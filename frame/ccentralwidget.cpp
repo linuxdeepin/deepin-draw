@@ -126,13 +126,17 @@ void CCentralwidget::createNewScenseByscencePath(QString scencePath)
 {
     QString tabbarName = scencePath.split('/').last();
     // 取消ddf后缀
-    tabbarName.replace(".ddf","");
+    tabbarName.replace(".ddf", "");
     createNewScenseByDragFile(tabbarName);
     m_topMutipTabBarWidget->setTabBarTooltipName(tabbarName, tabbarName);
 }
 
 void CCentralwidget::createNewScense(QString scenceName)
 {
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        CManageViewSigleton::GetInstance()->getCurView()->slotDoCutScene();
+    }
+
     CGraphicsView *newview = new CGraphicsView(this);
     CManageViewSigleton::GetInstance()->addView(newview);
     auto curScene = new CDrawScene(newview);
@@ -191,7 +195,7 @@ void CCentralwidget::createNewScense(QString scenceName)
     connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), curScene, SLOT(drawToolChange(int)));
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
+//    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
 
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
@@ -213,7 +217,7 @@ void CCentralwidget::closeCurrentScenseView()
         // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
         if ( /*!closeView->getDrawParam()->getModify()
                      && */1 == m_topMutipTabBarWidget->count()
-             /*&& closeView->getDrawParam()->getDdfSavePath().isEmpty()*/) {
+            /*&& closeView->getDrawParam()->getDdfSavePath().isEmpty()*/) {
 
             qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
             emit signalLastTabBarRequestClose();
@@ -255,11 +259,11 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
 void CCentralwidget::slotSaveFileStatus(bool status)
 {
     if (status) {
-        qDebug()<<"Ctrl_S Save:"<<m_isCloseNow;
-        if(!m_isCloseNow) {
+        qDebug() << "Ctrl_S Save:" << m_isCloseNow;
+        if (!m_isCloseNow) {
             // nothing  to do
             m_isCloseNow = false;
-        }else {
+        } else {
             closeCurrentScenseView();
         }
     }
@@ -459,15 +463,15 @@ void CCentralwidget::slotQuitApp()
     for (int i = 0; i < count; i++) {
         QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
         CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
-        if(closeView==nullptr) {
+        if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
 
             // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
             if ( !closeView->getDrawParam()->getModify()
-                         && 1 == m_topMutipTabBarWidget->count()
-                 && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
+                    && 1 == m_topMutipTabBarWidget->count()
+                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
                 emit signalLastTabBarRequestClose();
                 return;
             }
@@ -477,7 +481,7 @@ void CCentralwidget::slotQuitApp()
 
             this->tabItemCloseRequested(current_name);
 
-            if(editFlag){
+            if (editFlag) {
                 break;
             }
         }
@@ -541,11 +545,11 @@ void CCentralwidget::tabItemCloseRequested(QString viewName)
 
 void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
 {
-    for (int i=0; i < viewNames.count(); i++) {
+    for (int i = 0; i < viewNames.count(); i++) {
         QString current_name = viewNames.at(i);
         CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
         qDebug() << "close view:" << current_name;
-        if(closeView==nullptr) {
+        if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
@@ -555,10 +559,10 @@ void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
 
             m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
 
-            if(editFlag){
+            if (editFlag) {
                 emit signalCloseModifyScence();
                 break;
-            }else {
+            } else {
                 closeCurrentScenseView();
             }
         }
@@ -635,6 +639,11 @@ void CCentralwidget::initConnect()
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalItemChanged, this, &CCentralwidget::viewChanged);
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemCloseRequested, this, &CCentralwidget::tabItemCloseRequested);
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::tabItemsCloseRequested);
+
+    connect(m_leftToolbar, &CLeftToolBar::singalDoCutFromLeftToolBar, this, [ = ]() {
+        CGraphicsView *newview = CManageViewSigleton::GetInstance()->getCurView();
+        newview->slotDoCutScene();
+    });
 }
 
 

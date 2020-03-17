@@ -338,7 +338,7 @@ public slots:
      */
     void itemSceneCut(QRectF newRect);
 
-private slots:
+public slots:
 
     /**
      * @brief slotOnCut 剪切图元
