@@ -19,10 +19,11 @@
 #include "commonshapewidget.h"
 
 #include <DLabel>
-
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QDebug>
+
+#include "drawshape/cdrawparamsigleton.h"
 
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -51,6 +52,17 @@ void CommonshapeWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
     m_sepLine->updateTheme();
+}
+
+void CommonshapeWidget::setRectXRedius(int redius)
+{
+    m_rediusSpinbox->setValue(redius);
+}
+
+void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
+{
+    m_rediusLable->setVisible(visible);
+    m_rediusSpinbox->setVisible(visible);
 }
 
 void CommonshapeWidget::initUI()
@@ -93,7 +105,18 @@ void CommonshapeWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(lwLabel);
     layout->addWidget(m_sideWidthWidget);
+
+    m_rediusLable = new DLabel(this);
+    m_rediusLable->setText(tr("Radius"));
+    m_rediusLable->setFont(ft1);
+    layout->addWidget(m_rediusLable);
+
+    m_rediusSpinbox = new DSpinBox(this);
+    m_rediusSpinbox->setMinimum(0);
+    m_rediusSpinbox->setMaximum(1000);
+    layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
+
     setLayout(layout);
 }
 
@@ -121,10 +144,9 @@ void CommonshapeWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalCommonShapeChanged();
     });
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
+
+    ///圆角半径
+    connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
 }
 
 void CommonshapeWidget::updateCommonShapWidget()
@@ -132,6 +154,11 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_fillBtn->updateConfigColor();
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
+}
+
+void CommonshapeWidget::slotRectRediusChanged(int redius)
+{
+    emit signalRectRediusChanged(redius);
 }
 
 QPoint CommonshapeWidget::getBtnPosition(const DPushButton *btn)

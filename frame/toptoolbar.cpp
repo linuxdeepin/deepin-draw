@@ -316,15 +316,23 @@ void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
     case::selection:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_titleWidget->updateTitleWidget();
         m_stackWidget->setCurrentWidget(m_titleWidget);
         break;
     case::importPicture:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_stackWidget->setCurrentWidget(m_picWidget);
         break;
     case::rectangle:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
+        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
+        m_commonShapeWidget->updateCommonShapWidget();
+        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+        break;
     case::ellipse:
     case::triangle:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_commonShapeWidget->updateCommonShapWidget();
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
@@ -518,6 +526,13 @@ void TopToolbar::slotHideColorPanel()
     }
 }
 
+void TopToolbar::slotRectRediusChanged(int value)
+{
+    qDebug() << "CTopToolbar::slotRectRediusChanged value = " << value;
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
+    emit signalAttributeChanged();
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
@@ -566,6 +581,7 @@ void TopToolbar::initConnection()
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
     connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
     ///polygonalStar
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);

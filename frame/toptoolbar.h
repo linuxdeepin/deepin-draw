@@ -176,6 +176,10 @@ public slots:
      * @brief slotHideColorPanel　隐藏调色板
      */
     void slotHideColorPanel();
+    /**
+     * @brief slotRectRediusChanged　圆角矩形半径
+     */
+    void slotRectRediusChanged(int value);
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式

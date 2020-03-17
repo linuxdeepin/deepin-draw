@@ -132,10 +132,22 @@ public:
         */
     void setViewName(QString name);
 
+    /**
+       * @brief getRectXRedius　获取矩形圆角半径
+       * @return 矩形圆角半径
+       */
+    int getRectXRedius() const;
+    /**
+        * @brief setRectXRedius　设置矩形圆角半径
+        * @param redius 矩形圆角半径
+        */
+    void setRectXRedius(int redius);
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
     QColor m_nFillColor;
+    int m_rectXRedius;//矩形圆角半径,默认x，y相同，后期有需要再添加y
 
     int m_radiusNum; //多角星半径
     int m_anchorNum;//多角星锚点数

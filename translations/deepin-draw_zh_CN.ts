@@ -51,14 +51,14 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="58"/>
-        <location filename="../frame/ccentralwidget.cpp" line="301"/>
-        <location filename="../frame/ccentralwidget.cpp" line="306"/>
+        <location filename="../frame/ccentralwidget.cpp" line="59"/>
+        <location filename="../frame/ccentralwidget.cpp" line="310"/>
+        <location filename="../frame/ccentralwidget.cpp" line="315"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="266"/>
+        <location filename="../frame/ccentralwidget.cpp" line="275"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -306,27 +306,27 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1179"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1197"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1181"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1199"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1187"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1205"/>
         <source>Unnamed.ddf</source>
         <translation>未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1201"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1219"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1203"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1221"/>
         <source>The file name is too long</source>
         <translation>文件名过长，请尝试用短点的名字</translation>
     </message>
@@ -502,9 +502,14 @@
 <context>
     <name>CommonshapeWidget</name>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="76"/>
+        <location filename="../frame/commonshapewidget.cpp" line="88"/>
         <source>Width</source>
         <translation>描边粗细</translation>
+    </message>
+    <message>
+        <location filename="../frame/commonshapewidget.cpp" line="110"/>
+        <source>Radius</source>
+        <translation>圆角</translation>
     </message>
 </context>
 <context>
@@ -568,7 +573,7 @@
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="292"/>
+        <location filename="../frame/mainwindow.cpp" line="294"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>

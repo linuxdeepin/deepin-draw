@@ -532,6 +532,13 @@ void CGraphicsView::itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush bru
     m_pUndoStack->push(setPropertyCommand);
 }
 
+void CGraphicsView::itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange)
+{
+    auto curScene = dynamic_cast<CDrawScene *>(scene());
+    QUndoCommand *setRectXRediusCommand = new CSetRectXRediusCommand(curScene, item, xRedius, bChange);
+    m_pUndoStack->push(setRectXRediusCommand);
+}
+
 void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());

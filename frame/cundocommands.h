@@ -29,6 +29,7 @@
 class QGraphicsScene;
 class QGraphicsItem;
 class CGraphicsItem;
+class CGraphicsRectItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
@@ -229,6 +230,27 @@ private:
     QBrush m_newBrush;
     bool m_bPenChange;
     bool m_bBrushChange;
+};
+
+/**
+ * @brief The CSetRectXRediusCommand class 设置矩形圆角属性撤消重做命令
+ */
+class CSetRectXRediusCommand : public QUndoCommand
+{
+public:
+    explicit CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent = nullptr);
+    ~CSetRectXRediusCommand();
+
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+
+private:
+    CDrawScene *myGraphicsScene;
+    CGraphicsRectItem *m_pItem;
+    int m_oldRectXRedius;
+    int m_newRectXRedius;
+    bool m_bRectXRediusChange;
 };
 
 

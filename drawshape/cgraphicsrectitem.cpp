@@ -115,6 +115,17 @@ void CGraphicsRectItem::initRect()
     this->setAcceptHoverEvents(true);
 }
 
+void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius)
+{
+    m_xRedius = xRedius;
+    m_yRedius = yRedius;
+}
+
+int CGraphicsRectItem::getXRedius()
+{
+    return  m_xRedius;
+}
+
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -123,7 +134,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     updateGeometry();
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
-    painter->drawRect(rect());
+    painter->drawRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
@@ -612,6 +623,7 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 void CGraphicsRectItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsRectItem * >(item)->setRect(this->rect());
+    static_cast<CGraphicsRectItem * >(item)->setXYRedius(m_xRedius, m_yRedius);
     CGraphicsItem::duplicate(item);
 }
 
@@ -631,6 +643,8 @@ CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
     unit.data.pRect = new SGraphicsRectUnitData();
     unit.data.pRect->topLeft = this->m_topLeftPoint;
     unit.data.pRect->bottomRight = this->m_bottomRightPoint;
+    unit.data.pRect->xRedius = this->m_xRedius;
+    unit.data.pRect->yRedius = this->m_yRedius;
 
     return unit;
 }

@@ -24,6 +24,7 @@
 
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
+class CGraphicsRectItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
@@ -189,6 +190,12 @@ signals:
      */
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
 
+    /**
+     * @brief itemRectXRediusChange 矩形圆角属性修改
+     * @param xRedius 圆角半径
+     * @param bChange
+     */
+    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
     /**
      * @brief itemPolygonPointChange 多边形边数更改
      * @param item

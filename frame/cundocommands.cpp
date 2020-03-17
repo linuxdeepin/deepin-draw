@@ -594,6 +594,44 @@ void CSetPropertyCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
+
+CSetRectXRediusCommand::CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent)
+    : QUndoCommand (parent)
+    , myGraphicsScene(scene)
+    , m_pItem(item)
+    , m_newRectXRedius(redius)
+    , m_bRectXRediusChange(bRediusChange)
+{
+    m_oldRectXRedius = item->getXRedius();
+}
+
+CSetRectXRediusCommand::~CSetRectXRediusCommand()
+{
+
+}
+
+void CSetRectXRediusCommand::undo()
+{
+    if (m_bRectXRediusChange) {
+        m_pItem->setXYRedius(m_oldRectXRedius, m_oldRectXRedius);
+    }
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
+}
+
+void CSetRectXRediusCommand::redo()
+{
+    if (m_bRectXRediusChange) {
+        m_pItem->setXYRedius(m_newRectXRedius, m_newRectXRedius);
+        m_pItem->update();
+    }
+
+    myGraphicsScene->setModify(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+    myGraphicsScene->updateBlurItem(m_pItem);
+}
+
 CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum)
     : m_pItem(item)
     , m_nNewNum(newNum)

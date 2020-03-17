@@ -61,6 +61,17 @@ public:
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    /**
+     * @brief setXYRedius 设置矩形圆角半径
+     * @param xRedius x方向半径
+     * @param yRedius y方向半径
+     */
+    void setXYRedius(int xRedius, int yRedius);
+    /**
+     * @brief getXYRedius 默认返回一个，返回圆角半径
+     * @return
+     */
+    int getXRedius();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
@@ -75,6 +86,8 @@ private:
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
+    int m_xRedius;
+    int m_yRedius;
 };
 
 #endif // CGRAPHICSRECTITEM_H

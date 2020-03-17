@@ -47,6 +47,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_lineType(straightType)
     , m_renderImage(0)
     , m_bSelectAlling(false)
+    , m_rectXRedius(5)
 {
     m_textFont.setPointSizeF(14);
 }
@@ -385,5 +386,15 @@ QString CDrawParamSigleton::viewName() const
 void CDrawParamSigleton::setViewName(QString name)
 {
     m_viewName = name;
+}
+
+int CDrawParamSigleton::getRectXRedius() const
+{
+    return m_rectXRedius;
+}
+
+void CDrawParamSigleton::setRectXRedius(int redius)
+{
+    m_rectXRedius = redius;
 }
 

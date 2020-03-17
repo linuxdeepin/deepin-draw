@@ -76,6 +76,8 @@ CDrawScene::CDrawScene(CGraphicsView *view)
             view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )));
     connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
             view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
+    connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
+            view, SLOT(itemRectXRediusChange(CGraphicsRectItem *, int, bool)));
 
     connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int )),
             view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int )));
@@ -233,6 +235,13 @@ void CDrawScene::attributeChanged()
 //                    tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
 //                    tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
                 }
+                if (item->type() == RectType) {
+                    if (getDrawParam()->getRectXRedius() != static_cast<CGraphicsPolygonItem *>(item)->getXRedius()) {
+                        emit itemRectXRediusChange(static_cast<CGraphicsRectItem *>(item), this->getDrawParam()->getRectXRedius(),
+                                                   this->getDrawParam()->getRectXRedius() != static_cast<CGraphicsRectItem *>(item)->getXRedius());
+                    }
+                }
+
             }
 
 
@@ -308,7 +317,12 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
 
         if (flag) {
             switch (tmpItem->type()) {
-            case RectType:
+            case RectType: {
+                getDrawParam()->setRectXRedius(static_cast<CGraphicsRectItem *>(tmpItem)->getXRedius());
+                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
+                getDrawParam()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
+            }
+            break;
             case EllipseType:
             case TriangleType:
                 getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
@@ -674,7 +688,7 @@ CDrawParamSigleton *CDrawScene::getDrawParam()
 
 bool CDrawScene::getModify() const
 {
-    m_drawParam->getModify();
+    return m_drawParam->getModify();
 }
 
 void CDrawScene::setModify(bool isModify)

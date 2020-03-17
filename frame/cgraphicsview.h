@@ -28,6 +28,7 @@ class QUndoStack;
 class QUndoCommand;
 class CDDFManager;
 class CGraphicsItem;
+class CGraphicsRectItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
@@ -258,6 +259,14 @@ public slots:
      * @param bBrushChange
      */
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
+
+    /**
+    * @brief itemPropertyChange
+    * @param item
+    * @param xRedius
+    * @param bChange
+    */
+    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
 
     /**
      * @brief itemPolygonPointChange

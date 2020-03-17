@@ -48,6 +48,8 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
         m_sPointPress = event->scenePos();
         m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        int redius = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius();
+        m_pRectItem->setXYRedius(redius, redius);
         m_pRectItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pRectItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
 //    QGraphicsBlurEffect *e0 = new QGraphicsBlurEffect();

@@ -40,6 +40,9 @@
 //    QColor col;
 //};
 
+//版本号
+enum VersionNum {RoundRect = 1};
+
 //图元头部
 struct SGraphicsUnitHead {
     qint8 headCheck[4];          //头部校验
@@ -114,17 +117,38 @@ struct SGraphicsUnitTail {
 struct SGraphicsRectUnitData {
     QPointF topLeft;
     QPointF bottomRight;
+    int xRedius;
+    int yRedius;
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsRectUnitData &rectUnitData)
     {
         out << rectUnitData.topLeft;
         out << rectUnitData.bottomRight;
+        out << rectUnitData.xRedius;
+        out << rectUnitData.xRedius;
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsRectUnitData &rectUnitData)
     {
-        in >> rectUnitData.topLeft;
-        in >> rectUnitData.bottomRight;
+        qint64 pos = in.device()->pos();
+        in.device()->seek(0);
+        quint32 type;
+        in >> type;
+        int version;
+        in >> version;
+        in.device()->seek(pos);
+        if (type == (quint32)0xA0B0C0D0 && version == RoundRect) {
+            in >> rectUnitData.topLeft;
+            in >> rectUnitData.bottomRight;
+            in >> rectUnitData.xRedius;
+            in >> rectUnitData.yRedius;
+        } else {
+            in >> rectUnitData.topLeft;
+            in >> rectUnitData.bottomRight;
+            rectUnitData.xRedius = 0;
+            rectUnitData.yRedius = 0;
+        }
+
         return in;
     }
 };
@@ -464,6 +488,7 @@ struct CGraphicsUnit {
 
 //整个图元数据
 struct CGraphics {
+    qint64 version;   //数据版本
     qint64 unitCount;   //图元数量
     QRectF rect;    // 画板大小和位置
     QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合

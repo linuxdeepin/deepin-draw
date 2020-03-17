@@ -84,6 +84,8 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         if (writeFile.open(QIODevice::WriteOnly))
         {
             QDataStream out(&writeFile);
+            out << (quint32)0xA0B0C0D0;
+            out << RoundRect;
             out << m_graphics.unitCount;
             out << m_graphics.rect;
 
@@ -152,7 +154,15 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         if (readFile.open(QIODevice::ReadOnly))
         {
             QDataStream in(&readFile);
-
+            quint32 type;
+            in >> type;
+            int version;
+            in >> version;
+//            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
+//            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
+            if (type != (quint32)0xA0B0C0D0) {
+                in.device()->seek(0);
+            }
             in >> m_graphics.unitCount;
             in >> m_graphics.rect;
 
@@ -167,6 +177,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
+                    item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
                     emit signalAddItem(item);
 
                     if (unit.data.pRect) {
@@ -256,6 +267,8 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
 
             }
+            in >> m_graphics.version;
+            qDebug() << "loadDDF m_graphics.version = " << m_graphics.version << endl;
             readFile.close();
             emit signalLoadDDFComplete();
         }
