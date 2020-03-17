@@ -215,8 +215,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                         static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->cursorPositionChanged();
                     }
                     QGraphicsItem *currentSelectItem = nullptr;
-                    for (auto curItem:selectItems) {
-                        if(curItem->type() > QGraphicsItem::UserType && curItem->type() < MgrType){
+                    for (auto curItem : selectItems) {
+                        if (curItem->type() > QGraphicsItem::UserType && curItem->type() < MgrType) {
                             currentSelectItem = curItem;
                             break;
                         }
@@ -448,8 +448,8 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             QList<QGraphicsItem *> items = scene->items(m_frameSelectItem->rect());
 
             QGraphicsItem *currentSelectItem = nullptr;
-            for (auto curItem:items) {
-                if(curItem->type() > QGraphicsItem::UserType && curItem->type() < MgrType){
+            for (auto curItem : items) {
+                if (curItem->type() > QGraphicsItem::UserType && curItem->type() < MgrType) {
                     currentSelectItem = curItem;
                     break;
                 }
@@ -556,6 +556,13 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         }
 
         m_doMove = false;
+    }
+    //更新模糊图元
+    QList<QGraphicsItem *> allitems = scene->items();
+    foreach (QGraphicsItem *item, allitems) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+        }
     }
     scene->mouseEvent(event);
 
