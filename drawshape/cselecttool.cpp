@@ -347,6 +347,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
 
                 m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
+                m_RotateItem->setZValue(scene->getMaxZValue()+1);
+
                 scene->addItem(m_RotateItem);
                 m_initRotateItemPos.setX(centerToScence.x());
 
