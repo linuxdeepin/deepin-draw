@@ -269,6 +269,34 @@ void CCentralwidget::slotSaveFileStatus(bool status)
         } else {
             closeCurrentScenseView();
         }
+        // [2] 判断当前是否需要关闭其它标签
+        slotCloseOtherTabBar();
+    }
+}
+
+void CCentralwidget::slotCloseOtherTabBar()
+{
+    // 此函数的作用是关闭 m_closeTabList 中的标签
+    // 需要每次在保存或者不保存后进行调用判断
+    int count = m_closeTabList.size();
+    for (int i=0; i < count; i++) {
+        QString current_name = m_closeTabList.first();
+        m_closeTabList.removeOne(current_name);
+        m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        if(closeView==nullptr) {
+            qDebug() << "close error view:" << current_name;
+            continue;
+        } else {
+            bool editFlag = closeView->getDrawParam()->getModify();
+            qDebug() << "slot CloseOtherTabBar:" << current_name << editFlag;
+            if(editFlag){
+                emit signalCloseModifyScence();
+                break;
+            }else {
+                closeCurrentScenseView();
+            }
+        }
     }
 }
 
@@ -361,12 +389,15 @@ void CCentralwidget::slotSaveToDDF(bool isCloseNow)
 
 void CCentralwidget::slotDoNotSaveToDDF()
 {
+    // [0] 关闭当前view
     closeCurrentScenseView();
-//    if ( 1 == m_topMutipTabBarWidget->count()) {
-//        qDebug() << "close last one ScenseView.";
-//        emit signalLastTabBarRequestClose();
-//        return;
-//    }
+    //    if ( 1 == m_topMutipTabBarWidget->count()) {
+    //        qDebug() << "close last one ScenseView.";
+    //        emit signalLastTabBarRequestClose();
+    //        return;
+    //    }
+    // [2] 判断当前是否需要关闭其它标签
+    slotCloseOtherTabBar();
 }
 
 void CCentralwidget::slotSaveAs()
@@ -473,8 +504,8 @@ void CCentralwidget::slotQuitApp()
 
             // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
             if ( !closeView->getDrawParam()->getModify()
-                    && 1 == m_topMutipTabBarWidget->count()
-                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
+                 && 1 == m_topMutipTabBarWidget->count()
+                 && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
                 emit signalLastTabBarRequestClose();
                 return;
             }
@@ -553,28 +584,30 @@ void CCentralwidget::tabItemCloseRequested(QString viewName)
 
 void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
 {
-    for (int i = 0; i < viewNames.count(); i++) {
-        QString current_name = viewNames.at(i);
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
-        qDebug() << "close view:" << current_name;
-        if (closeView == nullptr) {
-            qDebug() << "close error view:" << current_name;
-            continue;
-        } else {
+    m_closeTabList = viewNames;
+    slotCloseOtherTabBar();
+    //    for (int i = 0; i < viewNames.count(); i++) {
+    //        QString current_name = viewNames.at(i);
+    //        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+    //        qDebug() << "close view:" << current_name;
+    //        if (closeView == nullptr) {
+    //            qDebug() << "close error view:" << current_name;
+    //            continue;
+    //        } else {
 
-//            qDebug() << "close view:" << current_name;
-            bool editFlag = closeView->getDrawParam()->getModify();
+    ////            qDebug() << "close view:" << current_name;
+    //            bool editFlag = closeView->getDrawParam()->getModify();
 
-            m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
+    //            m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
 
-            if (editFlag) {
-                emit signalCloseModifyScence();
-                break;
-            } else {
-                closeCurrentScenseView();
-            }
-        }
-    }
+    //            if (editFlag) {
+    //                emit signalCloseModifyScence();
+    //                break;
+    //            } else {
+    //                closeCurrentScenseView();
+    //            }
+    //        }
+    //    }
 }
 
 void CCentralwidget::slotLoadDragOrPasteFile(QString path)

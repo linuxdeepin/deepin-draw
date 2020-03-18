@@ -43,6 +43,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QTimer>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -255,7 +256,10 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::slotIsNeedSave()
 {
     if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
-        m_quitQuestionDialog->show();
+        // 此处需要进行适当延时显示才不会出错
+        QTimer::singleShot(100,this,[=](){
+            m_quitQuestionDialog->show();
+        });
     } else {
         slotContinueDoSomeThing();
     }

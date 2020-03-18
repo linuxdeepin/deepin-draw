@@ -283,6 +283,11 @@ private slots:
     */
     void slotSaveFileStatus(bool status);
 
+    /**
+     * @description: slotCloseOtherTabBar 关闭其它标签执行槽函数
+    */
+    void slotCloseOtherTabBar();
+
 private:
     CLeftToolBar *m_leftToolbar;
 
@@ -297,6 +302,7 @@ private:
     QStackedLayout *m_stackedLayout; // 视图布局器
     int systemTheme = 0;// 保存系统主题
     bool m_isCloseNow; // 判断是否是ctrl+s保存
+    QStringList m_closeTabList; // 待关闭标签列表
 
 private:
     /**
