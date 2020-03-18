@@ -134,7 +134,6 @@ private:
     CCentralwidget *m_centralWidget;
     int m_titlebarWidth;
     bool m_contrlKey;
-    DrawDialog *m_quitQuestionDialog;
     QAction *m_quitMode;
     QAction *m_showCut;
     QString tmpPictruePath;
@@ -156,7 +155,10 @@ private:
      * @param isOPenFile 是否是打开文件
      */
     void showDragOrOpenFile(QStringList files,bool isOPenFile);
-
+    /**
+     * @brief showSaveQuestionDialog　显示提示是否保存对话框
+     */
+    void showSaveQuestionDialog();
 };
 
 #endif // MAINWINDOW_H

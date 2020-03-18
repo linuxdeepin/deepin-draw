@@ -67,8 +67,6 @@ MainWindow::MainWindow(DWidget *parent)
 
 MainWindow::MainWindow(QStringList filePaths)
 {
-
-    qDebug()<<"aaaaaaaaaaaaaa---->>>"<<filePaths;
     m_centralWidget = new CCentralwidget(filePaths);
 
     initUI();
@@ -106,8 +104,6 @@ void MainWindow::initUI()
     titlebar()->setFocusPolicy(Qt::NoFocus);
 
 //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
-
-    m_quitQuestionDialog  = new DrawDialog(this);
 
     //ESC快捷键功能
     m_quitMode = new QAction(this);
@@ -167,6 +163,18 @@ void MainWindow::showDragOrOpenFile(QStringList files,bool isOPenFile)
     }
 }
 
+void MainWindow::showSaveQuestionDialog()
+{
+    DrawDialog *quitQuestionDialog = new DrawDialog(this);
+    connect(quitQuestionDialog, &DrawDialog::signalSaveToDDF, this,[=](){
+        m_centralWidget->slotSaveToDDF(true);
+    });
+
+    connect(quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), m_centralWidget, SLOT(slotDoNotSaveToDDF()));
+
+    quitQuestionDialog->show();
+}
+
 void MainWindow::initConnection()
 {
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
@@ -203,12 +211,6 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
     connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
-
-    connect(m_quitQuestionDialog, &DrawDialog::signalSaveToDDF, this,[=](){
-        m_centralWidget->slotSaveToDDF(true);
-    });
-
-    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), m_centralWidget, SLOT(slotDoNotSaveToDDF()));
 
 //    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), this, SLOT(slotContinueDoSomeThing()));
 
@@ -269,7 +271,7 @@ void MainWindow::slotIsNeedSave()
     if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
         // 此处需要进行适当延时显示才不会出错
         QTimer::singleShot(100,this,[=](){
-            m_quitQuestionDialog->show();
+            showSaveQuestionDialog();
         });
     } else {
         slotContinueDoSomeThing();
@@ -384,7 +386,7 @@ void MainWindow::slotOnEscButtonClick()
 void MainWindow::showDrawDialog()
 {
     if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
-        m_quitQuestionDialog->show();
+        showSaveQuestionDialog();
     } else {
         qApp->quit();
     }
