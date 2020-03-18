@@ -803,6 +803,10 @@ void CGraphicsView::slotOnPaste()
 
 void CGraphicsView::slotOnSelectAll()
 {
+    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+    if (currentMode != selection) {
+        return;
+    }
 //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
     scene()->clearSelection();
 //    foreach (QGraphicsItem *item, scene()->items()) {
