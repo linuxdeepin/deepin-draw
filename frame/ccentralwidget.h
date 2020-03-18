@@ -48,6 +48,7 @@ class CCentralwidget: public DWidget
     Q_OBJECT
 public:
     CCentralwidget(DWidget *parent = nullptr);
+    CCentralwidget(QStringList filepaths);
     ~CCentralwidget();
     /**
      * @brief getLeftToolBar　获取工具栏句柄

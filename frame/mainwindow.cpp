@@ -59,6 +59,18 @@ MainWindow::MainWindow(DWidget *parent)
 {
 //    setMouseTracking(true);
 
+    m_centralWidget = new CCentralwidget(this);
+
+    initUI();
+    initConnection();
+}
+
+MainWindow::MainWindow(QStringList filePaths)
+{
+
+    qDebug()<<"aaaaaaaaaaaaaa---->>>"<<filePaths;
+    m_centralWidget = new CCentralwidget(filePaths);
+
     initUI();
     initConnection();
 }
@@ -78,7 +90,6 @@ void MainWindow::initUI()
         setMinimumSize(QSize(1152, 768));
     }
 
-    m_centralWidget = new CCentralwidget(this);
     m_centralWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_centralWidget);
@@ -453,22 +464,26 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
 void MainWindow::openImage(QString path, bool isStartByDDF)
 {
+    // 此函数是命令行调用进行处理的相关代码
     if (!path.isEmpty()) {
-        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-            m_centralWidget->getGraphicsView()->slotQuitCutMode();
-        }
-        if (QFileInfo(path).suffix().toLower()  == "ddf") {
-            if (isStartByDDF) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
-            } else {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-            }
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
-        } else {
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
-            tmpPictruePath = path;
-        }
-        slotIsNeedSave();
+        // 新建一个标签页
+        showDragOrOpenFile(QStringList(path),isStartByDDF);
+
+//        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+//            m_centralWidget->getGraphicsView()->slotQuitCutMode();
+//        }
+//        if (QFileInfo(path).suffix().toLower()  == "ddf") {
+//            if (isStartByDDF) {
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
+//            } else {
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
+//            }
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
+//        } else {
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
+//            tmpPictruePath = path;
+//        }
+//        slotIsNeedSave();
     }
 }
 

@@ -108,18 +108,21 @@ int main(int argc, char *argv[])
     cmdParser.addOption(activeWindowOption);
     cmdParser.process(a);
 
-    QString path = "";
+    QStringList paths;
     QStringList pas = cmdParser.positionalArguments();
-    if (pas.length() >= 1) {
-        if (QUrl(pas.first()).isLocalFile())
-            path =  QUrl(pas.first()).toLocalFile();
-        else
-            path = pas.first();
+    for (int  i = 0; i < pas.count(); i++) {
+        if(QUrl(pas.at(i)).isLocalFile()) {
+            paths.append(QUrl(pas.first()).toLocalFile());
+        } else {
+            paths.append(pas.at(i));
+        }
     }
 
     if (a.isRunning()) { //判断实例是否已经运行
         qDebug() << "deepin-draw is already running";
-        a.sendMessage(path, 4000); //4s后激活前个实例
+        for (int i = 0; i < paths.count(); i++) {
+            a.sendMessage(paths.at(i), 2000); //1s后激活前个实例
+        }
         return EXIT_SUCCESS;
     }
 
@@ -157,7 +160,7 @@ int main(int argc, char *argv[])
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
-    MainWindow w;
+    MainWindow w(paths);
 
 
 //    QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));

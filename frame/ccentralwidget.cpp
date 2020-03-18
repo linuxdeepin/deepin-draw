@@ -58,6 +58,40 @@ CCentralwidget::CCentralwidget(DWidget *parent)
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
     m_topMutipTabBarWidget->setDefaultTabBarName(tr("Unnamed"));
 
+    // 创建一个默认的画板
+    createNewScense(tr("Unnamed"));
+    CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName("Unnamed"));
+    initSceneRect();
+    // 顶部菜单栏进行创建
+    m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"));
+
+    initUI();
+    initConnect();
+}
+
+CCentralwidget::CCentralwidget(QStringList filepaths)
+{
+    m_stackedLayout = new QStackedLayout();
+    m_hLayout = new QHBoxLayout();
+    m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
+    m_pictureTool = new CPictureTool(this);
+    m_leftToolbar = new CLeftToolBar();
+    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
+    m_topMutipTabBarWidget->setDefaultTabBarName(tr("Unnamed"));
+
+    if(filepaths.count()>0) {
+        for(int i = 0; i < filepaths.count(); i++){
+            createNewScenseByscencePath(filepaths.at(i));
+        }
+    } else {
+        createNewScense(tr("Unnamed"));
+        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName("Unnamed"));
+        initSceneRect();
+        // 顶部菜单栏进行创建
+        m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"));
+    }
+
     initUI();
     initConnect();
 }
@@ -342,13 +376,6 @@ void CCentralwidget::slotPastePixmap(QPixmap pixmap)
 
 void CCentralwidget::initUI()
 {
-    createNewScense(tr("Unnamed"));
-    CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName("Unnamed"));
-    initSceneRect();
-
-    // 顶部菜单栏进行创建
-    m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"));
-
     m_hLayout->setMargin(0);
     m_hLayout->setSpacing(0);
     m_hLayout->addWidget(m_leftToolbar);

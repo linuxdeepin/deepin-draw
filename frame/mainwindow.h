@@ -38,6 +38,7 @@ class MainWindow: public DMainWindow
     Q_OBJECT
 public:
     MainWindow(DWidget *parent = nullptr);
+    MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
     ~MainWindow() Q_DECL_OVERRIDE;
 
     /**
