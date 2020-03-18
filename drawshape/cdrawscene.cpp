@@ -307,7 +307,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
     QList<QGraphicsItem *> items = this->selectedItems();
     int count = items.count();
     //多选状态
-    if (count > 1) {
+    if (this->getItemsMgr()->getItems().size() > 1) {
         getDrawParam()->setSelectAllFlag(true);
         if (flag) {
             emit signalAttributeChanged(flag, RectType);
