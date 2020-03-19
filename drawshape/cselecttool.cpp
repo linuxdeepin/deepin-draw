@@ -277,7 +277,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             m_currentSelectItem = item;
             m_currentSelectItem->setSelected(true);
             m_rotateAng = m_currentSelectItem->rotation();
-            scene->changeAttribute(true, item);
+            if (multSelectItemsCount <= 1) {
+                scene->changeAttribute(true, item);
+            }
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
