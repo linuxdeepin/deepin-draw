@@ -86,6 +86,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     qDebug() << "mouse press" << endl;
     scene->getItemHighLight()->setVisible(false);
+    if ( m_highlightItem != nullptr ) {
+        m_currentSelectItem = m_highlightItem;
+    }
     m_doCopy = false;
     m_doMove = false;
     m_doResize = false;
@@ -99,10 +102,17 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
 
         //多选复制
-        if (altKeyPress && count && CSizeHandleRect::InRect == m_dragHandle) {
+        if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
-            QList<CGraphicsItem *> multSelectItems = scene->getItemsMgr()->getItems();
+            QList<CGraphicsItem *> multSelectItems;
+            if (count) {
+                multSelectItems = scene->getItemsMgr()->getItems();
+            } else if (m_currentSelectItem) {
+                multSelectItems.clear();
+                multSelectItems.append(static_cast<CGraphicsItem *>(m_currentSelectItem));
+            }
+
             foreach (CGraphicsItem *multSelectItem, multSelectItems) {
                 CGraphicsItem *copy = nullptr;
                 switch (multSelectItem->type()) {
@@ -149,10 +159,16 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 m_doCopy = true;
             }
 
-            scene->getItemsMgr()->clear();
-            foreach (QGraphicsItem *copyItem, copyItems) {
-                scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
+            if (count) {
+                scene->getItemsMgr()->clear();
+                foreach (QGraphicsItem *copyItem, copyItems) {
+                    scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
+                }
+            } else if (copyItems.size() > 0) {
+                scene->clearSelection();
+                m_currentSelectItem = copyItems.at(0);
             }
+
         }
 
         m_bMousePress = true;
