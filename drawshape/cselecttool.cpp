@@ -167,6 +167,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             } else if (copyItems.size() > 0) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
+                m_currentSelectItem->setSelected(true);
             }
 
         }
@@ -216,7 +217,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 selectItems.removeAll(scene->getItemsMgr());
             }
             if ( m_highlightItem != nullptr ) {
-                m_currentSelectItem = m_highlightItem;
+                if (!m_doCopy) {
+                    m_currentSelectItem = m_highlightItem;
+                }
                 scene->mouseEvent(event);
                 scene->clearSelection();
                 m_currentSelectItem->setSelected(true);
@@ -524,6 +527,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         foreach (CGraphicsItem *multSelectItem, multSelectItems) {
             copyItems.append(multSelectItem);
         }
+        if (copyItems.size() == 0) {
+            copyItems.append(static_cast<CGraphicsItem *>(m_currentSelectItem));
+        }
         QUndoCommand *addCommand = new CAddShapeCommand(scene, copyItems);
         CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
     }
@@ -620,7 +626,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 m_currentSelectItem->setSelected(true);
             }
         } else {
-
             auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
             //shift键按下时
             if (shiftKeyPress) {
@@ -643,19 +648,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
                 //return;
             }
-
-            //选中多图元
-//            if (m_currentSelectItem != nullptr) {
-//                if (CSizeHandleRect::InRect == m_dragHandle ) {
-//                    qApp->setOverrideCursor(m_textEditCursor);
-//                } else {
-//                    qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
-//                }
-//                //最后需要刷新一次
-//                if (m_currentSelectItem->type() == BlurType) {
-//                    static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
-//                }
-//            }
 
             if (m_doMove) {
                 QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, m_sPointPress, m_sPointRelease);

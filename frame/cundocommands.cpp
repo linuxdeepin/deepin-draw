@@ -1306,6 +1306,7 @@ CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleR
     m_bShiftPress = bShiftPress;
     m_bAltPress = bAltPress;
     m_offsetPos = m_beginPos - m_endPos;
+    m_bResized = false;
 }
 
 void CMultResizeShapeCommand::undo()
@@ -1315,7 +1316,10 @@ void CMultResizeShapeCommand::undo()
 
 void CMultResizeShapeCommand::redo()
 {
-
+    if (m_bResized) {
+        myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, -m_offsetPos, m_bShiftPress, m_bAltPress);
+    }
+    m_bResized = true;
 }
 
 CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
@@ -1323,14 +1327,20 @@ CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos
     myGraphicsScene = scene;
     m_endPos = endPos;
     m_beginPos = beginPos;
+    m_bMoved = false;
 }
 
 void CMultMoveShapeCommand::undo()
 {
+    qDebug() << "CMultMoveShapeCommand::undo";
     myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
 }
 
 void CMultMoveShapeCommand::redo()
 {
-
+    qDebug() << "CMultMoveShapeCommand::redo";
+    if (m_bMoved) {
+        myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
+    }
+    m_bMoved = true;
 }

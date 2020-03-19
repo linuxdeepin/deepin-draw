@@ -40,6 +40,7 @@ void CGraphicsItemSelectedMgr::clear()
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
     }
     m_listItems.clear();
+    updateGeometry();
 }
 
 QRectF CGraphicsItemSelectedMgr::boundingRect() const

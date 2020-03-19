@@ -106,6 +106,7 @@ private:
     QPointF m_offsetPos;
     bool m_bShiftPress;
     bool m_bAltPress;
+    bool m_bResized;
 };
 
 /**
@@ -125,6 +126,7 @@ private:
     CDrawScene *myGraphicsScene;
     QPointF m_beginPos;
     QPointF m_endPos;
+    bool m_bMoved;
 };
 
 /*
