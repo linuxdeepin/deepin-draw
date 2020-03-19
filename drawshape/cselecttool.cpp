@@ -354,9 +354,10 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 closeItem = getItemByMousePointToItemMinDistance(event->scenePos(), closeItems);
             }
             if (closeItem != nullptr) {
-                scene->getItemHighLight()->setPath(static_cast<CGraphicsItem *>(closeItem)->getHighLightPath());
+                auto curItem = static_cast<CGraphicsItem *>(closeItem);
+                scene->getItemHighLight()->setPos(QPoint(0, 0));
+                scene->getItemHighLight()->setPath(curItem->mapToScene(curItem->getHighLightPath()));
                 scene->getItemHighLight()->setVisible(true);
-                scene->getItemHighLight()->setPos(closeItem->pos());
                 if (!m_bMousePress) {
                     m_highlightItem = closeItem;
                 }
