@@ -672,6 +672,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }
+    if (m_RotateItem) {
+        delete m_RotateItem;
+        m_RotateItem = nullptr;
+    }
     scene->mouseEvent(event);
 }
 
