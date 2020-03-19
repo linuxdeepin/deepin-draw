@@ -145,6 +145,12 @@ void CommonshapeWidget::initConnection()
         emit signalCommonShapeChanged();
     });
 
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    });
+
+
     ///圆角半径
     connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
 }
@@ -158,6 +164,8 @@ void CommonshapeWidget::updateCommonShapWidget()
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
 {
+    //隐藏调色板
+    showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);
 }
 
