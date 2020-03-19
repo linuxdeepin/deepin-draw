@@ -112,8 +112,8 @@ void CommonshapeWidget::initUI()
     layout->addWidget(m_rediusLable);
 
     m_rediusSpinbox = new DSpinBox(this);
-    m_rediusSpinbox->setMinimum(0);
-    m_rediusSpinbox->setMaximum(1000);
+    m_rediusSpinbox->setRange(0,1000);
+    m_rediusSpinbox->setSuffix("%");
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
 

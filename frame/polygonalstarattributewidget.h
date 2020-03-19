@@ -20,8 +20,7 @@
 #define POLYGONALSTARATTRIBUTEWIDGET_H
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
+#include <DSpinBox>
 #include "drawshape/globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
@@ -47,6 +46,14 @@ public slots:
      * @brief updatePolygonalStarWidget　更新属性栏
      */
     void updatePolygonalStarWidget();
+    /**
+     * @brief slotAnchorvalueChanged　锚点值改变处理
+     */
+    void slotAnchorvalueChanged(int value);
+    /**
+     * @brief slotRadiusvalueChanged　半径值改变处理
+     */
+    void slotRadiusvalueChanged(int value);
 
 signals:
     /**
@@ -69,14 +76,9 @@ private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
-    DSlider *m_anchorNumSlider; //锚点数滑块
-    DLineEdit *m_anchorNumEdit;//锚点数编辑框
-    DSlider *m_radiusNumSlider;//半径滑块
-    DLineEdit *m_radiusNumEdit;//半径编辑框
+    DSpinBox *m_anchorNumber; //锚点数
+    DSpinBox *m_radiusNumber; //半径
     SeperatorLine *m_sepLine;
-    QAction *m_addAction;
-    QAction *m_reduceAction;
-
 
 private:
     /**

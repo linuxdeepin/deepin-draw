@@ -20,8 +20,7 @@
 #define POLYGONATTRIBUTEWIDGET_H
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
+#include <DSpinBox>
 
 #include "drawshape/globaldefine.h"
 
@@ -48,6 +47,10 @@ public slots:
      * @brief updatePolygonWidget　更新属性栏
      */
     void updatePolygonWidget();
+    /**
+     * @brief slotRadiusvalueChanged　侧边数值改变处理
+     */
+    void slotSideValueChanged(int value);
 
 signals:
     /**
@@ -70,11 +73,8 @@ private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
-    DSlider *m_sideNumSlider;
-    DLineEdit *m_sideNumEdit;
+    DSpinBox *m_sideNumSlider;
     SeperatorLine *m_sepLine;
-    QAction *m_sideNumAddAction;
-    QAction *m_sideNumReduceAction;
 
 private:
     /**
