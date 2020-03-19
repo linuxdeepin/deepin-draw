@@ -54,12 +54,12 @@
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    return info1->zValue() <= info2->zValue();
+    return info1->zValue() >= info2->zValue();
 }
 //降序排列用
 static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    return info1->zValue() >= info2->zValue();
+    return info1->zValue() <= info2->zValue();
 }
 
 CSelectTool::CSelectTool ()
@@ -268,80 +268,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    //鼠标移动到item边缘时item高亮
-    QPointF leftTop(event->scenePos().x() - 3, event->scenePos().y() - 3);
-    QPointF bottomRight(event->scenePos().x() + 3, event->scenePos().y() + 3);
-    QRectF rect(leftTop, bottomRight);
-    QList<QGraphicsItem *> closeAllItems = scene->items(rect);
-    for (int i = closeAllItems.size() - 1; i >= 0; i--) {
-        if (closeAllItems.at(i)->zValue() == 0.0) {
-            closeAllItems.removeAt(i);
-            continue;
-        }
-        if (closeAllItems[i]->type() <= QGraphicsItem::UserType || closeAllItems[i]->type() >= EGraphicUserType::MgrType) {
-            closeAllItems.removeAt(i);
-        }
-    }
-    QGraphicsItem *closeItem = nullptr;
-    m_highlightItem = nullptr;
-    scene->getItemHighLight()->setVisible(false);
-    QList<QGraphicsItem *> closeItems;
-    if (closeAllItems.size() > 0) {
-        //过滤掉有填充的图层以下的图元
-        qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortASC);
-        for (int i = closeAllItems.size() - 1; i >= 0; i--) {
-            closeItems.append(closeAllItems.at(i));
-            if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0) {
-                break;
-            }
-        }
-        qSort(closeItems.begin(), closeItems.end(), zValueSortDES);
-        //QPainterPathStroker
-        for (int i = 0; i < closeItems.size(); i++) {
-            QPainterPathStroker stroker;
-            QPainterPath path;
-            stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
-            path = stroker.createStroke(static_cast<CGraphicsItem *>(closeItems.at(i))->getHighLightPath());
-            if (path.contains(event->scenePos())) {
-                closeItem = closeItems.at(i);
-                break;
-            }
-        }
-        //填充
-        if (closeItem == nullptr) {
-            for (int i = 0; i < closeItems.size(); i++) {
-                if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0) {
-                    closeItem = closeItems.at(i);
-                    break;
-                }
-            }
-        }
-        //最近
-        if (closeItem == nullptr) {
-            closeItem = getItemByMousePointToItemMinDistance(event->scenePos(), closeItems);
-        }
-        if (closeItem != nullptr) {
-            scene->getItemHighLight()->setPath(static_cast<CGraphicsItem *>(closeItem)->getHighLightPath());
-            scene->getItemHighLight()->setVisible(true);
-            scene->getItemHighLight()->setPos(closeItem->pos());
-            m_highlightItem = closeItem;
-        } else {
-            scene->getItemHighLight()->setVisible(false);
-        }
-    }
-    if (m_bMousePress) {
-        scene->getItemHighLight()->setVisible(false);
-        scene->update();
-    }
-    //左键按下，出现框选矩形
-    if (m_bMousePress) {
-        m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, event->scenePos()));
-    }
-
-    // 再判断一次
+    //碰撞检测
     QList<QGraphicsItem *> items = scene->selectedItems();
     int multSelectItemsCount = scene->getItemsMgr()->getItems().size();
-
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
         if (item != m_currentSelectItem) {
@@ -352,25 +281,111 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
-        //scene->setCursor(Qt::ArrowCursor);
         m_currentSelectItem = nullptr;
-        //qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
     }
-    // }
-    //碰撞检测
+
+
     if (items.count() != 0 && nullptr != m_currentSelectItem && !m_bMousePress) {
         CSizeHandleRect::EDirection dragHandle = static_cast<CGraphicsItem *>(m_currentSelectItem)->hitTest(event->scenePos());
 
         if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
             if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
-
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
                 qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
             }
-            //scene->setCursor(getCursor(m_dragHandle, m_bMousePress));
             m_rotateAng = m_currentSelectItem->rotation();
+        }
+    }
+    //鼠标移动到item边缘时item高亮
+    if (  m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+        QPointF leftTop(event->scenePos().x() - 3, event->scenePos().y() - 3);
+        QPointF bottomRight(event->scenePos().x() + 3, event->scenePos().y() + 3);
+        QRectF rect(leftTop, bottomRight);
+        QList<QGraphicsItem *> closeAllItems = scene->items(rect);
+        for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+            if (closeAllItems.at(i)->zValue() == 0.0) {
+                closeAllItems.removeAt(i);
+                continue;
+            }
+            if (closeAllItems[i]->type() <= QGraphicsItem::UserType || closeAllItems[i]->type() >= EGraphicUserType::MgrType) {
+                closeAllItems.removeAt(i);
+            }
+        }
+        QGraphicsItem *closeItem = nullptr;
+        m_highlightItem = nullptr;
+        scene->getItemHighLight()->setVisible(false);
+        QList<QGraphicsItem *> closeItems;
+        if (closeAllItems.size() > 0) {
+            //过滤掉有填充的图层以下的图元
+            qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortDES);
+            for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+                closeItems.append(closeAllItems.at(i));
+                if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0) {
+                    break;
+                }
+            }
+            //QPainterPathStroker
+            for (int i = 0; i < closeItems.size(); i++) {
+                QPainterPathStroker stroker;
+                QPainterPath path;
+                stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
+                auto curItem = static_cast<CGraphicsItem *>(closeItems.at(i));
+                path = curItem->mapToScene(curItem->getHighLightPath());
+                path = stroker.createStroke(path);
+                if (path.contains(event->scenePos())) {
+                    closeItem = closeItems.at(i);
+                    break;
+                }
+            }
+            //填充
+            if (closeItem == nullptr) {
+                for (int i = 0; i < closeItems.size(); i++) {
+                    if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0) {
+
+                        closeItem = closeItems.at(i);
+                        break;
+                    }
+                }
+            }
+            //最近
+            if (closeItem == nullptr) {
+                closeItem = getItemByMousePointToItemMinDistance(event->scenePos(), closeItems);
+            }
+            if (closeItem != nullptr) {
+                scene->getItemHighLight()->setPath(static_cast<CGraphicsItem *>(closeItem)->getHighLightPath());
+                scene->getItemHighLight()->setVisible(true);
+                scene->getItemHighLight()->setPos(closeItem->pos());
+                if (!m_bMousePress) {
+                    m_highlightItem = closeItem;
+                }
+
+            } else {
+                scene->getItemHighLight()->setVisible(false);
+            }
+        }
+        if (m_bMousePress) {
+            scene->getItemHighLight()->setVisible(false);
+            scene->update();
+        }
+    }
+
+    //左键按下，出现框选矩形
+    if (m_bMousePress) {
+        m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, event->scenePos()));
+    }
+
+    // 再判断一次
+    if (  m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+        scene->clearSelection();
+        if (m_currentSelectItem) {
+            items.clear();
+            m_currentSelectItem->setSelected(true);
+            items.append(m_currentSelectItem);
+        } else {
+            m_dragHandle = CSizeHandleRect::None;
+            m_currentSelectItem = nullptr;
         }
     }
 
@@ -428,13 +443,12 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
 
                 m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
-                m_RotateItem->setZValue(scene->getMaxZValue()+1);
+                m_RotateItem->setZValue(scene->getMaxZValue() + 1);
 
                 scene->addItem(m_RotateItem);
                 m_initRotateItemPos.setX(centerToScence.x());
 
                 qreal space = 65. / scale;
-
                 m_initRotateItemPos.setY(centerToScence.y() - static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().height() / 2 - space);
                 m_RotateItem->setPos(m_initRotateItemPos);
             } else {
@@ -457,6 +471,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     m_doMove = true;
                     scene->mouseEvent(event);
                 }
+                scene->mouseEvent(event);
             } else if (m_currentSelectItem != nullptr ) {
                 if (m_currentSelectItem->type() != TextType) {
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
@@ -467,7 +482,6 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     }
                 }
             }
-            scene->mouseEvent(event);
         }
     } else {
         scene->mouseEvent(event);
@@ -562,7 +576,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                         emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
                     }
                 } else if (m_dragHandle == CSizeHandleRect::InRect) {
-                    QList<QGraphicsItem *> items = scene->selectedItems();
+                    qDebug() << "items.count() = " << items.count();
 
 
                     if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
@@ -708,7 +722,9 @@ double CSelectTool::getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGr
     double min_distance = 100.0;
     for (double j = 0.01; j < 1.0; j = j + 1.0 / detectPointCount) {
         // 获取当前点的位置
-        QPointF current_shap_point = detectItems->shape().pointAtPercent(j);
+        //QPointF current_shap_point = detectItems->shape().pointAtPercent(j);
+        QPointF current_shap_point = static_cast<CGraphicsItem *>(detectItems)->getHighLightPath().pointAtPercent(j);
+
         // 计算当前点到鼠标的距离
         double current_mouse_to_shape_distance = sqrt(pow(mousePoint.x() - current_shap_point.x(), 2) + pow(mousePoint.y() - current_shap_point.y(), 2));
         // 获取当前形状的最小距离

@@ -1297,5 +1297,9 @@ void CGraphicsPenItem::calcVertexes()
 
 QPainterPath CGraphicsPenItem::getHighLightPath()
 {
+//    QPainterPathStroker ps;
+//    QPainterPath p = ps.createStroke(m_path);
+//    p.addPath(m_path);
+
     return m_path;
 }
