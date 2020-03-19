@@ -70,7 +70,8 @@ enum EGraphicUserType {
     PictureType,        //图片
     CutType,            //裁剪
     BlurType,           //模糊
-    MgrType =  QGraphicsItem::UserType + 100    //多选管理图元
+    MgrType =  QGraphicsItem::UserType + 100,    //多选管理图元
+    hightLightType,    //高亮图元
 };
 
 enum ECutAttributeType {

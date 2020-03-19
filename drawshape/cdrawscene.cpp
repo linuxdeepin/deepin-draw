@@ -34,6 +34,7 @@
 #include "cgraphicslineitem.h"
 #include "cpictureitem.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cgraphicsitemhighlight.h"
 #include "drawshape/cpictureitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -116,6 +117,11 @@ void CDrawScene::initScene()
     connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
         CManageViewSigleton::GetInstance()->CheckIsModify();
     });
+
+
+    m_pHighLightItem = new CGraphicsItemHighLight();
+    this->addItem(m_pHighLightItem);
+    m_pHighLightItem->setZValue(10000);
 }
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -684,6 +690,11 @@ CGraphicsItemSelectedMgr *CDrawScene::getItemsMgr() const
     return m_pGroupItem;
 }
 
+CGraphicsItemHighLight *CDrawScene::getItemHighLight() const
+{
+    return m_pHighLightItem;
+}
+
 CDrawParamSigleton *CDrawScene::getDrawParam()
 {
     return m_drawParam;
@@ -703,6 +714,7 @@ void CDrawScene::setModify(bool isModify)
 void CDrawScene::setMaxZValue(qreal zValue)
 {
     m_pGroupItem->setZValue(zValue + 10000);
+    m_pHighLightItem->setZValue(zValue + 10001);
     m_maxZValue = zValue;
 }
 

@@ -33,6 +33,7 @@
 #include "cgraphicsmasicoitem.h"
 #include "drawshape/cpictureitem.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cgraphicsitemhighlight.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
@@ -50,7 +51,16 @@
 #include <QTextEdit>
 #include <QSvgGenerator>
 #include <QtMath>
-
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() <= info2->zValue();
+}
+//降序排列用
+static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() >= info2->zValue();
+}
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
@@ -64,6 +74,7 @@ CSelectTool::CSelectTool ()
 {
     m_frameSelectItem = new QGraphicsRectItem();
     m_frameSelectItem->setVisible(false);
+    m_highlightItem = nullptr;
 }
 
 CSelectTool::~CSelectTool()
@@ -74,6 +85,7 @@ CSelectTool::~CSelectTool()
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     qDebug() << "mouse press" << endl;
+    scene->getItemHighLight()->setVisible(false);
     m_doCopy = false;
     m_doMove = false;
     m_doResize = false;
@@ -187,8 +199,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (selectItems.contains(scene->getItemsMgr())) {
                 selectItems.removeAll(scene->getItemsMgr());
             }
-            if ( selectItems.count() != 0 ) {
-                m_currentSelectItem = selectItems.first();
+            if ( m_highlightItem != nullptr ) {
+                m_currentSelectItem = m_highlightItem;
+                scene->mouseEvent(event);
+                scene->clearSelection();
+                m_currentSelectItem->setSelected(true);
                 //未按下shift，选中管理图元所选之外的图元，清除管理图元中所选图元
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
@@ -253,6 +268,71 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //鼠标移动到item边缘时item高亮
+    QPointF leftTop(event->scenePos().x() - 3, event->scenePos().y() - 3);
+    QPointF bottomRight(event->scenePos().x() + 3, event->scenePos().y() + 3);
+    QRectF rect(leftTop, bottomRight);
+    QList<QGraphicsItem *> closeAllItems = scene->items(rect);
+    for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+        if (closeAllItems.at(i)->zValue() == 0.0) {
+            closeAllItems.removeAt(i);
+            continue;
+        }
+        if (closeAllItems[i]->type() <= QGraphicsItem::UserType || closeAllItems[i]->type() >= EGraphicUserType::MgrType) {
+            closeAllItems.removeAt(i);
+        }
+    }
+    QGraphicsItem *closeItem = nullptr;
+    m_highlightItem = nullptr;
+    scene->getItemHighLight()->setVisible(false);
+    QList<QGraphicsItem *> closeItems;
+    if (closeAllItems.size() > 0) {
+        //过滤掉有填充的图层以下的图元
+        qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortASC);
+        for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+            closeItems.append(closeAllItems.at(i));
+            if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0) {
+                break;
+            }
+        }
+        qSort(closeItems.begin(), closeItems.end(), zValueSortDES);
+        //QPainterPathStroker
+        for (int i = 0; i < closeItems.size(); i++) {
+            QPainterPathStroker stroker;
+            QPainterPath path;
+            stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
+            path = stroker.createStroke(static_cast<CGraphicsItem *>(closeItems.at(i))->getHighLightPath());
+            if (path.contains(event->scenePos())) {
+                closeItem = closeItems.at(i);
+                break;
+            }
+        }
+        //填充
+        if (closeItem == nullptr) {
+            for (int i = 0; i < closeItems.size(); i++) {
+                if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0) {
+                    closeItem = closeItems.at(i);
+                    break;
+                }
+            }
+        }
+        //最近
+        if (closeItem == nullptr) {
+            closeItem = getItemByMousePointToItemMinDistance(event->scenePos(), closeItems);
+        }
+        if (closeItem != nullptr) {
+            scene->getItemHighLight()->setPath(static_cast<CGraphicsItem *>(closeItem)->getHighLightPath());
+            scene->getItemHighLight()->setVisible(true);
+            scene->getItemHighLight()->setPos(closeItem->pos());
+            m_highlightItem = closeItem;
+        } else {
+            scene->getItemHighLight()->setVisible(false);
+        }
+    }
+    if (m_bMousePress) {
+        scene->getItemHighLight()->setVisible(false);
+        scene->update();
+    }
     //左键按下，出现框选矩形
     if (m_bMousePress) {
         m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, event->scenePos()));
@@ -266,6 +346,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         QGraphicsItem *item = items.first();
         if (item != m_currentSelectItem) {
             m_currentSelectItem = item;
+            m_currentSelectItem->setSelected(true);
             m_rotateAng = m_currentSelectItem->rotation();
             scene->changeAttribute(true, item);
         }
@@ -501,6 +582,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     }
                 }
             }
+            if ( m_currentSelectItem != nullptr ) {
+                scene->clearSelection();
+                m_currentSelectItem->setSelected(true);
+            }
         } else {
 
             auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
@@ -559,6 +644,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         m_doMove = false;
     }
+    scene->mouseEvent(event);
+    if ( m_currentSelectItem != nullptr ) {
+        scene->clearSelection();
+        m_currentSelectItem->setSelected(true);
+        scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
+    }
     //更新模糊图元
     QList<QGraphicsItem *> allitems = scene->items();
     foreach (QGraphicsItem *item, allitems) {
@@ -567,20 +658,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         }
     }
     scene->mouseEvent(event);
-
-/////////////////////////////////////////////////////////
-//    QList<QGraphicsItem *> list = scene->selectedItems();
-//    if (list.count() == 2) {
-//        for (QGraphicsItem *item : list) {
-//            if (item == m_currentSelectItem) {
-//                item->setSelected(false);
-//                list.removeOne(item);
-//            }
-//        }
-//        m_currentSelectItem = static_cast<CGraphicsItem *>(list.first());
-//        scene->changeAttribute(true, list.first());
-//    }
-/////////////////////////////////////////////////////////
 }
 
 QRectF CSelectTool::pointToRect(QPointF point1, QPointF point2)
@@ -607,4 +684,36 @@ QRectF CSelectTool::pointToRect(QPointF point1, QPointF point2)
     return  rectangle;
 }
 
+QGraphicsItem *CSelectTool::getItemByMousePointToItemMinDistance(QPointF mousePoint, QList<QGraphicsItem *> detectItems)
+{
+    if (detectItems.size() <= 0) {
+        return nullptr;
+    }
+    QGraphicsItem *minDistanceItem = detectItems.at(0);
+    double minDistance = getItemMinDistanceByMousePointToItem(mousePoint, minDistanceItem);
+    for (int i = 1; i < detectItems.count(); i++) {
+        double detectDistance = getItemMinDistanceByMousePointToItem(mousePoint, detectItems.at(i));
+        if (detectDistance < minDistance) {
+            minDistanceItem = detectItems.at(i);
+        }
+    }
+    return minDistanceItem;
+}
+
+double CSelectTool::getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems)
+{
+    // 定义从path中取出的比较点个数
+    double detectPointCount = 100;
+
+    double min_distance = 100.0;
+    for (double j = 0.01; j < 1.0; j = j + 1.0 / detectPointCount) {
+        // 获取当前点的位置
+        QPointF current_shap_point = detectItems->shape().pointAtPercent(j);
+        // 计算当前点到鼠标的距离
+        double current_mouse_to_shape_distance = sqrt(pow(mousePoint.x() - current_shap_point.x(), 2) + pow(mousePoint.y() - current_shap_point.y(), 2));
+        // 获取当前形状的最小距离
+        min_distance = qMin(min_distance, current_mouse_to_shape_distance);
+    }
+    return min_distance;
+}
 

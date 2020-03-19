@@ -35,7 +35,8 @@ HEADERS += \
     $$PWD/sitemdata.h \
     $$PWD/cgraphicsmasicoitem.h \
     $$PWD/cmasicotool.h \
-    $$PWD/cgraphicsitemselectedmgr.h
+    $$PWD/cgraphicsitemselectedmgr.h \
+    $$PWD/cgraphicsitemhighlight.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -72,7 +73,8 @@ SOURCES += \
     $$PWD/cbuttonrect.cpp \
     $$PWD/cgraphicsmasicoitem.cpp \
     $$PWD/cmasicotool.cpp \
-    $$PWD/cgraphicsitemselectedmgr.cpp
+    $$PWD/cgraphicsitemselectedmgr.cpp \
+    $$PWD/cgraphicsitemhighlight.cpp
 
 
 

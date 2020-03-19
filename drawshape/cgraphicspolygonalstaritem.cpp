@@ -109,6 +109,14 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
     return  unit;
 }
 
+QPainterPath CGraphicsPolygonalStarItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addPolygon(m_polygon);
+    path.closeSubpath();
+    return path;
+}
+
 void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 {
     CGraphicsRectItem::setRect(rect);

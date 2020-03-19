@@ -31,6 +31,7 @@ class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CGraphicsItemSelectedMgr;
+class CGraphicsItemHighLight;
 class CDrawParamSigleton;
 class CGraphicsView;
 
@@ -113,6 +114,7 @@ public:
     void switchTheme(int type);
 
     CGraphicsItemSelectedMgr *getItemsMgr() const;
+    CGraphicsItemHighLight *getItemHighLight() const;
 
     /**
      * @brief getCDrawParam　获取绘制数据
@@ -337,6 +339,7 @@ private:
     qreal m_maxZValue;
 
     CGraphicsItemSelectedMgr *m_pGroupItem;
+    CGraphicsItemHighLight *m_pHighLightItem;
 
 };
 

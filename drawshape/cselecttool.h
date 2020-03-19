@@ -28,6 +28,7 @@
 class CGraphicsItem;
 class CGraphicsRotateAngleItem;
 class CGraphicsItemSelectedMgr;
+class CGraphicsItemHighLight;
 class CGraphicsRectItem;
 class GraphicsEllipseItem;
 class QUndoCommand;
@@ -62,8 +63,21 @@ private:
      * @param point2 任意一点
      */
     QRectF pointToRect(QPointF point1, QPointF point2);
+    /**
+     * @brief getItemByPointToItemMinDistance　获取点到 item 集合中距离最短的item
+     * @param mousePoint 鼠标点
+     * @param detectItems 待比较的 QGraphicsItem
+     */
+    QGraphicsItem *getItemByMousePointToItemMinDistance(QPointF mousePoint, QList<QGraphicsItem *> detectItems);
+    /**
+     * @brief getItemByPointToItemMinDistance　获取点到 item 最短的距离
+     * @param mousePoint 鼠标点
+     * @param detectItems 待比较的 QGraphicsItem
+     */
+    double getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems);
 private:
     QGraphicsItem *m_currentSelectItem;
+    QGraphicsItem *m_highlightItem;
     QGraphicsRectItem *m_frameSelectItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
     bool m_bRotateAng;

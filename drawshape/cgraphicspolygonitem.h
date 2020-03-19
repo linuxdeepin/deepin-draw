@@ -47,6 +47,11 @@ public:
     int nPointsCount() const;
 
     void setListPoints(const QVector<QPointF> &listPoints);
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
 
 
 protected:

@@ -126,6 +126,13 @@ int CGraphicsRectItem::getXRedius()
     return  m_xRedius;
 }
 
+QPainterPath CGraphicsRectItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    return path;
+}
+
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

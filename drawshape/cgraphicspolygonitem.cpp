@@ -177,6 +177,14 @@ void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)
     m_listPoints = listPoints;
 }
 
+QPainterPath CGraphicsPolygonItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addPolygon(m_listPoints);
+    path.closeSubpath();
+    return path;
+}
+
 int CGraphicsPolygonItem::nPointsCount() const
 {
     return m_nPointsCount;

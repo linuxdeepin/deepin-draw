@@ -470,3 +470,10 @@ void CGraphicsLineItem::calcVertexes()
     m_arrow.push_back(p2);
     m_arrow.push_back(p3);
 }
+
+QPainterPath CGraphicsLineItem::getHighLightPath()
+{
+    QPainterPath path(m_line.p1());
+    path.lineTo(m_line.p2());
+    return path;
+}

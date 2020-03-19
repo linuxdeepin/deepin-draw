@@ -82,6 +82,11 @@ bool CGraphicsItem::getMutiSelect() const
     return curSelectFlag;
 }
 
+QPainterPath CGraphicsItem::getHighLightPath()
+{
+
+}
+
 int CGraphicsItem::type() const
 {
     return Type;

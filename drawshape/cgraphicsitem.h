@@ -129,6 +129,12 @@ public:
      */
     bool getMutiSelect() const;
 
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
+
 protected:
     /**
      * @brief updateGeometry 更新状态矩形位置

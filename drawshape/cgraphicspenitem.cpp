@@ -1294,3 +1294,8 @@ void CGraphicsPenItem::calcVertexes()
 
     calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
 }
+
+QPainterPath CGraphicsPenItem::getHighLightPath()
+{
+    return m_path;
+}

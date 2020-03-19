@@ -37,7 +37,11 @@ public:
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
-
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 

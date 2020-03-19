@@ -65,6 +65,11 @@ public:
     void setDrawFlag(bool flag);
 
     void calcVertexes();
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;

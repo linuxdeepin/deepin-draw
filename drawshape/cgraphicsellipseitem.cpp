@@ -84,6 +84,13 @@ CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const
     return unit;
 }
 
+QPainterPath CGraphicsEllipseItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addEllipse(rect());
+    return path;
+}
+
 void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
