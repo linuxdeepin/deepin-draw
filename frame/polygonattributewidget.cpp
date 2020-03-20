@@ -82,7 +82,8 @@ void PolygonAttributeWidget::initUI()
     sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSpinBox(this);
-    m_sideNumSlider->setRange(4,10);
+    m_sideNumSlider->setFixedSize(QSize(100, 36));
+    m_sideNumSlider->setRange(4, 10);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -131,7 +132,7 @@ void PolygonAttributeWidget::initConnection()
     });
 
     ///多边形边数
-    connect(m_sideNumSlider,SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
+    connect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
     m_sideNumSlider->setValue(5);
 }
 

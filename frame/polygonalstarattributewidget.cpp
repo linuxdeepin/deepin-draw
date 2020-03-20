@@ -83,13 +83,15 @@ void PolygonalStarAttributeWidget::initUI()
     anchorNumLabel->setText(tr("Points"));
     anchorNumLabel->setFont(ft1);
     m_anchorNumber = new DSpinBox(this);
-    m_anchorNumber->setRange(3,50);
+    m_anchorNumber->setFixedSize(QSize(100, 36));
+    m_anchorNumber->setRange(3, 50);
 
     DLabel *radiusLabel = new DLabel(this);
     radiusLabel->setText(tr("Diameter"));
     radiusLabel->setFont(ft1);
     m_radiusNumber = new DSpinBox(this);
-    m_radiusNumber->setRange(0,100);
+    m_radiusNumber->setRange(0, 100);
+    m_radiusNumber->setFixedSize(QSize(100, 36));
     m_radiusNumber->setSuffix("%");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -142,10 +144,10 @@ void PolygonalStarAttributeWidget::initConnection()
     });
 
     //锚点数
-    connect(m_anchorNumber,SIGNAL(valueChanged(int)),this,SLOT(slotAnchorvalueChanged(int)));
+    connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
 
     //半径
-    connect(m_radiusNumber,SIGNAL(valueChanged(int)),this,SLOT(slotRadiusvalueChanged(int)));
+    connect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
 
     // 锚点数
     m_anchorNumber->setValue(5);
@@ -167,7 +169,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     int radiusNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum();
 
     if (radiusNum != m_radiusNumber->value()) {
-       m_radiusNumber->setValue(radiusNum);
+        m_radiusNumber->setValue(radiusNum);
     }
 }
 

@@ -52,11 +52,8 @@ void TextWidget::initUI()
     m_fillBtn = new TextColorButton( this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
-//    DLabel *colBtnLabel = new DLabel(this);
-//    colBtnLabel->setText(tr("填充"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-//    colBtnLabel->setFont(ft);
 
     m_textSeperatorLine = new SeperatorLine(this);
 
@@ -65,9 +62,8 @@ void TextWidget::initUI()
     fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
-    //m_fontComBox->setMinimumWidth(100);
 
-    m_fontComBox->setFixedWidth(200);
+    m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
     m_fontComBox->setEditable(true);
     m_fontComBox->lineEdit()->setReadOnly(true);
@@ -75,55 +71,33 @@ void TextWidget::initUI()
     QString strFont = m_fontComBox->currentText();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
+    m_fontHeavy = new DComboBox(this); // 字体类型
+    m_fontHeavy->setFixedSize(QSize(100, 36));
+    m_fontHeavy->addItems(QStringList{tr("Normal"), tr("Bold"), tr("Thin")});
 
     DLabel *fontsizeLabel = new DLabel(this);
-    //fontsizeLabel->setText(tr("字号"));
-    fontsizeLabel->setText(tr("Size"));
+    fontsizeLabel->setText(tr("Size")); // 字号
+    fontsizeLabel->setFixedSize(QSize(28, 20));
     fontsizeLabel->setFont(ft);
-
-    m_fontSizeSlider = new DSlider(Qt::Horizontal, this);
-
-
-    m_fontSizeSlider->setMinimum(8);
-    m_fontSizeSlider->setMaximum(500);
-    //m_fontSizeSlider->setMinimumWidth(200);
-    m_fontSizeSlider->setFixedWidth(120);
-    m_fontSizeSlider->setMaximumHeight(24);
-    m_fontSizeSlider->setValue(int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize()));
-    m_fontSizeSlider->slider()->setFocusPolicy(Qt::NoFocus);
-
-    m_fontSizeEdit = new DLineEdit(this);
-    m_fontSizeEdit->lineEdit()->setValidator(new CIntValidator(8, 999, this));
-    m_fontSizeEdit->setClearButtonEnabled(false);
-    m_fontSizeEdit->setFixedWidth(55);
-    m_fontSizeEdit->setText(QString::number(m_fontSizeSlider->value()));
-    m_fontSizeEdit->setFont(ft);
-
-
-    m_fontSizeAddAction = new QAction(this);
-    m_fontSizeAddAction->setShortcut(QKeySequence(Qt::Key_Up));
-    this->addAction(m_fontSizeAddAction);
-    m_fontSizeReduceAction = new QAction(this);
-    m_fontSizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
-    this->addAction(m_fontSizeReduceAction);
-
-
+    m_fontSize = new DSpinBox(this);
+    m_fontSize->setFixedSize(QSize(100, 36));
+    m_fontSize->setRange(8, 500);
+    m_fontSize->setSuffix("px");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-//    layout->addWidget(colBtnLabel);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_textSeperatorLine);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontFamilyLabel);
     layout->addWidget(m_fontComBox);
+    layout->addWidget(m_fontHeavy);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(fontsizeLabel);
-    layout->addWidget(m_fontSizeSlider);
-    layout->addWidget(m_fontSizeEdit);
+    layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
 }
@@ -131,6 +105,14 @@ void TextWidget::initUI()
 void TextWidget::updateTheme()
 {
     m_textSeperatorLine->updateTheme();
+}
+
+void TextWidget::slotFontSizeValueChanged(int size)
+{
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
+    emit signalTextFontSizeChanged();
+    //隐藏调色板
+    showColorPanel(DrawStatus::TextFill, QPoint(), false);
 }
 
 void TextWidget::initConnection()
@@ -155,7 +137,7 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-
+//        qDebug() << "weight:" << m_fontComBox->font().
         m_bSelect = true;
         m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
@@ -171,67 +153,23 @@ void TextWidget::initConnection()
         }
     });
 
-    ///字体大小
-    connect(m_fontSizeSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        m_fontSizeEdit->setText(QString::number(value));
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(value);
+    // 字体大小
+    connect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
+    m_fontSize->setValue(14);
+
+    // 字体重量
+    connect(m_fontHeavy, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
+        // tr("Normal"), tr("Bold"), tr("Thin")
+        if (str == tr("Bold")) {
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Bold);
+        } else if (str == tr("Thin")) {
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Thin);
+        } else {
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Normal);
+        }
         emit signalTextFontSizeChanged();
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);
-    });
-
-    connect(m_fontSizeEdit, &DLineEdit::textEdited, this, [ = ](const QString & str) {
-        if (str.isEmpty() || str == "") {
-            return ;
-        }
-        int value = str.trimmed().toInt();
-        if (value >= 0 && value < m_fontSizeSlider->slider()->minimum()) {
-            return ;
-        }
-        if (value > 500) {
-            value = 500;
-        }
-        m_fontSizeEdit->setText(QString::number(value));
-
-        m_fontSizeSlider->setValue(value);
-    });
-
-    connect(m_fontSizeEdit, &DLineEdit::editingFinished, this, [ = ]() {
-        QString str = m_fontSizeEdit->text().trimmed();
-        int value = str.toInt();
-        int minValue = m_fontSizeSlider->minimum();
-
-        int defaultFontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-
-        if (value == minValue && defaultFontSize != minValue) {
-            m_fontSizeSlider->setValue(value);
-        }
-    });
-
-    connect(m_fontSizeAddAction, &QAction::triggered, this, [ = ](bool) {
-        if (m_fontSizeEdit->lineEdit()->hasFocus()) {
-            int sideNum = m_fontSizeEdit->lineEdit()->text().trimmed().toInt();
-            sideNum++;
-            if (sideNum > 500) {
-                return ;
-            }
-            QString text = QString::number(sideNum);
-            m_fontSizeEdit->setText(text);
-            emit m_fontSizeEdit->lineEdit()->textEdited(text);
-        }
-    });
-
-    connect(m_fontSizeReduceAction, &QAction::triggered, this, [ = ](bool) {
-        if (m_fontSizeEdit->lineEdit()->hasFocus()) {
-            int sideNum = m_fontSizeEdit->lineEdit()->text().trimmed().toInt();
-            sideNum --;
-            if (sideNum < 8) {
-                return ;
-            }
-            QString text = QString::number(sideNum);
-            m_fontSizeEdit->setText(text);
-            emit m_fontSizeEdit->lineEdit()->textEdited(text);
-        }
     });
 }
 
@@ -248,21 +186,9 @@ void TextWidget::updateTextWidget()
         m_fontComBox->setCurrentText("- -");
     }
 
-//    if (m_fontComBox->currentText() != font.family()) {
-//        //m_fontComBox->setFont(font);
-
-//    }
-
     int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-
-    if (fontSize != m_fontSizeSlider->value()) {
-        m_fontSizeSlider->blockSignals(true);
-        m_fontSizeSlider->setValue(fontSize);
-        m_fontSizeSlider->blockSignals(false);
-
-        m_fontSizeEdit->blockSignals(true);
-        m_fontSizeEdit->setText(QString("%1").arg(fontSize));
-        m_fontSizeEdit->blockSignals(false);
+    if (fontSize != m_fontSize->value()) {
+        m_fontSize->setValue(fontSize);
     }
 }
 

@@ -22,11 +22,8 @@
 #include "widgets/cfontcombobox.h"
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
-#include <QAction>
-
-
+#include <DComboBox>
+#include <DSpinBox>
 
 DWIDGET_USE_NAMESPACE
 
@@ -53,6 +50,10 @@ public slots:
      * @brief updateTheme　更新主题
      */
     void updateTheme();
+    /**
+     * @brief slotFontSizeValueChanged　字体大小改变
+     */
+    void slotFontSizeValueChanged(int size);
 
 signals:
     /**
@@ -81,16 +82,13 @@ signals:
 
 private:
     TextColorButton *m_fillBtn;
-    DSlider *m_fontSizeSlider;
-    DLineEdit *m_fontSizeEdit;
     CFontComboBox *m_fontComBox;
     SeperatorLine *m_textSeperatorLine;
+    DComboBox *m_fontHeavy; // 字体的重量
+    DSpinBox *m_fontSize; // 字体的大小
 
     QString m_oriFamily;
     bool m_bSelect;
-    QAction *m_fontSizeAddAction;
-    QAction *m_fontSizeReduceAction;
-
 
 private:
     /**
