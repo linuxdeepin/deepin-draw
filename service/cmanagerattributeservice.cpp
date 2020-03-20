@@ -25,7 +25,7 @@
 CManagerAttributeService *CManagerAttributeService::instance = nullptr;
 CManagerAttributeService *CManagerAttributeService::getInstance()
 {
-    if(nullptr == instance) {
+    if (nullptr == instance) {
         instance = new CManagerAttributeService();
     }
     return instance;
@@ -33,7 +33,7 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
 
 void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items)
 {
-    if(scence!=nullptr) {
+    if (scence != nullptr) {
         m_currentScence = scence;
     }
 }
