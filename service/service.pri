@@ -1,7 +1,9 @@
 HEADERS += \
-    $$PWD/colorpickerinterface.h
+    $$PWD/colorpickerinterface.h \
+    $$PWD/cmanagerattributeservice.h
 
 SOURCES += \
-    $$PWD/colorpickerinterface.cpp
+    $$PWD/colorpickerinterface.cpp \
+    $$PWD/cmanagerattributeservice.cpp
 
 

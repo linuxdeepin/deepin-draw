@@ -20,6 +20,7 @@
 #define GLODEFINE_H
 #include <QGraphicsItem>
 enum EDrawToolMode {
+    noselected,     //未选中或无公共属性不显示
     selection,      //选择
     importPicture,  //导入图片
     rectangle,      //矩形
@@ -31,7 +32,19 @@ enum EDrawToolMode {
     pen,            //画笔
     text,           //文本
     blur,           //模糊
-    cut            //裁剪画板
+    cut             //裁剪画板
+};
+
+// 显示工具栏所有属性
+enum EDrawProperty{  // 图片、文字、马赛克根据类型全部显示
+    FillColor = 0,   // 填充颜色
+    LineWidth,       // 线宽
+    BorderColor,     // 描边颜色
+    RectRadius,      // 矩形圆角
+    Anchors,         // 锚点
+    StarRadius,      // 五角星圆角
+    SideNumber,      // 侧边数
+    LineArrowType    // 线箭头类型
 };
 
 enum ESelectMode {
