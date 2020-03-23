@@ -238,7 +238,7 @@ void CCentralwidget::createNewScense(QString scenceName)
     connect(curScene, SIGNAL(signalIsModify(bool)), this, SLOT(currentScenseViewIsModify(bool)));
 
     // 连接view保存文件状态
-    connect(newview, SIGNAL(signalSaveFileStatus(bool)), this, SLOT(slotSaveFileStatus(bool)));
+    connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
 
     // 连接view保存文件名字过长
     connect(newview, SIGNAL(signalSaveFileNameTooLong()), this, SLOT(slotSaveFileNameTooLong()));
@@ -293,7 +293,7 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
     }
 }
 
-void CCentralwidget::slotSaveFileStatus(bool status)
+void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error)
 {
     if (status) {
         qDebug() << "Ctrl_S Save:" << m_isCloseNow;
@@ -305,6 +305,8 @@ void CCentralwidget::slotSaveFileStatus(bool status)
         }
         // [2] 判断当前是否需要关闭其它标签
         slotCloseOtherTabBar();
+    } else {
+        qDebug() << "save error:" << errorString << error;
     }
 }
 

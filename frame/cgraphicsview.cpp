@@ -202,10 +202,10 @@ void CGraphicsView::initContextMenu()
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
 
-//    m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
-//    m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
-//    m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
-//    m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
+    //    m_leftAlignAct = m_contextMenu->addAction(tr("Left align"));
+    //    m_topAlignAct = m_contextMenu->addAction(tr("Top align"));
+    //    m_rightAlignAct = m_contextMenu->addAction(tr("Right align"));
+    //    m_centerAlignAct = m_contextMenu->addAction(tr("Center align"));
 
 
     m_cutScence = new QAction(this);
@@ -248,12 +248,12 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
-//    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
-//        m_bringToFrontAct->setEnabled(true);
-//        m_sendTobackAct->setEnabled(true);
-//        m_oneLayerUpAct->setEnabled(true);
-//        m_oneLayerDownAct->setEnabled(true);
-//    });
+    //    connect(m_contextMenu, &DMenu::aboutToHide, this, [ = ]() {
+    //        m_bringToFrontAct->setEnabled(true);
+    //        m_sendTobackAct->setEnabled(true);
+    //        m_oneLayerUpAct->setEnabled(true);
+    //        m_oneLayerDownAct->setEnabled(true);
+    //    });
 }
 
 void CGraphicsView::initTextContextMenu()
@@ -334,7 +334,11 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
-    connect(m_DDFManager, SIGNAL(signalContinueDoOtherThing()), this, SIGNAL(signalTransmitContinueDoOtherThing()));
+    connect(m_DDFManager, &CDDFManager::signalContinueDoOtherThing, this, [ = ]() {
+        // 发送保存状态信号
+        emit signalSaveFileStatus(m_DDFManager->getLastSaveStatus(), m_DDFManager->getSaveLastErrorString(), m_DDFManager->getSaveLastError());
+        emit signalTransmitContinueDoOtherThing();
+    });
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }
 
@@ -597,21 +601,21 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item)
 
 void CGraphicsView::slotOnCut()
 {
-//    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-//    if (itemList.isEmpty()) {
-//        return;
-//    }
+    //    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    //    if (itemList.isEmpty()) {
+    //        return;
+    //    }
 
-//    CShapeMimeData *data = new CShapeMimeData(itemList);
-//    data->setText("");
-//    QApplication::clipboard()->setMimeData(data);
+    //    CShapeMimeData *data = new CShapeMimeData(itemList);
+    //    data->setText("");
+    //    QApplication::clipboard()->setMimeData(data);
 
-//    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
-//    m_pUndoStack->push(deleteCommand);
+    //    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
+    //    m_pUndoStack->push(deleteCommand);
 
-//    if (!m_pasteAct->isEnabled()) {
-//        m_pasteAct->setEnabled(true);
-//    }
+    //    if (!m_pasteAct->isEnabled()) {
+    //        m_pasteAct->setEnabled(true);
+    //    }
 
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
@@ -659,9 +663,9 @@ void CGraphicsView::slotOnCut()
 
 void CGraphicsView::slotOnCopy()
 {
-//    if (scene()->selectedItems().isEmpty()) {
-//        return;
-//    }
+    //    if (scene()->selectedItems().isEmpty()) {
+    //        return;
+    //    }
 
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
@@ -807,13 +811,13 @@ void CGraphicsView::slotOnSelectAll()
     if (currentMode != selection) {
         return;
     }
-//    CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
+    //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
     scene()->clearSelection();
-//    foreach (QGraphicsItem *item, scene()->items()) {
-//        if (item->type() > QGraphicsItem::UserType) {
-//            item->setSelected(true);
-//        }
-//    }
+    //    foreach (QGraphicsItem *item, scene()->items()) {
+    //        if (item->type() > QGraphicsItem::UserType) {
+    //            item->setSelected(true);
+    //        }
+    //    }
 
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     foreach (QGraphicsItem *item, scene()->items()) {
@@ -836,33 +840,33 @@ void CGraphicsView::slotOnSelectAll()
         curScene->changeAttribute(true, nullptr);
     }
 
-//    CDrawParamSigleton::GetInstance()->setSelectAllFlag(false);
+    //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(false);
 }
 
 void CGraphicsView::slotOnDelete()
 {
-//    QList<QGraphicsItem *> seleteItems = scene()->selectedItems();
-//    QList<QGraphicsItem *> allItems;
+    //    QList<QGraphicsItem *> seleteItems = scene()->selectedItems();
+    //    QList<QGraphicsItem *> allItems;
 
-//    if (seleteItems.isEmpty()) {
-//        return;
-//    }
+    //    if (seleteItems.isEmpty()) {
+    //        return;
+    //    }
 
-//    for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
-//        if (item->type() > QGraphicsItem::UserType ) {
-//            allItems.push_back(item);
-//        }
+    //    for (QGraphicsItem *item : scene()->items(Qt::AscendingOrder)) {
+    //        if (item->type() > QGraphicsItem::UserType ) {
+    //            allItems.push_back(item);
+    //        }
 
-//    }
+    //    }
 
-//    if (allItems.count() != seleteItems.count()) {
-//        if (seleteItems.count() > 1) {
-//            return;
-//        }
-//        allItems.clear();
-//        allItems.push_back(seleteItems.first());
-//    }
-//    auto curScene = dynamic_cast<CDrawScene *>(scene());
+    //    if (allItems.count() != seleteItems.count()) {
+    //        if (seleteItems.count() > 1) {
+    //            return;
+    //        }
+    //        allItems.clear();
+    //        allItems.push_back(seleteItems.first());
+    //    }
+    //    auto curScene = dynamic_cast<CDrawScene *>(scene());
 
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
@@ -1191,7 +1195,7 @@ void CGraphicsView::doSaveDDF()
         showSaveDDFDialog(true);
     } else {
         m_DDFManager->saveToDDF(ddfPath, scene());
-        emit signalSaveFileStatus(true);
+        // 保存是否成功均等待信号触发后续事件
     }
 }
 
@@ -1217,8 +1221,9 @@ void CGraphicsView::showSaveDDFDialog(bool type)
             if (QFileInfo(path).suffix().toLower() != ("ddf")) {
                 path = path + ".ddf";
             }
+//            qDebug() << path << "path.length():" << path.length();
             // 判断路径是否超过255字符
-            if (path.length() > 255) {
+            if (path.toLocal8Bit().length() > 255) {
                 Dtk::Widget::DDialog log(this);
                 log.setTextFormat(Qt::RichText);
                 log.addButton(tr("OK"));
@@ -1229,7 +1234,7 @@ void CGraphicsView::showSaveDDFDialog(bool type)
                 return;
             }
             m_DDFManager->saveToDDF(path, scene());
-            emit signalSaveFileStatus(true);
+            // 保存是否成功均等待信号触发后续事件
         }
     }
 }

@@ -281,8 +281,10 @@ private slots:
     /**
      * @description: slotSaveFileStatus 保存文件状态
      * @param:  status 保存状态
+     * @param:  errorString 保存错误字符串
+     * @param:  error 保存错误
     */
-    void slotSaveFileStatus(bool status);
+    void slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error);
 
     /**
      * @description: slotCloseOtherTabBar 关闭其它标签执行槽函数
@@ -323,7 +325,7 @@ private:
     /**
      * @brief resetSceneBackgroundBrush　重置场景画刷
      */
-    void resetSceneBackgroundBrush(); 
+    void resetSceneBackgroundBrush();
     /**
      * @brief createNewScense　创建一个新的场景
      * @param scenceName 场景名字

@@ -23,6 +23,8 @@
 #include "drawshape/globaldefine.h"
 
 #include <QObject>
+#include <QFile>
+
 #include <DWidget>
 
 class QGraphicsItem;
@@ -50,6 +52,21 @@ public:
      * @param isOpenByDDF　是否是通过ＤＤＦ文件启动画板
      */
     void loadDDF(const QString &path, bool isOpenByDDF = false);
+    /**
+     * @brief getLastSaveStatus　获取上一次保存状态
+     */
+    bool getLastSaveStatus() const;
+    /**
+     * @brief getSaveLastErrorString　获取上一次保存失败原因
+     * @return QString　失败原因
+     */
+    QString getSaveLastErrorString() const;
+    /**
+     * @brief getSaveLastError　获取上一次失败错误
+     * @return QFileDevice::FileError　失败原因
+     */
+    QFileDevice::FileError getSaveLastError() const;
+
 signals:
     /**
      * @brief signalSaveDDFComplete　完成保存ＤＤＦ文件信号
@@ -110,6 +127,10 @@ private:
     CGraphics m_graphics;
     CProgressDialog *m_CProgressDialog;
     QString m_path;
+
+    bool m_lastSaveStatus; //最后一次保存状态
+    QString m_lastErrorString; //最后一次保存的错误字符串
+    QFileDevice::FileError m_lastError; // 最后一次保存的错误
 };
 
 #endif // CDDFMANAGER_H

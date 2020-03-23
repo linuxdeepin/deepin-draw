@@ -43,6 +43,9 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     : QObject(view)
     , m_CProgressDialog(new CProgressDialog(view))
     , m_view(view)
+    , m_lastSaveStatus(true)
+    , m_lastErrorString("")
+    , m_lastError(QFileDevice::NoError)
 {
     connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
     connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
@@ -80,7 +83,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
     QtConcurrent::run([ = ] {
         QFile writeFile(path);
-
+        m_lastSaveStatus = false;
         if (writeFile.open(QIODevice::WriteOnly))
         {
             QDataStream out(&writeFile);
@@ -98,7 +101,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
                 ///进度条处理
                 count ++;
-                process = (float)count / totalCount * 100;
+                process = static_cast<int>(count / totalCount * 100);
                 emit signalUpdateProcessBar(process);
 
                 ///释放内存
@@ -136,7 +139,13 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
             }
             writeFile.close();
             m_graphics.vecGraphicsUnit.clear();
+            m_lastSaveStatus = true;
+        } else
+        {
+            m_lastSaveStatus = false;
         }
+        m_lastErrorString = writeFile.errorString();
+        m_lastError = writeFile.error();
         emit signalSaveDDFComplete();
     });
 }
@@ -276,6 +285,21 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
 }
 
+bool CDDFManager::getLastSaveStatus() const
+{
+    return m_lastSaveStatus;
+}
+
+QString CDDFManager::getSaveLastErrorString() const
+{
+    return m_lastErrorString;
+}
+
+QFileDevice::FileError CDDFManager::getSaveLastError() const
+{
+    return m_lastError;
+}
+
 void CDDFManager::slotLoadDDFComplete()
 {
     m_CProgressDialog->hide();
@@ -289,7 +313,7 @@ void CDDFManager::slotSaveDDFComplete()
     m_CProgressDialog->hide();
     m_view->getDrawParam()->setDdfSavePath(m_path);
     m_view->setModify(false);
-    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {
-        emit signalContinueDoOtherThing();
-    }
+//    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {
+    emit signalContinueDoOtherThing();
+//    }
 }

@@ -214,8 +214,11 @@ signals:
 
     /**
      * @brief signalSaveFileStatus 保存文件状态信号
+     * @param bool 保存状态
+     * @param QString 错误字符串
+     * @param FileError 错误类型
      */
-    void signalSaveFileStatus(bool);
+    void signalSaveFileStatus(bool, QString, QFileDevice::FileError);
 
     /**
      * @brief signalSaveFileNameTooLong 保存文件名字过长信号
