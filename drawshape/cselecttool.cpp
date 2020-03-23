@@ -101,7 +101,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         qDebug() << "mouse press count = " << count << endl;
         bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
 
-        //多选复制
+        //多选和单选复制
         if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
@@ -206,11 +206,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
             bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
             //shift键按下时
-            if (shiftKeyPress) {
-                if (m_currentSelectItem != nullptr) {
-                    scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
-                }
-            }
             QTransform transform;
             QList<QGraphicsItem *> selectItems = scene->items(event->scenePos());
             if (selectItems.contains(scene->getItemsMgr())) {
@@ -535,7 +530,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
     m_doCopy = false;
 
-
     scene->removeItem(m_frameSelectItem);
     m_frameSelectItem->setVisible(false);
     //左键按下，出现框选矩形
@@ -563,10 +557,31 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = false;
         m_sPointRelease = event->scenePos();
-
         QPointF vectorPoint = m_sPointRelease - m_sPointPress;
 
-        if (scene->getItemsMgr()->getItems().size() < 1) {
+        auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
+        //shift键按下时
+        if (shiftKeyPress) {
+            if (currentSelectItem != nullptr) {
+                scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+            }
+            int count = scene->getItemsMgr()->getItems().size();
+            if (1 == count) {
+                scene->getItemsMgr()->hide();
+            } else if (count > 1) {
+                scene->getItemsMgr()->show();
+                scene->clearSelection();
+                scene->getItemsMgr()->setSelected(true);
+            }
+            m_bMousePress = false;
+            scene->mouseEvent(event);
+            if (count > 1) {
+                scene->clearSelection();
+                scene->getItemsMgr()->setSelected(true);
+            }
+        }
+
+        if (scene->getItemsMgr()->getItems().size() <= 1) {
             QList<QGraphicsItem *> items = scene->items(m_frameSelectItem->rect());
 
             QGraphicsItem *currentSelectItem = nullptr;
@@ -621,34 +636,14 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     }
                 }
             }
+
+            scene->mouseEvent(event);
             if ( m_currentSelectItem != nullptr ) {
                 scene->clearSelection();
                 m_currentSelectItem->setSelected(true);
+                scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
             }
         } else {
-            auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
-            //shift键按下时
-            if (shiftKeyPress) {
-                if (currentSelectItem != nullptr) {
-                    scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
-                }
-                int count = scene->getItemsMgr()->getItems().size();
-                if (1 == count) {
-                    scene->getItemsMgr()->hide();
-                } else if (count > 1) {
-                    scene->getItemsMgr()->show();
-                    scene->clearSelection();
-                    scene->getItemsMgr()->setSelected(true);
-                }
-                m_bMousePress = false;
-                scene->mouseEvent(event);
-                if (count > 1) {
-                    scene->clearSelection();
-                    scene->getItemsMgr()->setSelected(true);
-                }
-                //return;
-            }
-
             if (m_doMove) {
                 QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, m_sPointPress, m_sPointRelease);
                 CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
@@ -669,12 +664,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
         m_doMove = false;
     }
-    scene->mouseEvent(event);
-    if ( m_currentSelectItem != nullptr ) {
-        scene->clearSelection();
-        m_currentSelectItem->setSelected(true);
-        scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
-    }
+
     //更新模糊图元
     QList<QGraphicsItem *> allitems = scene->items();
     foreach (QGraphicsItem *item, allitems) {
