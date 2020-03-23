@@ -80,8 +80,8 @@ CCentralwidget::CCentralwidget(QStringList filepaths)
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
     m_topMutipTabBarWidget->setDefaultTabBarName(tr("Unnamed"));
 
-    if(filepaths.count()>0) {
-        for(int i = 0; i < filepaths.count(); i++){
+    if (filepaths.count() > 0) {
+        for (int i = 0; i < filepaths.count(); i++) {
             createNewScenseByscencePath(filepaths.at(i));
         }
     } else {
@@ -313,21 +313,21 @@ void CCentralwidget::slotCloseOtherTabBar()
     // 此函数的作用是关闭 m_closeTabList 中的标签
     // 需要每次在保存或者不保存后进行调用判断
     int count = m_closeTabList.size();
-    for (int i=0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         QString current_name = m_closeTabList.first();
         m_closeTabList.removeOne(current_name);
         m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
         CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
-        if(closeView==nullptr) {
+        if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
             bool editFlag = closeView->getDrawParam()->getModify();
             qDebug() << "slot CloseOtherTabBar:" << current_name << editFlag;
-            if(editFlag){
+            if (editFlag) {
                 emit signalCloseModifyScence();
                 break;
-            }else {
+            } else {
                 closeCurrentScenseView();
             }
         }
@@ -385,6 +385,9 @@ void CCentralwidget::initUI()
     vLayout->addWidget(m_topMutipTabBarWidget);
     vLayout->addLayout(m_hLayout);
     setLayout(vLayout);
+
+    // 只有一个标签需要隐藏多标签控件
+    m_topMutipTabBarWidget->hide();
 }
 
 void CCentralwidget::slotResetOriginPoint()
@@ -531,8 +534,8 @@ void CCentralwidget::slotQuitApp()
 
             // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
             if ( !closeView->getDrawParam()->getModify()
-                 && 1 == m_topMutipTabBarWidget->count()
-                 && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
+                    && 1 == m_topMutipTabBarWidget->count()
+                    && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
                 emit signalLastTabBarRequestClose();
                 return;
             }
@@ -594,6 +597,13 @@ void CCentralwidget::viewChanged(QString viewName)
 
     // [5] 更新主题
     switchTheme(systemTheme);
+
+    // [6] 标签显示或者隐藏判断
+    if (m_topMutipTabBarWidget->count() == 1) {
+        m_topMutipTabBarWidget->hide();
+    } else {
+        m_topMutipTabBarWidget->show();
+    }
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName)
