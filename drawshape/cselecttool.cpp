@@ -601,7 +601,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
 
                 //最后需要刷新一次
-                if (m_currentSelectItem->type() == BlurType) {
+                if (m_currentSelectItem && m_currentSelectItem->type() == BlurType) {
                     static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
                 }
             }
