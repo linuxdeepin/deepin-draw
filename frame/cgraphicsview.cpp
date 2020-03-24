@@ -1223,12 +1223,12 @@ void CGraphicsView::showSaveDDFDialog(bool type)
             }
 
             // 判断是否是隐藏文件
-            if (path.split("/").last().startsWith(".")) {
-                QString filename = path.split("/").last();
-                QString newName = path.split("/").last().replace(0, 1, "");
-                path = path.replace(filename, newName);
-                qDebug() << path;
-            }
+//            if (path.split("/").last().startsWith(".")) {
+//                QString filename = path.split("/").last();
+//                QString newName = path.split("/").last().replace(0, 1, "");
+//                path = path.replace(filename, newName);
+//                qDebug() << path;
+//            }
 
             // 判断路径是否超过255字符
             if (path.toLocal8Bit().length() > 255) {
