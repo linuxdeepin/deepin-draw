@@ -219,7 +219,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (m_currentSelectItem && static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
-                m_currentSelectItem->setSelected(true);
+                if (m_currentSelectItem) {
+                    m_currentSelectItem->setSelected(true);
+                }
                 //未按下shift，选中管理图元所选之外的图元，清除管理图元中所选图元
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
@@ -412,7 +414,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     }
 
-    if ( m_bMousePress ) {
+    if ( m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
             if (scene->getItemsMgr()->getItems().size() > 1) {
                 QPointF offsetPoint = event->scenePos() - m_sLastPress;
@@ -421,7 +423,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
                 m_doResize = true;
             } else {
-                static_cast<CGraphicsItem *>(m_currentSelectItem)->resizeTo(m_dragHandle, event->scenePos());
+                if (m_currentSelectItem) {
+                    static_cast<CGraphicsItem *>(m_currentSelectItem)->resizeTo(m_dragHandle, event->scenePos());
+                }
             }
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
             //旋转图形
@@ -565,11 +569,13 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_sPointRelease = event->scenePos();
         QPointF vectorPoint = m_sPointRelease - m_sPointPress;
 
-        auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
         //shift键按下时
         if (shiftKeyPress) {
-            if (currentSelectItem != nullptr) {
-                scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+            if (m_currentSelectItem) {
+                auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
+                if (currentSelectItem != nullptr) {
+                    scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+                }
             }
             int count = scene->getItemsMgr()->getItems().size();
             if (1 == count) {

@@ -18,6 +18,8 @@
  */
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
+#include "cgraphicsitemhighlight.h"
+#include "cgraphicsitem.h"
 #include "widgets/ctextedit.h"
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
@@ -121,6 +123,13 @@ void CGraphicsTextItem::setLastDocumentWidth(qreal width)
     m_pTextEdit->setLastDocumentWidth(width);
 }
 
+QPainterPath CGraphicsTextItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -146,6 +155,14 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
+
+    if (static_cast<CDrawScene *>(scene()) && static_cast<CDrawScene *>(scene())->selectedItems().size() == 1) {
+        CGraphicsItem *item = static_cast<CGraphicsItem *>(static_cast<CDrawScene *>(scene())->selectedItems().at(0));
+        if (item && item->type() == TextType) {
+            static_cast<CDrawScene *>(scene())->getItemHighLight()->setPos(QPoint(0, 0));
+            static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
+        }
+    }
 }
 
 void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)

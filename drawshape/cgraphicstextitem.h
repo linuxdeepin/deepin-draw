@@ -26,7 +26,7 @@
 
 class CTextEdit;
 class CGraphicsProxyWidget;
-
+class CGraphicsItemHighLight;
 
 class CGraphicsTextItem : public CGraphicsRectItem
 {
@@ -78,6 +78,11 @@ public:
     bool getManResizeFlag() const;
     void setManResizeFlag(bool flag);
     void setLastDocumentWidth(qreal width);
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
