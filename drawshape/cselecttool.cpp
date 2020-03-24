@@ -338,7 +338,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortDES);
             for (int i = closeAllItems.size() - 1; i >= 0; i--) {
                 closeItems.append(closeAllItems.at(i));
-                if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0) {
+                if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0 ||
+                        static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::PictureType) {
                     break;
                 }
             }
@@ -358,7 +359,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             //填充
             if (closeItem == nullptr) {
                 for (int i = 0; i < closeItems.size(); i++) {
-                    if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0) {
+                    if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0 ||
+                            static_cast<CGraphicsItem *>(closeItems.at(i))->type() == EGraphicUserType::PictureType) {
 
                         closeItem = closeItems.at(i);
                         break;
