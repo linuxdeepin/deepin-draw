@@ -60,7 +60,7 @@ public:
      * @param: oldName 原标签名字
      * @param: newName 新标签名字
     */
-    void updateTabBarName(QString oldName,QString newName);
+    void updateTabBarName(QString oldName, QString newName);
 
     /**
      * @description: getNextTabBarDefaultName 获取下一个默认标签名字
@@ -72,13 +72,14 @@ public:
      * @parma: tabName 标签名字
      * @parma： tooltip 提示信息
     */
-    void setTabBarTooltipName(QString tabName,QString tooltip);
+    void setTabBarTooltipName(QString tabName, QString tooltip);
+
     /**
      * @description: setTabBarTooltipName 设置子标签的提示信息
      * @parma: index 标签下标索引
      * @parma： tooltip 提示信息
     */
-    void setTabBarTooltipName(quint16 index,QString tooltip);
+    void setTabBarTooltipName(quint16 index, QString tooltip);
 
     /**
      * @description: setCurrentTabBarWithName 设置当前子标签通过名字
@@ -86,12 +87,17 @@ public:
     */
     void setCurrentTabBarWithName(QString tabName);
 
+    /**
+     * @description: getCurrentTabBarName 获取当前选中的标签名字
+    */
+    QString getCurrentTabBarName();
+
 public slots:
     /**
      * @description: addTabBarItem 添加标签
      * @param: name 标签名字
     */
-    void addTabBarItem(QString name="");
+    void addTabBarItem(QString name = "");
 
 signals:
     /**

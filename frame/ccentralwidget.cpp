@@ -298,8 +298,18 @@ void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileD
     if (status) {
         qDebug() << "Ctrl_S Save:" << m_isCloseNow;
         if (!m_isCloseNow) {
-            // nothing  to do
             m_isCloseNow = false;
+            // 设置保存路径到标签的tooltip上，并且更新标签名字
+            QString current_path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
+            QString current_file_name = current_path.split("/").last();
+            if (!current_file_name.isEmpty()) {
+                QString old_view_name = m_topMutipTabBarWidget->getCurrentTabBarName();
+                current_file_name = current_file_name.left(current_file_name.length() - 4);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(current_file_name);
+                m_topMutipTabBarWidget->updateTabBarName(old_view_name, current_file_name);
+                m_topMutipTabBarWidget->setTabBarTooltipName(current_file_name, current_file_name);
+//                qDebug() << old_view_name << current_file_name << current_file_name.replace(current_file_name.length() - 5, 4, "");
+            }
         } else {
             closeCurrentScenseView();
         }
@@ -625,28 +635,6 @@ void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
 {
     m_closeTabList = viewNames;
     slotCloseOtherTabBar();
-    //    for (int i = 0; i < viewNames.count(); i++) {
-    //        QString current_name = viewNames.at(i);
-    //        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
-    //        qDebug() << "close view:" << current_name;
-    //        if (closeView == nullptr) {
-    //            qDebug() << "close error view:" << current_name;
-    //            continue;
-    //        } else {
-
-    ////            qDebug() << "close view:" << current_name;
-    //            bool editFlag = closeView->getDrawParam()->getModify();
-
-    //            m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
-
-    //            if (editFlag) {
-    //                emit signalCloseModifyScence();
-    //                break;
-    //            } else {
-    //                closeCurrentScenseView();
-    //            }
-    //        }
-    //    }
 }
 
 void CCentralwidget::slotLoadDragOrPasteFile(QString path)

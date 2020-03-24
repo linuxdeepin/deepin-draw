@@ -192,6 +192,11 @@ void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
     }
 }
 
+QString CMultipTabBarWidget::getCurrentTabBarName()
+{
+    return this->tabText(this->currentIndex());
+}
+
 void CMultipTabBarWidget::resizeEvent(QResizeEvent *event)
 {
     DTabBar::resizeEvent(event);
