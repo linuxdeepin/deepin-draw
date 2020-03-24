@@ -216,7 +216,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     m_currentSelectItem = m_highlightItem;
                 }
                 scene->mouseEvent(event);
-                scene->clearSelection();
+                if (m_currentSelectItem && static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
+                    scene->clearSelection();
+                }
                 m_currentSelectItem->setSelected(true);
                 //未按下shift，选中管理图元所选之外的图元，清除管理图元中所选图元
                 if (!shiftKeyPress && !altKeyPress) {
@@ -397,7 +399,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
     // 再判断一次
     if (  m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
-        scene->clearSelection();
+        if (m_currentSelectItem && static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
+            scene->clearSelection();
+        }
         if (m_currentSelectItem) {
             items.clear();
             m_currentSelectItem->setSelected(true);
@@ -641,7 +645,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
             scene->mouseEvent(event);
             if ( m_currentSelectItem != nullptr ) {
-                scene->clearSelection();
+                if (static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
+                    scene->clearSelection();
+                }
+
                 m_currentSelectItem->setSelected(true);
                 scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
             }
