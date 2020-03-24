@@ -1218,10 +1218,18 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-            if (QFileInfo(path).suffix().toLower() != ("ddf")) {
+            if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
                 path = path + ".ddf";
             }
-//            qDebug() << path << "path.length():" << path.length();
+
+            // 判断是否是隐藏文件
+            if (path.split("/").last().startsWith(".")) {
+                QString filename = path.split("/").last();
+                QString newName = path.split("/").last().replace(0, 1, "");
+                path = path.replace(filename, newName);
+                qDebug() << path;
+            }
+
             // 判断路径是否超过255字符
             if (path.toLocal8Bit().length() > 255) {
                 Dtk::Widget::DDialog log(this);
