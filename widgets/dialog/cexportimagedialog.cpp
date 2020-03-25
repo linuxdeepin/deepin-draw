@@ -147,7 +147,7 @@ void CExportImageDialog::initUI()
     m_qualitySlider->setMinimum(1);
     m_qualitySlider->setMaximum(100);
     m_qualitySlider->setValue(100);
-    m_qualitySlider->setFixedSize(QSize(185, LINE_EDIT_SIZE.height()));
+    m_qualitySlider->setFixedSize(QSize(120, LINE_EDIT_SIZE.height()));
 
     m_qualityLabel = new DLabel(this);
     m_qualityLabel->setFixedSize(QSize(45, LINE_EDIT_SIZE.height()));
@@ -267,7 +267,7 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     if (index == 1) {
         QString completePath = getCompleteSavePath();
         // 判断路径是否超过255字符
-        if(completePath.length()>255) {
+        if (completePath.length() > 255) {
             Dtk::Widget::DDialog dialog(this);
             dialog.setTextFormat(Qt::RichText);
             dialog.addButton(tr("OK"));
