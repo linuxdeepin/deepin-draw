@@ -111,7 +111,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         //下层有图元才显示
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
-        int radius = 5;
+        int radius = 10;
         if (m_nBlurEffect == BlurEffect) {
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
