@@ -74,7 +74,6 @@ void TextWidget::initUI()
     m_fontHeavy = new DComboBox(this); // 字体类型
     m_fontHeavy->setFixedSize(QSize(100, 36));
     m_fontHeavy->addItems(QStringList{tr("Normal"), tr("Bold"), tr("Thin")});
-    m_fontHeavy->hide(); //暂时需要隐藏不显示出来
 
     DLabel *fontsizeLabel = new DLabel(this);
     fontsizeLabel->setText(tr("Size")); // 字号

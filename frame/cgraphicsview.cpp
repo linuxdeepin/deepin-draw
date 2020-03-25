@@ -337,7 +337,7 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, &CDDFManager::signalContinueDoOtherThing, this, [ = ]() {
         // 发送保存状态信号
         emit signalSaveFileStatus(m_DDFManager->getLastSaveStatus(), m_DDFManager->getSaveLastErrorString(), m_DDFManager->getSaveLastError());
-//        emit signalTransmitContinueDoOtherThing();
+        emit signalTransmitContinueDoOtherThing();
     });
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }

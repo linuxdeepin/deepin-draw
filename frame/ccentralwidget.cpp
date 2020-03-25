@@ -47,7 +47,7 @@ DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
-
+    , m_isCloseNow(false)
 {
     m_stackedLayout = new QStackedLayout();
     m_hLayout = new QHBoxLayout();
@@ -165,16 +165,6 @@ void CCentralwidget::createNewScenseByscencePath(QString scencePath)
     m_topMutipTabBarWidget->setTabBarTooltipName(tabbarName, tabbarName);
 }
 
-void CCentralwidget::setCurrentView(QString viewname)
-{
-    m_topMutipTabBarWidget->setCurrentTabBarWithName(viewname);
-}
-
-QStringList CCentralwidget::getAllTabBarName()
-{
-    return m_topMutipTabBarWidget->getAllTabBarName();
-}
-
 void CCentralwidget::createNewScense(QString scenceName)
 {
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
@@ -277,12 +267,6 @@ void CCentralwidget::closeCurrentScenseView()
         m_topMutipTabBarWidget->closeTabBarItem(viewname);
     }
     m_leftToolbar->slotShortCutSelect();
-
-    if (m_topMutipTabBarWidget->count() == 1) {
-        m_topMutipTabBarWidget->hide();
-    } else {
-        m_topMutipTabBarWidget->show();
-    }
 }
 
 void CCentralwidget::currentScenseViewIsModify(bool isModify)
@@ -329,10 +313,37 @@ void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileD
         } else {
             closeCurrentScenseView();
         }
+        // [2] 判断当前是否需要关闭其它标签
+        slotCloseOtherTabBar();
     } else {
         qDebug() << "save error:" << errorString << error;
     }
-    emit signalSaveFileStatus(status);
+}
+
+void CCentralwidget::slotCloseOtherTabBar()
+{
+    // 此函数的作用是关闭 m_closeTabList 中的标签
+    // 需要每次在保存或者不保存后进行调用判断
+    int count = m_closeTabList.size();
+    for (int i = 0; i < count; i++) {
+        QString current_name = m_closeTabList.first();
+        m_closeTabList.removeOne(current_name);
+        m_topMutipTabBarWidget->setCurrentTabBarWithName(current_name);
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        if (closeView == nullptr) {
+            qDebug() << "close error view:" << current_name;
+            continue;
+        } else {
+            bool editFlag = closeView->getDrawParam()->getModify();
+            qDebug() << "slot CloseOtherTabBar:" << current_name << editFlag;
+            if (editFlag) {
+                emit signalCloseModifyScence();
+                break;
+            } else {
+                closeCurrentScenseView();
+            }
+        }
+    }
 }
 
 //进行图片导入
@@ -422,12 +433,13 @@ void CCentralwidget::slotDoNotSaveToDDF()
 {
     // [0] 关闭当前view
     closeCurrentScenseView();
-
     //    if ( 1 == m_topMutipTabBarWidget->count()) {
     //        qDebug() << "close last one ScenseView.";
     //        emit signalLastTabBarRequestClose();
     //        return;
     //    }
+    // [2] 判断当前是否需要关闭其它标签
+    slotCloseOtherTabBar();
 }
 
 void CCentralwidget::slotSaveAs()
@@ -523,7 +535,6 @@ void CCentralwidget::slotRectRediusChanged(int value)
 
 void CCentralwidget::slotQuitApp()
 {
-    // 此函数没有再被使用，所有的操作在mainwindow中进行实现
     int count = m_topMutipTabBarWidget->count();
     for (int i = 0; i < count; i++) {
         QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
@@ -620,6 +631,12 @@ void CCentralwidget::tabItemCloseRequested(QString viewName)
     }
 }
 
+void CCentralwidget::tabItemsCloseRequested(QStringList viewNames)
+{
+    m_closeTabList = viewNames;
+    slotCloseOtherTabBar();
+}
+
 void CCentralwidget::slotLoadDragOrPasteFile(QString path)
 {
     // 此函数主要是截断是否已经有打开过的ddf文件，避免重复打开操作
@@ -689,7 +706,7 @@ void CCentralwidget::initConnect()
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalItemChanged, this, &CCentralwidget::viewChanged);
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemCloseRequested, this, &CCentralwidget::tabItemCloseRequested);
-    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::signalTabItemsCloseRequested);
+    connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalTabItemsCloseRequested, this, &CCentralwidget::tabItemsCloseRequested);
 
     connect(m_leftToolbar, &CLeftToolBar::singalDoCutFromLeftToolBar, this, [ = ]() {
         CGraphicsView *newview = CManageViewSigleton::GetInstance()->getCurView();
