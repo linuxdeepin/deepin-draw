@@ -80,7 +80,15 @@ public:
      */
     void createNewScenseByDragFile(QString scenceName);
     void createNewScenseByscencePath(QString scencePath);
-
+    /**
+     * @brief setCurrentView　设置活动场景
+     * @param scenceName 场景名字
+     */
+    void setCurrentView(QString viewname);
+    /**
+     * @description: getAllTabBarName 获取当前所有的标签名字
+    */
+    QStringList getAllTabBarName();
 signals:
     /**
      * @brief signalPassPictureOper　传递图片的旋转和翻转信号
@@ -136,7 +144,15 @@ signals:
      * @brief signalLastTabBarRequestClose　最后一个标签被关闭信号
      */
     void signalLastTabBarRequestClose();
-
+    /**
+     * @description: 关闭指定名字标签
+     * @param:  viewNames 需要关闭的标签名字序列
+    */
+    void signalTabItemsCloseRequested(QStringList viewNames);
+    /**
+     * @description: 保存当前文件状态
+    */
+    void signalSaveFileStatus(bool);
 public slots:
     /**
      * @brief importPicture　导入图片
@@ -244,6 +260,10 @@ public slots:
      * @brief slotSaveFileNameTooLong 保存文件名字过长信号
      */
     void slotSaveFileNameTooLong();
+    /**
+     * @brief closeCurrentScenseView　关闭当前选中场景
+     */
+    void closeCurrentScenseView();
 
 private slots:
     /**
@@ -267,13 +287,6 @@ private slots:
     void tabItemCloseRequested(QString viewName);
 
     /**
-     * @description: 关闭指定名字标签
-     * @param:  viewNames 需要关闭的标签名字序列
-     * @return: 无
-    */
-    void tabItemsCloseRequested(QStringList viewNames);
-
-    /**
      * @brief currentScenseViewIsModify　当前场景状态被改变
      */
     void currentScenseViewIsModify(bool isModify);
@@ -285,11 +298,6 @@ private slots:
      * @param:  error 保存错误
     */
     void slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error);
-
-    /**
-     * @description: slotCloseOtherTabBar 关闭其它标签执行槽函数
-    */
-    void slotCloseOtherTabBar();
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -305,8 +313,6 @@ private:
     QStackedLayout *m_stackedLayout; // 视图布局器
     int systemTheme = 0;// 保存系统主题
     bool m_isCloseNow; // 判断是否是ctrl+s保存
-    QStringList m_closeTabList; // 待关闭标签列表
-
 private:
     /**
      * @brief initUI 初始化ＵＩ
@@ -331,11 +337,6 @@ private:
      * @param scenceName 场景名字
      */
     void createNewScense(QString scenceName);
-    /**
-     * @brief closeCurrentScenseView　关闭当前选中场景
-     */
-    void closeCurrentScenseView();
-
 };
 
 #endif // MAINWIDGET_H

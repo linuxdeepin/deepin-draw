@@ -197,6 +197,15 @@ QString CMultipTabBarWidget::getCurrentTabBarName()
     return this->tabText(this->currentIndex());
 }
 
+QStringList CMultipTabBarWidget::getAllTabBarName()
+{
+    QStringList names;
+    for (int i = 0; i < this->count(); i++) {
+        names << this->tabText(i);
+    }
+    return names;
+}
+
 void CMultipTabBarWidget::resizeEvent(QResizeEvent *event)
 {
     DTabBar::resizeEvent(event);

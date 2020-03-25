@@ -35,7 +35,7 @@ DMenuComboBox::DMenuComboBox(DWidget *parent)
 void DMenuComboBox::addItem(QString itemText)
 {
     QIcon ico;
-    addItem(itemText,ico);
+    addItem(itemText, ico);
 }
 
 void DMenuComboBox::addItem(QString itemText, QIcon icon)
@@ -52,7 +52,7 @@ void DMenuComboBox::addItem(QAction *action)
     m_menu->addAction(action);
     m_actions.append(action);
 
-    if(m_currentIndex==-1){
+    if (m_currentIndex == -1) {
         m_currentIndex = 0;
         setCurrentIndex(m_currentIndex);
     }
@@ -60,8 +60,8 @@ void DMenuComboBox::addItem(QAction *action)
 
 void DMenuComboBox::removeItem(QString itemText)
 {
-    for (int i=0;i<m_actions.count();i++) {
-        if(m_actions.at(i)->text()==itemText){
+    for (int i = 0; i < m_actions.count(); i++) {
+        if (m_actions.at(i)->text() == itemText) {
             removeItem(i);
             break;
         }
@@ -70,8 +70,8 @@ void DMenuComboBox::removeItem(QString itemText)
 
 void DMenuComboBox::removeItem(int index)
 {
-    if(index>=m_actions.count() && index < 0){
-        qDebug()<<"remove invalid index Item";
+    if (index >= m_actions.count() && index < 0) {
+        qDebug() << "remove invalid index Item";
         return;
     }
     removeItem(m_actions.at(index));
@@ -79,15 +79,15 @@ void DMenuComboBox::removeItem(int index)
 
 void DMenuComboBox::removeItem(QAction *action)
 {
-    if(action == nullptr){
-        qDebug()<<"remove invalid action Item with nullptr";
+    if (action == nullptr) {
+        qDebug() << "remove invalid action Item with nullptr";
         return;
     }
     action->setParent(nullptr);
     m_menu->removeAction(action);
     m_actions.removeOne(action);
 
-    if(m_currentIndex == m_actions.count()) {
+    if (m_currentIndex == m_actions.count()) {
         m_currentIndex--;
     }
 
@@ -96,13 +96,13 @@ void DMenuComboBox::removeItem(QAction *action)
 
 void DMenuComboBox::setCurrentIndex(int index)
 {
-    if(index >= m_actions.count() || index < 0 || m_actions.count() < 0) {
-        qDebug()<<"setCurrentIndex with invalid index...";
+    if (index >= m_actions.count() || index < 0 || m_actions.count() < 0) {
+        qDebug() << "setCurrentIndex with invalid index...";
         return;
     }
-    if(m_currentIndex<0) {
+    if (m_currentIndex < 0) {
         m_currentIndex = 0;
-    } else if(m_currentIndex>=m_actions.count()) {
+    } else if (m_currentIndex >= m_actions.count()) {
         m_currentIndex = m_actions.count() - 1;
     }
 
@@ -129,8 +129,8 @@ int DMenuComboBox::getCurrentIndex() const
 
 void DMenuComboBox::setCurrentText(QString text)
 {
-    for (int i=0; i < m_actions.count(); i++){
-        if(text == m_actions.at(i)->text()) {
+    for (int i = 0; i < m_actions.count(); i++) {
+        if (text == m_actions.at(i)->text()) {
             setCurrentIndex(i);
             break;
         }
@@ -139,8 +139,8 @@ void DMenuComboBox::setCurrentText(QString text)
 
 QString DMenuComboBox::getCurrentText() const
 {
-    if(m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
-        qDebug()<<"setCurrentIndex with invalid index...";
+    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0 || m_actions.count() < 0) {
+        qDebug() << "setCurrentIndex with invalid index...";
         return QString();
     }
     return m_actions.at(m_currentIndex)->text();
@@ -159,16 +159,16 @@ void DMenuComboBox::setArrowDirction(Qt::LayoutDirection dir)
 void DMenuComboBox::setItemICon(QString text, QIcon icon)
 {
     for (int i = 0; i < m_actions.count(); i++) {
-        if(text==m_actions.at(i)->text()) {
-            setItemICon(i,icon);
+        if (text == m_actions.at(i)->text()) {
+            setItemICon(i, icon);
         }
     }
 }
 
 void DMenuComboBox::setItemICon(int index, QIcon icon)
 {
-    if(index >= m_actions.count() || index < 0) {
-        qDebug()<<"setItemICon with invalid index...";
+    if (index >= m_actions.count() || index < 0) {
+        qDebug() << "setItemICon with invalid index...";
         return;
     }
     m_actions[index]->setIcon(icon);
@@ -176,8 +176,8 @@ void DMenuComboBox::setItemICon(int index, QIcon icon)
 
 void DMenuComboBox::updateButtonTextAndIcon()
 {
-    if(m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
-        qDebug()<<"updateButtonTextAndIcon with invalid index:"<<m_currentIndex;
+    if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
+        qDebug() << "updateButtonTextAndIcon with invalid index:" << m_currentIndex;
         return;
     }
     m_btn->setText(m_actions.at(m_currentIndex)->text());
@@ -187,7 +187,7 @@ void DMenuComboBox::updateButtonTextAndIcon()
 void DMenuComboBox::slotActionToggled(QAction *action)
 {
     for (int i = 0; i < m_actions.count(); i++) {
-        if(action->text()==m_actions.at(i)->text()) {
+        if (action->text() == m_actions.at(i)->text()) {
             setCurrentIndex(i);
             break;
         }

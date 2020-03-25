@@ -92,6 +92,11 @@ public:
     */
     QString getCurrentTabBarName();
 
+    /**
+     * @description: getAllTabBarName 获取当前所有的标签名字
+    */
+    QStringList getAllTabBarName();
+
 public slots:
     /**
      * @description: addTabBarItem 添加标签
