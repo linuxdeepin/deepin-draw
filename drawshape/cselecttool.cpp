@@ -507,6 +507,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     if (!static_cast<CGraphicsTextItem *>(m_currentSelectItem)->isEditable()) {
                         static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
                     }
+                    scene->mouseEvent(event);
                 }
             }
         }
@@ -519,7 +520,6 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         scene->getItemsMgr()->setSelected(true);
     }
     m_sLastPress = event->scenePos();
-    scene->mouseEvent(event);
 }
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)

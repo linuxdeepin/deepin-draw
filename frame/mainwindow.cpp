@@ -43,6 +43,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QTimer>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -116,16 +117,16 @@ void MainWindow::initUI()
     // 标签关闭提示框
     m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     m_dialog.setMessage(tr("Is Close Draw?"));
-    m_dialog.addButton(tr("OK"), true, DDialog::ButtonNormal);
-    m_dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    connect(&m_dialog, &DDialog::buttonClicked, this, [ = ](int id) {
-        if (0 == id) {
+    m_dialog.addButton(tr("OK"),true,DDialog::ButtonNormal);
+    m_dialog.addButton(tr("Cancel"),false,DDialog::ButtonNormal);
+    connect(&m_dialog,&DDialog::buttonClicked,this,[=](int id){
+        if(0==id){
             qApp->quit();
         }
     });
 }
 
-void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
+void MainWindow::showDragOrOpenFile(QStringList files,bool isOPenFile)
 {
     QString ddfPath = "";
     QStringList picturePathList;
@@ -137,9 +138,9 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
                 // 创建一个新的窗口用于显示拖拽的图像
                 m_centralWidget->createNewScenseByscencePath(ddfPath);
 
-                if (isOPenFile) {
+                if(isOPenFile) {
                     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
-                } else {
+                }else {
                     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
                 }
 
@@ -165,45 +166,13 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
 void MainWindow::showSaveQuestionDialog()
 {
     DrawDialog *quitQuestionDialog = new DrawDialog(this);
-    connect(quitQuestionDialog, &DrawDialog::signalSaveToDDF, this, [ = ]() {
+    connect(quitQuestionDialog, &DrawDialog::signalSaveToDDF, this,[=](){
         m_centralWidget->slotSaveToDDF(true);
-    }, Qt::QueuedConnection);
+    });
 
-    connect(quitQuestionDialog, &DrawDialog::singalDoNotSaveToDDF, this, [ = ]() {
-        m_centralWidget->slotDoNotSaveToDDF();
-        doCloseOtherDiv();
-    }, Qt::QueuedConnection);
+    connect(quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), m_centralWidget, SLOT(slotDoNotSaveToDDF()));
 
-    quitQuestionDialog->exec();
-}
-
-void MainWindow::doCloseOtherDiv()
-{
-//    qDebug() << "views:" << m_closeViews;
-
-    // 此函数的作用是关闭 m_closeTabList 中的标签
-    // 需要每次在保存或者不保存后进行调用判断
-    int count = m_closeViews.size();
-    for (int i = 0; i < count; i++) {
-        QString current_name = m_closeViews.first();
-        m_closeViews.removeFirst();
-        m_centralWidget->setCurrentView(current_name);
-        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName(current_name));
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
-        if (closeView == nullptr) {
-            qDebug() << "close error view:" << current_name;
-            continue;
-        } else {
-            bool editFlag = closeView->getDrawParam()->getModify();
-//            qDebug() << "Close Edit TabBar:" << current_name << editFlag;
-            if (editFlag) {
-                showSaveQuestionDialog();
-                break;
-            } else {
-                m_centralWidget->closeCurrentScenseView();
-            }
-        }
-    }
+    quitQuestionDialog->show();
 }
 
 void MainWindow::initConnection()
@@ -266,30 +235,18 @@ void MainWindow::initConnection()
     connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QStringList)), this, SLOT(slotLoadDragOrPasteFile(QStringList)));
 
     // 有新的场景创建后需要都进行连接的信号
-    connect(m_centralWidget, &CCentralwidget::signalAddNewScence, this, [ = ](CDrawScene * sence) {
+    connect(m_centralWidget,&CCentralwidget::signalAddNewScence,this,[=](CDrawScene *sence){
         connect(sence, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
     });
 
     // 关闭当前窗口提示是否需要进行保存
-    connect(m_centralWidget, &CCentralwidget::signalCloseModifyScence, this, &MainWindow::slotIsNeedSave);
+    connect(m_centralWidget,&CCentralwidget::signalCloseModifyScence,this,&MainWindow::slotIsNeedSave);
 
     // 连接ddf文件已经被打开信号
-    connect(m_centralWidget, &CCentralwidget::signalDDFFileOpened, this, &MainWindow::slotDDFFileOpened);
+    connect(m_centralWidget,&CCentralwidget::signalDDFFileOpened,this,&MainWindow::slotDDFFileOpened);
 
     // 连接最后一个标签被关闭
-    connect(m_centralWidget, &CCentralwidget::signalLastTabBarRequestClose, this, &MainWindow::slotLastTabBarRequestClose);
-
-    // 连接需要关闭多个标签信号
-    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views) {
-        m_closeViews = views;
-        doCloseOtherDiv();
-    });
-
-    // 连接文件保存状态信号
-    connect(m_centralWidget, &CCentralwidget::signalSaveFileStatus, this, [ = ](bool status) {
-        qDebug() << "save status:" << status;
-        doCloseOtherDiv();
-    });
+    connect(m_centralWidget,&CCentralwidget::signalLastTabBarRequestClose,this,&MainWindow::slotLastTabBarRequestClose);
 }
 
 void MainWindow::activeWindow()
@@ -313,13 +270,9 @@ void MainWindow::slotIsNeedSave()
 {
     if (CManageViewSigleton::GetInstance()->getCurView()->getModify()) {
         // 此处需要进行适当延时显示才不会出错
-        QMetaObject::invokeMethod(this, [ = ]() {
+        QTimer::singleShot(100,this,[=](){
             showSaveQuestionDialog();
-        }, Qt::QueuedConnection);
-
-//        QTimer::singleShot(100,this,[=](){
-//            showSaveQuestionDialog();
-//        });
+        });
     } else {
         slotContinueDoSomeThing();
     }
@@ -385,13 +338,13 @@ void MainWindow::slotDDFFileOpened(QString filename)
 void MainWindow::slotTopToolBarSaveToDDF()
 {
     // ctrl+s 直接保存ddf文件
-    qDebug() << "ctrl+s";
+    qDebug()<<"ctrl+s";
     m_centralWidget->slotSaveToDDF();
 }
 
 void MainWindow::slotLastTabBarRequestClose()
 {
-    qDebug() << "slotLastTabBarRequestClose: not show quit dialog";
+    qDebug()<<"slotLastTabBarRequestClose: not show quit dialog";
     // 退出程序
     qApp->quit();
     //    m_dialog.exec();
@@ -421,7 +374,7 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::slotLoadDragOrPasteFile(QStringList files)
 {
-    showDragOrOpenFile(files, false);
+    showDragOrOpenFile(files,false);
 }
 
 void MainWindow::slotOnEscButtonClick()
@@ -516,7 +469,7 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
     // 此函数是命令行调用进行处理的相关代码
     if (!path.isEmpty()) {
         // 新建一个标签页
-        showDragOrOpenFile(QStringList(path), isStartByDDF);
+        showDragOrOpenFile(QStringList(path),isStartByDDF);
 
 //        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
 //            m_centralWidget->getGraphicsView()->slotQuitCutMode();
