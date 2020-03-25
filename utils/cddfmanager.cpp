@@ -101,7 +101,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
                 ///进度条处理
                 count ++;
-                process = static_cast<int>(count / totalCount * 100);
+                process = static_cast<int>((count * 1.0 / totalCount) * 100);
                 emit signalUpdateProcessBar(process);
 
                 ///释放内存

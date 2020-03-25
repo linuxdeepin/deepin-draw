@@ -120,6 +120,7 @@ void MainWindow::initUI()
     m_dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     connect(&m_dialog, &DDialog::buttonClicked, this, [ = ](int id) {
         if (0 == id) {
+            // 此处代码需要严谨，需要判断文件保存，如果需要保存，则需要保存成功后才能退出
             qApp->quit();
         }
     });
