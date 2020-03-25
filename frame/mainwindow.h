@@ -138,7 +138,7 @@ private:
     QAction *m_showCut;
     QString tmpPictruePath;
     DDialog m_dialog; // 最后一个标签被关闭提示框
-
+    QStringList m_closeViews; //待关闭的标签
 
 private:
     /**
@@ -154,11 +154,15 @@ private:
      * @param files 文件列表路径
      * @param isOPenFile 是否是打开文件
      */
-    void showDragOrOpenFile(QStringList files,bool isOPenFile);
+    void showDragOrOpenFile(QStringList files, bool isOPenFile);
     /**
      * @brief showSaveQuestionDialog　显示提示是否保存对话框
      */
     void showSaveQuestionDialog();
+    /**
+     * @brief doCloseOtherDiv　判断是否需要继续关闭页面
+     */
+    void doCloseOtherDiv();
 };
 
 #endif // MAINWINDOW_H
