@@ -46,6 +46,17 @@ void CSideWidthWidget::updateSideWidth()
     m_menuComboBox->setCurrentText(current_px);
 }
 
+void CSideWidthWidget::setSideWidth(int width)
+{
+    QString current_px = QString::number(width) + "px";
+    m_menuComboBox->setCurrentText(current_px);
+}
+
+void CSideWidthWidget::setMenuButtonICon(QString text, QIcon icon)
+{
+    m_menuComboBox->setMenuButtonICon(text, icon);
+}
+
 void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout(this);
@@ -71,6 +82,18 @@ void CSideWidthWidget::initConnection()
             if (flag) {
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
                 emit signalSideWidthChange();
+            }
+        }
+    });
+
+    connect(m_menuComboBox, &DMenuComboBox::signalActionToggled, [ = ](QString text) {
+        if (text.contains("px")) {
+            // 判断并且获取当前线宽度
+            bool flag = false;
+            int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
+
+            if (flag) {
+                emit signalSideWidthChoosed(lineWidth);
             }
         }
     });

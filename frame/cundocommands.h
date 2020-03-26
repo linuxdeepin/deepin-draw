@@ -19,6 +19,7 @@
 #ifndef CUNDOCOMMANDS_H
 #define CUNDOCOMMANDS_H
 #include "drawshape/csizehandlerect.h"
+#include "drawshape/globaldefine.h"
 #include <QUndoCommand>
 #include <QPointF>
 #include <QList>
@@ -36,6 +37,11 @@ class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawScene;
+class CGraphicsTextItem;
+
+Q_DECLARE_METATYPE(ELineType);
+Q_DECLARE_METATYPE(EPenType);
+//Q_DECLARE_METATYPE(QMetaType);
 
 /**
  * @brief The CMoveShapeCommand class 移动图元撤消重做命令
@@ -501,6 +507,24 @@ private:
     CDrawScene *myGraphicsScene;
     QRectF m_newRect;
     QRectF m_oldRect;
+};
+
+/**
+ * @brief The CSetItemsCommonPropertyValueCommand class 设置多选公共属性
+ */
+class CSetItemsCommonPropertyValueCommand: public QUndoCommand
+{
+public:
+    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CDrawScene *myGraphicsScene;
+    QList<CGraphicsItem *> m_items;
+    EDrawProperty m_property;
+    QVariant m_value;
+    QMap<CGraphicsItem *, QVariant> m_oldValues;
 };
 
 #endif // CUNDOCOMMANDS_H

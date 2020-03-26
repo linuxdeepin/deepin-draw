@@ -32,6 +32,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include "ciconbutton.h"
 #include "colorlabel.h"
@@ -145,10 +146,13 @@ void ColorPanel::setConfigColor(QColor color)
     ///写入参数
     if (m_drawstatus == Fill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColor, color);
     } else if (m_drawstatus == Stroke) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColor, color);
     } else if (m_drawstatus == TextFill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColor, color);
     }
 
     emit signalColorChanged();

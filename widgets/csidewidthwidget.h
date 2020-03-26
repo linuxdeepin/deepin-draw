@@ -39,10 +39,19 @@ public:
 
     // 更新线宽度函数
     void updateSideWidth();
+    // 更新线宽度函数
+    void setSideWidth(int width);
+    /*
+    * @bref: setMenuButtonICon 设置子菜单图标
+    * @parma: text 下拉按钮文本名字
+    * @parma: icon 下拉按钮图标
+    */
+    void setMenuButtonICon(QString text, QIcon icon);
 
 signals:
     void signalSideWidthChange();
     void signalSideWidthMenuShow();
+    void signalSideWidthChoosed(int width);
 
 public:
     void changeButtonTheme();
@@ -63,7 +72,7 @@ private:
     /*
      * @bref: drawLinePixmap 绘制一张pixmap线
     */
-    QPixmap drawLinePixmap(int lineWidth,QColor lineColor,int width,int height);
+    QPixmap drawLinePixmap(int lineWidth, QColor lineColor, int width, int height);
 };
 
 #endif // CSIDEWIDTHWIDGET_H

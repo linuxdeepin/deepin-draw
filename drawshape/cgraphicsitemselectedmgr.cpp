@@ -2,6 +2,7 @@
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 #include "cgraphicsitem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
@@ -29,6 +30,9 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
         this->removeFromGroup(item);
     } else {
         this->addToGroup(item);
+    }
+    if (m_listItems.size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
     }
     updateGeometry();
 }

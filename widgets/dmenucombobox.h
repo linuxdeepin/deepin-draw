@@ -44,7 +44,7 @@ public:
     * @bref: addItem 添加子选项
     */
     void addItem(QString itemText);
-    void addItem(QString itemText,QIcon icon);
+    void addItem(QString itemText, QIcon icon);
     void addItem(QAction *action);
 
     /*
@@ -86,8 +86,14 @@ public:
     * @parma: text 子菜单选项文本名字
     * @parma: index 子菜单选项索引
     */
-    void setItemICon(QString text,QIcon icon);
+    void setItemICon(QString text, QIcon icon);
     void setItemICon(int index, QIcon icon);
+    /*
+    * @bref: setMenuButtonICon 设置子菜单图标
+    * @parma: text 下拉按钮文本名字
+    * @parma: icon 下拉按钮图标
+    */
+    void setMenuButtonICon(QString text, QIcon icon);
 
     /*
     * @bref: updateButtonTextAndIcon 手动调用更新点击按钮的文字和图标，用于切换主题时调用
@@ -103,7 +109,10 @@ signals:
     * @bref: signalCurrentTextChanged 文本改变信号
     */
     void signalCurrentTextChanged(QString text);
-
+    /*
+    * @bref: signalActionToggled 处理子选项点击事件
+    */
+    void signalActionToggled(QString text);
     /*
     * @bref: signalAboutToShow 菜单显示信号
     */
@@ -123,7 +132,7 @@ protected slots:
 private:
     DPushButton *m_btn;
     QMenu *m_menu;
-    QList<QAction*> m_actions;
+    QList<QAction *> m_actions;
     int m_currentIndex;
 
     void initUI();

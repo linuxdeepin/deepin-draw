@@ -20,6 +20,7 @@
 #define CPENWIDGET_H
 
 #include <DWidget>
+#include <DLabel>
 
 #include "drawshape/globaldefine.h"
 
@@ -28,6 +29,7 @@ class BorderColorButton;
 class CCheckButton;
 class SeperatorLine;
 
+Q_DECLARE_METATYPE(EPenType);
 DWIDGET_USE_NAMESPACE
 
 class CPenWidget : public DWidget
@@ -41,13 +43,20 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 public slots:
     /**
      * @brief updatePenWidget　更新属性栏
      */
     void updatePenWidget();
-
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 signals:
     /**
      * @brief resetColorBtns　重置颜色按钮信号
@@ -72,6 +81,8 @@ private:
     CCheckButton *m_straightline;
     CCheckButton *m_arrowline;
     SeperatorLine *m_sep1Line;
+    DLabel *m_lineTypeLabel;
+    DLabel *m_lwLabel;
 
 private:
     /**

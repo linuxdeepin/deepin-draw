@@ -26,6 +26,25 @@
 #include "drawshape/cgraphicsitem.h"
 #include "drawshape/cdrawscene.h"
 
+class QGraphicsScene;
+class QGraphicsItem;
+class CGraphicsItem;
+class CGraphicsRectItem;
+class CGraphicsEllipseItem;
+class CGraphicsPolygonItem;
+class CGraphicsTriangleItem;
+class CGraphicsPolygonalStarItem;
+class CGraphicsPenItem;
+class CGraphicsLineItem;
+class CGraphicsMasicoItem;
+class CDrawScene;
+class QUndoCommand;
+class CSetItemsCommonPropertyValueCommand;
+class CGraphicsItemSelectedMgr;
+class CManageViewSigleton;
+class CGraphicsView;
+class CGraphicsTextItem;
+
 /*
 * @bref: CManagerAttributeService 用于中转单选或者多选属性展示与设置
 */
@@ -41,6 +60,10 @@ public:
      * @param: items 被选中的图元
     */
     void showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items);
+    /*
+     * @bref: refreshSelectedCommonProperty 刷新公共属性
+    */
+    void refreshSelectedCommonProperty();
 
     /*
      * @bref: setItemsCommonPropertyValue 设置被选中的图元的公共属性
@@ -55,7 +78,7 @@ signals:
      * @param: mode 当前需要显示的属性类型
      * @param: propertys 属性类型值
     */
-    void signalShowWidgetCommonProperty(EDrawToolMode mode, QMap<EDrawProperty, QVariant> propertys);
+    void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
 
 private:
     CManagerAttributeService();

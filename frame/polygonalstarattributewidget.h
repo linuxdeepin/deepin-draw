@@ -21,6 +21,7 @@
 
 #include <DWidget>
 #include <DSpinBox>
+#include <DLabel>
 #include "drawshape/globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
@@ -40,7 +41,11 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 public slots:
     /**
      * @brief updatePolygonalStarWidget　更新属性栏
@@ -54,6 +59,10 @@ public slots:
      * @brief slotRadiusvalueChanged　半径值改变处理
      */
     void slotRadiusvalueChanged(int value);
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 
 signals:
     /**
@@ -75,9 +84,12 @@ signals:
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
+    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
+    DLabel *m_anchorNumLabel;
     DSpinBox *m_anchorNumber; //锚点数
     DSpinBox *m_radiusNumber; //半径
+    DLabel *m_radiusLabel;
     SeperatorLine *m_sepLine;
 
 private:

@@ -25,6 +25,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
@@ -57,9 +58,9 @@ void TextWidget::initUI()
 
     m_textSeperatorLine = new SeperatorLine(this);
 
-    DLabel *fontFamilyLabel = new DLabel(this);
-    fontFamilyLabel->setText(tr("Font"));
-    fontFamilyLabel->setFont(ft);
+    m_fontFamilyLabel = new DLabel(this);
+    m_fontFamilyLabel->setText(tr("Font"));
+    m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
@@ -76,10 +77,10 @@ void TextWidget::initUI()
     m_fontHeavy->addItems(QStringList{tr("Normal"), tr("Bold"), tr("Thin")});
     m_fontHeavy->hide(); //暂时需要隐藏不显示出来
 
-    DLabel *fontsizeLabel = new DLabel(this);
-    fontsizeLabel->setText(tr("Size")); // 字号
-    fontsizeLabel->setFixedSize(QSize(28, 20));
-    fontsizeLabel->setFont(ft);
+    m_fontsizeLabel = new DLabel(this);
+    m_fontsizeLabel->setText(tr("Size")); // 字号
+    m_fontsizeLabel->setFixedSize(QSize(28, 20));
+    m_fontsizeLabel->setFont(ft);
     m_fontSize = new DSpinBox(this);
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setRange(8, 500);
@@ -93,11 +94,11 @@ void TextWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_textSeperatorLine);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(fontFamilyLabel);
+    layout->addWidget(m_fontFamilyLabel);
     layout->addWidget(m_fontComBox);
     layout->addWidget(m_fontHeavy);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(fontsizeLabel);
+    layout->addWidget(m_fontsizeLabel);
     layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
@@ -114,6 +115,56 @@ void TextWidget::slotFontSizeValueChanged(int size)
     emit signalTextFontSizeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::TextFill, QPoint(), false);
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(TextSize, size);
+}
+
+void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_fillBtn->setVisible(false);
+    m_textSeperatorLine->setVisible(false);
+    m_fontFamilyLabel->setVisible(false);
+    m_fontComBox->setVisible(false);
+    m_fontHeavy->setVisible(false);
+    m_fontsizeLabel->setVisible(false);
+    m_fontSize->setVisible(false);
+    for (int i = 0; i < propertys.size(); i++) {
+        EDrawProperty property = propertys.keys().at(i);
+        switch (property) {
+        case TextColor:
+            m_fillBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                m_fillBtn->setColor(propertys[property].value<QColor>());
+            }
+            m_fillBtn->update();
+            break;
+        case TextFont:
+            m_fontFamilyLabel->setVisible(true);
+            m_fontComBox->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_fontComBox->setCurrentText("—— ——");
+            } else {
+                m_fontComBox->setCurrentText(propertys[property].value<QFont>().family());
+            }
+            m_fontComBox->update();
+            break;
+        case TextSize:
+            m_fontsizeLabel->setVisible(true);
+            m_fontSize->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                //todo
+                disconnect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
+                m_fontSize->setValue(-1);
+                connect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
+            } else {
+                m_fontSize->setValue(propertys[property].toInt());
+            }
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void TextWidget::initConnection()
@@ -191,6 +242,16 @@ void TextWidget::updateTextWidget()
     if (fontSize != m_fontSize->value()) {
         m_fontSize->setValue(fontSize);
     }
+
+    m_fillBtn->setVisible(true);
+    m_textSeperatorLine->setVisible(true);
+    m_fontFamilyLabel->setVisible(true);
+    m_fontComBox->setVisible(true);
+    m_fontHeavy->setVisible(true);
+    m_fontsizeLabel->setVisible(true);
+    m_fontSize->setVisible(true);
+    m_fillBtn->setIsMultColorSame(true);
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void TextWidget::updateTextColor()

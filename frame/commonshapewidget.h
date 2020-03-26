@@ -51,6 +51,11 @@ public:
      * @brief setRectXRediusSpinboxVisible 设置圆角矩形半径是否可见
      */
     void setRectXRediusSpinboxVisible(bool visible);
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 
 signals:
     /**
@@ -82,10 +87,15 @@ public slots:
      * @brief slotRectRediusChanged 圆角矩形半径变化信号
      */
     void slotRectRediusChanged(int redius);
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
+    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     SeperatorLine *m_sepLine;
     DSpinBox *m_rediusSpinbox;

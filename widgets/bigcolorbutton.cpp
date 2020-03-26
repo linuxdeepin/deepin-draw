@@ -34,6 +34,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     : DPushButton(parent)
     , m_isHover(false)
     , m_isChecked(false)
+    , m_isMultColorSame(true)
 {
     //setFixedSize(24, 24);
     setFixedSize(56, 36);
@@ -44,6 +45,7 @@ BigColorButton::BigColorButton(DWidget *parent)
 
 void BigColorButton::updateConfigColor()
 {
+    m_isMultColorSame = true;
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 
     if (m_color == configColor) {
@@ -60,66 +62,98 @@ BigColorButton::~BigColorButton()
 void BigColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing
-                           | QPainter::SmoothPixmapTransform);
-    painter.setPen(Qt::transparent);
+    if (m_isMultColorSame) {
+        painter.setRenderHints(QPainter::Antialiasing
+                               | QPainter::SmoothPixmapTransform);
+        painter.setPen(Qt::transparent);
 
-    //painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
-    QColor drawColor = m_color;
+        //painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
+        QColor drawColor = m_color;
 
-//    if (m_isHover || m_isChecked) {
-//        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-//        painter.drawRoundedRect(rect(), 6, 6);
-//    } else if (m_isChecked) {
-//        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
-//    }
-
-
-    painter.setBrush(drawColor);
+        //    if (m_isHover || m_isChecked) {
+        //        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
+        //        painter.drawRoundedRect(rect(), 6, 6);
+        //    } else if (m_isChecked) {
+        //        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
+        //    }
 
 
-    //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
-    painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+        painter.setBrush(drawColor);
 
-    QPen borderPen;
-    borderPen.setWidth(1);
-    //borderPen.setColor(QColor(0, 0, 0, 15));
-    //borderPen.setColor(Qt::gray);
-    if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-        borderPen.setColor(Qt::gray);
+
+        //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
+        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+
+        QPen borderPen;
+        borderPen.setWidth(1);
+        //borderPen.setColor(QColor(0, 0, 0, 15));
+        //borderPen.setColor(Qt::gray);
+        if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
+            borderPen.setColor(Qt::gray);
+        } else {
+            borderPen.setColor(Qt::transparent);
+        }
+        if (m_color.alpha() == 0) {
+            borderPen.setColor(Qt::gray);
+        }
+        painter.setPen(borderPen);
+        //    if (m_isChecked) {
+        //        painter.setBrush(QColor(0, 0, 0, 55));
+        //    } else {
+        //        painter.setBrush(Qt::transparent);
+        //    }
+        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
+        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+
+        QPen textPen;
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            textPen.setColor(QColor("#414D68"));
+        } else {
+            textPen.setColor(QColor("#C0C6D4"));
+        }
+
+        painter.setPen(textPen);
+        QFont ft;
+        ft.setPixelSize(12);
+        painter.setFont(ft);
+
+        painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
     } else {
-        borderPen.setColor(Qt::transparent);
-    }
-    if (m_color.alpha() == 0) {
+        painter.setRenderHints(QPainter::Antialiasing
+                               | QPainter::SmoothPixmapTransform);
+        QPen borderPen;
+        borderPen.setWidth(1);
         borderPen.setColor(Qt::gray);
+        painter.setPen(borderPen);
+
+        painter.setBrush(QColor("#F5F5F5"));
+        painter.drawRoundedRect(QRect(4, 10, 18, 18),  6, 6);
+
+        QPen textPen;
+        textPen.setColor(Qt::gray);
+        painter.setPen(textPen);
+        QFont ft;
+        ft.setPixelSize(12);
+        painter.setFont(ft);
+        painter.drawText(8, 6, 32, 16, 0, tr("..."));
+
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            textPen.setColor(QColor("#414D68"));
+        } else {
+            textPen.setColor(QColor("#C0C6D4"));
+        }
+
+        painter.setPen(textPen);
+        ft.setPixelSize(12);
+        painter.setFont(ft);
+        painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
     }
-    painter.setPen(borderPen);
-//    if (m_isChecked) {
-//        painter.setBrush(QColor(0, 0, 0, 55));
-//    } else {
-//        painter.setBrush(Qt::transparent);
-//    }
-    //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-    painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
-
-    QPen textPen;
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        textPen.setColor(QColor("#414D68"));
-    } else {
-        textPen.setColor(QColor("#C0C6D4"));
-    }
-
-    painter.setPen(textPen);
-    QFont ft;
-    ft.setPixelSize(12);
-    painter.setFont(ft);
-
-    painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
 
 }
 
 void BigColorButton::setColor(QColor color)
 {
+    m_isMultColorSame = true;
     m_color = color;
     update();
 }
@@ -158,4 +192,9 @@ void BigColorButton::resetChecked()
 {
     m_isChecked = false;
     update();
+}
+
+void BigColorButton::setIsMultColorSame(bool isContainColor)
+{
+    m_isMultColorSame = isContainColor;
 }

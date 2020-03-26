@@ -174,6 +174,12 @@ void DMenuComboBox::setItemICon(int index, QIcon icon)
     m_actions[index]->setIcon(icon);
 }
 
+void DMenuComboBox::setMenuButtonICon(QString text, QIcon icon)
+{
+    m_btn->setText(text);
+    m_btn->setIcon(icon);
+}
+
 void DMenuComboBox::updateButtonTextAndIcon()
 {
     if (m_currentIndex >= m_actions.count() || m_currentIndex < 0) {
@@ -189,6 +195,7 @@ void DMenuComboBox::slotActionToggled(QAction *action)
     for (int i = 0; i < m_actions.count(); i++) {
         if (action->text() == m_actions.at(i)->text()) {
             setCurrentIndex(i);
+            emit signalActionToggled(action->text());
             break;
         }
     }

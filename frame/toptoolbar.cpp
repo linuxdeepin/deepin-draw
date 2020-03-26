@@ -36,6 +36,7 @@
 #include "widgets/cmenu.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -325,9 +326,9 @@ void TopToolbar::updateMiddleWidget(int type)
         m_stackWidget->setCurrentWidget(m_picWidget);
         break;
     case::rectangle:
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
         m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
         m_commonShapeWidget->updateCommonShapWidget();
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
     case::ellipse:
@@ -533,6 +534,40 @@ void TopToolbar::slotRectRediusChanged(int value)
     emit signalAttributeChanged();
 }
 
+void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys)
+{
+    switch (mode) {
+    case::RectType://矩形
+    case::EllipseType://圆形
+    case::TriangleType://三角形
+        m_commonShapeWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+        break;
+    case::PolygonalStarType://多角星
+        m_polygonalStarWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+        break;
+    case::PolygonType://多边形
+        m_PolygonWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+        break;
+    case::LineType://线
+        m_drawLineWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+        break;
+    case::PenType://画笔
+        m_penWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_penWidget);
+        break;
+    case::TextType://文本
+        m_drawTextWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+        break;
+    default:
+        break;
+    }
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
@@ -612,5 +647,8 @@ void TopToolbar::initConnection()
     connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_cutWidget, &CCutWidget::signalCutLineEditIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
 
+    //CManagerAttributeService
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>)),
+            this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>)));
 }
 

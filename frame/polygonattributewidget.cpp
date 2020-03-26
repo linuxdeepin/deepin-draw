@@ -34,6 +34,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -60,6 +61,64 @@ void PolygonAttributeWidget::changeButtonTheme()
     m_sepLine->updateTheme();
 }
 
+void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_fillBtn->setVisible(false);
+    m_strokeBtn->setVisible(false);
+    m_sepLine->setVisible(false);
+    m_lwLabel->setVisible(false);
+    m_sideWidthWidget->setVisible(false);
+    m_sideNumLabel->setVisible(false);
+    m_sideNumSlider->setVisible(false);
+    for (int i = 0; i < propertys.size(); i++) {
+        EDrawProperty property = propertys.keys().at(i);
+        switch (property) {
+        case FillColor:
+            m_fillBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                m_fillBtn->setColor(propertys[property].value<QBrush>().color());
+            }
+            m_fillBtn->update();
+            break;
+        case LineColor:
+            m_strokeBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_strokeBtn->setIsMultColorSame(false);
+            } else {
+                m_strokeBtn->setColor(propertys[property].value<QColor>());
+            }
+            m_strokeBtn->update();
+            break;
+        case LineWidth:
+            m_lwLabel->setVisible(true);
+            m_sideWidthWidget->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
+            } else {
+                m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+            }
+            m_sideWidthWidget->update();
+            break;
+        case SideNumber:
+            m_sideNumLabel->setVisible(true);
+            m_sideNumSlider->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                //todo
+                disconnect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
+                m_sideNumSlider->setValue(-1);
+                connect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
+            } else {
+                m_sideNumSlider->setValue(propertys[property].toInt());
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void PolygonAttributeWidget::initUI()
 {
     m_fillBtn = new BigColorButton(this);
@@ -69,17 +128,17 @@ void PolygonAttributeWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
 
     m_sepLine = new SeperatorLine(this);
-    DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("Width"));
+    m_lwLabel = new DLabel(this);
+    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    lwLabel->setFont(ft1);
+    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
-    DLabel *sideNumLabel = new DLabel(this);
-    sideNumLabel->setText(tr("Sides"));
-    sideNumLabel->setFont(ft1);
+    m_sideNumLabel = new DLabel(this);
+    m_sideNumLabel->setText(tr("Sides"));
+    m_sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSpinBox(this);
     m_sideNumSlider->setFixedSize(QSize(100, 36));
@@ -95,10 +154,10 @@ void PolygonAttributeWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lwLabel);
+    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(sideNumLabel);
+    layout->addWidget(m_sideNumLabel);
     layout->addWidget(m_sideNumSlider);
 
     layout->addStretch();
@@ -126,6 +185,8 @@ void PolygonAttributeWidget::initConnection()
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalPolygonAttributeChanged();
     });
+    //描边粗细
+    connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -147,6 +208,15 @@ void PolygonAttributeWidget::updatePolygonWidget()
     if (sideNum != m_sideNumSlider->value()) {
         m_sideNumSlider->setValue(sideNum);
     }
+
+    m_fillBtn->setVisible(true);
+    m_strokeBtn->setVisible(true);
+    m_sepLine->setVisible(true);
+    m_lwLabel->setVisible(true);
+    m_sideWidthWidget->setVisible(true);
+    m_sideNumLabel->setVisible(true);
+    m_sideNumSlider->setVisible(true);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void PolygonAttributeWidget::slotSideValueChanged(int value)
@@ -155,6 +225,12 @@ void PolygonAttributeWidget::slotSideValueChanged(int value)
     emit signalPolygonAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, value);
+}
+
+void PolygonAttributeWidget::slotSideWidthChoosed(int width)
+{
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
 }
 
 QPoint PolygonAttributeWidget::getBtnPosition(const DPushButton *btn)

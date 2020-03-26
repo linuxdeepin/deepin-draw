@@ -180,6 +180,12 @@ public slots:
      * @brief slotRectRediusChanged　圆角矩形半径
      */
     void slotRectRediusChanged(int value);
+    /**
+     * @brief updateMiddleWidgetMult　按类型更新工具栏
+     * @param mode　图元类型
+     * @param propertys　要显示的公共属性
+     */
+    void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式

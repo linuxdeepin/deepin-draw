@@ -38,6 +38,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
@@ -60,6 +61,78 @@ void PolygonalStarAttributeWidget::changeButtonTheme()
     m_sepLine->updateTheme();
 }
 
+void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_fillBtn->setVisible(false);
+    m_strokeBtn->setVisible(false);
+    m_sepLine->setVisible(false);
+    m_lwLabel->setVisible(false);
+    m_sideWidthWidget->setVisible(false);
+    m_anchorNumLabel->setVisible(false);
+    m_anchorNumber->setVisible(false);
+    m_radiusLabel->setVisible(false);
+    m_radiusNumber->setVisible(false);
+    for (int i = 0; i < propertys.size(); i++) {
+        EDrawProperty property = propertys.keys().at(i);
+        switch (property) {
+        case FillColor:
+            m_fillBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                m_fillBtn->setColor(propertys[property].value<QBrush>().color());
+            }
+            m_fillBtn->update();
+            break;
+        case LineColor:
+            m_strokeBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_strokeBtn->setIsMultColorSame(false);
+            } else {
+                m_strokeBtn->setColor(propertys[property].value<QColor>());
+            }
+            m_strokeBtn->update();
+            break;
+        case LineWidth:
+            m_lwLabel->setVisible(true);
+            m_sideWidthWidget->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
+            } else {
+                m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+            }
+            m_sideWidthWidget->update();
+            break;
+        case Anchors:
+            m_anchorNumLabel->setVisible(true);
+            m_anchorNumber->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                //todo
+                disconnect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
+                m_anchorNumber->setValue(-1);
+                connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
+            } else {
+                m_anchorNumber->setValue(propertys[property].toInt());
+            }
+            break;
+        case StarRadius:
+            m_radiusLabel->setVisible(true);
+            m_radiusNumber->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                //todo
+                disconnect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
+                m_radiusNumber->setValue(-1);
+                connect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
+            } else {
+                m_radiusNumber->setValue(propertys[property].toInt());
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void PolygonalStarAttributeWidget::initUI()
 {
     m_fillBtn = new BigColorButton( this);
@@ -70,25 +143,25 @@ void PolygonalStarAttributeWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
 
     m_sepLine = new SeperatorLine(this);
-    DLabel *lwLabel = new DLabel(this);
-    lwLabel->setText(tr("Width"));
+    m_lwLabel = new DLabel(this);
+    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    lwLabel->setFont(ft1);
+    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
 
-    DLabel *anchorNumLabel = new DLabel(this);
-    anchorNumLabel->setText(tr("Points"));
-    anchorNumLabel->setFont(ft1);
+    m_anchorNumLabel = new DLabel(this);
+    m_anchorNumLabel->setText(tr("Points"));
+    m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new DSpinBox(this);
     m_anchorNumber->setFixedSize(QSize(100, 36));
     m_anchorNumber->setRange(3, 50);
 
-    DLabel *radiusLabel = new DLabel(this);
-    radiusLabel->setText(tr("Diameter"));
-    radiusLabel->setFont(ft1);
+    m_radiusLabel = new DLabel(this);
+    m_radiusLabel->setText(tr("Diameter"));
+    m_radiusLabel->setFont(ft1);
     m_radiusNumber = new DSpinBox(this);
     m_radiusNumber->setRange(0, 100);
     m_radiusNumber->setFixedSize(QSize(100, 36));
@@ -103,13 +176,13 @@ void PolygonalStarAttributeWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lwLabel);
+    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(anchorNumLabel);
+    layout->addWidget(m_anchorNumLabel);
     layout->addWidget(m_anchorNumber);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(radiusLabel);
+    layout->addWidget(m_radiusLabel);
     layout->addWidget(m_radiusNumber);
 
     layout->addStretch();
@@ -142,6 +215,8 @@ void PolygonalStarAttributeWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
+    //描边粗细
+    connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
     //锚点数
     connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
@@ -171,6 +246,17 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     if (radiusNum != m_radiusNumber->value()) {
         m_radiusNumber->setValue(radiusNum);
     }
+
+    m_fillBtn->setVisible(true);
+    m_strokeBtn->setVisible(true);
+    m_sepLine->setVisible(true);
+    m_lwLabel->setVisible(true);
+    m_sideWidthWidget->setVisible(true);
+    m_anchorNumLabel->setVisible(true);
+    m_anchorNumber->setVisible(true);
+    m_radiusLabel->setVisible(true);
+    m_radiusNumber->setVisible(true);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
@@ -179,6 +265,8 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //设置多选图元属性
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value);
 }
 
 void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
@@ -187,6 +275,13 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //设置多选图元属性
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value);
+}
+
+void PolygonalStarAttributeWidget::slotSideWidthChoosed(int width)
+{
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
 }
 
 QPoint PolygonalStarAttributeWidget::getBtnPosition(const DPushButton *btn)

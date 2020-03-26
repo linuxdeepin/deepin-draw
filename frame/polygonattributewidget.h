@@ -21,6 +21,7 @@
 
 #include <DWidget>
 #include <DSpinBox>
+#include <DLabel>
 
 #include "drawshape/globaldefine.h"
 
@@ -41,7 +42,11 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 public slots:
     /**
      * @brief updatePolygonWidget　更新属性栏
@@ -51,7 +56,10 @@ public slots:
      * @brief slotRadiusvalueChanged　侧边数值改变处理
      */
     void slotSideValueChanged(int value);
-
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 signals:
     /**
      * @brief resetColorBtns　重置颜色按钮
@@ -75,6 +83,8 @@ private:
     CSideWidthWidget *m_sideWidthWidget;
     DSpinBox *m_sideNumSlider;
     SeperatorLine *m_sepLine;
+    DLabel *m_lwLabel;
+    DLabel *m_sideNumLabel;
 
 private:
     /**

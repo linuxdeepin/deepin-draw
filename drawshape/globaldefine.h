@@ -36,15 +36,20 @@ enum EDrawToolMode {
 };
 
 // 显示工具栏所有属性
-enum EDrawProperty{  // 图片、文字、马赛克根据类型全部显示
-    FillColor = 0,   // 填充颜色
-    LineWidth,       // 线宽
-    BorderColor,     // 描边颜色
-    RectRadius,      // 矩形圆角
-    Anchors,         // 锚点
-    StarRadius,      // 五角星圆角
-    SideNumber,      // 侧边数
-    LineArrowType    // 线箭头类型
+enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
+    FillColor = 0,       // 填充颜色
+    LineWidth,           // 线宽
+    LineColor,           // 描边颜色
+    RectRadius,          // 矩形圆角
+    Anchors,             // 锚点
+    StarRadius,          // 五角星圆角
+    SideNumber,          // 侧边数
+    LineArrowType,       // 线箭头类型
+    PenLineArrowType,    // 画笔线箭头类型
+    TextColor,           // 文本言责
+    TextFont,            // 文本字体
+    TextHeight,          // 文本自重
+    TextSize,            // 文本大小
 };
 
 enum ESelectMode {
@@ -72,7 +77,8 @@ enum ELineType {
 };
 
 enum EGraphicUserType {
-    RectType = QGraphicsItem::UserType + 1,      //矩形
+    NoType = QGraphicsItem::UserType + 1,      //公共选择没有公共属性的时候用
+    RectType,      //矩形
     EllipseType,        //圆形
     TriangleType,       //三角形
     PolygonalStarType,  //多角星

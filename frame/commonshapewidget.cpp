@@ -30,6 +30,7 @@
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/csidewidthwidget.h"
+#include "service/cmanagerattributeservice.h"
 
 
 
@@ -65,6 +66,66 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
     m_rediusSpinbox->setVisible(visible);
 }
 
+void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_fillBtn->setVisible(false);
+    m_strokeBtn->setVisible(false);
+    m_sepLine->setVisible(false);
+    m_lwLabel->setVisible(false);
+    m_sideWidthWidget->setVisible(false);
+    m_rediusLable->setVisible(false);
+    m_rediusSpinbox->setVisible(false);
+
+    for (int i = 0; i < propertys.size(); i++) {
+        EDrawProperty property = propertys.keys().at(i);
+        switch (property) {
+        case FillColor:
+            m_fillBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                m_fillBtn->setColor(propertys[property].value<QBrush>().color());
+            }
+            m_fillBtn->update();
+            break;
+        case LineWidth:
+            m_lwLabel->setVisible(true);
+            m_sideWidthWidget->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
+            } else {
+                m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+            }
+            m_sideWidthWidget->update();
+            break;
+        case LineColor:
+            m_strokeBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_strokeBtn->setIsMultColorSame(false);
+            } else {
+                m_strokeBtn->setColor(propertys[property].value<QColor>());
+            }
+            m_strokeBtn->update();
+            break;
+        case RectRadius:
+            m_rediusLable->setVisible(true);
+            m_rediusSpinbox->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                //todo
+                disconnect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+                m_rediusSpinbox->setValue(-1);
+                connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+            } else {
+                m_rediusSpinbox->setValue(propertys[property].toInt());
+            }
+            m_rediusSpinbox->update();
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void CommonshapeWidget::initUI()
 {
 //    DLabel *fillLabel = new DLabel(this);
@@ -82,13 +143,13 @@ void CommonshapeWidget::initUI()
 //    strokeLabel->setText(tr("描边"));
 //    strokeLabel->setFont(ft);
     m_sepLine = new SeperatorLine(this);
-    DLabel *lwLabel = new DLabel(this);
-    lwLabel->setObjectName("BorderLabel");
+    m_lwLabel = new DLabel(this);
+    m_lwLabel->setObjectName("BorderLabel");
     //lwLabel->setText(tr("描边粗细"));
-    lwLabel->setText(tr("Width"));
+    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    lwLabel->setFont(ft1);
+    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
@@ -103,7 +164,7 @@ void CommonshapeWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(lwLabel);
+    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
 
     m_rediusLable = new DLabel(this);
@@ -143,7 +204,10 @@ void CommonshapeWidget::initConnection()
     ///线宽
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalCommonShapeChanged();
+        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(FillColor, color);
     });
+    //描边粗细
+    connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
@@ -160,6 +224,15 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_fillBtn->updateConfigColor();
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
+
+    m_fillBtn->setVisible(true);
+    m_strokeBtn->setVisible(true);
+    m_sepLine->setVisible(true);
+    m_lwLabel->setVisible(true);
+    m_sideWidthWidget->setVisible(true);
+//    m_rediusLable->setVisible(false);
+//    m_rediusSpinbox->setVisible(false);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
@@ -167,6 +240,12 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, redius);
+}
+
+void CommonshapeWidget::slotSideWidthChoosed(int width)
+{
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
 }
 
 QPoint CommonshapeWidget::getBtnPosition(const DPushButton *btn)

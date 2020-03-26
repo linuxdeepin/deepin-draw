@@ -24,6 +24,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -59,6 +60,58 @@ void CPenWidget::changeButtonTheme()
     m_sep1Line->updateTheme();
 }
 
+void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+{
+    m_lineTypeLabel->setVisible(false);
+    m_straightline->setVisible(false);
+    m_arrowline->setVisible(false);
+    m_strokeBtn->setVisible(false);
+    m_lwLabel->setVisible(false);
+    m_sideWidthWidget->setVisible(false);
+    for (int i = 0; i < propertys.size(); i++) {
+        EDrawProperty property = propertys.keys().at(i);
+        switch (property) {
+        case LineColor:
+            m_strokeBtn->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_strokeBtn->setIsMultColorSame(false);
+            } else {
+                m_strokeBtn->setColor(propertys[property].value<QColor>());
+            }
+            m_strokeBtn->update();
+            break;
+        case LineWidth:
+            m_lwLabel->setVisible(true);
+            m_sideWidthWidget->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
+            } else {
+                m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+            }
+            m_sideWidthWidget->update();
+            break;
+        case PenLineArrowType:
+            m_lineTypeLabel->setVisible(true);
+            m_straightline->setVisible(true);
+            m_arrowline->setVisible(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_straightline->setChecked(false);
+                m_arrowline->setChecked(false);
+            } else {
+                if (propertys[property].value<EPenType>() == EPenType::straight) {
+                    m_straightline->setChecked(true);
+                } else {
+                    m_arrowline->setChecked(true);
+                }
+            }
+            m_sideWidthWidget->update();
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void CPenWidget::initUI()
 {
 //    DLabel *strokeLabel = new DLabel(this);
@@ -71,10 +124,10 @@ void CPenWidget::initUI()
 
     m_sep1Line = new SeperatorLine(this);
 
-    DLabel *lineTypeLabel = new DLabel(this);
-    lineTypeLabel->setObjectName("Line Type");
-    lineTypeLabel->setText(tr("Type"));
-    lineTypeLabel->setFont(ft);
+    m_lineTypeLabel = new DLabel(this);
+    m_lineTypeLabel->setObjectName("Line Type");
+    m_lineTypeLabel->setText(tr("Type"));
+    m_lineTypeLabel->setFont(ft);
 
 
     QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
@@ -106,19 +159,19 @@ void CPenWidget::initUI()
     m_arrowline = new CCheckButton(pictureMap, QSize(36, 36), this);
     m_actionButtons.append(m_arrowline);
 
-    DLabel *lwLabel = new DLabel(this);
-    lwLabel->setObjectName("Border Label");
-    lwLabel->setText(tr("Width"));
+    m_lwLabel = new DLabel(this);
+    m_lwLabel->setObjectName("Border Label");
+    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    lwLabel->setFont(ft1);
+    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
-    layout->addWidget(lineTypeLabel);
+    layout->addWidget(m_lineTypeLabel);
     layout->addWidget(m_straightline);
     layout->addWidget(m_arrowline);
     layout->setSpacing(BTN_SPACNT);
@@ -128,7 +181,7 @@ void CPenWidget::initUI()
 
     layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
 
-    layout->addWidget(lwLabel);
+    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
     layout->addStretch();
     setLayout(layout);
@@ -174,6 +227,8 @@ void CPenWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
+    //描边粗细
+    connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 }
 
 void CPenWidget::clearOtherSelections(CCheckButton *clickedButton)
@@ -202,4 +257,11 @@ void CPenWidget::updatePenWidget()
             m_straightline->setChecked(false);
         }
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+}
+
+void CPenWidget::slotSideWidthChoosed(int width)
+{
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
 }

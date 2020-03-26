@@ -100,6 +100,7 @@ void CGraphicsTextItem::initTextEditWidget()
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 
     QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+    m_Font = font;
     QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 
     //全选会更改一次字体 所以字体获取要在这之前
@@ -197,6 +198,11 @@ void CGraphicsTextItem::setFont(const QFont &font)
     m_Font = font;
 }
 
+QFont CGraphicsTextItem::getFont()
+{
+    return m_Font;
+}
+
 void CGraphicsTextItem::setFontSize(qreal size)
 {
     QTextCharFormat fmt;
@@ -208,7 +214,12 @@ void CGraphicsTextItem::setFontSize(qreal size)
 //    //只有把焦点设成这个  才可以输入文字
 //    if (this->scene() != nullptr) {
 //        this->scene()->views()[0]->setFocus();
-//    }
+    //    }
+}
+
+qreal CGraphicsTextItem::getFontSize()
+{
+    return m_Font.pointSizeF();
 }
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
@@ -253,7 +264,12 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
     //只有把焦点设成这个  才可以输入文字
 //    if (this->scene() != nullptr) {
 //        this->scene()->views()[0]->setFocus();
-//    }
+    //    }
+}
+
+QColor CGraphicsTextItem::getTextColor()
+{
+    return m_color;
 }
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)

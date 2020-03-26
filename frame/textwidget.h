@@ -24,6 +24,7 @@
 #include <DWidget>
 #include <DComboBox>
 #include <DSpinBox>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
@@ -54,7 +55,11 @@ public slots:
      * @brief slotFontSizeValueChanged　字体大小改变
      */
     void slotFontSizeValueChanged(int size);
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 signals:
     /**
      * @brief showColorPanel　显示调色板信号
@@ -86,6 +91,8 @@ private:
     SeperatorLine *m_textSeperatorLine;
     DComboBox *m_fontHeavy; // 字体的重量
     DSpinBox *m_fontSize; // 字体的大小
+    DLabel *m_fontFamilyLabel;
+    DLabel *m_fontsizeLabel;
 
     QString m_oriFamily;
     bool m_bSelect;

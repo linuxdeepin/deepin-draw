@@ -28,12 +28,14 @@
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
 #include "drawshape/cgraphicsitemselectedmgr.h"
+#include "drawshape/cgraphicstextitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
 #include <QUndoCommand>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QBrush>
 #include <QDebug>
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -1343,4 +1345,188 @@ void CMultMoveShapeCommand::redo()
         myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
     }
     m_bMoved = true;
+}
+
+CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value)
+{
+    myGraphicsScene = scene;
+    m_items = items;
+    m_property = property;
+    m_value = value;
+    QVariant oldValue;
+    for (auto item : items) {
+        switch (m_property) {
+        case FillColor:
+            oldValue.setValue(item->brush());
+            break;
+        case LineWidth:
+            oldValue.setValue(item->pen().width());
+            break;
+        case LineColor:
+            oldValue.setValue(item->pen().color());
+            break;
+        case RectRadius:
+            oldValue.setValue(static_cast<CGraphicsRectItem *>(item)->getXRedius());
+            break;
+        case Anchors:
+            oldValue.setValue(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum());
+            break;
+        case StarRadius:
+            oldValue.setValue(static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            break;
+        case SideNumber:
+            oldValue.setValue(static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
+            break;
+        case LineArrowType:
+            oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineType());
+            break;
+        case PenLineArrowType:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
+            break;
+        case TextColor:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
+            if (item->type() == EGraphicUserType::TextType) {
+                oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
+            } else if (item->type() == EGraphicUserType::RectType ||
+                       item->type() == EGraphicUserType::EllipseType ||
+                       item->type() == EGraphicUserType::TriangleType ||
+                       item->type() == EGraphicUserType::PolygonalStarType ||
+                       item->type() == EGraphicUserType::PolygonType) {
+                QBrush brush = item->brush();
+                oldValue.setValue(brush.color());
+            }
+            break;
+        case TextSize:
+            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontSize());
+            break;
+        default:
+            //oldValue.setValue(QMetaType::User);
+            break;
+        }
+        m_oldValues[item] = oldValue;
+    }
+}
+
+void CSetItemsCommonPropertyValueCommand::undo()
+{
+    QVariant oldValue;
+    for (int i = 0; i < m_items.size(); i++) {
+        CGraphicsItem *item = m_items.at(i);
+        oldValue = m_oldValues[item];
+        switch (m_property) {
+        case FillColor:
+            item->setBrush(oldValue.value<QBrush>());
+            break;
+        case LineWidth: {
+            QPen widthpen = item->pen();
+            widthpen.setWidth(oldValue.toInt());
+            item->setPen(widthpen);
+            break;
+        }
+        case LineColor: {
+            QPen colorpen = item->pen();
+            colorpen.setColor(oldValue.value<QColor>());
+            item->setPen(colorpen);
+            break;
+        }
+        case RectRadius:
+            static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
+            break;
+        case Anchors:
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(oldValue.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            break;
+        case StarRadius:
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius(), oldValue.toInt());
+            break;
+        case SideNumber:
+            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
+            break;
+        case LineArrowType:
+            static_cast<CGraphicsLineItem *>(item)->setLineType(oldValue.value<ELineType>());
+            break;
+        case PenLineArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setCurrentType(oldValue.value<EPenType>());
+            break;
+        case TextColor:
+            if (item->type() == EGraphicUserType::TextType) {
+                static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
+            } else if (item->type() == EGraphicUserType::RectType ||
+                       item->type() == EGraphicUserType::EllipseType ||
+                       item->type() == EGraphicUserType::TriangleType ||
+                       item->type() == EGraphicUserType::PolygonalStarType ||
+                       item->type() == EGraphicUserType::PolygonType) {
+                QBrush brush = item->brush();
+                brush.setColor(oldValue.value<QColor>());
+                item->setBrush(brush);
+            }
+            break;
+        case TextSize:
+            static_cast<CGraphicsTextItem *>(item)->setFontSize(oldValue.value<qreal>());
+            break;
+        default:
+            break;
+        }
+    }
+    myGraphicsScene->update();
+}
+
+void CSetItemsCommonPropertyValueCommand::redo()
+{
+    for (int i = 0; i < m_items.size(); i++) {
+        CGraphicsItem *item = m_items.at(i);
+        switch (m_property) {
+        case FillColor:
+            item->setBrush(m_value.value<QBrush>());
+            break;
+        case LineWidth: {
+            QPen widthpen = item->pen();
+            widthpen.setWidth(m_value.toInt());
+            item->setPen(widthpen);
+            break;
+        }
+        case LineColor: {
+            QPen colorpen = item->pen();
+            colorpen.setColor(m_value.value<QColor>());
+            item->setPen(colorpen);
+            break;
+        }
+        case RectRadius:
+            static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
+            break;
+        case Anchors:
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            break;
+        case StarRadius:
+            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
+            break;
+        case SideNumber:
+            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
+            break;
+        case LineArrowType:
+            static_cast<CGraphicsLineItem *>(item)->setLineType(m_value.value<ELineType>());
+            break;
+        case PenLineArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setCurrentType(m_value.value<EPenType>());
+            break;
+        case TextColor:
+            if (item->type() == EGraphicUserType::TextType) {
+                static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
+            } else if (item->type() == EGraphicUserType::RectType ||
+                       item->type() == EGraphicUserType::EllipseType ||
+                       item->type() == EGraphicUserType::TriangleType ||
+                       item->type() == EGraphicUserType::PolygonalStarType ||
+                       item->type() == EGraphicUserType::PolygonType) {
+                QBrush brush = item->brush();
+                brush.setColor(m_value.value<QColor>());
+                item->setBrush(brush);
+            }
+            break;
+        case TextSize:
+            static_cast<CGraphicsTextItem *>(item)->setFontSize(m_value.value<qreal>());
+            break;
+        default:
+            break;
+        }
+    }
+    myGraphicsScene->update();
 }
