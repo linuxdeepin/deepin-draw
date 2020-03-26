@@ -92,7 +92,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case LineType://线
             propertys[LineWidth] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().color();
-            propertys[LineArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineType();
+//            propertys[LineArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineType();
             break;
         case PenType://画笔
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
@@ -298,13 +298,13 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case LineType://线
-            if (propertys.contains(LineArrowType)) {
-                if (propertys[LineArrowType] == static_cast<CGraphicsLineItem *>(item)->getLineType()) {
-                    allPropertys[LineArrowType] = propertys[LineArrowType];
-                } else {
-                    allPropertys[LineArrowType] = tmpVariant;
-                }
-            }
+//            if (propertys.contains(LineArrowType)) {
+//                if (propertys[LineArrowType] == static_cast<CGraphicsLineItem *>(item)->getLineType()) {
+//                    allPropertys[LineArrowType] = propertys[LineArrowType];
+//                } else {
+//                    allPropertys[LineArrowType] = tmpVariant;
+//                }
+//            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsLineItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -410,4 +410,50 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
 CManagerAttributeService::CManagerAttributeService()
 {
     m_currentScence = nullptr;
+}
+
+void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType startType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
+        if (lineItem != nullptr) {
+            lineItem->setLineStartType(startType);
+            scence->getDrawParam()->setLineStartType(startType);
+            lineItem->update();
+        }
+    }
+}
+
+void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
+        if (lineItem != nullptr) {
+            lineItem->setLineEndType(endType);
+            scence->getDrawParam()->setLineEndType(endType);
+            lineItem->update();
+        }
+    }
 }

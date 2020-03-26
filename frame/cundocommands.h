@@ -18,8 +18,10 @@
  */
 #ifndef CUNDOCOMMANDS_H
 #define CUNDOCOMMANDS_H
+
 #include "drawshape/csizehandlerect.h"
 #include "drawshape/globaldefine.h"
+
 #include <QUndoCommand>
 #include <QPointF>
 #include <QList>
@@ -321,15 +323,17 @@ private:
 class CSetLineAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, int newType);
+    explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, ELineType newStartType, ELineType newEndType);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
 private:
     CDrawScene *myGraphicsScene;
     CGraphicsLineItem *m_pItem;
-    int m_oldType;
-    int m_newType;
+    ELineType m_newStartType; // 起始点样式
+    ELineType m_newEndType; // 终点样式
+    ELineType m_oldStartType; // 起始点样式
+    ELineType m_oldEndType; // 终点样式
 };
 
 

@@ -91,8 +91,8 @@ CDrawScene::CDrawScene(CGraphicsView *view)
     connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int )),
             view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int )));
 
-    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, int )),
-            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, int)));
+    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, ELineType, ELineType)),
+            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, ELineType, ELineType)));
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -292,14 +292,14 @@ void CDrawScene::attributeChanged()
                 }
             } else if (item->type() == LineType) {
                 CGraphicsLineItem *tmpItem = static_cast<CGraphicsLineItem *>(item);
-                tmpItem->calcVertexes();
-                ELineType type = tmpItem->getLineType();
-                if (type != getDrawParam()->getLineType()) {
-                    //tmpItem->setLineType(CDrawParamSigleton::GetInstance()->getLineType());
+                ELineType startType = tmpItem->getLineStartType();
+                ELineType endType = tmpItem->getLineEndType();
+                if (startType != getDrawParam()->getLineStartType() || endType != getDrawParam()->getLineEndType()) {
+
                     tmpItem->update();
                     //REDO UNDO
-                    emit itemLineTypeChange(tmpItem, getDrawParam()->getLineType());
-                    tmpItem->update();
+                    emit itemLineTypeChange(tmpItem, getDrawParam()->getLineStartType(), getDrawParam()->getLineEndType());
+//                    tmpItem->update();
                 }
 
             }
@@ -354,7 +354,8 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
                 break;
             case LineType:
                 getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setLineType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineType());
+                getDrawParam()->setLineStartType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineStartType());
+                getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
                 break;
             case BlurType:
                 getDrawParam()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurEffect());

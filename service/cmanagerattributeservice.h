@@ -72,6 +72,17 @@ public:
     */
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value);
 
+    /*
+     * @bref: setLineStartType 设置线段起点的样式
+     * @param: startType 起点样式
+    */
+    void setLineStartType(CDrawScene *scence, ELineType startType);
+    /*
+     * @bref: setLineEndType 设置线段终点的样式
+     * @param: endType 终点样式
+    */
+    void setLineEndType(CDrawScene *scence, ELineType endType);
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号

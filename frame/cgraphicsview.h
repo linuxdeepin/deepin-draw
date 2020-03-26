@@ -18,7 +18,10 @@
  */
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
+
 #include "drawshape/csizehandlerect.h"
+#include "drawshape/globaldefine.h"
+
 #include "widgets/cmenu.h"
 #include <DGraphicsView>
 
@@ -303,7 +306,7 @@ public slots:
      * @param item
      * @param newType
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, int newType);
+    void itemLineTypeChange(CGraphicsLineItem *item, ELineType newStartType, ELineType newOldType);
 
     /**
      * @brief itemBlurChange

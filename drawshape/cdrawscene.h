@@ -22,6 +22,8 @@
 #include <QGraphicsScene>
 #include <QObject>
 
+#include "drawshape/globaldefine.h"
+
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
 class CGraphicsRectItem;
@@ -233,7 +235,7 @@ signals:
      * @param item
      * @param type
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, int type);
+    void itemLineTypeChange(CGraphicsLineItem *item, ELineType startType, ELineType endType);
 
     /**
      * @brief signalUpdateCutSize 更新裁剪的大小

@@ -266,14 +266,24 @@ void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
     m_ddfSavePath = ddfSavePath;
 }
 
-ELineType CDrawParamSigleton::getLineType() const
+ELineType CDrawParamSigleton::getLineStartType() const
 {
-    return m_lineType;
+    return m_lineStartType;
 }
 
-void CDrawParamSigleton::setLineType(const ELineType &lineType)
+void CDrawParamSigleton::setLineStartType(const ELineType &lineType)
 {
-    m_lineType = lineType;
+    m_lineStartType = lineType;
+}
+
+ELineType CDrawParamSigleton::getLineEndType() const
+{
+    return m_lineEndType;
+}
+
+void CDrawParamSigleton::setLineEndType(const ELineType &lineType)
+{
+    m_lineEndType = lineType;
 }
 
 ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const

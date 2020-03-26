@@ -18,13 +18,18 @@
  */
 #include "linewidget.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/cdrawscene.h"
+
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/toolbutton.h"
 #include "widgets/csidewidthwidget.h"
 #include "widgets/ccheckbutton.h"
+#include "widgets/dmenucombobox.h"
+
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+
 #include "service/cmanagerattributeservice.h"
 
 #include <QHBoxLayout>
@@ -48,18 +53,49 @@ void LineWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
     m_sep1Line->updateTheme();
+
     int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    m_straightline->setCurrentTheme(themeType);
-    m_arrowline->setCurrentTheme(themeType);
+//    m_straightline->setCurrentTheme(themeType);
+//    m_arrowline->setCurrentTheme(themeType);
+    // lock signal
+    m_lineStartComboBox->blockSignals(true);
+    m_lineEndComboBox->blockSignals(true);
+    m_lineStartComboBox->cleanAllMenuItem();
+    m_lineEndComboBox->cleanAllMenuItem();
+    if (1 == themeType) { // deep style
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_arrow_light_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_solid arrow_light_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_ring_light_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_round_light_start.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_arrow_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_solid arrow_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_ring_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_round_light_end.svg")));
+    } else { // clearly
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_arrow_black_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_solid arrow_black_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_ring_black_start.svg")));
+        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_round_black_start.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_finishline_arrow_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_solid arrow_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_ring_light_end.svg")));
+        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_round_light_end.svg")));
+    }
+    m_lineStartComboBox->blockSignals(false);
+    m_lineEndComboBox->blockSignals(false);
 }
 
 void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
 {
-    m_lineTypeLabel->setVisible(false);
-    m_straightline->setVisible(false);
-    m_arrowline->setVisible(false);
+//    m_lineTypeLabel->setVisible(false);
+//    m_straightline->setVisible(false);
+//    m_arrowline->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_lwLabel->setVisible(false);
+//    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
@@ -74,7 +110,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_strokeBtn->update();
             break;
         case LineWidth:
-            m_lwLabel->setVisible(true);
+//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
@@ -84,17 +120,17 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_sideWidthWidget->update();
             break;
         case LineArrowType:
-            m_lineTypeLabel->setVisible(true);
-            m_straightline->setVisible(true);
-            m_arrowline->setVisible(true);
+//            m_lineTypeLabel->setVisible(true);
+//            m_straightline->setVisible(true);
+//            m_arrowline->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_straightline->setChecked(false);
-                m_arrowline->setChecked(false);
+//                m_straightline->setChecked(false);
+//                m_arrowline->setChecked(false);
             } else {
                 if (propertys[property].value<ELineType>() == straightType) {
-                    m_straightline->setChecked(true);
+//                    m_straightline->setChecked(true);
                 } else {
-                    m_arrowline->setChecked(true);
+//                    m_arrowline->setChecked(true);
                 }
             }
             m_sideWidthWidget->update();
@@ -110,100 +146,55 @@ void LineWidget::initUI()
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
 
-    m_lineTypeLabel = new DLabel(this);
-    m_lineTypeLabel->setObjectName("Line Type");
-    m_lineTypeLabel->setText(tr("Type"));
-    m_lineTypeLabel->setFont(ft);
-
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
-
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/line tool_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/line tool_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/line tool_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/line tool_checked.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/line tool_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/line tool_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/line tool_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/line tool_checked.svg");
-
-    m_straightline = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_actionButtons.append(m_straightline);
-
-
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/attribute/arrow tool_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/attribute/arrow tool_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/attribute/arrow tool_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/attribute/arrow tool_checked.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/attribute/arrow tool_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/attribute/arrow tool_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/attribute/arrow tool_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/attribute/arrow tool_checked.svg");
-
-    m_arrowline = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_actionButtons.append(m_arrowline);
-
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType() == straightType) {
-        m_straightline->setChecked(true);
-    } else {
-        m_arrowline->setChecked(true);
-    }
-
-//    DLabel *strokeLabel = new DLabel(this);
-//    strokeLabel->setObjectName("StrokeLabel");
-//    strokeLabel->setText(tr("描边"));
-//    ft.setPixelSize(TEXT_SIZE);
-//    strokeLabel->setFont(ft);
+    DLabel *startLabel = new DLabel(this);
+    DLabel *endLabel = new DLabel(this);
+    startLabel->setText(tr("start"));
+    startLabel->setFont(ft);
+    endLabel->setText(tr("end"));
+    endLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
-
     m_sep1Line = new SeperatorLine(this);
-
-    m_lwLabel = new DLabel(this);
-    m_lwLabel->setObjectName("Border Label");
-    m_lwLabel->setText(tr("Width"));
-    QFont ft1;
-    ft1.setPixelSize(TEXT_SIZE - 1);
-    m_lwLabel->setFont(ft1);
-
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_lineStartComboBox = new DMenuComboBox(this);
+    m_lineStartComboBox->setFixedSize(QSize(70, 36));
+    m_lineStartComboBox->setMenuMaxWidth(70);
+    m_lineEndComboBox =  new DMenuComboBox(this);
+    m_lineEndComboBox->setFixedSize(QSize(70, 36));
+    m_lineEndComboBox->setMenuMaxWidth(70);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
-    layout->addWidget(m_lineTypeLabel);
-    layout->addWidget(m_straightline);
-    layout->addWidget(m_arrowline);
+    layout->addWidget(m_strokeBtn);
+    layout->addWidget(m_sideWidthWidget);
+    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(startLabel);
+    layout->addWidget(m_lineStartComboBox);
+    layout->addWidget(endLabel);
+    layout->addWidget(m_lineEndComboBox);
     layout->setSpacing(BTN_SPACNT);
     layout->addSpacing(16);
-    layout->addWidget(m_strokeBtn);
-    //layout->addWidget(strokeLabel);
-
-    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
-
-    layout->addWidget(m_lwLabel);
-    layout->addWidget(m_sideWidthWidget);
     layout->addStretch();
     setLayout(layout);
+
+    changeButtonTheme();
 }
 
 void LineWidget::initConnection()
 {
+    // 线颜色
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-
         QPoint btnPos = mapToGlobal(m_strokeBtn->pos());
         QPoint pos(btnPos.x() + m_strokeBtn->width() / 2,
                    btnPos.y() + m_strokeBtn->height());
-
         showColorPanel(DrawStatus::Stroke, pos, show);
     });
-
     connect(this, &LineWidget::resetColorBtns, this, [ = ] {
         m_strokeBtn->resetChecked();
     });
 
-    ///线宽
+    // 线宽
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
         emit signalLineAttributeChanged();
     });
@@ -214,23 +205,82 @@ void LineWidget::initConnection()
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
-    connect(m_straightline, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_straightline);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(straightType);
-        emit signalLineAttributeChanged();
+//    connect(m_straightline, &CCheckButton::buttonClick, [this]() {
+//        clearOtherSelections(m_straightline);
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(straightType);
+//        emit signalLineAttributeChanged();
+//        //隐藏调色板
+//        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+//    });
+
+    // 起点箭头样式
+    connect(m_lineStartComboBox, &DMenuComboBox::signalCurrentIndexChanged, this, [ = ](int index) {
+        ELineType lineType = noneLine;
+        switch (index) {
+        case 0: {
+            lineType = noneLine;
+            break;
+        }
+        case 1: {
+            lineType = normalArrow;
+            break;
+        }
+        case 2: {
+            lineType = soildArrow;
+            break;
+        }
+        case 3: {
+            lineType = normalRing;
+            break;
+        }
+        case 4: {
+            lineType = soildRing;
+            break;
+        }
+        }
+
+        CManagerAttributeService::getInstance()->setLineStartType(
+            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
-    connect(m_arrowline, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_arrowline);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineType(arrowType);
-        emit signalLineAttributeChanged();
+    // 终点箭头样式
+    connect(m_lineEndComboBox, &DMenuComboBox::signalCurrentIndexChanged, this, [ = ](int index) {
+        ELineType lineType = noneLine;
+        switch (index) {
+        case 0: {
+            lineType = noneLine;
+            break;
+        }
+        case 1: {
+            lineType = normalArrow;
+            break;
+        }
+        case 2: {
+            lineType = soildArrow;
+            break;
+        }
+        case 3: {
+            lineType = normalRing;
+            break;
+        }
+        case 4: {
+            lineType = soildRing;
+            break;
+        }
+        }
+
+        CManagerAttributeService::getInstance()->setLineEndType(
+            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
-
+    m_lineStartComboBox->setCurrentIndex(0);
+    m_lineStartComboBox->setCurrentIndex(0);
 }
 
 void LineWidget::updateLineWidget()
@@ -238,20 +288,6 @@ void LineWidget::updateLineWidget()
     m_strokeBtn->updateConfigColor();
     m_sideWidthWidget->updateSideWidth();
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType() == straightType) {
-        m_straightline->setChecked(true);
-        clearOtherSelections(m_straightline);
-    } else {
-        m_arrowline->setChecked(true);
-        clearOtherSelections(m_arrowline);
-    }
-
-    m_lineTypeLabel->setVisible(true);
-    m_straightline->setVisible(true);
-    m_arrowline->setVisible(true);
-    m_strokeBtn->setVisible(true);
-    m_lwLabel->setVisible(true);
-    m_sideWidthWidget->setVisible(true);
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
@@ -260,15 +296,7 @@ void LineWidget::slotSideWidthChoosed(int width)
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
 }
 
-void LineWidget::clearOtherSelections(CCheckButton *clickedButton)
-{
-    foreach (CCheckButton *button, m_actionButtons) {
-        if (button->isChecked() && button != clickedButton) {
-            button->setChecked(false);
-            return;
-        }
-    };
-}
+
 
 
 

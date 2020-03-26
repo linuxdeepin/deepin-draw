@@ -100,6 +100,16 @@ public:
     */
     void updateButtonTextAndIcon();
 
+    /*
+    * @bref: setMenuMaxWidth 设置菜单最大宽度
+    */
+    void setMenuMaxWidth(int width);
+
+    /*
+    * @bref: cleanAllMenuItem 删除所有的菜单子项
+    */
+    void cleanAllMenuItem();
+
 signals:
     /*
     * @bref: signalCurrentIndexChanged 下标索引改变信号

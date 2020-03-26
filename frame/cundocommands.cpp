@@ -713,24 +713,28 @@ void CSetPenAttributeCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, int newType)
+CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, ELineType newStartType, ELineType newEndType)
     : m_pItem(item)
-    , m_newType(newType)
+    , m_newStartType(newStartType)
+    , m_newEndType(newEndType)
 {
     myGraphicsScene = scene;
-    m_oldType = item->getLineType();
+    m_oldStartType = item->getLineStartType();
+    m_oldEndType = item->getLineEndType();
 }
 
 void CSetLineAttributeCommand::undo()
 {
-    m_pItem->setLineType(static_cast<ELineType>(m_oldType));
+    m_pItem->setLineStartType(static_cast<ELineType>(m_oldStartType));
+    m_pItem->setLineEndType(static_cast<ELineType>(m_oldEndType));
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetLineAttributeCommand::redo()
 {
-    m_pItem->setLineType(static_cast<ELineType>(m_newType));
+    m_pItem->setLineStartType(static_cast<ELineType>(m_newStartType));
+    m_pItem->setLineEndType(static_cast<ELineType>(m_newEndType));
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
@@ -1378,7 +1382,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
             break;
         case LineArrowType:
-            oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineType());
+//            oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineType());
             break;
         case PenLineArrowType:
             oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
@@ -1442,7 +1446,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
             break;
         case LineArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineType(oldValue.value<ELineType>());
+//            static_cast<CGraphicsLineItem *>(item)->setLineType(oldValue.value<ELineType>());
             break;
         case PenLineArrowType:
             static_cast<CGraphicsPenItem *>(item)->setCurrentType(oldValue.value<EPenType>());
@@ -1503,7 +1507,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
             break;
         case LineArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineType(m_value.value<ELineType>());
+//            static_cast<CGraphicsLineItem *>(item)->setLineType(m_value.value<ELineType>());
             break;
         case PenLineArrowType:
             static_cast<CGraphicsPenItem *>(item)->setCurrentType(m_value.value<EPenType>());

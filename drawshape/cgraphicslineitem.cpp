@@ -26,19 +26,22 @@
 #include <QPainter>
 #include <QPointF>
 #include <QtMath>
+#include <QDebug>
 
 DTK_USE_NAMESPACE
 
 CGraphicsLineItem::CGraphicsLineItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
+    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
+    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     initLine();
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
+    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
+    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     m_line = line;
     initLine();
@@ -46,7 +49,8 @@ CGraphicsLineItem::CGraphicsLineItem(const QLineF &line, QGraphicsItem *parent)
 
 CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
-    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
+    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
+    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     setLine(p1.x(), p1.y(), p2.x(), p2.y());
     initLine();
@@ -55,7 +59,8 @@ CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGrap
 CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_line(x1, y1, x2, y2)
-    , m_type(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineType())
+    , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
+    , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
     initLine();
 }
@@ -64,7 +69,8 @@ CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SG
     : CGraphicsItem (head, parent)
 {
     setLine(data->point1, data->point2);
-    m_type = static_cast<ELineType>(data->type);
+    m_startType = static_cast<ELineType>(data->start_type);
+    m_endType = static_cast<ELineType>(data->end_type);
     initLine();
 }
 
@@ -99,9 +105,7 @@ QPainterPath CGraphicsLineItem::shape() const
 
     }
 
-    if (m_type == arrowType) {
-        path.addPolygon(m_arrow);
-    }
+    path.addPath(m_start_end_Path);
 
     return qt_graphicsItem_shapeFromPath(path, pen);
 }
@@ -319,7 +323,8 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
     unit.data.pLine = new SGraphicsLineUnitData();
     unit.data.pLine->point1 = this->line().p1();
     unit.data.pLine->point2 = this->line().p2();
-    unit.data.pLine->type = m_type;
+    unit.data.pLine->start_type = m_startType;
+    unit.data.pLine->end_type = m_endType;
 
     return  unit;
 }
@@ -340,16 +345,24 @@ int CGraphicsLineItem::getQuadrant() const
     return nRet;
 }
 
-void CGraphicsLineItem::setLineType(ELineType type)
+void CGraphicsLineItem::setLineStartType(ELineType type)
 {
-    prepareGeometryChange();
-    m_type = type;
-    updateGeometry();
+    m_startType = type;
 }
 
-ELineType CGraphicsLineItem::getLineType() const
+ELineType CGraphicsLineItem::getLineStartType() const
 {
-    return m_type;
+    return m_startType;
+}
+
+void CGraphicsLineItem::setLineEndType(ELineType type)
+{
+    m_endType = type;
+}
+
+ELineType CGraphicsLineItem::getLineEndType() const
+{
+    return m_endType;
 }
 
 void CGraphicsLineItem::updateGeometry()
@@ -407,17 +420,16 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
-
-    if (m_type == arrowType) {
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(this->pen().color());
-        painter->drawPolygon(m_arrow);
-        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-        painter->drawLine(QLineF(m_line.p1(), m_point4));
-    } else {
-        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-        painter->drawLine(m_line);
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    if (m_startType == soildArrow || m_startType == soildRing
+            || m_endType == soildArrow || m_endType == soildRing) {
+        painter->setBrush(QBrush(QColor(pen().color())));
     }
+    drawStart();
+    painter->drawPath(m_start_end_Path);
+    drawEnd();
+    painter->drawPath(m_start_end_Path);
+    painter->drawLine(m_line);
 }
 
 void CGraphicsLineItem::initLine()
@@ -436,16 +448,88 @@ void CGraphicsLineItem::initLine()
     this->setAcceptHoverEvents(true);
 }
 
-void CGraphicsLineItem::calcVertexes()
+void CGraphicsLineItem::drawStart()
 {
     QPointF prePoint = m_line.p1();
     QPointF currentPoint = m_line.p2();
-    m_point4 = prePoint;
     if (prePoint == currentPoint) {
         return;
     }
 
-    m_arrow.clear();
+    QLineF templine(m_line.p2(), m_line.p1());
+
+    QLineF v = templine.unitVector();
+    v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
+    v.translate(QPointF(templine.dx(), templine.dy()));
+
+    QLineF n = v.normalVector(); //法向量
+    n.setLength(n.length() * 0.5); //这里设定箭头的宽度
+    QLineF n2 = n.normalVector().normalVector(); //两次法向量运算以后，就得到一个反向的法向量
+
+    QPointF p1 = v.p2();
+    QPointF p2 = n.p2();
+    QPointF p3 = n2.p2();
+
+    //减去一个箭头的宽度
+    QPointF diffV = p1 - m_line.p1();
+    p1 -= diffV;
+    p2 -= diffV;
+    p3 -= diffV;
+
+    switch (m_startType) {
+    case noneLine: {
+        break;
+    }
+    case normalArrow: {
+        m_start_end_Path = QPainterPath(p1);
+        m_start_end_Path.lineTo(p3);
+        m_start_end_Path.moveTo(p1);
+        m_start_end_Path.lineTo(p2);
+        m_start_end_Path.moveTo(p1);
+        break;
+    }
+    case soildArrow: {
+        m_start_end_Path = QPainterPath(p1);
+        m_start_end_Path.lineTo(p3);
+        m_start_end_Path.lineTo(p2);
+        m_start_end_Path.lineTo(p1);
+        break;
+    }
+    case normalRing: {
+        qreal radioWidth = 5;
+        QPointF center;
+        qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
+        qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
+        center = m_line.p1() + QPointF(-xOff, yOff);
+        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
+        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
+        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        break;
+    }
+    case soildRing: {
+        qreal radioWidth = 5;
+        QPointF center;
+        qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
+        qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
+        center = m_line.p1() + QPointF(-xOff, yOff);
+        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
+        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
+        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        break;
+    }
+    default: {
+        break;
+    }
+    }
+}
+
+void CGraphicsLineItem::drawEnd()
+{
+    QPointF prePoint = m_line.p1();
+    QPointF currentPoint = m_line.p2();
+    if (prePoint == currentPoint) {
+        return;
+    }
 
     QLineF v = m_line.unitVector();
     v.setLength(10 + pen().width() * 3); //改变单位向量的大小，实际就是改变箭头长度
@@ -461,19 +545,71 @@ void CGraphicsLineItem::calcVertexes()
 
     //减去一个箭头的宽度
     QPointF diffV = p1 - m_line.p2();
+    //    QPointF diffV = p1 - m_line.p1();
     p1 -= diffV;
     p2 -= diffV;
     p3 -= diffV;
+    // 绘制终点
+    switch (m_endType) {
+    case noneLine: {
+        break;
+    }
+    case normalArrow: {
+        m_start_end_Path = QPainterPath(p1);
+        m_start_end_Path.lineTo(p2);
+        m_start_end_Path.moveTo(p1);
+        m_start_end_Path.lineTo(p3);
+        m_start_end_Path.moveTo(p1);
+        break;
+    }
+    case soildArrow: {
+        m_start_end_Path = QPainterPath(p1);
+        m_start_end_Path.lineTo(p3);
+        m_start_end_Path.lineTo(p2);
+        m_start_end_Path.lineTo(p1);
+        break;
+    }
+    case normalRing: {
+        qreal radioWidth = 5;
+        QPointF center;
+        qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
+        qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
+        center = m_line.p2() + QPointF(xOff, -yOff);
+        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
+        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
+        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        break;
+    }
+    case soildRing: {
+        qreal radioWidth = 5;
+        QPointF center;
+        qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
+        qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
+        center = m_line.p2() + QPointF(-xOff, yOff);
+        QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
+        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
+        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        break;
+    }
+    default: {
 
-    m_point4 = (p2 + p3) / 2;
-    m_arrow.push_back(p1);
-    m_arrow.push_back(p2);
-    m_arrow.push_back(p3);
+    }
+    }
+}
+
+void CGraphicsLineItem::calcVertexes()
+{
+    // 绘制起点
+    drawStart();
+
+    // 绘制终点
+    drawEnd();
 }
 
 QPainterPath CGraphicsLineItem::getHighLightPath()
 {
     QPainterPath path(m_line.p1());
     path.lineTo(m_line.p2());
+    path.addPath(m_start_end_Path);
     return path;
 }

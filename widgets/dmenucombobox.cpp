@@ -190,10 +190,22 @@ void DMenuComboBox::updateButtonTextAndIcon()
     m_btn->setIcon(m_actions.at(m_currentIndex)->icon());
 }
 
+void DMenuComboBox::setMenuMaxWidth(int width)
+{
+    m_menu->setMaximumWidth(width);
+}
+
+void DMenuComboBox::cleanAllMenuItem()
+{
+    m_menu->clear();
+    m_actions.clear();
+    m_currentIndex = -1;
+}
+
 void DMenuComboBox::slotActionToggled(QAction *action)
 {
     for (int i = 0; i < m_actions.count(); i++) {
-        if (action->text() == m_actions.at(i)->text()) {
+        if (action == m_actions.at(i)) {
             setCurrentIndex(i);
             emit signalActionToggled(action->text());
             break;

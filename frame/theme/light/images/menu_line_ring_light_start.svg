@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="12px" viewBox="0 0 34 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>menu_line_ring</title>
+    <desc>Created with Sketch.</desc>
+    <g id="浅色主题" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="新增切图" transform="translate(-87.000000, -285.000000)">
+            <g id="编组-4" transform="translate(69.000000, 228.000000)">
+                <g id="编组">
+                    <g id="选项" transform="translate(0.000000, 45.000000)">
+                        <g id="menu_line_ring" transform="translate(18.000000, 12.000000)">
+                            <polygon id="矩形" fill="#000000" points="10 5 34 5 34 7 10 7"></polygon>
+                            <circle id="椭圆形" stroke="#000000" stroke-width="2" cx="6" cy="6" r="5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

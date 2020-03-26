@@ -109,8 +109,11 @@ public:
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
 
-    ELineType getLineType() const;
-    void setLineType(const ELineType &lineType);
+    ELineType getLineStartType() const;
+    void setLineStartType(const ELineType &lineType);
+
+    ELineType getLineEndType() const;
+    void setLineEndType(const ELineType &lineType);
 
     ESaveDDFTriggerAction getSaveDDFTriggerAction() const;
     void setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction);
@@ -191,6 +194,8 @@ private:
 
     //线型
     ELineType m_lineType;
+    ELineType m_lineStartType; // 线起点样式
+    ELineType m_lineEndType; // 线终点样式
 
     int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
 

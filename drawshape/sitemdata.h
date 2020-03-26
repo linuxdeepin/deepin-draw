@@ -233,22 +233,29 @@ struct SGraphicsPolygonStarUnitData {
 struct SGraphicsLineUnitData {
     QPointF point1;
     QPointF point2;
-    qint32 type;//0: 无剪头 1: 有前头
+    ELineType start_type; // 起点箭头样式
+    ELineType end_type;   // 终点箭头样式
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsLineUnitData &lineUnitData)
     {
         out << lineUnitData.point1;
         out << lineUnitData.point2;
-        out << lineUnitData.type;
+        out << lineUnitData.start_type;
+        out << lineUnitData.end_type;
 
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsLineUnitData &lineUnitData)
     {
+        quint32 start_type = 0;
+        quint32 end_type = 0;
         in >> lineUnitData.point1;
         in >> lineUnitData.point2;
-        in >> lineUnitData.type;
+        in >> start_type;
+        in >> end_type;
+        lineUnitData.start_type = static_cast<ELineType>(start_type);
+        lineUnitData.end_type = static_cast<ELineType>(end_type);
         return in;
     }
 };

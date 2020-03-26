@@ -65,9 +65,11 @@ public:
 
     int getQuadrant() const;
 
-    void setLineType(ELineType type);
+    void setLineStartType(ELineType type);
+    ELineType getLineStartType() const;
 
-    ELineType getLineType() const;
+    void setLineEndType(ELineType type);
+    ELineType getLineEndType() const;
 
     /**
      * @brief calcVertexes  计算箭头
@@ -91,11 +93,13 @@ private:
 
 private:
     QLineF m_line;
-    ELineType m_type;
+    ELineType m_startType; // 起始点样式
+    ELineType m_endType; // 终点样式
 
-    QPolygonF m_arrow; //箭头三角形
-    QPointF m_point4;
+    QPainterPath m_start_end_Path; // 绘制路径
 
+    void drawStart();
+    void drawEnd();
 };
 
 #endif // CGRAPHICSLINEITEM_H

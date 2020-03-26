@@ -24,11 +24,10 @@
 
 #include "drawshape/globaldefine.h"
 
-
 class CSideWidthWidget;
 class BorderColorButton;
 class SeperatorLine;
-class CCheckButton;
+class DMenuComboBox;
 
 Q_DECLARE_METATYPE(ELineType);
 DWIDGET_USE_NAMESPACE
@@ -75,14 +74,12 @@ signals:
     void signalLineAttributeChanged();
 
 private:
-    CSideWidthWidget *m_sideWidthWidget;
-    BorderColorButton *m_strokeBtn;
-    SeperatorLine *m_sep1Line;
-    CCheckButton *m_straightline;
-    CCheckButton *m_arrowline;
-    QList<CCheckButton *> m_actionButtons;
-    DLabel *m_lineTypeLabel;
-    DLabel *m_lwLabel;
+    CSideWidthWidget *m_sideWidthWidget; // 线宽
+    BorderColorButton *m_strokeBtn; // 线颜色
+    SeperatorLine *m_sep1Line; // 竖线
+
+    DMenuComboBox *m_lineStartComboBox; // 线段起点样式
+    DMenuComboBox *m_lineEndComboBox; // 线段终点样式
 
 private:
     /**
@@ -93,11 +90,6 @@ private:
      * @brief initConnection　初始化连接
      */
     void initConnection();
-    /**
-     * @brief clearOtherSelections　清除其他按钮选中状态
-     * @param clickedButton
-     */
-    void clearOtherSelections(CCheckButton *clickedButton);
 };
 
 #endif // LINEWIDGET_H

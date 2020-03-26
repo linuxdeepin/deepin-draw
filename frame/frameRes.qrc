@@ -212,5 +212,23 @@
         <file>theme/dark/images/attribute/flip horizontal_disable.svg</file>
         <file>theme/dark/images/attribute/flip vertical_disable.svg</file>
         <file>theme/dark/images/action/choose tools_active.svg</file>
+        <file>theme/light/images/combobox_startline_none_light.svg</file>
+        <file>theme/light/images/menu_finishline_solid arrow_light_end.svg</file>
+        <file>theme/light/images/menu_finishline_round_light_end.svg</file>
+        <file>theme/light/images/menu_finishline_ring_light_end.svg</file>
+        <file>theme/light/images/menu_finishline_arrow_light_end.svg</file>
+        <file>theme/light/images/menu_line_arrow_light_start.svg</file>
+        <file>theme/light/images/menu_line_ring_light_start.svg</file>
+        <file>theme/light/images/menu_line_round_light_start.svg</file>
+        <file>theme/light/images/menu_line_solid arrow_light_start.svg</file>
+        <file>theme/dark/images/combobox_finishline_ring_light_end.svg</file>
+        <file>theme/dark/images/combobox_finishline_round_light_end.svg</file>
+        <file>theme/dark/images/menu_line_arrow_black_start.svg</file>
+        <file>theme/dark/images/menu_finishline_arrow_light_end.svg</file>
+        <file>theme/dark/images/combobox_startline_none_black.svg</file>
+        <file>theme/dark/images/combobox_finishline_solid arrow_light_end.svg</file>
+        <file>theme/dark/images/menu_line_round_black_start.svg</file>
+        <file>theme/dark/images/menu_line_ring_black_start.svg</file>
+        <file>theme/dark/images/menu_line_solid arrow_black_start.svg</file>
     </qresource>
 </RCC>

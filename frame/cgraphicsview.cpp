@@ -557,10 +557,10 @@ void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, int newType)
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, int newType)
+void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, ELineType newStartType, ELineType newOldType)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QUndoCommand *command = new CSetLineAttributeCommand(curScene, item, newType);
+    QUndoCommand *command = new CSetLineAttributeCommand(curScene, item, newStartType, newOldType);
     m_pUndoStack->push(command);
 }
 
