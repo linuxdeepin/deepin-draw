@@ -323,7 +323,7 @@ private:
 class CSetLineAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, ELineType newStartType, ELineType newEndType);
+    explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 

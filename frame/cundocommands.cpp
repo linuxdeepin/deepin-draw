@@ -713,12 +713,19 @@ void CSetPenAttributeCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, ELineType newStartType, ELineType newEndType)
+CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type)
     : m_pItem(item)
-    , m_newStartType(newStartType)
-    , m_newEndType(newEndType)
+    , m_newStartType(noneLine)
+    , m_newEndType(noneLine)
 {
     myGraphicsScene = scene;
+
+    if (isStart) {
+        m_newStartType = type;
+    } else {
+        m_newEndType = type;
+    }
+
     m_oldStartType = item->getLineStartType();
     m_oldEndType = item->getLineEndType();
 }
@@ -727,7 +734,6 @@ void CSetLineAttributeCommand::undo()
 {
     m_pItem->setLineStartType(static_cast<ELineType>(m_oldStartType));
     m_pItem->setLineEndType(static_cast<ELineType>(m_oldEndType));
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -735,7 +741,8 @@ void CSetLineAttributeCommand::redo()
 {
     m_pItem->setLineStartType(static_cast<ELineType>(m_newStartType));
     m_pItem->setLineEndType(static_cast<ELineType>(m_newEndType));
-    myGraphicsScene->changeAttribute(true, m_pItem);
+//    m_pItem->update(
+//    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 

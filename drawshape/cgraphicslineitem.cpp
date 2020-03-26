@@ -421,13 +421,17 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
     updateGeometry();
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-    if (m_startType == soildArrow || m_startType == soildRing
-            || m_endType == soildArrow || m_endType == soildRing) {
+    painter->setBrush(Qt::NoBrush);
+    drawStart();
+    if (m_startType == soildArrow || m_startType == soildRing) {
         painter->setBrush(QBrush(QColor(pen().color())));
     }
-    drawStart();
     painter->drawPath(m_start_end_Path);
+    painter->setBrush(Qt::NoBrush);
     drawEnd();
+    if (m_endType == soildArrow || m_endType == soildRing) {
+        painter->setBrush(QBrush(QColor(pen().color())));
+    }
     painter->drawPath(m_start_end_Path);
     painter->drawLine(m_line);
 }

@@ -31,6 +31,7 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+
 #include "frame/cundocommands.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -431,6 +432,8 @@ void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType st
         if (lineItem != nullptr) {
             lineItem->setLineStartType(startType);
             scence->getDrawParam()->setLineStartType(startType);
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->update();
         }
     }
@@ -454,6 +457,8 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
         if (lineItem != nullptr) {
             lineItem->setLineEndType(endType);
             scence->getDrawParam()->setLineEndType(endType);
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->update();
         }
     }
