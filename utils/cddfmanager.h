@@ -31,6 +31,7 @@ class QGraphicsItem;
 class QGraphicsScene;
 class CGraphicsView;
 class CProgressDialog;
+class CAbstractProcessDialog;
 
 DWIDGET_USE_NAMESPACE
 
@@ -87,7 +88,7 @@ signals:
     /**
      * @brief signalUpdateProcessBar　更新进度条信号
      */
-    void signalUpdateProcessBar(int);
+    void signalUpdateProcessBar(int, bool);
     /**
      * @brief signalStartLoadDDF　发送开始载入ＤＤＦ文件信号
      * @param rect　场景矩形
@@ -121,11 +122,17 @@ private slots:
      */
     void slotLoadDDFComplete();
 
+    /**
+     * @brief slotSaveDDFComplete　处理保存/加载的进度显示
+     */
+    void slotProcessSchedule(int process, bool isSave);
+
 
 private:
     CGraphicsView *m_view;
     CGraphics m_graphics;
     CProgressDialog *m_CProgressDialog;
+    CAbstractProcessDialog *m_pSaveDialog;
     QString m_path;
 
     bool m_lastSaveStatus; //最后一次保存状态

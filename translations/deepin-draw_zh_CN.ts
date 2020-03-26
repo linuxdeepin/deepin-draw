@@ -41,6 +41,14 @@
     </message>
 </context>
 <context>
+    <name>CAbstractProcessDialog</name>
+    <message>
+        <location filename="../widgets/dialog/cprogressdialog.cpp" line="95"/>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
+    </message>
+</context>
+<context>
     <name>CAlphaControlWidget</name>
     <message>
         <location filename="../widgets/calphacontrolwidget.cpp" line="48"/>
@@ -52,13 +60,16 @@
     <name>CCentralwidget</name>
     <message>
         <location filename="../frame/ccentralwidget.cpp" line="59"/>
-        <location filename="../frame/ccentralwidget.cpp" line="310"/>
-        <location filename="../frame/ccentralwidget.cpp" line="315"/>
+        <location filename="../frame/ccentralwidget.cpp" line="62"/>
+        <location filename="../frame/ccentralwidget.cpp" line="66"/>
+        <location filename="../frame/ccentralwidget.cpp" line="81"/>
+        <location filename="../frame/ccentralwidget.cpp" line="88"/>
+        <location filename="../frame/ccentralwidget.cpp" line="92"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="275"/>
+        <location filename="../frame/ccentralwidget.cpp" line="345"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -93,6 +104,14 @@
         <location filename="../frame/ccutwidget.cpp" line="151"/>
         <source>Original</source>
         <translation>原始</translation>
+    </message>
+</context>
+<context>
+    <name>CDDFManager</name>
+    <message>
+        <location filename="../utils/cddfmanager.cpp" line="73"/>
+        <source>Saving...</source>
+        <translation>正在保存...</translation>
     </message>
 </context>
 <context>
@@ -306,27 +325,27 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1197"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1206"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1199"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1208"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1205"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1214"/>
         <source>Unnamed.ddf</source>
         <translation>未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1219"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1237"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1221"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1239"/>
         <source>The file name is too long</source>
         <translation>文件名过长，请尝试用短点的名字</translation>
     </message>
@@ -401,12 +420,12 @@
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../frame/cmultiptabbarwidget.cpp" line="224"/>
+        <location filename="../frame/cmultiptabbarwidget.cpp" line="238"/>
         <source>Close tab</source>
         <translation>关闭标签页</translation>
     </message>
     <message>
-        <location filename="../frame/cmultiptabbarwidget.cpp" line="225"/>
+        <location filename="../frame/cmultiptabbarwidget.cpp" line="239"/>
         <source>Close other tabs</source>
         <translation>关闭其他标签页</translation>
     </message>
@@ -494,7 +513,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="246"/>
+        <location filename="../widgets/colorpanel.cpp" line="235"/>
         <source>Color</source>
         <translation type="unfinished">颜色</translation>
     </message>
@@ -558,27 +577,27 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="68"/>
+        <location filename="../frame/mainwindow.cpp" line="78"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="111"/>
+        <location filename="../frame/mainwindow.cpp" line="118"/>
         <source>Is Close Draw?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="113"/>
+        <location filename="../frame/mainwindow.cpp" line="120"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="294"/>
+        <location filename="../frame/mainwindow.cpp" line="365"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="112"/>
+        <location filename="../frame/mainwindow.cpp" line="119"/>
         <source>OK</source>
         <translation type="unfinished">确定</translation>
     </message>
@@ -586,12 +605,12 @@
 <context>
     <name>PolygonAttributeWidget</name>
     <message>
-        <location filename="../frame/polygonattributewidget.cpp" line="82"/>
+        <location filename="../frame/polygonattributewidget.cpp" line="73"/>
         <source>Width</source>
         <translation>描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/polygonattributewidget.cpp" line="91"/>
+        <location filename="../frame/polygonattributewidget.cpp" line="81"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
@@ -599,17 +618,17 @@
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="83"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="74"/>
         <source>Width</source>
         <translation>描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="92"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="83"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="124"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
@@ -835,12 +854,29 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="64"/>
+        <location filename="../frame/textwidget.cpp" line="61"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="81"/>
+        <location filename="../frame/textwidget.cpp" line="76"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="76"/>
+        <location filename="../frame/textwidget.cpp" line="164"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="76"/>
+        <location filename="../frame/textwidget.cpp" line="166"/>
+        <source>Thin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="80"/>
         <source>Size</source>
         <translation>字号</translation>
     </message>

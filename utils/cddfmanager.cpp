@@ -41,13 +41,15 @@
 
 CDDFManager::CDDFManager(CGraphicsView *view)
     : QObject(view)
-    , m_CProgressDialog(new CProgressDialog(view))
     , m_view(view)
+    , m_CProgressDialog(new CProgressDialog(view))
+    , m_pSaveDialog(new CAbstractProcessDialog(view))
     , m_lastSaveStatus(true)
     , m_lastErrorString("")
     , m_lastError(QFileDevice::NoError)
 {
-    connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
+    //connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
+    connect(this, SIGNAL(signalUpdateProcessBar(int, bool)), this, SLOT(slotProcessSchedule(int, bool)));
     connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
     connect(this, SIGNAL(signalLoadDDFComplete()), this, SLOT(slotLoadDDFComplete()));
 }
@@ -66,7 +68,10 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
     int primitiveCount = 0;
     m_path = path;
-    m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
+    //m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
+    m_pSaveDialog->show();
+    m_pSaveDialog->setTitle(tr("Saving..."));
+    m_pSaveDialog->setProcess(0);
 
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
@@ -102,7 +107,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
                 ///进度条处理
                 count ++;
                 process = static_cast<int>((count * 1.0 / totalCount) * 100);
-                emit signalUpdateProcessBar(process);
+                emit signalUpdateProcessBar(process, true);
 
                 ///释放内存
                 if (RectType == unit.head.dataType && nullptr != unit.data.pRect) {
@@ -272,7 +277,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                 ///进度条处理
                 count ++;
                 process = (float)count / m_graphics.unitCount * 100;
-                emit signalUpdateProcessBar(process);
+                emit signalUpdateProcessBar(process, false);
 
 
             }
@@ -308,9 +313,19 @@ void CDDFManager::slotLoadDDFComplete()
     emit singalEndLoadDDF();
 }
 
+void CDDFManager::slotProcessSchedule(int process, bool isSave)
+{
+    if (isSave) {
+        m_pSaveDialog->setProcess(process);
+    } else {
+        m_CProgressDialog->slotupDateProcessBar(process);
+    }
+}
+
 void CDDFManager::slotSaveDDFComplete()
 {
-    m_CProgressDialog->hide();
+    //m_CProgressDialog->hide();
+    m_pSaveDialog->hide();
     m_view->getDrawParam()->setDdfSavePath(m_path);
     m_view->setModify(false);
 //    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {

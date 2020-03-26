@@ -75,3 +75,37 @@ void CProgressDialog::showInCenter()
     this->move(pos);
 
 }
+void CAbstractProcessDialog::setTitle(const QString &title)
+{
+    _titleLabel->setText(title);
+}
+
+void CAbstractProcessDialog::setProcess(int process)
+{
+    _progressBar->setValue(process);
+}
+
+CAbstractProcessDialog::CAbstractProcessDialog(DWidget *parent): DAbstractDialog(parent)
+{
+    setFixedSize(QSize(480, 80));
+
+    _titleLabel = new DLabel(this);
+    _titleLabel->setGeometry(QRect(40, 20, 400, 24));
+    _titleLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _titleLabel->setText(tr("Export"));
+
+    _progressBar = new DProgressBar(this);
+    _progressBar->setGeometry(QRect(40, 54, 400, 6));
+    _progressBar->setRange(0, 100);
+
+    setWindowModality(Qt::WindowModal);
+}
+void CAbstractProcessDialog::paintEvent(QPaintEvent *event)
+{
+//    QPainter painter(this);
+//    QColor c(Qt::red);
+//    c.setAlpha(255 * 80 / 100);
+//    painter.setBrush(c);
+//    painter.drawRect(rect());
+    DAbstractDialog::paintEvent(event);
+}

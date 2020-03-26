@@ -38,4 +38,23 @@ private:
 
 };
 
+#include <DLabel>
+class CAbstractProcessDialog: public DAbstractDialog
+{
+    Q_OBJECT
+public:
+    explicit CAbstractProcessDialog(DWidget *parent = nullptr);
+
+public slots:
+    void     setTitle(const QString &title);
+    void     setProcess(int process);
+
+protected:
+    void     paintEvent(QPaintEvent *event);
+
+protected:
+    DLabel       *_titleLabel  = nullptr;
+    DProgressBar *_progressBar = nullptr;
+};
+
 #endif // CPROGRESSDIALOG_H
