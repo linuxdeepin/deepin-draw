@@ -92,7 +92,8 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case LineType://线
             propertys[LineWidth] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().color();
-//            propertys[LineArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineType();
+            propertys[LineStartArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineStartType();
+            propertys[LineEndArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
             break;
         case PenType://画笔
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
@@ -298,13 +299,13 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case LineType://线
-//            if (propertys.contains(LineArrowType)) {
-//                if (propertys[LineArrowType] == static_cast<CGraphicsLineItem *>(item)->getLineType()) {
-//                    allPropertys[LineArrowType] = propertys[LineArrowType];
-//                } else {
-//                    allPropertys[LineArrowType] = tmpVariant;
-//                }
-//            }
+            if (propertys.contains(LineStartArrowType)) {
+                allPropertys[LineStartArrowType] = static_cast<CGraphicsLineItem *>(item)->getLineStartType();
+            }
+            if (propertys.contains(LineEndArrowType)) {
+                allPropertys[LineEndArrowType] = static_cast<CGraphicsLineItem *>(item)->getLineEndType();
+            }
+
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsLineItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];

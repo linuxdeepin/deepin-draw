@@ -80,6 +80,8 @@ private:
 
     DMenuComboBox *m_lineStartComboBox; // 线段起点样式
     DMenuComboBox *m_lineEndComboBox; // 线段终点样式
+    DLabel *m_startLabel;
+    DLabel *m_endLabel;
 
 private:
     /**

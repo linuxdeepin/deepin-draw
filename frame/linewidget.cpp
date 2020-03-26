@@ -91,12 +91,13 @@ void LineWidget::changeButtonTheme()
 
 void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
 {
-//    m_lineTypeLabel->setVisible(false);
-//    m_straightline->setVisible(false);
-//    m_arrowline->setVisible(false);
     m_strokeBtn->setVisible(false);
-//    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
+
+    m_startLabel->setVisible(false);
+    m_endLabel->setVisible(false);
+    m_lineStartComboBox->setVisible(false);
+    m_lineEndComboBox->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
@@ -119,21 +120,17 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             }
             m_sideWidthWidget->update();
             break;
-        case LineArrowType:
-//            m_lineTypeLabel->setVisible(true);
-//            m_straightline->setVisible(true);
-//            m_arrowline->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
-//                m_straightline->setChecked(false);
-//                m_arrowline->setChecked(false);
-            } else {
-                if (propertys[property].value<ELineType>() == straightType) {
-//                    m_straightline->setChecked(true);
-                } else {
-//                    m_arrowline->setChecked(true);
-                }
-            }
+        case LineStartArrowType:
+            m_startLabel->setVisible(true);
+            m_lineStartComboBox->setVisible(true);
+            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
             m_sideWidthWidget->update();
+            break;
+        case LineEndArrowType:
+            m_endLabel->setVisible(true);
+            m_lineEndComboBox->setVisible(true);
+            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+            m_lineEndComboBox->update();
             break;
         default:
             break;
@@ -146,12 +143,12 @@ void LineWidget::initUI()
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
 
-    DLabel *startLabel = new DLabel(this);
-    DLabel *endLabel = new DLabel(this);
-    startLabel->setText(tr("start"));
-    startLabel->setFont(ft);
-    endLabel->setText(tr("end"));
-    endLabel->setFont(ft);
+    m_startLabel = new DLabel(this);
+    m_endLabel = new DLabel(this);
+    m_startLabel->setText(tr("start"));
+    m_startLabel->setFont(ft);
+    m_endLabel->setText(tr("end"));
+    m_endLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
@@ -169,9 +166,9 @@ void LineWidget::initUI()
     layout->addWidget(m_strokeBtn);
     layout->addWidget(m_sideWidthWidget);
     layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
-    layout->addWidget(startLabel);
+    layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
-    layout->addWidget(endLabel);
+    layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
     layout->setSpacing(BTN_SPACNT);
     layout->addSpacing(16);
@@ -242,6 +239,7 @@ void LineWidget::initConnection()
         CManagerAttributeService::getInstance()->setLineStartType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineStartArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -275,6 +273,7 @@ void LineWidget::initConnection()
         CManagerAttributeService::getInstance()->setLineEndType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineEndArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });

@@ -44,7 +44,8 @@ enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
     Anchors,             // 锚点
     StarRadius,          // 五角星圆角
     SideNumber,          // 侧边数
-    LineArrowType,       // 线箭头类型
+    LineStartArrowType,  // 起点线箭头类型
+    LineEndArrowType,    // 终点线箭头类型
     PenLineArrowType,    // 画笔线箭头类型
     TextColor,           // 文本言责
     TextFont,            // 文本字体

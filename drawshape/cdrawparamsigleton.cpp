@@ -48,6 +48,8 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_renderImage(0)
     , m_bSelectAlling(false)
     , m_rectXRedius(5)
+    , m_lineStartType(ELineType::noneLine)
+    , m_lineEndType(ELineType::noneLine)
 {
     m_textFont.setPointSizeF(14);
 }
