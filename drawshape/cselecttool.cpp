@@ -306,16 +306,19 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 
     if (items.count() != 0 && nullptr != m_currentSelectItem && !m_bMousePress) {
-        CSizeHandleRect::EDirection dragHandle = static_cast<CGraphicsItem *>(m_currentSelectItem)->hitTest(event->scenePos());
+        CGraphicsItem *itemCasted = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+        if (itemCasted) {
+            CSizeHandleRect::EDirection dragHandle = itemCasted->hitTest(event->scenePos());
 
-        if (dragHandle != m_dragHandle) {
-            m_dragHandle = dragHandle;
-            if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
-                qApp->setOverrideCursor(m_textEditCursor);
-            } else {
-                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
+            if (dragHandle != m_dragHandle) {
+                m_dragHandle = dragHandle;
+                if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
+                    qApp->setOverrideCursor(m_textEditCursor);
+                } else {
+                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
+                }
+                m_rotateAng = m_currentSelectItem->rotation();
             }
-            m_rotateAng = m_currentSelectItem->rotation();
         }
     }
     //鼠标移动到item边缘时item高亮
