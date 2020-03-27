@@ -72,9 +72,10 @@ public:
      * @brief getCursor 获取鼠标显示的样式
      * @param dir 方向
      * @param bMouseLeftPress true: 鼠标按下 false:鼠标没按下
+     * @param toolType 0: 公共 1:selectTool
      * @return
      */
-    QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false);
+    QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false, char toolType = 0);
 
 protected:
     bool m_bMousePress;
