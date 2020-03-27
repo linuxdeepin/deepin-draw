@@ -32,7 +32,8 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
         this->addToGroup(item);
     }
     if (m_listItems.size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
+        //todo
+        //CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
     }
     updateGeometry();
 }
