@@ -236,9 +236,9 @@ void LineWidget::initConnection()
         }
         }
 
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
         CManagerAttributeService::getInstance()->setLineStartType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineStartArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -270,9 +270,9 @@ void LineWidget::initConnection()
         }
         }
 
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
         CManagerAttributeService::getInstance()->setLineEndType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineEndArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);

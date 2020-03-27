@@ -28,6 +28,7 @@ class CSideWidthWidget;
 class BorderColorButton;
 class CCheckButton;
 class SeperatorLine;
+class DMenuComboBox;
 
 Q_DECLARE_METATYPE(EPenType);
 DWIDGET_USE_NAMESPACE
@@ -75,15 +76,14 @@ signals:
     void signalPenAttributeChanged();
 
 private:
-    CSideWidthWidget *m_sideWidthWidget;
-    BorderColorButton *m_strokeBtn;
-    QList<CCheckButton *> m_actionButtons;
-    CCheckButton *m_straightline;
-    CCheckButton *m_arrowline;
-    SeperatorLine *m_sep1Line;
-    DLabel *m_lineTypeLabel;
-    DLabel *m_lwLabel;
+    CSideWidthWidget *m_sideWidthWidget; // 线宽
+    BorderColorButton *m_strokeBtn; // 线颜色
+    SeperatorLine *m_sep1Line; // 竖线
 
+    DMenuComboBox *m_lineStartComboBox; // 线段起点样式
+    DMenuComboBox *m_lineEndComboBox; // 线段终点样式
+    DLabel *m_startLabel;
+    DLabel *m_endLabel;
 private:
     /**
      * @brief initUI　初始化ＵＩ

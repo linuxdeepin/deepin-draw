@@ -99,7 +99,8 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case PenType://画笔
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().color();
-            propertys[PenLineArrowType] = static_cast<CGraphicsPenItem *>(items.at(0))->currentType();
+            propertys[PenStartArrowType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
+            propertys[PenEndArrowType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
             propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
@@ -323,13 +324,13 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case PenType://画笔
-            if (propertys.contains(PenLineArrowType)) {
-                if (propertys[PenLineArrowType] == static_cast<CGraphicsPenItem *>(item)->currentType()) {
-                    allPropertys[PenLineArrowType] = propertys[PenLineArrowType];
-                } else {
-                    allPropertys[PenLineArrowType] = tmpVariant;
-                }
-            }
+//            if (propertys.contains(PenLineArrowType)) {
+//                if (propertys[PenLineArrowType] == static_cast<CGraphicsPenItem *>(item)->currentType()) {
+//                    allPropertys[PenLineArrowType] = propertys[PenLineArrowType];
+//                } else {
+//                    allPropertys[PenLineArrowType] = tmpVariant;
+//                }
+//            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsPenItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -462,6 +463,58 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
 //            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->update();
+        }
+    }
+}
+
+void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
+        if (penItem != nullptr) {
+            scence->getDrawParam()->setPenStartType(startType);
+            penItem->setPenStartType(startType);
+            penItem->drawComplete();
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            penItem->update();
+        }
+    }
+}
+
+void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
+        if (penItem != nullptr) {
+            scence->getDrawParam()->setPenEndType(endType);
+            penItem->setPenEndType(endType);
+            penItem->drawComplete();
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            penItem->update();
         }
     }
 }

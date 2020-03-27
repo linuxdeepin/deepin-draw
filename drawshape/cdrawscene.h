@@ -228,14 +228,14 @@ signals:
      * @param item
      * @param oldType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
+    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType oldType);
 
     /**
      * @brief itemLineTypeChange 线图元属性更改
      * @param item
      * @param type
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, ELineType startType, ELineType endType);
+    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType endType);
 
     /**
      * @brief signalUpdateCutSize 更新裁剪的大小

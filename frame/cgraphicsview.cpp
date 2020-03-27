@@ -550,17 +550,17 @@ void CGraphicsView::itemPolygonPointChange(CGraphicsPolygonItem *item, int newNu
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, int newType)
+void CGraphicsView::itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QUndoCommand *command = new CSetPenAttributeCommand(curScene, item, newType);
+    QUndoCommand *command = new CSetPenAttributeCommand(curScene, item, isStart, newOldType);
     m_pUndoStack->push(command);
 }
 
-void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, ELineType newStartType, ELineType newOldType)
+void CGraphicsView::itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QUndoCommand *command = new CSetLineAttributeCommand(curScene, item, newStartType, newOldType);
+    QUndoCommand *command = new CSetLineAttributeCommand(curScene, item, isStart, newOldType);
     m_pUndoStack->push(command);
 }
 

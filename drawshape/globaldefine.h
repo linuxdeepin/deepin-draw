@@ -46,7 +46,8 @@ enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
     SideNumber,          // 侧边数
     LineStartArrowType,  // 起点线箭头类型
     LineEndArrowType,    // 终点线箭头类型
-    PenLineArrowType,    // 画笔线箭头类型
+    PenStartArrowType,   // 画笔线起点箭头类型
+    PenEndArrowType,     // 画笔线终点箭头类型
     TextColor,           // 文本言责
     TextFont,            // 文本字体
     TextHeight,          // 文本自重
@@ -77,9 +78,7 @@ enum ELineType {
     normalArrow,  // 普通箭头
     soildArrow,   // 实心箭头
     normalRing,   // 空心圆
-    soildRing,    // 实心圆
-    straightType, // 直线
-    arrowType     // 箭头
+    soildRing     // 实心圆
 };
 
 enum EGraphicUserType {

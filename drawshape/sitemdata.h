@@ -312,25 +312,33 @@ struct SGraphicsPictureUnitData {
 
 //画笔
 struct SGraphicsPenUnitData {
-    qint8 penType;
+    ELineType start_type; // 起点箭头样式
+    ELineType end_type;   // 终点箭头样式
     QPainterPath path;
-    QPolygonF arrow;
+//    QPolygonF arrow;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
     {
-        out << penUnitData.penType;
+        out << penUnitData.end_type;
         out << penUnitData.path;
-        out << penUnitData.arrow;
+//        out << penUnitData.arrow;
+        out << penUnitData.start_type;
 
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
     {
-        in >> penUnitData.penType;
-        in >> penUnitData.path;
-        in >> penUnitData.arrow;
+        quint32 start_type = 0;
+        quint32 end_type = 0;
 
+        in >> end_type;
+        in >> penUnitData.path;
+//        in >> penUnitData.arrow;
+        in >> start_type;
+
+        penUnitData.start_type = static_cast<ELineType>(start_type);
+        penUnitData.end_type = static_cast<ELineType>(end_type);
 
         return in;
     }

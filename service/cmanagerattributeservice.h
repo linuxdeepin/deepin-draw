@@ -83,6 +83,17 @@ public:
     */
     void setLineEndType(CDrawScene *scence, ELineType endType);
 
+    /*
+     * @bref: setPenStartType 设置画笔起点的样式
+     * @param: startType 起点样式
+    */
+    void setPenStartType(CDrawScene *scence, ELineType startType);
+    /*
+     * @bref: setPenEndType 设置画笔终点的样式
+     * @param: endType 终点样式
+    */
+    void setPenEndType(CDrawScene *scence, ELineType endType);
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号

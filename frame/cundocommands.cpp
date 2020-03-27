@@ -688,18 +688,26 @@ void CSetPolygonStarAttributeCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-
-CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, int newType)
-    : m_pItem(item)
-    , m_newType(newType)
+CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type)    : m_pItem(item)
+    , m_newStartType(noneLine)
+    , m_newEndType(noneLine)
 {
     myGraphicsScene = scene;
-    m_oldType = item->currentType();
+
+    if (isStart) {
+        m_newStartType = type;
+    } else {
+        m_newEndType = type;
+    }
+
+    m_oldStartType = item->getPenStartType();
+    m_oldEndType = item->getPenEndType();
 }
 
 void CSetPenAttributeCommand::undo()
 {
-    m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
+    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -707,7 +715,8 @@ void CSetPenAttributeCommand::undo()
 
 void CSetPenAttributeCommand::redo()
 {
-    m_pItem->updatePenType(static_cast<EPenType>(m_newType));
+    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -1394,11 +1403,16 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
         case LineEndArrowType:
             oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
             break;
-        case PenLineArrowType:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
+        case PenStartArrowType:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
+            break;
+        case PenEndArrowType:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
             break;
         case TextColor:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
+            // 此处代码需要作其它处理
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
+//            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
             if (item->type() == EGraphicUserType::TextType) {
                 oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
             } else if (item->type() == EGraphicUserType::RectType ||
@@ -1461,8 +1475,10 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case LineEndArrowType:
             static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
             break;
-        case PenLineArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setCurrentType(oldValue.value<EPenType>());
+        case PenStartArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
+        case PenEndArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
             break;
         case TextColor:
             if (item->type() == EGraphicUserType::TextType) {
@@ -1525,8 +1541,11 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case LineEndArrowType:
             static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
             break;
-        case PenLineArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setCurrentType(m_value.value<EPenType>());
+        case PenStartArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
+            break;
+        case PenEndArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
             break;
         case TextColor:
             if (item->type() == EGraphicUserType::TextType) {

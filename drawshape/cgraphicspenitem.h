@@ -48,18 +48,13 @@ public:
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
-    EPenType currentType() const;
-    void setCurrentType(const EPenType &currentType);
     void updateCoordinate();
     void drawComplete();
 
     void setPath(const QPainterPath &path);
-
-    void setArrow(const QPolygonF &arrow);
-    QPolygonF getArrow() const;
     QPainterPath getPath() const;
 
-    void updatePenType(const EPenType &currentType);
+    void updatePenType(const ELineType &startType, const ELineType &endType);
     void setPixmap();
 
     void setDrawFlag(bool flag);
@@ -69,7 +64,13 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() override;
+
+    ELineType getPenStartType() const;
+    void setPenStartType(const ELineType &penType);
+
+    ELineType getPenEndType() const;
+    void setPenEndType(const ELineType &penType);
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
@@ -77,15 +78,21 @@ protected:
 
 private:
     QPainterPath m_path;
-    QPolygonF m_arrow; //箭头三角形
     QLineF m_straightLine;
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;
-    EPenType m_currentType;
     QPixmap m_tmpPix;
     bool m_isDrawing;//是否正在绘图
     int m_drawIndex;
     QPointF m_point4;
+
+    // 画笔类型
+    ELineType m_penStartType; // 画笔起点样式
+    ELineType m_penEndType; // 画笔终点样式
+    QPainterPath m_startPath;
+    QPainterPath m_endPath;
+    bool m_isStartWithLine = false; // 用于判断是否是开始以画直线为起点
+    bool m_isEndWithLine = false; // 用于判断是否是结束以画直线为起点
 
 private:
     void initPen();
@@ -96,13 +103,11 @@ private:
      */
     void calcVertexes(const QPointF &prePoint, const QPointF &currentPoint);
 
-
-
-    //qreal GetThreeBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal t);
-
-    //QPointF GetThreeBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, qreal t);
     qreal GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t);
     QPointF GetBezierValue(QPainterPath::Element p0, QPainterPath::Element p1, QPainterPath::Element p2, QPainterPath::Element p3, QPainterPath::Element p4, QPainterPath::Element p5, qreal t);
+
+    void drawStart();
+    void drawEnd();
 };
 
 #endif // CGRAPHICSPENITEM_H

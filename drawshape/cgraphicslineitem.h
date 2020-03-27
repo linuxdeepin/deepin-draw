@@ -96,7 +96,8 @@ private:
     ELineType m_startType; // 起始点样式
     ELineType m_endType; // 终点样式
 
-    QPainterPath m_start_end_Path; // 绘制路径
+    QPainterPath m_startPath; // 绘制起点路径
+    QPainterPath m_endPath; // 绘制终点路径
 
     void drawStart();
     void drawEnd();

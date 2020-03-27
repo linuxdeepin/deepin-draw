@@ -26,7 +26,6 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
-    , m_currentPenType(EPenType::straight)
     , m_textFont(QFont())
     , m_textColor(Qt::black)
     , m_singleFontFlag(true)
@@ -44,12 +43,13 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
-    , m_lineType(straightType)
     , m_renderImage(0)
     , m_bSelectAlling(false)
     , m_rectXRedius(5)
     , m_lineStartType(ELineType::noneLine)
     , m_lineEndType(ELineType::noneLine)
+    , m_penStartType(ELineType::noneLine)
+    , m_penEndType(ELineType::noneLine)
 {
     m_textFont.setPointSizeF(14);
 }
@@ -151,16 +151,6 @@ int CDrawParamSigleton::getSideNum() const
 void CDrawParamSigleton::setSideNum(int sideNum)
 {
     m_sideNum = sideNum;
-}
-
-EPenType CDrawParamSigleton::getCurrentPenType() const
-{
-    return m_currentPenType;
-}
-
-void CDrawParamSigleton::setCurrentPenType(const EPenType &currentPenType)
-{
-    m_currentPenType = currentPenType;
 }
 
 QFont CDrawParamSigleton::getTextFont() const
@@ -286,6 +276,26 @@ ELineType CDrawParamSigleton::getLineEndType() const
 void CDrawParamSigleton::setLineEndType(const ELineType &lineType)
 {
     m_lineEndType = lineType;
+}
+
+ELineType CDrawParamSigleton::getPenStartType() const
+{
+    return m_penStartType;
+}
+
+void CDrawParamSigleton::setPenStartType(const ELineType &penType)
+{
+    m_penStartType = penType;
+}
+
+ELineType CDrawParamSigleton::getPenEndType() const
+{
+    return m_penEndType;
+}
+
+void CDrawParamSigleton::setPenEndType(const ELineType &penType)
+{
+    m_penEndType = penType;
 }
 
 ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const
