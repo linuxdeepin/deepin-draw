@@ -180,7 +180,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
-                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
             }
         }
 
@@ -257,7 +257,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     if (CSizeHandleRect::InRect == m_dragHandle && currentSelectItem != nullptr && currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(currentSelectItem)->getTextEdit()->isVisible()) {
                         qApp->setOverrideCursor(m_textEditCursor);
                     } else {
-                        qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                        qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                     }
                     scene->changeAttribute(true, m_currentSelectItem);
                 }
@@ -315,7 +315,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
-                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
+                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
                 }
                 m_rotateAng = m_currentSelectItem->rotation();
             }
@@ -612,7 +612,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (CSizeHandleRect::InRect == m_dragHandle && currentSelectItem != nullptr && currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
-                    qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                    qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                 }
 
                 //最后需要刷新一次
