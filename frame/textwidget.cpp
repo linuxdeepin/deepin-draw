@@ -21,10 +21,15 @@
 #include <DLabel>
 #include "widgets/textcolorbutton.h"
 #include "widgets/seperatorline.h"
+#include "widgets/dmenucombobox.h"
+
 #include "utils/cvalidator.h"
+
 #include "drawshape/cdrawparamsigleton.h"
+
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+
 #include "service/cmanagerattributeservice.h"
 
 #include <DLabel>
@@ -72,10 +77,10 @@ void TextWidget::initUI()
     QString strFont = m_fontComBox->currentText();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
-    m_fontHeavy = new DComboBox(this); // 字体类型
+    m_fontHeavy = new DMenuComboBox(this); // 字体类型
     m_fontHeavy->setFixedSize(QSize(100, 36));
-    m_fontHeavy->addItems(QStringList{tr("Normal"), tr("Bold"), tr("Thin")});
-    m_fontHeavy->hide(); //暂时需要隐藏不显示出来
+    m_fontHeavy->setMenuMaxWidth(100);
+    m_fontHeavy->addItem(tr("Regular"));
 
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
@@ -187,22 +192,30 @@ void TextWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
-
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-//        qDebug() << "weight:" << m_fontComBox->font().
         m_bSelect = true;
         m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
-
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-
         if (m_bSelect) {
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
             emit signalTextFontFamilyChanged();
             m_bSelect = false;
         }
+    });
+    connect(m_fontComBox,  QOverload<const QString &>::of(&CFontComboBox::currentIndexChanged), this, [ = ](const QString & family) {
+        QFontDatabase base; //("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+        QStringList listStylyName = base.styles(family);
+        listStylyName.removeOne("Regular");
+        m_fontHeavy->blockSignals(true);
+        m_fontHeavy->cleanAllMenuItem();
+        m_fontHeavy->addItem(tr("Regular"));
+        for (QString style : listStylyName) {
+            m_fontHeavy->addItem(style);
+        }
+        m_fontHeavy->blockSignals(false);
     });
 
     // 字体大小
@@ -210,16 +223,27 @@ void TextWidget::initConnection()
     m_fontSize->setValue(14);
 
     // 字体重量
-    connect(m_fontHeavy, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
-        // tr("Normal"), tr("Bold"), tr("Thin")
-        if (str == tr("Bold")) {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Bold);
+    connect(m_fontHeavy, &DMenuComboBox::signalCurrentTextChanged, this, [ = ](const QString & str) {
+        // ("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+        QString style = "Regular";
+        if (str == tr("Medium")) {
+            style = "Medium";
+        } else if (str == tr("Bold")) {
+            style = "Bold";
+        } else if (str == tr("ExtraLight")) {
+            style = "ExtraLight";
+        } else if (str == tr("Heavy")) {
+            style = "Heavy";
+        } else if (str == tr("Light")) {
+            style = "Light";
         } else if (str == tr("Thin")) {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Thin);
-        } else {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Normal);
+            style = "Thin";
+        } else if (str == tr("SemiBold")) {
+            style = "SemiBold";
         }
-        emit signalTextFontSizeChanged();
+        CManagerAttributeService::getInstance()->setTextFamilyStyle(
+            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), style);
+
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);
     });

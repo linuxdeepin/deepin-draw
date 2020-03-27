@@ -59,6 +59,9 @@ public:
     QFont getTextFont() const;
     void setTextFont(const QString &strFont);
 
+    QString getTextFontStyle() const;
+    void setTextFontStyle(const QString &style);
+
     void setShiftKeyStatus(bool flag);
     bool getShiftKeyStatus();
 

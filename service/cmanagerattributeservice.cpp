@@ -467,6 +467,31 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
     }
 }
 
+void CManagerAttributeService::setTextFamilyStyle(CDrawScene *scence, QString style)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsTextItem *lineItem = static_cast<CGraphicsTextItem *>(allItems.at(0));
+        if (lineItem != nullptr) {
+            scence->getDrawParam()->setTextFontStyle(style);
+            lineItem->setTextFontStyle(style);
+            //            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
+            //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            lineItem->update();
+        }
+    }
+}
+
 void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
 {
     QList<QGraphicsItem *> allItems = scence->selectedItems();

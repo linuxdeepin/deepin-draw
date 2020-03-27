@@ -60,6 +60,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
 
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
+        item->setTextFontStyle(font.styleName());
         //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
 //        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {

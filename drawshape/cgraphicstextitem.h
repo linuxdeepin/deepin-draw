@@ -46,6 +46,9 @@ public:
     void setFont(const QFont &font);
     QFont getFont();
 
+    QString getTextFontStyle() const;
+    void setTextFontStyle(const QString &style);
+
     void setFontSize(qreal size);
     qreal getFontSize();
 

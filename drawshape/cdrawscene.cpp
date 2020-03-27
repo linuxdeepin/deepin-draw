@@ -620,6 +620,7 @@ void CDrawScene::textFontFamilyChanged()
         if (item->type() == TextType) {
             CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
             tmpitem->setFontFamily(getDrawParam()->getTextFont().family());
+            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
         }
     }
 }
@@ -633,6 +634,7 @@ void CDrawScene::textFontSizeChanged()
         if (item->type() == TextType) {
             CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
             tmpitem->setFontSize(getDrawParam()->getTextFont().pointSizeF());
+            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
         }
     }
 }

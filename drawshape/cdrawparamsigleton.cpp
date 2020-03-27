@@ -163,6 +163,16 @@ void CDrawParamSigleton::setTextFont(const QString &strFont)
     m_textFont.setFamily(strFont);
 }
 
+QString CDrawParamSigleton::getTextFontStyle() const
+{
+    return m_textFont.styleName();
+}
+
+void CDrawParamSigleton::setTextFontStyle(const QString &style)
+{
+    m_textFont.setStyleName(style);
+}
+
 void CDrawParamSigleton::setShiftKeyStatus(bool flag)
 {
     m_bShiftKeyPress = flag;
