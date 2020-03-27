@@ -378,6 +378,8 @@ void CGraphicsPenItem::drawComplete()
         QPainterPath vout;
 
 
+
+        int maxIndex = 0;
         for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
             QPainterPath::Element p0 = m_path.elementAt(i);
             QPainterPath::Element p1 = m_path.elementAt(i + 1);
@@ -385,7 +387,7 @@ void CGraphicsPenItem::drawComplete()
             QPainterPath::Element p3 = m_path.elementAt(i + 3);
             QPainterPath::Element p4 = m_path.elementAt(i + 4);
             QPainterPath::Element p5 = m_path.elementAt(i + 5);
-
+            maxIndex = i + 5;
 
             if (0 == i) {
                 QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
@@ -404,6 +406,14 @@ void CGraphicsPenItem::drawComplete()
             vout.lineTo(dot5);
             vout.lineTo(dot6);
 
+        }
+
+        //保证未被优化的点也加入到最终的绘制路径中
+        if (vout.elementCount() < m_path.elementCount()) {
+            for (int i = vout.elementCount() - 1; i < m_path.elementCount(); ++i) {
+                QPointF psF(m_path.elementAt(i).x, m_path.elementAt(i).y);
+                vout.lineTo(psF);
+            }
         }
         prepareGeometryChange();
         m_path = vout;
