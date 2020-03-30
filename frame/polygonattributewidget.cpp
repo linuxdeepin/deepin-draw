@@ -121,6 +121,7 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
 
 void PolygonAttributeWidget::initUI()
 {
+    setAttribute(Qt::WA_NoMousePropagation, true);
     m_fillBtn = new BigColorButton(this);
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
