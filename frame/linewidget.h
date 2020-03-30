@@ -27,7 +27,7 @@
 class CSideWidthWidget;
 class BorderColorButton;
 class SeperatorLine;
-class DMenuComboBox;
+//class DMenuComboBox;
 
 Q_DECLARE_METATYPE(ELineType);
 DWIDGET_USE_NAMESPACE
@@ -78,8 +78,10 @@ private:
     BorderColorButton *m_strokeBtn; // 线颜色
     SeperatorLine *m_sep1Line; // 竖线
 
-    DMenuComboBox *m_lineStartComboBox; // 线段起点样式
-    DMenuComboBox *m_lineEndComboBox; // 线段终点样式
+//    DMenuComboBox *m_lineStartComboBox; // 线段起点样式
+//    DMenuComboBox *m_lineEndComboBox; // 线段终点样式
+    DComboBox *m_lineStartComboBox; // 线段起点样式
+    DComboBox *m_lineEndComboBox; // 线段终点样式
     DLabel *m_startLabel;
     DLabel *m_endLabel;
 
