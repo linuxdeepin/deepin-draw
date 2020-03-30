@@ -154,6 +154,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
                 multSelectItem->duplicate(copy);
                 copy->moveBy(10, 10);
+                copy->setZValue(scene->getMaxZValue());
+                scene->setMaxZValue(scene->getMaxZValue() + 1);
                 copyItems.append(copy);
                 scene->addItem(static_cast<CGraphicsItem *>(copy));
                 m_doCopy = true;
