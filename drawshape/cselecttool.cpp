@@ -82,6 +82,11 @@ CSelectTool::~CSelectTool()
 
 }
 
+bool CSelectTool::isDragging()
+{
+    return m_isItemMoving;
+}
+
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     qDebug() << "mouse press" << endl;
@@ -89,9 +94,13 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
     }
-    m_doCopy = false;
-    m_doMove = false;
-    m_doResize = false;
+
+    //鼠标点下时初始化一些标记
+    m_doCopy          = false;
+    m_isItemMoving    = false;
+    m_isMulItemMoving = false;
+    m_doResize        = false;
+
     if (event->button() == Qt::LeftButton) {
         bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
         if (ctrlKeyPress) {
@@ -498,16 +507,19 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     scene->getItemsMgr()->setSelected(true);
                     scene->clearSelection();
                     scene->getItemsMgr()->move(m_sLastPress, event->scenePos());
-                    m_doMove = true;
+                    m_isMulItemMoving = true;
+                    m_isItemMoving    = true;
                     scene->mouseEvent(event);
                 }
                 scene->mouseEvent(event);
             } else if (m_currentSelectItem != nullptr ) {
                 if (m_currentSelectItem->type() != TextType) {
+                    m_isItemMoving = true;
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
                 } else {
                     //文字图元非编辑状态下是移动图元 编辑状态下是选中文字
                     if (!static_cast<CGraphicsTextItem *>(m_currentSelectItem)->isEditable()) {
+                        m_isItemMoving = true;
                         static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
                     }
                     scene->mouseEvent(event);
@@ -662,10 +674,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
             }
         } else {
-            if (m_doMove) {
+            if (m_isMulItemMoving) {
                 QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, m_sPointPress, m_sPointRelease);
                 CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-                m_doMove = false;
+                m_isMulItemMoving = false;
             } else if (m_doResize) {
                 bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
@@ -680,7 +692,8 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             }
         }
 
-        m_doMove = false;
+        m_isMulItemMoving = false;
+        m_isItemMoving    = false;
     }
 
     //更新模糊图元
