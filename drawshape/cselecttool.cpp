@@ -671,7 +671,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
 
                 m_currentSelectItem->setSelected(true);
-                scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
+                //scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
             }
         } else {
             if (m_isMulItemMoving) {
