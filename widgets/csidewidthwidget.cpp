@@ -23,9 +23,10 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "widgets/dmenucombobox.h"
+//#include "widgets/dmenucombobox.h"
 
 #include <DGuiApplicationHelper>
+#include <DComboBox>
 
 #include <QDebug>
 
@@ -54,14 +55,13 @@ void CSideWidthWidget::setSideWidth(int width)
 
 void CSideWidthWidget::setMenuButtonICon(QString text, QIcon icon)
 {
-    m_menuComboBox->setMenuButtonICon(text, icon);
+//    m_menuComboBox->setMenuButtonICon(text, icon);
 }
 
 void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout(this);
-    m_menuComboBox = new DMenuComboBox(this);
-    m_menuComboBox->setMenuFlat(false);
+    m_menuComboBox = new DComboBox(this);
 
     m_menuComboBox->setMinimumWidth(110);
 
@@ -73,7 +73,7 @@ void CSideWidthWidget::initUI()
 
 void CSideWidthWidget::initConnection()
 {
-    connect(m_menuComboBox, &DMenuComboBox::signalCurrentTextChanged, [ = ](QString text) {
+    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](QString text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
@@ -86,7 +86,7 @@ void CSideWidthWidget::initConnection()
         }
     });
 
-    connect(m_menuComboBox, &DMenuComboBox::signalActionToggled, [ = ](QString text) {
+    connect(m_menuComboBox, QOverload<const QString &>::of(&DComboBox::highlighted), [ = ](const QString & text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
@@ -98,9 +98,9 @@ void CSideWidthWidget::initConnection()
         }
     });
 
-    connect(m_menuComboBox, &DMenuComboBox::signalAboutToShow, [ = ]() {
-        emit signalSideWidthMenuShow();
-    });
+//    connect(m_menuComboBox, &DComboBox::signalAboutToShow, [ = ]() {
+//        emit signalSideWidthMenuShow();
+//    });
 
     // 设置默认2px的线宽度
     m_menuComboBox->setCurrentIndex(2);
@@ -140,13 +140,14 @@ void CSideWidthWidget::changeButtonTheme()
         lineColor.setRgb(255, 255, 255);
     }
 
-    m_menuComboBox->setItemICon("0px", QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("1px", QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("2px", QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("4px", QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("8px", QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("10px", QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->updateButtonTextAndIcon();
+    m_menuComboBox->blockSignals(true);
+    m_menuComboBox->setItemIcon(0, QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->setItemIcon(1, QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->setItemIcon(2, QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->setItemIcon(3, QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->setItemIcon(4, QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->setItemIcon(5, QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
+    m_menuComboBox->blockSignals(false);
 }
 
 

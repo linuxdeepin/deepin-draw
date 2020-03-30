@@ -28,7 +28,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-class DMenuComboBox;
+//class DMenuComboBox;
 
 class CSideWidthWidget : public DWidget
 {
@@ -57,7 +57,8 @@ public:
     void changeButtonTheme();
 
 private:
-    DMenuComboBox *m_menuComboBox;// 线宽度选择下拉框
+//    DMenuComboBox *m_menuComboBox;// 线宽度选择下拉框
+    DComboBox *m_menuComboBox;// 线宽度选择下拉框
     QHBoxLayout *m_layout;// 水平布局器
     quint8 m_comboxHeight; // 下拉框的高度
 
