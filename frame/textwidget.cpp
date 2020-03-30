@@ -81,10 +81,24 @@ void TextWidget::initUI()
     m_fontsizeLabel->setText(tr("Size")); // 字号
     m_fontsizeLabel->setFixedSize(QSize(28, 20));
     m_fontsizeLabel->setFont(ft);
-    m_fontSize = new DSpinBox(this);
+    m_fontSize = new DComboBox(this);
+    m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
-    m_fontSize->setRange(8, 500);
-    m_fontSize->setSuffix("px");
+    QRegExp regx("[0-9]*px");
+    QValidator *validator = new QRegExpValidator(regx, m_fontSize);
+    m_fontSize->setValidator(validator);
+    m_fontSize->addItem("8px");
+    m_fontSize->addItem("10px");
+    m_fontSize->addItem("12px");
+    m_fontSize->addItem("14px");
+    m_fontSize->addItem("16px");
+    m_fontSize->addItem("18px");
+    m_fontSize->addItem("24px");
+    m_fontSize->addItem("36px");
+    m_fontSize->addItem("48px");
+    m_fontSize->addItem("60px");
+    m_fontSize->addItem("72px");
+    m_fontSize->addItem("100px");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -153,12 +167,11 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_fontsizeLabel->setVisible(true);
             m_fontSize->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                //todo
-                disconnect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
-                m_fontSize->setValue(-1);
-                connect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentText("—— ——");
+                m_fontSize->blockSignals(false);
             } else {
-                m_fontSize->setValue(propertys[property].toInt());
+                m_fontSize->setItemText(0, propertys[property].toString());
             }
             break;
         default:
@@ -206,8 +219,31 @@ void TextWidget::initConnection()
     });
 
     // 字体大小
-    connect(m_fontSize, SIGNAL(valueChanged(int)), this, SLOT(slotFontSizeValueChanged(int)));
-    m_fontSize->setValue(14);
+    m_fontSize->setCurrentText("14px");
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
+        // remove px
+        QString size_str = str;
+        size_str = size_str.replace("px", "");
+
+        bool flag = false;
+        int size = size_str.toInt(&flag);
+
+        m_fontSize->blockSignals(true);
+        if (size < 8) {
+            m_fontSize->setCurrentText("8px");
+            size = 8;
+        } else if (size > 500) {
+            m_fontSize->setCurrentText("500px");
+            size = 500;
+        }
+        m_fontSize->blockSignals(false);
+
+        if (flag) {
+            slotFontSizeValueChanged(size);
+        } else {
+            qDebug() << "set error font size with str: " << str;
+        }
+    });
 
     // 字体重量
     connect(m_fontHeavy, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
@@ -239,8 +275,8 @@ void TextWidget::updateTextWidget()
     }
 
     int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-    if (fontSize != m_fontSize->value()) {
-        m_fontSize->setValue(fontSize);
+    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
+        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
     }
 
     m_fillBtn->setVisible(true);
