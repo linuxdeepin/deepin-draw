@@ -135,6 +135,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 
 void PolygonalStarAttributeWidget::initUI()
 {
+    setAttribute(Qt::WA_NoMousePropagation, true);
     m_fillBtn = new BigColorButton( this);
 
     QFont ft;

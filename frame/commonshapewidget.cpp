@@ -128,6 +128,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
 
 void CommonshapeWidget::initUI()
 {
+    setAttribute(Qt::WA_NoMousePropagation, true);
 //    DLabel *fillLabel = new DLabel(this);
 //    fillLabel->setText(tr("填充"));
     QFont ft;
