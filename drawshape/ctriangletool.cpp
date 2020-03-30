@@ -310,4 +310,6 @@ void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScen
         m_pTriangleItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

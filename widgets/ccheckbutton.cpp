@@ -131,6 +131,17 @@ void CCheckButton::leaveEvent(QEvent *e)
     }
 }
 
+void CCheckButton::mouseReleaseEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e)
+
+    m_isPressed = false;
+
+    m_currentStatus = Active;
+
+    updateImage();
+}
+
 void CCheckButton::updateImage()
 {
 //    DPalette pa = DApplicationHelper::instance()->palette(this);
