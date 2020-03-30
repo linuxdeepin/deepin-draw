@@ -71,7 +71,7 @@ void CGraphicsItemHighLight::paint(QPainter *painter, const QStyleOptionGraphics
     Q_UNUSED(widget)
 
     QPen pen;
-    pen.setColor(Qt::blue);
+    pen.setColor(QColor("#0081FF"));
     pen.setWidth(2);
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
