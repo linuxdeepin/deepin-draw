@@ -86,4 +86,6 @@ void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pLineItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }
