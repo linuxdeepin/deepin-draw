@@ -63,6 +63,7 @@ public:
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    bool isFatherDragging();  //如果为true不会进行绘制
 
 private:
     const EDirection m_dir;

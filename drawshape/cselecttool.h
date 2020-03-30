@@ -39,6 +39,10 @@ public:
     CSelectTool();
     virtual ~CSelectTool();
     /**
+     * @brief isDragging　是否正在进行拖拽操作
+     */
+    bool isDragging();
+    /**
      * @brief mousePressEvent　鼠标点击事件
      * @param event　场景事件
      * @param scene　场景句柄
@@ -86,8 +90,9 @@ private:
     CGraphicsRotateAngleItem *m_RotateItem;
     QCursor m_textEditCursor;
     bool m_doCopy;
-    bool m_doMove;
+    bool m_isMulItemMoving;       //当前有多个(超过1个)item正在被拖拽移动(注意和m_isItemMoving的区别)
     bool m_doResize;
+    bool m_isItemMoving = false;  //当前有item正在被拖拽移动(注意和m_isMulItemMoving的区别)
 
 };
 
