@@ -360,6 +360,12 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
                 getDrawParam()->setLineStartType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineStartType());
                 getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
                 break;
+            case TextType:
+                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
+                getDrawParam()->setTextFont(static_cast<CGraphicsTextItem *>(tmpItem)->getFont().family());
+                getDrawParam()->setTextFontStyle(static_cast<CGraphicsTextItem *>(tmpItem)->getTextFontStyle());
+                getDrawParam()->setTextSize(static_cast<CGraphicsTextItem *>(tmpItem)->getFontSize());
+                break;
             case BlurType:
                 getDrawParam()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurEffect());
                 getDrawParam()->setBlurWidth(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurWidth());

@@ -1410,25 +1410,18 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
             break;
         case TextColor:
-            // 此处代码需要作其它处理
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
-//            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
-            if (item->type() == EGraphicUserType::TextType) {
-                oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                oldValue.setValue(brush.color());
-            }
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
             break;
         case TextSize:
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontSize());
             break;
+        case TextHeavy:
+            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextFontStyle());
+            break;
+        case TextFont:
+            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFont());
+            break;
         default:
-            //oldValue.setValue(QMetaType::User);
             break;
         }
         m_oldValues[item] = oldValue;
@@ -1482,20 +1475,16 @@ void CSetItemsCommonPropertyValueCommand::undo()
             static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
             break;
         case TextColor:
-            if (item->type() == EGraphicUserType::TextType) {
-                static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                brush.setColor(oldValue.value<QColor>());
-                item->setBrush(brush);
-            }
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
             break;
         case TextSize:
             static_cast<CGraphicsTextItem *>(item)->setFontSize(oldValue.value<qreal>());
+            break;
+        case TextHeavy:
+            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(oldValue.value<QString>());
+            break;
+        case TextFont:
+            static_cast<CGraphicsTextItem *>(item)->setFont(oldValue.value<QFont>());
             break;
         default:
             break;
@@ -1550,20 +1539,16 @@ void CSetItemsCommonPropertyValueCommand::redo()
             static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
             break;
         case TextColor:
-            if (item->type() == EGraphicUserType::TextType) {
-                static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                brush.setColor(m_value.value<QColor>());
-                item->setBrush(brush);
-            }
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
             break;
         case TextSize:
             static_cast<CGraphicsTextItem *>(item)->setFontSize(m_value.value<qreal>());
+            break;
+        case TextHeavy:
+            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(m_value.value<QString>());
+            break;
+        case TextFont:
+            static_cast<CGraphicsTextItem *>(item)->setFont(m_value.value<QFont>());
             break;
         default:
             break;

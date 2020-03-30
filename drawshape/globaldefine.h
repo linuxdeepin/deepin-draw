@@ -50,7 +50,7 @@ enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
     PenEndArrowType,     // 画笔线终点箭头类型
     TextColor,           // 文本言责
     TextFont,            // 文本字体
-    TextHeight,          // 文本自重
+    TextHeavy,          // 文本自重
     TextSize,            // 文本大小
 };
 

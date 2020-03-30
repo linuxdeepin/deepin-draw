@@ -107,6 +107,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getFont();
             qDebug() << "font11 = " << static_cast<CGraphicsTextItem *>(items.at(0))->getFont();
             propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontSize();
+            propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextFontStyle();
             break;
         case BlurType://模糊
             break;
@@ -307,7 +308,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             if (propertys.contains(LineEndArrowType)) {
                 allPropertys[LineEndArrowType] = static_cast<CGraphicsLineItem *>(item)->getLineEndType();
             }
-
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsLineItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -377,6 +377,14 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[TextFont] = propertys[TextFont];
                 } else {
                     allPropertys[TextFont] = tmpVariant;
+                }
+            }
+            if (propertys.contains(TextHeavy)) {
+                QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
+                if (propertys[TextHeavy].value<QFont>().styleName() == static_cast<CGraphicsTextItem *>(item)->getFont().styleName()) {
+                    allPropertys[TextHeavy] = propertys[TextHeavy];
+                } else {
+                    allPropertys[TextHeavy] = tmpVariant;
                 }
             }
             if (propertys.contains(TextSize)) {
