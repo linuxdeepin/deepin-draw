@@ -124,13 +124,13 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             }
             m_sideWidthWidget->update();
             break;
-        case LineStartArrowType:
+        case PenStartArrowType:
             m_startLabel->setVisible(true);
             m_lineStartComboBox->setVisible(true);
             m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
             m_sideWidthWidget->update();
             break;
-        case LineEndArrowType:
+        case PenEndArrowType:
             m_endLabel->setVisible(true);
             m_lineEndComboBox->setVisible(true);
             m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
@@ -235,7 +235,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(lineType);
         CManagerAttributeService::getInstance()->setPenStartType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-//        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineStartArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenStartArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -269,7 +269,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(lineType);
         CManagerAttributeService::getInstance()->setPenEndType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineEndArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenEndArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });

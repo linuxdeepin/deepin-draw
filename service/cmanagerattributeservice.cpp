@@ -324,13 +324,20 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case PenType://画笔
-//            if (propertys.contains(PenLineArrowType)) {
-//                if (propertys[PenLineArrowType] == static_cast<CGraphicsPenItem *>(item)->currentType()) {
-//                    allPropertys[PenLineArrowType] = propertys[PenLineArrowType];
-//                } else {
-//                    allPropertys[PenLineArrowType] = tmpVariant;
-//                }
-//            }
+            if (propertys.contains(PenStartArrowType)) {
+                if (propertys[PenStartArrowType] == static_cast<CGraphicsPenItem *>(item)->getPenStartType()) {
+                    allPropertys[PenStartArrowType] = propertys[PenStartArrowType];
+                } else {
+                    allPropertys[PenStartArrowType] = tmpVariant;
+                }
+            }
+            if (propertys.contains(PenEndArrowType)) {
+                if (propertys[PenEndArrowType] == static_cast<CGraphicsPenItem *>(item)->getPenEndType()) {
+                    allPropertys[PenEndArrowType] = propertys[PenEndArrowType];
+                } else {
+                    allPropertys[PenEndArrowType] = tmpVariant;
+                }
+            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsPenItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -402,8 +409,6 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value)
 {
-    //todo
-    return;
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);

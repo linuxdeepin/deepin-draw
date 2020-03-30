@@ -1477,6 +1477,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
             break;
         case PenStartArrowType:
             static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
+            break;
         case PenEndArrowType:
             static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
             break;
@@ -1499,6 +1500,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
         default:
             break;
         }
+        item->update();
     }
     myGraphicsScene->update();
 }
@@ -1566,6 +1568,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
         default:
             break;
         }
+        item->update();
     }
     myGraphicsScene->update();
 }
