@@ -59,6 +59,7 @@ public:
     bool getVisible() const;
 
 
+    void setJustExitLogicAbility(bool b);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
@@ -70,6 +71,7 @@ private:
     QSvgRenderer m_lightRenderer;
     QSvgRenderer m_darkRenderer;
     bool m_isRotation;
+    bool m_onlyLogicAblity = false;
 
 };
 

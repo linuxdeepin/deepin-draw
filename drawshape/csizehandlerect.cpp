@@ -95,6 +95,10 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    //如果仅存在功能那么什么都不用绘制了
+    if (m_onlyLogicAblity)
+        return;
+
     if (!m_isRotation) {
         if ( CManageViewSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
@@ -108,9 +112,6 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
     this->renderer()->render(painter, rect);
     painter->setClipping(true);
-
-//    painter->setClipping(true);
-//    QGraphicsSvgItem::paint(painter, option, widget);
 
 }
 
@@ -165,6 +166,12 @@ void CSizeHandleRect::setVisible(bool flag)
 bool CSizeHandleRect::getVisible() const
 {
     return m_bVisible;
+}
+
+void CSizeHandleRect::setJustExitLogicAbility(bool b)
+{
+    m_onlyLogicAblity = b;
+    update();
 }
 
 
