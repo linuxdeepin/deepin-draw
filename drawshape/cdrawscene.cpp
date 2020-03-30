@@ -538,7 +538,7 @@ void CDrawScene::picOperation(int enumstyle)
 
 void CDrawScene::drawToolChange(int type)
 {
-    this->clearSelection();
+    //this->clearSelection();
     clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
