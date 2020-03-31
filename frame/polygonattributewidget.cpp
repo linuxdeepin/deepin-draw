@@ -30,6 +30,7 @@
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
+#include "widgets/cspinbox.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
@@ -143,9 +144,10 @@ void PolygonAttributeWidget::initUI()
     m_sideNumLabel->setText(tr("Sides"));
     m_sideNumLabel->setFont(ft1);
 
-    m_sideNumSlider = new DSpinBox(this);
+    m_sideNumSlider = new CSpinBox(this);
+    m_sideNumSlider->setKeyboardTracking(false);
     m_sideNumSlider->setFixedWidth(70);
-    m_sideNumSlider->setRange(4, 10);
+    m_sideNumSlider->setRange(0, 1000);
     m_sideNumSlider->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -199,6 +201,23 @@ void PolygonAttributeWidget::initConnection()
     ///多边形边数
     connect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
     m_sideNumSlider->setValue(5);
+    connect(m_sideNumSlider, &CSpinBox::focusChanged, this, [ = ] (bool isFocus) {
+        emit signalSideValueIsfocus(isFocus);
+    });
+    connect(m_sideNumSlider, &DSpinBox::editingFinished, this, [ = ] () {
+        m_sideNumSlider->blockSignals(true);
+        if (m_sideNumSlider->value() < 4) {
+            m_sideNumSlider->setValue(4);
+        } else if (m_sideNumSlider->value() > 10) {
+            m_sideNumSlider->setValue(10);
+        }
+        m_sideNumSlider->blockSignals(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(m_sideNumSlider->value());
+        emit signalPolygonAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSlider->value());
+    });
 }
 
 void PolygonAttributeWidget::updatePolygonWidget()
@@ -225,6 +244,13 @@ void PolygonAttributeWidget::updatePolygonWidget()
 
 void PolygonAttributeWidget::slotSideValueChanged(int value)
 {
+    m_sideNumSlider->blockSignals(true);
+    if (m_sideNumSlider->value() < 4) {
+        m_sideNumSlider->setValue(4);
+    } else if (m_sideNumSlider->value() > 10) {
+        m_sideNumSlider->setValue(10);
+    }
+    m_sideNumSlider->blockSignals(false);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
     emit signalPolygonAttributeChanged();
     //隐藏调色板

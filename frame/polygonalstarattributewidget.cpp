@@ -34,6 +34,7 @@
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/csidewidthwidget.h"
+#include "widgets/cspinbox.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
@@ -156,16 +157,18 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel = new DLabel(this);
     m_anchorNumLabel->setText(tr("Points"));
     m_anchorNumLabel->setFont(ft1);
-    m_anchorNumber = new DSpinBox(this);
+    m_anchorNumber = new CSpinBox(this);
+    m_anchorNumber->setKeyboardTracking(false);
     m_anchorNumber->setFixedSize(QSize(70, 36));
-    m_anchorNumber->setRange(3, 50);
+    m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
     m_radiusLabel->setFont(ft1);
-    m_radiusNumber = new DSpinBox(this);
-    m_radiusNumber->setRange(0, 100);
+    m_radiusNumber = new CSpinBox(this);
+    m_radiusNumber->setKeyboardTracking(false);
+    m_radiusNumber->setRange(0, 1000);
     m_radiusNumber->setFixedSize(QSize(70, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
@@ -221,9 +224,46 @@ void PolygonalStarAttributeWidget::initConnection()
 
     //锚点数
     connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
+    connect(m_anchorNumber, &CSpinBox::focusChanged, this, [ = ] (bool isFocus) {
+        emit signalAnchorvalueIsfocus(isFocus);
+    });
+    connect(m_anchorNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        m_anchorNumber->blockSignals(true);
+        if (m_anchorNumber->value() < 3) {
+            m_anchorNumber->setValue(3);
+        } else if (m_anchorNumber->value() > 50) {
+            m_anchorNumber->setValue(50);
+        }
+        m_anchorNumber->blockSignals(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(m_anchorNumber->value());
+        emit signalPolygonalStarAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //设置多选图元属性
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, m_anchorNumber->value());
+    });
 
     //半径
     connect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
+    connect(m_radiusNumber, &CSpinBox::focusChanged, this, [ = ] (bool isFocus) {
+        emit signalRadiusvalueIsfocus(isFocus);
+    });
+    connect(m_radiusNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        m_radiusNumber->blockSignals(true);
+        if (m_radiusNumber->value() < 0) {
+            m_radiusNumber->setValue(0);
+        } else if (m_radiusNumber->value() > 100) {
+            m_radiusNumber->setValue(100);
+        }
+        m_radiusNumber->blockSignals(false);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(m_radiusNumber->value());
+        emit signalPolygonalStarAttributeChanged();
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //设置多选图元属性
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, m_radiusNumber->value());
+    });
+
 
     // 锚点数
     m_anchorNumber->setValue(5);
@@ -262,6 +302,13 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
 
 void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
 {
+    m_anchorNumber->blockSignals(true);
+    if (m_anchorNumber->value() < 3) {
+        m_anchorNumber->setValue(3);
+    } else if (m_anchorNumber->value() > 50) {
+        m_anchorNumber->setValue(50);
+    }
+    m_anchorNumber->blockSignals(false);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
@@ -272,6 +319,13 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
 
 void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
 {
+    m_radiusNumber->blockSignals(true);
+    if (m_radiusNumber->value() < 0) {
+        m_radiusNumber->setValue(0);
+    } else if (m_radiusNumber->value() > 100) {
+        m_radiusNumber->setValue(100);
+    }
+    m_radiusNumber->blockSignals(false);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板

@@ -30,6 +30,7 @@
 #include "widgets/bordercolorbutton.h"
 #include "widgets/seperatorline.h"
 #include "widgets/csidewidthwidget.h"
+#include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
 
 
@@ -176,7 +177,8 @@ void CommonshapeWidget::initUI()
     m_rediusLable->setFont(ft1);
     layout->addWidget(m_rediusLable);
 
-    m_rediusSpinbox = new DSpinBox(this);
+    m_rediusSpinbox = new CSpinBox(this);
+    m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(0, 1000);
     m_rediusSpinbox->setFixedSize(QSize(70, 36));
     m_rediusSpinbox->setFont(ft);
@@ -222,6 +224,22 @@ void CommonshapeWidget::initConnection()
 
     ///圆角半径
     connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+    connect(m_rediusSpinbox, &CSpinBox::focusChanged, this, [ = ] (bool isFocus) {
+        emit signalRectRediusIsfocus(isFocus);
+    });
+    connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [ = ] () {
+        m_rediusSpinbox->blockSignals(true);
+        if (m_rediusSpinbox->value() < 0) {
+            m_rediusSpinbox->setValue(0);
+        } else if (m_rediusSpinbox->value() > 1000) {
+            m_rediusSpinbox->setValue(1000);
+        }
+        m_rediusSpinbox->blockSignals(false);
+        //隐藏调色板
+        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        emit signalRectRediusChanged(m_rediusSpinbox->value());
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value());
+    });
 }
 
 void CommonshapeWidget::updateCommonShapWidget()
@@ -242,6 +260,13 @@ void CommonshapeWidget::updateCommonShapWidget()
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
 {
+    m_rediusSpinbox->blockSignals(true);
+    if (m_rediusSpinbox->value() < 0) {
+        m_rediusSpinbox->setValue(0);
+    } else if (m_rediusSpinbox->value() > 1000) {
+        m_rediusSpinbox->setValue(1000);
+    }
+    m_rediusSpinbox->blockSignals(false);
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);

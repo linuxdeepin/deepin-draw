@@ -617,14 +617,18 @@ void TopToolbar::initConnection()
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
     connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+    connect(m_commonShapeWidget, &CommonshapeWidget::signalRectRediusIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygonalStar
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalPolygonalStarAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalAnchorvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalRadiusvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygon
     connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
     connect(m_PolygonWidget, &PolygonAttributeWidget::signalPolygonAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_PolygonWidget, &PolygonAttributeWidget::signalSideValueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     //draw line.
     connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
