@@ -83,7 +83,7 @@ private:
     CSideWidthWidget *m_sideWidthWidget;
     DSpinBox *m_sideNumSlider;
     SeperatorLine *m_sepLine;
-    DLabel *m_lwLabel;
+//    DLabel *m_lwLabel;
     DLabel *m_sideNumLabel;
 
 private:

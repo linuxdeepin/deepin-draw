@@ -62,7 +62,7 @@ void LineWidget::changeButtonTheme()
     // lock signal
     m_lineStartComboBox->blockSignals(true);
     m_lineEndComboBox->blockSignals(true);
-    if (1 == themeType) { // deep style
+    if (1 == themeType) { // light style
         m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
         m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/light/images/menu_line_arrow_light_start.svg")));
         m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_line_solid arrow_light_start.svg")));
@@ -73,7 +73,7 @@ void LineWidget::changeButtonTheme()
         m_lineEndComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_finishline_solid arrow_light_end.svg")));
         m_lineEndComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/light/images/menu_finishline_ring_light_end.svg")));
         m_lineEndComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/light/images/menu_finishline_round_light_end.svg")));
-    } else { // clearly
+    } else { // dark style
         m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
         m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/dark/images/menu_line_arrow_black_start.svg")));
         m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/dark/images/menu_line_solid arrow_black_start.svg")));
@@ -153,6 +153,9 @@ void LineWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
+    m_sideWidthWidget->setFont(ft);
+
     m_lineStartComboBox = new DComboBox(this);
     m_lineStartComboBox->setFixedSize(QSize(70, 36));
     m_lineStartComboBox->setIconSize(QSize(24, 10));
@@ -180,8 +183,8 @@ void LineWidget::initUI()
     layout->addWidget(m_lineStartComboBox);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-    layout->setSpacing(BTN_SPACNT);
-    layout->addSpacing(16);
+//    layout->setSpacing(BTN_SPACNT);
+//    layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
 

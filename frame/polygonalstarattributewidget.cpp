@@ -66,7 +66,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
-    m_lwLabel->setVisible(false);
+//    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_anchorNumLabel->setVisible(false);
     m_anchorNumber->setVisible(false);
@@ -94,7 +94,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_strokeBtn->update();
             break;
         case LineWidth:
-            m_lwLabel->setVisible(true);
+//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
@@ -144,29 +144,31 @@ void PolygonalStarAttributeWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
 
     m_sepLine = new SeperatorLine(this);
-    m_lwLabel = new DLabel(this);
-    m_lwLabel->setText(tr("Width"));
+//    m_lwLabel = new DLabel(this);
+//    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    m_lwLabel->setFont(ft1);
+//    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
-
+    m_sideWidthWidget->setFixedWidth(100);
 
     m_anchorNumLabel = new DLabel(this);
     m_anchorNumLabel->setText(tr("Points"));
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new DSpinBox(this);
-    m_anchorNumber->setFixedSize(QSize(100, 36));
+    m_anchorNumber->setFixedSize(QSize(70, 36));
     m_anchorNumber->setRange(3, 50);
+    m_anchorNumber->setFont(ft);
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
     m_radiusLabel->setFont(ft1);
     m_radiusNumber = new DSpinBox(this);
     m_radiusNumber->setRange(0, 100);
-    m_radiusNumber->setFixedSize(QSize(100, 36));
+    m_radiusNumber->setFixedSize(QSize(70, 36));
     m_radiusNumber->setSuffix("%");
+    m_radiusNumber->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -175,11 +177,9 @@ void PolygonalStarAttributeWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_strokeBtn);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_sepLine);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_lwLabel);
+//    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(m_sepLine);
     layout->addWidget(m_anchorNumLabel);
     layout->addWidget(m_anchorNumber);
     layout->addSpacing(SEPARATE_SPACING);
@@ -251,7 +251,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
     m_sepLine->setVisible(true);
-    m_lwLabel->setVisible(true);
+//    m_lwLabel->setVisible(true);
     m_sideWidthWidget->setVisible(true);
     m_anchorNumLabel->setVisible(true);
     m_anchorNumber->setVisible(true);

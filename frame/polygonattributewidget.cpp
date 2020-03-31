@@ -66,7 +66,7 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
-    m_lwLabel->setVisible(false);
+//    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_sideNumLabel->setVisible(false);
     m_sideNumSlider->setVisible(false);
@@ -92,7 +92,7 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
             m_strokeBtn->update();
             break;
         case LineWidth:
-            m_lwLabel->setVisible(true);
+//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
@@ -129,35 +129,38 @@ void PolygonAttributeWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
 
     m_sepLine = new SeperatorLine(this);
-    m_lwLabel = new DLabel(this);
-    m_lwLabel->setText(tr("Width"));
+//    m_lwLabel = new DLabel(this);
+//    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    m_lwLabel->setFont(ft1);
+//    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
+    m_sideWidthWidget->setFont(ft);
 
     m_sideNumLabel = new DLabel(this);
     m_sideNumLabel->setText(tr("Sides"));
     m_sideNumLabel->setFont(ft1);
 
     m_sideNumSlider = new DSpinBox(this);
-    m_sideNumSlider->setFixedSize(QSize(100, 36));
+    m_sideNumSlider->setFixedWidth(70);
     m_sideNumSlider->setRange(4, 10);
+    m_sideNumSlider->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
+//    layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
-    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_strokeBtn);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_sepLine);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_lwLabel);
+//    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addWidget(m_sepLine);
+//    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
-    layout->addSpacing(SEPARATE_SPACING);
+    layout->addWidget(m_sepLine);
     layout->addWidget(m_sideNumLabel);
     layout->addWidget(m_sideNumSlider);
 
@@ -213,7 +216,7 @@ void PolygonAttributeWidget::updatePolygonWidget()
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
     m_sepLine->setVisible(true);
-    m_lwLabel->setVisible(true);
+//    m_lwLabel->setVisible(true);
     m_sideWidthWidget->setVisible(true);
     m_sideNumLabel->setVisible(true);
     m_sideNumSlider->setVisible(true);

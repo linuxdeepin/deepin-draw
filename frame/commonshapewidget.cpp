@@ -64,6 +64,7 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
 {
     m_rediusLable->setVisible(visible);
     m_rediusSpinbox->setVisible(visible);
+    m_sepLine->setVisible(visible);
 }
 
 void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
@@ -71,7 +72,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
-    m_lwLabel->setVisible(false);
+//    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_rediusLable->setVisible(false);
     m_rediusSpinbox->setVisible(false);
@@ -89,7 +90,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             m_fillBtn->update();
             break;
         case LineWidth:
-            m_lwLabel->setVisible(true);
+//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
@@ -144,29 +145,31 @@ void CommonshapeWidget::initUI()
 //    strokeLabel->setText(tr("描边"));
 //    strokeLabel->setFont(ft);
     m_sepLine = new SeperatorLine(this);
-    m_lwLabel = new DLabel(this);
-    m_lwLabel->setObjectName("BorderLabel");
+//    m_lwLabel = new DLabel(this);
+//    m_lwLabel->setObjectName("BorderLabel");
     //lwLabel->setText(tr("描边粗细"));
-    m_lwLabel->setText(tr("Width"));
+//    m_lwLabel->setText(tr("Width"));
     QFont ft1;
     ft1.setPixelSize(TEXT_SIZE - 1);
-    m_lwLabel->setFont(ft1);
+//    m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
+    m_sideWidthWidget->setFont(ft);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->setSpacing(BTN_SPACING);
+//    layout->setSpacing(BTN_SPACING);
     layout->addStretch();
     layout->addWidget(m_fillBtn);
     //layout->addWidget(fillLabel);
     layout->addWidget(m_strokeBtn);
     //layout->addWidget(strokeLabel);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_sepLine);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_lwLabel);
+//    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addWidget(m_lwLabel);
     layout->addWidget(m_sideWidthWidget);
+    layout->addWidget(m_sepLine);
 
     m_rediusLable = new DLabel(this);
     m_rediusLable->setText(tr("Radius"));
@@ -175,7 +178,8 @@ void CommonshapeWidget::initUI()
 
     m_rediusSpinbox = new DSpinBox(this);
     m_rediusSpinbox->setRange(0, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(100, 36));
+    m_rediusSpinbox->setFixedSize(QSize(70, 36));
+    m_rediusSpinbox->setFont(ft);
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
 
@@ -228,8 +232,8 @@ void CommonshapeWidget::updateCommonShapWidget()
 
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
-    m_sepLine->setVisible(true);
-    m_lwLabel->setVisible(true);
+//    m_sepLine->setVisible(true);
+//    m_lwLabel->setVisible(true);
     m_sideWidthWidget->setVisible(true);
 //    m_rediusLable->setVisible(false);
 //    m_rediusSpinbox->setVisible(false);
