@@ -901,6 +901,8 @@ void CGraphicsView::slotOnDelete()
             allItems.push_back(curSeleteItems.first());
         }
     }
+    //升序排列
+    qSort(allItems.begin(), allItems.end(), zValueSortASC);
 
     QUndoCommand *deleteCommand = new CDeleteShapeCommand(curScene, allItems);
     m_pUndoStack->push(deleteCommand);
