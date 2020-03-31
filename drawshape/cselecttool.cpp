@@ -668,9 +668,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
-
                 m_currentSelectItem->setSelected(true);
-                //scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
+                //显示所选图元素属性
+                scene->changeAttribute(true, m_currentSelectItem);
             }
         } else {
             if (m_isMulItemMoving) {
