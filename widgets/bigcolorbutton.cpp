@@ -37,7 +37,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     , m_isMultColorSame(true)
 {
     //setFixedSize(24, 24);
-    setFixedSize(56, 36);
+    setFixedSize(50, 32);
     setCheckable(false);
 
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
@@ -127,7 +127,7 @@ void BigColorButton::paintEvent(QPaintEvent *)
         painter.setPen(borderPen);
 
         painter.setBrush(QColor("#F5F5F5"));
-        painter.drawRoundedRect(QRect(4, 10, 18, 18),  6, 6);
+        painter.drawRoundedRect(QRect(4, 10, 14, 14),  6, 6);
 
         QPen textPen;
         textPen.setColor(Qt::gray);

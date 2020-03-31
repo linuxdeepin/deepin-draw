@@ -63,7 +63,7 @@ void CSideWidthWidget::initUI()
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
 
-    m_menuComboBox->setMinimumWidth(110);
+    m_menuComboBox->setMaximumWidth(100);
 
     initLineWidthToCombox();
     m_layout->addWidget(m_menuComboBox);
@@ -131,23 +131,23 @@ QPixmap CSideWidthWidget::drawLinePixmap(int lineWidth, QColor lineColor, int wi
 
 void CSideWidthWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    QColor lineColor;
+//    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
+//    QColor lineColor;
 
-    if (1 == themeType) {
-        lineColor.setRgb(0, 0, 0);
-    } else {
-        lineColor.setRgb(255, 255, 255);
-    }
+//    if (1 == themeType) {
+//        lineColor.setRgb(0, 0, 0);
+//    } else {
+//        lineColor.setRgb(255, 255, 255);
+//    }
 
-    m_menuComboBox->blockSignals(true);
-    m_menuComboBox->setItemIcon(0, QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemIcon(1, QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemIcon(2, QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemIcon(3, QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemIcon(4, QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemIcon(5, QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->blockSignals(false);
+//    m_menuComboBox->blockSignals(true);
+//    m_menuComboBox->setItemIcon(0, QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(1, QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(2, QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(3, QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(4, QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(5, QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->blockSignals(false);
 }
 
 

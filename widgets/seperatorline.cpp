@@ -6,7 +6,7 @@ SeperatorLine::SeperatorLine(DWidget *parent)
     : DLabel(parent)
 {
 
-    setFixedSize(6, 24);
+    setFixedSize(12, 24);
     QPixmap seprtatorLine;
 
     updateTheme();

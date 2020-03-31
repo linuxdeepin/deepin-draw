@@ -84,7 +84,7 @@ signals:
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
-    DLabel *m_lwLabel;
+//    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     DLabel *m_anchorNumLabel;
     DSpinBox *m_anchorNumber; //锚点数

@@ -95,7 +95,7 @@ public slots:
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
-    DLabel *m_lwLabel;
+//    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     SeperatorLine *m_sepLine;
     DSpinBox *m_rediusSpinbox;
