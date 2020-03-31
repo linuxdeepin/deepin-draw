@@ -359,17 +359,34 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     break;
                 }
             }
+            //既没填充也没秒描边
+            if (closeItems.size() > 0) {
+                qreal zValue = closeItems.at(0)->zValue();
+                int maxZvalueIndex = 0;
+                for (int i = 0; i < closeItems.size(); i++) {
+                    if (closeItems.at(i)->zValue() >= zValue) {
+                        zValue = closeItems.at(i)->zValue();
+                        maxZvalueIndex = i;
+                    }
+                }
+                if (static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->brush().color().alpha() == 0 &&
+                        static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().color().alpha() == 0) {
+                    closeItem = closeItems.at(maxZvalueIndex);
+                }
+            }
             //QPainterPathStroker
-            for (int i = 0; i < closeItems.size(); i++) {
-                QPainterPathStroker stroker;
-                QPainterPath path;
-                stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
-                auto curItem = static_cast<CGraphicsItem *>(closeItems.at(i));
-                path = curItem->mapToScene(curItem->getHighLightPath());
-                path = stroker.createStroke(path);
-                if (path.contains(event->scenePos())) {
-                    closeItem = closeItems.at(i);
-                    break;
+            if (closeItem == nullptr) {
+                for (int i = 0; i < closeItems.size(); i++) {
+                    QPainterPathStroker stroker;
+                    QPainterPath path;
+                    stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
+                    auto curItem = static_cast<CGraphicsItem *>(closeItems.at(i));
+                    path = curItem->mapToScene(curItem->getHighLightPath());
+                    path = stroker.createStroke(path);
+                    if (path.contains(event->scenePos())) {
+                        closeItem = closeItems.at(i);
+                        break;
+                    }
                 }
             }
             //填充
