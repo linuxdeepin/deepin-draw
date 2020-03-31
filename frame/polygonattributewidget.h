@@ -31,6 +31,7 @@ class BigColorButton;
 class BorderColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
+class CSpinBox;
 
 class PolygonAttributeWidget : public DWidget
 {
@@ -76,12 +77,16 @@ signals:
      * @brief signalPolygonAttributeChanged　属性变化信号
      */
     void signalPolygonAttributeChanged();
+    /**
+     * @brief signalSideValueIsfocus　边数变化信号
+     */
+    void signalSideValueIsfocus(bool);
 
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
-    DSpinBox *m_sideNumSlider;
+    CSpinBox *m_sideNumSlider;
     SeperatorLine *m_sepLine;
 //    DLabel *m_lwLabel;
     DLabel *m_sideNumLabel;

@@ -449,6 +449,7 @@ void CLeftToolBar::initConnection()
 
     connect(m_cutBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
+        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         emit setCurrentDrawTool(cut);
         emit signalBegainCut();

@@ -30,6 +30,7 @@ class BigColorButton;
 class BorderColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
+class CSpinBox;
 
 class PolygonalStarAttributeWidget : public DWidget
 {
@@ -80,6 +81,14 @@ signals:
      * @brief signalPolygonalStarAttributeChanged　属性变化信号
      */
     void signalPolygonalStarAttributeChanged();
+    /**
+     * @brief signalAnchorvalueIsfocus　锚点焦点变化信号
+     */
+    void signalAnchorvalueIsfocus(bool);
+    /**
+     * @brief signalRadiusvalueIsfocus　半径焦点变化信号
+     */
+    void signalRadiusvalueIsfocus(bool);
 
 private:
     BigColorButton *m_fillBtn;
@@ -87,8 +96,8 @@ private:
 //    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     DLabel *m_anchorNumLabel;
-    DSpinBox *m_anchorNumber; //锚点数
-    DSpinBox *m_radiusNumber; //半径
+    CSpinBox *m_anchorNumber; //锚点数
+    CSpinBox *m_radiusNumber; //半径
     DLabel *m_radiusLabel;
     SeperatorLine *m_sepLine;
 

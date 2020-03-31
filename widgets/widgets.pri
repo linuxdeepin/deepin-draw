@@ -30,7 +30,8 @@ HEADERS += \
     $$PWD/cfontcombobox.h \
     $$PWD/cpushbutton.h \
     $$PWD/ciconbutton.h \
-    $$PWD/dmenucombobox.h
+    $$PWD/dmenucombobox.h \
+    $$PWD/cspinbox.h
 
 
 SOURCES += \
@@ -63,7 +64,8 @@ SOURCES += \
     $$PWD/cfontcombobox.cpp \
     $$PWD/cpushbutton.cpp \
     $$PWD/ciconbutton.cpp \
-    $$PWD/dmenucombobox.cpp
+    $$PWD/dmenucombobox.cpp \
+    $$PWD/cspinbox.cpp
 
 
 #RESOURCES += \
