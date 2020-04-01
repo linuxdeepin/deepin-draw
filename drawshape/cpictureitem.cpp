@@ -112,10 +112,10 @@ void CPictureItem::setRotation90(bool leftOrRight)
     QPointF center = this->rect().center();
     this->setTransformOriginPoint(center);
     if (leftOrRight == true) {
-        m_angle = m_angle - 90.0;
+        m_angle = this->rotation() - 90.0;
         this->setRotation(m_angle);
     } else {
-        m_angle = m_angle + 90.0;
+        m_angle = this->rotation() + 90.0;
         this->setRotation(m_angle);
     }
 
