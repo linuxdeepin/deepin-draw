@@ -98,7 +98,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideWidthWidget->setMenuButtonICon("—— ——", QIcon());
+                m_sideWidthWidget->setMenuNoSelected();
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }

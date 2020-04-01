@@ -25,6 +25,7 @@
 #include <DFrame>
 #include <QHBoxLayout>
 #include <DWidget>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
@@ -42,11 +43,9 @@ public:
     // 更新线宽度函数
     void setSideWidth(int width);
     /*
-    * @bref: setMenuButtonICon 设置子菜单图标
-    * @parma: text 下拉按钮文本名字
-    * @parma: icon 下拉按钮图标
+    * @bref: setMenuNoSelected 设置子菜单未选中
     */
-    void setMenuButtonICon(QString text, QIcon icon);
+    void setMenuNoSelected();
 
 signals:
     void signalSideWidthChange();
@@ -61,6 +60,7 @@ private:
     DComboBox *m_menuComboBox;// 线宽度选择下拉框
     QHBoxLayout *m_layout;// 水平布局器
     quint8 m_comboxHeight; // 下拉框的高度
+    DLabel *m_maskLable;
 
 private:
     void initUI();

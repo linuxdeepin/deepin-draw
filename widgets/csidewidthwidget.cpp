@@ -45,23 +45,32 @@ void CSideWidthWidget::updateSideWidth()
     int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
     QString current_px = QString::number(lineWidth) + "px";
     m_menuComboBox->setCurrentText(current_px);
+    m_maskLable->setVisible(false);
 }
 
 void CSideWidthWidget::setSideWidth(int width)
 {
     QString current_px = QString::number(width) + "px";
     m_menuComboBox->setCurrentText(current_px);
+    m_maskLable->setVisible(false);
 }
 
-void CSideWidthWidget::setMenuButtonICon(QString text, QIcon icon)
+void CSideWidthWidget::setMenuNoSelected()
 {
-//    m_menuComboBox->setMenuButtonICon(text, icon);
+    m_menuComboBox->setCurrentIndex(-1);
+    m_maskLable->setVisible(true);
 }
 
 void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout(this);
     m_menuComboBox = new DComboBox(this);
+    m_maskLable = new DLabel(m_menuComboBox);
+    m_maskLable->setText("— —");
+    m_maskLable->move(6, 6);
+    m_maskLable->setFixedSize(35, 20);
+    m_maskLable->setVisible(true);
+    m_maskLable->setFont(m_menuComboBox->font());
 
     m_menuComboBox->setMaximumWidth(100);
 
@@ -86,7 +95,7 @@ void CSideWidthWidget::initConnection()
         }
     });
 
-    connect(m_menuComboBox, QOverload<const QString &>::of(&DComboBox::highlighted), [ = ](const QString & text) {
+    connect(m_menuComboBox, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), [ = ](const QString & text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
@@ -97,10 +106,6 @@ void CSideWidthWidget::initConnection()
             }
         }
     });
-
-//    connect(m_menuComboBox, &DComboBox::signalAboutToShow, [ = ]() {
-//        emit signalSideWidthMenuShow();
-//    });
 
     // 设置默认2px的线宽度
     m_menuComboBox->setCurrentIndex(2);
