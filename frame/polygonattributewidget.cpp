@@ -106,10 +106,9 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
             m_sideNumLabel->setVisible(true);
             m_sideNumSlider->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                //todo
-                disconnect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
-                m_sideNumSlider->setValue(-1);
-                connect(m_sideNumSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
+                m_sideNumSlider->blockSignals(true);
+                m_sideNumSlider->setValue(0);
+                m_sideNumSlider->blockSignals(false);
             } else {
                 m_sideNumSlider->setValue(propertys[property].toInt());
             }
@@ -149,6 +148,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSlider->setFixedWidth(70);
     m_sideNumSlider->setRange(0, 1000);
     m_sideNumSlider->setFont(ft);
+    m_sideNumSlider->setSpecialValueText("— —");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

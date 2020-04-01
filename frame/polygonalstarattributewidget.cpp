@@ -108,10 +108,9 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_anchorNumLabel->setVisible(true);
             m_anchorNumber->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                //todo
-                disconnect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
-                m_anchorNumber->setValue(-1);
-                connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
+                m_anchorNumber->blockSignals(true);
+                m_anchorNumber->setValue(0);
+                m_anchorNumber->blockSignals(false);
             } else {
                 m_anchorNumber->setValue(propertys[property].toInt());
             }
@@ -120,10 +119,9 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_radiusLabel->setVisible(true);
             m_radiusNumber->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                //todo
-                disconnect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
+                m_radiusNumber->blockSignals(true);
                 m_radiusNumber->setValue(-1);
-                connect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
+                m_radiusNumber->blockSignals(false);
             } else {
                 m_radiusNumber->setValue(propertys[property].toInt());
             }
@@ -163,16 +161,18 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumber->setFixedSize(QSize(70, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
+    m_anchorNumber->setSpecialValueText("— —");
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
     m_radiusLabel->setFont(ft1);
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
-    m_radiusNumber->setRange(0, 1000);
+    m_radiusNumber->setRange(-1, 1000);
     m_radiusNumber->setFixedSize(QSize(70, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
+    m_radiusNumber->setSpecialValueText("— —");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

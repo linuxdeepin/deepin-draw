@@ -114,9 +114,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             m_rediusSpinbox->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 //todo
-                disconnect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+                m_rediusSpinbox->blockSignals(true);
                 m_rediusSpinbox->setValue(-1);
-                connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+                m_rediusSpinbox->blockSignals(false);
             } else {
                 m_rediusSpinbox->setValue(propertys[property].toInt());
             }
@@ -179,9 +179,10 @@ void CommonshapeWidget::initUI()
 
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
-    m_rediusSpinbox->setRange(0, 1000);
+    m_rediusSpinbox->setRange(-1, 1000);
     m_rediusSpinbox->setFixedSize(QSize(70, 36));
     m_rediusSpinbox->setFont(ft);
+    m_rediusSpinbox->setSpecialValueText("— —");
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
 
