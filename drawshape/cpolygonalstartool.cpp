@@ -160,5 +160,6 @@ void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDra
         m_pPolygonalStarItem = nullptr;
         m_bMousePress = false;
     }
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

@@ -82,6 +82,11 @@ CSelectTool::~CSelectTool()
 
 }
 
+bool CSelectTool::isDragging()
+{
+    return m_isItemMoving;
+}
+
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     qDebug() << "mouse press" << endl;
@@ -89,9 +94,13 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
     }
-    m_doCopy = false;
-    m_doMove = false;
-    m_doResize = false;
+
+    //鼠标点下时初始化一些标记
+    m_doCopy          = false;
+    m_isItemMoving    = false;
+    m_isMulItemMoving = false;
+    m_doResize        = false;
+
     if (event->button() == Qt::LeftButton) {
         bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
         if (ctrlKeyPress) {
@@ -182,7 +191,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (CSizeHandleRect::InRect == m_dragHandle && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                 qApp->setOverrideCursor(m_textEditCursor);
             } else {
-                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
             }
         }
 
@@ -259,7 +268,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     if (CSizeHandleRect::InRect == m_dragHandle && currentSelectItem != nullptr && currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(currentSelectItem)->getTextEdit()->isVisible()) {
                         qApp->setOverrideCursor(m_textEditCursor);
                     } else {
-                        qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                        qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                     }
                     scene->changeAttribute(true, m_currentSelectItem);
                 }
@@ -317,7 +326,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
-                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
+                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
                 }
                 m_rotateAng = m_currentSelectItem->rotation();
             }
@@ -352,17 +361,34 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     break;
                 }
             }
+            //既没填充也没秒描边
+            if (closeItems.size() > 0) {
+                qreal zValue = closeItems.at(0)->zValue();
+                int maxZvalueIndex = 0;
+                for (int i = 0; i < closeItems.size(); i++) {
+                    if (closeItems.at(i)->zValue() >= zValue) {
+                        zValue = closeItems.at(i)->zValue();
+                        maxZvalueIndex = i;
+                    }
+                }
+                if (static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->brush().color().alpha() == 0 &&
+                        static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().color().alpha() == 0) {
+                    closeItem = closeItems.at(maxZvalueIndex);
+                }
+            }
             //QPainterPathStroker
-            for (int i = 0; i < closeItems.size(); i++) {
-                QPainterPathStroker stroker;
-                QPainterPath path;
-                stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
-                auto curItem = static_cast<CGraphicsItem *>(closeItems.at(i));
-                path = curItem->mapToScene(curItem->getHighLightPath());
-                path = stroker.createStroke(path);
-                if (path.contains(event->scenePos())) {
-                    closeItem = closeItems.at(i);
-                    break;
+            if (closeItem == nullptr) {
+                for (int i = 0; i < closeItems.size(); i++) {
+                    QPainterPathStroker stroker;
+                    QPainterPath path;
+                    stroker.setWidth(static_cast<CGraphicsItem *>(closeItems.at(i))->pen().width() + 2);
+                    auto curItem = static_cast<CGraphicsItem *>(closeItems.at(i));
+                    path = curItem->mapToScene(curItem->getHighLightPath());
+                    path = stroker.createStroke(path);
+                    if (path.contains(event->scenePos())) {
+                        closeItem = closeItems.at(i);
+                        break;
+                    }
                 }
             }
             //填充
@@ -500,16 +526,20 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     scene->getItemsMgr()->setSelected(true);
                     scene->clearSelection();
                     scene->getItemsMgr()->move(m_sLastPress, event->scenePos());
-                    m_doMove = true;
+                    m_isMulItemMoving = true;
+                    m_isItemMoving    = true;
                     scene->mouseEvent(event);
                 }
                 scene->mouseEvent(event);
             } else if (m_currentSelectItem != nullptr ) {
                 if (m_currentSelectItem->type() != TextType) {
+                    m_isItemMoving = true;
+                    m_dragHandle = CSizeHandleRect::InRect;
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
                 } else {
                     //文字图元非编辑状态下是移动图元 编辑状态下是选中文字
                     if (!static_cast<CGraphicsTextItem *>(m_currentSelectItem)->isEditable()) {
+                        m_isItemMoving = true;
                         static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
                     }
                     scene->mouseEvent(event);
@@ -599,31 +629,21 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         }
 
         if (scene->getItemsMgr()->getItems().size() <= 1) {
-            QList<QGraphicsItem *> items = scene->items(m_frameSelectItem->rect());
-
-            QGraphicsItem *currentSelectItem = nullptr;
-            for (auto curItem : items) {
-                if (curItem->type() > QGraphicsItem::UserType && curItem->type() < MgrType) {
-                    currentSelectItem = curItem;
-                    break;
-                }
-            }
-
-            //选中图元
-            if (currentSelectItem != nullptr) {
-                if (CSizeHandleRect::InRect == m_dragHandle && currentSelectItem != nullptr && currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(currentSelectItem)->getTextEdit()->isVisible()) {
+            if (m_currentSelectItem != nullptr) {
+                if (CSizeHandleRect::InRect == m_dragHandle &&
+                        m_currentSelectItem != nullptr &&
+                        m_currentSelectItem->type() == TextType &&
+                        static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
-                    qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                    qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                 }
 
                 //最后需要刷新一次
                 if (m_currentSelectItem && m_currentSelectItem->type() == BlurType) {
                     static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
                 }
-            }
 
-            if (m_currentSelectItem != nullptr) {
                 if (m_dragHandle == CSizeHandleRect::Rotation) {
                     if (m_RotateItem) {
                         delete m_RotateItem;
@@ -633,18 +653,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                         emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
                     }
                 } else if (m_dragHandle == CSizeHandleRect::InRect) {
-                    qDebug() << "items.count() = " << items.count();
-
-
                     if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
-                        if (items.count() == 1) {
-
-                            emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
-                        } else {
-                            emit scene->itemMoved(nullptr, m_sPointRelease - m_sPointPress );
-                        }
+                        emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
                     }
-
                 } else {
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
@@ -659,15 +670,15 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
-
                 m_currentSelectItem->setSelected(true);
-                scene->getItemHighLight()->setPos(m_currentSelectItem->pos());
+                //显示所选图元素属性
+                scene->changeAttribute(true, m_currentSelectItem);
             }
         } else {
-            if (m_doMove) {
+            if (m_isMulItemMoving) {
                 QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, m_sPointPress, m_sPointRelease);
                 CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-                m_doMove = false;
+                m_isMulItemMoving = false;
             } else if (m_doResize) {
                 bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
@@ -682,7 +693,8 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             }
         }
 
-        m_doMove = false;
+        m_isMulItemMoving = false;
+        m_isItemMoving    = false;
     }
 
     //更新模糊图元

@@ -45,7 +45,7 @@ EDrawToolMode IDrawTool::getDrawToolMode() const
     return m_mode;
 }
 
-QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress)
+QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress, char toolType)
 {
     Qt::CursorShape result;
     QCursor resultCursor;
@@ -120,12 +120,14 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
         resultCursor = m_RotateCursor;
         break;
     case CSizeHandleRect::InRect:
-        if (bMouseLeftPress) {
-            result =  Qt::ClosedHandCursor;
-        } else {
-            result =  Qt::OpenHandCursor;
+        if (toolType == 0) {
+            if (bMouseLeftPress) {
+                result =  Qt::ClosedHandCursor;
+            } else {
+                result =  Qt::OpenHandCursor;
+            }
+            resultCursor = QCursor(result);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::None:
         result =  Qt::ArrowCursor;

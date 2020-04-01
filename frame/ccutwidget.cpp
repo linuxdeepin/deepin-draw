@@ -160,9 +160,7 @@ void CCutWidget::initUI()
 
     m_freeBtn->setChecked(true);
 
-
     m_sepLine = new SeperatorLine(this);
-
 
     QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMap;
 

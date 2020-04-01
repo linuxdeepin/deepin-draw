@@ -161,7 +161,8 @@ void CEllipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
         m_bMousePress = false;
     }
 
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
     //TODO 如果没有拖动的功能   是否删除矩形
 }
 

@@ -30,7 +30,6 @@ DWIDGET_USE_NAMESPACE
 
 class TextColorButton;
 class SeperatorLine;
-class DMenuComboBox;
 
 class TextWidget : public DWidget
 {
@@ -90,8 +89,8 @@ private:
     TextColorButton *m_fillBtn;
     CFontComboBox *m_fontComBox;
     SeperatorLine *m_textSeperatorLine;
-    DMenuComboBox *m_fontHeavy; // 字体的重量
-    DSpinBox *m_fontSize; // 字体的大小
+    DComboBox *m_fontHeavy; // 字体的重量
+    DComboBox *m_fontSize; // 字体的大小
     DLabel *m_fontFamilyLabel;
     DLabel *m_fontsizeLabel;
 

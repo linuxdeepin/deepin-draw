@@ -82,7 +82,7 @@ enum ELineType {
 };
 
 enum EGraphicUserType {
-    NoType = QGraphicsItem::UserType + 1,      //公共选择没有公共属性的时候用
+    NoType = QGraphicsItem::UserType,      //公共选择没有公共属性的时候用
     RectType,      //矩形
     EllipseType,        //圆形
     TriangleType,       //三角形
@@ -95,7 +95,7 @@ enum EGraphicUserType {
     CutType,            //裁剪
     BlurType,           //模糊
     MgrType =  QGraphicsItem::UserType + 100,    //多选管理图元
-    hightLightType,    //高亮图元
+    hightLightType      //高亮图元
 };
 
 enum ECutAttributeType {

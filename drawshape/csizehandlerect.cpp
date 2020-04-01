@@ -21,6 +21,11 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
+#include "cdrawtoolmanagersigleton.h"
+#include "cdrawscene.h"
+#include "cselecttool.h"
+#include "cgraphicsitem.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
@@ -89,11 +94,17 @@ void CSizeHandleRect::updateCursor()
     setCursor(Qt::ArrowCursor);
 }
 
-
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    //如果仅存在功能那么什么都不用绘制了
+    if (m_onlyLogicAblity)
+        return;
+
+    if (isFatherDragging())
+        return;
 
     if (!m_isRotation) {
         if ( CManageViewSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
@@ -109,9 +120,22 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     this->renderer()->render(painter, rect);
     painter->setClipping(true);
 
-//    painter->setClipping(true);
-//    QGraphicsSvgItem::paint(painter, option, widget);
+}
 
+bool CSizeHandleRect::isFatherDragging()
+{
+    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
+    if (pParentItem != nullptr && pParentItem->isSelected()) {
+        CDrawScene *pDrawScene = qobject_cast<CDrawScene *>(scene());
+        if (pDrawScene != nullptr) {
+            EDrawToolMode model = pDrawScene->getDrawParam()->getCurrentDrawToolMode();
+            if (model == selection) {
+                CSelectTool *pTool = dynamic_cast<CSelectTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+                return (pTool != nullptr && pTool->isDragging());
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -165,6 +189,12 @@ void CSizeHandleRect::setVisible(bool flag)
 bool CSizeHandleRect::getVisible() const
 {
     return m_bVisible;
+}
+
+void CSizeHandleRect::setJustExitLogicAbility(bool b)
+{
+    m_onlyLogicAblity = b;
+    update();
 }
 
 

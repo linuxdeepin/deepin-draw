@@ -93,7 +93,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         {
             QDataStream out(&writeFile);
             out << (quint32)0xA0B0C0D0;
-            out << RoundRect;
+            out << LineStartAndEndType;
             out << m_graphics.unitCount;
             out << m_graphics.rect;
 
@@ -172,14 +172,13 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             in >> type;
             int version;
             in >> version;
-//            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
-//            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
+            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
+            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
             if (type != (quint32)0xA0B0C0D0) {
                 in.device()->seek(0);
             }
             in >> m_graphics.unitCount;
             in >> m_graphics.rect;
-
             emit signalStartLoadDDF(m_graphics.rect);
 
             int count = 0;
@@ -216,6 +215,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                     }
                 } else if (PolygonType == unit.head.dataType) {
                     CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
+                    qDebug() << "Content: " << "aaaaaaaaaaaaaaaaaaaaaaaa";
                     emit signalAddItem(item);
 
                     if (unit.data.pPolygon) {

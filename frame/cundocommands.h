@@ -135,6 +135,7 @@ private:
     QPointF m_beginPos;
     QPointF m_endPos;
     bool m_bMoved;
+    QList<CGraphicsItem * > m_listItems;
 };
 
 /*

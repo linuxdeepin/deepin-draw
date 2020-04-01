@@ -1350,19 +1350,33 @@ CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos
     m_endPos = endPos;
     m_beginPos = beginPos;
     m_bMoved = false;
+    m_listItems.clear();
+    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
 }
 
 void CMultMoveShapeCommand::undo()
 {
     qDebug() << "CMultMoveShapeCommand::undo";
-    myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
+    } else {
+        foreach (CGraphicsItem *item, m_listItems) {
+            item->move(m_endPos, m_beginPos);
+        }
+    }
 }
 
 void CMultMoveShapeCommand::redo()
 {
     qDebug() << "CMultMoveShapeCommand::redo";
     if (m_bMoved) {
-        myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
+        } else {
+            foreach (CGraphicsItem *item, m_listItems) {
+                item->move(m_beginPos, m_endPos);
+            }
+        }
     }
     m_bMoved = true;
 }

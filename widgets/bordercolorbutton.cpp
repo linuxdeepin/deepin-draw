@@ -36,7 +36,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(false)
 {
-    setFixedSize(62, 36);
+    setFixedSize(50, 32);
     setCheckable(false);
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
@@ -85,7 +85,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         painter.setPen(pen);
         // painter.setBrush(Qt::transparent);
         //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(4, 11, 14, 14), 6, 6);
 
         QPen borderPen;
         borderPen.setWidth(1);
