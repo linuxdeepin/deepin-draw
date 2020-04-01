@@ -153,6 +153,7 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_sideWidthWidget = new CSideWidthWidget(this);
     m_sideWidthWidget->setFixedWidth(100);
+    m_sideWidthWidget->setFont(ft);
 
     m_anchorNumLabel = new DLabel(this);
     m_anchorNumLabel->setText(tr("Points"));

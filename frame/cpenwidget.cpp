@@ -35,6 +35,7 @@
 #include <QDebug>
 
 #include <DGuiApplicationHelper>
+#include <DComboBox>
 
 
 DGUI_USE_NAMESPACE
@@ -64,30 +65,29 @@ void CPenWidget::changeButtonTheme()
     // lock signal
     m_lineStartComboBox->blockSignals(true);
     m_lineEndComboBox->blockSignals(true);
-    m_lineStartComboBox->cleanAllMenuItem();
-    m_lineEndComboBox->cleanAllMenuItem();
-    if (1 == themeType) { // deep style
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_arrow_light_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_solid arrow_light_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_ring_light_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_line_round_light_start.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_arrow_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_solid arrow_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_ring_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/light/images/menu_finishline_round_light_end.svg")));
-    } else { // clearly
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_arrow_black_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_solid arrow_black_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_ring_black_start.svg")));
-        m_lineStartComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_line_round_black_start.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/menu_finishline_arrow_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_solid arrow_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_ring_light_end.svg")));
-        m_lineEndComboBox->addItem("", QIcon(QPixmap(":/theme/dark/images/combobox_finishline_round_light_end.svg")));
+    qDebug() << "theme: " << themeType;
+    if (1 == themeType) { // light style
+        m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
+        m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/light/images/menu_line_arrow_light_start.svg")));
+        m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_line_solid arrow_light_start.svg")));
+        m_lineStartComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/light/images/menu_line_ring_light_start.svg")));
+        m_lineStartComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/light/images/menu_line_round_light_start.svg")));
+        m_lineEndComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
+        m_lineEndComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/light/images/menu_finishline_arrow_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_finishline_solid arrow_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/light/images/menu_finishline_ring_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/light/images/menu_finishline_round_light_end.svg")));
+    } else { // dark style
+        m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
+        m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/dark/images/menu_line_arrow_black_start.svg")));
+        m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/dark/images/menu_line_solid arrow_black_start.svg")));
+        m_lineStartComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/dark/images/menu_line_ring_black_start.svg")));
+        m_lineStartComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/dark/images/menu_line_round_black_start.svg")));
+        m_lineEndComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
+        m_lineEndComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/dark/images/menu_finishline_arrow_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_solid arrow_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_ring_light_end.svg")));
+        m_lineEndComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_round_light_end.svg")));
     }
     m_lineStartComboBox->blockSignals(false);
     m_lineEndComboBox->blockSignals(false);
@@ -157,12 +157,26 @@ void CPenWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
-    m_lineStartComboBox = new DMenuComboBox(this);
+    m_sideWidthWidget->setFont(ft);
+    m_sideWidthWidget->setFixedWidth(100);
+
+    m_lineStartComboBox = new DComboBox(this);
     m_lineStartComboBox->setFixedSize(QSize(70, 36));
-    m_lineStartComboBox->setMenuMaxWidth(70);
-    m_lineEndComboBox =  new DMenuComboBox(this);
+    m_lineStartComboBox->setIconSize(QSize(24, 10));
+    m_lineStartComboBox->addItem("");
+    m_lineStartComboBox->addItem("");
+    m_lineStartComboBox->addItem("");
+    m_lineStartComboBox->addItem("");
+    m_lineStartComboBox->addItem("");
+
+    m_lineEndComboBox =  new DComboBox(this);
     m_lineEndComboBox->setFixedSize(QSize(70, 36));
-    m_lineEndComboBox->setMenuMaxWidth(70);
+    m_lineEndComboBox->setIconSize(QSize(24, 10));
+    m_lineEndComboBox->addItem("");
+    m_lineEndComboBox->addItem("");
+    m_lineEndComboBox->addItem("");
+    m_lineEndComboBox->addItem("");
+    m_lineEndComboBox->addItem("");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -174,7 +188,7 @@ void CPenWidget::initUI()
     layout->addWidget(m_lineStartComboBox);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-    layout->setSpacing(BTN_SPACNT);
+//    layout->setSpacing(BTN_SPACNT);
     layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
@@ -207,7 +221,7 @@ void CPenWidget::initConnection()
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
     // 起点箭头样式
-    connect(m_lineStartComboBox, &DMenuComboBox::signalCurrentIndexChanged, this, [ = ](int index) {
+    connect(m_lineStartComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
         ELineType lineType = noneLine;
         switch (index) {
         case 0: {
@@ -241,7 +255,7 @@ void CPenWidget::initConnection()
     });
 
     // 终点箭头样式
-    connect(m_lineEndComboBox, &DMenuComboBox::signalCurrentIndexChanged, this, [ = ](int index) {
+    connect(m_lineEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
         ELineType lineType = noneLine;
         switch (index) {
         case 0: {
