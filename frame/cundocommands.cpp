@@ -688,18 +688,26 @@ void CSetPolygonStarAttributeCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-
-CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, int newType)
-    : m_pItem(item)
-    , m_newType(newType)
+CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type)    : m_pItem(item)
+    , m_newStartType(noneLine)
+    , m_newEndType(noneLine)
 {
     myGraphicsScene = scene;
-    m_oldType = item->currentType();
+
+    if (isStart) {
+        m_newStartType = type;
+    } else {
+        m_newEndType = type;
+    }
+
+    m_oldStartType = item->getPenStartType();
+    m_oldEndType = item->getPenEndType();
 }
 
 void CSetPenAttributeCommand::undo()
 {
-    m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
+    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -707,7 +715,8 @@ void CSetPenAttributeCommand::undo()
 
 void CSetPenAttributeCommand::redo()
 {
-    m_pItem->updatePenType(static_cast<EPenType>(m_newType));
+    m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
+    m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -1341,19 +1350,33 @@ CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos
     m_endPos = endPos;
     m_beginPos = beginPos;
     m_bMoved = false;
+    m_listItems.clear();
+    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
 }
 
 void CMultMoveShapeCommand::undo()
 {
     qDebug() << "CMultMoveShapeCommand::undo";
-    myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
+    } else {
+        foreach (CGraphicsItem *item, m_listItems) {
+            item->move(m_endPos, m_beginPos);
+        }
+    }
 }
 
 void CMultMoveShapeCommand::redo()
 {
     qDebug() << "CMultMoveShapeCommand::redo";
     if (m_bMoved) {
-        myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->getItemsMgr()->move(m_beginPos, m_endPos);
+        } else {
+            foreach (CGraphicsItem *item, m_listItems) {
+                item->move(m_beginPos, m_endPos);
+            }
+        }
     }
     m_bMoved = true;
 }
@@ -1394,27 +1417,25 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
         case LineEndArrowType:
             oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
             break;
-        case PenLineArrowType:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
+        case PenStartArrowType:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
+            break;
+        case PenEndArrowType:
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
             break;
         case TextColor:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->currentType());
-            if (item->type() == EGraphicUserType::TextType) {
-                oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                oldValue.setValue(brush.color());
-            }
+            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
             break;
         case TextSize:
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontSize());
             break;
+        case TextHeavy:
+            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextFontStyle());
+            break;
+        case TextFont:
+            oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFont());
+            break;
         default:
-            //oldValue.setValue(QMetaType::User);
             break;
         }
         m_oldValues[item] = oldValue;
@@ -1461,28 +1482,28 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case LineEndArrowType:
             static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
             break;
-        case PenLineArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setCurrentType(oldValue.value<EPenType>());
+        case PenStartArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
+            break;
+        case PenEndArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
             break;
         case TextColor:
-            if (item->type() == EGraphicUserType::TextType) {
-                static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                brush.setColor(oldValue.value<QColor>());
-                item->setBrush(brush);
-            }
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
             break;
         case TextSize:
             static_cast<CGraphicsTextItem *>(item)->setFontSize(oldValue.value<qreal>());
             break;
+        case TextHeavy:
+            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(oldValue.value<QString>());
+            break;
+        case TextFont:
+            static_cast<CGraphicsTextItem *>(item)->setFont(oldValue.value<QFont>());
+            break;
         default:
             break;
         }
+        item->update();
     }
     myGraphicsScene->update();
 }
@@ -1525,28 +1546,28 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case LineEndArrowType:
             static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
             break;
-        case PenLineArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setCurrentType(m_value.value<EPenType>());
+        case PenStartArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
+            break;
+        case PenEndArrowType:
+            static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
             break;
         case TextColor:
-            if (item->type() == EGraphicUserType::TextType) {
-                static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
-            } else if (item->type() == EGraphicUserType::RectType ||
-                       item->type() == EGraphicUserType::EllipseType ||
-                       item->type() == EGraphicUserType::TriangleType ||
-                       item->type() == EGraphicUserType::PolygonalStarType ||
-                       item->type() == EGraphicUserType::PolygonType) {
-                QBrush brush = item->brush();
-                brush.setColor(m_value.value<QColor>());
-                item->setBrush(brush);
-            }
+            static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
             break;
         case TextSize:
             static_cast<CGraphicsTextItem *>(item)->setFontSize(m_value.value<qreal>());
             break;
+        case TextHeavy:
+            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(m_value.value<QString>());
+            break;
+        case TextFont:
+            static_cast<CGraphicsTextItem *>(item)->setFont(m_value.value<QFont>());
+            break;
         default:
             break;
         }
+        item->update();
     }
     myGraphicsScene->update();
 }

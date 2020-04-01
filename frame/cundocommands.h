@@ -135,6 +135,7 @@ private:
     QPointF m_beginPos;
     QPointF m_endPos;
     bool m_bMoved;
+    QList<CGraphicsItem * > m_listItems;
 };
 
 /*
@@ -306,15 +307,17 @@ private:
 class CSetPenAttributeCommand: public QUndoCommand
 {
 public:
-    explicit CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, int newType);
+    explicit CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
 private:
     CDrawScene *myGraphicsScene;
     CGraphicsPenItem *m_pItem;
-    int m_oldType;
-    int m_newType;
+    ELineType m_newStartType; // 起始点样式
+    ELineType m_newEndType; // 终点样式
+    ELineType m_oldStartType; // 起始点样式
+    ELineType m_oldEndType; // 终点样式
 };
 
 /**

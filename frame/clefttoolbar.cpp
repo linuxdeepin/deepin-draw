@@ -105,6 +105,7 @@ void CLeftToolBar::initUI()
     //m_picBtn->setFocusPolicy(Qt::NoFocus);
     m_selectBtn->setToolTip(tr("Select(V)"));
     m_actionButtons.append(m_selectBtn);
+    m_selectBtn->setVisible(false);
 
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/action/picture tools_normal.svg");
     pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/action/picture tools_hover.svg");
@@ -448,6 +449,7 @@ void CLeftToolBar::initConnection()
 
     connect(m_cutBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_cutBtn);
+        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         emit setCurrentDrawTool(cut);
         emit signalBegainCut();

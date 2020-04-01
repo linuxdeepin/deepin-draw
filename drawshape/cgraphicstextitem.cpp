@@ -203,6 +203,17 @@ QFont CGraphicsTextItem::getFont()
     return m_Font;
 }
 
+QString CGraphicsTextItem::getTextFontStyle() const
+{
+    return m_Font.styleName();
+}
+
+void CGraphicsTextItem::setTextFontStyle(const QString &style)
+{
+    m_Font.setStyleName(style);
+    m_pTextEdit->setFont(m_Font);
+}
+
 void CGraphicsTextItem::setFontSize(qreal size)
 {
     QTextCharFormat fmt;

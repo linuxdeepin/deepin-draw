@@ -32,6 +32,7 @@ class BigColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
 class CManageViewSigleton;
+class CSpinBox;
 
 class CommonshapeWidget : public DWidget
 {
@@ -77,6 +78,10 @@ signals:
      * @brief signalRectRediusChanged 圆角矩形半径变化信号
      */
     void signalRectRediusChanged(int);
+    /**
+     * @brief signalRectRediusIsfocus　圆角矩形半径焦点变化信号
+     */
+    void signalRectRediusIsfocus(bool);
 
 public slots:
     /**
@@ -95,10 +100,10 @@ public slots:
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
-    DLabel *m_lwLabel;
+//    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     SeperatorLine *m_sepLine;
-    DSpinBox *m_rediusSpinbox;
+    CSpinBox *m_rediusSpinbox;
     DLabel *m_rediusLable;
 
 private:

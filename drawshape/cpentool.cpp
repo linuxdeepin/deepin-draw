@@ -49,7 +49,8 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         QPen pen = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen();
         m_pPenItem->setPen(pen);
         m_pPenItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
-        m_pPenItem->setCurrentType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentPenType());
+        m_pPenItem->setPenStartType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenStartType());
+        m_pPenItem->setPenEndType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenEndType());
         m_pPenItem->setPixmap();
         m_pPenItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pPenItem);
@@ -97,4 +98,6 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         m_pPenItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

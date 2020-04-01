@@ -85,14 +85,14 @@ CDrawScene::CDrawScene(CGraphicsView *view)
     connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )),
             view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
 
-    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, int )),
-            view, SLOT(itemPenTypeChange(CGraphicsPenItem *, int)));
+    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType )),
+            view, SLOT(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)));
 
     connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int )),
             view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int )));
 
-    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, ELineType, ELineType)),
-            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, ELineType, ELineType)));
+    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)),
+            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)));
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -275,8 +275,10 @@ void CDrawScene::attributeChanged()
                 }
             } else if (item->type() == PenType) {
                 CGraphicsPenItem *tmpItem = static_cast<CGraphicsPenItem *>(item);
-                if (tmpItem->currentType() != getDrawParam()->getCurrentPenType()) {
-                    emit itemPenTypeChange(tmpItem, getDrawParam()->getCurrentPenType());
+                ELineType startType = tmpItem->getPenStartType();
+                ELineType endType = tmpItem->getPenEndType();
+                if (startType != getDrawParam()->getPenStartType() || endType != getDrawParam()->getPenEndType()) {
+                    emit itemPenTypeChange(tmpItem, startType, endType);
                     //tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
                 }
                 tmpItem->calcVertexes();
@@ -350,12 +352,19 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
                 break;
             case PenType:
                 getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setCurrentPenType(static_cast<CGraphicsPenItem *>(tmpItem)->currentType());
+                getDrawParam()->setPenStartType(static_cast<CGraphicsPenItem *>(tmpItem)->getPenStartType());
+                getDrawParam()->setPenEndType(static_cast<CGraphicsPenItem *>(tmpItem)->getPenEndType());
                 break;
             case LineType:
                 getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
                 getDrawParam()->setLineStartType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineStartType());
                 getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
+                break;
+            case TextType:
+                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
+                getDrawParam()->setTextFont(static_cast<CGraphicsTextItem *>(tmpItem)->getFont().family());
+                getDrawParam()->setTextFontStyle(static_cast<CGraphicsTextItem *>(tmpItem)->getTextFontStyle());
+                getDrawParam()->setTextSize(static_cast<CGraphicsTextItem *>(tmpItem)->getFontSize());
                 break;
             case BlurType:
                 getDrawParam()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurEffect());
@@ -538,7 +547,7 @@ void CDrawScene::picOperation(int enumstyle)
 
 void CDrawScene::drawToolChange(int type)
 {
-    this->clearSelection();
+    //this->clearSelection();
     clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
@@ -617,6 +626,7 @@ void CDrawScene::textFontFamilyChanged()
         if (item->type() == TextType) {
             CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
             tmpitem->setFontFamily(getDrawParam()->getTextFont().family());
+            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
         }
     }
 }
@@ -630,6 +640,7 @@ void CDrawScene::textFontSizeChanged()
         if (item->type() == TextType) {
             CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
             tmpitem->setFontSize(getDrawParam()->getTextFont().pointSizeF());
+            tmpitem->setTextFontStyle(getDrawParam()->getTextFontStyle());
         }
     }
 }

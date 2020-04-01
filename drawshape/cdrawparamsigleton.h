@@ -44,7 +44,6 @@ public:
     void setBrush(const QBrush &brush);
     QBrush getBrush() const;
 
-
     void setCurrentDrawToolMode(EDrawToolMode mode);
     EDrawToolMode getCurrentDrawToolMode() const;
 
@@ -57,11 +56,11 @@ public:
     int getSideNum() const;
     void setSideNum(int sideNum);
 
-    EPenType getCurrentPenType() const;
-    void setCurrentPenType(const EPenType &currentPenType);
-
     QFont getTextFont() const;
     void setTextFont(const QString &strFont);
+
+    QString getTextFontStyle() const;
+    void setTextFontStyle(const QString &style);
 
     void setShiftKeyStatus(bool flag);
     bool getShiftKeyStatus();
@@ -93,7 +92,6 @@ public:
     ECutAttributeType getCutAttributeType() const;
     void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
-
     bool getModify() const;
     void setModify(bool isModify);
 
@@ -114,6 +112,12 @@ public:
 
     ELineType getLineEndType() const;
     void setLineEndType(const ELineType &lineType);
+
+    ELineType getPenStartType() const;
+    void setPenStartType(const ELineType &penType);
+
+    ELineType getPenEndType() const;
+    void setPenEndType(const ELineType &penType);
 
     ESaveDDFTriggerAction getSaveDDFTriggerAction() const;
     void setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction);
@@ -157,8 +161,6 @@ private:
 
     int m_sideNum;//多边形边数
 
-    EPenType m_currentPenType; //当前画笔类型
-
     QFont m_textFont; //文本字体
     //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
@@ -193,9 +195,12 @@ private:
     int m_blurWidth;    //模糊半径
 
     //线型
-    ELineType m_lineType;
     ELineType m_lineStartType; // 线起点样式
     ELineType m_lineEndType; // 线终点样式
+
+    // 画笔类型
+    ELineType m_penStartType; // 画笔起点样式
+    ELineType m_penEndType; // 画笔终点样式
 
     int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
 

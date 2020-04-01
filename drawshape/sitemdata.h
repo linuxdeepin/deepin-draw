@@ -41,7 +41,10 @@
 //};
 
 //版本号
-enum VersionNum {RoundRect = 1};
+enum VersionNum {
+    RoundRect = 1, // 添加矩形属性
+    LineStartAndEndType // 添加直线起点和终点类型
+};
 
 //图元头部
 struct SGraphicsUnitHead {
@@ -137,7 +140,7 @@ struct SGraphicsRectUnitData {
         int version;
         in >> version;
         in.device()->seek(pos);
-        if (type == (quint32)0xA0B0C0D0 && version == RoundRect) {
+        if (type == (quint32)0xA0B0C0D0 && version >= RoundRect) {
             in >> rectUnitData.topLeft;
             in >> rectUnitData.bottomRight;
             in >> rectUnitData.xRedius;
@@ -250,12 +253,21 @@ struct SGraphicsLineUnitData {
     {
         quint32 start_type = 0;
         quint32 end_type = 0;
+        qint64 pos = in.device()->pos();
+        in.device()->seek(0);
+        quint32 type;
+        in >> type;
+        int version;
+        in >> version;
+        in.device()->seek(pos);
         in >> lineUnitData.point1;
         in >> lineUnitData.point2;
         in >> start_type;
-        in >> end_type;
         lineUnitData.start_type = static_cast<ELineType>(start_type);
-        lineUnitData.end_type = static_cast<ELineType>(end_type);
+        if (type == (quint32)0xA0B0C0D0 && version >= LineStartAndEndType) {
+            in >> end_type;
+            lineUnitData.end_type = static_cast<ELineType>(end_type);
+        }
         return in;
     }
 };
@@ -312,25 +324,33 @@ struct SGraphicsPictureUnitData {
 
 //画笔
 struct SGraphicsPenUnitData {
-    qint8 penType;
+    ELineType start_type; // 起点箭头样式
+    ELineType end_type;   // 终点箭头样式
     QPainterPath path;
-    QPolygonF arrow;
+//    QPolygonF arrow;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
     {
-        out << penUnitData.penType;
+        out << penUnitData.end_type;
         out << penUnitData.path;
-        out << penUnitData.arrow;
+//        out << penUnitData.arrow;
+        out << penUnitData.start_type;
 
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
     {
-        in >> penUnitData.penType;
-        in >> penUnitData.path;
-        in >> penUnitData.arrow;
+        quint32 start_type = 0;
+        quint32 end_type = 0;
 
+        in >> end_type;
+        in >> penUnitData.path;
+//        in >> penUnitData.arrow;
+        in >> start_type;
+
+        penUnitData.start_type = static_cast<ELineType>(start_type);
+        penUnitData.end_type = static_cast<ELineType>(end_type);
 
         return in;
     }

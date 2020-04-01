@@ -299,14 +299,14 @@ public slots:
      * @param item
      * @param newType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, int newType);
+    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemLineTypeChange
      * @param item
      * @param newType
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, ELineType newStartType, ELineType newOldType);
+    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemBlurChange

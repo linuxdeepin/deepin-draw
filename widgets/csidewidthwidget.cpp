@@ -23,9 +23,10 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "widgets/dmenucombobox.h"
+//#include "widgets/dmenucombobox.h"
 
 #include <DGuiApplicationHelper>
+#include <DComboBox>
 
 #include <QDebug>
 
@@ -44,26 +45,34 @@ void CSideWidthWidget::updateSideWidth()
     int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
     QString current_px = QString::number(lineWidth) + "px";
     m_menuComboBox->setCurrentText(current_px);
+    m_maskLable->setVisible(false);
 }
 
 void CSideWidthWidget::setSideWidth(int width)
 {
     QString current_px = QString::number(width) + "px";
     m_menuComboBox->setCurrentText(current_px);
+    m_maskLable->setVisible(false);
 }
 
-void CSideWidthWidget::setMenuButtonICon(QString text, QIcon icon)
+void CSideWidthWidget::setMenuNoSelected()
 {
-    m_menuComboBox->setMenuButtonICon(text, icon);
+    m_menuComboBox->setCurrentIndex(-1);
+    m_maskLable->setVisible(true);
 }
 
 void CSideWidthWidget::initUI()
 {
     m_layout = new QHBoxLayout(this);
-    m_menuComboBox = new DMenuComboBox(this);
-    m_menuComboBox->setMenuFlat(false);
+    m_menuComboBox = new DComboBox(this);
+    m_maskLable = new DLabel(m_menuComboBox);
+    m_maskLable->setText("— —");
+    m_maskLable->move(6, 6);
+    m_maskLable->setFixedSize(35, 20);
+    m_maskLable->setVisible(true);
+    m_maskLable->setFont(m_menuComboBox->font());
 
-    m_menuComboBox->setMinimumWidth(110);
+    m_menuComboBox->setMaximumWidth(100);
 
     initLineWidthToCombox();
     m_layout->addWidget(m_menuComboBox);
@@ -73,7 +82,7 @@ void CSideWidthWidget::initUI()
 
 void CSideWidthWidget::initConnection()
 {
-    connect(m_menuComboBox, &DMenuComboBox::signalCurrentTextChanged, [ = ](QString text) {
+    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](QString text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
@@ -86,7 +95,7 @@ void CSideWidthWidget::initConnection()
         }
     });
 
-    connect(m_menuComboBox, &DMenuComboBox::signalActionToggled, [ = ](QString text) {
+    connect(m_menuComboBox, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), [ = ](const QString & text) {
         if (text.contains("px")) {
             // 判断并且获取当前线宽度
             bool flag = false;
@@ -96,10 +105,6 @@ void CSideWidthWidget::initConnection()
                 emit signalSideWidthChoosed(lineWidth);
             }
         }
-    });
-
-    connect(m_menuComboBox, &DMenuComboBox::signalAboutToShow, [ = ]() {
-        emit signalSideWidthMenuShow();
     });
 
     // 设置默认2px的线宽度
@@ -131,22 +136,23 @@ QPixmap CSideWidthWidget::drawLinePixmap(int lineWidth, QColor lineColor, int wi
 
 void CSideWidthWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    QColor lineColor;
+//    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
+//    QColor lineColor;
 
-    if (1 == themeType) {
-        lineColor.setRgb(0, 0, 0);
-    } else {
-        lineColor.setRgb(255, 255, 255);
-    }
+//    if (1 == themeType) {
+//        lineColor.setRgb(0, 0, 0);
+//    } else {
+//        lineColor.setRgb(255, 255, 255);
+//    }
 
-    m_menuComboBox->setItemICon("0px", QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("1px", QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("2px", QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("4px", QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("8px", QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->setItemICon("10px", QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
-    m_menuComboBox->updateButtonTextAndIcon();
+//    m_menuComboBox->blockSignals(true);
+//    m_menuComboBox->setItemIcon(0, QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(1, QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(2, QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(3, QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(4, QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(5, QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->blockSignals(false);
 }
 
 

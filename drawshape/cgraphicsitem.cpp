@@ -204,4 +204,3 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
     return value;
 }
 
-

@@ -288,9 +288,10 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
     unit.head.zValue = this->zValue();
 
     unit.data.pBlur = new SGraphicsBlurUnitData();
-    unit.data.pBlur->data.penType = this->currentType();
+    unit.data.pBlur->data.start_type = this->getPenStartType();
+    unit.data.pBlur->data.end_type = this->getPenEndType();
     unit.data.pBlur->data.path = this->getPath();
-    unit.data.pBlur->data.arrow = this->getArrow();
+//    unit.data.pBlur->data.arrow = this->getArrow();
 
     unit.data.pBlur->effect = m_nBlurEffect;
 
@@ -333,3 +334,22 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
     return retList;
 }
 
+ELineType CGraphicsMasicoItem::getPenStartType() const
+{
+    return m_penStartType;
+}
+
+void CGraphicsMasicoItem::setPenStartType(const ELineType &penType)
+{
+    m_penStartType = penType;
+}
+
+ELineType CGraphicsMasicoItem::getPenEndType() const
+{
+    return m_penEndType;
+}
+
+void CGraphicsMasicoItem::setPenEndType(const ELineType &penType)
+{
+    m_penEndType = penType;
+}

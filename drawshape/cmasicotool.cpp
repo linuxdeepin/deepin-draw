@@ -98,4 +98,6 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_pBlurItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }
