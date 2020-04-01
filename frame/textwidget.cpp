@@ -202,7 +202,6 @@ void TextWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
-
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
 //        qDebug() << "weight:" << m_fontComBox->font().
         m_bSelect = true;
@@ -210,7 +209,6 @@ void TextWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
     });
-
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
 
         if (m_bSelect) {
@@ -218,6 +216,18 @@ void TextWidget::initConnection()
             emit signalTextFontFamilyChanged();
             m_bSelect = false;
         }
+    });
+    connect(m_fontComBox,  QOverload<const QString &>::of(&CFontComboBox::currentIndexChanged), this, [ = ](const QString & family) {
+        QFontDatabase base; //("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+        QStringList listStylyName = base.styles(family);
+        listStylyName.removeOne("Regular");
+        m_fontHeavy->blockSignals(true);
+        m_fontHeavy->clear();
+        m_fontHeavy->addItem(tr("Regular"));
+        for (QString style : listStylyName) {
+            m_fontHeavy->addItem(style);
+        }
+        m_fontHeavy->blockSignals(false);
     });
 
     // 字体大小
@@ -248,16 +258,27 @@ void TextWidget::initConnection()
     });
 
     // 字体重量
-    connect(m_fontHeavy, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
-        // tr("Normal"), tr("Bold"), tr("Thin")
-        if (str == tr("Bold")) {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Bold);
+    connect(m_fontHeavy, &DComboBox::currentTextChanged, this, [ = ](const QString & str) {
+        // ("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+        QString style = "Regular";
+        if (str == tr("Medium")) {
+            style = "Medium";
+        } else if (str == tr("Bold")) {
+            style = "Bold";
+        } else if (str == tr("ExtraLight")) {
+            style = "ExtraLight";
+        } else if (str == tr("Heavy")) {
+            style = "Heavy";
+        } else if (str == tr("Light")) {
+            style = "Light";
         } else if (str == tr("Thin")) {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Thin);
-        } else {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextWeight(QFont::Normal);
+            style = "Thin";
+        } else if (str == tr("SemiBold")) {
+            style = "SemiBold";
         }
-        emit signalTextFontSizeChanged();
+        CManagerAttributeService::getInstance()->setTextFamilyStyle(
+            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), style);
+
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);
     });
