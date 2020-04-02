@@ -38,7 +38,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(true)
 {
-    setFixedSize(56, 36);
+    setFixedSize(55, 36);
     setCheckable(false);
 
     //深色主题下
@@ -73,7 +73,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
 
-        painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
+        painter.setBrush(QBrush(QColor(0, 0, 0, 12)));
         QColor drawColor = m_color;
 
         //    if (m_isHover || m_isChecked) {
@@ -85,7 +85,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
 
         painter.setBrush(drawColor);
         //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 20, 20),  8, 8);
 
         QPen borderPen;
         borderPen.setWidth(1);
@@ -96,17 +96,26 @@ void TextColorButton::paintEvent(QPaintEvent *)
         //    } else {
         //        painter.setBrush(Qt::transparent);
         //    }
+
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            QPen linePen;
+            linePen.setWidth(2);
+            linePen.setColor(QColor("#ff804d"));
+            painter.setPen(linePen);
+            painter.drawLine(7, 22, 20, 12);
+        }
+
         if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(Qt::gray);
+            borderPen.setColor(QColor(0, 0, 0, 25));
         } else {
             borderPen.setColor(Qt::transparent);
         }
         if (m_color.alpha() == 0) {
-            borderPen.setColor(Qt::gray);
+            borderPen.setColor(QColor(0, 0, 0, 25));
         }
         painter.setPen(borderPen);
         //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 19, 19),  8, 8);
 
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -117,28 +126,28 @@ void TextColorButton::paintEvent(QPaintEvent *)
 
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
 
-        painter.drawText(26, 9, 32, 16, 0, tr("Color"));
+        painter.drawText(26, 6, 38, 22, 0, tr("Color"));
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(Qt::gray);
+        borderPen.setColor(QColor(0, 0, 0, 25));
         painter.setPen(borderPen);
 
-        painter.setBrush(QColor("#F5F5F5"));
-        painter.drawRoundedRect(QRect(4, 10, 18, 18),  6, 6);
+        painter.setBrush(QColor(0, 0, 0, 12));
+        painter.drawRoundedRect(QRect(4, 8, 19, 19),  8, 8);
 
         QPen textPen;
-        textPen.setColor(Qt::gray);
+        textPen.setColor(QColor(0, 0, 0, 25));
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(8, 6, 32, 16, 0, tr("..."));
+        painter.drawText(8, 3, 32, 16, 0, tr("..."));
 
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
@@ -147,9 +156,9 @@ void TextColorButton::paintEvent(QPaintEvent *)
         }
 
         painter.setPen(textPen);
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(26, 9, 32, 16, 0, tr("Color"));
+        painter.drawText(26, 6, 38, 22, 0, tr("Color"));
     }
 }
 
