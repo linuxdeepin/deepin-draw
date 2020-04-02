@@ -115,6 +115,7 @@ private:
     bool m_bShiftPress;
     bool m_bAltPress;
     bool m_bResized;
+    QList<CGraphicsItem * > m_listItems;
 };
 
 /**
@@ -335,6 +336,7 @@ private:
     ELineType m_newEndType; // 终点样式
     ELineType m_oldStartType; // 起始点样式
     ELineType m_oldEndType; // 终点样式
+    bool m_isStart;
 };
 
 

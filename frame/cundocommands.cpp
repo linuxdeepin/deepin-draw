@@ -78,6 +78,11 @@ void CMoveShapeCommand::undo()
             item->moveBy(-myDelta.x(), -myDelta.y());
         }
     }
+    if (myItem) {
+        myGraphicsScene->clearSelection();
+        myItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, myItem);
+    }
 //    setText(QObject::tr("Undo Move %1,%2")
 //            .arg(-myDelta.x()).arg(-myDelta.y()));
     bMoved = false;
@@ -105,6 +110,12 @@ void CMoveShapeCommand::redo()
         }
     }
 
+    if (myItem) {
+        myGraphicsScene->clearSelection();
+        myItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, myItem);
+    }
+
     myGraphicsScene->setModify(true);
     if (!myGraphicsScene->views().isEmpty()) {
         myGraphicsScene->views().first()->update();
@@ -127,8 +138,11 @@ CDeleteShapeCommand::~CDeleteShapeCommand()
 void CDeleteShapeCommand::undo()
 {
     qDebug() << "CDeleteShapeCommand undo";
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
     foreach (QGraphicsItem *item, m_items) {
         myGraphicsScene->addItem(item);
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
     myGraphicsScene->update();
     if (m_oldIndex != -1) {
@@ -142,6 +156,15 @@ void CDeleteShapeCommand::undo()
             }
         }
     }
+
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->show();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem();
 }
@@ -149,7 +172,6 @@ void CDeleteShapeCommand::undo()
 void CDeleteShapeCommand::redo()
 {
     qDebug() << "CDeleteShapeCommand redo";
-    qDebug() << "multSelectItems count = ";
     if (m_items.count() == 1) {
         QList<QGraphicsItem *> itemList = myGraphicsScene->items();
 //        for (int i = 0; i < itemList.count(); i++) {
@@ -158,9 +180,23 @@ void CDeleteShapeCommand::redo()
         m_oldIndex = itemList.indexOf(m_items.first());
     }
 
+    bool remove = false;
     foreach (QGraphicsItem *item, m_items) {
         myGraphicsScene->removeItem(item);
+        remove = true;
     }
+
+    if (remove) {
+        myGraphicsScene->getItemsMgr()->clear();
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+    myGraphicsScene->update();
+
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem();
 }
@@ -254,10 +290,6 @@ void CAddShapeCommand::undo()
         }
     }
 
-    if (myGraphicsScene->getItemsMgr()->getItems().count() <= 1) {
-        myGraphicsScene->getItemsMgr()->setSelected(false);
-    }
-
     //重置保存的最大z值
     allItems = myGraphicsScene->items();
     for (int i = allItems.size() - 1; i >= 0; i--) {
@@ -269,6 +301,9 @@ void CAddShapeCommand::undo()
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
+
+    myGraphicsScene->getItemsMgr()->update();
+    myGraphicsScene->update();
 }
 //! [8]
 
@@ -292,12 +327,15 @@ void CAddShapeCommand::redo()
         }
     }
 
+    bool add = false;
     for (int i = 0; i < m_items.size(); i++) {
         QGraphicsItem *item = m_items.at(i);
         if (!allItems.contains(static_cast<CGraphicsItem *>(item))) {
             item->setZValue(myGraphicsScene->getMaxZValue() + 1);
             myGraphicsScene->addItem(item);
+            add = true;
             myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
         }
     }
 
@@ -310,6 +348,27 @@ void CAddShapeCommand::redo()
         }
         if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
             myGraphicsScene->setMaxZValue(allItem->zValue());
+        }
+    }
+
+    if (m_items.size() == 1) {
+        myGraphicsScene->clearSelection();
+        m_items.at(0)->setSelected(true);
+    } else {
+        myGraphicsScene->clearSelection();
+        if (add) {
+            myGraphicsScene->getItemsMgr()->clear();
+            foreach (QGraphicsItem *item, m_items) {
+                myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+            }
+            if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+                myGraphicsScene->clearSelection();
+                myGraphicsScene->getItemsMgr()->setSelected(true);
+                emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+            }
+            myGraphicsScene->getItemsMgr()->update();
+            myGraphicsScene->update();
+
         }
     }
 
@@ -340,6 +399,9 @@ CRotateShapeCommand::CRotateShapeCommand(CDrawScene *scene, QGraphicsItem *item,
 void CRotateShapeCommand::undo()
 {
     myItem->setRotation(myOldAngle);
+    myGraphicsScene->clearSelection();
+    myItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, myItem);
     myItem->scene()->update();
     myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
@@ -348,6 +410,9 @@ void CRotateShapeCommand::undo()
 void CRotateShapeCommand::redo()
 {
     myItem->setRotation(newAngle);
+    myGraphicsScene->clearSelection();
+    myItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, myItem);
     myItem->update();
     myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
@@ -462,6 +527,9 @@ void CResizeShapeCommand::undo()
     qDebug() << "CResizeShapeCommand undo";
     if (myItem != nullptr) {
         myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
+        myGraphicsScene->clearSelection();
+        myItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, myItem);
         myItem->update();
     }
     myGraphicsScene->setModify(true);
@@ -472,6 +540,9 @@ void CResizeShapeCommand::redo()
     qDebug() << "CResizeShapeCommand redo";
     if (myItem != nullptr) {
         myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
+        myGraphicsScene->clearSelection();
+        myItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, myItem);
         myItem->update();
     }
     myGraphicsScene->setModify(true);
@@ -573,6 +644,11 @@ void CSetPropertyCommand::undo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_oldBrush);
     }
+
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
+
     myGraphicsScene->setModify(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -590,6 +666,10 @@ void CSetPropertyCommand::redo()
     if (m_bBrushChange) {
         m_pItem->setBrush(m_newBrush);
     }
+
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->setModify(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
@@ -616,6 +696,9 @@ void CSetRectXRediusCommand::undo()
 {
     if (m_bRectXRediusChange) {
         m_pItem->setXYRedius(m_oldRectXRedius, m_oldRectXRedius);
+        myGraphicsScene->clearSelection();
+        m_pItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, m_pItem);
     }
     myGraphicsScene->setModify(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
@@ -627,6 +710,9 @@ void CSetRectXRediusCommand::redo()
     if (m_bRectXRediusChange) {
         m_pItem->setXYRedius(m_newRectXRedius, m_newRectXRedius);
         m_pItem->update();
+        myGraphicsScene->clearSelection();
+        m_pItem->setSelected(true);
+        myGraphicsScene->changeAttribute(true, m_pItem);
     }
 
     myGraphicsScene->setModify(true);
@@ -645,6 +731,9 @@ CSetPolygonAttributeCommand::CSetPolygonAttributeCommand(CDrawScene *scene, CGra
 void CSetPolygonAttributeCommand::undo()
 {
     m_pItem->setPointCount(m_nOldNum);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
@@ -654,6 +743,9 @@ void CSetPolygonAttributeCommand::undo()
 void CSetPolygonAttributeCommand::redo()
 {
     m_pItem->setPointCount(m_nNewNum);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
@@ -673,6 +765,9 @@ CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CDrawScene *sce
 void CSetPolygonStarAttributeCommand::undo()
 {
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
@@ -682,6 +777,9 @@ void CSetPolygonStarAttributeCommand::undo()
 void CSetPolygonStarAttributeCommand::redo()
 {
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
@@ -700,6 +798,9 @@ CSetPenAttributeCommand::CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPen
 void CSetPenAttributeCommand::undo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -708,6 +809,9 @@ void CSetPenAttributeCommand::undo()
 void CSetPenAttributeCommand::redo()
 {
     m_pItem->updatePenType(static_cast<EPenType>(m_newType));
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -719,28 +823,42 @@ CSetLineAttributeCommand::CSetLineAttributeCommand(CDrawScene *scene, CGraphicsL
     , m_newEndType(noneLine)
 {
     myGraphicsScene = scene;
+    m_isStart = isStart;
 
     if (isStart) {
         m_newStartType = type;
+        m_oldStartType = item->getLineStartType();
     } else {
         m_newEndType = type;
+        m_oldEndType = item->getLineEndType();
     }
-
-    m_oldStartType = item->getLineStartType();
-    m_oldEndType = item->getLineEndType();
 }
 
 void CSetLineAttributeCommand::undo()
 {
-    m_pItem->setLineStartType(static_cast<ELineType>(m_oldStartType));
-    m_pItem->setLineEndType(static_cast<ELineType>(m_oldEndType));
+    if (m_isStart) {
+        m_pItem->setLineStartType(m_oldStartType);
+    } else {
+        m_pItem->setLineEndType(m_oldEndType);
+    }
+    m_pItem->calcVertexes();
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetLineAttributeCommand::redo()
 {
-    m_pItem->setLineStartType(static_cast<ELineType>(m_newStartType));
-    m_pItem->setLineEndType(static_cast<ELineType>(m_newEndType));
+    if (m_isStart) {
+        m_pItem->setLineStartType(m_newStartType);
+    } else {
+        m_pItem->setLineEndType(m_newEndType);
+    }
+    m_pItem->calcVertexes();
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
 //    m_pItem->update(
 //    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -807,6 +925,17 @@ void COneLayerUpCommand::undo()
         if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
+    }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
 
     if (m_isRedoExcuteSuccess) {
@@ -877,6 +1006,18 @@ void COneLayerUpCommand::redo()
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -944,6 +1085,17 @@ void COneLayerDownCommand::undo()
         if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
+    }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
 
     if (m_isRedoExcuteSuccess) {
@@ -1018,6 +1170,18 @@ void COneLayerDownCommand::redo()
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -1093,6 +1257,17 @@ void CBringToFrontCommand::undo()
         }
     }
 
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isUndoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -1117,6 +1292,18 @@ void CBringToFrontCommand::redo()
         myGraphicsScene->updateBlurItem(selectItem);
         m_isRedoExcuteSuccess = true;
     }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -1196,6 +1383,18 @@ void CSendToBackCommand::undo()
             myGraphicsScene->setMaxZValue(allItem->zValue());
         }
     }
+
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isUndoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -1240,6 +1439,17 @@ void CSendToBackCommand::redo()
         m_isRedoExcuteSuccess = true;
     }
 
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (QGraphicsItem *item, m_selectItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
@@ -1262,6 +1472,9 @@ void CSetBlurAttributeCommand::undo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nOldType));
     m_pItem->setBlurWidth(m_nOldRadius);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
@@ -1273,6 +1486,9 @@ void CSetBlurAttributeCommand::redo()
 {
     m_pItem->setBlurEffect(static_cast<EBlurEffect>(m_nNewType));
     m_pItem->setBlurWidth(m_nNewRadius);
+    myGraphicsScene->clearSelection();
+    m_pItem->setSelected(true);
+    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
@@ -1320,18 +1536,48 @@ CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleR
     m_bAltPress = bAltPress;
     m_offsetPos = m_beginPos - m_endPos;
     m_bResized = false;
+    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
 }
 
 void CMultResizeShapeCommand::undo()
 {
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_listItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
     myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_offsetPos, m_bShiftPress, m_bAltPress);
+
+    myGraphicsScene->clearSelection();
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
 }
 
 void CMultResizeShapeCommand::redo()
 {
     if (m_bResized) {
+
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_listItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+
         myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, -m_offsetPos, m_bShiftPress, m_bAltPress);
+
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_listItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
     }
+
     m_bResized = true;
 }
 
@@ -1355,6 +1601,16 @@ void CMultMoveShapeCommand::undo()
             item->move(m_endPos, m_beginPos);
         }
     }
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_listItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
 }
 
 void CMultMoveShapeCommand::redo()
@@ -1368,6 +1624,17 @@ void CMultMoveShapeCommand::redo()
                 item->move(m_beginPos, m_endPos);
             }
         }
+    }
+
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_listItems) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
     m_bMoved = true;
 }
@@ -1498,6 +1765,18 @@ void CSetItemsCommonPropertyValueCommand::undo()
             break;
         }
     }
+
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_items) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     myGraphicsScene->update();
 }
 
@@ -1562,5 +1841,17 @@ void CSetItemsCommonPropertyValueCommand::redo()
             break;
         }
     }
+
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_items) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        myGraphicsScene->clearSelection();
+        myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
     myGraphicsScene->update();
 }
