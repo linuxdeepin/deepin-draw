@@ -168,8 +168,8 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusLabel->setFont(ft1);
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
-    m_radiusNumber->setRange(-1, 1000);
-    m_radiusNumber->setFixedSize(QSize(70, 36));
+    m_radiusNumber->setRange(0, 1000);
+    m_radiusNumber->setFixedSize(QSize(80, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
     m_radiusNumber->setSpecialValueText("— —");
