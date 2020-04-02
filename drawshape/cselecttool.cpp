@@ -372,7 +372,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     }
                 }
                 if (static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->brush().color().alpha() == 0 &&
-                        static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().color().alpha() == 0) {
+                        (static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().color().alpha() == 0 ||
+                         static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().width() == 0 ||
+                         static_cast<CGraphicsItem *>(closeItems.at(maxZvalueIndex))->pen().widthF() == 0.0)) {
                     closeItem = closeItems.at(maxZvalueIndex);
                 }
             }
