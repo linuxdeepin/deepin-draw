@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cgraphicspolygonalstaritem.h"
+#include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
@@ -65,7 +66,7 @@ QPainterPath CGraphicsPolygonalStarItem::shape() const
 {
     QPainterPath path;
 
-    path.addPolygon(m_polygon);
+    path.addPolygon(m_polygonPen);
     path.closeSubpath();
     return qt_graphicsItem_shapeFromPath(path, pen());
 }
@@ -112,7 +113,7 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
 QPainterPath CGraphicsPolygonalStarItem::getHighLightPath()
 {
     QPainterPath path;
-    path.addPolygon(m_polygon);
+    path.addPolygon(m_polygonForBrush);
     path.closeSubpath();
     return path;
 }
@@ -139,9 +140,23 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
     updateGeometry();
 
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    //绘制填充
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
-    painter->drawPolygon(m_polygon);
+    painter->drawPolygon(m_polygonForBrush);
+
+    //再绘制描边
+    if(m_renderWay == RenderPathLine)
+    {
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(QColor(pen().color()));
+        painter->drawPath(m_pathForRenderPenLine);
+    }
+    else {
+        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+        painter->setBrush(Qt::NoBrush);
+        painter->drawPolygon(m_polygonPen);
+    }
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
@@ -161,7 +176,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
 void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
 {
-    m_polygon = polygon;
+    m_polygonForBrush = polygon;
 }
 
 int CGraphicsPolygonalStarItem::innerRadius() const
@@ -176,23 +191,79 @@ int CGraphicsPolygonalStarItem::anchorNum() const
 
 void CGraphicsPolygonalStarItem::calcPolygon()
 {
+    bool userSetNoPen = (qFuzzyIsNull(pen().widthF()));
     prepareGeometryChange();
-    m_polygon.clear();
 
+    //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
+    //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
+    m_renderWay = userSetNoPen?PaintPolyLine:(m_anchorNum>3?RenderPathLine:PaintPolyLine);
+
+    //初始化线的路径
+    m_pathForRenderPenLine = QPainterPath();
+
+    if(m_renderWay == RenderPathLine)
+    {
+        calcPolygon_helper(m_polygonPen, m_anchorNum);
+
+        //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
+        calcPolygon_helper(m_polygonForBrush, m_anchorNum, -(pen().widthF()));
+
+        for(int i= 0;i<m_polygonPen.size();++i)
+        {
+            if(i == 0)
+            {
+                m_pathForRenderPenLine.moveTo(m_polygonPen.at(i));
+            }
+            else {
+                m_pathForRenderPenLine.lineTo(m_polygonPen.at(i));
+            }
+        }
+        for(int i= 0;i<m_polygonForBrush.size();++i)
+        {
+            if(i == 0)
+            {
+                m_pathForRenderPenLine.moveTo(m_polygonForBrush.at(i));
+            }
+            else {
+                m_pathForRenderPenLine.lineTo(m_polygonForBrush.at(i));
+            }
+        }
+    }
+    else
+    {
+        //如果分别绘制两个多边形(一个填充区域的多边形一个线条的多边形(这个多边形不设置填充色)) 因为Qt默认渲染线条和填充有重叠部分重叠部分为线宽的一半所以
+        //这里采用这种方式时就只用偏移线宽一半
+        CGraphicsPolygonItem::calcPoints_helper(m_polygonForBrush,m_anchorNum,this->rect(),-(pen().widthF()) / 2);
+
+        CGraphicsPolygonItem::calcPoints_helper(m_polygonPen,m_anchorNum,this->rect());
+    }
+
+}
+
+void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset)
+{
+    if (n == 0)return;
+
+    outPolygon.clear();
+
+//    //根据垂直于边线的方向偏移offset得到外圆半径的偏移值finalOffset
     qreal angle = qDegreesToRadians(90.);
     QPointF pointCenter = this->rect().center();
-    qreal outer_w = this->rect().width() / 2.;
-    qreal outer_h = this->rect().height() / 2.;
 
-    qreal inner_w = outer_w * m_innerRadius / 100.;
-    qreal inner_h = outer_h * m_innerRadius / 100.;
+    qreal outerEllipseXDiameter = this->rect().width();
+    qreal outerEllipseYDiameter = this->rect().height();
 
+    qreal outer_w = outerEllipseXDiameter / 2.0;
+    qreal outer_h = outerEllipseYDiameter / 2.0;
 
+    //根据外圆和内圆的关系计算内圆的半径
+    qreal inner_w = outer_w  * m_innerRadius / 100.0;
+    qreal inner_h = outer_h * m_innerRadius / 100.0;
 
-    if (m_anchorNum > 0) {
-        qreal preAngle = qDegreesToRadians(360. / m_anchorNum);
+    if (n > 0) {
+        qreal preAngle = qDegreesToRadians(360. / n);
         qreal innerAngle = angle + preAngle / 2;
-        for (int i = 0; i != m_anchorNum; i++) {
+        for (int i = 0; i < n; i++) {
 
             qreal outer_Angle = angle + preAngle * i;
             qreal inner_Angle = innerAngle + preAngle * i;
@@ -200,53 +271,67 @@ void CGraphicsPolygonalStarItem::calcPolygon()
             qreal outer_x = pointCenter.x() + outer_w * qCos(outer_Angle);
             qreal outer_y = pointCenter.y() - outer_h  * qSin(outer_Angle);
 
-            m_polygon.push_back(QPointF(outer_x, outer_y));
+
+            //偶数是外圈点
+            outPolygon.push_back(QPointF(outer_x, outer_y));
 
             qreal inner_x = pointCenter.x() + inner_w * qCos(inner_Angle);
             qreal inner_y = pointCenter.y() - inner_h  * qSin(inner_Angle);
 
-            m_polygon.push_back(QPointF(inner_x, inner_y));
+            //奇数是内圈点
+            outPolygon.push_back(QPointF(inner_x, inner_y));
+
+        }
+    }
+
+    if(!qFuzzyIsNull(offset))
+    {
+        QList<QLineF> outlines;
+        auto fGetLines = [=](const QPolygonF& outPolygon,QList<QLineF>& resultLines){
+            resultLines.clear();
+            for(int i = 0;i<outPolygon.size();++i)
+            {
+                if(i != 0)
+                {
+                    resultLines.append(QLineF(outPolygon.at(i-1),outPolygon.at(i)));
+                }
+            }
+            resultLines.push_front(QLineF(outPolygon.last(),outPolygon.first()));
+        };
+
+        fGetLines(outPolygon,outlines);
+
+        auto fGetOffsetPos = [=](const QList<QLineF>& lines,QVector<QPointF>& result){
+            result.clear();
+            for(int i = 0;i<lines.size();++i)
+            {
+                bool isInter = (i%2!=0);   //是否这个线条是和内圈点相关
+                qreal inc    = (isInter?-1:1);//内圈点是相反的角度
+
+                QLineF curLine  = lines[i];
+                QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
+
+                qreal finalDegree   =  (180 - curLine.angleTo(nextLine))*inc;   //两条线相交的交角*/
+
+                //if(isInter){finalDegree = (360 - curLine.angleTo(nextLine))/2;}
+
+                qreal offLen = offset / qSin(qDegreesToRadians(finalDegree/2.));
+
+                QLineF tempLine(nextLine);
+                qreal newAngle = tempLine.angle() + finalDegree/2.0 + (isInter?(360 - curLine.angleTo(nextLine)):0);
+                tempLine.setAngle(newAngle);
+                tempLine.setLength(qAbs(offLen));
+                result.append(tempLine.p2());
+            }
+        };
+
+        QVector<QPointF> outecliPos;
+        fGetOffsetPos(outlines,outecliPos);
+
+        outPolygon.clear();
+        for(int i =0;i<outecliPos.size();++i)
+        {
+            outPolygon.append(outecliPos[i]);
         }
     }
 }
-
-//QPolygonF CGraphicsPolygonalStarItem::getPolygon(const QPointF &centerPoint, const qreal &radius) const
-//{
-//    QPolygonF polygon;
-
-//    double angle = 360. / m_anchorNum;
-
-//    QPointF out_Top(centerPoint.x(), centerPoint.y() - radius);
-//    QPointF inner_First(centerPoint.x(), centerPoint.y() - radius * m_innerRadius / 100);
-
-//    inner_First = rotationPoint(inner_First, centerPoint, angle / 2);
-
-//    qreal tmpAngle = 0.;
-
-//    for (int i = 0; i < m_anchorNum; i++) {
-
-//        QPointF point_out = rotationPoint(out_Top, centerPoint, tmpAngle);
-//        QPointF point_inner = rotationPoint(inner_First, centerPoint, tmpAngle);
-
-//        polygon.push_back(point_out);
-//        polygon.push_back(point_inner);
-
-//        tmpAngle += angle;
-//    }
-
-//    return  polygon;
-//}
-
-//QPointF CGraphicsPolygonalStarItem::rotationPoint(const QPointF &beforPoint, const QPointF &centerPoint, double angle) const
-//{
-//    QPointF afterPoint;
-
-//    double x = (beforPoint.x() - centerPoint.x()) * qCos(qDegreesToRadians(angle)) - (beforPoint.y() - centerPoint.y()) * qSin(qDegreesToRadians(angle)) + centerPoint.x() ;
-
-//    double y = (beforPoint.x() - centerPoint.x()) * qSin(qDegreesToRadians(angle)) + (beforPoint.y() - centerPoint.y()) * qCos(qDegreesToRadians(angle)) +  centerPoint.y();
-
-//    afterPoint.setX(x);
-//    afterPoint.setY(y);
-
-//    return afterPoint;
-//}

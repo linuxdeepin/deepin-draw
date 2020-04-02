@@ -96,10 +96,20 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    QPen curPen = this->pen();
+    qreal penWidthOffset = curPen.widthF() / 2.0;
+    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
+                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
+
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
+    painter->drawEllipse(rectIn);
+
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
     painter->drawEllipse(rect());
-//    painter->drawRect(rect());
+
     if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;

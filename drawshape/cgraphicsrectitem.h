@@ -76,7 +76,7 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
