@@ -167,6 +167,7 @@ void CPenWidget::initUI()
     m_lwLabel->setFont(ft1);
 
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

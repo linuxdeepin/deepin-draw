@@ -145,9 +145,9 @@ void LineWidget::initUI()
 
     m_startLabel = new DLabel(this);
     m_endLabel = new DLabel(this);
-    m_startLabel->setText(tr("start"));
+    m_startLabel->setText(tr("Start"));
     m_startLabel->setFont(ft);
-    m_endLabel->setText(tr("end"));
+    m_endLabel->setText(tr("End"));
     m_endLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
@@ -181,10 +181,10 @@ void LineWidget::initUI()
     layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
+    layout->addSpacing(12);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
 //    layout->setSpacing(BTN_SPACNT);
-//    layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
 
