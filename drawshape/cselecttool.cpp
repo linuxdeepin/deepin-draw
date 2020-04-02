@@ -275,7 +275,10 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
             } else {
                 m_currentSelectItem = nullptr;
-                emit scene->signalChangeToSelect();
+
+                //点击空白处时要显示空白select工具的顶层属性界面(也就是一个"画板"标题)
+                emit scene->signalChangeToSelect(true);
+
                 scene->updateBlurItem();
             }
         }

@@ -482,10 +482,14 @@ void CLeftToolBar::initDrawTools()
     CDrawToolManagerSigleton::GetInstance()->insertDrawTool(blur, pTool);
 }
 
-void CLeftToolBar::slotShortCutSelect()
+void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
 {
     qApp->setOverrideCursor(Qt::ArrowCursor);
+
+    slotClearToolSelection();
     m_selectBtn->setChecked(true);
+
+    if(showToolMidWidget)
     emit m_selectBtn->buttonClick();
 }
 
