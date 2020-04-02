@@ -51,19 +51,22 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
-    void calcPoints(int n);
+    void calcPoints();
+    static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF& rect,qreal offset = 0.0);
 
 private:
     int m_nPointsCount; //点数
+    QVector<QPointF> m_listPointsForBrush;
     QVector<QPointF> m_listPoints;
-    //QPointF m_listPoints[10];
+
+    friend class CGraphicsPolygonalStarItem;
 };
 
 #endif // CGRAPHICSPOLYGONITEM_H
