@@ -68,6 +68,7 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF itemRct  = mapToScene(rect()).boundingRect();
     bool hasIntersects = sceneRct.intersects(itemRct);
     painter->setClipping(hasIntersects);
+
     //保证resize节点图元和旋转节点图元的坐标位置正确
     updateGeometry();
 
