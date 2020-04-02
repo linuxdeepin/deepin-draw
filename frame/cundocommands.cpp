@@ -196,6 +196,7 @@ void CDeleteShapeCommand::redo()
         myGraphicsScene->getItemsMgr()->setSelected(true);
         emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
+
     myGraphicsScene->update();
 
     myGraphicsScene->setModify(true);
