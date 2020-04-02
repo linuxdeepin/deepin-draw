@@ -310,6 +310,7 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
         m_anchorNumber->setValue(50);
     }
     m_anchorNumber->blockSignals(false);
+    value=m_anchorNumber->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
