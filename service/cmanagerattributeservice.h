@@ -83,6 +83,12 @@ public:
     */
     void setLineEndType(CDrawScene *scence, ELineType endType);
 
+    /*
+     * @bref: setPenEndType 设置画笔终点的样式
+     * @param: endType 终点样式
+    */
+    void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号
@@ -90,6 +96,12 @@ signals:
      * @param: propertys 属性类型值
     */
     void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
+
+    /*
+     * @bref: signalTextItemPropertyUpdate 发送多个图元被选中后需要显示的公共属性信号
+     * @param: propertys 属性类型值
+    */
+    void signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
 
 private:
     CManagerAttributeService();

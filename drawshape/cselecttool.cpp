@@ -38,6 +38,8 @@
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
 
+#include "service/cmanagerattributeservice.h"
+
 #include <DApplication>
 
 #include <QGraphicsSceneMouseEvent>
@@ -269,6 +271,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                         qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                     }
                     scene->changeAttribute(true, m_currentSelectItem);
+                    CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
                 }
             } else {
                 m_currentSelectItem = nullptr;
@@ -673,6 +676,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 m_currentSelectItem->setSelected(true);
                 //显示所选图元素属性
                 scene->changeAttribute(true, m_currentSelectItem);
+                CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
             }
         } else {
             if (m_isMulItemMoving) {

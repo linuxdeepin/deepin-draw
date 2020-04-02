@@ -87,13 +87,20 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+
+    /*
+    * @bref: getAllTextColorIsEqual 返回文本当前点击后是否所有文字颜色一致
+    * @return:bool
+    */
+    bool getAllTextColorIsEqual();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slot_textmenu(QPoint);
@@ -134,6 +141,8 @@ private:
     QMenu *m_menu;
     QAction *m_action;
     bool m_bManResize;//人工调整后的宽度
+
+    bool m_allColorIsEqual;
 };
 
 #endif // CGRAPHICSTEXTITEM_H
