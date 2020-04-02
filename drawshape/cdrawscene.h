@@ -146,8 +146,9 @@ signals:
     void signalAttributeChanged(bool flag, int primitiveType);
     /**
      * @brief signalChangeToSelect 发送工具栏切换为选择的信号
+     * @param showTitle 是否显示select工具的顶层标题(也就是"画板"标题文字)
      */
-    void signalChangeToSelect();
+    void signalChangeToSelect(bool showTitle = false);
     /**
      * @brief signalQuitCutMode 退出裁剪模式
      */

@@ -65,8 +65,6 @@ CDrawScene::CDrawScene(CGraphicsView *view)
     view->setScene(this);
     initScene();
 
-    //    connect(static_cast<CDrawScene*>(scene()), &CDrawScene::signalChangeToSelect, CManageViewSigleton::GetInstance()->getCurView(), &CGraphicsView::slotStopContinuousDrawing);
-
     connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
             view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
     connect(this, SIGNAL(itemAdded(QGraphicsItem *)),
