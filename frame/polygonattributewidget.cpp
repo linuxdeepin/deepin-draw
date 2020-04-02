@@ -147,6 +147,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSlider->setKeyboardTracking(false);
     m_sideNumSlider->setFixedWidth(70);
     m_sideNumSlider->setRange(0, 1000);
+    //m_sideNumSlider->setRange(3, 10);//此注释不删，记录边数范围
     m_sideNumSlider->setFont(ft);
     m_sideNumSlider->setSpecialValueText("— —");
 
@@ -206,8 +207,8 @@ void PolygonAttributeWidget::initConnection()
     });
     connect(m_sideNumSlider, &DSpinBox::editingFinished, this, [ = ] () {
         m_sideNumSlider->blockSignals(true);
-        if (m_sideNumSlider->value() < 4) {
-            m_sideNumSlider->setValue(4);
+        if (m_sideNumSlider->value() < 3) {
+            m_sideNumSlider->setValue(3);
         } else if (m_sideNumSlider->value() > 10) {
             m_sideNumSlider->setValue(10);
         }
@@ -245,17 +246,17 @@ void PolygonAttributeWidget::updatePolygonWidget()
 void PolygonAttributeWidget::slotSideValueChanged(int value)
 {
     m_sideNumSlider->blockSignals(true);
-    if (m_sideNumSlider->value() < 4) {
-        m_sideNumSlider->setValue(4);
+    if (m_sideNumSlider->value() < 3) {
+        m_sideNumSlider->setValue(3);
     } else if (m_sideNumSlider->value() > 10) {
         m_sideNumSlider->setValue(10);
     }
     m_sideNumSlider->blockSignals(false);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(m_sideNumSlider->value());
     emit signalPolygonAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, value);
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSlider->value());
 }
 
 void PolygonAttributeWidget::slotSideWidthChoosed(int width)
