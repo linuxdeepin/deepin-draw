@@ -147,6 +147,7 @@ void CPenWidget::initUI()
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
 
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
