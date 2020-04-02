@@ -37,7 +37,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     , m_isMultColorSame(true)
 {
     //setFixedSize(24, 24);
-    setFixedSize(50, 32);
+    setFixedSize(55, 32);
     setCheckable(false);
 
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
@@ -66,35 +66,21 @@ void BigColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
-
-        //painter.setBrush(QBrush(QColor(0, 0, 0, 13)));
         QColor drawColor = m_color;
-
-        //    if (m_isHover || m_isChecked) {
-        //        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        //        painter.drawRoundedRect(rect(), 6, 6);
-        //    } else if (m_isChecked) {
-        //        drawColor = QColor(m_color.red(), m_color.green(), m_color.blue(), 25);
-        //    }
-
-
         painter.setBrush(drawColor);
-
-
-        //painter.drawEllipse(CENTER_POINT,  BTN_RADIUS, BTN_RADIUS);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+        painter.drawRoundedRect(QRect(1, 7, 20, 20),  8, 8);
 
         QPen borderPen;
         borderPen.setWidth(1);
         //borderPen.setColor(QColor(0, 0, 0, 15));
         //borderPen.setColor(Qt::gray);
         if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(Qt::gray);
+            borderPen.setColor(QColor(0, 0, 0, 25));
         } else {
             borderPen.setColor(Qt::transparent);
         }
         if (m_color.alpha() == 0) {
-            borderPen.setColor(Qt::gray);
+            borderPen.setColor(QColor(0, 0, 0, 25));
         }
         painter.setPen(borderPen);
         //    if (m_isChecked) {
@@ -103,7 +89,14 @@ void BigColorButton::paintEvent(QPaintEvent *)
         //        painter.setBrush(Qt::transparent);
         //    }
         //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16),  6, 6);
+        painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            QPen linePen;
+            linePen.setWidth(2);
+            linePen.setColor(QColor("#ff804d"));
+            painter.setPen(linePen);
+            painter.drawLine(3, 22, 18, 11);
+        }
 
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -114,28 +107,28 @@ void BigColorButton::paintEvent(QPaintEvent *)
 
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
 
-        painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
+        painter.drawText(25, 6, 34, 22, 0, tr("Fill"));
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(Qt::gray);
+        borderPen.setColor(QColor(0, 0, 0, 25));
         painter.setPen(borderPen);
 
-        painter.setBrush(QColor("#F5F5F5"));
-        painter.drawRoundedRect(QRect(4, 10, 14, 14),  6, 6);
+        painter.setBrush(QColor(0, 0, 0, 12));
+        painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
 
         QPen textPen;
-        textPen.setColor(Qt::gray);
+        textPen.setColor(QColor(0, 0, 0, 25));
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(8, 6, 32, 16, 0, tr("..."));
+        painter.drawText(5, 2, 32, 16, 0, tr("..."));
 
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
@@ -144,9 +137,9 @@ void BigColorButton::paintEvent(QPaintEvent *)
         }
 
         painter.setPen(textPen);
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(26, 9, 32, 16, 0, tr("Fill"));
+        painter.drawText(25, 6, 34, 22, 0, tr("Fill"));
     }
 
 }

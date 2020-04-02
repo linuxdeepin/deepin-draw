@@ -36,7 +36,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(false)
 {
-    setFixedSize(50, 32);
+    setFixedSize(55, 32);
     setCheckable(false);
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
@@ -67,46 +67,26 @@ void BorderColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
 
-        QColor drawColor = m_color;
+        QPen colorPen;
+        colorPen.setWidth(3);
+        colorPen.setColor(m_color);
+        painter.setPen(colorPen);
+        painter.drawRoundedRect(QRect(5, 9, 17, 17), 7, 7);
 
-        //    if (m_isChecked || m_isHover) {
-        //        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        //        painter.drawRoundedRect(rect(), 6, 6);
-        //    } else if (m_isChecked) {
-        //        drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
-        //    } else {
-        //        painter.setBrush(Qt::transparent);
-        //        painter.drawRoundedRect(rect(), 6, 6);
-        //    }
-
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(drawColor);
-        painter.setPen(pen);
-        // painter.setBrush(Qt::transparent);
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-        painter.drawRoundedRect(QRect(4, 11, 14, 14), 6, 6);
 
         QPen borderPen;
         borderPen.setWidth(1);
-        //borderPen.setColor(QColor(0, 0, 0, 15));
-        if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(Qt::gray);
-        } else {
-            borderPen.setColor(Qt::transparent);
-        }
-        if (m_color.alpha() == 0) {
-            borderPen.setColor(Qt::gray);
-        }
-        //borderPen.setColor(Qt::gray);
+        borderPen.setColor(QColor(0, 0, 0, 25));
         painter.setPen(borderPen);
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(6, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 20, 20), 8, 8);
 
-        if (m_isChecked) {
-            //painter.setBrush(QColor(0, 0, 0, 35));
-            //painter.drawEllipse(CENTER_POINT, BTN_RADIUS - 1, BTN_RADIUS - 1);
-            painter.drawRoundedRect(QRect(5, 11, 14, 14), 6, 6);
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            QPen linePen;
+            linePen.setWidth(2);
+            linePen.setColor(QColor("#ff804d"));
+            painter.setPen(linePen);
+            painter.drawLine(8, 21, 19, 13);
         }
 
         QPen textPen;
@@ -118,25 +98,25 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
 
-        painter.drawText(26, 9, 38, 16, 1, tr("Stroke"));
+        painter.drawText(26, 6, 38, 22, 1, tr("Stroke"));
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
 
         QPen pen;
         pen.setWidth(1);
-        pen.setColor(Qt::gray);
+        pen.setColor(QColor(0, 0, 0, 12));
         painter.setPen(pen);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 19, 19), 8, 8);
 
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(Qt::gray);
+        borderPen.setColor(QColor(0, 0, 0, 12));
         painter.setPen(borderPen);
-        painter.drawRoundedRect(QRect(6, 12, 12, 12), 4, 4);
+        painter.drawRoundedRect(QRect(6, 10, 15, 15), 6, 6);
 
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -147,9 +127,9 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(26, 9, 38, 16, 1, tr("Stroke"));
+        painter.drawText(26, 6, 38, 22, 1, tr("Stroke"));
     }
 }
 
