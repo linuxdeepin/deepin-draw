@@ -140,11 +140,12 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
     updateGeometry();
 
+    painter->save();
+    painter->setClipRect(this->rect());
     //绘制填充
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
     painter->drawPolygon(m_polygonForBrush);
-
     //再绘制描边
     if(m_renderWay == RenderPathLine)
     {
@@ -157,6 +158,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
         painter->setBrush(Qt::NoBrush);
         painter->drawPolygon(m_polygonPen);
     }
+    painter->restore();
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
@@ -312,8 +314,6 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
 
                 qreal finalDegree   =  (180 - curLine.angleTo(nextLine))*inc;   //两条线相交的交角*/
-
-                //if(isInter){finalDegree = (360 - curLine.angleTo(nextLine))/2;}
 
                 qreal offLen = offset / qSin(qDegreesToRadians(finalDegree/2.));
 
