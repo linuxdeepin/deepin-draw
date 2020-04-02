@@ -198,7 +198,7 @@ void CGraphicsPolygonalStarItem::calcPolygon()
 
     //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
     //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
-    m_renderWay = userSetNoPen?PaintPolyLine:(m_anchorNum>3?RenderPathLine:PaintPolyLine);
+    m_renderWay = userSetNoPen?PaintPolyLine:RenderPathLine/*(m_anchorNum>3?RenderPathLine:PaintPolyLine)*/;
 
     //初始化线的路径
     m_pathForRenderPenLine = QPainterPath();
@@ -307,11 +307,11 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
             result.clear();
             for(int i = 0;i<lines.size();++i)
             {
-                bool isInter = (i%2!=0);   //是否这个线条是和内圈点相关
-                qreal inc    = (isInter?-1:1);//内圈点是相反的角度
-
                 QLineF curLine  = lines[i];
                 QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
+
+                bool isInter = /*(i%2!=0)*/curLine.angleTo(nextLine) > 180;   //是否这个线条是和内圈点相关
+                qreal inc    = (isInter?-1:1);//内圈点是相反的角度
 
                 qreal finalDegree   =  (180 - curLine.angleTo(nextLine))*inc;   //两条线相交的交角*/
 
