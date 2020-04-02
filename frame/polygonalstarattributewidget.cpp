@@ -327,6 +327,7 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
         m_radiusNumber->setValue(100);
     }
     m_radiusNumber->blockSignals(false);
+    value = m_radiusNumber->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
