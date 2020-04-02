@@ -59,8 +59,8 @@ private:
      * @brief initRect 初始化矩形的属性和边框小方块
      */
     void initRect();
-    void drawFourConner(QPainter *painter, QPainterPath &path, const int penWidth);
-    void drawTrisectorRect(QPainter *painter, QPainterPath &path);
+    void drawFourConner(QPainter *painter);
+    void drawTrisectorRect(QPainter *painter);
     void showControlRects(bool);
 
 private:
