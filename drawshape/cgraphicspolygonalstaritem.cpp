@@ -146,6 +146,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
     painter->drawPolygon(m_polygonForBrush);
+
     //再绘制描边
     if(m_renderWay == RenderPathLine)
     {
@@ -314,7 +315,6 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 qreal inc    = (isInter?-1:1);//内圈点是相反的角度
 
                 qreal finalDegree   =  (180 - curLine.angleTo(nextLine))*inc;   //两条线相交的交角*/
-
                 qreal offLen = offset / qSin(qDegreesToRadians(finalDegree/2.));
 
                 QLineF tempLine(nextLine);
