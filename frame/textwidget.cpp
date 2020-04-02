@@ -182,6 +182,24 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     }
 }
 
+void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys)
+{
+    QMap<EDrawProperty, QVariant>::iterator itr = propertys.begin();
+    for (; itr != propertys.end(); itr++) {
+        switch (itr.key()) {
+        case TextColor: {
+            QColor color = itr.value().value<QColor>();
+            bool colorIsValid = color.isValid();
+            m_fillBtn->setIsMultColorSame(colorIsValid);
+            break;
+        }
+        default: {
+            break;
+        }
+        }
+    }
+}
+
 void TextWidget::initConnection()
 {
     connect(m_fillBtn, &TextColorButton::btnCheckStateChanged, this, [ = ](bool show) {
@@ -192,6 +210,8 @@ void TextWidget::initConnection()
 
         showColorPanel(DrawStatus::TextFill, pos, show);
     });
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)),
+            this, SLOT(slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)));
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();

@@ -60,6 +60,13 @@ public slots:
      * @param propertys 要显示的控件和数值
      */
     void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
+
+    /**
+     * @brief slotTextItemPropertyUpdate 更新单选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
+
 signals:
     /**
      * @brief showColorPanel　显示调色板信号

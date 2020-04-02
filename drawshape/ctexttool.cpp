@@ -52,6 +52,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         //item->getTextEdit()->setText(tr("输入文本"));
         item->getTextEdit()->setText(QObject::tr("Input text here"));
         item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
         item->getTextEdit()->selectAll();
 //        item->setFont(font);
 

@@ -131,6 +131,14 @@ QPainterPath CGraphicsTextItem::getHighLightPath()
     return path;
 }
 
+bool CGraphicsTextItem::getAllTextColorIsEqual()
+{
+    //    // 必须要点击文本检验后才能获取是否所有颜色相同，否则返回所有文字相同
+    //    bool temp = m_allColorIsEqual;
+    //    m_allColorIsEqual = true;
+    return m_allColorIsEqual;
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -333,6 +341,34 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         curScene->updateBlurItem(this);
     }
     m_pTextEdit->setFocus();
+}
+
+void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+
+    m_pTextEdit->selectAll();
+
+    QTextCursor cur = m_pTextEdit->textCursor();
+
+    m_allColorIsEqual = true;
+
+    QTextBlock block = cur.block();
+    if (block.isValid()) {
+        QTextBlock::iterator it;
+
+        for (it = block.begin(); !(it.atEnd()); ++it) {
+            QTextFragment fragment = it.fragment();
+            if (!fragment.isValid())
+                continue;
+
+            if (fragment.charFormat().foreground().color() != m_color) {
+                m_allColorIsEqual = false;
+                return;
+            }
+        }
+    }
+    CGraphicsRectItem::mousePressEvent(event);
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,
