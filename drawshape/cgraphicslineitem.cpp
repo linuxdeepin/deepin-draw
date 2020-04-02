@@ -437,6 +437,7 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setBrush(QBrush(QColor(pen().color())));
     }
     painter->drawPath(m_endPath);
+
     painter->drawLine(m_line);
 }
 
