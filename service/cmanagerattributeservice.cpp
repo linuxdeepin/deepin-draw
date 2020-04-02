@@ -436,7 +436,7 @@ void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType st
             scence->getDrawParam()->setLineStartType(startType);
 //            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->update();
+            lineItem->calcVertexes();// 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
 }
@@ -461,7 +461,7 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
             scence->getDrawParam()->setLineEndType(endType);
 //            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->update();
+            lineItem->calcVertexes(); // 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
 }

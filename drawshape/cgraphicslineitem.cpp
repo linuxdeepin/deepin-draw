@@ -105,24 +105,25 @@ QPainterPath CGraphicsLineItem::shape() const
 
     }
 
-    path.addPath(m_start_end_Path);
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
 
     return qt_graphicsItem_shapeFromPath(path, pen);
 }
 
 QRectF CGraphicsLineItem::boundingRect() const
 {
-    if (this->pen().widthF() == 0.0) {
-        const qreal x1 = m_line.p1().x();
-        const qreal x2 = m_line.p2().x();
-        const qreal y1 = m_line.p1().y();
-        const qreal y2 = m_line.p2().y();
-        qreal lx = qMin(x1, x2);
-        qreal rx = qMax(x1, x2);
-        qreal ty = qMin(y1, y2);
-        qreal by = qMax(y1, y2);
-        return QRectF(lx, ty, rx - lx, by - ty);
-    }
+//    if (this->pen().widthF() == 0.0) {
+//        const qreal x1 = m_line.p1().x();
+//        const qreal x2 = m_line.p2().x();
+//        const qreal y1 = m_line.p1().y();
+//        const qreal y2 = m_line.p2().y();
+//        qreal lx = qMin(x1, x2);
+//        qreal rx = qMax(x1, x2);
+//        qreal ty = qMin(y1, y2);
+//        qreal by = qMax(y1, y2);
+//        return QRectF(lx, ty, rx - lx, by - ty);
+//    }
     return shape().controlPointRect();
 }
 
@@ -420,19 +421,25 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
+    painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    // start
+//    drawStart();
     painter->setBrush(Qt::NoBrush);
-    drawStart();
     if (m_startType == soildArrow || m_startType == soildRing) {
         painter->setBrush(QBrush(QColor(pen().color())));
     }
-    painter->drawPath(m_start_end_Path);
+    painter->drawPath(m_startPath);
+
+    // end
+//    drawEnd();
     painter->setBrush(Qt::NoBrush);
-    drawEnd();
     if (m_endType == soildArrow || m_endType == soildRing) {
         painter->setBrush(QBrush(QColor(pen().color())));
     }
-    painter->drawPath(m_start_end_Path);
+    painter->drawPath(m_endPath);
+
     painter->drawLine(m_line);
 }
 
@@ -482,46 +489,44 @@ void CGraphicsLineItem::drawStart()
 
     switch (m_startType) {
     case noneLine: {
+        m_startPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
-        m_start_end_Path = QPainterPath(p1);
-        m_start_end_Path.lineTo(p3);
-        m_start_end_Path.moveTo(p1);
-        m_start_end_Path.lineTo(p2);
-        m_start_end_Path.moveTo(p1);
+        m_startPath = QPainterPath(p1);
+        m_startPath.lineTo(p3);
+        m_startPath.moveTo(p1);
+        m_startPath.lineTo(p2);
+        m_startPath.moveTo(p1);
         break;
     }
     case soildArrow: {
-        m_start_end_Path = QPainterPath(p1);
-        m_start_end_Path.lineTo(p3);
-        m_start_end_Path.lineTo(p2);
-        m_start_end_Path.lineTo(p1);
+        m_startPath = QPainterPath(p1);
+        m_startPath.lineTo(p3);
+        m_startPath.lineTo(p2);
+        m_startPath.lineTo(p1);
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
         center = m_line.p1() + QPointF(-xOff, yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
-        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        m_startPath = QPainterPath(center + QPointF(radioWidth, 0));
+        m_startPath.arcTo(ecliRect, 0, 360);
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
         center = m_line.p1() + QPointF(-xOff, yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
-        m_start_end_Path.arcTo(ecliRect, 0, 360);
-        break;
-    }
-    default: {
+        m_startPath = QPainterPath(center + QPointF(radioWidth, 0));
+        m_startPath.arcTo(ecliRect, 0, 360);
         break;
     }
     }
@@ -556,47 +561,45 @@ void CGraphicsLineItem::drawEnd()
     // 绘制终点
     switch (m_endType) {
     case noneLine: {
+        m_endPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
-        m_start_end_Path = QPainterPath(p1);
-        m_start_end_Path.lineTo(p2);
-        m_start_end_Path.moveTo(p1);
-        m_start_end_Path.lineTo(p3);
-        m_start_end_Path.moveTo(p1);
+        m_endPath = QPainterPath(p1);
+        m_endPath.lineTo(p2);
+        m_endPath.moveTo(p1);
+        m_endPath.lineTo(p3);
+        m_endPath.moveTo(p1);
         break;
     }
     case soildArrow: {
-        m_start_end_Path = QPainterPath(p1);
-        m_start_end_Path.lineTo(p3);
-        m_start_end_Path.lineTo(p2);
-        m_start_end_Path.lineTo(p1);
+        m_endPath = QPainterPath(p1);
+        m_endPath.lineTo(p3);
+        m_endPath.lineTo(p2);
+        m_endPath.lineTo(p1);
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
         center = m_line.p2() + QPointF(xOff, -yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
-        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
+        m_endPath.arcTo(ecliRect, 0, 360);
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
-        center = m_line.p2() + QPointF(-xOff, yOff);
+        center = m_line.p2() + QPointF(xOff, -yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
-        m_start_end_Path = QPainterPath(center + QPointF(radioWidth, 0));
-        m_start_end_Path.arcTo(ecliRect, 0, 360);
+        m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
+        m_endPath.arcTo(ecliRect, 0, 360);
         break;
-    }
-    default: {
-
     }
     }
 }
@@ -608,12 +611,17 @@ void CGraphicsLineItem::calcVertexes()
 
     // 绘制终点
     drawEnd();
+
+    // 更新画布区域
+    if (scene() != nullptr)
+        scene()->views().first()->viewport()->update();
 }
 
 QPainterPath CGraphicsLineItem::getHighLightPath()
 {
     QPainterPath path(m_line.p1());
     path.lineTo(m_line.p2());
-    path.addPath(m_start_end_Path);
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
     return path;
 }

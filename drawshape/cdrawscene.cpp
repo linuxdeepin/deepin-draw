@@ -295,8 +295,7 @@ void CDrawScene::attributeChanged()
                 ELineType startType = tmpItem->getLineStartType();
                 ELineType endType = tmpItem->getLineEndType();
                 if (startType != getDrawParam()->getLineStartType() || endType != getDrawParam()->getLineEndType()) {
-
-                    tmpItem->update();
+                    tmpItem->calcVertexes();
                     //REDO UNDO
                     emit itemLineTypeChange(tmpItem, getDrawParam()->getLineStartType(), getDrawParam()->getLineEndType());
 //                    tmpItem->update();

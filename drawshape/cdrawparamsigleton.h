@@ -193,7 +193,6 @@ private:
     int m_blurWidth;    //模糊半径
 
     //线型
-    ELineType m_lineType;
     ELineType m_lineStartType; // 线起点样式
     ELineType m_lineEndType; // 线终点样式
 
