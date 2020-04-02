@@ -146,7 +146,6 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
     painter->drawPolygon(m_polygonForBrush);
-
     //再绘制描边
     if(m_renderWay == RenderPathLine)
     {
