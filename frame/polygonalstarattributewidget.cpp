@@ -165,7 +165,7 @@ void PolygonalStarAttributeWidget::initUI()
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
-    m_radiusLabel->setFont(ft1);
+    m_radiusLabel->setFont(ft1);rr
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
     m_radiusNumber->setRange(0, 1000);
