@@ -758,76 +758,83 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateGeometry();
 
-    QColor penColor;
-    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
-    if (themValue == 1) {
-        //浅色主题
-        penColor = QColor("#979797");
-    } else if (themValue == 2) {
-        //深色主题
-        penColor = QColor("#FFFFFF");
-    }
+    QColor penColor = QColor("#979797");
+//    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
+//    if (themValue == 1) {
+//        //浅色主题
+//        penColor = QColor("#979797");
+//    } else if (themValue == 2) {
+//        //深色主题
+//        penColor = QColor("#FFFFFF");
+//    }
 
 
     painter->setClipping(false);
+
+    qreal penWidth = 1.0/painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
     QPen pen;
     pen.setStyle(Qt::SolidLine);
     pen.setColor(penColor);
+    pen.setWidthF(penWidth);
     painter->setPen(pen);
 
-    QPainterPath path;
-    ///画4个角
-    pen.setWidth(/*5*/3);
-    painter->setPen(pen);
-    drawFourConner(painter, path, pen.width());
 
-    QPainterPath path1;
-    ///画三等分矩形的直线
-    painter->setPen(pen);
-    pen.setWidth(1);
-    painter->setPen(pen);
-    drawTrisectorRect(painter, path1);
+    //画三等分矩形的直线
+    drawTrisectorRect(painter);
 
-    ///画矩形
-    pen.setStyle(Qt::DashLine);
-    painter->setPen(pen);
+    //画矩形
+    painter->save();
+    QPen rectPen(pen);
+    rectPen.setStyle(Qt::DashLine);
+    painter->setPen(rectPen);
     painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect());
+    painter->drawRect(rct);
+    painter->restore();
+
+    drawFourConner(painter);
 
     painter->setClipping(true);
 }
 
-void CGraphicsCutItem::drawTrisectorRect(QPainter *painter, QPainterPath &path)
+void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
 {
-    path.moveTo(rect().x(), rect().y() + rect().height() / 3);
-    path.lineTo(rect().x() + rect().width(), rect().y() + rect().height() / 3);
+    qreal penWidth = 1.0/painter->worldTransform().m11();
+    QPainterPath path;
+    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
+    path.moveTo(rct.x(), rct.y() + rct.height() / 3);
+    path.lineTo(rct.x() + rct.width(), rct.y() + rct.height() / 3);
 
-    path.moveTo(rect().x(), rect().y() + rect().height() / 3 * 2);
-    path.lineTo(rect().x() + rect().width(), rect().y() + rect().height() / 3 * 2);
+    path.moveTo(rct.x(), rct.y() + rct.height() / 3 * 2);
+    path.lineTo(rct.x() + rct.width(), rct.y() + rct.height() / 3 * 2);
 
-    path.moveTo(rect().x() + rect().width() / 3, rect().y() );
-    path.lineTo(rect().x() + rect().width() / 3, rect().y() + rect().height() );
+    path.moveTo(rct.x() + rct.width() / 3, rct.y() );
+    path.lineTo(rct.x() + rct.width() / 3, rct.y() + rct.height() );
 
-    path.moveTo(rect().x() + rect().width() / 3 * 2, rect().y() );
-    path.lineTo(rect().x() + rect().width() / 3 * 2, rect().y() + rect().height() );
+    path.moveTo(rct.x() + rct.width() / 3 * 2, rct.y() );
+    path.lineTo(rct.x() + rct.width() / 3 * 2, rct.y() + rct.height() );
 
     painter->drawPath(path);
 }
 
-void CGraphicsCutItem::drawFourConner(QPainter *painter, QPainterPath &path, const int penWidth)
+void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, const int penWidth*/)
 {
+    qreal penWidth = 1.0/painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
+    //QRectF rct = boundingRect();
     bool isMinSize = (qFuzzyIsNull(rect().width() - 10.0) && qFuzzyIsNull(rect().height() - 10.0));
     if (isMinSize) {
         QPen pen(painter->pen());
         pen.setWidthF(1.0);
         painter->setPen(pen);
+        pen.setStyle(Qt::SolidLine);
         painter->setBrush(Qt::gray);
-        painter->drawRect(rect());
+        painter->drawRect(rct);
 
-        QLineF topLine   = QLineF(rect().topLeft(), rect().topRight());
-        QLineF botLine   = QLineF(rect().bottomLeft(), rect().bottomRight());
-        QLineF leftLine  = QLineF(rect().topLeft(), rect().bottomLeft());
-        QLineF rightLine = QLineF(rect().topRight(), rect().bottomRight());
+        QLineF topLine   = QLineF(rct.topLeft(), rct.topRight());
+        QLineF botLine   = QLineF(rct.bottomLeft(), rct.bottomRight());
+        QLineF leftLine  = QLineF(rct.topLeft(), rct.bottomLeft());
+        QLineF rightLine = QLineF(rct.topRight(), rct.bottomRight());
 
         painter->setPen(Qt::gray);
         painter->drawLine(topLine.p1(), topLine.center());
@@ -841,34 +848,42 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter, QPainterPath &path, con
         painter->drawLine(botLine.center(), botLine.p1());
         painter->drawLine(leftLine.center(), leftLine.p1());
     } else {
+        QPainterPath path;
+        QPen pen(painter->pen());
+        pen.setStyle(Qt::SolidLine);
+        pen.setWidthF(1.0/painter->worldTransform().m11());
+        pen.setColor(Qt::white);
+        painter->setPen(pen);
         qreal penWidth = 0;
-        const qreal sameLen = 12;
+        const qreal sameLen = 6.0/painter->worldTransform().m11();
         qreal CORNER_W = sameLen;
         qreal CORNER_H = sameLen;
-        if (rect().width() < 2 * CORNER_W) {
-            CORNER_W = rect().width() / 2.0;
+
+        if (rct.width() < 2 * CORNER_W) {
+            CORNER_W = rct.width() / 2.0;
         }
-        if (rect().height() < 2 * CORNER_H) {
-            CORNER_H = rect().height() / 2.0;
+        if (rct.height() < 2 * CORNER_H) {
+            CORNER_H = rct.height() / 2.0;
         }
         qreal CORNER_WITH = qMin(CORNER_W, CORNER_H);
+
         //左上角
-        path.moveTo(rect().x() + penWidth / 2, rect().y() + CORNER_WITH);
-        path.lineTo(rect().x() + penWidth / 2, rect().y()  + penWidth / 2);
-        path.lineTo(rect().x() + CORNER_WITH, rect().y()  + penWidth / 2);
+        path.moveTo(rct.x() + penWidth / 2, rct.y() + CORNER_WITH);
+        path.lineTo(rct.x() + penWidth / 2, rct.y()  + penWidth / 2);
+        path.lineTo(rct.x() + CORNER_WITH, rct.y()  + penWidth / 2);
         //右上角
-        path.moveTo(rect().x() + rect().width() - CORNER_WITH, rect().y() + penWidth / 2);
-        path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y()  + penWidth / 2);
-        path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y() + CORNER_WITH);
+        path.moveTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y() + CORNER_WITH);
         //右下角
-        path.moveTo(rect().x() + rect().width() - penWidth / 2, rect().y() + rect().height() - CORNER_WITH);
-        path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y()  + rect().height() - penWidth / 2);
-        path.lineTo(rect().x() + rect().width() - CORNER_WITH, rect().y() + rect().height() - penWidth / 2);
+        path.moveTo(rct.x() + rct.width() - penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + rct.height() - penWidth / 2);
 
         //左下角
-        path.moveTo(rect().x() + CORNER_WITH + penWidth / 2, rect().y() + rect().height() - penWidth / 2);
-        path.lineTo(rect().x() + penWidth / 2, rect().y()  + rect().height() - penWidth / 2);
-        path.lineTo(rect().x() + penWidth / 2, rect().y() + rect().height() - CORNER_WITH);
+        path.moveTo(rct.x() + CORNER_WITH + penWidth / 2, rct.y() + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
 
         painter->drawPath(path);
     }
