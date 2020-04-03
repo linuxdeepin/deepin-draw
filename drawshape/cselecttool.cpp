@@ -248,7 +248,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 //多选时不显示选中，拖动，旋转标志
                 if (count > 1) {
                     scene->clearSelection();
-                    emit scene->signalAttributeChanged(true, QGraphicsItem::UserType);
                 }
 
                 if (count <= 0) {
