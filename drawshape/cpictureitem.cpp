@@ -64,9 +64,17 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    painter->save();
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    bool hasIntersects = sceneRct.intersects(itemRct);
+    painter->setClipping(hasIntersects);
+
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
+    painter->restore();
 
     if (this->isSelected()) {
         painter->setClipping(false);
