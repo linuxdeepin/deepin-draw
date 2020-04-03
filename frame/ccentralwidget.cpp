@@ -47,6 +47,7 @@ DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
     : DWidget(parent)
+    , m_isCloseNow(false)
 
 {
     m_stackedLayout = new QStackedLayout();
@@ -555,7 +556,8 @@ void CCentralwidget::slotQuitApp()
 
 void CCentralwidget::slotSaveFileNameTooLong()
 {
-    slotSaveToDDF(true);
+    // 文件名字过长，在此处实际已经修改，但是scence会发出没有修改信号，会导致另存后文件显示没有修改
+    slotSaveToDDF(false);
 }
 
 void CCentralwidget::viewChanged(QString viewName)
