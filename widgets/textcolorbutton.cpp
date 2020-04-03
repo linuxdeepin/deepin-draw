@@ -73,7 +73,11 @@ void TextColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
 
-        painter.setBrush(QBrush(QColor(0, 0, 0, 12)));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            painter.setBrush(QBrush(QColor(0, 0, 0, 12)));
+        } else {
+            painter.setBrush(QBrush(QColor(255, 255, 255, 12)));
+        }
         QColor drawColor = m_color;
 
         //    if (m_isHover || m_isChecked) {
@@ -106,12 +110,20 @@ void TextColorButton::paintEvent(QPaintEvent *)
         }
 
         if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(QColor(0, 0, 0, 25));
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                borderPen.setColor(QColor(0, 0, 0, 25));
+            } else {
+                borderPen.setColor(QColor(255, 255, 25, 25));
+            }
         } else {
             borderPen.setColor(Qt::transparent);
         }
         if (m_color.alpha() == 0) {
-            borderPen.setColor(QColor(0, 0, 0, 25));
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                borderPen.setColor(QColor(0, 0, 0, 25));
+            } else {
+                borderPen.setColor(QColor(255, 255, 25, 25));
+            }
         }
         painter.setPen(borderPen);
         //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
@@ -135,14 +147,25 @@ void TextColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(QColor(0, 0, 0, 25));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            borderPen.setColor(QColor(255, 255, 25, 25));
+        }
         painter.setPen(borderPen);
-
-        painter.setBrush(QColor(0, 0, 0, 12));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            painter.setBrush(QColor(0, 0, 0, 12));
+        } else {
+            painter.setBrush(QColor(255, 255, 255, 12));
+        }
         painter.drawRoundedRect(QRect(4, 8, 19, 19),  8, 8);
 
         QPen textPen;
-        textPen.setColor(QColor(0, 0, 0, 25));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            textPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            textPen.setColor(QColor(255, 255, 255, 25));
+        }
         painter.setPen(textPen);
         QFont ft;
         ft.setPixelSize(14);
