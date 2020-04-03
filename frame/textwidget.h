@@ -116,6 +116,8 @@ private:
      * @brief initConnection 初始化连接
      */
     void initConnection();
+
+    void addFontPointSize();
 };
 
 #endif // TEXTWIDGET_H

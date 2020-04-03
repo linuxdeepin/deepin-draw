@@ -35,7 +35,7 @@
 DGUI_USE_NAMESPACE
 
 const int BTN_SPACNT = 10;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 
 
 CPenWidget::CPenWidget(DWidget *parent)

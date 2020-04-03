@@ -34,7 +34,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
     , m_bSelect(false)
@@ -62,6 +62,7 @@ void TextWidget::initUI()
     m_fontFamilyLabel->setText(tr("Font"));
     m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
+    m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
 
     m_fontComBox->setFixedSize(QSize(240, 36));
@@ -87,18 +88,7 @@ void TextWidget::initUI()
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
     m_fontSize->setValidator(validator);
-    m_fontSize->addItem("8px");
-    m_fontSize->addItem("10px");
-    m_fontSize->addItem("12px");
-    m_fontSize->addItem("14px");
-    m_fontSize->addItem("16px");
-    m_fontSize->addItem("18px");
-    m_fontSize->addItem("24px");
-    m_fontSize->addItem("36px");
-    m_fontSize->addItem("48px");
-    m_fontSize->addItem("60px");
-    m_fontSize->addItem("72px");
-    m_fontSize->addItem("100px");
+    addFontPointSize();
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -140,7 +130,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     m_textSeperatorLine->setVisible(false);
     m_fontFamilyLabel->setVisible(false);
     m_fontComBox->setVisible(false);
-    m_fontHeavy->setVisible(false);
+//    m_fontHeavy->setVisible(false);
     m_fontsizeLabel->setVisible(false);
     m_fontSize->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
@@ -269,10 +259,28 @@ void TextWidget::initConnection()
             m_fontSize->setCurrentText("500px");
             size = 500;
         } else {
-            m_fontSize->setCurrentText(QString::number(size) + "px");
+            m_fontSize->setEditText(QString::number(size) + "px");
+            addFontPointSize();
+            m_fontSize->setCurrentIndex(-1);
         }
         m_fontSize->blockSignals(false);
 
+        if (flag) {
+            slotFontSizeValueChanged(size);
+        } else {
+            qDebug() << "set error font size with str: " << str;
+        }
+    });
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
+
+//        if (!str.contains("px") && !m_fontSize->findText(str)) {
+//            m_fontSize->setCurrentIndex(-1);
+//            return ;
+//        }
+
+        str = str.replace("px", "");
+        bool flag = false;
+        int size = str.toInt(&flag);
         if (flag) {
             slotFontSizeValueChanged(size);
         } else {
@@ -294,6 +302,23 @@ void TextWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);
     });
+}
+
+void TextWidget::addFontPointSize()
+{
+    m_fontSize->clear();
+    m_fontSize->addItem("8px");
+    m_fontSize->addItem("10px");
+    m_fontSize->addItem("12px");
+    m_fontSize->addItem("14px");
+    m_fontSize->addItem("16px");
+    m_fontSize->addItem("18px");
+    m_fontSize->addItem("24px");
+    m_fontSize->addItem("36px");
+    m_fontSize->addItem("48px");
+    m_fontSize->addItem("60px");
+    m_fontSize->addItem("72px");
+    m_fontSize->addItem("100px");
 }
 
 void TextWidget::updateTextWidget()
@@ -318,7 +343,7 @@ void TextWidget::updateTextWidget()
     m_textSeperatorLine->setVisible(true);
     m_fontFamilyLabel->setVisible(true);
     m_fontComBox->setVisible(true);
-    m_fontHeavy->setVisible(true);
+//    m_fontHeavy->setVisible(true);
     m_fontsizeLabel->setVisible(true);
     m_fontSize->setVisible(true);
     m_fillBtn->setIsMultColorSame(true);
