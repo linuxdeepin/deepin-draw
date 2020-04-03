@@ -303,10 +303,10 @@ void TextWidget::initConnection()
     });
     connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
 
-//        if (!str.contains("px") && !m_fontSize->findText(str)) {
-//            m_fontSize->setCurrentIndex(-1);
-//            return ;
-//        }
+        if (!str.contains("px") && !m_fontSize->findText(str)) {
+            m_fontSize->setCurrentIndex(-1);
+            return ;
+        }
 
         str = str.replace("px", "");
         bool flag = false;
