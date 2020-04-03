@@ -1411,17 +1411,19 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
         case SideNumber:
             oldValue.setValue(static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
             break;
-        case LineStartArrowType:
-            oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineStartType());
+        case LineAndPenStartType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineStartType());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
+            }
             break;
-        case LineEndArrowType:
-            oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
-            break;
-        case PenStartArrowType:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
-            break;
-        case PenEndArrowType:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
+        case LineAndPenEndType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
+            }
             break;
         case TextColor:
             oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
@@ -1476,17 +1478,19 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case SideNumber:
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
             break;
-        case LineStartArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
+        case LineAndPenStartType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
+            }
             break;
-        case LineEndArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
-            break;
-        case PenStartArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
-            break;
-        case PenEndArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
+        case LineAndPenEndType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
+            }
             break;
         case TextColor:
             static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
@@ -1540,17 +1544,21 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case SideNumber:
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
             break;
-        case LineStartArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
+        case LineAndPenStartType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
+            }
             break;
-        case LineEndArrowType:
-            static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
-            break;
-        case PenStartArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
-            break;
-        case PenEndArrowType:
-            static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
+        case LineAndPenEndType:
+            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+                static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
+            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+                static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
+            }
             break;
         case TextColor:
             static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
