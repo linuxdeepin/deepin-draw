@@ -37,7 +37,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 
 CommonshapeWidget::CommonshapeWidget(DWidget *parent)
     : DWidget(parent)

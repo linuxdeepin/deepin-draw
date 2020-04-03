@@ -43,7 +43,7 @@
 
 const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
 {
@@ -169,7 +169,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
     m_radiusNumber->setRange(0, 1000);
-    m_radiusNumber->setFixedSize(QSize(80, 36));
+    m_radiusNumber->setFixedSize(QSize(90, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
     m_radiusNumber->setSpecialValueText("— —");
@@ -310,7 +310,7 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
         m_anchorNumber->setValue(50);
     }
     m_anchorNumber->blockSignals(false);
-    value=m_anchorNumber->value();
+    value = m_anchorNumber->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板

@@ -38,7 +38,7 @@
 #include <DComboBox>
 
 const int BTN_SPACNT = 10;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 
 LineWidget::LineWidget(DWidget *parent)
     : DWidget(parent)
