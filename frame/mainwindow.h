@@ -51,7 +51,7 @@ public:
     void showDrawDialog();
     /**
      * @brief openImage　打开图片或ＤＤＦ文件
-     * @param path　路劲
+     * @param path　路径
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
     void openImage(QString path, bool isStartByDDF = false);
@@ -62,6 +62,18 @@ public:
 
     void readSettings();
 
+    /**
+     * @brief openFile　暴露函数接口给其它程序调用，打开多个路径文件
+     * @param filePath　路径
+     * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
+     */
+    Q_INVOKABLE void openFiles(QStringList filePaths);
+    /**
+     * @brief openImage　暴露函数接口给其它程序调用，打开多个图像文件
+     * @param image　图片
+     * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
+     */
+    Q_INVOKABLE void openImage(QImage image);
 
 signals:
     /**

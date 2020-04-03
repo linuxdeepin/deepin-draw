@@ -89,3 +89,7 @@ DISTFILES += \
     logo/deepin-draw-96.svg \
     logo/deepin-draw-128.svg \
     logo/deepin-draw-256.svg
+
+# dbus 外部调用程序
+dbus_service.files = $$PWD/com.deepin.Draw.service
+dbus_service.path = $$PREFIX/share/dbus-1/services

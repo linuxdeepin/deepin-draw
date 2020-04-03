@@ -560,6 +560,16 @@ void MainWindow::readSettings()
     restoreState(settings.value("windowState").toByteArray());
 }
 
+void MainWindow::openFiles(QStringList filePaths)
+{
+    m_centralWidget->slotLoadDragOrPasteFile(filePaths);
+}
+
+void MainWindow::openImage(QImage image)
+{
+    m_centralWidget->slotPastePixmap(QPixmap::fromImage(image));
+}
+
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
     CManageViewSigleton::GetInstance()->setThemeType(type);
