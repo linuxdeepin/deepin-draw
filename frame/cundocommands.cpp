@@ -1533,16 +1533,24 @@ void CSetItemsCommonPropertyValueCommand::redo()
             break;
         }
         case RectRadius:
-            static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
+            if (static_cast<CGraphicsItem *>(item)->type() == RectType) {
+                static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
+            }
             break;
         case Anchors:
-            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+                static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            }
             break;
         case StarRadius:
-            static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
+            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+                static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
+            }
             break;
         case SideNumber:
-            static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
+            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+                static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
+            }
             break;
         case LineAndPenStartType:
             if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {

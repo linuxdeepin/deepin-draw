@@ -228,7 +228,7 @@ void CDrawScene::attributeChanged()
     } else {
         QList<QGraphicsItem *> items = this->selectedItems();
 
-        if (m_pGroupItem->getItems().size() >= 1)
+        if (m_pGroupItem->getItems().size() > 1)
             return;
 
         QGraphicsItem *item = nullptr;
