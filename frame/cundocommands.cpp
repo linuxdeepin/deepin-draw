@@ -637,8 +637,13 @@ void CSetPropertyCommand::undo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_oldPen);
-        if (m_pItem->type() == LineType) {
-            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+//        if (m_pItem->type() == LineType) {
+//            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+//        }
+        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
+        if(pItem != nullptr)
+        {
+            pItem->updateShape();
         }
     }
 
@@ -659,8 +664,13 @@ void CSetPropertyCommand::redo()
 {
     if (m_bPenChange) {
         m_pItem->setPen(m_newPen);
-        if (m_pItem->type() == LineType) {
-            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+//        if (m_pItem->type() == LineType) {
+//            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
+//        }
+        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
+        if(pItem != nullptr)
+        {
+            pItem->updateShape();
         }
     }
 
