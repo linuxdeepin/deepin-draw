@@ -237,6 +237,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
                         scene->getItemsMgr()->clear();
+                        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
                     }
                 }
             } else {
