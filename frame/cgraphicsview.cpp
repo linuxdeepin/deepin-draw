@@ -737,12 +737,17 @@ void CGraphicsView::slotOnPaste()
 
         //粘贴画板内部图元
         CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        auto curScene = static_cast<CDrawScene *>(scene());
         if ( data ) {
             scene()->clearSelection();
-            auto curScene = static_cast<CDrawScene *>(scene());
             auto itemMgr = curScene->getItemsMgr();
             itemMgr->clear();
-            foreach (CGraphicsItem *item, data->itemList() ) {
+            //升序排列
+            QList<CGraphicsItem *> allItems = data->itemList();
+            qSort(allItems.begin(), allItems.end(), zValueSortASC);
+            QList<QGraphicsItem *> addItems;
+            addItems.clear();
+            foreach (CGraphicsItem *item, allItems ) {
                 CGraphicsItem *copy = nullptr;
 
                 switch (item->type()) {
@@ -787,15 +792,11 @@ void CGraphicsView::slotOnPaste()
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     copy->moveBy(10, 10);
-
-                    auto curScene = dynamic_cast<CDrawScene *>(scene());
-                    QList<QGraphicsItem *> addItems;
-                    addItems.clear();
                     addItems.append(copy);
-                    QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
-                    m_pUndoStack->push(addCommand);
                 }
             }
+            QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
+            m_pUndoStack->push(addCommand);
             if (!itemMgr->getItems().isEmpty()) {
                 itemMgr->show();
                 itemMgr->setSelected(true);
