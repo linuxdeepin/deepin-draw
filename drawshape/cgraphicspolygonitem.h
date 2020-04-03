@@ -55,6 +55,7 @@ public:
 
 
 protected:
+    virtual void updateShape() Q_DECL_OVERRIDE {calcPoints();}
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:

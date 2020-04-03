@@ -85,6 +85,7 @@ public:
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
+    virtual void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
