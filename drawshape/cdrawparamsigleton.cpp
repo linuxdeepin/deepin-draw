@@ -112,10 +112,14 @@ QBrush CDrawParamSigleton::getBrush() const
 {
     return QBrush(m_nFillColor);
 }
-
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
+
+    if (mode != selection)
+        CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
