@@ -315,7 +315,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
     if (this->getItemsMgr()->getItems().size() > 1) {
         getDrawParam()->setSelectAllFlag(true);
         if (flag) {
-            emit signalAttributeChanged(flag, RectType);
+            emit signalAttributeChanged(flag, NoType);
         }
 
     } else if (count == 1) {
