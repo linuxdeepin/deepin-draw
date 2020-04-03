@@ -75,12 +75,20 @@ void BigColorButton::paintEvent(QPaintEvent *)
         //borderPen.setColor(QColor(0, 0, 0, 15));
         //borderPen.setColor(Qt::gray);
         if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(QColor(0, 0, 0, 25));
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                borderPen.setColor(QColor(0, 0, 0, 25));
+            } else {
+                borderPen.setColor(QColor(255, 255, 255, 25));
+            }
         } else {
             borderPen.setColor(Qt::transparent);
         }
         if (m_color.alpha() == 0) {
-            borderPen.setColor(QColor(0, 0, 0, 25));
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                borderPen.setColor(QColor(0, 0, 0, 25));
+            } else {
+                borderPen.setColor(QColor(255, 255, 255, 25));
+            }
         }
         painter.setPen(borderPen);
         //    if (m_isChecked) {
@@ -116,14 +124,27 @@ void BigColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(QColor(0, 0, 0, 25));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            borderPen.setColor(QColor(255, 255, 255, 25));
+        }
         painter.setPen(borderPen);
 
-        painter.setBrush(QColor(0, 0, 0, 12));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            painter.setBrush(QColor(0, 0, 0, 12));
+        } else {
+            painter.setBrush(QColor(255, 255, 255, 12));
+        }
+
         painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
 
         QPen textPen;
-        textPen.setColor(QColor(0, 0, 0, 25));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            textPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            textPen.setColor(QColor(255, 255, 255, 25));
+        }
         painter.setPen(textPen);
         QFont ft;
         ft.setPixelSize(14);

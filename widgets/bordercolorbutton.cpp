@@ -76,7 +76,11 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(QColor(0, 0, 0, 25));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            borderPen.setColor(QColor(255, 255, 255, 25));
+        }
         painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(6, 10, 16, 16), 6, 6);
         painter.drawRoundedRect(QRect(4, 8, 20, 20), 8, 8);
@@ -108,13 +112,21 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
         QPen pen;
         pen.setWidth(1);
-        pen.setColor(QColor(0, 0, 0, 12));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            pen.setColor(QColor(0, 0, 0, 12));
+        } else {
+            pen.setColor(QColor(255, 255, 255, 12));
+        }
         painter.setPen(pen);
         painter.drawRoundedRect(QRect(4, 8, 19, 19), 8, 8);
 
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(QColor(0, 0, 0, 12));
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 12));
+        } else {
+            borderPen.setColor(QColor(255, 255, 255, 12));
+        }
         painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(6, 10, 15, 15), 6, 6);
 
