@@ -44,7 +44,7 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     , m_view(view)
     , m_CProgressDialog(new CProgressDialog(view))
     , m_pSaveDialog(new CAbstractProcessDialog(view))
-    , m_lastSaveStatus(true)
+    , m_lastSaveStatus(false)
     , m_lastErrorString("")
     , m_lastError(QFileDevice::NoError)
 {
