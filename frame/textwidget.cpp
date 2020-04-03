@@ -249,8 +249,8 @@ void TextWidget::initConnection()
 
     // 字体大小
     m_fontSize->setCurrentText("14px");
-    m_fontSize->lineEdit()->setFocusPolicy(Qt::WheelFocus);
-    connect(m_fontSize->lineEdit(), &QLineEdit::editingFinished, this, [ = ]() {
+//    m_fontSize->lineEdit()->setFocusPolicy(Qt::WheelFocus);
+    connect(m_fontSize->lineEdit(), &QLineEdit::returnPressed, this, [ = ]() {
         QString str = m_fontSize->currentText();
         if (str.contains("p")) {
             str = str.replace("p", "");
@@ -282,13 +282,15 @@ void TextWidget::initConnection()
         } else {
             qDebug() << "set error font size with str: " << str;
         }
+        // 必须设置焦点到父控件，不然出现点击后更改文字的大小
+        this->setFocus();
     });
     connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
 
-//        if (!str.contains("px") && !m_fontSize->findText(str)) {
-//            m_fontSize->setCurrentIndex(-1);
-//            return ;
-//        }
+        if (!str.contains("px") && !m_fontSize->findText(str)) {
+            m_fontSize->setCurrentIndex(-1);
+            return ;
+        }
 
         str = str.replace("px", "");
         bool flag = false;

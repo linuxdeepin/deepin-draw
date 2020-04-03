@@ -662,7 +662,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     }
                 } else if (m_dragHandle == CSizeHandleRect::InRect) {
                     if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
-                        emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+                        CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_currentSelectItem);
+
+                        if (textItem == nullptr || !textItem->isEditable()) {
+                            emit scene->itemMoved(m_currentSelectItem, m_sPointRelease - m_sPointPress );
+                        }
                     }
                 } else {
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
