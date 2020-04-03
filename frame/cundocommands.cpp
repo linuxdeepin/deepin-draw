@@ -328,6 +328,7 @@ void CAddShapeCommand::redo()
     }
 
     bool add = false;
+    qSort(m_items.begin(), m_items.end(), zValueSortASC);
     for (int i = 0; i < m_items.size(); i++) {
         QGraphicsItem *item = m_items.at(i);
         if (!allItems.contains(static_cast<CGraphicsItem *>(item))) {
