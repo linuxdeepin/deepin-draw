@@ -84,7 +84,7 @@ void TextWidget::initUI()
     m_fontSize = new DComboBox(this);
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
-    QRegExp regx("[0-9]*px");
+    QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
     m_fontSize->setValidator(validator);
     m_fontSize->addItem("8px");
@@ -116,6 +116,8 @@ void TextWidget::initUI()
     layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
+
+    installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -198,6 +200,12 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
     }
 }
 
+bool TextWidget::eventFilter(QObject *, QEvent *event)
+{
+    event->accept();
+    return true;
+}
+
 void TextWidget::initConnection()
 {
     connect(m_fillBtn, &TextColorButton::btnCheckStateChanged, this, [ = ](bool show) {
@@ -230,7 +238,6 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-
         if (m_bSelect) {
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
             emit signalTextFontFamilyChanged();
@@ -240,14 +247,20 @@ void TextWidget::initConnection()
 
     // 字体大小
     m_fontSize->setCurrentText("14px");
-    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
-        // remove px
-        QString size_str = str;
-        size_str = size_str.replace("px", "");
+    m_fontSize->lineEdit()->setFocusPolicy(Qt::WheelFocus);
+    connect(m_fontSize->lineEdit(), &QLineEdit::editingFinished, this, [ = ]() {
+        QString str = m_fontSize->currentText();
+        if (str.contains("p")) {
+            str = str.replace("p", "");
+        }
+        if (str.contains("x")) {
+            str = str.replace("x", "");
+        }
+        str = str.replace("px", "");
 
         bool flag = false;
-        int size = size_str.toInt(&flag);
-
+        int size = str.toInt(&flag);
+        //setSuffix("px");
         m_fontSize->blockSignals(true);
         if (size < 8) {
             m_fontSize->setCurrentText("8px");
@@ -255,6 +268,8 @@ void TextWidget::initConnection()
         } else if (size > 500) {
             m_fontSize->setCurrentText("500px");
             size = 500;
+        } else {
+            m_fontSize->setCurrentText(QString::number(size) + "px");
         }
         m_fontSize->blockSignals(false);
 
