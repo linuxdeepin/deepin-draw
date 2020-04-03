@@ -92,6 +92,9 @@ signals:
      */
     void signalTextFontSizeChanged();
 
+protected:
+    bool eventFilter(QObject *, QEvent *event) override;
+
 private:
     TextColorButton *m_fillBtn;
     CFontComboBox *m_fontComBox;
