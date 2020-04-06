@@ -280,6 +280,7 @@ void CAddShapeCommand::undo()
     myGraphicsScene->setModify(true);
 
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    myGraphicsScene->getItemsMgr()->clear();
     for (int i = 0; i < m_items.size(); i++) {
         QGraphicsItem *item = m_items.at(i);
         if (allItems.contains(static_cast<CGraphicsItem *>(item))) {
@@ -352,6 +353,7 @@ void CAddShapeCommand::redo()
         }
     }
 
+    myGraphicsScene->getItemsMgr()->clear();
     if (m_items.size() == 1) {
         myGraphicsScene->clearSelection();
         m_items.at(0)->setSelected(true);
@@ -640,9 +642,8 @@ void CSetPropertyCommand::undo()
 //        if (m_pItem->type() == LineType) {
 //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
 //        }
-        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
-        if(pItem != nullptr)
-        {
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+        if (pItem != nullptr) {
             pItem->updateShape();
         }
     }
@@ -667,9 +668,8 @@ void CSetPropertyCommand::redo()
 //        if (m_pItem->type() == LineType) {
 //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
 //        }
-        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
-        if(pItem != nullptr)
-        {
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+        if (pItem != nullptr) {
             pItem->updateShape();
         }
     }
