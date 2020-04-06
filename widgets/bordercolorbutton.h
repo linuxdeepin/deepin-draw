@@ -37,7 +37,7 @@ public:
     void updateConfigColor();
     void resetChecked();
     void setIsMultColorSame(bool isMultColorSame);
-
+    void setButtonText(QString text);
 signals:
     void btnCheckStateChanged(bool checked);
 
@@ -48,6 +48,7 @@ protected:
     void mousePressEvent(QMouseEvent * );
 
 private:
+    QString m_text;
     QColor m_color;
     bool m_isHover;
     bool m_isChecked;

@@ -172,6 +172,7 @@ void LineWidget::initUI()
     m_endLabel->setFont(ft);
 
     m_strokeBtn = new BorderColorButton(this);
+    m_strokeBtn->setButtonText(tr("Color"));
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
     m_sideWidthWidget->setFixedWidth(100);
@@ -186,7 +187,7 @@ void LineWidget::initUI()
     m_maskLableStart->setFont(m_maskLableStart->font());
 
     m_lineStartComboBox->setFixedSize(QSize(70, 36));
-    m_lineStartComboBox->setIconSize(QSize(24, 10));
+    m_lineStartComboBox->setIconSize(QSize(34, 14));
     m_lineEndComboBox =  new DComboBox(this);
     m_maskLableEnd = new DLabel(m_lineEndComboBox);
     m_maskLableEnd->setText("— —");
@@ -196,7 +197,7 @@ void LineWidget::initUI()
     m_maskLableEnd->setFont(m_lineEndComboBox->font());
 
     m_lineEndComboBox->setFixedSize(QSize(70, 36));
-    m_lineEndComboBox->setIconSize(QSize(24, 10));
+    m_lineEndComboBox->setIconSize(QSize(34, 14));
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
