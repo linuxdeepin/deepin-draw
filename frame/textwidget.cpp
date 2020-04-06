@@ -99,12 +99,14 @@ void TextWidget::initUI()
     layout->addWidget(m_fillBtn);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_textSeperatorLine);
-    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontFamilyLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontComBox);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontHeavy);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontsizeLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
