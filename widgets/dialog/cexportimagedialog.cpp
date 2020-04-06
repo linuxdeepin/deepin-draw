@@ -267,7 +267,7 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     if (index == 1) {
         QString completePath = getCompleteSavePath();
         // 判断路径是否超过255字符
-        if (completePath.length() > 255) {
+        if (completePath.toLocal8Bit().length() > 255) {
             Dtk::Widget::DDialog dialog(this);
             dialog.setTextFormat(Qt::RichText);
             dialog.addButton(tr("OK"));
