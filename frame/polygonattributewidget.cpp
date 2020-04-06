@@ -246,8 +246,8 @@ void PolygonAttributeWidget::updatePolygonWidget()
 void PolygonAttributeWidget::slotSideValueChanged(int value)
 {
     m_sideNumSlider->blockSignals(true);
-    if (m_sideNumSlider->value() < 3) {
-        m_sideNumSlider->setValue(3);
+    if (m_sideNumSlider->value() < 4) {
+        m_sideNumSlider->setValue(4);
     } else if (m_sideNumSlider->value() > 10) {
         m_sideNumSlider->setValue(10);
     }
