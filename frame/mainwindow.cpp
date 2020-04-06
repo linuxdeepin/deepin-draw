@@ -297,6 +297,9 @@ void MainWindow::initConnection()
         qDebug() << "save status:" << status;
         doCloseOtherDiv();
     });
+
+    // 连接场景被改变后更新主窗口tittle显示信息
+    connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged, m_topToolbar, &TopToolbar::slotScenceViewChanged);
 }
 
 void MainWindow::activeWindow()

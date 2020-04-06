@@ -75,7 +75,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="346"/>
+        <location filename="../frame/ccentralwidget.cpp" line="352"/>
         <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>
@@ -503,7 +503,11 @@
     <name>CTitleWidget</name>
     <message>
         <location filename="../frame/ctitlewidget.cpp" line="31"/>
-        <location filename="../frame/ctitlewidget.cpp" line="50"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ctitlewidget.cpp" line="52"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
@@ -588,7 +592,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="365"/>
+        <location filename="../frame/mainwindow.cpp" line="368"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -848,13 +852,13 @@
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="78"/>
-        <location filename="../frame/textwidget.cpp" line="296"/>
+        <location filename="../frame/textwidget.cpp" line="298"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../frame/textwidget.cpp" line="78"/>
-        <location filename="../frame/textwidget.cpp" line="298"/>
+        <location filename="../frame/textwidget.cpp" line="300"/>
         <source>Thin</source>
         <translation type="unfinished"></translation>
     </message>

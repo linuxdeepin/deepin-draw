@@ -308,6 +308,12 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
 
     }
+
+    if (m_topMutipTabBarWidget->count() == 1) {
+        emit signalScenceViewChanged(viewName);
+    } else {
+        emit signalScenceViewChanged("");
+    }
 }
 
 void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error)
@@ -604,8 +610,10 @@ void CCentralwidget::viewChanged(QString viewName)
     // [6] 标签显示或者隐藏判断
     if (m_topMutipTabBarWidget->count() == 1) {
         m_topMutipTabBarWidget->hide();
+        emit signalScenceViewChanged(viewName);
     } else {
         m_topMutipTabBarWidget->show();
+        emit signalScenceViewChanged("");
     }
 }
 

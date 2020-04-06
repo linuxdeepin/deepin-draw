@@ -186,6 +186,12 @@ public slots:
      * @param propertys　要显示的公共属性
      */
     void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
+    /**
+     * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
+     * @param QString 场景名字
+     */
+    void slotScenceViewChanged(QString viewname);
+
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式
