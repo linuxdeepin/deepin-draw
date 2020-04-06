@@ -303,6 +303,7 @@ void CAddShapeCommand::undo()
         }
     }
 
+    myGraphicsScene->updateItemsMgr();
     myGraphicsScene->getItemsMgr()->update();
     myGraphicsScene->update();
 }
@@ -375,6 +376,7 @@ void CAddShapeCommand::redo()
         }
     }
 
+    myGraphicsScene->updateItemsMgr();
     myGraphicsScene->update();
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem();

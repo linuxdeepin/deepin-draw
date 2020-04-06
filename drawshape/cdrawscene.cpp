@@ -727,3 +727,31 @@ qreal CDrawScene::getMaxZValue()
     return m_maxZValue;
 }
 
+void CDrawScene::updateItemsMgr()
+{
+    int count = m_pGroupItem->getItems().size();
+    if (1 == count) {
+        m_pGroupItem->hide();
+    } else if (count > 1) {
+        m_pGroupItem->show();
+        clearSelection();
+        m_pGroupItem->setSelected(true);
+        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else {
+        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
+    auto allselectedItems = selectedItems();
+    for (int i = allselectedItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allselectedItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            allselectedItems.removeAt(i);
+            continue;
+        }
+    }
+    if (allselectedItems.size() == 1) {
+        allselectedItems.first()->setSelected(true);
+        emit signalAttributeChanged(true, allselectedItems.first()->type());
+    }
+}
+

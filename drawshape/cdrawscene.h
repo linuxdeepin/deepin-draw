@@ -137,6 +137,8 @@ public:
      */
     qreal getMaxZValue();
 
+    void updateItemsMgr();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
