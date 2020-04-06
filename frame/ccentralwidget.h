@@ -153,6 +153,10 @@ signals:
      * @description: 保存当前文件状态
     */
     void signalSaveFileStatus(bool);
+    /**
+     * @description: signalScenceViewChanged 当场景被改变后信号
+    */
+    void signalScenceViewChanged(QString viewName);
 public slots:
     /**
      * @brief importPicture　导入图片

@@ -570,6 +570,11 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     }
 }
 
+void TopToolbar::slotScenceViewChanged(QString viewname)
+{
+    m_titleWidget->setTittleText(viewname);
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
