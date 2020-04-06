@@ -262,7 +262,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << col.alpha();
+    qDebug() << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
@@ -300,9 +300,9 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
 //        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        pen.setColor(QColor(224, 224, 224));
+//            pen.setColor(QColor(224, 224, 224));
 //        } else {
-//        pen.setColor(QColor(69, 69, 69));
+//            pen.setColor(QColor(69, 69, 69));
 //        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));

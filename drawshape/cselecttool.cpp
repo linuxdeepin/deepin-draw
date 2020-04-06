@@ -523,6 +523,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
                 m_RotateItem->updateRotateAngle(angle);
                 m_RotateItem->setPos(x0, y0);
+
             }
 
         } else {

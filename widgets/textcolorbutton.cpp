@@ -219,7 +219,7 @@ void TextColorButton::mousePressEvent(QMouseEvent * )
     m_isChecked = !m_isChecked;
     update();
 
-    btnCheckStateChanged(m_isChecked);
+    emit btnCheckStateChanged(m_isChecked);
 }
 
 void TextColorButton::resetChecked()

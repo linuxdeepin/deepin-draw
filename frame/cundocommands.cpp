@@ -652,8 +652,13 @@ void CSetPropertyCommand::undo()
         m_pItem->setBrush(m_oldBrush);
     }
 
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
+    // 此处还需要对文字进行进一步撤销处理才可以
+    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
+    if (textItem == nullptr || !textItem->isEditable()) {
+        myGraphicsScene->clearSelection();
+        m_pItem->setSelected(true);
+    }
+
     myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->setModify(true);
@@ -678,8 +683,13 @@ void CSetPropertyCommand::redo()
         m_pItem->setBrush(m_newBrush);
     }
 
-    myGraphicsScene->clearSelection();
-    m_pItem->setSelected(true);
+    CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_pItem);
+
+    if (textItem == nullptr || !textItem->isEditable()) {
+        myGraphicsScene->clearSelection();
+        m_pItem->setSelected(true);
+    }
+
     myGraphicsScene->changeAttribute(true, m_pItem);
 
     myGraphicsScene->setModify(true);

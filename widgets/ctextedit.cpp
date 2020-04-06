@@ -110,7 +110,7 @@ void CTextEdit::slot_textChanged()
         curScene->updateBlurItem(m_pItem);
     }
 
-    this->setFocus();
+//    this->setFocus();
 
 //    qDebug() << "this focus = " << this->hasFocus() << endl;
 //    if (size.height() > rect.size().height()) {
@@ -203,7 +203,7 @@ void CTextEdit::cursorPositionChanged()
             curScene->updateBlurItem(m_pItem);
         }
 
-        //this->setFocus();
+        this->setFocus();
     }
 }
 
