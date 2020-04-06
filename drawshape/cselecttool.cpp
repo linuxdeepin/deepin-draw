@@ -627,6 +627,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 scene->getItemsMgr()->show();
                 scene->clearSelection();
                 scene->getItemsMgr()->setSelected(true);
+                emit scene->signalAttributeChanged(true, QGraphicsItem::UserType);
             }
             m_bMousePress = false;
             scene->mouseEvent(event);
