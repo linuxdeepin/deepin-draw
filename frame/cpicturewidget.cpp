@@ -70,9 +70,8 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/contrarotate_disable.svg");
 
 
-    m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
-
 
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.svg");
     pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/clockwise rotation_hover.svg");
@@ -86,7 +85,7 @@ void CPictureWidget::initUI()
 
 
 
-    m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
 
 
@@ -100,7 +99,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip horizontal_press.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disable.svg");
 
-    m_flipHBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_flipHBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
 
 
@@ -114,7 +113,7 @@ void CPictureWidget::initUI()
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip vertical_press.svg");
     pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disable.svg");
 
-    m_flipVBtn = new CClickButton(pictureMapClick, QSize(40, 36), this);
+    m_flipVBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
     m_flipVBtn->setToolTip(tr("Flip vertically"));
 
 
