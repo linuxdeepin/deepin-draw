@@ -1688,21 +1688,25 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsPolygonItem *>(item)->nPointsCount());
             break;
         case LineAndPenStartType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineStartType());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenStartType());
             }
             break;
         case LineAndPenEndType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 oldValue.setValue(static_cast<CGraphicsLineItem *>(item)->getLineEndType());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->getPenEndType());
             }
             break;
         case TextColor:
-            oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
+            if (item->type() == TextType) {
+                oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextColor());
+            } else {
+                oldValue.setValue(static_cast<CGraphicsPenItem *>(item)->pen().color());
+            }
             break;
         case TextSize:
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontSize());
@@ -1734,14 +1738,15 @@ void CSetItemsCommonPropertyValueCommand::undo()
             QPen widthpen = item->pen();
             widthpen.setWidth(oldValue.toInt());
             item->setPen(widthpen);
-            break;
+
         }
+        break;
         case LineColor: {
             QPen colorpen = item->pen();
             colorpen.setColor(oldValue.value<QColor>());
             item->setPen(colorpen);
-            break;
         }
+        break;
         case RectRadius:
             static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
             break;
@@ -1755,31 +1760,52 @@ void CSetItemsCommonPropertyValueCommand::undo()
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
             break;
         case LineAndPenStartType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
             }
             break;
         case TextColor:
-            static_cast<CGraphicsTextItem *>(item)->setTextColor(oldValue.value<QColor>());
+            if (item->type() == TextType) {
+                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+                if (curTextItem != nullptr) {
+                    curTextItem->setTextColor(oldValue.value<QColor>());
+                }
+            } else {
+                QPen colorpen = item->pen();
+                colorpen.setColor(oldValue.value<QColor>());
+                item->setPen(colorpen);
+            }
             break;
-        case TextSize:
-            static_cast<CGraphicsTextItem *>(item)->setFontSize(oldValue.value<qreal>());
-            break;
-        case TextHeavy:
-            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(oldValue.value<QString>());
-            break;
-        case TextFont:
-            static_cast<CGraphicsTextItem *>(item)->setFont(oldValue.value<QFont>());
-            break;
+        case TextSize: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setFontSize(oldValue.value<qreal>());
+            }
+        }
+        break;
+        case TextHeavy: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setTextFontStyle(oldValue.value<QString>());
+            }
+        }
+        break;
+        case TextFont: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setFont(oldValue.value<QFont>());
+            }
+        }
+        break;
         default:
             break;
         }
@@ -1812,62 +1838,84 @@ void CSetItemsCommonPropertyValueCommand::redo()
             QPen widthpen = item->pen();
             widthpen.setWidth(m_value.toInt());
             item->setPen(widthpen);
-            break;
+
         }
+        break;
         case LineColor: {
             QPen colorpen = item->pen();
             colorpen.setColor(m_value.value<QColor>());
             item->setPen(colorpen);
-            break;
         }
+        break;
         case RectRadius:
-            if (static_cast<CGraphicsItem *>(item)->type() == RectType) {
+            if (item->type() == RectType) {
                 static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
             }
             break;
         case Anchors:
-            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+            if (item->type() == PolygonalStarType) {
                 static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
             }
             break;
         case StarRadius:
-            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+            if (item->type() == PolygonalStarType) {
                 static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
             }
             break;
         case SideNumber:
-            if (static_cast<CGraphicsItem *>(item)->type() == PolygonalStarType) {
+            if (item->type() == PolygonalStarType) {
                 static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
             }
             break;
         case LineAndPenStartType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
-            if (static_cast<CGraphicsLineItem *>(item)->type() == LineType) {
+            if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
-            } else if (static_cast<CGraphicsLineItem *>(item)->type() == PenType) {
+            } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
             }
             break;
         case TextColor:
-            static_cast<CGraphicsTextItem *>(item)->setTextColor(m_value.value<QColor>());
+            if (item->type() == TextType) {
+                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+                if (curTextItem != nullptr) {
+                    curTextItem->setTextColor(m_value.value<QColor>());
+                }
+            } else {
+                QPen colorpen = item->pen();
+                colorpen.setColor(m_value.value<QColor>());
+                item->setPen(colorpen);
+            }
             break;
-        case TextSize:
-            static_cast<CGraphicsTextItem *>(item)->setFontSize(m_value.value<qreal>());
-            break;
-        case TextHeavy:
-            static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(m_value.value<QString>());
-            break;
-        case TextFont:
-            static_cast<CGraphicsTextItem *>(item)->setFont(m_value.value<QFont>());
-            break;
+        case TextSize: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setFontSize(m_value.value<qreal>());
+            }
+        }
+        break;
+        case TextHeavy: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setTextFontStyle(m_value.value<QString>());
+            }
+        }
+        break;
+        case TextFont: {
+            auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (curTextItem != nullptr) {
+                curTextItem->setFont(m_value.value<QFont>());
+            }
+        }
+        break;
         default:
             break;
         }
