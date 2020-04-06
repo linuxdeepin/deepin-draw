@@ -92,13 +92,14 @@ public:
      * @bref: setPenStartType 设置画笔起点的样式
      * @param: startType 起点样式
     */
-	
+
     void setPenStartType(CDrawScene *scence, ELineType startType);
     /*
      * @bref: setPenEndType 设置画笔终点的样式
      * @param: endType 终点样式
     */
     void setPenEndType(CDrawScene *scence, ELineType endType);
+    /*
      * @bref: setPenEndType 设置画笔终点的样式
      * @param: endType 终点样式
     */

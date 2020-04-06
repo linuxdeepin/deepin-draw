@@ -526,6 +526,8 @@ void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endTy
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             penItem->update();
         }
+    }
+}
 
 void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
 {
@@ -561,6 +563,6 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
 
         emit signalTextItemPropertyUpdate(propertys);
         break;
-      }
+    }
     }
 }

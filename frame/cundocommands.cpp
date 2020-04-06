@@ -640,9 +640,8 @@ void CSetPropertyCommand::undo()
 //        if (m_pItem->type() == LineType) {
 //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
 //        }
-        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
-        if(pItem != nullptr)
-        {
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+        if (pItem != nullptr) {
             pItem->updateShape();
         }
     }
@@ -667,9 +666,8 @@ void CSetPropertyCommand::redo()
 //        if (m_pItem->type() == LineType) {
 //            static_cast<CGraphicsLineItem *>(m_pItem)->calcVertexes();
 //        }
-        CGraphicsItem* pItem = dynamic_cast<CGraphicsItem*>(m_pItem);
-        if(pItem != nullptr)
-        {
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(m_pItem);
+        if (pItem != nullptr) {
             pItem->updateShape();
         }
     }
@@ -817,7 +815,6 @@ void CSetPenAttributeCommand::undo()
 {
     m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
     m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
-    m_pItem->updatePenType(static_cast<EPenType>(m_oldType));
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
@@ -830,7 +827,6 @@ void CSetPenAttributeCommand::redo()
 {
     m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
     m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
-    m_pItem->updatePenType(static_cast<EPenType>(m_newType));
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);

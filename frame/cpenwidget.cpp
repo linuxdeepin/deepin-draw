@@ -152,11 +152,6 @@ void CPenWidget::initUI()
 
     m_sep1Line = new SeperatorLine(this);
 
-    m_lineTypeLabel = new DLabel(this);
-    m_lineTypeLabel->setObjectName("Line Type");
-    m_lineTypeLabel->setText(tr("Type"));
-    m_lineTypeLabel->setFont(ft);
-
     m_startLabel = new DLabel(this);
     m_endLabel = new DLabel(this);
     m_startLabel->setText(tr("start"));

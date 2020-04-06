@@ -279,7 +279,7 @@ void LineWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
         CManagerAttributeService::getInstance()->setLineStartType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineStartArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
