@@ -38,6 +38,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
 {
     setFixedSize(55, 32);
     setCheckable(false);
+    m_text = tr("Stroke");
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
 
@@ -105,7 +106,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         ft.setPixelSize(14);
         painter.setFont(ft);
 
-        painter.drawText(26, 6, 38, 22, 1, tr("Stroke"));
+        painter.drawText(26, 6, 38, 22, 1, m_text);
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
@@ -141,7 +142,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         QFont ft;
         ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(26, 6, 38, 22, 1, tr("Stroke"));
+        painter.drawText(26, 6, 38, 22, 1, m_text);
     }
 }
 
@@ -168,6 +169,11 @@ void BorderColorButton::resetChecked()
 void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
 {
     m_isMultColorSame = isMultColorSame;
+}
+
+void BorderColorButton::setButtonText(QString text)
+{
+    m_text = text;
 }
 
 void BorderColorButton::enterEvent(QEvent *)

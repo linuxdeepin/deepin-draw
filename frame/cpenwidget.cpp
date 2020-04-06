@@ -121,6 +121,7 @@ void CPenWidget::initUI()
     ft.setPixelSize(TEXT_SIZE);
 //    strokeLabel->setFont(ft);
     m_strokeBtn = new BorderColorButton(this);
+    m_strokeBtn->setButtonText(tr("Color"));
 
     m_sep1Line = new SeperatorLine(this);
 
