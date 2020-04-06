@@ -34,12 +34,12 @@ ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
 
     QFont ft;
     ft.setPixelSize(16);
-    ft.setFamily(QString("SourceHanSansSC-Medium"));
+//    ft.setFamily(QString("SourceHanSansSC-Medium"));
     m_label->setFont(ft);
     //设置颜色
-    DPalette pa1;
-    pa1.setColor(DPalette::WindowText, QColor("#001a2e"));
-    m_label->setPalette(pa1);
+//    DPalette pa1;
+//    pa1.setColor(DPalette::WindowText, QColor("#001a2e"));
+//    m_label->setPalette(pa1);
 
     m_progressLabel = new DLabel();
     m_progressLabel->setFixedWidth(400);
@@ -94,13 +94,13 @@ void ProgressLayout::setProgressValue(int value)
     //设置字号
     QFont ft2;
     ft2.setPixelSize(14);
-    ft2.setFamily(QString("SourceHanSansSC-Bold"));
+//    ft2.setFamily(QString("SourceHanSansSC-Bold"));
     m_progressLabel->setFont(ft2);
 
     //设置颜色
-    DPalette pa;
-    pa.setColor(DPalette::WindowText, QColor("#6a829f"));
-    m_progressLabel->setPalette(pa);
+//    DPalette pa;
+//    pa.setColor(DPalette::WindowText, QColor("#6a829f"));
+//    m_progressLabel->setPalette(pa);
 
 //    DPalette pa;
 //    pa = DApplicationHelper::instance()->palette(m_progressLabel);
