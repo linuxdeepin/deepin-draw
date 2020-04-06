@@ -316,8 +316,7 @@ void TopToolbar::changeTopButtonsTheme()
 void TopToolbar::updateMiddleWidget(int type)
 {
     switch (type) {
-    case::selection:
-    {
+    case::selection: {
         m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_titleWidget->updateTitleWidget();
         m_stackWidget->setCurrentWidget(m_titleWidget);
@@ -355,12 +354,11 @@ void TopToolbar::updateMiddleWidget(int type)
         m_penWidget->updatePenWidget();
         m_stackWidget->setCurrentWidget(m_penWidget);
         break;
-    case::text:
-        {
+    case::text: {
         m_drawTextWidget->updateTextWidget();
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
-        }
+    }
     case::blur:
         m_drawBlurWidget->updateBlurWidget();
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
