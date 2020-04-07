@@ -66,7 +66,7 @@ QPainterPath CGraphicsPolygonalStarItem::shape() const
 {
     QPainterPath path;
 
-    path.addPolygon(m_polygonPen);
+    path.addPolygon(m_polygonPen/*.boundingRect().intersected(rect())*/);
     path.closeSubpath();
     return qt_graphicsItem_shapeFromPath(path, pen());
 }
@@ -113,7 +113,7 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
 QPainterPath CGraphicsPolygonalStarItem::getHighLightPath()
 {
     QPainterPath path;
-    path.addPolygon(m_polygonForBrush);
+    path.addPolygon(/*m_polygonForBrush*/m_polygonPen);
     path.closeSubpath();
     return path;
 }
@@ -139,25 +139,31 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     Q_UNUSED(widget)
 
     updateGeometry();
+//先还原成原来的直接绘制所以这里先注释
+//    painter->save();
+//    painter->setClipRect(this->rect());
+//    //绘制填充
+//    painter->setPen(Qt::NoPen);
+//    painter->setBrush(brush());
+//    painter->drawPolygon(m_polygonForBrush);
+//    //再绘制描边
+//    if(m_renderWay == RenderPathLine)
+//    {
+//        painter->setPen(Qt::NoPen);
+//        painter->setBrush(QColor(pen().color()));
+//        painter->drawPath(m_pathForRenderPenLine);
+//    }
+//    else {
+//        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+//        painter->setBrush(Qt::NoBrush);
+//        painter->drawPolygon(m_polygonPen);
+//    }
+//    painter->restore();
 
     painter->save();
-    painter->setClipRect(this->rect());
-    //绘制填充
-    painter->setPen(Qt::NoPen);
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
-    painter->drawPolygon(m_polygonForBrush);
-    //再绘制描边
-    if(m_renderWay == RenderPathLine)
-    {
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(QColor(pen().color()));
-        painter->drawPath(m_pathForRenderPenLine);
-    }
-    else {
-        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-        painter->setBrush(Qt::NoBrush);
-        painter->drawPolygon(m_polygonPen);
-    }
+    painter->drawPolygon(m_polygonPen);
     painter->restore();
 
     if (this->getMutiSelect()) {
@@ -319,7 +325,8 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 QLineF tempLine(nextLine);
                 qreal newAngle = tempLine.angle() + finalDegree/2.0 + (isInter?(360 - curLine.angleTo(nextLine)):0);
                 tempLine.setAngle(newAngle);
-                tempLine.setLength(qAbs(offLen));
+                qreal finallenth =  qAbs(offLen)/*>tempLine.length()?tempLine.length():qAbs(offLen)*/;
+                tempLine.setLength(finallenth);
                 result.append(tempLine.p2());
             }
         };
