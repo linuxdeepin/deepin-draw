@@ -36,8 +36,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(true)
 {
-    //setFixedSize(24, 24);
-    setFixedSize(55, 32);
+    setFixedSize(68, 32);
     setCheckable(false);
 
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
@@ -67,89 +66,78 @@ void BigColorButton::paintEvent(QPaintEvent *)
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
         QColor drawColor = m_color;
-        painter.setBrush(drawColor);
-        painter.drawRoundedRect(QRect(1, 7, 20, 20),  8, 8);
 
-        QPen borderPen;
-        borderPen.setWidth(1);
-        //borderPen.setColor(QColor(0, 0, 0, 15));
-        //borderPen.setColor(Qt::gray);
-        if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-                borderPen.setColor(QColor(0, 0, 0, 25));
-            } else {
-                borderPen.setColor(QColor(255, 255, 255, 25));
-            }
-        } else {
-            borderPen.setColor(Qt::transparent);
-        }
-        if (m_color.alpha() == 0) {
-            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-                borderPen.setColor(QColor(0, 0, 0, 25));
-            } else {
-                borderPen.setColor(QColor(255, 255, 255, 25));
-            }
-        }
-        painter.setPen(borderPen);
-        //    if (m_isChecked) {
-        //        painter.setBrush(QColor(0, 0, 0, 55));
-        //    } else {
-        //        painter.setBrush(Qt::transparent);
-        //    }
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-        painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
-        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
-            QPen linePen;
-            linePen.setWidth(2);
-            linePen.setColor(QColor("#ff804d"));
-            painter.setPen(linePen);
-            painter.drawLine(3, 22, 18, 11);
-        }
-
-        QPen textPen;
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            textPen.setColor(QColor("#414D68"));
-        } else {
-            textPen.setColor(QColor("#C0C6D4"));
-        }
-
-        painter.setPen(textPen);
-        QFont ft;
-        ft.setPixelSize(14);
-        painter.setFont(ft);
-
-        painter.drawText(25, 6, 34, 22, 0, tr("Fill"));
-    } else {
-        painter.setRenderHints(QPainter::Antialiasing
-                               | QPainter::SmoothPixmapTransform);
         QPen borderPen;
         borderPen.setWidth(1);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             borderPen.setColor(QColor(0, 0, 0, 25));
         } else {
-            borderPen.setColor(QColor(255, 255, 255, 25));
+            borderPen.setColor(QColor(77, 82, 93, 204));
         }
         painter.setPen(borderPen);
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                painter.setBrush(Qt::NoBrush);
+            } else {
+                painter.setBrush(QColor(8, 15, 21, 178));
+            }
+        } else {
+            painter.setBrush(drawColor);
+        }
+        painter.drawRoundedRect(QRect(1, 7, 20, 20),  8, 8);
 
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            QPen linePen;
+            linePen.setWidth(2);
+            linePen.setColor(QColor(255, 67, 67, 153));
+            painter.setPen(linePen);
+            painter.drawLine(4, 23, 18, 11);
+        }
+
+        QPen textPen;
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            textPen.setColor(QColor("#414D68"));
+        } else {
+            textPen.setColor(QColor("#C0C6D4"));
+        }
+
+        painter.setPen(textPen);
+        QFont ft;
+        ft.setPixelSize(14);
+        painter.setFont(ft);
+
+        painter.drawText(27, 6, 28, 22, 0, tr("Fill"));
+    } else {
+        painter.setRenderHints(QPainter::Antialiasing
+                               | QPainter::SmoothPixmapTransform);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             painter.setBrush(QColor(0, 0, 0, 12));
         } else {
-            painter.setBrush(QColor(255, 255, 255, 12));
+            painter.setBrush(QColor(8, 15, 21, 179));
         }
+        painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
 
+        QPen borderPen;
+        borderPen.setWidth(1);
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 25));
+        } else {
+            borderPen.setColor(QColor(77, 82, 93, 204));
+        }
+        painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(1, 7, 19, 19),  8, 8);
 
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            textPen.setColor(QColor(0, 0, 0, 25));
+            textPen.setColor(QColor("#414D68"));
         } else {
-            textPen.setColor(QColor(255, 255, 255, 25));
+            textPen.setColor(QColor("#C0C6D4"));
         }
         painter.setPen(textPen);
         QFont ft;
         ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(5, 2, 32, 16, 0, tr("..."));
+        painter.drawText(5, 1, 32, 16, 0, tr("..."));
 
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
@@ -160,7 +148,7 @@ void BigColorButton::paintEvent(QPaintEvent *)
         painter.setPen(textPen);
         ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(25, 6, 34, 22, 0, tr("Fill"));
+        painter.drawText(27, 6, 28, 22, 0, tr("Fill"));
     }
 
 }
