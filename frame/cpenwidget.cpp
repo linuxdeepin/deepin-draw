@@ -144,30 +144,28 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 
 void CPenWidget::initUI()
 {
-    QFont ft;
-    ft.setPixelSize(TEXT_SIZE);
-//    strokeLabel->setFont(ft);
-    m_strokeBtn = new BorderColorButton(this);
-    m_strokeBtn->setButtonText(tr("Color"));
-
-    m_sep1Line = new SeperatorLine(this);
-
-    m_startLabel = new DLabel(this);
-    m_endLabel = new DLabel(this);
-    m_startLabel->setText(tr("start"));
-    m_startLabel->setFont(ft);
-    m_endLabel->setText(tr("end"));
-    m_endLabel->setFont(ft);
-
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
+
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+//    strokeLabel->setFont(ft);
+    m_strokeBtn->setButtonText(tr("Color"));
+
+    m_startLabel = new DLabel(this);
+    m_endLabel = new DLabel(this);
+    m_startLabel->setText(tr("Start"));
+    m_startLabel->setFont(ft);
+    m_endLabel->setText(tr("End"));
+    m_endLabel->setFont(ft);
+
     m_sideWidthWidget->setFont(ft);
     m_sideWidthWidget->setFixedWidth(100);
 
     m_lineStartComboBox = new DComboBox(this);
     m_lineStartComboBox->setFixedSize(QSize(70, 36));
-    m_lineStartComboBox->setIconSize(QSize(24, 10));
+    m_lineStartComboBox->setIconSize(QSize(34, 14));
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
@@ -176,7 +174,7 @@ void CPenWidget::initUI()
 
     m_lineEndComboBox =  new DComboBox(this);
     m_lineEndComboBox->setFixedSize(QSize(70, 36));
-    m_lineEndComboBox->setIconSize(QSize(24, 10));
+    m_lineEndComboBox->setIconSize(QSize(34, 14));
     m_lineEndComboBox->addItem("");
     m_lineEndComboBox->addItem("");
     m_lineEndComboBox->addItem("");
@@ -188,7 +186,7 @@ void CPenWidget::initUI()
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
     layout->addWidget(m_sideWidthWidget);
-    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
     layout->addWidget(m_endLabel);
