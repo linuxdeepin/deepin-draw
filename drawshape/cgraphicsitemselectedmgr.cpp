@@ -42,6 +42,11 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
             static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
         }
     }
+    if (m_listItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_listItems) {
+            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
+        }
+    }
     updateGeometry();
 }
 
