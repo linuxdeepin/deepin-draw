@@ -282,6 +282,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 scene->updateBlurItem();
             }
         }
+        if (scene->getItemsMgr()->getItems().size() > 1) {
+            scene->getItemsMgr()->setSelected(true);
+        } else {
+            scene->getItemsMgr()->setSelected(false);
+        }
     } else if (event->button() == Qt::RightButton) {
         //弹出右键菜单时 鼠标变为箭头
         qDebug() << "right mouse pressed" << endl;
@@ -686,6 +691,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 //显示所选图元素属性
                 scene->changeAttribute(true, m_currentSelectItem);
                 CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
+            }
+            if (scene->getItemsMgr()->getItems().size() > 1) {
+                scene->getItemsMgr()->setSelected(true);
+            } else {
+                scene->getItemsMgr()->setSelected(false);
             }
         } else {
             if (m_isMulItemMoving) {
