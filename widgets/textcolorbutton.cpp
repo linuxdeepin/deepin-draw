@@ -42,11 +42,11 @@ TextColorButton::TextColorButton(DWidget *parent)
     setCheckable(false);
 
     //深色主题下
-    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
-    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
-        QColor color("#C0C6D4");
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
-    }
+//    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
+//    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
+//        QColor color("#C0C6D4");
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
+//    }
 
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 }

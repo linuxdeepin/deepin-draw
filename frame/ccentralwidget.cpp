@@ -147,7 +147,6 @@ void CCentralwidget::initSceneRect()
 
 void CCentralwidget::createNewScenseByDragFile(QString scenceName)
 {
-
     // [0] 判断是否已经打开此文件,已经打开则显示此文件
     if (m_topMutipTabBarWidget->tabBarNameIsExist(scenceName)) {
         qDebug() << "create same name Scence,deepin-draw will not create.";
@@ -646,6 +645,7 @@ void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
             ddfPath = files[i].replace("file://", "");
             QString fileName = ddfPath;
             fileName = fileName.split('/').last();
+            fileName = fileName.replace(".ddf", "");
             // 如果ddf打开则自动跳转到打开的标签，不存在则打开文件
             if (m_topMutipTabBarWidget->tabBarNameIsExist(fileName)) {
                 emit signalDDFFileOpened(fileName);

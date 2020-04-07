@@ -771,8 +771,8 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     painter->setClipping(false);
 
-    qreal penWidth = 1.0/painter->worldTransform().m11();
-    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
     QPen pen;
     pen.setStyle(Qt::SolidLine);
     pen.setColor(penColor);
@@ -799,9 +799,9 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
 {
-    qreal penWidth = 1.0/painter->worldTransform().m11();
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
     QPainterPath path;
-    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
     path.moveTo(rct.x(), rct.y() + rct.height() / 3);
     path.lineTo(rct.x() + rct.width(), rct.y() + rct.height() / 3);
 
@@ -819,8 +819,8 @@ void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
 
 void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, const int penWidth*/)
 {
-    qreal penWidth = 1.0/painter->worldTransform().m11();
-    QRectF rct = rect().adjusted(penWidth,penWidth,-penWidth,-penWidth);
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
     //QRectF rct = boundingRect();
     bool isMinSize = (qFuzzyIsNull(rect().width() - 10.0) && qFuzzyIsNull(rect().height() - 10.0));
     if (isMinSize) {
@@ -851,11 +851,11 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         QPainterPath path;
         QPen pen(painter->pen());
         pen.setStyle(Qt::SolidLine);
-        pen.setWidthF(1.0/painter->worldTransform().m11());
+        pen.setWidthF(1.0 / painter->worldTransform().m11());
         pen.setColor(Qt::white);
         painter->setPen(pen);
         qreal penWidth = 0;
-        const qreal sameLen = 6.0/painter->worldTransform().m11();
+        const qreal sameLen = 6.0 / painter->worldTransform().m11();
         qreal CORNER_W = sameLen;
         qreal CORNER_H = sameLen;
 
