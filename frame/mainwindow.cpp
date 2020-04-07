@@ -562,6 +562,14 @@ void MainWindow::readSettings()
 
 void MainWindow::openFiles(QStringList filePaths)
 {
+    for (int i = 0; i < filePaths.count(); i++) {
+        QFile file(filePaths.at(i));
+        if (!file.exists()) { // 文件不存在，需要剔除这个文件
+            filePaths.removeAt(i);
+        }
+    }
+
+
     m_centralWidget->slotLoadDragOrPasteFile(filePaths);
 }
 
