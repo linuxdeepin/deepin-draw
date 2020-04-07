@@ -749,6 +749,10 @@ void CGraphicsCutItem::doChangeSize(int w, int h)
 QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     Q_UNUSED(change);
+    if(scene() != nullptr && !scene()->views().isEmpty())
+    {
+        scene()->views().first()->viewport()->update();
+    }
     return value;
 }
 
