@@ -44,8 +44,9 @@ public:
     void setSideWidth(int width);
     /*
     * @bref: setMenuNoSelected 设置子菜单未选中
+    * @param noSelect
     */
-    void setMenuNoSelected();
+    void setMenuNoSelected(bool noSelect);
 
 signals:
     void signalSideWidthChange();

@@ -96,7 +96,7 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideWidthWidget->setMenuNoSelected();
+                m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }

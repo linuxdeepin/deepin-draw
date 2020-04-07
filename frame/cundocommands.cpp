@@ -31,6 +31,7 @@
 #include "drawshape/cgraphicstextitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <QUndoCommand>
 #include <QGraphicsScene>
@@ -1815,12 +1816,11 @@ void CSetItemsCommonPropertyValueCommand::undo()
     myGraphicsScene->clearSelection();
     myGraphicsScene->getItemsMgr()->clear();
     foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        myGraphicsScene->getItemsMgr()->addToGroup(item);
     }
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
 
     myGraphicsScene->update();
@@ -1925,13 +1925,10 @@ void CSetItemsCommonPropertyValueCommand::redo()
     myGraphicsScene->clearSelection();
     myGraphicsScene->getItemsMgr()->clear();
     foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        myGraphicsScene->getItemsMgr()->addToGroup(item);
     }
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
-
-    myGraphicsScene->update();
 }

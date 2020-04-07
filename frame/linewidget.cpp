@@ -116,7 +116,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_sideWidthWidget->setVisible(true);
             m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideWidthWidget->setMenuNoSelected();
+                m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
