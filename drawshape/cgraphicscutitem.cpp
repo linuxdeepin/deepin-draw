@@ -759,17 +759,42 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     updateGeometry();
 
     QColor penColor = QColor("#979797");
-//    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
-//    if (themValue == 1) {
-//        //浅色主题
-//        penColor = QColor("#979797");
-//    } else if (themValue == 2) {
-//        //深色主题
-//        penColor = QColor("#FFFFFF");
-//    }
+    //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
+    //    if (themValue == 1) {
+    //        //浅色主题
+    //        penColor = QColor("#979797");
+    //    } else if (themValue == 2) {
+    //        //深色主题
+    //        penColor = QColor("#FFFFFF");
+    //    }
 
+    //先绘制一层阴影
+    QColor bgColor(0,0,0,int(255.0*40.0/100.0));
+    painter->save();
+    //painter->setClipping(false);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(bgColor);
 
-    painter->setClipping(false);
+    painter->translate(-pos());
+
+    QPainterPath fillPath;
+
+    QRectF itemRect = sceneBoundingRect();
+    QRectF unitRct  = scene()->sceneRect();
+
+    fillPath.moveTo(unitRct.topLeft());
+    fillPath.lineTo(unitRct.topRight());
+    fillPath.lineTo(unitRct.bottomRight());
+    fillPath.lineTo(unitRct.bottomLeft());
+    fillPath.lineTo(unitRct.topLeft());
+
+    fillPath.moveTo(itemRect.topLeft());
+    fillPath.lineTo(itemRect.topRight());
+    fillPath.lineTo(itemRect.bottomRight());
+    fillPath.lineTo(itemRect.bottomLeft());
+    fillPath.lineTo(itemRect.topLeft());
+    painter->drawPath(fillPath);
+    painter->restore();
 
     qreal penWidth = 1.0 / painter->worldTransform().m11();
     QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
@@ -778,7 +803,6 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     pen.setColor(penColor);
     pen.setWidthF(penWidth);
     painter->setPen(pen);
-
 
     //画三等分矩形的直线
     drawTrisectorRect(painter);
@@ -793,8 +817,6 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->restore();
 
     drawFourConner(painter);
-
-    painter->setClipping(true);
 }
 
 void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
@@ -851,7 +873,7 @@ void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, c
         QPainterPath path;
         QPen pen(painter->pen());
         pen.setStyle(Qt::SolidLine);
-        pen.setWidthF(1.0 / painter->worldTransform().m11());
+        pen.setWidthF(2.0 / painter->worldTransform().m11());
         pen.setColor(Qt::white);
         painter->setPen(pen);
         qreal penWidth = 0;
