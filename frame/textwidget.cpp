@@ -201,6 +201,22 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
             }
             break;
         }
+        case TextFont: {
+            QString family = itr.value().toString();
+            if (family.isEmpty()) {
+                m_fontComBox->setCurrentIndex(-1);
+                m_fontComBox->setCurrentText("- -");
+            } else {
+                m_fontComBox->setCurrentText(family);
+            }
+            m_fillBtn->setVisible(true);
+            m_textSeperatorLine->setVisible(true);
+            m_fontFamilyLabel->setVisible(true);
+            m_fontComBox->setVisible(true);
+            m_fontsizeLabel->setVisible(true);
+            m_fontSize->setVisible(true);
+            break;
+        }
         default: {
             break;
         }
@@ -398,23 +414,23 @@ void TextWidget::addFontPointSize()
 void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
-    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+//    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
-        m_fontComBox->setCurrentText(font.family());
-//        m_fontComBox->setCurrentFont(font);
-    } else {
-        m_fontComBox->setCurrentIndex(-1);
-        m_fontComBox->setCurrentText("- -");
-    }
+//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
+//        m_fontComBox->setCurrentText(font.family());
+////        m_fontComBox->setCurrentFont(font);
+//    } else {
+//        m_fontComBox->setCurrentIndex(-1);
+//        m_fontComBox->setCurrentText("- -");
+//    }
 
-    m_fillBtn->setVisible(true);
-    m_textSeperatorLine->setVisible(true);
-    m_fontFamilyLabel->setVisible(true);
-    m_fontComBox->setVisible(true);
-//    m_fontHeavy->setVisible(true);
-    m_fontsizeLabel->setVisible(true);
-    m_fontSize->setVisible(true);
+//    m_fillBtn->setVisible(true);
+//    m_textSeperatorLine->setVisible(true);
+//    m_fontFamilyLabel->setVisible(true);
+//    m_fontComBox->setVisible(true);
+////    m_fontHeavy->setVisible(true);
+//    m_fontsizeLabel->setVisible(true);
+//    m_fontSize->setVisible(true);
     m_fillBtn->setIsMultColorSame(true);
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
