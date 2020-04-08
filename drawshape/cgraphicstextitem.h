@@ -95,6 +95,12 @@ public:
     */
     bool getAllTextColorIsEqual();
 
+    /*
+    * @bref: getAllFontSizeIsEqual 返回文本当前点击后是否所有文字大小一致
+    * @return:bool
+    */
+    bool getAllFontSizeIsEqual();
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
@@ -143,6 +149,7 @@ private:
     bool m_bManResize;//人工调整后的宽度
 
     bool m_allColorIsEqual;
+    bool m_allSizeIsEqual;
 };
 
 #endif // CGRAPHICSTEXTITEM_H

@@ -185,6 +185,20 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
             m_fillBtn->setIsMultColorSame(colorIsValid);
             break;
         }
+        case TextSize: {
+            int size = itr.value().toInt();
+            if (size) {
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+            } else {
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(-1);
+                m_fontSize->setCurrentText("- -");
+                m_fontSize->blockSignals(false);
+            }
+            break;
+        }
         default: {
             break;
         }
@@ -261,9 +275,9 @@ void TextWidget::initConnection()
             m_fontSize->setCurrentText("500px");
             size = 500;
         } else {
-            m_fontSize->setEditText(QString::number(size) + "px");
             addFontPointSize();
             m_fontSize->setCurrentIndex(-1);
+            m_fontSize->setEditText(QString::number(size) + "px");
         }
         m_fontSize->blockSignals(false);
 
@@ -275,7 +289,7 @@ void TextWidget::initConnection()
         // 必须设置焦点到父控件，不然出现点击后更改文字的大小
         this->setFocus();
     });
-    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), this, [ = ](QString str) {
 
         if (!str.contains("px") && !m_fontSize->findText(str)) {
             m_fontSize->setCurrentIndex(-1);
@@ -306,6 +320,7 @@ void TextWidget::initConnection()
         } else {
             qDebug() << "set error font size with str: " << str;
         }
+        this->setFocus();
     });
 
     // 字体重量
@@ -352,11 +367,6 @@ void TextWidget::updateTextWidget()
     } else {
         m_fontComBox->setCurrentIndex(-1);
         m_fontComBox->setCurrentText("- -");
-    }
-
-    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
-        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
     }
 
     m_fillBtn->setVisible(true);
