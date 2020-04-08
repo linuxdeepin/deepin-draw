@@ -787,24 +787,24 @@ CSetPolygonStarAttributeCommand::CSetPolygonStarAttributeCommand(CDrawScene *sce
 
 void CSetPolygonStarAttributeCommand::undo()
 {
+    myGraphicsScene->getItemsMgr()->clear();
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
 
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
 void CSetPolygonStarAttributeCommand::redo()
 {
+    myGraphicsScene->getItemsMgr()->clear();
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
 
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
