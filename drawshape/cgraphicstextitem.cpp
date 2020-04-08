@@ -139,6 +139,11 @@ bool CGraphicsTextItem::getAllTextColorIsEqual()
     return m_allColorIsEqual;
 }
 
+bool CGraphicsTextItem::getAllFontSizeIsEqual()
+{
+    return m_allSizeIsEqual;
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -352,6 +357,7 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QTextCursor cur = m_pTextEdit->textCursor();
 
     m_allColorIsEqual = true;
+    m_allSizeIsEqual = true;
 
     QTextBlock block = cur.block();
     if (block.isValid()) {
@@ -362,8 +368,15 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
             if (!fragment.isValid())
                 continue;
 
-            if (fragment.charFormat().foreground().color() != m_color) {
+            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != m_color) {
                 m_allColorIsEqual = false;
+            }
+
+            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_Font.pointSize()) {
+                m_allSizeIsEqual = false;
+            }
+
+            if (!m_allSizeIsEqual && !m_allColorIsEqual) {
                 return;
             }
         }

@@ -554,11 +554,18 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         }
 
         bool isSameColor = textItem->getAllTextColorIsEqual();
-
         if (!isSameColor) {
             propertys.insert(TextColor, QColor());
         } else {
             propertys.insert(TextColor, textItem->getTextColor());
+        }
+
+        bool isSameSize = textItem->getAllFontSizeIsEqual();
+        qDebug() << "isSameSize: " << isSameSize;
+        if (!isSameSize) {
+            propertys.insert(TextSize, 0);
+        } else {
+            propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
         }
 
         emit signalTextItemPropertyUpdate(propertys);
