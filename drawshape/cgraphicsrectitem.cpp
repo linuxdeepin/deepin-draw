@@ -148,7 +148,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
-    painter->drawRoundedRect(rectIn, m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
 
     //再绘制描边
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
