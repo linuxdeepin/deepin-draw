@@ -144,6 +144,11 @@ bool CGraphicsTextItem::getAllFontSizeIsEqual()
     return m_allSizeIsEqual;
 }
 
+bool CGraphicsTextItem::getAllFontFamilyIsEqual()
+{
+    return m_allFamilyIsEqual;
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -347,6 +352,7 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     m_allColorIsEqual = true;
     m_allSizeIsEqual = true;
+    m_allFamilyIsEqual = true;
 
     QTextBlock block = cur.block();
     if (block.isValid()) {
@@ -363,6 +369,10 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
             if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_Font.pointSize()) {
                 m_allSizeIsEqual = false;
+            }
+
+            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != m_Font.family()) {
+                m_allFamilyIsEqual = false;
             }
 
             if (!m_allSizeIsEqual && !m_allColorIsEqual) {

@@ -496,11 +496,17 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         }
 
         bool isSameSize = textItem->getAllFontSizeIsEqual();
-        qDebug() << "isSameSize: " << isSameSize;
         if (!isSameSize) {
             propertys.insert(TextSize, 0);
         } else {
             propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+        }
+
+        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
+        if (!isSameFamily) {
+            propertys.insert(TextFont, "");
+        } else {
+            propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
         }
 
         emit signalTextItemPropertyUpdate(propertys);
