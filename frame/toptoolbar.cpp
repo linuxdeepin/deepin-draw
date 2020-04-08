@@ -34,6 +34,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
 #include "widgets/cmenu.h"
+#include "widgets/dzoommenucombobox.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
@@ -47,6 +48,8 @@
 #include <QWidgetAction>
 
 #include <DLineEdit>
+
+const int Text_Size = 14;
 
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
@@ -62,6 +65,9 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
+    ft.setPixelSize(Text_Size);
+
+    // 初始化缩放菜单
     initComboBox();
     initStackWidget();
     initMenu();
@@ -75,7 +81,7 @@ void TopToolbar::initUI()
     hLayout->addSpacing(13);
     hLayout->addWidget(logoLable);
     hLayout->addSpacing(20);
-    hLayout->addWidget(m_scaleComboBox);
+    hLayout->addWidget(m_zoomMenuComboBox);
 //    hLayout->addSpacing(20);
     hLayout->addWidget(m_stackWidget, 0, Qt::AlignHCenter);
     hLayout->addSpacing(33);
@@ -83,89 +89,57 @@ void TopToolbar::initUI()
 //    hLayout->addStretch();
     setLayout(hLayout);
 
-//    m_stackWidget->setStyleSheet("background-color: blue;");
-//    setStyleSheet("background-color: rgb(255, 0, 0);");
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 }
 
 void TopToolbar::initComboBox()
 {
-
-    m_scaleComboBox = new CPushButton("75%", this);
-    m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
-
-    DMenu *scaleMenu = new DMenu(m_scaleComboBox);
-    scaleMenu->setFixedWidth(162);
-
-    QAction *scale200 = scaleMenu->addAction("200%");
-    QAction *scale100 = scaleMenu->addAction("100%");
-    QAction *scale75 = scaleMenu->addAction("75%");
-    QAction *scale50 = scaleMenu->addAction("50%");
-    QAction *scale25 = scaleMenu->addAction("25%");
-
-
-    connect(scale200, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("200%");
-        slotZoom("200%");
+    m_zoomMenuComboBox = new DZoomMenuComboBox(this);
+    m_zoomMenuComboBox->setFont(ft);
+    m_zoomMenuComboBox->setFixedWidth(162);
+    m_zoomMenuComboBox->addItem("200%");
+    m_zoomMenuComboBox->addItem("100%");
+    m_zoomMenuComboBox->addItem("75%");
+    m_zoomMenuComboBox->addItem("50%");
+    m_zoomMenuComboBox->addItem("25%");
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
+        slotZoom(item);
     });
-    connect(scale100, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("100%");
-        slotZoom("100%");
+    // 初始化大小为 100%
+    m_zoomMenuComboBox->setCurrentText("100%");
+
+    // 放大缩小范围10%-2000% ，点击放大缩小，如区间在200%-2000%，则每次点+/-100%；如区间在10%-199%，则每次点击+/-10%
+    // 左侧按钮点击信号 (-)
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalLeftBtnClicked, this, [ = ]() {
+        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+        if (current_scale >= 2.0 && current_scale <= 20.0) {
+            current_scale -= 1.0;
+        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+            current_scale -= 0.1;
+        }
+        if (current_scale <= 0.1) {
+            current_scale = 0.1;
+        }
+        slotZoom(current_scale);
     });
-    connect(scale75, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("75%");
-        slotZoom("75%");
+    // 右侧按钮点击信号 (+)
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalRightBtnClicked, this, [ = ]() {
+        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+        if (current_scale >= 2.0 && current_scale <= 20.0) {
+            current_scale += 1.0;
+        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+            current_scale += 0.1;
+        }
+        if (current_scale >= 20.0) {
+            current_scale = 20.0;
+        }
+        slotZoom(current_scale);
     });
-    connect(scale50, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("50%");
-        slotZoom("50%");
-    });
-    connect(scale25, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("25%");
-        slotZoom("25%");
-    });
-
-    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-        slotHideColorPanel();
-    });
-
-
-    m_scaleComboBox->setMenu(scaleMenu);
-    m_scaleComboBox->setFixedWidth(70);
-
-    //设置字体大小
-    QFont ft;
-    ft.setPixelSize(12);
-    m_scaleComboBox->setFont(ft);
-    m_scaleComboBox->setFlat(true);
-
-//    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-//        //设置编辑时颜色
-////        DPalette pa1 = m_scaleComboBox->palette();
-////        pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
-////        m_scaleComboBox->setPalette(pa1);
-//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-
-//        m_scaleComboBox->setForegroundRole(DPalette::Highlight);
-//        //m_scaleComboBox->setBackgroundRole(DPalette::Base);
-
-//    });
-//    connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
-//        //设置编辑时颜色
-////        DPalette pa1 = m_scaleComboBox->palette();
-////        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
-////        m_scaleComboBox->setPalette(pa1);
-//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-//        setScaleTextColor();
-//    });
-
 }
 
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new DStackedWidget(this);
-
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -229,12 +203,8 @@ void TopToolbar::initStackWidget()
 
 void TopToolbar::initMenu()
 {
-
     m_mainMenu = new CMenu(this);
     m_mainMenu->setFixedWidth(162);
-    //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
-    //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
-    //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
 
     m_newAction = new QAction(tr("New"), this);
     m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
@@ -294,8 +264,6 @@ void TopToolbar::initMenu()
     connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
 }
 
-
-
 void TopToolbar::changeTopButtonsTheme()
 {
     m_picWidget->changeButtonTheme();
@@ -308,10 +276,7 @@ void TopToolbar::changeTopButtonsTheme()
     m_drawTextWidget->updateTheme();
     m_colorPanel->changeButtonTheme();
     m_cutWidget->changeButtonTheme();
-
 }
-
-
 
 void TopToolbar::updateMiddleWidget(int type)
 {
@@ -389,7 +354,6 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
         m_colorARect->hide();
 }
 
-
 void TopToolbar::updateColorPanelVisible(QPoint pos)
 {
     QRect colorPanelGeom = m_colorARect->geometry();
@@ -444,28 +408,35 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 void TopToolbar::slotZoom(const QString &scale)
 {
     qreal fScale = 0.0;
-    if (scale == "200%") {
-        fScale = 2;
-    } else if (scale == "100%") {
-        fScale = 1;
-    } else if (scale == "75%") {
-        fScale = 0.75;
-    } else if (scale == "50%") {
-        fScale = 0.5;
-    } else if (scale == "25%") {
-        fScale = 0.25;
-    } else {
-        fScale = 1;
-    }
 
-    emit signalZoom(fScale);
+    QString scale_num_str = scale;
+    scale_num_str = scale_num_str.replace("%", "");
+
+    int scale_num = 1;
+    bool flag = false;
+
+    scale_num = scale_num_str.toInt(&flag);
+
+    if (flag) {
+        fScale = scale_num / 100.0;
+    } else {
+        fScale = 1.0;
+    }
+    slotZoom(fScale);
+}
+
+void TopToolbar::slotZoom(const qreal &scale)
+{
+    emit signalZoom(scale);
+
+    // 更新当前缩放的比例
+    slotSetScale(scale);
 }
 
 void TopToolbar::slotSetScale(const qreal scale)
 {
-    QString strScale = QString::number(int(scale * 100)) + "%";
-
-    m_scaleComboBox->setText(strScale);
+    QString strScale = QString::number(scale * 100) + "%";
+    m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
 void TopToolbar::slotSetCutSize()
@@ -485,6 +456,7 @@ void TopToolbar::slotIsCutMode(QAction *action)
         emit signalQuitCutModeFromTopBarMenu();
     }
 }
+
 void TopToolbar::slotOnImportAction()
 {
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
@@ -515,7 +487,6 @@ void TopToolbar::slotMenuShow()
     slotHideColorPanel();
 //    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
-
 
 DMenu *TopToolbar::mainMenu()
 {

@@ -208,8 +208,6 @@ void CCentralwidget::createNewScense(QString scenceName)
     newview->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     newview->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-    newview->scale(0.75);
-
     m_stackedLayout->addWidget(newview);
 
     QSize size = newview->getDrawParam()->getCutDefaultSize();
@@ -217,7 +215,7 @@ void CCentralwidget::createNewScense(QString scenceName)
     static_cast<CDrawScene *>(newview->scene())->setSceneRect(rc);
 
     connect(curScene, SIGNAL(signalQuitCutAndChangeToSelect()), m_leftToolbar, SLOT(slotAfterQuitCut()));
-    connect(newview, SIGNAL(signalSetScale(const qreal)), this, SLOT(slotSetScale(const qreal)));
+    connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
     connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
     //图片选中后相应操作
