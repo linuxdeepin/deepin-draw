@@ -233,6 +233,13 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (m_currentSelectItem) {
                     m_currentSelectItem->setSelected(true);
                 }
+                if (!shiftKeyPress) {
+                    foreach (QGraphicsItem *selectItem, scene->selectedItems()) {
+                        if (selectItem != m_currentSelectItem) {
+                            selectItem->setSelected(false);
+                        }
+                    }
+                }
                 //未按下shift，选中管理图元所选之外的图元，清除管理图元中所选图元
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
