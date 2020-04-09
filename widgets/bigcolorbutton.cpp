@@ -65,9 +65,11 @@ void BigColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
+        painter.save();
         QPainterPath clipPath;
         clipPath.addRoundedRect(QRect(1, 7, 20, 20),  8, 8);
         painter.setClipPath(clipPath);
+        painter.restore();
         QColor drawColor = m_color;
 
         QPen borderPen;
