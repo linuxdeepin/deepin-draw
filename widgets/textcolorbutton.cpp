@@ -72,11 +72,14 @@ void TextColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(QRect(4, 8, 20, 20),  8, 8);
+        painter.setClipPath(clipPath);
         QPen colorPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             colorPen.setColor(QColor(0, 0, 0, 25));
         } else {
-            colorPen.setColor(QColor(77, 82, 93, 204));
+            colorPen.setColor(QColor(255, 255, 255, 25));
         }
         if (m_color.alpha() == 0) {
             if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
