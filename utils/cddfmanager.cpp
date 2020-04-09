@@ -324,11 +324,8 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 
 void CDDFManager::slotSaveDDFComplete()
 {
-    //m_CProgressDialog->hide();
     m_pSaveDialog->hide();
     m_view->getDrawParam()->setDdfSavePath(m_path);
     m_view->setModify(false);
-//    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {
     emit signalContinueDoOtherThing();
-//    }
 }

@@ -68,6 +68,11 @@ public:
      * @brief getViewByViewName
      */
     CGraphicsView *getViewByViewName(QString name);
+
+    /**
+     * @brief getViewByViewModifyStateName
+     */
+    CGraphicsView *getViewByViewModifyStateName(QString name);
     /**
      * @brief getViewByFilePath
      */

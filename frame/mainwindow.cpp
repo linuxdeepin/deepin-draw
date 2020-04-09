@@ -189,8 +189,8 @@ void MainWindow::doCloseOtherDiv()
         QString current_name = m_closeViews.first();
         m_closeViews.removeFirst();
         m_centralWidget->setCurrentView(current_name);
-        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName(current_name));
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name));
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name);
         if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;

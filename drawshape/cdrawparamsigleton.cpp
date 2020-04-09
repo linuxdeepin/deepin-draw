@@ -434,3 +434,12 @@ void CDrawParamSigleton::setRectXRedius(int redius)
     m_rectXRedius = redius;
 }
 
+QString CDrawParamSigleton::getShowViewNameByModifyState()
+{
+    if (!getModify()) {
+        return viewName();
+    }
+    QString vName = "* " + viewName();
+    return vName;
+}
+
