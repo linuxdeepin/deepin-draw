@@ -312,21 +312,6 @@ void TextWidget::initConnection()
             return ;
         }
 
-        str = str.replace("px", "");
-        bool flag = false;
-        int size = str.toInt(&flag);
-        if (flag) {
-            slotFontSizeValueChanged(size);
-        } else {
-            qDebug() << "set error font size with str: " << str;
-        }
-    });
-    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
-
-//        if (!str.contains("px") && !m_fontSize->findText(str)) {
-//            m_fontSize->setCurrentIndex(-1);
-//            return ;
-//        }
 
         str = str.replace("px", "");
         bool flag = false;
