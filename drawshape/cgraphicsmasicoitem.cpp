@@ -153,6 +153,16 @@ void CGraphicsMasicoItem::setPixmap()
         int textItemIndex = -1;
         QTextCursor textCursor;
 
+        for (int i = 0; i < items.size(); ++i) {
+            if (items[i]->type() == TextType) {
+                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
+                if (pTextItem->isEditable()) {
+                    textItemIndex = i;
+                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
+                }
+            }
+        }
+
         auto curScene = static_cast<CDrawScene *>(scene());
         auto itemsMgr = curScene->getItemsMgr();
         auto itemsMgrFlag = itemsMgr->isVisible();
@@ -163,14 +173,17 @@ void CGraphicsMasicoItem::setPixmap()
         for (int i = 0; i != filterItems.size(); i++) {
             filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
 
-            if (filterItems[i]->type() == TextType) {
-                if (static_cast<CGraphicsTextItem *>(filterItems[i])->isEditable()) {
-                    textItemIndex = i;
-                    textCursor = static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->textCursor();
-                }
-            }
+//            if (filterItems[i]->type() == TextType) {
+//                if (static_cast<CGraphicsTextItem *>(filterItems[i])->isEditable()) {
+//                    textItemIndex = i;
+//                    textCursor = static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->textCursor();
+//                }
+//            }
             filterItems[i]->setVisible(false);
         }
+
+
+
         this->hide();
         QRect rect = this->scene()->sceneRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
@@ -208,6 +221,17 @@ void CGraphicsMasicoItem::setPixmap()
                 static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus(Qt::MouseFocusReason);
 //                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->activateWindow();
                 //static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
+            }
+        }
+
+        //qDebug() << "-------------------textItemIndex = " << textItemIndex;
+        if (textItemIndex != -1) {
+            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
+            if (pTextItem != nullptr) {
+                pTextItem->setVisible(true);
+                pTextItem->getTextEdit()->show();
+                pTextItem->getTextEdit()->setTextCursor(textCursor);
+                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
 
