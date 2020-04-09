@@ -66,9 +66,11 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
+        painter.save();
         QPainterPath clipPath;
         clipPath.addRoundedRect(QRect(4, 8, 20, 20), 8, 8);
         painter.setClipPath(clipPath);
+        painter.restore();
         QPen colorPen;
         colorPen.setWidth(3);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
