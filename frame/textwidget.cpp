@@ -286,8 +286,11 @@ void TextWidget::initConnection()
         m_fontSize->blockSignals(true);
         if (size < 8) {
             m_fontSize->setCurrentText("8px");
+            addFontPointSize();
             size = 8;
         } else if (size > 500) {
+            addFontPointSize();
+            m_fontSize->setCurrentIndex(-1);
             m_fontSize->setCurrentText("500px");
             size = 500;
         } else {
@@ -311,7 +314,6 @@ void TextWidget::initConnection()
             m_fontSize->setCurrentIndex(-1);
             return ;
         }
-
 
         str = str.replace("px", "");
         bool flag = false;
