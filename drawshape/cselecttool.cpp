@@ -375,7 +375,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             for (int i = closeAllItems.size() - 1; i >= 0; i--) {
                 closeItems.append(closeAllItems.at(i));
                 if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0 ||
-                        static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::PictureType) {
+                        static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::PictureType ||
+                        static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::TextType) {
                     break;
                 }
             }
@@ -415,7 +416,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             if (closeItem == nullptr) {
                 for (int i = 0; i < closeItems.size(); i++) {
                     if (static_cast<CGraphicsItem *>(closeItems.at(i))->brush().color().alpha() != 0 ||
-                            static_cast<CGraphicsItem *>(closeItems.at(i))->type() == EGraphicUserType::PictureType) {
+                            static_cast<CGraphicsItem *>(closeItems.at(i))->type() == EGraphicUserType::PictureType ||
+                            static_cast<CGraphicsItem *>(closeItems.at(i))->type() == EGraphicUserType::TextType) {
 
                         closeItem = closeItems.at(i);
                         break;
@@ -562,8 +564,10 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     if (!static_cast<CGraphicsTextItem *>(m_currentSelectItem)->isEditable()) {
                         m_isItemMoving = true;
                         static_cast<CGraphicsItem *>(m_currentSelectItem)->move(m_sLastPress, event->scenePos());
+                    } else {
+                        scene->mouseEvent(event);
                     }
-                    scene->mouseEvent(event);
+
                 }
             }
         }
