@@ -73,6 +73,7 @@ void CGraphicsItemHighLight::paint(QPainter *painter, const QStyleOptionGraphics
     QPen pen;
     pen.setColor(QColor("#0081FF"));
     pen.setWidth(2);
+    pen.setJoinStyle(Qt::MiterJoin);
     painter->setPen(pen);
     painter->setBrush(Qt::NoBrush);
     painter->drawPath(this->path());
