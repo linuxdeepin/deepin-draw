@@ -40,14 +40,14 @@
 #include <QObject>
 #include <QTextDocument>
 
-
-
-
 CGraphicsTextItem::CGraphicsTextItem()
     : CGraphicsRectItem ()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
+    , m_allColorIsEqual(true)
+    , m_allSizeIsEqual(true)
+    , m_allFamilyIsEqual(true)
 {
     initTextEditWidget();
 }
@@ -77,7 +77,6 @@ void CGraphicsTextItem::initTextEditWidget()
 {
     m_pTextEdit = new CTextEdit(this);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
-
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
@@ -375,7 +374,7 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 m_allFamilyIsEqual = false;
             }
 
-            if (!m_allSizeIsEqual && !m_allColorIsEqual) {
+            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual) {
                 return;
             }
         }
