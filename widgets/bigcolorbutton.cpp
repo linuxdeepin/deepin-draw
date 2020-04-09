@@ -65,6 +65,9 @@ void BigColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(QRect(1, 7, 20, 20),  8, 8);
+        painter.setClipPath(clipPath);
         QColor drawColor = m_color;
 
         QPen borderPen;
@@ -72,18 +75,23 @@ void BigColorButton::paintEvent(QPaintEvent *)
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             borderPen.setColor(QColor(0, 0, 0, 25));
         } else {
-            borderPen.setColor(QColor(77, 82, 93, 204));
+            borderPen.setColor(QColor(255, 255, 255, 25));
         }
-        painter.setPen(borderPen);
         if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
             if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
                 painter.setBrush(Qt::NoBrush);
             } else {
                 painter.setBrush(QColor(8, 15, 21, 178));
             }
+            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+                borderPen.setColor(QColor(0, 0, 0, 25));
+            } else {
+                borderPen.setColor(QColor(77, 82, 93, 204));
+            }
         } else {
             painter.setBrush(drawColor);
         }
+        painter.setPen(borderPen);
         painter.drawRoundedRect(QRect(1, 7, 20, 20),  8, 8);
 
         if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
