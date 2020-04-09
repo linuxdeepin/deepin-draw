@@ -158,10 +158,10 @@ void LineWidget::initUI()
     m_sideWidthWidget->setFont(ft);
 
     m_lineStartComboBox = new DComboBox(this);
-    m_lineStartComboBox->setFixedSize(QSize(70, 36));
+    m_lineStartComboBox->setFixedSize(QSize(90, 36));
     m_lineStartComboBox->setIconSize(QSize(34, 14));
     m_lineEndComboBox =  new DComboBox(this);
-    m_lineEndComboBox->setFixedSize(QSize(70, 36));
+    m_lineEndComboBox->setFixedSize(QSize(90, 36));
     m_lineEndComboBox->setIconSize(QSize(34, 14));
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
@@ -178,14 +178,14 @@ void LineWidget::initUI()
     layout->setMargin(0);
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
+    layout->addSpacing(-6); // 此处设置的原因是宽度过大
     layout->addWidget(m_sideWidthWidget);
-    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
     layout->addSpacing(12);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-//    layout->setSpacing(BTN_SPACNT);
     layout->addStretch();
     setLayout(layout);
 
