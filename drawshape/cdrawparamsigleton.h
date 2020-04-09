@@ -146,6 +146,11 @@ public:
         */
     void setRectXRedius(int redius);
 
+    /**
+        * @brief getShowViewNameByModifyState　根据当前是否被修改的状态返回显示名字
+        */
+    QString getShowViewNameByModifyState();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;

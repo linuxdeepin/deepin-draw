@@ -711,7 +711,7 @@ bool CDrawScene::getModify() const
 
 void CDrawScene::setModify(bool isModify)
 {
-    m_drawParam->setModify(isModify);
+    //m_drawParam->setModify(isModify);
     emit signalIsModify(isModify);
 }
 

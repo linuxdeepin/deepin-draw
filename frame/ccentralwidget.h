@@ -303,6 +303,13 @@ private slots:
     */
     void slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error);
 
+    /**
+     * @brief updateTabName　当前场景状态被改变
+     * @param:  oldTabName  根据这个标签页名字判断要修改的标签页
+     * @param:  newTabName  要修改成的标签名字
+     */
+    void updateTabName(const QString &oldTabName, const QString &newTabName);
+
 private:
     CLeftToolBar *m_leftToolbar;
 

@@ -274,7 +274,7 @@ void CCentralwidget::closeCurrentScenseView()
         closeView->setParent(nullptr);
         m_stackedLayout->removeWidget(closeView);
         CManageViewSigleton::GetInstance()->removeView(closeView);
-        m_topMutipTabBarWidget->closeTabBarItem(viewname);
+        m_topMutipTabBarWidget->closeTabBarItem(/*viewname*/closeView->getDrawParam()->getShowViewNameByModifyState());
     }
     m_leftToolbar->slotShortCutSelect();
 
@@ -289,30 +289,55 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
 {
     QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
     qDebug() << "viewName：" << viewName << " modify:" << isModify;
-    // 通过末尾加一个空格来区分该标题是否已经被修改过
-    if (isModify && !viewName.endsWith(" ")) {
-        // 组装新的标题
-        QString newViewName = "* " + viewName + " ";
-        // 替换标签
-        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
-    } else if (!isModify && viewName.endsWith(" ")) {
-        // 组装新的标题
-        QString newViewName = viewName;
-        newViewName.replace(newViewName.indexOf("* "), 2, "");
-        newViewName.replace(newViewName.lastIndexOf(" "), 1, "");
 
-        // 替换标签
-        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
+    //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
+    bool drawParamCurModified = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getModify();
+    if (isModify != drawParamCurModified) {
+        //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
+        QString orgVName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setModify(isModify);
+        QString newVName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
 
+        updateTabName(orgVName, newVName);
+
+//        m_topMutipTabBarWidget->updateTabBarName(orgVName, newVName);
+
+//        //2.当标签只有一个时还要更新主界面的标题（会根据CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()的状态决定最终的viewName（是否添加*））
+//        if (m_topMutipTabBarWidget->count() == 1) {
+//            emit signalScenceViewChanged(newVName/*viewName*/);
+//        } else {
+//            emit signalScenceViewChanged("");
+//        }
     }
 
-    if (m_topMutipTabBarWidget->count() == 1) {
-        emit signalScenceViewChanged(viewName);
-    } else {
-        emit signalScenceViewChanged("");
-    }
+
+
+//    QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
+//    qDebug() << "viewName：" << viewName << " modify:" << isModify;
+//    // 通过末尾加一个空格来区分该标题是否已经被修改过
+//    if (isModify && !viewName.endsWith(" ")) {
+//        // 组装新的标题
+//        QString newViewName = "* " + viewName + " ";
+//        // 替换标签
+//        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
+//    } else if (!isModify && viewName.endsWith(" ")) {
+//        // 组装新的标题
+//        QString newViewName = viewName;
+//        newViewName.replace(newViewName.indexOf("* "), 2, "");
+//        newViewName.replace(newViewName.lastIndexOf(" "), 1, "");
+
+//        // 替换标签
+//        m_topMutipTabBarWidget->updateTabBarName(viewName, newViewName);
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(newViewName);
+
+//    }
+
+//    if (m_topMutipTabBarWidget->count() == 1) {
+//        emit signalScenceViewChanged(viewName);
+//    } else {
+//        emit signalScenceViewChanged("");
+//    }
 }
 
 void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error)
@@ -328,8 +353,14 @@ void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileD
                 QString old_view_name = m_topMutipTabBarWidget->getCurrentTabBarName();
                 current_file_name = current_file_name.left(current_file_name.length() - 4);
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(current_file_name);
-                m_topMutipTabBarWidget->updateTabBarName(old_view_name, current_file_name);
-                m_topMutipTabBarWidget->setTabBarTooltipName(current_file_name, current_file_name);
+                updateTabName(old_view_name, current_file_name);
+//                m_topMutipTabBarWidget->updateTabBarName(old_view_name, current_file_name);
+//                m_topMutipTabBarWidget->setTabBarTooltipName(current_file_name, current_file_name);
+//                if (m_topMutipTabBarWidget->count() == 1) {
+//                    emit signalScenceViewChanged(current_file_name/*viewName*/);
+//                } else {
+//                    emit signalScenceViewChanged("");
+//                }
 //                qDebug() << old_view_name << current_file_name << current_file_name.replace(current_file_name.length() - 5, 4, "");
             }
         } else {
@@ -339,6 +370,23 @@ void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileD
         qDebug() << "save error:" << errorString << error;
     }
     emit signalSaveFileStatus(status);
+}
+
+void CCentralwidget::updateTabName(const QString &oldTabName, const QString &newTabName)
+{
+    if (m_topMutipTabBarWidget != nullptr) {
+        //1.刷新标签也名字及其tooltip
+        m_topMutipTabBarWidget->updateTabBarName(oldTabName, newTabName);
+        m_topMutipTabBarWidget->setTabBarTooltipName(newTabName, newTabName);
+
+        //2.刷新可能要修改的主界面标题
+        if (m_topMutipTabBarWidget->count() == 1) {
+            emit signalScenceViewChanged(newTabName);
+        } else {
+            emit signalScenceViewChanged("");
+        }
+    }
+
 }
 
 //进行图片导入
@@ -533,7 +581,7 @@ void CCentralwidget::slotQuitApp()
     int count = m_topMutipTabBarWidget->count();
     for (int i = 0; i < count; i++) {
         QString current_name = m_topMutipTabBarWidget->tabText(m_topMutipTabBarWidget->currentIndex());
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name);
         if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
@@ -570,7 +618,7 @@ void CCentralwidget::viewChanged(QString viewName)
     qDebug() << "viewChanged" << viewName;
 
     // [0] 判断当前新显示的视图是否为空
-    CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByViewName(viewName);
+    CGraphicsView *view = CManageViewSigleton::GetInstance()->/*getViewByViewName*/getViewByViewModifyStateName(viewName);
     if (nullptr == view) {
         qDebug() << "can not find viewName:" << viewName;
 
@@ -618,7 +666,7 @@ void CCentralwidget::viewChanged(QString viewName)
 
 void CCentralwidget::tabItemCloseRequested(QString viewName)
 {
-    bool modify = CManageViewSigleton::GetInstance()->getViewByViewName(viewName)->getDrawParam()->getModify();
+    bool modify = CManageViewSigleton::GetInstance()->/*getViewByViewName*/getViewByViewModifyStateName(viewName)->getDrawParam()->getModify();
     qDebug() << "tabItemCloseRequested:" << viewName << "modify:" << modify;
     // 判断当前关闭项是否已经被修改
     if (!modify) {
