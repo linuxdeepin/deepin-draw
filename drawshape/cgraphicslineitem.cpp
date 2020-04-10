@@ -113,17 +113,17 @@ QPainterPath CGraphicsLineItem::shape() const
 
 QRectF CGraphicsLineItem::boundingRect() const
 {
-    if (this->pen().widthF() == 0.0) {
-        const qreal x1 = m_line.p1().x();
-        const qreal x2 = m_line.p2().x();
-        const qreal y1 = m_line.p1().y();
-        const qreal y2 = m_line.p2().y();
-        qreal lx = qMin(x1, x2);
-        qreal rx = qMax(x1, x2);
-        qreal ty = qMin(y1, y2);
-        qreal by = qMax(y1, y2);
-        return QRectF(lx, ty, rx - lx, by - ty);
-    }
+//    if (this->pen().widthF() == 0.0) {
+//        const qreal x1 = m_line.p1().x();
+//        const qreal x2 = m_line.p2().x();
+//        const qreal y1 = m_line.p1().y();
+//        const qreal y2 = m_line.p2().y();
+//        qreal lx = qMin(x1, x2);
+//        qreal rx = qMax(x1, x2);
+//        qreal ty = qMin(y1, y2);
+//        qreal by = qMax(y1, y2);
+//        return QRectF(lx, ty, rx - lx, by - ty);
+//    }
     return shape().controlPointRect();
 }
 
@@ -423,18 +423,21 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     updateGeometry();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    // start
+//    drawStart();
     painter->setBrush(Qt::NoBrush);
-    drawStart();
     if (m_startType == soildArrow || m_startType == soildRing) {
         painter->setBrush(QBrush(QColor(pen().color())));
     }
     painter->drawPath(m_startPath);
+
     painter->setBrush(Qt::NoBrush);
-    drawEnd();
     if (m_endType == soildArrow || m_endType == soildRing) {
         painter->setBrush(QBrush(QColor(pen().color())));
     }
     painter->drawPath(m_endPath);
+
     painter->drawLine(m_line);
 }
 
@@ -484,6 +487,7 @@ void CGraphicsLineItem::drawStart()
 
     switch (m_startType) {
     case noneLine: {
+        m_startPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
@@ -502,7 +506,7 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
@@ -513,7 +517,7 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
@@ -555,6 +559,7 @@ void CGraphicsLineItem::drawEnd()
     // 绘制终点
     switch (m_endType) {
     case noneLine: {
+        m_endPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
@@ -573,7 +578,7 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
@@ -584,11 +589,11 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(m_line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(m_line.angle() / 180 * M_PI) * radioWidth;
-        center = m_line.p2() + QPointF(-xOff, yOff);
+        center = m_line.p2() + QPointF(xOff, -yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_endPath.arcTo(ecliRect, 0, 360);
@@ -604,6 +609,10 @@ void CGraphicsLineItem::calcVertexes()
 
     // 绘制终点
     drawEnd();
+
+    // 更新画布区域
+    if (scene() != nullptr)
+        scene()->views().first()->viewport()->update();
 }
 
 QPainterPath CGraphicsLineItem::getHighLightPath()

@@ -43,7 +43,7 @@
 
 const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
     : DWidget(parent)
 {
@@ -98,7 +98,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideWidthWidget->setMenuNoSelected();
+                m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
@@ -168,8 +168,8 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusLabel->setFont(ft1);
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
-    m_radiusNumber->setRange(-1, 1000);
-    m_radiusNumber->setFixedSize(QSize(70, 36));
+    m_radiusNumber->setRange(0, 1000);
+    m_radiusNumber->setFixedSize(QSize(90, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
     m_radiusNumber->setSpecialValueText("— —");
@@ -310,6 +310,7 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
         m_anchorNumber->setValue(50);
     }
     m_anchorNumber->blockSignals(false);
+    value = m_anchorNumber->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
@@ -327,6 +328,7 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
         m_radiusNumber->setValue(100);
     }
     m_radiusNumber->blockSignals(false);
+    value = m_radiusNumber->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板

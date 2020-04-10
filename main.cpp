@@ -29,9 +29,12 @@
 #include <QTranslator>
 #include <QMessageBox>
 #include <QDebug>
+#include <QDBusMetaType>
 
 //#include "service/dbusdrawservice.h"
 //#include "service/dbusdraw.h"
+
+#include "service/dbusdraw_adaptor.h"
 
 #include <DLog>
 
@@ -111,7 +114,7 @@ int main(int argc, char *argv[])
     QStringList paths;
     QStringList pas = cmdParser.positionalArguments();
     for (int  i = 0; i < pas.count(); i++) {
-        if(QUrl(pas.at(i)).isLocalFile()) {
+        if (QUrl(pas.at(i)).isLocalFile()) {
             paths.append(QUrl(pas.first()).toLocalFile());
         } else {
             paths.append(pas.at(i));
@@ -181,9 +184,14 @@ int main(int argc, char *argv[])
         }
     });
 
-//监听当前应用主题切换事件
-
+    //监听当前应用主题切换事件
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
+
+    // 其他程序调用事件服务注册
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerService("com.deepin.Draw");
+    dbus.registerObject("/com/deepin/Draw", &w);
+    new dbusdraw_adaptor(&w);
 
 //    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
 //    [] (DGuiApplicationHelper::ColorType type) {

@@ -47,6 +47,7 @@ class CTitleWidget;
 class ArrowRectangle;
 class ColorPanel;
 class CMenu;
+class DZoomMenuComboBox;
 
 class TopToolbar : public DFrame
 {
@@ -57,8 +58,6 @@ public:
     ~TopToolbar() Q_DECL_OVERRIDE;
 
     DMenu *mainMenu();
-
-
 
 signals:
     /**
@@ -123,7 +122,6 @@ signals:
      */
     void signalCutLineEditIsfocus(bool);
 
-
 public:
     /**
      * @brief changeTopButtonsTheme　改变属性栏所有按钮的主题
@@ -159,6 +157,7 @@ public slots:
      * @param scale　缩放因子
      */
     void slotZoom(const QString &scale);
+    void slotZoom(const qreal &scale);
     /**
      * @brief slotSetScale　显示缩放比例
      * @param scale　缩放因子
@@ -186,6 +185,12 @@ public slots:
      * @param propertys　要显示的公共属性
      */
     void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
+    /**
+     * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
+     * @param QString 场景名字
+     */
+    void slotScenceViewChanged(QString viewname);
+
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式
@@ -242,9 +247,10 @@ private:
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
-    //DComboBox  *m_scaleComboBox;
-    CPushButton  *m_scaleComboBox;
     CMenu *m_mainMenu;
+
+    DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
+    QFont ft; // 全局默认字体
 
     QAction *m_saveAction;
     QAction *m_newAction;

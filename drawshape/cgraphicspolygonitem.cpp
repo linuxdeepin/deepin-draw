@@ -25,6 +25,7 @@
 #include <QtMath>
 #include <QPainter>
 #include <QPolygonF>
+#include <QDebug>
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, CGraphicsItem *parent)
     : CGraphicsRectItem (parent)
@@ -51,7 +52,7 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data,
     : CGraphicsRectItem (data->rect, head, parent)
     , m_nPointsCount(data->pointNum)
 {
-    calcPoints(m_nPointsCount);
+    calcPoints();
 }
 
 QPainterPath CGraphicsPolygonItem::shape() const
@@ -104,14 +105,14 @@ void CGraphicsPolygonItem::setRect(const QRectF &rect)
     CGraphicsRectItem::setRect(rect);
     prepareGeometryChange();
     //更新坐标
-    calcPoints(m_nPointsCount);
+    calcPoints();
 }
 
 void CGraphicsPolygonItem::setPointCount(int num)
 {
     m_nPointsCount = num;
     //重新计算
-    calcPoints(m_nPointsCount);
+    calcPoints();
 }
 
 void CGraphicsPolygonItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
@@ -126,8 +127,15 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(widget)
 
     updateGeometry();
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    //再绘制填充
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
+    painter->drawPolygon(m_listPointsForBrush);
+
+    //再绘制描边
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
     painter->drawPolygon(m_listPoints);
 
     if (this->getMutiSelect()) {
@@ -146,30 +154,62 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     }
 }
 
-void CGraphicsPolygonItem::calcPoints(int n)
+void CGraphicsPolygonItem::calcPoints()
 {
     prepareGeometryChange();
-    m_listPoints.clear();
-    qreal angle = 90. * M_PI / 180.;
-    QPointF pointCenter = this->rect().center();
-    qreal w = this->rect().width();
-    qreal h = this->rect().height();
-    qreal R = w < h ? w : h;
-    qreal r = R / 2;
+    calcPoints_helper(m_listPointsForBrush, m_nPointsCount, this->rect(),-(pen().widthF())/2.0);
+    calcPoints_helper(m_listPoints,m_nPointsCount,this->rect());
 
+}
+
+void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,const QRectF& rect,qreal offset)
+{
+    if (n <= 0)return;
+    outVector.clear();
+
+    QList<QLineF> lines;
+
+    qreal angle = 90. * M_PI / 180.;
+    QPointF pointCenter = rect.center();
+    qreal w = rect.width();
+    qreal h = rect.height();
     if (n > 0) {
         qreal preAngle = 360. / n * M_PI / 180.;
         for (int i = 0; i != n; i++) {
-            ////程序坐标的Y轴和数学坐标中的Y轴是相反的
-            //qreal x = pointCenter.x() + cos(angle + preAngle * i) * r;
-            //qreal y = pointCenter.y() - sin(angle + preAngle * i) * r;
-            //x = a cosθ y = b sinθ
-            qreal x = pointCenter.x() + w / 2 * cos(angle + preAngle * i);
-            qreal y = pointCenter.y() - h / 2 * sin(angle + preAngle * i);
-            m_listPoints.push_back(QPointF(x, y));
+
+            qreal curAngleDgree = angle + preAngle * i;
+            qreal x = pointCenter.x() + w / 2 * cos(curAngleDgree);
+            qreal y = pointCenter.y() - h / 2 * sin(curAngleDgree);
+
+            outVector.push_back(QPointF(x, y));
+
+            if(i != 0)
+            {
+                QLineF line(outVector.at(i-1),outVector.at(i));
+                lines.append(line);
+            }
         }
     }
+    lines.push_front(QLineF(outVector.last(),outVector.first()));
 
+    if (!qFuzzyIsNull(offset))
+    {
+        for(int i = 0;i < lines.size();++i)
+        {
+            QLineF curLine  = lines[i];
+            QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
+
+            qreal finalDegree   =  180 - curLine.angleTo(nextLine);   //两条线相交的交角*/
+
+            qreal offLen = offset / qSin(qDegreesToRadians(finalDegree/2.));
+
+            QLineF tempLine(nextLine);
+            qreal newAngle = tempLine.angle() + finalDegree/2.0;
+            tempLine.setAngle(newAngle);
+            tempLine.setLength(qAbs(offLen));
+            outVector[i] = tempLine.p2();
+        }
+    }
 }
 
 void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)

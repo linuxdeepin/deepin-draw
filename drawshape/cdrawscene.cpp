@@ -65,8 +65,6 @@ CDrawScene::CDrawScene(CGraphicsView *view)
     view->setScene(this);
     initScene();
 
-    //    connect(static_cast<CDrawScene*>(scene()), &CDrawScene::signalChangeToSelect, CManageViewSigleton::GetInstance()->getCurView(), &CGraphicsView::slotStopContinuousDrawing);
-
     connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
             view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
     connect(this, SIGNAL(itemAdded(QGraphicsItem *)),
@@ -228,7 +226,7 @@ void CDrawScene::attributeChanged()
     } else {
         QList<QGraphicsItem *> items = this->selectedItems();
 
-        if (m_pGroupItem->getItems().size() >= 1)
+        if (m_pGroupItem->getItems().size() > 1)
             return;
 
         QGraphicsItem *item = nullptr;
@@ -297,8 +295,7 @@ void CDrawScene::attributeChanged()
                 ELineType startType = tmpItem->getLineStartType();
                 ELineType endType = tmpItem->getLineEndType();
                 if (startType != getDrawParam()->getLineStartType() || endType != getDrawParam()->getLineEndType()) {
-
-                    tmpItem->update();
+                    tmpItem->calcVertexes();
                     //REDO UNDO
                     emit itemLineTypeChange(tmpItem, getDrawParam()->getLineStartType(), getDrawParam()->getLineEndType());
 //                    tmpItem->update();
@@ -318,7 +315,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
     if (this->getItemsMgr()->getItems().size() > 1) {
         getDrawParam()->setSelectAllFlag(true);
         if (flag) {
-            emit signalAttributeChanged(flag, RectType);
+            emit signalAttributeChanged(flag, NoType);
         }
 
     } else if (count == 1) {
@@ -361,7 +358,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
                 getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
                 break;
             case TextType:
-                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
+//                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
                 getDrawParam()->setTextFont(static_cast<CGraphicsTextItem *>(tmpItem)->getFont().family());
                 getDrawParam()->setTextFontStyle(static_cast<CGraphicsTextItem *>(tmpItem)->getTextFontStyle());
                 getDrawParam()->setTextSize(static_cast<CGraphicsTextItem *>(tmpItem)->getFontSize());
@@ -719,7 +716,7 @@ bool CDrawScene::getModify() const
 
 void CDrawScene::setModify(bool isModify)
 {
-    m_drawParam->setModify(isModify);
+    //m_drawParam->setModify(isModify);
     emit signalIsModify(isModify);
 }
 
@@ -733,5 +730,33 @@ void CDrawScene::setMaxZValue(qreal zValue)
 qreal CDrawScene::getMaxZValue()
 {
     return m_maxZValue;
+}
+
+void CDrawScene::updateItemsMgr()
+{
+    int count = m_pGroupItem->getItems().size();
+    if (1 == count) {
+        m_pGroupItem->hide();
+    } else if (count > 1) {
+        m_pGroupItem->show();
+        clearSelection();
+        m_pGroupItem->setSelected(true);
+        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else {
+        emit signalAttributeChanged(true, QGraphicsItem::UserType);
+    }
+
+    auto allselectedItems = selectedItems();
+    for (int i = allselectedItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allselectedItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            allselectedItems.removeAt(i);
+            continue;
+        }
+    }
+    if (allselectedItems.size() == 1) {
+        allselectedItems.first()->setSelected(true);
+        emit signalAttributeChanged(true, allselectedItems.first()->type());
+    }
 }
 

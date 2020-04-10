@@ -55,10 +55,12 @@ void CSideWidthWidget::setSideWidth(int width)
     m_maskLable->setVisible(false);
 }
 
-void CSideWidthWidget::setMenuNoSelected()
+void CSideWidthWidget::setMenuNoSelected(bool noSelect)
 {
-    m_menuComboBox->setCurrentIndex(-1);
-    m_maskLable->setVisible(true);
+    if (noSelect) {
+        m_menuComboBox->setCurrentIndex(-1);
+    }
+    m_maskLable->setVisible(noSelect);
 }
 
 void CSideWidthWidget::initUI()
@@ -103,6 +105,7 @@ void CSideWidthWidget::initConnection()
 
             if (flag) {
                 emit signalSideWidthChoosed(lineWidth);
+                this->setMenuNoSelected(false);
             }
         }
     });

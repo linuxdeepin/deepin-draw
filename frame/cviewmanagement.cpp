@@ -132,7 +132,19 @@ void CManageViewSigleton::CheckIsModify()
 CGraphicsView *CManageViewSigleton::getViewByViewName(QString name)
 {
     for (int i = 0; i < m_allViews.count(); i++) {
-        if(m_allViews[i]->getDrawParam()->viewName() == name) {
+        if (m_allViews[i]->getDrawParam()->viewName() == name) {
+            return m_allViews[i];
+        }
+    }
+
+    // 返回空指针
+    return nullptr;
+}
+
+CGraphicsView *CManageViewSigleton::getViewByViewModifyStateName(QString name)
+{
+    for (int i = 0; i < m_allViews.count(); i++) {
+        if (m_allViews[i]->getDrawParam()->getShowViewNameByModifyState() == name) {
             return m_allViews[i];
         }
     }
@@ -144,7 +156,7 @@ CGraphicsView *CManageViewSigleton::getViewByViewName(QString name)
 CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
 {
     for (int i = 0; i < m_allViews.count(); i++) {
-        if(m_allViews[i]->getDrawParam()->getDdfSavePath() == path) {
+        if (m_allViews[i]->getDrawParam()->getDdfSavePath() == path) {
             return m_allViews[i];
         }
     }

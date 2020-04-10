@@ -44,7 +44,7 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     , m_view(view)
     , m_CProgressDialog(new CProgressDialog(view))
     , m_pSaveDialog(new CAbstractProcessDialog(view))
-    , m_lastSaveStatus(true)
+    , m_lastSaveStatus(false)
     , m_lastErrorString("")
     , m_lastError(QFileDevice::NoError)
 {
@@ -324,11 +324,8 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 
 void CDDFManager::slotSaveDDFComplete()
 {
-    //m_CProgressDialog->hide();
     m_pSaveDialog->hide();
     m_view->getDrawParam()->setDdfSavePath(m_path);
     m_view->setModify(false);
-//    if (ESaveDDFTriggerAction::SaveAction != m_view->getDrawParam()->getSaveDDFTriggerAction()) {
     emit signalContinueDoOtherThing();
-//    }
 }

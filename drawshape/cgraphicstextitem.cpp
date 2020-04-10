@@ -40,14 +40,14 @@
 #include <QObject>
 #include <QTextDocument>
 
-
-
-
 CGraphicsTextItem::CGraphicsTextItem()
     : CGraphicsRectItem ()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
+    , m_allColorIsEqual(true)
+    , m_allSizeIsEqual(true)
+    , m_allFamilyIsEqual(true)
 {
     initTextEditWidget();
 }
@@ -77,7 +77,6 @@ void CGraphicsTextItem::initTextEditWidget()
 {
     m_pTextEdit = new CTextEdit(this);
     m_pTextEdit->setMinimumSize(QSize(1, 1));
-
 
     m_pTextEdit->setWindowFlags(Qt::FramelessWindowHint);
     m_pTextEdit->setFrameShape(QTextEdit::NoFrame);
@@ -129,6 +128,24 @@ QPainterPath CGraphicsTextItem::getHighLightPath()
     QPainterPath path;
     path.addRect(this->rect());
     return path;
+}
+
+bool CGraphicsTextItem::getAllTextColorIsEqual()
+{
+    //    // 必须要点击文本检验后才能获取是否所有颜色相同，否则返回所有文字相同
+    //    bool temp = m_allColorIsEqual;
+    //    m_allColorIsEqual = true;
+    return m_allColorIsEqual;
+}
+
+bool CGraphicsTextItem::getAllFontSizeIsEqual()
+{
+    return m_allSizeIsEqual;
+}
+
+bool CGraphicsTextItem::getAllFontFamilyIsEqual()
+{
+    return m_allFamilyIsEqual;
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -265,7 +282,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << col.alpha();
+    qDebug() << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
@@ -302,11 +319,11 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -333,6 +350,47 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         curScene->updateBlurItem(this);
     }
     m_pTextEdit->setFocus();
+}
+
+void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+
+    m_pTextEdit->selectAll();
+
+    QTextCursor cur = m_pTextEdit->textCursor();
+
+    m_allColorIsEqual = true;
+    m_allSizeIsEqual = true;
+    m_allFamilyIsEqual = true;
+
+    QTextBlock block = cur.block();
+    if (block.isValid()) {
+        QTextBlock::iterator it;
+
+        for (it = block.begin(); !(it.atEnd()); ++it) {
+            QTextFragment fragment = it.fragment();
+            if (!fragment.isValid())
+                continue;
+
+            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != m_color) {
+                m_allColorIsEqual = false;
+            }
+
+            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_Font.pointSize()) {
+                m_allSizeIsEqual = false;
+            }
+
+            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != m_Font.family()) {
+                m_allFamilyIsEqual = false;
+            }
+
+            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual) {
+                return;
+            }
+        }
+    }
+    CGraphicsRectItem::mousePressEvent(event);
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

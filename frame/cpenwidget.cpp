@@ -41,7 +41,7 @@
 DGUI_USE_NAMESPACE
 
 const int BTN_SPACNT = 10;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 
 
 CPenWidget::CPenWidget(DWidget *parent)
@@ -118,24 +118,24 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideWidthWidget->setMenuNoSelected();
+                m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
             m_sideWidthWidget->update();
             break;
-        case PenStartArrowType:
-            m_startLabel->setVisible(true);
-            m_lineStartComboBox->setVisible(true);
-            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
-            m_sideWidthWidget->update();
-            break;
-        case PenEndArrowType:
-            m_endLabel->setVisible(true);
-            m_lineEndComboBox->setVisible(true);
-            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
-            m_lineEndComboBox->update();
-            break;
+//        case PenStartArrowType:
+//            m_startLabel->setVisible(true);
+//            m_lineStartComboBox->setVisible(true);
+//            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+//            m_sideWidthWidget->update();
+//            break;
+//        case PenEndArrowType:
+//            m_endLabel->setVisible(true);
+//            m_lineEndComboBox->setVisible(true);
+//            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+//            m_lineEndComboBox->update();
+//            break;
         default:
             break;
         }
@@ -144,25 +144,29 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 
 void CPenWidget::initUI()
 {
-    QFont ft;
-    ft.setPixelSize(TEXT_SIZE);
-
-    m_startLabel = new DLabel(this);
-    m_endLabel = new DLabel(this);
-    m_startLabel->setText(tr("start"));
-    m_startLabel->setFont(ft);
-    m_endLabel->setText(tr("end"));
-    m_endLabel->setFont(ft);
-
     m_strokeBtn = new BorderColorButton(this);
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
+    m_sideWidthWidget->setFixedWidth(100);
+
+    QFont ft;
+    ft.setPixelSize(TEXT_SIZE);
+//    strokeLabel->setFont(ft);
+    m_strokeBtn->setButtonText(tr("Color"));
+
+    m_startLabel = new DLabel(this);
+    m_endLabel = new DLabel(this);
+    m_startLabel->setText(tr("Start"));
+    m_startLabel->setFont(ft);
+    m_endLabel->setText(tr("End"));
+    m_endLabel->setFont(ft);
+
     m_sideWidthWidget->setFont(ft);
     m_sideWidthWidget->setFixedWidth(100);
 
     m_lineStartComboBox = new DComboBox(this);
     m_lineStartComboBox->setFixedSize(QSize(70, 36));
-    m_lineStartComboBox->setIconSize(QSize(24, 10));
+    m_lineStartComboBox->setIconSize(QSize(34, 14));
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
     m_lineStartComboBox->addItem("");
@@ -171,7 +175,7 @@ void CPenWidget::initUI()
 
     m_lineEndComboBox =  new DComboBox(this);
     m_lineEndComboBox->setFixedSize(QSize(70, 36));
-    m_lineEndComboBox->setIconSize(QSize(24, 10));
+    m_lineEndComboBox->setIconSize(QSize(34, 14));
     m_lineEndComboBox->addItem("");
     m_lineEndComboBox->addItem("");
     m_lineEndComboBox->addItem("");
@@ -183,7 +187,7 @@ void CPenWidget::initUI()
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
     layout->addWidget(m_sideWidthWidget);
-    layout->addWidget(m_sep1Line, 0, Qt::AlignCenter);
+    layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
     layout->addWidget(m_endLabel);
@@ -249,7 +253,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(lineType);
         CManagerAttributeService::getInstance()->setPenStartType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenStartArrowType, lineType);
+        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenStartArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -283,7 +287,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(lineType);
         CManagerAttributeService::getInstance()->setPenEndType(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenEndArrowType, lineType);
+        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenEndArrowType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });

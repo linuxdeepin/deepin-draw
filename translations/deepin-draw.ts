@@ -4,8 +4,14 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../widgets/bigcolorbutton.cpp" line="117"/>
+        <location filename="../widgets/bigcolorbutton.cpp" line="121"/>
+        <location filename="../widgets/bigcolorbutton.cpp" line="163"/>
         <source>Fill</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/bigcolorbutton.cpp" line="152"/>
+        <source>...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -35,8 +41,16 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../widgets/bordercolorbutton.cpp" line="121"/>
+        <location filename="../widgets/bordercolorbutton.cpp" line="41"/>
         <source>Stroke</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CAbstractProcessDialog</name>
+    <message>
+        <location filename="../widgets/dialog/cprogressdialog.cpp" line="95"/>
+        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -51,14 +65,17 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="59"/>
-        <location filename="../frame/ccentralwidget.cpp" line="310"/>
-        <location filename="../frame/ccentralwidget.cpp" line="315"/>
+        <location filename="../frame/ccentralwidget.cpp" line="60"/>
+        <location filename="../frame/ccentralwidget.cpp" line="63"/>
+        <location filename="../frame/ccentralwidget.cpp" line="67"/>
+        <location filename="../frame/ccentralwidget.cpp" line="82"/>
+        <location filename="../frame/ccentralwidget.cpp" line="89"/>
+        <location filename="../frame/ccentralwidget.cpp" line="93"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="275"/>
+        <location filename="../frame/ccentralwidget.cpp" line="352"/>
         <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>
@@ -88,6 +105,14 @@
     <message>
         <location filename="../frame/ccutwidget.cpp" line="146"/>
         <source>Free</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CDDFManager</name>
+    <message>
+        <location filename="../utils/cddfmanager.cpp" line="73"/>
+        <source>Saving...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -280,17 +305,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1205"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1217"/>
         <source>Unnamed.ddf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1219"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1240"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1221"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1242"/>
         <source>The file name is too long</source>
         <translation type="unfinished"></translation>
     </message>
@@ -316,12 +341,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1197"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1209"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1199"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1211"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -334,57 +359,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="121"/>
+        <location filename="../frame/clefttoolbar.cpp" line="122"/>
         <source>Import(I)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="136"/>
+        <location filename="../frame/clefttoolbar.cpp" line="137"/>
         <source>Rectangle(R)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="151"/>
+        <location filename="../frame/clefttoolbar.cpp" line="152"/>
         <source>Ellipse(O)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="168"/>
+        <location filename="../frame/clefttoolbar.cpp" line="169"/>
         <source>Triangle(S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="185"/>
+        <location filename="../frame/clefttoolbar.cpp" line="186"/>
         <source>Star(F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="202"/>
+        <location filename="../frame/clefttoolbar.cpp" line="203"/>
         <source>Polygon(H)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="219"/>
+        <location filename="../frame/clefttoolbar.cpp" line="220"/>
         <source>Line(L)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="236"/>
+        <location filename="../frame/clefttoolbar.cpp" line="237"/>
         <source>Pencil(P)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="252"/>
+        <location filename="../frame/clefttoolbar.cpp" line="253"/>
         <source>Text(T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="268"/>
+        <location filename="../frame/clefttoolbar.cpp" line="269"/>
         <source>Blur(B)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="284"/>
+        <location filename="../frame/clefttoolbar.cpp" line="285"/>
         <source>Crop(C)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -392,12 +417,12 @@
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../frame/cmultiptabbarwidget.cpp" line="224"/>
+        <location filename="../frame/cmultiptabbarwidget.cpp" line="238"/>
         <source>Close tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cmultiptabbarwidget.cpp" line="225"/>
+        <location filename="../frame/cmultiptabbarwidget.cpp" line="239"/>
         <source>Close other tabs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,12 +430,17 @@
 <context>
     <name>CPenWidget</name>
     <message>
-        <location filename="../frame/cpenwidget.cpp" line="76"/>
+        <location filename="../frame/cpenwidget.cpp" line="124"/>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/cpenwidget.cpp" line="130"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cpenwidget.cpp" line="111"/>
+        <location filename="../frame/cpenwidget.cpp" line="165"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -436,17 +466,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="90"/>
+        <location filename="../frame/cpicturewidget.cpp" line="89"/>
         <source>Rotate 90° CW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="104"/>
+        <location filename="../frame/cpicturewidget.cpp" line="103"/>
         <source>Flip horizontally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="118"/>
+        <location filename="../frame/cpicturewidget.cpp" line="117"/>
         <source>Flip vertically</source>
         <translation type="unfinished"></translation>
     </message>
@@ -473,7 +503,11 @@
     <name>CTitleWidget</name>
     <message>
         <location filename="../frame/ctitlewidget.cpp" line="31"/>
-        <location filename="../frame/ctitlewidget.cpp" line="50"/>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/ctitlewidget.cpp" line="52"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
@@ -481,7 +515,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="246"/>
+        <location filename="../widgets/colorpanel.cpp" line="239"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -489,12 +523,7 @@
 <context>
     <name>CommonshapeWidget</name>
     <message>
-        <location filename="../frame/commonshapewidget.cpp" line="88"/>
-        <source>Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/commonshapewidget.cpp" line="110"/>
+        <location filename="../frame/commonshapewidget.cpp" line="176"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
@@ -525,40 +554,45 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="63"/>
-        <source>Type</source>
+        <location filename="../frame/linewidget.cpp" line="148"/>
+        <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="113"/>
-        <source>Width</source>
+        <location filename="../frame/linewidget.cpp" line="150"/>
+        <source>End</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/linewidget.cpp" line="154"/>
+        <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="68"/>
+        <location filename="../frame/mainwindow.cpp" line="78"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="111"/>
+        <location filename="../frame/mainwindow.cpp" line="118"/>
         <source>Is Close Draw?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="112"/>
+        <location filename="../frame/mainwindow.cpp" line="119"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="113"/>
+        <location filename="../frame/mainwindow.cpp" line="120"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="294"/>
+        <location filename="../frame/mainwindow.cpp" line="368"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -566,12 +600,7 @@
 <context>
     <name>PolygonAttributeWidget</name>
     <message>
-        <location filename="../frame/polygonattributewidget.cpp" line="82"/>
-        <source>Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/polygonattributewidget.cpp" line="91"/>
+        <location filename="../frame/polygonattributewidget.cpp" line="144"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,17 +608,12 @@
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="83"/>
-        <source>Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="92"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="158"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="124"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="167"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -803,20 +827,43 @@
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../widgets/textcolorbutton.cpp" line="121"/>
+        <location filename="../widgets/textcolorbutton.cpp" line="144"/>
+        <location filename="../widgets/textcolorbutton.cpp" line="184"/>
         <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/textcolorbutton.cpp" line="173"/>
+        <source>...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="64"/>
+        <location filename="../frame/textwidget.cpp" line="62"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="81"/>
+        <location filename="../frame/textwidget.cpp" line="78"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="78"/>
+        <location filename="../frame/textwidget.cpp" line="298"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="78"/>
+        <location filename="../frame/textwidget.cpp" line="300"/>
+        <source>Thin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../frame/textwidget.cpp" line="82"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -824,42 +871,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="254"/>
+        <location filename="../frame/toptoolbar.cpp" line="255"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="238"/>
+        <location filename="../frame/toptoolbar.cpp" line="239"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="243"/>
+        <location filename="../frame/toptoolbar.cpp" line="244"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="249"/>
+        <location filename="../frame/toptoolbar.cpp" line="250"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="259"/>
+        <location filename="../frame/toptoolbar.cpp" line="260"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="264"/>
+        <location filename="../frame/toptoolbar.cpp" line="265"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="277"/>
+        <location filename="../frame/toptoolbar.cpp" line="278"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="280"/>
+        <location filename="../frame/toptoolbar.cpp" line="281"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

@@ -28,11 +28,24 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
     }
     if (m_listItems.contains(item)) {
         this->removeFromGroup(item);
+        if (m_listItems.size() == 1) {
+            m_listItems.at(0)->setMutiSelect(false);
+        }
     } else {
         this->addToGroup(item);
     }
     if (m_listItems.size() > 1) {
         CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
+    }
+    if (m_listItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_listItems) {
+            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
+        }
+    }
+    if (m_listItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_listItems) {
+            static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
+        }
     }
     updateGeometry();
 }
@@ -98,6 +111,9 @@ void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
+    }
+    if (m_listItems.size() == 1) {
+        m_listItems.at(0)->setMutiSelect(false);
     }
     updateGeometry();
 }

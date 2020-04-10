@@ -36,8 +36,8 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(false)
 {
-    setFixedSize(50, 32);
     setCheckable(false);
+    setButtonText(tr("Stroke"));
     m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
 
@@ -66,47 +66,46 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
         painter.setPen(Qt::transparent);
-
-        QColor drawColor = m_color;
-
-        //    if (m_isChecked || m_isHover) {
-        //        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-        //        painter.drawRoundedRect(rect(), 6, 6);
-        //    } else if (m_isChecked) {
-        //        drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
-        //    } else {
-        //        painter.setBrush(Qt::transparent);
-        //        painter.drawRoundedRect(rect(), 6, 6);
-        //    }
-
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(drawColor);
-        painter.setPen(pen);
-        // painter.setBrush(Qt::transparent);
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-        painter.drawRoundedRect(QRect(4, 11, 14, 14), 6, 6);
+        painter.save();
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(QRect(4, 8, 20, 20), 8, 8);
+        painter.setClipPath(clipPath);
+        painter.restore();
+        QPen colorPen;
+        colorPen.setWidth(3);
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            colorPen.setColor(m_color);
+        } else {
+            if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+                colorPen.setColor(QColor(8, 15, 21, 178));
+            } else {
+                colorPen.setColor(m_color);
+            }
+        }
+        painter.setPen(colorPen);
+        painter.drawRoundedRect(QRect(5, 9, 18, 18), 7, 7);
 
         QPen borderPen;
         borderPen.setWidth(1);
-        //borderPen.setColor(QColor(0, 0, 0, 15));
-        if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-            borderPen.setColor(Qt::gray);
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 25));
         } else {
-            borderPen.setColor(Qt::transparent);
+            if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+                borderPen.setColor(QColor(77, 82, 93, 204));
+            } else {
+                borderPen.setColor(QColor(255, 255, 255, 25));
+            }
         }
-        if (m_color.alpha() == 0) {
-            borderPen.setColor(Qt::gray);
-        }
-        //borderPen.setColor(Qt::gray);
         painter.setPen(borderPen);
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(6, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 20, 20), 8, 8);
 
-        if (m_isChecked) {
-            //painter.setBrush(QColor(0, 0, 0, 35));
-            //painter.drawEllipse(CENTER_POINT, BTN_RADIUS - 1, BTN_RADIUS - 1);
-            painter.drawRoundedRect(QRect(5, 11, 14, 14), 6, 6);
+        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
+            QPen linePen;
+            linePen.setWidth(2);
+            linePen.setColor(QColor(255, 67, 67, 153));
+            painter.setPen(linePen);
+            painter.drawLine(7, 25, 22, 12);
         }
 
         QPen textPen;
@@ -115,28 +114,33 @@ void BorderColorButton::paintEvent(QPaintEvent *)
         } else {
             textPen.setColor(QColor("#C0C6D4"));
         }
-
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-
-        painter.drawText(26, 9, 38, 16, 1, tr("Stroke"));
+        painter.drawText(32, 6, m_textWidth, 22, 1, m_text);
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
-
         QPen pen;
         pen.setWidth(1);
-        pen.setColor(Qt::gray);
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            pen.setColor(QColor(0, 0, 0, 12));
+        } else {
+            pen.setColor(QColor(77, 82, 93, 204));
+        }
         painter.setPen(pen);
-        painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+        painter.drawRoundedRect(QRect(4, 8, 19, 19), 8, 8);
 
         QPen borderPen;
         borderPen.setWidth(1);
-        borderPen.setColor(Qt::gray);
+        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+            borderPen.setColor(QColor(0, 0, 0, 12));
+        } else {
+            borderPen.setColor(QColor(77, 82, 93, 204));
+        }
         painter.setPen(borderPen);
-        painter.drawRoundedRect(QRect(6, 12, 12, 12), 4, 4);
+        painter.drawRoundedRect(QRect(6, 10, 15, 15), 6, 6);
 
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -147,9 +151,9 @@ void BorderColorButton::paintEvent(QPaintEvent *)
 
         painter.setPen(textPen);
         QFont ft;
-        ft.setPixelSize(12);
+        ft.setPixelSize(14);
         painter.setFont(ft);
-        painter.drawText(26, 9, 38, 16, 1, tr("Stroke"));
+        painter.drawText(32, 6, m_textWidth, 22, 1, m_text);
     }
 }
 
@@ -176,6 +180,14 @@ void BorderColorButton::resetChecked()
 void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
 {
     m_isMultColorSame = isMultColorSame;
+}
+
+void BorderColorButton::setButtonText(QString text)
+{
+    QFontMetrics fontMetrics(font());
+    m_textWidth = fontMetrics.width(text);
+    setFixedSize(35 + m_textWidth, 32);
+    m_text = text;
 }
 
 void BorderColorButton::enterEvent(QEvent *)

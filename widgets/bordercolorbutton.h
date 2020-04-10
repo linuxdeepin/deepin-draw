@@ -37,7 +37,7 @@ public:
     void updateConfigColor();
     void resetChecked();
     void setIsMultColorSame(bool isMultColorSame);
-
+    void setButtonText(QString text);
 signals:
     void btnCheckStateChanged(bool checked);
 
@@ -48,10 +48,12 @@ protected:
     void mousePressEvent(QMouseEvent * );
 
 private:
+    QString m_text;
     QColor m_color;
     bool m_isHover;
     bool m_isChecked;
     bool m_isMultColorSame;//多选图元，颜色不一致时使用,单选的时候默认为true
+    int m_textWidth; // 字符的宽度，用于自适应文字的宽度大小
 };
 
 #endif // BORDERCOLORBUTTON_H

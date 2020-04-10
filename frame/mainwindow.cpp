@@ -189,8 +189,8 @@ void MainWindow::doCloseOtherDiv()
         QString current_name = m_closeViews.first();
         m_closeViews.removeFirst();
         m_centralWidget->setCurrentView(current_name);
-        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewName(current_name));
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewName(current_name);
+        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name));
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name);
         if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
@@ -297,6 +297,9 @@ void MainWindow::initConnection()
         qDebug() << "save status:" << status;
         doCloseOtherDiv();
     });
+
+    // 连接场景被改变后更新主窗口tittle显示信息
+    connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged, m_topToolbar, &TopToolbar::slotScenceViewChanged);
 }
 
 void MainWindow::activeWindow()
@@ -558,6 +561,24 @@ void MainWindow::readSettings()
     QSettings settings(fileName, QSettings::IniFormat);
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
+}
+
+void MainWindow::openFiles(QStringList filePaths)
+{
+    for (int i = 0; i < filePaths.count(); i++) {
+        QFile file(filePaths.at(i));
+        if (!file.exists()) { // 文件不存在，需要剔除这个文件
+            filePaths.removeAt(i);
+        }
+    }
+
+
+    m_centralWidget->slotLoadDragOrPasteFile(filePaths);
+}
+
+void MainWindow::openImage(QImage image)
+{
+    m_centralWidget->slotPastePixmap(QPixmap::fromImage(image));
 }
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)

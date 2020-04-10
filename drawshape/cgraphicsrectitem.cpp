@@ -139,9 +139,21 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
 
     updateGeometry();
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    //先绘制填充
+    QPen curPen = this->pen();
+    qreal penWidthOffset = curPen.widthF() / 2.0;
+    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
+                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
+
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
-    painter->drawRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
+
+    //再绘制描边
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
+    painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
@@ -157,47 +169,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
-
-    /*QGraphicsScene *scene = this->scene();
-    //绘制滤镜
-    if (scene != nullptr) {
-        //QPixmap pixmap(int(this->scene()->width()), int(this->scene()->height()));
-        //pixmap.fill();
-
-        QPixmap pixmap(this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
-
-        QPainter painterd(&pixmap);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-        this->scene()->render(&painterd);
-        painter->drawPixmap(this->rect(), pixmap, QRectF());
-
-
-
-
-
-        QPainter painterd(&pixmap);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-        //painterd.setClipRect(this->mapRectToScene(this->rect()));
-
-        bool flag = this->isSelected();
-        //this->setVisible(false);
-        scene->render(&painterd);
-        //this->setVisible(true);
-        this->setSelected(flag);
-
-        QPixmap tmpPixmap = pixmap.copy(this->mapRectToScene(this->rect()).toRect());
-        int imgWidth = tmpPixmap.width();
-        int imgHeigth = tmpPixmap.height();
-        int radius = 5;
-        tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        painter->drawPixmap(this->rect(), tmpPixmap, QRectF());
-
-        //        painter->drawPixmap(this->rect(), pixmap, this->rect());
-    }*/
-
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)

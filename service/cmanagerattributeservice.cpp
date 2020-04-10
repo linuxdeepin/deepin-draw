@@ -93,14 +93,15 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case LineType://线
             propertys[LineWidth] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().color();
-            propertys[LineStartArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineStartType();
-            propertys[LineEndArrowType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
+            propertys[LineAndPenStartType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineStartType();
+            propertys[LineAndPenEndType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
             break;
         case PenType://画笔
+            mode = LineType;//画笔和线属性相同
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().color();
-            propertys[PenStartArrowType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
-            propertys[PenEndArrowType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
+            propertys[LineAndPenStartType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
+            propertys[LineAndPenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
             propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
@@ -129,13 +130,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[FillColor] = propertys[FillColor];
                 } else {
                     allPropertys[FillColor] = tmpVariant;
-                }
-            }
-            if (propertys.contains(TextColor)) {
-                if (propertys[TextColor] == static_cast<CGraphicsRectItem *>(item)->brush().color()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
                 }
             }
             if (propertys.contains(LineWidth)) {
@@ -168,13 +162,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[FillColor] = tmpVariant;
                 }
             }
-            if (propertys.contains(TextColor)) {
-                if (propertys[TextColor] == static_cast<CGraphicsEllipseItem *>(item)->brush().color()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
-                }
-            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsEllipseItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -198,13 +185,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[FillColor] = tmpVariant;
                 }
             }
-            if (propertys.contains(TextColor)) {
-                if (propertys[TextColor] == static_cast<CGraphicsTriangleItem *>(item)->brush().color()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
-                }
-            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsTriangleItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -226,13 +206,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[FillColor] = propertys[FillColor];
                 } else {
                     allPropertys[FillColor] = tmpVariant;
-                }
-            }
-            if (propertys.contains(TextColor)) {
-                if (propertys[TextColor] == static_cast<CGraphicsPolygonalStarItem *>(item)->brush().color()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
                 }
             }
             if (propertys.contains(LineColor)) {
@@ -272,13 +245,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[FillColor] = tmpVariant;
                 }
             }
-            if (propertys.contains(TextColor)) {
-                if (propertys[TextColor] == static_cast<CGraphicsPolygonItem *>(item)->brush().color()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
-                }
-            }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsPolygonItem *>(item)->pen().width()) {
                     allPropertys[LineWidth] = propertys[LineWidth];
@@ -302,11 +268,19 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case LineType://线
-            if (propertys.contains(LineStartArrowType)) {
-                allPropertys[LineStartArrowType] = static_cast<CGraphicsLineItem *>(item)->getLineStartType();
+            if (propertys.contains(LineAndPenStartType)) {
+                if (propertys[LineAndPenStartType] == static_cast<CGraphicsLineItem *>(item)->getLineStartType()) {
+                    allPropertys[LineAndPenStartType] = propertys[LineAndPenStartType];
+                } else {
+                    allPropertys[LineAndPenStartType] = tmpVariant;
+                }
             }
-            if (propertys.contains(LineEndArrowType)) {
-                allPropertys[LineEndArrowType] = static_cast<CGraphicsLineItem *>(item)->getLineEndType();
+            if (propertys.contains(LineAndPenEndType)) {
+                if (propertys[LineAndPenEndType] == static_cast<CGraphicsLineItem *>(item)->getLineEndType()) {
+                    allPropertys[LineAndPenEndType] = propertys[LineAndPenEndType];
+                } else {
+                    allPropertys[LineAndPenEndType] = tmpVariant;
+                }
             }
             if (propertys.contains(LineWidth)) {
                 if (propertys[LineWidth] == static_cast<CGraphicsLineItem *>(item)->pen().width()) {
@@ -324,18 +298,18 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case PenType://画笔
-            if (propertys.contains(PenStartArrowType)) {
-                if (propertys[PenStartArrowType] == static_cast<CGraphicsPenItem *>(item)->getPenStartType()) {
-                    allPropertys[PenStartArrowType] = propertys[PenStartArrowType];
+            if (propertys.contains(LineAndPenStartType)) {
+                if (propertys[LineAndPenStartType] == static_cast<CGraphicsPenItem *>(item)->getPenStartType()) {
+                    allPropertys[LineAndPenStartType] = propertys[LineAndPenStartType];
                 } else {
-                    allPropertys[PenStartArrowType] = tmpVariant;
+                    allPropertys[LineAndPenStartType] = tmpVariant;
                 }
             }
-            if (propertys.contains(PenEndArrowType)) {
-                if (propertys[PenEndArrowType] == static_cast<CGraphicsPenItem *>(item)->getPenEndType()) {
-                    allPropertys[PenEndArrowType] = propertys[PenEndArrowType];
+            if (propertys.contains(LineAndPenEndType)) {
+                if (propertys[LineAndPenEndType] == static_cast<CGraphicsPenItem *>(item)->getPenEndType()) {
+                    allPropertys[LineAndPenEndType] = propertys[LineAndPenEndType];
                 } else {
-                    allPropertys[PenEndArrowType] = tmpVariant;
+                    allPropertys[LineAndPenEndType] = tmpVariant;
                 }
             }
             if (propertys.contains(LineWidth)) {
@@ -446,11 +420,10 @@ void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType st
     if (allItems.size() >= 1) {
         CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
         if (lineItem != nullptr) {
-            lineItem->setLineStartType(startType);
             scence->getDrawParam()->setLineStartType(startType);
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->update();
+            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, startType);
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            lineItem->calcVertexes();// 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
 }
@@ -471,11 +444,10 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
     if (allItems.size() >= 1) {
         CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
         if (lineItem != nullptr) {
-            lineItem->setLineEndType(endType);
             scence->getDrawParam()->setLineEndType(endType);
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->update();
+            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            lineItem->calcVertexes(); // 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
 }
@@ -554,5 +526,56 @@ void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endTy
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             penItem->update();
         }
+    }
+}
+
+void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
+{
+    Q_UNUSED(scence)
+    if (item == nullptr) {
+        return;
+    }
+
+    QMap<EDrawProperty, QVariant> propertys;
+
+    switch (item->type()) {
+    case TextType: {
+        CGraphicsItem *cItem = nullptr;
+        cItem = static_cast<CGraphicsItem *>(item);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsItem failed.";
+            return;
+        }
+
+        CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(cItem);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsTextItem failed.";
+            return;
+        }
+
+        bool isSameColor = textItem->getAllTextColorIsEqual();
+        if (!isSameColor) {
+            propertys.insert(TextColor, QColor());
+        } else {
+            propertys.insert(TextColor, textItem->getTextColor());
+        }
+
+        bool isSameSize = textItem->getAllFontSizeIsEqual();
+        if (!isSameSize) {
+            propertys.insert(TextSize, 0);
+        } else {
+            propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+        }
+
+        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
+        if (!isSameFamily) {
+            propertys.insert(TextFont, "");
+        } else {
+            propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        }
+
+        emit signalTextItemPropertyUpdate(propertys);
+        break;
+    }
     }
 }

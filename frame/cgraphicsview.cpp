@@ -93,24 +93,36 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
 void CGraphicsView::zoomOut()
 {
-    if (1.1 * m_scale - 8. <= 0.01) {
-        this->scale(1.1 * m_scale);
-        emit signalSetScale(m_scale);
-    } else {
-        this->scale(8.);
-        emit signalSetScale(m_scale);
+    qreal current_scale = m_scale;
+    if (current_scale >= 2.0 && current_scale <= 20.0) {
+        current_scale += 1.0;
+    } else if (current_scale >= 1.0 && current_scale <= 1.99) {
+        current_scale += 0.1;
+    } else if (current_scale >= 0.1 && current_scale < 1.0) {
+        current_scale += 0.01;
     }
+
+    if (current_scale >= 20.0) {
+        current_scale = 20.0;
+    }
+    scale(current_scale);
 }
 
 void CGraphicsView::zoomIn()
 {
-    if (m_scale / 1.1 - 0.25 >= 0.01) {
-        this->scale(m_scale / 1.1);
-        emit signalSetScale(m_scale);
-    } else {
-        this->scale(0.25);
-        emit signalSetScale(m_scale);
+    qreal current_scale = m_scale;
+    if (current_scale >= 2.0 && current_scale <= 20.0) {
+        current_scale -= 1.0;
+    } else if (current_scale >= 1.0 && current_scale <= 1.99) {
+        current_scale -= 0.1;
+    } else if (current_scale >= 0.1 && current_scale < 1.0) {
+        current_scale -= 0.01;
     }
+
+    if (current_scale <= 0.1) {
+        current_scale = 0.1;
+    }
+    scale(current_scale);
 }
 
 void CGraphicsView::scale(qreal scale)
@@ -119,6 +131,7 @@ void CGraphicsView::scale(qreal scale)
     DGraphicsView::scale(multiple, multiple);
     m_scale = scale;
     getDrawParam()->setScale(m_scale);
+    emit signalSetScale(m_scale);
 }
 
 qreal CGraphicsView::getScale()
@@ -737,12 +750,17 @@ void CGraphicsView::slotOnPaste()
 
         //粘贴画板内部图元
         CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        auto curScene = static_cast<CDrawScene *>(scene());
         if ( data ) {
             scene()->clearSelection();
-            auto curScene = static_cast<CDrawScene *>(scene());
             auto itemMgr = curScene->getItemsMgr();
             itemMgr->clear();
-            foreach (CGraphicsItem *item, data->itemList() ) {
+            //升序排列
+            QList<CGraphicsItem *> allItems = data->itemList();
+            qSort(allItems.begin(), allItems.end(), zValueSortASC);
+            QList<QGraphicsItem *> addItems;
+            addItems.clear();
+            foreach (CGraphicsItem *item, allItems ) {
                 CGraphicsItem *copy = nullptr;
 
                 switch (item->type()) {
@@ -787,15 +805,11 @@ void CGraphicsView::slotOnPaste()
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     copy->moveBy(10, 10);
-
-                    auto curScene = dynamic_cast<CDrawScene *>(scene());
-                    QList<QGraphicsItem *> addItems;
-                    addItems.clear();
                     addItems.append(copy);
-                    QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
-                    m_pUndoStack->push(addCommand);
                 }
             }
+            QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
+            m_pUndoStack->push(addCommand);
             if (!itemMgr->getItems().isEmpty()) {
                 itemMgr->show();
                 itemMgr->setSelected(true);
@@ -1034,24 +1048,12 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
 
 void CGraphicsView::slotViewZoomIn()
 {
-    if (m_scale + 0.25 <= 8) {
-        this->scale(m_scale + 0.25);
-        emit signalSetScale(m_scale);
-    } else {
-        this->scale(8);
-        emit signalSetScale(m_scale);
-    }
+    zoomIn();
 }
 
 void CGraphicsView::slotViewZoomOut()
 {
-    if (m_scale - 0.25 >= 0.25) {
-        this->scale(m_scale - 0.25);
-        emit signalSetScale(m_scale);
-    } else {
-        this->scale(0.25);
-        emit signalSetScale(m_scale);
-    }
+    zoomOut();
 }
 
 void CGraphicsView::slotViewOrignal()

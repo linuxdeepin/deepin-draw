@@ -60,13 +60,22 @@ int  CPictureItem::type() const
 
 void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    painter->save();
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    bool hasIntersects = sceneRct.intersects(itemRct);
+    painter->setClipping(hasIntersects);
+
+    //保证resize节点图元和旋转节点图元的坐标位置正确
+    updateGeometry();
+
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
+    painter->restore();
 
     if (this->isSelected()) {
         painter->setClipping(false);
@@ -112,10 +121,10 @@ void CPictureItem::setRotation90(bool leftOrRight)
     QPointF center = this->rect().center();
     this->setTransformOriginPoint(center);
     if (leftOrRight == true) {
-        m_angle = m_angle - 90.0;
+        m_angle = this->rotation() - 90.0;
         this->setRotation(m_angle);
     } else {
-        m_angle = m_angle + 90.0;
+        m_angle = this->rotation() + 90.0;
         this->setRotation(m_angle);
     }
 

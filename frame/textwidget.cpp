@@ -34,7 +34,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
     , m_bSelect(false)
@@ -62,6 +62,7 @@ void TextWidget::initUI()
     m_fontFamilyLabel->setText(tr("Font"));
     m_fontFamilyLabel->setFont(ft);
     m_fontComBox = new CFontComboBox(this);
+    m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
     m_fontComBox->setFont(ft);
 
@@ -86,21 +87,10 @@ void TextWidget::initUI()
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
-    QRegExp regx("[0-9]*px");
+    QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
     m_fontSize->setValidator(validator);
-    m_fontSize->addItem("8px");
-    m_fontSize->addItem("10px");
-    m_fontSize->addItem("12px");
-    m_fontSize->addItem("14px");
-    m_fontSize->addItem("16px");
-    m_fontSize->addItem("18px");
-    m_fontSize->addItem("24px");
-    m_fontSize->addItem("36px");
-    m_fontSize->addItem("48px");
-    m_fontSize->addItem("60px");
-    m_fontSize->addItem("72px");
-    m_fontSize->addItem("100px");
+    addFontPointSize();
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -109,15 +99,19 @@ void TextWidget::initUI()
     layout->addWidget(m_fillBtn);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_textSeperatorLine);
-    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontFamilyLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontComBox);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontHeavy);
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontsizeLabel);
+    layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_fontSize);
     layout->addStretch();
     setLayout(layout);
+
+    installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -140,7 +134,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     m_textSeperatorLine->setVisible(false);
     m_fontFamilyLabel->setVisible(false);
     m_fontComBox->setVisible(false);
-    m_fontHeavy->setVisible(false);
+//    m_fontHeavy->setVisible(false);
     m_fontsizeLabel->setVisible(false);
     m_fontSize->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
@@ -182,6 +176,60 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     }
 }
 
+void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys)
+{
+    QMap<EDrawProperty, QVariant>::iterator itr = propertys.begin();
+    for (; itr != propertys.end(); itr++) {
+        switch (itr.key()) {
+        case TextColor: {
+            QColor color = itr.value().value<QColor>();
+            bool colorIsValid = color.isValid();
+            m_fillBtn->setIsMultColorSame(colorIsValid);
+            break;
+        }
+        case TextSize: {
+            int size = itr.value().toInt();
+            if (size) {
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                m_fontSize->blockSignals(false);
+            } else {
+                m_fontSize->blockSignals(true);
+                m_fontSize->setCurrentIndex(-1);
+                m_fontSize->setCurrentText("- -");
+                m_fontSize->blockSignals(false);
+            }
+            break;
+        }
+        case TextFont: {
+            QString family = itr.value().toString();
+            if (family.isEmpty()) {
+                m_fontComBox->setCurrentIndex(-1);
+                m_fontComBox->setCurrentText("- -");
+            } else {
+                m_fontComBox->setCurrentText(family);
+            }
+            m_fillBtn->setVisible(true);
+            m_textSeperatorLine->setVisible(true);
+            m_fontFamilyLabel->setVisible(true);
+            m_fontComBox->setVisible(true);
+            m_fontsizeLabel->setVisible(true);
+            m_fontSize->setVisible(true);
+            break;
+        }
+        default: {
+            break;
+        }
+        }
+    }
+}
+
+bool TextWidget::eventFilter(QObject *, QEvent *event)
+{
+    event->accept();
+    return true;
+}
+
 void TextWidget::initConnection()
 {
     connect(m_fillBtn, &TextColorButton::btnCheckStateChanged, this, [ = ](bool show) {
@@ -192,6 +240,8 @@ void TextWidget::initConnection()
 
         showColorPanel(DrawStatus::TextFill, pos, show);
     });
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)),
+            this, SLOT(slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)));
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();
@@ -210,7 +260,6 @@ void TextWidget::initConnection()
         emit signalTextFontFamilyChanged();
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-
         if (m_bSelect) {
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
             emit signalTextFontFamilyChanged();
@@ -232,14 +281,20 @@ void TextWidget::initConnection()
 
     // 字体大小
     m_fontSize->setCurrentText("14px");
-    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](const QString & str) {
-        // remove px
-        QString size_str = str;
-        size_str = size_str.replace("px", "");
+//    m_fontSize->lineEdit()->setFocusPolicy(Qt::WheelFocus);
+    connect(m_fontSize->lineEdit(), &QLineEdit::returnPressed, this, [ = ]() {
+        QString str = m_fontSize->currentText();
+        if (str.contains("p")) {
+            str = str.replace("p", "");
+        }
+        if (str.contains("x")) {
+            str = str.replace("x", "");
+        }
+        str = str.replace("px", "");
 
         bool flag = false;
-        int size = size_str.toInt(&flag);
-
+        int size = str.toInt(&flag);
+        //setSuffix("px");
         m_fontSize->blockSignals(true);
         if (size < 8) {
             m_fontSize->setCurrentText("8px");
@@ -247,6 +302,10 @@ void TextWidget::initConnection()
         } else if (size > 500) {
             m_fontSize->setCurrentText("500px");
             size = 500;
+        } else {
+            addFontPointSize();
+            m_fontSize->setCurrentIndex(-1);
+            m_fontSize->setEditText(QString::number(size) + "px");
         }
         m_fontSize->blockSignals(false);
 
@@ -255,6 +314,57 @@ void TextWidget::initConnection()
         } else {
             qDebug() << "set error font size with str: " << str;
         }
+        // 必须设置焦点到父控件，不然出现点击后更改文字的大小
+        this->setFocus();
+    });
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), this, [ = ](QString str) {
+
+        if (!str.contains("px") && !m_fontSize->findText(str)) {
+            m_fontSize->setCurrentIndex(-1);
+            return ;
+        }
+
+        str = str.replace("px", "");
+        bool flag = false;
+        int size = str.toInt(&flag);
+        if (flag) {
+            slotFontSizeValueChanged(size);
+        } else {
+            qDebug() << "set error font size with str: " << str;
+        }
+    });
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
+
+        if (!str.contains("px") && !m_fontSize->findText(str)) {
+            m_fontSize->setCurrentIndex(-1);
+            return ;
+        }
+
+        str = str.replace("px", "");
+        bool flag = false;
+        int size = str.toInt(&flag);
+        if (flag) {
+            slotFontSizeValueChanged(size);
+        } else {
+            qDebug() << "set error font size with str: " << str;
+        }
+    });
+    connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentTextChanged), this, [ = ](QString str) {
+
+//        if (!str.contains("px") && !m_fontSize->findText(str)) {
+//            m_fontSize->setCurrentIndex(-1);
+//            return ;
+//        }
+
+        str = str.replace("px", "");
+        bool flag = false;
+        int size = str.toInt(&flag);
+        if (flag) {
+            slotFontSizeValueChanged(size);
+        } else {
+            qDebug() << "set error font size with str: " << str;
+        }
+        this->setFocus();
     });
 
     // 字体重量
@@ -284,31 +394,43 @@ void TextWidget::initConnection()
     });
 }
 
+void TextWidget::addFontPointSize()
+{
+    m_fontSize->clear();
+    m_fontSize->addItem("8px");
+    m_fontSize->addItem("10px");
+    m_fontSize->addItem("12px");
+    m_fontSize->addItem("14px");
+    m_fontSize->addItem("16px");
+    m_fontSize->addItem("18px");
+    m_fontSize->addItem("24px");
+    m_fontSize->addItem("36px");
+    m_fontSize->addItem("48px");
+    m_fontSize->addItem("60px");
+    m_fontSize->addItem("72px");
+    m_fontSize->addItem("100px");
+}
+
 void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
-    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+//    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
-        m_fontComBox->setCurrentText(font.family());
-//        m_fontComBox->setCurrentFont(font);
-    } else {
-        m_fontComBox->setCurrentIndex(-1);
-        m_fontComBox->setCurrentText("- -");
-    }
+//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
+//        m_fontComBox->setCurrentText(font.family());
+////        m_fontComBox->setCurrentFont(font);
+//    } else {
+//        m_fontComBox->setCurrentIndex(-1);
+//        m_fontComBox->setCurrentText("- -");
+//    }
 
-    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
-        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
-    }
-
-    m_fillBtn->setVisible(true);
-    m_textSeperatorLine->setVisible(true);
-    m_fontFamilyLabel->setVisible(true);
-    m_fontComBox->setVisible(true);
-    m_fontHeavy->setVisible(true);
-    m_fontsizeLabel->setVisible(true);
-    m_fontSize->setVisible(true);
+//    m_fillBtn->setVisible(true);
+//    m_textSeperatorLine->setVisible(true);
+//    m_fontFamilyLabel->setVisible(true);
+//    m_fontComBox->setVisible(true);
+////    m_fontHeavy->setVisible(true);
+//    m_fontsizeLabel->setVisible(true);
+//    m_fontSize->setVisible(true);
     m_fillBtn->setIsMultColorSame(true);
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

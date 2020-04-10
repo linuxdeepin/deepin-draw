@@ -153,6 +153,10 @@ signals:
      * @description: 保存当前文件状态
     */
     void signalSaveFileStatus(bool);
+    /**
+     * @description: signalScenceViewChanged 当场景被改变后信号
+    */
+    void signalScenceViewChanged(QString viewName);
 public slots:
     /**
      * @brief importPicture　导入图片
@@ -298,6 +302,13 @@ private slots:
      * @param:  error 保存错误
     */
     void slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error);
+
+    /**
+     * @brief updateTabName　当前场景状态被改变
+     * @param:  oldTabName  根据这个标签页名字判断要修改的标签页
+     * @param:  newTabName  要修改成的标签名字
+     */
+    void updateTabName(const QString &oldTabName, const QString &newTabName);
 
 private:
     CLeftToolBar *m_leftToolbar;

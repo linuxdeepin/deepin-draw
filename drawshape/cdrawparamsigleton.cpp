@@ -112,10 +112,14 @@ QBrush CDrawParamSigleton::getBrush() const
 {
     return QBrush(m_nFillColor);
 }
-
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
 void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
+
+    if (mode != selection)
+        CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
@@ -428,5 +432,14 @@ int CDrawParamSigleton::getRectXRedius() const
 void CDrawParamSigleton::setRectXRedius(int redius)
 {
     m_rectXRedius = redius;
+}
+
+QString CDrawParamSigleton::getShowViewNameByModifyState()
+{
+    if (!getModify()) {
+        return viewName();
+    }
+    QString vName = "* " + viewName();
+    return vName;
 }
 

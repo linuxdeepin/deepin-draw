@@ -80,7 +80,11 @@ exists(app_icon.files) {
     message("app_icon exists")
 }
 
-INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file
+# dbus 外部调用程序
+dbus_service.files = $$PWD/com.deepin.Draw.service
+dbus_service.path = $$PREFIX/share/dbus-1/services
+
+INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file dbus_service
 
 DISTFILES += \
     logo/deepin-draw-16.svg \
@@ -89,3 +93,4 @@ DISTFILES += \
     logo/deepin-draw-96.svg \
     logo/deepin-draw-128.svg \
     logo/deepin-draw-256.svg
+

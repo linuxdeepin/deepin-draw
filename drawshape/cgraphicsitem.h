@@ -101,6 +101,11 @@ public:
     virtual void move(QPointF beginPoint, QPointF movePoint);
 
     /**
+      * @brief updateShape  刷新图元的形状(属性变化时调用重新计算图元的形状和样式)
+      */
+    virtual void updateShape(){}
+
+    /**
      * @brief setSizeHandleRectFlag 设置边界各个方向上的矩形是否可见
      * @param dir 方向
      * @param flag true: 显示  false:不显示

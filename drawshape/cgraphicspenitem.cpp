@@ -1020,7 +1020,7 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1031,7 +1031,7 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1111,7 +1111,7 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case normalRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
@@ -1122,11 +1122,11 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case soildRing: {
-        qreal radioWidth = 5;
+        qreal radioWidth = this->pen().width() * 2;
         QPointF center;
         qreal yOff = qSin(line.angle() / 180 * M_PI) * radioWidth;
         qreal xOff = qCos(line.angle() / 180 * M_PI) * radioWidth;
-        center = line.p2() + QPointF(-xOff, yOff);
+        center = line.p2() + QPointF(xOff, -yOff);
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_endPath.arcTo(ecliRect, 0, 360);
