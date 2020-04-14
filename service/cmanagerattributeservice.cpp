@@ -477,6 +477,57 @@ void CManagerAttributeService::setTextFamilyStyle(CDrawScene *scence, QString st
     }
 }
 
+void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
+{
+    Q_UNUSED(scence)
+    if (item == nullptr) {
+        return;
+    }
+
+    QMap<EDrawProperty, QVariant> propertys;
+
+    switch (item->type()) {
+    case TextType: {
+        CGraphicsItem *cItem = nullptr;
+        cItem = static_cast<CGraphicsItem *>(item);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsItem failed.";
+            return;
+        }
+
+        CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(cItem);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsTextItem failed.";
+            return;
+        }
+
+        bool isSameColor = textItem->getAllTextColorIsEqual();
+        if (!isSameColor) {
+            propertys.insert(TextColor, QColor());
+        } else {
+            propertys.insert(TextColor, textItem->getTextColor());
+        }
+
+        bool isSameSize = textItem->getAllFontSizeIsEqual();
+        if (!isSameSize) {
+            propertys.insert(TextSize, 0);
+        } else {
+            propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+        }
+
+        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
+        if (!isSameFamily) {
+            propertys.insert(TextFont, "");
+        } else {
+            propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        }
+
+        emit signalTextItemPropertyUpdate(propertys);
+        break;
+    }
+    }
+}
+
 void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
 {
     QList<QGraphicsItem *> allItems = scence->selectedItems();
@@ -526,56 +577,5 @@ void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endTy
 //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             penItem->update();
         }
-    }
-}
-
-void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
-{
-    Q_UNUSED(scence)
-    if (item == nullptr) {
-        return;
-    }
-
-    QMap<EDrawProperty, QVariant> propertys;
-
-    switch (item->type()) {
-    case TextType: {
-        CGraphicsItem *cItem = nullptr;
-        cItem = static_cast<CGraphicsItem *>(item);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsItem failed.";
-            return;
-        }
-
-        CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(cItem);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsTextItem failed.";
-            return;
-        }
-
-        bool isSameColor = textItem->getAllTextColorIsEqual();
-        if (!isSameColor) {
-            propertys.insert(TextColor, QColor());
-        } else {
-            propertys.insert(TextColor, textItem->getTextColor());
-        }
-
-        bool isSameSize = textItem->getAllFontSizeIsEqual();
-        if (!isSameSize) {
-            propertys.insert(TextSize, 0);
-        } else {
-            propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-        }
-
-        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
-        if (!isSameFamily) {
-            propertys.insert(TextFont, "");
-        } else {
-            propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        }
-
-        emit signalTextItemPropertyUpdate(propertys);
-        break;
-    }
     }
 }
