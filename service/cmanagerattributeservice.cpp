@@ -531,6 +531,29 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         emit signalTextItemPropertyUpdate(propertys);
         break;
     }
+    case PenType: {
+        CGraphicsItem *cItem = nullptr;
+        cItem = static_cast<CGraphicsItem *>(item);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsItem failed.";
+            return;
+        }
+
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(cItem);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsTextItem failed.";
+            return;
+        }
+
+        ELineType startType = penItem->getPenStartType();
+        propertys.insert(LineAndPenStartType, startType);
+
+        ELineType endType = penItem->getPenEndType();
+        propertys.insert(LineAndPenEndType, endType);
+
+        emit signalPenItemPropertyUpdate(propertys);
+        break;
+    }
     }
 }
 

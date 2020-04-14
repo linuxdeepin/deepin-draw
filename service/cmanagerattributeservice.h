@@ -114,10 +114,16 @@ signals:
     void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
 
     /*
-     * @bref: signalTextItemPropertyUpdate 发送多个图元被选中后需要显示的公共属性信号
+     * @bref: signalTextItemPropertyUpdate 发送文本图元被选中后需要显示的公共属性信号
      * @param: propertys 属性类型值
     */
     void signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
+
+    /*
+     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
+     * @param: propertys 属性类型值
+    */
+    void signalPenItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
 
 private:
     CManagerAttributeService();

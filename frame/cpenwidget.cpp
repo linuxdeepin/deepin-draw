@@ -265,7 +265,35 @@ void CPenWidget::initConnection()
     });
 
     m_lineStartComboBox->setCurrentIndex(0);
-    m_lineStartComboBox->setCurrentIndex(0);
+    m_lineEndComboBox->setCurrentIndex(0);
+
+    // 连接单个画笔点击属性更新
+    connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::signalPenItemPropertyUpdate, this, [ = ](QMap<EDrawProperty, QVariant> propertys) {
+        QMap<EDrawProperty, QVariant>::iterator itr = propertys.begin();
+        for (; itr != propertys.end(); itr++) {
+            switch (itr.key()) {
+            case LineAndPenStartType: {
+                int startIndex = itr.value().toInt();
+                qDebug() << "startIndex: " << startIndex;
+                m_lineStartComboBox->blockSignals(true);
+                m_lineStartComboBox->setCurrentIndex(startIndex);
+                m_lineStartComboBox->blockSignals(false);
+                break;
+            }
+            case LineAndPenEndType: {
+                int endIndex = itr.value().toInt();
+                qDebug() << "endIndex: " << endIndex;
+                m_lineEndComboBox->blockSignals(true);
+                m_lineEndComboBox->setCurrentIndex(endIndex);
+                m_lineEndComboBox->blockSignals(false);
+                break;
+            }
+            default: {
+                break;
+            }
+            }
+        }
+    });
 }
 
 void CPenWidget::updatePenWidget()
