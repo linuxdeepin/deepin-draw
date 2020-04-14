@@ -315,6 +315,7 @@ void TextWidget::initConnection()
 
         if (flag) {
             slotFontSizeValueChanged(size);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -333,6 +334,7 @@ void TextWidget::initConnection()
         int size = str.toInt(&flag);
         if (flag) {
             slotFontSizeValueChanged(size);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -360,6 +362,7 @@ void TextWidget::initConnection()
         }
         CManagerAttributeService::getInstance()->setTextFamilyStyle(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), style);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextHeavy, style);
 
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);

@@ -336,14 +336,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[TextColor] = tmpVariant;
                 }
             }
-            if (propertys.contains(FillColor)) {
-                mode = EGraphicUserType::TextType;
-                if (propertys[FillColor] == static_cast<CGraphicsTextItem *>(item)->getTextColor()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
-                }
-            }
             if (propertys.contains(TextFont)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
                 qDebug() << "font = " << font;
@@ -406,6 +398,9 @@ CManagerAttributeService::CManagerAttributeService()
 
 void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType startType)
 {
+    if (scence && scence->getItemsMgr()->getItems().size() > 1) {
+        return;
+    }
     QList<QGraphicsItem *> allItems = scence->selectedItems();
     for (int i = allItems.size() - 1; i >= 0; i--) {
         if (allItems.at(i)->zValue() == 0.0) {
@@ -454,6 +449,9 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
 
 void CManagerAttributeService::setTextFamilyStyle(CDrawScene *scence, QString style)
 {
+    if (scence && scence->getItemsMgr()->getItems().size() > 1) {
+        return;
+    }
     QList<QGraphicsItem *> allItems = scence->selectedItems();
     for (int i = allItems.size() - 1; i >= 0; i--) {
         if (allItems.at(i)->zValue() == 0.0) {

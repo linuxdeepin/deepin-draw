@@ -71,12 +71,11 @@ void TextColorButton::paintEvent(QPaintEvent *)
     if (m_isMultColorSame) {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
-        painter.setPen(Qt::transparent);
         painter.save();
+        painter.setPen(Qt::transparent);
         QPainterPath clipPath;
         clipPath.addRoundedRect(QRect(4, 8, 20, 20),  8, 8);
         painter.setClipPath(clipPath);
-        painter.restore();
         QPen colorPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             colorPen.setColor(QColor(0, 0, 0, 25));
@@ -104,7 +103,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
             painter.setPen(linePen);
             painter.drawLine(7, 24, 21, 11);
         }
-
+        painter.restore();
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
@@ -120,6 +119,11 @@ void TextColorButton::paintEvent(QPaintEvent *)
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
+        painter.save();
+        painter.setPen(Qt::transparent);
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(QRect(4, 8, 20, 20),  8, 8);
+        painter.setClipPath(clipPath);
         QPen borderPen;
         borderPen.setWidth(1);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -146,7 +150,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
         ft.setPixelSize(14);
         painter.setFont(ft);
         painter.drawText(8, 3, 32, 16, 0, tr("..."));
-
+        painter.restore();
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
         } else {

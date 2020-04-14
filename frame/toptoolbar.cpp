@@ -364,6 +364,9 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 {
+    if (primitiveType == QGraphicsItem::UserType) {
+        return;
+    }
     if (flag) {
         EDrawToolMode toolType = EDrawToolMode::selection;
         switch (primitiveType) {
