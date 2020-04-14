@@ -60,37 +60,6 @@ void CPenWidget::changeButtonTheme()
 {
     m_sideWidthWidget->changeButtonTheme();
     m_sep1Line->updateTheme();
-
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    // lock signal
-    m_lineStartComboBox->blockSignals(true);
-    m_lineEndComboBox->blockSignals(true);
-    qDebug() << "theme: " << themeType;
-    if (1 == themeType) { // light style
-        m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
-        m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/light/images/menu_line_arrow_light_start.svg")));
-        m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_line_solid arrow_light_start.svg")));
-        m_lineStartComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/light/images/menu_line_ring_light_start.svg")));
-        m_lineStartComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/light/images/menu_line_round_light_start.svg")));
-        m_lineEndComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/light/images/combobox_startline_none_light.svg")));
-        m_lineEndComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/light/images/menu_finishline_arrow_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/light/images/menu_finishline_solid arrow_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/light/images/menu_finishline_ring_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/light/images/menu_finishline_round_light_end.svg")));
-    } else { // dark style
-        m_lineStartComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
-        m_lineStartComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/dark/images/menu_line_arrow_black_start.svg")));
-        m_lineStartComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/dark/images/menu_line_solid arrow_black_start.svg")));
-        m_lineStartComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/dark/images/menu_line_ring_black_start.svg")));
-        m_lineStartComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/dark/images/menu_line_round_black_start.svg")));
-        m_lineEndComboBox->setItemIcon(0, QIcon(QPixmap(":/theme/dark/images/combobox_startline_none_black.svg")));
-        m_lineEndComboBox->setItemIcon(1, QIcon(QPixmap(":/theme/dark/images/menu_finishline_arrow_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(2, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_solid arrow_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(3, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_ring_light_end.svg")));
-        m_lineEndComboBox->setItemIcon(4, QIcon(QPixmap(":/theme/dark/images/combobox_finishline_round_light_end.svg")));
-    }
-    m_lineStartComboBox->blockSignals(false);
-    m_lineEndComboBox->blockSignals(false);
 }
 
 void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
@@ -167,22 +136,23 @@ void CPenWidget::initUI()
     m_sideWidthWidget->setFixedWidth(100);
 
     m_lineStartComboBox = new DComboBox(this);
-    m_lineStartComboBox->setFixedSize(QSize(70, 36));
-    m_lineStartComboBox->setIconSize(QSize(34, 14));
-    m_lineStartComboBox->addItem("");
-    m_lineStartComboBox->addItem("");
-    m_lineStartComboBox->addItem("");
-    m_lineStartComboBox->addItem("");
-    m_lineStartComboBox->addItem("");
+    m_lineStartComboBox->setFixedSize(QSize(90, 36));
+    m_lineStartComboBox->setIconSize(QSize(34, 20));
 
     m_lineEndComboBox =  new DComboBox(this);
-    m_lineEndComboBox->setFixedSize(QSize(70, 36));
-    m_lineEndComboBox->setIconSize(QSize(34, 14));
-    m_lineEndComboBox->addItem("");
-    m_lineEndComboBox->addItem("");
-    m_lineEndComboBox->addItem("");
-    m_lineEndComboBox->addItem("");
-    m_lineEndComboBox->addItem("");
+    m_lineEndComboBox->setFixedSize(QSize(90, 36));
+    m_lineEndComboBox->setIconSize(QSize(34, 20));
+
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
