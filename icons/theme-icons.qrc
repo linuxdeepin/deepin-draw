@@ -9,5 +9,7 @@
         <file>texts/ddc_right_circle_34px.svg</file>
         <file>texts/ddc_right_fill_arrow_34px.svg</file>
         <file>texts/ddc_right_fill_circle_34px.svg</file>
+        <file>texts/ddc_button_reduce_hover_20px.svg</file>
+        <file>texts/ddc_button_add_hover_20px.svg</file>
     </qresource>
 </RCC>

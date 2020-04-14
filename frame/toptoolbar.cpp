@@ -96,6 +96,7 @@ void TopToolbar::initComboBox()
 {
     m_zoomMenuComboBox = new DZoomMenuComboBox(this);
     m_zoomMenuComboBox->setFont(ft);
+    m_zoomMenuComboBox->setMenuFlat(false);
     m_zoomMenuComboBox->setFixedWidth(162);
     m_zoomMenuComboBox->addItem("200%");
     m_zoomMenuComboBox->addItem("100%");

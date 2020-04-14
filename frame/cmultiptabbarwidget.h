@@ -128,15 +128,9 @@ signals:
     void signalItemChanged(QString itemName);
 
 protected:
-    void resizeEvent(QResizeEvent *event) override;
     bool eventFilter(QObject *, QEvent *event) override;
 
 private:
-    /**
-     * @description: updateTabWidth 更新标签的宽度
-    */
-    void updateTabWidth();
-
     void initConnection();
 
     quint32 m_tabbarWidth = 0; // tabbar的最小宽度

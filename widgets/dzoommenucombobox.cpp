@@ -23,10 +23,14 @@
 #include <QHBoxLayout>
 #include <QDebug>
 #include <QPalette>
+#include <QStyle>
+#include <QRect>
+
+#include <DPushButton>
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
-    , m_floatingSize(24)
+    , m_floatingSize(32)
     , m_currentIndex(-1)
 {
     initUI();
@@ -206,12 +210,14 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
 
 void DZoomMenuComboBox::initUI()
 {
-    m_increaseBtn = new DFloatingButton(DStyle::StandardPixmap::SP_IncreaseElement);
-    m_reduceBtn = new DFloatingButton(DStyle::StandardPixmap::SP_DecreaseElement);
+    m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
+    m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
     m_reduceBtn->setBackgroundRole(QPalette::Button);
     m_increaseBtn->setBackgroundRole(QPalette::Button);
+    m_reduceBtn->setIconSize(QSize(24, 24));
+    m_increaseBtn->setIconSize(QSize(24, 24));
 
     connect(m_reduceBtn, &DFloatingButton::clicked, this, [ = ]() {
         emit signalLeftBtnClicked();
@@ -220,21 +226,28 @@ void DZoomMenuComboBox::initUI()
         emit signalRightBtnClicked();
     });
 
-    m_btn = new DPushButton(this);
-    m_btn->setFlat(true);
-    m_btn->setFixedWidth(65);
+    m_btn = new DPushButton("", this);
+    m_btn->setMinimumWidth(136);
+    m_btn->setMaximumWidth(136);
     connect(m_btn, &DPushButton::clicked, this, [ = ]() {
         m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
     });
 
     m_menu = new QMenu(this);
-//    m_menu->setGeometry(0,this->height(),m_menu->geometry().width(),m_menu->geometry().height());
 
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
-    m_hlayout->addWidget(m_reduceBtn);
     m_hlayout->addWidget(m_btn);
-    m_hlayout->addWidget(m_increaseBtn);
     this->setLayout(m_hlayout);
+
+    QHBoxLayout *hlayout = new QHBoxLayout(this);
+    hlayout->addWidget(m_reduceBtn);
+    hlayout->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
+    hlayout->addWidget(m_increaseBtn);
+    this->setLayout(hlayout);
+    hlayout->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
+
+    m_reduceBtn->raise();
+    m_increaseBtn->raise();
 }
 
 void DZoomMenuComboBox::initConnection()
