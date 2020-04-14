@@ -1733,6 +1733,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextFontStyle());
             break;
         case TextFont:
+            qDebug() << "set undo font = " << static_cast<CGraphicsTextItem *>(item)->getFont();
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFont());
             break;
         default:
@@ -1828,12 +1829,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
             break;
         }
         item->update();
-    }
-
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addToGroup(item);
     }
 
     myGraphicsScene->clearSelection();

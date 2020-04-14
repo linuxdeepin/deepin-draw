@@ -381,12 +381,20 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
     }
 }
 
-void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value)
+void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
 {
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+
+            if (pushTostack) {
+                qDebug() << "CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand)";
+                CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            } else {
+                addCommand->redo();
+                delete addCommand;
+                addCommand = nullptr;
+            }
         }
     }
 }

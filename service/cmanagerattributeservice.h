@@ -70,7 +70,7 @@ public:
      * @param: property 属性类型
      * @param: value 属性值
     */
-    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value);
+    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
 
     /*
      * @bref: setLineStartType 设置线段起点的样式
