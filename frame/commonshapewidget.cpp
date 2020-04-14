@@ -183,6 +183,7 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox->setFixedSize(QSize(70, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
+
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
 

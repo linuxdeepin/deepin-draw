@@ -831,6 +831,7 @@ void CSetPenAttributeCommand::undo()
 {
     m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
     m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
+
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
@@ -843,6 +844,7 @@ void CSetPenAttributeCommand::redo()
 {
     m_pItem->setPenStartType(static_cast<ELineType>(m_oldStartType));
     m_pItem->setPenEndType(static_cast<ELineType>(m_oldEndType));
+
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
     myGraphicsScene->changeAttribute(true, m_pItem);
@@ -1833,9 +1835,16 @@ void CSetItemsCommonPropertyValueCommand::undo()
     foreach (CGraphicsItem *item, m_items) {
         myGraphicsScene->getItemsMgr()->addToGroup(item);
     }
+
+    myGraphicsScene->clearSelection();
+    myGraphicsScene->getItemsMgr()->clear();
+    foreach (CGraphicsItem *item, m_items) {
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+    }
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
         myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
 
     myGraphicsScene->update();
@@ -1940,10 +1949,13 @@ void CSetItemsCommonPropertyValueCommand::redo()
     myGraphicsScene->clearSelection();
     myGraphicsScene->getItemsMgr()->clear();
     foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addToGroup(item);
+        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
     }
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
         myGraphicsScene->getItemsMgr()->setSelected(true);
+        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
     }
+
+    myGraphicsScene->update();
 }

@@ -145,6 +145,8 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 void CPenWidget::initUI()
 {
     m_strokeBtn = new BorderColorButton(this);
+    m_strokeBtn->setButtonText(tr("Color"));
+
     m_sep1Line = new SeperatorLine(this);
     m_sideWidthWidget = new CSideWidthWidget(this);
     m_sideWidthWidget->setFixedWidth(100);
