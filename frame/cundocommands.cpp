@@ -1733,6 +1733,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getTextFontStyle());
             break;
         case TextFont:
+            qDebug() << "set undo font = " << static_cast<CGraphicsTextItem *>(item)->getFont();
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFont());
             break;
         default:
@@ -1833,12 +1834,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
     myGraphicsScene->clearSelection();
     myGraphicsScene->getItemsMgr()->clear();
     foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addToGroup(item);
-    }
-
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_items) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
     }
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
@@ -1887,13 +1882,14 @@ void CSetItemsCommonPropertyValueCommand::redo()
             }
             break;
         case SideNumber:
-            if (item->type() == PolygonalStarType) {
+            if (item->type() == PolygonType) {
                 static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
             }
             break;
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
@@ -1902,6 +1898,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
@@ -1943,7 +1940,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
         default:
             break;
         }
-        item->update();
+        item->updateShape();
     }
 
     myGraphicsScene->clearSelection();

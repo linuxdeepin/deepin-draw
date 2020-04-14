@@ -147,25 +147,13 @@ void LineWidget::initUI()
     m_sideWidthWidget->setFont(ft);
 
     m_lineStartComboBox = new DComboBox(this);
-    m_maskLableStart = new DLabel(m_lineStartComboBox);
-    m_maskLableStart->setText("— —");
-    m_maskLableStart->move(6, 6);
-    m_maskLableStart->setFixedSize(35, 20);
-    m_maskLableStart->setVisible(false);
-    m_maskLableStart->setFont(m_maskLableStart->font());
-
     m_lineStartComboBox->setFixedSize(QSize(90, 36));
     m_lineStartComboBox->setIconSize(QSize(34, 20));
-    m_lineEndComboBox =  new DComboBox(this);
-    m_maskLableEnd = new DLabel(m_lineEndComboBox);
-    m_maskLableEnd->setText("— —");
-    m_maskLableEnd->move(6, 6);
-    m_maskLableEnd->setFixedSize(35, 20);
-    m_maskLableEnd->setVisible(false);
-    m_maskLableEnd->setFont(m_lineEndComboBox->font());
 
+    m_lineEndComboBox =  new DComboBox(this);
     m_lineEndComboBox->setFixedSize(QSize(90, 36));
     m_lineEndComboBox->setIconSize(QSize(34, 20));
+
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
@@ -176,6 +164,20 @@ void LineWidget::initUI()
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+
+    m_maskLableStart = new DLabel(m_lineStartComboBox);
+    m_maskLableStart->setText("— —");
+    m_maskLableStart->move(6, 6);
+    m_maskLableStart->setFixedSize(35, 20);
+    m_maskLableStart->setVisible(false);
+    m_maskLableStart->setFont(m_maskLableStart->font());
+
+    m_maskLableEnd = new DLabel(m_lineEndComboBox);
+    m_maskLableEnd->setText("— —");
+    m_maskLableEnd->move(6, 6);
+    m_maskLableEnd->setFixedSize(35, 20);
+    m_maskLableEnd->setVisible(false);
+    m_maskLableEnd->setFont(m_lineEndComboBox->font());
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

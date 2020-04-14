@@ -134,8 +134,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     m_fillBtn->setVisible(false);
     m_textSeperatorLine->setVisible(false);
     m_fontFamilyLabel->setVisible(false);
-    m_fontComBox->setVisible(false);
-//    m_fontHeavy->setVisible(false);
+    //m_fontComBox->setVisible(false);
     m_fontsizeLabel->setVisible(false);
     m_fontSize->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
@@ -252,6 +251,7 @@ void TextWidget::initConnection()
         m_bSelect = false;
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
 //        qDebug() << "weight:" << m_fontComBox->font().
@@ -259,6 +259,7 @@ void TextWidget::initConnection()
         m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str, false);
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
         if (m_bSelect) {
@@ -315,6 +316,7 @@ void TextWidget::initConnection()
 
         if (flag) {
             slotFontSizeValueChanged(size);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -333,6 +335,7 @@ void TextWidget::initConnection()
         int size = str.toInt(&flag);
         if (flag) {
             slotFontSizeValueChanged(size);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -360,6 +363,7 @@ void TextWidget::initConnection()
         }
         CManagerAttributeService::getInstance()->setTextFamilyStyle(
             static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), style);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextHeavy, style);
 
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);

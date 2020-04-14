@@ -95,6 +95,11 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
         m_listItems.push_back(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
     }
+
+    if (m_listItems.size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
+    }
+
     updateGeometry();
 }
 
