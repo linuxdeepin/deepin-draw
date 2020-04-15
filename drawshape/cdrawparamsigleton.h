@@ -101,9 +101,6 @@ public:
     int getBlurWidth() const;
     void setBlurWidth(const int width);
 
-    void setSingleFontFlag(bool flag);
-    bool getSingleFontFlag() const;
-
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
 
@@ -169,7 +166,6 @@ private:
     QFont m_textFont; //文本字体
     //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
-    bool m_singleFontFlag; //只包含一个字体
 
     EDrawToolMode m_currentDrawToolMode;
 

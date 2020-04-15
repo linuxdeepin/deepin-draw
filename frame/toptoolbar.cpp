@@ -628,7 +628,6 @@ void TopToolbar::initConnection()
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-    connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 

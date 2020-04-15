@@ -383,18 +383,41 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
 {
-    if (m_currentScence && m_currentScence->getItemsMgr()) {
-        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
+    m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 
-            if (pushTostack) {
-                qDebug() << "CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand)";
-                CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            } else {
-                addCommand->redo();
-                delete addCommand;
-                addCommand = nullptr;
+    if (m_currentScence && m_currentScence->getItemsMgr()) {
+        QList<CGraphicsItem *> allItems;
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            allItems = m_currentScence->getItemsMgr()->getItems();
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
             }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    allItems.append(item);
+                }
+            }
+        }
+        if (allItems.size() <= 0) {
+            return;
+        }
+        QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+        if (pushTostack) {
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+        } else {
+            addCommand->redo();
+            delete addCommand;
+            addCommand = nullptr;
         }
     }
 }
@@ -526,6 +549,13 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
             propertys.insert(TextFont, "");
         } else {
             propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        }
+
+        bool isSameWeight = textItem->getAllFontWeightIsEqual();
+        if (!isSameWeight) {
+            propertys.insert(TextHeavy, "");
+        } else {
+            propertys.insert(TextHeavy, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
         }
 
         emit signalTextItemPropertyUpdate(propertys);

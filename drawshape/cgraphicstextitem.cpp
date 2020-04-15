@@ -148,6 +148,11 @@ bool CGraphicsTextItem::getAllFontFamilyIsEqual()
     return m_allFamilyIsEqual;
 }
 
+bool CGraphicsTextItem::getAllFontWeightIsEqual()
+{
+    return m_allWeightIsEqual;
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -227,8 +232,15 @@ QString CGraphicsTextItem::getTextFontStyle() const
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
+    QTextCharFormat fmt;
+    fmt.font().setStyleName(style);
+    mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);
-    m_pTextEdit->setFont(m_Font);
+
+    //只有把焦点设成这个,才可以输入文字
+    if (this->scene() != nullptr) {
+        this->scene()->views()[0]->setFocus();
+    }
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)
@@ -238,11 +250,6 @@ void CGraphicsTextItem::setFontSize(qreal size)
     mergeFormatOnWordOrSelection(fmt);
 
     m_Font.setPointSizeF(size);
-
-//    //只有把焦点设成这个  才可以输入文字
-//    if (this->scene() != nullptr) {
-//        this->scene()->views()[0]->setFocus();
-    //    }
 }
 
 qreal CGraphicsTextItem::getFontSize()
@@ -257,7 +264,7 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
 
-    //只有把焦点设成这个  才可以输入文字
+    //只有把焦点设成这个,才可以输入文字
     if (this->scene() != nullptr) {
         this->scene()->views()[0]->setFocus();
     }
@@ -269,7 +276,6 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_bManResize = true;
     updateWidget();
     m_pTextEdit->resizeDocument();
-
 }
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
@@ -282,7 +288,6 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
@@ -290,9 +295,9 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
     m_color = col;
 
     //只有把焦点设成这个  才可以输入文字
-//    if (this->scene() != nullptr) {
-//        this->scene()->views()[0]->setFocus();
-    //    }
+    if (this->scene() != nullptr) {
+        this->scene()->views()[0]->setFocus();
+    }
 }
 
 QColor CGraphicsTextItem::getTextColor()
@@ -303,8 +308,6 @@ QColor CGraphicsTextItem::getTextColor()
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = m_pTextEdit->textCursor();
-//    if (!cursor.hasSelection())
-//        cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
     m_pTextEdit->mergeCurrentCharFormat(format);
     m_pTextEdit->setFocus();
@@ -363,6 +366,7 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     m_allColorIsEqual = true;
     m_allSizeIsEqual = true;
     m_allFamilyIsEqual = true;
+    m_allWeightIsEqual = true;
 
     QTextBlock block = cur.block();
     if (block.isValid()) {
@@ -385,7 +389,12 @@ void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 m_allFamilyIsEqual = false;
             }
 
-            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual) {
+            if (m_allWeightIsEqual && fragment.charFormat().font().weight() != m_Font.weight()) {
+                m_allWeightIsEqual = false;
+            }
+
+            // 当所有的都不相同时跳出循环
+            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual && !m_allWeightIsEqual) {
                 return;
             }
         }

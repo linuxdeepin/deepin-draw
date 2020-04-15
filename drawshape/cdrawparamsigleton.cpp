@@ -28,7 +28,6 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_sideNum(5)
     , m_textFont(QFont())
     , m_textColor(Qt::black)
-    , m_singleFontFlag(true)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
@@ -250,16 +249,6 @@ void CDrawParamSigleton::setTextColor(const QColor &fillColor)
 QColor CDrawParamSigleton::getTextColor() const
 {
     return m_textColor;
-}
-
-void CDrawParamSigleton::setSingleFontFlag(bool flag)
-{
-    m_singleFontFlag = flag;
-}
-
-bool CDrawParamSigleton::getSingleFontFlag() const
-{
-    return m_singleFontFlag;
 }
 
 QString CDrawParamSigleton::getDdfSavePath() const
