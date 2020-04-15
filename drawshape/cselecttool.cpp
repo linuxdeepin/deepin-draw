@@ -92,6 +92,10 @@ bool CSelectTool::isDragging()
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     qDebug() << "mouse press" << endl;
+    bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
+    if (shiftKeyPress && m_currentSelectItem) {
+        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+    }
     scene->getItemHighLight()->setVisible(false);
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
@@ -217,7 +221,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 scene->getItemsMgr()->clear();
             }
 
-            bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
             //shift键按下时
             QTransform transform;
             QList<QGraphicsItem *> selectItems = scene->items(event->scenePos());
@@ -246,7 +249,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
                         scene->getItemsMgr()->clear();
-                        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
                     }
                 }
             } else {
@@ -644,7 +646,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 scene->getItemsMgr()->show();
                 scene->clearSelection();
                 scene->getItemsMgr()->setSelected(true);
-                emit scene->signalAttributeChanged(true, QGraphicsItem::UserType);
             }
             m_bMousePress = false;
             scene->mouseEvent(event);

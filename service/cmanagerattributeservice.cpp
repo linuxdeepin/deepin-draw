@@ -336,14 +336,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[TextColor] = tmpVariant;
                 }
             }
-            if (propertys.contains(FillColor)) {
-                mode = EGraphicUserType::TextType;
-                if (propertys[FillColor] == static_cast<CGraphicsTextItem *>(item)->getTextColor()) {
-                    allPropertys[TextColor] = propertys[FillColor];
-                } else {
-                    allPropertys[TextColor] = tmpVariant;
-                }
-            }
             if (propertys.contains(TextFont)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
                 qDebug() << "font = " << font;
@@ -389,12 +381,20 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
     }
 }
 
-void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value)
+void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
 {
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+
+            if (pushTostack) {
+                qDebug() << "CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand)";
+                CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            } else {
+                addCommand->redo();
+                delete addCommand;
+                addCommand = nullptr;
+            }
         }
     }
 }
@@ -406,6 +406,9 @@ CManagerAttributeService::CManagerAttributeService()
 
 void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType startType)
 {
+    if (scence && scence->getItemsMgr()->getItems().size() > 1) {
+        return;
+    }
     QList<QGraphicsItem *> allItems = scence->selectedItems();
     for (int i = allItems.size() - 1; i >= 0; i--) {
         if (allItems.at(i)->zValue() == 0.0) {
@@ -454,6 +457,9 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
 
 void CManagerAttributeService::setTextFamilyStyle(CDrawScene *scence, QString style)
 {
+    if (scence && scence->getItemsMgr()->getItems().size() > 1) {
+        return;
+    }
     QList<QGraphicsItem *> allItems = scence->selectedItems();
     for (int i = allItems.size() - 1; i >= 0; i--) {
         if (allItems.at(i)->zValue() == 0.0) {
@@ -473,58 +479,6 @@ void CManagerAttributeService::setTextFamilyStyle(CDrawScene *scence, QString st
             //            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
             //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->update();
-        }
-    }
-}
-
-void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
-{
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
-        if (penItem != nullptr) {
-            scence->getDrawParam()->setPenStartType(startType);
-            penItem->setPenStartType(startType);
-            penItem->drawComplete();
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            penItem->update();
-        }
-    }
-}
-
-void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endType)
-{
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
-        if (penItem != nullptr) {
-            scence->getDrawParam()->setPenEndType(endType);
-            penItem->setPenEndType(endType);
-            penItem->drawComplete();
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            penItem->update();
         }
     }
 }
@@ -577,5 +531,80 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         emit signalTextItemPropertyUpdate(propertys);
         break;
     }
+    case PenType: {
+        CGraphicsItem *cItem = nullptr;
+        cItem = static_cast<CGraphicsItem *>(item);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsItem failed.";
+            return;
+        }
+
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(cItem);
+        if (cItem == nullptr) {
+            qDebug() << "convert to CGraphicsTextItem failed.";
+            return;
+        }
+
+        ELineType startType = penItem->getPenStartType();
+        propertys.insert(LineAndPenStartType, startType);
+
+        ELineType endType = penItem->getPenEndType();
+        propertys.insert(LineAndPenEndType, endType);
+
+        emit signalPenItemPropertyUpdate(propertys);
+        break;
+    }
+    }
+}
+
+void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
+        if (penItem != nullptr) {
+            scence->getDrawParam()->setPenStartType(startType);
+            penItem->setPenStartType(startType);
+            penItem->drawComplete();
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            penItem->update();
+        }
+    }
+}
+
+void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endType)
+{
+    QList<QGraphicsItem *> allItems = scence->selectedItems();
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        if (allItems.at(i)->zValue() == 0.0) {
+            allItems.removeAt(i);
+            continue;
+        }
+        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+            allItems.removeAt(i);
+        }
+    }
+
+    if (allItems.size() >= 1) {
+        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
+        if (penItem != nullptr) {
+            scence->getDrawParam()->setPenEndType(endType);
+            penItem->setPenEndType(endType);
+            penItem->drawComplete();
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            penItem->update();
+        }
     }
 }

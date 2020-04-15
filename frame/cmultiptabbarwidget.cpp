@@ -76,29 +76,10 @@ void CMultipTabBarWidget::addTabBarItem(QString name)
     this->addTab(name);
 
     emit signalNewAddItem(name);
-    updateTabWidth();
 
     for (int i = 0; i < this->count(); i++) {
         if (name == this->tabText(i)) {
             this->setCurrentIndex(i);
-        }
-    }
-}
-
-void CMultipTabBarWidget::updateTabWidth()
-{
-    int tabWidth;
-    if (count() != 0) {
-        tabWidth = (width() - 40) / count();
-        for (int i = 0; i < count(); i++) {
-            if (tabWidth < 140) {
-                setUsesScrollButtons(true);
-                // 此处设置最小高度为37是为了能够在resize的时候进行重绘
-                setTabMinimumSize(i, QSize(140, 37));
-            } else {
-                setUsesScrollButtons(false);
-                setTabMinimumSize(i, QSize(tabWidth, 37));
-            }
         }
     }
 }
@@ -131,6 +112,11 @@ void CMultipTabBarWidget::initConnection()
         QString currentName = this->tabText(index);
         emit signalItemChanged(currentName);
     });
+
+    // [3] 连接新增加标签页设置到当前新增加标签
+    connect(this, &DTabBar::tabIsInserted, this, [ = ](int index) {
+        this->setCurrentIndex(index);
+    }, Qt::QueuedConnection);
 }
 
 bool CMultipTabBarWidget::tabBarNameIsExist(QString name)
@@ -204,14 +190,6 @@ QStringList CMultipTabBarWidget::getAllTabBarName()
         names << this->tabText(i);
     }
     return names;
-}
-
-void CMultipTabBarWidget::resizeEvent(QResizeEvent *event)
-{
-    DTabBar::resizeEvent(event);
-    updateTabWidth();
-    this->update();
-    this->resize(width(), 36);
 }
 
 bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)

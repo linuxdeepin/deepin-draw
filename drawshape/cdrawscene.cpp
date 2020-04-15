@@ -314,9 +314,9 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
     //多选状态
     if (this->getItemsMgr()->getItems().size() > 1) {
         getDrawParam()->setSelectAllFlag(true);
-        if (flag) {
-            emit signalAttributeChanged(flag, NoType);
-        }
+//        if (flag) {
+//            emit signalAttributeChanged(flag, NoType);
+//        }
 
     } else if (count == 1) {
         if (selectedItem == nullptr) {

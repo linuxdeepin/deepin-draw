@@ -86,7 +86,7 @@ private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
-    CSpinBox *m_sideNumSlider;
+    CSpinBox *m_sideNumSpinBox;
     SeperatorLine *m_sepLine;
 //    DLabel *m_lwLabel;
     DLabel *m_sideNumLabel;

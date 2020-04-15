@@ -96,6 +96,7 @@ void TopToolbar::initComboBox()
 {
     m_zoomMenuComboBox = new DZoomMenuComboBox(this);
     m_zoomMenuComboBox->setFont(ft);
+    m_zoomMenuComboBox->setMenuFlat(false);
     m_zoomMenuComboBox->setFixedWidth(162);
     m_zoomMenuComboBox->addItem("200%");
     m_zoomMenuComboBox->addItem("100%");
@@ -364,6 +365,9 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 {
+    if (primitiveType == QGraphicsItem::UserType) {
+        return;
+    }
     if (flag) {
         EDrawToolMode toolType = EDrawToolMode::selection;
         switch (primitiveType) {
@@ -509,6 +513,11 @@ void TopToolbar::slotRectRediusChanged(int value)
 
 void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys)
 {
+    if (propertys.size() > 0) {
+        m_stackWidget->currentWidget()->setVisible(true);
+    } else {
+        m_stackWidget->currentWidget()->setVisible(false);
+    }
     switch (mode) {
     case::RectType://矩形
     case::EllipseType://圆形

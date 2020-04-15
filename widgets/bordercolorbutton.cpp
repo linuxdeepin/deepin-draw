@@ -65,12 +65,11 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     if (m_isMultColorSame) {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
-        painter.setPen(Qt::transparent);
         painter.save();
+        painter.setPen(Qt::transparent);
         QPainterPath clipPath;
         clipPath.addRoundedRect(QRect(4, 8, 20, 20), 8, 8);
         painter.setClipPath(clipPath);
-        painter.restore();
         QPen colorPen;
         colorPen.setWidth(3);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -107,7 +106,7 @@ void BorderColorButton::paintEvent(QPaintEvent *)
             painter.setPen(linePen);
             painter.drawLine(7, 25, 22, 12);
         }
-
+        painter.restore();
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
@@ -122,33 +121,27 @@ void BorderColorButton::paintEvent(QPaintEvent *)
     } else {
         painter.setRenderHints(QPainter::Antialiasing
                                | QPainter::SmoothPixmapTransform);
+        painter.save();
+        QPainterPath clipPath;
+        clipPath.addRoundedRect(QRect(4, 8, 20, 20), 8, 8);
+        painter.setClipPath(clipPath);
         QPen pen;
         pen.setWidth(1);
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(0, 0, 0, 12));
+            pen.setColor(QColor(0, 0, 0, 25));
         } else {
             pen.setColor(QColor(77, 82, 93, 204));
         }
         painter.setPen(pen);
-        painter.drawRoundedRect(QRect(4, 8, 19, 19), 8, 8);
-
-        QPen borderPen;
-        borderPen.setWidth(1);
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            borderPen.setColor(QColor(0, 0, 0, 12));
-        } else {
-            borderPen.setColor(QColor(77, 82, 93, 204));
-        }
-        painter.setPen(borderPen);
-        painter.drawRoundedRect(QRect(6, 10, 15, 15), 6, 6);
-
+        painter.drawRoundedRect(QRect(4, 8, 19, 19), 7, 7);
+        painter.drawRoundedRect(QRect(6, 10, 15, 15), 5, 5);
+        painter.restore();
         QPen textPen;
         if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
             textPen.setColor(QColor("#414D68"));
         } else {
             textPen.setColor(QColor("#C0C6D4"));
         }
-
         painter.setPen(textPen);
         QFont ft;
         ft.setPixelSize(14);

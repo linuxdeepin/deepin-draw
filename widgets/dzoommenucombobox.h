@@ -23,7 +23,6 @@
 
 #include <DFrame>
 #include <DWidget>
-#include <DPushButton>
 #include <DFloatingButton>
 
 #include <QMenu>
