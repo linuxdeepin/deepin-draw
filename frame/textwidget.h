@@ -105,7 +105,7 @@ private:
     DLabel *m_fontsizeLabel;
 
     QString m_oriFamily;
-    bool m_bSelect;
+    bool    m_oneItemIsHighlighted;
 
 private:
     /**

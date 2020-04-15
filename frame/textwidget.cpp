@@ -37,7 +37,7 @@ const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 TextWidget::TextWidget(DWidget *parent)
     : DWidget(parent)
-    , m_bSelect(false)
+    , m_oneItemIsHighlighted(false)
 {
     initUI();
     initConnection();
@@ -248,25 +248,28 @@ void TextWidget::initConnection()
     });
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
-        m_bSelect = false;
+        m_oneItemIsHighlighted = false;
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
-//        qDebug() << "weight:" << m_fontComBox->font().
-        m_bSelect = true;
-        m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
+        m_oneItemIsHighlighted = true;
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
         emit signalTextFontFamilyChanged();
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str, false);
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
-        if (m_bSelect) {
+        if (m_oneItemIsHighlighted) {
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
             emit signalTextFontFamilyChanged();
-            m_bSelect = false;
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, m_oriFamily, false);
+            m_fontComBox->setCurrentText(m_oriFamily);
+            m_oneItemIsHighlighted = false;
         }
+    });
+    connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
+        m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
     });
     connect(m_fontComBox,  QOverload<const QString &>::of(&CFontComboBox::currentIndexChanged), this, [ = ](const QString & family) {
         QFontDatabase base; //("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")

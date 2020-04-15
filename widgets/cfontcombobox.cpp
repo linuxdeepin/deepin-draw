@@ -11,3 +11,9 @@ void CFontComboBox::hidePopup()
     DFontComboBox::hidePopup();
     emit signalhidepopup();
 }
+
+void CFontComboBox::showPopup()
+{
+    DFontComboBox::showPopup();
+    emit signalshowpopup();
+}
