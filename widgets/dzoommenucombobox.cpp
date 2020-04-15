@@ -210,6 +210,16 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
 
 void DZoomMenuComboBox::initUI()
 {
+    // [0] 实例化菜单按钮
+    m_btn = new DPushButton("", this);
+    m_menu = new QMenu(this);
+    m_btn->setMinimumWidth(136);
+    m_btn->setMaximumWidth(136);
+    connect(m_btn, &DPushButton::clicked, this, [ = ]() {
+        m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
+    });
+
+    // [1] 左右加减按钮
     m_increaseBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_add_hover"), "", this);
     m_reduceBtn = new DFloatingButton(QIcon::fromTheme("ddc_button_reduce_hover"), "", this);
     m_increaseBtn->setFixedSize(QSize(m_floatingSize, m_floatingSize));
@@ -226,28 +236,16 @@ void DZoomMenuComboBox::initUI()
         emit signalRightBtnClicked();
     });
 
-    m_btn = new DPushButton("", this);
-    m_btn->setMinimumWidth(136);
-    m_btn->setMaximumWidth(136);
-    connect(m_btn, &DPushButton::clicked, this, [ = ]() {
-        m_menu->exec(mapToGlobal(QPoint(0, this->geometry().y() + this->geometry().height())));
-    });
-
-    m_menu = new QMenu(this);
-
     QHBoxLayout *m_hlayout = new QHBoxLayout(this);
     m_hlayout->addWidget(m_btn);
     this->setLayout(m_hlayout);
 
-    QHBoxLayout *hlayout = new QHBoxLayout(this);
+    QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->addWidget(m_reduceBtn);
     hlayout->addSpacing(m_btn->width() - 2 * m_floatingSize - 2 * 5);
     hlayout->addWidget(m_increaseBtn);
-    this->setLayout(hlayout);
+    // 设置左右按钮的位置，需要悬浮于菜单按钮的上面
     hlayout->setGeometry(QRect(m_btn->x() + 14, m_btn->y() + 9, m_btn->width(), m_btn->height()));
-
-    m_reduceBtn->raise();
-    m_increaseBtn->raise();
 }
 
 void DZoomMenuComboBox::initConnection()
