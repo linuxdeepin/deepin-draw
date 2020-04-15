@@ -1933,7 +1933,9 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case TextFont: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
-                curTextItem->setFont(m_value.value<QFont>());
+                QFont f = curTextItem->getFont();
+                f.setFamily(m_value.toString());
+                curTextItem->setFont(f);
             }
         }
         break;

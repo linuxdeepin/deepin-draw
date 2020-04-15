@@ -8,9 +8,11 @@ class CFontComboBox : public DFontComboBox
 public:
     CFontComboBox(QWidget *parent = nullptr);
     virtual void hidePopup() Q_DECL_OVERRIDE;
+    virtual void showPopup() Q_DECL_OVERRIDE;
 
 signals:
     void signalhidepopup();
+    void signalshowpopup();
 };
 
 #endif // CFONTCOMBOBOX_H
