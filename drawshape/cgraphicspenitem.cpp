@@ -1308,7 +1308,8 @@ void CGraphicsPenItem::calcVertexes()
 {
     qint32 count = m_path.elementCount();
 
-    calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
+    if (count > 2)
+        calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
 }
 
 QPainterPath CGraphicsPenItem::getHighLightPath()
