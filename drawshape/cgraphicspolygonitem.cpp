@@ -128,6 +128,8 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     updateGeometry();
 
+    beginCheckIns(painter);
+
     //再绘制填充
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
@@ -137,6 +139,8 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawPolygon(m_listPoints);
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
@@ -157,12 +161,12 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 void CGraphicsPolygonItem::calcPoints()
 {
     prepareGeometryChange();
-    calcPoints_helper(m_listPointsForBrush, m_nPointsCount, this->rect(),-(pen().widthF())/2.0);
-    calcPoints_helper(m_listPoints,m_nPointsCount,this->rect());
+    calcPoints_helper(m_listPointsForBrush, m_nPointsCount, this->rect(), -(pen().widthF()) / 2.0);
+    calcPoints_helper(m_listPoints, m_nPointsCount, this->rect());
 
 }
 
-void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,const QRectF& rect,qreal offset)
+void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)
 {
     if (n <= 0)return;
     outVector.clear();
@@ -183,28 +187,25 @@ void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n,
 
             outVector.push_back(QPointF(x, y));
 
-            if(i != 0)
-            {
-                QLineF line(outVector.at(i-1),outVector.at(i));
+            if (i != 0) {
+                QLineF line(outVector.at(i - 1), outVector.at(i));
                 lines.append(line);
             }
         }
     }
-    lines.push_front(QLineF(outVector.last(),outVector.first()));
+    lines.push_front(QLineF(outVector.last(), outVector.first()));
 
-    if (!qFuzzyIsNull(offset))
-    {
-        for(int i = 0;i < lines.size();++i)
-        {
+    if (!qFuzzyIsNull(offset)) {
+        for (int i = 0; i < lines.size(); ++i) {
             QLineF curLine  = lines[i];
-            QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
+            QLineF nextLine = (i == lines.size() - 1 ? lines[0] : lines[i + 1]);
 
             qreal finalDegree   =  180 - curLine.angleTo(nextLine);   //两条线相交的交角*/
 
-            qreal offLen = offset / qSin(qDegreesToRadians(finalDegree/2.));
+            qreal offLen = offset / qSin(qDegreesToRadians(finalDegree / 2.));
 
             QLineF tempLine(nextLine);
-            qreal newAngle = tempLine.angle() + finalDegree/2.0;
+            qreal newAngle = tempLine.angle() + finalDegree / 2.0;
             tempLine.setAngle(newAngle);
             tempLine.setLength(qAbs(offLen));
             outVector[i] = tempLine.p2();

@@ -317,7 +317,10 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     updateGeometry();
 
+    beginCheckIns(painter);
     drawDocument(painter, m_pTextEdit->document(), this->rect());
+    endCheckIns(painter);
+
     if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;

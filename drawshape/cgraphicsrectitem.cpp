@@ -140,6 +140,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     updateGeometry();
 
+    beginCheckIns(painter);
+
     //先绘制填充
     QPen curPen = this->pen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
@@ -154,6 +156,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);

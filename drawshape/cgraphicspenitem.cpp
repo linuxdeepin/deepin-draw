@@ -1189,6 +1189,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     pen.setJoinStyle(Qt::BevelJoin);
 
 
+    beginCheckIns(painter);
+
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->setPen(pen);
@@ -1213,6 +1215,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setBrush(QBrush(QColor(this->pen().color())));
     }
     painter->drawPath(m_endPath);
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         QPen pen;

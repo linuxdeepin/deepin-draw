@@ -204,3 +204,17 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
     return value;
 }
 
+void CGraphicsItem::beginCheckIns(QPainter *painter)
+{
+    painter->save();
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    bool hasIntersects = sceneRct.intersects(itemRct);
+    painter->setClipping(hasIntersects);
+}
+
+void CGraphicsItem::endCheckIns(QPainter *painter)
+{
+    painter->restore();
+}
+

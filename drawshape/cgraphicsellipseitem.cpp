@@ -97,6 +97,8 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(widget)
     updateGeometry();
 
+    beginCheckIns(painter);
+
     QPen curPen = this->pen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
     QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
@@ -109,6 +111,8 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawEllipse(rect());
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
