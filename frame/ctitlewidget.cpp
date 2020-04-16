@@ -49,7 +49,8 @@ void CTitleWidget::updateTitleWidget()
 {
     // 此处标题只显示画板字样
     if (m_text.isEmpty()) {
-        m_title->setText(tr("Draw"));
+//        m_title->setText(tr("Draw"));
+        m_title->setText("");
     } else {
         m_title->setText(m_text);
     }
