@@ -93,9 +93,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     qDebug() << "mouse press" << endl;
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
-    if (shiftKeyPress && m_currentSelectItem) {
-        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
-    }
+//    if (shiftKeyPress && m_currentSelectItem) {
+//        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+//    }
     scene->getItemHighLight()->setVisible(false);
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;

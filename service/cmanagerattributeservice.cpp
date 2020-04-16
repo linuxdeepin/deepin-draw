@@ -377,7 +377,9 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
 void CManagerAttributeService::refreshSelectedCommonProperty()
 {
     if (m_currentScence) {
-        this->showSelectedCommonProperty(m_currentScence, m_currentScence->getItemsMgr()->getItems());
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            this->showSelectedCommonProperty(m_currentScence, m_currentScence->getItemsMgr()->getItems());
+        }
     }
 }
 
