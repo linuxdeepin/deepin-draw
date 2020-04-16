@@ -1002,6 +1002,7 @@ void CGraphicsPenItem::drawStart()
 
     switch (m_penStartType) {
     case noneLine: {
+        m_startPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
@@ -1093,6 +1094,7 @@ void CGraphicsPenItem::drawEnd()
     // 绘制终点
     switch (m_penEndType) {
     case noneLine: {
+        m_endPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
