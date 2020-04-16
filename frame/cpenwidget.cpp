@@ -158,14 +158,14 @@ void CPenWidget::initUI()
     layout->setMargin(0);
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
+    layout->addSpacing(-6); // 此处设置的原因是宽度过大
     layout->addWidget(m_sideWidthWidget);
     layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
+    layout->addSpacing(12);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-//    layout->setSpacing(BTN_SPACNT);
-    layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
 

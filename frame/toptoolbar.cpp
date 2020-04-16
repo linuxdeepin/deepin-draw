@@ -115,7 +115,7 @@ void TopToolbar::initComboBox()
         qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
         if (current_scale >= 2.0 && current_scale <= 20.0) {
             current_scale -= 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
             current_scale -= 0.1;
         }
         if (current_scale <= 0.1) {
@@ -128,7 +128,7 @@ void TopToolbar::initComboBox()
         qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
         if (current_scale >= 2.0 && current_scale <= 20.0) {
             current_scale += 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
             current_scale += 0.1;
         }
         if (current_scale >= 20.0) {
