@@ -1205,14 +1205,18 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setRenderHint(QPainter::Antialiasing, true);
 
     painter->setBrush(Qt::NoBrush);
-    if (m_penStartType == soildArrow || m_penStartType == soildRing) {
-        painter->setBrush(QBrush(QColor(this->pen().color())));
+    if (this->pen().width()) {
+        if (m_penStartType == soildArrow || m_penStartType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_startPath);
 
     painter->setBrush(Qt::NoBrush);
-    if (m_penEndType == soildArrow || m_penEndType == soildRing) {
-        painter->setBrush(QBrush(QColor(this->pen().color())));
+    if (this->pen().width()) {
+        if (m_penEndType == soildArrow || m_penEndType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_endPath);
 
@@ -1306,6 +1310,10 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
 
     drawStart();
     drawEnd();
+
+    // 更新画布区域
+    if (scene() != nullptr)
+        scene()->views().first()->viewport()->update();
 }
 
 void CGraphicsPenItem::calcVertexes()

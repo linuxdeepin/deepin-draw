@@ -426,17 +426,20 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     beginCheckIns(painter);
 
-    // start
-//    drawStart();
+
     painter->setBrush(Qt::NoBrush);
-    if (m_startType == soildArrow || m_startType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_startType == soildArrow || m_startType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_startPath);
 
     painter->setBrush(Qt::NoBrush);
-    if (m_endType == soildArrow || m_endType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_endType == soildArrow || m_endType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_endPath);
 
