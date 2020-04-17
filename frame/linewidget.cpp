@@ -231,19 +231,19 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
@@ -264,19 +264,19 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
