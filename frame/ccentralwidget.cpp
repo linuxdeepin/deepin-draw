@@ -247,9 +247,6 @@ void CCentralwidget::createNewScense(QString scenceName)
 
     // 连接view保存文件状态
     connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
-
-    // 连接view保存文件名字过长
-    connect(newview, SIGNAL(signalSaveFileNameTooLong()), this, SLOT(slotSaveFileNameTooLong()));
 }
 
 void CCentralwidget::closeCurrentScenseView()
@@ -605,12 +602,6 @@ void CCentralwidget::slotQuitApp()
             }
         }
     }
-}
-
-void CCentralwidget::slotSaveFileNameTooLong()
-{
-    // 文件名字过长，在此处实际已经修改，但是scence会发出没有修改信号，会导致另存后文件显示没有修改
-    slotSaveToDDF(false);
 }
 
 void CCentralwidget::viewChanged(QString viewName)
