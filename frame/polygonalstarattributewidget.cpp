@@ -66,7 +66,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(false);
+    m_sepLine->setVisible(true);
 //    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_anchorNumLabel->setVisible(false);

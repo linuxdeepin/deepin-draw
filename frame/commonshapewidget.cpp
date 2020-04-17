@@ -72,7 +72,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(false);
+    m_sepLine->setVisible(true);
 //    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_rediusLable->setVisible(false);

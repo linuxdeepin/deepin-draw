@@ -131,7 +131,7 @@ void TextWidget::slotFontSizeValueChanged(int size)
 void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
 {
     m_fillBtn->setVisible(false);
-    m_textSeperatorLine->setVisible(false);
+    m_textSeperatorLine->setVisible(true);
     m_fontFamilyLabel->setVisible(false);
     //m_fontComBox->setVisible(false);
     m_fontsizeLabel->setVisible(false);
