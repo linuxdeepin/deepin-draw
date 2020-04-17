@@ -437,6 +437,8 @@ void CCentralwidget::initUI()
     QVBoxLayout *vLayout = new QVBoxLayout();
     vLayout->addWidget(m_topMutipTabBarWidget);
     vLayout->addLayout(m_hLayout);
+    vLayout->setMargin(0);
+    vLayout->setSpacing(0);
     setLayout(vLayout);
 
     // 只有一个标签需要隐藏多标签控件
