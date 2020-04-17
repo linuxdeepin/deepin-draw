@@ -224,7 +224,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, m_sPointPress));
             scene->addItem(m_frameSelectItem);
             //判断是否在画板空白处点击右键(在画板空白处点击才会出现框选)
-            if (scene->items(event->scenePos()).count() == 0) {
+            if (scene->items(event->scenePos()).count() == 0 && m_highlightItem == nullptr) {
                 m_frameSelectItem->setVisible(true);
                 scene->getItemsMgr()->clear();
             }
