@@ -185,18 +185,22 @@ void MainWindow::doCloseOtherDiv()
     // 此函数的作用是关闭 m_closeTabList 中的标签
     // 需要每次在保存或者不保存后进行调用判断
     int count = m_closeViews.size();
+
+    if (m_closeUUids.size() != count)
+        return;
+
     for (int i = 0; i < count; i++) {
-        QString current_name = m_closeViews.first();
-        m_closeViews.removeFirst();
-        m_centralWidget->setCurrentView(current_name);
-        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name));
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name);
+        QString current_name = m_closeViews[i];
+        QString current_uuid = m_closeUUids[i];
+
+        m_centralWidget->setCurrentViewByUUID(current_uuid);
+        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid));
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
         if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
             bool editFlag = closeView->getDrawParam()->getModify();
-//            qDebug() << "Close Edit TabBar:" << current_name << editFlag;
             if (editFlag) {
                 showSaveQuestionDialog();
                 break;
@@ -220,6 +224,7 @@ void MainWindow::initConnection()
         if (divs.count())
         {
             m_closeViews = divs;
+            m_closeUUids = m_centralWidget->getAllTabBarUUID();
             doCloseOtherDiv();
         }
     });
@@ -287,8 +292,9 @@ void MainWindow::initConnection()
     connect(m_centralWidget, &CCentralwidget::signalLastTabBarRequestClose, this, &MainWindow::slotLastTabBarRequestClose);
 
     // 连接需要关闭多个标签信号
-    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views) {
+    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views, const QStringList & uuids) {
         m_closeViews = views;
+        m_closeUUids = uuids;
         doCloseOtherDiv();
     });
 

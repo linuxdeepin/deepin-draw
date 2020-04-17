@@ -78,17 +78,29 @@ public:
      * @brief createNewScense　创建一个新的场景
      * @param scenceName 场景名字
      */
-    void createNewScenseByDragFile(QString scenceName);
-    void createNewScenseByscencePath(QString scencePath);
+    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
+    void           createNewScenseByscencePath(QString scencePath);
     /**
      * @brief setCurrentView　设置活动场景
      * @param scenceName 场景名字
      */
-    void setCurrentView(QString viewname);
+    void setCurrentView(QString viewname);  //将被弃用
+
+    /**
+     * @brief setCurrentViewByUUID　设置活动场景
+     * @param uuid 场景标识
+     */
+    void setCurrentViewByUUID(QString uuid);
+
     /**
      * @description: getAllTabBarName 获取当前所有的标签名字
     */
     QStringList getAllTabBarName();
+
+    /**
+     * @description: getAllTabBarUUID 获取当前所有的标签的uuid
+    */
+    QStringList getAllTabBarUUID();
 signals:
     /**
      * @brief signalPassPictureOper　传递图片的旋转和翻转信号
@@ -147,8 +159,9 @@ signals:
     /**
      * @description: 关闭指定名字标签
      * @param:  viewNames 需要关闭的标签名字序列
+     * @param:  uuids     需要关闭的标签uuid序列
     */
-    void signalTabItemsCloseRequested(QStringList viewNames);
+    void signalTabItemsCloseRequested(QStringList viewNames, const QStringList &uuids);
     /**
      * @description: 保存当前文件状态
     */
@@ -249,9 +262,10 @@ public slots:
     /**
      * @description: 新增加一个画板视图函数
      * @param:  viewName
+     * @param:  uuid唯一标识
      * @return: 无
     */
-    void addView(QString viewName);
+    void addView(QString viewName, const QString &uuid);
     /**
      * @brief slotRectRediusChanged 矩形圆角变化信号
      */
@@ -277,14 +291,15 @@ private slots:
      * @param:  viewName 改变对应的标签名字
      * @return: 无
     */
-    void viewChanged(QString viewName);
+    void viewChanged(QString viewName, const QString &uuid);
 
     /**
      * @description: 当标签点击删除后的操作
      * @param:  viewName 需要关闭的标签名字
+     * @param:  viewName 需要关闭的标签的uuid
      * @return: 无
     */
-    void tabItemCloseRequested(QString viewName);
+    void tabItemCloseRequested(QString viewName, const QString &uuid);
 
     /**
      * @brief currentScenseViewIsModify　当前场景状态被改变
@@ -301,10 +316,15 @@ private slots:
 
     /**
      * @brief updateTabName　当前场景状态被改变
-     * @param:  oldTabName  根据这个标签页名字判断要修改的标签页
-     * @param:  newTabName  要修改成的标签名字
+     * @param:  uuid         根据这个标签页的uuid刷新名字
+     * @param:  newTabName   要修改成的标签名字
      */
-    void updateTabName(const QString &oldTabName, const QString &newTabName);
+    void updateTabName(const QString &uuid, const QString &newTabName);
+
+    /**
+     * @brief updateTitle　刷新相关的标题
+     */
+    void updateTitle();
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -320,6 +340,8 @@ private:
     QStackedLayout *m_stackedLayout; // 视图布局器
     int systemTheme = 0;// 保存系统主题
     bool m_isCloseNow; // 判断是否是ctrl+s保存
+
+    QString m_tabDefaultName;
 private:
     /**
      * @brief initUI 初始化ＵＩ
@@ -343,7 +365,7 @@ private:
      * @brief createNewScense　创建一个新的场景
      * @param scenceName 场景名字
      */
-    void createNewScense(QString scenceName);
+    CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isExist = false);
 };
 
 #endif // MAINWIDGET_H

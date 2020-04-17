@@ -165,6 +165,23 @@ CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
     return nullptr;
 }
 
+CGraphicsView *CManageViewSigleton::getViewByUUID(QString uuid)
+{
+    for (int i = 0; i < m_allViews.count(); i++) {
+        if (m_allViews[i]->getDrawParam()->uuid() == uuid) {
+            return m_allViews[i];
+        }
+    }
+
+    // 返回空指针
+    return nullptr;
+}
+
+bool CManageViewSigleton::isDdfFileOpened(const QString &path)
+{
+    return (getViewByFilePath(path) != nullptr);
+}
+
 void CManageViewSigleton::initBlockShutdown()
 {
     if (!m_arg.isEmpty() || m_reply.value().isValid()) {

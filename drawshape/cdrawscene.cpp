@@ -46,9 +46,9 @@
 #include <QtMath>
 #include <DApplication>
 
-CDrawScene::CDrawScene(CGraphicsView *view)
+CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isExistFile)
     : QGraphicsScene(view)
-    , m_drawParam(new CDrawParamSigleton())
+    , m_drawParam(new CDrawParamSigleton(uuid, isExistFile))
     , m_bIsEditTextFlag(false)
     , m_drawMouse(QPixmap(":/cursorIcons/draw_mouse.svg"))
     , m_lineMouse(QPixmap(":/cursorIcons/line_mouse.svg"))

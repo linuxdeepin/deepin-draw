@@ -77,6 +77,13 @@ public:
      * @brief getViewByFilePath
      */
     CGraphicsView *getViewByFilePath(QString path);
+
+
+    CGraphicsView *getViewByUUID(QString uuid);
+
+
+    bool  isDdfFileOpened(const QString &path);
+
 private:
     /**
      * @brief initBlockShutdown 柱塞关机

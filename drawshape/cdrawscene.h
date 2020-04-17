@@ -47,7 +47,9 @@ public:
      * @brief CDrawScene 构造函数
      * @param parent
      */
-    explicit CDrawScene(CGraphicsView *view = nullptr);
+    explicit CDrawScene(CGraphicsView *view = nullptr,
+                        const QString &uuid = "",
+                        bool isExistFile = false);
     ~CDrawScene();
     /**
      * @brief initScene 初始化一个新的场景
