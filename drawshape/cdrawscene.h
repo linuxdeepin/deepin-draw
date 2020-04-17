@@ -49,7 +49,7 @@ public:
      */
     explicit CDrawScene(CGraphicsView *view = nullptr,
                         const QString &uuid = "",
-                        bool isExistFile = false);
+                        bool isModified = false);
     ~CDrawScene();
     /**
      * @brief initScene 初始化一个新的场景

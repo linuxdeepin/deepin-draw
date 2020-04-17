@@ -1217,7 +1217,8 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
+    //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
+    dialog.selectFile(getDrawParam()->viewName() + ".ddf"); //设置默认的文件名
     QStringList nameFilters;
     nameFilters << "*.ddf";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器

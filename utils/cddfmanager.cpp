@@ -106,7 +106,6 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
             for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
                 out << unit;
-
                 ///进度条处理
                 count ++;
                 process = static_cast<int>((count * 1.0 / totalCount) * 100);
@@ -145,8 +144,14 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
                     unit.data.pBlur = nullptr;
                 }
             }
+            //close时会写入数据到文件这个时候如果什么都不做会触发监视文件的内容改变就会弹出提醒内容被修改了。 所以这里要过滤掉，"设置下次该文件的修改被忽略" 实现过滤
+            //内容变化的检测
+            //CManageViewSigleton::GetInstance()->addIgnoreCount();
+
             writeFile.close();
+
             m_graphics.vecGraphicsUnit.clear();
+
             m_lastSaveStatus = true;
         } else
         {

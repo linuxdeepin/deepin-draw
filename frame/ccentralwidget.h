@@ -277,7 +277,7 @@ public slots:
     /**
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
-    void closeCurrentScenseView();
+    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true);
 
 private slots:
     /**
@@ -324,7 +324,8 @@ private slots:
     /**
      * @brief updateTitle　刷新相关的标题
      */
-    void updateTitle();
+public:
+    Q_SLOT void updateTitle();
 
 private:
     CLeftToolBar *m_leftToolbar;
@@ -365,7 +366,7 @@ private:
      * @brief createNewScense　创建一个新的场景
      * @param scenceName 场景名字
      */
-    CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isExist = false);
+    CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isModified = false);
 };
 
 #endif // MAINWIDGET_H

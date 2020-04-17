@@ -131,7 +131,7 @@ public slots:
      * @description: addTabBarItem 添加标签
      * @param: name 标签名字
     */
-    void addTabBarItem(QString name = "", const QString &uuid = "");
+    void addTabBarItem(QString name = "", const QString &uuid = "", bool emitNewScene = true);
 
 signals:
     /**

@@ -27,7 +27,7 @@
 class CDrawParamSigleton
 {
 public:
-    CDrawParamSigleton(const QString &uuid = "", bool isExist = false);
+    CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
     int getLineWidth() const;

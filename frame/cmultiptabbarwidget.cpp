@@ -77,7 +77,7 @@ void CMultipTabBarWidget::setDefaultTabBarName(QString name)
     m_defaultName = name;
 }
 
-void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid)
+void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool emitNewScene)
 {
     if (name.isEmpty()) {
         emit this->tabAddRequested();
@@ -88,7 +88,8 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid)
 
     setTabData(index, uuid);
 
-    emit signalNewAddItem(name, uuid);
+    if (emitNewScene)
+        emit signalNewAddItem(name, uuid);
 
     this->setCurrentIndex(index);
 }
