@@ -53,13 +53,13 @@
 #include <QTextEdit>
 #include <QSvgGenerator>
 #include <QtMath>
-//升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+//降序排列用
+static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() >= info2->zValue();
 }
-//降序排列用
-static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() <= info2->zValue();
 }
@@ -128,6 +128,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 multSelectItems.append(static_cast<CGraphicsItem *>(m_currentSelectItem));
             }
 
+            qSort(multSelectItems.begin(), multSelectItems.end(), zValueSortASC);
             foreach (CGraphicsItem *multSelectItem, multSelectItems) {
                 CGraphicsItem *copy = nullptr;
                 switch (multSelectItem->type()) {
@@ -374,7 +375,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (closeAllItems.size() > 0) {
             //过滤掉有填充的图层以下的图元
             qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortDES);
-            for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < closeAllItems.size(); i++) {
                 closeItems.append(closeAllItems.at(i));
                 if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0 ||
                         static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::PictureType ||
