@@ -213,7 +213,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             pen.setWidth(1);
             pen.setStyle(Qt::DotLine);
             m_frameSelectItem->setPen(pen);
-            m_frameSelectItem->setBrush(pa.brush(QPalette::Active, DPalette:: Shadow));
+            QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
+            QColor selectColor = selectBrush.color();
+            selectColor.setAlpha(20);
+            selectBrush.setColor(selectColor);
+            m_frameSelectItem->setBrush(selectBrush);
             m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, m_sPointPress));
             scene->addItem(m_frameSelectItem);
             //判断是否在画板空白处点击右键(在画板空白处点击才会出现框选)
