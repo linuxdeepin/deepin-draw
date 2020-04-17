@@ -242,6 +242,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
                 if (m_currentSelectItem) {
                     m_currentSelectItem->setSelected(true);
+                    scene->changeAttribute(true, m_currentSelectItem);
                 }
                 if (!shiftKeyPress) {
                     foreach (QGraphicsItem *selectItem, scene->selectedItems()) {
