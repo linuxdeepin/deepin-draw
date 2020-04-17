@@ -72,8 +72,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(true);
-//    m_lwLabel->setVisible(false);
+    m_sepLine->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_rediusLable->setVisible(false);
     m_rediusSpinbox->setVisible(false);
@@ -112,6 +111,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
         case RectRadius:
             m_rediusLable->setVisible(true);
             m_rediusSpinbox->setVisible(true);
+            m_sepLine->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 //todo
                 m_rediusSpinbox->blockSignals(true);
@@ -252,11 +252,10 @@ void CommonshapeWidget::updateCommonShapWidget()
 
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
-//    m_sepLine->setVisible(true);
-//    m_lwLabel->setVisible(true);
     m_sideWidthWidget->setVisible(true);
-//    m_rediusLable->setVisible(false);
-//    m_rediusSpinbox->setVisible(false);
+    m_sepLine->setVisible(false);
+    m_rediusLable->setVisible(false);
+    m_rediusSpinbox->setVisible(false);
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 

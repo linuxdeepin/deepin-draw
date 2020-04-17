@@ -42,6 +42,7 @@
 #include "drawshape/cgraphicsitemselectedmgr.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -804,6 +805,9 @@ void CGraphicsView::slotOnPaste()
                 if ( copy ) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
+                    if (itemMgr->getItems().size() > 1) {
+                        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
+                    }
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -843,6 +847,9 @@ void CGraphicsView::slotOnSelectAll()
             auto curItem = static_cast<CGraphicsItem *>(item);
             curScene->getItemsMgr()->addToGroup(curItem);
         }
+    }
+    if (curScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, curScene->getItemsMgr()->getItems());
     }
     if (curScene->getItemsMgr()->getItems().isEmpty()) {
         return;

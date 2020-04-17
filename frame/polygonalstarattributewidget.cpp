@@ -66,7 +66,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(true);
+    m_sepLine->setVisible(false);
 //    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_anchorNumLabel->setVisible(false);
@@ -105,6 +105,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_sideWidthWidget->update();
             break;
         case Anchors:
+            m_sepLine->setVisible(true);
             m_anchorNumLabel->setVisible(true);
             m_anchorNumber->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
@@ -116,6 +117,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             }
             break;
         case StarRadius:
+            m_sepLine->setVisible(true);
             m_radiusLabel->setVisible(true);
             m_radiusNumber->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {

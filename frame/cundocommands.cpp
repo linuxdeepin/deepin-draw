@@ -967,6 +967,9 @@ void COneLayerUpCommand::undo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
+    }
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1047,6 +1050,9 @@ void COneLayerUpCommand::redo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
+    }
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1126,6 +1132,9 @@ void COneLayerDownCommand::undo()
     myGraphicsScene->getItemsMgr()->clear();
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
     }
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
@@ -1210,6 +1219,9 @@ void COneLayerDownCommand::redo()
     myGraphicsScene->getItemsMgr()->clear();
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+    }
+    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
     }
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {

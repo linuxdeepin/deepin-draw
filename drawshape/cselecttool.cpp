@@ -182,6 +182,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
                 }
+                if (scene->getItemsMgr()->getItems().size() > 1) {
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
+                }
             } else if (copyItems.size() > 0) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
@@ -620,6 +623,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             auto selectItem = static_cast<CGraphicsItem *>(item);
             scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
         }
+        if (scene->getItemsMgr()->getItems().size() > 1) {
+            CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
+        }
         int count = scene->getItemsMgr()->getItems().size();
         if (1 == count) {
             scene->getItemsMgr()->getItems().first()->setSelected(true);
@@ -643,6 +649,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
                 if (currentSelectItem != nullptr) {
                     scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+                }
+                if (scene->getItemsMgr()->getItems().size() > 1) {
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
                 }
             }
             int count = scene->getItemsMgr()->getItems().size();

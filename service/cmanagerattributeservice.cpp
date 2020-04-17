@@ -39,6 +39,17 @@
 #include <QGraphicsItem>
 #include <QDebug>
 
+//降序排列用
+static bool zValueSortDES(CGraphicsItem *info1, CGraphicsItem *info2)
+{
+    return info1->zValue() >= info2->zValue();
+}
+//升序排列用
+static bool zValueSortASC(CGraphicsItem *info1, CGraphicsItem *info2)
+{
+    return info1->zValue() <= info2->zValue();
+}
+
 CManagerAttributeService *CManagerAttributeService::instance = nullptr;
 CManagerAttributeService *CManagerAttributeService::getInstance()
 {
@@ -53,6 +64,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
     if (scence != nullptr) {
         m_currentScence = scence;
     }
+    qSort(items.begin(), items.end(), zValueSortASC);
     EGraphicUserType mode = EGraphicUserType::NoType;
     QMap<EDrawProperty, QVariant> propertys;//临时存放
     propertys.clear();
