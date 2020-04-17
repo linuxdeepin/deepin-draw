@@ -147,7 +147,7 @@ void CPenWidget::initUI()
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");  
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");

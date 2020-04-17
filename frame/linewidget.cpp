@@ -309,6 +309,14 @@ void LineWidget::updateLineWidget()
     m_maskLableStart->setVisible(false);
     m_maskLableEnd->setVisible(false);
 
+    m_strokeBtn->setVisible(true);
+    m_sideWidthWidget->setVisible(true);
+    m_sep1Line->setVisible(true);
+    m_startLabel->setVisible(true);
+    m_endLabel->setVisible(true);
+    m_lineStartComboBox->setVisible(true);
+    m_lineEndComboBox->setVisible(true);
+
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
