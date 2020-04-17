@@ -144,15 +144,16 @@ void CPenWidget::initUI()
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");  
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
