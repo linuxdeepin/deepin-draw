@@ -34,18 +34,13 @@ class CTextEdit : public QTextEdit
 public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
 
-
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
     void setLastDocumentWidth(qreal width);
 
     void resizeDocument();
 
-protected:
-    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-
 public slots:
-    void currentCharFormatChanged(const QTextCharFormat &format);
     void slot_textChanged();
     void cursorPositionChanged();
 

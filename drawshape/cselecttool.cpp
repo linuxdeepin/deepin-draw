@@ -53,13 +53,13 @@
 #include <QTextEdit>
 #include <QSvgGenerator>
 #include <QtMath>
-//升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+//降序排列用
+static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() >= info2->zValue();
 }
-//降序排列用
-static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
     return info1->zValue() <= info2->zValue();
 }
@@ -93,9 +93,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     qDebug() << "mouse press" << endl;
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
-    if (shiftKeyPress && m_currentSelectItem) {
-        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
-    }
+//    if (shiftKeyPress && m_currentSelectItem) {
+//        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+//    }
     scene->getItemHighLight()->setVisible(false);
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
@@ -128,6 +128,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 multSelectItems.append(static_cast<CGraphicsItem *>(m_currentSelectItem));
             }
 
+            qSort(multSelectItems.begin(), multSelectItems.end(), zValueSortASC);
             foreach (CGraphicsItem *multSelectItem, multSelectItems) {
                 CGraphicsItem *copy = nullptr;
                 switch (multSelectItem->type()) {
@@ -212,7 +213,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             pen.setWidth(1);
             pen.setStyle(Qt::DotLine);
             m_frameSelectItem->setPen(pen);
-            m_frameSelectItem->setBrush(pa.brush(QPalette::Active, DPalette:: Shadow));
+            QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
+            QColor selectColor = selectBrush.color();
+            selectColor.setAlpha(20);
+            selectBrush.setColor(selectColor);
+            m_frameSelectItem->setBrush(selectBrush);
             m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, m_sPointPress));
             scene->addItem(m_frameSelectItem);
             //判断是否在画板空白处点击右键(在画板空白处点击才会出现框选)
@@ -374,7 +379,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         if (closeAllItems.size() > 0) {
             //过滤掉有填充的图层以下的图元
             qSort(closeAllItems.begin(), closeAllItems.end(), zValueSortDES);
-            for (int i = closeAllItems.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < closeAllItems.size(); i++) {
                 closeItems.append(closeAllItems.at(i));
                 if (static_cast<CGraphicsItem *>(closeAllItems.at(i))->brush().color().alpha() != 0 ||
                         static_cast<CGraphicsItem *>(closeAllItems.at(i))->type() == EGraphicUserType::PictureType ||

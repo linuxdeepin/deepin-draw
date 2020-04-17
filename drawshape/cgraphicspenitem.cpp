@@ -1002,6 +1002,7 @@ void CGraphicsPenItem::drawStart()
 
     switch (m_penStartType) {
     case noneLine: {
+        m_startPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
@@ -1093,6 +1094,7 @@ void CGraphicsPenItem::drawEnd()
     // 绘制终点
     switch (m_penEndType) {
     case noneLine: {
+        m_endPath = QPainterPath(p1);
         break;
     }
     case normalArrow: {
@@ -1187,6 +1189,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     pen.setJoinStyle(Qt::BevelJoin);
 
 
+    beginCheckIns(painter);
+
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->setPen(pen);
@@ -1211,6 +1215,8 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setBrush(QBrush(QColor(this->pen().color())));
     }
     painter->drawPath(m_endPath);
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         QPen pen;
@@ -1306,7 +1312,8 @@ void CGraphicsPenItem::calcVertexes()
 {
     qint32 count = m_path.elementCount();
 
-    calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
+    if (count > 2)
+        calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
 }
 
 QPainterPath CGraphicsPenItem::getHighLightPath()

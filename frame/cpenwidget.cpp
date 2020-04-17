@@ -144,28 +144,29 @@ void CPenWidget::initUI()
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");  
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
+    layout->addSpacing(-6); // 此处设置的原因是宽度过大
     layout->addWidget(m_sideWidthWidget);
     layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
+    layout->addSpacing(12);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-//    layout->setSpacing(BTN_SPACNT);
-    layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
 

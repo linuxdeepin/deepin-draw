@@ -46,15 +46,12 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
         m_sPointPress = event->scenePos();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
         QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
-        //item->getTextEdit()->setText(tr("输入文本"));
         item->getTextEdit()->setText(QObject::tr("Input text here"));
         item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
         item->getTextEdit()->selectAll();
-//        item->setFont(font);
 
         QFontMetrics fm(font);
         QRect rect = fm.boundingRect(item->getTextEdit()->document()->toPlainText());
@@ -62,8 +59,6 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
         item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
         item->setTextFontStyle(font.styleName());
-        //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-//        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
             item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
         } else {
@@ -74,14 +69,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
-//        scene->views()[0]->setFocus();
-//        item->getTextEdit()->setFocus();
-        //item->getCGraphicsProxyWidget()->setFocus();
-        //
-    } /*else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    } */else {
+    } else {
         scene->mouseEvent(event);
     }
 }

@@ -23,28 +23,45 @@
 #include <QBrush>
 #include <QPoint>
 #include <QTextDocument>
+#include <QDebug>
 #include "drawshape/globaldefine.h"
 
 #pragma pack(push, 1)
-//定义图元类型
 
-
-////画笔
-//struct SPen {
-//    qint32 width;
-//    QColor col;
-//};
-
-////画刷
-//struct SBrush {
-//    QColor col;
-//};
-
-//版本号
-enum VersionNum {
-    RoundRect = 1, // 添加矩形属性
-    LineStartAndEndType // 添加直线起点和终点类型
+enum EDdfVersion {
+    EDdfUnknowed = -1,       //未知的版本(ddf被修改过)
+    EDdf5_8_0_Base = 0,      //最原始的ddf版本
+    EDdf5_8_1_x,             //添加了矩形属性的ddf版本
+    EDdf5_8_2_x,             //添加了直线起点终点的版本（但这个版本在保存时漏掉保存了pen图元的保存 所以这个版本保存的ddf被加载后pen图元显示会问题）
+    EDdf5_8_2_1,             //修复了EDdf5_8_2_x版本未保存画笔图元path的问题
 };
+
+static EDdfVersion getVersion(QDataStream &stream)
+{
+    EDdfVersion     version = EDdfUnknowed;
+    quint32         headCheckFlag;
+
+    if (stream.device() != nullptr) {
+        int verVar;
+
+        qint64 pos = stream.device()->pos();
+        stream.device()->seek(0);
+
+        stream >> headCheckFlag;
+
+        if (headCheckFlag == static_cast<quint32>(0xA0B0C0D0)) {
+            stream >> verVar;
+            version = EDdfVersion(verVar);
+
+        } else {
+            version = EDdf5_8_0_Base;
+        }
+        //还原
+        stream.device()->seek(pos);
+    }
+
+    return version;
+}
 
 //图元头部
 struct SGraphicsUnitHead {
@@ -127,20 +144,13 @@ struct SGraphicsRectUnitData {
         out << rectUnitData.topLeft;
         out << rectUnitData.bottomRight;
         out << rectUnitData.xRedius;
-        out << rectUnitData.xRedius;
+        out << rectUnitData.yRedius;
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsRectUnitData &rectUnitData)
     {
-        qint64 pos = in.device()->pos();
-        in.device()->seek(0);
-        quint32 type;
-        in >> type;
-        int version;
-        in >> version;
-        in.device()->seek(pos);
-        if (type == (quint32)0xA0B0C0D0 && version >= RoundRect) {
+        if (getVersion(in) > EDdf5_8_0_Base) {
             in >> rectUnitData.topLeft;
             in >> rectUnitData.bottomRight;
             in >> rectUnitData.xRedius;
@@ -151,7 +161,6 @@ struct SGraphicsRectUnitData {
             rectUnitData.xRedius = 0;
             rectUnitData.yRedius = 0;
         }
-
         return in;
     }
 };
@@ -251,22 +260,48 @@ struct SGraphicsLineUnitData {
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsLineUnitData &lineUnitData)
     {
-        quint32 start_type = 0;
-        quint32 end_type = 0;
-        qint64 pos = in.device()->pos();
-        in.device()->seek(0);
-        quint32 type;
-        in >> type;
-        int version;
-        in >> version;
-        in.device()->seek(pos);
-        in >> lineUnitData.point1;
-        in >> lineUnitData.point2;
-        in >> start_type;
-        lineUnitData.start_type = static_cast<ELineType>(start_type);
-        if (type == (quint32)0xA0B0C0D0 && version >= LineStartAndEndType) {
-            in >> end_type;
-            lineUnitData.end_type = static_cast<ELineType>(end_type);
+//        quint32 start_type = 0;
+//        quint32 end_type = 0;
+//        qint64 pos = in.device()->pos();
+//        in.device()->seek(0);
+//        quint32 type;
+//        in >> type;
+//        int version;
+//        in >> version;
+//        in.device()->seek(pos);
+//        in >> lineUnitData.point1;
+//        in >> lineUnitData.point2;
+//        in >> start_type;
+//        lineUnitData.start_type = static_cast<ELineType>(start_type);
+//        if (type == (quint32)0xA0B0C0D0 && version >= LineStartAndEndType) {
+//            in >> end_type;
+//            lineUnitData.end_type = static_cast<ELineType>(end_type);
+//        }
+        EDdfVersion ver = getVersion(in);
+        switch (ver) {
+        case EDdf5_8_0_Base:
+        case EDdf5_8_1_x: {
+            in >> lineUnitData.point1;
+            in >> lineUnitData.point2;
+            break;
+        }
+
+        case EDdf5_8_2_x:
+        case EDdf5_8_2_1: {
+            in >> lineUnitData.point1;
+            in >> lineUnitData.point2;
+
+            qint32 startTp, endTp;
+            in >> startTp;
+            in >> endTp;
+
+            lineUnitData.start_type = ELineType(startTp);
+            lineUnitData.end_type   = ELineType(endTp);
+
+            break;
+        }
+        default:
+            break;
         }
         return in;
     }
@@ -324,14 +359,19 @@ struct SGraphicsPictureUnitData {
 
 //画笔
 struct SGraphicsPenUnitData {
+
+    //version 2
     ELineType start_type; // 起点箭头样式
     ELineType end_type;   // 终点箭头样式
     QPainterPath path;
-//    QPolygonF arrow;
+
+    //version 1
+    QPolygonF arrow;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
     {
         out << penUnitData.end_type;
+
         out << penUnitData.path;
 //        out << penUnitData.arrow;
         out << penUnitData.start_type;
@@ -341,17 +381,42 @@ struct SGraphicsPenUnitData {
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
     {
-        quint32 start_type = 0;
-        quint32 end_type = 0;
+//        quint32 start_type = 0;
+//        quint32 end_type = 0;
 
-        in >> end_type;
-        in >> penUnitData.path;
-//        in >> penUnitData.arrow;
-        in >> start_type;
+//        //in >> end_type;
+//        //in >> penUnitData.path;
+////        in >> penUnitData.arrow;
+//        QPolygonF plog;
+//        in >> plog;
+//        //in >> start_type;
 
-        penUnitData.start_type = static_cast<ELineType>(start_type);
-        penUnitData.end_type = static_cast<ELineType>(end_type);
+//        penUnitData.start_type = static_cast<ELineType>(start_type);
+//        penUnitData.end_type = static_cast<ELineType>(end_type);
 
+//        return in;
+        EDdfVersion ver = getVersion(in);
+        switch (ver) {
+        case EDdf5_8_0_Base:
+        case EDdf5_8_1_x:
+        case EDdf5_8_2_x: {
+            in >> penUnitData.arrow;
+            break;
+        }
+        case EDdf5_8_2_1: {
+            qint32 startTp, endTp;
+            QPainterPath path;
+            in >> startTp;
+            in >> path;
+            in >> endTp;
+            penUnitData.start_type = ELineType(startTp);
+            penUnitData.path       = path;
+            penUnitData.end_type   = ELineType(endTp);
+            break;
+        }
+        default:
+            break;
+        }
         return in;
     }
 };
@@ -515,25 +580,35 @@ struct CGraphicsUnit {
 
 //整个图元数据
 struct CGraphics {
-    qint64 version;   //数据版本
+    /*qint64*/qint32 version = qint64(EDdf5_8_2_1);   //数据版本
     qint64 unitCount;   //图元数量
     QRectF rect;    // 画板大小和位置
-    QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
+    QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)
 
     friend QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
     {
+        qDebug() << "save to ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+                 << graphics.unitCount << "raphics.rect = " << graphics.rect;
+        out << static_cast<quint32>(0xA0B0C0D0);
+        out << graphics.version;
         out << graphics.unitCount;
         out << graphics.rect;
-        out << graphics.vecGraphicsUnit;
 
         return out;
     }
 
     friend  QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
     {
+        //兼容最早的版本(那个时候还没有版本标记 所以不用解析versions)
+        if (getVersion(in) > EDdf5_8_0_Base) {
+            int flag;    //肯定为0xA0B0C0D0
+            in >> flag;
+            in >> graphics.version;
+        }
         in >> graphics.unitCount;
         in >> graphics.rect;
-        in >> graphics.vecGraphicsUnit;
+        qDebug() << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+                 << graphics.unitCount << "raphics.rect = " << graphics.rect;
 
         return in;
     }

@@ -247,9 +247,6 @@ void CCentralwidget::createNewScense(QString scenceName)
 
     // 连接view保存文件状态
     connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
-
-    // 连接view保存文件名字过长
-    connect(newview, SIGNAL(signalSaveFileNameTooLong()), this, SLOT(slotSaveFileNameTooLong()));
 }
 
 void CCentralwidget::closeCurrentScenseView()
@@ -437,6 +434,8 @@ void CCentralwidget::initUI()
     QVBoxLayout *vLayout = new QVBoxLayout();
     vLayout->addWidget(m_topMutipTabBarWidget);
     vLayout->addLayout(m_hLayout);
+    vLayout->setMargin(0);
+    vLayout->setSpacing(0);
     setLayout(vLayout);
 
     // 只有一个标签需要隐藏多标签控件
@@ -603,12 +602,6 @@ void CCentralwidget::slotQuitApp()
             }
         }
     }
-}
-
-void CCentralwidget::slotSaveFileNameTooLong()
-{
-    // 文件名字过长，在此处实际已经修改，但是scence会发出没有修改信号，会导致另存后文件显示没有修改
-    slotSaveToDDF(false);
 }
 
 void CCentralwidget::viewChanged(QString viewName)

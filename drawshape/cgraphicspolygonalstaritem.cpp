@@ -160,11 +160,13 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 //    }
 //    painter->restore();
 
-    painter->save();
+    beginCheckIns(painter);
+
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(brush());
     painter->drawPolygon(m_polygonPen);
-    painter->restore();
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);

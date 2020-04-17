@@ -115,7 +115,7 @@ void TopToolbar::initComboBox()
         qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
         if (current_scale >= 2.0 && current_scale <= 20.0) {
             current_scale -= 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
             current_scale -= 0.1;
         }
         if (current_scale <= 0.1) {
@@ -128,7 +128,7 @@ void TopToolbar::initComboBox()
         qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
         if (current_scale >= 2.0 && current_scale <= 20.0) {
             current_scale += 1.0;
-        } else if (current_scale >= 0.1 && current_scale <= 1.99) {
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
             current_scale += 0.1;
         }
         if (current_scale >= 20.0) {
@@ -628,7 +628,6 @@ void TopToolbar::initConnection()
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
     connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-    connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 

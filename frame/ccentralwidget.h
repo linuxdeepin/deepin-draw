@@ -261,10 +261,6 @@ public slots:
      */
     void slotQuitApp();
     /**
-     * @brief slotSaveFileNameTooLong 保存文件名字过长信号
-     */
-    void slotSaveFileNameTooLong();
-    /**
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
     void closeCurrentScenseView();

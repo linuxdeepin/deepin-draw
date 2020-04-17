@@ -83,6 +83,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         }
     }
 
+    m_graphics.version = qint32(EDdf5_8_2_1);
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
 
@@ -92,10 +93,12 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         if (writeFile.open(QIODevice::WriteOnly))
         {
             QDataStream out(&writeFile);
-            out << (quint32)0xA0B0C0D0;
-            out << LineStartAndEndType;
-            out << m_graphics.unitCount;
-            out << m_graphics.rect;
+//            out << (quint32)0xA0B0C0D0;
+//            out << EDdf5_8_2_1;
+//            out << m_graphics.unitCount;
+//            out << m_graphics.rect;
+
+            out << m_graphics;
 
             int count = 0;
             int totalCount = m_graphics.vecGraphicsUnit.count();
@@ -168,17 +171,22 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         if (readFile.open(QIODevice::ReadOnly))
         {
             QDataStream in(&readFile);
-            quint32 type;
-            in >> type;
-            int version;
-            in >> version;
-            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
-            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
-            if (type != (quint32)0xA0B0C0D0) {
-                in.device()->seek(0);
-            }
-            in >> m_graphics.unitCount;
-            in >> m_graphics.rect;
+//            quint32 type;
+//            in >> type;
+//            int version;
+//            in >> version;
+//            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
+//            //qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
+//            if (type != (quint32)0xA0B0C0D0) {
+//                in.device()->seek(0);
+//            }
+//            in >> m_graphics.unitCount;
+//            in >> m_graphics.rect;
+
+            in >> m_graphics;
+            qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << m_graphics.version << "graphics count = " << m_graphics.unitCount <<
+                     "scene size = " << m_graphics.rect;
+            //qDebug() << "m_graphics.unitCount = " << m_graphics.unitCount;
             emit signalStartLoadDDF(m_graphics.rect);
 
             int count = 0;
@@ -187,7 +195,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-
+                qDebug() << "unit.head.dataType = " << RectType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
@@ -272,10 +280,14 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pBlur = nullptr;
                     }
 
+                } else {
+                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << RectType;
+                    break;
                 }
 
                 ///进度条处理
                 count ++;
+                qDebug() << "countcountcountcountcount ========== " << count;
                 process = (float)count / m_graphics.unitCount * 100;
                 emit signalUpdateProcessBar(process, false);
 

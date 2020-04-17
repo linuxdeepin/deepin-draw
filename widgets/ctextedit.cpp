@@ -36,38 +36,14 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     , m_widthF(0)
 {
     //初始化字体
-    //this->mergeCurrentCharFormat();
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
-//    connect(this, &QTextEdit::currentCharFormatChanged,
-//            this, &CTextEdit::currentCharFormatChanged);
 
     connect(this, SIGNAL(cursorPositionChanged()),
             this, SLOT(cursorPositionChanged()));
 
     this->setLineWrapMode(NoWrap);
     this->setFrameStyle(NoFrame);
-    //connect(this->document(), SIGNAL(contentsChanged), this, SLOT(slot_textChanged()));
 }
-
-//void CTextEdit::setTopAlignment()
-//{
-//    setAlignment(Qt::AlignJustify);
-//}
-
-//void CTextEdit::setRightAlignment()
-//{
-//    setAlignment(Qt::AlignRight);
-//}
-
-//void CTextEdit::setLeftAlignment()
-//{
-//    setAlignment(Qt::AlignLeft);
-//}
-
-//void CTextEdit::setCenterAlignment()
-//{
-//    setAlignment(Qt::AlignCenter);
-//}
 
 void CTextEdit::slot_textChanged()
 {
@@ -109,14 +85,6 @@ void CTextEdit::slot_textChanged()
         //更新字图元
         curScene->updateBlurItem(m_pItem);
     }
-
-//    this->setFocus();
-
-//    qDebug() << "this focus = " << this->hasFocus() << endl;
-//    if (size.height() > rect.size().height()) {
-//        rect.setSize(size);
-//        m_pItem->setRect(rect);
-    //    }
 }
 
 void CTextEdit::cursorPositionChanged()
@@ -150,7 +118,6 @@ void CTextEdit::cursorPositionChanged()
                         if (flag) {
                             chfFirst = fragment.charFormat();
                             fontFamily = chfFirst.font().family();
-                            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
                             m_pItem->currentCharFormatChanged(chfFirst);
                             flag = false;
 
@@ -172,14 +139,12 @@ void CTextEdit::cursorPositionChanged()
                                     break;
                                 }
                                 if (fontFamily != chf.font().family()) {
-                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(false);
                                     m_pItem->currentCharFormatChanged(chfFirst);
                                     break;
                                 }
 
                             } else {
                                 if (fontFamily != chf.font().family()) {
-                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(false);
                                     m_pItem->currentCharFormatChanged(chfFirst);
                                     break;
                                 }
@@ -194,7 +159,6 @@ void CTextEdit::cursorPositionChanged()
                 m_pItem->currentCharFormatChanged(cursor.charFormat());
             }
         } else {
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
             m_pItem->currentCharFormatChanged(cursor.charFormat());
         }
 
@@ -206,8 +170,6 @@ void CTextEdit::cursorPositionChanged()
         this->setFocus();
     }
 }
-
-
 
 void CTextEdit::setVisible(bool visible)
 {
@@ -265,29 +227,6 @@ void CTextEdit::resizeDocument()
     }
 
     m_widthF = rect.width();
-}
-
-void CTextEdit::mousePressEvent(QMouseEvent *event)
-{
-    if (this->isVisible()) {
-        this->clearFocus();
-        this->setFocus();
-        currentCharFormatChanged(currentCharFormat());
-    }
-    QTextEdit::mousePressEvent(event);
-}
-
-void CTextEdit::currentCharFormatChanged(const QTextCharFormat &format)
-{
-    /*if (!this->textCursor().hasSelection()) {
-        CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
-        m_pItem->currentCharFormatChanged(format);
-    }*/
-//    qDebug() << "currentCharFormatChanged " << "selection" << this->textCursor().hasSelection()
-//             << "start pos" << this->textCursor().selectionStart()
-//             << "end pos" << this->textCursor().selectionEnd()
-//             << "pos" << this->textCursor().position()
-//             << endl;
 }
 
 

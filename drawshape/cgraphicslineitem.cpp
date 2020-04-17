@@ -424,6 +424,8 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
 
+    beginCheckIns(painter);
+
     // start
 //    drawStart();
     painter->setBrush(Qt::NoBrush);
@@ -439,6 +441,8 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->drawPath(m_endPath);
 
     painter->drawLine(m_line);
+
+    endCheckIns(painter);
 }
 
 void CGraphicsLineItem::initLine()

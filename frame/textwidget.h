@@ -67,6 +67,12 @@ public slots:
      */
     void slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
 
+    /**
+     * @brief slotUpdateTextFamilyStyle 更新字体样式
+     * @param style 样式名字
+     */
+    void slotUpdateTextFamilyStyle(QString style);
+
 signals:
     /**
      * @brief showColorPanel　显示调色板信号
@@ -83,10 +89,7 @@ signals:
      * @brief signalTextAttributeChanged 属性变化信号
      */
     void signalTextAttributeChanged();
-    /**
-     * @brief signalTextFontFamilyChanged　字体改变信号
-     */
-    void signalTextFontFamilyChanged();
+
     /**
      * @brief signalTextFontSizeChanged　字体大小改变信号
      */
@@ -116,6 +119,8 @@ private:
      * @brief initConnection 初始化连接
      */
     void initConnection();
+
+    void initDefaultSetting();
 
     void addFontPointSize();
 };

@@ -377,24 +377,49 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
 void CManagerAttributeService::refreshSelectedCommonProperty()
 {
     if (m_currentScence) {
-        this->showSelectedCommonProperty(m_currentScence, m_currentScence->getItemsMgr()->getItems());
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            this->showSelectedCommonProperty(m_currentScence, m_currentScence->getItemsMgr()->getItems());
+        }
     }
 }
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
 {
-    if (m_currentScence && m_currentScence->getItemsMgr()) {
-        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
+    m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 
-            if (pushTostack) {
-                qDebug() << "CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand)";
-                CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            } else {
-                addCommand->redo();
-                delete addCommand;
-                addCommand = nullptr;
+    if (m_currentScence && m_currentScence->getItemsMgr()) {
+        QList<CGraphicsItem *> allItems;
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            allItems = m_currentScence->getItemsMgr()->getItems();
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
             }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    allItems.append(item);
+                }
+            }
+        }
+        if (allItems.size() <= 0) {
+            return;
+        }
+        QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+        if (pushTostack) {
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+        } else {
+            addCommand->redo();
+            delete addCommand;
+            addCommand = nullptr;
         }
     }
 }
@@ -424,8 +449,8 @@ void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType st
         CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
         if (lineItem != nullptr) {
             scence->getDrawParam()->setLineStartType(startType);
-            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, startType);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, startType);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->calcVertexes();// 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
@@ -448,8 +473,8 @@ void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endT
         CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
         if (lineItem != nullptr) {
             scence->getDrawParam()->setLineEndType(endType);
-            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
+//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
             lineItem->calcVertexes(); // 计算后将会自动调用更新，不再需要手动进行调用更新
         }
     }
@@ -526,6 +551,13 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
             propertys.insert(TextFont, "");
         } else {
             propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        }
+
+        bool isSameWeight = textItem->getAllFontWeightIsEqual();
+        if (!isSameWeight) {
+            propertys.insert(TextHeavy, "");
+        } else {
+            propertys.insert(TextHeavy, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
         }
 
         emit signalTextItemPropertyUpdate(propertys);

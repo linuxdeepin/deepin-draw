@@ -72,7 +72,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(false);
+    m_sepLine->setVisible(true);
 //    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_rediusLable->setVisible(false);
@@ -180,7 +180,7 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(-1, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(70, 36));
+    m_rediusSpinbox->setFixedSize(QSize(80, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
 
