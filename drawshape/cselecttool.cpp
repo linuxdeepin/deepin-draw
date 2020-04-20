@@ -601,6 +601,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //记录addOrRemoveToGroup多选图元数量
+    int multCount = scene->getItemsMgr()->getItems().size();
     //复制添加动作入撤销返回栈
     if (m_doCopy) {
         QList<QGraphicsItem *> copyItems;
@@ -661,8 +663,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
             }
             int count = scene->getItemsMgr()->getItems().size();
-            if (1 == count) {
+            if (1 == count ) {
                 scene->getItemsMgr()->hide();
+                if (multCount == 2) {
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                }
             } else if (count > 1) {
                 scene->getItemsMgr()->show();
                 scene->clearSelection();
@@ -722,7 +727,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
-                m_currentSelectItem->setSelected(true);
+                if (scene->getItemsMgr()->getItems().size() == 1 && multCount == 2) {
+                    m_currentSelectItem->setSelected(false);
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                } else {
+                    m_currentSelectItem->setSelected(true);
+                }
                 //显示所选图元素属性
                 scene->changeAttribute(true, m_currentSelectItem);
                 CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
@@ -731,6 +741,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 scene->getItemsMgr()->setSelected(true);
             } else {
                 scene->getItemsMgr()->setSelected(false);
+                if (scene->getItemsMgr()->getItems().size() == 1 && multCount == 2) {
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                }
             }
         } else {
             if (m_isMulItemMoving) {

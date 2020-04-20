@@ -27,15 +27,7 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
         return;
     }
     if (m_listItems.contains(item)) {
-        if (m_listItems.size() == 2) {
-            int itemIndex = m_listItems.indexOf(item);
-            int delIndex = 1 - itemIndex;
-            if (0 <= delIndex && delIndex <= 1) {
-                this->removeFromGroup(m_listItems.at(delIndex));
-            }
-        } else {
-            this->removeFromGroup(item);
-        }
+        this->removeFromGroup(item);
         if (m_listItems.size() == 1) {
             m_listItems.at(0)->setMutiSelect(false);
         }
