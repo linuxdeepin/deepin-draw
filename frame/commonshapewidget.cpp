@@ -17,14 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "commonshapewidget.h"
-
-#include <DLabel>
-#include <QHBoxLayout>
-#include <QButtonGroup>
-#include <QDebug>
-
 #include "drawshape/cdrawparamsigleton.h"
-
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
@@ -33,7 +26,11 @@
 #include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
 
-
+#include <DLabel>
+#include <QHBoxLayout>
+#include <QButtonGroup>
+#include <QDebug>
+#include <QLineEdit>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -112,14 +109,13 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             m_rediusLable->setVisible(true);
             m_rediusSpinbox->setVisible(true);
             m_sepLine->setVisible(true);
+            m_rediusSpinbox->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                //todo
-                m_rediusSpinbox->blockSignals(true);
                 m_rediusSpinbox->setValue(-1);
-                m_rediusSpinbox->blockSignals(false);
             } else {
                 m_rediusSpinbox->setValue(propertys[property].toInt());
             }
+            m_rediusSpinbox->blockSignals(false);
             m_rediusSpinbox->update();
             break;
         default:
@@ -231,6 +227,11 @@ void CommonshapeWidget::initConnection()
         emit signalRectRediusIsfocus(isFocus);
     });
     connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [ = ] () {
+        //等于0时是特殊字符，不做处理
+        qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
+        if ( m_rediusSpinbox->value() < 0) {
+            return ;
+        }
         m_rediusSpinbox->blockSignals(true);
         if (m_rediusSpinbox->value() < 0) {
             m_rediusSpinbox->setValue(0);
@@ -263,11 +264,12 @@ void CommonshapeWidget::updateCommonShapWidget()
 void CommonshapeWidget::slotRectRediusChanged(int redius)
 {
     m_rediusSpinbox->blockSignals(true);
-    if (m_rediusSpinbox->value() < 0) {
+    if (m_rediusSpinbox->value() <= 0) {
         m_rediusSpinbox->setValue(0);
     } else if (m_rediusSpinbox->value() > 1000) {
         m_rediusSpinbox->setValue(1000);
     }
+    redius = m_rediusSpinbox->value();
     m_rediusSpinbox->blockSignals(false);
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);

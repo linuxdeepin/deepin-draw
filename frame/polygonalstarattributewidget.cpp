@@ -108,13 +108,13 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_sepLine->setVisible(true);
             m_anchorNumLabel->setVisible(true);
             m_anchorNumber->setVisible(true);
+            m_anchorNumber->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_anchorNumber->blockSignals(true);
                 m_anchorNumber->setValue(0);
-                m_anchorNumber->blockSignals(false);
             } else {
                 m_anchorNumber->setValue(propertys[property].toInt());
             }
+            m_anchorNumber->blockSignals(false);
             break;
         case StarRadius:
             m_sepLine->setVisible(true);
@@ -231,6 +231,11 @@ void PolygonalStarAttributeWidget::initConnection()
         emit signalAnchorvalueIsfocus(isFocus);
     });
     connect(m_anchorNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        //等于0时是特殊字符，不做处理
+        qDebug() << "m_anchorNumber->value() = " << m_anchorNumber->value();
+        if ( m_anchorNumber->value() == 0) {
+            return ;
+        }
         m_anchorNumber->blockSignals(true);
         if (m_anchorNumber->value() < 3) {
             m_anchorNumber->setValue(3);

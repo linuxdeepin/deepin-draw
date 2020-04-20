@@ -380,6 +380,9 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         }
         propertys = allPropertys;
     }
+    if (items.size() == 1) {
+        allPropertys = propertys;
+    }
     if (allPropertys.size() == 0) {
         mode = EGraphicUserType::NoType;
     }

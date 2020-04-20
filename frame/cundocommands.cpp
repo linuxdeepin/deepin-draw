@@ -1870,10 +1870,8 @@ void CSetItemsCommonPropertyValueCommand::undo()
             myGraphicsScene->getItemsMgr()->setSelected(true);
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
-        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-            CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-        }
     }
+    CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, m_items);
 
     myGraphicsScene->update();
 }
@@ -1995,10 +1993,8 @@ void CSetItemsCommonPropertyValueCommand::redo()
             myGraphicsScene->getItemsMgr()->setSelected(true);
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
-        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-            CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-        }
     }
+    CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, m_items);
 
     myGraphicsScene->update();
 }
