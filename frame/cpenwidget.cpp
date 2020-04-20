@@ -93,18 +93,18 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             }
             m_sideWidthWidget->update();
             break;
-//        case PenStartArrowType:
-//            m_startLabel->setVisible(true);
-//            m_lineStartComboBox->setVisible(true);
-//            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
-//            m_sideWidthWidget->update();
-//            break;
-//        case PenEndArrowType:
-//            m_endLabel->setVisible(true);
-//            m_lineEndComboBox->setVisible(true);
-//            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
-//            m_lineEndComboBox->update();
-//            break;
+        case LineAndPenStartType: {
+            m_lineStartComboBox->blockSignals(true);
+            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+            m_lineStartComboBox->blockSignals(false);
+            break;
+        }
+        case LineAndPenEndType: {
+            m_lineEndComboBox->blockSignals(true);
+            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+            m_lineEndComboBox->blockSignals(false);
+            break;
+        }
         default:
             break;
         }
@@ -306,14 +306,6 @@ void CPenWidget::updatePenWidget()
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
-
-    // 起始点刷新
-    m_lineStartComboBox->blockSignals(true);
-    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
-    m_lineStartComboBox->blockSignals(false);
-    m_lineEndComboBox->blockSignals(true);
-    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
-    m_lineEndComboBox->blockSignals(false);
 
     // 公共属性刷新
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();

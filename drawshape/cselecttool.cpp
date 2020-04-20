@@ -334,16 +334,12 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     }
     //碰撞检测
     QList<QGraphicsItem *> items = scene->selectedItems();
-    int multSelectItemsCount = scene->getItemsMgr()->getItems().size();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
         if (item != m_currentSelectItem) {
             m_currentSelectItem = item;
             m_currentSelectItem->setSelected(true);
             m_rotateAng = m_currentSelectItem->rotation();
-            if (multSelectItemsCount <= 1) {
-                scene->changeAttribute(true, item);
-            }
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;

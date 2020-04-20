@@ -156,10 +156,13 @@ QRectF CGraphicsPenItem::rect() const
 
 void CGraphicsPenItem::duplicate(CGraphicsItem *item)
 {
+    static_cast<CGraphicsPenItem *>(item)->setPen(this->pen());
     static_cast<CGraphicsPenItem *>(item)->setPenStartType(this->m_penStartType);
     static_cast<CGraphicsPenItem *>(item)->setPenEndType(this->m_penEndType);
     static_cast<CGraphicsPenItem *>(item)->setPath(this->m_path);
-//    static_cast<CGraphicsPenItem *>(item)->setArrow(this->m_arrow);
+    static_cast<CGraphicsPenItem *>(item)->setPenStartpath(this->getPenStartpath());
+    static_cast<CGraphicsPenItem *>(item)->setPenEndpath(this->getPenEndpath());
+
     CGraphicsItem::duplicate(item);
 }
 
@@ -1241,6 +1244,26 @@ QPainterPath CGraphicsPenItem::getPath() const
     return m_path;
 }
 
+void CGraphicsPenItem::setPenStartpath(const QPainterPath &path)
+{
+    m_startPath = path;
+}
+
+QPainterPath CGraphicsPenItem::getPenStartpath() const
+{
+    return m_startPath;
+}
+
+void CGraphicsPenItem::setPenEndpath(const QPainterPath &path)
+{
+    m_endPath = path;
+}
+
+QPainterPath CGraphicsPenItem::getPenEndpath() const
+{
+    return m_endPath;
+}
+
 void CGraphicsPenItem::setPath(const QPainterPath &path)
 {
     m_path = path;
@@ -1340,6 +1363,8 @@ ELineType CGraphicsPenItem::getPenStartType() const
 void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
     m_penStartType = penType;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsPenItem::getPenEndType() const
@@ -1350,4 +1375,6 @@ ELineType CGraphicsPenItem::getPenEndType() const
 void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
     m_penEndType = penType;
+    calcVertexes();
+    updateGeometry();
 }
