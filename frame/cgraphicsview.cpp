@@ -230,14 +230,17 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_cutScence);
 
     m_viewZoomInAction = new QAction(this);
-    m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
+    m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     this->addAction(m_viewZoomInAction);
 
     m_viewZoomOutAction = new QAction(this);
-    m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
+    m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
     this->addAction(m_viewZoomOutAction);
 
-
+    // Qt 无法直接使用 ctrl + (+/=) 这个按键组合
+    m_viewZoomOutAction1 = new QAction(this);
+    m_viewZoomOutAction1->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
+    this->addAction(m_viewZoomOutAction1);
 
     m_viewOriginalAction = new QAction(this);
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
@@ -259,6 +262,7 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_viewZoomInAction, SIGNAL(triggered()), this, SLOT(slotViewZoomIn()));
     connect(m_viewZoomOutAction, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
+    connect(m_viewZoomOutAction1, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用

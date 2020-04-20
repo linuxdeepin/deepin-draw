@@ -491,8 +491,9 @@ private:
 //    QAction *m_rightAlignAct;
 //    QAction *m_centerAlignAct;
 
-    QAction *m_viewZoomInAction;
-    QAction *m_viewZoomOutAction;
+    QAction *m_viewZoomInAction;  // 缩小快捷键
+    QAction *m_viewZoomOutAction; // 放大快捷键 ctrl + +
+    QAction *m_viewZoomOutAction1; // 放大快捷键 ctrl + =
     QAction *m_viewOriginalAction;
 
 
