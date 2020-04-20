@@ -1649,15 +1649,18 @@ void CMultMoveShapeCommand::undo()
             item->move(m_endPos, m_beginPos);
         }
     }
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_listItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-    }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+
+    if (m_listItems.size() > 1) {
         myGraphicsScene->clearSelection();
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_listItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
     }
 }
 
@@ -1674,16 +1677,19 @@ void CMultMoveShapeCommand::redo()
         }
     }
 
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_listItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-    }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+    if (m_listItems.size() > 1) {
         myGraphicsScene->clearSelection();
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_listItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
     }
+
     m_bMoved = true;
 }
 
@@ -1764,44 +1770,54 @@ void CSetItemsCommonPropertyValueCommand::undo()
         switch (m_property) {
         case FillColor:
             item->setBrush(oldValue.value<QBrush>());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(oldValue.value<QBrush>());
             break;
         case LineWidth: {
             QPen widthpen = item->pen();
             widthpen.setWidth(oldValue.toInt());
             item->setPen(widthpen);
-
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(widthpen);
         }
         break;
         case LineColor: {
             QPen colorpen = item->pen();
             colorpen.setColor(oldValue.value<QColor>());
             item->setPen(colorpen);
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(colorpen);
         }
         break;
         case RectRadius:
             static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(oldValue.toInt());
             break;
         case Anchors:
             static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(oldValue.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(oldValue.toInt());
             break;
         case StarRadius:
             static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius(), oldValue.toInt());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(oldValue.toInt());
             break;
         case SideNumber:
             static_cast<CGraphicsPolygonItem *>(item)->setPointCount(oldValue.toInt());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(oldValue.toInt());
             break;
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
             }
             break;
         case TextColor:
@@ -1809,17 +1825,15 @@ void CSetItemsCommonPropertyValueCommand::undo()
                 auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
                 if (curTextItem != nullptr) {
                     curTextItem->setTextColor(oldValue.value<QColor>());
+                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(oldValue.value<QColor>());
                 }
-            } else {
-                QPen colorpen = item->pen();
-                colorpen.setColor(oldValue.value<QColor>());
-                item->setPen(colorpen);
             }
             break;
         case TextSize: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
                 curTextItem->setFontSize(oldValue.value<qreal>());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(oldValue.value<qreal>());
             }
         }
         break;
@@ -1827,6 +1841,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
                 curTextItem->setTextFontStyle(oldValue.value<QString>());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(oldValue.value<QString>());
             }
         }
         break;
@@ -1834,6 +1849,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
                 curTextItem->setFont(oldValue.value<QFont>());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(oldValue.value<QFont>().family());
             }
         }
         break;
@@ -1843,15 +1859,20 @@ void CSetItemsCommonPropertyValueCommand::undo()
         item->update();
     }
 
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-    }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+    if (m_items.size() > 1) {
         myGraphicsScene->clearSelection();
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_items) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
+        }
     }
 
     myGraphicsScene->update();
@@ -1864,38 +1885,44 @@ void CSetItemsCommonPropertyValueCommand::redo()
         switch (m_property) {
         case FillColor:
             item->setBrush(m_value.value<QBrush>());
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(m_value.value<QBrush>());
             break;
         case LineWidth: {
             QPen widthpen = item->pen();
             widthpen.setWidth(m_value.toInt());
             item->setPen(widthpen);
-
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(widthpen);
         }
         break;
         case LineColor: {
             QPen colorpen = item->pen();
             colorpen.setColor(m_value.value<QColor>());
             item->setPen(colorpen);
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(colorpen);
         }
         break;
         case RectRadius:
             if (item->type() == RectType) {
                 static_cast<CGraphicsRectItem *>(item)->setXYRedius(m_value.toInt(), m_value.toInt());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(m_value.toInt());
             }
             break;
         case Anchors:
             if (item->type() == PolygonalStarType) {
                 static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_value.toInt(), static_cast<CGraphicsPolygonalStarItem *>(item)->innerRadius());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(m_value.toInt());
             }
             break;
         case StarRadius:
             if (item->type() == PolygonalStarType) {
                 static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(static_cast<CGraphicsPolygonalStarItem *>(item)->anchorNum(), m_value.toInt());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(m_value.toInt());
             }
             break;
         case SideNumber:
             if (item->type() == PolygonType) {
                 static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_value.toInt());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(m_value.toInt());
             }
             break;
         case LineAndPenStartType:
@@ -1921,17 +1948,15 @@ void CSetItemsCommonPropertyValueCommand::redo()
                 auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
                 if (curTextItem != nullptr) {
                     curTextItem->setTextColor(m_value.value<QColor>());
+                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(m_value.value<QColor>());
                 }
-            } else {
-                QPen colorpen = item->pen();
-                colorpen.setColor(m_value.value<QColor>());
-                item->setPen(colorpen);
             }
             break;
         case TextSize: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
                 curTextItem->setFontSize(m_value.value<qreal>());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(m_value.value<qreal>());
             }
         }
         break;
@@ -1939,6 +1964,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
                 curTextItem->setTextFontStyle(m_value.value<QString>());
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(m_value.value<QString>());
             }
         }
         break;
@@ -1948,6 +1974,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
                 QFont f = curTextItem->getFont();
                 f.setFamily(m_value.toString());
                 curTextItem->setFont(f);
+                //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_value.toString());
             }
         }
         break;
@@ -1957,15 +1984,20 @@ void CSetItemsCommonPropertyValueCommand::redo()
         item->updateShape();
     }
 
-    myGraphicsScene->clearSelection();
-    myGraphicsScene->getItemsMgr()->clear();
-    foreach (CGraphicsItem *item, m_items) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-    }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+    if (m_items.size() > 1) {
         myGraphicsScene->clearSelection();
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (CGraphicsItem *item, m_items) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
+        }
     }
 
     myGraphicsScene->update();

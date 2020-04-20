@@ -230,7 +230,9 @@ void PolygonAttributeWidget::updatePolygonWidget()
     int sideNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum();
 
     if (sideNum != m_sideNumSpinBox->value()) {
+        m_sideNumSpinBox->blockSignals(true);
         m_sideNumSpinBox->setValue(sideNum);
+        m_sideNumSpinBox->blockSignals(false);
     }
 
     m_fillBtn->setVisible(true);

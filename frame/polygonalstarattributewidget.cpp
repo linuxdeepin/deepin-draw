@@ -282,13 +282,17 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     int anchorNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAnchorNum();
 
     if (anchorNum != m_anchorNumber->value()) {
+        m_anchorNumber->blockSignals(true);
         m_anchorNumber->setValue(anchorNum);
+        m_anchorNumber->blockSignals(false);
     }
 
     int radiusNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum();
 
     if (radiusNum != m_radiusNumber->value()) {
+        m_radiusNumber->blockSignals(true);
         m_radiusNumber->setValue(radiusNum);
+        m_radiusNumber->blockSignals(false);
     }
 
     m_fillBtn->setVisible(true);
