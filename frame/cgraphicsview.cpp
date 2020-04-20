@@ -352,11 +352,7 @@ void CGraphicsView::initConnection()
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
-    connect(m_DDFManager, &CDDFManager::signalContinueDoOtherThing, this, [ = ]() {
-        // 发送保存状态信号
-        emit signalSaveFileStatus(m_DDFManager->getLastSaveStatus(), m_DDFManager->getSaveLastErrorString(), m_DDFManager->getSaveLastError());
-//        emit signalTransmitContinueDoOtherThing();
-    });
+    connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }
 
@@ -1205,18 +1201,18 @@ void CGraphicsView::itemSceneCut(QRectF newRect)
     this->pushUndoStack(sceneCutCommand);
 }
 
-void CGraphicsView::doSaveDDF()
+void CGraphicsView::doSaveDDF(bool finishClose)
 {
     QString ddfPath = getDrawParam()->getDdfSavePath();
     if (ddfPath.isEmpty() || ddfPath == "") {
-        showSaveDDFDialog(true);
+        showSaveDDFDialog(true, finishClose);
     } else {
-        m_DDFManager->saveToDDF(ddfPath, scene());
+        m_DDFManager->saveToDDF(ddfPath, scene(), finishClose);
         // 保存是否成功均等待信号触发后续事件
     }
 }
 
-void CGraphicsView::showSaveDDFDialog(bool type)
+void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose)
 {
     DFileDialog dialog(this);
     if (type) {
@@ -1240,7 +1236,22 @@ void CGraphicsView::showSaveDDFDialog(bool type)
                 path = path + ".ddf";
             }
 
-            m_DDFManager->saveToDDF(path, scene());
+            //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
+            if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
+                DDialog dia(this);
+                dia.setModal(true);
+                dia.setMessage(tr("Cannot save as \"%1\" because the document is currently open. Please save it with a different name, or close the document and try again.").arg(QFileInfo(path).fileName()));
+                dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+
+                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+
+                dia.exec();
+
+                return;
+            }
+
+
+            m_DDFManager->saveToDDF(path, scene(), finishClose);
             // 保存是否成功均等待信号触发后续事件
         }
     }
@@ -1281,7 +1292,6 @@ void CGraphicsView::setModify(bool isModify)
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     curScene->setModify(isModify);
 }
-
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {

@@ -116,6 +116,8 @@ public:
 
     int  viewCount();
 
+    void quitIfEmpty();
+
 private:
     /**
      * @brief initBlockShutdown 柱塞关机

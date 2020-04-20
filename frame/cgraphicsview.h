@@ -77,12 +77,12 @@ public:
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
-    void showSaveDDFDialog(bool);
+    void showSaveDDFDialog(bool, bool finishClose = false);
 
     /**
      * @brief doSaveDDF保存DDFRR
      */
-    void doSaveDDF();
+    void doSaveDDF(bool finishClose = false);
 
     /**
      * @brief setContextMenuAndActionEnable 设置菜单项是否可用
@@ -221,7 +221,11 @@ signals:
      * @param QString 错误字符串
      * @param FileError 错误类型
      */
-    void signalSaveFileStatus(bool, QString, QFileDevice::FileError);
+    void signalSaveFileStatus(const QString &savedFile,
+                              bool status,
+                              QString errorString,
+                              QFileDevice::FileError error,
+                              bool needClose);
 
     /**
      * @brief signalSaveFileNameTooLong 保存文件名字过长信号

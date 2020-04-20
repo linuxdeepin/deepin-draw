@@ -171,11 +171,11 @@ private:
     /**
      * @brief showSaveQuestionDialog　显示提示是否保存对话框
      */
-    void showSaveQuestionDialog();
+    int showSaveQuestionDialog();
     /**
      * @brief doCloseOtherDiv　判断是否需要继续关闭页面
      */
-    void doCloseOtherDiv();
+    void closeTabViews();
 };
 
 #endif // MAINWINDOW_H

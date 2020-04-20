@@ -55,20 +55,14 @@ CDDFManager::CDDFManager(CGraphicsView *view)
 }
 
 
-void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
+void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {
+    m_finishedClose = finishedNeedClose;
 
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    //即使无图元也可以进行保存
-//    if (itemList.count() <= 0) {
-//        return;
-//    }
-
-
     int primitiveCount = 0;
     m_path = path;
-    //m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
     m_pSaveDialog->show();
     m_pSaveDialog->setTitle(tr("Saving..."));
     m_pSaveDialog->setProcess(0);
@@ -342,7 +336,10 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 void CDDFManager::slotSaveDDFComplete()
 {
     m_pSaveDialog->hide();
+
     m_view->getDrawParam()->setDdfSavePath(m_path);
+
     m_view->setModify(false);
-    emit signalContinueDoOtherThing();
+
+    emit signalSaveFileFinished(m_path, getLastSaveStatus(), getSaveLastErrorString(), getSaveLastError(), m_finishedClose);
 }

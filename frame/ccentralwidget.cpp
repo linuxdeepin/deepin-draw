@@ -269,7 +269,8 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(curScene, SIGNAL(signalIsModify(bool)), this, SLOT(currentScenseViewIsModify(bool)));
 
     // 连接view保存文件状态
-    connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
+    connect(newview, &CGraphicsView::signalSaveFileStatus, this, &CCentralwidget::slotSaveFileStatus);
+    //connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
 
     return newview;
 }
@@ -307,45 +308,88 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
 
 }
 
-void CCentralwidget::currentScenseViewIsModify(bool isModify)
+void CCentralwidget::closeViewScense(CGraphicsView *view)
 {
-    QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
-    qDebug() << "viewName：" << viewName << " modify:" << isModify;
-
-    //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
-    bool drawParamCurModified = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getModify();
-    if (isModify != drawParamCurModified) {
-        //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
-        QString uuid = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->uuid();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setModify(isModify);
-        QString newVName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
-
-        updateTabName(uuid, newVName);
+    if (view != nullptr) {
+        view->setParent(nullptr);
+        m_stackedLayout->removeWidget(view);
+        CManageViewSigleton::GetInstance()->removeView(view);
+        m_topMutipTabBarWidget->closeTabBarItemByUUID(view->getDrawParam()->uuid());
     }
 }
 
-void CCentralwidget::slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error)
+void CCentralwidget::currentScenseViewIsModify(bool isModify)
 {
-    if (status) {
-        qDebug() << "Ctrl_S Save:" << m_isCloseNow;
-        if (!m_isCloseNow) {
-            m_isCloseNow = false;
-            // 设置保存路径到标签的tooltip上，并且更新标签名字
-            QString current_path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
-            QString current_file_name = current_path.split("/").last();
-            if (!current_file_name.isEmpty()) {
-                QString uuid = m_topMutipTabBarWidget->getCurrentTabBarUUID();
-                current_file_name = current_file_name.left(current_file_name.length() - 4);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(current_file_name);
-                updateTabName(uuid, current_file_name);
-            }
-        } else {
-            closeCurrentScenseView();
+    //需要判断的当前的view是否是信号来源的同一个view
+    QGraphicsScene *pScene = qobject_cast<QGraphicsScene *>(sender());
+    CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
+
+    if (pScene != nullptr && pCurView != nullptr && pCurView->scene() == pScene) {
+        QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
+        qDebug() << "viewName：" << viewName << " modify:" << isModify;
+
+        //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
+        bool drawParamCurModified = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getModify();
+        if (isModify != drawParamCurModified) {
+            //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
+            QString uuid = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->uuid();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setModify(isModify);
+            QString newVName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
+
+            updateTabName(uuid, newVName);
         }
-    } else {
-        qDebug() << "save error:" << errorString << error;
     }
-    emit signalSaveFileStatus(status);
+}
+
+void CCentralwidget::slotSaveFileStatus(const QString &savedFile,
+                                        bool success,
+                                        QString errorString,
+                                        QFileDevice::FileError error,
+                                        bool needClose)
+{
+    CGraphicsView *pView    = CManageViewSigleton::GetInstance()->getViewByFilePath(savedFile);
+    if (pView != nullptr) {
+        //如果是要保存后关闭
+        if (needClose) {
+            //关闭这个view及其相关的数据
+            closeViewScense(pView);
+            //如果所有标签页都被删除完了那么退出程序
+            CManageViewSigleton::GetInstance()->quitIfEmpty();
+        } else {
+            if (success) {
+                //保存成功后标签要更新成保存成的ddf文件的名字
+                QFileInfo      info(savedFile);
+                QString        fileName = info.completeBaseName();
+                pView->getDrawParam()->setViewName(fileName);
+                updateTabName(pView->getDrawParam()->uuid(), pView->getDrawParam()->viewName());
+
+            } else {
+                qDebug() << "save error:" << errorString << error;
+            }
+        }
+    }
+
+
+//    if (status) {
+//        qDebug() << "Ctrl_S Save:" << m_isCloseNow;
+//        if (!m_isCloseNow) {
+//            m_isCloseNow = false;
+//            // 设置保存路径到标签的tooltip上，并且更新标签名字
+//            QString current_path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
+//            QString current_file_name = current_path.split("/").last();
+//            if (!current_file_name.isEmpty()) {
+//                QString uuid = m_topMutipTabBarWidget->getCurrentTabBarUUID();
+//                current_file_name = current_file_name.left(current_file_name.length() - 4);
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(current_file_name);
+//                updateTabName(uuid, current_file_name);
+//            }
+//        } else {
+//            closeCurrentScenseView();
+//        }
+//    } else {
+//        qDebug() << "save error:" << errorString << error;
+//    }
+//    emit signalSaveFileStatus(status);
 }
 
 void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabName)
@@ -454,7 +498,7 @@ void CCentralwidget::slotSaveToDDF(bool isCloseNow)
     // 是否保存后关闭该图元
     m_isCloseNow = isCloseNow;
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
-    CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF();
+    CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
     // 释放资源需要等待view提示是否保存成功
 }
 
@@ -619,13 +663,16 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         return;
     }
 
+    // [0] 替换最新的视图到当前显示界上
+    CManageViewSigleton::GetInstance()->setCurView(view);
+    m_stackedLayout->setCurrentWidget(view);
+
     // [1] 鼠标选择工具回到默认状态
     m_leftToolbar->slotShortCutSelect();
 
-    // [2] 替换最新的视图到当前显示界上
-    CManageViewSigleton::GetInstance()->setCurView(view);
-    m_stackedLayout->setCurrentWidget(view);
-    //initSceneRect();
+//    // [2] 替换最新的视图到当前显示界上
+//    CManageViewSigleton::GetInstance()->setCurView(view);
+//    m_stackedLayout->setCurrentWidget(view);
 
     // [3] 鼠标选择工具回到默认状态
     m_leftToolbar->slotShortCutSelect();

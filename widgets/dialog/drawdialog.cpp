@@ -64,18 +64,18 @@ DrawDialog::DrawDialog(DWidget *parent)
     //是否保存当前画板内容？
     setTitle(tr("Save the current contents?"));
 
-    connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
-        if (id == 0) {
-            this->close();
-        } else if (id == 1) {
-            this->close();
-            emit singalDoNotSaveToDDF();
-        } else {
-            //点击发出保存信号后，要先把询问对话框关闭了
-            this->close();
-            emit signalSaveToDDF();
-        }
-    });
+//    connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
+//        if (id == 0) {
+//            this->close();
+//        } else if (id == 1) {
+//            this->close();
+//            emit singalDoNotSaveToDDF();
+//        } else {
+//            //点击发出保存信号后，要先把询问对话框关闭了
+//            this->close();
+//            emit signalSaveToDDF();
+//        }
+//    });
 }
 
 

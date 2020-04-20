@@ -319,3 +319,10 @@ void CManageViewSigleton::initBlockShutdown()
     }
 }
 
+void CManageViewSigleton::quitIfEmpty()
+{
+    if (getCurView() == nullptr) {
+        qApp->quit();
+    }
+}
+

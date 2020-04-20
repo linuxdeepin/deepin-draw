@@ -279,6 +279,9 @@ public slots:
      */
     void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true);
 
+
+    void closeViewScense(CGraphicsView *view);
+
 private slots:
     /**
      * @brief slotDoSaveImage　执行保存图片
@@ -312,7 +315,11 @@ private slots:
      * @param:  errorString 保存错误字符串
      * @param:  error 保存错误
     */
-    void slotSaveFileStatus(bool status, QString errorString, QFileDevice::FileError error);
+    void slotSaveFileStatus(const QString &savedFile,
+                            bool success,
+                            QString errorString,
+                            QFileDevice::FileError error,
+                            bool needClose);
 
     /**
      * @brief updateTabName　当前场景状态被改变
