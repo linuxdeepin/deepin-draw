@@ -99,6 +99,10 @@ signals:
      * @param item　图元
      */
     void signalAddItem(QGraphicsItem *item);
+
+    void signalAddTextItem(const SGraphicsTextUnitData &data,
+                           const SGraphicsUnitHead &head);
+
     /**
      * @brief signalContinueDoOtherThing　保存完成后继续做某事信号
      */
