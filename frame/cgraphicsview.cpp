@@ -349,9 +349,16 @@ void CGraphicsView::initTextContextMenuConnection()
 
 void CGraphicsView::initConnection()
 {
+    qRegisterMetaType<SGraphicsTextUnitData>("SGraphicsTextUnitData");
+    qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
+    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
+    const SGraphicsUnitHead & head) {
+        CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
+        slotAddItemFromDDF(item);
+    });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }

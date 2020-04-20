@@ -32,13 +32,15 @@ class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
-    explicit CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
 
     CTextEdit *getTextEdit() const;
     virtual int  type() const Q_DECL_OVERRIDE;
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+
+    void initText();
 
     void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
