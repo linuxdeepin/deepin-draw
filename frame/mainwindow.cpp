@@ -163,48 +163,66 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
     }
 }
 
-void MainWindow::showSaveQuestionDialog()
+int MainWindow::showSaveQuestionDialog()
 {
-    DrawDialog quitQuestionDialog;
-    connect(&quitQuestionDialog, &DrawDialog::signalSaveToDDF, this, [ = ]() {
+    //int  ret = 0;  //0 cancel 1 discal 2baocun
+    DrawDialog quitQuestionDialog(this);
+
+    int ret = quitQuestionDialog.exec();/*showSaveQuestionDialog();*/
+    if (ret <= 0) {
+        //结束关闭，同时结束其他标签页的关闭(因为取消了)
+    } else if (ret == 1) {
+        //放弃这个标签页的保存 抛弃
+        m_centralWidget->closeCurrentScenseView();
+    } else if (ret == 2) {
+        //保存起来(传入保存起来后自动关闭)
         m_centralWidget->slotSaveToDDF(true);
-    });
-
-    connect(&quitQuestionDialog, &DrawDialog::singalDoNotSaveToDDF, this, [ = ]() {
-        m_centralWidget->slotDoNotSaveToDDF();
-        doCloseOtherDiv();
-    });
-
-    quitQuestionDialog.exec();
+    }
+    return ret;
 }
 
-void MainWindow::doCloseOtherDiv()
+void MainWindow::closeTabViews()
 {
-//    qDebug() << "views:" << m_closeViews;
+    qDebug() << "close views begin = " << m_closeViews << m_closeUUids;
 
-    // 此函数的作用是关闭 m_closeTabList 中的标签
+    // 此函数的作用是关闭 m_closeTabList 中的标签s
     // 需要每次在保存或者不保存后进行调用判断
+
     int count = m_closeViews.size();
+
+    if (m_closeUUids.size() != count)
+        return;
+
     for (int i = 0; i < count; i++) {
-        QString current_name = m_closeViews.first();
-        m_closeViews.removeFirst();
-        m_centralWidget->setCurrentView(current_name);
-        CManageViewSigleton::GetInstance()->setCurView(CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name));
-        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByViewModifyStateName/*getViewByViewName*/(current_name);
+        QString current_name = m_closeViews[i];
+        QString current_uuid = m_closeUUids[i];
+
+        m_centralWidget->setCurrentViewByUUID(current_uuid);
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        CManageViewSigleton::GetInstance()->setCurView(pView);
+        CGraphicsView *closeView = CManageViewSigleton::GetInstance()->getViewByUUID(current_uuid);
         if (closeView == nullptr) {
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
             bool editFlag = closeView->getDrawParam()->getModify();
-//            qDebug() << "Close Edit TabBar:" << current_name << editFlag;
             if (editFlag) {
-                showSaveQuestionDialog();
-                break;
+                int ret = showSaveQuestionDialog();
+                if (ret <= 0) {
+                    //结束关闭，同时结束其他标签页的关闭(因为取消了)
+                    qDebug() << "cancel close view at view = " << closeView->getDrawParam()->viewName() << "uuid = " << closeView->getDrawParam()->uuid();
+                    break;
+                }
             } else {
                 m_centralWidget->closeCurrentScenseView();
             }
         }
     }
+
+    qDebug() << "close views end ------";
+
+    //如果未保存直接抛弃那么这里的判断可以直接推出程序(如果有view标签页需要保存那么就要等待保存完成后推出程序)
+    CManageViewSigleton::GetInstance()->quitIfEmpty();
 }
 
 void MainWindow::initConnection()
@@ -220,7 +238,8 @@ void MainWindow::initConnection()
         if (divs.count())
         {
             m_closeViews = divs;
-            doCloseOtherDiv();
+            m_closeUUids = m_centralWidget->getAllTabBarUUID();
+            closeTabViews();
         }
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
@@ -287,15 +306,16 @@ void MainWindow::initConnection()
     connect(m_centralWidget, &CCentralwidget::signalLastTabBarRequestClose, this, &MainWindow::slotLastTabBarRequestClose);
 
     // 连接需要关闭多个标签信号
-    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views) {
+    connect(m_centralWidget, &CCentralwidget::signalTabItemsCloseRequested, this, [ = ](QStringList views, const QStringList & uuids) {
         m_closeViews = views;
-        doCloseOtherDiv();
+        m_closeUUids = uuids;
+        closeTabViews();
     });
 
     // 连接文件保存状态信号
     connect(m_centralWidget, &CCentralwidget::signalSaveFileStatus, this, [ = ](bool status) {
         qDebug() << "save status:" << status;
-        doCloseOtherDiv();
+        //doCloseOtherDiv();
     });
 
     // 连接场景被改变后更新主窗口tittle显示信息
@@ -326,10 +346,6 @@ void MainWindow::slotIsNeedSave()
         QMetaObject::invokeMethod(this, [ = ]() {
             showSaveQuestionDialog();
         }, Qt::QueuedConnection);
-
-//        QTimer::singleShot(100,this,[=](){
-//            showSaveQuestionDialog();
-//        });
     } else {
         slotContinueDoSomeThing();
     }

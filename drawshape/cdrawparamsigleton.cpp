@@ -19,7 +19,7 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 
-CDrawParamSigleton::CDrawParamSigleton()
+CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
     , m_nFillColor(Qt::transparent)//transparent
@@ -37,7 +37,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_cutType(ECutType::cut_free)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
-    , m_isModify(false)
+    , m_isModify(isModified)
     , m_saveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
@@ -51,6 +51,13 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_penEndType(ELineType::noneLine)
 {
     m_textFont.setPointSizeF(14);
+    m_textFont.setStyleName(QObject::tr("Regular"));
+
+    if (uuid.isEmpty()) {
+        m_keyUUID = creatUUID();
+    } else {
+        m_keyUUID = uuid;
+    }
 }
 
 void CDrawParamSigleton::setLineWidth(int lineWidth)
@@ -259,6 +266,7 @@ QString CDrawParamSigleton::getDdfSavePath() const
 void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
 {
     m_ddfSavePath = ddfSavePath;
+    CManageViewSigleton::GetInstance()->wacthFile(m_ddfSavePath);
 }
 
 ELineType CDrawParamSigleton::getLineStartType() const
@@ -425,10 +433,24 @@ void CDrawParamSigleton::setRectXRedius(int redius)
 
 QString CDrawParamSigleton::getShowViewNameByModifyState()
 {
-    if (!getModify()) {
+    //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
+    if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
         return viewName();
     }
     QString vName = "* " + viewName();
     return vName;
+}
+
+QString CDrawParamSigleton::uuid()
+{
+    return m_keyUUID;
+}
+
+QString CDrawParamSigleton::creatUUID()
+{
+    static int uuidKey = 0;
+    QString uuid = QString("uuid_%1").arg(uuidKey);
+    ++uuidKey;
+    return uuid;
 }
 

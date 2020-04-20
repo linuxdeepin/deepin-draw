@@ -46,7 +46,7 @@ public:
      * @param path　路径
      * @param scene　场景句柄
      */
-    void saveToDDF(const QString &path, const QGraphicsScene *scene);
+    void saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose = false);
     /**
      * @brief loadDDF　载入ＤＤＦ文件
      * @param path　路径
@@ -99,10 +99,19 @@ signals:
      * @param item　图元
      */
     void signalAddItem(QGraphicsItem *item);
+
+
+    void signalAddTextItem(const SGraphicsTextUnitData &data,
+                           const SGraphicsUnitHead &head);
+
     /**
      * @brief signalContinueDoOtherThing　保存完成后继续做某事信号
      */
-    void signalContinueDoOtherThing();
+    void signalSaveFileFinished(const QString &savedFile,
+                                bool status,
+                                QString errorString,
+                                QFileDevice::FileError error,
+                                bool needClose);
     /**
      * @brief singalEndLoadDDF　结束载入ＤＤＦ文件信号
      */
@@ -138,6 +147,7 @@ private:
     bool m_lastSaveStatus; //最后一次保存状态
     QString m_lastErrorString; //最后一次保存的错误字符串
     QFileDevice::FileError m_lastError; // 最后一次保存的错误
+    bool m_finishedClose = false;
 };
 
 #endif // CDDFMANAGER_H

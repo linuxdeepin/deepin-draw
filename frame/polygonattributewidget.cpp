@@ -206,6 +206,11 @@ void PolygonAttributeWidget::initConnection()
         emit signalSideValueIsfocus(isFocus);
     });
     connect(m_sideNumSpinBox, &DSpinBox::editingFinished, this, [ = ] () {
+        //等于0时是特殊字符，不做处理
+        qDebug() << "m_sideNumSpinBox->value() = " << m_sideNumSpinBox->value();
+        if ( m_sideNumSpinBox->value() == 0) {
+            return ;
+        }
         m_sideNumSpinBox->blockSignals(true);
         if (m_sideNumSpinBox->value() < 3) {
             m_sideNumSpinBox->setValue(3);
@@ -230,7 +235,9 @@ void PolygonAttributeWidget::updatePolygonWidget()
     int sideNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum();
 
     if (sideNum != m_sideNumSpinBox->value()) {
+        m_sideNumSpinBox->blockSignals(true);
         m_sideNumSpinBox->setValue(sideNum);
+        m_sideNumSpinBox->blockSignals(false);
     }
 
     m_fillBtn->setVisible(true);

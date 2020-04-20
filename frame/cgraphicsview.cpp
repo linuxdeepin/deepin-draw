@@ -42,6 +42,7 @@
 #include "drawshape/cgraphicsitemselectedmgr.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -229,14 +230,17 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_cutScence);
 
     m_viewZoomInAction = new QAction(this);
-    m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
+    m_viewZoomInAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
     this->addAction(m_viewZoomInAction);
 
     m_viewZoomOutAction = new QAction(this);
-    m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Minus));
+    m_viewZoomOutAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Plus));
     this->addAction(m_viewZoomOutAction);
 
-
+    // Qt 无法直接使用 ctrl + (+/=) 这个按键组合
+    m_viewZoomOutAction1 = new QAction(this);
+    m_viewZoomOutAction1->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Equal));
+    this->addAction(m_viewZoomOutAction1);
 
     m_viewOriginalAction = new QAction(this);
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
@@ -258,6 +262,7 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_viewZoomInAction, SIGNAL(triggered()), this, SLOT(slotViewZoomIn()));
     connect(m_viewZoomOutAction, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
+    connect(m_viewZoomOutAction1, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     //右键菜单隐藏时更新菜单选项层位操作可用，方便快捷键使用
@@ -344,14 +349,17 @@ void CGraphicsView::initTextContextMenuConnection()
 
 void CGraphicsView::initConnection()
 {
+    qRegisterMetaType<SGraphicsTextUnitData>("SGraphicsTextUnitData");
+    qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
-    connect(m_DDFManager, &CDDFManager::signalContinueDoOtherThing, this, [ = ]() {
-        // 发送保存状态信号
-        emit signalSaveFileStatus(m_DDFManager->getLastSaveStatus(), m_DDFManager->getSaveLastErrorString(), m_DDFManager->getSaveLastError());
-//        emit signalTransmitContinueDoOtherThing();
+    connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
+    const SGraphicsUnitHead & head) {
+        CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
+        slotAddItemFromDDF(item);
     });
+    connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
 }
 
@@ -804,6 +812,9 @@ void CGraphicsView::slotOnPaste()
                 if ( copy ) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
+                    if (itemMgr->getItems().size() > 1) {
+                        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
+                    }
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -843,6 +854,9 @@ void CGraphicsView::slotOnSelectAll()
             auto curItem = static_cast<CGraphicsItem *>(item);
             curScene->getItemsMgr()->addToGroup(curItem);
         }
+    }
+    if (curScene->getItemsMgr()->getItems().size() > 1) {
+        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, curScene->getItemsMgr()->getItems());
     }
     if (curScene->getItemsMgr()->getItems().isEmpty()) {
         return;
@@ -1194,18 +1208,18 @@ void CGraphicsView::itemSceneCut(QRectF newRect)
     this->pushUndoStack(sceneCutCommand);
 }
 
-void CGraphicsView::doSaveDDF()
+void CGraphicsView::doSaveDDF(bool finishClose)
 {
     QString ddfPath = getDrawParam()->getDdfSavePath();
     if (ddfPath.isEmpty() || ddfPath == "") {
-        showSaveDDFDialog(true);
+        showSaveDDFDialog(true, finishClose);
     } else {
-        m_DDFManager->saveToDDF(ddfPath, scene());
+        m_DDFManager->saveToDDF(ddfPath, scene(), finishClose);
         // 保存是否成功均等待信号触发后续事件
     }
 }
 
-void CGraphicsView::showSaveDDFDialog(bool type)
+void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose)
 {
     DFileDialog dialog(this);
     if (type) {
@@ -1217,7 +1231,8 @@ void CGraphicsView::showSaveDDFDialog(bool type)
     dialog.setOptions(QFileDialog::DontResolveSymlinks);//只显示文件夹
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
-    dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
+    //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
+    dialog.selectFile(getDrawParam()->viewName() + ".ddf"); //设置默认的文件名
     QStringList nameFilters;
     nameFilters << "*.ddf";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
@@ -1228,7 +1243,22 @@ void CGraphicsView::showSaveDDFDialog(bool type)
                 path = path + ".ddf";
             }
 
-            m_DDFManager->saveToDDF(path, scene());
+            //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
+            if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
+                DDialog dia(this);
+                dia.setModal(true);
+                dia.setMessage(tr("Cannot save as \"%1\" because the document is currently open. Please save it with a different name, or close the document and try again.").arg(QFileInfo(path).fileName()));
+                dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+
+                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+
+                dia.exec();
+
+                return;
+            }
+
+
+            m_DDFManager->saveToDDF(path, scene(), finishClose);
             // 保存是否成功均等待信号触发后续事件
         }
     }
@@ -1269,7 +1299,6 @@ void CGraphicsView::setModify(bool isModify)
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     curScene->setModify(isModify);
 }
-
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {

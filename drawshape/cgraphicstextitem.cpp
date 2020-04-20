@@ -45,25 +45,22 @@ CGraphicsTextItem::CGraphicsTextItem()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
-    , m_allColorIsEqual(true)
-    , m_allSizeIsEqual(true)
-    , m_allFamilyIsEqual(true)
 {
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data.rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
 {
     initTextEditWidget();
-    m_Font = data->font;
-    m_bManResize = data->manResizeFlag;
-    m_pTextEdit->setHtml(data->content);
+    m_Font = data.font;
+    m_bManResize = data.manResizeFlag;
+    m_pTextEdit->setHtml(data.content);
     m_pTextEdit->hide();
-    QRectF rect(data->rect.topLeft, data->rect.bottomRight);
+    QRectF rect(data.rect.topLeft, data.rect.bottomRight);
     setRect(rect);
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
@@ -132,25 +129,22 @@ QPainterPath CGraphicsTextItem::getHighLightPath()
 
 bool CGraphicsTextItem::getAllTextColorIsEqual()
 {
-    //    // 必须要点击文本检验后才能获取是否所有颜色相同，否则返回所有文字相同
-    //    bool temp = m_allColorIsEqual;
-    //    m_allColorIsEqual = true;
-    return m_allColorIsEqual;
+    return m_pTextEdit->getAllTextColorIsEqual();
 }
 
 bool CGraphicsTextItem::getAllFontSizeIsEqual()
 {
-    return m_allSizeIsEqual;
+    return m_pTextEdit->getAllFontSizeIsEqual();
 }
 
 bool CGraphicsTextItem::getAllFontFamilyIsEqual()
 {
-    return m_allFamilyIsEqual;
+    return m_pTextEdit->getAllFontFamilyIsEqual();
 }
 
-bool CGraphicsTextItem::getAllFontWeightIsEqual()
+bool CGraphicsTextItem::getAllFontStyleIsEqual()
 {
-    return m_allWeightIsEqual;
+    return m_pTextEdit->getAllFontStyleIsEqual();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -186,6 +180,11 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
             static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
         }
     }
+}
+
+void CGraphicsTextItem::initText()
+{
+
 }
 
 void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
@@ -232,15 +231,18 @@ QString CGraphicsTextItem::getTextFontStyle() const
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
-    QTextCharFormat fmt;
-    fmt.font().setStyleName(style);
-    mergeFormatOnWordOrSelection(fmt);
     m_Font.setStyleName(style);
+    m_pTextEdit->setFont(m_Font);
 
-    //只有把焦点设成这个,才可以输入文字
-    if (this->scene() != nullptr) {
-        this->scene()->views()[0]->setFocus();
-    }
+//    QTextCharFormat fmt;
+//    fmt.font().setStyleName(style);
+//    mergeFormatOnWordOrSelection(fmt);
+//    m_Font.setStyleName(style);
+
+//    //只有把焦点设成这个,才可以输入文字
+//    if (this->scene() != nullptr) {
+//        this->scene()->views()[0]->setFocus();
+//    }
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)
@@ -248,7 +250,6 @@ void CGraphicsTextItem::setFontSize(qreal size)
     QTextCharFormat fmt;
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
-
     m_Font.setPointSizeF(size);
 }
 
@@ -356,53 +357,6 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         curScene->updateBlurItem(this);
     }
     m_pTextEdit->setFocus();
-}
-
-void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    Q_UNUSED(event)
-
-    m_pTextEdit->selectAll();
-
-    QTextCursor cur = m_pTextEdit->textCursor();
-
-    m_allColorIsEqual = true;
-    m_allSizeIsEqual = true;
-    m_allFamilyIsEqual = true;
-    m_allWeightIsEqual = true;
-
-    QTextBlock block = cur.block();
-    if (block.isValid()) {
-        QTextBlock::iterator it;
-
-        for (it = block.begin(); !(it.atEnd()); ++it) {
-            QTextFragment fragment = it.fragment();
-            if (!fragment.isValid())
-                continue;
-
-            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != m_color) {
-                m_allColorIsEqual = false;
-            }
-
-            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_Font.pointSize()) {
-                m_allSizeIsEqual = false;
-            }
-
-            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != m_Font.family()) {
-                m_allFamilyIsEqual = false;
-            }
-
-            if (m_allWeightIsEqual && fragment.charFormat().font().weight() != m_Font.weight()) {
-                m_allWeightIsEqual = false;
-            }
-
-            // 当所有的都不相同时跳出循环
-            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual && !m_allWeightIsEqual) {
-                return;
-            }
-        }
-    }
-    CGraphicsRectItem::mousePressEvent(event);
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,
@@ -610,7 +564,6 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
         }
     }
 }
-
 
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {

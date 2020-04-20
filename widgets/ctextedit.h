@@ -40,6 +40,32 @@ public:
 
     void resizeDocument();
 
+    /*
+    * @bref: getAllTextColorIsEqual 返回文本当前点击后是否所有文字颜色一致
+    * @return:bool
+    */
+    bool getAllTextColorIsEqual();
+
+    /*
+    * @bref: getAllFontSizeIsEqual 返回文本当前点击后是否所有文字大小一致
+    * @return:bool
+    */
+    bool getAllFontSizeIsEqual();
+
+    /*
+    * @bref: getAllFontFamilyIsEqual 返回文本当前点击后是否所有字体大小一致
+    * @return:bool
+    */
+    bool getAllFontFamilyIsEqual();
+
+    /*
+    * @bref: getAllFontStyleIsEqual 返回文本当前点击后是否所有自重大小一致
+    * @return:bool
+    */
+    bool getAllFontStyleIsEqual();
+
+    void setFontStyle(QFont ft);
+
 public slots:
     void slot_textChanged();
     void cursorPositionChanged();
@@ -48,6 +74,16 @@ public slots:
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
+
+    bool m_allColorIsEqual; // 所有选中的颜色
+    bool m_allSizeIsEqual;  // 所有选中的字体大小
+    bool m_allFamilyIsEqual;// 所有选中的字体类型
+    bool m_allFontStyleIsEqual;// 所有选中的字体样式
+
+    /*
+     * @bref: checkTextProperty 用于检验文字属性是否一致
+    */
+    void checkTextProperty(QTextBlock block);
 };
 
 #endif // CTEXTEDIT_H

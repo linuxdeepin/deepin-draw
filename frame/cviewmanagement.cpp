@@ -19,20 +19,25 @@
 #include "cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "ddialog.h"
+#include "frame/ccentralwidget.h"
 
 #include <DApplication>
 #include <QGuiApplication>
 #include <QDebug>
 #include <QString>
+#include <QFileInfo>
 
 DWIDGET_USE_NAMESPACE
 
 CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
 
-CManageViewSigleton::CManageViewSigleton()
+CManageViewSigleton::CManageViewSigleton(): QObject ()
 {
     m_thremeType = 0;
 //    initBlockShutdown();
+
+    QObject::connect(&m_ddfWatcher, &QFileSystemWatcher::fileChanged, this, &CManageViewSigleton::onDDfFileChanged);
 }
 
 CManageViewSigleton *CManageViewSigleton::GetInstance()
@@ -165,6 +170,124 @@ CGraphicsView *CManageViewSigleton::getViewByFilePath(QString path)
     return nullptr;
 }
 
+CGraphicsView *CManageViewSigleton::getViewByUUID(QString uuid)
+{
+    for (int i = 0; i < m_allViews.count(); i++) {
+        if (m_allViews[i]->getDrawParam()->uuid() == uuid) {
+            return m_allViews[i];
+        }
+    }
+
+    // 返回空指针
+    return nullptr;
+}
+
+bool CManageViewSigleton::isDdfFileOpened(const QString &path)
+{
+    return (getViewByFilePath(path) != nullptr);
+}
+
+//void CManageViewSigleton::blockWacthFile(const QString &file)
+//{
+//    QMutexLocker locker(&m_mutex);
+//    m_ddfWatcher.remov(file);
+//}
+
+bool CManageViewSigleton::wacthFile(const QString &file)
+{
+    bool ret = false;
+    if (!file.isEmpty()) {
+        if (m_ddfWatcher.files().indexOf(file) == -1)
+            ret = m_ddfWatcher.addPath(file);
+    }
+    //qDebug() << "wacthFile file = " << file << "result = " << ret;
+    return ret;
+}
+
+bool CManageViewSigleton::removeWacthedFile(const QString &file)
+{
+    bool ret = false;
+    if (m_ddfWatcher.files().indexOf(file) != -1) {
+        ret = m_ddfWatcher.removePath(file);
+    }
+    //qDebug() << "removeWacthedFile file = " << file << "result = " << ret;
+    return ret;
+}
+
+void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
+{
+    qDebug() << "onDDfFileChangedonDDfFileChangedonDDfFileChangedonDDfFileChanged" << m_ddfWatcher.files();
+
+//    if (ignoreCount() > 0) {
+//        reduceIgnoreCount();
+//        return;
+//    }
+
+    CGraphicsView *pView = getViewByFilePath(ddfFile);
+    if (pView != nullptr) {
+        CCentralwidget *pCertralWidget = dynamic_cast<CCentralwidget *>(pView->parentWidget());
+
+        //设置为当前view
+        pCertralWidget->setCurrentViewByUUID(pView->getDrawParam()->uuid());
+
+        QFileInfo fInfo(ddfFile);
+        if (fInfo.exists()) {
+            //证明只是内容修改 要提醒是否重新加载
+//            DDialog dia(pView);
+//            dia.setModal(true);
+//            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+//            dia.setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(ddfFile));
+//            int reload  = dia.addButton(tr("reload"), false, DDialog::ButtonNormal);
+//            int cancel = dia.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+//            int ret = dia.exec();
+
+//            if (ret == reload) {
+
+//                //先关闭传入false使程序不会被关闭
+//                pCertralWidget->closeCurrentScenseView(false);
+
+//                //再加载
+//                emit pView->signalLoadDragOrPasteFile(ddfFile);
+
+
+//            } else if (ret == cancel) {
+
+//                //直接关闭
+//                pCertralWidget->closeCurrentScenseView();
+//            }
+        } else {
+            //证明是被重命名或者删除
+            DDialog dia(pView);
+            dia.setModal(true);
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(ddfFile));
+            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+
+            int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
+            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);
+            int ret = dia.exec();
+
+            if (ret == keep) {
+
+                //不再绑定这个文件()
+                removeWacthedFile(ddfFile);
+                pView->getDrawParam()->setDdfSavePath("");
+                pCertralWidget->updateTitle();
+
+            } else if (ret == discard) {
+                //直接关闭
+                pCertralWidget->closeCurrentScenseView();
+            }
+        }
+    }
+
+    //DDialog dialog();
+}
+
+int CManageViewSigleton::viewCount()
+{
+    return m_allViews.size();
+}
+
 void CManageViewSigleton::initBlockShutdown()
 {
     if (!m_arg.isEmpty() || m_reply.value().isValid()) {
@@ -193,6 +316,13 @@ void CManageViewSigleton::initBlockShutdown()
         m_reply = QDBusReply<QDBusUnixFileDescriptor>();
         //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
         qDebug() << "Nublock shutdown.";
+    }
+}
+
+void CManageViewSigleton::quitIfEmpty()
+{
+    if (getCurView() == nullptr) {
+        qApp->quit();
     }
 }
 

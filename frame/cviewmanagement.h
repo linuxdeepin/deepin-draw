@@ -23,11 +23,15 @@
 #include <QDBusReply>
 #include <QDBusInterface>
 #include <QDBusUnixFileDescriptor>
+#include <QFileSystemWatcher>
+#include <QAtomicInt>
+#include <QDebug>
 
 class CGraphicsView;
 
-class CManageViewSigleton
+class CManageViewSigleton: public QObject
 {
+    Q_OBJECT
 private :
     static CManageViewSigleton *m_pInstance;
     CManageViewSigleton();
@@ -77,6 +81,43 @@ public:
      * @brief getViewByFilePath
      */
     CGraphicsView *getViewByFilePath(QString path);
+
+
+    CGraphicsView *getViewByUUID(QString uuid);
+
+
+    bool  isDdfFileOpened(const QString &path);
+
+
+    /*在监视对象QFileSystemWatcher中 但某些情况下也不需要检测文件的变化(比如我们画板自身的进行保存时)，所以有这个函数*/
+    //void blockWacthFile(const QString& file);
+    bool wacthFile(const QString &file);
+    bool removeWacthedFile(const QString &file);
+
+
+    void addIgnoreCount()
+    {
+        ++m_ignoreCount;
+    }
+    void reduceIgnoreCount()
+    {
+        --m_ignoreCount;
+    }
+
+    int ignoreCount()
+    {
+        qDebug() << "m_ignoreCount  ============ " << m_ignoreCount;
+        return m_ignoreCount;
+    }
+
+
+    Q_SLOT void onDDfFileChanged(const QString &ddfFile);
+
+
+    int  viewCount();
+
+    void quitIfEmpty();
+
 private:
     /**
      * @brief initBlockShutdown 柱塞关机
@@ -94,6 +135,11 @@ private:
     QDBusReply<QDBusUnixFileDescriptor> m_reply;
     QDBusInterface *m_pLoginManager = nullptr;
     QList<QVariant> m_arg;
+
+    QFileSystemWatcher m_ddfWatcher;
+
+    QAtomicInt     m_ignoreCount = 0;
+
 };
 
 

@@ -46,9 +46,9 @@
 #include <QtMath>
 #include <DApplication>
 
-CDrawScene::CDrawScene(CGraphicsView *view)
+CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
     : QGraphicsScene(view)
-    , m_drawParam(new CDrawParamSigleton())
+    , m_drawParam(new CDrawParamSigleton(uuid, isModified))
     , m_bIsEditTextFlag(false)
     , m_drawMouse(QPixmap(":/cursorIcons/draw_mouse.svg"))
     , m_lineMouse(QPixmap(":/cursorIcons/line_mouse.svg"))
@@ -141,6 +141,7 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    //qDebug() << "view count = " << CManageViewSigleton::GetInstance()->viewCount();
     QGraphicsScene::drawBackground(painter, rect);
     if (getDrawParam()->getRenderImage() > 0) {
         if (getDrawParam()->getRenderImage() == 1) {

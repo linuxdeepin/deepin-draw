@@ -55,20 +55,14 @@ CDDFManager::CDDFManager(CGraphicsView *view)
 }
 
 
-void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
+void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {
+    m_finishedClose = finishedNeedClose;
 
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    //即使无图元也可以进行保存
-//    if (itemList.count() <= 0) {
-//        return;
-//    }
-
-
     int primitiveCount = 0;
     m_path = path;
-    //m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
     m_pSaveDialog->show();
     m_pSaveDialog->setTitle(tr("Saving..."));
     m_pSaveDialog->setProcess(0);
@@ -106,7 +100,6 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
             for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
                 out << unit;
-
                 ///进度条处理
                 count ++;
                 process = static_cast<int>((count * 1.0 / totalCount) * 100);
@@ -145,8 +138,14 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
                     unit.data.pBlur = nullptr;
                 }
             }
+            //close时会写入数据到文件这个时候如果什么都不做会触发监视文件的内容改变就会弹出提醒内容被修改了。 所以这里要过滤掉，"设置下次该文件的修改被忽略" 实现过滤
+            //内容变化的检测
+            //CManageViewSigleton::GetInstance()->addIgnoreCount();
+
             writeFile.close();
+
             m_graphics.vecGraphicsUnit.clear();
+
             m_lastSaveStatus = true;
         } else
         {
@@ -247,8 +246,9 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pLine = nullptr;
                     }
                 } else if (TextType == unit.head.dataType) {
-                    CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-                    emit signalAddItem(item);
+                    //CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
+                    //emit signalAddItem(item);
+                    emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pText) {
                         delete unit.data.pText;
@@ -337,7 +337,10 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 void CDDFManager::slotSaveDDFComplete()
 {
     m_pSaveDialog->hide();
+
     m_view->getDrawParam()->setDdfSavePath(m_path);
+
     m_view->setModify(false);
-    emit signalContinueDoOtherThing();
+
+    emit signalSaveFileFinished(m_path, getLastSaveStatus(), getSaveLastErrorString(), getSaveLastError(), m_finishedClose);
 }

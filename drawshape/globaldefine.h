@@ -73,10 +73,11 @@ enum EPenType {
 
 enum ELineType {
     noneLine,     // 无
-    normalArrow,  // 普通箭头
-    soildArrow,   // 实心箭头
     normalRing,   // 空心圆
-    soildRing     // 实心圆
+    soildRing,     // 实心圆
+    normalArrow,  // 普通箭头
+    soildArrow   // 实心箭头
+
 };
 
 enum EGraphicUserType {

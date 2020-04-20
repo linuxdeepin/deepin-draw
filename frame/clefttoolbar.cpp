@@ -489,8 +489,8 @@ void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
     slotClearToolSelection();
     m_selectBtn->setChecked(true);
 
-    if(showToolMidWidget)
-    emit m_selectBtn->buttonClick();
+    if (showToolMidWidget)
+        emit m_selectBtn->buttonClick();
 }
 
 void CLeftToolBar::slotShortCutPictrue()
@@ -639,7 +639,8 @@ void CLeftToolBar::initShortCutConnection()
 
 void CLeftToolBar::isCutMode()
 {
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+    CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pCurView != nullptr && cut == pCurView->getDrawParam()->getCurrentDrawToolMode()) {
         emit singalDoCutFromLeftToolBar();
     }
 }

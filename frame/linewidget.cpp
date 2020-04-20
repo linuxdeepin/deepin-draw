@@ -231,19 +231,19 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
@@ -264,19 +264,19 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
@@ -308,6 +308,14 @@ void LineWidget::updateLineWidget()
 
     m_maskLableStart->setVisible(false);
     m_maskLableEnd->setVisible(false);
+
+    m_strokeBtn->setVisible(true);
+    m_sideWidthWidget->setVisible(true);
+    m_sep1Line->setVisible(true);
+    m_startLabel->setVisible(true);
+    m_endLabel->setVisible(true);
+    m_lineStartComboBox->setVisible(true);
+    m_lineEndComboBox->setVisible(true);
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

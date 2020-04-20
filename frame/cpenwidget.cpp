@@ -147,7 +147,7 @@ void CPenWidget::initUI()
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");  
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
@@ -206,19 +206,19 @@ void CPenWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
@@ -240,19 +240,19 @@ void CPenWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
@@ -299,9 +299,23 @@ void CPenWidget::initConnection()
 
 void CPenWidget::updatePenWidget()
 {
+    // 填充色更新
     m_strokeBtn->updateConfigColor();
-    m_sideWidthWidget->updateSideWidth();
 
+    // 线宽度属性刷新
+    m_sideWidthWidget->blockSignals(true);
+    m_sideWidthWidget->updateSideWidth();
+    m_sideWidthWidget->blockSignals(false);
+
+    // 起始点刷新
+    m_lineStartComboBox->blockSignals(true);
+    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
+    m_lineStartComboBox->blockSignals(false);
+    m_lineEndComboBox->blockSignals(true);
+    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
+    m_lineEndComboBox->blockSignals(false);
+
+    // 公共属性刷新
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 

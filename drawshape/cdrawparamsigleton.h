@@ -27,7 +27,7 @@
 class CDrawParamSigleton
 {
 public:
-    CDrawParamSigleton();
+    CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
     int getLineWidth() const;
@@ -152,6 +152,12 @@ public:
         */
     QString getShowViewNameByModifyState();
 
+
+    QString uuid();
+
+public:
+    static QString creatUUID();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -208,6 +214,9 @@ private:
     bool m_bSelectAlling; //是否正在全选
 
     QString m_viewName;//视图名字
+
+
+    QString m_keyUUID;      //唯一标识
 };
 
 

@@ -66,7 +66,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
-    m_sepLine->setVisible(true);
+    m_sepLine->setVisible(false);
 //    m_lwLabel->setVisible(false);
     m_sideWidthWidget->setVisible(false);
     m_anchorNumLabel->setVisible(false);
@@ -105,17 +105,19 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             m_sideWidthWidget->update();
             break;
         case Anchors:
+            m_sepLine->setVisible(true);
             m_anchorNumLabel->setVisible(true);
             m_anchorNumber->setVisible(true);
+            m_anchorNumber->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_anchorNumber->blockSignals(true);
                 m_anchorNumber->setValue(0);
-                m_anchorNumber->blockSignals(false);
             } else {
                 m_anchorNumber->setValue(propertys[property].toInt());
             }
+            m_anchorNumber->blockSignals(false);
             break;
         case StarRadius:
+            m_sepLine->setVisible(true);
             m_radiusLabel->setVisible(true);
             m_radiusNumber->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
@@ -229,6 +231,11 @@ void PolygonalStarAttributeWidget::initConnection()
         emit signalAnchorvalueIsfocus(isFocus);
     });
     connect(m_anchorNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        //等于0时是特殊字符，不做处理
+        qDebug() << "m_anchorNumber->value() = " << m_anchorNumber->value();
+        if ( m_anchorNumber->value() == 0) {
+            return ;
+        }
         m_anchorNumber->blockSignals(true);
         if (m_anchorNumber->value() < 3) {
             m_anchorNumber->setValue(3);
@@ -280,13 +287,17 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     int anchorNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAnchorNum();
 
     if (anchorNum != m_anchorNumber->value()) {
+        m_anchorNumber->blockSignals(true);
         m_anchorNumber->setValue(anchorNum);
+        m_anchorNumber->blockSignals(false);
     }
 
     int radiusNum = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRadiusNum();
 
     if (radiusNum != m_radiusNumber->value()) {
+        m_radiusNumber->blockSignals(true);
         m_radiusNumber->setValue(radiusNum);
+        m_radiusNumber->blockSignals(false);
     }
 
     m_fillBtn->setVisible(true);

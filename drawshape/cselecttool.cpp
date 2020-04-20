@@ -117,7 +117,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
 
         //多选和单选复制
-        if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle) {
+        if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle && m_highlightItem != nullptr) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
             QList<CGraphicsItem *> multSelectItems;
@@ -182,6 +182,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
                 }
+                if (scene->getItemsMgr()->getItems().size() > 1) {
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
+                }
             } else if (copyItems.size() > 0) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
@@ -221,7 +224,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, m_sPointPress));
             scene->addItem(m_frameSelectItem);
             //判断是否在画板空白处点击右键(在画板空白处点击才会出现框选)
-            if (scene->items(event->scenePos()).count() == 0) {
+            if (scene->items(event->scenePos()).count() == 0 && m_highlightItem == nullptr) {
                 m_frameSelectItem->setVisible(true);
                 scene->getItemsMgr()->clear();
             }
@@ -242,6 +245,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
                 if (m_currentSelectItem) {
                     m_currentSelectItem->setSelected(true);
+                    scene->changeAttribute(true, m_currentSelectItem);
                 }
                 if (!shiftKeyPress) {
                     foreach (QGraphicsItem *selectItem, scene->selectedItems()) {
@@ -322,6 +326,12 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //移动的时候选中多选以外的，加入多选
+    if (scene->getItemsMgr()->getItems().size() > 1) {
+        if (m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
+            scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+        }
+    }
     //碰撞检测
     QList<QGraphicsItem *> items = scene->selectedItems();
     int multSelectItemsCount = scene->getItemsMgr()->getItems().size();
@@ -591,6 +601,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //记录addOrRemoveToGroup多选图元数量
+    int multCount = scene->getItemsMgr()->getItems().size();
     //复制添加动作入撤销返回栈
     if (m_doCopy) {
         QList<QGraphicsItem *> copyItems;
@@ -619,6 +631,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             auto selectItem = static_cast<CGraphicsItem *>(item);
             scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
         }
+        if (scene->getItemsMgr()->getItems().size() > 1) {
+            CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
+        }
         int count = scene->getItemsMgr()->getItems().size();
         if (1 == count) {
             scene->getItemsMgr()->getItems().first()->setSelected(true);
@@ -643,10 +658,16 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (currentSelectItem != nullptr) {
                     scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
                 }
+                if (scene->getItemsMgr()->getItems().size() > 1) {
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
+                }
             }
             int count = scene->getItemsMgr()->getItems().size();
-            if (1 == count) {
+            if (1 == count ) {
                 scene->getItemsMgr()->hide();
+                if (multCount == 2) {
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                }
             } else if (count > 1) {
                 scene->getItemsMgr()->show();
                 scene->clearSelection();
@@ -706,7 +727,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
-                m_currentSelectItem->setSelected(true);
+                if (scene->getItemsMgr()->getItems().size() == 1 && multCount == 2) {
+                    m_currentSelectItem->setSelected(false);
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                } else {
+                    m_currentSelectItem->setSelected(true);
+                }
                 //显示所选图元素属性
                 scene->changeAttribute(true, m_currentSelectItem);
                 CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
@@ -715,6 +741,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 scene->getItemsMgr()->setSelected(true);
             } else {
                 scene->getItemsMgr()->setSelected(false);
+                if (scene->getItemsMgr()->getItems().size() == 1 && multCount == 2) {
+                    scene->getItemsMgr()->getItems().at(0)->setSelected(true);
+                }
             }
         } else {
             if (m_isMulItemMoving) {
@@ -739,6 +768,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_isItemMoving    = false;
     }
 
+    m_currentSelectItem = nullptr;
     //更新模糊图元
     QList<QGraphicsItem *> allitems = scene->items();
     foreach (QGraphicsItem *item, allitems) {

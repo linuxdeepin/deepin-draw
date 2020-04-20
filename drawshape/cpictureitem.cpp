@@ -76,7 +76,6 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
-    painter->restore();
 
     endCheckIns(painter);
 

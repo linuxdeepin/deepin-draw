@@ -34,6 +34,10 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
     , m_widthF(0)
+    , m_allColorIsEqual(true)
+    , m_allSizeIsEqual(true)
+    , m_allFamilyIsEqual(true)
+    , m_allFontStyleIsEqual(true)
 {
     //初始化字体
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
@@ -89,6 +93,7 @@ void CTextEdit::slot_textChanged()
 
 void CTextEdit::cursorPositionChanged()
 {
+    // 只要鼠标点击后，此函数就会被调用一次
     if (this->document()->isEmpty()) {
         m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
         m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
@@ -100,10 +105,15 @@ void CTextEdit::cursorPositionChanged()
             qDebug() << "startpos = " << startPos << "endPos" << endPos;
             QTextBlock block = cursor.block();
             if (block.isValid()) {
+
+                // [0] 检测选中文字的属性是否相等
+                checkTextProperty(block);
+
                 QTextBlock::iterator it;
                 bool flag = true;
                 QTextCharFormat chfFirst;
                 QString fontFamily = "";
+                QString fontStyle = "";
                 for (it = block.begin(); !(it.atEnd()); ++it) {
                     QTextFragment fragment = it.fragment();
                     if (!fragment.isValid())
@@ -134,7 +144,6 @@ void CTextEdit::cursorPositionChanged()
                             QTextCharFormat chf = fragment.charFormat();
                             //找到最后一个字块
                             if (fragment.contains(endPos)) {
-                                qDebug() << text;
                                 if (endPos == fragment.position()) {
                                     break;
                                 }
@@ -168,6 +177,59 @@ void CTextEdit::cursorPositionChanged()
         }
 
         this->setFocus();
+    }
+}
+
+void CTextEdit::checkTextProperty(QTextBlock block)
+{
+    m_allColorIsEqual = true;
+    m_allSizeIsEqual = true;
+    m_allFamilyIsEqual = true;
+    m_allFontStyleIsEqual = true;
+
+    if (block.isValid()) {
+        QTextBlock::iterator it = block.begin();
+
+        QTextFragment first_fragment = it.fragment();
+        if (!first_fragment.isValid()) {
+            m_allColorIsEqual = false;
+            m_allSizeIsEqual = false;
+            m_allFamilyIsEqual = false;
+            m_allFontStyleIsEqual = false;
+            return;
+        }
+
+        for (; !it.atEnd(); ++it) {
+
+            QTextFragment fragment = it.fragment();
+
+            if (!fragment.isValid())
+                continue;
+
+            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != first_fragment.charFormat().foreground().color()) {
+                m_allColorIsEqual = false;
+            }
+
+            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != first_fragment.charFormat().font().pointSize()) {
+                m_allSizeIsEqual = false;
+            }
+
+            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != first_fragment.charFormat().font().family()) {
+                m_allFamilyIsEqual = false;
+
+                // 此处添加只要检测到被选中的字体不一样，字体的样式就不一样，会存在字体样式重叠交错的部分
+                m_allFontStyleIsEqual = false;
+            }
+
+            if (m_allFontStyleIsEqual && fragment.charFormat().font().weight() != first_fragment.charFormat().font().weight()) {
+                m_allFontStyleIsEqual = false;
+            }
+
+            // 当所有的都不相同时跳出循环
+            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual && !m_allFontStyleIsEqual) {
+                return;
+            }
+        }
     }
 }
 
@@ -228,5 +290,38 @@ void CTextEdit::resizeDocument()
 
     m_widthF = rect.width();
 }
+
+bool CTextEdit::getAllTextColorIsEqual()
+{
+    return m_allColorIsEqual;
+}
+
+bool CTextEdit::getAllFontSizeIsEqual()
+{
+    return m_allSizeIsEqual;
+}
+
+bool CTextEdit::getAllFontFamilyIsEqual()
+{
+    return m_allFamilyIsEqual;
+}
+
+bool CTextEdit::getAllFontStyleIsEqual()
+{
+    return m_allFontStyleIsEqual;
+}
+
+void CTextEdit::setFontStyle(QFont ft)
+{
+    QTextCursor cur = this->textCursor();
+    QTextBlock block = cur.block();
+    if (block.isValid()) {
+        QTextBlock::iterator it;
+        for (it = block.begin(); !(it.atEnd()); ++it) {
+            it.fragment().charFormat().setFont(ft);
+        }
+    }
+}
+
 
 

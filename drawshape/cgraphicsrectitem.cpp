@@ -71,6 +71,9 @@ CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, cons
     this->m_bottomRightPoint =  rectData.bottomRight;
     this->setTransformOriginPoint(this->rect().center());
 
+    //todo bug21032临时修复，后期整体修正
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(this->pen());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(this->brush());
 
     initRect();
 }

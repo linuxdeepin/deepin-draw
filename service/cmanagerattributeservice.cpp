@@ -39,6 +39,17 @@
 #include <QGraphicsItem>
 #include <QDebug>
 
+//降序排列用
+static bool zValueSortDES(CGraphicsItem *info1, CGraphicsItem *info2)
+{
+    return info1->zValue() >= info2->zValue();
+}
+//升序排列用
+static bool zValueSortASC(CGraphicsItem *info1, CGraphicsItem *info2)
+{
+    return info1->zValue() <= info2->zValue();
+}
+
 CManagerAttributeService *CManagerAttributeService::instance = nullptr;
 CManagerAttributeService *CManagerAttributeService::getInstance()
 {
@@ -53,6 +64,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
     if (scence != nullptr) {
         m_currentScence = scence;
     }
+    qSort(items.begin(), items.end(), zValueSortASC);
     EGraphicUserType mode = EGraphicUserType::NoType;
     QMap<EDrawProperty, QVariant> propertys;//临时存放
     propertys.clear();
@@ -368,6 +380,9 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         }
         propertys = allPropertys;
     }
+    if (items.size() == 1) {
+        allPropertys = propertys;
+    }
     if (allPropertys.size() == 0) {
         mode = EGraphicUserType::NoType;
     }
@@ -543,21 +558,21 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         if (!isSameSize) {
             propertys.insert(TextSize, 0);
         } else {
-            propertys.insert(TextSize, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+            propertys.insert(TextSize, textItem->getFont().pointSize());
         }
 
         bool isSameFamily = textItem->getAllFontFamilyIsEqual();
         if (!isSameFamily) {
             propertys.insert(TextFont, "");
         } else {
-            propertys.insert(TextFont, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+            propertys.insert(TextFont, textItem->getFont().family());
         }
 
-        bool isSameWeight = textItem->getAllFontWeightIsEqual();
+        bool isSameWeight = textItem->getAllFontStyleIsEqual();
         if (!isSameWeight) {
             propertys.insert(TextHeavy, "");
         } else {
-            propertys.insert(TextHeavy, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+            propertys.insert(TextHeavy, textItem->getTextFontStyle());
         }
 
         emit signalTextItemPropertyUpdate(propertys);

@@ -25,6 +25,8 @@
 #include <QStyleFactory>
 #include <QGuiApplication>
 #include <QDebug>
+#include "drawshape/cdrawparamsigleton.h"
+#include "cviewmanagement.h"
 
 CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     : DTabBar(parent)
@@ -61,27 +63,35 @@ void CMultipTabBarWidget::closeTabBarItem(QString itemName)
     }
 }
 
+void CMultipTabBarWidget::closeTabBarItemByUUID(QString uuid)
+{
+    for (int i = 0; i < this->count(); i++) {
+        if (uuid == this->tabData(i).toString()) {
+            this->removeTab(i);
+        }
+    }
+}
+
 void CMultipTabBarWidget::setDefaultTabBarName(QString name)
 {
     m_defaultName = name;
 }
 
-void CMultipTabBarWidget::addTabBarItem(QString name)
+void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool emitNewScene)
 {
     if (name.isEmpty()) {
         emit this->tabAddRequested();
         return;
     }
 
-    this->addTab(name);
+    int index = this->addTab(name);
 
-    emit signalNewAddItem(name);
+    setTabData(index, uuid);
 
-    for (int i = 0; i < this->count(); i++) {
-        if (name == this->tabText(i)) {
-            this->setCurrentIndex(i);
-        }
-    }
+    if (emitNewScene)
+        emit signalNewAddItem(name, uuid);
+
+    this->setCurrentIndex(index);
 }
 
 void CMultipTabBarWidget::initConnection()
@@ -92,25 +102,28 @@ void CMultipTabBarWidget::initConnection()
         m_nameCounter++;
         QString divName = m_defaultName + QString::number(m_nameCounter);
 
-        // 如果已经存在标签则显示存在的标签
-        if (tabBarNameIsExist(divName)) {
-            m_nameCounter--;
-            return ;
-        }
+//        // 如果已经存在标签则显示存在的标签
+//        if (tabBarNameIsExist(divName)) {
+//            m_nameCounter--;
+//            return ;
+//        }
 
-        addTabBarItem(divName);
+        QString uuid = CDrawParamSigleton::creatUUID();
+        addTabBarItem(divName, uuid);
     });
 
     // [1] 连接点击关闭响应事件
     connect(this, &DTabBar::tabCloseRequested, this, [ = ](int index) {
         QString closeItemName = this->tabText(index);
-        emit signalTabItemCloseRequested(closeItemName);
+        QString closeItemUUID = this->tabData(index).toString();
+        emit signalTabItemCloseRequested(closeItemName, closeItemUUID);
     });
 
     // [2] 连接标签选择改变响应事件
     connect(this, &DTabBar::currentChanged, this, [ = ](int index) {
         QString currentName = this->tabText(index);
-        emit signalItemChanged(currentName);
+        QString closeItemUUID = this->tabData(index).toString();
+        emit signalItemChanged(currentName, closeItemUUID);
     });
 
     // [3] 连接新增加标签页设置到当前新增加标签
@@ -137,10 +150,15 @@ bool CMultipTabBarWidget::tabBarNameIsExist(QString name)
     return false;
 }
 
-void CMultipTabBarWidget::updateTabBarName(QString oldName, QString newName)
+bool CMultipTabBarWidget::IsFileOpened(QString file)
+{
+    return CManageViewSigleton::GetInstance()->isDdfFileOpened(file);
+}
+
+void CMultipTabBarWidget::updateTabBarName(QString uuid, QString newName)
 {
     for (int i = 0; i < this->count(); i++) {
-        if (this->tabText(i) == oldName) {
+        if (this->tabData(i).toString() == uuid) {
             this->setTabText(i, newName);
             return;
         }
@@ -155,10 +173,10 @@ QString CMultipTabBarWidget::getNextTabBarDefaultName()
     return divName;
 }
 
-void CMultipTabBarWidget::setTabBarTooltipName(QString tabName, QString tooltip)
+void CMultipTabBarWidget::setTabBarTooltipName(QString uuid, QString tooltip)
 {
     for (int i = 0; i < this->count(); i++) {
-        if (tabName == this->tabText(i)) {
+        if (uuid == this->tabData(i).toString()) {
             setTabBarTooltipName(static_cast<quint16>(i), tooltip);
         }
     }
@@ -166,7 +184,7 @@ void CMultipTabBarWidget::setTabBarTooltipName(QString tabName, QString tooltip)
 
 void CMultipTabBarWidget::setTabBarTooltipName(quint16 index, QString tooltip)
 {
-    this->setTabToolTip(index, tooltip);
+    //this->setTabToolTip(index, tooltip);
 }
 
 void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
@@ -178,9 +196,23 @@ void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
     }
 }
 
+void CMultipTabBarWidget::setCurrentTabBarWithUUID(QString uuid)
+{
+    for (int i = 0; i < this->count(); i++) {
+        if (uuid == this->tabData(i).toString()) {
+            this->setCurrentIndex(i);
+        }
+    }
+}
+
 QString CMultipTabBarWidget::getCurrentTabBarName()
 {
     return this->tabText(this->currentIndex());
+}
+
+QString CMultipTabBarWidget::getCurrentTabBarUUID()
+{
+    return this->tabData(this->currentIndex()).toString();
 }
 
 QStringList CMultipTabBarWidget::getAllTabBarName()
@@ -190,6 +222,15 @@ QStringList CMultipTabBarWidget::getAllTabBarName()
         names << this->tabText(i);
     }
     return names;
+}
+
+QStringList CMultipTabBarWidget::getAllTabBarUUID()
+{
+    QStringList uuids;
+    for (int i = 0; i < this->count(); i++) {
+        uuids << this->tabData(i).toString();
+    }
+    return uuids;
 }
 
 bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
@@ -220,19 +261,21 @@ bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
                     // 跳转到需要关闭的标签
                     this->setCurrentIndex(m_rightClickTab);
 
-                    emit signalTabItemCloseRequested(this->tabText(m_rightClickTab));
+                    emit signalTabItemCloseRequested(this->tabText(m_rightClickTab), this->tabData(m_rightClickTab).toString());
                 });
 
                 connect(m_closeOtherTabAction, &QAction::triggered, this, [ = ] {
                     QStringList closeNames;
+                    QStringList closeUUIDs;
                     for (int i = 0; i < this->count(); i++)
                     {
                         if (m_rightClickTab == i) {
                             continue;
                         }
                         closeNames << this->tabText(i);
+                        closeUUIDs << this->tabData(i).toString();
                     }
-                    emit signalTabItemsCloseRequested(closeNames);
+                    emit signalTabItemsCloseRequested(closeNames, closeUUIDs);
                 });
 
                 m_rightMenu->addAction(m_closeTabAction);
