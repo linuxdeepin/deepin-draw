@@ -117,7 +117,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
 
         //多选和单选复制
-        if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle) {
+        if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle && m_highlightItem != nullptr) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
             QList<CGraphicsItem *> multSelectItems;
