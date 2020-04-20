@@ -239,8 +239,10 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pLine = nullptr;
                     }
                 } else if (TextType == unit.head.dataType) {
-                    CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-                    emit signalAddItem(item);
+                    //CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
+                    //emit signalAddItem(item);
+
+                    emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pText) {
                         delete unit.data.pText;

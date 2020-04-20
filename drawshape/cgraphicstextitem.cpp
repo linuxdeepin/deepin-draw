@@ -52,18 +52,18 @@ CGraphicsTextItem::CGraphicsTextItem()
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data.rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
 {
     initTextEditWidget();
-    m_Font = data->font;
-    m_bManResize = data->manResizeFlag;
-    m_pTextEdit->setHtml(data->content);
+    m_Font = data.font;
+    m_bManResize = data.manResizeFlag;
+    m_pTextEdit->setHtml(data.content);
     m_pTextEdit->hide();
-    QRectF rect(data->rect.topLeft, data->rect.bottomRight);
+    QRectF rect(data.rect.topLeft, data.rect.bottomRight);
     setRect(rect);
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
