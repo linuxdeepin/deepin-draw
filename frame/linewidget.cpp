@@ -211,10 +211,6 @@ void LineWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    // 线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalLineAttributeChanged();
-    });
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -323,6 +319,7 @@ void LineWidget::updateLineWidget()
 void LineWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 

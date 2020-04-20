@@ -188,10 +188,6 @@ void PolygonAttributeWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    ///线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalPolygonAttributeChanged();
-    });
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
@@ -270,6 +266,7 @@ void PolygonAttributeWidget::slotSideValueChanged(int value)
 void PolygonAttributeWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 QPoint PolygonAttributeWidget::getBtnPosition(const DPushButton *btn)

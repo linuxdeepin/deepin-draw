@@ -213,11 +213,6 @@ void PolygonalStarAttributeWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-
-    ///线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalPolygonalStarAttributeChanged();
-    });
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -351,6 +346,7 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
 void PolygonalStarAttributeWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 QPoint PolygonalStarAttributeWidget::getBtnPosition(const DPushButton *btn)

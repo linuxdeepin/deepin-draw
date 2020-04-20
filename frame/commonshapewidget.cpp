@@ -207,11 +207,6 @@ void CommonshapeWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    ///线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalCommonShapeChanged();
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(FillColor, color);
-    });
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
@@ -280,6 +275,7 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
 void CommonshapeWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 QPoint CommonshapeWidget::getBtnPosition(const DPushButton *btn)
