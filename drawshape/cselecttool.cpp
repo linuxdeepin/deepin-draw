@@ -177,7 +177,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 m_doCopy = true;
             }
 
-            if (count) {
+            if (count > 1) {
                 scene->getItemsMgr()->clear();
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
@@ -185,7 +185,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (scene->getItemsMgr()->getItems().size() > 1) {
                     CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
                 }
-            } else if (copyItems.size() > 0) {
+            } else if (copyItems.size() == 1) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
                 m_currentSelectItem->setSelected(true);
@@ -328,7 +328,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 {
     //移动的时候选中多选以外的，加入多选
     if (scene->getItemsMgr()->getItems().size() > 1) {
-        if (m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
+        if (!m_doCopy && m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
             scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
         }
     }
