@@ -326,6 +326,12 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //移动的时候选中多选以外的，加入多选
+    if (scene->getItemsMgr()->getItems().size() > 1) {
+        if (m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
+            scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+        }
+    }
     //碰撞检测
     QList<QGraphicsItem *> items = scene->selectedItems();
     int multSelectItemsCount = scene->getItemsMgr()->getItems().size();
@@ -749,6 +755,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_isItemMoving    = false;
     }
 
+    m_currentSelectItem = nullptr;
     //更新模糊图元
     QList<QGraphicsItem *> allitems = scene->items();
     foreach (QGraphicsItem *item, allitems) {
