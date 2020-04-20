@@ -51,6 +51,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_penEndType(ELineType::noneLine)
 {
     m_textFont.setPointSizeF(14);
+    m_textFont.setStyleName(QObject::tr("Regular"));
 
     if (uuid.isEmpty()) {
         m_keyUUID = creatUUID();

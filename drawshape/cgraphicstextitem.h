@@ -111,17 +111,15 @@ public:
     bool getAllFontFamilyIsEqual();
 
     /*
-    * @bref: getAllFontWeightIsEqual 返回文本当前点击后是否所有自重大小一致
+    * @bref: getAllFontStyleIsEqual 返回文本当前点击后是否所有自重大小一致
     * @return:bool
     */
-    bool getAllFontWeightIsEqual();
+    bool getAllFontStyleIsEqual();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slot_textmenu(QPoint);
@@ -150,8 +148,6 @@ private:
     void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
     void initTextEditWidget();
 
-
-
 private:
     CTextEdit *m_pTextEdit;
     CGraphicsProxyWidget *m_pProxy;
@@ -162,11 +158,6 @@ private:
     QMenu *m_menu;
     QAction *m_action;
     bool m_bManResize;//人工调整后的宽度
-
-    bool m_allColorIsEqual;
-    bool m_allSizeIsEqual;
-    bool m_allFamilyIsEqual;
-    bool m_allWeightIsEqual;
 };
 
 #endif // CGRAPHICSTEXTITEM_H
