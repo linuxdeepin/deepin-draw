@@ -188,29 +188,40 @@ void CTextEdit::checkTextProperty(QTextBlock block)
     m_allFontStyleIsEqual = true;
 
     if (block.isValid()) {
-        QTextBlock::iterator it;
+        QTextBlock::iterator it = block.begin();
 
-        for (it = block.begin(); !(it.atEnd()); ++it) {
+        QTextFragment first_fragment = it.fragment();
+        if (!first_fragment.isValid()) {
+            m_allColorIsEqual = false;
+            m_allSizeIsEqual = false;
+            m_allFamilyIsEqual = false;
+            m_allFontStyleIsEqual = false;
+            return;
+        }
+
+        for (; !it.atEnd(); ++it) {
+
             QTextFragment fragment = it.fragment();
+
             if (!fragment.isValid())
                 continue;
 
-            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != m_pItem->getTextColor()) {
+            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != first_fragment.charFormat().foreground().color()) {
                 m_allColorIsEqual = false;
             }
 
-            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_pItem->getFont().pointSize()) {
+            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != first_fragment.charFormat().font().pointSize()) {
                 m_allSizeIsEqual = false;
             }
 
-            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != m_pItem->getFont().family()) {
+            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != first_fragment.charFormat().font().family()) {
                 m_allFamilyIsEqual = false;
 
                 // 此处添加只要检测到被选中的字体不一样，字体的样式就不一样，会存在字体样式重叠交错的部分
                 m_allFontStyleIsEqual = false;
             }
 
-            if (m_allFontStyleIsEqual && fragment.charFormat().font().weight() != m_pItem->getFont().weight()) {
+            if (m_allFontStyleIsEqual && fragment.charFormat().font().weight() != first_fragment.charFormat().font().weight()) {
                 m_allFontStyleIsEqual = false;
             }
 
