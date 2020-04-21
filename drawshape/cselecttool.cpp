@@ -73,6 +73,10 @@ CSelectTool::CSelectTool ()
     , m_initRotateItemPos(0, 0)
     , m_RotateItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
+    , m_doCopy(false)
+    , m_isMulItemMoving(false)
+    , m_doResize(false)
+    , m_isItemMoving(false)
 {
     m_frameSelectItem = new QGraphicsRectItem();
     m_frameSelectItem->setVisible(false);
