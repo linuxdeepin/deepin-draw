@@ -60,6 +60,7 @@
 #include <QDesktopWidget>
 #include <QClipboard>
 #include <QMessageBox>
+#include <qscrollbar.h>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -128,11 +129,23 @@ void CGraphicsView::zoomIn()
 
 void CGraphicsView::scale(qreal scale)
 {
+    //当前鼠标在viewport上的位置
+    QPoint  preCenterViewPos = viewport()->mapFromGlobal(QCursor::pos()); //以这个view点为中心进行缩放
+    QPointF preCenterScenPos = mapToScene(preCenterViewPos);
+
     qreal multiple = scale / m_scale;
     DGraphicsView::scale(multiple, multiple);
     m_scale = scale;
     getDrawParam()->setScale(m_scale);
     emit signalSetScale(m_scale);
+
+    //保证view的中心点色
+    QMetaObject::invokeMethod(this, [ = ]() {
+        QPointF nowScenePos = mapToScene(preCenterViewPos);
+        QPointF disPointF   = nowScenePos - preCenterScenPos;
+        this->scene()->setSceneRect(this->scene()->sceneRect().x() - disPointF.x(), this->scene()->sceneRect().y() - disPointF.y(),
+                                    this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
+    }, Qt::DirectConnection);
 }
 
 qreal CGraphicsView::getScale()
