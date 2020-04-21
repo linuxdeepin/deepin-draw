@@ -45,18 +45,19 @@ QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &pa
     QPainterPath p = ps.createStroke(path);
     p.addPath(path);
     return p;
-
 }
 
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
+    , m_bMutiSelectFlag(false)
 {
 
 }
 
 CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
+    , m_bMutiSelectFlag(false)
 {
 
     this->setPen(head.pen);
@@ -65,6 +66,20 @@ CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *paren
     this->setRotation(head.rotate);
     this->setPos(head.pos);
     this->setZValue(head.zValue);
+}
+
+void CGraphicsItem::setMutiSelect(bool flag)
+{
+    m_bMutiSelectFlag = flag;
+}
+
+bool CGraphicsItem::getMutiSelect() const
+{
+    auto curSelectFlag = m_bMutiSelectFlag;
+    if (isSelected()) {
+        curSelectFlag = isSelected();
+    }
+    return curSelectFlag;
 }
 
 int CGraphicsItem::type() const
@@ -87,6 +102,11 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     }
 
     return CSizeHandleRect::None;
+}
+
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale)
+{
+
 }
 
 void CGraphicsItem::duplicate(CGraphicsItem *item)
@@ -170,7 +190,10 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 //            }
 //        }
 
-        CDrawScene::GetInstance()->updateBlurItem(this);
+        if (nullptr != scene()) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->updateBlurItem(this);
+        }
     }
 
     return value;

@@ -24,6 +24,10 @@
 #include <QPen>
 #include <QFont>
 
+#include <QDBusReply>
+#include <QDBusInterface>
+#include <QDBusUnixFileDescriptor>
+
 class CDrawParamSigleton
 {
 public:
@@ -122,6 +126,12 @@ public:
     void setSelectAllFlag(bool flag);
 
 private:
+    /**
+     * @brief initBlockShutdown 柱塞关机
+     */
+    void initBlockShutdown();
+
+private:
     int m_nlineWidth;
     QColor m_sLineColor;
     QColor m_nFillColor;
@@ -172,6 +182,10 @@ private:
     int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
 
     bool m_bSelectAlling; //是否正在全选
+
+    QDBusReply<QDBusUnixFileDescriptor> m_reply;
+    QDBusInterface *m_pLoginManager = nullptr;
+    QList<QVariant> m_arg;
 };
 
 

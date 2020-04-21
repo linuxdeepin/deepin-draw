@@ -72,6 +72,14 @@ public:
      * @param bAltPress alt键是否按下
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
+    /**
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @param dir 8个方向
+     * @param offset x，y方向移动距离
+     * @param xScale X轴放大缩小比例
+     * @param yScale y轴放大缩小比例
+     */
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale);
 
     /**
      * @brief duplicate 复制this图元到item图元
@@ -109,6 +117,18 @@ public:
 
     virtual QRectF rect() const = 0;
 
+    /**
+     * @brief setMutiSelect 设置图元选中状态
+     * @param flag
+     */
+    void setMutiSelect(bool flag);
+
+    /**
+     * @brief getMutiSelect 获取图元选中状态
+     * @return
+     */
+    bool getMutiSelect() const;
+
 protected:
     /**
      * @brief updateGeometry 更新状态矩形位置
@@ -134,6 +154,8 @@ protected:
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
     Handles m_handles;  //选中时 显示的小方框
+
+    bool m_bMutiSelectFlag; //设置选中状态 不用系统的选中方式，由自己管理
 };
 
 #endif // CGRAPHICSITEM_H

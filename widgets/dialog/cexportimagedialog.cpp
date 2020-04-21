@@ -21,6 +21,7 @@
 
 #include <DFileDialog>
 #include <DDialog>
+#include <DMessageBox>
 
 #include <QFormLayout>
 #include <QImageWriter>
@@ -265,6 +266,17 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
 
     if (index == 1) {
         QString completePath = getCompleteSavePath();
+        // 判断路径是否超过255字符
+        if(completePath.length()>255) {
+            Dtk::Widget::DDialog dialog(this);
+            dialog.setTextFormat(Qt::RichText);
+            dialog.addButton(tr("OK"));
+            dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+            dialog.setMessage(tr("The file name is too long"));
+            dialog.exec();
+            return;
+        }
+
         if (completePath == "") {
             return;
         }

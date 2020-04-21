@@ -17,7 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cdrawparamsigleton.h"
+#include <QDebug>
+#include <DApplication>
 #include <QGuiApplication>
+#include <QObject>
 
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
@@ -49,6 +52,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_bSelectAlling(false)
 {
     m_textFont.setPointSizeF(14);
+    initBlockShutdown();
 }
 
 void CDrawParamSigleton::setLineWidth(int lineWidth)
@@ -305,6 +309,37 @@ void CDrawParamSigleton::setSelectAllFlag(bool flag)
     m_bSelectAlling = flag;
 }
 
+void CDrawParamSigleton::initBlockShutdown()
+{
+    if (!m_arg.isEmpty() || m_reply.value().isValid()) {
+        qDebug() << "m_reply.value().isValid():" << m_reply.value().isValid();
+        return;
+    }
+
+    m_pLoginManager = new QDBusInterface("org.freedesktop.login1",
+                                         "/org/freedesktop/login1",
+                                         "org.freedesktop.login1.Manager",
+                                         QDBusConnection::systemBus());
+
+    m_arg << QString("shutdown")             // what
+          << QObject::tr("Draw")           // who
+          << QObject::tr("File not saved")          // why
+          << QString("block");                        // mode
+
+    int fd = -1;
+    m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+    if (m_reply.isValid()) {
+        fd = m_reply.value().fileDescriptor();
+    }
+    //如果for结束则表示没有发现未保存的tab项，则放开阻塞关机
+    if (m_reply.isValid()) {
+        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
+        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+        //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
+        qDebug() << "Nublock shutdown.";
+    }
+}
+
 ECutType CDrawParamSigleton::getCutType() const
 {
     return m_cutType;
@@ -354,6 +389,15 @@ bool CDrawParamSigleton::getIsModify() const
 void CDrawParamSigleton::setIsModify(bool isModify)
 {
     m_isModify = isModify;
+
+    if (m_isModify) {
+        m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
+    } else {
+        QDBusReply<QDBusUnixFileDescriptor> tmp = m_reply;
+        m_reply = QDBusReply<QDBusUnixFileDescriptor>();
+        //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
+        qDebug() << "Nublock shutdown.";
+    }
 }
 
 
