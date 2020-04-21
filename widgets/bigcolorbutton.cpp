@@ -132,7 +132,7 @@ void BigColorButton::paintLookStyle(QPainter *painter, bool isMult)
     path.addRoundedRect(outerct, 8, 8);
 
     //填充色的设置(多选颜色冲突时(图元填充色不一致那么不设置填充色在后续绘制一条斜线))
-    painter->setBrush(isMult ? Qt::NoBrush : m_color);
+    painter->setBrush(isMult ? (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : m_color);
 
     painter->drawPath(path);
 
