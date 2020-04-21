@@ -1,8 +1,10 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../widgets/bigcolorbutton.cpp" line="115"/>
+        <location filename="../widgets/bigcolorbutton.cpp" line="117"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
@@ -33,7 +35,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../widgets/bordercolorbutton.cpp" line="119"/>
+        <location filename="../widgets/bordercolorbutton.cpp" line="121"/>
         <source>Stroke</source>
         <translation>描边</translation>
     </message>
@@ -49,35 +51,39 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../frame/ccentralwidget.cpp" line="112"/>
+        <location filename="../frame/ccentralwidget.cpp" line="113"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
+    </message>
+    <message>
+        <source>Unnamed Draw</source>
+        <translation type="vanished">未命名画板</translation>
     </message>
 </context>
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="85"/>
+        <location filename="../frame/ccutwidget.cpp" line="87"/>
         <source>Dimensions</source>
         <translation>尺寸</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="98"/>
+        <location filename="../frame/ccutwidget.cpp" line="100"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="119"/>
+        <location filename="../frame/ccutwidget.cpp" line="121"/>
         <source>Aspect ratio</source>
         <translation>比例</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="144"/>
+        <location filename="../frame/ccutwidget.cpp" line="146"/>
         <source>Free</source>
         <translation>自由</translation>
     </message>
     <message>
-        <location filename="../frame/ccutwidget.cpp" line="149"/>
+        <location filename="../frame/ccutwidget.cpp" line="151"/>
         <source>Original</source>
         <translation>原始</translation>
     </message>
@@ -85,113 +91,123 @@
 <context>
     <name>CExportImageDialog</name>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="52"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="53"/>
         <source>Unnamed.jpg</source>
         <translation>未命名.jpg</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="105"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="106"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="127"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="128"/>
         <source>Pictures</source>
         <translation>图片</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="128"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="129"/>
         <source>Documents</source>
         <translation>文档</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="129"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="130"/>
         <source>Downloads</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="130"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="131"/>
         <source>Desktop</source>
         <translation>桌面</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="131"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="132"/>
         <source>Videos</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="132"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="133"/>
         <source>Music</source>
         <translation>音乐</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="133"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="134"/>
         <source>Select other directories</source>
         <translation>选择其他目录</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="138"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="139"/>
         <source>jpg</source>
         <translation>jpg</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="139"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="140"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="140"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="141"/>
         <source>bmp</source>
         <translation>bmp</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="141"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="142"/>
         <source>tif</source>
         <translation>tif</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="142"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="143"/>
         <source>pdf</source>
         <translation>pdf</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="168"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="169"/>
         <source>Name:</source>
         <translation>文件名：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="169"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="170"/>
         <source>Save to:</source>
         <translation>保存到：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="170"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="171"/>
         <source>Format:</source>
         <translation>文件格式：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="171"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="172"/>
         <source>Quality:</source>
         <translation>图片质量：</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="174"/>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="181"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="175"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="176"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="180"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="181"/>
         <source>Replace</source>
         <translation>替换</translation>
     </message>
     <message>
-        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="319"/>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="273"/>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="275"/>
+        <source>The file name is too long</source>
+        <translation>文件名过长，请尝试用短点的名字</translation>
+    </message>
+    <message>
+        <location filename="../widgets/dialog/cexportimagedialog.cpp" line="331"/>
         <source>%1 
  already exists, do you want to replace it?</source>
         <translation>%1
@@ -201,101 +217,111 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="126"/>
-        <location filename="../frame/cgraphicsview.cpp" line="243"/>
+        <location filename="../frame/cgraphicsview.cpp" line="131"/>
+        <location filename="../frame/cgraphicsview.cpp" line="248"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="131"/>
-        <location filename="../frame/cgraphicsview.cpp" line="244"/>
+        <location filename="../frame/cgraphicsview.cpp" line="136"/>
+        <location filename="../frame/cgraphicsview.cpp" line="249"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="136"/>
-        <location filename="../frame/cgraphicsview.cpp" line="245"/>
+        <location filename="../frame/cgraphicsview.cpp" line="141"/>
+        <location filename="../frame/cgraphicsview.cpp" line="250"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="141"/>
-        <location filename="../frame/cgraphicsview.cpp" line="246"/>
+        <location filename="../frame/cgraphicsview.cpp" line="146"/>
+        <location filename="../frame/cgraphicsview.cpp" line="251"/>
         <source>Select All</source>
         <translation>全选</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="148"/>
-        <location filename="../frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../frame/cgraphicsview.cpp" line="153"/>
+        <location filename="../frame/cgraphicsview.cpp" line="253"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="154"/>
-        <location filename="../frame/cgraphicsview.cpp" line="250"/>
-        <location filename="../frame/cgraphicsview.cpp" line="267"/>
+        <location filename="../frame/cgraphicsview.cpp" line="159"/>
+        <location filename="../frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../frame/cgraphicsview.cpp" line="272"/>
         <source>Undo</source>
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="158"/>
-        <location filename="../frame/cgraphicsview.cpp" line="268"/>
+        <location filename="../frame/cgraphicsview.cpp" line="163"/>
+        <location filename="../frame/cgraphicsview.cpp" line="273"/>
         <source>Redo</source>
         <translation>重做</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="164"/>
-        <location filename="../frame/cgraphicsview.cpp" line="253"/>
+        <location filename="../frame/cgraphicsview.cpp" line="169"/>
+        <location filename="../frame/cgraphicsview.cpp" line="258"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="169"/>
-        <location filename="../frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../frame/cgraphicsview.cpp" line="174"/>
+        <location filename="../frame/cgraphicsview.cpp" line="260"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="174"/>
-        <location filename="../frame/cgraphicsview.cpp" line="257"/>
+        <location filename="../frame/cgraphicsview.cpp" line="179"/>
+        <location filename="../frame/cgraphicsview.cpp" line="262"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="179"/>
-        <location filename="../frame/cgraphicsview.cpp" line="259"/>
+        <location filename="../frame/cgraphicsview.cpp" line="184"/>
+        <location filename="../frame/cgraphicsview.cpp" line="264"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="262"/>
+        <location filename="../frame/cgraphicsview.cpp" line="267"/>
         <source>Text Align Left</source>
         <translation>左对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="264"/>
+        <location filename="../frame/cgraphicsview.cpp" line="269"/>
         <source>Text Align Right</source>
         <translation>右对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="265"/>
+        <location filename="../frame/cgraphicsview.cpp" line="270"/>
         <source>Text Align Center</source>
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="975"/>
+        <location filename="../frame/cgraphicsview.cpp" line="980"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="977"/>
+        <location filename="../frame/cgraphicsview.cpp" line="982"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="983"/>
+        <location filename="../frame/cgraphicsview.cpp" line="988"/>
         <source>Unnamed.ddf</source>
-        <translation type="unfinished"/>
+        <translation>未命名.dff</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="1002"/>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <location filename="../frame/cgraphicsview.cpp" line="1004"/>
+        <source>The file name is too long</source>
+        <translation>文件名过长，请尝试用短点的名字</translation>
     </message>
     <message>
         <source>Unnamed.DDF</source>
@@ -305,62 +331,62 @@
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="107"/>
+        <location filename="../frame/clefttoolbar.cpp" line="106"/>
         <source>Select(V)</source>
         <translation>选择 (V)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="122"/>
+        <location filename="../frame/clefttoolbar.cpp" line="121"/>
         <source>Import(I)</source>
         <translation>导入 (I)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="137"/>
+        <location filename="../frame/clefttoolbar.cpp" line="136"/>
         <source>Rectangle(R)</source>
         <translation>矩形 (R)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="152"/>
+        <location filename="../frame/clefttoolbar.cpp" line="151"/>
         <source>Ellipse(O)</source>
         <translation>椭圆 (O)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="169"/>
+        <location filename="../frame/clefttoolbar.cpp" line="168"/>
         <source>Triangle(S)</source>
         <translation>三角形 (S)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="186"/>
+        <location filename="../frame/clefttoolbar.cpp" line="185"/>
         <source>Star(F)</source>
         <translation>星形 (F)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="203"/>
+        <location filename="../frame/clefttoolbar.cpp" line="202"/>
         <source>Polygon(H)</source>
         <translation>多边形 (H)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="220"/>
+        <location filename="../frame/clefttoolbar.cpp" line="219"/>
         <source>Line(L)</source>
         <translation>直线 (L)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="237"/>
+        <location filename="../frame/clefttoolbar.cpp" line="236"/>
         <source>Pencil(P)</source>
         <translation>画笔 (P)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="253"/>
+        <location filename="../frame/clefttoolbar.cpp" line="252"/>
         <source>Text(T)</source>
         <translation>文字 (T)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="269"/>
+        <location filename="../frame/clefttoolbar.cpp" line="268"/>
         <source>Blur(B)</source>
         <translation>模糊 (B)</translation>
     </message>
     <message>
-        <location filename="../frame/clefttoolbar.cpp" line="285"/>
+        <location filename="../frame/clefttoolbar.cpp" line="284"/>
         <source>Crop(C)</source>
         <translation>裁剪 (C)</translation>
     </message>
@@ -368,12 +394,12 @@
 <context>
     <name>CPenWidget</name>
     <message>
-        <location filename="../frame/cpenwidget.cpp" line="74"/>
+        <location filename="../frame/cpenwidget.cpp" line="76"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../frame/cpenwidget.cpp" line="109"/>
+        <location filename="../frame/cpenwidget.cpp" line="111"/>
         <source>Width</source>
         <translation>粗细</translation>
     </message>
@@ -394,22 +420,22 @@
 <context>
     <name>CPictureWidget</name>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="77"/>
+        <location filename="../frame/cpicturewidget.cpp" line="74"/>
         <source>Rotate 90° CCW</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="93"/>
+        <location filename="../frame/cpicturewidget.cpp" line="90"/>
         <source>Rotate 90° CW</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="107"/>
+        <location filename="../frame/cpicturewidget.cpp" line="104"/>
         <source>Flip horizontally</source>
         <translation>水平翻转</translation>
     </message>
     <message>
-        <location filename="../frame/cpicturewidget.cpp" line="121"/>
+        <location filename="../frame/cpicturewidget.cpp" line="118"/>
         <source>Flip vertically</source>
         <translation>垂直翻转</translation>
     </message>
@@ -435,18 +461,22 @@
 <context>
     <name>CTitleWidget</name>
     <message>
-        <location filename="../frame/ctitlewidget.cpp" line="29"/>
-        <location filename="../frame/ctitlewidget.cpp" line="49"/>
+        <location filename="../frame/ctitlewidget.cpp" line="31"/>
+        <location filename="../frame/ctitlewidget.cpp" line="51"/>
         <source>Unnamed Drawing</source>
         <translation>未命名画板</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="vanished">画板</translation>
     </message>
 </context>
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../widgets/colorpanel.cpp" line="232"/>
+        <location filename="../widgets/colorpanel.cpp" line="233"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">颜色</translation>
     </message>
 </context>
 <context>
@@ -483,12 +513,12 @@
 <context>
     <name>LineWidget</name>
     <message>
-        <location filename="../frame/linewidget.cpp" line="64"/>
+        <location filename="../frame/linewidget.cpp" line="63"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../frame/linewidget.cpp" line="114"/>
+        <location filename="../frame/linewidget.cpp" line="113"/>
         <source>Width</source>
         <translation>粗细</translation>
     </message>
@@ -503,14 +533,18 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="66"/>
+        <location filename="../frame/mainwindow.cpp" line="68"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="225"/>
+        <location filename="../frame/mainwindow.cpp" line="227"/>
         <source>Open</source>
         <translation>打开</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="obsolete">确定</translation>
     </message>
 </context>
 <context>
@@ -529,17 +563,17 @@
 <context>
     <name>PolygonalStarAttributeWidget</name>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="81"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="83"/>
         <source>Width</source>
         <translation>描边粗细</translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="90"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="92"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../frame/polygonalstarattributewidget.cpp" line="122"/>
+        <location filename="../frame/polygonalstarattributewidget.cpp" line="124"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
@@ -547,7 +581,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../drawshape/ctexttool.cpp" line="50"/>
+        <location filename="../drawshape/ctexttool.cpp" line="53"/>
         <source>Input text here</source>
         <translation>输入文本</translation>
     </message>
@@ -560,6 +594,20 @@
         <location filename="../widgets/progresslayout.cpp" line="92"/>
         <source>%1/%2 pictures imported</source>
         <translation>已导入%1/%2张</translation>
+    </message>
+    <message>
+        <source>Files are being processed</source>
+        <translation type="vanished">文件未保存</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/cdrawparamsigleton.cpp" line="325"/>
+        <source>Draw</source>
+        <translation>画板</translation>
+    </message>
+    <message>
+        <location filename="../drawshape/cdrawparamsigleton.cpp" line="326"/>
+        <source>File not saved</source>
+        <translation>文件未保存</translation>
     </message>
 </context>
 <context>
@@ -748,7 +796,7 @@
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../widgets/textcolorbutton.cpp" line="119"/>
+        <location filename="../widgets/textcolorbutton.cpp" line="121"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -756,12 +804,12 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../frame/textwidget.cpp" line="62"/>
+        <location filename="../frame/textwidget.cpp" line="64"/>
         <source>Font</source>
         <translation>字体</translation>
     </message>
     <message>
-        <location filename="../frame/textwidget.cpp" line="79"/>
+        <location filename="../frame/textwidget.cpp" line="81"/>
         <source>Size</source>
         <translation>字号</translation>
     </message>
@@ -769,42 +817,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="236"/>
+        <location filename="../frame/toptoolbar.cpp" line="238"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="241"/>
+        <location filename="../frame/toptoolbar.cpp" line="243"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="247"/>
+        <location filename="../frame/toptoolbar.cpp" line="249"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="252"/>
+        <location filename="../frame/toptoolbar.cpp" line="254"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="257"/>
+        <location filename="../frame/toptoolbar.cpp" line="259"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="262"/>
+        <location filename="../frame/toptoolbar.cpp" line="264"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="275"/>
+        <location filename="../frame/toptoolbar.cpp" line="277"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="278"/>
+        <location filename="../frame/toptoolbar.cpp" line="280"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>

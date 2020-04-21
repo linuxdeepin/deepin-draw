@@ -205,8 +205,9 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pPolygonStar = nullptr;
                     }
                 } else if (LineType == unit.head.dataType) {
-                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
-                    emit signalAddItem(item);
+//                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
+//                    emit signalAddItem(item);
+                    emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pLine) {
                         delete unit.data.pLine;

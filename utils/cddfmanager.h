@@ -94,6 +94,9 @@ signals:
      */
     void signalClearSceneBeforLoadDDF();
 
+    void signalAddTextItem(const SGraphicsTextUnitData &data,
+                           const SGraphicsUnitHead &head);
+
 private slots:
     /**
      * @brief slotSaveDDFComplete　完成保存ＤＤＦ文件槽函数
