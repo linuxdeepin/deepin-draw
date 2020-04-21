@@ -189,6 +189,9 @@ void CTextEdit::checkTextProperty(QTextBlock block)
 
     if (block.isValid()) {
         QTextBlock::iterator it = block.begin();
+        if (it == block.end()) {
+            return;
+        }
 
         QTextFragment first_fragment = it.fragment();
         if (!first_fragment.isValid()) {
