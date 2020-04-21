@@ -102,7 +102,8 @@ CDrawScene::CDrawScene(CGraphicsView *view)
 
 CDrawScene::~CDrawScene()
 {
-
+    delete m_drawParam;
+    m_drawParam = nullptr;
 }
 
 void CDrawScene::initScene()

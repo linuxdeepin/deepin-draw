@@ -272,10 +272,10 @@ void CCentralwidget::closeCurrentScenseView()
             return;
         }
 
-        closeView->setParent(nullptr);
         m_stackedLayout->removeWidget(closeView);
         CManageViewSigleton::GetInstance()->removeView(closeView);
         m_topMutipTabBarWidget->closeTabBarItem(/*viewname*/closeView->getDrawParam()->getShowViewNameByModifyState());
+        closeView->setParent(nullptr);
     }
     m_leftToolbar->slotShortCutSelect();
 
@@ -284,6 +284,7 @@ void CCentralwidget::closeCurrentScenseView()
     } else {
         m_topMutipTabBarWidget->show();
     }
+    delete closeView;
 }
 
 void CCentralwidget::currentScenseViewIsModify(bool isModify)
