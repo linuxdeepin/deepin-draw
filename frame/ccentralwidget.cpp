@@ -33,6 +33,7 @@
 #include "frame/cviewmanagement.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cmultiptabbarwidget.h"
+#include "drawshape/cdrawparamsigleton.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -271,10 +272,10 @@ void CCentralwidget::closeCurrentScenseView()
             return;
         }
 
-        closeView->setParent(nullptr);
         m_stackedLayout->removeWidget(closeView);
         CManageViewSigleton::GetInstance()->removeView(closeView);
         m_topMutipTabBarWidget->closeTabBarItem(/*viewname*/closeView->getDrawParam()->getShowViewNameByModifyState());
+        closeView->setParent(nullptr);
     }
     m_leftToolbar->slotShortCutSelect();
 
@@ -283,6 +284,7 @@ void CCentralwidget::closeCurrentScenseView()
     } else {
         m_topMutipTabBarWidget->show();
     }
+    delete closeView;
 }
 
 void CCentralwidget::currentScenseViewIsModify(bool isModify)
@@ -694,8 +696,10 @@ void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
             QString fileName = ddfPath;
             fileName = fileName.split('/').last();
             fileName = fileName.replace(".ddf", "");
+            qDebug() << "Content: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath().isEmpty();
             // 如果ddf打开则自动跳转到打开的标签，不存在则打开文件
-            if (m_topMutipTabBarWidget->tabBarNameIsExist(fileName)) {
+            if (!CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath().isEmpty()
+                    && m_topMutipTabBarWidget->tabBarNameIsExist(fileName)) {
                 emit signalDDFFileOpened(fileName);
                 return;
             }
