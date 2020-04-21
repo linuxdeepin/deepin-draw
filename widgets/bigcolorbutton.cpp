@@ -39,7 +39,7 @@ BigColorButton::BigColorButton(DWidget *parent)
     setFixedSize(63, 32);
     setCheckable(false);
 
-    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
+    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 }
 
 void BigColorButton::updateConfigColor()

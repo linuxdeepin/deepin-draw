@@ -51,16 +51,10 @@ CCentralwidget::CCentralwidget(DWidget *parent)
     , m_tabDefaultName(tr("Unnamed"))
 
 {
-    m_stackedLayout = new QStackedLayout();
-    m_hLayout = new QHBoxLayout();
-    m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager();
-    m_pictureTool = new CPictureTool(this);
-    m_leftToolbar = new CLeftToolBar();
-    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
-    m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
-
+    //初始化ui空间
     initUI();
+
+    //帮顶信号槽
     initConnect();
 
     // 创建一个标签页(标签页生成时会自动创建一个view)
@@ -71,36 +65,26 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 
 }
 
-CCentralwidget::CCentralwidget(QStringList filepaths): DWidget (),
+CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget (parent),
     m_tabDefaultName(tr("Unnamed"))
 {
-    m_stackedLayout = new QStackedLayout();
-    m_hLayout = new QHBoxLayout();
-    m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager();
-    m_pictureTool = new CPictureTool(this);
-    m_leftToolbar = new CLeftToolBar();
-    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
-    m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
-
-    if (filepaths.count() > 0) {
-        for (int i = 0; i < filepaths.count(); i++) {
-            createNewScenseByscencePath(filepaths.at(i));
-        }
-    } else {
-        CGraphicsView *pView = createNewScense(m_tabDefaultName);
-        CManageViewSigleton::GetInstance()->setCurView(pView);
-        initSceneRect();
-        // 顶部菜单栏进行创建
-        m_topMutipTabBarWidget->addTabBarItem(pView->getDrawParam()->getShowViewNameByModifyState(),
-                                              pView->getDrawParam()->uuid(), false);
-    }
-
+    //初始化ui空间
     initUI();
+
+    //帮顶信号槽
     initConnect();
 
-    //刷新标题或者tab标签的名字
-    updateTitle();
+    if (filepaths.count() == 0) {
+        // 创建一个标签页(标签页生成时会自动创建一个view)
+        QMetaObject::invokeMethod(m_topMutipTabBarWidget,
+                                  "addTabBarItem",
+                                  Qt::QueuedConnection,
+                                  Q_ARG(QString, tr("Unnamed")),
+                                  Q_ARG(QString, CDrawParamSigleton::creatUUID()),
+                                  Q_ARG(bool, true));
+    } else {
+        QMetaObject::invokeMethod(this, "slotLoadDragOrPasteFile", Qt::QueuedConnection, Q_ARG(QStringList, filepaths));
+    }
 }
 
 CCentralwidget::~CCentralwidget()
@@ -217,6 +201,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     QDesktopWidget *desktopWidget = QApplication::desktop();
     QRect screenRect = desktopWidget->screenGeometry();
     newview->getDrawParam()->setCutDefaultSize(QSize(screenRect.width(), screenRect.height()));
+    curScene->setSceneRect(QRectF(0, 0, screenRect.width(), screenRect.height()));
 
     if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
         curScene->setBackgroundBrush(QColor(248, 248, 251));
@@ -269,7 +254,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(curScene, SIGNAL(signalIsModify(bool)), this, SLOT(currentScenseViewIsModify(bool)));
 
     // 连接view保存文件状态
-    connect(newview, &CGraphicsView::signalSaveFileStatus, this, &CCentralwidget::slotSaveFileStatus);
+    connect(newview, &CGraphicsView::signalSaveFileStatus, this, &CCentralwidget::slotOnFileSaveFinished);
     //connect(newview, SIGNAL(signalSaveFileStatus(bool, QString, QFileDevice::FileError)), this, SLOT(slotSaveFileStatus(bool, QString, QFileDevice::FileError)));
 
     return newview;
@@ -341,26 +326,33 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
     }
 }
 
-void CCentralwidget::slotSaveFileStatus(const QString &savedFile,
-                                        bool success,
-                                        QString errorString,
-                                        QFileDevice::FileError error,
-                                        bool needClose)
+void CCentralwidget::slotOnFileSaveFinished(const QString &savedFile,
+                                            bool success,
+                                            QString errorString,
+                                            QFileDevice::FileError error,
+                                            bool needClose)
 {
     CGraphicsView *pView    = CManageViewSigleton::GetInstance()->getViewByFilePath(savedFile);
     if (pView != nullptr) {
         //如果是要保存后关闭
         if (needClose) {
+
             //关闭这个view及其相关的数据
             closeViewScense(pView);
+
             //如果所有标签页都被删除完了那么退出程序
             CManageViewSigleton::GetInstance()->quitIfEmpty();
+
+
         } else {
             if (success) {
                 //保存成功后标签要更新成保存成的ddf文件的名字
                 QFileInfo      info(savedFile);
+
                 QString        fileName = info.completeBaseName();
+
                 pView->getDrawParam()->setViewName(fileName);
+
                 updateTabName(pView->getDrawParam()->uuid(), pView->getDrawParam()->viewName());
 
             } else {
@@ -368,28 +360,6 @@ void CCentralwidget::slotSaveFileStatus(const QString &savedFile,
             }
         }
     }
-
-
-//    if (status) {
-//        qDebug() << "Ctrl_S Save:" << m_isCloseNow;
-//        if (!m_isCloseNow) {
-//            m_isCloseNow = false;
-//            // 设置保存路径到标签的tooltip上，并且更新标签名字
-//            QString current_path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
-//            QString current_file_name = current_path.split("/").last();
-//            if (!current_file_name.isEmpty()) {
-//                QString uuid = m_topMutipTabBarWidget->getCurrentTabBarUUID();
-//                current_file_name = current_file_name.left(current_file_name.length() - 4);
-//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setViewName(current_file_name);
-//                updateTabName(uuid, current_file_name);
-//            }
-//        } else {
-//            closeCurrentScenseView();
-//        }
-//    } else {
-//        qDebug() << "save error:" << errorString << error;
-//    }
-//    emit signalSaveFileStatus(status);
 }
 
 void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabName)
@@ -412,8 +382,9 @@ void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabNam
 
 void CCentralwidget::updateTitle()
 {
-    QString uuid = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->uuid();
-    QString name = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    QString uuid = pView->getDrawParam()->uuid();
+    QString name = pView->getDrawParam()->getShowViewNameByModifyState();
     QMetaObject::invokeMethod(this, "updateTabName", Qt::QueuedConnection, Q_ARG(QString, uuid), Q_ARG(QString, name));
 }
 
@@ -459,6 +430,15 @@ void CCentralwidget::slotPastePixmap(QPixmap pixmap)
 
 void CCentralwidget::initUI()
 {
+    m_stackedLayout = new QStackedLayout();
+    m_hLayout = new QHBoxLayout();
+    m_exportImageDialog = new CExportImageDialog(this);
+    m_printManager = new CPrintManager();
+    m_pictureTool = new CPictureTool(this);
+    m_leftToolbar = new CLeftToolBar();
+    m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
+    m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
+
     m_hLayout->setMargin(0);
     m_hLayout->setSpacing(0);
     m_hLayout->addWidget(m_leftToolbar);
@@ -729,17 +709,9 @@ void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
                 continue;
             }
             filterList.append(files[i]);
-
-
-//            // 如果ddf打开则自动跳转到打开的标签，不存在则打开文件
-//            if (m_topMutipTabBarWidget->tabBarNameIsExist(fileName)) {
-//                emit signalDDFFileOpened(fileName);
-//                return;
-//            }
         }
     }
-    qDebug() << "slotLoadDragOrPasteFile --- filter:" << filterList;
-    emit signalTransmitLoadDragOrPasteFile(/*files*/filterList);
+    emit signalTransmitLoadDragOrPasteFile(filterList);
 }
 
 void CCentralwidget::slotShowExportDialog()

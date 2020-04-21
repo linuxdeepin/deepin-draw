@@ -93,8 +93,10 @@ void CSideWidthWidget::initConnection()
             int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
 
             if (flag) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
-                emit signalSideWidthChange();
+                if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
+                    emit signalSideWidthChange();
+                }
             }
         }
     });

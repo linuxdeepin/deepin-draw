@@ -48,7 +48,7 @@ class CCentralwidget: public DWidget
     Q_OBJECT
 public:
     CCentralwidget(DWidget *parent = nullptr);
-    CCentralwidget(QStringList filepaths);
+    CCentralwidget(QStringList filepaths, DWidget *parent = nullptr);
     ~CCentralwidget();
     /**
      * @brief getLeftToolBar　获取工具栏句柄
@@ -310,16 +310,18 @@ private slots:
     void currentScenseViewIsModify(bool isModify);
 
     /**
-     * @description: slotSaveFileStatus 保存文件状态
-     * @param:  status 保存状态
-     * @param:  errorString 保存错误字符串
-     * @param:  error 保存错误
+     * @description: slotOnFileSaveFinished 对文件保存结束的响应槽
+     * @param:  savedFile 文件名
+     * @param:  success 是否成功
+     * @param:  errorString 错误字符串
+     * @param:  error 错误标记值
+     * @param:  needClose 是否需要关闭这个文件
     */
-    void slotSaveFileStatus(const QString &savedFile,
-                            bool success,
-                            QString errorString,
-                            QFileDevice::FileError error,
-                            bool needClose);
+    void slotOnFileSaveFinished(const QString &savedFile,
+                                bool success,
+                                QString errorString,
+                                QFileDevice::FileError error,
+                                bool needClose);
 
     /**
      * @brief updateTabName　当前场景状态被改变

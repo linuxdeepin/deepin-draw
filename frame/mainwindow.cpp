@@ -56,17 +56,14 @@ const int TITLBAR_MENU = 150;
 MainWindow::MainWindow(DWidget *parent)
     : DMainWindow(parent)
 {
-//    setMouseTracking(true);
-
     m_centralWidget = new CCentralwidget(this);
-
     initUI();
     initConnection();
 }
 
 MainWindow::MainWindow(QStringList filePaths)
 {
-    m_centralWidget = new CCentralwidget(filePaths);
+    m_centralWidget = new CCentralwidget(filePaths, this);
 
     initUI();
     initConnection();
@@ -564,11 +561,13 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
 
 void MainWindow::initScene()
 {
-    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
-    QRectF rect(0, 0, 0, 0);
-    rect.setSize(size);
-    m_centralWidget->getDrawScene()->setSceneRect(rect);
-    emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
+        QRectF rect(0, 0, 0, 0);
+        rect.setSize(size);
+        m_centralWidget->getDrawScene()->setSceneRect(rect);
+        emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
+    }
 }
 
 void MainWindow::readSettings()

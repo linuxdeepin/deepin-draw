@@ -107,11 +107,14 @@ void BlurWidget::initUI()
     m_masicBtn->setToolTip(tr("Mosaic"));
     m_actionButtons.append(m_masicBtn);
 
-    EBlurEffect effect = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect();
-    bool bEffect = (effect == BlurEffect);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        EBlurEffect effect = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect();
+        bool bEffect = (effect == BlurEffect);
 
-    m_blurBtn->setChecked(bEffect);
-    m_masicBtn->setChecked(!bEffect);
+        m_blurBtn->setChecked(bEffect);
+        m_masicBtn->setChecked(!bEffect);
+    }
+
 
     DLabel *penWidthLabel = new DLabel(this);
     penWidthLabel->setObjectName("Width");

@@ -72,7 +72,8 @@ void TextWidget::initUI()
     m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
     QString strFont = m_fontComBox->currentText();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     m_fontHeavy->setFixedSize(QSize(120, 36));

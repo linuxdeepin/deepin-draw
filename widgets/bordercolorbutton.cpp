@@ -38,7 +38,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
 {
     setCheckable(false);
     setButtonText(tr("Stroke"));
-    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
 
 void BorderColorButton::updateConfigColor()

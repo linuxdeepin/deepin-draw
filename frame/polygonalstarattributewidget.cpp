@@ -317,7 +317,8 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     }
     m_anchorNumber->blockSignals(false);
     value = m_anchorNumber->value();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -335,8 +336,11 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     }
     m_radiusNumber->blockSignals(false);
     value = m_radiusNumber->value();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
-    emit signalPolygonalStarAttributeChanged();
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);
+        emit signalPolygonalStarAttributeChanged();
+    }
+
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性

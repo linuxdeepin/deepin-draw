@@ -400,6 +400,9 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
 {
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+        return;
+
     m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 
     if (m_currentScence && m_currentScence->getItemsMgr()) {

@@ -48,7 +48,7 @@ TextColorButton::TextColorButton(DWidget *parent)
 //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
 //    }
 
-    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 }
 
 void TextColorButton::updateConfigColor()
