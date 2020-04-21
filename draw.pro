@@ -31,7 +31,8 @@ include(service/service.pri)
 
 
 RESOURCES += \
-    icon/icons.qrc
+    icon/icons.qrc \
+    icons/theme-icons.qrc
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-draw

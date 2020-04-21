@@ -204,46 +204,42 @@ void CGraphicsPolygonalStarItem::calcPolygon()
 
     //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
     //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
-    m_renderWay = userSetNoPen?PaintPolyLine:RenderPathLine/*(m_anchorNum>3?RenderPathLine:PaintPolyLine)*/;
+    m_renderWay = userSetNoPen ? PaintPolyLine : RenderPathLine/*(m_anchorNum>3?RenderPathLine:PaintPolyLine)*/;
 
     //初始化线的路径
     m_pathForRenderPenLine = QPainterPath();
 
-    if(m_renderWay == RenderPathLine)
-    {
+    if (m_renderWay == RenderPathLine) {
         calcPolygon_helper(m_polygonPen, m_anchorNum);
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
         calcPolygon_helper(m_polygonForBrush, m_anchorNum, -(pen().widthF()));
 
-        for(int i= 0;i<m_polygonPen.size();++i)
-        {
-            if(i == 0)
-            {
+        for (int i = 0; i < m_polygonPen.size(); ++i) {
+            if (i == 0) {
                 m_pathForRenderPenLine.moveTo(m_polygonPen.at(i));
-            }
-            else {
+            } else {
                 m_pathForRenderPenLine.lineTo(m_polygonPen.at(i));
             }
         }
-        for(int i= 0;i<m_polygonForBrush.size();++i)
-        {
-            if(i == 0)
-            {
+        for (int i = 0; i < m_polygonForBrush.size(); ++i) {
+            if (i == 0) {
                 m_pathForRenderPenLine.moveTo(m_polygonForBrush.at(i));
-            }
-            else {
+            } else {
                 m_pathForRenderPenLine.lineTo(m_polygonForBrush.at(i));
             }
         }
-    }
-    else
-    {
+    } else {
         //如果分别绘制两个多边形(一个填充区域的多边形一个线条的多边形(这个多边形不设置填充色)) 因为Qt默认渲染线条和填充有重叠部分重叠部分为线宽的一半所以
         //这里采用这种方式时就只用偏移线宽一半
-        CGraphicsPolygonItem::calcPoints_helper(m_polygonForBrush,m_anchorNum,this->rect(),-(pen().widthF()) / 2);
+        //CGraphicsPolygonItem::calcPoints_helper(m_polygonForBrush,m_anchorNum,this->rect(),-(pen().widthF()) / 2);
 
-        CGraphicsPolygonItem::calcPoints_helper(m_polygonPen,m_anchorNum,this->rect());
+        //CGraphicsPolygonItem::calcPoints_helper(m_polygonPen,m_anchorNum,this->rect());
+
+        calcPolygon_helper(m_polygonPen, m_anchorNum);
+
+        //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
+        calcPolygon_helper(m_polygonForBrush, m_anchorNum, -(pen().widthF()));
     }
 
 }
@@ -293,42 +289,38 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
         }
     }
 
-    if(!qFuzzyIsNull(offset))
-    {
+    if (!qFuzzyIsNull(offset)) {
         QList<QLineF> outlines;
-        auto fGetLines = [=](const QPolygonF& outPolygon,QList<QLineF>& resultLines){
+        auto fGetLines = [ = ](const QPolygonF & outPolygon, QList<QLineF> &resultLines) {
             resultLines.clear();
-            for(int i = 0;i<outPolygon.size();++i)
-            {
-                if(i != 0)
-                {
-                    resultLines.append(QLineF(outPolygon.at(i-1),outPolygon.at(i)));
+            for (int i = 0; i < outPolygon.size(); ++i) {
+                if (i != 0) {
+                    resultLines.append(QLineF(outPolygon.at(i - 1), outPolygon.at(i)));
                 }
             }
-            resultLines.push_front(QLineF(outPolygon.last(),outPolygon.first()));
+            resultLines.push_front(QLineF(outPolygon.last(), outPolygon.first()));
         };
 
-        fGetLines(outPolygon,outlines);
+        fGetLines(outPolygon, outlines);
 
-        auto fGetOffsetPos = [=](const QList<QLineF>& lines,QVector<QPointF>& result){
+        auto fGetOffsetPos = [ = ](const QList<QLineF> &lines, QVector<QPointF> &result) {
             result.clear();
-            for(int i = 0;i<lines.size();++i)
-            {
+            for (int i = 0; i < lines.size(); ++i) {
                 QLineF curLine  = lines[i];
-                QLineF nextLine = (i==lines.size()-1?lines[0]: lines[i+1]);
+                QLineF nextLine = (i == lines.size() - 1 ? lines[0] : lines[i + 1]);
 
                 bool isInter = /*(i%2!=0)*/curLine.angleTo(nextLine) > 180;   //是否这个线条是和内圈点相关
-                qreal inc    = (isInter?-1:1);//内圈点是相反的角度
+                qreal inc    = (isInter ? -1 : 1); //内圈点是相反的角度
 
-                qreal finalDegree   =  (180 - curLine.angleTo(nextLine))*inc;   //两条线相交的交角*/
+                qreal finalDegree   =  (180 - curLine.angleTo(nextLine)) * inc; //两条线相交的交角*/
 
-                qreal sinValue = qSin(qDegreesToRadians(finalDegree/2.));
+                qreal sinValue = qSin(qDegreesToRadians(finalDegree / 2.));
 
-                qreal offLen = qFuzzyIsNull(sinValue)?0.0: offset / sinValue;
+                qreal offLen = qFuzzyIsNull(sinValue) ? 0.0 : offset / sinValue;
                 //qDebug()<<"i === "<<i<<"offLen ================ "<<offLen<<"finalDegree = "<<finalDegree;
 
                 QLineF tempLine(nextLine);
-                qreal newAngle = tempLine.angle() + finalDegree/2.0 + (isInter?(360 - curLine.angleTo(nextLine)):0);
+                qreal newAngle = tempLine.angle() + finalDegree / 2.0 + (isInter ? (360 - curLine.angleTo(nextLine)) : 0);
                 tempLine.setAngle(newAngle);
                 qreal finallenth =  qAbs(offLen)/*>tempLine.length()?tempLine.length():qAbs(offLen)*/;
                 tempLine.setLength(finallenth);
@@ -337,11 +329,10 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
         };
 
         QVector<QPointF> outecliPos;
-        fGetOffsetPos(outlines,outecliPos);
+        fGetOffsetPos(outlines, outecliPos);
 
         outPolygon.clear();
-        for(int i =0;i<outecliPos.size();++i)
-        {
+        for (int i = 0; i < outecliPos.size(); ++i) {
             outPolygon.append(outecliPos[i]);
         }
     }
