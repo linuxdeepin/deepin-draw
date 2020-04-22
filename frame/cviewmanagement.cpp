@@ -58,6 +58,11 @@ void CManageViewSigleton::setThemeType(const int type)
     m_thremeType = type;
 }
 
+bool CManageViewSigleton::isEmpty()
+{
+    return m_allViews.isEmpty();
+}
+
 CGraphicsView *CManageViewSigleton::getCurView()
 {
     CGraphicsView *curView = nullptr;

@@ -427,7 +427,17 @@ void CCentralwidget::openPicture(QString path)
 //导入图片
 void CCentralwidget::slotPastePicture(QStringList picturePathList)
 {
-    m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
+    if (picturePathList.isEmpty())
+        return;
+
+    //如果当前没有view那么要创建一个view
+    if (CManageViewSigleton::GetInstance()->viewCount() == 0) {
+        // 创建一个标签页(标签页生成时会自动创建一个view)
+        m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"), CDrawParamSigleton::creatUUID());
+    }
+
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)
@@ -702,23 +712,7 @@ void CCentralwidget::slotLoadDragOrPasteFile(QString path)
 
 void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
 {
-    qDebug() << "slotLoadDragOrPasteFile:" << files;
-    QStringList filterList;
-    QString ddfPath = "";
-    for (int i = 0; i < files.size(); i++) {
-        if (QFileInfo(files[i]).suffix().toLower() == ("ddf")) {
-            ddfPath = files[i].replace("file://", "");
-            QString fileName = ddfPath;
-            fileName = fileName.split('/').last();
-            fileName = fileName.replace(".ddf", "");
-            if (m_topMutipTabBarWidget->IsFileOpened(files[i])) {
-                emit signalDDFFileOpened(fileName);
-                continue;
-            }
-            filterList.append(files[i]);
-        }
-    }
-    emit signalTransmitLoadDragOrPasteFile(filterList);
+    emit signalTransmitLoadDragOrPasteFile(files);
 }
 
 void CCentralwidget::slotShowExportDialog()

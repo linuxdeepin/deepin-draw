@@ -48,6 +48,11 @@ public:
      * @brief setThemeType 设置主题
      */
     void setThemeType(const int type);
+
+    /**
+     * @brief isEmpty 是否是空的(是否没有view)
+     */
+    bool isEmpty();
     /**
      * @brief getCurView 获取窗口
      */

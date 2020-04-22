@@ -55,6 +55,7 @@ public:
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
     void openImage(QString path, bool isStartByDDF = false);
+
     /**
      * @brief initScene　初始化场景
      */

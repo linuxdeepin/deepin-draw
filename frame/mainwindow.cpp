@@ -128,10 +128,14 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
     QString ddfPath = "";
     QStringList picturePathList;
     for (int i = 0; i < files.size(); i++) {
-        //if (tempfilePathList[i].endsWith(".ddf")) {
         if (QFileInfo(files[i]).suffix().toLower() == ("ddf")) {
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
+
+                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
+                if (isOpened)
+                    continue;
+
                 // 创建一个新的窗口用于显示拖拽的图像
                 m_centralWidget->createNewScenseByscencePath(ddfPath);
 
@@ -151,8 +155,10 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
         }
     }
 
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        m_centralWidget->getGraphicsView()->slotQuitCutMode();
+    if (!CManageViewSigleton::GetInstance()->isEmpty()) {
+        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+            m_centralWidget->getGraphicsView()->slotQuitCutMode();
+        }
     }
 
     if (picturePathList.count() > 0) {

@@ -115,11 +115,12 @@ int main(int argc, char *argv[])
     QStringList pas = cmdParser.positionalArguments();
     for (int  i = 0; i < pas.count(); i++) {
         if (QUrl(pas.at(i)).isLocalFile()) {
-            paths.append(QUrl(pas.first()).toLocalFile());
+            paths.append(QUrl(pas.at(i)).toLocalFile());
         } else {
             paths.append(pas.at(i));
         }
     }
+
 
     if (a.isRunning()) { //判断实例是否已经运行
         qDebug() << "deepin-draw is already running";
@@ -128,10 +129,6 @@ int main(int argc, char *argv[])
         }
         return EXIT_SUCCESS;
     }
-
-//    QObject::connect(qApp, &Application::messageReceived, qApp, [ = ](const QString & message) {
-
-//    });
 
     static const QDate buildDate = QLocale( QLocale::English )
                                    .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
@@ -148,41 +145,42 @@ int main(int argc, char *argv[])
 
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-draw");
-    //a.setApplicationVersion("1.0");
-    //a.setTheme("light");
     a.setQuitOnLastWindowClosed(true);
-    //a.setStyle("chameleon");
 
     // 应用已保存的主题设置
     DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
-    //CManageViewSigleton::GetInstance()->setThemeType(type);
-    //DGuiApplicationHelper::instance()->setPaletteType(type);
     DApplicationSettings saveTheme;
     CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
 
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
+
     MainWindow w(paths);
-
-
-//    QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
 
     a.setActivationWindow(&w);
 
-    //QObject::connect(&a, &QtSingleApplication::messageReceived, &a, &QtSingleApplication::activateWindow);
     QObject::connect(&a, &Application::messageReceived, &a, [ = ](const QString & message) {
-
-        //MainWindow *window = static_cast<MainWindow *>(qApp->activeWindow());
-        qDebug() << "!!!!!!!!!!!!!!!message=" << message;
-        //w.activeWindow();
-        //a.activateWindow();
+        qDebug() << "messageReceived   message = " << message;
         if (message != "") {
-            //w.openImage(QFileInfo(message).absoluteFilePath());
-            QWidget *w = static_cast<Application *>(qApp)->activationWindow();
-            static_cast<MainWindow *>(w)->openImage(QFileInfo(message).absoluteFilePath());
+            Application *pApp = dynamic_cast<Application *>(qApp);
+            if (pApp != nullptr) {
+                MainWindow *pWin = dynamic_cast<MainWindow *>(pApp->activationWindow());
+
+                if (pWin != nullptr) {
+
+                    QFileInfo info(message);
+
+                    if (info.isFile()) {
+                        qDebug() << "messageReceived load file = " << message;
+                        pWin->slotLoadDragOrPasteFile(QStringList() << message);
+                    }
+                }
+            }
+//            QWidget *w = static_cast<Application *>(qApp)->activationWindow();
+//            static_cast<MainWindow *>(w)->openImage(QFileInfo(message).absoluteFilePath());
         }
-    });
+    }, Qt::QueuedConnection);
 
     //监听当前应用主题切换事件
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
@@ -193,50 +191,13 @@ int main(int argc, char *argv[])
     dbus.registerObject("/com/deepin/Draw", &w);
     new dbusdraw_adaptor(&w);
 
-//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-//    [] (DGuiApplicationHelper::ColorType type) {
-//        // 保存程序的主题设置  type : 0,系统主题， 1,浅色主题， 2,深色主题
-//        saveThemeTypeSetting(type);
-//        DGuiApplicationHelper::instance()->setPaletteType(type);
-//    });
-
-
-// return a.exec();
-
-
-//    DBusDrawService dbusService(&w);
-//    Q_UNUSED(dbusService);
-//    //Register deepin-draw's dbus service.
-//    QDBusConnection conn = QDBusConnection::sessionBus();
-//    if (!conn.registerService(DEEPIN_DRAW_DBUS_NAME) ||
-//            !conn.registerObject(DEEPIN_DRAW_DBUS_PATH, &w)) {
-//        qDebug() << "deepin-draw is running!";
-//    }
-
-//qDebug() << argc << *argv << endl;
-//    for (int i = 0 ; i < 100; i++) {
-//        qDebug() << i << (argv[i]) << endl; ;
-//    }
-
-//    QCommandLineOption openImageOption(QStringList() << "o" << "open",
-//                                       "Specify a path to load an image.", "PATH");
-//    QCommandLineOption activeWindowOption(QStringList() << "s" << "show",
-//                                          "Show deepin draw.");
-//    QCommandLineParser cmdParser;
-//    cmdParser.setApplicationDescription("deepin-draw");
-//    cmdParser.addOption(openImageOption);
-//    cmdParser.addOption(activeWindowOption);
-//    cmdParser.process(a);
-
     if (cmdParser.isSet(openImageOption)) {
         w.activeWindow();
         w.openImage(cmdParser.value(openImageOption), true);
-        //QMessageBox::information(&w, "cmdParser.value(openImageOption)", cmdParser.value(openImageOption));
     } else if (cmdParser.isSet(activeWindowOption)) {
         w.activeWindow();
     } else {
         QStringList pas = cmdParser.positionalArguments();
-        //QMessageBox::information(&w, "cmdParser.positionalArguments()", cmdParser.positionalArguments()[0]);
         if (pas.length() >= 1) {
             QString path;
             if (QUrl(pas.first()).isLocalFile())
@@ -245,16 +206,13 @@ int main(int argc, char *argv[])
                 path = pas.first();
             w.activeWindow();
             w.openImage(QFileInfo(path).absoluteFilePath(), true);
-            //QMessageBox::information(&w, "path", path);
         } else {
-            //QMessageBox::information(&w, "path", "last situation");
             w.show();
 
         }
     }
 
     w.initScene();
-    //w.showMaximized();
     w.readSettings();
 
     return a.exec();
