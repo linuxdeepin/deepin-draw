@@ -48,13 +48,15 @@ public:
     void setFont(const QFont &font);
     QFont getFont();
 
-    QString getTextFontStyle() const;
+    QString getTextFontStyle();
     void setTextFontStyle(const QString &style);
 
     void setFontSize(qreal size);
     qreal getFontSize();
 
     void setFontFamily(const QString &family);
+    QString getFontFamily();
+
     void setTextColor(const QColor &col);
     QColor getTextColor();
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);

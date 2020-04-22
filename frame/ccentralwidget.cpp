@@ -18,21 +18,26 @@
  */
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
+#include "cgraphicsview.h"
+
+#include "widgets/dialog/cexportimagedialog.h"
+#include "widgets/dialog/cprintmanager.h"
+#include "widgets/progresslayout.h"
+
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicsitem.h"
-#include "widgets/progresslayout.h"
 #include "drawshape/cpictureitem.h"
-#include "cgraphicsview.h"
 #include "drawshape/cpicturetool.h"
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicsellipseitem.h"
 #include "drawshape/cgraphicstriangleitem.h"
-#include "widgets/dialog/cexportimagedialog.h"
-#include "widgets/dialog/cprintmanager.h"
-#include "drawshape/cpicturetool.h"
-#include "frame/cviewmanagement.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/cpicturetool.h"
+
+#include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
+
+#include "service/cmanagerattributeservice.h"
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
@@ -688,6 +693,9 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         m_topMutipTabBarWidget->show();
         emit signalScenceViewChanged("");
     }
+
+    // [7] 切换标签页后刷新当前选中图元的属性
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)

@@ -37,6 +37,7 @@
 #include "frame/cgraphicsview.h"
 
 #include <QGraphicsItem>
+#include <QTextEdit>
 #include <QDebug>
 
 //降序排列用
@@ -44,6 +45,7 @@ static bool zValueSortDES(CGraphicsItem *info1, CGraphicsItem *info2)
 {
     return info1->zValue() >= info2->zValue();
 }
+
 //升序排列用
 static bool zValueSortASC(CGraphicsItem *info1, CGraphicsItem *info2)
 {
@@ -51,6 +53,7 @@ static bool zValueSortASC(CGraphicsItem *info1, CGraphicsItem *info2)
 }
 
 CManagerAttributeService *CManagerAttributeService::instance = nullptr;
+
 CManagerAttributeService *CManagerAttributeService::getInstance()
 {
     if (nullptr == instance) {
@@ -61,15 +64,16 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
 
 void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items)
 {
-    if (scence != nullptr) {
-        m_currentScence = scence;
-    }
+    Q_UNUSED(scence)
+
+    reFreshCurrentScence();
+
     qSort(items.begin(), items.end(), zValueSortASC);
     EGraphicUserType mode = EGraphicUserType::NoType;
     QMap<EDrawProperty, QVariant> propertys;//临时存放
     propertys.clear();
     if (items.size() <= 0) {
-        return;
+        mode = EGraphicUserType::NoType;
     } else {
         mode = static_cast<EGraphicUserType>(items.at(0)->type());
         switch (mode) {
@@ -117,10 +121,10 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             break;
         case TextType://文本
             propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
-            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getFont();
-            qDebug() << "font11 = " << static_cast<CGraphicsTextItem *>(items.at(0))->getFont();
+            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontFamily();
             propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontSize();
             propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextFontStyle();
+            qDebug() << "font11 = " << static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
             break;
         case BlurType://模糊
             break;
@@ -391,9 +395,33 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
 
 void CManagerAttributeService::refreshSelectedCommonProperty()
 {
+    reFreshCurrentScence();
+
     if (m_currentScence) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             this->showSelectedCommonProperty(m_currentScence, m_currentScence->getItemsMgr()->getItems());
+        } else {
+            // 过滤图元
+            QList<QGraphicsItem *> allItems = m_currentScence->selectedItems();
+            for (int i = allItems.size() - 1; i >= 0; i--) {
+                if (allItems.at(i)->zValue() == 0.0) {
+                    allItems.removeAt(i);
+                    continue;
+                }
+                if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allItems.removeAt(i);
+                }
+            }
+
+            // 单选图元刷新
+            QList<CGraphicsItem *> items; // 如果为空则隐藏属性栏
+            if (allItems.size() >= 1) {
+                CGraphicsItem *item = static_cast<CGraphicsItem *>(allItems.at(0));
+                if (item != nullptr) {
+                    items.append(item);
+                }
+            }
+            this->showSelectedCommonProperty(m_currentScence, items);
         }
     }
 }
@@ -403,7 +431,7 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
     if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
         return;
 
-    m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+    reFreshCurrentScence();
 
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         QList<CGraphicsItem *> allItems;
@@ -445,6 +473,11 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
 CManagerAttributeService::CManagerAttributeService()
 {
     m_currentScence = nullptr;
+}
+
+void CManagerAttributeService::reFreshCurrentScence()
+{
+    m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 }
 
 void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType startType)
@@ -552,7 +585,7 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
 
         bool isSameColor = textItem->getAllTextColorIsEqual();
         if (!isSameColor) {
-            propertys.insert(TextColor, QColor());
+            propertys.insert(TextColor, QColor(""));
         } else {
             propertys.insert(TextColor, textItem->getTextColor());
         }
@@ -568,7 +601,7 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         if (!isSameFamily) {
             propertys.insert(TextFont, "");
         } else {
-            propertys.insert(TextFont, textItem->getFont().family());
+            propertys.insert(TextFont, textItem->getFontFamily());
         }
 
         bool isSameWeight = textItem->getAllFontStyleIsEqual();

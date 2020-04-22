@@ -130,6 +130,11 @@ private:
     static CManagerAttributeService *instance;
 
     CDrawScene *m_currentScence;
+
+    /*
+    * @bref: reFreshCurrentScence 刷新当前正在使用的scence
+    */
+    void reFreshCurrentScence();
 };
 
 #endif // CMANAGERATTRIBUTESERVICE_H

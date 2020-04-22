@@ -28,7 +28,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cviewmanagement.h"
 
-const QSize TabBarMiniSize = QSize(266, 36);
+const QSize TabBarMiniSize = QSize(220, 36);
 
 CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     : DTabBar(parent)

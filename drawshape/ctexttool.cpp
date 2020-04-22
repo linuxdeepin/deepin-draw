@@ -50,7 +50,19 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         CGraphicsTextItem *item = new CGraphicsTextItem();
         item->getTextEdit()->setText(QObject::tr("Input text here"));
         item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+        // 设置新建图元属性
         item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+        item->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+        item->setFont(font);
+
+        qDebug() << "p size: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize();
+        qDebug() << "p setTextColor: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        qDebug() << "p family: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
+        qDebug() << "p style: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle();
+
         item->getTextEdit()->selectAll();
 
         QFontMetrics fm(font);
