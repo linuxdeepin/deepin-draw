@@ -596,6 +596,13 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         scene->clearSelection();
         scene->getItemsMgr()->setSelected(true);
     }
+
+    QList<QGraphicsItem *> Items = scene->items();
+    foreach(QGraphicsItem *item, Items){
+        if(item->type() == BlurType){
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+        }
+    }
     m_sLastPress = event->scenePos();
 }
 
