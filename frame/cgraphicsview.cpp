@@ -825,9 +825,8 @@ void CGraphicsView::slotOnPaste()
                 if ( copy ) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
-                    if (itemMgr->getItems().size() > 1) {
-                        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
-                    }
+                    // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
