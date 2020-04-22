@@ -287,14 +287,15 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    // 属性复制有问题
-    CGraphicsRectItem::duplicate(item);
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
     static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
         this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
-    static_cast<CGraphicsTextItem *>(item)->setFont(this->getFont());
+    static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
+    static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
+    static_cast<CGraphicsTextItem *>(item)->setFontSize(this->getFontSize());
     static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
+    CGraphicsRectItem::duplicate(item);
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
