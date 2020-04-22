@@ -179,6 +179,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 copyItems.append(copy);
                 scene->addItem(static_cast<CGraphicsItem *>(copy));
                 m_doCopy = true;
+                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             }
 
             if (count > 1) {
@@ -598,8 +599,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     }
 
     QList<QGraphicsItem *> Items = scene->items();
-    foreach(QGraphicsItem *item, Items){
-        if(item->type() == BlurType){
+    foreach (QGraphicsItem *item, Items) {
+        if (item->type() == BlurType) {
             static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }

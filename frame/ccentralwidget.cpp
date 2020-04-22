@@ -298,7 +298,8 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
             m_topMutipTabBarWidget->show();
         }
     }
-
+    delete closeView;
+    closeView = nullptr;
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)

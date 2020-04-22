@@ -51,11 +51,6 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
 
 void CTextEdit::slot_textChanged()
 {
-    if (this->document()->isEmpty()) {
-        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
-        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-    }
-
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
     }
@@ -94,90 +89,85 @@ void CTextEdit::slot_textChanged()
 void CTextEdit::cursorPositionChanged()
 {
     // 只要鼠标点击后，此函数就会被调用一次
-    if (this->document()->isEmpty()) {
-        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
-        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-    } else {
-        QTextCursor cursor = this->textCursor();
-        if (cursor.hasSelection()) {
-            int startPos = cursor.selectionStart();
-            int endPos = cursor.selectionEnd();
-            qDebug() << "startpos = " << startPos << "endPos" << endPos;
-            QTextBlock block = cursor.block();
-            if (block.isValid()) {
+    QTextCursor cursor = this->textCursor();
+    if (cursor.hasSelection()) {
+        int startPos = cursor.selectionStart();
+        int endPos = cursor.selectionEnd();
+        qDebug() << "startpos = " << startPos << "endPos" << endPos;
+        QTextBlock block = cursor.block();
+        if (block.isValid()) {
 
-                // [0] 检测选中文字的属性是否相等
-                checkTextProperty(block);
+            // [0] 检测选中文字的属性是否相等
+            checkTextProperty(block);
 
-                QTextBlock::iterator it;
-                bool flag = true;
-                QTextCharFormat chfFirst;
-                QString fontFamily = "";
-                QString fontStyle = "";
-                for (it = block.begin(); !(it.atEnd()); ++it) {
-                    QTextFragment fragment = it.fragment();
-                    if (!fragment.isValid())
+            QTextBlock::iterator it;
+            bool flag = true;
+            QTextCharFormat chfFirst;
+            QString fontFamily = "";
+            QString fontStyle = "";
+            for (it = block.begin(); !(it.atEnd()); ++it) {
+                QTextFragment fragment = it.fragment();
+                if (!fragment.isValid())
+                    continue;
+                // 获取文本
+                QString text = fragment.text();
+                if (text.isEmpty())
+                    continue;
+                // 获取文本格式
+                if (fragment.contains(startPos)) {
+                    //第一次更改选中的字体和颜色
+                    if (flag) {
+                        chfFirst = fragment.charFormat();
+                        fontFamily = chfFirst.font().family();
+                        m_pItem->currentCharFormatChanged(chfFirst);
+                        flag = false;
+
+                        if (fragment.contains(endPos)) {
+                            break;
+                        }
+                    }
+
+                } else {
+                    if (flag) {
                         continue;
-                    // 获取文本
-                    QString text = fragment.text();
-                    if (text.isEmpty())
-                        continue;
-                    // 获取文本格式
-                    if (fragment.contains(startPos)) {
-                        //第一次更改选中的字体和颜色
-                        if (flag) {
-                            chfFirst = fragment.charFormat();
-                            fontFamily = chfFirst.font().family();
-                            m_pItem->currentCharFormatChanged(chfFirst);
-                            flag = false;
+                    } else {
+                        //找到
+                        QTextCharFormat chf = fragment.charFormat();
+                        //找到最后一个字块
+                        if (fragment.contains(endPos)) {
+                            if (endPos == fragment.position()) {
+                                break;
+                            }
+                            if (fontFamily != chf.font().family()) {
+                                m_pItem->currentCharFormatChanged(chfFirst);
+                                break;
+                            }
 
-                            if (fragment.contains(endPos)) {
+                        } else {
+                            if (fontFamily != chf.font().family()) {
+                                m_pItem->currentCharFormatChanged(chfFirst);
                                 break;
                             }
                         }
 
-                    } else {
-                        if (flag) {
-                            continue;
-                        } else {
-                            //找到
-                            QTextCharFormat chf = fragment.charFormat();
-                            //找到最后一个字块
-                            if (fragment.contains(endPos)) {
-                                if (endPos == fragment.position()) {
-                                    break;
-                                }
-                                if (fontFamily != chf.font().family()) {
-                                    m_pItem->currentCharFormatChanged(chfFirst);
-                                    break;
-                                }
-
-                            } else {
-                                if (fontFamily != chf.font().family()) {
-                                    m_pItem->currentCharFormatChanged(chfFirst);
-                                    break;
-                                }
-                            }
-
-                        }
                     }
-
                 }
 
-            } else {
-                m_pItem->currentCharFormatChanged(cursor.charFormat());
             }
+
         } else {
             m_pItem->currentCharFormatChanged(cursor.charFormat());
         }
-
-        if (nullptr != m_pItem->scene()) {
-            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-            curScene->updateBlurItem(m_pItem);
-        }
-
-        this->setFocus();
+    } else {
+        m_pItem->currentCharFormatChanged(cursor.charFormat());
     }
+
+    if (nullptr != m_pItem->scene()) {
+        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        curScene->updateBlurItem(m_pItem);
+    }
+
+    this->setFocus();
 }
 
 void CTextEdit::checkTextProperty(QTextBlock block)
@@ -221,7 +211,7 @@ void CTextEdit::checkTextProperty(QTextBlock block)
                 m_allFamilyIsEqual = false;
 
                 // 此处添加只要检测到被选中的字体不一样，字体的样式就不一样，会存在字体样式重叠交错的部分
-                m_allFontStyleIsEqual = false;
+//                m_allFontStyleIsEqual = false;
             }
 
             if (m_allFontStyleIsEqual && fragment.charFormat().font().weight() != first_fragment.charFormat().font().weight()) {
@@ -248,10 +238,6 @@ void CTextEdit::setVisible(bool visible)
             auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
             curScene->updateBlurItem(m_pItem);
         }
-
-        //this->releaseKeyboard();
-    } else {
-        //this->grabKeyboard();
     }
 }
 
@@ -262,11 +248,6 @@ void CTextEdit::setLastDocumentWidth(qreal width)
 
 void CTextEdit::resizeDocument()
 {
-    if (this->document()->isEmpty()) {
-        m_pItem->setFont(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont());
-        m_pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-    }
-
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
     }
@@ -274,18 +255,6 @@ void CTextEdit::resizeDocument()
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
     rect.setHeight(size.height());
-    //rect.setWidth(size.width());
-
-    //判断是否出界
-    //QPointF bottomRight = rect.bottomRight();
-    //QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
-    /*if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
-        this->setLineWrapMode(WidgetWidth);
-        this->document()->setTextWidth(m_widthF);
-        size = this->document()->size();
-        rect.setHeight(size.height());
-        rect.setWidth(size.width());
-    }*/
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);
@@ -344,6 +313,5 @@ void CTextEdit::setAlpha(const quint8 &value)
         }
     }
 }
-
 
 

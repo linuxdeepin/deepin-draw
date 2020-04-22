@@ -84,15 +84,9 @@ public:
     void setLineEndType(CDrawScene *scence, ELineType endType);
 
     /*
-     * @bref: setTextFamilyStyle 设置线段起点的样式
-     * @param: style 字体样式
-    */
-    void setTextFamilyStyle(CDrawScene *scence, QString style);
-    /*
      * @bref: setPenStartType 设置画笔起点的样式
      * @param: startType 起点样式
     */
-
     void setPenStartType(CDrawScene *scence, ELineType startType);
     /*
      * @bref: setPenEndType 设置画笔终点的样式
@@ -100,8 +94,8 @@ public:
     */
     void setPenEndType(CDrawScene *scence, ELineType endType);
     /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
+     * @bref: updateSingleItemProperty 更新单个图元属性
+     * @param:
     */
     void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
 
@@ -131,10 +125,7 @@ private:
 
     CDrawScene *m_currentScence;
 
-    /*
-    * @bref: reFreshCurrentScence 刷新当前正在使用的scence
-    */
-    void reFreshCurrentScence();
+    void updateCurrentScence();
 };
 
 #endif // CMANAGERATTRIBUTESERVICE_H
