@@ -109,7 +109,7 @@ CDrawScene *CCentralwidget::getDrawScene() const
 
 void CCentralwidget::switchTheme(int type)
 {
-    if(CManageViewSigleton::GetInstance()->getCurView() == nullptr){
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr) {
         return;
     }
     if (type == 1) {
@@ -310,23 +310,27 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
 {
     //需要判断的当前的view是否是信号来源的同一个view
     QGraphicsScene *pScene = qobject_cast<QGraphicsScene *>(sender());
-    CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
 
-    if (pScene != nullptr && pCurView != nullptr && pCurView->scene() == pScene) {
-        QString viewName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->viewName();
-        qDebug() << "viewName：" << viewName << " modify:" << isModify;
+    if (pScene != nullptr && !pScene->views().isEmpty()) {
+        CGraphicsView *pView = dynamic_cast<CGraphicsView *>(pScene->views().first()); /*CManageViewSigleton::GetInstance()->getCurView()*/
 
-        //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
-        bool drawParamCurModified = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getModify();
-        if (isModify != drawParamCurModified) {
-            //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
-            QString uuid = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->uuid();
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setModify(isModify);
-            QString newVName = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShowViewNameByModifyState();
+        if (pView != nullptr) {
+            QString viewName = pView->getDrawParam()->viewName();
+            qDebug() << "viewName：" << viewName << " modify:" << isModify;
 
-            updateTabName(uuid, newVName);
+            //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
+            bool drawParamCurModified = pView->getDrawParam()->getModify();
+            if (isModify != drawParamCurModified) {
+                //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
+                QString uuid = pView->getDrawParam()->uuid();
+                pView->getDrawParam()->setModify(isModify);
+                QString newVName = pView->getDrawParam()->getShowViewNameByModifyState();
+
+                updateTabName(uuid, newVName);
+            }
         }
     }
+
 }
 
 void CCentralwidget::slotOnFileSaveFinished(const QString &savedFile,

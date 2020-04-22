@@ -188,7 +188,7 @@ void CMultipTabBarWidget::setTabBarTooltipName(QString uuid, QString tooltip)
 
 void CMultipTabBarWidget::setTabBarTooltipName(quint16 index, QString tooltip)
 {
-    //this->setTabToolTip(index, tooltip);
+    this->setTabToolTip(index, tooltip);
 }
 
 void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)
