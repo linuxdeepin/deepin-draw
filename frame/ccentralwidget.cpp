@@ -109,6 +109,9 @@ CDrawScene *CCentralwidget::getDrawScene() const
 
 void CCentralwidget::switchTheme(int type)
 {
+    if(CManageViewSigleton::GetInstance()->getCurView() == nullptr){
+        return;
+    }
     if (type == 1) {
         CManageViewSigleton::GetInstance()->getCurView()->scene()->setBackgroundBrush(QColor(248, 248, 251));
     } else if (type == 2) {
