@@ -74,17 +74,20 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case LineColor:
+        case LineColor: {
             m_strokeBtn->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
+            m_strokeBtn->blockSignals(true);
+            QColor color = propertys[property].value<QColor>();
+            if (!color.isValid()) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
-                m_strokeBtn->setColor(propertys[property].value<QColor>());
+                m_strokeBtn->setColor(color);
             }
             m_strokeBtn->update();
+            m_strokeBtn->blockSignals(false);
             break;
+        }
         case LineWidth:
-//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
@@ -222,11 +225,8 @@ void CPenWidget::initConnection()
             break;
         }
         }
-
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(lineType);
-        CManagerAttributeService::getInstance()->setPenStartType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenStartArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -256,11 +256,8 @@ void CPenWidget::initConnection()
             break;
         }
         }
-
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(lineType);
-        CManagerAttributeService::getInstance()->setPenEndType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenEndArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -306,9 +303,6 @@ void CPenWidget::updatePenWidget()
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
-
-    // 公共属性刷新
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CPenWidget::slotSideWidthChoosed(int width)

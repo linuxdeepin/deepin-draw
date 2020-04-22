@@ -61,6 +61,7 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
 
 void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items)
 {
+    Q_UNUSED(scence)
     updateCurrentScence();
 
     qSort(items.begin(), items.end(), zValueSortASC);
@@ -471,57 +472,6 @@ void CManagerAttributeService::updateCurrentScence()
     m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 }
 
-void CManagerAttributeService::setLineStartType(CDrawScene *scence, ELineType startType)
-{
-    if (scence && scence->getItemsMgr()->getItems().size() > 1) {
-        return;
-    }
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
-        if (lineItem != nullptr) {
-            scence->getDrawParam()->setLineStartType(startType);
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, startType);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->calcVertexes();// 计算后将会自动调用更新，不再需要手动进行调用更新
-        }
-    }
-}
-
-void CManagerAttributeService::setLineEndType(CDrawScene *scence, ELineType endType)
-{
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsLineItem *lineItem = static_cast<CGraphicsLineItem *>(allItems.at(0));
-        if (lineItem != nullptr) {
-            scence->getDrawParam()->setLineEndType(endType);
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, false, endType);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            lineItem->calcVertexes(); // 计算后将会自动调用更新，不再需要手动进行调用更新
-        }
-    }
-}
-
 void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
 {
     Q_UNUSED(scence)
@@ -600,57 +550,5 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         emit signalPenItemPropertyUpdate(propertys);
         break;
     }
-    }
-}
-
-void CManagerAttributeService::setPenStartType(CDrawScene *scence, ELineType startType)
-{
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
-        if (penItem != nullptr) {
-            scence->getDrawParam()->setPenStartType(startType);
-            penItem->setPenStartType(startType);
-            penItem->drawComplete();
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            penItem->update();
-        }
-    }
-}
-
-void CManagerAttributeService::setPenEndType(CDrawScene *scence, ELineType endType)
-{
-    QList<QGraphicsItem *> allItems = scence->selectedItems();
-    for (int i = allItems.size() - 1; i >= 0; i--) {
-        if (allItems.at(i)->zValue() == 0.0) {
-            allItems.removeAt(i);
-            continue;
-        }
-        if (allItems[i]->type() <= QGraphicsItem::UserType || allItems[i]->type() >= EGraphicUserType::MgrType) {
-            allItems.removeAt(i);
-        }
-    }
-
-    if (allItems.size() >= 1) {
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(allItems.at(0));
-        if (penItem != nullptr) {
-            scence->getDrawParam()->setPenEndType(endType);
-            penItem->setPenEndType(endType);
-            penItem->drawComplete();
-//            QUndoCommand *addCommand = new CSetLineAttributeCommand(scence, lineItem, true, noneLine);
-//            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            penItem->update();
-        }
     }
 }

@@ -73,27 +73,6 @@ public:
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
 
     /*
-     * @bref: setLineStartType 设置线段起点的样式
-     * @param: startType 起点样式
-    */
-    void setLineStartType(CDrawScene *scence, ELineType startType);
-    /*
-     * @bref: setLineEndType 设置线段终点的样式
-     * @param: endType 终点样式
-    */
-    void setLineEndType(CDrawScene *scence, ELineType endType);
-
-    /*
-     * @bref: setPenStartType 设置画笔起点的样式
-     * @param: startType 起点样式
-    */
-    void setPenStartType(CDrawScene *scence, ELineType startType);
-    /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
-    */
-    void setPenEndType(CDrawScene *scence, ELineType endType);
-    /*
      * @bref: updateSingleItemProperty 更新单个图元属性
      * @param:
     */
