@@ -215,13 +215,6 @@ void CGraphicsMasicoItem::setPixmap()
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);
             filterItems[i]->setSelected(filterItemsSelectFlags[i]);
-            if (textItemIndex == i) {
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->show();
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setTextCursor(textCursor);
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus(Qt::MouseFocusReason);
-//                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->activateWindow();
-                //static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
-            }
         }
 
         //qDebug() << "-------------------textItemIndex = " << textItemIndex;
