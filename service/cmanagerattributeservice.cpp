@@ -123,6 +123,8 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             qDebug() << "Text Item = " << propertys;
             break;
         case BlurType://模糊
+            propertys[Blurtype] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurEffect();
+            propertys[BlurWith] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurWidth();
             break;
         default:
             break;
@@ -373,6 +375,20 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case BlurType://模糊
+            if(propertys.contains(Blurtype)) {
+                if(propertys[Blurtype] == static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()) {
+                    allPropertys[Blurtype] = propertys[Blurtype];
+                }else {
+                    allPropertys[Blurtype] = tmpVariant;
+                }
+            }
+            if(propertys.contains(BlurWith)) {
+                if(propertys[BlurWith] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
+                    allPropertys[BlurWith] = propertys[BlurWith];
+                }else {
+                   allPropertys[BlurWith] = tmpVariant;
+                }
+            }
             break;
         default:
             break;

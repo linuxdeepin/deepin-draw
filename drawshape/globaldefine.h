@@ -53,6 +53,8 @@ enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
     FillColorAlpha,      //填充颜色透明度
     LineColorAlpha,      //描边颜色透明度
     TextColorAlpha,      //文本颜色透明度
+    Blurtype,            //模糊类型
+    BlurWith             //模糊粗细
 };
 
 enum ESelectMode {
