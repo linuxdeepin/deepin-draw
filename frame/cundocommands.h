@@ -40,6 +40,7 @@ class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawScene;
 class CGraphicsTextItem;
+class CTextEdit;
 
 Q_DECLARE_METATYPE(ELineType);
 Q_DECLARE_METATYPE(EPenType);

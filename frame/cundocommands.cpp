@@ -32,6 +32,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "widgets/ctextedit.h"
 
 #include <QUndoCommand>
 #include <QGraphicsScene>
@@ -1885,6 +1886,17 @@ void CSetItemsCommonPropertyValueCommand::redo()
             item->setBrush(m_value.value<QBrush>());
             //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(m_value.value<QBrush>());
             break;
+        case FillColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(m_value.value<int>());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            if (m_items.size() == 1) {
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
+            }
+        }
+        break;
         case LineWidth: {
             QPen widthpen = item->pen();
             widthpen.setWidth(m_value.toInt());
@@ -1897,6 +1909,17 @@ void CSetItemsCommonPropertyValueCommand::redo()
             colorpen.setColor(m_value.value<QColor>());
             item->setPen(colorpen);
             //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(colorpen);
+        }
+        break;
+        case LineColorAlpha: {
+            QPen colorpen = item->pen();
+            QColor color = colorpen.color();
+            color.setAlpha(m_value.value<int>());
+            colorpen.setColor(color);
+            item->setPen(colorpen);
+            if (m_items.size() == 1) {
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+            }
         }
         break;
         case RectRadius:
@@ -1950,6 +1973,24 @@ void CSetItemsCommonPropertyValueCommand::redo()
                 }
             }
             break;
+        case TextColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(m_value.value<int>());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            if (m_items.size() == 1) {
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
+            }
+            if (item->type() == TextType) {
+                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+                if (curTextItem != nullptr) {
+                    curTextItem->getTextEdit()->setAlpha(m_value.value<int>());
+                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(m_value.value<QColor>());
+                }
+            }
+        }
+        break;
         case TextSize: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {

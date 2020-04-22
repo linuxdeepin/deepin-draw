@@ -326,5 +326,24 @@ void CTextEdit::setFontStyle(QFont ft)
     }
 }
 
+void CTextEdit::setAlpha(const quint8 &value)
+{
+    //todo未生效，后期修改
+    QTextCursor cur = this->textCursor();
+    QTextBlock block = cur.block();
+    if (block.isValid()) {
+        QTextBlock::iterator it;
+        for (it = block.begin(); !(it.atEnd()); ++it) {
+            QBrush brush = it.fragment().charFormat().foreground();
+            QColor color = brush.color();
+            color.setAlpha(value);
+            brush.setColor(color);
+            it.fragment().charFormat().setForeground(brush);
+            cur.mergeCharFormat(it.fragment().charFormat());
+            this->mergeCurrentCharFormat(it.fragment().charFormat());
+        }
+    }
+}
+
 
 

@@ -591,7 +591,6 @@ void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-    //connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::slotUpdateCurrentAttributeBar);
 
