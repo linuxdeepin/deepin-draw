@@ -85,15 +85,10 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 scene->removeItem(m_pPenItem);
                 delete m_pPenItem;
             } else {
-                // 最后一次再更新一下起始点的样式
-//                QPointF pointMouse = event->scenePos();
-//                bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-//                m_pPenItem->updatePenPath(pointMouse + QPointF(1, 1), shiftKeyPress);
                 m_pPenItem->drawComplete();
                 emit scene->itemAdded(m_pPenItem);
                 m_pPenItem->setSelected(true);
                 m_pPenItem->setDrawFlag(false);
-                m_pPenItem->update();
             }
         }
 
