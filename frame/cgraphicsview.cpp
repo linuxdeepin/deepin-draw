@@ -91,6 +91,8 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     initTextContextMenuConnection();
 
     initConnection();
+
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 }
 
 void CGraphicsView::zoomOut()
@@ -129,9 +131,9 @@ void CGraphicsView::zoomIn()
 
 void CGraphicsView::scale(qreal scale)
 {
-    //当前鼠标在viewport上的位置
-    QPoint  preCenterViewPos = viewport()->mapFromGlobal(QCursor::pos()); //以这个view点为中心进行缩放
-    QPointF preCenterScenPos = mapToScene(preCenterViewPos);
+//    //当前鼠标在viewport上的位置
+//    QPoint  preCenterViewPos = viewport()->mapFromGlobal(QCursor::pos()); //以这个view点为中心进行缩放
+//    QPointF preCenterScenPos = mapToScene(preCenterViewPos);
 
     qreal multiple = scale / m_scale;
     DGraphicsView::scale(multiple, multiple);
@@ -139,13 +141,13 @@ void CGraphicsView::scale(qreal scale)
     getDrawParam()->setScale(m_scale);
     emit signalSetScale(m_scale);
 
-    //保证view的中心点色
-    QMetaObject::invokeMethod(this, [ = ]() {
-        QPointF nowScenePos = mapToScene(preCenterViewPos);
-        QPointF disPointF   = nowScenePos - preCenterScenPos;
-        this->scene()->setSceneRect(this->scene()->sceneRect().x() - disPointF.x(), this->scene()->sceneRect().y() - disPointF.y(),
-                                    this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
-    }, Qt::DirectConnection);
+//    //保证view的中心点色
+//    QMetaObject::invokeMethod(this, [ = ]() {
+//        QPointF nowScenePos = mapToScene(preCenterViewPos);
+//        QPointF disPointF   = nowScenePos - preCenterScenPos;
+//        this->scene()->setSceneRect(this->scene()->sceneRect().x() - disPointF.x(), this->scene()->sceneRect().y() - disPointF.y(),
+//                                    this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
+//    }, Qt::DirectConnection);
 }
 
 qreal CGraphicsView::getScale()
@@ -1076,11 +1078,13 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
 
 void CGraphicsView::slotViewZoomIn()
 {
+    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     zoomIn();
 }
 
 void CGraphicsView::slotViewZoomOut()
 {
+    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     zoomOut();
 }
 

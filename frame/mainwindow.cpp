@@ -532,8 +532,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     //如果按住CTRL
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCtlKeyStatus()) {
         if (event->delta() > 0) {
+            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             m_centralWidget->getGraphicsView()->zoomOut();
         } else {
+            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             m_centralWidget->getGraphicsView()->zoomIn();
         }
     }
