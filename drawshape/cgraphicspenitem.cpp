@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QDebug>
+#include <QApplication>
 
 const int SmoothMaxCount = 10;
 
@@ -572,7 +573,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
         painter->drawPixmap(0, 0, m_tmpPix);
     } else {
-        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::Antialiasing, !(qApp->mouseButtons()& Qt::LeftButton));
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
         painter->setPen(pen);
         painter->drawPath(m_path);
