@@ -41,7 +41,6 @@
 //DWIDGET_USE_NAMESPACE
 
 static QString g_appPath;//全局路径
-//static MainWindow *w;
 
 
 //获取配置文件主题类型，并重新设置
@@ -89,6 +88,20 @@ void saveThemeTypeSetting(int type)
 }
 
 
+QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
+{
+    QStringList files;
+    QStringList pas = parser.positionalArguments();
+    for (int  i = 0; i < pas.count(); i++) {
+        if (QUrl(pas.at(i)).isLocalFile()) {
+            files.append(QUrl(pas.at(i)).toLocalFile());
+        } else {
+            files.append(pas.at(i));
+        }
+    }
+    return files;
+}
+
 int main(int argc, char *argv[])
 {
 #if defined(STATIC_LIB)
@@ -96,7 +109,6 @@ int main(int argc, char *argv[])
 #endif
 
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     Application::loadDXcbPlugin();
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
@@ -111,109 +123,7 @@ int main(int argc, char *argv[])
     cmdParser.addOption(activeWindowOption);
     cmdParser.process(a);
 
-    QStringList paths;
-    QStringList pas = cmdParser.positionalArguments();
-    for (int  i = 0; i < pas.count(); i++) {
-        if (QUrl(pas.at(i)).isLocalFile()) {
-            paths.append(QUrl(pas.at(i)).toLocalFile());
-        } else {
-            paths.append(pas.at(i));
-        }
-    }
+    QStringList paths = getFilesFromQCommandLineParser(cmdParser);
 
-
-    if (a.isRunning()) { //判断实例是否已经运行
-        qDebug() << "deepin-draw is already running";
-        for (int i = 0; i < paths.count(); i++) {
-            a.sendMessage(paths.at(i), 2000); //1s后激活前个实例
-        }
-        return EXIT_SUCCESS;
-    }
-
-    static const QDate buildDate = QLocale( QLocale::English )
-                                   .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
-    QString t_date = buildDate.toString("MMdd");
-    // Version Time
-    a.setApplicationVersion(DApplication::buildVersion(t_date));
-
-    //主题设置
-    g_appPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
-    QDir t_appDir;
-    t_appDir.mkpath(g_appPath);
-
-
-
-    a.setOrganizationName("deepin");
-    a.setApplicationName("deepin-draw");
-    a.setQuitOnLastWindowClosed(true);
-
-    // 应用已保存的主题设置
-    DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
-    DApplicationSettings saveTheme;
-    CManageViewSigleton::GetInstance()->setThemeType(DGuiApplicationHelper::instance()->themeType());
-
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
-    MainWindow w(paths);
-
-    a.setActivationWindow(&w);
-
-    QObject::connect(&a, &Application::messageReceived, &a, [ = ](const QString & message) {
-        qDebug() << "messageReceived   message = " << message;
-        if (message != "") {
-            Application *pApp = dynamic_cast<Application *>(qApp);
-            if (pApp != nullptr) {
-                MainWindow *pWin = dynamic_cast<MainWindow *>(pApp->activationWindow());
-
-                if (pWin != nullptr) {
-
-                    QFileInfo info(message);
-
-                    if (info.isFile()) {
-                        qDebug() << "messageReceived load file = " << message;
-                        pWin->slotLoadDragOrPasteFile(QStringList() << message);
-                    }
-                }
-            }
-//            QWidget *w = static_cast<Application *>(qApp)->activationWindow();
-//            static_cast<MainWindow *>(w)->openImage(QFileInfo(message).absoluteFilePath());
-        }
-    }, Qt::QueuedConnection);
-
-    //监听当前应用主题切换事件
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, &w, &MainWindow::slotOnThemeChanged);
-
-    // 其他程序调用事件服务注册
-    QDBusConnection dbus = QDBusConnection::sessionBus();
-    dbus.registerService("com.deepin.Draw");
-    dbus.registerObject("/com/deepin/Draw", &w);
-    new dbusdraw_adaptor(&w);
-
-    if (cmdParser.isSet(openImageOption)) {
-        w.activeWindow();
-        w.openImage(cmdParser.value(openImageOption), true);
-    } else if (cmdParser.isSet(activeWindowOption)) {
-        w.activeWindow();
-    } else {
-        QStringList pas = cmdParser.positionalArguments();
-        if (pas.length() >= 1) {
-            QString path;
-            if (QUrl(pas.first()).isLocalFile())
-                path =  QUrl(pas.first()).toLocalFile();
-            else
-                path = pas.first();
-            w.activeWindow();
-            w.openImage(QFileInfo(path).absoluteFilePath(), true);
-        } else {
-            w.show();
-
-        }
-    }
-
-    w.initScene();
-    w.readSettings();
-
-    return a.exec();
+    return a.execDraw(paths, g_appPath);
 }

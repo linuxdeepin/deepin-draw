@@ -171,7 +171,7 @@ signals:
      */
     void itemAdded(QGraphicsItem *item);
 
-    /**
+    /**signalItemAdded
      * @brief itemRotate 旋转图元
      * @param item
      * @param oldAngle
