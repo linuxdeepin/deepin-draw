@@ -245,7 +245,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(newview, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));
 
     connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
-    connect(newview, SIGNAL(singalTransmitEndLoadDDF()), m_leftToolbar, SLOT(slotShortCutSelect()));
+    connect(newview, SIGNAL(singalTransmitEndLoadDDF()), this, SLOT(slotTransmitEndLoadDDF()));
 
     //主菜单栏中点击打开导入图片
     connect(newview, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
@@ -391,6 +391,19 @@ void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabNam
         }
     }
 
+}
+
+#include <QTimer>
+
+void CCentralwidget::slotTransmitEndLoadDDF()
+{
+    // [0] 设置左侧工具栏状态
+    m_leftToolbar->slotShortCutSelect();
+
+    // [1] 拖拽ddf文件需要删除已有的撤销重做栈
+    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
+    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
 
 void CCentralwidget::updateTitle()

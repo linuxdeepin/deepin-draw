@@ -331,9 +331,14 @@ private slots:
     void updateTabName(const QString &uuid, const QString &newTabName);
 
     /**
+    * @bref: slotTransmitEndLoadDDF ddf图元被加载完成后触发信号
+    */
+    void slotTransmitEndLoadDDF();
+
+public:
+    /**
      * @brief updateTitle　刷新相关的标题
      */
-public:
     Q_SLOT void updateTitle();
 
 private:

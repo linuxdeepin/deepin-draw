@@ -1300,6 +1300,11 @@ void CGraphicsView::pushUndoStack(QUndoCommand *cmd)
     m_pUndoStack->endMacro();
 }
 
+void CGraphicsView::cleanUndoStack()
+{
+    m_pUndoStack->clear();
+}
+
 bool CGraphicsView::getModify() const
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
