@@ -180,3 +180,10 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
     return unit;
 }
 
+QPainterPath CPictureItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
+}
+
