@@ -358,6 +358,12 @@ public slots:
      */
     void itemSceneCut(QRectF newRect);
 
+    /*
+    * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
+    * @param: Qt::AlignmentFlag align 对齐方式
+    */
+    void updateSelectedItemsAlignment(Qt::AlignmentFlag align);
+
 public slots:
 
     /**
@@ -495,10 +501,15 @@ private:
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
     QAction *m_sendTobackAct;       //置于最底层
-//    QAction *m_leftAlignAct;
-//    QAction *m_topAlignAct;
-//    QAction *m_rightAlignAct;
-//    QAction *m_centerAlignAct;
+
+    QAction *m_itemsLeftAlign;      //左对齐
+    QAction *m_itemsHCenterAlign;   //水平居中对齐
+    QAction *m_itemsRightAlign;     //右对齐
+    QAction *m_itemsTopAlign;       //顶对齐
+    QAction *m_itemsVCenterAlign;   //垂直居中对齐
+    QAction *m_itemsBottomAlign;    //底对齐
+    QAction *m_itemsVEqulSpaceAlign;//水平等间距对齐
+    QAction *m_itemsHEqulSpaceAlign;//垂直等间距对齐
 
     QAction *m_viewZoomInAction;  // 缩小快捷键
     QAction *m_viewZoomOutAction; // 放大快捷键 ctrl + +
@@ -567,6 +578,12 @@ private:
      * @return
      */
     bool canLayerDown();
+
+    /**
+    * @bref: getValidSelectedItems 获取当前选中的有效图元
+    * @return: QList<CGraphicsItem *> 有效图元集合
+    */
+    QList<CGraphicsItem *> getSelectedValidItems();
 };
 
 #endif // CGRAPHICSVIEW_H
