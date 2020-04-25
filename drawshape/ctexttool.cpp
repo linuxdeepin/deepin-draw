@@ -66,10 +66,12 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         item->getTextEdit()->selectAll();
 
         QFontMetrics fm(font);
-        QRect rect = fm.boundingRect(item->getTextEdit()->document()->toPlainText());
+        QSizeF size = item->getTextEdit()->document()->size();
+        QRectF rect = item->rect();
+        rect.setHeight(size.height());
+        rect.setWidth(size.width());
 
-
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width(), rect.height()));
         item->setTextFontStyle(font.styleName());
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
             item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
