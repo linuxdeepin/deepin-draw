@@ -95,21 +95,10 @@ void CGraphicsTextItem::initTextEditWidget()
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 
-    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-    m_Font = font;
-    QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
-
-    //更新初始化的字体和颜色
-    QTextCharFormat fmt;
-    fmt.setFont(font);
-    fmt.setForeground(color);
-    this->mergeFormatOnWordOrSelection(fmt);
-    this->currentCharFormatChanged(fmt);
 
     m_pTextEdit->show();
     m_pTextEdit->document()->clearUndoRedoStacks();
@@ -224,9 +213,13 @@ QFont CGraphicsTextItem::getFont()
     return m_Font;
 }
 
-QString CGraphicsTextItem::getTextFontStyle() const
+QString CGraphicsTextItem::getTextFontStyle()
 {
-    return m_Font.styleName();
+    if (getAllFontStyleIsEqual()) {
+        return m_Font.styleName();
+    } else {
+        return "";
+    }
 }
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
@@ -255,7 +248,11 @@ void CGraphicsTextItem::setFontSize(qreal size)
 
 qreal CGraphicsTextItem::getFontSize()
 {
-    return m_Font.pointSizeF();
+    if (getAllFontSizeIsEqual()) {
+        return m_Font.pointSizeF();
+    } else {
+        return -1;
+    }
 }
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
@@ -271,6 +268,15 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     }
 }
 
+QString CGraphicsTextItem::getFontFamily()
+{
+    if (getAllFontFamilyIsEqual()) {
+        return m_Font.family();
+    } else {
+        return "";
+    }
+}
+
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
     CGraphicsRectItem::resizeTo(dir, point, false, false);
@@ -281,10 +287,15 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsRectItem::duplicate(item);
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
+        this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
+    static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
+    static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
+    static_cast<CGraphicsTextItem *>(item)->setFontSize(this->getFontSize());
+    static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
+    CGraphicsRectItem::duplicate(item);
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
@@ -303,14 +314,18 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
 
 QColor CGraphicsTextItem::getTextColor()
 {
-    return m_color;
+    if (getAllTextColorIsEqual()) {
+        return m_color;
+    } else {
+        return QColor();
+    }
 }
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = m_pTextEdit->textCursor();
     cursor.mergeCharFormat(format);
-    m_pTextEdit->mergeCurrentCharFormat(format);
+//    m_pTextEdit->mergeCurrentCharFormat(format);
     m_pTextEdit->setFocus();
 }
 
@@ -567,15 +582,16 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
 
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
+    Q_UNUSED(format)
+    // 此处不再需要向缓存中写入数据了
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
 
-    //提示更改 TODO
-    if (this->scene() != nullptr) {
-        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
-    }
-
+//    //提示更改 TODO
+//    if (this->scene() != nullptr) {
+//        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
+//    }
 }
 
 bool CGraphicsTextItem::getManResizeFlag() const

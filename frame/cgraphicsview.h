@@ -111,6 +111,11 @@ public:
      */
     void pushUndoStack(QUndoCommand *cmd);
 
+    /**
+     * @brief cleanUndoStack　清空撤销重做栈
+     */
+    void cleanUndoStack();
+
     bool getModify() const;
     void setModify(bool isModify);
 

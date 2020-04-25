@@ -86,9 +86,6 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 delete m_pPenItem;
             } else {
                 m_pPenItem->drawComplete();
-//                m_pPenItem->updatePenPath(m_sPointRelease, CDrawParamSigleton::GetInstance()->getShiftKeyStatus());
-//                m_pPenItem->changeToPixMap();
-
                 emit scene->itemAdded(m_pPenItem);
                 m_pPenItem->setSelected(true);
                 m_pPenItem->setDrawFlag(false);

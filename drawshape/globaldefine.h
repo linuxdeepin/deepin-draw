@@ -46,10 +46,15 @@ enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
     SideNumber,          // 侧边数
     LineAndPenStartType,  // 起点类型
     LineAndPenEndType,    // 终点类型
-    TextColor,           // 文本言责
+    TextColor,           // 文本颜色
     TextFont,            // 文本字体
     TextHeavy,          // 文本自重
     TextSize,            // 文本大小
+    FillColorAlpha,      //填充颜色透明度
+    LineColorAlpha,      //描边颜色透明度
+    TextColorAlpha,      //文本颜色透明度
+    Blurtype,            //模糊类型
+    BlurWith             //模糊粗细
 };
 
 enum ESelectMode {

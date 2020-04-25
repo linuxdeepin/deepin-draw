@@ -73,6 +73,10 @@ CSelectTool::CSelectTool ()
     , m_initRotateItemPos(0, 0)
     , m_RotateItem(nullptr)
     , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
+    , m_doCopy(false)
+    , m_isMulItemMoving(false)
+    , m_doResize(false)
+    , m_isItemMoving(false)
 {
     m_frameSelectItem = new QGraphicsRectItem();
     m_frameSelectItem->setVisible(false);
@@ -175,9 +179,10 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 copyItems.append(copy);
                 scene->addItem(static_cast<CGraphicsItem *>(copy));
                 m_doCopy = true;
+                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             }
 
-            if (count) {
+            if (count > 1) {
                 scene->getItemsMgr()->clear();
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
@@ -185,7 +190,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 if (scene->getItemsMgr()->getItems().size() > 1) {
                     CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
                 }
-            } else if (copyItems.size() > 0) {
+            } else if (copyItems.size() == 1) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
                 m_currentSelectItem->setSelected(true);
@@ -328,22 +333,18 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 {
     //移动的时候选中多选以外的，加入多选
     if (scene->getItemsMgr()->getItems().size() > 1) {
-        if (m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
+        if (!m_doCopy && m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
             scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
         }
     }
     //碰撞检测
     QList<QGraphicsItem *> items = scene->selectedItems();
-    int multSelectItemsCount = scene->getItemsMgr()->getItems().size();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
         if (item != m_currentSelectItem) {
             m_currentSelectItem = item;
             m_currentSelectItem->setSelected(true);
             m_rotateAng = m_currentSelectItem->rotation();
-            if (multSelectItemsCount <= 1) {
-                scene->changeAttribute(true, item);
-            }
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
@@ -595,6 +596,13 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     if (scene->getItemsMgr()->getItems().size() > 1) {
         scene->clearSelection();
         scene->getItemsMgr()->setSelected(true);
+    }
+
+    QList<QGraphicsItem *> Items = scene->items();
+    foreach (QGraphicsItem *item, Items) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+        }
     }
     m_sLastPress = event->scenePos();
 }

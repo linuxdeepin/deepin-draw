@@ -38,6 +38,7 @@
 #include "drawshape/cpictureitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "frame/cundocommands.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -102,7 +103,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
 CDrawScene::~CDrawScene()
 {
-
+    delete m_drawParam;
+    m_drawParam = nullptr;
 }
 
 void CDrawScene::initScene()
@@ -112,9 +114,9 @@ void CDrawScene::initScene()
     m_pGroupItem->setZValue(10000);
     //m_pGroupItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
-        CManageViewSigleton::GetInstance()->CheckIsModify();
-    });
+//    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
+//        CManageViewSigleton::GetInstance()->updateBlockSystem();
+//    });
 
 
     m_pHighLightItem = new CGraphicsItemHighLight();
@@ -359,7 +361,7 @@ void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
                 getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
                 break;
             case TextType:
-//                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
+                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
                 getDrawParam()->setTextFont(static_cast<CGraphicsTextItem *>(tmpItem)->getFont().family());
                 getDrawParam()->setTextFontStyle(static_cast<CGraphicsTextItem *>(tmpItem)->getTextFontStyle());
                 getDrawParam()->setTextSize(static_cast<CGraphicsTextItem *>(tmpItem)->getFontSize());
@@ -510,10 +512,17 @@ void CDrawScene::doCutScene()
     }
 }
 
+void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
+{
+    QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
+    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
+}
 
 void CDrawScene::picOperation(int enumstyle)
 {
-
+    if (this != static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())) {
+        return;
+    }
     //qDebug() << "entered the  picOperation function" << endl;
     QList<QGraphicsItem *> items = this->selectedItems();
     if ( items.count() != 0 ) {

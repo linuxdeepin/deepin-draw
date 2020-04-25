@@ -38,7 +38,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(true)
 {
-    setFixedSize(57, 36);
+    setFixedSize(60, 36);
     setCheckable(false);
 
     //深色主题下
@@ -48,11 +48,12 @@ TextColorButton::TextColorButton(DWidget *parent)
 //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
 //    }
 
-    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
 }
 
 void TextColorButton::updateConfigColor()
 {
+    m_isMultColorSame = true;
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
     if (m_color == configColor) {
         return;
@@ -68,100 +69,8 @@ TextColorButton::~TextColorButton()
 void TextColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    if (m_isMultColorSame) {
-        painter.setRenderHints(QPainter::Antialiasing
-                               | QPainter::SmoothPixmapTransform);
-        painter.save();
-        painter.setPen(Qt::transparent);
-        QPainterPath clipPath;
-        clipPath.addRoundedRect(QRect(4, 8, 20, 20),  8, 8);
-        painter.setClipPath(clipPath);
-        QPen colorPen;
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            colorPen.setColor(QColor(0, 0, 0, 25));
-        } else {
-            colorPen.setColor(QColor(255, 255, 255, 25));
-        }
-        if (m_color.alpha() == 0) {
-            if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-                colorPen.setColor(QColor(0, 0, 0, 25));
-            } else {
-                colorPen.setColor(QColor(77, 82, 93, 204));
-            }
-        }
-        painter.setPen(colorPen);
-        QColor drawColor = m_color;
-        painter.setBrush(drawColor);
-        painter.drawRoundedRect(QRect(4, 8, 20, 20),  8, 8);
 
-        QPen borderPen;
-        borderPen.setWidth(1);
-        if (m_color == QColor(Qt::transparent) || m_color.alpha() == 0) {
-            QPen linePen;
-            linePen.setWidth(2);
-            linePen.setColor(QColor(255, 67, 67, 153));
-            painter.setPen(linePen);
-            painter.drawLine(7, 24, 21, 11);
-        }
-        painter.restore();
-        QPen textPen;
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            textPen.setColor(QColor("#414D68"));
-        } else {
-            textPen.setColor(QColor("#C0C6D4"));
-        }
-        painter.setPen(textPen);
-        QFont ft;
-        ft.setPixelSize(14);
-        painter.setFont(ft);
-
-        painter.drawText(30, 6, 38, 22, 0, tr("Color"));
-    } else {
-        painter.setRenderHints(QPainter::Antialiasing
-                               | QPainter::SmoothPixmapTransform);
-        painter.save();
-        painter.setPen(Qt::transparent);
-        QPainterPath clipPath;
-        clipPath.addRoundedRect(QRect(4, 8, 20, 20),  8, 8);
-        painter.setClipPath(clipPath);
-        QPen borderPen;
-        borderPen.setWidth(1);
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            borderPen.setColor(QColor(0, 0, 0, 25));
-        } else {
-            borderPen.setColor(QColor(255, 255, 25, 25));
-        }
-        painter.setPen(borderPen);
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            painter.setBrush(QColor(0, 0, 0, 12));
-        } else {
-            painter.setBrush(QColor(255, 255, 255, 12));
-        }
-        painter.drawRoundedRect(QRect(4, 8, 19, 19),  8, 8);
-
-        QPen textPen;
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            textPen.setColor(QColor(0, 0, 0, 25));
-        } else {
-            textPen.setColor(QColor(255, 255, 255, 25));
-        }
-        painter.setPen(textPen);
-        QFont ft;
-        ft.setPixelSize(14);
-        painter.setFont(ft);
-        painter.drawText(8, 3, 32, 16, 0, tr("..."));
-        painter.restore();
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            textPen.setColor(QColor("#414D68"));
-        } else {
-            textPen.setColor(QColor("#C0C6D4"));
-        }
-
-        painter.setPen(textPen);
-        ft.setPixelSize(14);
-        painter.setFont(ft);
-        painter.drawText(26, 6, 38, 22, 0, tr("Color"));
-    }
+    paintLookStyle(&painter, m_isMultColorSame);
 }
 
 void TextColorButton::setColor(QColor color)
@@ -199,6 +108,71 @@ void TextColorButton::mousePressEvent(QMouseEvent * )
     update();
 
     emit btnCheckStateChanged(m_isChecked);
+}
+
+void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
+{
+    painter->save();
+    painter->setRenderHints(QPainter::Antialiasing);
+
+    const QSizeF btSz = QSizeF(20, 20);
+
+    QPointF topLeft = QPointF(2, 9);
+
+    QPen pen(painter->pen());
+
+    bool   darkTheme = (CManageViewSigleton::GetInstance()->getThemeType() == 2);
+    QColor penColor  = darkTheme ? QColor(77, 82, 93, int(1.0 * 255)) : QColor(0, 0, 0, int(0.1 * 255));
+
+    pen.setColor(penColor);
+
+    pen.setWidthF(1.5);    //多加0.5宽度弥补防走样的误差
+
+    painter->setPen(pen);
+
+    painter->translate(topLeft);
+
+    QPainterPath path;
+
+    QRectF outerct(QPointF(0, 0), btSz);
+    QRectF inerrct(QPointF(3, 3), btSz - QSizeF(2 * 3, 2 * 3));
+
+    path.addRoundedRect(outerct, 8, 8);
+
+    //填充色的设置(多选颜色冲突时(图元填充色不一致那么不设置填充色在后续绘制一条斜线))
+    painter->setBrush(!isMult ? (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : m_color);
+
+    painter->drawPath(path);
+
+    //如果多选颜色有冲突(isMult为true时)那么就绘制"..."
+    if (!isMult) {
+        painter->save();
+        painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+        QFont ft;
+        ft.setPixelSize(14);
+        painter->setFont(ft);
+        painter->drawText(outerct.translated(0, -painter->fontMetrics().height() / 4), tr("..."), QTextOption(Qt::AlignCenter));
+        painter->restore();
+    } else {
+        //颜色没有冲突 如果颜色是透明的要绘制一条斜线表示没有填充色
+        if (m_color.alpha() == 0) {
+            QPen pen(QColor(255, 67, 67, 153));
+            pen.setWidthF(2.0);
+            painter->setPen(pen);
+            painter->drawLine(QLineF(inerrct.bottomLeft(), inerrct.topRight()));
+        }
+    }
+
+    painter->restore();
+
+    //绘制常量文字("颜色")
+    painter->save();
+    painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+    QFont ft;
+    ft.setPixelSize(14);
+    painter->setFont(ft);
+    painter->drawText(30, 7, 28, 22, 0, tr("Color"));
+    painter->restore();
 }
 
 void TextColorButton::resetChecked()

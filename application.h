@@ -20,6 +20,8 @@
 #define APPLICATION_H
 
 #include <DApplication>
+#include <DGuiApplicationHelper>
+
 #include "qtsingleapplication.h"
 
 class Application;
@@ -37,9 +39,19 @@ class Application : public QtSingleApplication
 public:
     Application(int &argc, char **argv);
 
+    int  execDraw(const QStringList &files, QString &glAppPath);
+
+    QStringList getRightFiles(const QStringList &files);
+
 signals:
     void popupConfirmDialog();
 
+public slots:
+    void onMessageRecived(const QString &message);
+    void onThemChanged(DGuiApplicationHelper::ColorType themeType);
+
+    void showMainWindow(const QStringList &paths);
+    void noticeFileRightProblem(const QStringList &problemfile);
 protected:
     void handleQuitAction();
 

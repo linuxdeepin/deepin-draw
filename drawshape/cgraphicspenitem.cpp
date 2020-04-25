@@ -30,6 +30,9 @@
 
 const int SmoothMaxCount = 10;
 
+// 绘制起始终点的最小矩形范围
+const QSizeF minRectSize(10, 10);
+
 static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
 {
     // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
@@ -156,10 +159,13 @@ QRectF CGraphicsPenItem::rect() const
 
 void CGraphicsPenItem::duplicate(CGraphicsItem *item)
 {
+    static_cast<CGraphicsPenItem *>(item)->setPen(this->pen());
     static_cast<CGraphicsPenItem *>(item)->setPenStartType(this->m_penStartType);
     static_cast<CGraphicsPenItem *>(item)->setPenEndType(this->m_penEndType);
     static_cast<CGraphicsPenItem *>(item)->setPath(this->m_path);
-//    static_cast<CGraphicsPenItem *>(item)->setArrow(this->m_arrow);
+    static_cast<CGraphicsPenItem *>(item)->setPenStartpath(this->getPenStartpath());
+    static_cast<CGraphicsPenItem *>(item)->setPenEndpath(this->getPenEndpath());
+
     CGraphicsItem::duplicate(item);
 }
 
@@ -938,8 +944,8 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         if (m_smoothVector.count() > SmoothMaxCount) {
             m_smoothVector.removeFirst();
         }
-        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
-
+        calcVertexes(m_path.elementAt(0), endPoint);
+//        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
     }
 
     updateGeometry();
@@ -960,8 +966,9 @@ QPointF CGraphicsPenItem::GetBezierValue(QPainterPath::Element p0, QPainterPath:
 
 void CGraphicsPenItem::drawStart()
 {
-    if (m_path.elementCount() <= 10 && m_straightLine.isNull()) {
-        return;
+    if (m_straightLine.isNull()) {
+        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
+            return;
     }
 
     // 判断当前是否是以画直线开始绘制
@@ -1047,8 +1054,9 @@ void CGraphicsPenItem::drawStart()
 
 void CGraphicsPenItem::drawEnd()
 {
-    if (m_path.elementCount() <= 10 && m_straightLine.isNull()) {
-        return;
+    if (m_straightLine.isNull()) {
+        if (m_path.boundingRect().width() < minRectSize.width() && m_path.boundingRect().height() < minRectSize.height())
+            return;
     }
 
     // 判断当前是否是以画直线结束绘制
@@ -1222,23 +1230,43 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     endCheckIns(painter);
 
-    if (this->getMutiSelect()) {
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-    }
+//    if (this->getMutiSelect()) {
+//        QPen pen;
+//        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+//        painter->setPen(pen);
+//        painter->setBrush(QBrush(Qt::NoBrush));
+//        painter->drawRect(this->boundingRect());
+    //    }
 }
 
 QPainterPath CGraphicsPenItem::getPath() const
 {
     return m_path;
+}
+
+void CGraphicsPenItem::setPenStartpath(const QPainterPath &path)
+{
+    m_startPath = path;
+}
+
+QPainterPath CGraphicsPenItem::getPenStartpath() const
+{
+    return m_startPath;
+}
+
+void CGraphicsPenItem::setPenEndpath(const QPainterPath &path)
+{
+    m_endPath = path;
+}
+
+QPainterPath CGraphicsPenItem::getPenEndpath() const
+{
+    return m_endPath;
 }
 
 void CGraphicsPenItem::setPath(const QPainterPath &path)
@@ -1340,6 +1368,8 @@ ELineType CGraphicsPenItem::getPenStartType() const
 void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
     m_penStartType = penType;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsPenItem::getPenEndType() const
@@ -1350,4 +1380,6 @@ ELineType CGraphicsPenItem::getPenEndType() const
 void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
     m_penEndType = penType;
+    calcVertexes();
+    updateGeometry();
 }

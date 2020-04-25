@@ -73,37 +73,14 @@ public:
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
 
     /*
-     * @bref: setLineStartType 设置线段起点的样式
-     * @param: startType 起点样式
-    */
-    void setLineStartType(CDrawScene *scence, ELineType startType);
-    /*
-     * @bref: setLineEndType 设置线段终点的样式
-     * @param: endType 终点样式
-    */
-    void setLineEndType(CDrawScene *scence, ELineType endType);
-
-    /*
-     * @bref: setTextFamilyStyle 设置线段起点的样式
-     * @param: style 字体样式
-    */
-    void setTextFamilyStyle(CDrawScene *scence, QString style);
-    /*
-     * @bref: setPenStartType 设置画笔起点的样式
-     * @param: startType 起点样式
-    */
-
-    void setPenStartType(CDrawScene *scence, ELineType startType);
-    /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
-    */
-    void setPenEndType(CDrawScene *scence, ELineType endType);
-    /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
+     * @bref: updateSingleItemProperty 更新单个图元属性
+     * @param:
     */
     void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
+    /*
+     * @bref: doSceneAdjustment 画布根据图片自适应
+    */
+    void doSceneAdjustment();
 
 signals:
     /*
@@ -124,12 +101,26 @@ signals:
      * @param: propertys 属性类型值
     */
     void signalPenItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
+    /*
+     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
+     * @param: propertys 属性类型值
+    */
+    void signalIsAllPictureItem(bool isEnable);
+private:
+    /*
+     * @bref: allPictureItem 判断是否全部是图片图元
+     * @param: scence
+     * @param: items 选中图元
+    */
+    bool allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items);
 
 private:
     CManagerAttributeService();
     static CManagerAttributeService *instance;
 
     CDrawScene *m_currentScence;
+
+    void updateCurrentScence();
 };
 
 #endif // CMANAGERATTRIBUTESERVICE_H

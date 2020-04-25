@@ -28,6 +28,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "cviewmanagement.h"
 
+const QSize TabBarMiniSize = QSize(220, 36);
+
 CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     : DTabBar(parent)
     , m_tabbarWidth(1360)
@@ -41,6 +43,7 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     this->setFocusPolicy(Qt::NoFocus);
     this->setExpanding(true);
 //    this->setUsesScrollButtons(true);
+    this->setEnabledEmbedStyle(true);
 
     m_rightClickTab = -1;
     installEventFilter(this);
@@ -92,6 +95,7 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool 
         emit signalNewAddItem(name, uuid);
 
     this->setCurrentIndex(index);
+    this->setTabMinimumSize(index, TabBarMiniSize);
 }
 
 void CMultipTabBarWidget::initConnection()
@@ -184,7 +188,7 @@ void CMultipTabBarWidget::setTabBarTooltipName(QString uuid, QString tooltip)
 
 void CMultipTabBarWidget::setTabBarTooltipName(quint16 index, QString tooltip)
 {
-    //this->setTabToolTip(index, tooltip);
+    this->setTabToolTip(index, tooltip);
 }
 
 void CMultipTabBarWidget::setCurrentTabBarWithName(QString tabName)

@@ -102,6 +102,11 @@ public:
      */
     void quitCutMode();
     void doCutScene();
+    /**
+     * @brief doAdjustmentScene 自适应
+     * @param rect scene大小
+     */
+    void doAdjustmentScene(QRectF rect, CGraphicsItem *item = nullptr);
 
     void setItemDisable(bool canSelecte);
 
@@ -171,7 +176,7 @@ signals:
      */
     void itemAdded(QGraphicsItem *item);
 
-    /**
+    /**signalItemAdded
      * @brief itemRotate 旋转图元
      * @param item
      * @param oldAngle

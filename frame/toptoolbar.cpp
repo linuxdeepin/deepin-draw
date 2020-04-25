@@ -545,9 +545,19 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
         m_drawTextWidget->updateMultCommonShapWidget(propertys);
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
+    case::BlurType://模糊
+        m_drawBlurWidget->updateMultCommonShapWidget(propertys);
+        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
     default:
         break;
     }
+}
+
+void TopToolbar::slotIsAllPictureItem(bool isEnable)
+{
+    m_stackWidget->setCurrentWidget(m_picWidget);
+    m_picWidget->setAdjustmentIsEnable(isEnable);
+    m_stackWidget->currentWidget()->setVisible(true);
 }
 
 void TopToolbar::slotScenceViewChanged(QString viewname)
@@ -591,8 +601,7 @@ void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-    //connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
+//    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::slotUpdateCurrentAttributeBar);
 
 
@@ -640,5 +649,7 @@ void TopToolbar::initConnection()
     //CManagerAttributeService
     connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>)),
             this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>)));
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool)),
+            this, SLOT(slotIsAllPictureItem(bool)));
 }
 

@@ -56,17 +56,14 @@ const int TITLBAR_MENU = 150;
 MainWindow::MainWindow(DWidget *parent)
     : DMainWindow(parent)
 {
-//    setMouseTracking(true);
-
     m_centralWidget = new CCentralwidget(this);
-
     initUI();
     initConnection();
 }
 
 MainWindow::MainWindow(QStringList filePaths)
 {
-    m_centralWidget = new CCentralwidget(filePaths);
+    m_centralWidget = new CCentralwidget(filePaths, this);
 
     initUI();
     initConnection();
@@ -128,13 +125,36 @@ void MainWindow::initUI()
 
 void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
 {
+    Application *pApp = dynamic_cast<Application *>(qApp);
+    if (pApp != nullptr) {
+        //过滤没有权限的文件
+        //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
+        QStringList paths  = pApp->getRightFiles(files);
+        QStringList problemFiles = (files.toSet() - paths.toSet()).toList();
+        if (!problemFiles.isEmpty()) {
+            //提示有文件的有权限问题noticeFileRightProblem
+            QMetaObject::invokeMethod(pApp, "noticeFileRightProblem", Qt::QueuedConnection,
+                                      Q_ARG(const QStringList &, problemFiles));
+
+        }
+        if (paths.isEmpty()) {
+            return;
+        }
+        files = paths;
+    }
+
     QString ddfPath = "";
     QStringList picturePathList;
     for (int i = 0; i < files.size(); i++) {
-        //if (tempfilePathList[i].endsWith(".ddf")) {
-        if (QFileInfo(files[i]).suffix().toLower() == ("ddf")) {
+        QFileInfo info(files[i]);
+        if (info.suffix().toLower() == ("ddf")) {
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
+
+                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
+                if (isOpened)
+                    continue;
+
                 // 创建一个新的窗口用于显示拖拽的图像
                 m_centralWidget->createNewScenseByscencePath(ddfPath);
 
@@ -154,8 +174,10 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
         }
     }
 
-    if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        m_centralWidget->getGraphicsView()->slotQuitCutMode();
+    if (!CManageViewSigleton::GetInstance()->isEmpty()) {
+        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+            m_centralWidget->getGraphicsView()->slotQuitCutMode();
+        }
     }
 
     if (picturePathList.count() > 0) {
@@ -529,8 +551,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     //如果按住CTRL
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCtlKeyStatus()) {
         if (event->delta() > 0) {
+            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             m_centralWidget->getGraphicsView()->zoomOut();
         } else {
+            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
             m_centralWidget->getGraphicsView()->zoomIn();
         }
     }
@@ -564,11 +588,13 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
 
 void MainWindow::initScene()
 {
-    QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
-    QRectF rect(0, 0, 0, 0);
-    rect.setSize(size);
-    m_centralWidget->getDrawScene()->setSceneRect(rect);
-    emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
+        QRectF rect(0, 0, 0, 0);
+        rect.setSize(size);
+        m_centralWidget->getDrawScene()->setSceneRect(rect);
+        emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
+    }
 }
 
 void MainWindow::readSettings()

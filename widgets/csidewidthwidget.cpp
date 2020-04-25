@@ -44,7 +44,9 @@ void CSideWidthWidget::updateSideWidth()
 {
     int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
     QString current_px = QString::number(lineWidth) + "px";
+    m_menuComboBox->blockSignals(true);
     m_menuComboBox->setCurrentText(current_px);
+    m_menuComboBox->blockSignals(false);
     m_maskLable->setVisible(false);
 }
 
@@ -91,8 +93,10 @@ void CSideWidthWidget::initConnection()
             int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
 
             if (flag) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
-                emit signalSideWidthChange();
+                if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
+                    emit signalSideWidthChange();
+                }
             }
         }
     });

@@ -60,6 +60,7 @@
 #include <QDesktopWidget>
 #include <QClipboard>
 #include <QMessageBox>
+#include <qscrollbar.h>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -90,6 +91,8 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     initTextContextMenuConnection();
 
     initConnection();
+
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 }
 
 void CGraphicsView::zoomOut()
@@ -128,11 +131,23 @@ void CGraphicsView::zoomIn()
 
 void CGraphicsView::scale(qreal scale)
 {
+//    //当前鼠标在viewport上的位置
+//    QPoint  preCenterViewPos = viewport()->mapFromGlobal(QCursor::pos()); //以这个view点为中心进行缩放
+//    QPointF preCenterScenPos = mapToScene(preCenterViewPos);
+
     qreal multiple = scale / m_scale;
     DGraphicsView::scale(multiple, multiple);
     m_scale = scale;
     getDrawParam()->setScale(m_scale);
     emit signalSetScale(m_scale);
+
+//    //保证view的中心点色
+//    QMetaObject::invokeMethod(this, [ = ]() {
+//        QPointF nowScenePos = mapToScene(preCenterViewPos);
+//        QPointF disPointF   = nowScenePos - preCenterScenPos;
+//        this->scene()->setSceneRect(this->scene()->sceneRect().x() - disPointF.x(), this->scene()->sceneRect().y() - disPointF.y(),
+//                                    this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
+//    }, Qt::DirectConnection);
 }
 
 qreal CGraphicsView::getScale()
@@ -812,9 +827,8 @@ void CGraphicsView::slotOnPaste()
                 if ( copy ) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
-                    if (itemMgr->getItems().size() > 1) {
-                        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
-                    }
+                    // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
+                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -1064,11 +1078,13 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
 
 void CGraphicsView::slotViewZoomIn()
 {
+    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     zoomIn();
 }
 
 void CGraphicsView::slotViewZoomOut()
 {
+    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     zoomOut();
 }
 
@@ -1286,6 +1302,11 @@ void CGraphicsView::pushUndoStack(QUndoCommand *cmd)
     m_pUndoStack->beginMacro("");
     m_pUndoStack->push(cmd);
     m_pUndoStack->endMacro();
+}
+
+void CGraphicsView::cleanUndoStack()
+{
+    m_pUndoStack->clear();
 }
 
 bool CGraphicsView::getModify() const

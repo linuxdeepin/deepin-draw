@@ -70,17 +70,20 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case LineColor:
+        case LineColor: {
             m_strokeBtn->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
+            m_strokeBtn->blockSignals(true);
+            QColor color = propertys[property].value<QColor>();
+            if (!color.isValid()) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
-                m_strokeBtn->setColor(propertys[property].value<QColor>());
+                m_strokeBtn->setColor(color);
             }
             m_strokeBtn->update();
+            m_strokeBtn->blockSignals(false);
             break;
+        }
         case LineWidth:
-//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
@@ -211,10 +214,6 @@ void LineWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    // 线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalLineAttributeChanged();
-    });
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -248,8 +247,6 @@ void LineWidget::initConnection()
         }
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
-        CManagerAttributeService::getInstance()->setLineStartType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -282,8 +279,6 @@ void LineWidget::initConnection()
         }
 
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
-        CManagerAttributeService::getInstance()->setLineEndType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -297,32 +292,12 @@ void LineWidget::initConnection()
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
-    m_sideWidthWidget->updateSideWidth();
-
-    m_lineStartComboBox->blockSignals(true);
-    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
-    m_lineStartComboBox->blockSignals(false);
-    m_lineEndComboBox->blockSignals(true);
-    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
-    m_lineEndComboBox->blockSignals(false);
-
-    m_maskLableStart->setVisible(false);
-    m_maskLableEnd->setVisible(false);
-
-    m_strokeBtn->setVisible(true);
-    m_sideWidthWidget->setVisible(true);
-    m_sep1Line->setVisible(true);
-    m_startLabel->setVisible(true);
-    m_endLabel->setVisible(true);
-    m_lineStartComboBox->setVisible(true);
-    m_lineEndComboBox->setVisible(true);
-
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void LineWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 

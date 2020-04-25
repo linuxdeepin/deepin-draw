@@ -186,6 +186,11 @@ public slots:
      */
     void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
     /**
+     * @brief signalIsAllPictureItem　选中图元图元是否都为图片
+     * @param isEnable　自适应按钮是否可用
+     */
+    void slotIsAllPictureItem(bool isEnable);
+    /**
      * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
      * @param QString 场景名字
      */

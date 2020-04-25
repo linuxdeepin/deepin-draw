@@ -58,6 +58,11 @@ void CManageViewSigleton::setThemeType(const int type)
     m_thremeType = type;
 }
 
+bool CManageViewSigleton::isEmpty()
+{
+    return m_allViews.isEmpty();
+}
+
 CGraphicsView *CManageViewSigleton::getCurView()
 {
     CGraphicsView *curView = nullptr;
@@ -114,7 +119,7 @@ void CManageViewSigleton::removeView(CGraphicsView *view)
     }
 }
 
-void CManageViewSigleton::CheckIsModify()
+void CManageViewSigleton::updateBlockSystem()
 {
     initBlockShutdown();
     bool shutdownFlag = false;

@@ -46,6 +46,7 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void mousePressEvent(QMouseEvent * );
+    void paintLookStyle(QPainter *painter, bool isMult = false);
 
 private:
     QString m_text;

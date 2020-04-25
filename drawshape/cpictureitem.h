@@ -42,6 +42,7 @@ public:
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    virtual QPainterPath  getHighLightPath() Q_DECL_OVERRIDE;
 
     void setPixmap(const QPixmap &pixmap);
 
@@ -52,6 +53,7 @@ public:
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+
 
 private:
     QPixmap m_pixmap;

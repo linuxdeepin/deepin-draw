@@ -305,6 +305,9 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
 void CGraphicsLineItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsLineItem *>(item)->setLine(this->m_line);
+    static_cast<CGraphicsLineItem *>(item)->setPen(this->pen());
+    static_cast<CGraphicsLineItem *>(item)->setLineStartType(this->getLineStartType());
+    static_cast<CGraphicsLineItem *>(item)->setLineEndType(this->getLineEndType());
     CGraphicsItem::duplicate(item);
 }
 
@@ -349,6 +352,8 @@ int CGraphicsLineItem::getQuadrant() const
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
     m_startType = type;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineStartType() const
@@ -359,6 +364,8 @@ ELineType CGraphicsLineItem::getLineStartType() const
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
     m_endType = type;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineEndType() const
@@ -629,4 +636,11 @@ QPainterPath CGraphicsLineItem::getHighLightPath()
     path.addPath(m_startPath);
     path.addPath(m_endPath);
     return path;
+}
+
+void CGraphicsLineItem::setLinePenWidth(int width)
+{
+    this->pen().setWidth(width);
+    calcVertexes();
+    updateGeometry();
 }

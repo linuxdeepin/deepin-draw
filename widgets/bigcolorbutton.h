@@ -47,6 +47,9 @@ protected:
     void leaveEvent(QEvent *);
     void mousePressEvent(QMouseEvent * );
 
+
+    void paintLookStyle(QPainter *painter, bool isMult = false);
+
 private:
     QColor m_color;
     bool m_isHover;
