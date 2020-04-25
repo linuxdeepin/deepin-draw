@@ -1466,12 +1466,16 @@ bool CGraphicsView::canLayerDown()
 void CGraphicsView::dropEvent(QDropEvent *e)
 {
     if (e->mimeData()->hasText()) {
-        QList<QUrl> urls = e->mimeData()->urls();
-        for (auto url : urls) {
-            QString filePath = url.path();
-            if (filePath != "") {
-                emit signalLoadDragOrPasteFile(filePath);
+        CCentralwidget *pWidget = qobject_cast<CCentralwidget *>(parentWidget());
+        if (pWidget != nullptr) {
+            QList<QUrl> urls  = e->mimeData()->urls();
+            QStringList paths;
+            for (auto url : urls) {
+                QString filePath = url.path();
+                if (!filePath.isEmpty())
+                    paths.append(filePath);
             }
+            pWidget->slotLoadDragOrPasteFile(paths);
         }
     }
 }

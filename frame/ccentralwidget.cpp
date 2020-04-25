@@ -19,6 +19,7 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "cgraphicsview.h"
+#include "mainwindow.h"
 
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
@@ -742,7 +743,10 @@ void CCentralwidget::slotLoadDragOrPasteFile(QString path)
 
 void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
 {
-    emit signalTransmitLoadDragOrPasteFile(files);
+    MainWindow *parentMainWind = qobject_cast<MainWindow *>(parentWidget());
+    if (parentMainWind != nullptr) {
+        parentMainWind->slotLoadDragOrPasteFile(files);
+    }
 }
 
 void CCentralwidget::slotShowExportDialog()

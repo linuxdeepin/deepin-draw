@@ -131,6 +131,7 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
         //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
         QStringList paths  = pApp->getRightFiles(files);
         QStringList problemFiles = (files.toSet() - paths.toSet()).toList();
+
         if (!problemFiles.isEmpty()) {
             //提示有文件的有权限问题noticeFileRightProblem
             QMetaObject::invokeMethod(pApp, "noticeFileRightProblem", Qt::QueuedConnection,
@@ -310,8 +311,6 @@ void MainWindow::initConnection()
 //        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 //        connect(curScene, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
 //    }
-
-    connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QStringList)), this, SLOT(slotLoadDragOrPasteFile(QStringList)));
 
     // 有新的场景创建后需要都进行连接的信号
     connect(m_centralWidget, &CCentralwidget::signalAddNewScence, this, [ = ](CDrawScene * sence) {
