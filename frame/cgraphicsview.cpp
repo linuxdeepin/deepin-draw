@@ -1803,6 +1803,7 @@ void CGraphicsView::dropEvent(QDropEvent *e)
                 if (!filePath.isEmpty())
                     paths.append(filePath);
             }
+            this->setFocus();
             pWidget->slotLoadDragOrPasteFile(paths);
         }
     }
