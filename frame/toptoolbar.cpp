@@ -553,6 +553,13 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     }
 }
 
+void TopToolbar::slotIsAllPictureItem(bool isEnable)
+{
+    m_stackWidget->setCurrentWidget(m_picWidget);
+    m_picWidget->setAdjustmentIsEnable(isEnable);
+    m_stackWidget->currentWidget()->setVisible(true);
+}
+
 void TopToolbar::slotScenceViewChanged(QString viewname)
 {
     m_titleWidget->setTittleText(viewname);
@@ -642,5 +649,7 @@ void TopToolbar::initConnection()
     //CManagerAttributeService
     connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>)),
             this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>)));
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool)),
+            this, SLOT(slotIsAllPictureItem(bool)));
 }
 

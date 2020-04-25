@@ -20,6 +20,7 @@
 #include "widgets/cclickbutton.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <QMap>
 #include <QHBoxLayout>
@@ -28,6 +29,7 @@
 #include <DPalette>
 #include <DApplicationHelper>
 #include <DGuiApplicationHelper>
+#include <DPushButton>
 
 DGUI_USE_NAMESPACE
 
@@ -53,6 +55,11 @@ void CPictureWidget::changeButtonTheme()
     m_flipHBtn->setCurrentTheme(themeType);
     m_flipVBtn->setCurrentTheme(themeType);
 
+}
+
+void CPictureWidget::setAdjustmentIsEnable(bool isEnable)
+{
+    m_flipAdjustment->setEnabled(isEnable);
 }
 
 void CPictureWidget::initUI()
@@ -116,6 +123,11 @@ void CPictureWidget::initUI()
     m_flipVBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
     m_flipVBtn->setToolTip(tr("Flip vertically"));
 
+    m_flipAdjustment = new DPushButton(this);
+    m_flipAdjustment->setMaximumSize(QSize(38, 38));
+    m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
+    m_flipAdjustment->setIconSize(QSize(48, 48));
+
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -126,6 +138,7 @@ void CPictureWidget::initUI()
     layout->addWidget(m_rightRotateBtn);
     layout->addWidget(m_flipHBtn);
     layout->addWidget(m_flipVBtn);
+    layout->addWidget(m_flipAdjustment);
     layout->addStretch();
     setLayout(layout);
 }
@@ -146,5 +159,10 @@ void CPictureWidget::initConnection()
 
     connect(m_flipVBtn, &CClickButton::buttonClick, this, [ = ]() {
         emit signalBtnClick(FlipVertical);
+    });
+
+    connect(m_flipAdjustment, &DPushButton::released, this, [ = ]() {
+        CManagerAttributeService::getInstance()->doSceneAdjustment();
+        m_flipAdjustment->setEnabled(false);
     });
 }

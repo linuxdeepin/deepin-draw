@@ -38,6 +38,7 @@
 #include "drawshape/cpictureitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "frame/cundocommands.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -511,10 +512,17 @@ void CDrawScene::doCutScene()
     }
 }
 
+void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
+{
+    QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
+    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
+}
 
 void CDrawScene::picOperation(int enumstyle)
 {
-
+    if (this != static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())) {
+        return;
+    }
     //qDebug() << "entered the  picOperation function" << endl;
     QList<QGraphicsItem *> items = this->selectedItems();
     if ( items.count() != 0 ) {

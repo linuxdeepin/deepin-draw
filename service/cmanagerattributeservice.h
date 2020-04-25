@@ -77,6 +77,10 @@ public:
      * @param:
     */
     void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
+    /*
+     * @bref: doSceneAdjustment 画布根据图片自适应
+    */
+    void doSceneAdjustment();
 
 signals:
     /*
@@ -97,6 +101,18 @@ signals:
      * @param: propertys 属性类型值
     */
     void signalPenItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
+    /*
+     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
+     * @param: propertys 属性类型值
+    */
+    void signalIsAllPictureItem(bool isEnable);
+private:
+    /*
+     * @bref: allPictureItem 判断是否全部是图片图元
+     * @param: scence
+     * @param: items 选中图元
+    */
+    bool allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items);
 
 private:
     CManagerAttributeService();

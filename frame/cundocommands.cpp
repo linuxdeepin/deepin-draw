@@ -1545,12 +1545,13 @@ void CSetBlurAttributeCommand::redo()
     }
 }
 
-CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent)
+CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
     : QUndoCommand (parent)
     , m_newRect(rect)
 {
     myGraphicsScene = scene;
     m_oldRect = scene->sceneRect();
+    m_item = item;
 }
 
 CSceneCutCommand::~CSceneCutCommand()

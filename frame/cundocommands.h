@@ -507,7 +507,7 @@ private:
 class CSceneCutCommand : public QUndoCommand
 {
 public:
-    CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent = nullptr);
+    CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent = nullptr, CGraphicsItem *item = nullptr);
     ~CSceneCutCommand() Q_DECL_OVERRIDE;
 
     void undo() Q_DECL_OVERRIDE;
@@ -517,6 +517,7 @@ private:
     CDrawScene *myGraphicsScene;
     QRectF m_newRect;
     QRectF m_oldRect;
+    CGraphicsItem *m_item;
 };
 
 /**

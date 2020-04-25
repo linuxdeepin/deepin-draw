@@ -64,6 +64,11 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
     Q_UNUSED(scence)
     updateCurrentScence();
 
+    //图片图元不需要展示属性，如果都是图片图元，直接发送信号展示属性栏
+    if (allPictureItem(scence, items)) {
+        return;
+    }
+
     qSort(items.begin(), items.end(), zValueSortASC);
     EGraphicUserType mode = EGraphicUserType::NoType;
     QMap<EDrawProperty, QVariant> propertys;//临时存放
@@ -375,18 +380,18 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             break;
         case BlurType://模糊
-            if(propertys.contains(Blurtype)) {
-                if(propertys[Blurtype] == static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()) {
+            if (propertys.contains(Blurtype)) {
+                if (propertys[Blurtype] == static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()) {
                     allPropertys[Blurtype] = propertys[Blurtype];
-                }else {
+                } else {
                     allPropertys[Blurtype] = tmpVariant;
                 }
             }
-            if(propertys.contains(BlurWith)) {
-                if(propertys[BlurWith] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
+            if (propertys.contains(BlurWith)) {
+                if (propertys[BlurWith] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
                     allPropertys[BlurWith] = propertys[BlurWith];
-                }else {
-                   allPropertys[BlurWith] = tmpVariant;
+                } else {
+                    allPropertys[BlurWith] = tmpVariant;
                 }
             }
             break;
@@ -494,6 +499,12 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
     if (item == nullptr) {
         return;
     }
+    updateCurrentScence();
+    QList<CGraphicsItem *> items;
+    items.push_back(static_cast<CGraphicsItem *>(item));
+    if (allPictureItem(m_currentScence, items)) {
+        return;
+    }
 
     QMap<EDrawProperty, QVariant> propertys;
 
@@ -567,4 +578,77 @@ void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGra
         break;
     }
     }
+}
+
+void CManagerAttributeService::doSceneAdjustment()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+        return;
+
+    updateCurrentScence();
+
+    if (m_currentScence && m_currentScence->getItemsMgr()) {
+        QList<CGraphicsItem *> allItems;
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->boundingRect(), nullptr);
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
+            }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    m_currentScence->doAdjustmentScene(item->boundingRect(), item);
+                    item->setPos(0, 0);
+                }
+            }
+        }
+    }
+}
+
+bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)
+{
+    bool isAllPictureItem = true;
+    if (items.size() >= 1) {
+        for (int i = 0; i < items.size(); i++) {
+            CGraphicsItem *item = items.at(i);
+            EGraphicUserType mode = static_cast<EGraphicUserType>(item->type());
+            if (mode != PictureType) {
+                isAllPictureItem = false;
+                break;
+            }
+        }
+    }
+    if (isAllPictureItem) {
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->boundingRect() == m_currentScence->sceneRect()));
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
+            }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    emit signalIsAllPictureItem(!(item->boundingRect() == m_currentScence->sceneRect()));
+                }
+            }
+        }
+    }
+    return isAllPictureItem;
 }

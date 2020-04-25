@@ -44,6 +44,10 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
+    /**
+     * @brief setAdjustmentIsEnable 设置自适应按钮是否可用
+     */
+    void setAdjustmentIsEnable(bool isEnable);
 
 signals:
     /**
@@ -56,6 +60,7 @@ private:
     CClickButton *m_rightRotateBtn;
     CClickButton *m_flipHBtn;
     CClickButton *m_flipVBtn;
+    DPushButton *m_flipAdjustment;
 
 private:
     /**
