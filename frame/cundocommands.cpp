@@ -332,14 +332,12 @@ void CAddShapeCommand::redo()
         }
     }
 
-    bool add = false;
     qSort(m_items.begin(), m_items.end(), zValueSortASC);
     for (int i = 0; i < m_items.size(); i++) {
         QGraphicsItem *item = m_items.at(i);
         if (!allItems.contains(static_cast<CGraphicsItem *>(item))) {
             item->setZValue(myGraphicsScene->getMaxZValue() + 1);
             myGraphicsScene->addItem(item);
-            add = true;
             myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
             myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
         }
@@ -363,20 +361,17 @@ void CAddShapeCommand::redo()
         m_items.at(0)->setSelected(true);
     } else {
         myGraphicsScene->clearSelection();
-        if (add) {
-            myGraphicsScene->getItemsMgr()->clear();
-            foreach (QGraphicsItem *item, m_items) {
-                myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-            }
-            if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-                myGraphicsScene->clearSelection();
-                myGraphicsScene->getItemsMgr()->setSelected(true);
-                emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
-            }
-            myGraphicsScene->getItemsMgr()->update();
-            myGraphicsScene->update();
-
+        myGraphicsScene->getItemsMgr()->clear();
+        foreach (QGraphicsItem *item, m_items) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
         }
+        if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
+            myGraphicsScene->clearSelection();
+            myGraphicsScene->getItemsMgr()->setSelected(true);
+            emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+        }
+        myGraphicsScene->getItemsMgr()->update();
+        myGraphicsScene->update();
     }
 
     myGraphicsScene->updateItemsMgr();

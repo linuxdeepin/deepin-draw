@@ -70,7 +70,7 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case Blurtype: {;
+        case Blurtype: {
             m_blurBtn->setChecked(!propertys[property].toBool());
             m_masicBtn->setChecked(propertys[property].toBool());
             break;
