@@ -41,6 +41,8 @@ public:
 
     int  execDraw(const QStringList &files, QString &glAppPath);
 
+    QStringList getRightFiles(const QStringList &files);
+
 signals:
     void popupConfirmDialog();
 
@@ -49,6 +51,7 @@ public slots:
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);
 
     void showMainWindow(const QStringList &paths);
+    void noticeFileRightProblem(const QStringList &problemfile);
 protected:
     void handleQuitAction();
 

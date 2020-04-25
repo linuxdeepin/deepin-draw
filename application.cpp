@@ -51,9 +51,13 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
-        for (int i = 0; i < paths.count(); i++) {
-            this->sendMessage(paths.at(i), 2000); //1s后激活前个实例
-        }
+//        for (int i = 0; i < paths.count(); i++) {
+//            this->sendMessage(paths.at(i), 2000); //1s后激活前个实例
+//        }
+
+        QString message = paths.join(' ');
+        this->sendMessage(message, 2000);
+
         return EXIT_SUCCESS;
     }
 
@@ -84,16 +88,45 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     return exec();
 }
 
+QStringList Application::getRightFiles(const QStringList &files)
+{
+    QStringList resultList;
+
+    QStringList strPicSuffixs;
+    strPicSuffixs << "png" << "jpg" << "bmp" << "tif";
+
+    for (int i = 0; i < files.size(); ++i) {
+        const QString path = files.at(i);
+        QFileInfo     info(path);
+
+        if (info.isFile()) {
+            const QString suffix = info.suffix().toLower();
+            if (strPicSuffixs.contains(suffix)) {
+                //只用判断是否可读
+                if (info.isReadable()) {
+                    resultList.append(path);
+                }
+            } else if (suffix == "ddf") {
+                if (info.isReadable() && info.isWritable()) {
+                    resultList.append(path);
+                }
+            }
+        }
+
+    }
+    return resultList;
+}
+
 void Application::onMessageRecived(const QString &message)
 {
     MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
 
     if (pWin != nullptr) {
 
-        QFileInfo info(message);
+        QStringList files = message.split(' ');
 
-        if (info.isFile()) {
-            pWin->slotLoadDragOrPasteFile(QStringList() << message);
+        if (!files.isEmpty()) {
+            pWin->slotLoadDragOrPasteFile(files);
         }
     }
 }
@@ -131,6 +164,25 @@ void Application::showMainWindow(const QStringList &paths)
     w->initScene();
     w->readSettings();
     w->show();
+}
+
+void Application::noticeFileRightProblem(const QStringList &problemfile)
+{
+    MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
+    QWidget *pParent = pWin;
+
+    //证明是被重命名或者删除
+    DDialog dia(pParent);
+    dia.setModal(true);
+    dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
+    dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    dia.addButton(tr("OK"), true, DDialog::ButtonNormal);
+    dia.exec();
+
+    //如果没有任何文件加载成功(没有view就表示没有任何文件加载成功)
+    if (pParent == nullptr || CManageViewSigleton::GetInstance()->isEmpty()) {
+        this->quit();
+    }
 }
 
 void Application::handleQuitAction()

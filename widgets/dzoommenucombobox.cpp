@@ -54,6 +54,8 @@ void DZoomMenuComboBox::addItem(QString itemText, QIcon icon)
 void DZoomMenuComboBox::addItem(QAction *action)
 {
     action->setCheckable(false);
+    action->setShortcuts(QKeySequence::UnknownKey);
+    action->setAutoRepeat(false);
     m_menu->addAction(action);
     m_actions.append(action);
 
