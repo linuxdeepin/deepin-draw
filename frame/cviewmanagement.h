@@ -72,7 +72,7 @@ public:
     /**
      * @brief CheckIsModify 检测是否修改
      */
-    void CheckIsModify();
+    void updateBlockSystem();
     /**
      * @brief getViewByViewName
      */

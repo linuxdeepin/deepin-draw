@@ -119,7 +119,7 @@ void CManageViewSigleton::removeView(CGraphicsView *view)
     }
 }
 
-void CManageViewSigleton::CheckIsModify()
+void CManageViewSigleton::updateBlockSystem()
 {
     initBlockShutdown();
     bool shutdownFlag = false;

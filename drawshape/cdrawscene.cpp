@@ -113,9 +113,9 @@ void CDrawScene::initScene()
     m_pGroupItem->setZValue(10000);
     //m_pGroupItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
-        CManageViewSigleton::GetInstance()->CheckIsModify();
-    });
+//    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
+//        CManageViewSigleton::GetInstance()->updateBlockSystem();
+//    });
 
 
     m_pHighLightItem = new CGraphicsItemHighLight();

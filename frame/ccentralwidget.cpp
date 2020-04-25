@@ -324,15 +324,19 @@ void CCentralwidget::currentScenseViewIsModify(bool isModify)
             QString viewName = pView->getDrawParam()->viewName();
             qDebug() << "viewName：" << viewName << " modify:" << isModify;
 
-            //1.更新tab标签（先更新标签页名再更新可能存在的主标题）
             bool drawParamCurModified = pView->getDrawParam()->getModify();
             if (isModify != drawParamCurModified) {
+
                 //已经修改的状态和drawParam中的状态不同那么就要刷新drawParam的状态
                 QString uuid = pView->getDrawParam()->uuid();
                 pView->getDrawParam()->setModify(isModify);
                 QString newVName = pView->getDrawParam()->getShowViewNameByModifyState();
 
+                //刷新标签的名字
                 updateTabName(uuid, newVName);
+
+                //判断当前所有viewscene的修改状态是否需要通知系统阻塞关机
+                CManageViewSigleton::GetInstance()->updateBlockSystem();
             }
         }
     }
