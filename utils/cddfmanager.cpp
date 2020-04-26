@@ -194,7 +194,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-                qDebug() << "unit.head.dataType = " << RectType;
+                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
