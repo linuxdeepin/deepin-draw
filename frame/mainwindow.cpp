@@ -43,6 +43,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QScrollBar>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -547,14 +548,26 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    //如果按住CTRL
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCtlKeyStatus()) {
-        if (event->delta() > 0) {
-            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-            m_centralWidget->getGraphicsView()->zoomOut();
-        } else {
-            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-            m_centralWidget->getGraphicsView()->zoomIn();
+    CGraphicsView *pCurView   = CManageViewSigleton::GetInstance()->getCurView();
+    int            delayValue = event->delta();
+    if (pCurView != nullptr) {
+        if (event->modifiers() == Qt::NoModifier) {
+            //滚动view的垂直scrollbar
+            int curValue = pCurView->verticalScrollBar()->value();
+            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers() == Qt::ShiftModifier) {
+            //滚动view的水平scrollbar
+            int curValue = pCurView->horizontalScrollBar()->value();
+            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers()& Qt::ControlModifier) {
+            //如果按住CTRL那么就是放大缩小
+            if (event->delta() > 0) {
+                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+                pCurView->zoomOut();
+            } else {
+                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+                pCurView->zoomIn();
+            }
         }
     }
     DMainWindow::wheelEvent(event);
