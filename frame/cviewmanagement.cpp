@@ -239,9 +239,10 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
         if (fInfo.exists()) {
             //证明只是内容修改 要提醒是否重新加载
 //            DDialog dia(pView);
+//            dia.setFixedSize(404, 163);
 //            dia.setModal(true);
-//            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
-//            dia.setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(ddfFile));
+//            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//            dia.setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
 //            int reload  = dia.addButton(tr("reload"), false, DDialog::ButtonNormal);
 //            int cancel = dia.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
 //            int ret = dia.exec();
@@ -263,9 +264,10 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
         } else {
             //证明是被重命名或者删除
             DDialog dia(pView);
+            dia.setFixedSize(404, 163);
             dia.setModal(true);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(ddfFile));
-            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));
+            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
             int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);

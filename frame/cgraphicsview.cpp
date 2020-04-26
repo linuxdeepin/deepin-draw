@@ -1412,9 +1412,12 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose)
             //再判断该文件是否正在被打开着的如果是那么就要提示不能覆盖
             if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
                 DDialog dia(this);
+
+                dia.setFixedSize(404, 163);
+
                 dia.setModal(true);
                 dia.setMessage(tr("Cannot save as \"%1\" because the document is currently open. Please save it with a different name, or close the document and try again.").arg(QFileInfo(path).fileName()));
-                dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
                 dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
 
