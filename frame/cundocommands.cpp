@@ -83,7 +83,7 @@ void CMoveShapeCommand::undo()
     if (myItem) {
         myGraphicsScene->clearSelection();
         myItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, myItem);
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     }
 //    setText(QObject::tr("Undo Move %1,%2")
 //            .arg(-myDelta.x()).arg(-myDelta.y()));
@@ -115,7 +115,7 @@ void CMoveShapeCommand::redo()
     if (myItem) {
         myGraphicsScene->clearSelection();
         myItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, myItem);
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     }
 
     myGraphicsScene->setModify(true);
@@ -404,7 +404,7 @@ void CRotateShapeCommand::undo()
     myItem->setRotation(myOldAngle);
     myGraphicsScene->clearSelection();
     myItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, myItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myItem->scene()->update();
     myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Undo Rotate %1").arg(newAngle));
@@ -415,7 +415,7 @@ void CRotateShapeCommand::redo()
     myItem->setRotation(newAngle);
     myGraphicsScene->clearSelection();
     myItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, myItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myItem->update();
     myGraphicsScene->setModify(true);
 //    setText(QObject::tr("Redo Rotate %1").arg(newAngle));
@@ -532,7 +532,7 @@ void CResizeShapeCommand::undo()
         myItem->resizeTo(m_handle,  m_beginPos, m_bShiftPress, m_bAltPress);
         myGraphicsScene->clearSelection();
         myItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, myItem);
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
     }
     myGraphicsScene->setModify(true);
@@ -545,7 +545,7 @@ void CResizeShapeCommand::redo()
         myItem->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
         myGraphicsScene->clearSelection();
         myItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, myItem);
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
     }
     myGraphicsScene->setModify(true);
@@ -658,11 +658,8 @@ void CSetPropertyCommand::undo()
         myGraphicsScene->clearSelection();
         m_pItem->setSelected(true);
     }
-
-    myGraphicsScene->changeAttribute(true, m_pItem);
-
     myGraphicsScene->setModify(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -690,10 +687,8 @@ void CSetPropertyCommand::redo()
         m_pItem->setSelected(true);
     }
 
-    myGraphicsScene->changeAttribute(true, m_pItem);
-
     myGraphicsScene->setModify(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -719,10 +714,9 @@ void CSetRectXRediusCommand::undo()
         m_pItem->setXYRedius(m_oldRectXRedius, m_oldRectXRedius);
         myGraphicsScene->clearSelection();
         m_pItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, m_pItem);
     }
     myGraphicsScene->setModify(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -733,11 +727,10 @@ void CSetRectXRediusCommand::redo()
         m_pItem->update();
         myGraphicsScene->clearSelection();
         m_pItem->setSelected(true);
-        myGraphicsScene->changeAttribute(true, m_pItem);
     }
 
     myGraphicsScene->setModify(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -754,9 +747,8 @@ void CSetPolygonAttributeCommand::undo()
     m_pItem->setPointCount(m_nOldNum);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
@@ -766,9 +758,7 @@ void CSetPolygonAttributeCommand::redo()
     m_pItem->setPointCount(m_nNewNum);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
-
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
 }
@@ -789,7 +779,7 @@ void CSetPolygonStarAttributeCommand::undo()
     m_pItem->updatePolygonalStar(m_nOldNum, m_nOldRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -801,7 +791,7 @@ void CSetPolygonStarAttributeCommand::redo()
     m_pItem->updatePolygonalStar(m_nNewNum, m_nNewRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     myGraphicsScene->setModify(true);
     myGraphicsScene->updateBlurItem(m_pItem);
@@ -830,9 +820,7 @@ void CSetPenAttributeCommand::undo()
 
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
-
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -843,9 +831,7 @@ void CSetPenAttributeCommand::redo()
 
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
-
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -876,7 +862,7 @@ void CSetLineAttributeCommand::undo()
     m_pItem->calcVertexes();
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -890,9 +876,7 @@ void CSetLineAttributeCommand::redo()
     m_pItem->calcVertexes();
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
-//    m_pItem->update(
-//    myGraphicsScene->changeAttribute(true, m_pItem);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
@@ -963,9 +947,7 @@ void COneLayerUpCommand::undo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1046,9 +1028,7 @@ void COneLayerUpCommand::redo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1129,9 +1109,7 @@ void COneLayerDownCommand::undo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1216,9 +1194,7 @@ void COneLayerDownCommand::redo()
     foreach (QGraphicsItem *item, m_selectItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
     }
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, myGraphicsScene->getItemsMgr()->getItems());
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -1518,12 +1494,8 @@ void CSetBlurAttributeCommand::undo()
     m_pItem->setBlurWidth(m_nOldRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->changeAttribute(true, m_pItem);
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CSetBlurAttributeCommand::redo()
@@ -1532,12 +1504,8 @@ void CSetBlurAttributeCommand::redo()
     m_pItem->setBlurWidth(m_nNewRadius);
     myGraphicsScene->clearSelection();
     m_pItem->setSelected(true);
-    myGraphicsScene->changeAttribute(true, m_pItem);
     myGraphicsScene->setModify(true);
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->changeAttribute(true, m_pItem);
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
@@ -1863,8 +1831,8 @@ void CSetItemsCommonPropertyValueCommand::undo()
         return;
     }
 
-    CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, m_items);
-    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "showSelectedCommonProperty";
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
 }
@@ -2021,8 +1989,8 @@ void CSetItemsCommonPropertyValueCommand::redo()
         return;
     }
 
-    CManagerAttributeService::getInstance()->showSelectedCommonProperty(myGraphicsScene, m_items);
-    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "showSelectedCommonProperty";
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
 }

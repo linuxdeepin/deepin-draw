@@ -187,9 +187,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
                 }
-                if (scene->getItemsMgr()->getItems().size() > 1) {
-                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
-                }
+                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             } else if (copyItems.size() == 1) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
@@ -252,7 +250,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
                 if (m_currentSelectItem) {
                     m_currentSelectItem->setSelected(true);
-                    scene->changeAttribute(true, m_currentSelectItem);
                 }
                 if (!shiftKeyPress) {
                     foreach (QGraphicsItem *selectItem, scene->selectedItems()) {
@@ -298,7 +295,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     } else {
                         qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                     }
-                    scene->changeAttribute(true, m_currentSelectItem);
                     CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
                 }
             } else {
@@ -330,6 +326,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     } else {
         scene->mouseEvent(event);
     }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -642,9 +639,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             auto selectItem = static_cast<CGraphicsItem *>(item);
             scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
         }
-        if (scene->getItemsMgr()->getItems().size() > 1) {
-            CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
-        }
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         int count = scene->getItemsMgr()->getItems().size();
         if (1 == count) {
             scene->getItemsMgr()->getItems().first()->setSelected(true);
@@ -669,9 +664,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (currentSelectItem != nullptr) {
                     scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
                 }
-                if (scene->getItemsMgr()->getItems().size() > 1) {
-                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(scene, scene->getItemsMgr()->getItems());
-                }
+                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             }
             int count = scene->getItemsMgr()->getItems().size();
             if (1 == count ) {
@@ -744,7 +737,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     m_currentSelectItem->setSelected(true);
                 }
                 //显示所选图元素属性
-                scene->changeAttribute(true, m_currentSelectItem);
                 CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
             }
             if (scene->getItemsMgr()->getItems().size() > 1) {
@@ -803,6 +795,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             }
         }
     }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)

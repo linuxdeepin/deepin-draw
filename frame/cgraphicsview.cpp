@@ -980,7 +980,7 @@ void CGraphicsView::slotOnPaste()
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
-                    CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, itemMgr->getItems());
+                    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -1021,9 +1021,7 @@ void CGraphicsView::slotOnSelectAll()
             curScene->getItemsMgr()->addToGroup(curItem);
         }
     }
-    if (curScene->getItemsMgr()->getItems().size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(curScene, curScene->getItemsMgr()->getItems());
-    }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     if (curScene->getItemsMgr()->getItems().isEmpty()) {
         return;
     }
@@ -1035,7 +1033,7 @@ void CGraphicsView::slotOnSelectAll()
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->updateBlurItem();
 
-        curScene->changeAttribute(true, nullptr);
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     }
 
     //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(false);

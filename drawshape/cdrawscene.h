@@ -68,16 +68,6 @@ public:
     void setCursor(const QCursor &cursor);
 
     /**
-     * @brief attributeChanged 画笔画刷属性更改
-     */
-    void attributeChanged();
-
-    /**
-     * @brief changeAttribute 根据选中的图元修改当前画笔画刷属性
-     */
-    void changeAttribute(bool flag, QGraphicsItem *selectedItem);
-
-    /**
      * @brief mouseEvent 鼠标事件
      * @param mouseEvent
      */

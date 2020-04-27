@@ -176,10 +176,6 @@ public slots:
      */
     void slotResetOriginPoint();
     /**
-     * @brief slotAttributeChanged　属性改变
-     */
-    void slotAttributeChanged();
-    /**
      * @brief slotZoom　执行缩放ｖｉｅｗ
      * @param scale　缩放因子
      */

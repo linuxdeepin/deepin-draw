@@ -506,13 +506,6 @@ void CCentralwidget::slotResetOriginPoint()
     CManageViewSigleton::GetInstance()->getCurView()->setSceneRect(rect);*/
 }
 
-void CCentralwidget::slotAttributeChanged()
-{
-    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->attributeChanged();
-    }
-}
-
 void CCentralwidget::slotZoom(qreal scale)
 {
     //来自toolbar的缩放要以画布中心为缩放中心
