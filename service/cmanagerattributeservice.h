@@ -82,6 +82,8 @@ public:
     */
     void doSceneAdjustment();
 
+    void doCut();
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号

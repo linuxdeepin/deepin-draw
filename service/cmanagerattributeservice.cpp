@@ -19,6 +19,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cmanagerattributeservice.h"
+#include "drawshape/cdrawtoolmanagersigleton.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
 #include "drawshape/cgraphicsellipseitem.h"
@@ -31,6 +32,7 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+#include "drawshape/ccuttool.h"
 
 #include "frame/cundocommands.h"
 #include "frame/cviewmanagement.h"
@@ -609,6 +611,26 @@ void CManagerAttributeService::doSceneAdjustment()
                     m_currentScence->doAdjustmentScene(item->boundingRect(), item);
                     item->setPos(0, 0);
                 }
+            }
+        }
+    }
+}
+
+void CManagerAttributeService::doCut()
+{
+    updateCurrentScence();
+    EDrawToolMode currentMode = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+    ///区分裁剪
+    if (cut == currentMode) {
+        ECutAttributeType attributeType = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutAttributeType();
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
+        if (attributeType == ECutAttributeType::ButtonClickAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType(), m_currentScence);
+            }
+        } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
             }
         }
     }

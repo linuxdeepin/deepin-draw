@@ -25,6 +25,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
@@ -235,7 +236,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn1_1, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_1_1);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn1_1->setChecked(true);
@@ -246,7 +247,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn2_3, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_2_3);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn2_3->setChecked(true);
@@ -257,7 +258,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn8_5, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_8_5);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn8_5->setChecked(true);
@@ -268,7 +269,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn16_9, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_16_9);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn16_9->setChecked(true);
@@ -283,13 +284,13 @@ void CCutWidget::initConnection()
         clearAllChecked();
         m_freeBtn->setChecked(true);
 
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
     });
 
     connect(m_originalBtn, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_original);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_originalBtn->setChecked(true);
@@ -324,7 +325,7 @@ void CCutWidget::initConnection()
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
     });
 
@@ -346,7 +347,7 @@ void CCutWidget::initConnection()
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
     });
 
