@@ -53,7 +53,6 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
     m_textFont.setStyleName(QObject::tr("Regular"));
-    m_textColor = QColor(224, 224, 224, 255);
 
     if (uuid.isEmpty()) {
         m_keyUUID = creatUUID();
