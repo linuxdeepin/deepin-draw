@@ -80,6 +80,11 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     initConnection();
 }
 
+CGraphicsView::CGraphicsView()
+{
+
+}
+
 void CGraphicsView::zoomOut()
 {
     if (1.1 * m_scale - 8. <= 0.01) {

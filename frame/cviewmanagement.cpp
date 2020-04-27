@@ -18,7 +18,7 @@
  */
 #include "cviewmanagement.h"
 #include <QGuiApplication>
-
+#include "frame/cgraphicsview.h"
 
 CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
 
@@ -53,6 +53,11 @@ CGraphicsView *CManageViewSigleton::getCurView()
     //获取当前窗口
     if (!m_allViews.isEmpty() && m_curIndex >= 0 && m_curIndex < m_allViews.size()) {
         curView = m_allViews[m_curIndex];
+    }
+
+    // 为了解决关闭程序的时候，view有可能被提前释放了，获取view的时候异常退出程序，临时补丁
+    if (curView == nullptr) {
+        curView = new CGraphicsView(this);
     }
 
     return curView;
