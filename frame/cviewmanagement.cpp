@@ -57,7 +57,12 @@ CGraphicsView *CManageViewSigleton::getCurView()
 
     // 为了解决关闭程序的时候，view有可能被提前释放了，获取view的时候异常退出程序，临时补丁
     if (curView == nullptr) {
-        curView = new CGraphicsView(this);
+        if (m_allViews.size() > 0) {
+            curView = m_allViews[0];
+        } else {
+            curView = new CGraphicsView(this);
+            m_allViews.append(curView);
+        }
     }
 
     return curView;
