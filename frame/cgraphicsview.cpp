@@ -76,13 +76,13 @@ static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 //水平等间距对齐升序排列
 static bool xValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    return info1->boundingRect().left() < info2->boundingRect().left();
+    return info1->sceneBoundingRect().left() < info2->sceneBoundingRect().left();
 }
 
 //垂直等间距对齐升序排列
 static bool yValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
-    return info1->boundingRect().top() < info2->boundingRect().top();
+    return info1->sceneBoundingRect().top() < info2->sceneBoundingRect().top();
 }
 
 CGraphicsView::CGraphicsView(DWidget *parent)
@@ -332,12 +332,12 @@ void CGraphicsView::initContextMenuConnection()
         qreal sum_items_width = 0;
         for (int i = 0; i < allitems.size(); i++)
         {
-            sum_items_width += allitems.at(i)->boundingRect().width();
+            sum_items_width += allitems.at(i)->sceneBoundingRect().width();
         }
 
         // [3] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
-        QRectF scence_BR = curScene->getItemsMgr()->boundingRect();
+        QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
         if (sum_items_width > scence_BR.width())
         {
             for (int i = 1; i < allitems.size(); i++) {
@@ -377,12 +377,12 @@ void CGraphicsView::initContextMenuConnection()
         qreal sum_items_height = 0;
         for (int i = 0; i < allitems.size(); i++)
         {
-            sum_items_height += allitems.at(i)->boundingRect().height();
+            sum_items_height += allitems.at(i)->sceneBoundingRect().height();
         }
 
         // [3] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
-        QRectF scence_BR = curScene->getItemsMgr()->boundingRect();
+        QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
         if (sum_items_height > scence_BR.height())
         {
             for (int i = 1; i < allitems.size(); i++) {
@@ -1496,8 +1496,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignHCenter: {
                 // 获取水平中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->boundingRect().topLeft().x()
-                                   + curScene->getItemsMgr()->boundingRect().width() / 2;
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().x();
                 break;
             }
             case Qt::AlignRight: {
@@ -1512,8 +1511,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             }
             case Qt::AlignVCenter: {
                 // 获取垂直中心点的位置
-                centerAlignValue = curScene->getItemsMgr()->boundingRect().topLeft().y()
-                                   + curScene->getItemsMgr()->boundingRect().height() / 2;
+                centerAlignValue = curScene->getItemsMgr()->sceneBoundingRect().center().y();
                 break;
             }
             case Qt::AlignBottom: {
@@ -1537,8 +1535,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignHCenter: {
-                qreal dx = centerAlignValue - (allItems.at(i)->sceneBoundingRect().topLeft().x()
-                                               + allItems.at(i)->sceneBoundingRect().width() / 2);
+                qreal dx = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().x();
                 allItems.at(i)->moveBy(dx, 0);
                 break;
             }
@@ -1553,8 +1550,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
                 break;
             }
             case Qt::AlignVCenter: {
-                qreal dy = centerAlignValue - (allItems.at(i)->sceneBoundingRect().topLeft().y()
-                                               + allItems.at(i)->sceneBoundingRect().height() / 2);
+                qreal dy = centerAlignValue - allItems.at(i)->sceneBoundingRect().center().y();
                 allItems.at(i)->moveBy(0, dy);
                 break;
             }
