@@ -174,7 +174,7 @@ signals:
      * @brief itemAdded 增加图元
      * @param item
      */
-    void itemAdded(QGraphicsItem *item);
+    void itemAdded(QGraphicsItem *item, bool pushToStack = true);
 
     /**signalItemAdded
      * @brief itemRotate 旋转图元

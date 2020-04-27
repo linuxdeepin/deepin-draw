@@ -492,11 +492,11 @@ void CGraphicsView::initConnection()
     qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
-    connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
+    connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *, bool)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *, bool)));
     connect(m_DDFManager, &CDDFManager::signalAddTextItem, this, [ = ](const SGraphicsTextUnitData & data,
-    const SGraphicsUnitHead & head) {
+    const SGraphicsUnitHead & head, bool pushToStack) {
         CGraphicsTextItem *item = new CGraphicsTextItem(data, head);
-        slotAddItemFromDDF(item);
+        slotAddItemFromDDF(item, pushToStack);
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
     connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
@@ -689,7 +689,7 @@ void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
     }
 }
 
-void CGraphicsView::itemAdded(QGraphicsItem *item)
+void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     QList<QGraphicsItem *> addItems;
@@ -698,8 +698,10 @@ void CGraphicsView::itemAdded(QGraphicsItem *item)
     item->setZValue(curScene->getMaxZValue() + 1);
     curScene->setMaxZValue(curScene->getMaxZValue() + 1);
     qDebug() << "CGraphicsView::itemAdded";
-    QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
-    this->pushUndoStack(addCommand);
+    if (pushToStack) {
+        QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
+        this->pushUndoStack(addCommand);
+    }
 }
 
 void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal newAngle)
@@ -775,10 +777,10 @@ void CGraphicsView::slotStartLoadDDF(QRectF rect)
     scene()->setSceneRect(rect);
 }
 
-void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item)
+void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 {
     scene()->addItem(item);
-    itemAdded(item);
+    itemAdded(item, pushToStack);
     if (item->type() == BlurType) {
         static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
     }

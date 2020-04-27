@@ -250,7 +250,7 @@ public slots:
      * @brief itemAdded
      * @param item
      */
-    void itemAdded(QGraphicsItem *item );
+    void itemAdded(QGraphicsItem *item, bool pushToStack);
 
     /**
      * @brief itemRotate
@@ -340,7 +340,7 @@ public slots:
      * @brief slotAddItemFromDDF 添加图元到DDF
      * @param item
      */
-    void slotAddItemFromDDF(QGraphicsItem *item );
+    void slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack = true);
 
     /**
      * @brief slotQuitCutMode 退出裁剪模式

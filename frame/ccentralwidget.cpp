@@ -400,17 +400,15 @@ void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabNam
 
 }
 
-#include <QTimer>
-
 void CCentralwidget::slotTransmitEndLoadDDF()
 {
     // [0] 设置左侧工具栏状态
     m_leftToolbar->slotShortCutSelect();
 
     // [1] 拖拽ddf文件需要删除已有的撤销重做栈
-    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+//    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
+//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
+//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
 
 void CCentralwidget::updateTitle()
