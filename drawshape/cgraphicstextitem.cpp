@@ -136,6 +136,25 @@ bool CGraphicsTextItem::getAllFontStyleIsEqual()
     return m_pTextEdit->getAllFontStyleIsEqual();
 }
 
+void CGraphicsTextItem::makeEditabel()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+        m_pTextEdit->show();
+        //m_pProxy->setFocus();
+        QTextCursor textCursor = m_pTextEdit->textCursor();
+        textCursor.select(QTextCursor::Document);
+        m_pTextEdit->setTextCursor(textCursor);
+//    m_pTextEdit->cursorPositionChanged();
+    }
+
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
+    m_pTextEdit->setFocus();
+}
+
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
     m_menu->move (cursor().pos());
@@ -357,21 +376,22 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
-        m_pTextEdit->show();
-        //m_pProxy->setFocus();
-        QTextCursor textCursor = m_pTextEdit->textCursor();
-        textCursor.select(QTextCursor::Document);
-        m_pTextEdit->setTextCursor(textCursor);
-//    m_pTextEdit->cursorPositionChanged();
-    }
+    makeEditabel();
+//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+//        m_pTextEdit->show();
+//        //m_pProxy->setFocus();
+//        QTextCursor textCursor = m_pTextEdit->textCursor();
+//        textCursor.select(QTextCursor::Document);
+//        m_pTextEdit->setTextCursor(textCursor);
+////    m_pTextEdit->cursorPositionChanged();
+//    }
 
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->updateBlurItem(this);
-    }
-    m_pTextEdit->setFocus();
+//    if (nullptr != scene()) {
+//        auto curScene = static_cast<CDrawScene *>(scene());
+//        curScene->updateBlurItem(this);
+//    }
+//    m_pTextEdit->setFocus();
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

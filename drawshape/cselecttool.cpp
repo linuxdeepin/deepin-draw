@@ -240,11 +240,13 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (selectItems.contains(scene->getItemsMgr())) {
                 selectItems.removeAll(scene->getItemsMgr());
             }
+
             if ( m_highlightItem != nullptr ) {
                 if (!m_doCopy) {
                     m_currentSelectItem = m_highlightItem;
                 }
                 scene->mouseEvent(event);
+
                 if (m_currentSelectItem && static_cast<CGraphicsItem *>(m_currentSelectItem)->type() != TextType) {
                     scene->clearSelection();
                 }
@@ -259,6 +261,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                         }
                     }
                 }
+
                 //未按下shift，选中管理图元所选之外的图元，清除管理图元中所选图元
                 if (!shiftKeyPress && !altKeyPress) {
                     if (!scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
@@ -704,7 +707,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 if (m_currentSelectItem && m_currentSelectItem->type() == BlurType) {
                     static_cast<CGraphicsMasicoItem *>(m_currentSelectItem)->setPixmap();
                 }
-
                 if (m_dragHandle == CSizeHandleRect::Rotation) {
                     if (m_RotateItem) {
                         delete m_RotateItem;
@@ -776,6 +778,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_isItemMoving    = false;
     }
 
+    QGraphicsItem *pCurrentItem = m_currentSelectItem;
     m_currentSelectItem = nullptr;
     //更新模糊图元
     QList<QGraphicsItem *> allitems = scene->items();
@@ -784,11 +787,45 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }
+
     if (m_RotateItem) {
         delete m_RotateItem;
         m_RotateItem = nullptr;
     }
     scene->mouseEvent(event);
+
+    //打补丁：解决当当前的点击的item处于某一个item之下时(当前item z值更小，框架会自动选中z值更大者 ，但我们想要的是之选中这个z值更小的)
+    if (event->modifiers() == Qt::NoModifier && event->button() == Qt::LeftButton) {
+        if (pCurrentItem != nullptr) {
+            QList<QGraphicsItem *> selectItems = scene->selectedItems();
+            for (QGraphicsItem *pItem : selectItems) {
+                pItem->setSelected(pItem == pCurrentItem);
+            }
+        }
+    }
+}
+
+void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+{
+    bool finished = false;
+    if ( m_highlightItem != nullptr ) {
+        m_currentSelectItem = m_highlightItem;
+    }
+    //判断当前鼠标下的item是否为空
+    if (m_currentSelectItem != nullptr) {
+        if (m_currentSelectItem->type() == TextType) {
+
+            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(m_currentSelectItem);
+            if (pTextItem != nullptr) {
+                finished = true;
+                pTextItem->makeEditabel();
+            }
+        }
+    }
+
+    if (!finished) {
+        scene->mouseEvent(event);
+    }
 }
 
 QRectF CSelectTool::pointToRect(QPointF point1, QPointF point2)

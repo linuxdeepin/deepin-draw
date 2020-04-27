@@ -136,6 +136,9 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     case QEvent::GraphicsSceneMouseRelease:
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
         break;
+    case QEvent::GraphicsSceneMouseDoubleClick:
+        QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
+        break;
     default:
         break;
     }
@@ -451,6 +454,16 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 //            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
 //            emit signalChangeToSelect();
 //        }
+    }
+}
+
+void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if ( nullptr != pTool) {
+        pTool->mouseDoubleClickEvent(mouseEvent, this);
     }
 }
 

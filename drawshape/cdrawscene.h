@@ -320,6 +320,9 @@ protected:
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
+
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
     /**
      * @brief drawItems 绘制所有图元
      * @param painter
@@ -352,6 +355,8 @@ private:
 
     CGraphicsItemSelectedMgr *m_pGroupItem;
     CGraphicsItemHighLight *m_pHighLightItem;
+
+    bool dbCLicked = false;
 
 };
 
