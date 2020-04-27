@@ -315,6 +315,8 @@ void CGraphicsView::initTextContextMenuConnection()
 
 void CGraphicsView::initConnection()
 {
+    qRegisterMetaType<SGraphicsTextUnitData>("SGraphicsTextUnitData");
+    qRegisterMetaType<SGraphicsUnitHead>("SGraphicsUnitHead");
     connect(m_DDFManager, SIGNAL(signalClearSceneBeforLoadDDF()), this, SLOT(clearScene()));
     connect(m_DDFManager, SIGNAL(signalStartLoadDDF(QRectF)), this, SLOT(slotStartLoadDDF(QRectF)));
     connect(m_DDFManager, SIGNAL(signalAddItem(QGraphicsItem *)), this, SLOT(slotAddItemFromDDF(QGraphicsItem *)));
