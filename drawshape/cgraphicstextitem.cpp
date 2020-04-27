@@ -251,6 +251,10 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
+
     updateGeometry();
 
     drawDocument(painter, m_pTextEdit->document(), this->rect());

@@ -238,6 +238,9 @@ void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPoint
 
 void CGraphicsMasicoItem::updateBlurPath()
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
     QPainterPathStroker t_stroker;
     t_stroker.setWidth(pen().widthF());
     QPainterPath t_painterPath = t_stroker.createStroke(getPath());

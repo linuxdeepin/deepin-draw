@@ -118,10 +118,6 @@ void MainWindow::initConnection()
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         slotIsNeedSave();
-        if (CManageViewSigleton::GetInstance()->getCurView())
-        {
-            CManageViewSigleton::GetInstance()->removeView(CManageViewSigleton::GetInstance()->getCurView());
-        }
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
@@ -203,6 +199,9 @@ void MainWindow::slotContinueDoSomeThing()
     ESaveDDFTriggerAction triggerType =  CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction();
     switch (triggerType) {
     case QuitApp:
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->removeView(CManageViewSigleton::GetInstance()->getCurView());
+        }
         qApp->quit();
         break;
     case LoadDDF:
@@ -329,7 +328,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
 
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
     emit dApp->popupConfirmDialog();
     event->ignore();
 }
