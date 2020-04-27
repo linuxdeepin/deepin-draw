@@ -641,7 +641,7 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
     //改变左边工具栏按钮主题
-    m_centralWidget->getLeftToolBar()->changeButtonTheme();
+//    m_centralWidget->getLeftToolBar()->changeButtonTheme();
     //改变顶部属性栏按钮主题
     m_topToolbar->changeTopButtonsTheme();
 }

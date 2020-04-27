@@ -24,6 +24,7 @@
 #include "widgets/cclickbutton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cdrawscene.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
@@ -362,6 +363,8 @@ void CCutWidget::initConnection()
         if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
             auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
             curScene->doCutScene();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit curScene->signalChangeToSelect();
         }
     });
 
@@ -369,6 +372,8 @@ void CCutWidget::initConnection()
         if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
             auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
             curScene->quitCutMode();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit curScene->signalChangeToSelect();
         }
     });
 

@@ -21,9 +21,12 @@
 
 #include <DFrame>
 #include <DWidget>
+#include <DPushButton>
+#include <DToolButton>
 
 class CCheckButton;
 class QVBoxLayout;
+class PushButton;
 
 
 DWIDGET_USE_NAMESPACE
@@ -64,10 +67,6 @@ public slots:
      * @brief slotAfterQuitCut　退出裁剪后更新工具栏
      */
     void slotAfterQuitCut();
-    /**
-     * @brief changeButtonTheme　改变工具栏按钮主题
-     */
-    void changeButtonTheme();
     /**
      * @brief slotShortCutSelect　选择按钮快捷键功能
      */
@@ -118,25 +117,22 @@ private slots:
      * @brief slotShortCutCut　裁剪按钮快捷键
      */
     void slotShortCutCut();
-    /**
-     * @brief slotClearToolSelection　清除工具栏选中状态
-     */
-    void slotClearToolSelection();
 
 private:
-    QList<CCheckButton *> m_actionButtons;
-    CCheckButton *m_selectBtn;
-    CCheckButton *m_picBtn;
-    CCheckButton *m_rectBtn;
-    CCheckButton *m_roundBtn;
-    CCheckButton *m_triangleBtn;
-    CCheckButton *m_starBtn;
-    CCheckButton *m_polygonBtn;
-    CCheckButton *m_lineBtn;
-    CCheckButton *m_penBtn;
-    CCheckButton *m_textBtn;
-    CCheckButton *m_blurBtn;
-    CCheckButton *m_cutBtn;
+    QList<DToolButton *> m_actionButtons;
+    DToolButton *m_selectBtn;
+    DToolButton *m_picBtn;
+    DToolButton *m_rectBtn;
+    DToolButton *m_roundBtn;
+    DToolButton *m_triangleBtn;
+    DToolButton *m_starBtn;
+    DToolButton *m_polygonBtn;
+    DToolButton *m_lineBtn;
+    DToolButton *m_penBtn;
+    DToolButton *m_textBtn;
+    DToolButton *m_blurBtn;
+    DToolButton *m_cutBtn;
+
 
     QVBoxLayout *m_layout;
 
@@ -168,7 +164,7 @@ private:
      * @brief clearOtherSelections　清除其他按钮选中
      * @param clickedButton
      */
-    void clearOtherSelections(CCheckButton *clickedButton);
+    void clearOtherSelections(DToolButton *clickedButton);
     /**
      * @brief initDrawTools　初始化画图工具
      */

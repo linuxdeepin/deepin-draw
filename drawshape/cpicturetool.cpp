@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpicturetool.h"
+#include "frame/cgraphicsview.h"
+#include "frame/cviewmanagement.h"
 
 #include <QDebug>
 #include <QtConcurrent>

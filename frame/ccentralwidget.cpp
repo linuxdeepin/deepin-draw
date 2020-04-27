@@ -254,7 +254,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), curScene, SLOT(drawToolChange(int)));
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-//    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
+    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
 
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
@@ -439,6 +439,8 @@ void CCentralwidget::importPicture()
         slotPastePicture(filenames);
     } else {
         m_leftToolbar->slotShortCutSelect();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+        emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
     }
 
 }
@@ -464,6 +466,8 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList)
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)

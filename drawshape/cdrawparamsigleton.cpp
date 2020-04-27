@@ -128,6 +128,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 
     if (mode != selection)
         CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
+
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const

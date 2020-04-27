@@ -457,7 +457,7 @@ void TopToolbar::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        emit signalQuitCutModeFromTopBarMenu();
+//        emit signalQuitCutModeFromTopBarMenu();
     }
 }
 
