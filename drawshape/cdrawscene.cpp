@@ -82,6 +82,9 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
     QGraphicsScene::drawBackground(painter, rect);
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() > 0) {
         if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() == 1) {
@@ -242,6 +245,7 @@ void CDrawScene::attributeChanged()
             }
         }
     }
+    CDrawScene::GetInstance()->renderSelfToPixmap();
 }
 
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
@@ -472,6 +476,11 @@ void CDrawScene::drawToolChange(int type)
     this->clearSelection();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     CDrawScene::GetInstance()->updateBlurItem();
+
+
+    if (EDrawToolMode(type) == pen) {
+        renderSelfToPixmap();
+    }
 }
 
 void CDrawScene::changeMouseShape(EDrawToolMode type)
@@ -519,6 +528,19 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         break;
 
     }
+}
+
+QPixmap &CDrawScene::scenPixMap()
+{
+    return m_scenePixMap;
+}
+
+void CDrawScene::renderSelfToPixmap()
+{
+    m_scenePixMap = QPixmap(sceneRect().size().toSize());
+    QPainter painterd(&m_scenePixMap);
+    painterd.setRenderHint(QPainter::Antialiasing);
+    this->render(&painterd);
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)

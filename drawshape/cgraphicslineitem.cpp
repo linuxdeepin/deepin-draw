@@ -19,6 +19,7 @@
 #include "cgraphicslineitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <DSvgRenderer>
 
@@ -89,7 +90,13 @@ QPainterPath CGraphicsLineItem::shape() const
     path.lineTo(m_line.p2());
 
     QPen pen = this->pen();
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    qreal scale;
+    if (CManageViewSigleton::GetInstance()->getCurView()) {
+        scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    } else {
+        return path;
+    }
+
     if (pen.width() * (int)scale < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
@@ -322,6 +329,10 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+
     updateGeometry();
 
     if (m_type == arrowType) {

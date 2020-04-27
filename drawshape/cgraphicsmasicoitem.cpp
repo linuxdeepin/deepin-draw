@@ -7,6 +7,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <DApplication>
 #include <QGraphicsScene>
@@ -93,6 +94,9 @@ int CGraphicsMasicoItem::type() const
 
 void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+
     updateGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
@@ -172,13 +176,21 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        }
+
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
+        } else {
+            return;
+        }
+
         CDrawScene::GetInstance()->resetSceneBackgroundBrush();
 //        this->scene()->setBackgroundBrush(Qt::transparent);
 
@@ -230,6 +242,9 @@ void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPoint
 
 void CGraphicsMasicoItem::updateBlurPath()
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
     QPainterPathStroker t_stroker;
     t_stroker.setWidth(pen().widthF());
     QPainterPath t_painterPath = t_stroker.createStroke(getPath());

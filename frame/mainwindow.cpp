@@ -199,6 +199,9 @@ void MainWindow::slotContinueDoSomeThing()
     ESaveDDFTriggerAction triggerType =  CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSaveDDFTriggerAction();
     switch (triggerType) {
     case QuitApp:
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->removeView(CManageViewSigleton::GetInstance()->getCurView());
+        }
         qApp->quit();
         break;
     case LoadDDF:
@@ -325,7 +328,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
 
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
     emit dApp->popupConfirmDialog();
     event->ignore();
 }

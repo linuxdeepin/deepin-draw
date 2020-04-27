@@ -20,6 +20,7 @@
 #include "csizehandlerect.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPainter>
 #include <QPixmap>
@@ -118,6 +119,9 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
 
     updateGeometry();
     painter->setPen(pen());

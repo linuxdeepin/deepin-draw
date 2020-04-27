@@ -20,10 +20,13 @@
 #define CMANAGEVIEWSIGLETON_H
 
 #include <QList>
+#include <DWidget>
+
+DWIDGET_USE_NAMESPACE
 
 class CGraphicsView;
 
-class CManageViewSigleton
+class CManageViewSigleton : public DWidget
 {
 private :
     static CManageViewSigleton *m_pInstance;

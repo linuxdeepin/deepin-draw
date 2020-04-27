@@ -205,17 +205,15 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pPolygonStar = nullptr;
                     }
                 } else if (LineType == unit.head.dataType) {
-//                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
-//                    emit signalAddItem(item);
-                    emit signalAddTextItem(*unit.data.pText, unit.head);
+                    CGraphicsLineItem *item = new CGraphicsLineItem(unit.data.pLine, unit.head);
+                    emit signalAddItem(item);
 
                     if (unit.data.pLine) {
                         delete unit.data.pLine;
                         unit.data.pLine = nullptr;
                     }
                 } else if (TextType == unit.head.dataType) {
-                    CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-                    emit signalAddItem(item);
+                    emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pText) {
                         delete unit.data.pText;

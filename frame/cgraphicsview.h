@@ -47,6 +47,7 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+    CGraphicsView();
     /**
      * @brief zoomOut 放大
      */
