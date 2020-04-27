@@ -64,8 +64,6 @@ public:
     */
     bool getAllFontStyleIsEqual();
 
-    void setFontStyle(QFont ft);
-
     void setAlpha(const quint8 &value);
 
 public slots:

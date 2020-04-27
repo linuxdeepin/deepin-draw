@@ -214,7 +214,8 @@ void CTextEdit::checkTextProperty(QTextBlock block)
 //                m_allFontStyleIsEqual = false;
             }
 
-            if (m_allFontStyleIsEqual && fragment.charFormat().font().weight() != first_fragment.charFormat().font().weight()) {
+            // 注意：这里Qt版本是5.11.3,只能用这种方式去匹配，不可以用charFormat().font().weight()
+            if (m_allFontStyleIsEqual && fragment.charFormat().fontWeight() != first_fragment.charFormat().fontWeight()) {
                 m_allFontStyleIsEqual = false;
             }
 
@@ -281,18 +282,6 @@ bool CTextEdit::getAllFontFamilyIsEqual()
 bool CTextEdit::getAllFontStyleIsEqual()
 {
     return m_allFontStyleIsEqual;
-}
-
-void CTextEdit::setFontStyle(QFont ft)
-{
-    QTextCursor cur = this->textCursor();
-    QTextBlock block = cur.block();
-    if (block.isValid()) {
-        QTextBlock::iterator it;
-        for (it = block.begin(); !(it.atEnd()); ++it) {
-            it.fragment().charFormat().setFont(ft);
-        }
-    }
 }
 
 void CTextEdit::setAlpha(const quint8 &value)

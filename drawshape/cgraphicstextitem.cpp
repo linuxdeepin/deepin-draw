@@ -161,7 +161,6 @@ void CGraphicsTextItem::slot_textmenu(QPoint)
     m_menu->show();
 }
 
-
 CTextEdit *CGraphicsTextItem::getTextEdit() const
 {
     return m_pTextEdit;
@@ -223,7 +222,7 @@ void CGraphicsTextItem::setFont(const QFont &font)
     QTextCharFormat fmt;
     fmt.setFont(font);
     mergeFormatOnWordOrSelection(fmt);
-
+    qDebug() << "setFont: " << "setFont";
     m_Font = font;
 }
 
@@ -243,18 +242,38 @@ QString CGraphicsTextItem::getTextFontStyle()
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
-    m_Font.setStyleName(style);
-    m_pTextEdit->setFont(m_Font);
+    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
+     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
+     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
+    */
+    //    QFont::Thin    0   QFont::ExtraLight 12  QFont::Light 25
+    //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
+    //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
+    quint8 weight = 0;
+    if (style == QObject::tr("Thin")) {
+        weight = 0;
+    } else if (style == QObject::tr("ExtraLight")) {
+        weight = 12;
+    } else if (style == QObject::tr("Light")) {
+        weight = 25;
+    } else if (style == QObject::tr("Normal")) {
+        weight = 50;
+    } else if (style == QObject::tr("Medium")) {
+        weight = 57;
+    } else if (style == QObject::tr("DemiBold")) {
+        weight = 63;
+    } else if (style == QObject::tr("Bold")) {
+        weight = 75;
+    } else if (style == QObject::tr("ExtraBold")) {
+        weight = 81;
+    } else if (style == QObject::tr("Black")) {
+        weight = 87;
+    }
 
-//    QTextCharFormat fmt;
-//    fmt.font().setStyleName(style);
-//    mergeFormatOnWordOrSelection(fmt);
-//    m_Font.setStyleName(style);
-
-//    //只有把焦点设成这个,才可以输入文字
-//    if (this->scene() != nullptr) {
-//        this->scene()->views()[0]->setFocus();
-//    }
+    QTextCharFormat fmt;
+    fmt.setFontWeight(weight);
+    mergeFormatOnWordOrSelection(fmt);
+    m_Font.setStyleName(style);// 缓存自身最新的字体样式
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)

@@ -272,7 +272,7 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
 
 void TextWidget::slotUpdateTextFamilyStyle(QString style)
 {
-    QFontDatabase base; //("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+    QFontDatabase base; //("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     QStringList listStylyName = base.styles(style);
     listStylyName.removeOne("Regular");
     m_fontHeavy->blockSignals(true);
