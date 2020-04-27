@@ -118,6 +118,10 @@ void MainWindow::initConnection()
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         slotIsNeedSave();
+        if (CManageViewSigleton::GetInstance()->getCurView())
+        {
+            CManageViewSigleton::GetInstance()->removeView(CManageViewSigleton::GetInstance()->getCurView());
+        }
     });
     connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));

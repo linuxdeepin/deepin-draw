@@ -172,13 +172,21 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        }
+
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
+        if (CManageViewSigleton::GetInstance()->getCurView()) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
+        } else {
+            return;
+        }
+
         CDrawScene::GetInstance()->resetSceneBackgroundBrush();
 //        this->scene()->setBackgroundBrush(Qt::transparent);
 

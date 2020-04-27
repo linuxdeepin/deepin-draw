@@ -82,6 +82,9 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
     QGraphicsScene::drawBackground(painter, rect);
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() > 0) {
         if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() == 1) {

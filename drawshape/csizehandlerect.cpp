@@ -150,8 +150,15 @@ void CSizeHandleRect::move(qreal x, qreal y)
 
 QRectF CSizeHandleRect::boundingRect() const
 {
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
-    QRectF rect = QGraphicsSvgItem::boundingRect();
+    QRectF rect;
+    qreal scale;
+    if (CManageViewSigleton::GetInstance()->getCurView()) {
+        scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    } else {
+        return  rect;
+    }
+
+    rect = QGraphicsSvgItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);
     return rect;

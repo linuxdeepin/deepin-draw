@@ -89,7 +89,13 @@ QPainterPath CGraphicsLineItem::shape() const
     path.lineTo(m_line.p2());
 
     QPen pen = this->pen();
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    qreal scale;
+    if (CManageViewSigleton::GetInstance()->getCurView()) {
+        scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    } else {
+        return path;
+    }
+
     if (pen.width() * (int)scale < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
