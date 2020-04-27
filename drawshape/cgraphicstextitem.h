@@ -59,7 +59,9 @@ public:
 
     void setTextColor(const QColor &col);
     QColor getTextColor();
+
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**

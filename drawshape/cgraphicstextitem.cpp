@@ -326,13 +326,13 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
-        this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
     static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
     static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
     static_cast<CGraphicsTextItem *>(item)->setFontSize(this->getFontSize());
     static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
+        this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     CGraphicsRectItem::duplicate(item);
 }
 
@@ -535,6 +535,7 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
 
     p += QPointF(textBoundingRect.width(), 0);
 }
+
 qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
 {
     if (a & Qt::AlignRight)
@@ -543,6 +544,7 @@ qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qre
         return (width - textWidth) / 2;
     return 0;
 }
+
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
     return true;

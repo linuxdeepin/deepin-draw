@@ -64,6 +64,11 @@ public:
     */
     bool getAllFontStyleIsEqual();
 
+    /*
+     * @bref: checkTextProperty 用于检验文字属性是否一致
+    */
+    void checkTextProperty(QTextBlock block);
+
     void setAlpha(const quint8 &value);
 
 public slots:
@@ -79,11 +84,6 @@ private:
     bool m_allSizeIsEqual;  // 所有选中的字体大小
     bool m_allFamilyIsEqual;// 所有选中的字体类型
     bool m_allFontStyleIsEqual;// 所有选中的字体样式
-
-    /*
-     * @bref: checkTextProperty 用于检验文字属性是否一致
-    */
-    void checkTextProperty(QTextBlock block);
 };
 
 #endif // CTEXTEDIT_H
