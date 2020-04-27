@@ -269,7 +269,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     return newview;
 }
 
-void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
+void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
 {
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
     if (nullptr != closeView) {
@@ -299,8 +299,10 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
             m_topMutipTabBarWidget->show();
         }
     }
-    delete closeView;
-    closeView = nullptr;
+    if (deleteView) {
+        delete closeView;
+        closeView = nullptr;
+    }
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)

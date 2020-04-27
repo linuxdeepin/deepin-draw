@@ -81,6 +81,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
 
+    CManageViewSigleton::GetInstance()->removeWacthedFile(path);
     QtConcurrent::run([ = ] {
         QFile writeFile(path);
         m_lastSaveStatus = false;
@@ -336,6 +337,8 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 
 void CDDFManager::slotSaveDDFComplete()
 {
+    CManageViewSigleton::GetInstance()->wacthFile(m_path);
+
     m_pSaveDialog->hide();
 
     m_view->getDrawParam()->setDdfSavePath(m_path);

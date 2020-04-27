@@ -273,7 +273,7 @@ public slots:
     /**
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
-    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true);
+    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
 
 
     void closeViewScense(CGraphicsView *view);

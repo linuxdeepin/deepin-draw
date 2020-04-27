@@ -26,6 +26,9 @@
 #include <QFileSystemWatcher>
 #include <QAtomicInt>
 #include <QDebug>
+#include <DDialog>
+
+DWIDGET_USE_NAMESPACE
 
 class CGraphicsView;
 
@@ -123,11 +126,26 @@ public:
 
     void quitIfEmpty();
 
+
 private:
+
     /**
      * @brief initBlockShutdown 柱塞关机
      */
     void initBlockShutdown();
+
+    /**
+     * @brief getNoticeFileDialog
+     */
+    DDialog *getNoticeFileDialog(const QString &file);
+
+    /**
+     * @brief getNoticeFileDialog
+     */
+    DDialog *creatOneNoticeFileDialog(const QString &file, QWidget *parent = nullptr);
+
+
+    void     removeNoticeFileDialog(DDialog *dialog);
 
 private:
     //当前主题
@@ -145,6 +163,9 @@ private:
 
     QAtomicInt     m_ignoreCount = 0;
 
+
+    QList<DDialog *> m_noticeFileDialogs;
+    DDialog       *m_pNoticeFileDialog = nullptr;
 };
 
 
