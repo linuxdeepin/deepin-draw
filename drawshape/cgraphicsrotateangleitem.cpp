@@ -19,6 +19,7 @@
 #include "cgraphicsrotateangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPainter>
 
@@ -55,6 +56,9 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
 
     painter->setPen(Qt::NoPen);
     if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {

@@ -59,6 +59,8 @@
 #include <QClipboard>
 #include <QMessageBox>
 
+#include "drawshape/cdrawscene.h"
+
 CGraphicsView::CGraphicsView(DWidget *parent)
     : DGraphicsView (parent)
     , m_scale(1)
@@ -217,6 +219,18 @@ void CGraphicsView::initContextMenu()
     m_viewOriginalAction = new QAction(this);
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     this->addAction(m_viewOriginalAction);
+
+    connect(m_undoAct, &QAction::trigger, this, [ = ]() {
+        if (CDrawScene::GetInstance() != nullptr) {
+            CDrawScene::GetInstance()->renderSelfToPixmap();
+        }
+    }, Qt::QueuedConnection);
+
+    connect(m_redoAct, &QAction::trigger, this, [ = ]() {
+        if (CDrawScene::GetInstance() != nullptr) {
+            CDrawScene::GetInstance()->renderSelfToPixmap();
+        }
+    }, Qt::QueuedConnection);
 }
 
 void CGraphicsView::initContextMenuConnection()

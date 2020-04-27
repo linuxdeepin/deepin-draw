@@ -30,6 +30,90 @@
 
 const int SmoothMaxCount = 10;
 
+CGraphicsPenItem *CGraphicsPenItem::s_curPenItem = nullptr;
+
+#include <QtMath>
+
+static QPainterPath generateSmoothCurve(QList<double> points, bool closed, double tension, int numberOfSegments = 16)
+{
+    QList<double> ps(points); // clone array so we don't change the original points
+    QList<double> result; // generated smooth curve coordinates
+    double x, y;
+    double t1x, t2x, t1y, t2y;
+    double c1, c2, c3, c4;
+    double st;
+
+// The algorithm require a previous and next point to the actual point array.
+// Check if we will draw closed or open curve.
+// If closed, copy end points to beginning and first points to end
+// If open, duplicate first points to befinning, end points to end
+    if (closed) {
+        ps.prepend(points[points.length() - 1]);
+        ps.prepend(points[points.length() - 2]);
+        ps.prepend(points[points.length() - 1]);
+        ps.prepend(points[points.length() - 2]);
+        ps.append(points[0]);
+        ps.append(points[1]);
+    } else {
+        ps.prepend(points[1]); // copy 1st point and insert at beginning
+        ps.prepend(points[0]);
+        ps.append(points[points.length() - 2]); // copy last point and append
+        ps.append(points[points.length() - 1]);
+    }
+
+// 1. loop goes through point array
+// 2. loop goes through each segment between the 2 points + 1e point before and after
+    for (int i = 2; i < (ps.length() - 4); i += 2) {
+// calculate tension vectors
+        t1x = (ps[i + 2] - ps[i - 2]) * tension;
+        t2x = (ps[i + 4] - ps[i - 0]) * tension;
+        t1y = (ps[i + 3] - ps[i - 1]) * tension;
+        t2y = (ps[i + 5] - ps[i + 1]) * tension;
+
+        for (int t = 0; t <= numberOfSegments; t++) {
+// calculate step
+            st = (double)t / (double)numberOfSegments;
+
+// calculate cardinals
+            c1 = 2 * qPow(st, 3) - 3 * qPow(st, 2) + 1;
+            c2 = -2 * qPow(st, 3) + 3 * qPow(st, 2);
+            c3 = qPow(st, 3) - 2 * qPow(st, 2) + st;
+            c4 = qPow(st, 3) - qPow(st, 2);
+
+// calculate x and y cords with common control vectors
+            x = c1 * ps[i] + c2 * ps[i + 2] + c3 * t1x + c4 * t2x;
+            y = c1 * ps[i + 1] + c2 * ps[i + 3] + c3 * t1y + c4 * t2y;
+
+//store points in array
+            result << x << y;
+        }
+    }
+
+// 使用的平滑曲线的坐标创建 QPainterPath
+    QPainterPath path;
+    path.moveTo(result[0], result[1]);
+    for (int i = 2; i < result.length() - 2; i += 2) {
+        path.lineTo(result[i + 0], result[i + 1]);
+    }
+
+    if (closed) {
+        path.closeSubpath();
+    }
+
+    return path;
+}
+
+static QPainterPath generateSmoothCurve(QList<QPointF> points, bool closed, double tension, int numberOfSegments = 16)
+{
+    QList<double> ps;
+
+    foreach (QPointF p, points) {
+        ps << p.x() << p.y();
+    }
+
+    return generateSmoothCurve(ps, closed, tension, numberOfSegments);
+}
+
 static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
 {
     // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
@@ -336,6 +420,7 @@ void CGraphicsPenItem::updateCoordinate()
 
 void CGraphicsPenItem::drawComplete()
 {
+    //qDebug() << "---------------- drawComplete0 count = " << m_path.elementCount() << boundingRect().size();
     if (m_isShiftPress) {
         m_isShiftPress = false;
 //        m_poitsPath.push_back(m_straightLine.p2());
@@ -375,43 +460,45 @@ void CGraphicsPenItem::drawComplete()
 
     if (m_path.elementCount() > 5) {
 
-        QPainterPath vout;
+//        QPainterPath vout;
 
 
-        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
-            QPainterPath::Element p0 = m_path.elementAt(i);
-            QPainterPath::Element p1 = m_path.elementAt(i + 1);
-            QPainterPath::Element p2 = m_path.elementAt(i + 2);
-            QPainterPath::Element p3 = m_path.elementAt(i + 3);
-            QPainterPath::Element p4 = m_path.elementAt(i + 4);
-            QPainterPath::Element p5 = m_path.elementAt(i + 5);
+//        for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
+//            QPainterPath::Element p0 = m_path.elementAt(i);
+//            QPainterPath::Element p1 = m_path.elementAt(i + 1);
+//            QPainterPath::Element p2 = m_path.elementAt(i + 2);
+//            QPainterPath::Element p3 = m_path.elementAt(i + 3);
+//            QPainterPath::Element p4 = m_path.elementAt(i + 4);
+//            QPainterPath::Element p5 = m_path.elementAt(i + 5);
 
 
-            if (0 == i) {
-                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
-                vout.moveTo(dot1);
-            }
-            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
-            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
-            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
-            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
-            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
+//            if (0 == i) {
+//                QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
+//                vout.moveTo(dot1);
+//            }
+//            QPointF dot2 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1 / 5.0);
+//            QPointF dot3 = GetBezierValue(p0, p1, p2, p3, p4, p5,  2 / 5.0);
+//            QPointF dot4 = GetBezierValue(p0, p1, p2, p3, p4, p5,  3 / 5.0);
+//            QPointF dot5 = GetBezierValue(p0, p1, p2, p3, p4, p5,  4 / 5.0);
+//            QPointF dot6 = GetBezierValue(p0, p1, p2, p3, p4, p5,  1);
 
 
-            vout.lineTo(dot2);
-            vout.lineTo(dot3);
-            vout.lineTo(dot4);
-            vout.lineTo(dot5);
-            vout.lineTo(dot6);
+//            vout.lineTo(dot2);
+//            vout.lineTo(dot3);
+//            vout.lineTo(dot4);
+//            vout.lineTo(dot5);
+//            vout.lineTo(dot6);
 
-        }
-        prepareGeometryChange();
-        m_path = vout;
+//        }
+//        prepareGeometryChange();
+//        m_path = vout;
 
         calcVertexes();
     }
 
     updateCoordinate();
+
+    //qDebug() << "---------------- drawComplete1 count = " << m_path.elementCount() << boundingRect().size();
 
 }
 
@@ -424,8 +511,11 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 }
 
+#include <QTime>
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
+    if (m_recordPrePos == endPoint)
+        return;
 
     /*prepareGeometryChange();
 
@@ -454,6 +544,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
     prepareGeometryChange();
     m_isShiftPress = isShiftPress;
 
+    QPainterPath   thisTimePath;
     if (isShiftPress) {
         m_straightLine.setP1(m_path.currentPosition());
         m_straightLine.setP2(endPoint);
@@ -462,18 +553,80 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         calcVertexes(m_straightLine.p1(), m_straightLine.p2());
         //}
     } else {
-        m_path.lineTo(endPoint);
+//        int oldCount      = m_path.elementCount();
+//        QPointF   lastPos = oldCount == 0 ? endPoint : m_path.elementAt(m_path.elementCount() - 1);
+
+//        m_path.lineTo(endPoint);
+//        m_smoothVector.push_back(endPoint);
+//        if (m_smoothVector.count() > SmoothMaxCount) {
+//            m_smoothVector.removeFirst();
+//        }
+//        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
+//        m_points.append(endPoint);
+
+//        if (m_points.size() > 1)
+//            m_path   = generateSmoothCurve(m_points, false, 0.8, 16);
+
+//        pathTemp.moveTo(lastPos);
+//        for (int i = oldCount; i < m_path.elementCount(); ++i) {
+//            pathTemp.lineTo(m_path.elementAt(i));
+//        }
+
+        //qDebug() << "come one point = " << endPoint;
+        bool isFirstPoint = m_points.isEmpty();
+
+        m_points.append(endPoint);
         m_smoothVector.push_back(endPoint);
         if (m_smoothVector.count() > SmoothMaxCount) {
             m_smoothVector.removeFirst();
         }
         calcVertexes(m_smoothVector.first(), m_smoothVector.last());
 
+        if (!isFirstPoint) {
+//            QTime timer;
+//            timer.start();
+//            qDebug() << "generateSmoothCurve begin --------";
+
+            //证明两个点以上了要进行插值优化
+            QPainterPath newPath      = generateSmoothCurve(m_points, false, 0.5, 8);
+            thisTimePath.moveTo(m_path.elementAt(m_path.elementCount() - 1));
+            //int newCreatPosCount = newPath.elementCount() - m_path.elementCount();
+            //qDebug() << "------------- newCreatPosCount ====  " << newCreatPosCount;
+            for (int i = m_path.elementCount(); i < newPath.elementCount(); ++i) {
+                thisTimePath.lineTo(newPath.elementAt(i));
+                m_path.lineTo(newPath.elementAt(i));
+            }
+            //qDebug() << "generateSmoothCurve ends   ms =   " << timer.elapsed();
+        } else {
+            //初始化第一个点
+            m_path.moveTo(endPoint);
+        }
     }
 
+    if (thisTimePath.elementCount() >= 1) {
+//        QTime timer;
+//        timer.start();
+//        qDebug() << "updatePenPath paint begin --------";
 
+        QPainter pp(&m_tmpPix);
+        pp.setRenderHint(QPainter::Antialiasing);
+        pp.setRenderHint(QPainter::SmoothPixmapTransform);
+        QPen p(pen());
+        p.setWidthF(1.0);
+        pp.setPen(p);
+        pp.drawPath(thisTimePath);
+
+        m_drawIndex = thisTimePath.elementCount() - 1;
+
+        //qDebug() << "updatePenPath paint ens   ms = " << timer.elapsed();
+    }
+
+    m_recordPrePos = endPoint;
 
     updateGeometry();
+
+
+    //qDebug() << "---------------- mouse count = " << m_path.elementCount() << boundingRect().size();
 }
 
 
@@ -545,40 +698,37 @@ void CGraphicsPenItem::updateGeometry()
         }
     }
 }
-
+#include <QCursor>
+#include <QTime>
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
     updateGeometry();
     QPen pen = this->pen();
     pen.setJoinStyle(Qt::BevelJoin);
 
-    if (0) { //如果正在绘图，就在辅助画布上绘制
-        QPainter pp(&m_tmpPix);
-        pp.setRenderHint(QPainter::Antialiasing);
-        pp.setRenderHint(QPainter::SmoothPixmapTransform);
-        pp.setPen(pen);
-
-        if (m_path.elementCount() > 0) {
-            for (int i = m_drawIndex; i != m_path.elementCount() ; i++) {
-                if ( i == 0) {
-                    continue;
-                }
-                pp.drawLine(QPointF(m_path.elementAt(i - 1)), QPointF(m_path.elementAt(i)));
-            }
-
-            m_drawIndex = m_path.elementCount() - 1;
-        }
-
-        painter->drawPixmap(0, 0, m_tmpPix);
-    } else {
-        painter->setRenderHint(QPainter::Antialiasing, !(qApp->mouseButtons()& Qt::LeftButton));
+    if (/*m_isDrawing*/s_curPenItem == this) {
+        //如果正在绘图，就在辅助画布上绘制
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
-        painter->setPen(pen);
-        painter->drawPath(m_path);
+//        QTime timer;
+//        timer.start();
+//        qDebug() << "timer begin --------";
+        painter->drawPixmap(0, 0, m_tmpPix);
+        //qDebug() << "timer ens   ms = " << timer.elapsed();
+    } else {
+        if (s_curPenItem == nullptr) {
+            //qDebug() << "------------------------s_curPenItem = " << s_curPenItem;
+            painter->setRenderHint(QPainter::Antialiasing);
+            painter->setRenderHint(QPainter::SmoothPixmapTransform);
+            painter->setPen(pen);
+            painter->drawPath(m_path);
+        }
     }
 
+    if (s_curPenItem != nullptr)
+        return;
 
     if (m_isShiftPress) {
         painter->drawLine(m_straightLine);
@@ -623,6 +773,7 @@ QPainterPath CGraphicsPenItem::getPath() const
 void CGraphicsPenItem::setPath(const QPainterPath &path)
 {
     m_path = path;
+    qDebug() << "CGraphicsPenItem::setPath count = " << m_path.elementCount();
 }
 
 EPenType CGraphicsPenItem::currentType() const
@@ -656,12 +807,28 @@ void CGraphicsPenItem::updatePenType(const EPenType &currentType)
 
 void CGraphicsPenItem::setPixmap()
 {
-    QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
-    m_tmpPix = QPixmap(rect.width(), rect.height());
-    QPainter painterd(&m_tmpPix);
-    painterd.setRenderHint(QPainter::Antialiasing);
-    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-    CDrawScene::GetInstance()->render(&painterd);
+//    QTime timer;
+//    timer.start();
+//    qDebug() << "creat pixmap begin --------";
+
+//    //qDebug() << "---------------- beginMove count = " << m_path.elementCount();
+//    //QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
+//    QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
+//    //qDebug() << "creat map = -----------------------------------";
+
+////    QRect viewInSceneRect =  QRect(CDrawScene::GetInstance()->views().first()->mapToScene(QPoint(0, 0)).toPoint(),
+////                                   QSize(CDrawScene::GetInstance()->views().first()->viewport()->size()));
+
+////    viewInSceneRect.adjust(-10, -10, 10, 10);
+
+//    m_tmpPix = QPixmap(rect.width(), rect.height());
+//    QPainter painterd(&m_tmpPix);
+//    painterd.setRenderHint(QPainter::Antialiasing);
+//    //painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+//    CDrawScene::GetInstance()->render(&painterd);
+
+    m_tmpPix = CDrawScene::GetInstance()->scenPixMap();
+    //qDebug() << "creat pixmap end ms = " << timer.elapsed();
 }
 
 void CGraphicsPenItem::setDrawFlag(bool flag)

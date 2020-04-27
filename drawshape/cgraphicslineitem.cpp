@@ -19,6 +19,7 @@
 #include "cgraphicslineitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <DSvgRenderer>
 
@@ -328,6 +329,10 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+
     updateGeometry();
 
     if (m_type == arrowType) {

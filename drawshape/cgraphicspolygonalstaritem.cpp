@@ -19,6 +19,7 @@
 #include "cgraphicspolygonalstaritem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPainter>
 #include <QtMath>
@@ -126,6 +127,9 @@ void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRad
 
 void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+
     Q_UNUSED(option)
     Q_UNUSED(widget)
 

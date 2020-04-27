@@ -235,6 +235,9 @@ public slots:
      */
     void changeMouseShape(EDrawToolMode type);
 
+    QPixmap &scenPixMap();
+    void     renderSelfToPixmap();
+
 protected:
 
     /**
@@ -269,7 +272,6 @@ protected:
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
 
-
 private:
     /**
      * @brief CDrawScene 构造函数
@@ -291,7 +293,7 @@ private:
     QCursor m_brushMouse;
     QCursor m_blurMouse;
 
-
+    QPixmap m_scenePixMap;
 
 };
 

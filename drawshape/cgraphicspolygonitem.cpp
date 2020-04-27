@@ -19,6 +19,7 @@
 #include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPen>
 #include <QPainter>
@@ -124,6 +125,8 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
 
     updateGeometry();
     painter->setPen(pen());

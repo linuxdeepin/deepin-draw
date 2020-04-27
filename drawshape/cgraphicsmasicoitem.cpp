@@ -7,6 +7,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <DApplication>
 #include <QGraphicsScene>
@@ -93,6 +94,9 @@ int CGraphicsMasicoItem::type() const
 
 void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+
     updateGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
