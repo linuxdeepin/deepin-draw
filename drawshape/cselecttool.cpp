@@ -368,7 +368,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
     }
     //鼠标移动到item边缘时item高亮
-    if (  m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+    if (m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
         QPointF leftTop(event->scenePos().x() - 3, event->scenePos().y() - 3);
         QPointF bottomRight(event->scenePos().x() + 3, event->scenePos().y() + 3);
         QRectF rect(leftTop, bottomRight);
@@ -450,13 +450,16 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 scene->getItemHighLight()->setPos(QPoint(0, 0));
                 scene->getItemHighLight()->setPath(curItem->mapToScene(curItem->getHighLightPath()));
                 scene->getItemHighLight()->setVisible(true);
+                scene->views().first()->viewport()->update();
                 if (!m_bMousePress) {
                     m_highlightItem = closeItem;
                 }
-
             } else {
                 scene->getItemHighLight()->setVisible(false);
             }
+        } else {
+            // 为了解决移动到图元后不点击五角星，会出现高亮的点点问题（顶点）。
+            scene->update();
         }
         if (m_bMousePress) {
             scene->getItemHighLight()->setVisible(false);
