@@ -19,20 +19,18 @@ void CProgressDialog::initUI()
     setModal(true);
     setCloseButtonVisible(false);
 
-    //setTitle(tr("正在导出"));
-    setTitle(tr("Exporting..."));
-
     m_progressBar = new DProgressBar(this);
     m_progressBar->setMinimum(0);
     m_progressBar->setMaximum(100);
     m_progressBar->setValue(0);
-    m_progressBar->setAlignment(Qt::AlignHCenter);
     m_progressBar->setFixedHeight(8);
 
 
     DWidget *widget = new DWidget(this);
+    _titleLabel = new DLabel(this);
 
     QVBoxLayout *layout = new QVBoxLayout(widget);
+    layout->addWidget(_titleLabel);
     layout->addWidget(m_progressBar);
 
     addContent(widget, Qt::AlignVCenter);
@@ -46,9 +44,9 @@ void CProgressDialog::slotupDateProcessBar(int value)
 void CProgressDialog::showProgressDialog(EProgressDialogType type, bool isOpenByDDF)
 {
     if (SaveDDF == type) {
-        setTitle(tr("Saving..."));
+        _titleLabel->setText(tr("Saving..."));
     } else if (LoadDDF == type) {
-        setTitle(tr("Opening..."));
+        _titleLabel->setText(tr("Opening..."));
     }
     m_progressBar->reset();
 
