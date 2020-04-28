@@ -243,7 +243,7 @@ void PolygonAttributeWidget::updatePolygonWidget()
     m_sideWidthWidget->setVisible(true);
     m_sideNumLabel->setVisible(true);
     m_sideNumSpinBox->setVisible(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void PolygonAttributeWidget::slotSideValueChanged(int value)

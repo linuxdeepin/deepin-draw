@@ -292,6 +292,10 @@ void LineWidget::initConnection()
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
+    // 线宽度属性刷新
+    m_sideWidthWidget->blockSignals(true);
+    m_sideWidthWidget->updateSideWidth();
+    m_sideWidthWidget->blockSignals(false);
 }
 
 void LineWidget::slotSideWidthChoosed(int width)

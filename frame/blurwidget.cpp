@@ -55,7 +55,7 @@ void BlurWidget::updateBlurWidget()
     m_pLineWidthSlider->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_pLineWidthSlider->blockSignals(false);
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void BlurWidget::changeButtonTheme()

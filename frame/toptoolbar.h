@@ -77,10 +77,6 @@ signals:
      */
     void signalImport();
     /**
-     * @brief signalAttributeChanged　图元属性改变信号
-     */
-    void signalAttributeChanged();
-    /**
      * @brief signalPassPictureOperation   传递图片的旋转和翻转信号
      */
     void signalPassPictureOperation(int);

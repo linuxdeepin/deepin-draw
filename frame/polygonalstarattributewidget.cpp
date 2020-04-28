@@ -304,7 +304,7 @@ void PolygonalStarAttributeWidget::updatePolygonalStarWidget()
     m_anchorNumber->setVisible(true);
     m_radiusLabel->setVisible(true);
     m_radiusNumber->setVisible(true);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
