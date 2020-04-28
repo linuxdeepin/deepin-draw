@@ -656,6 +656,9 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
 
     m_pasteAct->setEnabled(pasteFlag);
+    if (!pasteFlag) {
+        m_pasteAct->setEnabled(getCouldPaste());
+    }
 
     m_contextMenu->move(menuPos);
     m_undoAct->setEnabled(m_pUndoStack->canUndo());
@@ -1804,6 +1807,35 @@ QList<CGraphicsItem *> CGraphicsView::getSelectedValidItems()
     }
 
     return validItems;
+}
+
+bool CGraphicsView::getCouldPaste()
+{
+    QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+    QString filePath = mp->text();
+    QStringList tempfilePathList = filePath.split("\n");
+
+
+    bool couldPaste = false;
+    QString ddfPath = "";
+    for (int i = 0; i < tempfilePathList.size(); i++) {
+        QFileInfo info(tempfilePathList[i]);
+        if (info.suffix().toLower() == ("ddf")) {
+            ddfPath = tempfilePathList[i].replace("file://", "");
+            if (!ddfPath.isEmpty()) {
+                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
+                if (isOpened)
+                    continue;
+                couldPaste = true;
+            }
+        } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
+                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+            //图片格式："*.png *.jpg *.bmp *.tif"
+            couldPaste = true;
+        }
+
+    }
+    return couldPaste;
 }
 
 //拖曳加载文件

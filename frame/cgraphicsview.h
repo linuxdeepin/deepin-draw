@@ -599,6 +599,12 @@ private:
     * @return: QList<CGraphicsItem *> 有效图元集合
     */
     QList<CGraphicsItem *> getSelectedValidItems();
+
+    /**
+     * @brief getCouldPaste 判断当前是否可粘贴
+     * @return
+     */
+    bool getCouldPaste();
 };
 
 #endif // CGRAPHICSVIEW_H
