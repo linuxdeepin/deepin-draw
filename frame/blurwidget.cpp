@@ -23,6 +23,7 @@
 #include "drawshape/globaldefine.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DSlider>
 #include <QHBoxLayout>
@@ -168,7 +169,7 @@ void BlurWidget::initUI()
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
-        emit signalBlurAttributeChanged();
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWith, value);
     });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -194,15 +195,13 @@ void BlurWidget::initConnection()
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(BlurEffect);
-        emit signalBlurAttributeChanged();
-
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Blurtype, BlurEffect);
     });
 
     connect(m_masicBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_masicBtn);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(MasicoEffect);
-        emit signalBlurAttributeChanged();
-
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Blurtype, MasicoEffect);
     });
 }
 

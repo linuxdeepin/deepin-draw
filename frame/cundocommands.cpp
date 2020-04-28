@@ -1720,6 +1720,12 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontFamily());
             qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
             break;
+        case BlurWith:
+            oldValue.setValue(static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth());
+            break;
+        case Blurtype:
+            oldValue.setValue(static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()));
+            break;
         }
         m_oldValues[item] = oldValue;
     }
@@ -1805,6 +1811,20 @@ void CSetItemsCommonPropertyValueCommand::undo()
             if (curTextItem != nullptr) {
                 qDebug() << "*****************undo: " << oldValue.value<QString>();
                 curTextItem->setFontFamily(oldValue.value<QString>());
+            }
+        }
+        break;
+        case BlurWith: {
+            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
+            if (curtem != nullptr) {
+                curtem->setBlurWidth(oldValue.value<int>());
+            }
+        }
+        break;
+        case Blurtype: {
+            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
+            if (curtem != nullptr) {
+                curtem->setBlurEffect(static_cast<EBlurEffect>(oldValue.value<int>()));
             }
         }
         break;
@@ -1963,6 +1983,20 @@ void CSetItemsCommonPropertyValueCommand::redo()
             if (curTextItem != nullptr) {
                 curTextItem->setFontFamily(m_value.value<QString>());
                 qDebug() << "*****************redo: " << curTextItem->getFontFamily();
+            }
+        }
+        break;
+        case BlurWith: {
+            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
+            if (curtem != nullptr) {
+                curtem->setBlurWidth(m_value.value<int>());
+            }
+        }
+        break;
+        case Blurtype: {
+            auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
+            if (curtem != nullptr) {
+                curtem->setBlurEffect(static_cast<EBlurEffect>(m_value.value<int>()));
             }
         }
         break;

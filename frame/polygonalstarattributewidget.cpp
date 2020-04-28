@@ -41,6 +41,8 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 
+#include <QLineEdit>
+
 const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
 const int TEXT_SIZE = 14;
@@ -160,10 +162,12 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new CSpinBox(this);
     m_anchorNumber->setKeyboardTracking(false);
-    m_anchorNumber->setFixedSize(QSize(70, 36));
+    m_anchorNumber->setFixedSize(QSize(120, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
     m_anchorNumber->setSpecialValueText("— —");
+    m_anchorNumber->setEnabledEmbedStyle(true);
+
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
@@ -171,10 +175,11 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
     m_radiusNumber->setRange(0, 1000);
-    m_radiusNumber->setFixedSize(QSize(90, 36));
+    m_radiusNumber->setFixedSize(QSize(140, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
     m_radiusNumber->setSpecialValueText("— —");
+    m_radiusNumber->setEnabledEmbedStyle(true);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -324,6 +329,7 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value);
+    //m_anchorNumber->setFocus(Qt::MouseFocusReason);
 }
 
 void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
@@ -345,6 +351,7 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value);
+    m_radiusNumber->setFocus(Qt::MouseFocusReason);
 }
 
 void PolygonalStarAttributeWidget::slotSideWidthChoosed(int width)
