@@ -49,6 +49,11 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     this->setFrameStyle(NoFrame);
 }
 
+CTextEdit::~CTextEdit()
+{
+    m_pItem = nullptr;
+}
+
 void CTextEdit::slot_textChanged()
 {
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
@@ -235,7 +240,7 @@ void CTextEdit::setVisible(bool visible)
         QTextCursor cursor = this->textCursor();
         cursor.select(QTextCursor::Document);
         this->setTextCursor(cursor);
-        if (nullptr != m_pItem->scene()) {
+        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
             auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
             curScene->updateBlurItem(m_pItem);
         }

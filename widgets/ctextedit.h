@@ -33,6 +33,7 @@ class CTextEdit : public QTextEdit
     Q_OBJECT
 public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
+    ~CTextEdit() override;
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 

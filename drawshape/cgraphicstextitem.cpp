@@ -67,7 +67,10 @@ CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SG
 
 CGraphicsTextItem::~CGraphicsTextItem()
 {
-
+    if (m_pTextEdit != nullptr) {
+        m_pTextEdit->deleteLater();
+        m_pTextEdit = nullptr;
+    }
 }
 
 void CGraphicsTextItem::initTextEditWidget()
