@@ -523,8 +523,8 @@ private:
     QAction *m_itemsTopAlign;       //顶对齐
     QAction *m_itemsVCenterAlign;   //垂直居中对齐
     QAction *m_itemsBottomAlign;    //底对齐
-    QAction *m_itemsVEqulSpaceAlign;//水平等间距对齐
-    QAction *m_itemsHEqulSpaceAlign;//垂直等间距对齐
+    QAction *m_itemsHEqulSpaceAlign;//水平等间距对齐
+    QAction *m_itemsVEqulSpaceAlign;//垂直等间距对齐
 
     QAction *m_viewZoomInAction;  // 缩小快捷键
     QAction *m_viewZoomOutAction; // 放大快捷键 ctrl + +

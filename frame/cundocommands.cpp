@@ -2028,3 +2028,41 @@ void CSetItemsCommonPropertyValueCommand::redo()
 
     myGraphicsScene->update();
 }
+
+CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
+{
+    myGraphicsScene = scene;
+    m_itemsStartPos = startPos;
+    m_itemsEndPos = endPos;
+    m_isMoved = true;
+}
+
+void CItemsAlignCommand::undo()
+{
+    qDebug() << "CItemsAlignCommand::undo";
+    if (m_isMoved) {
+        QList<CGraphicsItem *> allItems = m_itemsStartPos.keys();
+        QList<QPointF> itemsStartPos = m_itemsStartPos.values();
+        QList<QPointF> itemsEndPos = m_itemsEndPos.values();
+
+        for (int i = 0; i < allItems.size(); i++) {
+            allItems.at(i)->move(itemsEndPos.at(i), itemsStartPos.at(i));
+        }
+    }
+    m_isMoved = false;
+}
+
+void CItemsAlignCommand::redo()
+{
+    qDebug() << "CItemsAlignCommand::redo";
+    if (!m_isMoved) {
+        QList<CGraphicsItem *> allItems = m_itemsStartPos.keys();
+        QList<QPointF> itemsStartPos = m_itemsStartPos.values();
+        QList<QPointF> itemsEndPos = m_itemsEndPos.values();
+
+        for (int i = 0; i < allItems.size(); i++) {
+            allItems.at(i)->move(itemsStartPos.at(i), itemsEndPos.at(i));
+        }
+    }
+    m_isMoved = true;
+}

@@ -538,4 +538,22 @@ private:
     QMap<CGraphicsItem *, QVariant> m_oldValues;
 };
 
+/**
+ * @brief The CItemsAlignCommand class  设置图元对齐
+ */
+class CItemsAlignCommand : public QUndoCommand
+{
+public:
+    CItemsAlignCommand(CDrawScene *scene,
+                       QMap<CGraphicsItem *, QPointF> startPos,
+                       QMap<CGraphicsItem *, QPointF> endPos);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CDrawScene *myGraphicsScene;
+    QMap<CGraphicsItem *, QPointF> m_itemsStartPos;
+    QMap<CGraphicsItem *, QPointF> m_itemsEndPos;
+    bool m_isMoved = false;
+};
 #endif // CUNDOCOMMANDS_H
