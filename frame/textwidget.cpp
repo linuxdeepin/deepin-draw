@@ -303,8 +303,6 @@ void TextWidget::initConnection()
 
         showColorPanel(DrawStatus::TextFill, pos, show);
     });
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)),
-            this, SLOT(slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)));
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();

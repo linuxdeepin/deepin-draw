@@ -54,6 +54,7 @@ const int Text_Size = 14;
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
+    m_propertys.clear();
     initUI();
     initConnection();
 }
@@ -341,8 +342,15 @@ void TopToolbar::updateMiddleWidget(int type)
 void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
 {
     Q_UNUSED(pos);
-
-    m_colorPanel->updateColorPanel(drawstatus);
+    QColor color;
+    if (drawstatus == DrawStatus::Fill) {
+        color = m_propertys[FillColor].value<QColor>();
+    } else if (drawstatus == DrawStatus::Stroke) {
+        color = m_propertys[LineColor].value<QColor>();
+    } else if (drawstatus == DrawStatus::TextFill) {
+        color = m_propertys[TextColor].value<QColor>();
+    }
+    m_colorPanel->updateColorPanel(drawstatus, color, CManagerAttributeService::getInstance()->getSelectedColorAlpha(drawstatus));
     m_colorARect->raise();
 
     if (visible) {
@@ -514,6 +522,7 @@ void TopToolbar::slotRectRediusChanged(int value)
 void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys)
 {
     if (propertys.size() > 0) {
+        m_propertys = propertys;
         m_stackWidget->currentWidget()->setVisible(true);
     } else {
         m_stackWidget->currentWidget()->setVisible(false);

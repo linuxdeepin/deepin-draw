@@ -295,7 +295,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     } else {
                         qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
                     }
-                    CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
                 }
             } else {
                 m_currentSelectItem = nullptr;
@@ -736,8 +735,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 } else {
                     m_currentSelectItem->setSelected(true);
                 }
-                //显示所选图元素属性
-                CManagerAttributeService::getInstance()->updateSingleItemProperty(scene, m_currentSelectItem);
             }
             if (scene->getItemsMgr()->getItems().size() > 1) {
                 scene->getItemsMgr()->setSelected(true);

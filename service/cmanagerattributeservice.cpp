@@ -495,93 +495,6 @@ void CManagerAttributeService::updateCurrentScence()
     m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 }
 
-void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
-{
-    Q_UNUSED(scence)
-    if (item == nullptr) {
-        return;
-    }
-    updateCurrentScence();
-    QList<CGraphicsItem *> items;
-    items.push_back(static_cast<CGraphicsItem *>(item));
-    if (allPictureItem(m_currentScence, items)) {
-        return;
-    }
-
-    QMap<EDrawProperty, QVariant> propertys;
-
-    switch (item->type()) {
-    case TextType: {
-        CGraphicsItem *cItem = nullptr;
-        cItem = static_cast<CGraphicsItem *>(item);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsItem failed.";
-            return;
-        }
-
-        CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(cItem);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsTextItem failed.";
-            return;
-        }
-
-        bool isSameColor = textItem->getAllTextColorIsEqual();
-        if (!isSameColor) {
-            propertys.insert(TextColor, QColor());
-        } else {
-            propertys.insert(TextColor, textItem->getTextColor());
-        }
-
-        bool isSameSize = textItem->getAllFontSizeIsEqual();
-        if (!isSameSize) {
-            propertys.insert(TextSize, 0);
-        } else {
-            propertys.insert(TextSize, textItem->getFont().pointSize());
-        }
-
-        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
-        if (!isSameFamily) {
-            propertys.insert(TextFont, "");
-        } else {
-            propertys.insert(TextFont, textItem->getFont().family());
-        }
-
-        bool isSameWeight = textItem->getAllFontStyleIsEqual();
-        if (!isSameWeight) {
-            propertys.insert(TextHeavy, "");
-        } else {
-            propertys.insert(TextHeavy, textItem->getTextFontStyle());
-        }
-
-        emit signalTextItemPropertyUpdate(propertys);
-        break;
-    }
-    case PenType: {
-        CGraphicsItem *cItem = nullptr;
-        cItem = static_cast<CGraphicsItem *>(item);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsItem failed.";
-            return;
-        }
-
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(cItem);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsTextItem failed.";
-            return;
-        }
-
-        ELineType startType = penItem->getPenStartType();
-        propertys.insert(LineAndPenStartType, startType);
-
-        ELineType endType = penItem->getPenEndType();
-        propertys.insert(LineAndPenEndType, endType);
-
-        emit signalPenItemPropertyUpdate(propertys);
-        break;
-    }
-    }
-}
-
 void CManagerAttributeService::doSceneAdjustment()
 {
     if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
@@ -634,6 +547,82 @@ void CManagerAttributeService::doCut()
             }
         }
     }
+}
+
+int CManagerAttributeService::getSelectedColorAlpha(DrawStatus drawstatus)
+{
+    int alpha = 255;
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+        return alpha;
+
+    updateCurrentScence();
+
+    if (m_currentScence && m_currentScence->getItemsMgr()) {
+        QList<CGraphicsItem *> allItems;
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            allItems = m_currentScence->getItemsMgr()->getItems();
+            int alphaTemp = 255;
+            CGraphicsItem *itemFirst = dynamic_cast<CGraphicsItem *>(allItems.at(0));
+            if (itemFirst != nullptr) {
+                if (drawstatus == DrawStatus::Fill) {
+                    alphaTemp = itemFirst->pen().color().alpha();
+                } else if (drawstatus == DrawStatus::Stroke) {
+                    alphaTemp = itemFirst->brush().color().alpha();
+                } else if (drawstatus == DrawStatus::TextFill) {
+                    if (itemFirst->type() == TextType) {
+                        alphaTemp = static_cast<CGraphicsTextItem *>(itemFirst)->getTextColor().alpha();
+                    }
+                }
+            }
+            for (int i = allItems.size() - 1; i >= 0; i--) {
+                CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(allItems.at(i));
+                if (item != nullptr) {
+                    if (drawstatus == DrawStatus::Fill) {
+                        alpha = item->brush().color().alpha();
+                    } else if (drawstatus == DrawStatus::Stroke) {
+                        alpha = item->pen().color().alpha();
+                    } else if (drawstatus == DrawStatus::TextFill) {
+                        if (item->type() == TextType) {
+                            alpha = static_cast<CGraphicsTextItem *>(item)->getTextColor().alpha();
+                        }
+                    }
+                    if (alpha != alphaTemp) {
+                        alpha = 255;
+                        break;
+                    } else {
+                        alphaTemp = alpha;
+                    }
+                }
+            }
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
+            }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    if (drawstatus == DrawStatus::Fill) {
+                        alpha = item->brush().color().alpha();
+                    } else if (drawstatus == DrawStatus::Stroke) {
+                        alpha = item->pen().color().alpha();
+                    } else if (drawstatus == DrawStatus::TextFill) {
+                        if (item->type() == TextType) {
+                            alpha = static_cast<CGraphicsTextItem *>(item)->getTextColor().alpha();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return alpha;
 }
 
 bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)

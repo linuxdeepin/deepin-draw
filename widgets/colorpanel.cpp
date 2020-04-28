@@ -389,19 +389,11 @@ void ColorPanel::resetColorBtn()
 }
 
 
-void ColorPanel::updateColorPanel(DrawStatus status)
+void ColorPanel::updateColorPanel(DrawStatus status, QColor color, int alpha)
 {
     m_drawstatus = status;
 
-    QColor configColor;
-    if (m_drawstatus == DrawStatus::Fill) {
-        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
-    } else if (m_drawstatus == DrawStatus::Stroke) {
-        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
-    } else if (m_drawstatus == DrawStatus::TextFill) {
-        configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-    }
-
+    QColor configColor = color;
     ////更新颜色按钮
     if (m_colList.contains(configColor)) {
         m_cButtonList[m_colList.indexOf(configColor)]->setChecked(true);
@@ -418,7 +410,7 @@ void ColorPanel::updateColorPanel(DrawStatus status)
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
-    m_alphaControlWidget->updateAlphaControlWidget(configColor.alpha());
+    m_alphaControlWidget->updateAlphaControlWidget(alpha);
 
     ///更新RBG值
     m_pickColWidget->setRgbValue(configColor);

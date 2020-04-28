@@ -259,6 +259,7 @@ private:
 
     QAction *m_saveAction;
     QAction *m_newAction;
+    QMap<EDrawProperty, QVariant> m_propertys;//选中图元后传过来的信息
 
 private:
     /**
