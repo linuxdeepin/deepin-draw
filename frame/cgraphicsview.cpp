@@ -105,6 +105,23 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     initConnection();
 
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+
+    //setDragMode(ScrollHandDrag);
+
+    viewport()->installEventFilter(this);
+    //viewport()->setFocusPolicy(Qt::ClickFocus);
+//    viewport()->grabKeyboard();
+//    viewport()->setFocusPolicy(Qt::StrongFocus);
+//    QAction *action = new QAction(viewport());
+//    action->setShortcut(QKeySequence(Qt::Key_Space));
+//    connect(action, &QAction::trigger, this, [ = ]() {
+//        _spaceKeyPressed = true;
+//        _tempCursor = *qApp->overrideCursor();
+//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
+//    });
+//    viewport()->addAction(action);
+
+
 }
 
 void CGraphicsView::zoomOut()
@@ -1828,6 +1845,118 @@ void CGraphicsView::enterEvent(QEvent *event)
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->changeMouseShape(currentMode);
     }
+}
+
+void CGraphicsView::mousePressEvent(QMouseEvent *event)
+{
+//    _pressBeginPos = event->pos();
+//    _recordMovePos = _pressBeginPos;
+    QGraphicsView::mousePressEvent(event);
+}
+
+void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
+{
+//    bool finished = false;
+
+//    if (event->buttons() & Qt::LeftButton) {
+//        //移动卷轴
+//        QPointF mov = event->pos() - _recordMovePos;
+//        int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
+//        qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
+//        this->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), this->horizontalScrollBar()->maximum()));
+
+//        int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
+//        this->verticalScrollBar()->setValue(qMin(qMax(0, verValue), this->verticalScrollBar()->maximum()));
+
+//        finished = true;
+
+//        event->accept();
+//    }
+
+//    _recordMovePos = event->pos();
+
+//    if (!finished)
+    QGraphicsView::mouseMoveEvent(event);
+}
+
+void CGraphicsView::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        if (!event->isAutoRepeat()) {
+            _spaceKeyPressed = true;
+            _tempCursor = *qApp->overrideCursor();
+            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+        }
+    }
+}
+
+void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Space) {
+        if (!event->isAutoRepeat()) {
+            _spaceKeyPressed = false;
+            qApp->setOverrideCursor(_tempCursor);
+        }
+    }
+}
+
+bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
+{
+    if (viewport() == o) {
+        bool finished = false;
+        /*if (e->type() == QEvent::KeyPress ) {
+            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
+            if (event->key() == Qt::Key_Space) {
+                _spaceKeyPressed = true;
+                _tempCursor = *qApp->overrideCursor();
+                qApp->setOverrideCursor(Qt::ClosedHandCursor);
+
+                finished = true;
+            }
+        } else if (e->type() == QEvent::KeyRelease) {
+            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
+            if (event->key() == Qt::Key_Space) {
+                _spaceKeyPressed = false;
+                qApp->setOverrideCursor(_tempCursor);
+                finished = true;
+            }
+        } else */if (e->type() == QEvent::MouseButtonPress) {
+            QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+            _pressBeginPos = event->pos();
+            _recordMovePos = _pressBeginPos;
+            if (_spaceKeyPressed && event->button() == Qt::LeftButton) {
+                finished       = true;
+            }
+        } else if (e->type() == QEvent::MouseMove) {
+            QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
+            {
+                if (_spaceKeyPressed && event->buttons() == Qt::LeftButton) {
+                    //移动卷轴
+                    CDrawScene *pScene = qobject_cast<CDrawScene *>(scene());
+                    if (pScene != nullptr) {
+                        pScene->clearSelection();
+                        pScene->blockMouseMoveEvent(true);
+                    }
+                    QPointF mov = event->pos() - _recordMovePos;
+                    int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
+                    //qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
+                    this->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), this->horizontalScrollBar()->maximum()));
+
+                    int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
+                    this->verticalScrollBar()->setValue(qMin(qMax(0, verValue), this->verticalScrollBar()->maximum()));
+
+                    if (pScene != nullptr) {
+                        pScene->blockMouseMoveEvent(false);
+                    }
+
+                    finished = true;
+                }
+                _recordMovePos = event->pos();
+            }
+        }
+        return finished;
+    }
+    return DGraphicsView::eventFilter(o, e);
 }
 
 

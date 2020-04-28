@@ -46,6 +46,7 @@
 #include <QGraphicsView>
 #include <QtMath>
 #include <DApplication>
+#include <QScrollBar>
 
 CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
     : QGraphicsScene(view)
@@ -215,6 +216,8 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+//    m_pressBeginPos  = mouseEvent->screenPos();
+//    m_pressRecordPos = m_pressBeginPos;
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
     //判断如果点在字体内，则变为选择工具
     /*QPointF pos = mouseEvent->scenePos();
@@ -243,6 +246,29 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    if (isBlockMouseMoveEvent())
+        return;
+
+    //有限判断是不是手形工具场景卷轴移动
+//    bool isSpaceKeyPressed = true;
+//    if (isSpaceKeyPressed && mouseEvent->buttons() & Qt::LeftButton) {
+//        //移动卷轴
+//        QPointF mov = mouseEvent->screenPos() - m_pressRecordPos;
+//        //qDebug() << "mov =========== " << mov;
+//        QGraphicsView *pView = views().isEmpty() ? nullptr : views().first();
+//        if (pView != nullptr) {
+//            int horValue = pView->horizontalScrollBar()->value() - qRound(mov.x());
+//            qDebug() << "old hor value = " << pView->horizontalScrollBar()->value() << "new hor value = " << horValue;
+//            pView->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), pView->horizontalScrollBar()->maximum()));
+
+//            int verValue = pView->verticalScrollBar()->value() - qRound(mov.y());
+//            //pView->verticalScrollBar()->setValue(qMin(qMax(0, verValue), pView->verticalScrollBar()->maximum()));
+//        }
+//        m_pressRecordPos = mouseEvent->screenPos();
+//        //QGraphicsScene::mouseMoveEvent(mouseEvent);
+//        return;
+//    }
+
     /*m_bIsEditTextFlag = false;
     QList<QGraphicsItem *> items = this->selectedItems();
     foreach (QGraphicsItem *item, items) {
@@ -260,6 +286,8 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
+
+    //m_pressRecordPos = mouseEvent->screenPos();
 }
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -611,5 +639,15 @@ void CDrawScene::updateItemsMgr()
         allselectedItems.first()->setSelected(true);
         emit signalAttributeChanged(true, allselectedItems.first()->type());
     }
+}
+
+void CDrawScene::blockMouseMoveEvent(bool b)
+{
+    blockMouseMoveEventFlag = b;
+}
+
+bool CDrawScene::isBlockMouseMoveEvent()
+{
+    return blockMouseMoveEventFlag;
 }
 

@@ -136,6 +136,10 @@ public:
 
     void updateItemsMgr();
 
+
+    void blockMouseMoveEvent(bool b);
+    bool isBlockMouseMoveEvent();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -348,6 +352,7 @@ private:
 
     bool dbCLicked = false;
 
+    bool blockMouseMoveEventFlag = false;
 };
 
 #endif // CDRAWSCENE_H

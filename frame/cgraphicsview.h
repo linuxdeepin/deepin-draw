@@ -186,6 +186,21 @@ protected:
     virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+
+    void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+
+    QPoint _pressBeginPos;
+    QPoint _recordMovePos;
+    bool   _spaceKeyPressed = false;
+    QCursor _tempCursor;
 signals:
     /**
      * @brief signalSetScale 设置缩放信号
