@@ -400,7 +400,16 @@ struct SGraphicsPenUnitData {
         case EDdf5_8_0_Base:
         case EDdf5_8_1_x:
         case EDdf5_8_2_x: {
+            qint8 pentype;
+            in >> pentype;
+            in >> penUnitData.path;
             in >> penUnitData.arrow;
+
+            //以当前版本的形式保存之前的版本样式
+            if (!penUnitData.arrow.isEmpty()) {
+                penUnitData.start_type = soildArrow;
+            }
+
             break;
         }
         case EDdf5_8_2_1: {

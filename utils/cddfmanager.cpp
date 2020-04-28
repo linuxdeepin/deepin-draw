@@ -282,7 +282,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                     }
 
                 } else {
-                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << RectType;
+                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << unit.head.dataType;
                     break;
                 }
 
