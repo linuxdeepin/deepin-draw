@@ -944,16 +944,17 @@ void COneLayerUpCommand::undo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1025,16 +1026,17 @@ void COneLayerUpCommand::redo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1106,16 +1108,17 @@ void COneLayerDownCommand::undo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1191,16 +1194,17 @@ void COneLayerDownCommand::redo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1278,15 +1282,17 @@ void CBringToFrontCommand::undo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isUndoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1314,15 +1320,17 @@ void CBringToFrontCommand::redo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1405,15 +1413,17 @@ void CSendToBackCommand::undo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isUndoExcuteSuccess) {
         myGraphicsScene->update();
@@ -1460,15 +1470,17 @@ void CSendToBackCommand::redo()
     }
 
     myGraphicsScene->getItemsMgr()->clear();
-    foreach (QGraphicsItem *item, m_selectItems) {
-        myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
-    }
     myGraphicsScene->clearSelection();
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->clearSelection();
+    if (m_selectItems.size() > 1) {
+        foreach (QGraphicsItem *item, m_selectItems) {
+            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(item));
+        }
         myGraphicsScene->getItemsMgr()->setSelected(true);
-        emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
+    } else if (m_selectItems.size() == 1) {
+        m_selectItems.at(0)->setSelected(true);
     }
+
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
