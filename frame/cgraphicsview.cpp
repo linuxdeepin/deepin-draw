@@ -1970,6 +1970,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
             qApp->setOverrideCursor(Qt::ClosedHandCursor);
         }
     }
+    QGraphicsView::keyPressEvent(event);
 }
 
 void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
@@ -1980,6 +1981,7 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
             qApp->setOverrideCursor(_tempCursor);
         }
     }
+    QGraphicsView::keyReleaseEvent(event);
 }
 
 bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
