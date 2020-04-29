@@ -19,6 +19,9 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
@@ -119,8 +122,7 @@ QBrush CDrawParamSigleton::getBrush() const
 {
     return QBrush(m_nFillColor);
 }
-#include "frame/cviewmanagement.h"
-#include "frame/cgraphicsview.h"
+
 void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
@@ -258,6 +260,16 @@ void CDrawParamSigleton::setTextColor(const QColor &fillColor)
 QColor CDrawParamSigleton::getTextColor() const
 {
     return m_textColor;
+}
+
+void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
+{
+    m_textColor.setAlpha(alpha);
+}
+
+int CDrawParamSigleton::getTextColorAlpha() const
+{
+    return m_textColor.alpha();
 }
 
 QString CDrawParamSigleton::getDdfSavePath() const

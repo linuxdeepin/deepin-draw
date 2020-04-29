@@ -80,6 +80,9 @@ public:
     void setTextColor(const QColor &fillColor);
     QColor getTextColor() const;
 
+    void setTextColorAlpha(const int &alpha);
+    int getTextColorAlpha() const;
+
     ECutType getCutType() const;
     void setCutType(const ECutType &cutType);
 
