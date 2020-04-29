@@ -118,19 +118,21 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             } else {
                 m_anchorNumber->setValue(propertys[property].toInt());
             }
+            m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
             m_anchorNumber->blockSignals(false);
             break;
         case StarRadius:
             m_sepLine->setVisible(true);
             m_radiusLabel->setVisible(true);
             m_radiusNumber->setVisible(true);
+            m_radiusNumber->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_radiusNumber->blockSignals(true);
                 m_radiusNumber->setValue(-1);
-                m_radiusNumber->blockSignals(false);
             } else {
                 m_radiusNumber->setValue(propertys[property].toInt());
             }
+            m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
+            m_radiusNumber->blockSignals(false);
             break;
         default:
             break;
@@ -233,16 +235,6 @@ void PolygonalStarAttributeWidget::initConnection()
         emit signalAnchorvalueIsfocus(isFocus);
     });
     connect(m_anchorNumber, &DSpinBox::editingFinished, this, [ = ] () {
-
-        QVariant preValue = m_anchorNumber->property("preValue");
-
-        if (preValue.isValid()) {
-            int preIntValue = preValue.toInt();
-            int curValue    = m_anchorNumber->value();
-            if (preIntValue == curValue)
-                return;
-        }
-
         //等于0时是特殊字符，不做处理
         qDebug() << "m_anchorNumber->value() = " << m_anchorNumber->value();
         if ( m_anchorNumber->value() == 0) {
@@ -255,6 +247,17 @@ void PolygonalStarAttributeWidget::initConnection()
             m_anchorNumber->setValue(50);
         }
         m_anchorNumber->blockSignals(false);
+
+        QVariant preValue = m_anchorNumber->property("preValue");
+
+        if (preValue.isValid()) {
+            int preIntValue = preValue.toInt();
+            int curValue    = m_anchorNumber->value();
+            if (preIntValue == curValue)
+                return;
+        }
+        m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
+
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(m_anchorNumber->value());
         emit signalPolygonalStarAttributeChanged();
         //隐藏调色板
@@ -262,7 +265,7 @@ void PolygonalStarAttributeWidget::initConnection()
         //设置多选图元属性
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, m_anchorNumber->value());
 
-        m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
+
     });
 
     //半径
@@ -271,6 +274,14 @@ void PolygonalStarAttributeWidget::initConnection()
         emit signalRadiusvalueIsfocus(isFocus);
     });
     connect(m_radiusNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        m_radiusNumber->blockSignals(true);
+        if (m_radiusNumber->value() < 0) {
+            m_radiusNumber->setValue(0);
+        } else if (m_radiusNumber->value() > 100) {
+            m_radiusNumber->setValue(100);
+        }
+        m_radiusNumber->blockSignals(false);
+
         QVariant preValue = m_radiusNumber->property("preValue");
 
         if (preValue.isValid()) {
@@ -279,22 +290,15 @@ void PolygonalStarAttributeWidget::initConnection()
             if (preIntValue == curValue)
                 return;
         }
+        m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
 
-        m_radiusNumber->blockSignals(true);
-        if (m_radiusNumber->value() < 0) {
-            m_radiusNumber->setValue(0);
-        } else if (m_radiusNumber->value() > 100) {
-            m_radiusNumber->setValue(100);
-        }
-        m_radiusNumber->blockSignals(false);
+
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(m_radiusNumber->value());
         emit signalPolygonalStarAttributeChanged();
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         //设置多选图元属性
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, m_radiusNumber->value());
-
-        m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
     });
 
 
@@ -348,6 +352,17 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
         m_anchorNumber->setValue(50);
     }
     m_anchorNumber->blockSignals(false);
+
+    QVariant preValue = m_anchorNumber->property("preValue");
+
+    if (preValue.isValid()) {
+        int preIntValue = preValue.toInt();
+        int curValue    = m_anchorNumber->value();
+        if (preIntValue == curValue)
+            return;
+    }
+    m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
+
     value = m_anchorNumber->value();
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
@@ -356,7 +371,6 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value);
-    m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
 }
 
 void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
@@ -368,6 +382,17 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
         m_radiusNumber->setValue(100);
     }
     m_radiusNumber->blockSignals(false);
+
+    QVariant preValue = m_radiusNumber->property("preValue");
+
+    if (preValue.isValid()) {
+        int preIntValue = preValue.toInt();
+        int curValue    = m_radiusNumber->value();
+        if (preIntValue == curValue)
+            return;
+    }
+    m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
+
     value = m_radiusNumber->value();
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(value);

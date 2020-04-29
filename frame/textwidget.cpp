@@ -89,6 +89,7 @@ void TextWidget::initUI()
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
+    m_fontSize->setProperty("preValue", 14); //默认大小
 
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
@@ -124,6 +125,16 @@ void TextWidget::updateTheme()
 
 void TextWidget::slotFontSizeValueChanged(int size)
 {
+    QVariant preValue = m_fontSize->property("preValue");
+
+    if (preValue.isValid()) {
+        int preIntValue = preValue.toInt();
+        int curValue    = (size < 0 ? -1 : size);
+        if (preIntValue == curValue)
+            return;
+    }
+    m_fontSize->setProperty("preValue", size);
+
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
 
     //隐藏调色板
@@ -181,6 +192,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fontSize->setCurrentIndex(-1);
                 m_fontSize->setCurrentText("— —");
             }
+            m_fontSize->setProperty("preValue", size < 0 ? -1 : size);
             m_fontSize->blockSignals(false);
             break;
         }

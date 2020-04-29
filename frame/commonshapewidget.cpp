@@ -117,6 +117,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             } else {
                 m_rediusSpinbox->setValue(propertys[property].toInt());
             }
+            m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
             m_rediusSpinbox->blockSignals(false);
             m_rediusSpinbox->update();
             break;
@@ -226,11 +227,6 @@ void CommonshapeWidget::initConnection()
         emit signalRectRediusIsfocus(isFocus);
     });
     connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [ = ] () {
-        int preIntValue = m_rediusSpinbox->property("preValue").toInt();
-        if (preIntValue == m_rediusSpinbox->value()) {
-            return;
-        }
-
         //等于0时是特殊字符，不做处理
         qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
         if ( m_rediusSpinbox->value() < 0) {
@@ -243,11 +239,17 @@ void CommonshapeWidget::initConnection()
             m_rediusSpinbox->setValue(1000);
         }
         m_rediusSpinbox->blockSignals(false);
+
+        int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+        if (preIntValue == m_rediusSpinbox->value()) {
+            return;
+        }
+        m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         emit signalRectRediusChanged(m_rediusSpinbox->value());
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value());
-        m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
     });
 }
 
@@ -274,8 +276,15 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     } else if (m_rediusSpinbox->value() > 1000) {
         m_rediusSpinbox->setValue(1000);
     }
-    redius = m_rediusSpinbox->value();
     m_rediusSpinbox->blockSignals(false);
+
+    int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+    if (preIntValue == m_rediusSpinbox->value()) {
+        return;
+    }
+    m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+    redius = m_rediusSpinbox->value();
+
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);

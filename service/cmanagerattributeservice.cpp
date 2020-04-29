@@ -474,6 +474,8 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
         if (allItems.size() <= 0) {
             return;
         }
+        static int i = 0;
+        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value;
         QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
         if (pushTostack) {
             CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
