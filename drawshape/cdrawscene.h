@@ -330,6 +330,10 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 

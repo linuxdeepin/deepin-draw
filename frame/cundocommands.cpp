@@ -29,6 +29,7 @@
 #include "drawshape/cgraphicsmasicoitem.h"
 #include "drawshape/cgraphicsitemselectedmgr.h"
 #include "drawshape/cgraphicstextitem.h"
+#include "drawshape/cgraphicsitemhighlight.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"

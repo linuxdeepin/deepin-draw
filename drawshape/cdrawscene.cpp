@@ -334,6 +334,24 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
 }
 
+void CDrawScene::keyReleaseEvent(QKeyEvent *event)
+{
+    // [0] 解决高亮图元删除后一直显示
+    if (!event->isAutoRepeat()) {
+        m_pHighLightItem->setVisible(false);
+    }
+    QGraphicsScene::keyReleaseEvent(event);
+}
+
+void CDrawScene::keyPressEvent(QKeyEvent *event)
+{
+    // [0] 解决高亮图元撤销后一直显示
+    if (!event->isAutoRepeat()) {
+        m_pHighLightItem->setVisible(false);
+    }
+    QGraphicsScene::keyPressEvent(event);
+}
+
 void CDrawScene::showCutItem()
 {
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
