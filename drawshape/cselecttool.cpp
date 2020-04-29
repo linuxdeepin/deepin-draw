@@ -340,10 +340,12 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     QList<QGraphicsItem *> items = scene->selectedItems();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
-        if (item != m_currentSelectItem) {
-            m_currentSelectItem = item;
-            m_currentSelectItem->setSelected(true);
-            m_rotateAng = m_currentSelectItem->rotation();
+        if (item->type() > QGraphicsItem::UserType && item->type() < MgrType) {
+            if (item != m_currentSelectItem) {
+                m_currentSelectItem = item;
+                m_currentSelectItem->setSelected(true);
+                m_rotateAng = m_currentSelectItem->rotation();
+            }
         }
     } else {
         m_dragHandle = CSizeHandleRect::None;
@@ -629,7 +631,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
     m_doCopy = false;
 
-    scene->removeItem(m_frameSelectItem);
     m_frameSelectItem->setVisible(false);
     //左键按下，出现框选矩形
     if (m_bMousePress && (m_currentSelectItem == nullptr)) {
@@ -707,11 +708,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                         delete m_RotateItem;
                         m_RotateItem = nullptr;
                     }
-                    if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
                         emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
                     }
                 } else if (m_dragHandle == CSizeHandleRect::InRect) {
-                    if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
                         CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(m_currentSelectItem);
 
                         if (textItem == nullptr || !textItem->isEditable()) {
@@ -721,7 +722,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 } else {
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-                    if (qAbs(vectorPoint.x()) > 0.0001 && qAbs(vectorPoint.y()) > 0.001) {
+                    if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
                         emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
                     }
                 }
