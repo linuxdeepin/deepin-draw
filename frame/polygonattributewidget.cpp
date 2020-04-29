@@ -95,11 +95,13 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
         case LineWidth:
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
+            m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
+            m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
         case SideNumber:
@@ -203,6 +205,16 @@ void PolygonAttributeWidget::initConnection()
         emit signalSideValueIsfocus(isFocus);
     });
     connect(m_sideNumSpinBox, &DSpinBox::editingFinished, this, [ = ] () {
+
+        QVariant preValue = m_sideNumSpinBox->property("preValue");
+
+        if (preValue.isValid()) {
+            int preIntValue = preValue.toInt();
+            int curValue    = m_sideNumSpinBox->value();
+            if (preIntValue == curValue)
+                return;
+        }
+
         //等于0时是特殊字符，不做处理
         qDebug() << "m_sideNumSpinBox->value() = " << m_sideNumSpinBox->value();
         if ( m_sideNumSpinBox->value() == 0) {
@@ -220,7 +232,10 @@ void PolygonAttributeWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
+
+        m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
     });
+    m_sideNumSpinBox->setProperty("preValue", 5);
 }
 
 void PolygonAttributeWidget::updatePolygonWidget()
@@ -262,6 +277,8 @@ void PolygonAttributeWidget::slotSideValueChanged(int value)
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
+
+    m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
 }
 
 void PolygonAttributeWidget::slotSideWidthChoosed(int width)

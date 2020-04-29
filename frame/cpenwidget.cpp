@@ -89,11 +89,13 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
         }
         case LineWidth:
             m_sideWidthWidget->setVisible(true);
+            m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
+            m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
         case LineAndPenStartType: {

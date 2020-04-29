@@ -1527,6 +1527,11 @@ void CGraphicsView::setModify(bool isModify)
     curScene->setModify(isModify);
 }
 
+bool CGraphicsView::isKeySpacePressed()
+{
+    return _spaceKeyPressed;
+}
+
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());

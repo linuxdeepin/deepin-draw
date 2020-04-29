@@ -89,11 +89,13 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
         case LineWidth:
 //            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
+            m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
             }
+            m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
         case LineColor:
@@ -185,6 +187,8 @@ void CommonshapeWidget::initUI()
     layout->addStretch();
 
     setLayout(layout);
+
+    m_rediusSpinbox->setProperty("preValue", 5);
 }
 
 void CommonshapeWidget::initConnection()
@@ -222,6 +226,11 @@ void CommonshapeWidget::initConnection()
         emit signalRectRediusIsfocus(isFocus);
     });
     connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [ = ] () {
+        int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+        if (preIntValue == m_rediusSpinbox->value()) {
+            return;
+        }
+
         //等于0时是特殊字符，不做处理
         qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
         if ( m_rediusSpinbox->value() < 0) {
@@ -238,6 +247,7 @@ void CommonshapeWidget::initConnection()
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         emit signalRectRediusChanged(m_rediusSpinbox->value());
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value());
+        m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
     });
 }
 
@@ -270,6 +280,7 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, redius);
+    m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
 }
 
 void CommonshapeWidget::slotSideWidthChoosed(int width)

@@ -119,6 +119,9 @@ public:
     bool getModify() const;
     void setModify(bool isModify);
 
+
+    bool isKeySpacePressed();
+
 protected:
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
