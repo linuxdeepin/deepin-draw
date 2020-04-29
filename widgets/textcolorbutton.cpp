@@ -73,11 +73,16 @@ void TextColorButton::paintEvent(QPaintEvent *)
     paintLookStyle(&painter, m_isMultColorSame);
 }
 
-void TextColorButton::setColor(QColor color)
+void TextColorButton::setColor(QColor &color)
 {
     m_isMultColorSame = true;
     m_color = color;
     update();
+}
+
+QColor TextColorButton::getColor()
+{
+    return m_color;
 }
 
 void TextColorButton::setColorIndex(int index)

@@ -38,6 +38,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     , m_allSizeIsEqual(true)
     , m_allFamilyIsEqual(true)
     , m_allFontStyleIsEqual(true)
+    , m_allColorAlphaIsEqual(true)
 {
     //初始化字体
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
@@ -289,23 +290,10 @@ bool CTextEdit::getAllFontStyleIsEqual()
     return m_allFontStyleIsEqual;
 }
 
-void CTextEdit::setAlpha(const quint8 &value)
+bool CTextEdit::getAllTextColorAlphaIsEqual()
 {
-    //todo未生效，后期修改
-    QTextCursor cur = this->textCursor();
-    QTextBlock block = cur.block();
-    if (block.isValid()) {
-        QTextBlock::iterator it;
-        for (it = block.begin(); !(it.atEnd()); ++it) {
-            QBrush brush = it.fragment().charFormat().foreground();
-            QColor color = brush.color();
-            color.setAlpha(value);
-            brush.setColor(color);
-            it.fragment().charFormat().setForeground(brush);
-            cur.mergeCharFormat(it.fragment().charFormat());
-            this->mergeCurrentCharFormat(it.fragment().charFormat());
-        }
-    }
+    return m_allColorAlphaIsEqual;
 }
+
 
 

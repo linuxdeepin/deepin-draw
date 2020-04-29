@@ -60,6 +60,9 @@ public:
     void setTextColor(const QColor &col);
     QColor getTextColor();
 
+    void setTextColorAlpha(const int &alpha);
+    int getTextColorAlpha();
+
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
@@ -122,6 +125,11 @@ public:
     */
     bool getAllFontStyleIsEqual();
 
+    /*
+    * @bref: getAllTextColorAlphaIsEqual 返回文本当前点击后是否所有透明度大小一致
+    * @return:bool
+    */
+    bool getAllTextColorAlphaIsEqual();
 
     void makeEditabel();
 

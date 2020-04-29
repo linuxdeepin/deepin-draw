@@ -139,6 +139,11 @@ bool CGraphicsTextItem::getAllFontStyleIsEqual()
     return m_pTextEdit->getAllFontStyleIsEqual();
 }
 
+bool CGraphicsTextItem::getAllTextColorAlphaIsEqual()
+{
+    return m_pTextEdit->getAllTextColorAlphaIsEqual();
+}
+
 void CGraphicsTextItem::makeEditabel()
 {
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
@@ -302,11 +307,6 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     fmt.setFontFamily(family);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
-
-    //只有把焦点设成这个,才可以输入文字
-    if (this->scene() != nullptr) {
-        this->scene()->views()[0]->setFocus();
-    }
 }
 
 QString CGraphicsTextItem::getFontFamily()
@@ -344,13 +344,7 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
-
     m_color = col;
-
-    //只有把焦点设成这个  才可以输入文字
-    if (this->scene() != nullptr) {
-        this->scene()->views()[0]->setFocus();
-    }
 }
 
 QColor CGraphicsTextItem::getTextColor()
@@ -359,6 +353,23 @@ QColor CGraphicsTextItem::getTextColor()
         return m_color;
     } else {
         return QColor();
+    }
+}
+
+void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
+{
+    QTextCharFormat fmt;
+    m_color.setAlpha(alpha);
+    fmt.setForeground(m_color);
+    mergeFormatOnWordOrSelection(fmt);
+}
+
+int CGraphicsTextItem::getTextColorAlpha()
+{
+    if (getAllTextColorAlphaIsEqual()) {
+        return m_color.alpha();
+    } else {
+        return -1;
     }
 }
 

@@ -66,11 +66,15 @@ public:
     bool getAllFontStyleIsEqual();
 
     /*
+    * @bref: getAllTextColorAlphaIsEqual 返回文本当前点击后是否所有透明度大小一致
+    * @return:bool
+    */
+    bool getAllTextColorAlphaIsEqual();
+
+    /*
      * @bref: checkTextProperty 用于检验文字属性是否一致
     */
     void checkTextProperty(QTextBlock block);
-
-    void setAlpha(const quint8 &value);
 
 public slots:
     void slot_textChanged();
@@ -85,6 +89,7 @@ private:
     bool m_allSizeIsEqual;  // 所有选中的字体大小
     bool m_allFamilyIsEqual;// 所有选中的字体类型
     bool m_allFontStyleIsEqual;// 所有选中的字体样式
+    bool m_allColorAlphaIsEqual; //所有选中的文字颜色透明度
 };
 
 #endif // CTEXTEDIT_H

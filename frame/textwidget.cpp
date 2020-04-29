@@ -136,7 +136,6 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     m_fillBtn->setVisible(false);
     m_textSeperatorLine->setVisible(true);
     m_fontFamilyLabel->setVisible(false);
-    //m_fontComBox->setVisible(false);
     m_fontsizeLabel->setVisible(false);
     m_fontSize->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
@@ -144,6 +143,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
         switch (property) {
         case TextColor: {
             m_fillBtn->setVisible(true);
+            m_fillBtn->blockSignals(true);
             QColor color = propertys[property].value<QColor>();
             if (color == QColor::Invalid) {
                 m_fillBtn->setIsMultColorSame(false);
@@ -151,6 +151,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fillBtn->setColor(color);
             }
             m_fillBtn->update();
+            m_fillBtn->blockSignals(false);
             break;
         }
         case TextFont: {
@@ -193,6 +194,21 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fontHeavy->setCurrentText(familyStyle);
             }
             m_fontHeavy->blockSignals(false);
+            break;
+        }
+        case TextColorAlpha: {
+            m_fillBtn->setVisible(true);
+            m_fillBtn->blockSignals(true);
+            int alpha = propertys[property].toInt();
+            if (!alpha) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                QColor color = m_fillBtn->getColor();
+                color.setAlpha(alpha);
+                m_fillBtn->setColor(color);
+            }
+            m_fillBtn->update();
+            m_fillBtn->blockSignals(false);
             break;
         }
         default:

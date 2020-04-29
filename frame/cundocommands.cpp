@@ -1971,8 +1971,11 @@ void CSetItemsCommonPropertyValueCommand::redo()
             if (item->type() == TextType) {
                 auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
                 if (curTextItem != nullptr) {
-                    curTextItem->getTextEdit()->setAlpha(m_value.value<int>());
-                    //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(m_value.value<QColor>());
+                    int alpha = m_value.toInt();
+                    curTextItem->setTextColorAlpha(alpha);
+                    QColor cacheColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+                    cacheColor.setAlpha(alpha);
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(cacheColor);
                 }
             }
         }

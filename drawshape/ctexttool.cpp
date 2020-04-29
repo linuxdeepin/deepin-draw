@@ -70,6 +70,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
         item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
         item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+        item->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
 
         item->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(item);
