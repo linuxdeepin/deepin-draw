@@ -78,6 +78,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
             }
             m_strokeBtn->update();
             m_strokeBtn->blockSignals(false);
@@ -90,6 +91,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(propertys[property].toInt());
             }
             m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
@@ -105,6 +107,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_maskLableStart->setVisible(true);
             } else {
                 m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(static_cast<ELineType>(propertys[property].toInt()));
             }
             m_lineStartComboBox->blockSignals(false);
             m_lineStartComboBox->update();
@@ -120,6 +123,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_maskLableEnd->setVisible(true);
             } else {
                 m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(static_cast<ELineType>(propertys[property].toInt()));
             }
             m_lineEndComboBox->blockSignals(false);
             m_lineEndComboBox->update();

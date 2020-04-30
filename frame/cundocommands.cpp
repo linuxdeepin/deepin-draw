@@ -1734,7 +1734,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontFamily());
             qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
             break;
-        case BlurWith:
+        case BlurWidth:
             oldValue.setValue(static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth());
             break;
         case Blurtype:
@@ -1828,7 +1828,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
             }
         }
         break;
-        case BlurWith: {
+        case BlurWidth: {
             auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
             if (curtem != nullptr) {
                 curtem->setBlurWidth(oldValue.value<int>());
@@ -2003,7 +2003,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
             }
         }
         break;
-        case BlurWith: {
+        case BlurWidth: {
             auto curtem = dynamic_cast<CGraphicsMasicoItem *>(item);
             if (curtem != nullptr) {
                 curtem->setBlurWidth(m_value.value<int>());

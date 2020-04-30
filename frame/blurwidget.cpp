@@ -76,7 +76,7 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_masicBtn->setChecked(propertys[property].toBool());
             break;
         }
-        case BlurWith: {
+        case BlurWidth: {
             m_pLineWidthSlider->blockSignals(true);
             m_pLineWidthSlider->setValue(propertys[property].toInt());
             m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
@@ -169,7 +169,7 @@ void BlurWidget::initUI()
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWith, value);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
     });
 
     QHBoxLayout *layout = new QHBoxLayout(this);

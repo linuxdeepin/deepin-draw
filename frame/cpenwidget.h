@@ -84,6 +84,9 @@ private:
     DComboBox *m_lineEndComboBox; // 线段终点样式
     DLabel *m_startLabel;
     DLabel *m_endLabel;
+
+    DLabel *m_maskLableStart;
+    DLabel *m_maskLableEnd;
 private:
     /**
      * @brief initUI　初始化ＵＩ

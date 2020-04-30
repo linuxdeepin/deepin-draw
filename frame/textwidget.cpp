@@ -160,6 +160,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fillBtn->setIsMultColorSame(false);
             } else {
                 m_fillBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
             }
             m_fillBtn->update();
             m_fillBtn->blockSignals(false);
@@ -174,7 +175,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fontComBox->setCurrentText("— —");
             } else {
                 m_fontComBox->setCurrentText(family);
-
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(family);
                 // 更新字体改变后自重同时自动更新
                 slotUpdateTextFamilyStyle(family);
             }
@@ -188,6 +189,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_fontSize->blockSignals(true);
             if (size > 0) {
                 m_fontSize->setCurrentText(QString::number(size) + "px");
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
             } else {
                 m_fontSize->setCurrentIndex(-1);
                 m_fontSize->setCurrentText("— —");
@@ -204,6 +206,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fontHeavy->setCurrentText("— —");
             } else {
                 m_fontHeavy->setCurrentText(familyStyle);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(familyStyle);
             }
             m_fontHeavy->blockSignals(false);
             break;
@@ -218,6 +221,7 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 QColor color = m_fillBtn->getColor();
                 color.setAlpha(alpha);
                 m_fillBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alpha);
             }
             m_fillBtn->update();
             m_fillBtn->blockSignals(false);

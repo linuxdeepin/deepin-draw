@@ -116,7 +116,6 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             propertys[LineAndPenEndType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
             break;
         case PenType://画笔
-            mode = LineType;//画笔和线属性相同
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().color();
             propertys[LineAndPenStartType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
@@ -132,7 +131,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             break;
         case BlurType://模糊
             propertys[Blurtype] = static_cast<int>(static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurEffect());
-            propertys[BlurWith] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurWidth();
+            propertys[BlurWidth] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurWidth();
             break;
         default:
             break;
@@ -397,11 +396,11 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                     allPropertys[Blurtype] = tmpVariant;
                 }
             }
-            if (propertys.contains(BlurWith)) {
-                if (propertys[BlurWith] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
-                    allPropertys[BlurWith] = propertys[BlurWith];
+            if (propertys.contains(BlurWidth)) {
+                if (propertys[BlurWidth] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
+                    allPropertys[BlurWidth] = propertys[BlurWidth];
                 } else {
-                    allPropertys[BlurWith] = tmpVariant;
+                    allPropertys[BlurWidth] = tmpVariant;
                 }
             }
             break;

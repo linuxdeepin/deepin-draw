@@ -40,9 +40,7 @@
 
 DGUI_USE_NAMESPACE
 
-const int BTN_SPACNT = 10;
 const int TEXT_SIZE = 14;
-
 
 CPenWidget::CPenWidget(DWidget *parent)
     : DWidget(parent)
@@ -66,6 +64,7 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 {
     m_strokeBtn->setVisible(false);
     m_sideWidthWidget->setVisible(false);
+    m_sep1Line->setVisible(false);
 
     m_startLabel->setVisible(false);
     m_endLabel->setVisible(false);
@@ -82,6 +81,7 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
             }
             m_strokeBtn->update();
             m_strokeBtn->blockSignals(false);
@@ -94,20 +94,43 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(propertys[property].toInt());
             }
             m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
         case LineAndPenStartType: {
+            m_sep1Line->setVisible(true);
+            m_startLabel->setVisible(true);
+            m_maskLableStart->setVisible(false);
+            m_lineStartComboBox->setVisible(true);
             m_lineStartComboBox->blockSignals(true);
-            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_lineStartComboBox->setCurrentIndex(-1);
+                m_maskLableStart->setVisible(true);
+            } else {
+                m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(static_cast<ELineType>(propertys[property].toInt()));
+            }
             m_lineStartComboBox->blockSignals(false);
+            m_lineStartComboBox->update();
             break;
         }
         case LineAndPenEndType: {
+            m_sep1Line->setVisible(true);
+            m_endLabel->setVisible(true);
+            m_lineEndComboBox->setVisible(true);
             m_lineEndComboBox->blockSignals(true);
-            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+            m_maskLableEnd->setVisible(false);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_lineEndComboBox->setCurrentIndex(-1);
+                m_maskLableEnd->setVisible(true);
+            } else {
+                m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(static_cast<ELineType>(propertys[property].toInt()));
+            }
             m_lineEndComboBox->blockSignals(false);
+            m_lineEndComboBox->update();
             break;
         }
         default:
@@ -159,6 +182,19 @@ void CPenWidget::initUI()
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
 
+    m_maskLableStart = new DLabel(m_lineStartComboBox);
+    m_maskLableStart->setText("— —");
+    m_maskLableStart->move(6, 6);
+    m_maskLableStart->setFixedSize(35, 20);
+    m_maskLableStart->setVisible(false);
+    m_maskLableStart->setFont(m_maskLableStart->font());
+
+    m_maskLableEnd = new DLabel(m_lineEndComboBox);
+    m_maskLableEnd->setText("— —");
+    m_maskLableEnd->move(6, 6);
+    m_maskLableEnd->setFixedSize(35, 20);
+    m_maskLableEnd->setVisible(false);
+    m_maskLableEnd->setFont(m_lineEndComboBox->font());
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

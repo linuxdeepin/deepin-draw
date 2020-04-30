@@ -355,8 +355,8 @@ void CLeftToolBar::initConnection()
         m_penBtn->setChecked(true);
         clearOtherSelections(m_penBtn);
         isCutMode();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(pen);
         emit setCurrentDrawTool(pen);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(pen);
 
     });
 
@@ -365,8 +365,8 @@ void CLeftToolBar::initConnection()
         m_textBtn->setChecked(true);
         clearOtherSelections(m_textBtn);
         isCutMode();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
         emit setCurrentDrawTool(text);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
 
     });
 
