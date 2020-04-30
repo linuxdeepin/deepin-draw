@@ -82,8 +82,6 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
     if (!CManageViewSigleton::GetInstance()->getCurView()) {
         return;
     }
@@ -409,8 +407,6 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
 
 void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
     QGraphicsScene::drawForeground(painter, rect);
 }
 
