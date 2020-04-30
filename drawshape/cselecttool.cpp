@@ -66,6 +66,7 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
+    , m_noShiftSelectItem(nullptr)
     , m_currentSelectItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_bRotateAng(false)
@@ -179,7 +180,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 copyItems.append(copy);
                 scene->addItem(static_cast<CGraphicsItem *>(copy));
                 m_doCopy = true;
-                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             }
 
             if (count > 1) {
@@ -187,7 +187,6 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 foreach (QGraphicsItem *copyItem, copyItems) {
                     scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
                 }
-                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             } else if (copyItems.size() == 1) {
                 scene->clearSelection();
                 m_currentSelectItem = copyItems.at(0);
@@ -325,7 +324,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     } else {
         scene->mouseEvent(event);
     }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    if (!shiftKeyPress && scene->selectedItems().count() == 1) {
+        if (scene->selectedItems().at(0)->type() > QGraphicsItem::UserType && scene->selectedItems().at(0)->type() < MgrType) {
+            m_noShiftSelectItem = scene->selectedItems().at(0);
+        }
+    }
 }
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -631,6 +634,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
     m_doCopy = false;
 
+    scene->removeItem(m_frameSelectItem);
     m_frameSelectItem->setVisible(false);
     //左键按下，出现框选矩形
     if (m_bMousePress && (m_currentSelectItem == nullptr)) {
@@ -642,7 +646,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             auto selectItem = static_cast<CGraphicsItem *>(item);
             scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
         }
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         int count = scene->getItemsMgr()->getItems().size();
         if (1 == count) {
             scene->getItemsMgr()->getItems().first()->setSelected(true);
@@ -665,9 +668,14 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             if (m_currentSelectItem) {
                 auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
                 if (currentSelectItem != nullptr) {
-                    scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+                    if (scene->getItemsMgr()->getItems().size() == 0 && m_noShiftSelectItem) {
+                        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_noShiftSelectItem));
+                    }
+                    if (m_noShiftSelectItem != currentSelectItem) {
+                        scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
+                    }
+                    m_noShiftSelectItem = nullptr;
                 }
-                CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
             }
             int count = scene->getItemsMgr()->getItems().size();
             if (1 == count ) {
