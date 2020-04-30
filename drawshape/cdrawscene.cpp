@@ -82,6 +82,8 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
     if (!CManageViewSigleton::GetInstance()->getCurView()) {
         return;
     }
@@ -379,13 +381,37 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 //        }
     }
 }
-
+#include <QTime>
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
 
-    QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    if (CGraphicsPenItem::s_curPenItem != nullptr) {
+
+        //QGraphicsItem *newItems[1] = {CGraphicsPenItem::s_curPenItem};
+        //QGraphicsScene::drawItems(painter, 1, newItems, options, widget);
+
+//        QTime timer;
+//        timer.start();
+//        qDebug() << "draw curPixMap paint begin --------";
+
+        //如果正在绘图，就在辅助画布上绘制
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        painter->drawPixmap(0, 0, CGraphicsPenItem::s_curPenItem->curPixMap());
+
+//        qDebug() << "draw curPixMap paint end ms = " << timer.elapsed();
+
+    } else {
+        QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    }
+}
+
+void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
+{
+    if (CGraphicsPenItem::s_curPenItem != nullptr)
+        return;
+    QGraphicsScene::drawForeground(painter, rect);
 }
 
 void CDrawScene::showCutItem()
@@ -540,6 +566,11 @@ void CDrawScene::renderSelfToPixmap()
     m_scenePixMap = QPixmap(sceneRect().size().toSize());
     QPainter painterd(&m_scenePixMap);
     painterd.setRenderHint(QPainter::Antialiasing);
+    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+    if (!views().isEmpty()) {
+        m_scenePixMap.setDevicePixelRatio(views().first()->viewport()->devicePixelRatioF());
+    }
+
     this->render(&painterd);
 }
 

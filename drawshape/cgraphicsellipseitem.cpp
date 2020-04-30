@@ -90,9 +90,6 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
-
     updateGeometry();
     painter->setPen(pen());
     painter->setBrush(brush());

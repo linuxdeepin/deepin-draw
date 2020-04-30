@@ -255,8 +255,6 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     if (!CManageViewSigleton::GetInstance()->getCurView()) {
         return;
     }
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
 
     updateGeometry();
 

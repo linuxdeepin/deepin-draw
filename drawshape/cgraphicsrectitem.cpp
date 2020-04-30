@@ -120,9 +120,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
-
     updateGeometry();
     painter->setPen(pen());
     painter->setBrush(brush());

@@ -59,6 +59,11 @@ public:
 
     void calcVertexes();
 
+    QPixmap curPixMap()
+    {
+        return m_tmpPix;
+    }
+
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
