@@ -583,7 +583,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
                 thisTimePath.lineTo(newPath.elementAt(i));
                 m_path.lineTo(newPath.elementAt(i));
             }
-            qDebug() << "thisTimePath count ========= " << thisTimePath.elementCount();
+            //qDebug() << "thisTimePath count ========= " << thisTimePath.elementCount();
 //            qDebug() << "generateSmoothCurve ends   ms =   " << timer.elapsed();
         } else {
             //初始化第一个点
@@ -600,7 +600,11 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         //pp.setRenderHint(QPainter::Antialiasing);
         //pp.setRenderHint(QPainter::SmoothPixmapTransform);
         QPen p(pen());
-        p.setWidthF(1.0);
+        QGraphicsView *view = nullptr;
+        if (scene() != nullptr && !scene()->views().isEmpty()) {
+            view = scene()->views().first();
+        }
+        p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
         pp.setPen(p);
         pp.drawPath(thisTimePath);
 
