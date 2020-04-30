@@ -598,7 +598,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         QPainter pp(&m_tmpPix);
 
         //pp.setRenderHint(QPainter::Antialiasing);
-        //pp.setRenderHint(QPainter::SmoothPixmapTransform);
+        pp.setRenderHint(QPainter::SmoothPixmapTransform);
         QPen p(pen());
         QGraphicsView *view = nullptr;
         if (scene() != nullptr && !scene()->views().isEmpty()) {
