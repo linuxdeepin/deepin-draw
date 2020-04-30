@@ -340,7 +340,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     QList<QGraphicsItem *> items = scene->selectedItems();
     if ( items.count() != 0 ) {
         QGraphicsItem *item = items.first();
-        if (item->type() > QGraphicsItem::UserType && item->type() < MgrType) {
+        if (item->type() > QGraphicsItem::UserType && item->type() <= MgrType) {
             if (item != m_currentSelectItem) {
                 m_currentSelectItem = item;
                 m_currentSelectItem->setSelected(true);
