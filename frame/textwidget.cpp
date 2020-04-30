@@ -470,17 +470,17 @@ void TextWidget::addFontPointSize()
 
 void TextWidget::updateTextWidget()
 {
-//    m_fillBtn->updateConfigColor();
-//    m_fillBtn->setIsMultColorSame(true);
-//    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-//    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
-//        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
-//    }
-//    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-//    QString Sfont = font.family();
-//    if (Sfont != m_fontComBox->currentFont().family()) {
-//        m_fontComBox->setCurrentText(Sfont);
-//    }
+    m_fillBtn->updateConfigColor();
+    m_fillBtn->setIsMultColorSame(true);
+    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
+        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
+    }
+    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+    QString Sfont = font.family();
+    if (Sfont != m_fontComBox->currentFont().family()) {
+        m_fontComBox->setCurrentText(Sfont);
+    }
 }
 
 void TextWidget::updateTextColor()
