@@ -123,10 +123,11 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             propertys[LineAndPenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
-            propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
-            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontFamily();
-            propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontSize();
-            propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextFontStyle();
+            propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedTextColor();
+            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontFamily();
+            propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontSize();
+            propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontStyle();
+            propertys[TextColorAlpha] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedTextColorAlpha();
             qDebug() << "Text Item = " << propertys;
             break;
         case BlurType://模糊
@@ -351,7 +352,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case TextType://文本
             if (propertys.contains(TextColor)) {
                 mode = EGraphicUserType::TextType;
-                if (propertys[TextColor] == static_cast<CGraphicsTextItem *>(item)->getTextColor()) {
+                if (propertys[TextColor] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColor()) {
                     allPropertys[TextColor] = propertys[TextColor];
                 } else {
                     allPropertys[TextColor] = tmpVariant;
@@ -359,7 +360,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             if (propertys.contains(TextFont)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextFont].value<QFont>().family() == static_cast<CGraphicsTextItem *>(item)->getFont().family()) {
+                if (propertys[TextFont].value<QFont>().family() == static_cast<CGraphicsTextItem *>(item)->getSelectedFontFamily()) {
                     allPropertys[TextFont] = propertys[TextFont];
                 } else {
                     allPropertys[TextFont] = tmpVariant;
@@ -367,17 +368,24 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             if (propertys.contains(TextHeavy)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextHeavy] == static_cast<CGraphicsTextItem *>(item)->getTextFontStyle()) {
+                if (propertys[TextHeavy] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontStyle()) {
                     allPropertys[TextHeavy] = propertys[TextHeavy];
                 } else {
                     allPropertys[TextHeavy] = tmpVariant;
                 }
             }
             if (propertys.contains(TextSize)) {
-                if (propertys[TextSize] == static_cast<CGraphicsTextItem *>(item)->getFontSize()) {
+                if (propertys[TextSize] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontSize()) {
                     allPropertys[TextSize] = propertys[TextSize];
                 } else {
                     allPropertys[TextSize] = tmpVariant;
+                }
+            }
+            if (propertys.contains(TextColorAlpha)) {
+                if (propertys[TextColorAlpha] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColorAlpha()) {
+                    allPropertys[TextColorAlpha] = propertys[TextColorAlpha];
+                } else {
+                    allPropertys[TextColorAlpha] = tmpVariant;
                 }
             }
             break;

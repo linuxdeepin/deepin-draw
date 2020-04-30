@@ -34,11 +34,6 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
     , m_widthF(0)
-    , m_allColorIsEqual(true)
-    , m_allSizeIsEqual(true)
-    , m_allFamilyIsEqual(true)
-    , m_allFontStyleIsEqual(true)
-    , m_allColorAlphaIsEqual(true)
 {
     //初始化字体
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
@@ -178,11 +173,6 @@ void CTextEdit::cursorPositionChanged()
 
 void CTextEdit::checkTextProperty(QTextBlock block)
 {
-    m_allColorIsEqual = true;
-    m_allSizeIsEqual = true;
-    m_allFamilyIsEqual = true;
-    m_allFontStyleIsEqual = true;
-
     if (block.isValid()) {
         QTextBlock::iterator it = block.begin();
         if (it == block.end()) {
@@ -191,11 +181,20 @@ void CTextEdit::checkTextProperty(QTextBlock block)
 
         QTextFragment first_fragment = it.fragment();
         if (!first_fragment.isValid()) {
-            m_allColorIsEqual = false;
-            m_allSizeIsEqual = false;
-            m_allFamilyIsEqual = false;
-            m_allFontStyleIsEqual = false;
+            m_selectedColor = QColor();
+            m_selectedSize = -1;
+            m_selectedFamily.clear();
+            m_selectedFontStyle.clear();
+            m_selectedFontWeight = -1;
+            m_selectedColorAlpha = -1;
             return;
+        } else {
+            m_selectedColor = first_fragment.charFormat().foreground().color();
+            m_selectedSize = first_fragment.charFormat().font().pointSize();
+            m_selectedFamily = first_fragment.charFormat().font().family();
+            m_selectedFontStyle = first_fragment.charFormat().font().styleName();
+            m_selectedColorAlpha = first_fragment.charFormat().foreground().color().alpha();
+            m_selectedFontWeight = first_fragment.charFormat().font().weight();
         }
 
         for (; !it.atEnd(); ++it) {
@@ -205,28 +204,30 @@ void CTextEdit::checkTextProperty(QTextBlock block)
             if (!fragment.isValid())
                 continue;
 
-            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != first_fragment.charFormat().foreground().color()) {
-                m_allColorIsEqual = false;
+            if (m_selectedColor.isValid() && fragment.charFormat().foreground().color() != first_fragment.charFormat().foreground().color()) {
+                m_selectedColor = QColor();
             }
 
-            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != first_fragment.charFormat().font().pointSize()) {
-                m_allSizeIsEqual = false;
+            if (m_selectedSize >= 0 && fragment.charFormat().font().pointSize() != first_fragment.charFormat().font().pointSize()) {
+                m_selectedSize = -1;
             }
 
-            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != first_fragment.charFormat().font().family()) {
-                m_allFamilyIsEqual = false;
-
-                // 此处添加只要检测到被选中的字体不一样，字体的样式就不一样，会存在字体样式重叠交错的部分
-//                m_allFontStyleIsEqual = false;
+            if (!m_selectedFamily.isEmpty() && fragment.charFormat().font().family() != first_fragment.charFormat().font().family()) {
+                m_selectedFamily.clear();
             }
 
             // 注意：这里Qt版本是5.11.3,只能用这种方式去匹配，不可以用charFormat().font().weight()
-            if (m_allFontStyleIsEqual && fragment.charFormat().fontWeight() != first_fragment.charFormat().fontWeight()) {
-                m_allFontStyleIsEqual = false;
+            if (m_selectedFontWeight >= 0 && fragment.charFormat().fontWeight() != first_fragment.charFormat().fontWeight()) {
+                m_selectedFontWeight = -1;
+            }
+
+            if (m_selectedColorAlpha >= 0 && fragment.charFormat().foreground().color().alpha() != first_fragment.charFormat().foreground().color().alpha()) {
+                m_selectedColorAlpha = -1;
             }
 
             // 当所有的都不相同时跳出循环
-            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual && !m_allFontStyleIsEqual) {
+            if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
+                    && m_selectedFontStyle.isEmpty() && !m_selectedColorAlpha) {
                 return;
             }
         }
@@ -270,29 +271,79 @@ void CTextEdit::resizeDocument()
     m_widthF = rect.width();
 }
 
-bool CTextEdit::getAllTextColorIsEqual()
+QColor CTextEdit::getSelectedTextColor()
 {
-    return m_allColorIsEqual;
+    return m_selectedColor;
 }
 
-bool CTextEdit::getAllFontSizeIsEqual()
+int CTextEdit::getSelectedFontSize()
 {
-    return m_allSizeIsEqual;
+    return m_selectedSize;
 }
 
-bool CTextEdit::getAllFontFamilyIsEqual()
+QString CTextEdit::getSelectedFontFamily()
 {
-    return m_allFamilyIsEqual;
+    return m_selectedFamily;
 }
 
-bool CTextEdit::getAllFontStyleIsEqual()
+QString CTextEdit::getSelectedFontStyle()
 {
-    return m_allFontStyleIsEqual;
+    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
+     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
+     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
+    */
+    //    QFont::Thin(Regular)    0   QFont::ExtraLight 12  QFont::Light 25
+    //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
+    //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
+    switch (m_selectedFontWeight) {
+    case 0: {
+        m_selectedFontStyle = QObject::tr("Regular");
+        break;
+    }
+    case 12: {
+        m_selectedFontStyle = QObject::tr("ExtraLight");
+        break;
+    }
+    case 25: {
+        m_selectedFontStyle = QObject::tr("Light");
+        break;
+    }
+    case 50: {
+        m_selectedFontStyle = QObject::tr("Normal");
+        break;
+    }
+    case 57: {
+        m_selectedFontStyle = QObject::tr("Medium");
+        break;
+    }
+    case 63: {
+        m_selectedFontStyle = QObject::tr("DemiBold");
+        break;
+    }
+    case 75: {
+        m_selectedFontStyle = QObject::tr("Bold");
+        break;
+    }
+    case 81: {
+        m_selectedFontStyle = QObject::tr("ExtraBold");
+        break;
+    }
+    case 87: {
+        m_selectedFontStyle = QObject::tr("Black");
+        break;
+    }
+    }
+    return m_selectedFontStyle;
 }
 
-bool CTextEdit::getAllTextColorAlphaIsEqual()
+int CTextEdit::getSelectedFontWeight()
 {
-    return m_allColorAlphaIsEqual;
+    return m_selectedFontWeight;
+}
+
+int CTextEdit::getSelectedTextColorAlpha()
+{
+    return m_selectedColorAlpha;
 }
 
 

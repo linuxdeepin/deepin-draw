@@ -42,34 +42,35 @@ public:
     void resizeDocument();
 
     /*
-    * @bref: getAllTextColorIsEqual 返回文本当前点击后是否所有文字颜色一致
-    * @return:bool
+    * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
+    * @return:QColor
     */
-    bool getAllTextColorIsEqual();
+    QColor getSelectedTextColor();
 
     /*
-    * @bref: getAllFontSizeIsEqual 返回文本当前点击后是否所有文字大小一致
-    * @return:bool
+    * @bref: getSelectedFontSize 返回文本当前点击后是否所有文字大小一致
+    * @return:int
     */
-    bool getAllFontSizeIsEqual();
+    int getSelectedFontSize();
 
     /*
-    * @bref: getAllFontFamilyIsEqual 返回文本当前点击后是否所有字体大小一致
-    * @return:bool
+    * @bref: getSelectedFontFamily 返回文本当前点击后是否所有字体一致
+    * @return:QString
     */
-    bool getAllFontFamilyIsEqual();
+    QString getSelectedFontFamily();
 
     /*
-    * @bref: getAllFontStyleIsEqual 返回文本当前点击后是否所有自重大小一致
-    * @return:bool
+    * @bref: getSelectedFontStyle 返回文本当前点击后是否所有自重大小一致
+    * @return:QString
     */
-    bool getAllFontStyleIsEqual();
+    QString getSelectedFontStyle();
+    int getSelectedFontWeight();
 
     /*
-    * @bref: getAllTextColorAlphaIsEqual 返回文本当前点击后是否所有透明度大小一致
-    * @return:bool
+    * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致
+    * @return:int
     */
-    bool getAllTextColorAlphaIsEqual();
+    int getSelectedTextColorAlpha();
 
     /*
      * @bref: checkTextProperty 用于检验文字属性是否一致
@@ -80,16 +81,16 @@ public slots:
     void slot_textChanged();
     void cursorPositionChanged();
 
-
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
 
-    bool m_allColorIsEqual; // 所有选中的颜色
-    bool m_allSizeIsEqual;  // 所有选中的字体大小
-    bool m_allFamilyIsEqual;// 所有选中的字体类型
-    bool m_allFontStyleIsEqual;// 所有选中的字体样式
-    bool m_allColorAlphaIsEqual; //所有选中的文字颜色透明度
+    QColor m_selectedColor; // 所有选中的颜色
+    int m_selectedSize;  // 所有选中的字体大小
+    QString m_selectedFamily;// 所有选中的字体类型
+    QString m_selectedFontStyle;// 所有选中的字体样式
+    int m_selectedFontWeight;          // 所有选中字体的自重
+    int m_selectedColorAlpha; //所有选中的文字颜色透明度
 };
 
 #endif // CTEXTEDIT_H

@@ -119,29 +119,34 @@ QPainterPath CGraphicsTextItem::getHighLightPath()
     return path;
 }
 
-bool CGraphicsTextItem::getAllTextColorIsEqual()
+QColor CGraphicsTextItem::getSelectedTextColor()
 {
-    return m_pTextEdit->getAllTextColorIsEqual();
+    return m_pTextEdit->getSelectedTextColor();
 }
 
-bool CGraphicsTextItem::getAllFontSizeIsEqual()
+int CGraphicsTextItem::getSelectedFontSize()
 {
-    return m_pTextEdit->getAllFontSizeIsEqual();
+    return m_pTextEdit->getSelectedFontSize();
 }
 
-bool CGraphicsTextItem::getAllFontFamilyIsEqual()
+QString CGraphicsTextItem::getSelectedFontFamily()
 {
-    return m_pTextEdit->getAllFontFamilyIsEqual();
+    return m_pTextEdit->getSelectedFontFamily();
 }
 
-bool CGraphicsTextItem::getAllFontStyleIsEqual()
+QString CGraphicsTextItem::getSelectedFontStyle()
 {
-    return m_pTextEdit->getAllFontStyleIsEqual();
+    return m_pTextEdit->getSelectedFontStyle();
 }
 
-bool CGraphicsTextItem::getAllTextColorAlphaIsEqual()
+int CGraphicsTextItem::getSelectedFontWeight()
 {
-    return m_pTextEdit->getAllTextColorAlphaIsEqual();
+    return m_pTextEdit->getSelectedFontWeight();
+}
+
+int CGraphicsTextItem::getSelectedTextColorAlpha()
+{
+    return m_pTextEdit->getSelectedTextColorAlpha();
 }
 
 void CGraphicsTextItem::makeEditabel()
@@ -241,11 +246,7 @@ QFont CGraphicsTextItem::getFont()
 
 QString CGraphicsTextItem::getTextFontStyle()
 {
-    if (getAllFontStyleIsEqual()) {
-        return m_Font.styleName();
-    } else {
-        return "";
-    }
+    return m_Font.styleName();
 }
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
@@ -294,11 +295,7 @@ void CGraphicsTextItem::setFontSize(qreal size)
 
 qreal CGraphicsTextItem::getFontSize()
 {
-    if (getAllFontSizeIsEqual()) {
-        return m_Font.pointSizeF();
-    } else {
-        return -1;
-    }
+    return m_Font.pointSizeF();
 }
 
 void CGraphicsTextItem::setFontFamily(const QString &family)
@@ -311,11 +308,7 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
 
 QString CGraphicsTextItem::getFontFamily()
 {
-    if (getAllFontFamilyIsEqual()) {
-        return m_Font.family();
-    } else {
-        return "";
-    }
+    return m_Font.family();
 }
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
@@ -349,11 +342,7 @@ void CGraphicsTextItem::setTextColor(const QColor &col)
 
 QColor CGraphicsTextItem::getTextColor()
 {
-    if (getAllTextColorIsEqual()) {
-        return m_color;
-    } else {
-        return QColor();
-    }
+    return m_color;
 }
 
 void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
@@ -366,11 +355,7 @@ void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
 
 int CGraphicsTextItem::getTextColorAlpha()
 {
-    if (getAllTextColorAlphaIsEqual()) {
-        return m_color.alpha();
-    } else {
-        return -1;
-    }
+    return m_color.alpha();
 }
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
