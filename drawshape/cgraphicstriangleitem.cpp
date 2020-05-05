@@ -104,9 +104,6 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
-
     updateGeometry();
     QRectF rc = rect();
 

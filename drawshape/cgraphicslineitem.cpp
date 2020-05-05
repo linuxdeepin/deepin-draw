@@ -330,9 +330,6 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    if (CGraphicsPenItem::s_curPenItem != nullptr)
-        return;
-
     updateGeometry();
 
     if (m_type == arrowType) {

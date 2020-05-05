@@ -140,7 +140,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
 void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 {
-    emit signalClearSceneBeforLoadDDF();
+    //emit signalClearSceneBeforLoadDDF();
 
     m_CProgressDialog->showProgressDialog(CProgressDialog::LoadDDF, isOpenByDDF);
     m_path = path;
@@ -163,6 +163,8 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
+
+                qDebug() << "i = " << i << "-------unit.head.dataType = " << unit.head.dataType << "scen rect = " << m_graphics.rect;
 
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
@@ -266,6 +268,7 @@ void CDDFManager::slotLoadDDFComplete()
     m_CProgressDialog->hide();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(m_path);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setIsModify(false);
+    CManageViewSigleton::GetInstance()->getCurView()->renderScenePixmap();
     emit singalEndLoadDDF();
 }
 

@@ -220,17 +220,38 @@ void CGraphicsView::initContextMenu()
     m_viewOriginalAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_0));
     this->addAction(m_viewOriginalAction);
 
-    connect(m_undoAct, &QAction::trigger, this, [ = ]() {
-        if (CDrawScene::GetInstance() != nullptr) {
-            CDrawScene::GetInstance()->renderSelfToPixmap();
-        }
-    }, Qt::QueuedConnection);
+//    connect(m_undoAct, &QAction::trigger, this, [ = ]() {
+//        if (CDrawScene::GetInstance() != nullptr) {
+//            CDrawScene::GetInstance()->renderSelfToPixmap();
+//        }
+//    }, Qt::QueuedConnection);
 
-    connect(m_redoAct, &QAction::trigger, this, [ = ]() {
+//    connect(m_redoAct, &QAction::trigger, this, [ = ]() {
+//        if (CDrawScene::GetInstance() != nullptr) {
+//            CDrawScene::GetInstance()->renderSelfToPixmap();
+//        }
+//    }, Qt::QueuedConnection);
+
+//    connect(m_deleteAct, &QAction::trigger, this, [ = ]() {
+//        if (CDrawScene::GetInstance() != nullptr) {
+//            CDrawScene::GetInstance()->renderSelfToPixmap();
+//        }
+//    }, Qt::QueuedConnection);
+
+    QList<QAction *> actions;
+    actions << m_cutAct << m_copyAct << m_pasteAct
+            << m_selectAllAct << m_deleteAct << m_undoAct
+            << m_redoAct << m_oneLayerUpAct << m_oneLayerDownAct
+            << m_bringToFrontAct << m_sendTobackAct;
+
+    auto fslot = [ = ]() {
         if (CDrawScene::GetInstance() != nullptr) {
             CDrawScene::GetInstance()->renderSelfToPixmap();
         }
-    }, Qt::QueuedConnection);
+    };
+    for (QAction *act : actions) {
+        connect(act, QOverload<bool>::of(&QAction::triggered), this, fslot, Qt::QueuedConnection);
+    }
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -1052,6 +1073,15 @@ CDrawParamSigleton *CGraphicsView::getDrawParam()
     return m_drawParam;
 }
 
+void CGraphicsView::renderScenePixmap()
+{
+    if (scene() != nullptr) {
+        CDrawScene *Scene = qobject_cast<CDrawScene *>(scene());
+        if (Scene != nullptr) {
+            Scene->renderSelfToPixmap();
+        }
+    }
+}
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {

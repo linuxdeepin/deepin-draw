@@ -271,6 +271,8 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    virtual void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+
 
 private:
     /**

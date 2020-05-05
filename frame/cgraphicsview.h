@@ -98,6 +98,9 @@ public:
     CDrawParamSigleton *getDrawParam();
 
 
+    void renderScenePixmap();
+
+
 protected:
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
