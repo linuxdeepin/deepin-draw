@@ -1073,6 +1073,15 @@ CDrawParamSigleton *CGraphicsView::getDrawParam()
     return m_drawParam;
 }
 
+void CGraphicsView::renderScenePixmap()
+{
+    if (scene() != nullptr) {
+        CDrawScene *Scene = qobject_cast<CDrawScene *>(scene());
+        if (Scene != nullptr) {
+            Scene->renderSelfToPixmap();
+        }
+    }
+}
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {

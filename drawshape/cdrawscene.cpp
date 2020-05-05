@@ -387,18 +387,27 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
 
     if (CGraphicsPenItem::s_curPenItem != nullptr) {
 
-        //QGraphicsItem *newItems[1] = {CGraphicsPenItem::s_curPenItem};
-        //QGraphicsScene::drawItems(painter, 1, newItems, options, widget);
-
-//        QTime timer;
-//        timer.start();
-//        qDebug() << "draw curPixMap paint begin --------";
-
-        //如果正在绘图，就在辅助画布上绘制
-        painter->setRenderHint(QPainter::SmoothPixmapTransform);
-        painter->drawPixmap(0, 0, CGraphicsPenItem::s_curPenItem->curPixMap());
-
-//        qDebug() << "draw curPixMap paint end ms = " << timer.elapsed();
+        /*       if (widget == nullptr) {
+                   //证明是外界来获取scen的当前显示位图那么绘制到该位图上去
+                   QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+               } else */{
+            //如果正在绘图，就在辅助画布上绘制
+            painter->setRenderHint(QPainter::SmoothPixmapTransform);
+            //qDebug() << "dx = " << painter->worldTransform().dx() << "dy = " << painter->worldTransform().dy();
+            painter->drawPixmap(sceneRect().topLeft(), CGraphicsPenItem::s_curPenItem->curPixMap());
+            QLineF line = CGraphicsPenItem::s_curPenItem->curMayExistPaintLine();
+            if (!line.isNull()) {
+                QPen p(CGraphicsPenItem::s_curPenItem->pen());
+                QGraphicsView *view = nullptr;
+                if (!views().isEmpty()) {
+                    view = views().first();
+                }
+                p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
+                painter->setPen(p);
+                //line.translate(sceneRect().topLeft());
+                painter->drawLine(line);
+            }
+        }
 
     } else {
         QGraphicsScene::drawItems(painter, numItems, items, options, widget);
@@ -566,7 +575,6 @@ void CDrawScene::renderSelfToPixmap()
     if (!views().isEmpty()) {
         m_scenePixMap.setDevicePixelRatio(views().first()->viewport()->devicePixelRatioF());
     }
-
     this->render(&painterd);
 }
 

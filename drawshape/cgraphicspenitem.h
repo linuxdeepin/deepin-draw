@@ -63,6 +63,10 @@ public:
     {
         return m_tmpPix;
     }
+    inline QLineF curMayExistPaintLine()
+    {
+        return m_straightLine;
+    }
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;

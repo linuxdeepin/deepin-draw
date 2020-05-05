@@ -420,12 +420,10 @@ void CGraphicsPenItem::updateCoordinate()
 
 void CGraphicsPenItem::drawComplete()
 {
-    //qDebug() << "---------------- drawComplete0 count = " << m_path.elementCount() << boundingRect().size();
-    if (m_isShiftPress) {
-        m_isShiftPress = false;
-//        m_poitsPath.push_back(m_straightLine.p2());
-        m_path.lineTo(m_straightLine.p2());
-    }
+//    if (m_isShiftPress) {
+//        m_isShiftPress = false;
+//        m_path.lineTo(m_straightLine.p2());
+//    }
 
 //    if (m_path.elementCount() > 3) {
 
@@ -493,9 +491,16 @@ void CGraphicsPenItem::drawComplete()
 //        prepareGeometryChange();
 //        m_path = vout;
 
-        //calcVertexes();
+//        calcVertexes();
         m_path      = generateSmoothCurve(m_points, false, 0.5, 16);
     }
+
+    if (m_isShiftPress) {
+        m_isShiftPress = false;
+        m_path.lineTo(m_straightLine.p2());
+        m_straightLine = QLineF();
+    }
+    calcVertexes();
 
     updateCoordinate();
 
@@ -567,13 +572,9 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         if (m_smoothVector.count() > SmoothMaxCount) {
             m_smoothVector.removeFirst();
         }
-        //calcVertexes(m_smoothVector.first(), m_smoothVector.last());
+        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
 
         if (!isFirstPoint) {
-//            QTime timer;
-//            timer.start();
-//            qDebug() << "generateSmoothCurve begin --------";
-
             //证明两个点以上了要进行插值优化
             QPainterPath newPath      = generateSmoothCurve(m_points, false, 0.5, 16);
 
@@ -583,8 +584,6 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
                 thisTimePath.lineTo(newPath.elementAt(i));
                 m_path.lineTo(newPath.elementAt(i));
             }
-            //qDebug() << "thisTimePath count ========= " << thisTimePath.elementCount();
-//            qDebug() << "generateSmoothCurve ends   ms =   " << timer.elapsed();
         } else {
             //初始化第一个点
             m_path.moveTo(endPoint);
@@ -592,12 +591,8 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
     }
 
     if (thisTimePath.elementCount() >= 1) {
-//        QTime timer;
-//        timer.start();
-//        qDebug() << "updatePenPath paint begin --------";
         QPainter pp(&m_tmpPix);
 
-        //pp.setRenderHint(QPainter::Antialiasing);
         pp.setRenderHint(QPainter::SmoothPixmapTransform);
         QPen p(pen());
         QGraphicsView *view = nullptr;
@@ -606,11 +601,12 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
         }
         p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
         pp.setPen(p);
+        if (scene() != nullptr) {
+            thisTimePath.translate(-scene()->sceneRect().topLeft());
+        }
         pp.drawPath(thisTimePath);
 
         m_drawIndex = thisTimePath.elementCount() - 1;
-
-//        qDebug() << "updatePenPath paint ens   ms = " << timer.elapsed();
     }
 
     m_recordPrePos = endPoint;
