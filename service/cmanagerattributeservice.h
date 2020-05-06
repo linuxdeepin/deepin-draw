@@ -70,7 +70,10 @@ public:
      * @param: property 属性类型
      * @param: value 属性值
     */
-    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
+    void setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
+                                     bool pushTostack = true,
+                                     QMap<CGraphicsItem *, QVariant> *outOldValues = nullptr,
+                                     QMap<CGraphicsItem *, QVariant> *inUndoValues = nullptr);
 
     /*
      * @bref: doSceneAdjustment 画布根据图片自适应

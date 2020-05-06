@@ -274,22 +274,35 @@ void PolygonAttributeWidget::slotSideValueChanged(int value)
     }
     m_sideNumSpinBox->blockSignals(false);
 
-    QVariant preValue = m_sideNumSpinBox->property("preValue");
+    if (!m_sideNumSpinBox->isChangedByWheelEnd()) {
+        QVariant preValue = m_sideNumSpinBox->property("preValue");
 
-    if (preValue.isValid()) {
-        int preIntValue = preValue.toInt();
-        int curValue    = m_sideNumSpinBox->value();
-        if (preIntValue == curValue)
-            return;
+        if (preValue.isValid()) {
+            int preIntValue = preValue.toInt();
+            int curValue    = m_sideNumSpinBox->value();
+            if (preIntValue == curValue)
+                return;
+        }
+        m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
     }
-    m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
 
     value = m_sideNumSpinBox->value();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
     emit signalPolygonAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
+
+    static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
+    bool pushToStack = !m_sideNumSpinBox->isTimerRunning();
+    bool firstRecord = s_oldTempValues.isEmpty();
+    QMap<CGraphicsItem *, QVariant> *inUndoValues = m_sideNumSpinBox->isChangedByWheelEnd() ? &s_oldTempValues : nullptr;
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, value, pushToStack, ((!pushToStack && firstRecord) ? &s_oldTempValues : nullptr), inUndoValues);
+    m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
+    if (m_sideNumSpinBox->isChangedByWheelEnd()) {
+        s_oldTempValues.clear();
+    }
+
+    //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
 }
 
 void PolygonAttributeWidget::slotSideWidthChoosed(int width)

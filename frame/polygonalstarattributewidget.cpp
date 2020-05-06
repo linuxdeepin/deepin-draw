@@ -353,15 +353,17 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     }
     m_anchorNumber->blockSignals(false);
 
-    QVariant preValue = m_anchorNumber->property("preValue");
+    if (!m_anchorNumber->isChangedByWheelEnd()) {
+        QVariant preValue = m_anchorNumber->property("preValue");
 
-    if (preValue.isValid()) {
-        int preIntValue = preValue.toInt();
-        int curValue    = m_anchorNumber->value();
-        if (preIntValue == curValue)
-            return;
+        if (preValue.isValid()) {
+            int preIntValue = preValue.toInt();
+            int curValue    = m_anchorNumber->value();
+            if (preIntValue == curValue)
+                return;
+        }
+        m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
     }
-    m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
 
     value = m_anchorNumber->value();
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
@@ -369,8 +371,22 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
+
+
     //设置多选图元属性
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value);
+    static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
+    bool pushToStack = !m_anchorNumber->isTimerRunning();
+    bool firstRecord = s_oldTempValues.isEmpty();
+    QMap<CGraphicsItem *, QVariant> *inUndoValues = m_anchorNumber->isChangedByWheelEnd() ? &s_oldTempValues : nullptr;
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value, pushToStack, ((!pushToStack && firstRecord) ? &s_oldTempValues : nullptr), inUndoValues);
+    m_anchorNumber->setProperty("preValue", m_anchorNumber->value());
+
+    if (m_anchorNumber->isChangedByWheelEnd()) {
+        s_oldTempValues.clear();
+    }
+
+    //设置多选图元属性
+    //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, value);
 }
 
 void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
@@ -383,15 +399,17 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     }
     m_radiusNumber->blockSignals(false);
 
-    QVariant preValue = m_radiusNumber->property("preValue");
+    if (!m_radiusNumber->isChangedByWheelEnd()) {
+        QVariant preValue = m_radiusNumber->property("preValue");
 
-    if (preValue.isValid()) {
-        int preIntValue = preValue.toInt();
-        int curValue    = m_radiusNumber->value();
-        if (preIntValue == curValue)
-            return;
+        if (preValue.isValid()) {
+            int preIntValue = preValue.toInt();
+            int curValue    = m_radiusNumber->value();
+            if (preIntValue == curValue)
+                return;
+        }
+        m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
     }
-    m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
 
     value = m_radiusNumber->value();
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
@@ -402,10 +420,21 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value);
+    //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value);
+    static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
+    bool pushToStack = !m_radiusNumber->isTimerRunning();
+    bool firstRecord = s_oldTempValues.isEmpty();
+    QMap<CGraphicsItem *, QVariant> *inUndoValues = m_radiusNumber->isChangedByWheelEnd() ? &s_oldTempValues : nullptr;
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value, pushToStack, ((!pushToStack && firstRecord) ? &s_oldTempValues : nullptr), inUndoValues);
+    m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
+
+    if (m_radiusNumber->isChangedByWheelEnd()) {
+        s_oldTempValues.clear();
+    }
+
     m_radiusNumber->setFocus(Qt::MouseFocusReason);
 
-    m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
+    //m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
 }
 
 void PolygonalStarAttributeWidget::slotSideWidthChoosed(int width)

@@ -1745,6 +1745,19 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
     }
 }
 
+CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene,
+                                                                         const QMap<CGraphicsItem *, QVariant> &oldValues,
+                                                                         EDrawProperty property, QVariant value)
+{
+    myGraphicsScene = scene;
+    for (auto it = oldValues.begin(); it != oldValues.end(); ++it) {
+        m_items.append(it.key());
+    }
+    m_property = property;
+    m_value = value;
+    m_oldValues = oldValues;
+}
+
 void CSetItemsCommonPropertyValueCommand::undo()
 {
     qDebug() << "CSetItemsCommonPropertyValueCommand: " << "undo";
@@ -2044,6 +2057,11 @@ void CSetItemsCommonPropertyValueCommand::redo()
     qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
+}
+
+QMap<CGraphicsItem *, QVariant> CSetItemsCommonPropertyValueCommand::undoInfoValues()
+{
+    return m_oldValues;
 }
 
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)
