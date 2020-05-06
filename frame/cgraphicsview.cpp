@@ -1051,6 +1051,8 @@ void CGraphicsView::slotOnPaste()
         }
     }
 
+    // 刷新粘贴后的属性
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CGraphicsView::slotOnSelectAll()
