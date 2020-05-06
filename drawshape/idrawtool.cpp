@@ -40,6 +40,11 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 
 }
 
+void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+{
+    scene->mouseEvent(event);
+}
+
 EDrawToolMode IDrawTool::getDrawToolMode() const
 {
     return m_mode;

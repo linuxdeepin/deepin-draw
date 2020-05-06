@@ -19,16 +19,18 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 
-CDrawParamSigleton::CDrawParamSigleton()
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
+CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
     , m_nFillColor(Qt::transparent)//transparent
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
-    , m_textFont(QFont())
+    , m_textFont(QFont("Bitstream Charter"))
     , m_textColor(Qt::black)
-    , m_singleFontFlag(true)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
@@ -38,7 +40,7 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_cutType(ECutType::cut_free)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
-    , m_isModify(false)
+    , m_isModify(isModified)
     , m_saveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
@@ -51,7 +53,15 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_penStartType(ELineType::noneLine)
     , m_penEndType(ELineType::noneLine)
 {
+    m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
+    m_textFont.setStyleName(QObject::tr("Regular"));
+
+    if (uuid.isEmpty()) {
+        m_keyUUID = creatUUID();
+    } else {
+        m_keyUUID = uuid;
+    }
 }
 
 void CDrawParamSigleton::setLineWidth(int lineWidth)
@@ -112,14 +122,14 @@ QBrush CDrawParamSigleton::getBrush() const
 {
     return QBrush(m_nFillColor);
 }
-#include "frame/cviewmanagement.h"
-#include "frame/cgraphicsview.h"
+
 void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
 
     if (mode != selection)
         CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
+
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
@@ -252,14 +262,14 @@ QColor CDrawParamSigleton::getTextColor() const
     return m_textColor;
 }
 
-void CDrawParamSigleton::setSingleFontFlag(bool flag)
+void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
 {
-    m_singleFontFlag = flag;
+    m_textColor.setAlpha(alpha);
 }
 
-bool CDrawParamSigleton::getSingleFontFlag() const
+int CDrawParamSigleton::getTextColorAlpha() const
 {
-    return m_singleFontFlag;
+    return m_textColor.alpha();
 }
 
 QString CDrawParamSigleton::getDdfSavePath() const
@@ -270,6 +280,7 @@ QString CDrawParamSigleton::getDdfSavePath() const
 void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
 {
     m_ddfSavePath = ddfSavePath;
+    CManageViewSigleton::GetInstance()->wacthFile(m_ddfSavePath);
 }
 
 ELineType CDrawParamSigleton::getLineStartType() const
@@ -436,10 +447,24 @@ void CDrawParamSigleton::setRectXRedius(int redius)
 
 QString CDrawParamSigleton::getShowViewNameByModifyState()
 {
-    if (!getModify()) {
+    //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
+    if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
         return viewName();
     }
     QString vName = "* " + viewName();
     return vName;
+}
+
+QString CDrawParamSigleton::uuid()
+{
+    return m_keyUUID;
+}
+
+QString CDrawParamSigleton::creatUUID()
+{
+    static int uuidKey = 0;
+    QString uuid = QString("uuid_%1").arg(uuidKey);
+    ++uuidKey;
+    return uuid;
 }
 

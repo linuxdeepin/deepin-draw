@@ -18,6 +18,7 @@
  */
 #ifndef BLURWIDGET_H
 #define BLURWIDGET_H
+#include "service/cmanagerattributeservice.h"
 
 #include <DWidget>
 #include <DSlider>
@@ -43,6 +44,11 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 
 private:
     /**

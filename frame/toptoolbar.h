@@ -77,10 +77,6 @@ signals:
      */
     void signalImport();
     /**
-     * @brief signalAttributeChanged　图元属性改变信号
-     */
-    void signalAttributeChanged();
-    /**
      * @brief signalPassPictureOperation   传递图片的旋转和翻转信号
      */
     void signalPassPictureOperation(int);
@@ -186,6 +182,11 @@ public slots:
      */
     void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
     /**
+     * @brief signalIsAllPictureItem　选中图元图元是否都为图片
+     * @param isEnable　自适应按钮是否可用
+     */
+    void slotIsAllPictureItem(bool isEnable);
+    /**
      * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
      * @param QString 场景名字
      */
@@ -254,6 +255,7 @@ private:
 
     QAction *m_saveAction;
     QAction *m_newAction;
+    QMap<EDrawProperty, QVariant> m_propertys;//选中图元后传过来的信息
 
 private:
     /**

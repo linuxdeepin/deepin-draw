@@ -27,7 +27,7 @@
 class CDrawParamSigleton
 {
 public:
-    CDrawParamSigleton();
+    CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
     int getLineWidth() const;
@@ -80,6 +80,9 @@ public:
     void setTextColor(const QColor &fillColor);
     QColor getTextColor() const;
 
+    void setTextColorAlpha(const int &alpha);
+    int getTextColorAlpha() const;
+
     ECutType getCutType() const;
     void setCutType(const ECutType &cutType);
 
@@ -100,9 +103,6 @@ public:
 
     int getBlurWidth() const;
     void setBlurWidth(const int width);
-
-    void setSingleFontFlag(bool flag);
-    bool getSingleFontFlag() const;
 
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
@@ -155,6 +155,12 @@ public:
         */
     QString getShowViewNameByModifyState();
 
+
+    QString uuid();
+
+public:
+    static QString creatUUID();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
@@ -169,7 +175,6 @@ private:
     QFont m_textFont; //文本字体
     //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
-    bool m_singleFontFlag; //只包含一个字体
 
     EDrawToolMode m_currentDrawToolMode;
 
@@ -212,6 +217,9 @@ private:
     bool m_bSelectAlling; //是否正在全选
 
     QString m_viewName;//视图名字
+
+
+    QString m_keyUUID;      //唯一标识
 };
 
 

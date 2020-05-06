@@ -45,32 +45,32 @@ CGraphicsTextItem::CGraphicsTextItem()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
-    , m_allColorIsEqual(true)
-    , m_allSizeIsEqual(true)
-    , m_allFamilyIsEqual(true)
 {
     initTextEditWidget();
 }
 
-CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
+    : CGraphicsRectItem (data.rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
 {
     initTextEditWidget();
-    m_Font = data->font;
-    m_bManResize = data->manResizeFlag;
-    m_pTextEdit->setHtml(data->content);
+    m_Font = data.font;
+    m_bManResize = data.manResizeFlag;
+    m_pTextEdit->setHtml(data.content);
     m_pTextEdit->hide();
-    QRectF rect(data->rect.topLeft, data->rect.bottomRight);
+    QRectF rect(data.rect.topLeft, data.rect.bottomRight);
     setRect(rect);
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
 CGraphicsTextItem::~CGraphicsTextItem()
 {
-
+    if (m_pTextEdit != nullptr) {
+        m_pTextEdit->deleteLater();
+        m_pTextEdit = nullptr;
+    }
 }
 
 void CGraphicsTextItem::initTextEditWidget()
@@ -98,21 +98,10 @@ void CGraphicsTextItem::initTextEditWidget()
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
     this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
 
-    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-    m_Font = font;
-    QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
     m_pTextEdit->setTextCursor(textCursor);
-
-    //更新初始化的字体和颜色
-    QTextCharFormat fmt;
-    fmt.setFont(font);
-    fmt.setForeground(color);
-    this->mergeFormatOnWordOrSelection(fmt);
-    this->currentCharFormatChanged(fmt);
 
     m_pTextEdit->show();
     m_pTextEdit->document()->clearUndoRedoStacks();
@@ -130,22 +119,53 @@ QPainterPath CGraphicsTextItem::getHighLightPath()
     return path;
 }
 
-bool CGraphicsTextItem::getAllTextColorIsEqual()
+QColor CGraphicsTextItem::getSelectedTextColor()
 {
-    //    // 必须要点击文本检验后才能获取是否所有颜色相同，否则返回所有文字相同
-    //    bool temp = m_allColorIsEqual;
-    //    m_allColorIsEqual = true;
-    return m_allColorIsEqual;
+    return m_pTextEdit->getSelectedTextColor();
 }
 
-bool CGraphicsTextItem::getAllFontSizeIsEqual()
+int CGraphicsTextItem::getSelectedFontSize()
 {
-    return m_allSizeIsEqual;
+    return m_pTextEdit->getSelectedFontSize();
 }
 
-bool CGraphicsTextItem::getAllFontFamilyIsEqual()
+QString CGraphicsTextItem::getSelectedFontFamily()
 {
-    return m_allFamilyIsEqual;
+    return m_pTextEdit->getSelectedFontFamily();
+}
+
+QString CGraphicsTextItem::getSelectedFontStyle()
+{
+    return m_pTextEdit->getSelectedFontStyle();
+}
+
+int CGraphicsTextItem::getSelectedFontWeight()
+{
+    return m_pTextEdit->getSelectedFontWeight();
+}
+
+int CGraphicsTextItem::getSelectedTextColorAlpha()
+{
+    return m_pTextEdit->getSelectedTextColorAlpha();
+}
+
+void CGraphicsTextItem::makeEditabel()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+        m_pTextEdit->show();
+        //m_pProxy->setFocus();
+        QTextCursor textCursor = m_pTextEdit->textCursor();
+        textCursor.select(QTextCursor::Document);
+        m_pTextEdit->setTextCursor(textCursor);
+//    m_pTextEdit->cursorPositionChanged();
+    }
+
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
+    m_pTextEdit->setFocus();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -153,7 +173,6 @@ void CGraphicsTextItem::slot_textmenu(QPoint)
     m_menu->move (cursor().pos());
     m_menu->show();
 }
-
 
 CTextEdit *CGraphicsTextItem::getTextEdit() const
 {
@@ -181,6 +200,11 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
             static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
         }
     }
+}
+
+void CGraphicsTextItem::initText()
+{
+
 }
 
 void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
@@ -211,7 +235,7 @@ void CGraphicsTextItem::setFont(const QFont &font)
     QTextCharFormat fmt;
     fmt.setFont(font);
     mergeFormatOnWordOrSelection(fmt);
-
+    qDebug() << "setFont: " << "setFont";
     m_Font = font;
 }
 
@@ -220,15 +244,45 @@ QFont CGraphicsTextItem::getFont()
     return m_Font;
 }
 
-QString CGraphicsTextItem::getTextFontStyle() const
+QString CGraphicsTextItem::getTextFontStyle()
 {
     return m_Font.styleName();
 }
 
 void CGraphicsTextItem::setTextFontStyle(const QString &style)
 {
-    m_Font.setStyleName(style);
-    m_pTextEdit->setFont(m_Font);
+    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
+     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
+     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
+    */
+    //    QFont::Thin    0   QFont::ExtraLight 12  QFont::Light 25
+    //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
+    //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
+    quint8 weight = 0;
+    if (style == QObject::tr("Thin")) {
+        weight = 0;
+    } else if (style == QObject::tr("ExtraLight")) {
+        weight = 12;
+    } else if (style == QObject::tr("Light")) {
+        weight = 25;
+    } else if (style == QObject::tr("Normal")) {
+        weight = 50;
+    } else if (style == QObject::tr("Medium")) {
+        weight = 57;
+    } else if (style == QObject::tr("DemiBold")) {
+        weight = 63;
+    } else if (style == QObject::tr("Bold")) {
+        weight = 75;
+    } else if (style == QObject::tr("ExtraBold")) {
+        weight = 81;
+    } else if (style == QObject::tr("Black")) {
+        weight = 87;
+    }
+
+    QTextCharFormat fmt;
+    fmt.setFontWeight(weight);
+    mergeFormatOnWordOrSelection(fmt);
+    m_Font.setStyleName(style);// 缓存自身最新的字体样式
 }
 
 void CGraphicsTextItem::setFontSize(qreal size)
@@ -236,13 +290,7 @@ void CGraphicsTextItem::setFontSize(qreal size)
     QTextCharFormat fmt;
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
-
     m_Font.setPointSizeF(size);
-
-//    //只有把焦点设成这个  才可以输入文字
-//    if (this->scene() != nullptr) {
-//        this->scene()->views()[0]->setFocus();
-    //    }
 }
 
 qreal CGraphicsTextItem::getFontSize()
@@ -256,11 +304,11 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
     fmt.setFontFamily(family);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
+}
 
-    //只有把焦点设成这个  才可以输入文字
-    if (this->scene() != nullptr) {
-        this->scene()->views()[0]->setFocus();
-    }
+QString CGraphicsTextItem::getFontFamily()
+{
+    return m_Font.family();
 }
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
@@ -269,30 +317,27 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_bManResize = true;
     updateWidget();
     m_pTextEdit->resizeDocument();
-
 }
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    CGraphicsRectItem::duplicate(item);
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
-    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
+    static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
+    static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
+    static_cast<CGraphicsTextItem *>(item)->setFontSize(this->getFontSize());
+    static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
+        this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
+    CGraphicsRectItem::duplicate(item);
 }
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
-
     m_color = col;
-
-    //只有把焦点设成这个  才可以输入文字
-//    if (this->scene() != nullptr) {
-//        this->scene()->views()[0]->setFocus();
-    //    }
 }
 
 QColor CGraphicsTextItem::getTextColor()
@@ -300,13 +345,24 @@ QColor CGraphicsTextItem::getTextColor()
     return m_color;
 }
 
+void CGraphicsTextItem::setTextColorAlpha(const int &alpha)
+{
+    QTextCharFormat fmt;
+    m_color.setAlpha(alpha);
+    fmt.setForeground(m_color);
+    mergeFormatOnWordOrSelection(fmt);
+}
+
+int CGraphicsTextItem::getTextColorAlpha()
+{
+    return m_color.alpha();
+}
+
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     QTextCursor cursor = m_pTextEdit->textCursor();
-//    if (!cursor.hasSelection())
-//        cursor.select(QTextCursor::WordUnderCursor);
     cursor.mergeCharFormat(format);
-    m_pTextEdit->mergeCurrentCharFormat(format);
+//    m_pTextEdit->mergeCurrentCharFormat(format);
     m_pTextEdit->setFocus();
 }
 
@@ -314,7 +370,10 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     updateGeometry();
 
+    beginCheckIns(painter);
     drawDocument(painter, m_pTextEdit->document(), this->rect());
+    endCheckIns(painter);
+
     if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
@@ -335,62 +394,22 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
 
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
-        m_pTextEdit->show();
-        //m_pProxy->setFocus();
-        QTextCursor textCursor = m_pTextEdit->textCursor();
-        textCursor.select(QTextCursor::Document);
-        m_pTextEdit->setTextCursor(textCursor);
-//    m_pTextEdit->cursorPositionChanged();
-    }
+    makeEditabel();
+//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+//        m_pTextEdit->show();
+//        //m_pProxy->setFocus();
+//        QTextCursor textCursor = m_pTextEdit->textCursor();
+//        textCursor.select(QTextCursor::Document);
+//        m_pTextEdit->setTextCursor(textCursor);
+////    m_pTextEdit->cursorPositionChanged();
+//    }
 
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->updateBlurItem(this);
-    }
-    m_pTextEdit->setFocus();
-}
-
-void CGraphicsTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    Q_UNUSED(event)
-
-    m_pTextEdit->selectAll();
-
-    QTextCursor cur = m_pTextEdit->textCursor();
-
-    m_allColorIsEqual = true;
-    m_allSizeIsEqual = true;
-    m_allFamilyIsEqual = true;
-
-    QTextBlock block = cur.block();
-    if (block.isValid()) {
-        QTextBlock::iterator it;
-
-        for (it = block.begin(); !(it.atEnd()); ++it) {
-            QTextFragment fragment = it.fragment();
-            if (!fragment.isValid())
-                continue;
-
-            if (m_allColorIsEqual && fragment.charFormat().foreground().color() != m_color) {
-                m_allColorIsEqual = false;
-            }
-
-            if (m_allSizeIsEqual && fragment.charFormat().font().pointSize() != m_Font.pointSize()) {
-                m_allSizeIsEqual = false;
-            }
-
-            if (m_allFamilyIsEqual && fragment.charFormat().font().family() != m_Font.family()) {
-                m_allFamilyIsEqual = false;
-            }
-
-            if (!m_allSizeIsEqual && !m_allColorIsEqual && !m_allFamilyIsEqual) {
-                return;
-            }
-        }
-    }
-    CGraphicsRectItem::mousePressEvent(event);
+//    if (nullptr != scene()) {
+//        auto curScene = static_cast<CDrawScene *>(scene());
+//        curScene->updateBlurItem(this);
+//    }
+//    m_pTextEdit->setFocus();
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,
@@ -515,6 +534,7 @@ void CGraphicsTextItem::drawText(QPainter *painter, QPointF &p, QString &text, c
 
     p += QPointF(textBoundingRect.width(), 0);
 }
+
 qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qreal &textWidth)
 {
     if (a & Qt::AlignRight)
@@ -523,6 +543,7 @@ qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qre
         return (width - textWidth) / 2;
     return 0;
 }
+
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
     return true;
@@ -599,18 +620,18 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
     }
 }
 
-
 void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
 {
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
+    Q_UNUSED(format)
+    // 此处不再需要向缓存中写入数据了
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
+//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
 
-    //提示更改 TODO
-    if (this->scene() != nullptr) {
-        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
-    }
-
+//    //提示更改 TODO
+//    if (this->scene() != nullptr) {
+//        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
+//    }
 }
 
 bool CGraphicsTextItem::getManResizeFlag() const

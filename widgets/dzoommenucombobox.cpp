@@ -27,6 +27,7 @@
 #include <QRect>
 
 #include <DPushButton>
+#include <QKeyEvent>
 
 DZoomMenuComboBox::DZoomMenuComboBox(DWidget *parent):
     DWidget(parent)
@@ -54,6 +55,8 @@ void DZoomMenuComboBox::addItem(QString itemText, QIcon icon)
 void DZoomMenuComboBox::addItem(QAction *action)
 {
     action->setCheckable(false);
+    action->setShortcuts(QKeySequence::UnknownKey);
+    action->setAutoRepeat(false);
     m_menu->addAction(action);
     m_actions.append(action);
 
@@ -208,11 +211,26 @@ void DZoomMenuComboBox::slotActionToggled(QAction *action)
     }
 }
 
+bool DZoomMenuComboBox::eventFilter(QObject *o, QEvent *e)
+{
+    if (o == m_menu) {
+        if (e->type() == QEvent::KeyPress) {
+            QKeyEvent *pKeyEvent = dynamic_cast<QKeyEvent *>(e);
+
+            if (!pKeyEvent->modifiers() && pKeyEvent->text().length() == 1) {
+                return true;
+            }
+        }
+    }
+    return DWidget::eventFilter(o, e);
+}
+
 void DZoomMenuComboBox::initUI()
 {
     // [0] 实例化菜单按钮
     m_btn = new DPushButton("", this);
     m_menu = new QMenu(this);
+    m_menu->installEventFilter(this);
     m_btn->setMinimumWidth(136);
     m_btn->setMaximumWidth(136);
     connect(m_btn, &DPushButton::clicked, this, [ = ]() {

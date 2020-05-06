@@ -61,6 +61,17 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     hide();
 }
 
+CGraphicsView *CSizeHandleRect::curView() const
+{
+    CGraphicsView *parentView = nullptr;
+    if (scene() != nullptr) {
+        if (!scene()->views().isEmpty()) {
+            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+        }
+    }
+    return parentView;
+}
+
 void CSizeHandleRect::updateCursor()
 {
     switch (m_dir) {
@@ -174,7 +185,10 @@ void CSizeHandleRect::move(qreal x, qreal y)
 
 QRectF CSizeHandleRect::boundingRect() const
 {
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    if (curView() == nullptr)
+        return QRectF();
+
+    qreal scale = curView()->getDrawParam()->getScale();
     QRectF rect = QGraphicsSvgItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);

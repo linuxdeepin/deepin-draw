@@ -40,9 +40,7 @@
 
 DGUI_USE_NAMESPACE
 
-const int BTN_SPACNT = 10;
 const int TEXT_SIZE = 14;
-
 
 CPenWidget::CPenWidget(DWidget *parent)
     : DWidget(parent)
@@ -66,6 +64,7 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 {
     m_strokeBtn->setVisible(false);
     m_sideWidthWidget->setVisible(false);
+    m_sep1Line->setVisible(false);
 
     m_startLabel->setVisible(false);
     m_endLabel->setVisible(false);
@@ -74,37 +73,66 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case LineColor:
+        case LineColor: {
             m_strokeBtn->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
+            m_strokeBtn->blockSignals(true);
+            QColor color = propertys[property].value<QColor>();
+            if (!color.isValid()) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
-                m_strokeBtn->setColor(propertys[property].value<QColor>());
+                m_strokeBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
             }
             m_strokeBtn->update();
+            m_strokeBtn->blockSignals(false);
             break;
+        }
         case LineWidth:
-//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
+            m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(propertys[property].toInt());
             }
+            m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
-//        case PenStartArrowType:
-//            m_startLabel->setVisible(true);
-//            m_lineStartComboBox->setVisible(true);
-//            m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
-//            m_sideWidthWidget->update();
-//            break;
-//        case PenEndArrowType:
-//            m_endLabel->setVisible(true);
-//            m_lineEndComboBox->setVisible(true);
-//            m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
-//            m_lineEndComboBox->update();
-//            break;
+        case LineAndPenStartType: {
+            m_sep1Line->setVisible(true);
+            m_startLabel->setVisible(true);
+            m_maskLableStart->setVisible(false);
+            m_lineStartComboBox->setVisible(true);
+            m_lineStartComboBox->blockSignals(true);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_lineStartComboBox->setCurrentIndex(-1);
+                m_maskLableStart->setVisible(true);
+            } else {
+                m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(static_cast<ELineType>(propertys[property].toInt()));
+            }
+            m_lineStartComboBox->blockSignals(false);
+            m_lineStartComboBox->update();
+            break;
+        }
+        case LineAndPenEndType: {
+            m_sep1Line->setVisible(true);
+            m_endLabel->setVisible(true);
+            m_lineEndComboBox->setVisible(true);
+            m_lineEndComboBox->blockSignals(true);
+            m_maskLableEnd->setVisible(false);
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_lineEndComboBox->setCurrentIndex(-1);
+                m_maskLableEnd->setVisible(true);
+            } else {
+                m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(static_cast<ELineType>(propertys[property].toInt()));
+            }
+            m_lineEndComboBox->blockSignals(false);
+            m_lineEndComboBox->update();
+            break;
+        }
         default:
             break;
         }
@@ -144,28 +172,42 @@ void CPenWidget::initUI()
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
+
+    m_maskLableStart = new DLabel(m_lineStartComboBox);
+    m_maskLableStart->setText("— —");
+    m_maskLableStart->move(6, 6);
+    m_maskLableStart->setFixedSize(35, 20);
+    m_maskLableStart->setVisible(false);
+    m_maskLableStart->setFont(m_maskLableStart->font());
+
+    m_maskLableEnd = new DLabel(m_lineEndComboBox);
+    m_maskLableEnd->setText("— —");
+    m_maskLableEnd->move(6, 6);
+    m_maskLableEnd->setFixedSize(35, 20);
+    m_maskLableEnd->setVisible(false);
+    m_maskLableEnd->setFont(m_lineEndComboBox->font());
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addStretch();
     layout->addWidget(m_strokeBtn);
+    layout->addSpacing(-6); // 此处设置的原因是宽度过大
     layout->addWidget(m_sideWidthWidget);
     layout->addWidget(m_sep1Line);
     layout->addWidget(m_startLabel);
     layout->addWidget(m_lineStartComboBox);
+    layout->addSpacing(12);
     layout->addWidget(m_endLabel);
     layout->addWidget(m_lineEndComboBox);
-//    layout->setSpacing(BTN_SPACNT);
-    layout->addSpacing(16);
     layout->addStretch();
     setLayout(layout);
 
@@ -205,27 +247,24 @@ void CPenWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
             break;
         }
+        case 3: {
+            lineType = normalArrow;
+            break;
         }
-
+        case 4: {
+            lineType = soildArrow;
+            break;
+        }
+        }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(lineType);
-        CManagerAttributeService::getInstance()->setPenStartType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenStartArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -239,69 +278,41 @@ void CPenWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
             break;
         }
+        case 3: {
+            lineType = normalArrow;
+            break;
         }
-
+        case 4: {
+            lineType = soildArrow;
+            break;
+        }
+        }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(lineType);
-        CManagerAttributeService::getInstance()->setPenEndType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::PenEndArrowType, lineType);
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     m_lineStartComboBox->setCurrentIndex(0);
     m_lineEndComboBox->setCurrentIndex(0);
-
-    // 连接单个画笔点击属性更新
-    connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::signalPenItemPropertyUpdate, this, [ = ](QMap<EDrawProperty, QVariant> propertys) {
-        QMap<EDrawProperty, QVariant>::iterator itr = propertys.begin();
-        for (; itr != propertys.end(); itr++) {
-            switch (itr.key()) {
-            case LineAndPenStartType: {
-                int startIndex = itr.value().toInt();
-                qDebug() << "startIndex: " << startIndex;
-                m_lineStartComboBox->blockSignals(true);
-                m_lineStartComboBox->setCurrentIndex(startIndex);
-                m_lineStartComboBox->blockSignals(false);
-                break;
-            }
-            case LineAndPenEndType: {
-                int endIndex = itr.value().toInt();
-                qDebug() << "endIndex: " << endIndex;
-                m_lineEndComboBox->blockSignals(true);
-                m_lineEndComboBox->setCurrentIndex(endIndex);
-                m_lineEndComboBox->blockSignals(false);
-                break;
-            }
-            default: {
-                break;
-            }
-            }
-        }
-    });
 }
 
 void CPenWidget::updatePenWidget()
 {
+    // 填充色更新
     m_strokeBtn->updateConfigColor();
-    m_sideWidthWidget->updateSideWidth();
 
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    // 线宽度属性刷新
+    m_sideWidthWidget->blockSignals(true);
+    m_sideWidthWidget->updateSideWidth();
+    m_sideWidthWidget->blockSignals(false);
 }
 
 void CPenWidget::slotSideWidthChoosed(int width)

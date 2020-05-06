@@ -88,6 +88,10 @@ int CGraphicsLineItem::type() const
 QPainterPath CGraphicsLineItem::shape() const
 {
     QPainterPath path;
+
+    if (this->curView() == nullptr)
+        return path;
+
     if (m_line == QLineF())
         return path;
 
@@ -95,7 +99,7 @@ QPainterPath CGraphicsLineItem::shape() const
     path.lineTo(m_line.p2());
 
     QPen pen = this->pen();
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    qreal scale = curView()->getDrawParam()->getScale();
     if (pen.width() * (int)scale < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
@@ -305,6 +309,9 @@ void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
 void CGraphicsLineItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsLineItem *>(item)->setLine(this->m_line);
+    static_cast<CGraphicsLineItem *>(item)->setPen(this->pen());
+    static_cast<CGraphicsLineItem *>(item)->setLineStartType(this->getLineStartType());
+    static_cast<CGraphicsLineItem *>(item)->setLineEndType(this->getLineEndType());
     CGraphicsItem::duplicate(item);
 }
 
@@ -349,6 +356,8 @@ int CGraphicsLineItem::getQuadrant() const
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
     m_startType = type;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineStartType() const
@@ -359,6 +368,8 @@ ELineType CGraphicsLineItem::getLineStartType() const
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
     m_endType = type;
+    calcVertexes();
+    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineEndType() const
@@ -424,21 +435,28 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
 
-    // start
-//    drawStart();
+    beginCheckIns(painter);
+
+
     painter->setBrush(Qt::NoBrush);
-    if (m_startType == soildArrow || m_startType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_startType == soildArrow || m_startType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_startPath);
 
     painter->setBrush(Qt::NoBrush);
-    if (m_endType == soildArrow || m_endType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_endType == soildArrow || m_endType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_endPath);
 
     painter->drawLine(m_line);
+
+    endCheckIns(painter);
 }
 
 void CGraphicsLineItem::initLine()
@@ -499,6 +517,9 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
         m_startPath.lineTo(p3);
         m_startPath.lineTo(p2);
@@ -571,6 +592,9 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p3);
         m_endPath.lineTo(p2);
@@ -622,4 +646,11 @@ QPainterPath CGraphicsLineItem::getHighLightPath()
     path.addPath(m_startPath);
     path.addPath(m_endPath);
     return path;
+}
+
+void CGraphicsLineItem::setLinePenWidth(int width)
+{
+    this->pen().setWidth(width);
+    calcVertexes();
+    updateGeometry();
 }

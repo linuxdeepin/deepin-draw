@@ -82,6 +82,7 @@ protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     virtual void updateGeometry() Q_DECL_OVERRIDE;
 
+
 private:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块

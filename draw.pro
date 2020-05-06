@@ -71,8 +71,8 @@ TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-service.path = $${PREFIX}/share/dbus-1/services
-service.files = service/com.deepin.Draw.service
+#service.path = $${PREFIX}/share/dbus-1/services
+#service.files = service/com.deepin.Draw.service
 
 mime_file.path = /usr/share/mime/packages
 mime_file.files = $$PWD/mimetype/*.xml
@@ -82,10 +82,14 @@ exists(app_icon.files) {
 }
 
 # dbus 外部调用程序
-dbus_service.files = $$PWD/com.deepin.Draw.service
-dbus_service.path = $$PREFIX/share/dbus-1/services
+dbus_service.files = $$PWD/com.deepin.Draw.servicse
+dbus_service.path = $${PREFIX}/share/dbus-1/services
 
-INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file dbus_service
+#INSTALLS = target desktop  app_icon manual_icon formatFile translations service mime_file dbus_service
+INSTALLS = target desktop  app_icon manual_icon formatFile translations mime_file dbus_service
+
+#服务器端如果设置好了dbus传输,这里就不要注释(详细可搜索DEBUSVAILD宏)
+#DEFINES += DEBUSVAILD
 
 DISTFILES += \
     logo/deepin-draw-16.svg \

@@ -35,9 +35,6 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
         this->addToGroup(item);
     }
     if (m_listItems.size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
-    }
-    if (m_listItems.size() > 1) {
         foreach (QGraphicsItem *item, m_listItems) {
             static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
         }
@@ -94,10 +91,6 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
     if (!m_listItems.contains(item)) {
         m_listItems.push_back(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
-    }
-
-    if (m_listItems.size() > 1) {
-        CManagerAttributeService::getInstance()->showSelectedCommonProperty(static_cast<CDrawScene *>(scene()), m_listItems);
     }
 
     updateGeometry();
@@ -594,8 +587,8 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     updateGeometry();
     if (m_listItems.size() > 1) {
         QPen pen;
-        pen.setColor(Qt::blue);
-        pen.setWidth(1);
+        pen.setColor(Qt::gray);
+        pen.setWidthF(1.0 / painter->worldTransform().m11());
         painter->setPen(pen);
         painter->setBrush(Qt::NoBrush);
         painter->drawRect(this->boundingRect());

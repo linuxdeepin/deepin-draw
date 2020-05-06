@@ -55,6 +55,7 @@ public:
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
     void openImage(QString path, bool isStartByDDF = false);
+
     /**
      * @brief initScene　初始化场景
      */
@@ -151,6 +152,7 @@ private:
     QString tmpPictruePath;
     DDialog m_dialog; // 最后一个标签被关闭提示框
     QStringList m_closeViews; //待关闭的标签
+    QStringList m_closeUUids; //待关闭的标签uuid
 
 private:
     /**
@@ -170,11 +172,11 @@ private:
     /**
      * @brief showSaveQuestionDialog　显示提示是否保存对话框
      */
-    void showSaveQuestionDialog();
+    int showSaveQuestionDialog();
     /**
      * @brief doCloseOtherDiv　判断是否需要继续关闭页面
      */
-    void doCloseOtherDiv();
+    void closeTabViews();
 };
 
 #endif // MAINWINDOW_H

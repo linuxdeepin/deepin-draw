@@ -54,6 +54,12 @@ public:
     void setPath(const QPainterPath &path);
     QPainterPath getPath() const;
 
+    void setPenStartpath(const QPainterPath &path);
+    QPainterPath getPenStartpath() const;
+
+    void setPenEndpath(const QPainterPath &path);
+    QPainterPath getPenEndpath() const;
+
     void updatePenType(const ELineType &startType, const ELineType &endType);
     void setPixmap();
 

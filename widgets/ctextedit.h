@@ -33,7 +33,7 @@ class CTextEdit : public QTextEdit
     Q_OBJECT
 public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
-
+    ~CTextEdit() override;
 
     virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
@@ -41,18 +41,56 @@ public:
 
     void resizeDocument();
 
-protected:
-    virtual void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    /*
+    * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
+    * @return:QColor
+    */
+    QColor getSelectedTextColor();
+
+    /*
+    * @bref: getSelectedFontSize 返回文本当前点击后是否所有文字大小一致
+    * @return:int
+    */
+    int getSelectedFontSize();
+
+    /*
+    * @bref: getSelectedFontFamily 返回文本当前点击后是否所有字体一致
+    * @return:QString
+    */
+    QString getSelectedFontFamily();
+
+    /*
+    * @bref: getSelectedFontStyle 返回文本当前点击后是否所有自重大小一致
+    * @return:QString
+    */
+    QString getSelectedFontStyle();
+    int getSelectedFontWeight();
+
+    /*
+    * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致
+    * @return:int
+    */
+    int getSelectedTextColorAlpha();
+
+    /*
+     * @bref: checkTextProperty 用于检验文字属性是否一致
+    */
+    void checkTextProperty(QTextBlock block);
 
 public slots:
-    void currentCharFormatChanged(const QTextCharFormat &format);
     void slot_textChanged();
     void cursorPositionChanged();
-
 
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
+
+    QColor m_selectedColor; // 所有选中的颜色
+    int m_selectedSize;  // 所有选中的字体大小
+    QString m_selectedFamily;// 所有选中的字体类型
+    QString m_selectedFontStyle;// 所有选中的字体样式
+    int m_selectedFontWeight;          // 所有选中字体的自重
+    int m_selectedColorAlpha; //所有选中的文字颜色透明度
 };
 
 #endif // CTEXTEDIT_H

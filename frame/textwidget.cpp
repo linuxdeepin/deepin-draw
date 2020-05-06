@@ -41,6 +41,7 @@ TextWidget::TextWidget(DWidget *parent)
 {
     initUI();
     initConnection();
+    initDefaultSetting();
 }
 
 TextWidget::~TextWidget()
@@ -64,7 +65,6 @@ void TextWidget::initUI()
     m_fontComBox = new CFontComboBox(this);
     m_fontComBox->setFont(ft);
     m_fontComBox->setFontFilters(DFontComboBox::AllFonts);
-    m_fontComBox->setFont(ft);
 
     m_fontComBox->setFixedSize(QSize(240, 36));
     m_fontComBox->setCurrentIndex(0);
@@ -72,12 +72,14 @@ void TextWidget::initUI()
     m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
     QString strFont = m_fontComBox->currentText();
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
-    m_fontHeavy->setFixedSize(QSize(100, 36));
-    m_fontHeavy->addItems(QStringList{tr("Normal"), tr("Bold"), tr("Thin")});
+    m_fontHeavy->setFixedSize(QSize(130, 36));
     m_fontHeavy->setFont(ft);
+    m_fontHeavy->setEditable(true);
+    m_fontHeavy->lineEdit()->setReadOnly(true);
 
     m_fontsizeLabel = new DLabel(this);
     m_fontsizeLabel->setText(tr("Size")); // 字号
@@ -87,6 +89,7 @@ void TextWidget::initUI()
     m_fontSize->setEditable(true);
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
+    m_fontSize->setProperty("preValue", 14); //默认大小
 
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
@@ -122,54 +125,108 @@ void TextWidget::updateTheme()
 
 void TextWidget::slotFontSizeValueChanged(int size)
 {
+    QVariant preValue = m_fontSize->property("preValue");
+
+    if (preValue.isValid()) {
+        int preIntValue = preValue.toInt();
+        int curValue    = (size < 0 ? -1 : size);
+        if (preIntValue == curValue)
+            return;
+    }
+    m_fontSize->setProperty("preValue", size);
+
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
-    emit signalTextFontSizeChanged();
+
     //隐藏调色板
     showColorPanel(DrawStatus::TextFill, QPoint(), false);
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(TextSize, size);
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
 }
 
 void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
 {
     m_fillBtn->setVisible(false);
-    m_textSeperatorLine->setVisible(false);
+    m_textSeperatorLine->setVisible(true);
     m_fontFamilyLabel->setVisible(false);
-    //m_fontComBox->setVisible(false);
     m_fontsizeLabel->setVisible(false);
     m_fontSize->setVisible(false);
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case TextColor:
+        case TextColor: {
             m_fillBtn->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
+            m_fillBtn->blockSignals(true);
+            QColor color = propertys[property].value<QColor>();
+            if (color == QColor::Invalid) {
                 m_fillBtn->setIsMultColorSame(false);
             } else {
-                m_fillBtn->setColor(propertys[property].value<QColor>());
+                m_fillBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
             }
             m_fillBtn->update();
+            m_fillBtn->blockSignals(false);
             break;
-        case TextFont:
+        }
+        case TextFont: {
             m_fontFamilyLabel->setVisible(true);
             m_fontComBox->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
-                m_fontComBox->setCurrentText("—— ——");
+            QString family = propertys[property].toString();
+            m_fontComBox->blockSignals(true);
+            if (family.isEmpty()) {
+                m_fontComBox->setCurrentText("— —");
             } else {
-                m_fontComBox->setCurrentText(propertys[property].value<QFont>().family());
+                m_fontComBox->setCurrentText(family);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(family);
+                // 更新字体改变后自重同时自动更新
+                slotUpdateTextFamilyStyle(family);
             }
-            m_fontComBox->update();
+            m_fontComBox->blockSignals(false);
             break;
-        case TextSize:
+        }
+        case TextSize: {
             m_fontsizeLabel->setVisible(true);
             m_fontSize->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
-                m_fontSize->blockSignals(true);
-                m_fontSize->setCurrentText("—— ——");
-                m_fontSize->blockSignals(false);
+            int size = propertys[property].toInt();
+            m_fontSize->blockSignals(true);
+            if (size > 0) {
+                m_fontSize->setCurrentText(QString::number(size) + "px");
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
             } else {
-                m_fontSize->setItemText(0, propertys[property].toString());
+                m_fontSize->setCurrentIndex(-1);
+                m_fontSize->setCurrentText("— —");
             }
+            m_fontSize->setProperty("preValue", size < 0 ? -1 : size);
+            m_fontSize->blockSignals(false);
             break;
+        }
+        case TextHeavy: {
+            m_fontHeavy->blockSignals(true);
+            QString familyStyle = propertys[property].toString();
+            if (familyStyle.isEmpty()) {
+                m_fontHeavy->setCurrentIndex(-1);
+                m_fontHeavy->setCurrentText("— —");
+            } else {
+                m_fontHeavy->setCurrentText(familyStyle);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(familyStyle);
+            }
+            m_fontHeavy->blockSignals(false);
+            break;
+        }
+        case TextColorAlpha: {
+            m_fillBtn->setVisible(true);
+            m_fillBtn->blockSignals(true);
+            int alpha = propertys[property].toInt();
+            if (!alpha) {
+                m_fillBtn->setIsMultColorSame(false);
+            } else {
+                QColor color = m_fillBtn->getColor();
+                color.setAlpha(alpha);
+                m_fillBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alpha);
+            }
+            m_fillBtn->update();
+            m_fillBtn->blockSignals(false);
+            break;
+        }
         default:
             break;
         }
@@ -184,7 +241,14 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
         case TextColor: {
             QColor color = itr.value().value<QColor>();
             bool colorIsValid = color.isValid();
-            m_fillBtn->setIsMultColorSame(colorIsValid);
+            m_fillBtn->blockSignals(true);
+            if (colorIsValid) {
+                m_fillBtn->setColor(color);
+            } else {
+                m_fillBtn->setIsMultColorSame(colorIsValid);
+            }
+            m_fillBtn->update();
+            m_fillBtn->blockSignals(false);
             break;
         }
         case TextSize: {
@@ -196,19 +260,21 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
             } else {
                 m_fontSize->blockSignals(true);
                 m_fontSize->setCurrentIndex(-1);
-                m_fontSize->setCurrentText("- -");
+                m_fontSize->setCurrentText("— —");
                 m_fontSize->blockSignals(false);
             }
             break;
         }
         case TextFont: {
             QString family = itr.value().toString();
+            m_fontComBox->blockSignals(true);
             if (family.isEmpty()) {
                 m_fontComBox->setCurrentIndex(-1);
-                m_fontComBox->setCurrentText("- -");
+                m_fontComBox->setCurrentText("— —");
             } else {
                 m_fontComBox->setCurrentText(family);
             }
+            m_fontComBox->blockSignals(false);
             m_fillBtn->setVisible(true);
             m_textSeperatorLine->setVisible(true);
             m_fontFamilyLabel->setVisible(true);
@@ -217,11 +283,40 @@ void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> proper
             m_fontSize->setVisible(true);
             break;
         }
+        case TextHeavy: {
+            QString familyStyle = itr.value().toString();
+            m_fontHeavy->blockSignals(true);
+            if (familyStyle.isEmpty()) {
+                m_fontHeavy->setCurrentIndex(-1);
+                m_fontHeavy->setCurrentText("— —");
+            } else {
+                m_fontHeavy->setCurrentText(familyStyle);
+            }
+            m_fontHeavy->blockSignals(false);
+            break;
+        }
         default: {
             break;
         }
         }
     }
+}
+
+void TextWidget::slotUpdateTextFamilyStyle(QString style)
+{
+    QFontDatabase base; //("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
+    QStringList listStylyName = base.styles(style);
+    listStylyName.removeOne("Regular");
+    m_fontHeavy->blockSignals(true);
+    m_fontHeavy->clear();
+    m_fontHeavy->addItem(tr("Regular"));
+    for (QString style : listStylyName) {
+        m_fontHeavy->addItem(style);
+    }
+    m_fontHeavy->blockSignals(false);
+
+    // 设置默认属性
+    m_fontHeavy->setCurrentIndex(0);
 }
 
 bool TextWidget::eventFilter(QObject *, QEvent *event)
@@ -240,8 +335,6 @@ void TextWidget::initConnection()
 
         showColorPanel(DrawStatus::TextFill, pos, show);
     });
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)),
-            this, SLOT(slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant>)));
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
         m_fillBtn->resetChecked();
@@ -250,43 +343,25 @@ void TextWidget::initConnection()
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = false;
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
-        emit signalTextFontFamilyChanged();
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str);
+        slotUpdateTextFamilyStyle(str);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = true;
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
-        emit signalTextFontFamilyChanged();
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str, false);
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
         if (m_oneItemIsHighlighted) {
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(m_oriFamily);
-            emit signalTextFontFamilyChanged();
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, m_oriFamily, false);
-            m_fontComBox->setCurrentText(m_oriFamily);
             m_oneItemIsHighlighted = false;
         }
     });
     connect(m_fontComBox, &CFontComboBox::signalshowpopup, this, [ = ]() {
         m_oriFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
     });
-    connect(m_fontComBox,  QOverload<const QString &>::of(&CFontComboBox::currentIndexChanged), this, [ = ](const QString & family) {
-        QFontDatabase base; //("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
-        QStringList listStylyName = base.styles(family);
-        listStylyName.removeOne("Regular");
-        m_fontHeavy->blockSignals(true);
-        m_fontHeavy->clear();
-        m_fontHeavy->addItem(tr("Regular"));
-        for (QString style : listStylyName) {
-            m_fontHeavy->addItem(style);
-        }
-        m_fontHeavy->blockSignals(false);
-    });
 
     // 字体大小
     m_fontSize->setCurrentText("14px");
-//    m_fontSize->lineEdit()->setFocusPolicy(Qt::WheelFocus);
     connect(m_fontSize->lineEdit(), &QLineEdit::returnPressed, this, [ = ]() {
         QString str = m_fontSize->currentText();
         if (str.contains("p")) {
@@ -299,7 +374,6 @@ void TextWidget::initConnection()
 
         bool flag = false;
         int size = str.toInt(&flag);
-        //setSuffix("px");
         m_fontSize->blockSignals(true);
         if (size < 8) {
             m_fontSize->setCurrentText("8px");
@@ -319,7 +393,6 @@ void TextWidget::initConnection()
 
         if (flag) {
             slotFontSizeValueChanged(size);
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -327,7 +400,6 @@ void TextWidget::initConnection()
         this->setFocus();
     });
     connect(m_fontSize, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), this, [ = ](QString str) {
-
         if (!str.contains("px") && !m_fontSize->findText(str)) {
             m_fontSize->setCurrentIndex(-1);
             return ;
@@ -338,7 +410,6 @@ void TextWidget::initConnection()
         int size = str.toInt(&flag);
         if (flag) {
             slotFontSizeValueChanged(size);
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -347,30 +418,37 @@ void TextWidget::initConnection()
 
     // 字体重量
     connect(m_fontHeavy, &DComboBox::currentTextChanged, this, [ = ](const QString & str) {
-        // ("Medium", "Bold", "ExtraLight", "Regular", "Heavy", "Light", "SemiBold")
+        // ("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
         QString style = "Regular";
-        if (str == tr("Medium")) {
-            style = "Medium";
+        if (str == tr("Black")) {
+            style = "Black";
+        } else if (str == tr("ExtraBold")) {
+            style = "ExtraBold";
         } else if (str == tr("Bold")) {
             style = "Bold";
-        } else if (str == tr("ExtraLight")) {
-            style = "ExtraLight";
-        } else if (str == tr("Heavy")) {
-            style = "Heavy";
+        } else if (str == tr("DemiBold")) {
+            style = "DemiBold";
+        } else if (str == tr("Medium")) {
+            style = "Medium";
+        } else if (str == tr("Normal")) {
+            style = "Normal";
         } else if (str == tr("Light")) {
             style = "Light";
+        } else if (str == tr("ExtraLight")) {
+            style = "ExtraLight";
         } else if (str == tr("Thin")) {
             style = "Thin";
-        } else if (str == tr("SemiBold")) {
-            style = "SemiBold";
         }
-        CManagerAttributeService::getInstance()->setTextFamilyStyle(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), style);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(style);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextHeavy, style);
-
         //隐藏调色板
         showColorPanel(DrawStatus::TextFill, QPoint(), false);
     });
+}
+
+void TextWidget::initDefaultSetting()
+{
+    slotUpdateTextFamilyStyle(m_fontComBox->currentText());
 }
 
 void TextWidget::addFontPointSize()
@@ -393,30 +471,21 @@ void TextWidget::addFontPointSize()
 void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
-//    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-
-//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSingleFontFlag()) {
-//        m_fontComBox->setCurrentText(font.family());
-////        m_fontComBox->setCurrentFont(font);
-//    } else {
-//        m_fontComBox->setCurrentIndex(-1);
-//        m_fontComBox->setCurrentText("- -");
-//    }
-
-//    m_fillBtn->setVisible(true);
-//    m_textSeperatorLine->setVisible(true);
-//    m_fontFamilyLabel->setVisible(true);
-//    m_fontComBox->setVisible(true);
-////    m_fontHeavy->setVisible(true);
-//    m_fontsizeLabel->setVisible(true);
-//    m_fontSize->setVisible(true);
     m_fillBtn->setIsMultColorSame(true);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
+    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
+        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
+    }
+    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+    QString Sfont = font.family();
+    if (Sfont != m_fontComBox->currentFont().family()) {
+        m_fontComBox->setCurrentText(Sfont);
+    }
 }
 
 void TextWidget::updateTextColor()
 {
-    m_fillBtn->updateConfigColor();
+//    m_fillBtn->updateConfigColor();
 //    m_fillBtn->clearFocus();
 //    if (qApp->focusWidget() != nullptr) {
 //        qApp->focusWidget()->hide();

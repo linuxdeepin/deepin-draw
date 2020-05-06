@@ -128,6 +128,10 @@ protected slots:
     */
     void slotActionToggled(QAction *action);
 
+
+protected:
+    bool eventFilter(QObject *o, QEvent *e) override;
+
 private:
     DFloatingButton *m_reduceBtn; // 减少按钮
     DFloatingButton *m_increaseBtn; // 增加按钮

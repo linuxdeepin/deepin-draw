@@ -70,23 +70,28 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case LineColor:
+        case LineColor: {
             m_strokeBtn->setVisible(true);
-            if (propertys[property].type() == QVariant::Invalid) {
+            m_strokeBtn->blockSignals(true);
+            QColor color = propertys[property].value<QColor>();
+            if (!color.isValid()) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
-                m_strokeBtn->setColor(propertys[property].value<QColor>());
+                m_strokeBtn->setColor(color);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
             }
             m_strokeBtn->update();
+            m_strokeBtn->blockSignals(false);
             break;
+        }
         case LineWidth:
-//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
             m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(propertys[property].toInt());
             }
             m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
@@ -102,6 +107,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_maskLableStart->setVisible(true);
             } else {
                 m_lineStartComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(static_cast<ELineType>(propertys[property].toInt()));
             }
             m_lineStartComboBox->blockSignals(false);
             m_lineStartComboBox->update();
@@ -117,6 +123,7 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_maskLableEnd->setVisible(true);
             } else {
                 m_lineEndComboBox->setCurrentIndex(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(static_cast<ELineType>(propertys[property].toInt()));
             }
             m_lineEndComboBox->blockSignals(false);
             m_lineEndComboBox->update();
@@ -155,15 +162,15 @@ void LineWidget::initUI()
     m_lineEndComboBox->setIconSize(QSize(34, 20));
 
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
     m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
+    m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
-    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
     m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+    m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
 
     m_maskLableStart = new DLabel(m_lineStartComboBox);
     m_maskLableStart->setText("— —");
@@ -211,10 +218,6 @@ void LineWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    // 线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
-        emit signalLineAttributeChanged();
-    });
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -231,25 +234,23 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
-        CManagerAttributeService::getInstance()->setLineStartType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -264,26 +265,24 @@ void LineWidget::initConnection()
             break;
         }
         case 1: {
-            lineType = normalArrow;
-            break;
-        }
-        case 2: {
-            lineType = soildArrow;
-            break;
-        }
-        case 3: {
             lineType = normalRing;
             break;
         }
-        case 4: {
+        case 2: {
             lineType = soildRing;
+            break;
+        }
+        case 3: {
+            lineType = normalArrow;
+            break;
+        }
+        case 4: {
+            lineType = soildArrow;
             break;
         }
         }
 
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
-        CManagerAttributeService::getInstance()->setLineEndType(
-            static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
@@ -297,24 +296,16 @@ void LineWidget::initConnection()
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
+    // 线宽度属性刷新
+    m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
-
-    m_lineStartComboBox->blockSignals(true);
-    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
-    m_lineStartComboBox->blockSignals(false);
-    m_lineEndComboBox->blockSignals(true);
-    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
-    m_lineEndComboBox->blockSignals(false);
-
-    m_maskLableStart->setVisible(false);
-    m_maskLableEnd->setVisible(false);
-
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    m_sideWidthWidget->blockSignals(false);
 }
 
 void LineWidget::slotSideWidthChoosed(int width)
 {
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(LineWidth, width);
+    this->setFocus();
 }
 
 

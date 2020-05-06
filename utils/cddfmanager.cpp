@@ -55,20 +55,14 @@ CDDFManager::CDDFManager(CGraphicsView *view)
 }
 
 
-void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
+void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {
+    m_finishedClose = finishedNeedClose;
 
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    //即使无图元也可以进行保存
-//    if (itemList.count() <= 0) {
-//        return;
-//    }
-
-
     int primitiveCount = 0;
     m_path = path;
-    //m_CProgressDialog->showProgressDialog(CProgressDialog::SaveDDF);
     m_pSaveDialog->show();
     m_pSaveDialog->setTitle(tr("Saving..."));
     m_pSaveDialog->setProcess(0);
@@ -83,19 +77,23 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         }
     }
 
+    m_graphics.version = qint32(EDdf5_8_2_1);
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
 
+    CManageViewSigleton::GetInstance()->removeWacthedFile(path);
     QtConcurrent::run([ = ] {
         QFile writeFile(path);
         m_lastSaveStatus = false;
         if (writeFile.open(QIODevice::WriteOnly))
         {
             QDataStream out(&writeFile);
-            out << (quint32)0xA0B0C0D0;
-            out << LineStartAndEndType;
-            out << m_graphics.unitCount;
-            out << m_graphics.rect;
+//            out << (quint32)0xA0B0C0D0;
+//            out << EDdf5_8_2_1;
+//            out << m_graphics.unitCount;
+//            out << m_graphics.rect;
+
+            out << m_graphics;
 
             int count = 0;
             int totalCount = m_graphics.vecGraphicsUnit.count();
@@ -103,7 +101,6 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
 
             for (CGraphicsUnit &unit : m_graphics.vecGraphicsUnit) {
                 out << unit;
-
                 ///进度条处理
                 count ++;
                 process = static_cast<int>((count * 1.0 / totalCount) * 100);
@@ -142,8 +139,14 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
                     unit.data.pBlur = nullptr;
                 }
             }
+            //close时会写入数据到文件这个时候如果什么都不做会触发监视文件的内容改变就会弹出提醒内容被修改了。 所以这里要过滤掉，"设置下次该文件的修改被忽略" 实现过滤
+            //内容变化的检测
+            //CManageViewSigleton::GetInstance()->addIgnoreCount();
+
             writeFile.close();
+
             m_graphics.vecGraphicsUnit.clear();
+
             m_lastSaveStatus = true;
         } else
         {
@@ -168,17 +171,22 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         if (readFile.open(QIODevice::ReadOnly))
         {
             QDataStream in(&readFile);
-            quint32 type;
-            in >> type;
-            int version;
-            in >> version;
-            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
-            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
-            if (type != (quint32)0xA0B0C0D0) {
-                in.device()->seek(0);
-            }
-            in >> m_graphics.unitCount;
-            in >> m_graphics.rect;
+//            quint32 type;
+//            in >> type;
+//            int version;
+//            in >> version;
+//            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
+//            //qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
+//            if (type != (quint32)0xA0B0C0D0) {
+//                in.device()->seek(0);
+//            }
+//            in >> m_graphics.unitCount;
+//            in >> m_graphics.rect;
+
+            in >> m_graphics;
+            qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << m_graphics.version << "graphics count = " << m_graphics.unitCount <<
+                     "scene size = " << m_graphics.rect;
+            //qDebug() << "m_graphics.unitCount = " << m_graphics.unitCount;
             emit signalStartLoadDDF(m_graphics.rect);
 
             int count = 0;
@@ -187,7 +195,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-
+                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
@@ -239,8 +247,9 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pLine = nullptr;
                     }
                 } else if (TextType == unit.head.dataType) {
-                    CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-                    emit signalAddItem(item);
+                    //CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
+                    //emit signalAddItem(item);
+                    emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pText) {
                         delete unit.data.pText;
@@ -272,10 +281,14 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pBlur = nullptr;
                     }
 
+                } else {
+                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << unit.head.dataType;
+                    break;
                 }
 
                 ///进度条处理
                 count ++;
+                qDebug() << "countcountcountcountcount ========== " << count;
                 process = (float)count / m_graphics.unitCount * 100;
                 emit signalUpdateProcessBar(process, false);
 
@@ -324,8 +337,13 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 
 void CDDFManager::slotSaveDDFComplete()
 {
+    CManageViewSigleton::GetInstance()->wacthFile(m_path);
+
     m_pSaveDialog->hide();
+
     m_view->getDrawParam()->setDdfSavePath(m_path);
+
     m_view->setModify(false);
-    emit signalContinueDoOtherThing();
+
+    emit signalSaveFileFinished(m_path, getLastSaveStatus(), getSaveLastErrorString(), getSaveLastError(), m_finishedClose);
 }

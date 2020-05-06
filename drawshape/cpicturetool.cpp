@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpicturetool.h"
+#include "frame/cgraphicsview.h"
+#include "frame/cviewmanagement.h"
 
 #include <QDebug>
 #include <QtConcurrent>
@@ -109,7 +111,6 @@ CPictureTool::~CPictureTool()
 
 void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow)
 {
-
     QStringList filenames = filePathList;
     // qDebug() << filenames << endl;
     m_picNum = filenames.size();
@@ -123,9 +124,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
             if (items[i]->type() == PictureType) {
                 exitPicNum = exitPicNum + 1;
             };
-
         }
-
     }
 
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
@@ -149,23 +148,14 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
-        for (int i = 0; i < m_picNum; i++)
+        for (int i = 0; i < filenames.size(); i++)
         {
-
-            QPixmap pixmap = QPixmap (filenames[i]);
+            QPixmap pixmap(filenames[i]);
 
             emit addImageSignal(pixmap, i + 1, scene, centralWindow);
-
         }
-
     });
-
-
 }
-
-
-
-
 
 
 void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
@@ -217,9 +207,6 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
         }
         emit signalPicturesImportingFinished();
     }
-
-
-
 }
 
 

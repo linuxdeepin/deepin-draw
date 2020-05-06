@@ -71,6 +71,9 @@ CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, cons
     this->m_bottomRightPoint =  rectData.bottomRight;
     this->setTransformOriginPoint(this->rect().center());
 
+    //todo bug21032临时修复，后期整体修正
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(this->pen());
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(this->brush());
 
     initRect();
 }
@@ -140,6 +143,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     updateGeometry();
 
+    beginCheckIns(painter);
+
     //先绘制填充
     QPen curPen = this->pen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
@@ -154,6 +159,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+
+    endCheckIns(painter);
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);

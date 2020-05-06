@@ -32,7 +32,8 @@ public:
     TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
-    void setColor(QColor color);
+    void setColor(QColor &color);
+    QColor getColor();
     void setColorIndex(int index);
     void updateConfigColor();
     void resetChecked();
@@ -46,6 +47,8 @@ protected:
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
     void mousePressEvent(QMouseEvent * );
+
+    void paintLookStyle(QPainter *painter, bool isMult = false);
 
 private:
     QColor m_color;

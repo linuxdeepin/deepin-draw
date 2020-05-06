@@ -73,37 +73,18 @@ public:
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
 
     /*
-     * @bref: setLineStartType 设置线段起点的样式
-     * @param: startType 起点样式
+     * @bref: doSceneAdjustment 画布根据图片自适应
     */
-    void setLineStartType(CDrawScene *scence, ELineType startType);
+    void doSceneAdjustment();
     /*
-     * @bref: setLineEndType 设置线段终点的样式
-     * @param: endType 终点样式
+     * @bref: doCut 裁剪
     */
-    void setLineEndType(CDrawScene *scence, ELineType endType);
-
+    void doCut();
     /*
-     * @bref: setTextFamilyStyle 设置线段起点的样式
-     * @param: style 字体样式
+     * @bref: getSelectedColorAlpha 获取选中图元的透明度
+     * @param: DrawStatus 想要获取的是填充还是描边的透明度
     */
-    void setTextFamilyStyle(CDrawScene *scence, QString style);
-    /*
-     * @bref: setPenStartType 设置画笔起点的样式
-     * @param: startType 起点样式
-    */
-
-    void setPenStartType(CDrawScene *scence, ELineType startType);
-    /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
-    */
-    void setPenEndType(CDrawScene *scence, ELineType endType);
-    /*
-     * @bref: setPenEndType 设置画笔终点的样式
-     * @param: endType 终点样式
-    */
-    void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
+    int getSelectedColorAlpha(DrawStatus drawstatus);
 
 signals:
     /*
@@ -114,22 +95,25 @@ signals:
     void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
 
     /*
-     * @bref: signalTextItemPropertyUpdate 发送文本图元被选中后需要显示的公共属性信号
-     * @param: propertys 属性类型值
+     * @bref: signalIsAllPictureItem 发送画笔图元被选中后需要显示的公共属性信号
+     * @param: isEnable 按钮是否可用，即画布与选中图片大小是否相同
     */
-    void signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
-
+    void signalIsAllPictureItem(bool isEnable);
+private:
     /*
-     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
-     * @param: propertys 属性类型值
+     * @bref: allPictureItem 判断是否全部是图片图元
+     * @param: scence
+     * @param: items 选中图元
     */
-    void signalPenItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
+    bool allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items);
 
 private:
     CManagerAttributeService();
     static CManagerAttributeService *instance;
 
     CDrawScene *m_currentScence;
+
+    void updateCurrentScence();
 };
 
 #endif // CMANAGERATTRIBUTESERVICE_H

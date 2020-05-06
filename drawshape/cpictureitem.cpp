@@ -63,11 +63,12 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    painter->save();
-    QRectF sceneRct = scene()->sceneRect();
-    QRectF itemRct  = mapToScene(rect()).boundingRect();
-    bool hasIntersects = sceneRct.intersects(itemRct);
-    painter->setClipping(hasIntersects);
+//    painter->save();
+//    QRectF sceneRct = scene()->sceneRect();
+//    QRectF itemRct  = mapToScene(rect()).boundingRect();
+//    bool hasIntersects = sceneRct.intersects(itemRct);
+//    painter->setClipping(hasIntersects);
+    beginCheckIns(painter);
 
     //保证resize节点图元和旋转节点图元的坐标位置正确
     updateGeometry();
@@ -75,7 +76,8 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
-    painter->restore();
+
+    endCheckIns(painter);
 
     if (this->isSelected()) {
         painter->setClipping(false);
@@ -176,5 +178,12 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
 //    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
 
     return unit;
+}
+
+QPainterPath CPictureItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
 }
 

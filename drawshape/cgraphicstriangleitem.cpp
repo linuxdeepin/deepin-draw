@@ -119,6 +119,9 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(widget)
 
     updateGeometry();
+
+    beginCheckIns(painter);
+
     QRectF rc = rect();
 
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
@@ -126,20 +129,19 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     //先绘制填充区域
     QPolygonF polyForBrush;
     qreal offsetWidth = pen().widthF() / 2.0;
-    QLineF line1(top,rc.bottomLeft());
-    QLineF line2(rc.bottomLeft(),rc.bottomRight());
-    QLineF line3(rc.bottomRight(),top);
+    QLineF line1(top, rc.bottomLeft());
+    QLineF line2(rc.bottomLeft(), rc.bottomRight());
+    QLineF line3(rc.bottomRight(), top);
     QVector<QLineF> lines;
-    lines<<line3<<line1<<line2;
-    for(int i = 0;i<lines.size();++i)
-    {
+    lines << line3 << line1 << line2;
+    for (int i = 0; i < lines.size(); ++i) {
         QLineF ln1  = lines.at(i);
-        QLineF ln2  = (i == lines.size() - 1?lines[0]: lines[i+1]);
+        QLineF ln2  = (i == lines.size() - 1 ? lines[0] : lines[i + 1]);
         qreal angle = 180 - ln1.angleTo(ln2);
 
-        qreal offsetLen = offsetWidth/qSin(qDegreesToRadians(angle/2.0));
+        qreal offsetLen = offsetWidth / qSin(qDegreesToRadians(angle / 2.0));
         QLineF tempLine(ln2);
-        tempLine.setAngle(tempLine.angle()+angle/2.0);
+        tempLine.setAngle(tempLine.angle() + angle / 2.0);
         tempLine.setLength(offsetLen);
 
         polyForBrush.append(tempLine.p2());
@@ -156,6 +158,8 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawPolygon(polyForPen);
+
+    endCheckIns(painter);
 
     //是否选中的情况
     if (this->getMutiSelect()) {

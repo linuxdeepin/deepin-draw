@@ -22,6 +22,8 @@
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
 #include "widgets/ctextedit.h"
+#include "frame/cgraphicsview.h"
+
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QVariant>
@@ -66,6 +68,17 @@ CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *paren
     this->setRotation(head.rotate);
     this->setPos(head.pos);
     this->setZValue(head.zValue);
+}
+
+CGraphicsView *CGraphicsItem::curView() const
+{
+    CGraphicsView *parentView = nullptr;
+    if (scene() != nullptr) {
+        if (!scene()->views().isEmpty()) {
+            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+        }
+    }
+    return parentView;
 }
 
 void CGraphicsItem::setMutiSelect(bool flag)
@@ -202,5 +215,19 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
     }
 
     return value;
+}
+
+void CGraphicsItem::beginCheckIns(QPainter *painter)
+{
+    painter->save();
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    bool hasIntersects = sceneRct.intersects(itemRct);
+    painter->setClipping(hasIntersects);
+}
+
+void CGraphicsItem::endCheckIns(QPainter *painter)
+{
+    painter->restore();
 }
 

@@ -77,12 +77,12 @@ public:
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
-    void showSaveDDFDialog(bool);
+    void showSaveDDFDialog(bool, bool finishClose = false);
 
     /**
      * @brief doSaveDDF保存DDFRR
      */
-    void doSaveDDF();
+    void doSaveDDF(bool finishClose = false);
 
     /**
      * @brief setContextMenuAndActionEnable 设置菜单项是否可用
@@ -111,8 +111,16 @@ public:
      */
     void pushUndoStack(QUndoCommand *cmd);
 
+    /**
+     * @brief cleanUndoStack　清空撤销重做栈
+     */
+    void cleanUndoStack();
+
     bool getModify() const;
     void setModify(bool isModify);
+
+
+    bool isKeySpacePressed();
 
 protected:
     /**
@@ -181,6 +189,21 @@ protected:
     virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+
+    void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+
+    QPoint _pressBeginPos;
+    QPoint _recordMovePos;
+    bool   _spaceKeyPressed = false;
+    QCursor _tempCursor;
 signals:
     /**
      * @brief signalSetScale 设置缩放信号
@@ -221,7 +244,11 @@ signals:
      * @param QString 错误字符串
      * @param FileError 错误类型
      */
-    void signalSaveFileStatus(bool, QString, QFileDevice::FileError);
+    void signalSaveFileStatus(const QString &savedFile,
+                              bool status,
+                              QString errorString,
+                              QFileDevice::FileError error,
+                              bool needClose);
 
     /**
      * @brief signalSaveFileNameTooLong 保存文件名字过长信号
@@ -241,7 +268,7 @@ public slots:
      * @brief itemAdded
      * @param item
      */
-    void itemAdded(QGraphicsItem *item );
+    void itemAdded(QGraphicsItem *item, bool pushToStack);
 
     /**
      * @brief itemRotate
@@ -331,7 +358,7 @@ public slots:
      * @brief slotAddItemFromDDF 添加图元到DDF
      * @param item
      */
-    void slotAddItemFromDDF(QGraphicsItem *item );
+    void slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack = true);
 
     /**
      * @brief slotQuitCutMode 退出裁剪模式
@@ -348,6 +375,12 @@ public slots:
      * @param newRect 裁剪的位置大小
      */
     void itemSceneCut(QRectF newRect);
+
+    /*
+    * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
+    * @param: Qt::AlignmentFlag align 对齐方式
+    */
+    void updateSelectedItemsAlignment(Qt::AlignmentFlag align);
 
 public slots:
 
@@ -486,13 +519,19 @@ private:
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
     QAction *m_sendTobackAct;       //置于最底层
-//    QAction *m_leftAlignAct;
-//    QAction *m_topAlignAct;
-//    QAction *m_rightAlignAct;
-//    QAction *m_centerAlignAct;
 
-    QAction *m_viewZoomInAction;
-    QAction *m_viewZoomOutAction;
+    QAction *m_itemsLeftAlign;      //左对齐
+    QAction *m_itemsHCenterAlign;   //水平居中对齐
+    QAction *m_itemsRightAlign;     //右对齐
+    QAction *m_itemsTopAlign;       //顶对齐
+    QAction *m_itemsVCenterAlign;   //垂直居中对齐
+    QAction *m_itemsBottomAlign;    //底对齐
+    QAction *m_itemsHEqulSpaceAlign;//水平等间距对齐
+    QAction *m_itemsVEqulSpaceAlign;//垂直等间距对齐
+
+    QAction *m_viewZoomInAction;  // 缩小快捷键
+    QAction *m_viewZoomOutAction; // 放大快捷键 ctrl + +
+    QAction *m_viewZoomOutAction1; // 放大快捷键 ctrl + =
     QAction *m_viewOriginalAction;
 
 
@@ -557,6 +596,18 @@ private:
      * @return
      */
     bool canLayerDown();
+
+    /**
+    * @bref: getValidSelectedItems 获取当前选中的有效图元
+    * @return: QList<CGraphicsItem *> 有效图元集合
+    */
+    QList<CGraphicsItem *> getSelectedValidItems();
+
+    /**
+     * @brief getCouldPaste 判断当前是否可粘贴
+     * @return
+     */
+    bool getCouldPaste();
 };
 
 #endif // CGRAPHICSVIEW_H

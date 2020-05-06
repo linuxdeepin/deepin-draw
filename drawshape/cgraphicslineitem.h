@@ -81,7 +81,13 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+
+    /*
+    * @bref: setLinePenWidth 设置线的宽度
+    * @param: width 宽度
+    */
+    void setLinePenWidth(int width);
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
