@@ -46,6 +46,7 @@
 #include <QGraphicsView>
 #include <QtMath>
 #include <DApplication>
+#include <QScrollBar>
 
 CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
     : QGraphicsScene(view)
@@ -68,8 +69,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
             view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
-    connect(this, SIGNAL(itemAdded(QGraphicsItem *)),
-            view, SLOT(itemAdded(QGraphicsItem *)));
+    connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
+            view, SLOT(itemAdded(QGraphicsItem *, bool)));
     connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
             view, SLOT(itemRotate(QGraphicsItem *, qreal)));
     connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )),
@@ -135,6 +136,9 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         break;
     case QEvent::GraphicsSceneMouseRelease:
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
+        break;
+    case QEvent::GraphicsSceneMouseDoubleClick:
+        QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
         break;
     default:
         break;
@@ -210,177 +214,10 @@ void CDrawScene::setCursor(const QCursor &cursor)
     }
 }
 
-void CDrawScene::attributeChanged()
-{
-    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-    ///区分裁剪
-    if (cut == currentMode) {
-        ECutAttributeType attributeType = getDrawParam()->getCutAttributeType();
-        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
-        if (attributeType == ECutAttributeType::ButtonClickAttribute) {
-            if (nullptr != pTool) {
-                static_cast<CCutTool *>(pTool)->changeCutType(getDrawParam()->getCutType(), this);
-            }
-        } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
-            if (nullptr != pTool) {
-                static_cast<CCutTool *>(pTool)->changeCutSize(getDrawParam()->getCutSize());
-            }
-        }
-    } else {
-        QList<QGraphicsItem *> items = this->selectedItems();
-
-        if (m_pGroupItem->getItems().size() > 1)
-            return;
-
-        QGraphicsItem *item = nullptr;
-        foreach (item, items) {
-            CGraphicsItem *tmpitem = static_cast<CGraphicsItem *>(item);
-
-            if (item->type() != BlurType) {
-                if (tmpitem->pen() != getDrawParam()->getPen() ||
-                        tmpitem->brush() != getDrawParam()->getBrush() ) {
-                    emit itemPropertyChange(tmpitem, getDrawParam()->getPen(), getDrawParam()->getBrush(),
-                                            tmpitem->pen() != getDrawParam()->getPen(),
-                                            tmpitem->brush() != getDrawParam()->getBrush());
-//                    tmpitem->setPen(CDrawParamSigleton::GetInstance()->getPen());
-//                    tmpitem->setBrush(CDrawParamSigleton::GetInstance()->getBrush());
-                }
-                if (item->type() == RectType) {
-                    if (getDrawParam()->getRectXRedius() != static_cast<CGraphicsPolygonItem *>(item)->getXRedius()) {
-                        emit itemRectXRediusChange(static_cast<CGraphicsRectItem *>(item), this->getDrawParam()->getRectXRedius(),
-                                                   this->getDrawParam()->getRectXRedius() != static_cast<CGraphicsRectItem *>(item)->getXRedius());
-                    }
-                }
-
-            }
-
-
-            if (item->type() == TextType) {
-                //字体大小和颜色 分开处理
-                static_cast<CGraphicsTextItem *>(item)->setTextColor(getDrawParam()->getTextColor());
-
-            } else if (item->type() == PolygonType) {
-                if (getDrawParam()->getSideNum() != static_cast<CGraphicsPolygonItem *>(item)->nPointsCount()) {
-                    emit itemPolygonPointChange(static_cast<CGraphicsPolygonItem *>(item), getDrawParam()->getSideNum());
-//                    static_cast<CGraphicsPolygonItem *>(item)->setPointCount(CDrawParamSigleton::GetInstance()->getSideNum());
-                }
-            } else if (item->type() == PolygonalStarType) {
-                CGraphicsPolygonalStarItem *tmpItem = static_cast<CGraphicsPolygonalStarItem *>(item);
-                if (tmpItem->anchorNum() != getDrawParam()->getAnchorNum() || tmpItem->innerRadius() != getDrawParam()->getRadiusNum()) {
-
-//                    int oldAnchorNum = tmpItem->anchorNum();
-//                    int oldRadius = tmpItem->innerRadius();
-//                    tmpItem->updatePolygonalStar(CDrawParamSigleton::GetInstance()->getAnchorNum(),
-//                                                 CDrawParamSigleton::GetInstance()->getRadiusNum());
-                    emit itemPolygonalStarPointChange(tmpItem, getDrawParam()->getAnchorNum(), getDrawParam()->getRadiusNum());
-                }
-            } else if (item->type() == PenType) {
-                CGraphicsPenItem *tmpItem = static_cast<CGraphicsPenItem *>(item);
-                ELineType startType = tmpItem->getPenStartType();
-                ELineType endType = tmpItem->getPenEndType();
-                if (startType != getDrawParam()->getPenStartType() || endType != getDrawParam()->getPenEndType()) {
-                    emit itemPenTypeChange(tmpItem, startType, endType);
-                    //tmpItem->updatePenType(CDrawParamSigleton::GetInstance()->getCurrentPenType());
-                }
-                tmpItem->calcVertexes();
-            } else if (item->type() == BlurType) {
-                CGraphicsMasicoItem *tmpItem = static_cast<CGraphicsMasicoItem *>(item);
-                if (tmpItem->getBlurWidth() != getDrawParam()->getBlurWidth() || tmpItem->getBlurEffect() != getDrawParam()->getBlurEffect()) {
-                    //emit itemPolygonalStarPointChange(tmpItem, tmpItem->anchorNum(), tmpItem->innerRadius());
-//                    tmpItem->setBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect());
-//                    tmpItem->setBlurWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
-                    //用于撤消
-                    emit itemBlurChange(tmpItem, (int)getDrawParam()->getBlurEffect(), getDrawParam()->getBlurWidth());
-                    tmpItem->update();
-                }
-            } else if (item->type() == LineType) {
-                CGraphicsLineItem *tmpItem = static_cast<CGraphicsLineItem *>(item);
-                ELineType startType = tmpItem->getLineStartType();
-                ELineType endType = tmpItem->getLineEndType();
-                if (startType != getDrawParam()->getLineStartType() || endType != getDrawParam()->getLineEndType()) {
-                    tmpItem->calcVertexes();
-                    //REDO UNDO
-                    emit itemLineTypeChange(tmpItem, getDrawParam()->getLineStartType(), getDrawParam()->getLineEndType());
-//                    tmpItem->update();
-                }
-
-            }
-        }
-    }
-}
-
-void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
-{
-    QGraphicsItem *tmpItem = selectedItem;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    int count = items.count();
-    //多选状态
-    if (this->getItemsMgr()->getItems().size() > 1) {
-        getDrawParam()->setSelectAllFlag(true);
-//        if (flag) {
-//            emit signalAttributeChanged(flag, NoType);
-//        }
-
-    } else if (count == 1) {
-        if (selectedItem == nullptr) {
-            tmpItem = items[0];
-        }
-
-        if (flag) {
-            switch (tmpItem->type()) {
-            case RectType: {
-                getDrawParam()->setRectXRedius(static_cast<CGraphicsRectItem *>(tmpItem)->getXRedius());
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
-            }
-            break;
-            case EllipseType:
-            case TriangleType:
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
-                break;
-            case PolygonType:
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
-                getDrawParam()->setSideNum(static_cast<CGraphicsPolygonItem *>(tmpItem)->nPointsCount());
-                break;
-            case PolygonalStarType:
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setBrush(static_cast<CGraphicsItem *>(tmpItem)->brush());
-                getDrawParam()->setAnchorNum(static_cast<CGraphicsPolygonalStarItem *>(tmpItem)->anchorNum());
-                getDrawParam()->setRadiusNum(static_cast<CGraphicsPolygonalStarItem *>(tmpItem)->innerRadius());
-                break;
-            case PenType:
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setPenStartType(static_cast<CGraphicsPenItem *>(tmpItem)->getPenStartType());
-                getDrawParam()->setPenEndType(static_cast<CGraphicsPenItem *>(tmpItem)->getPenEndType());
-                break;
-            case LineType:
-                getDrawParam()->setPen(static_cast<CGraphicsItem *>(tmpItem)->pen());
-                getDrawParam()->setLineStartType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineStartType());
-                getDrawParam()->setLineEndType(static_cast<CGraphicsLineItem *>(tmpItem)->getLineEndType());
-                break;
-            case TextType:
-                getDrawParam()->setTextColor(static_cast<CGraphicsTextItem *>(tmpItem)->getTextColor());
-                getDrawParam()->setTextFont(static_cast<CGraphicsTextItem *>(tmpItem)->getFont().family());
-                getDrawParam()->setTextFontStyle(static_cast<CGraphicsTextItem *>(tmpItem)->getTextFontStyle());
-                getDrawParam()->setTextSize(static_cast<CGraphicsTextItem *>(tmpItem)->getFontSize());
-                break;
-            case BlurType:
-                getDrawParam()->setBlurEffect(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurEffect());
-                getDrawParam()->setBlurWidth(static_cast<CGraphicsMasicoItem *>(tmpItem)->getBlurWidth());
-                break;
-
-            default:
-                break;
-            }
-        }
-        emit signalAttributeChanged(flag, tmpItem->type());
-    }
-}
-
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+//    m_pressBeginPos  = mouseEvent->screenPos();
+//    m_pressRecordPos = m_pressBeginPos;
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
     //判断如果点在字体内，则变为选择工具
     /*QPointF pos = mouseEvent->scenePos();
@@ -409,6 +246,29 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    if (isBlockMouseMoveEvent())
+        return;
+
+    //有限判断是不是手形工具场景卷轴移动
+//    bool isSpaceKeyPressed = true;
+//    if (isSpaceKeyPressed && mouseEvent->buttons() & Qt::LeftButton) {
+//        //移动卷轴
+//        QPointF mov = mouseEvent->screenPos() - m_pressRecordPos;
+//        //qDebug() << "mov =========== " << mov;
+//        QGraphicsView *pView = views().isEmpty() ? nullptr : views().first();
+//        if (pView != nullptr) {
+//            int horValue = pView->horizontalScrollBar()->value() - qRound(mov.x());
+//            qDebug() << "old hor value = " << pView->horizontalScrollBar()->value() << "new hor value = " << horValue;
+//            pView->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), pView->horizontalScrollBar()->maximum()));
+
+//            int verValue = pView->verticalScrollBar()->value() - qRound(mov.y());
+//            //pView->verticalScrollBar()->setValue(qMin(qMax(0, verValue), pView->verticalScrollBar()->maximum()));
+//        }
+//        m_pressRecordPos = mouseEvent->screenPos();
+//        //QGraphicsScene::mouseMoveEvent(mouseEvent);
+//        return;
+//    }
+
     /*m_bIsEditTextFlag = false;
     QList<QGraphicsItem *> items = this->selectedItems();
     foreach (QGraphicsItem *item, items) {
@@ -426,6 +286,8 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
+
+    //m_pressRecordPos = mouseEvent->screenPos();
 }
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -454,12 +316,40 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     }
 }
 
+void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    if ( nullptr != pTool) {
+        pTool->mouseDoubleClickEvent(mouseEvent, this);
+    }
+}
+
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
 
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+}
+
+void CDrawScene::keyReleaseEvent(QKeyEvent *event)
+{
+    // [0] 解决高亮图元删除后一直显示
+    if (!event->isAutoRepeat()) {
+        m_pHighLightItem->setVisible(false);
+    }
+    QGraphicsScene::keyReleaseEvent(event);
+}
+
+void CDrawScene::keyPressEvent(QKeyEvent *event)
+{
+    // [0] 解决高亮图元撤销后一直显示
+    if (!event->isAutoRepeat()) {
+        m_pHighLightItem->setVisible(false);
+    }
+    QGraphicsScene::keyPressEvent(event);
 }
 
 void CDrawScene::showCutItem()
@@ -554,7 +444,6 @@ void CDrawScene::picOperation(int enumstyle)
 
 void CDrawScene::drawToolChange(int type)
 {
-    //this->clearSelection();
     clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
@@ -768,5 +657,15 @@ void CDrawScene::updateItemsMgr()
         allselectedItems.first()->setSelected(true);
         emit signalAttributeChanged(true, allselectedItems.first()->type());
     }
+}
+
+void CDrawScene::blockMouseMoveEvent(bool b)
+{
+    blockMouseMoveEventFlag = b;
+}
+
+bool CDrawScene::isBlockMouseMoveEvent()
+{
+    return blockMouseMoveEventFlag;
 }
 

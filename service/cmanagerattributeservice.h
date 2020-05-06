@@ -73,14 +73,18 @@ public:
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack = true);
 
     /*
-     * @bref: updateSingleItemProperty 更新单个图元属性
-     * @param:
-    */
-    void updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item);
-    /*
      * @bref: doSceneAdjustment 画布根据图片自适应
     */
     void doSceneAdjustment();
+    /*
+     * @bref: doCut 裁剪
+    */
+    void doCut();
+    /*
+     * @bref: getSelectedColorAlpha 获取选中图元的透明度
+     * @param: DrawStatus 想要获取的是填充还是描边的透明度
+    */
+    int getSelectedColorAlpha(DrawStatus drawstatus);
 
 signals:
     /*
@@ -91,19 +95,8 @@ signals:
     void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
 
     /*
-     * @bref: signalTextItemPropertyUpdate 发送文本图元被选中后需要显示的公共属性信号
-     * @param: propertys 属性类型值
-    */
-    void signalTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
-
-    /*
-     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
-     * @param: propertys 属性类型值
-    */
-    void signalPenItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
-    /*
-     * @bref: signalPenItemPropertyUpdate 发送画笔图元被选中后需要显示的公共属性信号
-     * @param: propertys 属性类型值
+     * @bref: signalIsAllPictureItem 发送画笔图元被选中后需要显示的公共属性信号
+     * @param: isEnable 按钮是否可用，即画布与选中图片大小是否相同
     */
     void signalIsAllPictureItem(bool isEnable);
 private:

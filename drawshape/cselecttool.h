@@ -37,7 +37,7 @@ class CSelectTool : public IDrawTool
 {
 public:
     CSelectTool();
-    virtual ~CSelectTool();
+    virtual ~CSelectTool() override;
     /**
      * @brief isDragging　是否正在进行拖拽操作
      */
@@ -47,19 +47,26 @@ public:
      * @param event　场景事件
      * @param scene　场景句柄
      */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
     /**
      * @brief mouseMoveEvent 鼠标移动事件
      * @param event 场景事件
      * @param scene 场景句柄
      */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
     /**
      * @brief mouseReleaseEvent　鼠标弹起事件
      * @param event 场景事件
      * @param scene 场景句柄
      */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
+
+    /**
+     * @brief mouseDoubleClickEvent　鼠标弹起事件
+     * @param event 场景事件
+     * @param scene 场景句柄
+     */
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
 private:
     /**
      * @brief pintToRect　任意两点确定一个矩形
@@ -80,6 +87,7 @@ private:
      */
     double getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems);
 private:
+    QGraphicsItem *m_noShiftSelectItem;
     QGraphicsItem *m_currentSelectItem;
     QGraphicsItem *m_highlightItem;
     QGraphicsRectItem *m_frameSelectItem;

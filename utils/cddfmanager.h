@@ -98,11 +98,12 @@ signals:
      * @brief signalAddItem　添加图元信号
      * @param item　图元
      */
-    void signalAddItem(QGraphicsItem *item);
+    void signalAddItem(QGraphicsItem *item, bool pushToStack = false);
 
 
     void signalAddTextItem(const SGraphicsTextUnitData &data,
-                           const SGraphicsUnitHead &head);
+                           const SGraphicsUnitHead &head,
+                           bool pushToStack = false);
 
     /**
      * @brief signalContinueDoOtherThing　保存完成后继续做某事信号

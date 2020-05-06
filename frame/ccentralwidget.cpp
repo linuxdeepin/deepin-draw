@@ -19,6 +19,7 @@
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "cgraphicsview.h"
+#include "mainwindow.h"
 
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
@@ -253,7 +254,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), curScene, SLOT(drawToolChange(int)));
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
-//    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
+    connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
 
     //如果是裁剪模式点击工具栏的菜单则执行裁剪
     connect(this, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()), newview, SLOT(slotDoCutScene()));
@@ -268,7 +269,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     return newview;
 }
 
-void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
+void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
 {
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
     if (nullptr != closeView) {
@@ -298,8 +299,10 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq)
             m_topMutipTabBarWidget->show();
         }
     }
-    delete closeView;
-    closeView = nullptr;
+    if (deleteView) {
+        delete closeView;
+        closeView = nullptr;
+    }
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)
@@ -397,17 +400,15 @@ void CCentralwidget::updateTabName(const QString &uuid, const QString &newTabNam
 
 }
 
-#include <QTimer>
-
 void CCentralwidget::slotTransmitEndLoadDDF()
 {
     // [0] 设置左侧工具栏状态
     m_leftToolbar->slotShortCutSelect();
 
     // [1] 拖拽ddf文件需要删除已有的撤销重做栈
-    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+//    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
+//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
+//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
 
 void CCentralwidget::updateTitle()
@@ -436,6 +437,8 @@ void CCentralwidget::importPicture()
         slotPastePicture(filenames);
     } else {
         m_leftToolbar->slotShortCutSelect();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+        emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
     }
 
 }
@@ -461,6 +464,8 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList)
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
         m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
 }
 
 void CCentralwidget::slotPastePixmap(QPixmap pixmap)
@@ -499,13 +504,6 @@ void CCentralwidget::slotResetOriginPoint()
 {
     /*QRect rect = CManageViewSigleton::GetInstance()->getCurView()->viewport()->rect();
     CManageViewSigleton::GetInstance()->getCurView()->setSceneRect(rect);*/
-}
-
-void CCentralwidget::slotAttributeChanged()
-{
-    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->attributeChanged();
-    }
 }
 
 void CCentralwidget::slotZoom(qreal scale)
@@ -742,7 +740,10 @@ void CCentralwidget::slotLoadDragOrPasteFile(QString path)
 
 void CCentralwidget::slotLoadDragOrPasteFile(QStringList files)
 {
-    emit signalTransmitLoadDragOrPasteFile(files);
+    MainWindow *parentMainWind = qobject_cast<MainWindow *>(parentWidget());
+    if (parentMainWind != nullptr) {
+        parentMainWind->slotLoadDragOrPasteFile(files);
+    }
 }
 
 void CCentralwidget::slotShowExportDialog()

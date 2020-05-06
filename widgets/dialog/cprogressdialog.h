@@ -6,6 +6,7 @@
 #include <DProgressBar>
 
 #include <QWidget>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
@@ -31,14 +32,14 @@ public slots:
 private:
     DProgressBar *m_progressBar;
 
-
 private:
     void initUI();
     void showInCenter();
 
+private:
+    DLabel *_titleLabel  = nullptr;
 };
 
-#include <DLabel>
 class CAbstractProcessDialog: public DAbstractDialog
 {
     Q_OBJECT

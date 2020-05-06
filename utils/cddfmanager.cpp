@@ -81,6 +81,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
 
+    CManageViewSigleton::GetInstance()->removeWacthedFile(path);
     QtConcurrent::run([ = ] {
         QFile writeFile(path);
         m_lastSaveStatus = false;
@@ -194,7 +195,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-                qDebug() << "unit.head.dataType = " << RectType;
+                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
@@ -281,7 +282,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                     }
 
                 } else {
-                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << RectType;
+                    qDebug() << "!!!!!!!!!!!!!!!!!!!!!!unknoewd type !!!!!!!!!!!! = " << unit.head.dataType;
                     break;
                 }
 
@@ -336,6 +337,8 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
 
 void CDDFManager::slotSaveDDFComplete()
 {
+    CManageViewSigleton::GetInstance()->wacthFile(m_path);
+
     m_pSaveDialog->hide();
 
     m_view->getDrawParam()->setDdfSavePath(m_path);

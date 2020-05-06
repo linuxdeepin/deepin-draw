@@ -63,6 +63,13 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) = 0;
 
     /**
+     * @brief mouseDoubleClickEvent 鼠标双击事件
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
+
+    /**
      * @brief getDrawToolMode 获取当前工具类型
      * @return 工具类型
      */

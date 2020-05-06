@@ -21,6 +21,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
 #include "frame/ccentralwidget.h"
+#include "application.h"
 
 #include <DApplication>
 #include <QGuiApplication>
@@ -205,7 +206,6 @@ bool CManageViewSigleton::wacthFile(const QString &file)
         if (m_ddfWatcher.files().indexOf(file) == -1)
             ret = m_ddfWatcher.addPath(file);
     }
-    //qDebug() << "wacthFile file = " << file << "result = " << ret;
     return ret;
 }
 
@@ -215,18 +215,12 @@ bool CManageViewSigleton::removeWacthedFile(const QString &file)
     if (m_ddfWatcher.files().indexOf(file) != -1) {
         ret = m_ddfWatcher.removePath(file);
     }
-    //qDebug() << "removeWacthedFile file = " << file << "result = " << ret;
     return ret;
 }
 
 void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 {
-    qDebug() << "onDDfFileChangedonDDfFileChangedonDDfFileChangedonDDfFileChanged" << m_ddfWatcher.files();
-
-//    if (ignoreCount() > 0) {
-//        reduceIgnoreCount();
-//        return;
-//    }
+    //qDebug() << "onDDfFileChangedonDDfFileChangedonDDfFileChangedonDDfFileChanged" << m_ddfWatcher.files() << "cur file = " << ddfFile;
 
     CGraphicsView *pView = getViewByFilePath(ddfFile);
     if (pView != nullptr) {
@@ -238,34 +232,44 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
         QFileInfo fInfo(ddfFile);
         if (fInfo.exists()) {
             //证明只是内容修改 要提醒是否重新加载
-//            DDialog dia(pView);
-//            dia.setModal(true);
-//            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
-//            dia.setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(ddfFile));
-//            int reload  = dia.addButton(tr("reload"), false, DDialog::ButtonNormal);
-//            int cancel = dia.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-//            int ret = dia.exec();
+            //先判断是否已经存在对这个文件已修改的提示
+            DDialog *dia = getNoticeFileDialog(ddfFile);
+            if (dia != nullptr) {
+                //证明已经监视到文件的改动了有弹出床提示了那么就不用再弹出一个同一样的了
 
-//            if (ret == reload) {
+                Application *pApp = dynamic_cast<Application *>(qApp);
+                if (pApp != nullptr) {
+                    pApp->activateWindow();
+                }
+                return;
+            } else {
+                dia = creatOneNoticeFileDialog(ddfFile, pView);
+                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
+                int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
+                int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+                int ret = dia->exec();
+                removeNoticeFileDialog(dia);
+                if (ret == reload) {
 
-//                //先关闭传入false使程序不会被关闭
-//                pCertralWidget->closeCurrentScenseView(false);
+                    //先关闭传入false使程序不会被关闭
+                    pCertralWidget->closeCurrentScenseView(false, false);
 
-//                //再加载
-//                emit pView->signalLoadDragOrPasteFile(ddfFile);
+                    //再加载
+                    emit pView->signalLoadDragOrPasteFile(ddfFile);
 
 
-//            } else if (ret == cancel) {
-
-//                //直接关闭
-//                pCertralWidget->closeCurrentScenseView();
-//            }
+                } else if (ret == cancel) {
+                    //直接关闭
+                    pCertralWidget->closeCurrentScenseView();
+                }
+            }
         } else {
             //证明是被重命名或者删除
             DDialog dia(pView);
+            dia.setFixedSize(404, 163);
             dia.setModal(true);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(ddfFile));
-            dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));
+            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
             int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);
@@ -322,6 +326,33 @@ void CManageViewSigleton::initBlockShutdown()
         //m_pLoginManager->callWithArgumentList(QDBus::NoBlock, "Inhibit", m_arg);
         qDebug() << "Nublock shutdown.";
     }
+}
+
+DDialog *CManageViewSigleton::getNoticeFileDialog(const QString &file)
+{
+    for (DDialog *pDialog : m_noticeFileDialogs) {
+        if (pDialog->property("file").toString() == file) {
+            return pDialog;
+        }
+    }
+    return nullptr;
+}
+
+DDialog *CManageViewSigleton::creatOneNoticeFileDialog(const QString &file, QWidget *parent)
+{
+    DDialog *pNoticeFileDialog = new DDialog(parent == nullptr ? qApp->activeWindow() : parent);
+    pNoticeFileDialog->setFixedSize(404, 163);
+    pNoticeFileDialog->setModal(true);
+    pNoticeFileDialog->setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+    pNoticeFileDialog->setProperty("file", file);
+    m_noticeFileDialogs.append(pNoticeFileDialog);
+    return pNoticeFileDialog;
+}
+
+void CManageViewSigleton::removeNoticeFileDialog(DDialog *dialog)
+{
+    m_noticeFileDialogs.removeOne(dialog);
+    dialog->deleteLater();
 }
 
 void CManageViewSigleton::quitIfEmpty()

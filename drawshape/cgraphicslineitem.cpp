@@ -88,6 +88,10 @@ int CGraphicsLineItem::type() const
 QPainterPath CGraphicsLineItem::shape() const
 {
     QPainterPath path;
+
+    if (this->curView() == nullptr)
+        return path;
+
     if (m_line == QLineF())
         return path;
 
@@ -95,7 +99,7 @@ QPainterPath CGraphicsLineItem::shape() const
     path.lineTo(m_line.p2());
 
     QPen pen = this->pen();
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    qreal scale = curView()->getDrawParam()->getScale();
     if (pen.width() * (int)scale < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
@@ -513,6 +517,9 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
         m_startPath.lineTo(p3);
         m_startPath.lineTo(p2);
@@ -585,6 +592,9 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p3);
         m_endPath.lineTo(p2);

@@ -19,6 +19,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cmanagerattributeservice.h"
+#include "drawshape/cdrawtoolmanagersigleton.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
 #include "drawshape/cgraphicsellipseitem.h"
@@ -31,6 +32,7 @@
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsmasicoitem.h"
+#include "drawshape/ccuttool.h"
 
 #include "frame/cundocommands.h"
 #include "frame/cviewmanagement.h"
@@ -114,22 +116,22 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             propertys[LineAndPenEndType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
             break;
         case PenType://画笔
-            mode = LineType;//画笔和线属性相同
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().color();
             propertys[LineAndPenStartType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
             propertys[LineAndPenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
-            propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextColor();
-            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontFamily();
-            propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getFontSize();
-            propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getTextFontStyle();
+            propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedTextColor();
+            propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontFamily();
+            propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontSize();
+            propertys[TextHeavy] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontStyle();
+            propertys[TextColorAlpha] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedTextColorAlpha();
             qDebug() << "Text Item = " << propertys;
             break;
         case BlurType://模糊
-            propertys[Blurtype] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurEffect();
-            propertys[BlurWith] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurWidth();
+            propertys[Blurtype] = static_cast<int>(static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurEffect());
+            propertys[BlurWidth] = static_cast<CGraphicsMasicoItem *>(items.at(0))->getBlurWidth();
             break;
         default:
             break;
@@ -349,7 +351,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
         case TextType://文本
             if (propertys.contains(TextColor)) {
                 mode = EGraphicUserType::TextType;
-                if (propertys[TextColor] == static_cast<CGraphicsTextItem *>(item)->getTextColor()) {
+                if (propertys[TextColor] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColor()) {
                     allPropertys[TextColor] = propertys[TextColor];
                 } else {
                     allPropertys[TextColor] = tmpVariant;
@@ -357,7 +359,7 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             if (propertys.contains(TextFont)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextFont].value<QFont>().family() == static_cast<CGraphicsTextItem *>(item)->getFont().family()) {
+                if (propertys[TextFont].value<QFont>().family() == static_cast<CGraphicsTextItem *>(item)->getSelectedFontFamily()) {
                     allPropertys[TextFont] = propertys[TextFont];
                 } else {
                     allPropertys[TextFont] = tmpVariant;
@@ -365,33 +367,40 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             }
             if (propertys.contains(TextHeavy)) {
                 QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextHeavy] == static_cast<CGraphicsTextItem *>(item)->getTextFontStyle()) {
+                if (propertys[TextHeavy] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontStyle()) {
                     allPropertys[TextHeavy] = propertys[TextHeavy];
                 } else {
                     allPropertys[TextHeavy] = tmpVariant;
                 }
             }
             if (propertys.contains(TextSize)) {
-                if (propertys[TextSize] == static_cast<CGraphicsTextItem *>(item)->getFontSize()) {
+                if (propertys[TextSize] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontSize()) {
                     allPropertys[TextSize] = propertys[TextSize];
                 } else {
                     allPropertys[TextSize] = tmpVariant;
                 }
             }
+            if (propertys.contains(TextColorAlpha)) {
+                if (propertys[TextColorAlpha] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColorAlpha()) {
+                    allPropertys[TextColorAlpha] = propertys[TextColorAlpha];
+                } else {
+                    allPropertys[TextColorAlpha] = tmpVariant;
+                }
+            }
             break;
         case BlurType://模糊
             if (propertys.contains(Blurtype)) {
-                if (propertys[Blurtype] == static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()) {
+                if (propertys[Blurtype] == static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect())) {
                     allPropertys[Blurtype] = propertys[Blurtype];
                 } else {
                     allPropertys[Blurtype] = tmpVariant;
                 }
             }
-            if (propertys.contains(BlurWith)) {
-                if (propertys[BlurWith] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
-                    allPropertys[BlurWith] = propertys[BlurWith];
+            if (propertys.contains(BlurWidth)) {
+                if (propertys[BlurWidth] == static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth()) {
+                    allPropertys[BlurWidth] = propertys[BlurWidth];
                 } else {
-                    allPropertys[BlurWith] = tmpVariant;
+                    allPropertys[BlurWidth] = tmpVariant;
                 }
             }
             break;
@@ -472,6 +481,8 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
         if (allItems.size() <= 0) {
             return;
         }
+        static int i = 0;
+        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value;
         QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
         if (pushTostack) {
             CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
@@ -491,93 +502,6 @@ CManagerAttributeService::CManagerAttributeService()
 void CManagerAttributeService::updateCurrentScence()
 {
     m_currentScence = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-}
-
-void CManagerAttributeService::updateSingleItemProperty(CDrawScene *scence, QGraphicsItem *item)
-{
-    Q_UNUSED(scence)
-    if (item == nullptr) {
-        return;
-    }
-    updateCurrentScence();
-    QList<CGraphicsItem *> items;
-    items.push_back(static_cast<CGraphicsItem *>(item));
-    if (allPictureItem(m_currentScence, items)) {
-        return;
-    }
-
-    QMap<EDrawProperty, QVariant> propertys;
-
-    switch (item->type()) {
-    case TextType: {
-        CGraphicsItem *cItem = nullptr;
-        cItem = static_cast<CGraphicsItem *>(item);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsItem failed.";
-            return;
-        }
-
-        CGraphicsTextItem *textItem = static_cast<CGraphicsTextItem *>(cItem);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsTextItem failed.";
-            return;
-        }
-
-        bool isSameColor = textItem->getAllTextColorIsEqual();
-        if (!isSameColor) {
-            propertys.insert(TextColor, QColor());
-        } else {
-            propertys.insert(TextColor, textItem->getTextColor());
-        }
-
-        bool isSameSize = textItem->getAllFontSizeIsEqual();
-        if (!isSameSize) {
-            propertys.insert(TextSize, 0);
-        } else {
-            propertys.insert(TextSize, textItem->getFont().pointSize());
-        }
-
-        bool isSameFamily = textItem->getAllFontFamilyIsEqual();
-        if (!isSameFamily) {
-            propertys.insert(TextFont, "");
-        } else {
-            propertys.insert(TextFont, textItem->getFont().family());
-        }
-
-        bool isSameWeight = textItem->getAllFontStyleIsEqual();
-        if (!isSameWeight) {
-            propertys.insert(TextHeavy, "");
-        } else {
-            propertys.insert(TextHeavy, textItem->getTextFontStyle());
-        }
-
-        emit signalTextItemPropertyUpdate(propertys);
-        break;
-    }
-    case PenType: {
-        CGraphicsItem *cItem = nullptr;
-        cItem = static_cast<CGraphicsItem *>(item);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsItem failed.";
-            return;
-        }
-
-        CGraphicsPenItem *penItem = static_cast<CGraphicsPenItem *>(cItem);
-        if (cItem == nullptr) {
-            qDebug() << "convert to CGraphicsTextItem failed.";
-            return;
-        }
-
-        ELineType startType = penItem->getPenStartType();
-        propertys.insert(LineAndPenStartType, startType);
-
-        ELineType endType = penItem->getPenEndType();
-        propertys.insert(LineAndPenEndType, endType);
-
-        emit signalPenItemPropertyUpdate(propertys);
-        break;
-    }
-    }
 }
 
 void CManagerAttributeService::doSceneAdjustment()
@@ -612,6 +536,102 @@ void CManagerAttributeService::doSceneAdjustment()
             }
         }
     }
+}
+
+void CManagerAttributeService::doCut()
+{
+    updateCurrentScence();
+    EDrawToolMode currentMode = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+    ///区分裁剪
+    if (cut == currentMode) {
+        ECutAttributeType attributeType = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutAttributeType();
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(cut);
+        if (attributeType == ECutAttributeType::ButtonClickAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType(), m_currentScence);
+            }
+        } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
+            if (nullptr != pTool) {
+                static_cast<CCutTool *>(pTool)->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
+            }
+        }
+    }
+}
+
+int CManagerAttributeService::getSelectedColorAlpha(DrawStatus drawstatus)
+{
+    int alpha = 255;
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
+        return alpha;
+
+    updateCurrentScence();
+
+    if (m_currentScence && m_currentScence->getItemsMgr()) {
+        QList<CGraphicsItem *> allItems;
+        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+            allItems = m_currentScence->getItemsMgr()->getItems();
+            int alphaTemp = 255;
+            CGraphicsItem *itemFirst = dynamic_cast<CGraphicsItem *>(allItems.at(0));
+            if (itemFirst != nullptr) {
+                if (drawstatus == DrawStatus::Fill) {
+                    alphaTemp = itemFirst->pen().color().alpha();
+                } else if (drawstatus == DrawStatus::Stroke) {
+                    alphaTemp = itemFirst->brush().color().alpha();
+                } else if (drawstatus == DrawStatus::TextFill) {
+                    if (itemFirst->type() == TextType) {
+                        alphaTemp = static_cast<CGraphicsTextItem *>(itemFirst)->getTextColor().alpha();
+                    }
+                }
+            }
+            for (int i = allItems.size() - 1; i >= 0; i--) {
+                CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(allItems.at(i));
+                if (item != nullptr) {
+                    if (drawstatus == DrawStatus::Fill) {
+                        alpha = item->brush().color().alpha();
+                    } else if (drawstatus == DrawStatus::Stroke) {
+                        alpha = item->pen().color().alpha();
+                    } else if (drawstatus == DrawStatus::TextFill) {
+                        if (item->type() == TextType) {
+                            alpha = static_cast<CGraphicsTextItem *>(item)->getTextColor().alpha();
+                        }
+                    }
+                    if (alpha != alphaTemp) {
+                        alpha = 255;
+                        break;
+                    } else {
+                        alphaTemp = alpha;
+                    }
+                }
+            }
+        } else {
+            QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
+            for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+                if (allSelectItems.at(i)->zValue() == 0.0) {
+                    allSelectItems.removeAt(i);
+                    continue;
+                }
+                if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                    allSelectItems.removeAt(i);
+                }
+            }
+
+            if (allSelectItems.size() >= 1) {
+                CGraphicsItem *item = dynamic_cast<CGraphicsItem *>(allSelectItems.at(0));
+                if (item != nullptr) {
+                    if (drawstatus == DrawStatus::Fill) {
+                        alpha = item->brush().color().alpha();
+                    } else if (drawstatus == DrawStatus::Stroke) {
+                        alpha = item->pen().color().alpha();
+                    } else if (drawstatus == DrawStatus::TextFill) {
+                        if (item->type() == TextType) {
+                            alpha = static_cast<CGraphicsTextItem *>(item)->getTextColor().alpha();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return alpha;
 }
 
 bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)

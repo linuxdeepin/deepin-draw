@@ -43,6 +43,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QSettings>
+#include <QScrollBar>
 
 
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
@@ -131,6 +132,7 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
         //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
         QStringList paths  = pApp->getRightFiles(files);
         QStringList problemFiles = (files.toSet() - paths.toSet()).toList();
+
         if (!problemFiles.isEmpty()) {
             //提示有文件的有权限问题noticeFileRightProblem
             QMetaObject::invokeMethod(pApp, "noticeFileRightProblem", Qt::QueuedConnection,
@@ -264,7 +266,6 @@ void MainWindow::initConnection()
             closeTabViews();
         }
     });
-    connect(m_topToolbar, SIGNAL(signalAttributeChanged()), m_centralWidget, SLOT(slotAttributeChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
     connect(m_topToolbar, SIGNAL(signalTextFontSizeChanged()), m_centralWidget, SLOT(slotTextFontSizeChanged()));
 
@@ -310,8 +311,6 @@ void MainWindow::initConnection()
 //        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
 //        connect(curScene, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
 //    }
-
-    connect(m_centralWidget, SIGNAL(signalTransmitLoadDragOrPasteFile(QStringList)), this, SLOT(slotLoadDragOrPasteFile(QStringList)));
 
     // 有新的场景创建后需要都进行连接的信号
     connect(m_centralWidget, &CCentralwidget::signalAddNewScence, this, [ = ](CDrawScene * sence) {
@@ -548,14 +547,26 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    //如果按住CTRL
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCtlKeyStatus()) {
-        if (event->delta() > 0) {
-            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-            m_centralWidget->getGraphicsView()->zoomOut();
-        } else {
-            m_centralWidget->getGraphicsView()->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-            m_centralWidget->getGraphicsView()->zoomIn();
+    CGraphicsView *pCurView   = CManageViewSigleton::GetInstance()->getCurView();
+    int            delayValue = event->delta();
+    if (pCurView != nullptr) {
+        if (event->modifiers() == Qt::NoModifier) {
+            //滚动view的垂直scrollbar
+            int curValue = pCurView->verticalScrollBar()->value();
+            pCurView->verticalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers() == Qt::ShiftModifier) {
+            //滚动view的水平scrollbar
+            int curValue = pCurView->horizontalScrollBar()->value();
+            pCurView->horizontalScrollBar()->setValue(curValue - delayValue / 12);
+        } else if (event->modifiers()& Qt::ControlModifier) {
+            //如果按住CTRL那么就是放大缩小
+            if (event->delta() > 0) {
+                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+                pCurView->zoomOut();
+            } else {
+                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+                pCurView->zoomIn();
+            }
         }
     }
     DMainWindow::wheelEvent(event);
@@ -629,7 +640,7 @@ void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
     //改变左边工具栏按钮主题
-    m_centralWidget->getLeftToolBar()->changeButtonTheme();
+//    m_centralWidget->getLeftToolBar()->changeButtonTheme();
     //改变顶部属性栏按钮主题
     m_topToolbar->changeTopButtonsTheme();
 }

@@ -26,14 +26,15 @@
 #include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
 
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 #include <DLabel>
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QDebug>
 #include <QLineEdit>
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 
 CommonshapeWidget::CommonshapeWidget(DWidget *parent)
@@ -83,17 +84,20 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_fillBtn->setIsMultColorSame(false);
             } else {
                 m_fillBtn->setColor(propertys[property].value<QBrush>().color());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(propertys[property].value<QBrush>().color());
             }
             m_fillBtn->update();
             break;
         case LineWidth:
-//            m_lwLabel->setVisible(true);
             m_sideWidthWidget->setVisible(true);
+            m_sideWidthWidget->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
                 m_sideWidthWidget->setMenuNoSelected(true);
             } else {
                 m_sideWidthWidget->setSideWidth(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(propertys[property].toInt());
             }
+            m_sideWidthWidget->blockSignals(false);
             m_sideWidthWidget->update();
             break;
         case LineColor:
@@ -102,6 +106,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(propertys[property].value<QColor>());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
             }
             m_strokeBtn->update();
             break;
@@ -114,7 +119,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_rediusSpinbox->setValue(-1);
             } else {
                 m_rediusSpinbox->setValue(propertys[property].toInt());
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(propertys[property].toInt());
             }
+            m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
             m_rediusSpinbox->blockSignals(false);
             m_rediusSpinbox->update();
             break;
@@ -176,7 +183,7 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(-1, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(80, 36));
+    m_rediusSpinbox->setFixedSize(QSize(130, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
     m_rediusSpinbox->setEnabledEmbedStyle(true);
@@ -185,6 +192,8 @@ void CommonshapeWidget::initUI()
     layout->addStretch();
 
     setLayout(layout);
+
+    m_rediusSpinbox->setProperty("preValue", 5);
 }
 
 void CommonshapeWidget::initConnection()
@@ -234,6 +243,13 @@ void CommonshapeWidget::initConnection()
             m_rediusSpinbox->setValue(1000);
         }
         m_rediusSpinbox->blockSignals(false);
+
+        int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+        if (preIntValue == m_rediusSpinbox->value()) {
+            return;
+        }
+        m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         emit signalRectRediusChanged(m_rediusSpinbox->value());
@@ -253,7 +269,7 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_sepLine->setVisible(false);
     m_rediusLable->setVisible(false);
     m_rediusSpinbox->setVisible(false);
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
@@ -264,12 +280,20 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     } else if (m_rediusSpinbox->value() > 1000) {
         m_rediusSpinbox->setValue(1000);
     }
-    redius = m_rediusSpinbox->value();
     m_rediusSpinbox->blockSignals(false);
+
+    int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+    if (preIntValue == m_rediusSpinbox->value()) {
+        return;
+    }
+    m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+    redius = m_rediusSpinbox->value();
+
     //隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
     emit signalRectRediusChanged(redius);
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, redius);
+    m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
 }
 
 void CommonshapeWidget::slotSideWidthChoosed(int width)

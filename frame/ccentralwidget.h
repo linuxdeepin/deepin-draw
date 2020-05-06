@@ -136,10 +136,6 @@ signals:
      */
     void signalTransmitQuitCutModeFromTopBarMenu();
     /**
-     * @brief signalTransmitLoadDragOrPasteFile　传递拖拽或粘贴文件到画板信号
-     */
-    void signalTransmitLoadDragOrPasteFile(QStringList);
-    /**
      * @brief signalAddNewScence　创建新场景信号
      */
     void signalAddNewScence(CDrawScene *sence);
@@ -179,10 +175,6 @@ public slots:
      * @brief slotResetOriginPoint　重置原始点
      */
     void slotResetOriginPoint();
-    /**
-     * @brief slotAttributeChanged　属性改变
-     */
-    void slotAttributeChanged();
     /**
      * @brief slotZoom　执行缩放ｖｉｅｗ
      * @param scale　缩放因子
@@ -277,7 +269,7 @@ public slots:
     /**
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
-    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true);
+    void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
 
 
     void closeViewScense(CGraphicsView *view);

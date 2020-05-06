@@ -68,16 +68,6 @@ public:
     void setCursor(const QCursor &cursor);
 
     /**
-     * @brief attributeChanged 画笔画刷属性更改
-     */
-    void attributeChanged();
-
-    /**
-     * @brief changeAttribute 根据选中的图元修改当前画笔画刷属性
-     */
-    void changeAttribute(bool flag, QGraphicsItem *selectedItem);
-
-    /**
      * @brief mouseEvent 鼠标事件
      * @param mouseEvent
      */
@@ -146,6 +136,10 @@ public:
 
     void updateItemsMgr();
 
+
+    void blockMouseMoveEvent(bool b);
+    bool isBlockMouseMoveEvent();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -174,7 +168,7 @@ signals:
      * @brief itemAdded 增加图元
      * @param item
      */
-    void itemAdded(QGraphicsItem *item);
+    void itemAdded(QGraphicsItem *item, bool pushToStack = true);
 
     /**signalItemAdded
      * @brief itemRotate 旋转图元
@@ -320,6 +314,9 @@ protected:
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
+
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
     /**
      * @brief drawItems 绘制所有图元
      * @param painter
@@ -332,6 +329,10 @@ protected:
                            QGraphicsItem *items[],
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+
+    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private:
     CDrawParamSigleton *m_drawParam;//数据
@@ -353,6 +354,9 @@ private:
     CGraphicsItemSelectedMgr *m_pGroupItem;
     CGraphicsItemHighLight *m_pHighLightItem;
 
+    bool dbCLicked = false;
+
+    bool blockMouseMoveEventFlag = false;
 };
 
 #endif // CDRAWSCENE_H

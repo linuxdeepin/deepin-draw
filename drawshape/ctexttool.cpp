@@ -51,31 +51,26 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         item->getTextEdit()->setText(QObject::tr("Input text here"));
         item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
-        // 设置新建图元属性
-        item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-        item->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-        item->setFont(font);
-
-        qDebug() << "p size: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize();
-        qDebug() << "p setTextColor: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-        qDebug() << "p family: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
-        qDebug() << "p style: " << CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle();
-
         item->getTextEdit()->selectAll();
 
         QFontMetrics fm(font);
-        QRect rect = fm.boundingRect(item->getTextEdit()->document()->toPlainText());
-
-
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
-        item->setTextFontStyle(font.styleName());
+        QSizeF size = item->getTextEdit()->document()->size();
+        QRectF rect = item->rect();
+        rect.setHeight(size.height());
+        rect.setWidth(size.width());
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width(), rect.height()));
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
             item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
         } else {
             item->setLastDocumentWidth(0);
         }
+
+        // 设置新建图元属性
+        item->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+        item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+        item->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
 
         item->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(item);

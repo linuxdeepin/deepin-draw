@@ -32,7 +32,8 @@ public:
     TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
-    void setColor(QColor color);
+    void setColor(QColor &color);
+    QColor getColor();
     void setColorIndex(int index);
     void updateConfigColor();
     void resetChecked();

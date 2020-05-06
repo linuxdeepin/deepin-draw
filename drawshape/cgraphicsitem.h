@@ -27,6 +27,8 @@
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>
 
+class CGraphicsView;
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -43,6 +45,12 @@ public:
      */
     CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
     enum {Type = UserType};
+
+    /**
+     * @brief type 返回当前所处的view
+     * @return
+     */
+    CGraphicsView *curView()const;
 
     /**
      * @brief type 返回当前图元类型

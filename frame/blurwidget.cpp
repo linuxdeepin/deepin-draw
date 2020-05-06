@@ -23,6 +23,7 @@
 #include "drawshape/globaldefine.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DSlider>
 #include <QHBoxLayout>
@@ -55,7 +56,7 @@ void BlurWidget::updateBlurWidget()
     m_pLineWidthSlider->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_pLineWidthSlider->blockSignals(false);
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void BlurWidget::changeButtonTheme()
@@ -70,12 +71,12 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
-        case Blurtype: {;
+        case Blurtype: {
             m_blurBtn->setChecked(!propertys[property].toBool());
             m_masicBtn->setChecked(propertys[property].toBool());
             break;
         }
-        case BlurWith: {
+        case BlurWidth: {
             m_pLineWidthSlider->blockSignals(true);
             m_pLineWidthSlider->setValue(propertys[property].toInt());
             m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
@@ -168,7 +169,7 @@ void BlurWidget::initUI()
     connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
         m_pLineWidthLabel->setText(QString("%1px").arg(value));
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
-        emit signalBlurAttributeChanged();
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
     });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -194,15 +195,13 @@ void BlurWidget::initConnection()
     connect(m_blurBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_blurBtn);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(BlurEffect);
-        emit signalBlurAttributeChanged();
-
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Blurtype, BlurEffect);
     });
 
     connect(m_masicBtn, &CCheckButton::buttonClick, [this]() {
         clearOtherSelections(m_masicBtn);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(MasicoEffect);
-        emit signalBlurAttributeChanged();
-
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Blurtype, MasicoEffect);
     });
 }
 

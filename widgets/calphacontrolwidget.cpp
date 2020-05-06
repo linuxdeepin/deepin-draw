@@ -35,6 +35,11 @@ void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
     m_alphaLabel->setText(QString("%1%").arg((int)(alpha * 100 / 255)));
 }
 
+int CAlphaControlWidget::getCurrentAlphaValue()
+{
+    return m_alphaSlider->value();
+}
+
 void CAlphaControlWidget::initUI()
 {
     QHBoxLayout *layout = new QHBoxLayout(this);

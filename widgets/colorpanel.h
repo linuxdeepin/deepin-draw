@@ -72,7 +72,7 @@ public:
      * @brief updateColorPanel 更新调色板
      * @param status　状态
      */
-    void updateColorPanel(DrawStatus status);
+    void updateColorPanel(DrawStatus status, QColor color, int alpha);
 
 signals:
     /**

@@ -1021,6 +1021,9 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
         m_startPath.lineTo(p3);
         m_startPath.lineTo(p2);
@@ -1114,6 +1117,9 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p3);
         m_endPath.lineTo(p2);
