@@ -89,8 +89,10 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
         return;
     prepareGeometryChange();
     if (!m_listItems.contains(item)) {
-        m_listItems.push_back(item);
-        static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
+        if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
+            m_listItems.push_back(item);
+            item->setMutiSelect(true);
+        }
     }
 
     updateGeometry();
