@@ -148,6 +148,12 @@ public:
      */
     virtual QPainterPath getHighLightPath();
 
+    /**
+     * @brief scenRect 图元相对scen左上角的准确位置rect
+     * @return
+     */
+    QRectF  scenRect();
+
 protected:
     /**
      * @brief updateGeometry 更新状态矩形位置
