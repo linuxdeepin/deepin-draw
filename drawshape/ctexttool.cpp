@@ -90,7 +90,7 @@ void CTextTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     Q_UNUSED(scene)
-    scene->mouseEvent(event);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit scene->signalChangeToSelect();
+    scene->mouseEvent(event);
 }
