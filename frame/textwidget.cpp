@@ -218,10 +218,10 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             if (!alpha) {
                 m_fillBtn->setIsMultColorSame(false);
             } else {
-                QColor color = m_fillBtn->getColor();
-                color.setAlpha(alpha);
-                m_fillBtn->setColor(color);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alpha);
+//                QColor color = m_fillBtn->getColor();
+//                color.setAlpha(alpha);
+//                m_fillBtn->setColor(color);
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alpha);
             }
             m_fillBtn->update();
             m_fillBtn->blockSignals(false);

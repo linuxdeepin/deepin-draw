@@ -1745,6 +1745,19 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
     }
 }
 
+CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene,
+                                                                         const QMap<CGraphicsItem *, QVariant> &oldValues,
+                                                                         EDrawProperty property, QVariant value)
+{
+    myGraphicsScene = scene;
+    for (auto it = oldValues.begin(); it != oldValues.end(); ++it) {
+        m_items.append(it.key());
+    }
+    m_property = property;
+    m_value = value;
+    m_oldValues = oldValues;
+}
+
 void CSetItemsCommonPropertyValueCommand::undo()
 {
     qDebug() << "CSetItemsCommonPropertyValueCommand: " << "undo";
@@ -1857,12 +1870,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
             myGraphicsScene->getItemsMgr()->setSelected(true);
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
-    }
-
-    // 第一次文字处于编辑状态的时候，字体和自重修改导致属性栏刷新下拉框无法选中
-    if (m_items.size() == 1 && m_items.at(0)->type() == TextType &&
-            static_cast<CGraphicsTextItem *>(m_items.at(0))->isEditable()) {
-        return;
     }
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
@@ -2034,16 +2041,15 @@ void CSetItemsCommonPropertyValueCommand::redo()
         }
     }
 
-    // 第一次文字处于编辑状态的时候，字体和自重修改导致属性栏刷新下拉框无法选中
-    if (m_items.size() == 1 && m_items.at(0)->type() == TextType
-            && static_cast<CGraphicsTextItem *>(m_items.at(0))->isEditable()) {
-        return;
-    }
-
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
+}
+
+QMap<CGraphicsItem *, QVariant> CSetItemsCommonPropertyValueCommand::undoInfoValues()
+{
+    return m_oldValues;
 }
 
 CItemsAlignCommand::CItemsAlignCommand(CDrawScene *scene, QMap<CGraphicsItem *, QPointF> startPos, QMap<CGraphicsItem *, QPointF> endPos)

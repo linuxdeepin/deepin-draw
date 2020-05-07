@@ -97,26 +97,8 @@ public:
     bool  isDdfFileOpened(const QString &path);
 
 
-    /*在监视对象QFileSystemWatcher中 但某些情况下也不需要检测文件的变化(比如我们画板自身的进行保存时)，所以有这个函数*/
-    //void blockWacthFile(const QString& file);
     bool wacthFile(const QString &file);
     bool removeWacthedFile(const QString &file);
-
-
-    void addIgnoreCount()
-    {
-        ++m_ignoreCount;
-    }
-    void reduceIgnoreCount()
-    {
-        --m_ignoreCount;
-    }
-
-    int ignoreCount()
-    {
-        qDebug() << "m_ignoreCount  ============ " << m_ignoreCount;
-        return m_ignoreCount;
-    }
 
 
     Q_SLOT void onDDfFileChanged(const QString &ddfFile);
@@ -125,6 +107,8 @@ public:
     int  viewCount();
 
     void quitIfEmpty();
+
+    QByteArray getFileSrcData(const QString &file);
 
 
 private:
@@ -160,9 +144,6 @@ private:
     QList<QVariant> m_arg;
 
     QFileSystemWatcher m_ddfWatcher;
-
-    QAtomicInt     m_ignoreCount = 0;
-
 
     QList<DDialog *> m_noticeFileDialogs;
     DDialog       *m_pNoticeFileDialog = nullptr;

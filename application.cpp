@@ -107,7 +107,7 @@ QStringList Application::getRightFiles(const QStringList &files)
                     resultList.append(path);
                 }
             } else if (suffix == "ddf") {
-                if (info.isReadable() && info.isWritable()) {
+                if (info.isReadable()/* && info.isWritable()*/) {
                     resultList.append(path);
                 }
             }
@@ -174,7 +174,11 @@ void Application::noticeFileRightProblem(const QStringList &problemfile)
     //证明是被重命名或者删除
     DDialog dia(pParent);
     dia.setModal(true);
-    dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
+    //dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
+    QString message = (problemfile.size() >= 1 ?
+                       tr("\"%1\" is write-only, thus you cannot open it").arg(QFileInfo(problemfile.first()).fileName()) :
+                       tr("Several files are write-only, thus you cannot open them"));
+    dia.setMessage(message);
     dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     dia.addButton(tr("OK"), true, DDialog::ButtonNormal);
     dia.exec();

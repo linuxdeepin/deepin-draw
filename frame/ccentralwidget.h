@@ -244,7 +244,7 @@ public slots:
      * @brief slotPastePixmap　粘贴图片
      * @param pixmap　图片
      */
-    void slotPastePixmap(QPixmap pixmap);
+    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
     /**
      * @description: slotLoadDragOrPasteFile 当从拖拽或者粘贴板中加载数据
      * @param:  path 需要加载的路径

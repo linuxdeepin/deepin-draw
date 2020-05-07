@@ -39,11 +39,11 @@ public:
     CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 signals:
-    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);
+    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData);
     void signalPicturesImportingFinished();
 
 public slots:
-    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow);
+    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData);
 
 public:
 

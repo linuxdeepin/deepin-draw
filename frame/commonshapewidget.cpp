@@ -253,7 +253,7 @@ void CommonshapeWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         emit signalRectRediusChanged(m_rediusSpinbox->value());
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value());
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value(), !m_rediusSpinbox->isTimerRunning());
     });
 }
 
@@ -274,6 +274,7 @@ void CommonshapeWidget::updateCommonShapWidget()
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
 {
+    //1.值检测是否合法符合需求(检测最大值和最小值)
     m_rediusSpinbox->blockSignals(true);
     if (m_rediusSpinbox->value() <= 0) {
         m_rediusSpinbox->setValue(0);
@@ -282,18 +283,36 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     }
     m_rediusSpinbox->blockSignals(false);
 
-    int preIntValue = m_rediusSpinbox->property("preValue").toInt();
-    if (preIntValue == m_rediusSpinbox->value()) {
-        return;
+    //2.非滚轮结束时发送的值变化信号要进行重复值检测
+    //  a.实际为了避免重复值入栈;
+    //  b.如果是滚轮结束时发送的值变化信号，那么强行入栈!
+    //    因为滚轮滚动时在setItemsCommonPropertyValue传入的是不入栈的标记，在滚轮结束后强行入栈一次,(这个时候不应该进行重复值检测了，因为值肯定是重复相等的)
+    //    从而实现了滚动事件一次只入栈一次
+    if (!m_rediusSpinbox->isChangedByWheelEnd()) {
+        int preIntValue = m_rediusSpinbox->property("preValue").toInt();
+        if (preIntValue == m_rediusSpinbox->value()) {
+            return;
+        }
+        m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+        redius = m_rediusSpinbox->value();
     }
-    m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
-    redius = m_rediusSpinbox->value();
 
-    //隐藏调色板
+    //3.隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
+
+    //4.记录变化并入栈undo/redo(spinbox控件如果滚轮还在滚动那么别入栈以避免过多的入栈操作记录)
     emit signalRectRediusChanged(redius);
-    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, redius);
+
+    static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
+    bool pushToStack = !m_rediusSpinbox->isTimerRunning();
+    bool firstRecord = s_oldTempValues.isEmpty();
+    QMap<CGraphicsItem *, QVariant> *inUndoValues = m_rediusSpinbox->isChangedByWheelEnd() ? &s_oldTempValues : nullptr;
+    CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, redius, pushToStack, ((!pushToStack && firstRecord) ? &s_oldTempValues : nullptr), inUndoValues);
     m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
+
+    if (m_rediusSpinbox->isChangedByWheelEnd()) {
+        s_oldTempValues.clear();
+    }
 }
 
 void CommonshapeWidget::slotSideWidthChoosed(int width)

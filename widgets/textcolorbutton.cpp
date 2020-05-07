@@ -40,15 +40,7 @@ TextColorButton::TextColorButton(DWidget *parent)
 {
     setFixedSize(60, 36);
     setCheckable(false);
-
-    //深色主题下
-//    DGuiApplicationHelper::ColorType type = DGuiApplicationHelper::instance()->themeType();
-//    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
-//        QColor color("#C0C6D4");
-//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
-//    }
-
-    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+    setButtonText(tr("Color"));
 }
 
 void TextColorButton::updateConfigColor()
@@ -176,7 +168,7 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     QFont ft;
     ft.setPixelSize(14);
     painter->setFont(ft);
-    painter->drawText(30, 7, 28, 22, 0, tr("Color"));
+    painter->drawText(30, 7, m_textWidth, 22, 0, m_text);
     painter->restore();
 }
 
@@ -189,4 +181,12 @@ void TextColorButton::resetChecked()
 void TextColorButton::setIsMultColorSame(bool isMultColorSame)
 {
     m_isMultColorSame = isMultColorSame;
+}
+
+void TextColorButton::setButtonText(QString text)
+{
+    QFontMetrics fontMetrics(font());
+    m_textWidth = fontMetrics.width(text);
+    setFixedSize(35 + m_textWidth, 36);
+    m_text = text;
 }

@@ -77,7 +77,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         }
     }
 
-    m_graphics.version = qint32(EDdf5_8_2_1);
+    m_graphics.version = qint32(/*EDdf5_8_0_10_2*/EDdfVersionCount - 1);
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
 

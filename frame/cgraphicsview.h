@@ -77,7 +77,7 @@ public:
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
-    void showSaveDDFDialog(bool, bool finishClose = false);
+    void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
     /**
      * @brief doSaveDDF保存DDFRR
@@ -231,7 +231,7 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号

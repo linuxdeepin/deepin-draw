@@ -613,9 +613,13 @@ void CLeftToolBar::initShortCutConnection()
 
 void CLeftToolBar::isCutMode()
 {
+    //在点击其他工具时，如果当前是裁切模式则退出裁切
     CGraphicsView *pCurView = CManageViewSigleton::GetInstance()->getCurView();
     if (pCurView != nullptr && cut == pCurView->getDrawParam()->getCurrentDrawToolMode()) {
-        emit singalDoCutFromLeftToolBar();
+        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+            curScene->quitCutMode();
+        }
     }
 }
 
