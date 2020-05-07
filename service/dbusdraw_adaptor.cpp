@@ -56,12 +56,14 @@ void dbusdraw_adaptor::openImages(QList<QVariant> images)
     for (QVariant img : images) {
         QByteArray data = img.toByteArray();
         QString tmp_data = QString::fromLatin1(data.data(), data.size());
-        data = QByteArray::fromBase64(tmp_data.toLatin1());
-        data = qUncompress(data);
+        //data = QByteArray::fromBase64(tmp_data.toLatin1());
+        //data = qUncompress(data);
+        QByteArray srcData = QByteArray::fromBase64(tmp_data.toLatin1());
+        data = qUncompress(srcData);
         QImage image;
         image.loadFromData(data);
         QMetaObject::invokeMethod(parent(), "openImage",
-                                  Q_ARG(QImage, image));
+                                  Q_ARG(QImage, image), Q_ARG(const QByteArray &, srcData));
     }
 }
 

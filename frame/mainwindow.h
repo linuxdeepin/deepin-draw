@@ -74,7 +74,7 @@ public:
      * @param image　图片
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
-    Q_INVOKABLE void openImage(QImage image);
+    Q_INVOKABLE void openImage(QImage image, const QByteArray &srcData);
 
 signals:
     /**

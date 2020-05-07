@@ -24,6 +24,8 @@
 #include <QPoint>
 #include <QTextDocument>
 #include <QDebug>
+#include <QBuffer>
+#include <QTime>
 #include "drawshape/globaldefine.h"
 
 #pragma pack(push, 1)
@@ -31,9 +33,12 @@
 enum EDdfVersion {
     EDdfUnknowed = -1,       //未知的版本(ddf被修改过)
     EDdf5_8_0_Base = 0,      //最原始的ddf版本
-    EDdf5_8_1_x,             //添加了矩形属性的ddf版本
-    EDdf5_8_2_x,             //添加了直线起点终点的版本（但这个版本在保存时漏掉保存了pen图元的保存 所以这个版本保存的ddf被加载后pen图元显示会问题）
-    EDdf5_8_2_1,             //修复了EDdf5_8_2_x版本未保存画笔图元path的问题
+    EDdf5_8_0_9_1,           //添加了矩形属性的ddf版本
+    EDdf5_8_0_10_1,          //添加了直线起点终点的版本（但这个版本在保存时漏掉保存了pen图元的保存 所以这个版本保存的ddf被加载后pen图元显示会问题）
+    EDdf5_8_0_10_2,          //修复了EDdf5_8_0_10_1版本未保存画笔图元path的问题
+    EDdf5_8_0_16_1,          //为了优化图片的保存速度修改了保存图片时由原先的直接保存QImage该成保存QByteArry
+
+    EDdfVersionCount
 };
 
 static EDdfVersion getVersion(QDataStream &stream)
@@ -280,14 +285,14 @@ struct SGraphicsLineUnitData {
         EDdfVersion ver = getVersion(in);
         switch (ver) {
         case EDdf5_8_0_Base:
-        case EDdf5_8_1_x: {
+        case EDdf5_8_0_9_1: {
             in >> lineUnitData.point1;
             in >> lineUnitData.point2;
             break;
         }
 
-        case EDdf5_8_2_x:
-        case EDdf5_8_2_1: {
+        case EDdf5_8_0_10_1:
+        case EDdf5_8_0_10_2: {
             in >> lineUnitData.point1;
             in >> lineUnitData.point2;
 
@@ -339,11 +344,17 @@ struct SGraphicsTextUnitData {
 struct SGraphicsPictureUnitData {
     SGraphicsRectUnitData rect;
     QImage image;
+    QByteArray srcByteArry;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPictureUnitData &pictureUnitData)
     {
         out << pictureUnitData.rect;
-        out << pictureUnitData.image;
+
+        //out << pictureUnitData.image;
+
+        qDebug() << "save pictureUnitData.srcByteArry = size = " << pictureUnitData.srcByteArry.size();
+
+        out << pictureUnitData.srcByteArry;
 
         return out;
     }
@@ -351,7 +362,15 @@ struct SGraphicsPictureUnitData {
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
     {
         in >> pictureUnitData.rect;
-        in >> pictureUnitData.image;
+        if (getVersion(in) < EDdf5_8_0_16_1) {
+            in >> pictureUnitData.image;
+        } else {
+            QByteArray arryData;
+            in >> arryData;
+            qDebug() << "load arrydata ================== " << "size === " << arryData.size();
+            pictureUnitData.srcByteArry = arryData;
+            pictureUnitData.image = QImage::fromData(arryData);
+        }
 
         return in;
     }
@@ -398,8 +417,8 @@ struct SGraphicsPenUnitData {
         EDdfVersion ver = getVersion(in);
         switch (ver) {
         case EDdf5_8_0_Base:
-        case EDdf5_8_1_x:
-        case EDdf5_8_2_x: {
+        case EDdf5_8_0_9_1:
+        case EDdf5_8_0_10_1: {
             qint8 pentype;
             in >> pentype;
             in >> penUnitData.path;
@@ -412,7 +431,7 @@ struct SGraphicsPenUnitData {
 
             break;
         }
-        case EDdf5_8_2_1: {
+        case EDdf5_8_0_10_2: {
             qint32 startTp, endTp;
             QPainterPath path;
             in >> startTp;
@@ -589,7 +608,7 @@ struct CGraphicsUnit {
 
 //整个图元数据
 struct CGraphics {
-    /*qint64*/qint32 version = qint64(EDdf5_8_2_1);   //数据版本
+    /*qint64*/qint32 version = qint64(EDdf5_8_0_10_2);   //数据版本
     qint64 unitCount;   //图元数量
     QRectF rect;    // 画板大小和位置
     QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)

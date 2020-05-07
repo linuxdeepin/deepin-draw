@@ -966,7 +966,7 @@ void CGraphicsView::slotOnPaste()
 
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
-            emit signalPastePixmap(pixmap);
+            emit signalPastePixmap(pixmap, CManageViewSigleton::GetInstance()->getFileSrcData(filePath));
         }
         qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {

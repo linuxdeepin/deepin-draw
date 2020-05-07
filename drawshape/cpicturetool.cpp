@@ -31,7 +31,7 @@ CPictureTool::CPictureTool(DWidget *parent)
     : DWidget (parent)
 {
     m_progressLayout = new ProgressLayout();
-    connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *)));
+    connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)));
 
 }
 CPictureTool::~CPictureTool()
@@ -152,13 +152,18 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
         {
             QPixmap pixmap(filenames[i]);
 
-            emit addImageSignal(pixmap, i + 1, scene, centralWindow);
+            QFile f(filenames[i]);
+            QByteArray srcBytes;
+            if (f.open(QFile::ReadOnly)) {
+                srcBytes = f.readAll();
+            }
+            emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes);
         }
     });
 }
 
 
-void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
+void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData)
 {
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
@@ -191,7 +196,8 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, 
         //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << scene->width() << scene->height() << width << height << (double)(widgetWidth / widgetHeight) << endl;
 
 
-        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()), pixmap);
+        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
+                                      pixmap, nullptr, fileSrcData);
 
         pixmapItem->setSelected(false);
         scene->addItem(pixmapItem);

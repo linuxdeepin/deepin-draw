@@ -231,7 +231,7 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
