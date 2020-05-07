@@ -334,9 +334,12 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     //移动的时候选中多选以外的，加入多选
-    if (scene->getItemsMgr()->getItems().size() > 1) {
-        if (!m_doCopy && m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
-            scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+    if (scene->getItemsMgr()->getItems().size() > 1 && event->modifiers() & Qt::ShiftModifier) {
+        CGraphicsItem *pRightItem = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+        if (pRightItem != nullptr) {
+            if (!m_doCopy && m_currentSelectItem && !scene->getItemsMgr()->getItems().contains(static_cast<CGraphicsItem *>(m_currentSelectItem))) {
+                scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
+            }
         }
     }
     //碰撞检测

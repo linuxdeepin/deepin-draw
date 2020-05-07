@@ -62,16 +62,10 @@ public slots:
     void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
 
     /**
-     * @brief slotTextItemPropertyUpdate 更新单选时属性栏
-     * @param propertys 要显示的控件和数值
-     */
-    void slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys);
-
-    /**
      * @brief slotUpdateTextFamilyStyle 更新字体样式
-     * @param style 样式名字
+     * @param family 样式名字
      */
-    void slotUpdateTextFamilyStyle(QString style);
+    void slotUpdateTextFamilyStyle(QString family);
 
 signals:
     /**

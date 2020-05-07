@@ -556,8 +556,6 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     case::BlurType://模糊
         m_drawBlurWidget->updateMultCommonShapWidget(propertys);
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-    default:
-        break;
     }
 }
 
