@@ -80,157 +80,201 @@ void CTextEdit::slot_textChanged()
 
     cursorPositionChanged();
 
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        //更新字图元
-        curScene->updateBlurItem(m_pItem);
-    }
+//    if (nullptr != m_pItem->scene()) {
+//        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+//        //更新字图元
+//        curScene->updateBlurItem(m_pItem);
+//    }
 }
 
 void CTextEdit::cursorPositionChanged()
 {
     // 只要鼠标点击后，此函数就会被调用一次
     QTextCursor cursor = this->textCursor();
-    if (cursor.hasSelection()) {
-        int startPos = cursor.selectionStart();
-        int endPos = cursor.selectionEnd();
-        qDebug() << "startpos = " << startPos << "endPos" << endPos;
-        QTextBlock block = cursor.block();
-        if (block.isValid()) {
-
-            // [0] 检测选中文字的属性是否相等
-            checkTextProperty(block);
-
-            QTextBlock::iterator it;
-            bool flag = true;
-            QTextCharFormat chfFirst;
-            QString fontFamily = "";
-            QString fontStyle = "";
-            for (it = block.begin(); !(it.atEnd()); ++it) {
-                QTextFragment fragment = it.fragment();
-                if (!fragment.isValid())
-                    continue;
-                // 获取文本
-                QString text = fragment.text();
-                if (text.isEmpty())
-                    continue;
-                // 获取文本格式
-                if (fragment.contains(startPos)) {
-                    //第一次更改选中的字体和颜色
-                    if (flag) {
-                        chfFirst = fragment.charFormat();
-                        fontFamily = chfFirst.font().family();
-                        m_pItem->currentCharFormatChanged(chfFirst);
-                        flag = false;
-
-                        if (fragment.contains(endPos)) {
-                            break;
-                        }
-                    }
-
-                } else {
-                    if (flag) {
-                        continue;
-                    } else {
-                        //找到
-                        QTextCharFormat chf = fragment.charFormat();
-                        //找到最后一个字块
-                        if (fragment.contains(endPos)) {
-                            if (endPos == fragment.position()) {
-                                break;
-                            }
-                            if (fontFamily != chf.font().family()) {
-                                m_pItem->currentCharFormatChanged(chfFirst);
-                                break;
-                            }
-
-                        } else {
-                            if (fontFamily != chf.font().family()) {
-                                m_pItem->currentCharFormatChanged(chfFirst);
-                                break;
-                            }
-                        }
-
-                    }
-                }
-
-            }
-
-        } else {
-            m_pItem->currentCharFormatChanged(cursor.charFormat());
-        }
-    } else {
-        m_pItem->currentCharFormatChanged(cursor.charFormat());
-    }
+    // [0] 检测选中文字的属性是否相等
+    checkTextProperty(cursor);
 
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
         curScene->updateBlurItem(m_pItem);
     }
-
     this->setFocus();
 }
 
-void CTextEdit::checkTextProperty(QTextBlock block)
+void CTextEdit::solveHtml(QString &html)
 {
+    // [0] 截取html文件中的文本格式
+    QStringList list;
+    QString temp;
+    for (int i = 0; i < html.length(); i++) {
+        // 不需要考虑数组越界，返回的html文本是正确的
+        if (html.at(i) == '<' && html.at(i + 1) == 's' && html.at(i + 2) == 'p' && html.at(i + 3) == 'a' && html.at(i + 4) == 'n') {
+            temp.clear();
+        }
+        if (html.at(i) == '<' && html.at(i + 1) == '/' && html.at(i + 2) == 's' && html.at(i + 3) == 'p'
+                && html.at(i + 4) == 'a' && html.at(i + 5) == 'n') {
+            list.append(temp);
+        }
+        temp += html.at(i);
+    }
+
+    // [1] 剔除错误的字符格式并保存数据  得到的数据：<span style=\" font-family:'Unifont'; font-size:36pt; font-weight:456; color:#000000;\">文 本内容；
+    m_allTextInfo.clear();
+    for (int i = 0; i < list.size(); i++) {
+        // [2] 将文本的格式和实际的字符串分割为两部分，避免解析格式的时候影响文本切割出错
+        int len = list[i].indexOf("color:") + 16;
+        QString formatString = list[i].left(len); // <span style=\" font-family:'Unifont'; font-size:36pt; font-weight:456; color:#000000;\">
+        QString textString = list[i].mid(len);
+        formatString = formatString.replace("<span style=", "");
+        formatString = formatString.replace("\"", "");
+        formatString = formatString.replace("'", "");
+//        formatString = formatString.replace(" ", ""); // 不需要进行处理空格，否则family中间的空格会被取消导致文字字重属性刷新不全
+        formatString = formatString.replace(">", "");
+        formatString = formatString.replace("font-family:", "");
+        formatString = formatString.replace("font-size:", "");
+        formatString = formatString.replace("font-weight:", "");
+        formatString = formatString.replace("color:", "");
+        formatString = formatString.replace("pt", "");
+        QStringList temp = formatString.split(";");
+
+        // [3] 单个字单个字进行保存其对应的属性，方便后面进行属性比较（换行符号不作处理）
+        if (temp.size() == 5) {
+            for (int i = 0; i < textString.length(); i++) {
+                QMap<ProperType, QVariant> data;
+                data.insert(FontFamily, temp[0].trimmed());
+                data.insert(PointSize, temp[1].trimmed());
+                data.insert(FontStyle, temp[2].trimmed());
+                data.insert(FontColor, temp[3].trimmed());
+                QColor color(temp[3].trimmed());
+                data.insert(ColorAlpha, color.alpha());
+                data.insert(Text, textString.at(i));
+                m_allTextInfo.append(data);
+            }
+        }
+    }
+}
+
+void CTextEdit::checkTextProperty(const QTextCursor &cursor)
+{
+    // [0] 获取鼠标选中的文本段
+    QTextBlock block = cursor.block();
+
+    // [1] 判断是否有效
     if (block.isValid()) {
+
+        // [2] 判断是否只是点击进去未选中文字
         QTextBlock::iterator it = block.begin();
         if (it == block.end()) {
             return;
         }
+        // [3] 解析当前所有的文本属性信息
+        QString html = block.document()->toHtml();
+        solveHtml(html);
 
-        QTextFragment first_fragment = it.fragment();
-        if (!first_fragment.isValid()) {
-            m_selectedColor = QColor();
-            m_selectedSize = -1;
-            m_selectedFamily.clear();
-            m_selectedFontStyle.clear();
-            m_selectedFontWeight = -1;
-            m_selectedColorAlpha = -1;
-            return;
-        } else {
-            m_selectedColor = first_fragment.charFormat().foreground().color();
-            m_selectedSize = first_fragment.charFormat().font().pointSize();
-            m_selectedFamily = first_fragment.charFormat().font().family();
-            m_selectedFontStyle = first_fragment.charFormat().font().styleName();
-            m_selectedColorAlpha = first_fragment.charFormat().foreground().color().alpha();
-            m_selectedFontWeight = first_fragment.charFormat().font().weight();
+        // [4] 找到选中文本段的索引
+        QString allString = this->document()->toPlainText();
+        int selected_start_index = cursor.selectionStart();
+        int temp_index = selected_start_index;
+        for (int i = 0; i < allString.length(); i++) {
+            if (i > selected_start_index) {
+                break;
+            }
+
+            if (allString.at(i) == '\n') {
+                temp_index--;
+            }
         }
+        selected_start_index = temp_index;
 
-        for (; !it.atEnd(); ++it) {
-
-            QTextFragment fragment = it.fragment();
-
-            if (!fragment.isValid())
+        // [5] 获取鼠标选择的文本并且剔除段落换行符号
+        QString selectedString = cursor.selectedText();
+        if (selectedString.isEmpty()) { // 如果为空则比较所有的文字
+            selectedString = allString;
+            selected_start_index = 0;
+        }
+        QString temp_str;
+        for (int i = 0; i < selectedString.length(); i++) {
+            if (selectedString.at(i) == "\u2029") {//删除段落符号
                 continue;
-
-            if (m_selectedColor.isValid() && fragment.charFormat().foreground().color() != first_fragment.charFormat().foreground().color()) {
-                m_selectedColor = QColor();
             }
-
-            if (m_selectedSize >= 0 && fragment.charFormat().font().pointSize() != first_fragment.charFormat().font().pointSize()) {
-                m_selectedSize = -1;
-            }
-
-            if (!m_selectedFamily.isEmpty() && fragment.charFormat().font().family() != first_fragment.charFormat().font().family()) {
-                m_selectedFamily.clear();
-            }
-
-            // 注意：这里Qt版本是5.11.3,只能用这种方式去匹配，不可以用charFormat().font().weight()
-            if (m_selectedFontWeight >= 0 && fragment.charFormat().fontWeight() != first_fragment.charFormat().fontWeight()) {
-                m_selectedFontWeight = -1;
-            }
-
-            if (m_selectedColorAlpha >= 0 && fragment.charFormat().foreground().color().alpha() != first_fragment.charFormat().foreground().color().alpha()) {
-                m_selectedColorAlpha = -1;
-            }
-
-            // 当所有的都不相同时跳出循环
-            if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
-                    && m_selectedFontStyle.isEmpty() && !m_selectedColorAlpha) {
-                return;
-            }
+            temp_str += selectedString.at(i);
         }
+        selectedString = temp_str;
+
+        // [6] 剔除换行符号
+        selectedString = selectedString.replace("\n", "");
+
+        qDebug() << "selected_start_index: " << selected_start_index;
+
+        // [7] 判断选中的文本属性是否相同
+        m_selectedColor = QColor();
+        m_selectedSize = -1;
+        m_selectedFamily.clear();
+        m_selectedFontStyle.clear();
+        m_selectedFontWeight = -1;
+        m_selectedColorAlpha = -1;
+
+        for (int i = selected_start_index, j = 0; i < m_allTextInfo.size(); i++) {
+            // 如果匹配到当前第一个字符
+            if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
+
+                QColor color = QColor(m_allTextInfo.at(i).value(FontColor).value<QColor>());
+                int pointSize = m_allTextInfo.at(i).value(PointSize).toInt();
+                QString family = m_allTextInfo.at(i).value(FontFamily).toString();
+                int fontWeight = m_allTextInfo.at(i).value(FontStyle).toInt() / 8; // 根据查找Qt资料发现此处获取的大小是Qt自带自重大小的8倍
+                int alpha = m_allTextInfo.at(i).value(ColorAlpha).toInt();
+
+                if (0 == j) {
+                    m_selectedColor = color;
+                    m_selectedSize = pointSize;
+                    m_selectedFamily = family;
+                    m_selectedFontWeight = fontWeight;
+                    m_selectedColorAlpha = alpha;
+                    j++;
+                    if (j >= selectedString.length()) {
+                        break;
+                    }
+                    continue;
+                }
+                if (m_selectedColor.isValid() && m_selectedColor != color) {
+                    m_selectedColor = QColor();
+                }
+
+                if (m_selectedSize >= 0 && m_selectedSize != pointSize) {
+                    m_selectedSize = -1;
+                }
+
+                if (!m_selectedFamily.isEmpty() && m_selectedFamily != family) {
+                    m_selectedFamily.clear();
+                }
+
+                if (m_selectedFontWeight >= 0 && m_selectedFontWeight != fontWeight) {
+                    m_selectedFontWeight = -1;
+                }
+
+                if (m_selectedColorAlpha >= 0 && m_selectedColorAlpha != alpha) {
+                    m_selectedColorAlpha = -1;
+                }
+
+                // 当所有的都不相同时跳出循环
+                if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
+                        && m_selectedFontStyle.isEmpty() && !m_selectedColorAlpha) {
+                    break;
+                }
+
+                j++;
+                if (j >= selectedString.length()) {
+                    break;
+                }
+            }
+
+        }
+        qDebug() << "      selectedString: " << selectedString;
+        qDebug() << "     m_selectedColor: " << m_selectedColor;
+        qDebug() << "      m_selectedSize: " << m_selectedSize;
+        qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+        qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+        qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
     }
 }
 
@@ -288,10 +332,6 @@ QString CTextEdit::getSelectedFontFamily()
 
 QString CTextEdit::getSelectedFontStyle()
 {
-    /* 注意：5.11.3版本中 QTextCharFormat 不支持 setFontStyleName 接口
-     * 只有在5.13之后才支持，同时无法直接设置font的样式然后修改字体字重
-     * 后续Qt版本升级后可以查看相关文档使用 setFontStyleName 接口
-    */
     //    QFont::Thin(Regular)    0   QFont::ExtraLight 12  QFont::Light 25
     //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
     //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87

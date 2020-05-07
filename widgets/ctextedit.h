@@ -31,6 +31,16 @@ class CGraphicsTextItem;
 class CTextEdit : public QTextEdit
 {
     Q_OBJECT
+
+    enum ProperType {
+        FontColor,  // 字体颜色
+        PointSize,  // 字体大小
+        ColorAlpha, // 字体颜色透明度
+        FontStyle,  // 字体样式
+        FontFamily, // 字体family
+        Text        // 文本
+    };
+
 public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
     ~CTextEdit() override;
@@ -75,7 +85,7 @@ public:
     /*
      * @bref: checkTextProperty 用于检验文字属性是否一致
     */
-    void checkTextProperty(QTextBlock block);
+    void checkTextProperty(const QTextCursor &cursor);
 
 public slots:
     void slot_textChanged();
@@ -91,6 +101,14 @@ private:
     QString m_selectedFontStyle;// 所有选中的字体样式
     int m_selectedFontWeight;          // 所有选中字体的自重
     int m_selectedColorAlpha; //所有选中的文字颜色透明度
+
+    QList<QMap<ProperType, QVariant> > m_allTextInfo; //所有的选中的单个文字属性
+
+    /*
+    * @bref: solveHtml 解析html文件中的每一个文字的属性
+    * @param: html html字符串
+    */
+    void solveHtml(QString &html);
 };
 
 #endif // CTEXTEDIT_H

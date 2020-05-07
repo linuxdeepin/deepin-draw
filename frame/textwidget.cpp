@@ -233,79 +233,11 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
     }
 }
 
-void TextWidget::slotTextItemPropertyUpdate(QMap<EDrawProperty, QVariant> propertys)
-{
-    QMap<EDrawProperty, QVariant>::iterator itr = propertys.begin();
-    for (; itr != propertys.end(); itr++) {
-        switch (itr.key()) {
-        case TextColor: {
-            QColor color = itr.value().value<QColor>();
-            bool colorIsValid = color.isValid();
-            m_fillBtn->blockSignals(true);
-            if (colorIsValid) {
-                m_fillBtn->setColor(color);
-            } else {
-                m_fillBtn->setIsMultColorSame(colorIsValid);
-            }
-            m_fillBtn->update();
-            m_fillBtn->blockSignals(false);
-            break;
-        }
-        case TextSize: {
-            int size = itr.value().toInt();
-            if (size) {
-                m_fontSize->blockSignals(true);
-                m_fontSize->setCurrentText(QString::number(size) + "px");
-                m_fontSize->blockSignals(false);
-            } else {
-                m_fontSize->blockSignals(true);
-                m_fontSize->setCurrentIndex(-1);
-                m_fontSize->setCurrentText("— —");
-                m_fontSize->blockSignals(false);
-            }
-            break;
-        }
-        case TextFont: {
-            QString family = itr.value().toString();
-            m_fontComBox->blockSignals(true);
-            if (family.isEmpty()) {
-                m_fontComBox->setCurrentIndex(-1);
-                m_fontComBox->setCurrentText("— —");
-            } else {
-                m_fontComBox->setCurrentText(family);
-            }
-            m_fontComBox->blockSignals(false);
-            m_fillBtn->setVisible(true);
-            m_textSeperatorLine->setVisible(true);
-            m_fontFamilyLabel->setVisible(true);
-            m_fontComBox->setVisible(true);
-            m_fontsizeLabel->setVisible(true);
-            m_fontSize->setVisible(true);
-            break;
-        }
-        case TextHeavy: {
-            QString familyStyle = itr.value().toString();
-            m_fontHeavy->blockSignals(true);
-            if (familyStyle.isEmpty()) {
-                m_fontHeavy->setCurrentIndex(-1);
-                m_fontHeavy->setCurrentText("— —");
-            } else {
-                m_fontHeavy->setCurrentText(familyStyle);
-            }
-            m_fontHeavy->blockSignals(false);
-            break;
-        }
-        default: {
-            break;
-        }
-        }
-    }
-}
-
-void TextWidget::slotUpdateTextFamilyStyle(QString style)
+void TextWidget::slotUpdateTextFamilyStyle(QString family)
 {
     QFontDatabase base; //("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
-    QStringList listStylyName = base.styles(style);
+    family = family.trimmed();
+    QStringList listStylyName = base.styles(family);
     listStylyName.removeOne("Regular");
     m_fontHeavy->blockSignals(true);
     m_fontHeavy->clear();
@@ -314,9 +246,8 @@ void TextWidget::slotUpdateTextFamilyStyle(QString style)
         m_fontHeavy->addItem(style);
     }
     m_fontHeavy->blockSignals(false);
-
-    // 设置默认属性
-    m_fontHeavy->setCurrentIndex(0);
+//    // 设置默认属性
+//    m_fontHeavy->setCurrentIndex(0);
 }
 
 bool TextWidget::eventFilter(QObject *, QEvent *event)
