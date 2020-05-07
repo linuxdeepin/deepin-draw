@@ -1439,11 +1439,11 @@ void CGraphicsView::doSaveDDF(bool finishClose)
         DDialog dia(this);
         dia.setFixedSize(404, 163);
         dia.setModal(true);
-        dia.setMessage(tr("File %1 is not writable, do you want to save it as another file?").arg(QFileInfo(ddfPath).fileName()));
+        dia.setMessage(tr("This file is read-only, please save with another name.")/*.arg(QFileInfo(ddfPath).fileName())*/);
         dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
-        int yes  = dia.addButton(tr("Yes"), false, DDialog::ButtonNormal);
-        dia.addButton(tr("No"), true, DDialog::ButtonNormal);
+        int yes  = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+        //dia.addButton(tr("No"), true, DDialog::ButtonNormal);
         int ret = dia.exec();
 
         if (ret == yes) {
