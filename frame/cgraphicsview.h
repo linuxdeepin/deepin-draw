@@ -77,7 +77,7 @@ public:
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
-    void showSaveDDFDialog(bool, bool finishClose = false);
+    void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
     /**
      * @brief doSaveDDF保存DDFRR

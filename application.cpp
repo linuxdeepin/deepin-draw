@@ -107,7 +107,7 @@ QStringList Application::getRightFiles(const QStringList &files)
                     resultList.append(path);
                 }
             } else if (suffix == "ddf") {
-                if (info.isReadable() && info.isWritable()) {
+                if (info.isReadable()/* && info.isWritable()*/) {
                     resultList.append(path);
                 }
             }
