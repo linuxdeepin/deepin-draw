@@ -243,7 +243,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
 
     connect(newview, SIGNAL(signalLoadDragOrPasteFile(QString)), this, SLOT(slotLoadDragOrPasteFile(QString)));
 
-    connect(newview, SIGNAL(signalPastePixmap(QPixmap)), this, SLOT(slotPastePixmap(QPixmap)));
+    connect(newview, SIGNAL(signalPastePixmap(QPixmap, const QByteArray &)), this, SLOT(slotPastePixmap(QPixmap, const QByteArray &)));
 
     connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
     connect(newview, SIGNAL(singalTransmitEndLoadDDF()), this, SLOT(slotTransmitEndLoadDDF()));
@@ -447,7 +447,7 @@ void CCentralwidget::importPicture()
 void CCentralwidget::openPicture(QString path)
 {
     QPixmap pixmap = QPixmap(path);
-    slotPastePixmap(pixmap);
+    slotPastePixmap(pixmap, CManageViewSigleton::GetInstance()->getFileSrcData(path));
 }
 
 //导入图片
@@ -468,9 +468,9 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList)
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
 }
 
-void CCentralwidget::slotPastePixmap(QPixmap pixmap)
+void CCentralwidget::slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes)
 {
-    m_pictureTool->addImages(pixmap, 1, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
+    m_pictureTool->addImages(pixmap, 1, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this, srcBytes);
 }
 
 void CCentralwidget::initUI()

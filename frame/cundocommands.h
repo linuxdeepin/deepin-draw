@@ -527,8 +527,11 @@ class CSetItemsCommonPropertyValueCommand: public QUndoCommand
 {
 public:
     explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value);
+    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues, EDrawProperty property, QVariant value);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
+
+    QMap<CGraphicsItem *, QVariant> undoInfoValues();
 
 private:
     CDrawScene *myGraphicsScene;

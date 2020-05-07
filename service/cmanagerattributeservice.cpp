@@ -448,15 +448,19 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
     }
 }
 
-void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value, bool pushTostack)
+void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
+                                                           bool pushTostack,
+                                                           QMap<CGraphicsItem *, QVariant> *outOldValues,
+                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues)
 {
     if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
         return;
 
+    QList<CGraphicsItem *> allItems;
+
     updateCurrentScence();
 
     if (m_currentScence && m_currentScence->getItemsMgr()) {
-        QList<CGraphicsItem *> allItems;
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             allItems = m_currentScence->getItemsMgr()->getItems();
         } else {
@@ -482,12 +486,25 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
             return;
         }
         static int i = 0;
-        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value;
-        QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value << "pushTostack = " << pushTostack;
+        CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
+        if (inUndoValues == nullptr) {
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+        } else {
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value);
+        }
         if (pushTostack) {
             CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            if (outOldValues != nullptr) {
+                *outOldValues = addCommand->undoInfoValues();
+            }
         } else {
             addCommand->redo();
+
+            if (outOldValues != nullptr) {
+                *outOldValues = addCommand->undoInfoValues();
+            }
+
             delete addCommand;
             addCommand = nullptr;
         }

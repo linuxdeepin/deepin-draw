@@ -27,8 +27,8 @@
 class CPictureItem : public  CGraphicsRectItem
 {
 public:
-    explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr);
-    explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
+    explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
+    explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
@@ -58,6 +58,7 @@ protected:
 private:
     QPixmap m_pixmap;
     qreal m_angle;
+    QByteArray _srcByteArry;
 };
 
 #endif // CPICTUREITEM_H

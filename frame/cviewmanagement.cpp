@@ -362,3 +362,14 @@ void CManageViewSigleton::quitIfEmpty()
     }
 }
 
+QByteArray CManageViewSigleton::getFileSrcData(const QString &file)
+{
+    QFile f(file);
+    if (f.exists()) {
+        return f.readAll();
+    } else {
+        qWarning() << QString("can not read, %1 is not exists!").arg(file);
+    }
+    return QByteArray();
+}
+

@@ -629,9 +629,9 @@ void MainWindow::openFiles(QStringList filePaths)
     m_centralWidget->slotLoadDragOrPasteFile(filePaths);
 }
 
-void MainWindow::openImage(QImage image)
+void MainWindow::openImage(QImage image, const QByteArray &srcData)
 {
-    m_centralWidget->slotPastePixmap(QPixmap::fromImage(image));
+    m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData);
 }
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)

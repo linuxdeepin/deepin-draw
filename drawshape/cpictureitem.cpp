@@ -21,26 +21,29 @@
 #include <QPainter>
 #include <QDebug>
 
-CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)
     : CGraphicsRectItem(parent)
     , m_pixmap(pixmap)
     , m_angle(0.0)
+    , _srcByteArry(fileSrcData)
 {
 
 }
 
 
-CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)
     : CGraphicsRectItem(rect, parent)
     , m_pixmap(pixmap)
     , m_angle(0.0)
+    , _srcByteArry(fileSrcData)
 {
 
 }
 
-CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsRectItem(data->rect, head, parent)
     , m_angle(0.0)
+    , _srcByteArry(data->srcByteArry)
 {
     m_pixmap = QPixmap::fromImage(data->image);
 //    QByteArray byteArray(unit.data.pPic->pic, unit.data.pPic->length);
@@ -139,7 +142,12 @@ void CPictureItem::setRotation90(bool leftOrRight)
 void CPictureItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);
-    static_cast<CPictureItem *>(item)->setPixmap(m_pixmap);
+
+    CPictureItem *pPic = dynamic_cast<CPictureItem *>(item);
+
+    pPic->setPixmap(m_pixmap);
+
+    pPic->_srcByteArry = _srcByteArry;
 }
 
 CGraphicsUnit CPictureItem::getGraphicsUnit() const
@@ -176,6 +184,9 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
 
 
 //    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
+
+
+    unit.data.pPic->srcByteArry = _srcByteArry;
 
     return unit;
 }

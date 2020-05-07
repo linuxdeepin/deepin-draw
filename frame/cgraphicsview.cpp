@@ -966,7 +966,7 @@ void CGraphicsView::slotOnPaste()
 
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
-            emit signalPastePixmap(pixmap);
+            emit signalPastePixmap(pixmap, CManageViewSigleton::GetInstance()->getFileSrcData(filePath));
         }
         qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {
@@ -1434,13 +1434,41 @@ void CGraphicsView::doSaveDDF(bool finishClose)
     QString ddfPath = getDrawParam()->getDdfSavePath();
     if (ddfPath.isEmpty() || ddfPath == "") {
         showSaveDDFDialog(true, finishClose);
+    } else if (!QFileInfo(ddfPath).isWritable()) {
+        //如果文件不可写入那么先弹出提示对话框然后再由用户决定是否要另存为或取消
+        DDialog dia(this);
+        dia.setFixedSize(404, 163);
+        dia.setModal(true);
+        dia.setMessage(tr("This file is read-only, please save with another name.")/*.arg(QFileInfo(ddfPath).fileName())*/);
+        dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+
+        int yes  = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+        //dia.addButton(tr("No"), true, DDialog::ButtonNormal);
+        int ret = dia.exec();
+
+        if (ret == yes) {
+            //弹出保存文件的框
+            QFileInfo fileInfo(ddfPath);
+            QString newBaseName = tr("Unnamed");
+            QString newFile = fileInfo.absolutePath() + "/" + newBaseName + "." + fileInfo.suffix();
+            //qDebug() << "---------------newFile  = " << newFile;
+            showSaveDDFDialog(true, finishClose, newFile);
+
+        } else {
+            //取消保存
+            //do nothing
+            if (finishClose) {
+                emit signalSaveFileStatus(ddfPath, false, "file is not writable", QFileDevice::WriteError, true);
+            }
+        }
+
     } else {
         m_DDFManager->saveToDDF(ddfPath, scene(), finishClose);
         // 保存是否成功均等待信号触发后续事件
     }
 }
 
-void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose)
+void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString &saveFilePath)
 {
     DFileDialog dialog(this);
     if (type) {
@@ -1453,7 +1481,7 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose)
     dialog.setViewMode(DFileDialog::List);
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     //dialog.selectFile(tr("Unnamed.ddf"));//设置默认的文件名
-    dialog.selectFile(getDrawParam()->viewName() + ".ddf"); //设置默认的文件名
+    dialog.selectFile(saveFilePath.isEmpty() ? (getDrawParam()->viewName() + ".ddf") : QFileInfo(saveFilePath).fileName()); //设置默认的文件名
     QStringList nameFilters;
     nameFilters << "*.ddf";
     dialog.setNameFilters(nameFilters);//设置文件类型过滤器
