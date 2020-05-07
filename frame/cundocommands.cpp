@@ -1872,12 +1872,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
         }
     }
 
-    // 第一次文字处于编辑状态的时候，字体和自重修改导致属性栏刷新下拉框无法选中
-    if (m_items.size() == 1 && m_items.at(0)->type() == TextType &&
-            static_cast<CGraphicsTextItem *>(m_items.at(0))->isEditable()) {
-        return;
-    }
-
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
@@ -2045,12 +2039,6 @@ void CSetItemsCommonPropertyValueCommand::redo()
             myGraphicsScene->getItemsMgr()->setSelected(true);
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
-    }
-
-    // 第一次文字处于编辑状态的时候，字体和自重修改导致属性栏刷新下拉框无法选中
-    if (m_items.size() == 1 && m_items.at(0)->type() == TextType
-            && static_cast<CGraphicsTextItem *>(m_items.at(0))->isEditable()) {
-        return;
     }
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
