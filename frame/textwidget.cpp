@@ -416,9 +416,5 @@ void TextWidget::updateTextWidget()
 
 void TextWidget::updateTextColor()
 {
-//    m_fillBtn->updateConfigColor();
-//    m_fillBtn->clearFocus();
-//    if (qApp->focusWidget() != nullptr) {
-//        qApp->focusWidget()->hide();
-//    }
+
 }

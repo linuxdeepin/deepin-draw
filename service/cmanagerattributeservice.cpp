@@ -38,6 +38,8 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
+#include "widgets/ctextedit.h"
+
 #include <QGraphicsItem>
 #include <QDebug>
 
@@ -122,6 +124,8 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
             propertys[LineAndPenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
+            // 刷新文本属性前先调用一次获取属性的函数，有效避免没有选中文字的时候属性不更新等问题
+            static_cast<CGraphicsTextItem *>(items.at(0))->getTextEdit()->checkTextProperty();
             propertys[TextColor] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedTextColor();
             propertys[TextFont] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontFamily();
             propertys[TextSize] = static_cast<CGraphicsTextItem *>(items.at(0))->getSelectedFontSize();
