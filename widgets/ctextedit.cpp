@@ -52,6 +52,13 @@ CTextEdit::~CTextEdit()
 
 void CTextEdit::slot_textChanged()
 {
+    if (this->document()->isEmpty()) {
+        this->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        this->setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        this->setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        this->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+    }
+
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
     }
@@ -89,16 +96,24 @@ void CTextEdit::slot_textChanged()
 
 void CTextEdit::cursorPositionChanged()
 {
-    // 只要鼠标点击后，此函数就会被调用一次
-    QTextCursor cursor = this->textCursor();
-    // [0] 检测选中文字的属性是否相等
-    checkTextProperty(cursor);
+    // 当删除所有文字后，格式会被重置为默认的属性，需要重新设置格式
+    if (this->document()->isEmpty()) {
+        this->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        this->setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        this->setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        this->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+    } else {
+        // 只要鼠标点击后，此函数就会被调用一次
+        QTextCursor cursor = this->textCursor();
+        // [0] 检测选中文字的属性是否相等
+        checkTextProperty(cursor);
 
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->updateBlurItem(m_pItem);
+        if (nullptr != m_pItem->scene()) {
+            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+            curScene->updateBlurItem(m_pItem);
+        }
+        this->setFocus();
     }
-    this->setFocus();
 }
 
 void CTextEdit::solveHtml(QString &html)
@@ -130,11 +145,17 @@ void CTextEdit::solveHtml(QString &html)
         formatString = formatString.replace("'", "");
 //        formatString = formatString.replace(" ", ""); // 不需要进行处理空格，否则family中间的空格会被取消导致文字字重属性刷新不全
         formatString = formatString.replace(">", "");
+        // 默认的字重是不会在单个的字的描述中显示，因此需要手动加上一个默认属性
+        if (!formatString.contains("font-weight:")) {
+            formatString.insert(formatString.indexOf("color:"), "formatString:" + QString::number(
+                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight()) + ";");
+        }
         formatString = formatString.replace("font-family:", "");
         formatString = formatString.replace("font-size:", "");
         formatString = formatString.replace("font-weight:", "");
         formatString = formatString.replace("color:", "");
         formatString = formatString.replace("pt", "");
+//        qDebug() << "formatString: " << formatString;
         QStringList temp = formatString.split(";");
 
         // [3] 单个字单个字进行保存其对应的属性，方便后面进行属性比较（换行符号不作处理）
@@ -150,6 +171,7 @@ void CTextEdit::solveHtml(QString &html)
                 data.insert(Text, textString.at(i));
                 m_allTextInfo.append(data);
             }
+//            qDebug() << "m_allTextInfo: " << m_allTextInfo;
         }
     }
 }
@@ -267,13 +289,13 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
-//    qDebug() << "selected_start_index: " << selected_start_index;
-//    qDebug() << "      selectedString: " << selectedString;
-//    qDebug() << "     m_selectedColor: " << m_selectedColor;
-//    qDebug() << "      m_selectedSize: " << m_selectedSize;
-//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-//    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+    qDebug() << "selected_start_index: " << selected_start_index;
+    qDebug() << "      selectedString: " << selectedString;
+    qDebug() << "     m_selectedColor: " << m_selectedColor;
+    qDebug() << "      m_selectedSize: " << m_selectedSize;
+    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
 }
 
 void CTextEdit::checkTextProperty()

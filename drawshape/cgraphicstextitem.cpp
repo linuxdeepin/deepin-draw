@@ -339,6 +339,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
+    qDebug() << "Content: " << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
