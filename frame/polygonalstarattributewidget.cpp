@@ -138,6 +138,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             break;
         }
     }
+    m_sepLine->setVisible(!m_anchorNumber->isHidden() || !m_radiusNumber->isHidden());
 }
 
 void PolygonalStarAttributeWidget::initUI()

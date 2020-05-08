@@ -129,6 +129,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             break;
         }
     }
+    m_sepLine->setVisible(!m_rediusSpinbox->isHidden());
 }
 
 void CommonshapeWidget::initUI()
