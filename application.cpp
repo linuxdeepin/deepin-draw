@@ -51,12 +51,11 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
-//        for (int i = 0; i < paths.count(); i++) {
-//            this->sendMessage(paths.at(i), 2000); //1s后激活前个实例
-//        }
 
         QString message = paths.join(' ');
         this->sendMessage(message, 2000);
+
+        this->activateWindow();
 
         return EXIT_SUCCESS;
     }
@@ -119,6 +118,11 @@ QStringList Application::getRightFiles(const QStringList &files)
 
 void Application::onMessageRecived(const QString &message)
 {
+    activateWindow();
+
+    if (message.isEmpty())
+        return;
+
     MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
 
     if (pWin != nullptr) {
