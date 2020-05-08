@@ -168,6 +168,9 @@ void Application::showMainWindow(const QStringList &paths)
 
 void Application::noticeFileRightProblem(const QStringList &problemfile)
 {
+    if (problemfile.isEmpty())
+        return;
+
     MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
     QWidget *pParent = pWin;
 
@@ -175,7 +178,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile)
     DDialog dia(pParent);
     dia.setModal(true);
     //dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
-    QString message = (problemfile.size() >= 1 ?
+    QString message = (problemfile.size() == 1 ?
                        tr("\"%1\" is write-only, thus you cannot open it").arg(QFileInfo(problemfile.first()).fileName()) :
                        tr("Several files are write-only, thus you cannot open them"));
     dia.setMessage(message);
