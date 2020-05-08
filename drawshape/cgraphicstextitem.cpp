@@ -241,7 +241,6 @@ void CGraphicsTextItem::setFont(const QFont &font)
     QTextCharFormat fmt;
     fmt.setFont(font);
     mergeFormatOnWordOrSelection(fmt);
-    qDebug() << "setFont: " << "setFont";
     m_Font = font;
 }
 

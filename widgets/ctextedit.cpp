@@ -204,8 +204,6 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     // [6] 剔除换行符号
     selectedString = selectedString.replace("\n", "");
 
-    qDebug() << "selected_start_index: " << selected_start_index;
-
     // [7] 判断选中的文本属性是否相同
     m_selectedColor = QColor();
     m_selectedSize = -1;
@@ -269,6 +267,7 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
+//    qDebug() << "selected_start_index: " << selected_start_index;
 //    qDebug() << "      selectedString: " << selectedString;
 //    qDebug() << "     m_selectedColor: " << m_selectedColor;
 //    qDebug() << "      m_selectedSize: " << m_selectedSize;
