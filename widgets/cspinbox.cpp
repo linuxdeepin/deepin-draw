@@ -2,12 +2,16 @@
 
 #include <QLineEdit>
 #include <QTimer>
+#include <QKeyEvent>
+#include <QDebug>
 
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
     QRegExp regExp("^[1-9][0-9]{1,8}$"); //^[1-9][0-9]*$ 任意位数正整数
     this->lineEdit()->setValidator(new QRegExpValidator(regExp, this));
+
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 bool CSpinBox::isTimerRunning()
@@ -38,9 +42,47 @@ void CSpinBox::focusOutEvent(QFocusEvent *event)
 void CSpinBox::wheelEvent(QWheelEvent *event)
 {
     //启动定时器
-    getTimer()->start(300);
+    timerStart();
 
     DSpinBox::wheelEvent(event);
+}
+
+void CSpinBox::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up ) {
+        //启动定时器
+        timerStart();
+    }
+    DSpinBox::keyPressEvent(event);
+    event->accept();
+    setFocus();
+}
+
+void CSpinBox::keyReleaseEvent(QKeyEvent *event)
+{
+    //timerEnd();
+    DSpinBox::keyReleaseEvent(event);
+    event->accept();
+    setFocus();
+}
+
+void CSpinBox::timerEnd()
+{
+    //先结束timer(标志着isTimerRunning返回false)
+    if (_wheelTimer != nullptr) {
+        _wheelTimer->deleteLater();
+        _wheelTimer = nullptr;
+    }
+
+    //wheel结束时的值变化标记
+    _wheelEnd = true;
+    emit this->valueChanged(value());
+    emit this->valueChanged(text());
+    _wheelEnd = false;
+    setFocus();
+    if (lineEdit() != nullptr) {
+        lineEdit()->selectAll();
+    }
 }
 
 QTimer *CSpinBox::getTimer()
@@ -48,18 +90,12 @@ QTimer *CSpinBox::getTimer()
     if (_wheelTimer == nullptr) {
         _wheelTimer = new QTimer(this);
         _wheelTimer->setSingleShot(true);
-        connect(_wheelTimer, &QTimer::timeout, this, [ = ]() {
-
-            //先结束timer(标志着isTimerRunning返回false)
-            _wheelTimer->deleteLater();
-            _wheelTimer = nullptr;
-
-            //wheel结束时的值变化标记
-            _wheelEnd = true;
-            emit this->valueChanged(value());
-            emit this->valueChanged(text());
-            _wheelEnd = false;
-        });
+        connect(_wheelTimer, &QTimer::timeout, this, &CSpinBox::timerEnd);
     }
     return _wheelTimer;
+}
+
+void CSpinBox::timerStart()
+{
+    getTimer()->start(300);
 }
