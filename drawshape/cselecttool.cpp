@@ -603,16 +603,16 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         scene->mouseEvent(event);
     }
 
-    if (scene->getItemsMgr()->getItems().size() > 1) {
-        scene->clearSelection();
-        scene->getItemsMgr()->setSelected(true);
-    }
-
     QList<QGraphicsItem *> Items = scene->items();
     foreach (QGraphicsItem *item, Items) {
         if (item->type() == BlurType) {
             static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
+    }
+
+    if (scene->getItemsMgr()->getItems().size() > 1) {
+        scene->clearSelection();
+        scene->getItemsMgr()->setSelected(true);
     }
     m_sLastPress = event->scenePos();
 }
@@ -688,15 +688,9 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 }
             } else if (count > 1) {
                 scene->getItemsMgr()->show();
-                scene->clearSelection();
-                scene->getItemsMgr()->setSelected(true);
             }
             m_bMousePress = false;
             scene->mouseEvent(event);
-            if (count > 1) {
-                scene->clearSelection();
-                scene->getItemsMgr()->setSelected(true);
-            }
         }
 
         if (scene->getItemsMgr()->getItems().size() <= 1) {
@@ -751,9 +745,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     m_currentSelectItem->setSelected(true);
                 }
             }
-            if (scene->getItemsMgr()->getItems().size() > 1) {
-                scene->getItemsMgr()->setSelected(true);
-            } else {
+            if (scene->getItemsMgr()->getItems().size() <= 1) {
                 scene->getItemsMgr()->setSelected(false);
                 if (scene->getItemsMgr()->getItems().size() == 1 && multCount == 2) {
                     scene->getItemsMgr()->getItems().at(0)->setSelected(true);
@@ -771,15 +763,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                 CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
                 m_doResize = false;
             }
-
-            if (scene->getItemsMgr()->getItems().size() > 1) {
-                scene->clearSelection();
-                scene->getItemsMgr()->setSelected(true);
-            }
         }
 
         m_isMulItemMoving = false;
-        m_isItemMoving    = false;
+        m_isItemMoving = false;
     }
 
     QGraphicsItem *pCurrentItem = m_currentSelectItem;
@@ -807,6 +794,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             }
         }
     }
+
+    if (scene->getItemsMgr()->getItems().size() > 1) {
+        scene->clearSelection();
+        scene->getItemsMgr()->setSelected(true);
+    }
+
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
