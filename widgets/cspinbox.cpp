@@ -5,6 +5,9 @@
 #include <QKeyEvent>
 #include <QDebug>
 
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
 CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
@@ -29,13 +32,17 @@ bool CSpinBox::isChangedByWheelEnd()
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
 {
-    emit focusChanged(true);
+    //emit focusChanged(true);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(true);
     DSpinBox::focusInEvent(event);
 }
 
 void CSpinBox::focusOutEvent(QFocusEvent *event)
 {
-    emit focusChanged(false);
+    //emit focusChanged(false);
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
+        CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
     DSpinBox::focusOutEvent(event);
 }
 

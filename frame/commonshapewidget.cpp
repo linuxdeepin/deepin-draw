@@ -294,8 +294,9 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
             return;
         }
         m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
-        redius = m_rediusSpinbox->value();
     }
+
+    redius = m_rediusSpinbox->value();
 
     //3.隐藏调色板
     showColorPanel(DrawStatus::Stroke, QPoint(), false);
