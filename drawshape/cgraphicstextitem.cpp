@@ -90,13 +90,7 @@ void CGraphicsTextItem::initTextEditWidget()
 
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
 
-    this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Top, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::RightBottom, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Bottom, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, false);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, false);
+    updateHandleVisible();
 
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
@@ -166,6 +160,18 @@ void CGraphicsTextItem::makeEditabel()
         curScene->updateBlurItem(this);
     }
     m_pTextEdit->setFocus();
+}
+
+void CGraphicsTextItem::updateHandleVisible()
+{
+    bool visble = getManResizeFlag();
+    this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Top, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::RightBottom, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Bottom, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, visble);
+    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, visble);
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -314,14 +320,14 @@ QString CGraphicsTextItem::getFontFamily()
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
     CGraphicsRectItem::resizeTo(dir, point, false, false);
-    m_bManResize = true;
+    setManResizeFlag(true);
     updateWidget();
     m_pTextEdit->resizeDocument();
 }
 
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
-    static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->m_bManResize);
+    static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->getManResizeFlag());
     static_cast<CGraphicsTextItem *>(item)->getCGraphicsProxyWidget()->hide();
     static_cast<CGraphicsTextItem *>(item)->setFontFamily(this->getFontFamily());
     static_cast<CGraphicsTextItem *>(item)->setTextFontStyle(this->getTextFontStyle());
@@ -641,7 +647,11 @@ bool CGraphicsTextItem::getManResizeFlag() const
 
 void CGraphicsTextItem::setManResizeFlag(bool flag)
 {
+    bool changed = (flag != m_bManResize);
     m_bManResize = flag;
+
+    if (changed)
+        updateHandleVisible();
 }
 
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
@@ -660,7 +670,7 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
     unit.data.pText->rect.topLeft = this->rect().topLeft();
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
-    unit.data.pText->manResizeFlag = this->m_bManResize;
+    unit.data.pText->manResizeFlag = this->getManResizeFlag();
     unit.data.pText->content = this->m_pTextEdit->toHtml();
 
     return  unit;
