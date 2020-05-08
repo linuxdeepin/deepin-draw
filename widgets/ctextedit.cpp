@@ -210,9 +210,17 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 
     // [5] 获取鼠标选择的文本并且剔除段落换行符号
     QString selectedString = cursor.selectedText();
-    if (selectedString.isEmpty()) { // 如果为空则比较所有的文字
-        selectedString = allString;
-        selected_start_index = 0;
+    if (selectedString.isEmpty()) { // 如果为空则返回当前光标出的属性
+        QTextCharFormat fmt = this->currentCharFormat();
+        m_selectedColor = fmt.foreground().color();
+        m_selectedSize = fmt.font().pointSize();
+        m_selectedFamily = fmt.fontFamily();
+        m_selectedFontWeight = fmt.fontWeight();
+        m_selectedColorAlpha = m_selectedColor.alpha();
+        return;
+//        更新整体属性
+//        selectedString = allString;
+//        selected_start_index = 0;
     }
     QString temp_str;
     for (int i = 0; i < selectedString.length(); i++) {

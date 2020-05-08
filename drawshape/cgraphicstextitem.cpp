@@ -366,9 +366,14 @@ int CGraphicsTextItem::getTextColorAlpha()
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
+    // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
     cursor.mergeCharFormat(format);
-//    m_pTextEdit->mergeCurrentCharFormat(format);
+
+    // [1] 设置 TextEdit 光标处最新的格式
+    m_pTextEdit->mergeCurrentCharFormat(format);
+
+    // [2] 设置焦点
     m_pTextEdit->setFocus();
 }
 
