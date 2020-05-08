@@ -1665,37 +1665,41 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 
     // [3] 单个图元对齐方式
     if (allItems.size() == 1) {
-        startPos.insert(allItems.at(0), allItems.at(0)->sceneBoundingRect().topLeft());
+        QPointF topLeft  = allItems.at(0)->scenRect().topLeft();
+        QSizeF  size     = allItems.at(0)->sceneBoundingRect().size();
+        QPointF topRight = topLeft + QPointF(size.width(), 0);
+        QPointF botRight =  topLeft + QPointF(size.width(), size.height());
+        startPos.insert(allItems.at(0), topLeft);
         switch (align) {
         case Qt::AlignLeft: {
-            qreal dx = allItems.at(0)->sceneBoundingRect().topLeft().x();
+            qreal dx = topLeft.x();
             allItems.at(0)->moveBy(-dx, 0);
             break;
         }
         case Qt::AlignHCenter: {
-            qreal dx = scene()->width() / 2 - (allItems.at(0)->sceneBoundingRect().topLeft().x()
-                                               + allItems.at(0)->sceneBoundingRect().width() / 2);
+            qreal dx = scene()->width() / 2 - (topLeft.x()
+                                               + size.width() / 2);
             allItems.at(0)->moveBy(dx, 0);
             break;
         }
         case Qt::AlignRight: {
-            qreal dx = scene()->width() - allItems.at(0)->sceneBoundingRect().topRight().x();
+            qreal dx = scene()->width() - topRight.x();
             allItems.at(0)->moveBy(dx, 0);
             break;
         }
         case Qt::AlignTop: {
-            qreal dy = allItems.at(0)->sceneBoundingRect().topLeft().y();
+            qreal dy = topLeft.y();
             allItems.at(0)->moveBy(0, -dy);
             break;
         }
         case Qt::AlignVCenter: {
-            qreal dy = scene()->height() / 2 - (allItems.at(0)->sceneBoundingRect().topLeft().y()
-                                                + allItems.at(0)->sceneBoundingRect().height() / 2);
+            qreal dy = scene()->height() / 2 - (topLeft.y()
+                                                + size.height() / 2);
             allItems.at(0)->moveBy(0, dy);
             break;
         }
         case Qt::AlignBottom: {
-            qreal dy = scene()->height() - allItems.at(0)->sceneBoundingRect().bottomRight().y();
+            qreal dy = scene()->height() - botRight.y();
             allItems.at(0)->moveBy(0, dy);
             break;
         }
@@ -1703,7 +1707,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         }
-        endPos.insert(allItems.at(0), allItems.at(0)->sceneBoundingRect().topLeft());
+        endPos.insert(allItems.at(0), topLeft);
     }
 
     // [4] 更新画布区域,不然框选的线显示错误

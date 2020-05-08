@@ -97,7 +97,15 @@ bool CGraphicsItem::getMutiSelect() const
 
 QPainterPath CGraphicsItem::getHighLightPath()
 {
+    return QPainterPath();
+}
 
+QRectF CGraphicsItem::scenRect()
+{
+    if (scene() != nullptr) {
+        return sceneBoundingRect().translated(-scene()->sceneRect().topLeft());
+    }
+    return sceneBoundingRect();
 }
 
 int CGraphicsItem::type() const
