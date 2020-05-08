@@ -86,6 +86,7 @@ public:
      * @bref: checkTextProperty 用于检验文字属性是否一致
     */
     void checkTextProperty(const QTextCursor &cursor);
+    void checkTextProperty();
 
 public slots:
     void slot_textChanged();

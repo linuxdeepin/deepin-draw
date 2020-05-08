@@ -243,7 +243,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 }
                 return;
             } else {
-                dia = creatOneNoticeFileDialog(ddfFile, pView);
+                dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
                 dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
                 int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
@@ -265,7 +265,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             }
         } else {
             //证明是被重命名或者删除
-            DDialog dia(pView);
+            DDialog dia(pView->parentWidget());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
             dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));

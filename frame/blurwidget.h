@@ -26,6 +26,7 @@
 
 
 class CCheckButton;
+class CSpinBox;
 
 DWIDGET_USE_NAMESPACE
 
@@ -77,6 +78,7 @@ private:
     CCheckButton *m_masicBtn;
     DLabel *m_pLineWidthLabel;
     DSlider *m_pLineWidthSlider;
+    CSpinBox *m_spinboxForLineWidth = nullptr;
 };
 
 #endif // BLURWIDGET_H

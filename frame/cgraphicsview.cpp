@@ -284,21 +284,24 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_viewOriginalAction);
 
     // 右键菜单添加对齐方式
-    m_contextMenu->addSeparator();
-    m_itemsLeftAlign = m_contextMenu->addAction(tr("Align left"));//左对齐
+//    m_contextMenu->addSeparator();
+    m_alignMenu = new DMenu(tr("Align"), this);
+    m_alignMenu->setFixedWidth(182);
+    m_contextMenu->addMenu(m_alignMenu);
+    m_itemsLeftAlign = m_alignMenu->addAction(tr("Align left"));//左对齐
 //    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_L));
-    m_itemsHCenterAlign = m_contextMenu->addAction(tr("Horizontal centers"));//水平居中对齐
+    m_itemsHCenterAlign = m_alignMenu->addAction(tr("Horizontal centers"));//水平居中对齐
 //    m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_C));
-    m_itemsRightAlign = m_contextMenu->addAction(tr("Align right"));//右对齐
+    m_itemsRightAlign = m_alignMenu->addAction(tr("Align right"));//右对齐
 //    m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_R));
-    m_itemsTopAlign = m_contextMenu->addAction(tr("Align top"));//顶对齐
+    m_itemsTopAlign = m_alignMenu->addAction(tr("Align top"));//顶对齐
 //    m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_T));
-    m_itemsVCenterAlign = m_contextMenu->addAction(tr("Vertical centers"));//垂直居中对齐
+    m_itemsVCenterAlign = m_alignMenu->addAction(tr("Vertical centers"));//垂直居中对齐
 //    m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_V));
-    m_itemsBottomAlign = m_contextMenu->addAction(tr("Align bottom"));//底对齐
+    m_itemsBottomAlign = m_alignMenu->addAction(tr("Align bottom"));//底对齐
 //    m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_B));
-    m_itemsHEqulSpaceAlign = m_contextMenu->addAction(tr("Distribute horizontal space"));//水平等间距对齐
-    m_itemsVEqulSpaceAlign = m_contextMenu->addAction(tr("Distribute vertical space"));//垂直等间距对齐
+    m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space"));//水平等间距对齐
+    m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space"));//垂直等间距对齐
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -602,6 +605,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             m_sendTobackAct->setVisible(true);
             m_oneLayerUpAct->setVisible(true);
             m_oneLayerDownAct->setVisible(true);
+
+            m_alignMenu->setEnabled(true);
             m_itemsLeftAlign->setVisible(true);      //左对齐
             m_itemsHCenterAlign->setVisible(true);   //水平居中对齐
             m_itemsRightAlign->setVisible(true);     //右对齐
@@ -621,6 +626,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         m_oneLayerUpAct->setVisible(false);
         m_oneLayerDownAct->setVisible(false);
 
+        m_alignMenu->setEnabled(false);
         m_itemsLeftAlign->setVisible(false);      //左对齐
         m_itemsHCenterAlign->setVisible(false);   //水平居中对齐
         m_itemsRightAlign->setVisible(false);     //右对齐
@@ -698,6 +704,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     m_redoAct->setEnabled(m_pUndoStack->canRedo());
     //m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     //m_pasteAct->setEnabled(true);
+
     m_contextMenu->show();
 }
 
@@ -1665,37 +1672,41 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 
     // [3] 单个图元对齐方式
     if (allItems.size() == 1) {
-        startPos.insert(allItems.at(0), allItems.at(0)->sceneBoundingRect().topLeft());
+        QPointF topLeft  = allItems.at(0)->scenRect().topLeft();
+        QSizeF  size     = allItems.at(0)->sceneBoundingRect().size();
+        QPointF topRight = topLeft + QPointF(size.width(), 0);
+        QPointF botRight =  topLeft + QPointF(size.width(), size.height());
+        startPos.insert(allItems.at(0), topLeft);
         switch (align) {
         case Qt::AlignLeft: {
-            qreal dx = allItems.at(0)->sceneBoundingRect().topLeft().x();
+            qreal dx = topLeft.x();
             allItems.at(0)->moveBy(-dx, 0);
             break;
         }
         case Qt::AlignHCenter: {
-            qreal dx = scene()->width() / 2 - (allItems.at(0)->sceneBoundingRect().topLeft().x()
-                                               + allItems.at(0)->sceneBoundingRect().width() / 2);
+            qreal dx = scene()->width() / 2 - (topLeft.x()
+                                               + size.width() / 2);
             allItems.at(0)->moveBy(dx, 0);
             break;
         }
         case Qt::AlignRight: {
-            qreal dx = scene()->width() - allItems.at(0)->sceneBoundingRect().topRight().x();
+            qreal dx = scene()->width() - topRight.x();
             allItems.at(0)->moveBy(dx, 0);
             break;
         }
         case Qt::AlignTop: {
-            qreal dy = allItems.at(0)->sceneBoundingRect().topLeft().y();
+            qreal dy = topLeft.y();
             allItems.at(0)->moveBy(0, -dy);
             break;
         }
         case Qt::AlignVCenter: {
-            qreal dy = scene()->height() / 2 - (allItems.at(0)->sceneBoundingRect().topLeft().y()
-                                                + allItems.at(0)->sceneBoundingRect().height() / 2);
+            qreal dy = scene()->height() / 2 - (topLeft.y()
+                                                + size.height() / 2);
             allItems.at(0)->moveBy(0, dy);
             break;
         }
         case Qt::AlignBottom: {
-            qreal dy = scene()->height() - allItems.at(0)->sceneBoundingRect().bottomRight().y();
+            qreal dy = scene()->height() - botRight.y();
             allItems.at(0)->moveBy(0, dy);
             break;
         }
@@ -1703,7 +1714,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         }
-        endPos.insert(allItems.at(0), allItems.at(0)->sceneBoundingRect().topLeft());
+        endPos.insert(allItems.at(0), topLeft);
     }
 
     // [4] 更新画布区域,不然框选的线显示错误

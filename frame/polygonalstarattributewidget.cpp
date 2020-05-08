@@ -138,6 +138,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
             break;
         }
     }
+    m_sepLine->setVisible(!m_anchorNumber->isHidden() || !m_radiusNumber->isHidden());
 }
 
 void PolygonalStarAttributeWidget::initUI()
@@ -166,7 +167,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new CSpinBox(this);
     m_anchorNumber->setKeyboardTracking(false);
-    m_anchorNumber->setFixedSize(QSize(120, 36));
+    m_anchorNumber->setFixedSize(QSize(140/*120*/, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
     m_anchorNumber->setSpecialValueText("— —");

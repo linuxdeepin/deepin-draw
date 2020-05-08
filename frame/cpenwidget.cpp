@@ -137,6 +137,7 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             break;
         }
     }
+    m_sep1Line->setVisible(!m_lineStartComboBox->isHidden() || !m_lineEndComboBox->isHidden());
 }
 
 void CPenWidget::initUI()

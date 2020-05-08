@@ -290,9 +290,7 @@ struct SGraphicsLineUnitData {
             in >> lineUnitData.point2;
             break;
         }
-
-        case EDdf5_8_0_10_1:
-        case EDdf5_8_0_10_2: {
+        default: {
             in >> lineUnitData.point1;
             in >> lineUnitData.point2;
 
@@ -305,8 +303,6 @@ struct SGraphicsLineUnitData {
 
             break;
         }
-        default:
-            break;
         }
         return in;
     }
@@ -415,6 +411,7 @@ struct SGraphicsPenUnitData {
 
 //        return in;
         EDdfVersion ver = getVersion(in);
+
         switch (ver) {
         case EDdf5_8_0_Base:
         case EDdf5_8_0_9_1:
@@ -431,7 +428,7 @@ struct SGraphicsPenUnitData {
 
             break;
         }
-        case EDdf5_8_0_10_2: {
+        default: {
             qint32 startTp, endTp;
             QPainterPath path;
             in >> startTp;
@@ -442,8 +439,6 @@ struct SGraphicsPenUnitData {
             penUnitData.end_type   = ELineType(endTp);
             break;
         }
-        default:
-            break;
         }
         return in;
     }
