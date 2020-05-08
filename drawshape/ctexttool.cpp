@@ -76,6 +76,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
+        _tempTextItem = item;
     } else {
         scene->mouseEvent(event);
     }
@@ -93,4 +94,9 @@ void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit scene->signalChangeToSelect();
     scene->mouseEvent(event);
+
+    if (_tempTextItem != nullptr) {
+        _tempTextItem->makeEditabel();
+        _tempTextItem = nullptr;
+    }
 }

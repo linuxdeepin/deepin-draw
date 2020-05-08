@@ -520,6 +520,7 @@ private:
     QAction *m_bringToFrontAct;     //置于最顶层
     QAction *m_sendTobackAct;       //置于最底层
 
+    DMenu *m_alignMenu;
     QAction *m_itemsLeftAlign;      //左对齐
     QAction *m_itemsHCenterAlign;   //水平居中对齐
     QAction *m_itemsRightAlign;     //右对齐

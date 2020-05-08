@@ -96,7 +96,7 @@ QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
         if (QUrl(pas.at(i)).isLocalFile()) {
             files.append(QUrl(pas.at(i)).toLocalFile());
         } else {
-            files.append(pas.at(i));
+            //files.append(pas.at(i));
         }
     }
     return files;

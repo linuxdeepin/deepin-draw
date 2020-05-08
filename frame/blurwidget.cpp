@@ -24,6 +24,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "widgets/cspinbox.h"
 
 #include <DSlider>
 #include <QHBoxLayout>
@@ -55,6 +56,13 @@ void BlurWidget::updateBlurWidget()
     m_pLineWidthSlider->blockSignals(true);
     m_pLineWidthSlider->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_pLineWidthSlider->blockSignals(false);
+
+    //m_spinboxForLineWidth
+    m_spinboxForLineWidth->blockSignals(true);
+    m_spinboxForLineWidth->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
+    m_spinboxForLineWidth->blockSignals(false);
+
+
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
@@ -81,6 +89,10 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             m_pLineWidthSlider->setValue(propertys[property].toInt());
             m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
             m_pLineWidthSlider->blockSignals(false);
+
+            m_spinboxForLineWidth->blockSignals(true);
+            m_spinboxForLineWidth->setValue(propertys[property].toInt());
+            m_spinboxForLineWidth->blockSignals(false);
             break;
         }
         default:
@@ -158,6 +170,20 @@ void BlurWidget::initUI()
     m_pLineWidthSlider->setMaximum(160);
     m_pLineWidthSlider->setFixedWidth(160);
     m_pLineWidthSlider->setMaximumHeight(24);
+    m_pLineWidthSlider->hide();
+
+    m_spinboxForLineWidth = new CSpinBox(this);
+    m_spinboxForLineWidth->setKeyboardTracking(false);
+    m_spinboxForLineWidth->setEnabledEmbedStyle(true);
+    m_spinboxForLineWidth->setMinimum(INT_MIN + 1); //允许输入任何值在槽响应中限制范围(20-160)
+    m_spinboxForLineWidth->setMaximum(INT_MAX - 1); //允许输入任何值在槽响应中限制范围(20-160)
+//    m_spinboxForLineWidth->setMinimum(0); //允许输入任何值在槽响应中限制范围(20-160)
+//    m_spinboxForLineWidth->setMaximum(10000); //允许输入任何值在槽响应中限制范围(20-160)
+    m_spinboxForLineWidth->setValue(20);
+    m_spinboxForLineWidth->setProperty("preValue", 20);
+    m_spinboxForLineWidth->setFixedWidth(140);
+    m_spinboxForLineWidth->setMaximumHeight(36);
+    m_spinboxForLineWidth->setSuffix("px");
 
 
     m_pLineWidthLabel = new DLabel(this);
@@ -165,12 +191,76 @@ void BlurWidget::initUI()
     m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
     m_pLineWidthLabel->setFont(ft);
     m_pLineWidthLabel->setFixedWidth(60);
+    m_pLineWidthLabel->hide();
 
-    connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        m_pLineWidthLabel->setText(QString("%1px").arg(value));
+    connect(m_spinboxForLineWidth, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
+//        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
+        //1.值检测是否合法符合需求(检测最大值和最小值)
+        m_spinboxForLineWidth->blockSignals(true);
+        if (m_spinboxForLineWidth->value() < 20) {
+            m_spinboxForLineWidth->setValue(20);
+        } else if (m_spinboxForLineWidth->value() > 160) {
+            m_spinboxForLineWidth->setValue(160);
+        }
+        m_spinboxForLineWidth->blockSignals(false);
+
+        value = m_spinboxForLineWidth->value();
+
+        //2.非滚轮结束时发送的值变化信号要进行重复值检测
+        //  a.实际为了避免重复值入栈;
+        //  b.如果是滚轮结束时发送的值变化信号，那么强行入栈!
+        //    因为滚轮滚动时在setItemsCommonPropertyValue传入的是不入栈的标记，在滚轮结束后强行入栈一次,(这个时候不应该进行重复值检测了，因为值肯定是重复相等的)
+        //    从而实现了滚动事件一次只入栈一次
+        if (!m_spinboxForLineWidth->isChangedByWheelEnd()) {
+            int preIntValue = m_spinboxForLineWidth->property("preValue").toInt();
+            if (preIntValue == m_spinboxForLineWidth->value()) {
+                return;
+            }
+            m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
+        }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
+
+        static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
+        bool pushToStack = !m_spinboxForLineWidth->isTimerRunning();
+        bool firstRecord = s_oldTempValues.isEmpty();
+        QMap<CGraphicsItem *, QVariant> *inUndoValues = m_spinboxForLineWidth->isChangedByWheelEnd() ? &s_oldTempValues : nullptr;
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(BlurWidth, value, pushToStack, ((!pushToStack && firstRecord) ? &s_oldTempValues : nullptr), inUndoValues);
+        m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
+
+        if (m_spinboxForLineWidth->isChangedByWheelEnd()) {
+            s_oldTempValues.clear();
+        }
     });
+    connect(m_spinboxForLineWidth, &DSpinBox::editingFinished, this, [ = ] () {
+        //等于0时是特殊字符，不做处理
+        qDebug() << "m_spinboxForLineWidth->value() = " << m_spinboxForLineWidth->value();
+        if ( m_spinboxForLineWidth->value() < 0) {
+            return ;
+        }
+        m_spinboxForLineWidth->blockSignals(true);
+        if (m_spinboxForLineWidth->value() < 20) {
+            m_spinboxForLineWidth->setValue(20);
+        } else if (m_spinboxForLineWidth->value() > 160) {
+            m_spinboxForLineWidth->setValue(160);
+        }
+        m_spinboxForLineWidth->blockSignals(false);
+
+        int preIntValue = m_spinboxForLineWidth->property("preValue").toInt();
+        if (preIntValue == m_spinboxForLineWidth->value()) {
+            return;
+        }
+        m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
+
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(m_spinboxForLineWidth->value());
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(BlurWidth, m_spinboxForLineWidth->value(), !m_spinboxForLineWidth->isTimerRunning());
+    });
+
+//    connect(m_pLineWidthSlider, &DSlider::valueChanged, this, [ = ](int value) {
+//        m_pLineWidthLabel->setText(QString("%1px").arg(value));
+//        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(value);
+//        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
+//    });
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -183,9 +273,10 @@ void BlurWidget::initUI()
     layout->addSpacing(SEPARATE_SPACING + 8);
     layout->addWidget(penWidthLabel);
     layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_pLineWidthSlider);
-    layout->addSpacing(SEPARATE_SPACING);
-    layout->addWidget(m_pLineWidthLabel);
+    layout->addWidget(m_spinboxForLineWidth);
+//    layout->addWidget(m_pLineWidthSlider);
+//    layout->addSpacing(SEPARATE_SPACING);
+//    layout->addWidget(m_pLineWidthLabel);
     layout->addStretch();
     setLayout(layout);
 }

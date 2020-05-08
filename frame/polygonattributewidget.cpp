@@ -120,6 +120,7 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
             break;
         }
     }
+    m_sepLine->setVisible(!m_sideNumSpinBox->isHidden());
 }
 
 void PolygonAttributeWidget::initUI()

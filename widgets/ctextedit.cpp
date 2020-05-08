@@ -52,13 +52,20 @@ CTextEdit::~CTextEdit()
 
 void CTextEdit::slot_textChanged()
 {
+    if (this->document()->isEmpty()) {
+        this->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        this->setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        this->setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        this->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+    }
+
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
     }
 
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
-    rect.setHeight(size.height());
+    rect.setHeight(qMax(size.height(), rect.height()));
     rect.setWidth(size.width());
 
     //判断是否出界
@@ -89,16 +96,24 @@ void CTextEdit::slot_textChanged()
 
 void CTextEdit::cursorPositionChanged()
 {
-    // 只要鼠标点击后，此函数就会被调用一次
-    QTextCursor cursor = this->textCursor();
-    // [0] 检测选中文字的属性是否相等
-    checkTextProperty(cursor);
+    // 当删除所有文字后，格式会被重置为默认的属性，需要重新设置格式
+    if (this->document()->isEmpty()) {
+        this->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        this->setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        this->setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        this->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+    } else {
+        // 只要鼠标点击后，此函数就会被调用一次
+        QTextCursor cursor = this->textCursor();
+        // [0] 检测选中文字的属性是否相等
+        checkTextProperty(cursor);
 
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->updateBlurItem(m_pItem);
+        if (nullptr != m_pItem->scene()) {
+            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+            curScene->updateBlurItem(m_pItem);
+        }
+        this->setFocus();
     }
-    this->setFocus();
 }
 
 void CTextEdit::solveHtml(QString &html)
@@ -130,11 +145,17 @@ void CTextEdit::solveHtml(QString &html)
         formatString = formatString.replace("'", "");
 //        formatString = formatString.replace(" ", ""); // 不需要进行处理空格，否则family中间的空格会被取消导致文字字重属性刷新不全
         formatString = formatString.replace(">", "");
+        // 默认的字重是不会在单个的字的描述中显示，因此需要手动加上一个默认属性
+        if (!formatString.contains("font-weight:")) {
+            formatString.insert(formatString.indexOf("color:"), "formatString:" + QString::number(
+                                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight()) + ";");
+        }
         formatString = formatString.replace("font-family:", "");
         formatString = formatString.replace("font-size:", "");
         formatString = formatString.replace("font-weight:", "");
         formatString = formatString.replace("color:", "");
         formatString = formatString.replace("pt", "");
+//        qDebug() << "formatString: " << formatString;
         QStringList temp = formatString.split(";");
 
         // [3] 单个字单个字进行保存其对应的属性，方便后面进行属性比较（换行符号不作处理）
@@ -150,6 +171,7 @@ void CTextEdit::solveHtml(QString &html)
                 data.insert(Text, textString.at(i));
                 m_allTextInfo.append(data);
             }
+//            qDebug() << "m_allTextInfo: " << m_allTextInfo;
         }
     }
 }
@@ -160,122 +182,133 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     QTextBlock block = cursor.block();
 
     // [1] 判断是否有效
-    if (block.isValid()) {
+//    if (block.isValid()) {
 
-        // [2] 判断是否只是点击进去未选中文字
-        QTextBlock::iterator it = block.begin();
-        if (it == block.end()) {
-            return;
+    // [2] 判断是否只是点击进去未选中文字
+//    QTextBlock::iterator it = block.begin();
+//    if (it == block.end()) {
+//        return;
+//    }
+    // [3] 解析当前所有的文本属性信息
+    QString html = block.document()->toHtml();
+    solveHtml(html);
+
+    // [4] 找到选中文本段的索引
+    QString allString = this->document()->toPlainText();
+    int selected_start_index = cursor.selectionStart();
+    int temp_index = selected_start_index;
+    for (int i = 0; i < allString.length(); i++) {
+        if (i > selected_start_index) {
+            break;
         }
-        // [3] 解析当前所有的文本属性信息
-        QString html = block.document()->toHtml();
-        solveHtml(html);
 
-        // [4] 找到选中文本段的索引
-        QString allString = this->document()->toPlainText();
-        int selected_start_index = cursor.selectionStart();
-        int temp_index = selected_start_index;
-        for (int i = 0; i < allString.length(); i++) {
-            if (i > selected_start_index) {
-                break;
-            }
-
-            if (allString.at(i) == '\n') {
-                temp_index--;
-            }
+        if (allString.at(i) == '\n') {
+            temp_index--;
         }
-        selected_start_index = temp_index;
+    }
+    selected_start_index = temp_index;
 
-        // [5] 获取鼠标选择的文本并且剔除段落换行符号
-        QString selectedString = cursor.selectedText();
-        if (selectedString.isEmpty()) { // 如果为空则比较所有的文字
-            selectedString = allString;
-            selected_start_index = 0;
+    // [5] 获取鼠标选择的文本并且剔除段落换行符号
+    QString selectedString = cursor.selectedText();
+    if (selectedString.isEmpty()) { // 如果为空则返回当前光标出的属性
+        QTextCharFormat fmt = this->currentCharFormat();
+        m_selectedColor = fmt.foreground().color();
+        m_selectedSize = fmt.font().pointSize();
+        m_selectedFamily = fmt.fontFamily();
+        m_selectedFontWeight = fmt.fontWeight();
+        m_selectedColorAlpha = m_selectedColor.alpha();
+        return;
+//        更新整体属性
+//        selectedString = allString;
+//        selected_start_index = 0;
+    }
+    QString temp_str;
+    for (int i = 0; i < selectedString.length(); i++) {
+        if (selectedString.at(i) == "\u2029") {//删除段落符号
+            continue;
         }
-        QString temp_str;
-        for (int i = 0; i < selectedString.length(); i++) {
-            if (selectedString.at(i) == "\u2029") {//删除段落符号
-                continue;
-            }
-            temp_str += selectedString.at(i);
-        }
-        selectedString = temp_str;
+        temp_str += selectedString.at(i);
+    }
+    selectedString = temp_str;
 
-        // [6] 剔除换行符号
-        selectedString = selectedString.replace("\n", "");
+    // [6] 剔除换行符号
+    selectedString = selectedString.replace("\n", "");
 
-        qDebug() << "selected_start_index: " << selected_start_index;
+    // [7] 判断选中的文本属性是否相同
+    m_selectedColor = QColor();
+    m_selectedSize = -1;
+    m_selectedFamily.clear();
+    m_selectedFontStyle.clear();
+    m_selectedFontWeight = -1;
+    m_selectedColorAlpha = -1;
 
-        // [7] 判断选中的文本属性是否相同
-        m_selectedColor = QColor();
-        m_selectedSize = -1;
-        m_selectedFamily.clear();
-        m_selectedFontStyle.clear();
-        m_selectedFontWeight = -1;
-        m_selectedColorAlpha = -1;
+    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size(); i++) {
+        // 如果匹配到当前第一个字符
+        if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
 
-        for (int i = selected_start_index, j = 0; i < m_allTextInfo.size(); i++) {
-            // 如果匹配到当前第一个字符
-            if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
+            QColor color = QColor(m_allTextInfo.at(i).value(FontColor).value<QColor>());
+            int pointSize = m_allTextInfo.at(i).value(PointSize).toInt();
+            QString family = m_allTextInfo.at(i).value(FontFamily).toString();
+            int fontWeight = m_allTextInfo.at(i).value(FontStyle).toInt() / 8; // 根据查找Qt资料发现此处获取的大小是Qt自带自重大小的8倍
+            int alpha = m_allTextInfo.at(i).value(ColorAlpha).toInt();
 
-                QColor color = QColor(m_allTextInfo.at(i).value(FontColor).value<QColor>());
-                int pointSize = m_allTextInfo.at(i).value(PointSize).toInt();
-                QString family = m_allTextInfo.at(i).value(FontFamily).toString();
-                int fontWeight = m_allTextInfo.at(i).value(FontStyle).toInt() / 8; // 根据查找Qt资料发现此处获取的大小是Qt自带自重大小的8倍
-                int alpha = m_allTextInfo.at(i).value(ColorAlpha).toInt();
-
-                if (0 == j) {
-                    m_selectedColor = color;
-                    m_selectedSize = pointSize;
-                    m_selectedFamily = family;
-                    m_selectedFontWeight = fontWeight;
-                    m_selectedColorAlpha = alpha;
-                    j++;
-                    if (j >= selectedString.length()) {
-                        break;
-                    }
-                    continue;
-                }
-                if (m_selectedColor.isValid() && m_selectedColor != color) {
-                    m_selectedColor = QColor();
-                }
-
-                if (m_selectedSize >= 0 && m_selectedSize != pointSize) {
-                    m_selectedSize = -1;
-                }
-
-                if (!m_selectedFamily.isEmpty() && m_selectedFamily != family) {
-                    m_selectedFamily.clear();
-                }
-
-                if (m_selectedFontWeight >= 0 && m_selectedFontWeight != fontWeight) {
-                    m_selectedFontWeight = -1;
-                }
-
-                if (m_selectedColorAlpha >= 0 && m_selectedColorAlpha != alpha) {
-                    m_selectedColorAlpha = -1;
-                }
-
-                // 当所有的都不相同时跳出循环
-                if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
-                        && m_selectedFontStyle.isEmpty() && !m_selectedColorAlpha) {
-                    break;
-                }
-
+            if (0 == j) {
+                m_selectedColor = color;
+                m_selectedSize = pointSize;
+                m_selectedFamily = family;
+                m_selectedFontWeight = fontWeight;
+                m_selectedColorAlpha = alpha;
                 j++;
                 if (j >= selectedString.length()) {
                     break;
                 }
+                continue;
+            }
+            if (m_selectedColor.isValid() && m_selectedColor != color) {
+                m_selectedColor = QColor();
             }
 
+            if (m_selectedSize >= 0 && m_selectedSize != pointSize) {
+                m_selectedSize = -1;
+            }
+
+            if (!m_selectedFamily.isEmpty() && m_selectedFamily != family) {
+                m_selectedFamily.clear();
+            }
+
+            if (m_selectedFontWeight >= 0 && m_selectedFontWeight != fontWeight) {
+                m_selectedFontWeight = -1;
+            }
+
+            if (m_selectedColorAlpha >= 0 && m_selectedColorAlpha != alpha) {
+                m_selectedColorAlpha = -1;
+            }
+
+            // 当所有的都不相同时跳出循环
+            if (!m_selectedSize && m_selectedColor.isValid() && m_selectedFamily.isEmpty()
+                    && m_selectedFontStyle.isEmpty() && !m_selectedColorAlpha) {
+                break;
+            }
+
+            j++;
+            if (j >= selectedString.length()) {
+                break;
+            }
         }
-        qDebug() << "      selectedString: " << selectedString;
-        qDebug() << "     m_selectedColor: " << m_selectedColor;
-        qDebug() << "      m_selectedSize: " << m_selectedSize;
-        qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-        qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-        qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+
     }
+    qDebug() << "selected_start_index: " << selected_start_index;
+    qDebug() << "      selectedString: " << selectedString;
+    qDebug() << "     m_selectedColor: " << m_selectedColor;
+    qDebug() << "      m_selectedSize: " << m_selectedSize;
+    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+}
+
+void CTextEdit::checkTextProperty()
+{
+    checkTextProperty(this->textCursor());
 }
 
 void CTextEdit::setVisible(bool visible)
@@ -306,7 +339,7 @@ void CTextEdit::resizeDocument()
 
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
-    rect.setHeight(size.height());
+    //rect.setHeight(size.height());
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);

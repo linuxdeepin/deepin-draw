@@ -134,6 +134,8 @@ public:
 
     void makeEditabel();
 
+    void updateHandleVisible();
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
