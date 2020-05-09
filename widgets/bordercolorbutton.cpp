@@ -47,6 +47,7 @@ void BorderColorButton::updateConfigColor()
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 
     if (m_color == configColor) {
+        update();
         return;
     }
 

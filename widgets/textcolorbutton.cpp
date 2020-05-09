@@ -48,6 +48,7 @@ void TextColorButton::updateConfigColor()
     m_isMultColorSame = true;
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
     if (m_color == configColor) {
+        update();
         return;
     }
     m_color = configColor;

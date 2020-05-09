@@ -48,6 +48,7 @@ void BigColorButton::updateConfigColor()
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 
     if (m_color == configColor) {
+        update();
         return;
     }
     m_color = configColor;
