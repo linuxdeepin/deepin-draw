@@ -360,12 +360,12 @@ void ColorPanel::initConnection()
     connect(m_alphaControlWidget, &CAlphaControlWidget::signalFinishChanged, this, [ = ] () {
         int alpha = m_alphaControlWidget->getCurrentAlphaValue();
         if (m_drawstatus == Fill) {
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alpha, true);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alpha, true);
             QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
             color.setAlpha(alpha);
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
         } else if (m_drawstatus == Stroke) {
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alpha, true);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alpha, true);
             QPen pen = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen();
             QColor color = pen.color();
             color.setAlpha(alpha);
