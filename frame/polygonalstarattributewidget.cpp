@@ -28,6 +28,7 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QAction>
+#include <QLineEdit>
 
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -159,9 +160,10 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new CSpinBox(this);
     m_anchorNumber->setKeyboardTracking(false);
-    m_anchorNumber->setFixedSize(QSize(/*70*/170, 36));
+    m_anchorNumber->setFixedSize(QSize(70, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
+    m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
@@ -169,9 +171,10 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
     m_radiusNumber->setRange(0, 1000);
-    m_radiusNumber->setFixedSize(QSize(/*90*/170, 36));
+    m_radiusNumber->setFixedSize(QSize(90, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
+    m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

@@ -22,6 +22,7 @@
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QDebug>
+#include <QLineEdit>
 
 #include "drawshape/cdrawparamsigleton.h"
 
@@ -180,8 +181,9 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(0, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(/*70*/170, 36));
+    m_rediusSpinbox->setFixedSize(QSize(70, 36));
     m_rediusSpinbox->setFont(ft);
+    m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
 

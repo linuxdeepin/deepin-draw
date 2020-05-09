@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QHBoxLayout>
 #include <QButtonGroup>
+#include <QLineEdit>
 
 #include "widgets/csidewidthwidget.h"
 #include "widgets/toolbutton.h"
@@ -146,7 +147,8 @@ void PolygonAttributeWidget::initUI()
 
     m_sideNumSlider = new CSpinBox(this);
     m_sideNumSlider->setKeyboardTracking(false);
-    m_sideNumSlider->setFixedWidth(/*70*/170);
+    m_sideNumSlider->setFixedWidth(70);
+    m_sideNumSlider->lineEdit()->setClearButtonEnabled(false);
     m_sideNumSlider->setRange(0, 1000);
     //m_sideNumSlider->setRange(3, 10);//此注释不删，记录边数范围
     m_sideNumSlider->setFont(ft);

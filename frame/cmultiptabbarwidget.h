@@ -128,7 +128,7 @@ signals:
     void signalItemChanged(QString itemName);
 
 protected:
-    void resizeEvent(QResizeEvent *event) override;
+//    void resizeEvent(QResizeEvent *event) override;
     bool eventFilter(QObject *, QEvent *event) override;
 
 private:
