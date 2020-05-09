@@ -472,7 +472,12 @@ void CCentralwidget::importPicture()
 
     if (fileDialog->exec() ==   QDialog::Accepted) {
         QStringList filenames = fileDialog->selectedFiles();
-        slotPastePicture(filenames);
+        //slotPastePicture(filenames);
+        //改成调用MainWindow的slotLoadDragOrPasteFile函数走同一个流程有权限等对文件的检查
+        MainWindow *pFather = dynamic_cast<MainWindow *>(parentWidget());
+        if (pFather != nullptr) {
+            pFather->slotLoadDragOrPasteFile(filenames);
+        }
     } else {
         m_leftToolbar->slotShortCutSelect();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
