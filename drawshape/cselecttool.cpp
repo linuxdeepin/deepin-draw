@@ -663,11 +663,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
     bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
+    m_bMousePress = false;
     if (event->button() == Qt::LeftButton) {
-        m_bMousePress = false;
         m_sPointRelease = event->scenePos();
         QPointF vectorPoint = m_sPointRelease - m_sPointPress;
-
         //shift键按下时
         if (shiftKeyPress) {
             if (m_currentSelectItem) {
@@ -691,7 +690,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             } else if (count > 1) {
                 scene->getItemsMgr()->show();
             }
-            m_bMousePress = false;
             scene->mouseEvent(event);
         }
 
