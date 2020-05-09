@@ -2073,6 +2073,9 @@ void CItemsAlignCommand::undo()
         }
     }
     m_isMoved = false;
+
+    // 手动刷新重做后的多选框线
+    CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
 }
 
 void CItemsAlignCommand::redo()
@@ -2088,4 +2091,7 @@ void CItemsAlignCommand::redo()
         }
     }
     m_isMoved = true;
+
+    // 手动刷新重做后的多选框线
+    CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
 }
