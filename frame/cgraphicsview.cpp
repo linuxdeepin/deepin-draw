@@ -397,10 +397,6 @@ void CGraphicsView::initContextMenuConnection()
         // [6] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
-
-        // [7] 更新画布区域,不然框选的线显示错误
-        if (scene() != nullptr)
-            scene()->views().first()->viewport()->update();
     });
 
     connect(m_itemsHEqulSpaceAlign, &QAction::triggered, this, [ = ] {
@@ -459,10 +455,6 @@ void CGraphicsView::initContextMenuConnection()
         // [6] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
-
-        // [7] 更新画布区域,不然框选的线显示错误
-        if (scene() != nullptr)
-            scene()->views().first()->viewport()->update();
     });
 }
 
@@ -1720,11 +1712,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
         endPos.insert(allItems.at(0), topLeft);
     }
 
-    // [4] 更新画布区域,不然框选的线显示错误
-    if (scene() != nullptr)
-        scene()->views().first()->viewport()->update();
-
-    // [5] 设置出入栈
+    // [4] 设置出入栈
     QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
     pushUndoStack(addCommand);
 }
