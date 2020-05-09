@@ -267,7 +267,8 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 return;
             } else {
                 dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
-                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
+                QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
+                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
                 int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
                 int ret = dia->exec();
@@ -291,7 +292,8 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             DDialog dia(pView->parentWidget());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));
+            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
