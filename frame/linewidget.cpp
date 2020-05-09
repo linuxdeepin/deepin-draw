@@ -297,15 +297,25 @@ void LineWidget::initConnection()
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
+
     // 线宽度属性刷新
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
 
+    // 更新线起点样式
     m_startLabel->setVisible(true);
+    m_lineStartComboBox->blockSignals(true);
     m_lineStartComboBox->setVisible(true);
+    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
+    m_lineStartComboBox->blockSignals(false);
+
+    // 更新线终点样式
     m_endLabel->setVisible(true);
+    m_lineEndComboBox->blockSignals(true);
     m_lineEndComboBox->setVisible(true);
+    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
+    m_lineEndComboBox->blockSignals(false);
 }
 
 void LineWidget::slotSideWidthChoosed(int width)
