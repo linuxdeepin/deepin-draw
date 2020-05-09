@@ -272,6 +272,9 @@ public slots:
     void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
 
 
+    void closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
+
+
     void closeViewScense(CGraphicsView *view);
 
 private slots:

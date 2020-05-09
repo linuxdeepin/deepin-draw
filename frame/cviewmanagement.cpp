@@ -276,7 +276,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 if (ret == reload) {
 
                     //先关闭传入false使程序不会被关闭
-                    pCertralWidget->closeCurrentScenseView(false, false);
+                    pCertralWidget->closeSceneView(pView, false, false);
 
                     //再加载
                     emit pView->signalLoadDragOrPasteFile(ddfFile);
@@ -284,7 +284,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
                 } else if (ret == cancel) {
                     //直接关闭
-                    pCertralWidget->closeCurrentScenseView();
+                    pCertralWidget->closeSceneView(pView);
                 }
             }
         } else {
@@ -309,7 +309,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
             } else if (ret == discard) {
                 //直接关闭
-                pCertralWidget->closeCurrentScenseView();
+                pCertralWidget->closeSceneView(pView);
             }
         }
     }

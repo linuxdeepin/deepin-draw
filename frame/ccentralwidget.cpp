@@ -272,6 +272,44 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
 void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
 {
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
+
+    closeSceneView(closeView, ifTabOnlyOneCloseAqq, deleteView);
+//    if (nullptr != closeView) {
+//        QString viewname = closeView->getDrawParam()->viewName();
+//        qDebug() << "closeCurrentScenseView:" << viewname;
+
+//        // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
+//        if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
+
+//            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
+//            emit signalLastTabBarRequestClose();
+//            return;
+//        }
+
+//        closeView->setParent(nullptr);
+//        m_stackedLayout->removeWidget(closeView);
+//        CManageViewSigleton::GetInstance()->removeView(closeView);
+//        m_topMutipTabBarWidget->closeTabBarItemByUUID(closeView->getDrawParam()->uuid());
+//    }
+
+//    if (m_topMutipTabBarWidget->count() > 0) {
+//        m_leftToolbar->slotShortCutSelect();
+
+//        if (m_topMutipTabBarWidget->count() == 1) {
+//            m_topMutipTabBarWidget->hide();
+//        } else {
+//            m_topMutipTabBarWidget->show();
+//        }
+//    }
+//    if (deleteView) {
+//        delete closeView;
+//        closeView = nullptr;
+//    }
+}
+
+void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq, bool deleteView)
+{
+    CGraphicsView *closeView = pView;
     if (nullptr != closeView) {
         QString viewname = closeView->getDrawParam()->viewName();
         qDebug() << "closeCurrentScenseView:" << viewname;
@@ -279,7 +317,7 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool dele
         // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
         if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
 
-            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
+            qDebug() << "closeSceneView:" << viewname << " not modify";
             emit signalLastTabBarRequestClose();
             return;
         }
