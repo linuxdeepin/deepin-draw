@@ -25,11 +25,11 @@
 #include "widgets/csidewidthwidget.h"
 #include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
-
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
 #include <DLabel>
+
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QDebug>
@@ -184,10 +184,11 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(-1, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(130, 36));
+    m_rediusSpinbox->setFixedSize(QSize(70, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
     m_rediusSpinbox->setEnabledEmbedStyle(true);
+    m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
 
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();

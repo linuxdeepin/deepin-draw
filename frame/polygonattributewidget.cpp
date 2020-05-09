@@ -17,14 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "polygonattributewidget.h"
-
-#include <DLabel>
-#include <DFontSizeManager>
-
-#include <QAction>
-#include <QHBoxLayout>
-#include <QButtonGroup>
-
 #include "widgets/csidewidthwidget.h"
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
@@ -36,6 +28,14 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+
+#include <DLabel>
+#include <DFontSizeManager>
+
+#include <QAction>
+#include <QHBoxLayout>
+#include <QButtonGroup>
+#include <QLineEdit>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -149,12 +149,13 @@ void PolygonAttributeWidget::initUI()
 
     m_sideNumSpinBox = new CSpinBox(this);
     m_sideNumSpinBox->setKeyboardTracking(false);
-    m_sideNumSpinBox->setFixedWidth(120);
+    m_sideNumSpinBox->setFixedWidth(70);
     m_sideNumSpinBox->setRange(0, 1000);
     //m_sideNumSlider->setRange(3, 10);//此注释不删，记录边数范围
     m_sideNumSpinBox->setFont(ft);
     m_sideNumSpinBox->setSpecialValueText("— —");
     m_sideNumSpinBox->setEnabledEmbedStyle(true);
+    m_sideNumSpinBox->lineEdit()->setClearButtonEnabled(false);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);

@@ -17,18 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "polygonalstarattributewidget.h"
-
-#include <DLabel>
-//#include <DFontSizeManager>
-
-#include <QHBoxLayout>
-#include <QButtonGroup>
-#include <QIntValidator>
-#include <QDebug>
-#include <QDesktopWidget>
-#include <QApplication>
-#include <QAction>
-
 #include "widgets/toolbutton.h"
 #include "widgets/bigcolorbutton.h"
 #include "widgets/bordercolorbutton.h"
@@ -41,6 +29,15 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 
+#include <DLabel>
+
+#include <QHBoxLayout>
+#include <QButtonGroup>
+#include <QIntValidator>
+#include <QDebug>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QAction>
 #include <QLineEdit>
 
 const int BTN_SPACING = 5;
@@ -167,11 +164,12 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new CSpinBox(this);
     m_anchorNumber->setKeyboardTracking(false);
-    m_anchorNumber->setFixedSize(QSize(140/*120*/, 36));
+    m_anchorNumber->setFixedSize(QSize(70, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
     m_anchorNumber->setSpecialValueText("— —");
     m_anchorNumber->setEnabledEmbedStyle(true);
+    m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
 
     m_radiusLabel = new DLabel(this);
@@ -180,11 +178,12 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumber = new CSpinBox(this);
     m_radiusNumber->setKeyboardTracking(false);
     m_radiusNumber->setRange(-1, 1000);
-    m_radiusNumber->setFixedSize(QSize(140, 36));
+    m_radiusNumber->setFixedSize(QSize(85, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
     m_radiusNumber->setSpecialValueText("— —");
     m_radiusNumber->setEnabledEmbedStyle(true);
+    m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
