@@ -291,7 +291,7 @@ void LineWidget::initConnection()
     });
 
     m_lineStartComboBox->setCurrentIndex(0);
-    m_lineStartComboBox->setCurrentIndex(0);
+    m_lineEndComboBox->setCurrentIndex(0);
 }
 
 void LineWidget::updateLineWidget()
@@ -301,6 +301,11 @@ void LineWidget::updateLineWidget()
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
+
+    m_startLabel->setVisible(true);
+    m_lineStartComboBox->setVisible(true);
+    m_endLabel->setVisible(true);
+    m_lineEndComboBox->setVisible(true);
 }
 
 void LineWidget::slotSideWidthChoosed(int width)

@@ -314,6 +314,11 @@ void CPenWidget::updatePenWidget()
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
+
+    m_startLabel->setVisible(true);
+    m_lineStartComboBox->setVisible(true);
+    m_endLabel->setVisible(true);
+    m_lineEndComboBox->setVisible(true);
 }
 
 void CPenWidget::slotSideWidthChoosed(int width)
