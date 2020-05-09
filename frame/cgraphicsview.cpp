@@ -1439,9 +1439,10 @@ void CGraphicsView::itemSceneCut(QRectF newRect)
 void CGraphicsView::doSaveDDF(bool finishClose)
 {
     QString ddfPath = getDrawParam()->getDdfSavePath();
-    if (ddfPath.isEmpty() || ddfPath == "") {
+    QFileInfo fInfo(ddfPath);
+    if (ddfPath.isEmpty() || ddfPath == "" || !fInfo.exists()) {
         showSaveDDFDialog(true, finishClose);
-    } else if (!QFileInfo(ddfPath).isWritable()) {
+    } else if (!fInfo.isWritable()) {
         //如果文件不可写入那么先弹出提示对话框然后再由用户决定是否要另存为或取消
         DDialog dia(this);
         dia.setFixedSize(404, 163);
@@ -1455,10 +1456,8 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
         if (ret == yes) {
             //弹出保存文件的框
-            QFileInfo fileInfo(ddfPath);
             QString newBaseName = tr("Unnamed");
-            QString newFile = fileInfo.absolutePath() + "/" + newBaseName + "." + fileInfo.suffix();
-            //qDebug() << "---------------newFile  = " << newFile;
+            QString newFile = fInfo.absolutePath() + "/" + newBaseName + "." + fInfo.suffix();
             showSaveDDFDialog(true, finishClose, newFile);
 
         } else {
