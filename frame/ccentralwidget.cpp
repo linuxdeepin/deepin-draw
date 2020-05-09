@@ -708,10 +708,14 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     // [6] 标签显示或者隐藏判断
     if (m_topMutipTabBarWidget->count() == 1) {
         m_topMutipTabBarWidget->hide();
-        emit signalScenceViewChanged(viewName);
+        //emit signalScenceViewChanged(viewName);
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, viewName));
     } else {
         m_topMutipTabBarWidget->show();
-        emit signalScenceViewChanged("");
+        //emit signalScenceViewChanged("");
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
 
     // [7] 切换标签页后刷新当前选中图元的属性

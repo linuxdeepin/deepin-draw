@@ -87,6 +87,9 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool 
         return;
     }
 
+    // 添加一个标签页之前如果是空的那么要再次发送页面变化的信号(以保证uuid能获取从而获得到正确的view场景，比如程序刚启动初始化的情形)
+    bool isEmptyBeforAdded = (this->count() == 0);
+
     int index = this->addTab(name);
 
     setTabData(index, uuid);
@@ -95,6 +98,12 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool 
         emit signalNewAddItem(name, uuid);
 
     this->setCurrentIndex(index);
+
+    //保证uuid能获取到
+    if (isEmptyBeforAdded) {
+        emit currentChanged(index);
+    }
+
     this->setTabMinimumSize(index, TabBarMiniSize);
 }
 
