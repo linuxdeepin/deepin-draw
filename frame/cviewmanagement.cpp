@@ -21,6 +21,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
 #include "frame/ccentralwidget.h"
+#include "drawshape/cgraphicstextitem.h"
+#include "widgets/ctextedit.h"
 #include "application.h"
 
 #include <DApplication>
@@ -57,6 +59,27 @@ int CManageViewSigleton::getThemeType() const
 void CManageViewSigleton::setThemeType(const int type)
 {
     m_thremeType = type;
+}
+
+void CManageViewSigleton::updateTheme()
+{
+    for (int i = 0; i < m_allViews.size(); ++i) {
+        CGraphicsView *pView         = m_allViews[i];
+        QList<QGraphicsItem *> items = pView->items();
+
+        for (int j = 0; j < items.size(); ++j) {
+            QGraphicsItem *pItem = items[j];
+            if (pItem->type() == TextType) {
+                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
+                if (pTextItem != nullptr) {
+                    CTextEdit *pEdit = pTextItem->getTextEdit();
+                    if (pEdit != nullptr) {
+                        pEdit->updateBgColorTo();
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool CManageViewSigleton::isEmpty()

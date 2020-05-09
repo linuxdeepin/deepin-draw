@@ -39,6 +39,7 @@ class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
+class CDrawScene;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -121,6 +122,8 @@ public:
 
 
     bool isKeySpacePressed();
+
+    CDrawScene *drawScene();
 
 protected:
     /**

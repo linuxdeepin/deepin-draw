@@ -53,6 +53,11 @@ public:
     void setThemeType(const int type);
 
     /**
+     * @brief updateTheme 主题值变化后要刷新
+     */
+    void updateTheme();
+
+    /**
      * @brief isEmpty 是否是空的(是否没有view)
      */
     bool isEmpty();

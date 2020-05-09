@@ -1568,6 +1568,10 @@ bool CGraphicsView::isKeySpacePressed()
 {
     return _spaceKeyPressed;
 }
+CDrawScene *CGraphicsView::drawScene()
+{
+    return dynamic_cast<CDrawScene *>(scene());
+}
 
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
 {

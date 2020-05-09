@@ -118,11 +118,11 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
         return;
 
     if (!m_isRotation) {
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
+        if (/* CManageViewSigleton::GetInstance()->getThemeType() == 1 && */renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
-        } else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
+        } /*else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
             setSharedRenderer(&m_darkRenderer);
-        }
+        }*/
     }
 
     painter->setClipping(false);

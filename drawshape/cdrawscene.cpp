@@ -39,6 +39,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
+#include "widgets/ctextedit.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -47,6 +48,8 @@
 #include <QtMath>
 #include <DApplication>
 #include <QScrollBar>
+
+DWIDGET_USE_NAMESPACE
 
 CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
     : QGraphicsScene(view)
@@ -156,11 +159,12 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
             painter->fillRect(sceneRect(), Qt::transparent);
         }
     } else {
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            painter->fillRect(sceneRect(), Qt::white);
-        } else {
-            painter->fillRect(sceneRect(), QColor(55, 55, 55));
-        }
+//        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            painter->fillRect(sceneRect(), Qt::white);
+//        } else {
+//            painter->fillRect(sceneRect(), QColor(55, 55, 55));
+//        }
+        painter->fillRect(sceneRect(), Qt::white);
     }
 
     /*QGraphicsScene::drawBackground(painter, rect);
@@ -584,11 +588,15 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 
 void CDrawScene::switchTheme(int type)
 {
+    Q_UNUSED(type);
     QList<QGraphicsItem *> items = this->items();//this->collidingItems();
     //QList<QGraphicsItem *> items = this->collidingItems();
     for (int i = items.size() - 1; i >= 0; i-- ) {
-        if (items[i]->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
+        if (pItem != nullptr) {
+            if (pItem->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+            }
         }
     }
 }

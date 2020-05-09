@@ -43,6 +43,8 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
 
     this->setLineWrapMode(NoWrap);
     this->setFrameStyle(NoFrame);
+
+    updateBgColorTo(QColor(255, 255, 255), true);
 }
 
 CTextEdit::~CTextEdit()
@@ -309,6 +311,19 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 void CTextEdit::checkTextProperty()
 {
     checkTextProperty(this->textCursor());
+}
+
+void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
+{
+    QPalette palette(this->palette());
+    palette.setBrush(QPalette::Base, c);
+    if (laterDo) {
+        QMetaObject::invokeMethod(this, [ = ]() {
+            this->setPalette(palette);
+        }, Qt::QueuedConnection);
+    } else {
+        this->setPalette(palette);
+    }
 }
 
 void CTextEdit::setVisible(bool visible)
