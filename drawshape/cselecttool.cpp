@@ -98,9 +98,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     qDebug() << "mouse press" << endl;
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
-//    if (shiftKeyPress && m_currentSelectItem) {
-//        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
-//    }
+    bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
+    bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
     scene->getItemHighLight()->setVisible(false);
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
@@ -113,20 +112,23 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     m_doResize        = false;
 
     if (event->button() == Qt::LeftButton) {
-        bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
         if (ctrlKeyPress) {
             scene->clearSelection();
         }
+        if (altKeyPress && m_currentSelectItem) {
+            CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+            if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                scene->getItemsMgr()->clear();
+            }
+        }
         int count = scene->getItemsMgr()->getItems().size();
         qDebug() << "mouse press count = " << count << endl;
-        bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-
         //多选和单选复制
         if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle && m_highlightItem != nullptr) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
             QList<CGraphicsItem *> multSelectItems;
-            if (count) {
+            if (count > 1) {
                 multSelectItems = scene->getItemsMgr()->getItems();
             } else if (m_currentSelectItem) {
                 multSelectItems.clear();
