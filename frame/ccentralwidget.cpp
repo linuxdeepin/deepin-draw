@@ -664,11 +664,9 @@ void CCentralwidget::addView(QString viewName, const QString &uuid)
     qDebug() << "addView:" << viewName;
     CGraphicsView *pNewView = createNewScense(viewName, uuid);
     CManageViewSigleton::GetInstance()->setCurView(pNewView);
-}
 
-void CCentralwidget::slotRectRediusChanged(int value)
-{
-    qDebug() << "value" << value;
+    // 解决Dtabbar+号标签刷新位置错误
+    updateTitle();
 }
 
 void CCentralwidget::slotQuitApp()

@@ -46,7 +46,7 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     this->setEnabledEmbedStyle(true);
 
     m_rightClickTab = -1;
-    installEventFilter(this);
+//    installEventFilter(this);
 
 
     initConnection();
@@ -97,13 +97,12 @@ void CMultipTabBarWidget::addTabBarItem(QString name, const QString &uuid, bool 
     if (emitNewScene)
         emit signalNewAddItem(name, uuid);
 
-    this->setCurrentIndex(index);
-
     //保证uuid能获取到
     if (isEmptyBeforAdded) {
         emit currentChanged(index);
     }
 
+    this->setCurrentIndex(index);
     this->setTabMinimumSize(index, TabBarMiniSize);
 }
 

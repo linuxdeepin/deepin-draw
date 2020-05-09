@@ -258,10 +258,7 @@ public slots:
      * @return: 无
     */
     void addView(QString viewName, const QString &uuid);
-    /**
-     * @brief slotRectRediusChanged 矩形圆角变化信号
-     */
-    void slotRectRediusChanged(int value);
+
     /**
      * @brief slotQuitApp 退出程序处理事件
      */
