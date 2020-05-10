@@ -22,6 +22,7 @@
 #include "frame/cviewmanagement.h"
 
 #include <QPainter>
+#include <QMouseEvent>
 #include <QDebug>
 
 #include <DPalette>
