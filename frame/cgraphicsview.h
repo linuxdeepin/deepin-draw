@@ -20,6 +20,7 @@
 #define CGRAPHICSVIEW_H
 #include "drawshape/csizehandlerect.h"
 #include "widgets/cmenu.h"
+#include <QFileDevice>
 #include <DGraphicsView>
 
 DWIDGET_USE_NAMESPACE
