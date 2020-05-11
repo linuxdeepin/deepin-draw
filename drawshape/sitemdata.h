@@ -32,13 +32,16 @@
 
 enum EDdfVersion {
     EDdfUnknowed = -1,       //未知的版本(ddf被修改过)
+
     EDdf5_8_0_Base = 0,      //最原始的ddf版本
     EDdf5_8_0_9_1,           //添加了矩形属性的ddf版本
     EDdf5_8_0_10_1,          //添加了直线起点终点的版本（但这个版本在保存时漏掉保存了pen图元的保存 所以这个版本保存的ddf被加载后pen图元显示会问题）
     EDdf5_8_0_10_2,          //修复了EDdf5_8_0_10_1版本未保存画笔图元path的问题
     EDdf5_8_0_16_1,          //为了优化图片的保存速度修改了保存图片时由原先的直接保存QImage该成保存QByteArry
 
-    EDdfVersionCount
+    EDdfVersionCount,
+
+    EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
 };
 
 static EDdfVersion getVersion(QDataStream &stream)
@@ -603,9 +606,9 @@ struct CGraphicsUnit {
 
 //整个图元数据
 struct CGraphics {
-    /*qint64*/qint32 version = qint64(EDdf5_8_0_10_2);   //数据版本
-    qint64 unitCount;   //图元数量
-    QRectF rect;    // 画板大小和位置
+    qint32 version = qint64(EDdfCurVersion);   //数据版本 默认给最新的版本枚举值
+    qint64 unitCount;                                    //图元数量
+    QRectF rect;                                         // 画板大小和位置
     QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)
 
     friend QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
@@ -623,10 +626,13 @@ struct CGraphics {
     friend  QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
     {
         //兼容最早的版本(那个时候还没有版本标记 所以不用解析versions)
+        //int ver = getVersion(in);
         if (getVersion(in) > EDdf5_8_0_Base) {
             int flag;    //肯定为0xA0B0C0D0
             in >> flag;
             in >> graphics.version;
+        } else {
+            graphics.version = EDdf5_8_0_Base;
         }
         in >> graphics.unitCount;
         in >> graphics.rect;
