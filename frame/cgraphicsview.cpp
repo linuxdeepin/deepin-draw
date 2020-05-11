@@ -368,37 +368,38 @@ void CGraphicsView::initContextMenuConnection()
         // [3] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
         QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
-        if (sum_items_height > scence_BR.height())
-        {
-            for (int i = 1; i < allitems.size(); i++) {
-                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
-                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
-                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            }
-            // 更新画布区域,不然框选的线显示错误
-            if (scene() != nullptr)
-                scene()->views().first()->viewport()->update();
-            return ;
-        }
-        qreal space_height = (scence_BR.height() - sum_items_height)
-                             / (allitems.size() - 1);
 
         // [4] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
-        // [5] 按照y值进行移动位置
-        for (int i = 1; i < allitems.size() - 1; i++)
+        if (sum_items_height > scence_BR.height())
         {
-            startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
-            QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
-                             , allitems.at(i - 1)->sceneBoundingRect().bottom());
-            endPoint = endPoint + QPointF(0, space_height);
-            allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            // [5] 按照相邻进行移动位置
+            for (int i = 1; i < allitems.size(); i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
+                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
+        } else
+        {
+            qreal space_height = (scence_BR.height() - sum_items_height)
+                                 / (allitems.size() - 1);
+
+            // [6] 按照y值进行移动位置
+            for (int i = 1; i < allitems.size() - 1; i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
+                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
+                endPoint = endPoint + QPointF(0, space_height);
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
         }
 
-        // [6] 设置出入栈
+        // [7] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
     });
@@ -426,37 +427,37 @@ void CGraphicsView::initContextMenuConnection()
         // [4] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
         QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
-        if (sum_items_width > scence_BR.width())
-        {
-            for (int i = 1; i < allitems.size(); i++) {
-                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
-                                 , allitems.at(i)->sceneBoundingRect().top());
-                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            }
-            // 更新画布区域,不然框选的线显示错误
-            if (scene() != nullptr)
-                scene()->views().first()->viewport()->update();
-            return ;
-        }
-        qreal space_width = (scence_BR.width() - sum_items_width)
-                            / (allitems.size() - 1);
 
-        // [4] 用于记录保存图元的位置，便于撤销和返回
+        // [5] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
-        // [5] 按照x值进行移动位置
-        for (int i = 1; i < allitems.size() - 1; i++)
+        if (sum_items_width > scence_BR.width())
         {
-            startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
-            QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
-                             , allitems.at(i)->sceneBoundingRect().top());
-            endPoint = endPoint + QPointF(space_width, 0);
-            allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            // [6] 按照相邻进行移动位置
+            for (int i = 1; i < allitems.size(); i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
+                                 , allitems.at(i)->sceneBoundingRect().top());
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
+        } else
+        {
+            qreal space_width = (scence_BR.width() - sum_items_width)
+                                / (allitems.size() - 1);
+            // [7] 按照x值的间隔进行移动位置
+            for (int i = 1; i < allitems.size() - 1; i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
+                                 , allitems.at(i)->sceneBoundingRect().top());
+                endPoint = endPoint + QPointF(space_width, 0);
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
         }
 
-        // [6] 设置出入栈
+        // [8] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
     });
