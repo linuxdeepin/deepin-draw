@@ -184,7 +184,7 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(-1, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(70, 36));
+    m_rediusSpinbox->setFixedSize(QSize(80, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
     m_rediusSpinbox->setEnabledEmbedStyle(true);
