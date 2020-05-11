@@ -120,6 +120,12 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 //        qApp->setOverrideCursor(Qt::ClosedHandCursor);
 //    });
 //    viewport()->addAction(action);
+
+
+    //初始化后设置自身为焦点
+    QMetaObject::invokeMethod(this, [ = ]() {
+        this->setFocus();
+    }, Qt::QueuedConnection);
 }
 
 void CGraphicsView::zoomOut()
