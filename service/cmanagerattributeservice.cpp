@@ -666,7 +666,10 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
                 break;
             }
         }
+    } else {
+        isAllPictureItem = false;
     }
+
     if (isAllPictureItem) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
             emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->boundingRect() == m_currentScence->sceneRect()));

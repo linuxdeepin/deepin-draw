@@ -326,6 +326,13 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewZoomOutAction1, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
+    connect(m_undoAct, &QAction::triggered, this, [ = ] {
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    });
+    connect(m_redoAct, &QAction::triggered, this, [ = ] {
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    });
+
     // 连接图元对齐信号
     connect(m_itemsLeftAlign, &QAction::triggered, this, [ = ] {
         this->updateSelectedItemsAlignment(Qt::AlignLeft);
