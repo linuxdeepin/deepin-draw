@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cundocommands.h"
+
 #include "drawshape/globaldefine.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
@@ -30,9 +31,13 @@
 #include "drawshape/cgraphicsitemselectedmgr.h"
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicsitemhighlight.h"
+#include "drawshape/cpictureitem.h"
+
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+
 #include "service/cmanagerattributeservice.h"
+
 #include "widgets/ctextedit.h"
 
 #include <QUndoCommand>
@@ -40,6 +45,7 @@
 #include <QGraphicsItem>
 #include <QBrush>
 #include <QDebug>
+
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
@@ -2094,4 +2100,65 @@ void CItemsAlignCommand::redo()
 
     // 手动刷新重做后的多选框线
     CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
+}
+
+CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
+{
+    myGraphicsScene = scene;
+    m_item = item;
+    m_endType = endType;
+}
+
+void CItemRotationCommand::undo()
+{
+    qDebug() << "CItemsRotationCommand: " << "undo";
+
+    // 只有图片才进行旋转操作
+    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+    if (pictureItem) {
+        switch (m_endType) {
+        case ERotationType::LeftRotate_90:
+            pictureItem->setRotation90(false);
+            break;
+        case ERotationType::RightRotate_90:
+            pictureItem->setRotation90(true);
+            break;
+        case ERotationType::FlipHorizontal:
+            pictureItem->setMirror(true, false);
+            break;
+        case ERotationType::FlipVertical:
+            pictureItem->setMirror(false, true);
+            break;
+        }
+    }
+
+    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
+    myGraphicsScene->getItemHighLight()->setVisible(false);
+}
+
+void CItemRotationCommand::redo()
+{
+    qDebug() << "CItemsRotationCommand: " << "redo";
+
+    // 只有图片才进行旋转操作
+    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+    if (pictureItem) {
+        switch (m_endType) {
+        case ERotationType::LeftRotate_90:
+            pictureItem->setRotation90(true);
+            break;
+        case ERotationType::RightRotate_90:
+            pictureItem->setRotation90(false);
+            break;
+        case ERotationType::FlipHorizontal:
+            pictureItem->setMirror(true, false);
+            break;
+        case ERotationType::FlipVertical:
+            pictureItem->setMirror(false, true);
+            break;
+        }
+    }
+
+    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
+    myGraphicsScene->getItemHighLight()->setVisible(false);
 }

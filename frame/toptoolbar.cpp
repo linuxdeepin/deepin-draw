@@ -610,10 +610,6 @@ void TopToolbar::initConnection()
 //    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::slotUpdateCurrentAttributeBar);
 
-
-    /////传递图片的旋转和翻转信号
-    connect(m_picWidget, &CPictureWidget::signalBtnClick, this, &TopToolbar::signalPassPictureOperation);
-
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);

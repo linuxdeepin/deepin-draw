@@ -235,8 +235,6 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
     connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
-    //图片选中后相应操作
-    connect(this, SIGNAL(signalPassPictureOper(int)), curScene, SLOT(picOperation(int )));
 
     connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);

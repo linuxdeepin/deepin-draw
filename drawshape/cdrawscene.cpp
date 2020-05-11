@@ -412,40 +412,6 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 }
 
-void CDrawScene::picOperation(int enumstyle)
-{
-    if (this != static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())) {
-        return;
-    }
-    //qDebug() << "entered the  picOperation function" << endl;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    if ( items.count() != 0 ) {
-        QGraphicsItem *item = items.first();
-        //需要区别图元或文字
-        if (item->type() == PictureType) {
-            CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
-            if (pictureItem != nullptr) {
-                switch (enumstyle) {
-                case CPictureWidget::LeftRotate:
-                    pictureItem->setRotation90(true);
-                    break;
-                case CPictureWidget::RightRotate:
-                    pictureItem->setRotation90(false);
-                    break;
-                case CPictureWidget::FlipHorizontal:
-                    pictureItem->setMirror(true, false);
-                    break;
-                case CPictureWidget::FlipVertical:
-                    pictureItem->setMirror(false, true);
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-    }
-}
-
 void CDrawScene::drawToolChange(int type)
 {
     clearMutiSelectedState();

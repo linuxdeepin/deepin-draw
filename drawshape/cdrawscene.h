@@ -270,13 +270,6 @@ signals:
     void signalIsModify(bool isModify);
 
 public slots:
-
-    /**
-     * @brief picOperation 图片操作
-     * @param enumstyle 操作方式
-     */
-    void picOperation(int enumstyle);
-
     /**
      * @brief drawToolChange 切换绘图工具
      * @param type

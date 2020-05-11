@@ -77,10 +77,6 @@ signals:
      */
     void signalImport();
     /**
-     * @brief signalPassPictureOperation   传递图片的旋转和翻转信号
-     */
-    void signalPassPictureOperation(int);
-    /**
      * @brief signalZoom　放大缩小信号
      */
     void signalZoom(qreal);

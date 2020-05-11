@@ -654,8 +654,25 @@ int CManagerAttributeService::getSelectedColorAlpha(DrawStatus drawstatus)
     return alpha;
 }
 
+void CManagerAttributeService::setPictureRotateOrFlip(ERotationType type)
+{
+    updateCurrentScence();
+
+    QList<QGraphicsItem *> items = m_currentScence->selectedItems();
+    if ( items.count() != 0 ) {
+        CGraphicsItem *item = static_cast<CGraphicsItem *>(items.first());
+
+        if (item != nullptr) {
+            CItemRotationCommand *addCommand = nullptr;
+            addCommand = new CItemRotationCommand(m_currentScence, item, type);
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+        }
+    }
+}
+
 bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)
 {
+    Q_UNUSED(scence)
     bool isAllPictureItem = true;
     if (items.size() >= 1) {
         for (int i = 0; i < items.size(); i++) {

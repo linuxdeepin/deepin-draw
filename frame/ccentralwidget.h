@@ -102,10 +102,6 @@ public:
     */
     QStringList getAllTabBarUUID();
 signals:
-    /**
-     * @brief signalPassPictureOper　传递图片的旋转和翻转信号
-     */
-    void signalPassPictureOper(int);
 
     /**
      * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号

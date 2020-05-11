@@ -89,6 +89,12 @@ public:
     */
     int getSelectedColorAlpha(DrawStatus drawstatus);
 
+    /*
+    * @bref: setPictureRotateOrFlip 设置图片图元翻转
+    * @param: type 翻转类型
+    */
+    void setPictureRotateOrFlip(ERotationType type);
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号
