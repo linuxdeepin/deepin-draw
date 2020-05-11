@@ -551,8 +551,7 @@ void CManagerAttributeService::doSceneAdjustment()
             if (allSelectItems.size() >= 1) {
                 CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
                 if (item != nullptr) {
-                    m_currentScence->doAdjustmentScene(item->boundingRect(), item);
-                    item->setPos(0, 0);
+                    m_currentScence->doAdjustmentScene(item->mapRectToScene(item->boundingRect()), item);
                 }
             }
         }
@@ -686,7 +685,7 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
             if (allSelectItems.size() >= 1) {
                 CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
                 if (item != nullptr) {
-                    emit signalIsAllPictureItem(!(item->boundingRect() == m_currentScence->sceneRect()));
+                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect()));
                 }
             }
         }
