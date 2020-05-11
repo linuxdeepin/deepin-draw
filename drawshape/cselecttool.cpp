@@ -115,6 +115,12 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         if (ctrlKeyPress) {
             scene->clearSelection();
         }
+        if (!shiftKeyPress && m_currentSelectItem) {
+            CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+            if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                scene->getItemsMgr()->clear();
+            }
+        }
         if (altKeyPress && m_currentSelectItem) {
             CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
             if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
