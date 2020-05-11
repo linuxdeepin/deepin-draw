@@ -120,8 +120,6 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 //        qApp->setOverrideCursor(Qt::ClosedHandCursor);
 //    });
 //    viewport()->addAction(action);
-
-
 }
 
 void CGraphicsView::zoomOut()
@@ -1562,6 +1560,12 @@ bool CGraphicsView::isKeySpacePressed()
 CDrawScene *CGraphicsView::drawScene()
 {
     return dynamic_cast<CDrawScene *>(scene());
+}
+
+void CGraphicsView::showEvent(QShowEvent *event)
+{
+    this->setTransformationAnchor(AnchorViewCenter);
+    QGraphicsView::showEvent(event);
 }
 
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)

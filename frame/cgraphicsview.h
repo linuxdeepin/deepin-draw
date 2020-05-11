@@ -126,6 +126,8 @@ public:
     CDrawScene *drawScene();
 
 protected:
+    void showEvent(QShowEvent *event)override;
+
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
      * @param event 鼠标滚轮事件
