@@ -940,6 +940,9 @@ void CGraphicsView::slotOneLayerUp()
         QUndoCommand *command = new COneLayerUpCommand(curScene, selectedItems);
         this->pushUndoStack(command);
     }
+    if (drawScene() != nullptr) {
+        drawScene()->updateAllBlurItem();
+    }
 }
 
 void CGraphicsView::slotOneLayerDown()
@@ -966,6 +969,9 @@ void CGraphicsView::slotOneLayerDown()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new COneLayerDownCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+    }
+    if (drawScene() != nullptr) {
+        drawScene()->updateAllBlurItem();
     }
 }
 
@@ -995,6 +1001,9 @@ void CGraphicsView::slotBringToFront()
         QUndoCommand *command = new CBringToFrontCommand(curScene, selectedItems);
         this->pushUndoStack(command);
     }
+    if (drawScene() != nullptr) {
+        drawScene()->updateAllBlurItem();
+    }
 }
 
 void CGraphicsView::slotSendTobackAct()
@@ -1021,6 +1030,9 @@ void CGraphicsView::slotSendTobackAct()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new CSendToBackCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+    }
+    if (drawScene() != nullptr) {
+        drawScene()->updateAllBlurItem();
     }
 }
 
@@ -1207,6 +1219,11 @@ void CGraphicsView::doSaveDDF()
         m_DDFManager->saveToDDF(ddfPath, scene());
         // 保存是否成功均等待信号触发后续事件
     }
+}
+
+CDrawScene *CGraphicsView::drawScene()
+{
+    return qobject_cast<CDrawScene *>(scene());
 }
 
 void CGraphicsView::showSaveDDFDialog(bool type)

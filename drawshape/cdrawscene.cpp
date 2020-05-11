@@ -756,3 +756,17 @@ void CDrawScene::updateItemsMgr()
     }
 }
 
+void CDrawScene::updateAllBlurItem()
+{
+    QList<QGraphicsItem *> itemList = items();
+
+    for (QGraphicsItem *pItem : itemList) {
+        if (pItem->type() == BlurType) {
+            CGraphicsMasicoItem *pMsicItem = dynamic_cast<CGraphicsMasicoItem *>(pItem);
+            if (pMsicItem != nullptr) {
+                pMsicItem->setPixmap();
+            }
+        }
+    }
+}
+
