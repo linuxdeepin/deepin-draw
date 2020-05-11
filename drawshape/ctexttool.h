@@ -20,6 +20,7 @@
 #define CTEXTTOOL_H
 #include "idrawtool.h"
 
+class CGraphicsTextItem;
 class CTextTool : public IDrawTool
 {
 public:
@@ -45,6 +46,9 @@ public:
      * @param scene 场景句柄
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsTextItem *_tempTextItem = nullptr;
 };
 
 #endif // CTEXTTOOL_H

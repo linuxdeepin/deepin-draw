@@ -644,6 +644,28 @@ bool CGraphicsTextItem::isEditable() const
     return !m_pTextEdit->isHidden();
 }
 
+void CGraphicsTextItem::makeSelfEditable()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView() == nullptr) {
+        return;
+    }
+    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
+        m_pTextEdit->show();
+        //m_pProxy->setFocus();
+        QTextCursor textCursor = m_pTextEdit->textCursor();
+        textCursor.select(QTextCursor::Document);
+        m_pTextEdit->setTextCursor(textCursor);
+//    m_pTextEdit->cursorPositionChanged();
+    }
+
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
+    m_pTextEdit->setFocus();
+}
+
 void CGraphicsTextItem::doCut()
 {
     m_pTextEdit->cut();

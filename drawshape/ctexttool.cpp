@@ -73,6 +73,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
+        _tempTextItem = item;
 //        scene->views()[0]->setFocus();
 //        item->getTextEdit()->setFocus();
         //item->getCGraphicsProxyWidget()->setFocus();
@@ -97,4 +98,9 @@ void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     scene->mouseEvent(event);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit scene->signalChangeToSelect();
+
+    if (_tempTextItem != nullptr) {
+        _tempTextItem->makeSelfEditable();
+        _tempTextItem = nullptr;
+    }
 }
