@@ -42,13 +42,12 @@ ProgressLayout::ProgressLayout(DBlurEffectWidget *parent)
     m_progressbar = new DProgressBar();
     m_progressbar->setTextVisible(false);
     m_progressbar->setFixedSize(400, 6);
-    //m_progressbar->setTextVisiable(false);
     m_progressVBoxLayout->addWidget(m_label, 40, Qt::AlignCenter);
     m_progressVBoxLayout->addSpacing(1);
     m_progressVBoxLayout->addWidget(m_progressLabel, 40, Qt::AlignCenter);
     m_progressVBoxLayout->addSpacing(1);
     m_progressVBoxLayout->addWidget(m_progressbar, 40, Qt::AlignCenter);
-    this->setFixedSize(480, 83);
+    this->setFixedSize(480, 100);
 
     this->setLayout(m_progressVBoxLayout);
     this->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
