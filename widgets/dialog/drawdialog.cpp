@@ -21,13 +21,13 @@
 #include "drawshape/cdrawparamsigleton.h"
 
 #include <QHBoxLayout>
-#include <QLabel>
+#include <DLabel>
 #include <QLineEdit>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QApplication>
 
-const QSize DIALOG_SIZE = QSize(422, 160);
+//const QSize DIALOG_SIZE = QSize(422, 160);
 
 DrawDialog::DrawDialog(DWidget *parent)
     : Dialog(parent)
@@ -41,41 +41,20 @@ DrawDialog::DrawDialog(DWidget *parent)
     addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     // Input content
-    //const QString subStyle = getFileContent(":/drawdialog.qss");
-//    DLabel *title = new DLabel(tr("The changes you made have not been saved yet. Do you want to save them?"), this);
-//    title->setWordWrap(true);
-//    //title->setStyleSheet(subStyle);
-//    title->setObjectName("DialogTitle");
-//    title->setAlignment(Qt::AlignLeft);
+    DLabel *title = new DLabel(tr("Save the current contents?"), this);
+    title->setWordWrap(true);
+    title->setAlignment(Qt::AlignCenter);
 
-//    DWidget *w = new DWidget(this);
-//    w->setFixedHeight(this->height() - 60);
+    DWidget *w = new DWidget(this);
+    w->setFixedHeight(this->height() - 80);
 
-//    QVBoxLayout *layout = new QVBoxLayout(w);
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    layout->setSpacing(8);
-//    layout->addStretch();
-//    layout->addWidget(title);
-//    layout->addStretch();
-//    addContent(w);
-
-    //setTitle(tr("The changes you made have not been saved yet. Do you want to save them?"));
-
-    //是否保存当前画板内容？
-    setTitle(tr("Save the current contents?"));
-
-//    connect(this, &DrawDialog::buttonClicked, this, [ = ](int id) {
-//        if (id == 0) {
-//            this->close();
-//        } else if (id == 1) {
-//            this->close();
-//            emit singalDoNotSaveToDDF();
-//        } else {
-//            //点击发出保存信号后，要先把询问对话框关闭了
-//            this->close();
-//            emit signalSaveToDDF();
-//        }
-//    });
+    QVBoxLayout *layout = new QVBoxLayout(w);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(8);
+    layout->addStretch();
+    layout->addWidget(title);
+    layout->addStretch();
+    addContent(w);
 }
 
 

@@ -588,6 +588,7 @@ void TopToolbar::enterEvent(QEvent *event)
 
 void TopToolbar::slotUpdateCurrentAttributeBar()
 {
+    return;
     QWidget *currentWidget = m_stackWidget->currentWidget();
     if (currentWidget == m_commonShapeWidget) {
         m_commonShapeWidget->updateCommonShapWidget();
