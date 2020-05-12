@@ -67,6 +67,14 @@ void CPictureWidget::setAdjustmentIsEnable(bool isEnable)
     m_flipAdjustment->setEnabled(isEnable);
 }
 
+void CPictureWidget::setRotationEnable(bool isEnable)
+{
+    m_leftRotateBtn->setEnabled(!isEnable);
+    m_rightRotateBtn->setEnabled(!isEnable);
+    m_flipHBtn->setEnabled(!isEnable);
+    m_flipVBtn->setEnabled(!isEnable);
+}
+
 void CPictureWidget::initUI()
 {
     QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMapClick;

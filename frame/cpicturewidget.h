@@ -42,6 +42,11 @@ public:
      */
     void setAdjustmentIsEnable(bool isEnable);
 
+    /**
+     * @brief setRotationEnable 设置图片旋转按钮是否可用
+     */
+    void setRotationEnable(bool isEnable);
+
 private:
     CClickButton *m_leftRotateBtn;
     CClickButton *m_rightRotateBtn;
