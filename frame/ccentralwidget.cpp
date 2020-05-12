@@ -525,17 +525,18 @@ void CCentralwidget::initUI()
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
     m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
 
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(m_topMutipTabBarWidget);
+    vLayout->addLayout(m_stackedLayout);
+    vLayout->setMargin(0);
+    vLayout->setSpacing(0);
+
     m_hLayout->setMargin(0);
     m_hLayout->setSpacing(0);
     m_hLayout->addWidget(m_leftToolbar);
-    m_hLayout->addLayout(m_stackedLayout);
-
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addWidget(m_topMutipTabBarWidget);
-    vLayout->addLayout(m_hLayout);
-    vLayout->setMargin(0);
-    vLayout->setSpacing(0);
-    setLayout(vLayout);
+    m_hLayout->addLayout(vLayout);
+    setLayout(m_hLayout);
+    m_leftToolbar->raise();
 
     // 只有一个标签需要隐藏多标签控件
     m_topMutipTabBarWidget->hide();

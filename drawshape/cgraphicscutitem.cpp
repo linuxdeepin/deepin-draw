@@ -749,8 +749,7 @@ void CGraphicsCutItem::doChangeSize(int w, int h)
 QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     Q_UNUSED(change);
-    if(scene() != nullptr && !scene()->views().isEmpty())
-    {
+    if (scene() != nullptr && !scene()->views().isEmpty()) {
         scene()->views().first()->viewport()->update();
     }
     return value;
@@ -762,7 +761,8 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateGeometry();
 
-    QColor penColor = QColor("#979797");
+    QColor penColor = QColor("#ffffff");
+    penColor.setAlpha(255 * 0.7);
     //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
     //    if (themValue == 1) {
     //        //浅色主题
@@ -773,7 +773,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     //    }
 
     //先绘制一层阴影
-    QColor bgColor(0,0,0,int(255.0*40.0/100.0));
+    QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
     painter->save();
     //painter->setClipping(false);
     painter->setPen(Qt::NoPen);
