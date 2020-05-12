@@ -60,6 +60,8 @@
 #include <QDesktopWidget>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QWindow>
+#include <QScreen>
 #include <qscrollbar.h>
 
 //升序排列用
@@ -709,8 +711,43 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     //m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     //m_pasteAct->setEnabled(true);
 
-    m_contextMenu->show();
+
+
+    //m_contextMenu->show();
+
+    showMenu(m_contextMenu);
 }
+
+void CGraphicsView::showMenu(DMenu *pMenu)
+{
+    QPoint curPos = QCursor::pos();
+
+    QSize menSz = pMenu->size();
+
+    QRect menuRect = QRect(curPos, menSz);
+
+    QScreen *pCurScren = pMenu->windowHandle()->screen();
+
+    if (pCurScren != nullptr) {
+        QRect geomeRect = pCurScren->geometry();
+        if (!geomeRect.contains(menuRect)) {
+            if (menuRect.right() > geomeRect.right()) {
+                int move = menuRect.right() - geomeRect.right();
+                menuRect.adjust(-move, 0, -move, 0);
+            }
+
+            if (menuRect.bottom() > geomeRect.bottom()) {
+                int move = menuRect.bottom() - geomeRect.bottom();
+                menuRect.adjust(0, -move, 0, -move);
+            }
+        }
+    }
+
+    pMenu->move(menuRect.topLeft());
+
+    pMenu->show();
+}
+
 
 void CGraphicsView::resizeEvent(QResizeEvent *event)
 {

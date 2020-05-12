@@ -139,6 +139,7 @@ protected:
      * @param event 右键菜单
      */
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void showMenu(DMenu *pMenu);
 
     /**
      * @brief resizeEvent 窗口大小更改响应事件函数
