@@ -231,6 +231,9 @@ void CGraphicsItem::beginCheckIns(QPainter *painter)
     QRectF sceneRct = scene()->sceneRect();
     QRectF itemRct  = mapToScene(rect()).boundingRect();
     bool hasIntersects = sceneRct.intersects(itemRct);
+    if (!hasIntersects) {
+        painter->setOpacity(0.2);//透明度设置
+    }
     painter->setClipping(hasIntersects);
 }
 
