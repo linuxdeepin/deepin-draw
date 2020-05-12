@@ -60,7 +60,7 @@ void CPenWidget::changeButtonTheme()
     m_sep1Line->updateTheme();
 }
 
-void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     m_strokeBtn->setVisible(false);
     m_sideWidthWidget->setVisible(false);
@@ -81,7 +81,9 @@ void CPenWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(color);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+                if (write2Cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+                }
             }
             m_strokeBtn->update();
             m_strokeBtn->blockSignals(false);

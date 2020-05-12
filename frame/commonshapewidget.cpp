@@ -66,8 +66,9 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
     m_sepLine->setVisible(visible);
 }
 
-void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache)
 {
+    qDebug() << "write2cache: " << write2cache;
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
@@ -84,7 +85,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_fillBtn->setIsMultColorSame(false);
             } else {
                 m_fillBtn->setColor(propertys[property].value<QBrush>().color());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(propertys[property].value<QBrush>().color());
+                if (write2cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(propertys[property].value<QBrush>().color());
+                }
             }
             m_fillBtn->update();
             break;
@@ -106,7 +109,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(propertys[property].value<QColor>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
+                if (write2cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
+                }
             }
             m_strokeBtn->update();
             break;

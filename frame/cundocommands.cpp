@@ -1718,13 +1718,15 @@ void CMultMoveShapeCommand::redo()
     m_bMoved = true;
 }
 
-CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value)
+CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
+                                                                         EDrawProperty property, QVariant value, bool write2Cache)
 {
     qDebug() << "CSetItemsCommonPropertyValueCommand: " << value;
     myGraphicsScene = scene;
     m_items = items;
     m_property = property;
     m_value = value;
+    m_write2Cache = write2Cache;
     QVariant oldValue;
     for (auto item : items) {
         switch (m_property) {
@@ -1787,6 +1789,18 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
         case Blurtype:
             oldValue.setValue(static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()));
             break;
+        case FillColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor().alpha());
+            break;
+        }
+        case LineColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen().color().alpha());
+            break;
+        }
+        case TextColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+            break;
+        }
         }
         m_oldValues[item] = oldValue;
     }
@@ -1794,9 +1808,10 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
 
 CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene,
                                                                          const QMap<CGraphicsItem *, QVariant> &oldValues,
-                                                                         EDrawProperty property, QVariant value)
+                                                                         EDrawProperty property, QVariant value, bool write2Cache)
 {
     myGraphicsScene = scene;
+    m_write2Cache = write2Cache;
     for (auto it = oldValues.begin(); it != oldValues.end(); ++it) {
         m_items.append(it.key());
     }
@@ -1816,6 +1831,14 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case FillColor:
             item->setBrush(oldValue.value<QBrush>());
             break;
+        case FillColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(oldValue.toInt());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            break;
+        }
         case LineWidth: {
             QPen widthpen = item->pen();
             widthpen.setWidth(oldValue.toInt());
@@ -1828,6 +1851,14 @@ void CSetItemsCommonPropertyValueCommand::undo()
             item->setPen(colorpen);
         }
         break;
+        case LineColorAlpha: {
+            QPen colorpen = item->pen();
+            QColor color = colorpen.color();
+            color.setAlpha(oldValue.toInt());
+            colorpen.setColor(color);
+            item->setPen(colorpen);
+            break;
+        }
         case RectRadius:
             static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
             break;
@@ -1866,6 +1897,21 @@ void CSetItemsCommonPropertyValueCommand::undo()
                 }
             }
             break;
+        case TextColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(oldValue.toInt());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            if (item->type() == TextType) {
+                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+                if (curTextItem != nullptr) {
+                    int alpha = oldValue.toInt();
+                    curTextItem->setTextColorAlpha(alpha);
+                }
+            }
+            break;
+        }
         case TextSize: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
@@ -1919,7 +1965,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
         }
     }
 
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
     qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
@@ -1927,7 +1973,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
 
 void CSetItemsCommonPropertyValueCommand::redo()
 {
-    qDebug() << "CSetItemsCommonPropertyValueCommand: " << "redo";
     for (int i = 0; i < m_items.size(); i++) {
         CGraphicsItem *item = m_items.at(i);
         switch (m_property) {
@@ -1940,9 +1985,6 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorBrush.setColor(color);
             item->setBrush(colorBrush);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
-            }
         }
         break;
         case LineWidth: {
@@ -1963,9 +2005,6 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorpen.setColor(color);
             item->setPen(colorpen);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
-            }
         }
         break;
         case RectRadius:
@@ -2020,17 +2059,11 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorBrush.setColor(color);
             item->setBrush(colorBrush);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
-            }
             if (item->type() == TextType) {
                 auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
                 if (curTextItem != nullptr) {
                     int alpha = m_value.toInt();
                     curTextItem->setTextColorAlpha(alpha);
-                    QColor cacheColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-                    cacheColor.setAlpha(alpha);
-                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(cacheColor);
                 }
             }
         }
@@ -2088,8 +2121,8 @@ void CSetItemsCommonPropertyValueCommand::redo()
         }
     }
 
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
+    qDebug() << "CSetItemsCommonPropertyValueCommand::redo--> refreshSelectedCommonProperty write2Cache:" << m_write2Cache;
 
     myGraphicsScene->update();
 }

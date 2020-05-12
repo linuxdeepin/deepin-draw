@@ -135,18 +135,23 @@ void CTextEdit::solveHtml(QString &html)
         temp += html.at(i);
     }
 
-    // [1] 剔除错误的字符格式并保存数据  得到的数据：<span style=\" font-family:'Unifont'; font-size:36pt; font-weight:456; color:#000000;\">文 本内容；
+    // [1] 剔除错误的字符格式并保存数据  得到的数据：
+    // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:#000000;\">输入文本
+    // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:rgba(0,0,0,0.341176);\">输入文本
+
     m_allTextInfo.clear();
     for (int i = 0; i < list.size(); i++) {
-        // [2] 将文本的格式和实际的字符串分割为两部分，避免解析格式的时候影响文本切割出错
-        int len = list[i].indexOf("color:") + 16;
-        QString formatString = list[i].left(len); // <span style=\" font-family:'Unifont'; font-size:36pt; font-weight:456; color:#000000;\">
-        QString textString = list[i].mid(len);
+        // [2] 将文本的格式和实际的字符串分割为三部分【字体属性】【颜色】【文字】，避免解析格式的时候影响文本切割出错
+        int len = list[i].indexOf(">");
+        QString formatString = list[i].left(len);
+        QString textString = list[i].mid(len + 1);
+
         formatString = formatString.replace("<span style=", "");
         formatString = formatString.replace("\"", "");
         formatString = formatString.replace("'", "");
 //        formatString = formatString.replace(" ", ""); // 不需要进行处理空格，否则family中间的空格会被取消导致文字字重属性刷新不全
         formatString = formatString.replace(">", "");
+
         // 默认的字重是不会在单个的字的描述中显示，因此需要手动加上一个默认属性
         if (!formatString.contains("font-weight:")) {
             formatString.insert(formatString.indexOf("color:"), "formatString:" + QString::number(
@@ -157,9 +162,9 @@ void CTextEdit::solveHtml(QString &html)
         formatString = formatString.replace("font-weight:", "");
         formatString = formatString.replace("color:", "");
         formatString = formatString.replace("pt", "");
-//        qDebug() << "formatString: " << formatString;
+//        qDebug() << "formatString: " << formatString; // Bitstream Charter; 14; 0; #000000; / Bitstream Charter; 14; 0; rgba(0,0,0,0.482353);
         QStringList temp = formatString.split(";");
-
+//        qDebug() << "temp: " << temp;
         // [3] 单个字单个字进行保存其对应的属性，方便后面进行属性比较（换行符号不作处理）
         if (temp.size() == 5) {
             for (int i = 0; i < textString.length(); i++) {
@@ -167,9 +172,28 @@ void CTextEdit::solveHtml(QString &html)
                 data.insert(FontFamily, temp[0].trimmed());
                 data.insert(PointSize, temp[1].trimmed());
                 data.insert(FontStyle, temp[2].trimmed());
-                data.insert(FontColor, temp[3].trimmed());
-                QColor color(temp[3].trimmed());
-                data.insert(ColorAlpha, color.alpha());
+
+                // 颜色需要单独进行特殊处理
+                temp[3] = temp[3].trimmed();
+                if (temp[3].contains("rgba")) {
+                    QString colorStr = temp[3];
+                    colorStr = colorStr.replace("rgba", "");
+                    colorStr = colorStr.replace("(", "");
+                    colorStr = colorStr.replace(")", "");
+                    QStringList rgba = colorStr.split(",");
+                    QColor color;
+                    color.setRed(rgba[0].toInt());
+                    color.setGreen(rgba[1].toInt());
+                    color.setBlue(rgba[2].toInt());
+                    color.setAlpha(static_cast<int>(rgba[3].toFloat() * 255));
+                    data.insert(FontColor, color);
+                    data.insert(ColorAlpha, color.alpha());
+                } else {
+                    QColor color(temp[3].trimmed());
+                    data.insert(FontColor, color);
+                    data.insert(ColorAlpha, color.alpha());
+                }
+
                 data.insert(Text, textString.at(i));
                 m_allTextInfo.append(data);
             }
@@ -299,13 +323,13 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
-    qDebug() << "selected_start_index: " << selected_start_index;
-    qDebug() << "      selectedString: " << selectedString;
-    qDebug() << "     m_selectedColor: " << m_selectedColor;
-    qDebug() << "      m_selectedSize: " << m_selectedSize;
-    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+//    qDebug() << "selected_start_index: " << selected_start_index;
+//    qDebug() << "      selectedString: " << selectedString;
+//    qDebug() << "     m_selectedColor: " << m_selectedColor;
+//    qDebug() << "      m_selectedSize: " << m_selectedSize;
+//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+//    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
 }
 
 void CTextEdit::checkTextProperty()

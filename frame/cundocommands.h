@@ -526,8 +526,10 @@ private:
 class CSetItemsCommonPropertyValueCommand: public QUndoCommand
 {
 public:
-    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value);
-    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues, EDrawProperty property, QVariant value);
+    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
+                                                 EDrawProperty property, QVariant value, bool write2Cache = true);
+    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues,
+                                        EDrawProperty property, QVariant value, bool write2Cache = true);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -539,6 +541,7 @@ private:
     EDrawProperty m_property;
     QVariant m_value;
     QMap<CGraphicsItem *, QVariant> m_oldValues;
+    bool m_write2Cache;
 };
 
 /**

@@ -176,7 +176,7 @@ public slots:
      * @param mode　图元类型
      * @param propertys　要显示的公共属性
      */
-    void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
+    void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache);
     /**
      * @brief signalIsAllPictureItem　选中图元图元是否都为图片
      * @param isEnable　自适应按钮是否可用

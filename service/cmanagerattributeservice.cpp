@@ -63,7 +63,7 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
     return instance;
 }
 
-void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items)
+void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items, bool write2Cache)
 {
     Q_UNUSED(scence)
     updateCurrentScence();
@@ -419,10 +419,10 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
     if (allPropertys.size() == 0) {
         mode = EGraphicUserType::NoType;
     }
-    emit signalShowWidgetCommonProperty(mode, allPropertys);
+    emit signalShowWidgetCommonProperty(mode, allPropertys, write2Cache);
 }
 
-void CManagerAttributeService::refreshSelectedCommonProperty()
+void CManagerAttributeService::refreshSelectedCommonProperty(bool write2Cache)
 {
     updateCurrentScence();
     if (m_currentScence) {
@@ -448,14 +448,14 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
                 }
             }
         }
-        this->showSelectedCommonProperty(m_currentScence, allItems);
+        this->showSelectedCommonProperty(m_currentScence, allItems, write2Cache);
     }
 }
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
                                                            bool pushTostack,
                                                            QMap<CGraphicsItem *, QVariant> *outOldValues,
-                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues)
+                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues, bool write2Cache)
 {
     if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
         return;
@@ -490,12 +490,14 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
             return;
         }
         static int i = 0;
-        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value << "pushTostack = " << pushTostack;
+        qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
+                 << ++i << "value = " << value << "pushTostack = " << pushTostack
+                 << "write2Cache:" << write2Cache;
         CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
         if (inUndoValues == nullptr) {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
         } else {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value);
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
         }
         if (pushTostack) {
             CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);

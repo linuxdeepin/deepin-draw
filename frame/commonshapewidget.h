@@ -56,7 +56,7 @@ public:
      * @brief updateMultCommonShapWidget 更新多选时属性栏
      * @param propertys 要显示的控件和数值
      */
-    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys);
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache = true);
 
 signals:
     /**

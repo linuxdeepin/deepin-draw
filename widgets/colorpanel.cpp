@@ -341,17 +341,17 @@ void ColorPanel::initConnection()
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alphaValue, false);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alphaValue, false, nullptr, nullptr, false);
         } else if (m_drawstatus == Stroke) {
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alphaValue, false);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alphaValue, false, nullptr, nullptr, false);
         } else if (m_drawstatus == TextFill) {
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
-            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColorAlpha, alphaValue, false);
+            CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColorAlpha, alphaValue, false, nullptr, nullptr, false);
         }
         resetColorBtn();
         update();
@@ -361,19 +361,10 @@ void ColorPanel::initConnection()
         int alpha = m_alphaControlWidget->getCurrentAlphaValue();
         if (m_drawstatus == Fill) {
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alpha, true);
-            QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
-            color.setAlpha(alpha);
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
         } else if (m_drawstatus == Stroke) {
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alpha, true);
-            QPen pen = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen();
-            QColor color = pen.color();
-            color.setAlpha(alpha);
-            pen.setColor(color);
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(pen);
         } else if (m_drawstatus == TextFill) {
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColorAlpha, alpha, true);
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alpha);
         }
         resetColorBtn();
         update();

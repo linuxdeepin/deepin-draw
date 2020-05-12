@@ -518,7 +518,7 @@ void TopToolbar::slotRectRediusChanged(int value)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
 }
 
-void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys)
+void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     if (propertys.size() > 0) {
         m_propertys = propertys;
@@ -530,31 +530,32 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     case::RectType://矩形
     case::EllipseType://圆形
     case::TriangleType://三角形
-        m_commonShapeWidget->updateMultCommonShapWidget(propertys);
+        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
+        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
     case::PolygonalStarType://多角星
-        m_polygonalStarWidget->updateMultCommonShapWidget(propertys);
+        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
         break;
     case::PolygonType://多边形
-        m_PolygonWidget->updateMultCommonShapWidget(propertys);
+        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_PolygonWidget);
         break;
     case::LineType://线
-        m_drawLineWidget->updateMultCommonShapWidget(propertys);
+        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_drawLineWidget);
         break;
     case::PenType://画笔
-        m_penWidget->updateMultCommonShapWidget(propertys);
+        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_penWidget);
         break;
     case::TextType://文本
-        m_drawTextWidget->updateMultCommonShapWidget(propertys);
+        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
     case::BlurType://模糊
-        m_drawBlurWidget->updateMultCommonShapWidget(propertys);
+        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
     }
 }
@@ -640,8 +641,8 @@ void TopToolbar::initConnection()
     connect(m_cutWidget, &CCutWidget::signalCutLineEditIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
 
     //CManagerAttributeService
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>)),
-            this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>)));
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)),
+            this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)));
     connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool)),
             this, SLOT(slotIsAllPictureItem(bool)));
 }

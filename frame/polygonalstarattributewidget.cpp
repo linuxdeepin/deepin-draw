@@ -61,7 +61,7 @@ void PolygonalStarAttributeWidget::changeButtonTheme()
     m_sepLine->updateTheme();
 }
 
-void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
