@@ -142,8 +142,6 @@ void ColorPanel::setConfigColor(QColor color)
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
     ///更新RBG值
     m_pickColWidget->setRgbValue(color);
-
-    emit signalColorChanged();
     //写入参数
     if (m_drawstatus == Fill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
@@ -155,19 +153,19 @@ void ColorPanel::setConfigColor(QColor color)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColor, color);
     }
+    emit signalColorChanged();
 }
 
-////颜色按钮点击处理
+//颜色按钮点击处理
 void ColorPanel::setConfigColorByColorName(QColor color)
 {
-    /// 颜色Alpha值
+    // 颜色Alpha值
     m_alphaControlWidget->updateAlphaControlWidget(color.alpha());
 
-    ///更新RBG值
+    //更新RBG值
     m_pickColWidget->setRgbValue(color);
 
-    emit signalColorChanged();
-    ///写入参数
+    //写入参数
     if (m_drawstatus == Fill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
     } else if (m_drawstatus == Stroke) {
@@ -175,7 +173,7 @@ void ColorPanel::setConfigColorByColorName(QColor color)
     } else if (m_drawstatus == TextFill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
-
+    emit signalColorChanged();
     resetColorBtn();
     update();
 }
@@ -329,6 +327,7 @@ void ColorPanel::initConnection()
         ////更新颜色按钮
         if (m_colList.contains(newColor)) {
             m_cButtonList[m_colList.indexOf(newColor)]->setChecked(true);
+            m_cButtonList[m_colList.indexOf(newColor)]->colorButtonClicked(newColor);
         } else {
             resetColorBtn();
         }

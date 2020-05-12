@@ -273,10 +273,6 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
     m_sideWidthWidget->setVisible(true);
-    m_sepLine->setVisible(false);
-    m_rediusLable->setVisible(false);
-    m_rediusSpinbox->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)
