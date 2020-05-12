@@ -2156,6 +2156,7 @@ void CItemsAlignCommand::undo()
 
     // 手动刷新重做后的多选框线
     CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CItemsAlignCommand::redo()
@@ -2174,6 +2175,7 @@ void CItemsAlignCommand::redo()
 
     // 手动刷新重做后的多选框线
     CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
@@ -2208,6 +2210,7 @@ void CItemRotationCommand::undo()
 
     // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
     myGraphicsScene->getItemHighLight()->setVisible(false);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CItemRotationCommand::redo()
@@ -2235,4 +2238,5 @@ void CItemRotationCommand::redo()
 
     // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
     myGraphicsScene->getItemHighLight()->setVisible(false);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
