@@ -18,6 +18,9 @@
  */
 #include "idrawtool.h"
 #include "cdrawscene.h"
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+#include "application.h"
 #include <QDebug>
 #include <QKeyEvent>
 
@@ -52,6 +55,13 @@ EDrawToolMode IDrawTool::getDrawToolMode() const
 
 QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress, char toolType)
 {
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pView != nullptr) {
+        if (pView->isKeySpacePressed()) {
+            return (*qApp->overrideCursor());
+        }
+    }
+
     Qt::CursorShape result;
     QCursor resultCursor;
     switch (dir) {

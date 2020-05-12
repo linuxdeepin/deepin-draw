@@ -2016,8 +2016,13 @@ void CGraphicsView::enterEvent(QEvent *event)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->changeMouseShape(currentMode);
+
+        if (!_spaceKeyPressed) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->changeMouseShape(currentMode);
+        } else {
+            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+        }
     }
 }
 
