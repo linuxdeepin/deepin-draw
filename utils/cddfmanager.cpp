@@ -176,7 +176,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             QMetaObject::invokeMethod(this, [ = ]() {
                 //证明是被重命名或者删除
                 QFileInfo fInfo(path);
-                DDialog dia(dApp->activeWindow());
+                DDialog dia(dApp->activationWindow());
                 dia.setFixedSize(404, 163);
                 dia.setModal(true);
                 QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
