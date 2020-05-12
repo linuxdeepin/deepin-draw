@@ -78,6 +78,7 @@ CSelectTool::CSelectTool ()
     , m_isMulItemMoving(false)
     , m_doResize(false)
     , m_isItemMoving(false)
+    , m_pressItemRect(QRectF())
 {
     m_frameSelectItem = new QGraphicsRectItem();
     m_frameSelectItem->setVisible(false);
@@ -376,6 +377,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
+                m_pressItemRect = m_currentSelectItem->boundingRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
@@ -736,7 +738,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
                     if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
-                        emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
+                        emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_pressItemRect, m_sPointRelease, shiftKeyPress, altKeyPress);
                     }
                 }
             }

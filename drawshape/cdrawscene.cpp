@@ -76,8 +76,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
             view, SLOT(itemAdded(QGraphicsItem *, bool)));
     connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
             view, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )),
-            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )));
+    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )),
+            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )));
     connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
             view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
     connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),

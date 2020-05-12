@@ -535,7 +535,7 @@ void CManagerAttributeService::doSceneAdjustment()
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         QList<CGraphicsItem *> allItems;
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->boundingRect(), nullptr);
+            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()), nullptr);
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {
@@ -689,7 +689,7 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
 
     if (isAllPictureItem) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->boundingRect() == m_currentScence->sceneRect()));
+            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect()));
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {

@@ -520,15 +520,56 @@ void UnGroupShapeCommand::redo()
 */
 
 
-CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
+CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
     : QUndoCommand(parent)
     , myItem(item)
     , m_handle(handle)
-    , m_beginPos(beginPos)
     , m_endPos(endPos)
     , m_bShiftPress(bShiftPress)
     , m_bAltPress(bALtPress)
 {
+    QRectF rect = beginRect;
+    switch (m_handle) {
+    case CSizeHandleRect::Right:
+        m_beginPos = QPointF(rect.right(), 0);
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        break;
+    case CSizeHandleRect::RightTop:
+        m_beginPos = rect.topRight();
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    case CSizeHandleRect::RightBottom:
+        m_beginPos = rect.bottomRight();
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        m_beginPos = rect.bottomLeft();
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::Bottom:
+        m_beginPos = QPointF(0, rect.bottom());
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::LeftTop:
+        m_beginPos = rect.topLeft();
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    case CSizeHandleRect::Left:
+        m_beginPos = QPointF(rect.left(), 0);
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        break;
+    case CSizeHandleRect::Top:
+        m_beginPos = QPointF(0, rect.top());
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    default:
+        break;
+    }
+    qDebug() << "m_beginPos = " << m_beginPos;
     myGraphicsScene = scene;
 }
 

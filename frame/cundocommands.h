@@ -73,7 +73,7 @@ public:
     CResizeShapeCommand(CDrawScene *scene,
                         CGraphicsItem *item,
                         CSizeHandleRect::EDirection handle,
-                        QPointF beginPos,
+                        QRectF beginRect,
                         QPointF endPos,
                         bool bShiftPress,
                         bool bAltPress,

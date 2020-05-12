@@ -775,10 +775,10 @@ void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal newAngle)
     this->pushUndoStack(rotateCommand);
 }
 
-void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress)
+void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QUndoCommand *resizeCommand = new CResizeShapeCommand(curScene, item, handle, beginPos,  endPos, bShiftPress, bALtPress);
+    QUndoCommand *resizeCommand = new CResizeShapeCommand(curScene, item, handle, beginRect,  endPos, bShiftPress, bALtPress);
     this->pushUndoStack(resizeCommand);
 }
 
