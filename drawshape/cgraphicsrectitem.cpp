@@ -71,10 +71,6 @@ CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, cons
     this->m_bottomRightPoint =  rectData.bottomRight;
     this->setTransformOriginPoint(this->rect().center());
 
-    //todo bug21032临时修复，后期整体修正
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(this->pen());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(this->brush());
-
     initRect();
 }
 
@@ -166,11 +162,12 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

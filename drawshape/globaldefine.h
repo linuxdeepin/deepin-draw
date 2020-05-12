@@ -130,4 +130,11 @@ enum ESaveDDFTriggerAction {
     ImportPictrue,       //保存完后打开图片文件
     SaveAction           //正常保存,保存完后不做任何事
 };
+
+enum ERotationType { //图元旋转枚举
+    LeftRotate_90,     //左旋转90
+    RightRotate_90,    //右旋转90
+    FlipHorizontal, //水平镜像翻转
+    FlipVertical    //垂直镜像翻转
+};
 #endif // GLODEFINE_H

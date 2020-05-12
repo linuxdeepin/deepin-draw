@@ -63,7 +63,7 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
     return instance;
 }
 
-void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items)
+void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items, bool write2Cache)
 {
     Q_UNUSED(scence)
     updateCurrentScence();
@@ -419,10 +419,10 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
     if (allPropertys.size() == 0) {
         mode = EGraphicUserType::NoType;
     }
-    emit signalShowWidgetCommonProperty(mode, allPropertys);
+    emit signalShowWidgetCommonProperty(mode, allPropertys, write2Cache);
 }
 
-void CManagerAttributeService::refreshSelectedCommonProperty()
+void CManagerAttributeService::refreshSelectedCommonProperty(bool write2Cache)
 {
     updateCurrentScence();
     if (m_currentScence) {
@@ -448,14 +448,14 @@ void CManagerAttributeService::refreshSelectedCommonProperty()
                 }
             }
         }
-        this->showSelectedCommonProperty(m_currentScence, allItems);
+        this->showSelectedCommonProperty(m_currentScence, allItems, write2Cache);
     }
 }
 
 void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
                                                            bool pushTostack,
                                                            QMap<CGraphicsItem *, QVariant> *outOldValues,
-                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues)
+                                                           QMap<CGraphicsItem *, QVariant> *inUndoValues, bool write2Cache)
 {
     if (CManageViewSigleton::GetInstance()->getCurView() == nullptr)
         return;
@@ -490,12 +490,14 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
             return;
         }
         static int i = 0;
-        qDebug() << "new CSetItemsCommonPropertyValueCommand i = " << ++i << "value = " << value << "pushTostack = " << pushTostack;
+        qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
+                 << ++i << "value = " << value << "pushTostack = " << pushTostack
+                 << "write2Cache:" << write2Cache;
         CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
         if (inUndoValues == nullptr) {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value);
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
         } else {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value);
+            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
         }
         if (pushTostack) {
             CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
@@ -535,7 +537,7 @@ void CManagerAttributeService::doSceneAdjustment()
     if (m_currentScence && m_currentScence->getItemsMgr()) {
         QList<CGraphicsItem *> allItems;
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->boundingRect(), nullptr);
+            m_currentScence->doAdjustmentScene(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()), nullptr);
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {
@@ -551,8 +553,7 @@ void CManagerAttributeService::doSceneAdjustment()
             if (allSelectItems.size() >= 1) {
                 CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
                 if (item != nullptr) {
-                    m_currentScence->doAdjustmentScene(item->boundingRect(), item);
-                    item->setPos(0, 0);
+                    m_currentScence->doAdjustmentScene(item->mapRectToScene(item->boundingRect()), item);
                 }
             }
         }
@@ -655,8 +656,25 @@ int CManagerAttributeService::getSelectedColorAlpha(DrawStatus drawstatus)
     return alpha;
 }
 
+void CManagerAttributeService::setPictureRotateOrFlip(ERotationType type)
+{
+    updateCurrentScence();
+
+    QList<QGraphicsItem *> items = m_currentScence->selectedItems();
+    if ( items.count() != 0 ) {
+        CGraphicsItem *item = static_cast<CGraphicsItem *>(items.first());
+
+        if (item != nullptr) {
+            CItemRotationCommand *addCommand = nullptr;
+            addCommand = new CItemRotationCommand(m_currentScence, item, type);
+            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+        }
+    }
+}
+
 bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphicsItem *> items)
 {
+    Q_UNUSED(scence)
     bool isAllPictureItem = true;
     if (items.size() >= 1) {
         for (int i = 0; i < items.size(); i++) {
@@ -667,10 +685,13 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
                 break;
             }
         }
+    } else {
+        isAllPictureItem = false;
     }
+
     if (isAllPictureItem) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->boundingRect() == m_currentScence->sceneRect()));
+            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect()));
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {
@@ -686,7 +707,7 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
             if (allSelectItems.size() >= 1) {
                 CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
                 if (item != nullptr) {
-                    emit signalIsAllPictureItem(!(item->boundingRect() == m_currentScence->sceneRect()));
+                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect()));
                 }
             }
         }

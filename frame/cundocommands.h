@@ -73,7 +73,7 @@ public:
     CResizeShapeCommand(CDrawScene *scene,
                         CGraphicsItem *item,
                         CSizeHandleRect::EDirection handle,
-                        QPointF beginPos,
+                        QRectF beginRect,
                         QPointF endPos,
                         bool bShiftPress,
                         bool bAltPress,
@@ -526,8 +526,10 @@ private:
 class CSetItemsCommonPropertyValueCommand: public QUndoCommand
 {
 public:
-    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value);
-    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues, EDrawProperty property, QVariant value);
+    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
+                                                 EDrawProperty property, QVariant value, bool write2Cache = true);
+    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues,
+                                        EDrawProperty property, QVariant value, bool write2Cache = true);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -539,6 +541,7 @@ private:
     EDrawProperty m_property;
     QVariant m_value;
     QMap<CGraphicsItem *, QVariant> m_oldValues;
+    bool m_write2Cache;
 };
 
 /**
@@ -558,5 +561,28 @@ private:
     QMap<CGraphicsItem *, QPointF> m_itemsStartPos;
     QMap<CGraphicsItem *, QPointF> m_itemsEndPos;
     bool m_isMoved = false;
+};
+
+/**
+ * @brief The CItemRotationCommand class  设置图元旋转
+ */
+class CItemRotationCommand : public QUndoCommand
+{
+public:
+    /*
+    * @bref: CItemsRotationCommand 设置图元旋转
+    * @param: QMap<CGraphicsItem *, QMap<ERotationType, QVariant>> 单个图元对应的属性
+    */
+    CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item,
+//                         ERotationType startType,
+                         ERotationType endType);
+    void undo() Q_DECL_OVERRIDE;
+    void redo() Q_DECL_OVERRIDE;
+
+private:
+    CDrawScene *myGraphicsScene;
+    CGraphicsItem *m_item;
+    ERotationType m_startType;
+    ERotationType m_endType;
 };
 #endif // CUNDOCOMMANDS_H

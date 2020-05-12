@@ -139,6 +139,16 @@ private slots:
 
 
 private:
+
+    /**
+     * @brief isDdfFileDirty　通过md5判断ddf文件是否被修改过(已经变脏了)
+     */
+    bool isDdfFileDirty(const QString &filePath);
+
+
+    void writeMd5ToDdfFile(const QString &filePath);
+
+private:
     CGraphicsView *m_view;
     CGraphics m_graphics;
     CProgressDialog *m_CProgressDialog;

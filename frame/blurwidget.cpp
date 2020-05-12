@@ -27,8 +27,10 @@
 #include "widgets/cspinbox.h"
 
 #include <DSlider>
-#include <QHBoxLayout>
 #include <DGuiApplicationHelper>
+
+#include <QHBoxLayout>
+#include <QLineEdit>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -74,7 +76,7 @@ void BlurWidget::changeButtonTheme()
     m_masicBtn->setCurrentTheme(themeType);
 }
 
-void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
@@ -181,9 +183,10 @@ void BlurWidget::initUI()
 //    m_spinboxForLineWidth->setMaximum(10000); //允许输入任何值在槽响应中限制范围(20-160)
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
-    m_spinboxForLineWidth->setFixedWidth(140);
+    m_spinboxForLineWidth->setFixedWidth(90);
     m_spinboxForLineWidth->setMaximumHeight(36);
     m_spinboxForLineWidth->setSuffix("px");
+    m_spinboxForLineWidth->lineEdit()->setClearButtonEnabled(false);
 
 
     m_pLineWidthLabel = new DLabel(this);

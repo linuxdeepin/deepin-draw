@@ -88,6 +88,10 @@ public:
     void checkTextProperty(const QTextCursor &cursor);
     void checkTextProperty();
 
+
+    /* 刷新背景色 (使用场景:因为不再随主题的变化而变化就要固定背景色)*/
+    void updateBgColorTo(const QColor c = QColor(255, 255, 255), bool laterDo = false);
+
 public slots:
     void slot_textChanged();
     void cursorPositionChanged();

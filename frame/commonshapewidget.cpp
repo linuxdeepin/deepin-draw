@@ -25,11 +25,11 @@
 #include "widgets/csidewidthwidget.h"
 #include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
-
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
 #include <DLabel>
+
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QDebug>
@@ -66,8 +66,9 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
     m_sepLine->setVisible(visible);
 }
 
-void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache)
 {
+    qDebug() << "write2cache: " << write2cache;
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
@@ -84,7 +85,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_fillBtn->setIsMultColorSame(false);
             } else {
                 m_fillBtn->setColor(propertys[property].value<QBrush>().color());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(propertys[property].value<QBrush>().color());
+                if (write2cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(propertys[property].value<QBrush>().color());
+                }
             }
             m_fillBtn->update();
             break;
@@ -106,7 +109,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(propertys[property].value<QColor>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
+                if (write2cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
+                }
             }
             m_strokeBtn->update();
             break;
@@ -184,10 +189,11 @@ void CommonshapeWidget::initUI()
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
     m_rediusSpinbox->setRange(-1, 1000);
-    m_rediusSpinbox->setFixedSize(QSize(130, 36));
+    m_rediusSpinbox->setFixedSize(QSize(80, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
     m_rediusSpinbox->setEnabledEmbedStyle(true);
+    m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
 
     layout->addWidget(m_rediusSpinbox);
     layout->addStretch();
@@ -267,10 +273,6 @@ void CommonshapeWidget::updateCommonShapWidget()
     m_fillBtn->setVisible(true);
     m_strokeBtn->setVisible(true);
     m_sideWidthWidget->setVisible(true);
-    m_sepLine->setVisible(false);
-    m_rediusLable->setVisible(false);
-    m_rediusSpinbox->setVisible(false);
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CommonshapeWidget::slotRectRediusChanged(int redius)

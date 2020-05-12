@@ -271,10 +271,6 @@ void MainWindow::initConnection()
 
     connect(m_centralWidget, &CCentralwidget::signalAttributeChangedFromScene, m_topToolbar, &TopToolbar::slotChangeAttributeFromScene);
 
-    //链接图片选择后相应的操作
-    connect(m_topToolbar, SIGNAL(signalPassPictureOperation(int)), m_centralWidget, SIGNAL(signalPassPictureOper(int)));
-
-
     connect(m_topToolbar, SIGNAL(signalZoom(qreal)), m_centralWidget, SLOT(slotZoom(qreal)));
     connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
 
@@ -637,12 +633,15 @@ void MainWindow::openImage(QImage image, const QByteArray &srcData)
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
     CManageViewSigleton::GetInstance()->setThemeType(type);
+
     ///改变场景的主题
     m_centralWidget->switchTheme(type);
     //改变左边工具栏按钮主题
 //    m_centralWidget->getLeftToolBar()->changeButtonTheme();
     //改变顶部属性栏按钮主题
     m_topToolbar->changeTopButtonsTheme();
+
+    CManageViewSigleton::GetInstance()->updateTheme();
 }
 
 MainWindow::~MainWindow()

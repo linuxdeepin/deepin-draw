@@ -21,6 +21,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
 #include "frame/ccentralwidget.h"
+#include "drawshape/cgraphicstextitem.h"
+#include "widgets/ctextedit.h"
 #include "application.h"
 
 #include <DApplication>
@@ -57,6 +59,27 @@ int CManageViewSigleton::getThemeType() const
 void CManageViewSigleton::setThemeType(const int type)
 {
     m_thremeType = type;
+}
+
+void CManageViewSigleton::updateTheme()
+{
+    for (int i = 0; i < m_allViews.size(); ++i) {
+        CGraphicsView *pView         = m_allViews[i];
+        QList<QGraphicsItem *> items = pView->items();
+
+        for (int j = 0; j < items.size(); ++j) {
+            QGraphicsItem *pItem = items[j];
+            if (pItem->type() == TextType) {
+                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
+                if (pTextItem != nullptr) {
+                    CTextEdit *pEdit = pTextItem->getTextEdit();
+                    if (pEdit != nullptr) {
+                        pEdit->updateBgColorTo();
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool CManageViewSigleton::isEmpty()
@@ -244,7 +267,8 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 return;
             } else {
                 dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
-                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
+                QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
+                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
                 int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
                 int ret = dia->exec();
@@ -252,7 +276,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 if (ret == reload) {
 
                     //先关闭传入false使程序不会被关闭
-                    pCertralWidget->closeCurrentScenseView(false, false);
+                    pCertralWidget->closeSceneView(pView, false, false);
 
                     //再加载
                     emit pView->signalLoadDragOrPasteFile(ddfFile);
@@ -260,7 +284,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
                 } else if (ret == cancel) {
                     //直接关闭
-                    pCertralWidget->closeCurrentScenseView();
+                    pCertralWidget->closeSceneView(pView);
                 }
             }
         } else {
@@ -268,7 +292,8 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             DDialog dia(pView->parentWidget());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));
+            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
@@ -284,7 +309,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
             } else if (ret == discard) {
                 //直接关闭
-                pCertralWidget->closeCurrentScenseView();
+                pCertralWidget->closeSceneView(pView);
             }
         }
     }

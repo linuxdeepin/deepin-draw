@@ -17,9 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpicturewidget.h"
+
 #include "widgets/cclickbutton.h"
+
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/globaldefine.h"
+
 #include "frame/cviewmanagement.h"
+
 #include "service/cmanagerattributeservice.h"
 
 #include <QMap>
@@ -146,19 +151,19 @@ void CPictureWidget::initUI()
 void CPictureWidget::initConnection()
 {
     connect(m_leftRotateBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(LeftRotate);
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::LeftRotate_90);
     });
 
     connect(m_rightRotateBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(RightRotate);
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::RightRotate_90);
     });
 
     connect(m_flipHBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(FlipHorizontal);
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::FlipHorizontal);
     });
 
     connect(m_flipVBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(FlipVertical);
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::FlipVertical);
     });
 
     connect(m_flipAdjustment, &DPushButton::released, this, [ = ]() {

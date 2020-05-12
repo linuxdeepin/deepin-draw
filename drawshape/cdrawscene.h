@@ -186,7 +186,7 @@ signals:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange 图元属性修改
@@ -270,13 +270,6 @@ signals:
     void signalIsModify(bool isModify);
 
 public slots:
-
-    /**
-     * @brief picOperation 图片操作
-     * @param enumstyle 操作方式
-     */
-    void picOperation(int enumstyle);
-
     /**
      * @brief drawToolChange 切换绘图工具
      * @param type

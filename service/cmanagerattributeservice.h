@@ -58,12 +58,13 @@ public:
      * @bref: showSelectedCommonProperty drawscence 中多选或者单选图元公共属性展示解析函数
      * @param: scence 当前的场景
      * @param: items 被选中的图元
+     * @param: write2Cache 是否将属性写入缓存
     */
-    void showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items);
+    void showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items, bool write2Cache = true);
     /*
      * @bref: refreshSelectedCommonProperty 刷新公共属性
     */
-    void refreshSelectedCommonProperty();
+    void refreshSelectedCommonProperty(bool write2Cache = true);
 
     /*
      * @bref: setItemsCommonPropertyValue 设置被选中的图元的公共属性
@@ -73,7 +74,8 @@ public:
     void setItemsCommonPropertyValue(EDrawProperty property, QVariant value,
                                      bool pushTostack = true,
                                      QMap<CGraphicsItem *, QVariant> *outOldValues = nullptr,
-                                     QMap<CGraphicsItem *, QVariant> *inUndoValues = nullptr);
+                                     QMap<CGraphicsItem *, QVariant> *inUndoValues = nullptr,
+                                     bool write2Cache = true);
 
     /*
      * @bref: doSceneAdjustment 画布根据图片自适应
@@ -89,13 +91,19 @@ public:
     */
     int getSelectedColorAlpha(DrawStatus drawstatus);
 
+    /*
+    * @bref: setPictureRotateOrFlip 设置图片图元翻转
+    * @param: type 翻转类型
+    */
+    void setPictureRotateOrFlip(ERotationType type);
+
 signals:
     /*
      * @bref: showWidgetCommonProperty 发送多个图元被选中后需要显示的公共属性信号
      * @param: mode 当前需要显示的属性类型
      * @param: propertys 属性类型值
     */
-    void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys);
+    void signalShowWidgetCommonProperty(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
 
     /*
      * @bref: signalIsAllPictureItem 发送画笔图元被选中后需要显示的公共属性信号

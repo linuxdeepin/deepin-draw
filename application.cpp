@@ -181,9 +181,10 @@ void Application::noticeFileRightProblem(const QStringList &problemfile)
     //证明是被重命名或者删除
     DDialog dia(pParent);
     dia.setModal(true);
+    QString shortenFileName = QFontMetrics(dia.font()).elidedText(QFileInfo(problemfile.first()).fileName(), Qt::ElideMiddle, dia.width() / 2);
     //dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
     QString message = (problemfile.size() == 1 ?
-                       tr("\"%1\" is write-only, thus you cannot open it").arg(QFileInfo(problemfile.first()).fileName()) :
+                       tr("\"%1\" is write-only, thus you cannot open it").arg(shortenFileName) :
                        tr("Several files are write-only, thus you cannot open them"));
     dia.setMessage(message);
     dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));

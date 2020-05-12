@@ -270,4 +270,7 @@ void DZoomMenuComboBox::initConnection()
 {
     // 连接子选项按钮菜单被点击信号
     connect(m_menu, &QMenu::triggered, this, &DZoomMenuComboBox::slotActionToggled);
+    connect(m_menu, &QMenu::aboutToHide, this, [ = ]() {
+        this->setFocus();
+    });
 }

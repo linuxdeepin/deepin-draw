@@ -28,15 +28,8 @@ DWIDGET_USE_NAMESPACE
 
 class CPictureWidget : public DWidget
 {
-public:
-    enum EButtonType {
-        LeftRotate,     //左旋转
-        RightRotate,    //右旋转
-        FlipHorizontal, //水平翻转
-        FlipVertical    //垂直翻转
-    };
-
     Q_OBJECT
+
 public:
     CPictureWidget(DWidget *parent = nullptr);
     ~CPictureWidget();
@@ -48,12 +41,6 @@ public:
      * @brief setAdjustmentIsEnable 设置自适应按钮是否可用
      */
     void setAdjustmentIsEnable(bool isEnable);
-
-signals:
-    /**
-     * @brief signalBtnClick 按钮点击事件
-     */
-    void signalBtnClick(int);
 
 private:
     CClickButton *m_leftRotateBtn;

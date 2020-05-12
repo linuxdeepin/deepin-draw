@@ -588,12 +588,18 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
 {
     updateGeometry();
     if (m_listItems.size() > 1) {
+        painter->setClipping(false);
         QPen pen;
-        pen.setColor(Qt::gray);
-        pen.setWidthF(1.0 / painter->worldTransform().m11());
+        pen.setColor(QColor("#E0E0E0"));
+        qreal setValue = 1 / painter->worldTransform().m11();
+        painter->setRenderHint(QPainter::Antialiasing, false);
+        pen.setWidthF(setValue);
+        //qDebug() << "finale value0 = " << (setValue * painter->worldTransform().m11());
+        //qDebug() << "finale value1 = " << (pen.widthF() * painter->worldTransform().m11());
         painter->setPen(pen);
         painter->setBrush(Qt::NoBrush);
         painter->drawRect(this->boundingRect());
+        painter->setClipping(true);
     }
 }
 

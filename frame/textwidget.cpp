@@ -142,7 +142,7 @@ void TextWidget::slotFontSizeValueChanged(int size)
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
 }
 
-void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     m_fillBtn->setVisible(false);
     m_textSeperatorLine->setVisible(true);
@@ -160,7 +160,9 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fillBtn->setIsMultColorSame(false);
             } else {
                 m_fillBtn->setColor(color);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
+                if (write2Cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
+                }
             }
             m_fillBtn->update();
             m_fillBtn->blockSignals(false);

@@ -97,6 +97,7 @@ void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
     if (_tempTextItem != nullptr) {
         _tempTextItem->makeEditabel();
+        _tempTextItem->getTextEdit()->document()->clearUndoRedoStacks();
         _tempTextItem = nullptr;
     }
 }
