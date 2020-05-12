@@ -87,20 +87,20 @@ void CMultipTabBarWidget::addTabBarItem(QString name)
 
 void CMultipTabBarWidget::updateTabWidth()
 {
-    int tabWidth;
-    if (count() != 0) {
-        tabWidth = (width() - 40) / count();
-        for (int i = 0; i < count(); i++) {
-            if (tabWidth < 140) {
-                setUsesScrollButtons(true);
-                // 此处设置最小高度为37是为了能够在resize的时候进行重绘
-                setTabMinimumSize(i, QSize(140, 37));
-            } else {
-                setUsesScrollButtons(false);
-                setTabMinimumSize(i, QSize(tabWidth, 37));
-            }
-        }
-    }
+//    int tabWidth;
+//    if (count() != 0) {
+//        tabWidth = (width() - 40) / count();
+//        for (int i = 0; i < count(); i++) {
+//            if (tabWidth < 140) {
+//                setUsesScrollButtons(true);
+//                // 此处设置最小高度为37是为了能够在resize的时候进行重绘
+//                setTabMinimumSize(i, QSize(140, 37));
+//            } else {
+//                setUsesScrollButtons(false);
+//                setTabMinimumSize(i, QSize(tabWidth, 37));
+//            }
+//        }
+//    }
 }
 
 void CMultipTabBarWidget::initConnection()
@@ -206,13 +206,13 @@ QStringList CMultipTabBarWidget::getAllTabBarName()
     return names;
 }
 
-void CMultipTabBarWidget::resizeEvent(QResizeEvent *event)
-{
-    DTabBar::resizeEvent(event);
-    updateTabWidth();
-    this->update();
-    this->resize(width(), 36);
-}
+//void CMultipTabBarWidget::resizeEvent(QResizeEvent *event)
+//{
+//    DTabBar::resizeEvent(event);
+//    updateTabWidth();
+//    this->update();
+//    this->resize(width(), 36);
+//}
 
 bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
 {

@@ -227,7 +227,7 @@ void CDrawScene::attributeChanged()
     } else {
         QList<QGraphicsItem *> items = this->selectedItems();
 
-        if (m_pGroupItem->getItems().size() >= 1)
+        if (m_pGroupItem->getItems().size() >= 2)
             return;
 
         QGraphicsItem *item = nullptr;
@@ -753,6 +753,20 @@ void CDrawScene::updateItemsMgr()
     if (allselectedItems.size() == 1) {
         allselectedItems.first()->setSelected(true);
         emit signalAttributeChanged(true, allselectedItems.first()->type());
+    }
+}
+
+void CDrawScene::updateAllBlurItem()
+{
+    QList<QGraphicsItem *> itemList = items();
+
+    for (QGraphicsItem *pItem : itemList) {
+        if (pItem->type() == BlurType) {
+            CGraphicsMasicoItem *pMsicItem = dynamic_cast<CGraphicsMasicoItem *>(pItem);
+            if (pMsicItem != nullptr) {
+                pMsicItem->setPixmap();
+            }
+        }
     }
 }
 

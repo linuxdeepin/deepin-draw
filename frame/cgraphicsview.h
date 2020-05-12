@@ -39,6 +39,7 @@ class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
+class CDrawScene;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -83,6 +84,11 @@ public:
      * @brief doSaveDDF保存DDFRR
      */
     void doSaveDDF();
+
+    /**
+     * @brief 返回当前的业务scene
+     */
+    CDrawScene *drawScene();
 
     /**
      * @brief setContextMenuAndActionEnable 设置菜单项是否可用

@@ -169,4 +169,11 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
 
     return unit;
 }
+QPainterPath CPictureItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    //path.addRoundedRect(this->rect(), 0, 0, Qt::AbsoluteSize);
+    return path;
+}
 

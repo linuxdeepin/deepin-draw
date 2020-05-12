@@ -64,6 +64,7 @@ public:
     CTextEdit *getTextEdit();
 
     bool isEditable() const;
+    void makeSelfEditable();
 
     ///右键菜单触发功能
     void doCut();
