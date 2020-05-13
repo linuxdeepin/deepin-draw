@@ -21,7 +21,6 @@
 #include "widgets/toolbutton.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
-#include "widgets/cclickbutton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
@@ -71,9 +70,6 @@ void CCutWidget::clearAllChecked()
 
 void CCutWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    m_cutBtn->setCurrentTheme(themeType);
-    m_cancelBtn->setCurrentTheme(themeType);
     m_sepLine->updateTheme();
 }
 
@@ -85,7 +81,6 @@ void CCutWidget::updateButtonStatus()
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
-    //sizeLabel->setText(tr("尺寸"));
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
@@ -116,10 +111,7 @@ void CCutWidget::initUI()
     m_SizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
     this->addAction(m_SizeReduceAction);
 
-
-
     DLabel *scaleLabel = new DLabel(this);
-    //scaleLabel->setText(tr("比例"));
     scaleLabel->setText(tr("Aspect ratio"));
 
     scaleLabel->setFont(ft);
@@ -164,37 +156,15 @@ void CCutWidget::initUI()
 
     m_sepLine = new SeperatorLine(this);
 
-    QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMap;
+    m_cutBtn = new DPushButton(this);
+    m_cutBtn->setMaximumSize(QSize(38, 38));
+    m_cutBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
+    m_cutBtn->setIconSize(QSize(48, 48));
 
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cutting_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cutting_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cutting_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cutting_disable.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cutting_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cutting_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cutting_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cutting_disable.svg");
-
-
-    m_cutBtn = new CClickButton(pictureMap, QSize(46, 46), this);
-//    m_cutBtn->setCheckable(false);
-//    m_cutBtn->setFocusPolicy(Qt::ClickFocus);
-
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cancel_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cancel_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cancel_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cancel_disable.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cancel_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cancel_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cancel_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cancel_disable.svg");
-
-
-    m_cancelBtn = new CClickButton(pictureMap, QSize(46, 46), this);
-//    m_cancelBtn->setCheckable(false);
-//    m_cancelBtn->setFocusPolicy(Qt::NoFocus);
+    m_cancelBtn = new DPushButton(this);
+    m_cancelBtn->setMaximumSize(QSize(38, 38));
+    m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
+    m_cancelBtn->setIconSize(QSize(48, 48));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -223,7 +193,6 @@ void CCutWidget::initUI()
 
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
-    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_cancelBtn);
     layout->addWidget(m_cutBtn);
 

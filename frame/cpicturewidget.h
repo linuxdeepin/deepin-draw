@@ -21,9 +21,6 @@
 
 #include <DWidget>
 
-
-class CClickButton;
-
 DWIDGET_USE_NAMESPACE
 
 class CPictureWidget : public DWidget
@@ -48,10 +45,10 @@ public:
     void setRotationEnable(bool isEnable);
 
 private:
-    CClickButton *m_leftRotateBtn;
-    CClickButton *m_rightRotateBtn;
-    CClickButton *m_flipHBtn;
-    CClickButton *m_flipVBtn;
+    DPushButton *m_leftRotateBtn;
+    DPushButton *m_rightRotateBtn;
+    DPushButton *m_flipHBtn;
+    DPushButton *m_flipVBtn;
     DPushButton *m_flipAdjustment;
 
 private:
