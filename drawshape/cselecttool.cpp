@@ -323,6 +323,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     } else if (event->button() == Qt::RightButton) {
         //弹出右键菜单时 鼠标变为箭头
         qDebug() << "right mouse pressed" << endl;
+        //修改bug25578临时方案begin，后期梳理selecttool
+        m_bMousePress = false;
+        //修改bug25578临时方案end
         m_dragHandle = CSizeHandleRect::None;
         qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         scene->mouseEvent(event);
