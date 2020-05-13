@@ -101,6 +101,12 @@ void CGraphicsTextItem::initTextEditWidget()
     m_pTextEdit->document()->clearUndoRedoStacks();
 }
 
+void CGraphicsTextItem::initHandle()
+{
+    CGraphicsRectItem::initHandle();
+    updateHandleVisible();
+}
+
 void CGraphicsTextItem::setLastDocumentWidth(qreal width)
 {
     m_pTextEdit->setLastDocumentWidth(width);

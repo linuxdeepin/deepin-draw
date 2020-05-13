@@ -154,6 +154,8 @@ public:
      */
     QRectF  scenRect();
 
+    virtual void    clearHandle();
+    virtual void    initHandle();
 protected:
     /**
      * @brief updateGeometry 更新状态矩形位置

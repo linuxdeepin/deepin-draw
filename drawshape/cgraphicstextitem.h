@@ -168,6 +168,8 @@ private:
     void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
     void initTextEditWidget();
 
+    void initHandle() override;
+
 private:
     CTextEdit *m_pTextEdit;
     CGraphicsProxyWidget *m_pProxy;
