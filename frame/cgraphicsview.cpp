@@ -295,7 +295,7 @@ void CGraphicsView::initContextMenu()
     m_contextMenu->addMenu(m_alignMenu);
 
     m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
-    m_itemsLeftAlign->setShortcut(QKeySequence(/*Qt::CTRL | Qt::SHIFT | */Qt::Key_L));
+    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L));
     m_alignMenu->addAction(m_itemsLeftAlign);
     this->addAction(m_itemsLeftAlign);
 
