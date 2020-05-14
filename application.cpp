@@ -40,6 +40,9 @@ Application::Application(int &argc, char **argv)
     //绑定主题发生变化的信号
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, &Application::onThemChanged);
 
+    qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
+    qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
+
 }
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
@@ -89,31 +92,72 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
 QStringList Application::getRightFiles(const QStringList &files)
 {
-    QStringList resultList;
+    //过滤文件
+    //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
+    Application::QFileClassedMap outFiles;
+    QStringList paths  = this->doFileClassification(files, outFiles);
 
-    QStringList strPicSuffixs;
-    strPicSuffixs << "png" << "jpg" << "bmp" << "tif";
+    outFiles.remove(Application::EDrawAppSup);
 
-    for (int i = 0; i < files.size(); ++i) {
-        const QString path = files.at(i);
+    for (auto it = outFiles.begin(); it != outFiles.end(); ++it) {
+
+        Application::EFileClassEnum classTp = it.key();
+
+        QStringList &problemFiles = it.value();
+
+        if (!problemFiles.isEmpty()) {
+
+            //提示有文件的有问题的文件集(为什么检查是否关闭程序的标记为是否等于第一个key而不是最后一个key呢？因为最上层弹窗是最后一次noticeFileRightProblem)
+            //所以用户点击关闭的最后一个弹窗是最先执行的noticeFileRightProblem，所以要在用户关闭完所有的弹窗后再判断是否需要推出程序。
+            QMetaObject::invokeMethod(this, "noticeFileRightProblem", Qt::QueuedConnection,
+                                      Q_ARG(const QStringList &, problemFiles),
+                                      Q_ARG(Application::EFileClassEnum, classTp),
+                                      Q_ARG(bool, classTp == outFiles.firstKey()));
+
+        }
+    }
+    return paths;
+}
+
+QStringList Application::doFileClassification(const QStringList &inFilesPath, Application::QFileClassedMap &out)
+{
+    out.clear();
+
+    QStringList supFiles;
+    for (int i = 0; i < inFilesPath.size(); ++i) {
+        const QString path = inFilesPath.at(i);
         QFileInfo     info(path);
 
         if (info.isFile()) {
             const QString suffix = info.suffix().toLower();
-            if (strPicSuffixs.contains(suffix)) {
-                //只用判断是否可读
-                if (info.isReadable()) {
-                    resultList.append(path);
+            if (supPictureSuffix().contains(suffix) || supDdfStuffix().contains(suffix)) {
+                out[EDrawAppSup].append(path);
+                if (!info.isReadable()) {
+                    out[EDrawAppSupButNotReadable].append(path);
+                } else {
+                    out[EDrawAppSupAndReadable].append(path);
+                    supFiles.append(path);
                 }
-            } else if (suffix == "ddf") {
-                if (info.isReadable()/* && info.isWritable()*/) {
-                    resultList.append(path);
-                }
+            } else {
+                out[EDrawAppNotSup].append(path);
             }
+        } else {
+            out[ENotFile].append(path);
         }
-
     }
-    return resultList;
+    return supFiles;
+}
+
+QStringList &Application::supPictureSuffix()
+{
+    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif";
+    return supPictureSuffixs;
+}
+
+QStringList &Application::supDdfStuffix()
+{
+    static QStringList supDdfSuffixs = QStringList() << "ddf";
+    return supDdfSuffixs;
 }
 
 void Application::onMessageRecived(const QString &message)
@@ -170,7 +214,7 @@ void Application::showMainWindow(const QStringList &paths)
     w->show();
 }
 
-void Application::noticeFileRightProblem(const QStringList &problemfile)
+void Application::noticeFileRightProblem(const QStringList &problemfile, Application::EFileClassEnum classTp, bool checkQuit)
 {
     if (problemfile.isEmpty())
         return;
@@ -178,21 +222,38 @@ void Application::noticeFileRightProblem(const QStringList &problemfile)
     MainWindow *pWin = dynamic_cast<MainWindow *>(this->activationWindow());
     QWidget *pParent = pWin;
 
-    //证明是被重命名或者删除
     DDialog dia(pParent);
+    dia.setFixedSize(404, 163);
     dia.setModal(true);
-    //dia.setMessage(tr("There is %1 file cannot open, insufficient permissions!").arg(problemfile.size()));
-    QString message = (problemfile.size() == 1 ?
-                       tr("\"%1\" is write-only, thus you cannot open it").arg(QFileInfo(problemfile.first()).fileName()) :
-                       tr("Several files are write-only, thus you cannot open them"));
+    QString shortenFileName = QFontMetrics(dia.font()).elidedText(QFileInfo(problemfile.first()).fileName(), Qt::ElideMiddle, dia.width() / 2);
+
+    QString message;
+
+    switch (classTp) {
+    case EDrawAppNotSup:
+        message = (problemfile.size() == 1 ?
+                   tr("\"%1\" is unsupported, thus you cannot open it").arg(shortenFileName) :
+                   tr("Several files are unsupported, thus you cannot open them"));
+        break;
+    case EDrawAppSupButNotReadable:
+        message = (problemfile.size() == 1 ?
+                   tr("\"%1\" is write-only, thus you cannot open it").arg(shortenFileName) :
+                   tr("Several files are write-only, thus you cannot open them"));
+        break;
+    default:
+        return;
+    }
+
     dia.setMessage(message);
     dia.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     dia.addButton(tr("OK"), true, DDialog::ButtonNormal);
     dia.exec();
 
-    //如果没有任何文件加载成功(没有view就表示没有任何文件加载成功)
-    if (pParent == nullptr || CManageViewSigleton::GetInstance()->isEmpty()) {
-        this->quit();
+    if (checkQuit) {
+        //如果没有任何文件加载成功(没有view就表示没有任何文件加载成功)
+        if (pParent == nullptr || CManageViewSigleton::GetInstance()->isEmpty()) {
+            this->quit();
+        }
     }
 }
 

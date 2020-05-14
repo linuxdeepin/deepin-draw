@@ -21,22 +21,12 @@
 
 #include <DWidget>
 
-
-class CClickButton;
-
 DWIDGET_USE_NAMESPACE
 
 class CPictureWidget : public DWidget
 {
-public:
-    enum EButtonType {
-        LeftRotate,     //左旋转
-        RightRotate,    //右旋转
-        FlipHorizontal, //水平翻转
-        FlipVertical    //垂直翻转
-    };
-
     Q_OBJECT
+
 public:
     CPictureWidget(DWidget *parent = nullptr);
     ~CPictureWidget();
@@ -49,17 +39,16 @@ public:
      */
     void setAdjustmentIsEnable(bool isEnable);
 
-signals:
     /**
-     * @brief signalBtnClick 按钮点击事件
+     * @brief setRotationEnable 设置图片旋转按钮是否可用
      */
-    void signalBtnClick(int);
+    void setRotationEnable(bool isEnable);
 
 private:
-    CClickButton *m_leftRotateBtn;
-    CClickButton *m_rightRotateBtn;
-    CClickButton *m_flipHBtn;
-    CClickButton *m_flipVBtn;
+    DPushButton *m_leftRotateBtn;
+    DPushButton *m_rightRotateBtn;
+    DPushButton *m_flipHBtn;
+    DPushButton *m_flipVBtn;
     DPushButton *m_flipAdjustment;
 
 private:

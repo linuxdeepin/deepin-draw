@@ -31,7 +31,7 @@
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
-    initRect();
+    initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
@@ -39,7 +39,7 @@ CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
 {
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    initRect();
+    initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
@@ -49,7 +49,7 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     rect = rect.normalized();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    initRect();
+    initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent)
@@ -71,11 +71,7 @@ CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, cons
     this->m_bottomRightPoint =  rectData.bottomRight;
     this->setTransformOriginPoint(this->rect().center());
 
-    //todo bug21032临时修复，后期整体修正
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPen(this->pen());
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(this->brush());
-
-    initRect();
+    initHandle();
 }
 
 CGraphicsRectItem::~CGraphicsRectItem()
@@ -96,8 +92,9 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     updateGeometry();
 }
 
-void CGraphicsRectItem::initRect()
+void CGraphicsRectItem::initHandle()
 {
+    clearHandle();
     // handles
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
@@ -166,11 +163,12 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

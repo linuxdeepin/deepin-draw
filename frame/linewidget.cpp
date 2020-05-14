@@ -57,7 +57,7 @@ void LineWidget::changeButtonTheme()
     m_sep1Line->updateTheme();
 }
 
-void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys)
+void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
     m_strokeBtn->setVisible(false);
     m_sideWidthWidget->setVisible(false);
@@ -78,7 +78,9 @@ void LineWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
                 m_strokeBtn->setColor(color);
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+                if (write2Cache) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
+                }
             }
             m_strokeBtn->update();
             m_strokeBtn->blockSignals(false);
@@ -291,16 +293,31 @@ void LineWidget::initConnection()
     });
 
     m_lineStartComboBox->setCurrentIndex(0);
-    m_lineStartComboBox->setCurrentIndex(0);
+    m_lineEndComboBox->setCurrentIndex(0);
 }
 
 void LineWidget::updateLineWidget()
 {
     m_strokeBtn->updateConfigColor();
+
     // 线宽度属性刷新
     m_sideWidthWidget->blockSignals(true);
     m_sideWidthWidget->updateSideWidth();
     m_sideWidthWidget->blockSignals(false);
+
+    // 更新线起点样式
+    m_startLabel->setVisible(true);
+    m_lineStartComboBox->blockSignals(true);
+    m_lineStartComboBox->setVisible(true);
+    m_lineStartComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType());
+    m_lineStartComboBox->blockSignals(false);
+
+    // 更新线终点样式
+    m_endLabel->setVisible(true);
+    m_lineEndComboBox->blockSignals(true);
+    m_lineEndComboBox->setVisible(true);
+    m_lineEndComboBox->setCurrentIndex(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType());
+    m_lineEndComboBox->blockSignals(false);
 }
 
 void LineWidget::slotSideWidthChoosed(int width)

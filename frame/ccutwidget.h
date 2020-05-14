@@ -26,7 +26,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-class CClickButton;
 class CCutWidget : public DWidget
 {
     Q_OBJECT
@@ -79,8 +78,8 @@ private:
     DLineEdit *m_widthEdit;
     DLineEdit *m_heightEdit;
 
-    CClickButton *m_cutBtn;
-    CClickButton *m_cancelBtn;
+    DPushButton *m_cutBtn;
+    DPushButton *m_cancelBtn;
     SeperatorLine *m_sepLine;
 
     QAction *m_SizeAddAction;

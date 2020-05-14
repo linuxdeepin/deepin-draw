@@ -337,7 +337,6 @@ void CLeftToolBar::initConnection()
         isCutMode();
         emit setCurrentDrawTool(polygon);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(polygon);
-
     });
 
     connect(m_lineBtn, &DToolButton::clicked, [this]() {
@@ -347,7 +346,6 @@ void CLeftToolBar::initConnection()
         isCutMode();
         emit setCurrentDrawTool(line);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(line);
-
     });
 
     connect(m_penBtn, &DToolButton::clicked, [this]() {
@@ -357,7 +355,6 @@ void CLeftToolBar::initConnection()
         isCutMode();
         emit setCurrentDrawTool(pen);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(pen);
-
     });
 
     connect(m_textBtn, &DToolButton::clicked, [this]() {
@@ -367,7 +364,6 @@ void CLeftToolBar::initConnection()
         isCutMode();
         emit setCurrentDrawTool(text);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
-
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
@@ -377,7 +373,6 @@ void CLeftToolBar::initConnection()
         isCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(blur);
         emit setCurrentDrawTool(blur);
-
     });
 
     connect(m_cutBtn, &DToolButton::clicked, [this]() {

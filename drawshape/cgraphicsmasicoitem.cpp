@@ -129,13 +129,12 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
     if (this->getMutiSelect()) {
         painter->setClipping(false);
+        // 获取系统活动色的颜色
+        QPalette pa = this->scene()->palette();
         QPen pen;
+        QBrush selectBrush = pa.brush(QPalette::Active, QPalette:: Highlight);
+        pen.setColor(selectBrush.color());
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

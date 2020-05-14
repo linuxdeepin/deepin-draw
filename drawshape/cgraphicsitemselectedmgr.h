@@ -111,7 +111,7 @@ private:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块
      */
-    void initRect();
+    void initHandle() override;
 
 
 private:

@@ -36,5 +36,16 @@
         <file>texts/ddc_triangle tool_normal_48px.svg</file>
         <file>texts/ddc_brush tool_active_48px.svg</file>
         <file>texts/ddc_picture tools_disable_48px.svg</file>
+        <file>texts/ddc_brush tool_active.svg</file>
+        <file>texts/ddc_cancel_normal_48px.svg</file>
+        <file>texts/ddc_clockwise rotation_normal_48px.svg</file>
+        <file>texts/ddc_contrarotate_normal_48px.svg</file>
+        <file>texts/ddc_cutting_normal_48px.svg</file>
+        <file>texts/ddc_fuzzy tool_normal_48px.svg</file>
+        <file>texts/ddc_smudge tool_48px.svg</file>
+        <file>texts/ddc_flip horizontal_normal_48px.svg</file>
+        <file>texts/ddc_flip vertical_normal_48px.svg</file>
+        <file>texts/ddc_smudge tool_checked_48px.svg</file>
+        <file>texts/ddc_fuzzy tool_checked_48px.svg</file>
     </qresource>
 </RCC>

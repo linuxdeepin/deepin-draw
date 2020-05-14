@@ -39,6 +39,7 @@ class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
+class CDrawScene;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -122,7 +123,11 @@ public:
 
     bool isKeySpacePressed();
 
+    CDrawScene *drawScene();
+
 protected:
+    void showEvent(QShowEvent *event)override;
+
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
      * @param event 鼠标滚轮事件
@@ -134,6 +139,7 @@ protected:
      * @param event 右键菜单
      */
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void showMenu(DMenu *pMenu);
 
     /**
      * @brief resizeEvent 窗口大小更改响应事件函数
@@ -286,7 +292,7 @@ public slots:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange

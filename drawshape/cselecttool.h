@@ -101,7 +101,7 @@ private:
     bool m_isMulItemMoving;       //当前有多个(超过1个)item正在被拖拽移动(注意和m_isItemMoving的区别)
     bool m_doResize;
     bool m_isItemMoving = false;  //当前有item正在被拖拽移动(注意和m_isMulItemMoving的区别)
-
+    QRectF m_pressItemRect;       //鼠标在8个方向上单个图元的大小
 };
 
 #endif // CSELECTTOOL_H

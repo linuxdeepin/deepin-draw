@@ -222,20 +222,72 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         }
     }
 
+    if (QGraphicsItem::ItemSceneChange == change ) {
+
+        if (this->type() >= RectType && this->type() < MgrType) {
+            QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
+            if (pScene == nullptr) {
+                clearHandle();
+            } else {
+                initHandle();
+            }
+        }
+
+    }
+
     return value;
 }
 
 void CGraphicsItem::beginCheckIns(QPainter *painter)
 {
+    if (scene() == nullptr)
+        return;
+
     painter->save();
     QRectF sceneRct = scene()->sceneRect();
     QRectF itemRct  = mapToScene(rect()).boundingRect();
     bool hasIntersects = sceneRct.intersects(itemRct);
+    if (!hasIntersects) {
+        painter->setOpacity(0.2);//透明度设置
+    }
     painter->setClipping(hasIntersects);
 }
 
 void CGraphicsItem::endCheckIns(QPainter *painter)
 {
+    if (scene() == nullptr)
+        return;
     painter->restore();
 }
+void CGraphicsItem::clearHandle()
+{
+    for (CSizeHandleRect *pItem : m_handles) {
+        pItem->setParentItem(nullptr);
+        if (pItem->scene() != nullptr) {
+            pItem->scene()->removeItem(pItem);
+        }
+    }
+    m_handles.clear();
+}
+void CGraphicsItem::initHandle()
+{
+    clearHandle();
+    // handles
+    m_handles.reserve(CSizeHandleRect::None);
+    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
+        CSizeHandleRect *shr = nullptr;
+        if (i == CSizeHandleRect::Rotation) {
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
 
+        } else {
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
+        }
+        m_handles.push_back(shr);
+
+    }
+    updateGeometry();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
+}

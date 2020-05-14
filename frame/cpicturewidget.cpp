@@ -17,9 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cpicturewidget.h"
-#include "widgets/cclickbutton.h"
+
 #include "drawshape/cdrawparamsigleton.h"
+#include "drawshape/globaldefine.h"
+
 #include "frame/cviewmanagement.h"
+
 #include "service/cmanagerattributeservice.h"
 
 #include <QMap>
@@ -48,12 +51,6 @@ CPictureWidget::~CPictureWidget()
 
 void CPictureWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-
-    m_leftRotateBtn->setCurrentTheme(themeType);
-    m_rightRotateBtn->setCurrentTheme(themeType);
-    m_flipHBtn->setCurrentTheme(themeType);
-    m_flipVBtn->setCurrentTheme(themeType);
 
 }
 
@@ -62,72 +59,45 @@ void CPictureWidget::setAdjustmentIsEnable(bool isEnable)
     m_flipAdjustment->setEnabled(isEnable);
 }
 
+void CPictureWidget::setRotationEnable(bool isEnable)
+{
+    m_leftRotateBtn->setEnabled(!isEnable);
+    m_rightRotateBtn->setEnabled(!isEnable);
+    m_flipHBtn->setEnabled(!isEnable);
+    m_flipVBtn->setEnabled(!isEnable);
+}
+
 void CPictureWidget::initUI()
 {
-    QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMapClick;
-
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/contrarotate_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/contrarotate_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/contrarotate_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/contrarotate_disable.svg");
-
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/contrarotate_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/contrarotate_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/contrarotate_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/contrarotate_disable.svg");
-
-
-    m_leftRotateBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
+    m_leftRotateBtn = new DPushButton(this);
+    m_leftRotateBtn->setMaximumSize(QSize(38, 38));
+    m_leftRotateBtn->setIcon(QIcon::fromTheme("ddc_contrarotate_normal"));
+    m_leftRotateBtn->setIconSize(QSize(48, 48));
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
 
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/clockwise rotation_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/clockwise rotation_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/clockwise rotation_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/clockwise rotation_disable.svg");
-
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/clockwise rotation_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/clockwise rotation_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/clockwise rotation_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/clockwise rotation_disable.svg");
-
-
-
-    m_rightRotateBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
+    m_rightRotateBtn = new DPushButton(this);
+    m_rightRotateBtn->setMaximumSize(QSize(38, 38));
+    m_rightRotateBtn->setIcon(QIcon::fromTheme("ddc_clockwise rotation_normal"));
+    m_rightRotateBtn->setIconSize(QSize(48, 48));
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
 
-
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip horizontal_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/flip horizontal_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/flip horizontal_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip horizontal_disable.svg");
-
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/flip horizontal_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/flip horizontal_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip horizontal_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip horizontal_disable.svg");
-
-    m_flipHBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
+    m_flipHBtn = new DPushButton(this);
+    m_flipHBtn->setMaximumSize(QSize(38, 38));
+    m_flipHBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
+    m_flipHBtn->setIconSize(QSize(48, 48));
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
 
-
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/flip vertical_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/flip vertical_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/flip vertical_press.svg");
-    pictureMapClick[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/flip vertical_disable.svg");
-
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/flip vertical_normal.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/flip vertical_hover.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/flip vertical_press.svg");
-    pictureMapClick[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/flip vertical_disable.svg");
-
-    m_flipVBtn = new CClickButton(pictureMapClick, QSize(48, 48), this);
+    m_flipVBtn = new DPushButton(this);
+    m_flipVBtn->setMaximumSize(QSize(38, 38));
+    m_flipVBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
+    m_flipVBtn->setIconSize(QSize(48, 48));
     m_flipVBtn->setToolTip(tr("Flip vertically"));
 
     m_flipAdjustment = new DPushButton(this);
     m_flipAdjustment->setMaximumSize(QSize(38, 38));
     m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
     m_flipAdjustment->setIconSize(QSize(48, 48));
-
+    m_flipAdjustment->setToolTip(tr("Auto fit"));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -145,20 +115,20 @@ void CPictureWidget::initUI()
 
 void CPictureWidget::initConnection()
 {
-    connect(m_leftRotateBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(LeftRotate);
+    connect(m_leftRotateBtn, &DPushButton::released, this, [ = ]() {
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::LeftRotate_90);
     });
 
-    connect(m_rightRotateBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(RightRotate);
+    connect(m_rightRotateBtn, &DPushButton::released, this, [ = ]() {
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::RightRotate_90);
     });
 
-    connect(m_flipHBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(FlipHorizontal);
+    connect(m_flipHBtn, &DPushButton::released, this, [ = ]() {
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::FlipHorizontal);
     });
 
-    connect(m_flipVBtn, &CClickButton::buttonClick, this, [ = ]() {
-        emit signalBtnClick(FlipVertical);
+    connect(m_flipVBtn, &DPushButton::released, this, [ = ]() {
+        CManagerAttributeService::getInstance()->setPictureRotateOrFlip(ERotationType::FlipVertical);
     });
 
     connect(m_flipAdjustment, &DPushButton::released, this, [ = ]() {

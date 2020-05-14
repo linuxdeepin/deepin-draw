@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QDebug>
+
 CGraphicsItemHighLight::CGraphicsItemHighLight(QGraphicsItem *parent)
 {
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -70,8 +71,13 @@ void CGraphicsItemHighLight::paint(QPainter *painter, const QStyleOptionGraphics
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    // 获取系统活动色的颜色
+    QPalette pa = this->scene()->palette();
     QPen pen;
-    pen.setColor(QColor("#0081FF"));
+    pen.setWidthF(0.5 / CManageViewSigleton::GetInstance()->getCurView()->transform().m11());
+    QBrush selectBrush = pa.brush(QPalette::Active, QPalette:: Highlight);
+
+    pen.setColor(selectBrush.color());
     pen.setWidth(2);
     pen.setJoinStyle(Qt::MiterJoin);
     painter->setPen(pen);

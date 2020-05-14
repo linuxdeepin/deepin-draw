@@ -235,8 +235,6 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(newview, SIGNAL(signalSetScale(const qreal)), this, SIGNAL(signalSetScale(const qreal)));
     connect(curScene, &CDrawScene::signalAttributeChanged, this, &CCentralwidget::signalAttributeChangedFromScene);
     connect(curScene, &CDrawScene::signalChangeToSelect, m_leftToolbar, &CLeftToolBar::slotShortCutSelect);
-    //图片选中后相应操作
-    connect(this, SIGNAL(signalPassPictureOper(int)), curScene, SLOT(picOperation(int )));
 
     connect(curScene, &CDrawScene::signalUpdateCutSize, this, &CCentralwidget::signalUpdateCutSize);
     connect(curScene, &CDrawScene::signalUpdateTextFont, this, &CCentralwidget::signalUpdateTextFont);
@@ -272,6 +270,44 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
 void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
 {
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
+
+    closeSceneView(closeView, ifTabOnlyOneCloseAqq, deleteView);
+//    if (nullptr != closeView) {
+//        QString viewname = closeView->getDrawParam()->viewName();
+//        qDebug() << "closeCurrentScenseView:" << viewname;
+
+//        // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
+//        if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
+
+//            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
+//            emit signalLastTabBarRequestClose();
+//            return;
+//        }
+
+//        closeView->setParent(nullptr);
+//        m_stackedLayout->removeWidget(closeView);
+//        CManageViewSigleton::GetInstance()->removeView(closeView);
+//        m_topMutipTabBarWidget->closeTabBarItemByUUID(closeView->getDrawParam()->uuid());
+//    }
+
+//    if (m_topMutipTabBarWidget->count() > 0) {
+//        m_leftToolbar->slotShortCutSelect();
+
+//        if (m_topMutipTabBarWidget->count() == 1) {
+//            m_topMutipTabBarWidget->hide();
+//        } else {
+//            m_topMutipTabBarWidget->show();
+//        }
+//    }
+//    if (deleteView) {
+//        delete closeView;
+//        closeView = nullptr;
+//    }
+}
+
+void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq, bool deleteView)
+{
+    CGraphicsView *closeView = pView;
     if (nullptr != closeView) {
         QString viewname = closeView->getDrawParam()->viewName();
         qDebug() << "closeCurrentScenseView:" << viewname;
@@ -279,7 +315,7 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool dele
         // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
         if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
 
-            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
+            qDebug() << "closeSceneView:" << viewname << " not modify";
             emit signalLastTabBarRequestClose();
             return;
         }
@@ -434,7 +470,12 @@ void CCentralwidget::importPicture()
 
     if (fileDialog->exec() ==   QDialog::Accepted) {
         QStringList filenames = fileDialog->selectedFiles();
-        slotPastePicture(filenames);
+        //slotPastePicture(filenames);
+        //改成调用MainWindow的slotLoadDragOrPasteFile函数走同一个流程有权限等对文件的检查
+        MainWindow *pFather = dynamic_cast<MainWindow *>(parentWidget());
+        if (pFather != nullptr) {
+            pFather->slotLoadDragOrPasteFile(filenames);
+        }
     } else {
         m_leftToolbar->slotShortCutSelect();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
@@ -484,17 +525,18 @@ void CCentralwidget::initUI()
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
     m_topMutipTabBarWidget->setDefaultTabBarName(m_tabDefaultName);
 
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(m_topMutipTabBarWidget);
+    vLayout->addLayout(m_stackedLayout);
+    vLayout->setMargin(0);
+    vLayout->setSpacing(0);
+
     m_hLayout->setMargin(0);
     m_hLayout->setSpacing(0);
     m_hLayout->addWidget(m_leftToolbar);
-    m_hLayout->addLayout(m_stackedLayout);
-
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addWidget(m_topMutipTabBarWidget);
-    vLayout->addLayout(m_hLayout);
-    vLayout->setMargin(0);
-    vLayout->setSpacing(0);
-    setLayout(vLayout);
+    m_hLayout->addLayout(vLayout);
+    setLayout(m_hLayout);
+    m_leftToolbar->raise();
 
     // 只有一个标签需要隐藏多标签控件
     m_topMutipTabBarWidget->hide();
@@ -621,11 +663,9 @@ void CCentralwidget::addView(QString viewName, const QString &uuid)
     qDebug() << "addView:" << viewName;
     CGraphicsView *pNewView = createNewScense(viewName, uuid);
     CManageViewSigleton::GetInstance()->setCurView(pNewView);
-}
 
-void CCentralwidget::slotRectRediusChanged(int value)
-{
-    qDebug() << "value" << value;
+    // 解决Dtabbar+号标签刷新位置错误
+    updateTitle();
 }
 
 void CCentralwidget::slotQuitApp()
@@ -708,10 +748,14 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     // [6] 标签显示或者隐藏判断
     if (m_topMutipTabBarWidget->count() == 1) {
         m_topMutipTabBarWidget->hide();
-        emit signalScenceViewChanged(viewName);
+        //emit signalScenceViewChanged(viewName);
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, viewName));
     } else {
         m_topMutipTabBarWidget->show();
-        emit signalScenceViewChanged("");
+        //emit signalScenceViewChanged("");
+        //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
+        QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
 
     // [7] 切换标签页后刷新当前选中图元的属性

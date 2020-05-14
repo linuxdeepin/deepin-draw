@@ -97,6 +97,8 @@ protected:
 private:
     void initLine();
 
+    virtual void    initHandle() override;
+
 
 private:
     QLineF m_line;

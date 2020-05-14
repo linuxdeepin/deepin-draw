@@ -62,7 +62,7 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    initPen();
+    initHandle();
 }
 
 CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -74,7 +74,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     , m_penEndType(noneLine)
 
 {
-    initPen();
+    initHandle();
     m_path.moveTo(startPoint);
 //    m_poitsPath.push_back(startPoint);
     m_smoothVector.push_back(startPoint);
@@ -86,7 +86,7 @@ CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGrap
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    initPen();
+    initHandle();
 
     prepareGeometryChange();
     m_penStartType = data->start_type;
@@ -1239,11 +1239,12 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     if (this->getMutiSelect()) {
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -1315,8 +1316,9 @@ void CGraphicsPenItem::setDrawFlag(bool flag)
     m_isDrawing = flag;
 }
 
-void CGraphicsPenItem::initPen()
+void CGraphicsPenItem::initHandle()
 {
+    clearHandle();
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;

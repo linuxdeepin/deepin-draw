@@ -78,6 +78,7 @@ CSelectTool::CSelectTool ()
     , m_isMulItemMoving(false)
     , m_doResize(false)
     , m_isItemMoving(false)
+    , m_pressItemRect(QRectF())
 {
     m_frameSelectItem = new QGraphicsRectItem();
     m_frameSelectItem->setVisible(false);
@@ -98,9 +99,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 {
     qDebug() << "mouse press" << endl;
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
-//    if (shiftKeyPress && m_currentSelectItem) {
-//        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_currentSelectItem));
-//    }
+    bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
+    bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
     scene->getItemHighLight()->setVisible(false);
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
@@ -113,20 +113,31 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     m_doResize        = false;
 
     if (event->button() == Qt::LeftButton) {
-        bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
         if (ctrlKeyPress) {
             scene->clearSelection();
         }
+        if (!shiftKeyPress && m_currentSelectItem) {
+            if (m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+                CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+                if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                    scene->getItemsMgr()->clear();
+                }
+            }
+        }
+        if (altKeyPress && m_currentSelectItem) {
+            CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+            if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                scene->getItemsMgr()->clear();
+            }
+        }
         int count = scene->getItemsMgr()->getItems().size();
         qDebug() << "mouse press count = " << count << endl;
-        bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-
         //多选和单选复制
         if (altKeyPress && CSizeHandleRect::InRect == m_dragHandle && m_highlightItem != nullptr) {
             QList<QGraphicsItem *> copyItems;
             copyItems.clear();
             QList<CGraphicsItem *> multSelectItems;
-            if (count) {
+            if (count > 1) {
                 multSelectItems = scene->getItemsMgr()->getItems();
             } else if (m_currentSelectItem) {
                 multSelectItems.clear();
@@ -213,16 +224,16 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             //空白处点击，框选
             //设置颜色
             DPalette pa = scene->palette();
-            //设置颜色
-            QPen pen(pa.color(DPalette:: ObviousBackground));
-            pen.setWidth(1);
-            pen.setStyle(Qt::DotLine);
-            m_frameSelectItem->setPen(pen);
+            QPen pen;
+            pen.setWidthF(0.5 / CManageViewSigleton::GetInstance()->getCurView()->transform().m11());
             QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
             QColor selectColor = selectBrush.color();
             selectColor.setAlpha(20);
             selectBrush.setColor(selectColor);
             m_frameSelectItem->setBrush(selectBrush);
+            selectColor.setAlpha(100);
+            pen.setColor(selectColor);
+            m_frameSelectItem->setPen(pen);
             m_frameSelectItem->setRect(this->pointToRect(m_sPointPress, m_sPointPress));
             scene->addItem(m_frameSelectItem);
             //判断是否在画板空白处点击右键(在画板空白处点击才会出现框选)
@@ -312,6 +323,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     } else if (event->button() == Qt::RightButton) {
         //弹出右键菜单时 鼠标变为箭头
         qDebug() << "right mouse pressed" << endl;
+        //修改bug25578临时方案begin，后期梳理selecttool
+        m_bMousePress = false;
+        //修改bug25578临时方案end
         m_dragHandle = CSizeHandleRect::None;
         qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         scene->mouseEvent(event);
@@ -366,6 +380,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
+                m_pressItemRect = m_currentSelectItem->boundingRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
@@ -525,6 +540,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
             if (m_currentSelectItem->type() != LineType) {
                 m_currentSelectItem->setRotation(angle);
+                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
             } else {
                 QLineF line = static_cast<CGraphicsLineItem *>(m_currentSelectItem)->line();
                 QPointF vector = line.p2() - line.p1();
@@ -543,6 +559,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     angle -= 360;
                 }
                 m_currentSelectItem->setRotation(angle);
+                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
             }
 
             //显示旋转角度
@@ -615,6 +632,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         scene->getItemsMgr()->setSelected(true);
     }
     m_sLastPress = event->scenePos();
+    scene->views().first()->viewport()->update();
 }
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -661,11 +679,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
     bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
+    m_bMousePress = false;
     if (event->button() == Qt::LeftButton) {
-        m_bMousePress = false;
         m_sPointRelease = event->scenePos();
         QPointF vectorPoint = m_sPointRelease - m_sPointPress;
-
         //shift键按下时
         if (shiftKeyPress) {
             if (m_currentSelectItem) {
@@ -689,7 +706,6 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             } else if (count > 1) {
                 scene->getItemsMgr()->show();
             }
-            m_bMousePress = false;
             scene->mouseEvent(event);
         }
 
@@ -728,7 +744,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
                     if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
-                        emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_sPointPress, m_sPointRelease, shiftKeyPress, altKeyPress);
+                        emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_pressItemRect, m_sPointRelease, shiftKeyPress, altKeyPress);
                     }
                 }
             }

@@ -60,6 +60,8 @@
 #include <QDesktopWidget>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QWindow>
+#include <QScreen>
 #include <qscrollbar.h>
 
 //升序排列用
@@ -122,6 +124,10 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 //    viewport()->addAction(action);
 
 
+    //初始化后设置自身为焦点
+    QMetaObject::invokeMethod(this, [ = ]() {
+        this->setFocus();
+    }, Qt::QueuedConnection);
 }
 
 void CGraphicsView::zoomOut()
@@ -284,24 +290,42 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_viewOriginalAction);
 
     // 右键菜单添加对齐方式
-//    m_contextMenu->addSeparator();
     m_alignMenu = new DMenu(tr("Align"), this);
     m_alignMenu->setFixedWidth(182);
     m_contextMenu->addMenu(m_alignMenu);
-    m_itemsLeftAlign = m_alignMenu->addAction(tr("Align left"));//左对齐
-//    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_L));
-    m_itemsHCenterAlign = m_alignMenu->addAction(tr("Horizontal centers"));//水平居中对齐
-//    m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_C));
-    m_itemsRightAlign = m_alignMenu->addAction(tr("Align right"));//右对齐
-//    m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_R));
-    m_itemsTopAlign = m_alignMenu->addAction(tr("Align top"));//顶对齐
-//    m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_T));
-    m_itemsVCenterAlign = m_alignMenu->addAction(tr("Vertical centers"));//垂直居中对齐
-//    m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_V));
-    m_itemsBottomAlign = m_alignMenu->addAction(tr("Align bottom"));//底对齐
-//    m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_B));
-    m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space"));//水平等间距对齐
-    m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space"));//垂直等间距对齐
+
+    m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
+    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L));
+    m_alignMenu->addAction(m_itemsLeftAlign);
+    this->addAction(m_itemsLeftAlign);
+
+    m_itemsHCenterAlign = new QAction(tr("Horizontal centers"), this); //水平居中对齐
+    m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H));
+    m_alignMenu->addAction(m_itemsHCenterAlign);
+    this->addAction(m_itemsHCenterAlign);
+
+    m_itemsRightAlign = new QAction(tr("Align right"), this); //右对齐
+    m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_R));
+    m_alignMenu->addAction(m_itemsRightAlign);
+    this->addAction(m_itemsRightAlign);
+
+    m_itemsTopAlign = new QAction(tr("Align top"), this); //顶对齐
+    m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_T));
+    m_alignMenu->addAction(m_itemsTopAlign);
+    this->addAction(m_itemsTopAlign);
+
+    m_itemsVCenterAlign = new QAction(tr("Vertical centers"), this); //垂直居中对齐
+    m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V));
+    m_alignMenu->addAction(m_itemsVCenterAlign);
+    this->addAction(m_itemsVCenterAlign);
+
+    m_itemsBottomAlign = new QAction(tr("Align bottom"), this); //底对齐
+    m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_B));
+    m_alignMenu->addAction(m_itemsBottomAlign);
+    this->addAction(m_itemsBottomAlign);
+
+    m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
+    m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -321,6 +345,13 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewZoomOutAction, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
     connect(m_viewZoomOutAction1, SIGNAL(triggered()), this, SLOT(slotViewZoomOut()));
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
+
+    connect(m_undoAct, &QAction::triggered, this, [ = ] {
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    });
+    connect(m_redoAct, &QAction::triggered, this, [ = ] {
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    });
 
     // 连接图元对齐信号
     connect(m_itemsLeftAlign, &QAction::triggered, this, [ = ] {
@@ -364,43 +395,40 @@ void CGraphicsView::initContextMenuConnection()
         // [3] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
         QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
-        if (sum_items_height > scence_BR.height())
-        {
-            for (int i = 1; i < allitems.size(); i++) {
-                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
-                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
-                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            }
-            // 更新画布区域,不然框选的线显示错误
-            if (scene() != nullptr)
-                scene()->views().first()->viewport()->update();
-            return ;
-        }
-        qreal space_height = (scence_BR.height() - sum_items_height)
-                             / (allitems.size() - 1);
 
         // [4] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
-        // [5] 按照y值进行移动位置
-        for (int i = 1; i < allitems.size() - 1; i++)
+        if (sum_items_height > scence_BR.height())
         {
-            startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
-            QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
-                             , allitems.at(i - 1)->sceneBoundingRect().bottom());
-            endPoint = endPoint + QPointF(0, space_height);
-            allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            // [5] 按照相邻进行移动位置
+            for (int i = 1; i < allitems.size(); i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
+                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
+        } else
+        {
+            qreal space_height = (scence_BR.height() - sum_items_height)
+                                 / (allitems.size() - 1);
+
+            // [6] 按照y值进行移动位置
+            for (int i = 1; i < allitems.size() - 1; i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i)->sceneBoundingRect().left()
+                                 , allitems.at(i - 1)->sceneBoundingRect().bottom());
+                endPoint = endPoint + QPointF(0, space_height);
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
         }
 
-        // [6] 设置出入栈
+        // [7] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
-
-        // [7] 更新画布区域,不然框选的线显示错误
-        if (scene() != nullptr)
-            scene()->views().first()->viewport()->update();
     });
 
     connect(m_itemsHEqulSpaceAlign, &QAction::triggered, this, [ = ] {
@@ -426,43 +454,39 @@ void CGraphicsView::initContextMenuConnection()
         // [4] 计算每两个之间的间隔距离
         auto curScene = dynamic_cast<CDrawScene *>(scene());
         QRectF scence_BR = curScene->getItemsMgr()->sceneBoundingRect();
-        if (sum_items_width > scence_BR.width())
-        {
-            for (int i = 1; i < allitems.size(); i++) {
-                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
-                                 , allitems.at(i)->sceneBoundingRect().top());
-                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            }
-            // 更新画布区域,不然框选的线显示错误
-            if (scene() != nullptr)
-                scene()->views().first()->viewport()->update();
-            return ;
-        }
-        qreal space_width = (scence_BR.width() - sum_items_width)
-                            / (allitems.size() - 1);
 
-        // [4] 用于记录保存图元的位置，便于撤销和返回
+        // [5] 用于记录保存图元的位置，便于撤销和返回
         QMap<CGraphicsItem *, QPointF> startPos;
         QMap<CGraphicsItem *, QPointF> endPos;
 
-        // [5] 按照x值进行移动位置
-        for (int i = 1; i < allitems.size() - 1; i++)
+        if (sum_items_width > scence_BR.width())
         {
-            startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
-            QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
-                             , allitems.at(i)->sceneBoundingRect().top());
-            endPoint = endPoint + QPointF(space_width, 0);
-            allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
-            endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            // [6] 按照相邻进行移动位置
+            for (int i = 1; i < allitems.size(); i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
+                                 , allitems.at(i)->sceneBoundingRect().top());
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
+        } else
+        {
+            qreal space_width = (scence_BR.width() - sum_items_width)
+                                / (allitems.size() - 1);
+            // [7] 按照x值的间隔进行移动位置
+            for (int i = 1; i < allitems.size() - 1; i++) {
+                startPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+                QPointF endPoint(allitems.at(i - 1)->sceneBoundingRect().right()
+                                 , allitems.at(i)->sceneBoundingRect().top());
+                endPoint = endPoint + QPointF(space_width, 0);
+                allitems.at(i)->move(allitems.at(i)->sceneBoundingRect().topLeft(), endPoint);
+                endPos.insert(allitems.at(i), allitems.at(i)->sceneBoundingRect().topLeft());
+            }
         }
 
-        // [6] 设置出入栈
+        // [8] 设置出入栈
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
-
-        // [7] 更新画布区域,不然框选的线显示错误
-        if (scene() != nullptr)
-            scene()->views().first()->viewport()->update();
     });
 }
 
@@ -705,8 +729,43 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     //m_pasteAct->setEnabled(QApplication::clipboard()->ownsClipboard());
     //m_pasteAct->setEnabled(true);
 
-    m_contextMenu->show();
+
+
+    //m_contextMenu->show();
+
+    showMenu(m_contextMenu);
 }
+
+void CGraphicsView::showMenu(DMenu *pMenu)
+{
+    QPoint curPos = QCursor::pos();
+
+    QSize menSz = pMenu->size();
+
+    QRect menuRect = QRect(curPos, menSz);
+
+    QScreen *pCurScren = pMenu->windowHandle()->screen();
+
+    if (pCurScren != nullptr) {
+        QRect geomeRect = pCurScren->geometry();
+        if (!geomeRect.contains(menuRect)) {
+            if (menuRect.right() > geomeRect.right()) {
+                int move = menuRect.right() - geomeRect.right();
+                menuRect.adjust(-move, 0, -move, 0);
+            }
+
+            if (menuRect.bottom() > geomeRect.bottom()) {
+                int move = menuRect.bottom() - geomeRect.bottom();
+                menuRect.adjust(0, -move, 0, -move);
+            }
+        }
+    }
+
+    pMenu->move(menuRect.topLeft());
+
+    pMenu->show();
+}
+
 
 void CGraphicsView::resizeEvent(QResizeEvent *event)
 {
@@ -771,10 +830,10 @@ void CGraphicsView::itemRotate(QGraphicsItem *item, const qreal newAngle)
     this->pushUndoStack(rotateCommand);
 }
 
-void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress)
+void CGraphicsView::itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    QUndoCommand *resizeCommand = new CResizeShapeCommand(curScene, item, handle, beginPos,  endPos, bShiftPress, bALtPress);
+    QUndoCommand *resizeCommand = new CResizeShapeCommand(curScene, item, handle, beginRect,  endPos, bShiftPress, bALtPress);
     this->pushUndoStack(resizeCommand);
 }
 
@@ -1439,9 +1498,10 @@ void CGraphicsView::itemSceneCut(QRectF newRect)
 void CGraphicsView::doSaveDDF(bool finishClose)
 {
     QString ddfPath = getDrawParam()->getDdfSavePath();
-    if (ddfPath.isEmpty() || ddfPath == "") {
+    QFileInfo fInfo(ddfPath);
+    if (ddfPath.isEmpty() || ddfPath == "" || !fInfo.exists()) {
         showSaveDDFDialog(true, finishClose);
-    } else if (!QFileInfo(ddfPath).isWritable()) {
+    } else if (!fInfo.isWritable()) {
         //如果文件不可写入那么先弹出提示对话框然后再由用户决定是否要另存为或取消
         DDialog dia(this);
         dia.setFixedSize(404, 163);
@@ -1455,10 +1515,8 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
         if (ret == yes) {
             //弹出保存文件的框
-            QFileInfo fileInfo(ddfPath);
             QString newBaseName = tr("Unnamed");
-            QString newFile = fileInfo.absolutePath() + "/" + newBaseName + "." + fileInfo.suffix();
-            //qDebug() << "---------------newFile  = " << newFile;
+            QString newFile = fInfo.absolutePath() + "/" + newBaseName + "." + fInfo.suffix();
             showSaveDDFDialog(true, finishClose, newFile);
 
         } else {
@@ -1567,6 +1625,16 @@ void CGraphicsView::setModify(bool isModify)
 bool CGraphicsView::isKeySpacePressed()
 {
     return _spaceKeyPressed;
+}
+CDrawScene *CGraphicsView::drawScene()
+{
+    return dynamic_cast<CDrawScene *>(scene());
+}
+
+void CGraphicsView::showEvent(QShowEvent *event)
+{
+    this->setTransformationAnchor(AnchorViewCenter);
+    QGraphicsView::showEvent(event);
 }
 
 void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
@@ -1717,11 +1785,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
         endPos.insert(allItems.at(0), topLeft);
     }
 
-    // [4] 更新画布区域,不然框选的线显示错误
-    if (scene() != nullptr)
-        scene()->views().first()->viewport()->update();
-
-    // [5] 设置出入栈
+    // [4] 设置出入栈
     QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
     pushUndoStack(addCommand);
 }
@@ -1970,8 +2034,13 @@ void CGraphicsView::enterEvent(QEvent *event)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->changeMouseShape(currentMode);
+
+        if (!_spaceKeyPressed) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->changeMouseShape(currentMode);
+        } else {
+            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+        }
     }
 }
 

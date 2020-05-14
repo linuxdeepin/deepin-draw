@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cundocommands.h"
+
 #include "drawshape/globaldefine.h"
 #include "drawshape/cgraphicslineitem.h"
 #include "drawshape/cgraphicsrectitem.h"
@@ -30,9 +31,13 @@
 #include "drawshape/cgraphicsitemselectedmgr.h"
 #include "drawshape/cgraphicstextitem.h"
 #include "drawshape/cgraphicsitemhighlight.h"
+#include "drawshape/cpictureitem.h"
+
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+
 #include "service/cmanagerattributeservice.h"
+
 #include "widgets/ctextedit.h"
 
 #include <QUndoCommand>
@@ -40,6 +45,7 @@
 #include <QGraphicsItem>
 #include <QBrush>
 #include <QDebug>
+
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 {
@@ -514,15 +520,56 @@ void UnGroupShapeCommand::redo()
 */
 
 
-CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
+CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress, QUndoCommand *parent)
     : QUndoCommand(parent)
     , myItem(item)
     , m_handle(handle)
-    , m_beginPos(beginPos)
     , m_endPos(endPos)
     , m_bShiftPress(bShiftPress)
     , m_bAltPress(bALtPress)
 {
+    QRectF rect = beginRect;
+    switch (m_handle) {
+    case CSizeHandleRect::Right:
+        m_beginPos = QPointF(rect.right(), 0);
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        break;
+    case CSizeHandleRect::RightTop:
+        m_beginPos = rect.topRight();
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    case CSizeHandleRect::RightBottom:
+        m_beginPos = rect.bottomRight();
+        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        m_beginPos = rect.bottomLeft();
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::Bottom:
+        m_beginPos = QPointF(0, rect.bottom());
+        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        break;
+    case CSizeHandleRect::LeftTop:
+        m_beginPos = rect.topLeft();
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    case CSizeHandleRect::Left:
+        m_beginPos = QPointF(rect.left(), 0);
+        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        break;
+    case CSizeHandleRect::Top:
+        m_beginPos = QPointF(0, rect.top());
+        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        break;
+    default:
+        break;
+    }
+    qDebug() << "m_beginPos = " << m_beginPos;
     myGraphicsScene = scene;
 }
 
@@ -1671,13 +1718,15 @@ void CMultMoveShapeCommand::redo()
     m_bMoved = true;
 }
 
-CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items, EDrawProperty property, QVariant value)
+CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
+                                                                         EDrawProperty property, QVariant value, bool write2Cache)
 {
     qDebug() << "CSetItemsCommonPropertyValueCommand: " << value;
     myGraphicsScene = scene;
     m_items = items;
     m_property = property;
     m_value = value;
+    m_write2Cache = write2Cache;
     QVariant oldValue;
     for (auto item : items) {
         switch (m_property) {
@@ -1732,7 +1781,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             break;
         case TextFont:
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontFamily());
-            qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
+//            qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
             break;
         case BlurWidth:
             oldValue.setValue(static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth());
@@ -1740,6 +1789,18 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
         case Blurtype:
             oldValue.setValue(static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect()));
             break;
+        case FillColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor().alpha());
+            break;
+        }
+        case LineColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen().color().alpha());
+            break;
+        }
+        case TextColorAlpha: {
+            oldValue.setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+            break;
+        }
         }
         m_oldValues[item] = oldValue;
     }
@@ -1747,9 +1808,10 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
 
 CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene,
                                                                          const QMap<CGraphicsItem *, QVariant> &oldValues,
-                                                                         EDrawProperty property, QVariant value)
+                                                                         EDrawProperty property, QVariant value, bool write2Cache)
 {
     myGraphicsScene = scene;
+    m_write2Cache = write2Cache;
     for (auto it = oldValues.begin(); it != oldValues.end(); ++it) {
         m_items.append(it.key());
     }
@@ -1769,6 +1831,14 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case FillColor:
             item->setBrush(oldValue.value<QBrush>());
             break;
+        case FillColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(oldValue.toInt());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            break;
+        }
         case LineWidth: {
             QPen widthpen = item->pen();
             widthpen.setWidth(oldValue.toInt());
@@ -1781,6 +1851,14 @@ void CSetItemsCommonPropertyValueCommand::undo()
             item->setPen(colorpen);
         }
         break;
+        case LineColorAlpha: {
+            QPen colorpen = item->pen();
+            QColor color = colorpen.color();
+            color.setAlpha(oldValue.toInt());
+            colorpen.setColor(color);
+            item->setPen(colorpen);
+            break;
+        }
         case RectRadius:
             static_cast<CGraphicsRectItem *>(item)->setXYRedius(oldValue.toInt(), oldValue.toInt());
             break;
@@ -1796,19 +1874,23 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
+                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
+                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
+                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
+                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
             }
             break;
         case TextColor:
@@ -1819,6 +1901,21 @@ void CSetItemsCommonPropertyValueCommand::undo()
                 }
             }
             break;
+        case TextColorAlpha: {
+            QBrush colorBrush = item->brush();
+            QColor color = colorBrush.color();
+            color.setAlpha(oldValue.toInt());
+            colorBrush.setColor(color);
+            item->setBrush(colorBrush);
+            if (item->type() == TextType) {
+                auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
+                if (curTextItem != nullptr) {
+                    int alpha = oldValue.toInt();
+                    curTextItem->setTextColorAlpha(alpha);
+                }
+            }
+            break;
+        }
         case TextSize: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
@@ -1856,6 +1953,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
         }
         break;
         }
+        item->updateShape();
         item->update();
     }
 
@@ -1872,7 +1970,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
         }
     }
 
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
     qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
 
     myGraphicsScene->update();
@@ -1880,7 +1978,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
 
 void CSetItemsCommonPropertyValueCommand::redo()
 {
-    qDebug() << "CSetItemsCommonPropertyValueCommand: " << "redo";
     for (int i = 0; i < m_items.size(); i++) {
         CGraphicsItem *item = m_items.at(i);
         switch (m_property) {
@@ -1893,9 +1990,6 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorBrush.setColor(color);
             item->setBrush(colorBrush);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
-            }
         }
         break;
         case LineWidth: {
@@ -1916,9 +2010,6 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorpen.setColor(color);
             item->setPen(colorpen);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(color);
-            }
         }
         break;
         case RectRadius:
@@ -1944,19 +2035,19 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
             }
             break;
         case TextColor:
@@ -1973,17 +2064,11 @@ void CSetItemsCommonPropertyValueCommand::redo()
             color.setAlpha(m_value.value<int>());
             colorBrush.setColor(color);
             item->setBrush(colorBrush);
-            if (m_items.size() == 1) {
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(color);
-            }
             if (item->type() == TextType) {
                 auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
                 if (curTextItem != nullptr) {
                     int alpha = m_value.toInt();
                     curTextItem->setTextColorAlpha(alpha);
-                    QColor cacheColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-                    cacheColor.setAlpha(alpha);
-                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(cacheColor);
                 }
             }
         }
@@ -2026,6 +2111,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
         break;
         }
         item->updateShape();
+        item->update();
     }
 
     if (m_items.size() > 1) {
@@ -2041,8 +2127,8 @@ void CSetItemsCommonPropertyValueCommand::redo()
         }
     }
 
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    qDebug() << "CSetItemsCommonPropertyValueCommand::redo: " << "refreshSelectedCommonProperty";
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(m_write2Cache);
+    qDebug() << "CSetItemsCommonPropertyValueCommand::redo--> refreshSelectedCommonProperty write2Cache:" << m_write2Cache;
 
     myGraphicsScene->update();
 }
@@ -2073,6 +2159,10 @@ void CItemsAlignCommand::undo()
         }
     }
     m_isMoved = false;
+
+    // 手动刷新重做后的多选框线
+    CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CItemsAlignCommand::redo()
@@ -2088,4 +2178,71 @@ void CItemsAlignCommand::redo()
         }
     }
     m_isMoved = true;
+
+    // 手动刷新重做后的多选框线
+    CManageViewSigleton::GetInstance()->getCurView()->scene()->update();
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+}
+
+CItemRotationCommand::CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item, ERotationType endType)
+{
+    myGraphicsScene = scene;
+    m_item = item;
+    m_endType = endType;
+}
+
+void CItemRotationCommand::undo()
+{
+    qDebug() << "CItemsRotationCommand: " << "undo";
+
+    // 只有图片才进行旋转操作
+    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+    if (pictureItem) {
+        switch (m_endType) {
+        case ERotationType::LeftRotate_90:
+            pictureItem->setRotation90(false);
+            break;
+        case ERotationType::RightRotate_90:
+            pictureItem->setRotation90(true);
+            break;
+        case ERotationType::FlipHorizontal:
+            pictureItem->setMirror(true, false);
+            break;
+        case ERotationType::FlipVertical:
+            pictureItem->setMirror(false, true);
+            break;
+        }
+    }
+
+    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
+    myGraphicsScene->getItemHighLight()->setVisible(false);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+}
+
+void CItemRotationCommand::redo()
+{
+    qDebug() << "CItemsRotationCommand: " << "redo";
+
+    // 只有图片才进行旋转操作
+    CPictureItem *pictureItem = static_cast<CPictureItem *>(m_item);
+    if (pictureItem) {
+        switch (m_endType) {
+        case ERotationType::LeftRotate_90:
+            pictureItem->setRotation90(true);
+            break;
+        case ERotationType::RightRotate_90:
+            pictureItem->setRotation90(false);
+            break;
+        case ERotationType::FlipHorizontal:
+            pictureItem->setMirror(true, false);
+            break;
+        case ERotationType::FlipVertical:
+            pictureItem->setMirror(false, true);
+            break;
+        }
+    }
+
+    // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
+    myGraphicsScene->getItemHighLight()->setVisible(false);
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

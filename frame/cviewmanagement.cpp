@@ -21,6 +21,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
 #include "frame/ccentralwidget.h"
+#include "drawshape/cgraphicstextitem.h"
+#include "widgets/ctextedit.h"
 #include "application.h"
 
 #include <DApplication>
@@ -57,6 +59,27 @@ int CManageViewSigleton::getThemeType() const
 void CManageViewSigleton::setThemeType(const int type)
 {
     m_thremeType = type;
+}
+
+void CManageViewSigleton::updateTheme()
+{
+    for (int i = 0; i < m_allViews.size(); ++i) {
+        CGraphicsView *pView         = m_allViews[i];
+        QList<QGraphicsItem *> items = pView->items();
+
+        for (int j = 0; j < items.size(); ++j) {
+            QGraphicsItem *pItem = items[j];
+            if (pItem->type() == TextType) {
+                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pItem);
+                if (pTextItem != nullptr) {
+                    CTextEdit *pEdit = pTextItem->getTextEdit();
+                    if (pEdit != nullptr) {
+                        pEdit->updateBgColorTo();
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool CManageViewSigleton::isEmpty()
@@ -110,6 +133,10 @@ void CManageViewSigleton::removeView(CGraphicsView *view)
     if (m_allViews.contains(view)) {
         auto curIndex = m_allViews.indexOf(view);
         m_allViews.removeAt(curIndex);
+
+        QString ddfPath = view->getDrawParam()->getDdfSavePath();
+        removeWacthedFile(ddfPath);
+
         if (curIndex == m_curIndex) {
             if (m_allViews.isEmpty()) {
                 m_curIndex = -1;
@@ -201,6 +228,9 @@ bool CManageViewSigleton::isDdfFileOpened(const QString &path)
 
 bool CManageViewSigleton::wacthFile(const QString &file)
 {
+    if (file.isEmpty())
+        return false;
+
     bool ret = false;
     if (!file.isEmpty()) {
         if (m_ddfWatcher.files().indexOf(file) == -1)
@@ -211,6 +241,9 @@ bool CManageViewSigleton::wacthFile(const QString &file)
 
 bool CManageViewSigleton::removeWacthedFile(const QString &file)
 {
+    if (file.isEmpty())
+        return false;
+
     bool ret = false;
     if (m_ddfWatcher.files().indexOf(file) != -1) {
         ret = m_ddfWatcher.removePath(file);
@@ -231,6 +264,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
         QFileInfo fInfo(ddfFile);
         if (fInfo.exists()) {
+            qDebug() << "onDDfFileChanged(----modifyed----) file = " << ddfFile;
             //证明只是内容修改 要提醒是否重新加载
             //先判断是否已经存在对这个文件已修改的提示
             DDialog *dia = getNoticeFileDialog(ddfFile);
@@ -244,7 +278,8 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 return;
             } else {
                 dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
-                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(fInfo.fileName()));
+                QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
+                dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
                 int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
                 int ret = dia->exec();
@@ -252,7 +287,7 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 if (ret == reload) {
 
                     //先关闭传入false使程序不会被关闭
-                    pCertralWidget->closeCurrentScenseView(false, false);
+                    pCertralWidget->closeSceneView(pView, false, false);
 
                     //再加载
                     emit pView->signalLoadDragOrPasteFile(ddfFile);
@@ -260,15 +295,22 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
 
                 } else if (ret == cancel) {
                     //直接关闭
-                    pCertralWidget->closeCurrentScenseView();
+                    pCertralWidget->closeSceneView(pView);
                 }
             }
         } else {
+
+            qDebug() << "onDDfFileChanged(----deleted----) file = " << ddfFile;
+
+            //不再绑定这个文件()
+            removeWacthedFile(ddfFile);
+
             //证明是被重命名或者删除
             DDialog dia(pView->parentWidget());
             dia.setFixedSize(404, 163);
             dia.setModal(true);
-            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(fInfo.fileName()));
+            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+            dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
@@ -276,20 +318,17 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             int ret = dia.exec();
 
             if (ret == keep) {
-
-                //不再绑定这个文件()
-                removeWacthedFile(ddfFile);
                 pView->getDrawParam()->setDdfSavePath("");
                 pCertralWidget->updateTitle();
 
             } else if (ret == discard) {
                 //直接关闭
-                pCertralWidget->closeCurrentScenseView();
+                pCertralWidget->closeSceneView(pView);
             }
         }
     }
 
-    //DDialog dialog();
+    //qDebug() << QString("file(%1) changed slot end current watched files = ").arg(ddfFile) << m_ddfWatcher.files();
 }
 
 int CManageViewSigleton::viewCount()

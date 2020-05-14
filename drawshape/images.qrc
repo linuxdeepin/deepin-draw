@@ -18,5 +18,9 @@
         <file>theme/light/images/mouse_style/icon_drag.svg</file>
         <file>theme/light/images/mouse_style/mouse_oval.svg</file>
         <file>theme/dark/images/size/node-dark.svg</file>
+        <file>theme/light/images/mouse_style/icon_drag_left.svg</file>
+        <file>theme/light/images/mouse_style/icon_drag_leftup.svg</file>
+        <file>theme/light/images/mouse_style/icon_drag_rightup.svg</file>
+        <file>theme/light/images/mouse_style/icon_drag_up.svg</file>
     </qresource>
 </RCC>

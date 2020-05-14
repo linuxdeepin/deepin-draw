@@ -32,11 +32,14 @@
 #include "frame/cgraphicsview.h"
 #include "frame/cviewmanagement.h"
 #include "widgets/dialog/cprogressdialog.h"
+#include "application.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QtConcurrent>
+#include <QCryptographicHash>
+#include <QStorageInfo>
 
 
 CDDFManager::CDDFManager(CGraphicsView *view)
@@ -57,16 +60,13 @@ CDDFManager::CDDFManager(CGraphicsView *view)
 
 void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {
-    m_finishedClose = finishedNeedClose;
-
+    //1.准备和检查
+    m_graphics.vecGraphicsUnit.clear();
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    int primitiveCount = 0;
-    m_path = path;
-    m_pSaveDialog->show();
-    m_pSaveDialog->setTitle(tr("Saving..."));
-    m_pSaveDialog->setProcess(0);
-
+    int         primitiveCount = 0;
+    QByteArray  allBytes;
+    QDataStream streamForCountBytes(&allBytes, QIODevice::WriteOnly);
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
@@ -74,24 +74,55 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
             CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
             m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
+            streamForCountBytes << graphicsUnit;
         }
     }
 
-    m_graphics.version = qint32(/*EDdf5_8_0_10_2*/EDdfVersionCount - 1);
+    m_graphics.version = qint32(EDdfCurVersion);
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
+
+    streamForCountBytes << m_graphics;
+
+    int allBytesCount = allBytes.size() + 16; //16个字节是预留给md5
+
+    /* 如果空间不足那么提示 */
+    QStorageInfo volume(path);
+    if (volume.isValid()) {
+        qint64 availabelCount = volume.bytesAvailable();
+        if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
+            QFileInfo fInfo(path);
+            DDialog dia(dApp->activationWindow());
+            dia.setFixedSize(404, 163);
+            dia.setModal(true);
+            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+            dia.setMessage(tr("volume \'%1\' is out of space,\'%2\' save failed! ").arg(QString::fromUtf8(volume.device())).arg(shortenFileName));
+            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+
+            dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+
+            dia.exec();
+
+            m_graphics.vecGraphicsUnit.clear();
+
+            return;
+        }
+    }
+
+    //2.真的开始
+    m_finishedClose = finishedNeedClose;
+    m_path = path;
+    m_pSaveDialog->show();
+    m_pSaveDialog->setTitle(tr("Saving..."));
+    m_pSaveDialog->setProcess(0);
 
     CManageViewSigleton::GetInstance()->removeWacthedFile(path);
     QtConcurrent::run([ = ] {
         QFile writeFile(path);
         m_lastSaveStatus = false;
-        if (writeFile.open(QIODevice::WriteOnly))
+        if (writeFile.open(QIODevice::WriteOnly | QIODevice::ReadOnly))
         {
             QDataStream out(&writeFile);
-//            out << (quint32)0xA0B0C0D0;
-//            out << EDdf5_8_2_1;
-//            out << m_graphics.unitCount;
-//            out << m_graphics.rect;
 
             out << m_graphics;
 
@@ -143,7 +174,11 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
             //内容变化的检测
             //CManageViewSigleton::GetInstance()->addIgnoreCount();
 
+            //CGraphics::recordMd5(out,);
+
             writeFile.close();
+
+            writeMd5ToDdfFile(path);
 
             m_graphics.vecGraphicsUnit.clear();
 
@@ -166,22 +201,32 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
     m_path = path;
 
     QtConcurrent::run([ = ] {
-        QFile readFile(path);
 
-        if (readFile.open(QIODevice::ReadOnly))
+        //首先判断文件是否是脏的(是否是ddf合法的,判断方式为md5校验(如果ddf文件版本是老版本那么会直接返回false))
+        if (isDdfFileDirty(path))
+        {
+            //弹窗提示
+            QMetaObject::invokeMethod(this, [ = ]() {
+                //证明是被重命名或者删除
+                QFileInfo fInfo(path);
+                DDialog dia(dApp->activationWindow());
+                dia.setFixedSize(404, 163);
+                dia.setModal(true);
+                QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+                dia.setMessage(tr("The file \"%1 \" is damaged and cannot be opened !").arg(shortenFileName));
+                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+
+                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+                dia.exec();
+            }, Qt::QueuedConnection);
+            emit signalLoadDDFComplete();
+            return;
+        }
+
+        QFile readFile(path);
+        if (readFile.open(QIODevice::ReadOnly | QIODevice::WriteOnly))
         {
             QDataStream in(&readFile);
-//            quint32 type;
-//            in >> type;
-//            int version;
-//            in >> version;
-//            qDebug() << "loadDDF type = " << type << " version = " << version << endl;
-//            //qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
-//            if (type != (quint32)0xA0B0C0D0) {
-//                in.device()->seek(0);
-//            }
-//            in >> m_graphics.unitCount;
-//            in >> m_graphics.rect;
 
             in >> m_graphics;
             qDebug() << QString("load ddf(%1)").arg(path) << " ddf version = " << m_graphics.version << "graphics count = " << m_graphics.unitCount <<
@@ -333,6 +378,68 @@ void CDDFManager::slotProcessSchedule(int process, bool isSave)
     } else {
         m_CProgressDialog->slotupDateProcessBar(process);
     }
+}
+
+bool CDDFManager::isDdfFileDirty(const QString &filePath)
+{
+    QFile file(filePath);
+    if (file.exists()) {
+
+        if (file.open(QFile::ReadOnly)) {
+            QDataStream s(&file);
+            // 先通过版本号判断是否ddf拥有md5校验值
+            EDdfVersion ver = getVersion(s);
+            if (ver >= EDdf5_8_0_20) {
+                QByteArray allBins = file.readAll();
+                QByteArray md5    = allBins.right(16);
+
+                qDebug() << "direct read MD5 form ddffile file = " << filePath << " MD5 = " << md5.toHex().toUpper();
+
+                QByteArray contex = allBins.left(allBins.size() - md5.size());
+
+                QByteArray nMd5 = QCryptographicHash::hash(contex, QCryptographicHash::Md5);
+
+                qDebug() << "recalculate MD5 form ddffile file = " << filePath << " MD5 = " << nMd5.toHex().toUpper();
+
+                if (md5 != nMd5) {
+                    return true;
+                }
+            } else  if (ver == EDdfUnknowed) {
+                return true;
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
+void CDDFManager::writeMd5ToDdfFile(const QString &filePath)
+{
+    qDebug() << "write Md5 To DdfFile begin, file = " << filePath;
+    bool result = false;
+    QByteArray srcBinArry;
+    QFile f(filePath);
+    if (f.open(QFile::ReadWrite)) {
+
+        srcBinArry = f.readAll();
+
+        QDataStream stream(&f);
+
+        //加密得到md5值
+        QByteArray md5 = QCryptographicHash::hash(srcBinArry, QCryptographicHash::Md5);
+
+        stream.device()->seek(srcBinArry.size());
+
+        //防止 << 操作符写入长度，所以用这个writeRawData函数 (只写入md5值不写md5的长度，因为md5是固定16个字节的)
+        stream.writeRawData(md5.data(), md5.size());
+
+        f.close();
+
+        result = true;
+
+        qDebug() << "ddfFile file contex bin size = " << srcBinArry.size() << "result md5 = " << md5.toHex().toUpper();
+    }
+    qDebug() << "write Md5 To DdfFile end, file = " << filePath << " result = " << result;
 }
 
 void CDDFManager::slotSaveDDFComplete()

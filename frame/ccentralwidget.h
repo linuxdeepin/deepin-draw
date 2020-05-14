@@ -102,10 +102,6 @@ public:
     */
     QStringList getAllTabBarUUID();
 signals:
-    /**
-     * @brief signalPassPictureOper　传递图片的旋转和翻转信号
-     */
-    void signalPassPictureOper(int);
 
     /**
      * @brief signalAttributeChangedFromScene 传递场景中选择图元改变信号
@@ -258,10 +254,7 @@ public slots:
      * @return: 无
     */
     void addView(QString viewName, const QString &uuid);
-    /**
-     * @brief slotRectRediusChanged 矩形圆角变化信号
-     */
-    void slotRectRediusChanged(int value);
+
     /**
      * @brief slotQuitApp 退出程序处理事件
      */
@@ -270,6 +263,9 @@ public slots:
      * @brief closeCurrentScenseView　关闭当前选中场景
      */
     void closeCurrentScenseView(bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
+
+
+    void closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq = true, bool deleteView = true);
 
 
     void closeViewScense(CGraphicsView *view);

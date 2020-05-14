@@ -39,6 +39,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
+#include "widgets/ctextedit.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -47,6 +48,8 @@
 #include <QtMath>
 #include <DApplication>
 #include <QScrollBar>
+
+DWIDGET_USE_NAMESPACE
 
 CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified)
     : QGraphicsScene(view)
@@ -73,8 +76,8 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
             view, SLOT(itemAdded(QGraphicsItem *, bool)));
     connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
             view, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )),
-            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QPointF, QPointF, bool, bool )));
+    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )),
+            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )));
     connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
             view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
     connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
@@ -156,11 +159,12 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
             painter->fillRect(sceneRect(), Qt::transparent);
         }
     } else {
-        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            painter->fillRect(sceneRect(), Qt::white);
-        } else {
-            painter->fillRect(sceneRect(), QColor(55, 55, 55));
-        }
+//        if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            painter->fillRect(sceneRect(), Qt::white);
+//        } else {
+//            painter->fillRect(sceneRect(), QColor(55, 55, 55));
+//        }
+        painter->fillRect(sceneRect(), Qt::white);
     }
 
     /*QGraphicsScene::drawBackground(painter, rect);
@@ -408,40 +412,6 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 }
 
-void CDrawScene::picOperation(int enumstyle)
-{
-    if (this != static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())) {
-        return;
-    }
-    //qDebug() << "entered the  picOperation function" << endl;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    if ( items.count() != 0 ) {
-        QGraphicsItem *item = items.first();
-        //需要区别图元或文字
-        if (item->type() == PictureType) {
-            CPictureItem *pictureItem = static_cast<CPictureItem *>(item);
-            if (pictureItem != nullptr) {
-                switch (enumstyle) {
-                case CPictureWidget::LeftRotate:
-                    pictureItem->setRotation90(true);
-                    break;
-                case CPictureWidget::RightRotate:
-                    pictureItem->setRotation90(false);
-                    break;
-                case CPictureWidget::FlipHorizontal:
-                    pictureItem->setMirror(true, false);
-                    break;
-                case CPictureWidget::FlipVertical:
-                    pictureItem->setMirror(false, true);
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-    }
-}
-
 void CDrawScene::drawToolChange(int type)
 {
     clearMutiSelectedState();
@@ -584,11 +554,15 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 
 void CDrawScene::switchTheme(int type)
 {
+    Q_UNUSED(type);
     QList<QGraphicsItem *> items = this->items();//this->collidingItems();
     //QList<QGraphicsItem *> items = this->collidingItems();
     for (int i = items.size() - 1; i >= 0; i-- ) {
-        if (items[i]->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+        CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
+        if (pItem != nullptr) {
+            if (pItem->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+            }
         }
     }
 }
