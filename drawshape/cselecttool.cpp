@@ -578,6 +578,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         scene->getItemsMgr()->setSelected(true);
     }
     m_sLastPress = event->scenePos();
+    scene->views().first()->viewport()->update();
 }
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
