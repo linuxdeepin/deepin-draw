@@ -240,6 +240,9 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void CGraphicsItem::beginCheckIns(QPainter *painter)
 {
+    if (scene() == nullptr)
+        return;
+
     painter->save();
     QRectF sceneRct = scene()->sceneRect();
     QRectF itemRct  = mapToScene(rect()).boundingRect();
@@ -252,6 +255,8 @@ void CGraphicsItem::beginCheckIns(QPainter *painter)
 
 void CGraphicsItem::endCheckIns(QPainter *painter)
 {
+    if (scene() == nullptr)
+        return;
     painter->restore();
 }
 void CGraphicsItem::clearHandle()
