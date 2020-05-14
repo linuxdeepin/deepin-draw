@@ -65,7 +65,6 @@ private:
     DToolButton *m_blurBtn;
     DToolButton *m_masicBtn;
     DLabel *m_pLineWidthLabel;
-    DSlider *m_pLineWidthSlider;
     CSpinBox *m_spinboxForLineWidth = nullptr;
 
     void updateIcon(bool masic);
