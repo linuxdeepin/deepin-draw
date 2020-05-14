@@ -302,6 +302,7 @@ void CGraphicsTextItem::setFontSize(qreal size)
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
+    m_pTextEdit->setFocus();
 }
 
 qreal CGraphicsTextItem::getFontSize()

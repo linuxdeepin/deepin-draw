@@ -30,6 +30,8 @@
 #include <QTextBlock>
 #include <QTextEdit>
 
+#include "service/cmanagerattributeservice.h"
+
 CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
@@ -71,15 +73,15 @@ void CTextEdit::slot_textChanged()
     rect.setWidth(size.width());
 
     //判断是否出界
-//    QPointF bottomRight = rect.bottomRight();
-//    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
-//    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
-//        this->setLineWrapMode(WidgetWidth);
-//        this->document()->setTextWidth(m_widthF);
-//        size = this->document()->size();
-//        rect.setHeight(size.height());
-//        rect.setWidth(size.width());
-//    }
+    QPointF bottomRight = rect.bottomRight();
+    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
+    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
+        this->setLineWrapMode(WidgetWidth);
+        this->document()->setTextWidth(m_widthF);
+        size = this->document()->size();
+        rect.setHeight(size.height());
+        rect.setWidth(size.width());
+    }
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);
@@ -87,13 +89,18 @@ void CTextEdit::slot_textChanged()
 
     m_widthF = rect.width();
 
-    cursorPositionChanged();
+    checkTextProperty();
 
-//    if (nullptr != m_pItem->scene()) {
-//        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-//        //更新字图元
-//        curScene->updateBlurItem(m_pItem);
-//    }
+//    resizeDocument();
+
+    if (nullptr != m_pItem->scene()) {
+        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        //更新字图元
+        curScene->updateBlurItem(m_pItem);
+    }
+
+    // [0] 编辑文字的时候不会自动刷新属性
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CTextEdit::cursorPositionChanged()
