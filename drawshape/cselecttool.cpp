@@ -540,6 +540,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             }
             if (m_currentSelectItem->type() != LineType) {
                 m_currentSelectItem->setRotation(angle);
+                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
             } else {
                 QLineF line = static_cast<CGraphicsLineItem *>(m_currentSelectItem)->line();
                 QPointF vector = line.p2() - line.p1();
@@ -558,6 +559,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                     angle -= 360;
                 }
                 m_currentSelectItem->setRotation(angle);
+                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
             }
 
             //显示旋转角度

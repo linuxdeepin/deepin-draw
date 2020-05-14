@@ -151,7 +151,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSpinBox->setKeyboardTracking(false);
     m_sideNumSpinBox->setFixedWidth(70);
     m_sideNumSpinBox->setRange(0, 1000);
-    //m_sideNumSlider->setRange(3, 10);//此注释不删，记录边数范围
+    //m_sideNumSlider->setRange(4, 10);//此注释不删，记录边数范围
     m_sideNumSpinBox->setFont(ft);
     m_sideNumSpinBox->setSpecialValueText("— —");
     m_sideNumSpinBox->setEnabledEmbedStyle(true);
@@ -214,8 +214,8 @@ void PolygonAttributeWidget::initConnection()
             return ;
         }
         m_sideNumSpinBox->blockSignals(true);
-        if (m_sideNumSpinBox->value() < 3) {
-            m_sideNumSpinBox->setValue(3);
+        if (m_sideNumSpinBox->value() < 4) {
+            m_sideNumSpinBox->setValue(4);
         } else if (m_sideNumSpinBox->value() > 10) {
             m_sideNumSpinBox->setValue(10);
         }
@@ -269,8 +269,8 @@ void PolygonAttributeWidget::updatePolygonWidget()
 void PolygonAttributeWidget::slotSideValueChanged(int value)
 {
     m_sideNumSpinBox->blockSignals(true);
-    if (m_sideNumSpinBox->value() < 3) {
-        m_sideNumSpinBox->setValue(3);
+    if (m_sideNumSpinBox->value() < 4) {
+        m_sideNumSpinBox->setValue(4);
     } else if (m_sideNumSpinBox->value() > 10) {
         m_sideNumSpinBox->setValue(10);
     }

@@ -84,6 +84,7 @@ public:
      */
     QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false, char toolType = 0);
 
+    qreal getCursorRotation();
 protected:
     bool m_bMousePress;
     QPointF m_sPointPress;
@@ -97,7 +98,10 @@ protected:
 private:
     EDrawToolMode m_mode;
     QCursor m_RotateCursor;
-
+    QCursor m_LeftTopCursor;
+    QCursor m_RightTopCursor;
+    QCursor m_LeftRightCursor;
+    QCursor m_UpDownCursor;
 };
 
 #endif // CDRAWTOOL_H

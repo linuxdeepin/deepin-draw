@@ -39,6 +39,10 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
     , m_bAltKeyPress(false)
     , m_mode(mode)
     , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
+    , m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg"))
+    , m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg"))
+    , m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg"))
+    , m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg"))
 {
 
 }
@@ -64,76 +68,105 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
 
     Qt::CursorShape result;
     QCursor resultCursor;
+    QMatrix matrix;
+    QPixmap pixmap;
     switch (dir) {
     case CSizeHandleRect::Right:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeHorCursor;
+            resultCursor = m_LeftRightCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::RightTop:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeBDiagCursor;
+            resultCursor = m_RightTopCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::RightBottom:
-//        result =  Qt::SizeFDiagCursor;
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeFDiagCursor;
+            resultCursor = m_LeftTopCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::LeftBottom:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeBDiagCursor;
+            resultCursor = m_RightTopCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::Bottom:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeVerCursor;
+            resultCursor = m_UpDownCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::LeftTop:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeFDiagCursor;
+            resultCursor = m_LeftTopCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::Left:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeHorCursor;
+            resultCursor = m_LeftRightCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
     case CSizeHandleRect::Top:
         if (bMouseLeftPress) {
             result =  Qt::ClosedHandCursor;
+            resultCursor = QCursor(result);
         } else {
-            result =  Qt::SizeVerCursor;
+            resultCursor = m_UpDownCursor;
+            matrix.rotate(getCursorRotation());
+            pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+            resultCursor = QCursor(pixmap);
         }
-        resultCursor = QCursor(result);
         break;
 
-    case CSizeHandleRect::Rotation:
+    case CSizeHandleRect::Rotation: {
         resultCursor = m_RotateCursor;
-        break;
+        matrix.rotate(getCursorRotation());
+        pixmap = resultCursor.pixmap().transformed(matrix, Qt::SmoothTransformation);
+        resultCursor = QCursor(pixmap);
+    }
+    break;
     case CSizeHandleRect::InRect:
         if (toolType == 0) {
             if (bMouseLeftPress) {
@@ -156,4 +189,28 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
     }
 
     return resultCursor;
+}
+
+qreal IDrawTool::getCursorRotation()
+{
+    qreal angle = 0;
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pView != nullptr) {
+        CDrawScene *scene = static_cast<CDrawScene *>(pView->scene());
+        QList<QGraphicsItem *> allSelectItems = scene->selectedItems();
+        for (int i = allSelectItems.size() - 1; i >= 0; i--) {
+            if (allSelectItems.at(i)->zValue() == 0.0) {
+                allSelectItems.removeAt(i);
+                continue;
+            }
+            if (allSelectItems[i]->type() <= QGraphicsItem::UserType || allSelectItems[i]->type() >= EGraphicUserType::MgrType) {
+                allSelectItems.removeAt(i);
+            }
+        }
+
+        if (allSelectItems.size() >= 1) {
+            angle = allSelectItems.at(0)->rotation();
+        }
+    }
+    return  angle;
 }
