@@ -110,6 +110,8 @@ void TextColorButton::mousePressEvent(QMouseEvent * )
 
 void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
 {
+    //const QColor borderColor(77, 82, 93, int(1.0 * 255));
+    const QColor borderColor(255, 255, 255, int(0.1 * 255));
     painter->save();
     painter->setRenderHints(QPainter::Antialiasing);
 
@@ -120,7 +122,7 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     QPen pen(painter->pen());
 
     bool   darkTheme = (CManageViewSigleton::GetInstance()->getThemeType() == 2);
-    QColor penColor  = darkTheme ? QColor(77, 82, 93, int(1.0 * 255)) : QColor(0, 0, 0, int(0.1 * 255));
+    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
 
     pen.setColor(penColor);
 
