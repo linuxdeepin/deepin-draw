@@ -1781,7 +1781,7 @@ CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawSc
             break;
         case TextFont:
             oldValue.setValue(static_cast<CGraphicsTextItem *>(item)->getFontFamily());
-            qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
+//            qDebug() << "*****************new: " << static_cast<CGraphicsTextItem *>(item)->getFontFamily();
             break;
         case BlurWidth:
             oldValue.setValue(static_cast<CGraphicsMasicoItem *>(item)->getBlurWidth());
@@ -1874,19 +1874,23 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
+                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
+                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(oldValue.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
+                static_cast<CGraphicsLineItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(oldValue.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(oldValue.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
+                static_cast<CGraphicsPenItem *>(item)->calcVertexes();
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(oldValue.value<ELineType>());
             }
             break;
         case TextColor:
@@ -1949,6 +1953,7 @@ void CSetItemsCommonPropertyValueCommand::undo()
         }
         break;
         }
+        item->updateShape();
         item->update();
     }
 
@@ -2030,19 +2035,19 @@ void CSetItemsCommonPropertyValueCommand::redo()
         case LineAndPenStartType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineStartType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenStartType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(m_value.value<ELineType>());
             }
             break;
         case LineAndPenEndType:
             if (item->type() == LineType) {
                 static_cast<CGraphicsLineItem *>(item)->setLineEndType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(m_value.value<ELineType>());
             } else if (item->type() == PenType) {
                 static_cast<CGraphicsPenItem *>(item)->setPenEndType(m_value.value<ELineType>());
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
+//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(m_value.value<ELineType>());
             }
             break;
         case TextColor:
@@ -2106,6 +2111,7 @@ void CSetItemsCommonPropertyValueCommand::redo()
         break;
         }
         item->updateShape();
+        item->update();
     }
 
     if (m_items.size() > 1) {
