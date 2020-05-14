@@ -36,6 +36,8 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scal
     m_textFont.setPointSizeF(m_fontSize);
 
     setRect(-m_width / 2, -m_height / 2, m_width, m_height);
+
+    setFlag(ItemIsSelectable, false);
 }
 
 CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent)

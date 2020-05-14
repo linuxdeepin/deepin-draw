@@ -20,6 +20,9 @@ CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
 
 void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
 {
+    if (item == nullptr)
+        return;
+
     //防止添加自己
     if (item == this)
         return;

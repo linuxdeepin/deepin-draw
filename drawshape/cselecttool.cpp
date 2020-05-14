@@ -196,7 +196,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (count > 1) {
                 scene->getItemsMgr()->clear();
                 foreach (QGraphicsItem *copyItem, copyItems) {
-                    scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
+                    CGraphicsItem *pGraphicItem = dynamic_cast<CGraphicsItem *>(copyItem);
+                    if (pGraphicItem != nullptr)
+                        scene->getItemsMgr()->addOrRemoveToGroup(pGraphicItem);
                 }
             } else if (copyItems.size() == 1) {
                 scene->clearSelection();
@@ -664,8 +666,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             if (item == m_frameSelectItem) {
                 continue;
             }
-            auto selectItem = static_cast<CGraphicsItem *>(item);
-            scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
+            //auto selectItem = static_cast<CGraphicsItem *>(item);
+            CGraphicsItem *selectItem = dynamic_cast<CGraphicsItem *>(item);
+            if (selectItem != nullptr) {
+                scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
+            }
         }
         int count = scene->getItemsMgr()->getItems().size();
         if (1 == count) {
@@ -686,10 +691,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         //shift键按下时
         if (shiftKeyPress) {
             if (m_currentSelectItem) {
-                auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
+                CGraphicsItem *currentSelectItem = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
                 if (currentSelectItem != nullptr) {
                     if (scene->getItemsMgr()->getItems().size() == 0 && m_noShiftSelectItem) {
-                        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_noShiftSelectItem));
+                        CGraphicsItem *pNoShiftSelectItem = dynamic_cast<CGraphicsItem *>(m_noShiftSelectItem);
+                        if (pNoShiftSelectItem != nullptr)
+                            scene->getItemsMgr()->addOrRemoveToGroup(pNoShiftSelectItem);
                     }
                     if (m_noShiftSelectItem != currentSelectItem) {
                         scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);

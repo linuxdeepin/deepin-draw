@@ -46,7 +46,8 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     setCacheMode(NoCache);
     setSharedRenderer(&m_lightRenderer);
     hide();
-
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
 }
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
@@ -59,6 +60,9 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     setParentItem(parent);
     setCacheMode(NoCache);
     hide();
+
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
 }
 
 CGraphicsView *CSizeHandleRect::curView() const
