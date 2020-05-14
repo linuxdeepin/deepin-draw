@@ -26,6 +26,7 @@
 #include <QGraphicsItem>
 #include <DDialog>
 
+#include "service/cmanagerattributeservice.h"
 
 CPictureTool::CPictureTool(DWidget *parent)
     : DWidget (parent)
@@ -160,6 +161,9 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
             emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes);
         }
     });
+
+    // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
+    CManagerAttributeService::getInstance()->signalIsAllPictureItem(true, false);
 }
 
 
