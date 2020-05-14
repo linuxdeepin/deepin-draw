@@ -409,7 +409,9 @@ QString CTextEdit::getSelectedFontStyle()
     //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
     switch (m_selectedFontWeight) {
     case 0: {
+        // 为0的时候本应该是Thin，但是需要显示为 Regular
         m_selectedFontStyle = QObject::tr("Regular");
+//        m_selectedFontStyle = QObject::tr("Thin");
         break;
     }
     case 12: {
@@ -421,7 +423,7 @@ QString CTextEdit::getSelectedFontStyle()
         break;
     }
     case 50: {
-        m_selectedFontStyle = QObject::tr("Normal");
+        m_selectedFontStyle = QObject::tr("Regular");
         break;
     }
     case 57: {

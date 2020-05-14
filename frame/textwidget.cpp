@@ -240,16 +240,14 @@ void TextWidget::slotUpdateTextFamilyStyle(QString family)
     QFontDatabase base; //("Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
     family = family.trimmed();
     QStringList listStylyName = base.styles(family);
-    listStylyName.removeOne("Regular");
+//    listStylyName.removeOne("Regular");
     m_fontHeavy->blockSignals(true);
     m_fontHeavy->clear();
-    m_fontHeavy->addItem(tr("Regular"));
+//    m_fontHeavy->addItem(tr("Regular"));
     for (QString style : listStylyName) {
         m_fontHeavy->addItem(style);
     }
     m_fontHeavy->blockSignals(false);
-//    // 设置默认属性
-//    m_fontHeavy->setCurrentIndex(0);
 }
 
 bool TextWidget::eventFilter(QObject *, QEvent *event)
@@ -405,14 +403,27 @@ void TextWidget::updateTextWidget()
 {
     m_fillBtn->updateConfigColor();
     m_fillBtn->setIsMultColorSame(true);
+
     int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
     if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
+        m_fontSize->blockSignals(true);
         m_fontSize->setCurrentText(QString::number(fontSize) + "px");
+        m_fontSize->blockSignals(false);
     }
+
     QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
     QString Sfont = font.family();
     if (Sfont != m_fontComBox->currentFont().family()) {
+        m_fontComBox->blockSignals(true);
         m_fontComBox->setCurrentText(Sfont);
+        m_fontComBox->blockSignals(false);
+    }
+
+    QString fontStyle = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle();
+    if (fontStyle != m_fontHeavy->currentText()) {
+        m_fontHeavy->blockSignals(true);
+        m_fontHeavy->setCurrentText(fontStyle);
+        m_fontHeavy->blockSignals(false);
     }
 }
 

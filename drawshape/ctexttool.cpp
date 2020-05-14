@@ -30,6 +30,8 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+#include "service/cmanagerattributeservice.h"
+
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
@@ -77,6 +79,10 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         emit scene->itemAdded(item);
         item->setSelected(true);
         _tempTextItem = item;
+
+        // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+
     } else {
         scene->mouseEvent(event);
     }

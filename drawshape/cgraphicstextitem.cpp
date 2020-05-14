@@ -276,7 +276,7 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
         weight = 12;
     } else if (style == QObject::tr("Light")) {
         weight = 25;
-    } else if (style == QObject::tr("Normal")) {
+    } else if (style == QObject::tr("Normal") || style == QObject::tr("Regular")) {
         weight = 50;
     } else if (style == QObject::tr("Medium")) {
         weight = 57;
