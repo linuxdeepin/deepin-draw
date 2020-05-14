@@ -290,24 +290,42 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_viewOriginalAction);
 
     // 右键菜单添加对齐方式
-//    m_contextMenu->addSeparator();
     m_alignMenu = new DMenu(tr("Align"), this);
     m_alignMenu->setFixedWidth(182);
     m_contextMenu->addMenu(m_alignMenu);
-    m_itemsLeftAlign = m_alignMenu->addAction(tr("Align left"));//左对齐
-//    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_L));
-    m_itemsHCenterAlign = m_alignMenu->addAction(tr("Horizontal centers"));//水平居中对齐
-//    m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_C));
-    m_itemsRightAlign = m_alignMenu->addAction(tr("Align right"));//右对齐
-//    m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_R));
-    m_itemsTopAlign = m_alignMenu->addAction(tr("Align top"));//顶对齐
-//    m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_T));
-    m_itemsVCenterAlign = m_alignMenu->addAction(tr("Vertical centers"));//垂直居中对齐
-//    m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_V));
-    m_itemsBottomAlign = m_alignMenu->addAction(tr("Align bottom"));//底对齐
-//    m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Alt | Qt::Key_B));
-    m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space"));//水平等间距对齐
-    m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space"));//垂直等间距对齐
+
+    m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
+    m_itemsLeftAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_L));
+    m_alignMenu->addAction(m_itemsLeftAlign);
+    this->addAction(m_itemsLeftAlign);
+
+    m_itemsHCenterAlign = new QAction(tr("Horizontal centers"), this); //水平居中对齐
+    m_itemsHCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H));
+    m_alignMenu->addAction(m_itemsHCenterAlign);
+    this->addAction(m_itemsHCenterAlign);
+
+    m_itemsRightAlign = new QAction(tr("Align right"), this); //右对齐
+    m_itemsRightAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_R));
+    m_alignMenu->addAction(m_itemsRightAlign);
+    this->addAction(m_itemsRightAlign);
+
+    m_itemsTopAlign = new QAction(tr("Align top"), this); //顶对齐
+    m_itemsTopAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_T));
+    m_alignMenu->addAction(m_itemsTopAlign);
+    this->addAction(m_itemsTopAlign);
+
+    m_itemsVCenterAlign = new QAction(tr("Vertical centers"), this); //垂直居中对齐
+    m_itemsVCenterAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_V));
+    m_alignMenu->addAction(m_itemsVCenterAlign);
+    this->addAction(m_itemsVCenterAlign);
+
+    m_itemsBottomAlign = new QAction(tr("Align bottom"), this); //底对齐
+    m_itemsBottomAlign->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_B));
+    m_alignMenu->addAction(m_itemsBottomAlign);
+    this->addAction(m_itemsBottomAlign);
+
+    m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
+    m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -2016,8 +2034,13 @@ void CGraphicsView::enterEvent(QEvent *event)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->changeMouseShape(currentMode);
+
+        if (!_spaceKeyPressed) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->changeMouseShape(currentMode);
+        } else {
+            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+        }
     }
 }
 

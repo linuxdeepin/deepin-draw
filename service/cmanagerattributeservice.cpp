@@ -691,7 +691,8 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
 
     if (isAllPictureItem) {
         if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect()));
+            emit signalIsAllPictureItem(!(m_currentScence->getItemsMgr()->mapRectToScene(m_currentScence->getItemsMgr()->boundingRect()) == m_currentScence->sceneRect())
+                                        , items.size() > 1 ? true : false);
         } else {
             QList<QGraphicsItem *> allSelectItems = m_currentScence->selectedItems();
             for (int i = allSelectItems.size() - 1; i >= 0; i--) {
@@ -707,7 +708,8 @@ bool CManagerAttributeService::allPictureItem(CDrawScene *scence, QList<CGraphic
             if (allSelectItems.size() >= 1) {
                 CGraphicsItem *item = static_cast<CGraphicsItem *>(allSelectItems.at(0));
                 if (item != nullptr) {
-                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect()));
+                    emit signalIsAllPictureItem(!(item->mapRectToScene(item->boundingRect()) == m_currentScence->sceneRect())
+                                                , items.size() > 1 ? true : false);
                 }
             }
         }

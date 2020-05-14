@@ -35,7 +35,7 @@ CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isFreeMode(false)
 {
-    initRect();
+    initHandle();
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
@@ -48,7 +48,7 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
 
-    initRect();
+    initHandle();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
@@ -62,7 +62,7 @@ CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphics
     m_bottomRightPoint = rect.bottomRight();
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-    initRect();
+    initHandle();
 }
 
 CGraphicsCutItem::~CGraphicsCutItem()
@@ -85,8 +85,9 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
-void CGraphicsCutItem::initRect()
+void CGraphicsCutItem::initHandle()
 {
+    clearHandle();
     // 子handles 用于处理重设大小
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {
@@ -749,8 +750,7 @@ void CGraphicsCutItem::doChangeSize(int w, int h)
 QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     Q_UNUSED(change);
-    if(scene() != nullptr && !scene()->views().isEmpty())
-    {
+    if (scene() != nullptr && !scene()->views().isEmpty()) {
         scene()->views().first()->viewport()->update();
     }
     return value;
@@ -762,7 +762,8 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateGeometry();
 
-    QColor penColor = QColor("#979797");
+    QColor penColor = QColor("#ffffff");
+    penColor.setAlpha(255 * 0.7);
     //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
     //    if (themValue == 1) {
     //        //浅色主题
@@ -773,7 +774,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     //    }
 
     //先绘制一层阴影
-    QColor bgColor(0,0,0,int(255.0*40.0/100.0));
+    QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
     painter->save();
     //painter->setClipping(false);
     painter->setPen(Qt::NoPen);

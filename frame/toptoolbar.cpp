@@ -524,7 +524,9 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
         m_propertys = propertys;
         m_stackWidget->currentWidget()->setVisible(true);
     } else {
-        m_stackWidget->currentWidget()->setVisible(false);
+        if (m_stackWidget->currentWidget() != m_titleWidget) {
+            m_stackWidget->currentWidget()->setVisible(false);
+        }
     }
     switch (mode) {
     case::RectType://矩形
@@ -560,10 +562,11 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     }
 }
 
-void TopToolbar::slotIsAllPictureItem(bool isEnable)
+void TopToolbar::slotIsAllPictureItem(bool isEnable, bool single)
 {
     m_stackWidget->setCurrentWidget(m_picWidget);
     m_picWidget->setAdjustmentIsEnable(isEnable);
+    m_picWidget->setRotationEnable(single);
     m_stackWidget->currentWidget()->setVisible(true);
 }
 
@@ -644,7 +647,7 @@ void TopToolbar::initConnection()
     //CManagerAttributeService
     connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)),
             this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)));
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool)),
-            this, SLOT(slotIsAllPictureItem(bool)));
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
+            this, SLOT(slotIsAllPictureItem(bool, bool)));
 }
 

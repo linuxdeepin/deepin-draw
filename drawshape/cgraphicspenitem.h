@@ -102,7 +102,7 @@ private:
     bool m_isEndWithLine = false; // 用于判断是否是结束以画直线为起点
 
 private:
-    void initPen();
+    void initHandle() override;
     /**
      * @brief calcVertexes 计算箭头三角形的三个点
      * @param prePoint 前一个点

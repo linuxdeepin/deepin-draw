@@ -39,6 +39,7 @@
 #include <QDebug>
 #include <QtConcurrent>
 #include <QCryptographicHash>
+#include <QStorageInfo>
 
 
 CDDFManager::CDDFManager(CGraphicsView *view)
@@ -59,16 +60,13 @@ CDDFManager::CDDFManager(CGraphicsView *view)
 
 void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bool finishedNeedClose)
 {
-    m_finishedClose = finishedNeedClose;
-
+    //1.准备和检查
+    m_graphics.vecGraphicsUnit.clear();
     QList<QGraphicsItem *> itemList = scene->items(Qt::AscendingOrder);
 
-    int primitiveCount = 0;
-    m_path = path;
-    m_pSaveDialog->show();
-    m_pSaveDialog->setTitle(tr("Saving..."));
-    m_pSaveDialog->setProcess(0);
-
+    int         primitiveCount = 0;
+    QByteArray  allBytes;
+    QDataStream streamForCountBytes(&allBytes, QIODevice::WriteOnly);
     foreach (QGraphicsItem *item, itemList) {
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
@@ -76,12 +74,47 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
             CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
             m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
+            streamForCountBytes << graphicsUnit;
         }
     }
 
     m_graphics.version = qint32(EDdfCurVersion);
     m_graphics.unitCount = primitiveCount;
     m_graphics.rect = scene->sceneRect();
+
+    streamForCountBytes << m_graphics;
+
+    int allBytesCount = allBytes.size() + 16; //16个字节是预留给md5
+
+    /* 如果空间不足那么提示 */
+    QStorageInfo volume(path);
+    if (volume.isValid()) {
+        qint64 availabelCount = volume.bytesAvailable();
+        if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
+            QFileInfo fInfo(path);
+            DDialog dia(dApp->activationWindow());
+            dia.setFixedSize(404, 163);
+            dia.setModal(true);
+            QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+            dia.setMessage(tr("volume \'%1\' is out of space,\'%2\' save failed! ").arg(QString::fromUtf8(volume.device())).arg(shortenFileName));
+            dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+
+            dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+
+            dia.exec();
+
+            m_graphics.vecGraphicsUnit.clear();
+
+            return;
+        }
+    }
+
+    //2.真的开始
+    m_finishedClose = finishedNeedClose;
+    m_path = path;
+    m_pSaveDialog->show();
+    m_pSaveDialog->setTitle(tr("Saving..."));
+    m_pSaveDialog->setProcess(0);
 
     CManageViewSigleton::GetInstance()->removeWacthedFile(path);
     QtConcurrent::run([ = ] {
@@ -176,7 +209,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             QMetaObject::invokeMethod(this, [ = ]() {
                 //证明是被重命名或者删除
                 QFileInfo fInfo(path);
-                DDialog dia(dApp->activeWindow());
+                DDialog dia(dApp->activationWindow());
                 dia.setFixedSize(404, 163);
                 dia.setModal(true);
                 QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);

@@ -43,6 +43,18 @@ public:
 
     QStringList getRightFiles(const QStringList &files);
 
+    enum EFileClassEnum {ENotFile    = 0,
+                         EDrawAppNotSup,
+                         EDrawAppSup,
+                         EDrawAppSupAndReadable,
+                         EDrawAppSupButNotReadable
+                        };
+    typedef QMap<EFileClassEnum, QStringList> QFileClassedMap;
+    QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
+
+    static QStringList &supPictureSuffix();
+    static QStringList &supDdfStuffix();
+
 signals:
     void popupConfirmDialog();
 
@@ -51,7 +63,9 @@ public slots:
     void onThemChanged(DGuiApplicationHelper::ColorType themeType);
 
     void showMainWindow(const QStringList &paths);
-    void noticeFileRightProblem(const QStringList &problemfile);
+    void noticeFileRightProblem(const QStringList &problemfile,
+                                Application::EFileClassEnum classTp = EDrawAppNotSup,
+                                bool checkQuit = true);
 protected:
     void handleQuitAction();
 

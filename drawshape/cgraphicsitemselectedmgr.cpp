@@ -15,7 +15,7 @@ CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
     m_listItems.clear();
     //假定10000是最顶层
     //this->setZValue(10000);
-    initRect();
+    initHandle();
 }
 
 void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
@@ -603,8 +603,10 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     }
 }
 
-void CGraphicsItemSelectedMgr::initRect()
+void CGraphicsItemSelectedMgr::initHandle()
 {
+    clearHandle();
+
     m_handles.reserve(CSizeHandleRect::None);
 
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {

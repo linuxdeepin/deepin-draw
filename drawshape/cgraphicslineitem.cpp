@@ -461,13 +461,29 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsLineItem::initLine()
 {
+    initHandle();
+//    m_handles.reserve(CSizeHandleRect::None);
+
+//    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
+//    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
+
+    calcVertexes();
+//    updateGeometry();
+//    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+//    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+//    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+//    this->setAcceptHoverEvents(true);
+}
+
+void CGraphicsLineItem::initHandle()
+{
+    clearHandle();
+
     m_handles.reserve(CSizeHandleRect::None);
 
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
-    //m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::Rotation, QString(":/theme/light/images/mouse_style/icon_rotate.svg")));
 
-    calcVertexes();
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);

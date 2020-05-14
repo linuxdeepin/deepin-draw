@@ -108,8 +108,9 @@ signals:
     /*
      * @bref: signalIsAllPictureItem 发送画笔图元被选中后需要显示的公共属性信号
      * @param: isEnable 按钮是否可用，即画布与选中图片大小是否相同
+     * @param: single 是否是单个图片
     */
-    void signalIsAllPictureItem(bool isEnable);
+    void signalIsAllPictureItem(bool isEnable, bool single);
 private:
     /*
      * @bref: allPictureItem 判断是否全部是图片图元

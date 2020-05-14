@@ -180,8 +180,9 @@ public slots:
     /**
      * @brief signalIsAllPictureItem　选中图元图元是否都为图片
      * @param isEnable　自适应按钮是否可用
+     * @param single 是否选中单个图片
      */
-    void slotIsAllPictureItem(bool isEnable);
+    void slotIsAllPictureItem(bool isEnable, bool single);
     /**
      * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
      * @param QString 场景名字

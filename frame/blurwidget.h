@@ -23,9 +23,8 @@
 #include <DWidget>
 #include <DSlider>
 #include <DLabel>
+#include <DToolButton>
 
-
-class CCheckButton;
 class CSpinBox;
 
 DWIDGET_USE_NAMESPACE
@@ -53,11 +52,6 @@ public:
 
 private:
     /**
-     * @brief clearOtherSelections　清除按钮选中状态
-     * @param clickedButton
-     */
-    void clearOtherSelections(CCheckButton *clickedButton);
-    /**
      * @brief initUI 初始化ＵＩ
      */
     void initUI();
@@ -66,19 +60,15 @@ private:
      */
     void initConnection();
 
-signals:
-    /**
-     * @brief signalBlurAttributeChanged 属性变化信号
-     */
-    void signalBlurAttributeChanged();
-
 private:
-    QList<CCheckButton *> m_actionButtons;
-    CCheckButton *m_blurBtn;
-    CCheckButton *m_masicBtn;
+    QList<DToolButton *> m_actionButtons;
+    DToolButton *m_blurBtn;
+    DToolButton *m_masicBtn;
     DLabel *m_pLineWidthLabel;
     DSlider *m_pLineWidthSlider;
     CSpinBox *m_spinboxForLineWidth = nullptr;
+
+    void updateIcon(bool masic);
 };
 
 #endif // BLURWIDGET_H

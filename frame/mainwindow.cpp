@@ -128,21 +128,11 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
 {
     Application *pApp = dynamic_cast<Application *>(qApp);
     if (pApp != nullptr) {
-        //过滤没有权限的文件
-        //判断文件是否是可读或者可写的(图片判断是否可读 ddf判断是否可读可写)
-        QStringList paths  = pApp->getRightFiles(files);
-        QStringList problemFiles = (files.toSet() - paths.toSet()).toList();
+        files = pApp->getRightFiles(files);
+    }
 
-        if (!problemFiles.isEmpty()) {
-            //提示有文件的有权限问题noticeFileRightProblem
-            QMetaObject::invokeMethod(pApp, "noticeFileRightProblem", Qt::QueuedConnection,
-                                      Q_ARG(const QStringList &, problemFiles));
-
-        }
-        if (paths.isEmpty()) {
-            return;
-        }
-        files = paths;
+    if (files.isEmpty()) {
+        return;
     }
 
     QString ddfPath = "";
