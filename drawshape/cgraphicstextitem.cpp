@@ -325,6 +325,8 @@ QString CGraphicsTextItem::getFontFamily()
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
     CGraphicsRectItem::resizeTo(dir, point, false, false);
     setManResizeFlag(true);
     updateWidget();

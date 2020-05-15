@@ -1933,7 +1933,6 @@ void CSetItemsCommonPropertyValueCommand::undo()
         case TextFont: {
             auto curTextItem = dynamic_cast<CGraphicsTextItem *>(item);
             if (curTextItem != nullptr) {
-                qDebug() << "*****************undo: " << oldValue.value<QString>();
                 curTextItem->setFontFamily(oldValue.value<QString>());
             }
         }
