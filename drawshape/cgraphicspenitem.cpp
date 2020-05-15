@@ -33,27 +33,26 @@ const int SmoothMaxCount = 10;
 // 绘制起始终点的最小矩形范围
 const QSizeF minRectSize(10, 10);
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
-
-}
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
+//}
 
 
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
@@ -402,10 +401,6 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
     QRectF rect = this->rect();
-    QPointF bottomRight = rect.bottomRight();
-    QPointF topLeft = rect.topLeft();
-    QPointF topRight = rect.topRight();
-    QPointF bottomLeft = rect.bottomLeft();
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
     QTransform transform;
@@ -1237,6 +1232,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     endCheckIns(painter);
 
     if (this->getMutiSelect()) {
+        painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
 //        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -1248,6 +1244,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
+        painter->setClipping(true);
     }
 }
 
