@@ -382,7 +382,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
-                m_pressItemRect = m_currentSelectItem->boundingRect();
+                m_pressItemRect = m_currentSelectItem->sceneBoundingRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
