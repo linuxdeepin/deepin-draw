@@ -12,6 +12,12 @@ CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
+    connect(this, QOverload<int>::of(&CSpinBox::valueChanged), this, [ = ](int value) {
+        Q_UNUSED(value);
+        if (_keepFocus)
+            this->setFocus();
+    }, Qt::QueuedConnection);
+    setValueChangedKeepFocus(true);
 }
 
 bool CSpinBox::isTimerRunning()
@@ -25,6 +31,11 @@ bool CSpinBox::isTimerRunning()
 bool CSpinBox::isChangedByWheelEnd()
 {
     return _wheelEnd;
+}
+
+void CSpinBox::setValueChangedKeepFocus(bool b)
+{
+    _keepFocus = b;
 }
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
