@@ -212,109 +212,109 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="131"/>
-        <location filename="../frame/cgraphicsview.cpp" line="248"/>
+        <location filename="../frame/cgraphicsview.cpp" line="138"/>
+        <location filename="../frame/cgraphicsview.cpp" line="288"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="136"/>
-        <location filename="../frame/cgraphicsview.cpp" line="249"/>
+        <location filename="../frame/cgraphicsview.cpp" line="143"/>
+        <location filename="../frame/cgraphicsview.cpp" line="289"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="141"/>
-        <location filename="../frame/cgraphicsview.cpp" line="250"/>
+        <location filename="../frame/cgraphicsview.cpp" line="148"/>
+        <location filename="../frame/cgraphicsview.cpp" line="290"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="153"/>
-        <location filename="../frame/cgraphicsview.cpp" line="253"/>
+        <location filename="../frame/cgraphicsview.cpp" line="160"/>
+        <location filename="../frame/cgraphicsview.cpp" line="293"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="159"/>
-        <location filename="../frame/cgraphicsview.cpp" line="255"/>
-        <location filename="../frame/cgraphicsview.cpp" line="272"/>
+        <location filename="../frame/cgraphicsview.cpp" line="166"/>
+        <location filename="../frame/cgraphicsview.cpp" line="295"/>
+        <location filename="../frame/cgraphicsview.cpp" line="312"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="163"/>
-        <location filename="../frame/cgraphicsview.cpp" line="273"/>
+        <location filename="../frame/cgraphicsview.cpp" line="170"/>
+        <location filename="../frame/cgraphicsview.cpp" line="313"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="169"/>
-        <location filename="../frame/cgraphicsview.cpp" line="258"/>
+        <location filename="../frame/cgraphicsview.cpp" line="176"/>
+        <location filename="../frame/cgraphicsview.cpp" line="298"/>
         <source>Raise Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="174"/>
-        <location filename="../frame/cgraphicsview.cpp" line="260"/>
+        <location filename="../frame/cgraphicsview.cpp" line="181"/>
+        <location filename="../frame/cgraphicsview.cpp" line="300"/>
         <source>Lower Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="179"/>
-        <location filename="../frame/cgraphicsview.cpp" line="262"/>
+        <location filename="../frame/cgraphicsview.cpp" line="186"/>
+        <location filename="../frame/cgraphicsview.cpp" line="302"/>
         <source>Layer to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="184"/>
-        <location filename="../frame/cgraphicsview.cpp" line="264"/>
+        <location filename="../frame/cgraphicsview.cpp" line="191"/>
+        <location filename="../frame/cgraphicsview.cpp" line="304"/>
         <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="988"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1035"/>
         <source>Unnamed.ddf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1002"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1049"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1004"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1051"/>
         <source>The file name is too long</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="146"/>
-        <location filename="../frame/cgraphicsview.cpp" line="251"/>
+        <location filename="../frame/cgraphicsview.cpp" line="153"/>
+        <location filename="../frame/cgraphicsview.cpp" line="291"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="267"/>
+        <location filename="../frame/cgraphicsview.cpp" line="307"/>
         <source>Text Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="269"/>
+        <location filename="../frame/cgraphicsview.cpp" line="309"/>
         <source>Text Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="270"/>
+        <location filename="../frame/cgraphicsview.cpp" line="310"/>
         <source>Text Align Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="980"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1027"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="982"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1029"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
@@ -518,7 +518,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/mainwindow.cpp" line="227"/>
+        <location filename="../frame/mainwindow.cpp" line="230"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
