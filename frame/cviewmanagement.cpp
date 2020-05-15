@@ -278,11 +278,28 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 return;
             } else {
                 dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
+
+
+                //设置显示文字与交互按钮
                 QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
                 dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
-                int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+                int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonWarning);
+
+
+                //设置message的两边间隙为10
+                QWidget *pWidget = dia->findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+                if (pWidget != nullptr) {
+                    QMargins margins = pWidget->contentsMargins();
+                    margins.setLeft(10);
+                    margins.setRight(10);
+                    pWidget->setContentsMargins(margins);
+                }
+
+                //运行交互窗口
                 int ret = dia->exec();
+
+                //交互窗口结束
                 removeNoticeFileDialog(dia);
                 if (ret == reload) {
 
@@ -313,8 +330,17 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
+            //设置message的两边间隙为10
+            QWidget *pWidget = dia.findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+            if (pWidget != nullptr) {
+                QMargins margins = pWidget->contentsMargins();
+                margins.setLeft(10);
+                margins.setRight(10);
+                pWidget->setContentsMargins(margins);
+            }
+
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
-            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);
+            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonWarning);
             int ret = dia.exec();
 
             Q_UNUSED(keep);
@@ -355,10 +381,10 @@ void CManageViewSigleton::initBlockShutdown()
           << QObject::tr("File not saved")          // why
           << QString("block");                        // mode
 
-    int fd = -1;
+    //int fd = -1;
     m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
     if (m_reply.isValid()) {
-        fd = m_reply.value().fileDescriptor();
+        /*fd = */(void)m_reply.value().fileDescriptor();
     }
     //如果for结束则表示没有发现未保存的tab项，则放开阻塞关机
     if (m_reply.isValid()) {
