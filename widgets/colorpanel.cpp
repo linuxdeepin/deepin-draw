@@ -153,7 +153,6 @@ void ColorPanel::setConfigColor(QColor color)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColor, color);
     }
-    emit signalColorChanged();
 }
 
 //颜色按钮点击处理
@@ -173,7 +172,7 @@ void ColorPanel::setConfigColorByColorName(QColor color)
     } else if (m_drawstatus == TextFill) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
     }
-    emit signalColorChanged();
+    setConfigColor(color);
     resetColorBtn();
     update();
 }
@@ -322,7 +321,6 @@ void ColorPanel::initConnection()
 
         if (newColor.isValid()) {
             setConfigColorByColorName(newColor);
-
         }
         ////更新颜色按钮
         if (m_colList.contains(newColor)) {

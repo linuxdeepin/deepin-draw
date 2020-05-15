@@ -215,10 +215,6 @@ private slots:
      * @brief slotMenuShow　显示主菜单触发函数
      */
     void slotMenuShow();
-    /**
-     * @brief slotUpdateCurrentAttributeBar　更新属性栏
-     */
-    void slotUpdateCurrentAttributeBar();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
