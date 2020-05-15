@@ -69,7 +69,7 @@ void CTextEdit::slot_textChanged()
 
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
-    rect.setHeight(qMax(size.height(), rect.height()));
+    rect.setHeight(size.height());
     rect.setWidth(size.width());
 
     //判断是否出界
