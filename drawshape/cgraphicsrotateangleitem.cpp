@@ -29,7 +29,7 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scal
     m_width = 45.;
     m_height = 20.;
     m_fontSize = 11.;
-
+    m_scale = scale;
     m_width = m_width / scale;
     m_height = m_height / scale;
     m_fontSize = m_fontSize / scale;
@@ -51,6 +51,10 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rot
 void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
 {
     m_rotateAngle =  rotateAngle;
+    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
+    QFontMetrics fontMetrics(m_textFont);
+    m_width = fontMetrics.width(angle) / m_scale;
+    setRect(-m_width / 2, -m_height / 2, m_width, m_height);
 }
 
 void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
