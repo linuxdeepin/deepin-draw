@@ -337,6 +337,7 @@ void TopToolbar::updateMiddleWidget(int type)
     default:
         break;
     }
+    m_stackWidget->currentWidget()->setVisible(true);
 }
 
 void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
@@ -559,6 +560,9 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
     case::BlurType://模糊
         m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+        break;
+    default:
+        break;
     }
 }
 
@@ -592,20 +596,20 @@ void TopToolbar::enterEvent(QEvent *event)
 void TopToolbar::slotUpdateCurrentAttributeBar()
 {
     return;
-    QWidget *currentWidget = m_stackWidget->currentWidget();
-    if (currentWidget == m_commonShapeWidget) {
-        m_commonShapeWidget->updateCommonShapWidget();
-    } else if (currentWidget == m_polygonalStarWidget) {
-        m_polygonalStarWidget->updatePolygonalStarWidget();
-    } else if (currentWidget == m_PolygonWidget) {
-        m_PolygonWidget->updatePolygonWidget();
-    } else if (currentWidget == m_drawLineWidget) {
-        m_drawLineWidget->updateLineWidget();
-    } else if (currentWidget == m_penWidget) {
-        m_penWidget->updatePenWidget();
-    } else if (currentWidget == m_drawTextWidget) {
-        m_drawTextWidget->updateTextColor();
-    }
+//    QWidget *currentWidget = m_stackWidget->currentWidget();
+//    if (currentWidget == m_commonShapeWidget) {
+//        m_commonShapeWidget->updateCommonShapWidget();
+//    } else if (currentWidget == m_polygonalStarWidget) {
+//        m_polygonalStarWidget->updatePolygonalStarWidget();
+//    } else if (currentWidget == m_PolygonWidget) {
+//        m_PolygonWidget->updatePolygonWidget();
+//    } else if (currentWidget == m_drawLineWidget) {
+//        m_drawLineWidget->updateLineWidget();
+//    } else if (currentWidget == m_penWidget) {
+//        m_penWidget->updatePenWidget();
+//    } else if (currentWidget == m_drawTextWidget) {
+//        m_drawTextWidget->updateTextColor();
+//    }
 }
 
 void TopToolbar::initConnection()
