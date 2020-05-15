@@ -202,6 +202,9 @@ QRectF CSizeHandleRect::boundingRect() const
 void CSizeHandleRect::setVisible(bool flag)
 {
     m_bVisible = flag;
+    if (parentItem() != nullptr && parentItem()->isSelected()) {
+        m_bVisible ? show() : hide();
+    }
 }
 
 bool CSizeHandleRect::getVisible() const

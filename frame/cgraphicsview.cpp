@@ -620,7 +620,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             m_textMenu->move(menuPos);
             m_textMenu->show();
             m_visible = true;
-            showMenu(m_contextMenu);
+            showMenu(m_textMenu);
             return;
         } else {
             m_copyAct->setEnabled(true);

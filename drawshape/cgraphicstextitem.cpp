@@ -171,6 +171,7 @@ void CGraphicsTextItem::makeEditabel()
 void CGraphicsTextItem::updateHandleVisible()
 {
     bool visble = getManResizeFlag();
+    qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, visble);
     this->setSizeHandleRectFlag(CSizeHandleRect::Top, visble);
     this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, visble);
