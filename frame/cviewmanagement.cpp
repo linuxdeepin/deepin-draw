@@ -317,13 +317,15 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);
             int ret = dia.exec();
 
-            if (ret == keep) {
-                pView->getDrawParam()->setDdfSavePath("");
-                pCertralWidget->updateTitle();
+            Q_UNUSED(keep);
 
-            } else if (ret == discard) {
+            if (ret == discard) {
                 //直接关闭
                 pCertralWidget->closeSceneView(pView);
+            } else { /* if (ret == keep) */
+                pView->getDrawParam()->setDdfSavePath("");
+                pView->setModify(true);
+                pCertralWidget->updateTitle();
             }
         }
     }
