@@ -625,7 +625,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     QList<QGraphicsItem *> Items = scene->items();
     foreach (QGraphicsItem *item, Items) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            //static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }
 
