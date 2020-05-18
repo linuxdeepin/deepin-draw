@@ -310,6 +310,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
             } else {
                 m_currentSelectItem = nullptr;
+                m_noShiftSelectItem = nullptr;
 
                 //点击空白处时要显示空白select工具的顶层属性界面(也就是一个"画板"标题)
                 emit scene->signalChangeToSelect(true);
@@ -684,6 +685,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
 
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
     bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
+    Q_UNUSED(altKeyress)
     m_bMousePress = false;
     if (event->button() == Qt::LeftButton) {
         m_sPointRelease = event->scenePos();
