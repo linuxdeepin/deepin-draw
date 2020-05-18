@@ -310,6 +310,9 @@ protected:
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
+
+    virtual bool event(QEvent *event) override;
+
     /**
      * @brief drawItems 绘制所有图元
      * @param painter

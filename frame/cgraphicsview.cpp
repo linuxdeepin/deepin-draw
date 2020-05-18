@@ -63,6 +63,7 @@
 #include <QWindow>
 #include <QScreen>
 #include <qscrollbar.h>
+#include <QTouchEvent>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -128,6 +129,10 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     QMetaObject::invokeMethod(this, [ = ]() {
         this->setFocus();
     }, Qt::QueuedConnection);
+
+
+    this->acceptDrops();
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
 void CGraphicsView::zoomOut()
@@ -2180,6 +2185,45 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
         return finished;
     }
     return DGraphicsView::eventFilter(o, e);
+}
+
+bool CGraphicsView::viewportEvent(QEvent *event)
+{
+//    QEvent::Type evType = event->type();
+//    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+//        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+//        QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+//        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+//            //不考虑pad
+//            QPointF touchPos  = QPointF( tp.pos().x(), tp.pos().y() );
+//            if (tp.id() == 0 ) {
+//                if ( tp.state() == Qt::TouchPointPressed ) {
+
+//                } else {
+
+//                }
+//            }
+
+//            QPointF scenepos = this->mapToScene(touchPos.toPoint());
+//            switch (tp.state() ) {
+//            case Qt::TouchPointPressed:
+//                //表示触碰按下
+//                break;
+//            case Qt::TouchPointMoved:
+//                //触碰移动
+//                break;
+//            case Qt::TouchPointReleased:
+//                //触碰离开
+//                break;
+//            default:
+//                break;
+//            }
+
+//        }
+
+//    }
+
+    return DGraphicsView::viewportEvent(event);
 }
 
 

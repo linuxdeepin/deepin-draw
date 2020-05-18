@@ -205,6 +205,7 @@ protected:
     void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+    bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
 
     QPoint _pressBeginPos;
     QPoint _recordMovePos;

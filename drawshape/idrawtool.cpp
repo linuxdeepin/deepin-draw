@@ -23,6 +23,7 @@
 #include "application.h"
 #include <QDebug>
 #include <QKeyEvent>
+#include <QGraphicsSceneEvent>
 
 
 IDrawTool::~IDrawTool()
@@ -50,6 +51,35 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     scene->mouseEvent(event);
+}
+
+void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event)
+{
+    SRecordedStartInfo info;
+    info.m_sLastPress  = event->pos();
+    info.m_sPointPress = event->pos();
+    info.tempItem      = creatItem();
+    allStartInfo.insert(event->uuid(), info);
+}
+
+void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
+{
+    Q_UNUSED(event)
+    auto it = allStartInfo.find(event->uuid());
+    if (it != allStartInfo.end()) {
+        it.value().m_sLastPress = event->pos();
+    }
+}
+
+void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event)
+{
+    Q_UNUSED(event)
+    allStartInfo.clear();
+}
+
+CGraphicsItem *IDrawTool::creatItem()
+{
+    return nullptr;
 }
 
 EDrawToolMode IDrawTool::getDrawToolMode() const
@@ -213,4 +243,109 @@ qreal IDrawTool::getCursorRotation()
         }
     }
     return  angle;
+}
+
+IDrawTool::CDrawToolEvent::CDrawToolEvent(const QPointF &vPos,
+                                          const QPointF &scenePos,
+                                          const QPointF &globelPos,
+                                          CDrawScene *pScene)
+{
+    _pos[EViewportPos] = vPos;
+    _pos[EScenePos]    = scenePos;
+    _pos[EGlobelPos]   = globelPos;
+    _scene             = pScene;
+}
+
+IDrawTool::CDrawToolEvent::CDrawToolEvents IDrawTool::CDrawToolEvent::fromQEvent(QEvent *event, CDrawScene *scene)
+{
+    CDrawToolEvents eList;
+    CDrawToolEvent e;
+    switch (event->type()) {
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonRelease:
+    case QEvent::MouseMove:
+    case QEvent::MouseButtonDblClick: {
+        QMouseEvent *msEvent = dynamic_cast<QMouseEvent *>(event);
+        e._pos[EViewportPos] = msEvent->pos();
+        e._pos[EGlobelPos]   = msEvent->globalPos();
+        e._msBtns = msEvent->button() | msEvent->buttons();
+        e._orgEvent = event;
+        e._scene    = scene;
+        eList.insert(0, e);
+        break;
+    }
+    case QEvent::GraphicsSceneMouseMove:
+    case QEvent::GraphicsSceneMousePress:
+    case QEvent::GraphicsSceneMouseRelease:
+    case QEvent::GraphicsSceneMouseDoubleClick: {
+        QGraphicsSceneMouseEvent *msEvent = dynamic_cast<QGraphicsSceneMouseEvent *>(event);
+        e._pos[EViewportPos] = msEvent->pos();
+        e._pos[EScenePos]    = msEvent->scenePos();
+        e._pos[EGlobelPos]   = msEvent->screenPos();
+        e._msBtns = msEvent->button() | msEvent->buttons();
+        e._orgEvent = event;
+        e._scene    = scene;
+        eList.insert(0, e);
+        break;
+    }
+    case QEvent::TouchBegin:
+    case QEvent::TouchUpdate:
+    case QEvent::TouchEnd: {
+        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+        const QList<QTouchEvent::TouchPoint> lists = touchEvent->touchPoints();
+        for (auto tPos : lists) {
+            e = fromTouchPoint(tPos, scene);
+            e._orgEvent = event;
+            eList.insert(e.uuid(), e);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    return eList;
+}
+
+IDrawTool::CDrawToolEvent IDrawTool::CDrawToolEvent::fromTouchPoint(const QTouchEvent::TouchPoint &tPos, CDrawScene *scene)
+{
+    CDrawToolEvent e;
+    e._pos[EViewportPos] = tPos.pos();
+    e._pos[EScenePos]    = tPos.scenePos();
+    e._pos[EGlobelPos]   = tPos.screenPos();
+    e._uuid              = tPos.id();
+    e._scene             = scene;
+    return e;
+}
+
+QPointF IDrawTool::CDrawToolEvent::pos(IDrawTool::CDrawToolEvent::EPosType tp)
+{
+    if (tp >= EScenePos && tp < PosTypeCount) {
+        return _pos[tp];
+    }
+    return QPointF(0, 0);
+}
+
+Qt::MouseButtons IDrawTool::CDrawToolEvent::mouseButtons()
+{
+    return _msBtns;
+}
+
+Qt::KeyboardModifiers IDrawTool::CDrawToolEvent::keyboardModifiers()
+{
+    return _kbMods;
+}
+
+int IDrawTool::CDrawToolEvent::uuid()
+{
+    return _uuid;
+}
+
+QEvent *IDrawTool::CDrawToolEvent::orgQtEvent()
+{
+    return _orgEvent;
+}
+
+CDrawScene *IDrawTool::CDrawToolEvent::scene()
+{
+    return _scene;
 }

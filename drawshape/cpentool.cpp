@@ -98,3 +98,64 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit scene->signalChangeToSelect();
 }
+
+void CPenTool::toolStart(IDrawTool::CDrawToolEvent *event)
+{
+    IDrawTool::toolStart(event);
+
+    SRecordedStartInfo &startedInfo = allStartInfo[event->uuid()];
+    CDrawScene *scene = event->scene();
+    scene->clearSelection();
+    startedInfo.m_sPointPress = event->pos();
+    CGraphicsPenItem *pPenItem = new CGraphicsPenItem(m_sPointPress);
+    pPenItem->setDrawFlag(true);
+    QPen pen = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen();
+    pPenItem->setPen(pen);
+    pPenItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+    pPenItem->setPenStartType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenStartType());
+    pPenItem->setPenEndType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenEndType());
+    pPenItem->setPixmap();
+    pPenItem->setZValue(scene->getMaxZValue() + 1);
+    scene->addItem(pPenItem);
+    startedInfo.tempItem = pPenItem;
+}
+
+void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
+{
+    auto it = allStartInfo.find(event->uuid());
+    if (it != allStartInfo.end()) {
+        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(it->tempItem);
+        if (nullptr != pPenIem) {
+            QPointF pointMouse = event->pos();
+            bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
+            pPenIem->updatePenPath(pointMouse, shiftKeyPress);
+        }
+        it.value().m_sLastPress = event->pos();
+    }
+}
+
+void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
+{
+    auto it = allStartInfo.find(event->uuid());
+    if (it != allStartInfo.end()) {
+        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(it->tempItem);
+        CDrawScene *pScene = qobject_cast<CDrawScene *>(pPenIem->scene());
+        if (nullptr != pPenIem) {
+            if (event->pos() == it.value().m_sPointPress) {
+                if (pScene != nullptr) {
+                    pScene->removeItem(pPenIem);
+                }
+                delete pPenIem;
+            } else {
+                pPenIem->drawComplete();
+                if (pScene != nullptr) {
+                    emit pScene->itemAdded(pPenIem);
+                }
+                pPenIem->setSelected(true);
+                pPenIem->setDrawFlag(false);
+            }
+        }
+        it.value().m_sLastPress = event->pos();
+    }
+    IDrawTool::toolFinish(event);
+}

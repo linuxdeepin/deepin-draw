@@ -332,6 +332,45 @@ void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
     }
 }
 
+bool CDrawScene::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        if (currentMode != pen)
+            return QGraphicsScene::event(event);
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if (nullptr != pTool) {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+                IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
+                switch (tp.state() ) {
+                case Qt::TouchPointPressed:
+                    //表示触碰按下
+                    pTool->toolStart(&e);
+                    break;
+                case Qt::TouchPointMoved:
+                    //触碰移动
+                    pTool->toolUpdate(&e);
+                    break;
+                case Qt::TouchPointReleased:
+                    //触碰离开
+                    pTool->toolFinish(&e);
+                    break;
+                default:
+                    break;
+                }
+                break;
+            }
+        }
+    }
+    return QGraphicsScene::event(event);
+}
+
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
     painter->setClipping(true);
