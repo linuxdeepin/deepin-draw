@@ -207,6 +207,9 @@ void CGraphicsView::initContextMenu()
     m_contextMenu = new CMenu(this);
     m_contextMenu->setFixedWidth(182);
 
+    m_layerMenu = new CMenu(tr("Layer"), this);
+    m_layerMenu->setFixedWidth(182);
+
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
     m_cutAct->setShortcut(QKeySequence::Cut);
@@ -246,22 +249,22 @@ void CGraphicsView::initContextMenu()
     m_contextMenu->addSeparator();
 
     m_oneLayerUpAct = new QAction(tr("Raise Layer"), this);
-    m_contextMenu->addAction(m_oneLayerUpAct);
+    m_layerMenu->addAction(m_oneLayerUpAct);
     m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
     this->addAction(m_oneLayerUpAct);
 
     m_oneLayerDownAct = new QAction(tr("Lower Layer"), this);
-    m_contextMenu->addAction(m_oneLayerDownAct);
+    m_layerMenu->addAction(m_oneLayerDownAct);
     m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
     this->addAction(m_oneLayerDownAct);
 
     m_bringToFrontAct = new QAction(tr("Layer to Top"), this);
-    m_contextMenu->addAction(m_bringToFrontAct);
+    m_layerMenu->addAction(m_bringToFrontAct);
     m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketRight));
     this->addAction(m_bringToFrontAct);
 
     m_sendTobackAct = new QAction(tr("Layer to Bottom"), this);
-    m_contextMenu->addAction(m_sendTobackAct);
+    m_layerMenu->addAction(m_sendTobackAct);
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
 
@@ -326,6 +329,9 @@ void CGraphicsView::initContextMenu()
 
     m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
     m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
+
+    // 添加对齐菜单
+    m_contextMenu->addMenu(m_layerMenu);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -488,6 +494,20 @@ void CGraphicsView::initContextMenuConnection()
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
     });
+
+    // 连接鼠标hovered子菜单刷新图层状态
+    connect(m_contextMenu, &QMenu::hovered, this, [ = ](QAction * action) {
+        if (action->text() == tr("Layer") && m_layerMenu->isHidden()) {
+            // 此处由于图层菜单显示较慢，以下代码会重复执行几次，待后期进一步优化
+            bool layerUp = canLayerUp();
+            m_oneLayerUpAct->setEnabled(layerUp);
+            m_bringToFrontAct->setEnabled(layerUp);
+
+            bool layerDown = canLayerDown();
+            m_oneLayerDownAct->setEnabled(layerDown);
+            m_sendTobackAct->setEnabled(layerDown);
+        }
+    });
 }
 
 void CGraphicsView::initTextContextMenu()
@@ -626,6 +646,8 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             m_copyAct->setEnabled(true);
             m_cutAct->setEnabled(true);
             m_deleteAct->setEnabled(true);
+
+            m_layerMenu->setEnabled(true);
             m_bringToFrontAct->setVisible(true);
             m_sendTobackAct->setVisible(true);
             m_oneLayerUpAct->setVisible(true);
@@ -646,6 +668,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         m_cutAct->setEnabled(false);
         m_deleteAct->setEnabled(false);
 
+        m_layerMenu->setEnabled(false);
         m_bringToFrontAct->setVisible(false);
         m_sendTobackAct->setVisible(false);
         m_oneLayerUpAct->setVisible(false);

@@ -521,6 +521,8 @@ private:
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;             //撤销
     QAction *m_redoAct;             //重做
+
+    DMenu *m_layerMenu;             //图层菜单
     QAction *m_oneLayerUpAct;       //向上一层
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
