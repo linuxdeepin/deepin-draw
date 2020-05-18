@@ -248,16 +248,34 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 
 void TextWidget::slotUpdateTextFamilyStyle(QString family)
 {
-    QFontDatabase base; //("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
-    family = family.trimmed();
-    QStringList listStylyName = base.styles(family);
-//    listStylyName.removeOne("Regular");
+    // ("Regular", "Black", "ExtraBold", "Bold", "DemiBold", "Medium", "Normal", "Light", "ExtraLight", "Thin")
+    // 只显示：("Regular", "Black", "SemiBold", "Bold", "Medium", "Light", "ExtraLight")
+
+    QFontDatabase base;
+    QStringList listStylyName = base.styles(family.trimmed());
+
+    QStringList showStyle;
+    showStyle.append("Regular");
+    showStyle.append("Black");
+    showStyle.append("DemiBold");
+    showStyle.append("Bold");
+    showStyle.append("Medium");
+    showStyle.append("Light");
+    showStyle.append("ExtraLight");
+
     m_fontHeavy->blockSignals(true);
     m_fontHeavy->clear();
-//    m_fontHeavy->addItem(tr("Regular"));
-    for (QString style : listStylyName) {
-        m_fontHeavy->addItem(style);
+    for (QString style : showStyle) {
+        if (listStylyName.contains(style)) {
+            m_fontHeavy->addItem(style);
+        }
     }
+
+    // 存在特殊字体则只显示常规
+    if (m_fontHeavy->count() == 0) {
+        m_fontHeavy->addItem(tr("Regular"));
+    }
+
     m_fontHeavy->blockSignals(false);
 }
 

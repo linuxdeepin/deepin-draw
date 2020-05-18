@@ -383,7 +383,6 @@ void CTextEdit::resizeDocument()
         this->setLineWrapMode(WidgetWidth);
     }
 
-    QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
     //rect.setHeight(size.height());
 
@@ -417,40 +416,40 @@ QString CTextEdit::getSelectedFontStyle()
     switch (m_selectedFontWeight) {
     case 0: {
         // 为0的时候本应该是Thin，但是需要显示为 Regular
-        m_selectedFontStyle = QObject::tr("Regular");
+        m_selectedFontStyle = "Regular";
 //        m_selectedFontStyle = QObject::tr("Thin");
         break;
     }
     case 12: {
-        m_selectedFontStyle = QObject::tr("ExtraLight");
+        m_selectedFontStyle = "ExtraLight";
         break;
     }
     case 25: {
-        m_selectedFontStyle = QObject::tr("Light");
+        m_selectedFontStyle = "Light";
         break;
     }
     case 50: {
-        m_selectedFontStyle = QObject::tr("Regular");
+        m_selectedFontStyle = "Regular";
         break;
     }
     case 57: {
-        m_selectedFontStyle = QObject::tr("Medium");
+        m_selectedFontStyle = "Medium";
         break;
     }
     case 63: {
-        m_selectedFontStyle = QObject::tr("DemiBold");
+        m_selectedFontStyle = "DemiBold";
         break;
     }
     case 75: {
-        m_selectedFontStyle = QObject::tr("Bold");
+        m_selectedFontStyle = "Bold";
         break;
     }
     case 81: {
-        m_selectedFontStyle = QObject::tr("ExtraBold");
+        m_selectedFontStyle = "ExtraBold";
         break;
     }
     case 87: {
-        m_selectedFontStyle = QObject::tr("Black");
+        m_selectedFontStyle = "Black";
         break;
     }
     }

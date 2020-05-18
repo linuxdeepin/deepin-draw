@@ -271,23 +271,23 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
     //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
     //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
     quint8 weight = 0;
-    if (style == QObject::tr("Thin")) {
+    if (style == "Thin") {
         weight = 0;
-    } else if (style == QObject::tr("ExtraLight")) {
+    } else if (style == "ExtraLight") {
         weight = 12;
-    } else if (style == QObject::tr("Light")) {
+    } else if (style == "Light") {
         weight = 25;
-    } else if (style == QObject::tr("Normal") || style == QObject::tr("Regular")) {
+    } else if (style == "Normal" || style == "Regular") {
         weight = 50;
-    } else if (style == QObject::tr("Medium")) {
+    } else if (style == "Medium") {
         weight = 57;
-    } else if (style == QObject::tr("DemiBold")) {
+    } else if (style == "DemiBold") {
         weight = 63;
-    } else if (style == QObject::tr("Bold")) {
+    } else if (style == "Bold") {
         weight = 75;
-    } else if (style == QObject::tr("ExtraBold")) {
+    } else if (style == "ExtraBold") {
         weight = 81;
-    } else if (style == QObject::tr("Black")) {
+    } else if (style == "Black") {
         weight = 87;
     }
 
