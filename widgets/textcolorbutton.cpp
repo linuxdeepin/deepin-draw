@@ -63,7 +63,7 @@ void TextColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
-    paintLookStyle(&painter, m_isMultColorSame);
+    paintLookStyle(&painter, !m_isMultColorSame);
 }
 
 void TextColorButton::setColor(QColor &color)
@@ -111,7 +111,8 @@ void TextColorButton::mousePressEvent(QMouseEvent * )
 void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
 {
     //const QColor borderColor(77, 82, 93, int(1.0 * 255));
-    const QColor borderColor(255, 255, 255, int(0.1 * 255));
+    //const QColor borderColor(255, 255, 255, int(0.1 * 255));
+    const QColor borderColor = (isMult || m_color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
     painter->save();
     painter->setRenderHints(QPainter::Antialiasing);
 
@@ -140,12 +141,13 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     path.addRoundedRect(outerct, 8, 8);
 
     //填充色的设置(多选颜色冲突时(图元填充色不一致那么不设置填充色在后续绘制一条斜线))
-    painter->setBrush(!isMult ? (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : m_color);
+    painter->setBrush((isMult || m_color.alpha() == 0) ?
+                      (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : m_color);
 
     painter->drawPath(path);
 
     //如果多选颜色有冲突(isMult为true时)那么就绘制"..."
-    if (!isMult) {
+    if (isMult) {
         painter->save();
         painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
         QFont ft;

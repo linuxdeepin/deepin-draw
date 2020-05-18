@@ -227,9 +227,10 @@ void TextWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
                 m_fillBtn->setVisible(true);
                 m_fillBtn->blockSignals(true);
                 int alpha = propertys[property].toInt();
-                if (!alpha) {
-                    m_fillBtn->setIsMultColorSame(false);
-                } else {
+                /*                if (!alpha) {
+                                    m_fillBtn->setIsMultColorSame(false);
+                                } else */
+                {
                     QColor color = m_fillBtn->getColor();
                     color.setAlpha(alpha);
                     m_fillBtn->setColor(color);
