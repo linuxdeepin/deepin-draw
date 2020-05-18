@@ -27,11 +27,13 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutGroup group2;
     ShortcutGroup group3;
     ShortcutGroup group4;
+    ShortcutGroup group5;
 
     group1.groupName = tr("Files");
     group2.groupName = tr("Drawing");
     group3.groupName = tr("Shapes/Images");
     group4.groupName = tr("Settings");
+    group5.groupName = tr("Align");
 
 
 
@@ -77,7 +79,14 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Help"), "F1") <<
                       ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
 
-    m_shortcutGroups << group1 << group2 << group3 << group4;
+    group5.groupItems << ShortcutItem(tr("Align left"), "Ctrl+shift+L")
+                      << ShortcutItem(tr("Align right"), "Ctrl+shift+R")
+                      << ShortcutItem(tr("Horizontal centers"), "Ctrl+shift+H")
+                      << ShortcutItem(tr("Align top"), "Ctrl+shift+T")
+                      << ShortcutItem(tr("Align bottom"), "Ctrl+shift+B")
+                      << ShortcutItem(tr("Vertical centers"), "Ctrl+shift+V");
+
+    m_shortcutGroups << group1 << group2 << group3 << group4 << group5;
 
     //convert to json object
     QJsonArray jsonGroups;

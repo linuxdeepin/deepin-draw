@@ -828,184 +828,219 @@
 <context>
     <name>Shortcut</name>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Files</source>
         <translation>Files</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="32"/>
+        <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Drawing</source>
         <translation>Drawing</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="33"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Shapes/Images</source>
         <translation>Shapes/Images</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
+        <source>Align</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="39"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="42"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="43"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="42"/>
+        <location filename="../utils/shortcut.cpp" line="44"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="43"/>
+        <location filename="../utils/shortcut.cpp" line="45"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="46"/>
+        <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Select</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="47"/>
+        <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="48"/>
+        <location filename="../utils/shortcut.cpp" line="50"/>
         <source>Rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="49"/>
+        <location filename="../utils/shortcut.cpp" line="51"/>
         <source>Ellipse</source>
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="50"/>
+        <location filename="../utils/shortcut.cpp" line="52"/>
         <source>Triangle</source>
         <translation>Triangle</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="51"/>
+        <location filename="../utils/shortcut.cpp" line="53"/>
         <source>Star</source>
         <translation>Star</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="52"/>
+        <location filename="../utils/shortcut.cpp" line="54"/>
         <source>Polygon</source>
         <translation>Polygon</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="53"/>
+        <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Line</source>
         <translation>Line</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="54"/>
+        <location filename="../utils/shortcut.cpp" line="56"/>
         <source>Pencil</source>
         <translation>Pencil</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="55"/>
+        <location filename="../utils/shortcut.cpp" line="57"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="56"/>
+        <location filename="../utils/shortcut.cpp" line="58"/>
         <source>Blur</source>
         <translation>Blur</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="57"/>
+        <location filename="../utils/shortcut.cpp" line="59"/>
         <source>Crop</source>
         <translation>Crop</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="58"/>
+        <location filename="../utils/shortcut.cpp" line="60"/>
         <source>Expand canvas</source>
         <translation>Expand canvas</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="59"/>
+        <location filename="../utils/shortcut.cpp" line="61"/>
         <source>Shrink canvas</source>
         <translation>Shrink canvas</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="64"/>
+        <location filename="../utils/shortcut.cpp" line="66"/>
         <source>Cut</source>
         <translation>Cut</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="65"/>
+        <location filename="../utils/shortcut.cpp" line="67"/>
         <source>Copy</source>
         <translation>Copy</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="66"/>
+        <location filename="../utils/shortcut.cpp" line="68"/>
         <source>Paste</source>
         <translation>Paste</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="67"/>
+        <location filename="../utils/shortcut.cpp" line="69"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="68"/>
+        <location filename="../utils/shortcut.cpp" line="70"/>
         <source>Undo</source>
         <translation>Undo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="69"/>
+        <location filename="../utils/shortcut.cpp" line="71"/>
         <source>Redo</source>
         <translation>Redo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="70"/>
+        <location filename="../utils/shortcut.cpp" line="72"/>
         <source>Raise Layer</source>
         <translation>Raise Layer</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="71"/>
+        <location filename="../utils/shortcut.cpp" line="73"/>
         <source>Lower Layer</source>
         <translation>Lower Layer</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="72"/>
+        <location filename="../utils/shortcut.cpp" line="74"/>
         <source>Layer to Top</source>
         <translation>Layer to Top</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="73"/>
+        <location filename="../utils/shortcut.cpp" line="75"/>
         <source>Layer to Bottom</source>
         <translation>Layer to Bottom</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="77"/>
+        <location filename="../utils/shortcut.cpp" line="79"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="78"/>
+        <location filename="../utils/shortcut.cpp" line="80"/>
         <source>Display shortcuts</source>
         <translation>Display shortcuts</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="82"/>
+        <source>Align left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="83"/>
+        <source>Align right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="84"/>
+        <source>Horizontal centers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="85"/>
+        <source>Align top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="86"/>
+        <source>Align bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="87"/>
+        <source>Vertical centers</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
