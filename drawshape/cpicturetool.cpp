@@ -144,6 +144,9 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     m_progressLayout->setRange(0, m_picNum);
 
+    // [bug:26525] 设置默认值
+    m_progressLayout->setProgressValue(0);
+
     m_progressLayout->showInCenter(centralWindow->window());
     //progressLayout->show();//此处还需要找个show的zhaiti载体
 
