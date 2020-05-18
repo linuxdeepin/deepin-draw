@@ -87,7 +87,6 @@ private:
      */
     double getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems);
 private:
-    QGraphicsItem *m_noShiftSelectItem;
     QGraphicsItem *m_currentSelectItem;
     QGraphicsItem *m_highlightItem;
     QGraphicsRectItem *m_frameSelectItem;

@@ -66,7 +66,6 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
-    , m_noShiftSelectItem(nullptr)
     , m_currentSelectItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_bRotateAng(false)

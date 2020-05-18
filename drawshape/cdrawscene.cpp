@@ -309,11 +309,21 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+    IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
 //    if (currentMode == text && m_bIsEditTextFlag) {
 //        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
 //    }
+    bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
+        if (nullptr != pToolSelect && pTool != pToolSelect) {
+            //修改bug26618，不是很合理，后期有优化时再作修正
+            if (!shiftKeyPress && this->selectedItems().count() == 1) {
+                if (this->selectedItems().at(0)->type() > QGraphicsItem::UserType && this->selectedItems().at(0)->type() < MgrType) {
+                    pToolSelect->m_noShiftSelectItem = this->selectedItems().at(0);
+                }
+            }
+        }
 //        if (pTool->getDrawToolMode() != cut) {
 //            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
 //            emit signalChangeToSelect();

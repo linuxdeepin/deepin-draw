@@ -161,7 +161,8 @@ protected:
 
     QMap<int, SRecordedStartInfo> allStartInfo;
 
-
+public:
+    QGraphicsItem *m_noShiftSelectItem;
 private:
     EDrawToolMode m_mode;
     QCursor m_RotateCursor;
