@@ -149,7 +149,10 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     //如果多选颜色有冲突(isMult为true时)那么就绘制"..."
     if (isMult) {
         painter->save();
-        painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+        //painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
+        QColor cp = darkTheme ? QColor("#C5CFE0") : QColor("#000000");
+        cp.setAlpha(darkTheme ? int(0.8 * 255) : int(0.2 * 255));
+        painter->setPen(cp);
         QFont ft;
         ft.setPixelSize(14);
         painter->setFont(ft);
