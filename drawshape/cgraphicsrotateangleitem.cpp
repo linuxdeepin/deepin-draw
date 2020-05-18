@@ -53,7 +53,7 @@ void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
     m_rotateAngle =  rotateAngle;
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
     QFontMetrics fontMetrics(m_textFont);
-    m_width = fontMetrics.width(angle) / m_scale;
+    m_width = fontMetrics.width(angle);
     setRect(-m_width / 2, -m_height / 2, m_width, m_height);
 }
 
@@ -62,28 +62,18 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    //painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-    painter->setPen(Qt::NoPen);
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        painter->setBrush(QColor("#ececf8"));
-    } else {
-        painter->setBrush(QColor("#000000"));
-    }
-
     painter->save();
     painter->setClipping(false);
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QColor("#E5E5E5"));
     painter->drawRoundRect(rect());
 
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        painter->setPen(Qt::black);
-    } else {
-        painter->setPen(Qt::white);
-    }
+    painter->setPen(Qt::black);
 
     painter->setFont(m_textFont);
-
     painter->drawText(rect(), Qt::AlignCenter, angle);
+
     painter->restore();
 }
