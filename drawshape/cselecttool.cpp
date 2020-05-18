@@ -578,7 +578,10 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
                 qreal space = 65. / scale;
                 m_initRotateItemPos.setY(centerToScence.y() - static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().height() / 2 - space);
-                m_RotateItem->setPos(m_initRotateItemPos);
+                qreal angleRad = qDegreesToRadians(angle);
+                qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
+                qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
+                m_RotateItem->setPos(x0, y0);
             } else {
                 qreal angleRad = qDegreesToRadians(angle);
 
@@ -587,7 +590,6 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
                 m_RotateItem->updateRotateAngle(angle);
                 m_RotateItem->setPos(x0, y0);
-
             }
 
         } else {
