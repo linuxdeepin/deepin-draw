@@ -87,9 +87,13 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
     int allBytesCount = allBytes.size() + 16; //16个字节是预留给md5
 
     /* 如果空间不足那么提示 */
-    QStorageInfo volume(path);
+    QString dirPath = QFileInfo(path).absolutePath();
+    QStorageInfo volume(dirPath/*path*/);
+    QList<QStorageInfo> storageList = QStorageInfo::mountedVolumes();
     if (volume.isValid()) {
         qint64 availabelCount = volume.bytesAvailable();
+        qint64 bytesFree      = volume.bytesFree() ;
+        qDebug() << "availabelCount = " << availabelCount << "bytesFree = " << bytesFree;
         if (!volume.isReady() || volume.isReadOnly() || availabelCount < allBytesCount) {
             QFileInfo fInfo(path);
             DDialog dia(dApp->activationWindow());
