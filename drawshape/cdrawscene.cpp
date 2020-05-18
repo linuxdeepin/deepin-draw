@@ -40,6 +40,7 @@
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
 #include "widgets/ctextedit.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -318,6 +319,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 //            emit signalChangeToSelect();
 //        }
     }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)

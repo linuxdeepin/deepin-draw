@@ -52,7 +52,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_renderImage(0)
     , m_bSelectAlling(false)
 {
-    m_nFillColor = Qt::black;
+    m_nFillColor = Qt::white;
     m_nFillColor.setAlpha(0);//transparent
     m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);

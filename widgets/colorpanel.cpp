@@ -63,7 +63,9 @@ ColorButton::ColorButton(const QColor &color, DWidget *parent)
         setChecked(true);
         if (m_disable)
         {
-            emit colorButtonClicked(Qt::transparent);
+            QColor colorTrasparent(Qt::white);
+            colorTrasparent.setAlpha(0);
+            emit colorButtonClicked(colorTrasparent);
         } else
         {
             emit colorButtonClicked(m_color);
@@ -76,10 +78,12 @@ void ColorButton::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     painter.setBrush(QBrush(m_color));
+    QColor colorTrasparent(Qt::white);
+    colorTrasparent.setAlpha(0);
 
     QPen pen;
     pen.setWidth(1);
-    if (m_color == QColor(Qt::transparent)) {
+    if (m_color == colorTrasparent) {
         pen.setColor(QColor("#cccccc"));
     } else {
         pen.setColor(QColor(0, 0, 0, 55));
@@ -87,7 +91,7 @@ void ColorButton::paintEvent(QPaintEvent *)
     painter.setPen(pen);
     painter.drawRoundedRect(QRect(3, 3, this->width() - 6,
                                   this->height() - 6), RADIUS, RADIUS);
-    if (m_color == QColor(Qt::transparent)) {
+    if (m_color == colorTrasparent) {
         pen.setColor(QColor("#ff804d"));
         painter.setPen(pen);
         painter.drawLine(6, this->height() - 6, this->width() - 6, 6);
