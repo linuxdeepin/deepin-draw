@@ -76,7 +76,7 @@ signals:
     /**
      * @brief signalLoadDDFComplete　完成载入ＤＤＦ文件信号
      */
-    void signalLoadDDFComplete();
+    void signalLoadDDFComplete(const QString &path, bool success);
     /**
      * @brief signalSaveDDFFaild　保存ＤＤＦ文件失败信号
      */
@@ -130,7 +130,7 @@ private slots:
     /**
      * @brief slotLoadDDFComplete　完成载入ＤＤＦ文件槽函数
      */
-    void slotLoadDDFComplete();
+    void slotLoadDDFComplete(const QString &path, bool success);
 
     /**
      * @brief slotSaveDDFComplete　处理保存/加载的进度显示

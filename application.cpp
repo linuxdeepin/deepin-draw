@@ -232,7 +232,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     switch (classTp) {
     case EDrawAppNotSup:
         message = (problemfile.size() == 1 ?
-                   tr("\"%1\" is unsupported, thus you cannot open it").arg(shortenFileName) :
+                   tr("Unable to open \"%1\", unsupported file format").arg(shortenFileName) :
                    tr("Several files are unsupported, thus you cannot open them"));
         break;
     case EDrawAppSupButNotReadable:

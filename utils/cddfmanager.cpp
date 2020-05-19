@@ -33,6 +33,7 @@
 #include "frame/cviewmanagement.h"
 #include "widgets/dialog/cprogressdialog.h"
 #include "application.h"
+#include "frame/ccentralwidget.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -54,7 +55,7 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     //connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
     connect(this, SIGNAL(signalUpdateProcessBar(int, bool)), this, SLOT(slotProcessSchedule(int, bool)));
     connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
-    connect(this, SIGNAL(signalLoadDDFComplete()), this, SLOT(slotLoadDDFComplete()));
+    connect(this, SIGNAL(signalLoadDDFComplete(const QString &, bool )), this, SLOT(slotLoadDDFComplete(const QString &, bool)));
 }
 
 
@@ -100,7 +101,8 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
             dia.setFixedSize(404, 163);
             dia.setModal(true);
             QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-            dia.setMessage(tr("volume \'%1\' is out of space,\'%2\' save failed! ").arg(QString::fromUtf8(volume.device())).arg(shortenFileName));
+            //dia.setMessage(tr("volume \'%1\' is out of space,\'%2\' save failed! ").arg(QString::fromUtf8(volume.device())).arg(shortenFileName));
+            dia.setMessage(tr("Unable to save. There is not enough disk space."));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
             dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
@@ -210,20 +212,21 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         if (isDdfFileDirty(path))
         {
             //弹窗提示
-            QMetaObject::invokeMethod(this, [ = ]() {
-                //证明是被重命名或者删除
-                QFileInfo fInfo(path);
-                DDialog dia(dApp->activationWindow());
-                dia.setFixedSize(404, 163);
-                dia.setModal(true);
-                QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-                dia.setMessage(tr("The file \"%1 \" is damaged and cannot be opened !").arg(shortenFileName));
-                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+//            QMetaObject::invokeMethod(this, [ = ]() {
+//                //证明是被重命名或者删除
+//                QFileInfo fInfo(path);
+//                DDialog dia(dApp->activationWindow());
+//                dia.setFixedSize(404, 163);
+//                dia.setModal(true);
+//                QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+//                //dia.setMessage(tr("The file \"%1 \" is damaged and cannot be opened !").arg(shortenFileName));
+//                dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
+//                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
-                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
-                dia.exec();
-            }, Qt::QueuedConnection);
-            emit signalLoadDDFComplete();
+//                dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+//                dia.exec();
+//            }, Qt::QueuedConnection);
+            emit signalLoadDDFComplete(path, false);
             return;
         }
 
@@ -346,7 +349,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             in >> m_graphics.version;
             qDebug() << "loadDDF m_graphics.version = " << m_graphics.version << endl;
             readFile.close();
-            emit signalLoadDDFComplete();
+            emit signalLoadDDFComplete(path, true);
         }
     });
 
@@ -367,12 +370,33 @@ QFileDevice::FileError CDDFManager::getSaveLastError() const
     return m_lastError;
 }
 
-void CDDFManager::slotLoadDDFComplete()
+void CDDFManager::slotLoadDDFComplete(const QString &path, bool success)
 {
     m_CProgressDialog->hide();
-    m_view->getDrawParam()->setDdfSavePath(m_path);
-    m_view->setModify(false);
-    emit singalEndLoadDDF();
+
+    if (success) {
+        m_view->getDrawParam()->setDdfSavePath(m_path);
+        m_view->setModify(false);
+        emit singalEndLoadDDF();
+    } else {
+        QFileInfo fInfo(path);
+        DDialog dia(dApp->activationWindow());
+        dia.setFixedSize(404, 163);
+        dia.setModal(true);
+        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
+        dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+        dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+        dia.exec();
+
+        if (m_view != nullptr) {
+            CCentralwidget *pCertralWidget = dynamic_cast<CCentralwidget *>(m_view->parentWidget());
+            if (pCertralWidget != nullptr) {
+                pCertralWidget->closeSceneView(m_view, true, true);
+                m_view = nullptr;
+            }
+        }
+    }
 }
 
 void CDDFManager::slotProcessSchedule(int process, bool isSave)
