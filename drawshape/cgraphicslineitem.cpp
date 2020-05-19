@@ -140,13 +140,11 @@ QRectF CGraphicsLineItem::rect() const
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
 
     if (!shiftKeyPress) {
         QPointF local = mapFromScene(point);
         QPointF p1;
         QPointF p2;
-        QPointF pos = this->pos();
         if (dir == CSizeHandleRect::LeftTop) {
             p1 = local;
             p2 = m_line.p2();
@@ -196,13 +194,19 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 
+    resizeTo(dir, point);
 }
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = bShiftPress;
-    bool altKeyPress = bAltPress;
+//    bool shiftKeyPress = bShiftPress;
+//    bool altKeyPress = bAltPress;
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+
     QRectF rect = this->rect();
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();
