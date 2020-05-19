@@ -424,19 +424,19 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
 
-    // start
-//    drawStart();
     painter->setBrush(Qt::NoBrush);
-    if (m_startType == soildArrow || m_startType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_startType == soildArrow || m_startType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_startPath);
 
-    // end
-//    drawEnd();
     painter->setBrush(Qt::NoBrush);
-    if (m_endType == soildArrow || m_endType == soildRing) {
-        painter->setBrush(QBrush(QColor(pen().color())));
+    if (this->pen().width()) {
+        if (m_endType == soildArrow || m_endType == soildRing) {
+            painter->setBrush(QBrush(QColor(this->pen().color())));
+        }
     }
     painter->drawPath(m_endPath);
 
@@ -501,6 +501,9 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
         m_startPath.lineTo(p3);
         m_startPath.lineTo(p2);
@@ -573,6 +576,9 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case soildArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p3);
         m_endPath.lineTo(p2);

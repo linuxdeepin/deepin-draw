@@ -358,6 +358,7 @@ void CAddShapeCommand::redo()
     if (m_items.size() == 1) {
         myGraphicsScene->clearSelection();
         m_items.at(0)->setSelected(true);
+        myGraphicsScene->changeAttribute(true, m_items.at(0));
     } else {
         myGraphicsScene->clearSelection();
         if (add) {
