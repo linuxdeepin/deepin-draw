@@ -240,7 +240,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void CGraphicsItem::beginCheckIns(QPainter *painter)
 {
-    if (scene() == nullptr)
+    if (scene() == nullptr || !rect().isValid())
         return;
 
     painter->save();
@@ -255,7 +255,7 @@ void CGraphicsItem::beginCheckIns(QPainter *painter)
 
 void CGraphicsItem::endCheckIns(QPainter *painter)
 {
-    if (scene() == nullptr)
+    if (scene() == nullptr || !rect().isValid())
         return;
     painter->restore();
 }

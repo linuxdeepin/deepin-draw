@@ -391,6 +391,10 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     updateGeometry();
 
+    // judge selectool isValid
+    if (!rect().isValid())
+        return;
+
     beginCheckIns(painter);
     drawDocument(painter, m_pTextEdit->document(), this->rect());
     endCheckIns(painter);

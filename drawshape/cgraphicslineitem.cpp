@@ -431,12 +431,12 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
     updateGeometry();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
 
     beginCheckIns(painter);
-
 
     painter->setBrush(Qt::NoBrush);
     if (this->pen().width()) {
