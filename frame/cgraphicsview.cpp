@@ -1811,7 +1811,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         }
-        endPos.insert(allItems.at(0), topLeft);
+        endPos.insert(allItems.at(0), allItems.at(0)->scenRect().topLeft());
     }
 
     // [4] 设置出入栈
