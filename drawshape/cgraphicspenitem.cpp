@@ -975,8 +975,8 @@ void CGraphicsPenItem::drawStart()
     }
 
     QLineF line;
-    if (!m_isStartWithLine && m_path.elementCount() > 10) { // 开始画曲线
-        line = QLineF(m_path.elementAt(0), m_path.elementAt(10));
+    if (!m_isStartWithLine && m_path.elementCount() > 2) { // 开始画曲线
+        line = QLineF(m_path.elementAt(0), m_path.elementAt(2));
     } else if (!m_isStartWithLine && m_path.elementCount() > 1) {
         line = QLineF(m_path.elementAt(0), m_path.elementAt(1));
     } else { // 开始画直线
@@ -1009,10 +1009,16 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
+        m_startPath.lineTo(p2);
+        m_startPath.moveTo(p1);
         m_startPath.lineTo(p3);
         m_startPath.moveTo(p1);
-        m_startPath.lineTo(p2);
+        QPointF center = (p2 + p3) / 2;
+        m_startPath.lineTo(center);
         m_startPath.moveTo(p1);
         break;
     }
@@ -1105,10 +1111,16 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p2);
         m_endPath.moveTo(p1);
         m_endPath.lineTo(p3);
+        m_endPath.moveTo(p1);
+        QPointF center = (p2 + p3) / 2;
+        m_endPath.lineTo(center);
         m_endPath.moveTo(p1);
         break;
     }

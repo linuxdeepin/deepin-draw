@@ -525,10 +525,16 @@ void CGraphicsLineItem::drawStart()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
+        m_startPath.lineTo(p2);
+        m_startPath.moveTo(p1);
         m_startPath.lineTo(p3);
         m_startPath.moveTo(p1);
-        m_startPath.lineTo(p2);
+        QPointF center = (p2 + p3) / 2;
+        m_startPath.lineTo(center);
         m_startPath.moveTo(p1);
         break;
     }
@@ -600,10 +606,16 @@ void CGraphicsLineItem::drawEnd()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p2);
         m_endPath.moveTo(p1);
         m_endPath.lineTo(p3);
+        m_endPath.moveTo(p1);
+        QPointF center = (p2 + p3) / 2;
+        m_endPath.lineTo(center);
         m_endPath.moveTo(p1);
         break;
     }
