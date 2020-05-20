@@ -62,7 +62,6 @@ TextColorButton::~TextColorButton()
 void TextColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-
     paintLookStyle(&painter, !m_isMultColorSame);
 }
 
