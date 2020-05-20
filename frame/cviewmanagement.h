@@ -27,10 +27,13 @@
 #include <QAtomicInt>
 #include <QDebug>
 #include <DDialog>
+#include <QThread>
+#include <QMutex>
 
 DWIDGET_USE_NAMESPACE
 
 class CGraphicsView;
+class CFileWatcher;
 
 class CManageViewSigleton: public QObject
 {
@@ -108,6 +111,7 @@ public:
 
     Q_SLOT void onDDfFileChanged(const QString &ddfFile);
 
+    Q_SLOT void onDdfFileChanged(const QString &ddfFile, int tp);
 
     int  viewCount();
 
@@ -152,7 +156,44 @@ private:
 
     QList<DDialog *> m_noticeFileDialogs;
     DDialog       *m_pNoticeFileDialog = nullptr;
+
+
+    CFileWatcher *_ddfWatcher;
 };
 
+class CFileWatcher: public QThread
+{
+    Q_OBJECT
+public:
+    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+
+    CFileWatcher(QObject *parent = nullptr);
+    ~CFileWatcher();
+
+    bool isVaild();
+
+    void addWather(const QString &path);
+    void removePath(const QString &path);
+
+    void clear();
+
+signals:
+    void fileChanged(const QString &path, int tp);
+
+protected:
+    void run();
+
+private:
+    void doRun();
+
+    int  _handleId = -1;
+    bool _running = false;
+
+
+    QMap<QString, int> watchedFiles;
+    QMap<int, QString> watchedFilesId;
+
+    QMutex _mutex;
+};
 
 #endif // CDRAWPARAMSIGLETON_H
