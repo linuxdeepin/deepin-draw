@@ -664,23 +664,24 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     //左键按下，出现框选矩形
     if (m_bMousePress && (m_currentSelectItem == nullptr)) {
         QList<QGraphicsItem *> items = scene->items(m_frameSelectItem->rect());
-        foreach (QGraphicsItem *item, items) {
-            if (item == m_frameSelectItem) {
-                continue;
+        items.removeOne(m_frameSelectItem);
+
+        scene->getItemsMgr()->clear();
+        if (items.size() > 1) {
+            foreach (QGraphicsItem *item, items) {
+                CGraphicsItem *selectItem = dynamic_cast<CGraphicsItem *>(item);
+                if (selectItem != nullptr) {
+                    scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
+                }
             }
-            //auto selectItem = static_cast<CGraphicsItem *>(item);
-            CGraphicsItem *selectItem = dynamic_cast<CGraphicsItem *>(item);
-            if (selectItem != nullptr) {
-                scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
-            }
-        }
-        int count = scene->getItemsMgr()->getItems().size();
-        if (1 == count) {
-            scene->getItemsMgr()->getItems().first()->setSelected(true);
-            scene->getItemsMgr()->hide();
-        } else if (count > 1) {
             scene->getItemsMgr()->show();
             scene->getItemsMgr()->setSelected(true);
+        } else if (items.size() > 0) {
+            CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.first());
+            if (pItem != nullptr) {
+                pItem->setSelected(true);
+                m_noShiftSelectItem = pItem;
+            }
         }
     }
 

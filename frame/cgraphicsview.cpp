@@ -598,6 +598,10 @@ void CGraphicsView::initConnection()
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
+    if (qApp->mouseButtons() & Qt::LeftButton) {
+        return QGraphicsView::contextMenuEvent(event);
+    }
+
     QPointF pos = this->mapToScene(event->pos());
     QRectF rect = this->scene()->sceneRect();
 
