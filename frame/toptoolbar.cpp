@@ -525,7 +525,8 @@ void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawPropert
         m_propertys = propertys;
         m_stackWidget->currentWidget()->setVisible(true);
     } else {
-        if (m_stackWidget->currentWidget() != m_titleWidget) {
+        if (m_stackWidget->currentWidget() != m_titleWidget &&
+                m_cutWidget != m_stackWidget->currentWidget()) {
             m_stackWidget->currentWidget()->setVisible(false);
         }
     }
