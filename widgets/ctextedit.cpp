@@ -69,7 +69,12 @@ void CTextEdit::slot_textChanged()
 
     QSizeF size = this->document()->size();
     QRectF rect = m_pItem->rect();
-    rect.setHeight(size.height());
+
+    // 如果是两点的状态高度需要自适应
+    if (!m_pItem->getManResizeFlag()) {
+        rect.setHeight(size.height());
+    }
+
     rect.setWidth(size.width());
 
     //判断是否出界

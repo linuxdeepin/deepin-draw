@@ -524,49 +524,36 @@ void CGraphicsView::initTextContextMenu()
     m_textCopyAction = new QAction(tr("Copy"));
     m_textPasteAction = new QAction(tr("Paste"));
     m_textSelectAllAction = new QAction(tr("Select All"));
-
-    QAction *deleteAct = new QAction(tr("Delete"));
-    deleteAct->setEnabled(false);
-    QAction *undoAct = new QAction(tr("Undo"));
-    undoAct->setEnabled(false);
-
-    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
-    fakeRaiseLayerAct->setEnabled(false);
-    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
-    fakeLowerLayerAct->setEnabled(false);
-    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
-    fakeLayerToTopAct->setEnabled(false);
-    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
-    fakeLayerToBottomAct->setEnabled(false);
-
-    m_textLeftAlignAct = new QAction(tr("Text Align Left"));
-    //m_textTopAlignAct = new QAction(tr("Top Alignment"));
-    m_textRightAlignAct = new QAction(tr("Text Align Right" ));
-    m_textCenterAlignAct = new QAction(tr("Text Align Center"));
-
     m_textUndoAct = new QAction(tr("Undo"));
     m_textRedoAct = new QAction(tr("Redo"));
+    m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right" ));            // 右对齐
+    m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
+    m_textDeleteAction = new QAction(tr("Delete"));
+
+//    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
+//    fakeRaiseLayerAct->setEnabled(false);
+//    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
+//    fakeLowerLayerAct->setEnabled(false);
+//    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
+//    fakeLayerToTopAct->setEnabled(false);
+//    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
+//    fakeLayerToBottomAct->setEnabled(false);
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
     m_textMenu->addAction(m_textPasteAction);
     m_textMenu->addAction(m_textSelectAllAction);
+    m_textMenu->addAction(m_textDeleteAction);
     m_textMenu->addSeparator();
-
-    m_textMenu->addAction(deleteAct);
-    //m_textMenu->addAction(undoAct);
     m_textMenu->addAction(m_textUndoAct);
     m_textMenu->addAction(m_textRedoAct);
-
     m_textMenu->addSeparator();
-
-    m_textMenu->addAction(fakeRaiseLayerAct);
-    m_textMenu->addAction(fakeLowerLayerAct);
-    m_textMenu->addAction(fakeLayerToTopAct);
-    m_textMenu->addAction(fakeLayerToBottomAct);
-
+//    m_textMenu->addAction(fakeRaiseLayerAct);
+//    m_textMenu->addAction(fakeLowerLayerAct);
+//    m_textMenu->addAction(fakeLayerToTopAct);
+//    m_textMenu->addAction(fakeLayerToBottomAct);
     m_textMenu->addAction(m_textLeftAlignAct);
-    //m_textMenu->addAction(m_textTopAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
 }
@@ -577,15 +564,20 @@ void CGraphicsView::initTextContextMenuConnection()
     connect(m_textCopyAction, SIGNAL(triggered()), this, SLOT(slotOnTextCopy()));
     connect(m_textPasteAction, SIGNAL(triggered()), this, SLOT(slotOnTextPaste()));
     connect(m_textSelectAllAction, SIGNAL(triggered()), this, SLOT(slotOnTextSelectAll()));
-
-
-    connect(m_textLeftAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextLeftAlignment()));
-    //connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
-    connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
-    connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
-
     connect(m_textUndoAct, SIGNAL(triggered()), this, SLOT(slotOnTextUndo()));
     connect(m_textRedoAct, SIGNAL(triggered()), this, SLOT(slotOnTextRedo()));
+    connect(m_textDeleteAction, SIGNAL(triggered()), this, SLOT(slotOnTextDelete()));
+
+    //  设置文字图元内部对齐方式
+    connect(m_textLeftAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignLeft);
+    });
+    connect(m_textRightAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignRight);
+    });
+    connect(m_textCenterAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignCenter);
+    });
 }
 
 void CGraphicsView::initConnection()
@@ -629,7 +621,6 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
     int temp;
 
-
     if (!scene()->selectedItems().isEmpty()) {
         //如果是文字图元则显示其自己的右键菜单
         QGraphicsItem *item =  scene()->selectedItems().first();
@@ -641,6 +632,18 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             } else {
                 ry = cursor().pos().ry();
             }
+
+            // 根据是否是两点情况显示对齐
+            if (!static_cast<CGraphicsTextItem *>(tmpitem)->getManResizeFlag()) {
+                m_textLeftAlignAct->setEnabled(false);
+                m_textRightAlignAct->setEnabled(false);
+                m_textCenterAlignAct->setEnabled(false);
+            } else {
+                m_textLeftAlignAct->setEnabled(true);
+                m_textRightAlignAct->setEnabled(true);
+                m_textCenterAlignAct->setEnabled(true);
+            }
+
             menuPos = QPoint(rx, ry);
             m_textMenu->move(menuPos);
             m_textMenu->show();
@@ -1438,46 +1441,13 @@ void CGraphicsView::slotOnTextSelectAll()
     }
 }
 
-void CGraphicsView::slotOnTextTopAlignment()
+void CGraphicsView::slotSetTextAlignment(const Qt::Alignment &align)
 {
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
         if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doTopAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextRightAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doRightAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextLeftAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doLeftAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextCenterAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doCenterAlignment();
+            tmpitem->setSelectTextBlockAlign(align);
         }
     }
 }
@@ -1500,6 +1470,17 @@ void CGraphicsView::slotOnTextRedo()
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
         if (TextType == item->type() &&  tmpitem->isEditable()) {
             tmpitem->doRedo();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextDelete()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doDelete();
         }
     }
 }

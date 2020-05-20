@@ -389,6 +389,8 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     updateGeometry();
 
     // judge selectool isValid
@@ -442,6 +444,7 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
                                      const QRectF &r,
                                      const QBrush &brush)
 {
+    Q_UNUSED(brush)
     if (doc->isEmpty())
         return;
 
@@ -451,7 +454,7 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
         painter->setClipRect(r, Qt::IntersectClip);
     }
     painter->translate(r.topLeft());
-    QTextDocument *t_doc = (QTextDocument *)doc;
+    QTextDocument *t_doc = const_cast<QTextDocument *>(doc);
     t_doc->drawContents(painter, QRectF());
     painter->restore();
 }
@@ -725,24 +728,38 @@ void CGraphicsTextItem::doSelectAll()
     m_pTextEdit->selectAll();
 }
 
-void CGraphicsTextItem::doTopAlignment()
+void CGraphicsTextItem::setSelectTextBlockAlign(const Qt::Alignment &align)
 {
-    m_pTextEdit->setAlignment(Qt::AlignJustify);
-}
-
-void CGraphicsTextItem::doRightAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignRight);
-}
-
-void CGraphicsTextItem::doLeftAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignLeft);
-}
-
-void CGraphicsTextItem::doCenterAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignCenter);
+    switch (align) {
+    case Qt::AlignLeft : {
+        m_pTextEdit->setAlignment(Qt::AlignLeft);
+        break;
+    }
+    case Qt::AlignRight : {
+        m_pTextEdit->setAlignment(Qt::AlignRight);
+        break;
+    }
+    case Qt::AlignHCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignHCenter);
+        break;
+    }
+    case Qt::AlignTop : {
+        m_pTextEdit->setAlignment(Qt::AlignTop);
+        break;
+    }
+    case Qt::AlignBottom : {
+        m_pTextEdit->setAlignment(Qt::AlignBottom);
+        break;
+    }
+    case Qt::AlignVCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignVCenter);
+        break;
+    }
+    case Qt::AlignCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignCenter);
+        break;
+    }
+    }
 }
 
 void CGraphicsTextItem::doUndo()
@@ -753,5 +770,10 @@ void CGraphicsTextItem::doUndo()
 void CGraphicsTextItem::doRedo()
 {
     m_pTextEdit->redo();
+}
+
+void CGraphicsTextItem::doDelete()
+{
+    m_pTextEdit->textCursor().deleteChar();
 }
 
