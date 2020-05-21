@@ -135,6 +135,11 @@ void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &off
 
 }
 
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+{
+
+}
+
 void CGraphicsItem::duplicate(CGraphicsItem *item)
 {
     item->setPos(pos().x(), pos().y());

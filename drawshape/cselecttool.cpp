@@ -124,9 +124,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             }
         }
         if (altKeyPress && m_currentSelectItem) {
-            CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
-            if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
-                scene->getItemsMgr()->clear();
+            if (m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+                CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+                if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                    scene->getItemsMgr()->clear();
+                }
             }
         }
         int count = scene->getItemsMgr()->getItems().size();
@@ -383,6 +385,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
                 m_pressItemRect = m_currentSelectItem->sceneBoundingRect();
+                //记录多选图元的resize前的大小及位置
+                scene->getItemsMgr()->recordItemsRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
@@ -515,10 +519,11 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     if ( m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
             if (scene->getItemsMgr()->getItems().size() > 1) {
-                QPointF offsetPoint = event->scenePos() - m_sLastPress;
+                //QPointF offsetPoint = event->scenePos() - m_sLastPress;
                 bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-                scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
+                //scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
+                scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), shiftKeyPress, altKeyPress);
                 m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
@@ -911,4 +916,3 @@ double CSelectTool::getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGr
     }
     return min_distance;
 }
-
