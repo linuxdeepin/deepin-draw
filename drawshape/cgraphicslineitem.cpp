@@ -289,6 +289,8 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
+    pressRect = mapRectFromScene(pressRect);
+    itemPressRect = mapRectFromScene(itemPressRect);
     QPointF p1;
     QPointF p2;
     p2 = m_line.p2();
