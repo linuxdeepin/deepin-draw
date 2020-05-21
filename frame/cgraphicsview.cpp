@@ -109,21 +109,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
-    //setDragMode(ScrollHandDrag);
-
     viewport()->installEventFilter(this);
-    //viewport()->setFocusPolicy(Qt::ClickFocus);
-//    viewport()->grabKeyboard();
-//    viewport()->setFocusPolicy(Qt::StrongFocus);
-//    QAction *action = new QAction(viewport());
-//    action->setShortcut(QKeySequence(Qt::Key_Space));
-//    connect(action, &QAction::trigger, this, [ = ]() {
-//        _spaceKeyPressed = true;
-//        _tempCursor = *qApp->overrideCursor();
-//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
-//    });
-//    viewport()->addAction(action);
-
 
     //初始化后设置自身为焦点
     QMetaObject::invokeMethod(this, [ = ]() {
@@ -133,6 +119,11 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
     this->acceptDrops();
     this->setAttribute(Qt::WA_AcceptTouchEvents);
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
+    viewport()->grabGesture(Qt::PinchGesture);
+    viewport()->grabGesture(Qt::PanGesture);
+    viewport()->grabGesture(Qt::SwipeGesture);
 }
 
 void CGraphicsView::zoomOut()
@@ -2117,23 +2108,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
 {
     if (viewport() == o) {
         bool finished = false;
-        /*if (e->type() == QEvent::KeyPress ) {
-            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
-            if (event->key() == Qt::Key_Space) {
-                _spaceKeyPressed = true;
-                _tempCursor = *qApp->overrideCursor();
-                qApp->setOverrideCursor(Qt::ClosedHandCursor);
-
-                finished = true;
-            }
-        } else if (e->type() == QEvent::KeyRelease) {
-            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
-            if (event->key() == Qt::Key_Space) {
-                _spaceKeyPressed = false;
-                qApp->setOverrideCursor(_tempCursor);
-                finished = true;
-            }
-        } else */if (e->type() == QEvent::MouseButtonPress) {
+        if (e->type() == QEvent::MouseButtonPress) {
             QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
             _pressBeginPos = event->pos();
             _recordMovePos = _pressBeginPos;
@@ -2174,41 +2149,90 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
 
 bool CGraphicsView::viewportEvent(QEvent *event)
 {
-//    QEvent::Type evType = event->type();
-//    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
-//        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
-//        QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
-//        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
-//            //不考虑pad
-//            QPointF touchPos  = QPointF( tp.pos().x(), tp.pos().y() );
-//            if (tp.id() == 0 ) {
-//                if ( tp.state() == Qt::TouchPointPressed ) {
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+    } else if (event->type() == QEvent::Gesture) {
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-//                } else {
-
-//                }
-//            }
-
-//            QPointF scenepos = this->mapToScene(touchPos.toPoint());
-//            switch (tp.state() ) {
-//            case Qt::TouchPointPressed:
-//                //表示触碰按下
-//                break;
-//            case Qt::TouchPointMoved:
-//                //触碰移动
-//                break;
-//            case Qt::TouchPointReleased:
-//                //触碰离开
-//                break;
-//            default:
-//                break;
-//            }
-
-//        }
-
-//    }
-
+        if (currentMode == selection) {
+            return gestureEvent(static_cast<QGestureEvent *>(event));
+        }
+    }
     return DGraphicsView::viewportEvent(event);
+}
+
+bool CGraphicsView::gestureEvent(QGestureEvent *event)
+{
+    /*    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+        else if (QGesture *pan = event->gesture(Qt::PanGesture))
+            panTriggered(static_cast<QPanGesture *>(pan));
+        else */if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    return true;
+}
+void CGraphicsView::panTriggered(QPanGesture *gesture)
+{
+#ifndef QT_NO_CURSOR
+    switch (gesture->state()) {
+    case Qt::GestureStarted:
+    case Qt::GestureUpdated:
+        //setCursor(Qt::SizeAllCursor);
+        break;
+    default:
+        //setCursor(Qt::ArrowCursor);
+        break;
+    }
+#endif
+    QPointF delta = gesture->delta();
+
+    Q_UNUSED(delta);
+
+    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() + qRound(delta.x()));
+    //verticalScrollBar()->setValue(verticalScrollBar()->value() + qRound(delta.x()));
+
+    update();
+}
+
+void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
+{
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        Q_UNUSED(rotationDelta);
+    }
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+
+        qreal stepScal = (gesture->totalScaleFactor() - 1.0);
+        qreal newRadio = getScale() + stepScal / qAbs(stepScal) / 100.0;
+        if (newRadio > 0.1 && newRadio < 20.0) {
+            QCursor::setPos(gesture->hotSpot().toPoint());
+            setTransformationAnchor(AnchorUnderMouse);
+            scale(newRadio);
+        }
+
+
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+//        scaleFactor *= currentStepScaleFactor;
+//        currentStepScaleFactor = 1;
+    }
+    update();
+}
+
+void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up) {
+            qDebug() << "swipeTriggered(): swipe to previous";
+            //goPrevImage();
+        } else {
+            qDebug() << "swipeTriggered(): swipe to next";
+            //goNextImage();
+        }
+        update();
+    }
 }
 
 

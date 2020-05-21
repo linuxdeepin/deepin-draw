@@ -125,6 +125,9 @@ public:
     virtual void toolFinish(CDrawToolEvent *event);
 
 
+    void toolClear();
+
+
     virtual CGraphicsItem *creatItem();
 
     /**

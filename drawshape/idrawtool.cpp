@@ -69,12 +69,19 @@ void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
     auto it = allStartInfo.find(event->uuid());
     if (it != allStartInfo.end()) {
         it.value().m_sLastPress = event->pos();
+    } else {
+        toolStart(event);
     }
 }
 
 void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event)
 {
     Q_UNUSED(event)
+    allStartInfo.remove(event->uuid());
+}
+
+void IDrawTool::toolClear()
+{
     allStartInfo.clear();
 }
 
@@ -315,6 +322,7 @@ IDrawTool::CDrawToolEvent IDrawTool::CDrawToolEvent::fromTouchPoint(const QTouch
     e._pos[EGlobelPos]   = tPos.screenPos();
     e._uuid              = tPos.id();
     e._scene             = scene;
+    //qDebug() << "e._pos[EViewportPos] = " << e._pos[EViewportPos] << "e._pos[EScenePos] = " << e._pos[EScenePos] << "e._pos[EGlobelPos] = " << e._pos[EGlobelPos];
     return e;
 }
 

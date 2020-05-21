@@ -23,7 +23,9 @@
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
+
 #include <DGraphicsView>
+#include <QGestureEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -206,6 +208,10 @@ protected:
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+    bool gestureEvent(QGestureEvent *event);
+    void panTriggered(QPanGesture *);
+    void pinchTriggered(QPinchGesture *);
+    void swipeTriggered(QSwipeGesture *);
 
     QPoint _pressBeginPos;
     QPoint _recordMovePos;
