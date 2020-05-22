@@ -27,6 +27,7 @@ class QPainterPath;
 class CGraphicsPenItem : public CGraphicsItem
 {
 public:
+    static QSet<CGraphicsPenItem *> s_curPenItem;
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
@@ -60,16 +61,25 @@ public:
     QPainterPath getPath() const;
 
     void updatePenType(const EPenType &currentType);
-    void setPixmap();
+    void setPixmap(QPixmap *pixmap = nullptr);
 
     void setDrawFlag(bool flag);
 
     void calcVertexes();
+
+    QPixmap curPixMap()
+    {
+        return *m_tmpPix;
+    }
+    inline QLineF curMayExistPaintLine()
+    {
+        return m_straightLine;
+    }
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
@@ -77,12 +87,22 @@ protected:
 
 private:
     QPainterPath m_path;
+
+    /* for Rendering optimization 实时绘制时的插值算法 */
+
+    QList<QPointF> m_points;
+    QPointF        m_recordPrePos;
+    QPixmap       *m_tmpPix = nullptr;
+
+    /* for Rendering optimization 实时绘制时的插值算法 */
+
+
     QPolygonF m_arrow; //箭头三角形
     QLineF m_straightLine;
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;
     EPenType m_currentType;
-    QPixmap m_tmpPix;
+
     bool m_isDrawing;//是否正在绘图
     int m_drawIndex;
     QPointF m_point4;

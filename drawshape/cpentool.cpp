@@ -197,10 +197,13 @@ void CPenTool::toolStart(IDrawTool::CDrawToolEvent *event)
     pPenItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
     //pPenItem->setPenStartType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenStartType());
     //pPenItem->setPenEndType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPenEndType());
-    pPenItem->setPixmap();
+    pPenItem->setCurrentType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentPenType());
+    pPenItem->setPixmap(&(scene->scenPixMap()));
+    CGraphicsPenItem::s_curPenItem.insert(pPenItem);
     pPenItem->setZValue(scene->getMaxZValue() + 1);
     scene->addItem(pPenItem);
     startedInfo.tempItem = pPenItem;
+    scene->update();
 }
 
 void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
@@ -217,6 +220,7 @@ void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
     } else {
         toolStart(event);
     }
+    event->scene()->update();
 }
 
 void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
@@ -226,6 +230,7 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
         CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(it->tempItem);
         CDrawScene *pScene = qobject_cast<CDrawScene *>(pPenIem->scene());
         if (nullptr != pPenIem) {
+            CGraphicsPenItem::s_curPenItem.remove(pPenIem);
             if (event->pos() == it.value().m_sPointPress) {
                 if (pScene != nullptr) {
                     pScene->removeItem(pPenIem);
@@ -242,7 +247,15 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
         }
         it.value().m_sLastPress = event->pos();
     }
+
     IDrawTool::toolFinish(event);
+
+    if (CGraphicsPenItem::s_curPenItem.isEmpty()) {
+        if (event->scene() != nullptr) {
+            event->scene()->update();
+            event->scene()->renderSelfToPixmap();
+        }
+    }
 }
 
 

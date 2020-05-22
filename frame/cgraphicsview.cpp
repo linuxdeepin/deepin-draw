@@ -317,6 +317,23 @@ void CGraphicsView::initTextContextMenu()
     //m_textMenu->addAction(m_textTopAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
+
+    QList<QAction *> actions;
+    actions << m_cutAct << m_copyAct << m_pasteAct
+            << m_selectAllAct << m_deleteAct << m_undoAct
+            << m_redoAct << m_oneLayerUpAct << m_oneLayerDownAct
+            << m_bringToFrontAct << m_sendTobackAct;
+
+    auto fslot = [ = ]() {
+//        CDrawScene *scen = dynamic_cast<CDrawScene *>(scene());
+//        if (scen != nullptr) {
+//            scen->renderSelfToPixmap();
+//        }
+        this->renderScenePixmap();
+    };
+    for (QAction *act : actions) {
+        connect(act, QOverload<bool>::of(&QAction::triggered), this, fslot, Qt::QueuedConnection);
+    }
 }
 
 void CGraphicsView::initTextContextMenuConnection()
@@ -1315,6 +1332,16 @@ void CGraphicsView::setModify(bool isModify)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     curScene->setModify(isModify);
+}
+
+void CGraphicsView::renderScenePixmap()
+{
+    if (scene() != nullptr) {
+        CDrawScene *Scene = qobject_cast<CDrawScene *>(scene());
+        if (Scene != nullptr) {
+            Scene->renderSelfToPixmap();
+        }
+    }
 }
 
 

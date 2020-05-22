@@ -303,6 +303,7 @@ void CDrawScene::attributeChanged()
             }
         }
     }
+    this->renderSelfToPixmap();
 }
 
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
@@ -451,10 +452,37 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
 {
+//    painter->setClipping(true);
+//    painter->setClipRect(sceneRect());
+
+//    QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
 
-    QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    if (!CGraphicsPenItem::s_curPenItem.isEmpty()) {
+        /* for Rendering optimization (如果正在使用画笔绘制线条，就在辅助画布上绘制) */
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        painter->drawPixmap(sceneRect().topLeft(), scenPixMap());
+
+        for (auto it = CGraphicsPenItem::s_curPenItem.begin();
+                it != CGraphicsPenItem::s_curPenItem.end(); ++it) {
+            CGraphicsPenItem *pPenItem = *it;
+            QLineF line = pPenItem->curMayExistPaintLine();
+            if (!line.isNull()) {
+                QPen p(pPenItem->pen());
+                QGraphicsView *view = nullptr;
+                if (!views().isEmpty()) {
+                    view = views().first();
+                }
+                p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
+                painter->setPen(p);
+                painter->drawLine(line);
+            }
+        }
+    } else {
+        QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    }
 }
 
 void CDrawScene::showCutItem()
@@ -546,6 +574,10 @@ void CDrawScene::drawToolChange(int type)
     clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
+
+    if (EDrawToolMode(type) == pen) {
+        renderSelfToPixmap();
+    }
 }
 
 void CDrawScene::changeMouseShape(EDrawToolMode type)
@@ -593,6 +625,23 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         break;
 
     }
+}
+
+QPixmap &CDrawScene::scenPixMap()
+{
+    return m_scenePixMap;
+}
+
+void CDrawScene::renderSelfToPixmap()
+{
+    m_scenePixMap = QPixmap(sceneRect().size().toSize());
+    QPainter painterd(&m_scenePixMap);
+    painterd.setRenderHint(QPainter::Antialiasing);
+    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+    if (!views().isEmpty()) {
+        m_scenePixMap.setDevicePixelRatio(views().first()->viewport()->devicePixelRatioF());
+    }
+    this->render(&painterd);
 }
 
 void CDrawScene::clearMutiSelectedState()

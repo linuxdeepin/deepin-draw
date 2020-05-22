@@ -20,6 +20,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QDebug>
 #include <QKeyEvent>
@@ -72,6 +73,7 @@ void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event)
 void IDrawTool::toolClear()
 {
     allStartInfo.clear();
+    CGraphicsPenItem::s_curPenItem.clear();
 //    m_bMousePress = false;
 //    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
 //    if (pView != nullptr) {
