@@ -163,7 +163,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumber->setFixedSize(QSize(70, 36));
     m_anchorNumber->setRange(0, 1000);
     m_anchorNumber->setFont(ft);
-    m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
+//    m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
     m_radiusLabel = new DLabel(this);
     m_radiusLabel->setText(tr("Diameter"));
@@ -174,7 +174,7 @@ void PolygonalStarAttributeWidget::initUI()
     m_radiusNumber->setFixedSize(QSize(90, 36));
     m_radiusNumber->setSuffix("%");
     m_radiusNumber->setFont(ft);
-    m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
+//    m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
