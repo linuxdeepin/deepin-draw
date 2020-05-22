@@ -354,11 +354,12 @@ void CDrawScene::doCutScene()
     if (cut == mode) {
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
         if (nullptr != pTool) {
-            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect();
+            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect(this);
             if (!rect.isNull() && static_cast<CCutTool *>(pTool)->getModifyFlag()) {
-                emit signalSceneCut(rect);
+                dynamic_cast<CGraphicsView *>(this->views().first())->itemSceneCut(rect);
             }
             quitCutMode();
+            this->getDrawParam()->setModify(true);
             setModify(true);
         }
     }

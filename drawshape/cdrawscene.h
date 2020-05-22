@@ -91,6 +91,9 @@ public:
      * @brief quitCutMode 退出裁剪
      */
     void quitCutMode();
+    /**
+     * @brief doCutScene 进行裁剪
+     */
     void doCutScene();
     /**
      * @brief doAdjustmentScene 自适应

@@ -1361,7 +1361,6 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
-    //    qDebug() << "***************DoCut";
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()

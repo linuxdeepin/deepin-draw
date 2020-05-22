@@ -24,6 +24,7 @@
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
 #include "widgets/progresslayout.h"
+#include "widgets/dialog/ccutdialog.h"
 
 #include "drawshape/cdrawscene.h"
 #include "drawshape/cgraphicsitem.h"
@@ -193,10 +194,6 @@ QStringList CCentralwidget::getAllTabBarUUID()
 
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
 {
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        CManageViewSigleton::GetInstance()->getCurView()->slotDoCutScene();
-    }
-
     CGraphicsView *newview = new CGraphicsView(this);
     CManageViewSigleton::GetInstance()->addView(newview);
     auto curScene = new CDrawScene(newview, uuid, isModified);
@@ -309,6 +306,14 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
 {
     CGraphicsView *closeView = pView;
     if (nullptr != closeView) {
+        // [0] 判断是否处于裁剪状态
+        if (!slotJudgeCutStatusAndPopSaveDialog()) {
+            return;
+        }
+
+        // [1]  must set mouse tool to select
+        m_leftToolbar->slotShortCutSelect();
+
         QString viewname = closeView->getDrawParam()->viewName();
         qDebug() << "closeCurrentScenseView:" << viewname;
 
@@ -327,8 +332,6 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
     }
 
     if (m_topMutipTabBarWidget->count() > 0) {
-        m_leftToolbar->slotShortCutSelect();
-
         if (m_topMutipTabBarWidget->count() == 1) {
             m_topMutipTabBarWidget->hide();
         } else {
@@ -349,6 +352,30 @@ void CCentralwidget::closeViewScense(CGraphicsView *view)
         CManageViewSigleton::GetInstance()->removeView(view);
         m_topMutipTabBarWidget->closeTabBarItemByUUID(view->getDrawParam()->uuid());
     }
+}
+
+bool CCentralwidget::slotJudgeCutStatusAndPopSaveDialog()
+{
+    if (nullptr == CManageViewSigleton::GetInstance()->getCurView()->scene())
+        return false;
+
+    bool isNowCutStatus = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() == ECutType::cut_done ? false : true;
+    if (isNowCutStatus) {
+        CCutDialog dialog;
+        dialog.exec();
+        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+        if (CCutDialog::Save == dialog.getCutStatus()) {
+            curScene->doCutScene();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
+        } else if (CCutDialog::Cancel == dialog.getCutStatus()) {
+            return false;
+        } else if (CCutDialog::Discard == dialog.getCutStatus()) {
+            curScene->quitCutMode();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
+        }
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    }
+    return true;
 }
 
 void CCentralwidget::currentScenseViewIsModify(bool isModify)
@@ -559,11 +586,15 @@ void CCentralwidget::slotZoom(qreal scale)
 
 void CCentralwidget::slotSaveToDDF(bool isCloseNow)
 {
+    // [0] 保存之前需要判断是否处于裁剪状态
+    if (!slotJudgeCutStatusAndPopSaveDialog()) {
+        return;
+    }
+
     // 是否保存后关闭该图元
     m_isCloseNow = isCloseNow;
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction);
     CManageViewSigleton::GetInstance()->getCurView()->doSaveDDF(isCloseNow);
-    // 释放资源需要等待view提示是否保存成功
 }
 
 void CCentralwidget::slotDoNotSaveToDDF()
@@ -605,6 +636,11 @@ void CCentralwidget::slotNew()
 
 void CCentralwidget::slotPrint()
 {
+    // [0] 判断当前是否是裁剪状态,如果是则需要提示是否进行保存裁剪
+    if (!slotJudgeCutStatusAndPopSaveDialog()) {
+        return;
+    }
+
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
     QImage image = getSceneImage(1);
     m_printManager->showPrintDialog(image, this);
@@ -620,6 +656,11 @@ void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
+        // [0] 当前裁剪处于状态需要提示是否进行保存
+        if (!slotJudgeCutStatusAndPopSaveDialog()) {
+            return;
+        }
+
         CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
     } else {
         m_leftToolbar->slotShortCutSelect();
@@ -709,43 +750,31 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByUUID(uuid);
     if (nullptr == view) {
         qWarning() << "can not find viewName:" << viewName;
-
-//        // 判断标签栏是否还有元素，值为0时表示关闭所有的视图,此时应该最少保持有一个窗口在显示
-//        if (0 == m_topMutipTabBarWidget->count()) {
-//            qDebug() << "window has none view,create new view at least one";
-//            // [0] 判断是否已经打开此文件,已经打开则显示此文件
-//            QString nextTabBarName = m_topMutipTabBarWidget->getNextTabBarDefaultName();
-//            if (m_topMutipTabBarWidget->tabBarNameIsExist(nextTabBarName)) {
-//                qDebug() << "create same name Scence,deepin-draw will not create.";
-//                return;
-//            }
-//            createNewScense(nextTabBarName);
-//            m_topMutipTabBarWidget->addTabBarItem();
-//        }
         return;
     }
 
-    // [0] 替换最新的视图到当前显示界上
+    // [1] 替换最新的视图到当前显示界上
     CManageViewSigleton::GetInstance()->setCurView(view);
     m_stackedLayout->setCurrentWidget(view);
 
-    // [1] 鼠标选择工具回到默认状态
-    m_leftToolbar->slotShortCutSelect();
+    // [2] 处于裁剪的时候切换标签页恢复裁剪状态
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr
+            && CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() != ECutType::cut_done) {
+        view->getDrawParam()->setCurrentDrawToolMode(cut);
+        emit signalChangeTittlebarWidget(cut);
+        m_leftToolbar->slotEnterCut();
+    } else {
+        // [3] 鼠标选择工具回到默认状态
+        m_leftToolbar->slotShortCutSelect();
+    }
 
-//    // [2] 替换最新的视图到当前显示界上
-//    CManageViewSigleton::GetInstance()->setCurView(view);
-//    m_stackedLayout->setCurrentWidget(view);
-
-    // [3] 鼠标选择工具回到默认状态
-    m_leftToolbar->slotShortCutSelect();
-
-    // [4] 还原比例显示
+    // [5] 还原比例显示
     slotSetScale(view->getScale());
 
-    // [5] 更新主题
+    // [6] 更新主题
     switchTheme(systemTheme);
 
-    // [6] 标签显示或者隐藏判断
+    // [7] 标签显示或者隐藏判断
     if (m_topMutipTabBarWidget->count() == 1) {
         m_topMutipTabBarWidget->hide();
         //emit signalScenceViewChanged(viewName);
@@ -758,12 +787,17 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
 
-    // [7] 切换标签页后刷新当前选中图元的属性
+    // [8] 切换标签页后刷新当前选中图元的属性
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
 {
+    // [0] 判断当前标签是否在裁剪状态
+    if (!slotJudgeCutStatusAndPopSaveDialog()) {
+        return;
+    }
+
     bool modify = CManageViewSigleton::GetInstance()->getViewByUUID(uuid)->getDrawParam()->getModify();
     qDebug() << "tabItemCloseRequested:" << viewName << "modify:" << modify;
     // 判断当前关闭项是否已经被修改

@@ -199,7 +199,7 @@ void MainWindow::closeTabViews()
 {
     qDebug() << "close views begin = " << m_closeViews << m_closeUUids;
 
-    // 此函数的作用是关闭 m_closeTabList 中的标签s
+    // 此函数的作用是关闭 m_closeTabList 中的标签
     // 需要每次在保存或者不保存后进行调用判断
 
     int count = m_closeViews.size();
@@ -219,8 +219,15 @@ void MainWindow::closeTabViews()
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
+
             bool editFlag = closeView->getDrawParam()->getModify();
             if (editFlag) {
+
+                // [0] 关闭标签前需要判断是否保存裁剪状态
+                if (!m_centralWidget->slotJudgeCutStatusAndPopSaveDialog()) {
+                    continue;
+                }
+
                 int ret = showSaveQuestionDialog();
                 if (ret <= 0) {
                     //结束关闭，同时结束其他标签页的关闭(因为取消了)
@@ -327,6 +334,9 @@ void MainWindow::initConnection()
 
     // 连接场景被改变后更新主窗口tittle显示信息
     connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged, m_topToolbar, &TopToolbar::slotScenceViewChanged);
+
+    // 链接剪裁切换场景后需要刷新菜单栏
+    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
 }
 
 void MainWindow::activeWindow()

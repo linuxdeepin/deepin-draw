@@ -27,6 +27,12 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
+#include "drawshape/globaldefine.h"
+#include "drawshape/cdrawparamsigleton.h"
+
 DWIDGET_USE_NAMESPACE
 
 
@@ -36,7 +42,6 @@ CCutTool::CCutTool()
     , m_dragHandle(CSizeHandleRect::None)
     , m_buttonType(CButtonRect::NoneButton)
     , m_bModify(false)
-
 {
 
 }
@@ -58,13 +63,14 @@ void CCutTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
             } else {
                 qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
             }
-//            qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
         }
         scene->mouseEvent(event);
     } else {
         scene->mouseEvent(event);
     }
 }
+
 void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
 
@@ -109,21 +115,23 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
     }
 
 }
+
 void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = false;
         m_sPointRelease = event->scenePos();
 
-        //重绘矩形
-        QRectF rect = m_pCutItem->rect();
-        QPointF centerPoint = m_pCutItem->mapToScene(m_pCutItem->rect().center());
-        rect.setRect(centerPoint.rx() - rect.width() * 0.5, centerPoint.ry() - rect.height() * 0.5, rect.width(), rect.height());
-        m_pCutItem->setPos(0, 0);
-        m_pCutItem->setRect(rect);
-        m_pCutItem->update();
-
         if (m_pCutItem != nullptr) {
+            //重绘矩形
+            QRectF rect = m_pCutItem->rect();
+            QPointF centerPoint = m_pCutItem->mapToScene(m_pCutItem->rect().center());
+            rect.setRect(centerPoint.rx() - rect.width() * 0.5, centerPoint.ry() - rect.height() * 0.5, rect.width(), rect.height());
+            m_pCutItem->setPos(0, 0);
+            m_pCutItem->setRect(rect);
+            m_pCutItem->update();
+
+
             if (CButtonRect::NoneButton != m_buttonType) {
                 qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
@@ -149,12 +157,6 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 void CCutTool::createCutItem(CDrawScene *scene)
 {
-    if (nullptr != m_pCutItem ) {
-        delete m_pCutItem;
-        m_pCutItem = nullptr;
-//        return;
-    }
-
     scene->clearSelection();
 
     m_pCutItem = new CGraphicsCutItem(scene->sceneRect());
@@ -168,59 +170,80 @@ void CCutTool::createCutItem(CDrawScene *scene)
     m_pCutItem->setIsFreeMode(true);
     m_pCutItem->setSelected(true);
     m_bModify = false;
+
+    m_cutItems.insert(scene, m_pCutItem);
 }
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
 {
     qApp->setOverrideCursor(Qt::ArrowCursor);
 
-    if (nullptr != m_pCutItem) {
-        scene->removeItem(m_pCutItem);
-        delete m_pCutItem;
-        m_pCutItem = nullptr;
+    QMap<CDrawScene *, CGraphicsCutItem *>::iterator itr = m_cutItems.begin();
+    for (; itr != m_cutItems.end(); itr++) {
+        if (scene == itr.key()) {
+            qDebug() << "Content: " << scene->getDrawParam()->viewName();
+            if (nullptr != m_pCutItem) {
+                scene->removeItem(m_pCutItem);
+                delete m_pCutItem;
+                m_pCutItem = nullptr;
+            }
+            m_cutItems.remove(itr.key());
+            break;
+        }
     }
-
-
 }
 
 void CCutTool::changeCutType(int type, CDrawScene *scene)
 {
     Q_UNUSED(scene)
-
-    if (nullptr != m_pCutItem) {
-        if (cut_free == type) {
-            //scene->setItemDisable(false);
-            m_pCutItem->setFlag(QGraphicsItem::ItemIsMovable, true);
-            m_pCutItem->setIsFreeMode(true);
-            m_pCutItem->setSelected(true);
-        } else {
-            m_pCutItem->setSelected(false);
-            m_pCutItem->doChangeType(type);
+    QMap<CDrawScene *, CGraphicsCutItem *>::iterator itr = m_cutItems.begin();
+    for (; itr != m_cutItems.end(); itr++) {
+        if (scene == itr.key()) {
+            m_pCutItem = itr.value();
+            if (cut_free == type) {
+                //scene->setItemDisable(false);
+                m_pCutItem->setFlag(QGraphicsItem::ItemIsMovable, true);
+                m_pCutItem->setIsFreeMode(true);
+                m_pCutItem->setSelected(true);
+            } else {
+                m_pCutItem->setSelected(false);
+                m_pCutItem->doChangeType(type);
+            }
+            break;
         }
     }
 
     m_bModify = true;
 }
 
-void CCutTool::changeCutSize(const QSize &size)
+void CCutTool::changeCutSize(const CDrawScene *scene, const QSize &size)
 {
-    if (nullptr != m_pCutItem) {
-        m_pCutItem->doChangeSize(size.width(), size.height());
+    QMap<CDrawScene *, CGraphicsCutItem *>::iterator itr = m_cutItems.begin();
+    for (; itr != m_cutItems.end(); itr++) {
+        if (scene == itr.key()) {
+            m_pCutItem = itr.value();
+            m_pCutItem->doChangeSize(size.width(), size.height());
+            break;
+        }
     }
 
     m_bModify = true;
 }
 
-QRectF CCutTool::getCutRect()
+QRectF CCutTool::getCutRect(CDrawScene *scene)
 {
-    QRectF rect;
-
     qApp->setOverrideCursor(Qt::ArrowCursor);
 
-    if (nullptr != m_pCutItem) {
-        rect = m_pCutItem->rect();
-    }
+    QRectF rect;
 
+    QMap<CDrawScene *, CGraphicsCutItem *>::iterator itr = m_cutItems.begin();
+    for (; itr != m_cutItems.end(); itr++) {
+        if (scene == itr.key()) {
+            m_pCutItem = itr.value();
+            rect = m_pCutItem->rect();
+            break;
+        }
+    }
     return rect;
 }
 
@@ -233,3 +256,6 @@ void CCutTool::setModifyFlag(bool flag)
 {
     m_bModify = flag;
 }
+
+
+

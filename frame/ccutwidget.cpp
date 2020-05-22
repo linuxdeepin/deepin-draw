@@ -75,7 +75,43 @@ void CCutWidget::changeButtonTheme()
 
 void CCutWidget::updateButtonStatus()
 {
-    activeFreeMode();
+    // [0] update size
+    updateCutSize();
+
+    // [1] set all unchecked button
+    clearAllChecked();
+
+    // [2] set current checked button
+    ECutType current = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType();
+    switch (current) {
+    case ECutType::cut_1_1: {
+        m_scaleBtn1_1->setChecked(true);
+        break;
+    }
+    case ECutType::cut_2_3: {
+        m_scaleBtn2_3->setChecked(true);
+        break;
+    }
+    case ECutType::cut_8_5: {
+        m_scaleBtn8_5->setChecked(true);
+        break;
+    }
+    case ECutType::cut_16_9: {
+        m_scaleBtn16_9->setChecked(true);
+        break;
+    }
+    case ECutType::cut_free: {
+        m_freeBtn->setChecked(true);
+        break;
+    }
+    case ECutType::cut_original: {
+        m_originalBtn->setChecked(true);
+        break;
+    }
+    default: {
+        m_freeBtn->setChecked(true);
+    }
+    }
 }
 
 void CCutWidget::initUI()
@@ -276,7 +312,6 @@ void CCutWidget::initConnection()
         emit signalCutLineEditIsfocus(isfocus);
     });
 
-
     connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
 
         if (m_widthEdit->lineEdit()->hasFocus()) {
@@ -334,6 +369,7 @@ void CCutWidget::initConnection()
             auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
             curScene->doCutScene();
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
             emit curScene->signalChangeToSelect();
         }
     });
@@ -343,6 +379,7 @@ void CCutWidget::initConnection()
             auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
             curScene->quitCutMode();
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
             emit curScene->signalChangeToSelect();
         }
     });
@@ -390,8 +427,6 @@ void CCutWidget::initConnection()
             emit m_heightEdit->lineEdit()->textEdited(text);
         }
     });
-
-
 }
 
 void CCutWidget::activeFreeMode()

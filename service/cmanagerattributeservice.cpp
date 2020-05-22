@@ -569,7 +569,7 @@ void CManagerAttributeService::doCut()
             }
         } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
             if (nullptr != pTool) {
-                static_cast<CCutTool *>(pTool)->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
+                static_cast<CCutTool *>(pTool)->changeCutSize(m_currentScence, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
             }
         }
     }

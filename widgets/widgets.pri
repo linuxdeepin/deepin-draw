@@ -32,7 +32,8 @@ HEADERS += \
     $$PWD/ciconbutton.h \
     $$PWD/dmenucombobox.h \
     $$PWD/cspinbox.h \
-    $$PWD/dzoommenucombobox.h
+    $$PWD/dzoommenucombobox.h \
+    $$PWD/dialog/ccutdialog.h
 
 
 SOURCES += \
@@ -67,7 +68,8 @@ SOURCES += \
     $$PWD/ciconbutton.cpp \
     $$PWD/dmenucombobox.cpp \
     $$PWD/cspinbox.cpp \
-    $$PWD/dzoommenucombobox.cpp
+    $$PWD/dzoommenucombobox.cpp \
+    $$PWD/dialog/ccutdialog.cpp
 
 
 #RESOURCES += \
