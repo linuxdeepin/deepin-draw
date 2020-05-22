@@ -291,6 +291,11 @@ public slots:
      */
     void changeMouseShape(EDrawToolMode type);
 
+    QPixmap &scenPixMap();
+
+
+    void     renderSelfToPixmap();
+
     /**
      * @brief clearMutiSelectedState 清除多选状态
      */
@@ -329,6 +334,7 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    bool event(QEvent *event) Q_DECL_OVERRIDE;
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
@@ -348,6 +354,9 @@ private:
 
     CGraphicsItemSelectedMgr *m_pGroupItem;
     CGraphicsItemHighLight *m_pHighLightItem;
+
+    /* for Rendering optimization 准备好实时绘制时的场景位图 */
+    QPixmap m_scenePixMap;
 
 };
 

@@ -312,6 +312,7 @@ void CDDFManager::slotLoadDDFComplete()
     m_CProgressDialog->hide();
     m_view->getDrawParam()->setDdfSavePath(m_path);
     m_view->setModify(false);
+    m_view->renderScenePixmap();
     emit singalEndLoadDDF();
 }
 

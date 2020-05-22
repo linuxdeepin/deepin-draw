@@ -89,6 +89,13 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     initTextContextMenuConnection();
 
     initConnection();
+
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
+    viewport()->grabGesture(Qt::PinchGesture);
+    viewport()->grabGesture(Qt::PanGesture);
+    viewport()->grabGesture(Qt::SwipeGesture);
 }
 
 void CGraphicsView::zoomOut()
@@ -310,6 +317,23 @@ void CGraphicsView::initTextContextMenu()
     //m_textMenu->addAction(m_textTopAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
+
+    QList<QAction *> actions;
+    actions << m_cutAct << m_copyAct << m_pasteAct
+            << m_selectAllAct << m_deleteAct << m_undoAct
+            << m_redoAct << m_oneLayerUpAct << m_oneLayerDownAct
+            << m_bringToFrontAct << m_sendTobackAct;
+
+    auto fslot = [ = ]() {
+//        CDrawScene *scen = dynamic_cast<CDrawScene *>(scene());
+//        if (scen != nullptr) {
+//            scen->renderSelfToPixmap();
+//        }
+        this->renderScenePixmap();
+    };
+    for (QAction *act : actions) {
+        connect(act, QOverload<bool>::of(&QAction::triggered), this, fslot, Qt::QueuedConnection);
+    }
 }
 
 void CGraphicsView::initTextContextMenuConnection()
@@ -1310,6 +1334,16 @@ void CGraphicsView::setModify(bool isModify)
     curScene->setModify(isModify);
 }
 
+void CGraphicsView::renderScenePixmap()
+{
+    if (scene() != nullptr) {
+        CDrawScene *Scene = qobject_cast<CDrawScene *>(scene());
+        if (Scene != nullptr) {
+            Scene->renderSelfToPixmap();
+        }
+    }
+}
+
 
 void CGraphicsView::setContextMenuAndActionEnable(bool enable)
 {
@@ -1485,6 +1519,93 @@ void CGraphicsView::enterEvent(QEvent *event)
     if (nullptr != scene()) {
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->changeMouseShape(currentMode);
+    }
+}
+bool CGraphicsView::viewportEvent(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+    } else if (event->type() == QEvent::Gesture) {
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        if (currentMode == selection) {
+            return gestureEvent(static_cast<QGestureEvent *>(event));
+        }
+    }
+    return DGraphicsView::viewportEvent(event);
+}
+
+bool CGraphicsView::gestureEvent(QGestureEvent *event)
+{
+    /*    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+        else if (QGesture *pan = event->gesture(Qt::PanGesture))
+            panTriggered(static_cast<QPanGesture *>(pan));
+        else */if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    return true;
+}
+void CGraphicsView::panTriggered(QPanGesture *gesture)
+{
+#ifndef QT_NO_CURSOR
+    switch (gesture->state()) {
+    case Qt::GestureStarted:
+    case Qt::GestureUpdated:
+        //setCursor(Qt::SizeAllCursor);
+        break;
+    default:
+        //setCursor(Qt::ArrowCursor);
+        break;
+    }
+#endif
+    QPointF delta = gesture->delta();
+
+    Q_UNUSED(delta);
+
+    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() + qRound(delta.x()));
+    //verticalScrollBar()->setValue(verticalScrollBar()->value() + qRound(delta.x()));
+
+    update();
+}
+
+void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
+{
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        Q_UNUSED(rotationDelta);
+    }
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+
+        qreal stepScal = (gesture->totalScaleFactor() - 1.0);
+        qreal newRadio = getScale() + stepScal / qAbs(stepScal) / 100.0;
+        if (newRadio > 0.1 && newRadio < 20.0) {
+            //QCursor::setPos(gesture->hotSpot().toPoint());
+            setTransformationAnchor(AnchorViewCenter);
+            scale(newRadio);
+        }
+
+
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+//        scaleFactor *= currentStepScaleFactor;
+//        currentStepScaleFactor = 1;
+    }
+    update();
+}
+
+void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up) {
+            qDebug() << "swipeTriggered(): swipe to previous";
+            //goPrevImage();
+        } else {
+            qDebug() << "swipeTriggered(): swipe to next";
+            //goNextImage();
+        }
+        update();
     }
 }
 

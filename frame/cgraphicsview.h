@@ -24,6 +24,7 @@
 
 #include "widgets/cmenu.h"
 #include <DGraphicsView>
+#include <QGestureEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -120,6 +121,8 @@ public:
     bool getModify() const;
     void setModify(bool isModify);
 
+    void renderScenePixmap();
+
 protected:
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
@@ -187,6 +190,11 @@ protected:
     virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+    bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+    bool gestureEvent(QGestureEvent *event);
+    void panTriggered(QPanGesture *gesture);
+    void pinchTriggered(QPinchGesture *gesture);
+    void swipeTriggered(QSwipeGesture *gesture);
 signals:
     /**
      * @brief signalSetScale 设置缩放信号
