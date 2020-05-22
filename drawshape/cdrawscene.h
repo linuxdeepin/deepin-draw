@@ -329,6 +329,7 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    bool event(QEvent *event) Q_DECL_OVERRIDE;
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
