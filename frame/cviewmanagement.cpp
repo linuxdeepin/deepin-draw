@@ -31,6 +31,8 @@
 #include <QString>
 #include <QFileInfo>
 
+#include <sys/inotify.h>
+
 DWIDGET_USE_NAMESPACE
 
 CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
@@ -38,9 +40,12 @@ CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
 CManageViewSigleton::CManageViewSigleton(): QObject ()
 {
     m_thremeType = 0;
-//    initBlockShutdown();
 
-    QObject::connect(&m_ddfWatcher, &QFileSystemWatcher::fileChanged, this, &CManageViewSigleton::onDDfFileChanged);
+    //QObject::connect(&m_ddfWatcher, &QFileSystemWatcher::fileChanged, this, &CManageViewSigleton::onDDfFileChanged);
+
+
+    _ddfWatcher = new CFileWatcher(this);
+    connect(_ddfWatcher, &CFileWatcher::fileChanged, this, &CManageViewSigleton::onDdfFileChanged);
 }
 
 CManageViewSigleton *CManageViewSigleton::GetInstance()
@@ -228,27 +233,33 @@ bool CManageViewSigleton::isDdfFileOpened(const QString &path)
 
 bool CManageViewSigleton::wacthFile(const QString &file)
 {
-    if (file.isEmpty())
-        return false;
+//    if (file.isEmpty())
+//        return false;
 
-    bool ret = false;
-    if (!file.isEmpty()) {
-        if (m_ddfWatcher.files().indexOf(file) == -1)
-            ret = m_ddfWatcher.addPath(file);
-    }
-    return ret;
+//    bool ret = false;
+//    if (!file.isEmpty()) {
+//        if (m_ddfWatcher.files().indexOf(file) == -1)
+//            ret = m_ddfWatcher.addPath(file);
+//    }
+//    return ret;
+
+    _ddfWatcher->addWather(file);
+    return true;
 }
 
 bool CManageViewSigleton::removeWacthedFile(const QString &file)
 {
-    if (file.isEmpty())
-        return false;
+//    if (file.isEmpty())
+//        return false;
 
-    bool ret = false;
-    if (m_ddfWatcher.files().indexOf(file) != -1) {
-        ret = m_ddfWatcher.removePath(file);
-    }
-    return ret;
+//    bool ret = false;
+//    if (m_ddfWatcher.files().indexOf(file) != -1) {
+//        ret = m_ddfWatcher.removePath(file);
+//    }
+//    return ret;
+
+    _ddfWatcher->removePath(file);
+    return true;
 }
 
 void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
@@ -278,11 +289,28 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
                 return;
             } else {
                 dia = creatOneNoticeFileDialog(ddfFile, pView->parentWidget());
+
+
+                //设置显示文字与交互按钮
                 QString shortenFileName = QFontMetrics(dia->font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia->width() / 2);
                 dia->setMessage(tr("%1 has been modified in other programs. Do you want to reload it?").arg(shortenFileName));
                 int reload  = dia->addButton(tr("reload"), false, DDialog::ButtonNormal);
-                int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+                int cancel  = dia->addButton(tr("Cancel"), false, DDialog::ButtonWarning);
+
+
+                //设置message的两边间隙为10
+                QWidget *pWidget = dia->findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+                if (pWidget != nullptr) {
+                    QMargins margins = pWidget->contentsMargins();
+                    margins.setLeft(10);
+                    margins.setRight(10);
+                    pWidget->setContentsMargins(margins);
+                }
+
+                //运行交互窗口
                 int ret = dia->exec();
+
+                //交互窗口结束
                 removeNoticeFileDialog(dia);
                 if (ret == reload) {
 
@@ -313,22 +341,39 @@ void CManageViewSigleton::onDDfFileChanged(const QString &ddfFile)
             dia.setMessage(tr("%1 does not exist any longer. Do you want to keep it here?").arg(shortenFileName));
             dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
+            //设置message的两边间隙为10
+            QWidget *pWidget = dia.findChild<QWidget *>("MessageLabel"); //如果dtk修改了object名字，记得修改
+            if (pWidget != nullptr) {
+                QMargins margins = pWidget->contentsMargins();
+                margins.setLeft(10);
+                margins.setRight(10);
+                pWidget->setContentsMargins(margins);
+            }
+
             int keep  = dia.addButton(tr("Keep"), false, DDialog::ButtonNormal);
-            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonNormal);
+            int discard = dia.addButton(tr("Discard"), false, DDialog::ButtonWarning);
             int ret = dia.exec();
 
-            if (ret == keep) {
-                pView->getDrawParam()->setDdfSavePath("");
-                pCertralWidget->updateTitle();
+            Q_UNUSED(keep);
 
-            } else if (ret == discard) {
+            if (ret == discard) {
                 //直接关闭
                 pCertralWidget->closeSceneView(pView);
+            } else { /* if (ret == keep) */
+                pView->getDrawParam()->setDdfSavePath("");
+                pView->setModify(true);
+                pCertralWidget->updateTitle();
             }
         }
     }
 
     //qDebug() << QString("file(%1) changed slot end current watched files = ").arg(ddfFile) << m_ddfWatcher.files();
+}
+
+void CManageViewSigleton::onDdfFileChanged(const QString &ddfFile, int tp)
+{
+    Q_UNUSED(tp);
+    onDDfFileChanged(ddfFile);
 }
 
 int CManageViewSigleton::viewCount()
@@ -353,10 +398,10 @@ void CManageViewSigleton::initBlockShutdown()
           << QObject::tr("File not saved")          // why
           << QString("block");                        // mode
 
-    int fd = -1;
+    //int fd = -1;
     m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
     if (m_reply.isValid()) {
-        fd = m_reply.value().fileDescriptor();
+        /*fd = */(void)m_reply.value().fileDescriptor();
     }
     //如果for结束则表示没有发现未保存的tab项，则放开阻塞关机
     if (m_reply.isValid()) {
@@ -410,5 +455,125 @@ QByteArray CManageViewSigleton::getFileSrcData(const QString &file)
         qWarning() << QString("can not read, %1 is not exists!").arg(file);
     }
     return QByteArray();
+}
+CFileWatcher::CFileWatcher(QObject *parent): QThread (parent)
+{
+    _handleId = inotify_init();
+}
+
+CFileWatcher::~CFileWatcher()
+{
+    clear();
+}
+
+bool CFileWatcher::isVaild()
+{
+    return (_handleId != -1);
+}
+
+void CFileWatcher::addWather(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+    if (!isVaild())
+        return;
+
+    QFileInfo info(path);
+    if (!info.exists() || !info.isFile()) {
+        return;
+    }
+
+    if (watchedFiles.find(path) != watchedFiles.end()) {
+        return;
+    }
+
+    std::string sfile = path.toStdString();
+    int fileId = inotify_add_watch(_handleId, sfile.c_str(), IN_MODIFY | IN_DELETE_SELF | IN_MOVE_SELF);
+
+    watchedFiles.insert(path, fileId);
+    watchedFilesId.insert(fileId, path);
+
+    if (!_running) {
+        _running = true;
+        start();
+    }
+}
+
+void CFileWatcher::removePath(const QString &path)
+{
+    QMutexLocker loker(&_mutex);
+
+    if (!isVaild())
+        return;
+
+    auto itf = watchedFiles.find(path);
+    if (itf != watchedFiles.end()) {
+        inotify_rm_watch(_handleId, itf.value());
+
+        watchedFilesId.remove(itf.value());
+        watchedFiles.erase(itf);
+    }
+}
+
+void CFileWatcher::clear()
+{
+    QMutexLocker loker(&_mutex);
+
+    for (auto it : watchedFiles) {
+        inotify_rm_watch(_handleId, it);
+    }
+    watchedFilesId.clear();
+    watchedFiles.clear();
+}
+
+void CFileWatcher::run()
+{
+    doRun();
+}
+
+void CFileWatcher::doRun()
+{
+    if (!isVaild())
+        return;
+
+    char name[1024];
+    auto freadsome = [ = ](void *dest, size_t remain, FILE * file) {
+        char *offset = reinterpret_cast<char *>(dest);
+        while (remain) {
+            size_t n = fread(offset, 1, remain, file);
+            if (n == 0) {
+                return -1;
+            }
+
+            remain -= n;
+            offset += n;
+        }
+        return 0;
+    };
+
+    FILE *watcher_file = fdopen(_handleId, "r");
+
+    while (true) {
+        inotify_event event;
+        if ( -1 == freadsome(&event, sizeof(event), watcher_file) ) {
+            qWarning() << "------------- freadsome error !!!!!---------- ";
+        }
+        if (event.len) {
+            freadsome(name, event.len, watcher_file);
+        } else {
+            QMutexLocker loker(&_mutex);
+            auto itf = watchedFilesId.find(event.wd);
+            if (itf != watchedFilesId.end()) {
+                qDebug() << "file = " << itf.value() << " event.wd = " << event.wd << "event.mask = " << event.mask;
+
+                if (event.mask & IN_MODIFY) {
+                    emit fileChanged(itf.value(), EFileModified);
+                }
+
+                if (event.mask & IN_MOVE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                }
+            }
+        }
+    }
 }
 

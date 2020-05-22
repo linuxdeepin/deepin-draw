@@ -120,8 +120,10 @@ QString getFileContent(const QString &file)
 QList<QColor> specifiedColorList()
 {
     QList<QColor> colorList;
+    QColor colorTrasparent(Qt::white);
+    colorTrasparent.setAlpha(0);
     colorList
-            << QColor(Qt::transparent)  << QColor("#ff0c0c")  << QColor("#eb6100") << QColor("#fcfd0e") << QColor("#45FD14") << QColor("#52FEF6") << QColor("#2E00FF") << QColor("#F600FF")
+            << colorTrasparent  << QColor("#ff0c0c")  << QColor("#eb6100") << QColor("#fcfd0e") << QColor("#45FD14") << QColor("#52FEF6") << QColor("#2E00FF") << QColor("#F600FF")
             << QColor("#FF7087")  << QColor("#FE3C3B")  << QColor("#EC6941") << QColor("#FF9E0E") << QColor("#FFFD83") << QColor("#8FC31F") << QColor("#6BC989") << QColor("#4EC918")
             << QColor("#0292EA")  << QColor("#49B2F6")  << QColor("#72C8FF") << QColor("#85CCC8") << QColor("#89ABDA") << QColor("#958EF9") << QColor("#8A47FB") << QColor("#6B1AEE")
             << QColor("#FFFFFF")  << QColor("#E3E3E3")  << QColor("#C9C9C9") << QColor("#ADADAD") << QColor("#6F6F6F") << QColor("#404040") << QColor("#1B1B1B") << QColor("#000000");

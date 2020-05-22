@@ -47,6 +47,8 @@ public:
      * @param yScale y轴放大缩小比例
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress);
+
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
     void updateCoordinate();
     void drawComplete();
@@ -64,6 +66,7 @@ public:
     void setPixmap();
 
     void setDrawFlag(bool flag);
+    void savePathBeforResize(QPainterPath path);
 
     void calcVertexes();
     /**
@@ -85,6 +88,7 @@ protected:
 
 private:
     QPainterPath m_path;
+    QPainterPath m_pathBeforResize;//resize前保存路径信息
     QLineF m_straightLine;
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;

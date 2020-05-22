@@ -63,6 +63,7 @@
 #include <QWindow>
 #include <QScreen>
 #include <qscrollbar.h>
+#include <QTouchEvent>
 
 //升序排列用
 static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -108,26 +109,21 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
-    //setDragMode(ScrollHandDrag);
-
     viewport()->installEventFilter(this);
-    //viewport()->setFocusPolicy(Qt::ClickFocus);
-//    viewport()->grabKeyboard();
-//    viewport()->setFocusPolicy(Qt::StrongFocus);
-//    QAction *action = new QAction(viewport());
-//    action->setShortcut(QKeySequence(Qt::Key_Space));
-//    connect(action, &QAction::trigger, this, [ = ]() {
-//        _spaceKeyPressed = true;
-//        _tempCursor = *qApp->overrideCursor();
-//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
-//    });
-//    viewport()->addAction(action);
-
 
     //初始化后设置自身为焦点
     QMetaObject::invokeMethod(this, [ = ]() {
         this->setFocus();
     }, Qt::QueuedConnection);
+
+
+    this->acceptDrops();
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
+    viewport()->grabGesture(Qt::PinchGesture);
+    viewport()->grabGesture(Qt::PanGesture);
+    viewport()->grabGesture(Qt::SwipeGesture);
 }
 
 void CGraphicsView::zoomOut()
@@ -207,6 +203,9 @@ void CGraphicsView::initContextMenu()
     m_contextMenu = new CMenu(this);
     m_contextMenu->setFixedWidth(182);
 
+    m_layerMenu = new CMenu(tr("Layer"), this);
+    m_layerMenu->setFixedWidth(182);
+
     m_cutAct = new QAction(tr("Cut"), this);
     m_contextMenu->addAction(m_cutAct);
     m_cutAct->setShortcut(QKeySequence::Cut);
@@ -246,22 +245,22 @@ void CGraphicsView::initContextMenu()
     m_contextMenu->addSeparator();
 
     m_oneLayerUpAct = new QAction(tr("Raise Layer"), this);
-    m_contextMenu->addAction(m_oneLayerUpAct);
+    m_layerMenu->addAction(m_oneLayerUpAct);
     m_oneLayerUpAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketRight));
     this->addAction(m_oneLayerUpAct);
 
     m_oneLayerDownAct = new QAction(tr("Lower Layer"), this);
-    m_contextMenu->addAction(m_oneLayerDownAct);
+    m_layerMenu->addAction(m_oneLayerDownAct);
     m_oneLayerDownAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_BracketLeft));
     this->addAction(m_oneLayerDownAct);
 
     m_bringToFrontAct = new QAction(tr("Layer to Top"), this);
-    m_contextMenu->addAction(m_bringToFrontAct);
+    m_layerMenu->addAction(m_bringToFrontAct);
     m_bringToFrontAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketRight));
     this->addAction(m_bringToFrontAct);
 
     m_sendTobackAct = new QAction(tr("Layer to Bottom"), this);
-    m_contextMenu->addAction(m_sendTobackAct);
+    m_layerMenu->addAction(m_sendTobackAct);
     m_sendTobackAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_BracketLeft));
     this->addAction(m_sendTobackAct);
 
@@ -326,6 +325,9 @@ void CGraphicsView::initContextMenu()
 
     m_itemsHEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute horizontal space")); //水平等间距对齐
     m_itemsVEqulSpaceAlign = m_alignMenu->addAction(tr("Distribute vertical space")); //垂直等间距对齐
+
+    // 添加对齐菜单
+    m_contextMenu->addMenu(m_layerMenu);
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -488,6 +490,20 @@ void CGraphicsView::initContextMenuConnection()
         QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
         pushUndoStack(addCommand);
     });
+
+    // 连接鼠标hovered子菜单刷新图层状态
+    connect(m_contextMenu, &QMenu::hovered, this, [ = ](QAction * action) {
+        if (action->text() == tr("Layer") && m_layerMenu->isHidden()) {
+            // 此处由于图层菜单显示较慢，以下代码会重复执行几次，待后期进一步优化
+            bool layerUp = canLayerUp();
+            m_oneLayerUpAct->setEnabled(layerUp);
+            m_bringToFrontAct->setEnabled(layerUp);
+
+            bool layerDown = canLayerDown();
+            m_oneLayerDownAct->setEnabled(layerDown);
+            m_sendTobackAct->setEnabled(layerDown);
+        }
+    });
 }
 
 void CGraphicsView::initTextContextMenu()
@@ -499,49 +515,36 @@ void CGraphicsView::initTextContextMenu()
     m_textCopyAction = new QAction(tr("Copy"));
     m_textPasteAction = new QAction(tr("Paste"));
     m_textSelectAllAction = new QAction(tr("Select All"));
-
-    QAction *deleteAct = new QAction(tr("Delete"));
-    deleteAct->setEnabled(false);
-    QAction *undoAct = new QAction(tr("Undo"));
-    undoAct->setEnabled(false);
-
-    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
-    fakeRaiseLayerAct->setEnabled(false);
-    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
-    fakeLowerLayerAct->setEnabled(false);
-    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
-    fakeLayerToTopAct->setEnabled(false);
-    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
-    fakeLayerToBottomAct->setEnabled(false);
-
-    m_textLeftAlignAct = new QAction(tr("Text Align Left"));
-    //m_textTopAlignAct = new QAction(tr("Top Alignment"));
-    m_textRightAlignAct = new QAction(tr("Text Align Right" ));
-    m_textCenterAlignAct = new QAction(tr("Text Align Center"));
-
     m_textUndoAct = new QAction(tr("Undo"));
     m_textRedoAct = new QAction(tr("Redo"));
+    m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right" ));            // 右对齐
+    m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
+    m_textDeleteAction = new QAction(tr("Delete"));
+
+//    QAction *fakeRaiseLayerAct = new QAction(tr("Raise Layer"));
+//    fakeRaiseLayerAct->setEnabled(false);
+//    QAction *fakeLowerLayerAct = new QAction(tr("Lower Layer"));
+//    fakeLowerLayerAct->setEnabled(false);
+//    QAction *fakeLayerToTopAct = new QAction(tr("Layer to Top"));
+//    fakeLayerToTopAct->setEnabled(false);
+//    QAction *fakeLayerToBottomAct = new QAction(tr("Layer to Bottom"));
+//    fakeLayerToBottomAct->setEnabled(false);
 
     m_textMenu->addAction(m_textCutAction);
     m_textMenu->addAction(m_textCopyAction);
     m_textMenu->addAction(m_textPasteAction);
     m_textMenu->addAction(m_textSelectAllAction);
+    m_textMenu->addAction(m_textDeleteAction);
     m_textMenu->addSeparator();
-
-    m_textMenu->addAction(deleteAct);
-    //m_textMenu->addAction(undoAct);
     m_textMenu->addAction(m_textUndoAct);
     m_textMenu->addAction(m_textRedoAct);
-
     m_textMenu->addSeparator();
-
-    m_textMenu->addAction(fakeRaiseLayerAct);
-    m_textMenu->addAction(fakeLowerLayerAct);
-    m_textMenu->addAction(fakeLayerToTopAct);
-    m_textMenu->addAction(fakeLayerToBottomAct);
-
+//    m_textMenu->addAction(fakeRaiseLayerAct);
+//    m_textMenu->addAction(fakeLowerLayerAct);
+//    m_textMenu->addAction(fakeLayerToTopAct);
+//    m_textMenu->addAction(fakeLayerToBottomAct);
     m_textMenu->addAction(m_textLeftAlignAct);
-    //m_textMenu->addAction(m_textTopAlignAct);
     m_textMenu->addAction(m_textRightAlignAct);
     m_textMenu->addAction(m_textCenterAlignAct);
 }
@@ -552,15 +555,20 @@ void CGraphicsView::initTextContextMenuConnection()
     connect(m_textCopyAction, SIGNAL(triggered()), this, SLOT(slotOnTextCopy()));
     connect(m_textPasteAction, SIGNAL(triggered()), this, SLOT(slotOnTextPaste()));
     connect(m_textSelectAllAction, SIGNAL(triggered()), this, SLOT(slotOnTextSelectAll()));
-
-
-    connect(m_textLeftAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextLeftAlignment()));
-    //connect(m_textTopAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextTopAlignment()));
-    connect(m_textRightAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextRightAlignment()));
-    connect(m_textCenterAlignAct, SIGNAL(triggered()), this, SLOT(slotOnTextCenterAlignment()));
-
     connect(m_textUndoAct, SIGNAL(triggered()), this, SLOT(slotOnTextUndo()));
     connect(m_textRedoAct, SIGNAL(triggered()), this, SLOT(slotOnTextRedo()));
+    connect(m_textDeleteAction, SIGNAL(triggered()), this, SLOT(slotOnTextDelete()));
+
+    //  设置文字图元内部对齐方式
+    connect(m_textLeftAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignLeft);
+    });
+    connect(m_textRightAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignRight);
+    });
+    connect(m_textCenterAlignAct, &QAction::triggered, this, [ = ]() {
+        slotSetTextAlignment(Qt::AlignCenter);
+    });
 }
 
 void CGraphicsView::initConnection()
@@ -581,6 +589,10 @@ void CGraphicsView::initConnection()
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
+    if (qApp->mouseButtons() & Qt::LeftButton) {
+        return QGraphicsView::contextMenuEvent(event);
+    }
+
     QPointF pos = this->mapToScene(event->pos());
     QRectF rect = this->scene()->sceneRect();
 
@@ -604,7 +616,6 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
     int temp;
 
-
     if (!scene()->selectedItems().isEmpty()) {
         //如果是文字图元则显示其自己的右键菜单
         QGraphicsItem *item =  scene()->selectedItems().first();
@@ -616,15 +627,30 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
             } else {
                 ry = cursor().pos().ry();
             }
+
+            // 根据是否是两点情况显示对齐
+            if (!static_cast<CGraphicsTextItem *>(tmpitem)->getManResizeFlag()) {
+                m_textLeftAlignAct->setEnabled(false);
+                m_textRightAlignAct->setEnabled(false);
+                m_textCenterAlignAct->setEnabled(false);
+            } else {
+                m_textLeftAlignAct->setEnabled(true);
+                m_textRightAlignAct->setEnabled(true);
+                m_textCenterAlignAct->setEnabled(true);
+            }
+
             menuPos = QPoint(rx, ry);
             m_textMenu->move(menuPos);
             m_textMenu->show();
             m_visible = true;
+            showMenu(m_textMenu);
             return;
         } else {
             m_copyAct->setEnabled(true);
             m_cutAct->setEnabled(true);
             m_deleteAct->setEnabled(true);
+
+            m_layerMenu->setEnabled(true);
             m_bringToFrontAct->setVisible(true);
             m_sendTobackAct->setVisible(true);
             m_oneLayerUpAct->setVisible(true);
@@ -645,6 +671,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         m_cutAct->setEnabled(false);
         m_deleteAct->setEnabled(false);
 
+        m_layerMenu->setEnabled(false);
         m_bringToFrontAct->setVisible(false);
         m_sendTobackAct->setVisible(false);
         m_oneLayerUpAct->setVisible(false);
@@ -972,10 +999,6 @@ void CGraphicsView::slotOnCut()
 
 void CGraphicsView::slotOnCopy()
 {
-    //    if (scene()->selectedItems().isEmpty()) {
-    //        return;
-    //    }
-
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
@@ -985,7 +1008,6 @@ void CGraphicsView::slotOnCopy()
                 allItems.push_back(item);
             }
         }
-        curScene->getItemsMgr()->hide();
     } else {
         QList<QGraphicsItem *> curSeleteItems = scene()->selectedItems();
 
@@ -1339,7 +1361,6 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
-    //    qDebug() << "***************DoCut";
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
@@ -1409,46 +1430,13 @@ void CGraphicsView::slotOnTextSelectAll()
     }
 }
 
-void CGraphicsView::slotOnTextTopAlignment()
+void CGraphicsView::slotSetTextAlignment(const Qt::Alignment &align)
 {
     if (!scene()->selectedItems().isEmpty()) {
         QGraphicsItem *item =  scene()->selectedItems().first();
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
         if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doTopAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextRightAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doRightAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextLeftAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doLeftAlignment();
-        }
-    }
-}
-
-void CGraphicsView::slotOnTextCenterAlignment()
-{
-    if (!scene()->selectedItems().isEmpty()) {
-        QGraphicsItem *item =  scene()->selectedItems().first();
-        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
-        if (TextType == item->type() &&  tmpitem->isEditable()) {
-            tmpitem->doCenterAlignment();
+            tmpitem->setSelectTextBlockAlign(align);
         }
     }
 }
@@ -1471,6 +1459,17 @@ void CGraphicsView::slotOnTextRedo()
         CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
         if (TextType == item->type() &&  tmpitem->isEditable()) {
             tmpitem->doRedo();
+        }
+    }
+}
+
+void CGraphicsView::slotOnTextDelete()
+{
+    if (!scene()->selectedItems().isEmpty()) {
+        QGraphicsItem *item =  scene()->selectedItems().first();
+        CGraphicsTextItem *tmpitem = static_cast<CGraphicsTextItem *>(item);
+        if (TextType == item->type() &&  tmpitem->isEditable()) {
+            tmpitem->doDelete();
         }
     }
 }
@@ -1782,7 +1781,7 @@ void CGraphicsView::updateSelectedItemsAlignment(Qt::AlignmentFlag align)
             break;
         }
         }
-        endPos.insert(allItems.at(0), topLeft);
+        endPos.insert(allItems.at(0), allItems.at(0)->scenRect().topLeft());
     }
 
     // [4] 设置出入栈
@@ -2103,23 +2102,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
 {
     if (viewport() == o) {
         bool finished = false;
-        /*if (e->type() == QEvent::KeyPress ) {
-            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
-            if (event->key() == Qt::Key_Space) {
-                _spaceKeyPressed = true;
-                _tempCursor = *qApp->overrideCursor();
-                qApp->setOverrideCursor(Qt::ClosedHandCursor);
-
-                finished = true;
-            }
-        } else if (e->type() == QEvent::KeyRelease) {
-            QKeyEvent *event = dynamic_cast<QKeyEvent *>(e);
-            if (event->key() == Qt::Key_Space) {
-                _spaceKeyPressed = false;
-                qApp->setOverrideCursor(_tempCursor);
-                finished = true;
-            }
-        } else */if (e->type() == QEvent::MouseButtonPress) {
+        if (e->type() == QEvent::MouseButtonPress) {
             QMouseEvent *event = dynamic_cast<QMouseEvent *>(e);
             _pressBeginPos = event->pos();
             _recordMovePos = _pressBeginPos;
@@ -2156,6 +2139,94 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
         return finished;
     }
     return DGraphicsView::eventFilter(o, e);
+}
+
+bool CGraphicsView::viewportEvent(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+    } else if (event->type() == QEvent::Gesture) {
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        if (currentMode == selection) {
+            return gestureEvent(static_cast<QGestureEvent *>(event));
+        }
+    }
+    return DGraphicsView::viewportEvent(event);
+}
+
+bool CGraphicsView::gestureEvent(QGestureEvent *event)
+{
+    /*    if (QGesture *swipe = event->gesture(Qt::SwipeGesture))
+            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+        else if (QGesture *pan = event->gesture(Qt::PanGesture))
+            panTriggered(static_cast<QPanGesture *>(pan));
+        else */if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    return true;
+}
+void CGraphicsView::panTriggered(QPanGesture *gesture)
+{
+#ifndef QT_NO_CURSOR
+    switch (gesture->state()) {
+    case Qt::GestureStarted:
+    case Qt::GestureUpdated:
+        //setCursor(Qt::SizeAllCursor);
+        break;
+    default:
+        //setCursor(Qt::ArrowCursor);
+        break;
+    }
+#endif
+    QPointF delta = gesture->delta();
+
+    Q_UNUSED(delta);
+
+    //horizontalScrollBar()->setValue(horizontalScrollBar()->value() + qRound(delta.x()));
+    //verticalScrollBar()->setValue(verticalScrollBar()->value() + qRound(delta.x()));
+
+    update();
+}
+
+void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
+{
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        Q_UNUSED(rotationDelta);
+    }
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+
+        qreal stepScal = (gesture->totalScaleFactor() - 1.0);
+        qreal newRadio = getScale() + stepScal / qAbs(stepScal) / 100.0;
+        if (newRadio > 0.1 && newRadio < 20.0) {
+            QCursor::setPos(gesture->hotSpot().toPoint());
+            setTransformationAnchor(AnchorUnderMouse);
+            scale(newRadio);
+        }
+
+
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+//        scaleFactor *= currentStepScaleFactor;
+//        currentStepScaleFactor = 1;
+    }
+    update();
+}
+
+void CGraphicsView::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up) {
+            qDebug() << "swipeTriggered(): swipe to previous";
+            //goPrevImage();
+        } else {
+            qDebug() << "swipeTriggered(): swipe to next";
+            //goNextImage();
+        }
+        update();
+    }
 }
 
 

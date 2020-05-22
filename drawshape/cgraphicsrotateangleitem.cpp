@@ -29,13 +29,15 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scal
     m_width = 45.;
     m_height = 20.;
     m_fontSize = 11.;
-
+    m_scale = scale;
     m_width = m_width / scale;
     m_height = m_height / scale;
     m_fontSize = m_fontSize / scale;
     m_textFont.setPointSizeF(m_fontSize);
 
     setRect(-m_width / 2, -m_height / 2, m_width, m_height);
+
+    setFlag(ItemIsSelectable, false);
 }
 
 CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent)
@@ -49,6 +51,10 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rot
 void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
 {
     m_rotateAngle =  rotateAngle;
+    QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
+    QFontMetrics fontMetrics(m_textFont);
+    m_width = fontMetrics.width(angle);
+    setRect(-m_width / 2, -m_height / 2, m_width, m_height);
 }
 
 void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -56,28 +62,18 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    //painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-    painter->setPen(Qt::NoPen);
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        painter->setBrush(QColor("#ececf8"));
-    } else {
-        painter->setBrush(QColor("#000000"));
-    }
-
     painter->save();
     painter->setClipping(false);
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QColor("#E5E5E5"));
     painter->drawRoundRect(rect());
 
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
-
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        painter->setPen(Qt::black);
-    } else {
-        painter->setPen(Qt::white);
-    }
+    painter->setPen(Qt::black);
 
     painter->setFont(m_textFont);
-
     painter->drawText(rect(), Qt::AlignCenter, angle);
+
     painter->restore();
 }

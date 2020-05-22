@@ -91,6 +91,9 @@ public:
      * @brief quitCutMode 退出裁剪
      */
     void quitCutMode();
+    /**
+     * @brief doCutScene 进行裁剪
+     */
     void doCutScene();
     /**
      * @brief doAdjustmentScene 自适应
@@ -309,6 +312,9 @@ protected:
 
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
+
+    virtual bool event(QEvent *event) override;
 
     /**
      * @brief drawItems 绘制所有图元

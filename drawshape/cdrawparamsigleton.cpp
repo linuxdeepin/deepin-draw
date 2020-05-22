@@ -25,6 +25,7 @@
 CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
+    , m_rectXRedius(5)
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
@@ -36,7 +37,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_bCtlKeyPress(false)
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
-    , m_cutType(ECutType::cut_free)
+    , m_cutType(ECutType::cut_done)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
     , m_isModify(isModified)
@@ -44,19 +45,18 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
-    , m_renderImage(0)
-    , m_bSelectAlling(false)
-    , m_rectXRedius(5)
     , m_lineStartType(ELineType::noneLine)
     , m_lineEndType(ELineType::noneLine)
     , m_penStartType(ELineType::noneLine)
     , m_penEndType(ELineType::noneLine)
+    , m_renderImage(0)
+    , m_bSelectAlling(false)
 {
     m_nFillColor = Qt::white;
     m_nFillColor.setAlpha(0);//transparent
     m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
-    m_textFont.setStyleName(QObject::tr("Regular"));
+    m_textFont.setStyleName("Regular");
 
     if (uuid.isEmpty()) {
         m_keyUUID = creatUUID();

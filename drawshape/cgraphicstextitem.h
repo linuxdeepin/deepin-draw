@@ -82,13 +82,10 @@ public:
     void doCopy();
     void doPaste();
     void doSelectAll();
-    void doTopAlignment();
-    void doRightAlignment();
-    void doLeftAlignment();
-    void doCenterAlignment();
+    void setSelectTextBlockAlign(const Qt::Alignment &align);
     void doUndo();
     void doRedo();
-
+    void doDelete();
 
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);

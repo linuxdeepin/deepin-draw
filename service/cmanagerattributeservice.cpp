@@ -43,11 +43,6 @@
 #include <QGraphicsItem>
 #include <QDebug>
 
-//降序排列用
-static bool zValueSortDES(CGraphicsItem *info1, CGraphicsItem *info2)
-{
-    return info1->zValue() >= info2->zValue();
-}
 //升序排列用
 static bool zValueSortASC(CGraphicsItem *info1, CGraphicsItem *info2)
 {
@@ -574,7 +569,7 @@ void CManagerAttributeService::doCut()
             }
         } else if (attributeType == ECutAttributeType::LineEditeAttribute) {
             if (nullptr != pTool) {
-                static_cast<CCutTool *>(pTool)->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
+                static_cast<CCutTool *>(pTool)->changeCutSize(m_currentScence, CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize());
             }
         }
     }
@@ -596,9 +591,9 @@ int CManagerAttributeService::getSelectedColorAlpha(DrawStatus drawstatus)
             CGraphicsItem *itemFirst = dynamic_cast<CGraphicsItem *>(allItems.at(0));
             if (itemFirst != nullptr) {
                 if (drawstatus == DrawStatus::Fill) {
-                    alphaTemp = itemFirst->pen().color().alpha();
-                } else if (drawstatus == DrawStatus::Stroke) {
                     alphaTemp = itemFirst->brush().color().alpha();
+                } else if (drawstatus == DrawStatus::Stroke) {
+                    alphaTemp = itemFirst->pen().color().alpha();
                 } else if (drawstatus == DrawStatus::TextFill) {
                     if (itemFirst->type() == TextType) {
                         alphaTemp = static_cast<CGraphicsTextItem *>(itemFirst)->getTextColor().alpha();

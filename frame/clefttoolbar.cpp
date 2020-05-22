@@ -224,6 +224,14 @@ void CLeftToolBar::slotAfterQuitCut()
     }
 }
 
+void CLeftToolBar::slotEnterCut()
+{
+    if (!m_cutBtn->isChecked()) {
+        m_cutBtn->setIcon(QIcon::fromTheme("ddc_screenshot tool_active"));
+        m_cutBtn->setChecked(true);
+    }
+}
+
 void CLeftToolBar::clearOtherSelections(DToolButton *clickedButton)
 {
     foreach (DToolButton *button, m_actionButtons) {
@@ -270,11 +278,8 @@ void CLeftToolBar::clearOtherSelections(DToolButton *clickedButton)
     }
 }
 
-
-
 void CLeftToolBar::initConnection()
 {
-
     connect(m_selectBtn, &DToolButton::clicked, [this]() {
         m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
         m_selectBtn->setChecked(true);
@@ -381,6 +386,7 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_cutBtn);
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
         emit setCurrentDrawTool(cut);
         emit signalBegainCut();
     });

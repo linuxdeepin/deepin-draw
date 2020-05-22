@@ -18,6 +18,8 @@ public:
 
     bool isChangedByWheelEnd();
 
+    void setValueChangedKeepFocus(bool b);
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
@@ -39,6 +41,9 @@ private:
     QTimer *_wheelTimer = nullptr;
     bool    _wheelbegin = false;
     bool    _wheelEnd   = false;
+
+
+    bool    _keepFocus = false;
 };
 
 #endif // CSPINBOX_H

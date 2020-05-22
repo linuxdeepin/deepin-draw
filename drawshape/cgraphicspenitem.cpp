@@ -33,27 +33,26 @@ const int SmoothMaxCount = 10;
 // 绘制起始终点的最小矩形范围
 const QSizeF minRectSize(10, 10);
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
-
-}
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
+//}
 
 
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
@@ -402,10 +401,6 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
     QRectF rect = this->rect();
-    QPointF bottomRight = rect.bottomRight();
-    QPointF topLeft = rect.topLeft();
-    QPointF topRight = rect.topRight();
-    QPointF bottomLeft = rect.bottomLeft();
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
     QTransform transform;
@@ -926,6 +921,563 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 //    m_arrow = arrow;
     m_path = path;
     this->moveBy(offset.x(), offset.y());
+    calcVertexes();
+    updateGeometry();
+}
+
+void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+{
+    pressRect = mapRectFromScene(pressRect);
+    QRectF rect = this->rect();
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
+    QTransform transform;
+    QPainterPath path;
+    QPolygonF arrow;
+    QPointF arrowOffset;
+    if (!shiftKeyPress && !altKeyPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.right() - (pressRect.right() - element.x) * xScale, element.y);
+                point.setY(pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                point.setX(pressRect.left() + (element.x - pressRect.left())*xScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.left() + (element.x - pressRect.left())*xScale, element.y);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.left() + (element.x - pressRect.left())*xScale, element.y);
+                point.setY(pressRect.top() + (element.y - pressRect.top()) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.top() + (element.y - pressRect.top()) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.right() - (pressRect.right() - element.x) * xScale, element.y);
+                point.setY(pressRect.top() + (element.y - pressRect.top()) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.right() - (pressRect.right() - element.x) * xScale, element.y);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //按住SHIFT等比拉伸
+    else if ((shiftKeyPress && !altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.bottom() - (pressRect.bottom() - element.y) * yScale);
+                point.setX(pressRect.left() + (element.x - pressRect.left())*xScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.left() + (element.x - pressRect.left())*xScale, element.y);
+                point.setY(element.y + (pressRect.top() + pressRect.height() / 2 - element.y) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.left() + (element.x - pressRect.left())*xScale, element.y);
+                point.setY(pressRect.top() + (element.y - pressRect.top()) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, pressRect.top() + (element.y - pressRect.top()) * yScale);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.right() - (pressRect.right() - element.x) * xScale, element.y);
+                point.setY(pressRect.top() + (element.y - pressRect.top()) * yScale);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(pressRect.right() - (pressRect.right() - element.x) * xScale, element.y);
+                point.setY(element.y + (pressRect.top() + pressRect.height() / 2 - element.y) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //中心拉伸
+    else if ((!shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                point.setX(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale), element.y);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale), element.y);
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale), element.y);
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //等比中心拉伸
+    else if ((shiftKeyPress && altKeyPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Top:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Right:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x - (element.x - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        case CSizeHandleRect::Left:
+            for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
+                QPainterPath::Element element = m_pathBeforResize.elementAt(i);
+                QPointF point(element.x, element.y);
+                point.setX(element.x + (pressRect.left() + pressRect.width() / 2 - element.x) * (1 - xScale));
+                point.setY(element.y + (pressRect.bottom() - element.y - pressRect.height() / 2) * (1 - yScale));
+                if (i == 0) {
+                    path.moveTo(point);
+                } else {
+                    path.lineTo(point);
+                }
+                if (i == (m_pathBeforResize.elementCount() - 1)) {
+                    arrowOffset.setX(point.x() - element.x);
+                    arrowOffset.setY(point.y() - element.y);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    m_path = path;
+    //this->moveBy(offset.x(), offset.y());
+    calcVertexes();
     updateGeometry();
 }
 
@@ -979,8 +1531,8 @@ void CGraphicsPenItem::drawStart()
     }
 
     QLineF line;
-    if (!m_isStartWithLine && m_path.elementCount() > 10) { // 开始画曲线
-        line = QLineF(m_path.elementAt(0), m_path.elementAt(10));
+    if (!m_isStartWithLine && m_path.elementCount() > 2) { // 开始画曲线
+        line = QLineF(m_path.elementAt(0), m_path.elementAt(2));
     } else if (!m_isStartWithLine && m_path.elementCount() > 1) {
         line = QLineF(m_path.elementAt(0), m_path.elementAt(1));
     } else { // 开始画直线
@@ -1013,10 +1565,16 @@ void CGraphicsPenItem::drawStart()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_startPath = QPainterPath(p1);
+        m_startPath.lineTo(p2);
+        m_startPath.moveTo(p1);
         m_startPath.lineTo(p3);
         m_startPath.moveTo(p1);
-        m_startPath.lineTo(p2);
+        QPointF center = (p2 + p3) / 2;
+        m_startPath.lineTo(center);
         m_startPath.moveTo(p1);
         break;
     }
@@ -1109,10 +1667,16 @@ void CGraphicsPenItem::drawEnd()
         break;
     }
     case normalArrow: {
+        p1 += diffV;
+        p2 += diffV;
+        p3 += diffV;
         m_endPath = QPainterPath(p1);
         m_endPath.lineTo(p2);
         m_endPath.moveTo(p1);
         m_endPath.lineTo(p3);
+        m_endPath.moveTo(p1);
+        QPointF center = (p2 + p3) / 2;
+        m_endPath.lineTo(center);
         m_endPath.moveTo(p1);
         break;
     }
@@ -1237,6 +1801,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     endCheckIns(painter);
 
     if (this->getMutiSelect()) {
+        painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
 //        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
@@ -1248,6 +1813,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
+        painter->setClipping(true);
     }
 }
 
@@ -1314,6 +1880,11 @@ void CGraphicsPenItem::setPixmap()
 void CGraphicsPenItem::setDrawFlag(bool flag)
 {
     m_isDrawing = flag;
+}
+
+void CGraphicsPenItem::savePathBeforResize(QPainterPath path)
+{
+    m_pathBeforResize = path;
 }
 
 void CGraphicsPenItem::initHandle()

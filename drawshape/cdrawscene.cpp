@@ -40,6 +40,7 @@
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
 #include "widgets/ctextedit.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -166,37 +167,6 @@ void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 //        }
         painter->fillRect(sceneRect(), Qt::white);
     }
-
-    /*QGraphicsScene::drawBackground(painter, rect);
-
-    QPainterPath path;
-    path.addRoundedRect(sceneRect(), 20, 20);
-
-    int SHADOW_WIDTH = 10;
-    QRectF sceneRect = this->sceneRect();
-    if (CDrawParamSigleton::GetInstance()->getThemeType() == 1) {
-
-        painter->setPen(Qt::NoPen);
-        painter->fillPath(path, Qt::white);
-        painter->drawPath(path);
-
-        QColor color(50, 50, 50, 30);
-        for (int i = 0; i < SHADOW_WIDTH; i++) {
-            color.setAlpha(120 - qSqrt(i) * 40);
-            painter->setPen(color);
-
-            QPainterPath tmpPath;
-            tmpPath.addRoundedRect(sceneRect.x() - i, sceneRect.y() - i, sceneRect.width() + 2 * i, sceneRect.height() + 2 * i, 20, 20);
-            painter->drawPath(tmpPath);
-            // 圆角阴影边框;
-            //painter->drawRoundedRect(SHADOW_WIDTH - i, SHADOW_WIDTH - i, sceneRect().width() - (SHADOW_WIDTH - i) * 2, sceneRect().height() - (SHADOW_WIDTH - i) * 2, 4, 4);
-        }
-        //painter->fillRect(sceneRect(), Qt::white);
-    } else {
-        painter->setPen(Qt::NoPen);
-        painter->fillPath(path, QColor(40, 40, 40));
-        painter->drawPath(path);
-    }*/
 }
 
 void CDrawScene::resetSceneBackgroundBrush()
@@ -220,29 +190,12 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-//    m_pressBeginPos  = mouseEvent->screenPos();
-//    m_pressRecordPos = m_pressBeginPos;
+    qDebug() << "---------------CDrawScene::mousePressEvent ---------- ";
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
-    //判断如果点在字体内，则变为选择工具
-    /*QPointF pos = mouseEvent->scenePos();
-    CGraphicsTextItem *textItem = nullptr;
-    m_bIsEditTextFlag = false;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    foreach (QGraphicsItem *item, items) {
-        if (item->type() == TextType) {
-            textItem = static_cast<CGraphicsTextItem *>(item);
-            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
-            break;
-        }
-    }*/
-
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    /*if (currentMode == text &&  m_bIsEditTextFlag && textItem->rect().contains(pos)) {
-        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    }*/
     if ( nullptr != pTool) {
         pTool->mousePressEvent(mouseEvent, this);
     }
@@ -253,71 +206,34 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (isBlockMouseMoveEvent())
         return;
 
-    //有限判断是不是手形工具场景卷轴移动
-//    bool isSpaceKeyPressed = true;
-//    if (isSpaceKeyPressed && mouseEvent->buttons() & Qt::LeftButton) {
-//        //移动卷轴
-//        QPointF mov = mouseEvent->screenPos() - m_pressRecordPos;
-//        //qDebug() << "mov =========== " << mov;
-//        QGraphicsView *pView = views().isEmpty() ? nullptr : views().first();
-//        if (pView != nullptr) {
-//            int horValue = pView->horizontalScrollBar()->value() - qRound(mov.x());
-//            qDebug() << "old hor value = " << pView->horizontalScrollBar()->value() << "new hor value = " << horValue;
-//            pView->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), pView->horizontalScrollBar()->maximum()));
-
-//            int verValue = pView->verticalScrollBar()->value() - qRound(mov.y());
-//            //pView->verticalScrollBar()->setValue(qMin(qMax(0, verValue), pView->verticalScrollBar()->maximum()));
-//        }
-//        m_pressRecordPos = mouseEvent->screenPos();
-//        //QGraphicsScene::mouseMoveEvent(mouseEvent);
-//        return;
-//    }
-
-    /*m_bIsEditTextFlag = false;
-    QList<QGraphicsItem *> items = this->selectedItems();
-    foreach (QGraphicsItem *item, items) {
-        if (item->type() == TextType) {
-            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
-            break;
-        }
-    }*/
-
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    /*if (currentMode == text && m_bIsEditTextFlag) {
-        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    }*/
     if ( nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
-
-    //m_pressRecordPos = mouseEvent->screenPos();
 }
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-//    m_bIsEditTextFlag = false;
-//    QList<QGraphicsItem *> items = this->selectedItems();
-//    foreach (QGraphicsItem *item, items) {
-//        if (item->type() == TextType) {
-//            m_bIsEditTextFlag = static_cast<CGraphicsTextItem *>(item)->isEditable();
-//            break;
-//        }
-//    }
+    qDebug() << "---------------CDrawScene::mouseReleaseEvent ---------- ";
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-//    if (currentMode == text && m_bIsEditTextFlag) {
-//        pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-//    }
+    IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
+    bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if ( nullptr != pTool) {
         pTool->mouseReleaseEvent(mouseEvent, this);
-//        if (pTool->getDrawToolMode() != cut) {
-//            CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-//            emit signalChangeToSelect();
-//        }
+        if (nullptr != pToolSelect && pTool != pToolSelect) {
+            //修改bug26618，不是很合理，后期有优化时再作修正
+            if (!shiftKeyPress && this->selectedItems().count() == 1) {
+                if (this->selectedItems().at(0)->type() > QGraphicsItem::UserType && this->selectedItems().at(0)->type() < MgrType) {
+                    pToolSelect->m_noShiftSelectItem = this->selectedItems().at(0);
+                }
+            }
+        }
     }
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -328,6 +244,57 @@ void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if ( nullptr != pTool) {
         pTool->mouseDoubleClickEvent(mouseEvent, this);
     }
+}
+
+bool CDrawScene::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+
+        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+        QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+//        if (currentMode != pen) {
+//            return QGraphicsScene::event(event);
+//        }
+
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if (nullptr != pTool) {
+            if (evType != QEvent::TouchUpdate)
+                pTool->toolClear();
+        }
+
+        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
+            switch (tp.state() ) {
+            case Qt::TouchPointPressed:
+                //表示触碰按下
+                QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
+                pTool->toolStart(&e);
+                break;
+            case Qt::TouchPointMoved:
+                //触碰移动
+                pTool->toolUpdate(&e);
+                break;
+            case Qt::TouchPointReleased:
+                //触碰离开
+                pTool->toolFinish(&e);
+                break;
+            default:
+                break;
+            }
+        }
+        if (evType == QEvent::TouchEnd && currentMode == pen) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit this->signalChangeToSelect();
+        }
+        event->accept();
+        return true;
+    }
+    return QGraphicsScene::event(event);
 }
 
 void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[], QWidget *widget)
@@ -387,11 +354,12 @@ void CDrawScene::doCutScene()
     if (cut == mode) {
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
         if (nullptr != pTool) {
-            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect();
+            QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect(this);
             if (!rect.isNull() && static_cast<CCutTool *>(pTool)->getModifyFlag()) {
-                emit signalSceneCut(rect);
+                dynamic_cast<CGraphicsView *>(this->views().first())->itemSceneCut(rect);
             }
             quitCutMode();
+            this->getDrawParam()->setModify(true);
             setModify(true);
         }
     }
@@ -452,9 +420,17 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
     case text:
         qApp->setOverrideCursor(m_textMouse);
         break;
-    case blur:
-        qApp->setOverrideCursor(m_blurMouse);
+    case blur: {
+        // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
+        double scanleRate = 0.5 / (500 - 5);
+        int blur_width = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth();
+        scanleRate = scanleRate * blur_width + 1.0;
+
+        QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
+        pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
+        qApp->setOverrideCursor(pix);
         break;
+    }
     case cut:
         qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         break;

@@ -68,6 +68,11 @@ public slots:
      */
     void slotAfterQuitCut();
     /**
+     * @brief slotEnterCut　进入裁剪后更新工具栏
+     */
+    void slotEnterCut();
+
+    /**
      * @brief slotShortCutSelect　选择按钮快捷键功能
      */
     void slotShortCutSelect(bool showToolMidWidget = true);

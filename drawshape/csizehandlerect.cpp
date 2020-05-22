@@ -46,7 +46,8 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     setCacheMode(NoCache);
     setSharedRenderer(&m_lightRenderer);
     hide();
-
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
 }
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
@@ -59,6 +60,9 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     setParentItem(parent);
     setCacheMode(NoCache);
     hide();
+
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
 }
 
 CGraphicsView *CSizeHandleRect::curView() const
@@ -198,6 +202,9 @@ QRectF CSizeHandleRect::boundingRect() const
 void CSizeHandleRect::setVisible(bool flag)
 {
     m_bVisible = flag;
+    if (parentItem() != nullptr && parentItem()->isSelected()) {
+        m_bVisible ? show() : hide();
+    }
 }
 
 bool CSizeHandleRect::getVisible() const

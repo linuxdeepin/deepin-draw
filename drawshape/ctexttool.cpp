@@ -51,16 +51,15 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
         item->getTextEdit()->setText(QObject::tr("Input text here"));
-        item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        item->getTextEdit()->setAlignment(Qt::AlignLeft );
 
         item->getTextEdit()->selectAll();
 
         QFontMetrics fm(font);
         QSizeF size = item->getTextEdit()->document()->size();
-        QRectF rect = item->rect();
-        rect.setHeight(size.height());
-        rect.setWidth(size.width());
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width(), rect.height()));
+        // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
+
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
             item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
         } else {

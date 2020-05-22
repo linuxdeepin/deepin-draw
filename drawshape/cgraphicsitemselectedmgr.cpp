@@ -4,6 +4,7 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 #include "cgraphicsitem.h"
+#include "cgraphicspenitem.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
 #include <QPainter>
@@ -20,6 +21,9 @@ CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
 
 void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
 {
+    if (item == nullptr)
+        return;
+
     //防止添加自己
     if (item == this)
         return;
@@ -125,12 +129,233 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
 
 void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    //qDebug() << "CGraphicsItemSelectedMgr resizeTo 2" << endl;
-    return;
-    prepareGeometryChange();
-    foreach (CGraphicsItem *item, m_listItems) {
-        item->resizeTo(dir, point, bShiftPress, bAltPress);
+    QRectF pressRect = m_mapItemsRect[this];
+    if (!couldResize(pressRect, point, dir, bShiftPress, bAltPress)) {
+        return;
     }
+    bool shiftKeyPress = bShiftPress;
+    bool altKeyPress = bAltPress;
+    //超出可移动范围后重新计算缩放点
+    QPointF mousePos = getMinPoint(pressRect, point, dir, bShiftPress, bAltPress);
+    prepareGeometryChange();
+    qreal xScale = 1;
+    qreal yScale = 1;
+    foreach (CGraphicsItem *item, m_listItems) {
+        if (!shiftKeyPress && !altKeyPress) {
+            switch (dir) {
+            case CSizeHandleRect::LeftTop: {
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::Top: {
+                xScale = 1;
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::RightTop: {
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::Right: {
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = 0;
+            }
+            break;
+            case CSizeHandleRect::RightBottom: {
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::Bottom: {
+                xScale = 1;
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::LeftBottom: {
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+            }
+            break;
+            case CSizeHandleRect::Left: {
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = 1;
+            }
+            break;
+            default:
+                break;
+            }
+        }
+        //按住SHIFT等比拉伸
+        else if ((shiftKeyPress && !altKeyPress) ) {
+            switch (dir) {
+            case CSizeHandleRect::LeftTop:
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Top: {
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+                xScale = yScale;
+            }
+            break;
+            case CSizeHandleRect::RightTop:
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y()) / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Right: {
+                qDebug() << "CGraphicsItemSelectedMgr CSizeHandleRect::Right bShiftPress" <<  endl;
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = xScale;
+            }
+            break;
+            case CSizeHandleRect::RightBottom:
+                xScale = (mousePos.x() - pressRect.left()) / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Bottom: {
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+                xScale = yScale;
+            }
+            break;
+            case CSizeHandleRect::LeftBottom:
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top()) / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Left: {
+                xScale = (pressRect.right() - mousePos.x()) / pressRect.width();
+                yScale = xScale;
+            }
+            break;
+            default:
+                break;
+            }
+        }
+        //中心拉伸
+        else if ((!shiftKeyPress && altKeyPress) ) {
+            switch (dir) {
+            case CSizeHandleRect::LeftTop:
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::Top:
+                xScale = 0;
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::RightTop:
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::Right:
+                qDebug() << "CGraphicsItemSelectedMgr CSizeHandleRect::Right bAltPress" <<  endl;
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = 0;
+                break;
+            case CSizeHandleRect::RightBottom:
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::Bottom:
+                xScale = 0;
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::LeftBottom:
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                break;
+            case CSizeHandleRect::Left:
+                qDebug() << "CGraphicsItemSelectedMgr CSizeHandleRect::Left bAltPress" <<  endl;
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = 0;
+                break;
+            default:
+                break;
+            }
+        }
+        //等比中心拉伸
+        else if ((shiftKeyPress && altKeyPress) ) {
+            switch (dir) {
+            case CSizeHandleRect::LeftTop:
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Top:
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                xScale = yScale;
+                break;
+            case CSizeHandleRect::RightTop:
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (pressRect.bottom() - mousePos.y() - pressRect.height() / 2) * 2 / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Right:
+                qDebug() << "CGraphicsItemSelectedMgr CSizeHandleRect::Right bAltPress" <<  endl;
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = xScale;
+                break;
+            case CSizeHandleRect::RightBottom:
+                xScale = (mousePos.x() - pressRect.left() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Bottom:
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                xScale = yScale;
+                break;
+            case CSizeHandleRect::LeftBottom:
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = (mousePos.y() - pressRect.top() - pressRect.height() / 2) * 2 / pressRect.height();
+                if (qAbs(xScale) >= qAbs(yScale)) {
+                    yScale = xScale;
+                } else {
+                    xScale = yScale;
+                }
+                break;
+            case CSizeHandleRect::Left:
+                qDebug() << "CGraphicsItemSelectedMgr CSizeHandleRect::Left bAltPress" <<  endl;
+                xScale = (pressRect.right() - mousePos.x() - pressRect.width() / 2) * 2 / pressRect.width();
+                yScale = xScale;
+                break;
+            default:
+                break;
+            }
+        }
+        item->resizeTo(dir, pressRect, m_mapItemsRect[item],  xScale, yScale, bShiftPress, bAltPress);
+    }
+    updateGeometry();
 }
 
 void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset, bool bShiftPress, bool bAltPress)
@@ -569,20 +794,24 @@ void CGraphicsItemSelectedMgr::updateGeometry()
     }
 }
 
-//void CGraphicsItemSelectedMgr::mousePressEvent(QGraphicsSceneMouseEvent *event)
-//{
-//    if (CDrawParamSigleton::GetInstance()->getShiftKeyStatus() && event->button() == Qt::LeftButton) {
-//        QPointF pos = event->scenePos();
-//        foreach (QGraphicsItem *item, this->childItems()) {
-//            //需要坐标转换
-//            if (item->shape().contains(item->mapFromScene(pos))) {
-//                this->removeFromGroup(item);
-//                break;
-//            }
-//        }
-//    }
-//}
+void CGraphicsItemSelectedMgr::recordItemsRect()
+{
+    foreach (CGraphicsItem *item, m_listItems) {
+        m_mapItemsRect[item] = item->sceneBoundingRect();
+        if (item->type() == PenType) {
+            CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(item);
+            if (penItem) {
+                penItem->savePathBeforResize(penItem->getPath());
+            }
+        }
+    }
+    m_mapItemsRect[this] = this->sceneBoundingRect();
+}
 
+QRectF CGraphicsItemSelectedMgr::getMultItemRect()
+{
+    return m_mapItemsRect[this];
+}
 
 void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -625,4 +854,223 @@ void CGraphicsItemSelectedMgr::initHandle()
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
+}
+
+bool CGraphicsItemSelectedMgr::couldResize(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress)
+{
+    bool couldResize = true;
+    QRectF rect = itemSceneBoundRect;
+    int length = 20;
+    //普通拉伸
+    //按住SHIFT等比拉伸
+    if ((!bShiftPress && !bAltPress ) ||
+            (bShiftPress && !bAltPress)) {
+        switch (dragHandle) {
+        case CSizeHandleRect::Right:
+            if ((mousePoint.x() - rect.left()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if ((mousePoint.x() - rect.left()) <= length ||
+                    (rect.bottom() - mousePoint.y()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if ((mousePoint.x() - rect.left()) <= length ||
+                    (mousePoint.y() - rect.top()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if ((rect.right() - mousePoint.x()) <= length ||
+                    (mousePoint.y() - rect.top()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if ((mousePoint.y() - rect.top()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if ((rect.right() - mousePoint.x()) <= length ||
+                    (rect.bottom() - mousePoint.y()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if ((rect.right() - mousePoint.x()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if ((rect.bottom() - mousePoint.y()) <= length) {
+                couldResize = false;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //中心拉伸
+    else if ((!bShiftPress && bAltPress) ) {
+        switch (dragHandle) {
+        case CSizeHandleRect::Right:
+            if ((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) ||
+                    ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) ||
+                    ((mousePoint.y() - rect.top() - rect.height() / 2) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) ||
+                    (mousePoint.y() - rect.top()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if ((mousePoint.y() - rect.top() - rect.height() / 2) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) ||
+                    ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if ((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        default:
+            break;
+        }
+    } else if ((bShiftPress && bAltPress) ) {
+        switch (dragHandle) {
+        case CSizeHandleRect::Right:
+            if ((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightTop:
+            if (((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) ||
+                    ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::RightBottom:
+            if (((mousePoint.x() - rect.left() - rect.width() / 2) <= length / 2) ||
+                    ((mousePoint.y() - rect.top() - rect.height() / 2) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftBottom:
+            if (((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) ||
+                    (mousePoint.y() - rect.top()) <= length) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Bottom:
+            if ((mousePoint.y() - rect.top() - rect.height() / 2) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::LeftTop:
+            if (((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) ||
+                    ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2)) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Left:
+            if ((rect.left() + rect.width() / 2 - mousePoint.x() ) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        case CSizeHandleRect::Top:
+            if ((rect.top() + rect.height() / 2 - mousePoint.y()) <= length / 2) {
+                couldResize = false;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    //等比中心拉伸
+
+
+    return couldResize;
+}
+
+QPointF CGraphicsItemSelectedMgr::getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress)
+{
+    QPointF point = mousePoint;
+    QRectF rect = itemSceneBoundRect;
+    int length = 20;
+    switch (dragHandle) {
+    case CSizeHandleRect::Right:
+        if ((mousePoint.x() - rect.left()) <= length) {
+            mousePoint.setX(rect.left() + length);
+        }
+        break;
+    case CSizeHandleRect::RightTop:
+        if ((mousePoint.x() - rect.left()) <= length ||
+                (rect.bottom() - mousePoint.y()) <= length) {
+            mousePoint.setX(rect.left() + length);
+            mousePoint.setY(rect.bottom() - length);
+        }
+        break;
+    case CSizeHandleRect::RightBottom:
+        if ((mousePoint.x() - rect.left()) <= length ||
+                (mousePoint.y() - rect.top()) <= length) {
+            mousePoint.setX(rect.left() + length);
+            mousePoint.setY(rect.top() + length);
+        }
+        break;
+    case CSizeHandleRect::LeftBottom:
+        if ((rect.right() - mousePoint.x()) <= length ||
+                (mousePoint.y() - rect.top()) <= length) {
+            mousePoint.setX(rect.right() - length);
+            mousePoint.setY(rect.top() + length);
+        }
+        break;
+    case CSizeHandleRect::Bottom:
+        if ((mousePoint.y() - rect.top()) <= length) {
+        }
+        break;
+    case CSizeHandleRect::LeftTop:
+        if ((rect.right() - mousePoint.x()) <= length ||
+                (rect.bottom() - mousePoint.y()) <= length) {
+        }
+        break;
+    case CSizeHandleRect::Left:
+        if ((rect.right() - mousePoint.x()) <= length) {
+        }
+        break;
+    case CSizeHandleRect::Top:
+        if ((rect.bottom() - mousePoint.y()) <= length) {
+        }
+        break;
+    default:
+        break;
+    }
+    return point;
 }

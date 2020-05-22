@@ -109,11 +109,23 @@ private:
 
     QList<QMap<ProperType, QVariant> > m_allTextInfo; //所有的选中的单个文字属性
 
+    bool m_resetDefaultProperty; // 标记是否需要重置属性
+
     /*
     * @bref: solveHtml 解析html文件中的每一个文字的属性
     * @param: html html字符串
     */
     void solveHtml(QString &html);
+
+    /*
+    * @bref: updateCurrentCursorProperty 更新鼠标处属性到变量中
+    */
+    void updateCurrentCursorProperty();
+
+    /*
+    * @bref: updatePropertyCache2Cursor 更新缓存中的属性到变量中
+    */
+    void updatePropertyCache2Cursor();
 };
 
 #endif // CTEXTEDIT_H

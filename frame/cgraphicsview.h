@@ -23,7 +23,9 @@
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
+
 #include <DGraphicsView>
+#include <QGestureEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -205,6 +207,11 @@ protected:
     void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+    bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+    bool gestureEvent(QGestureEvent *event);
+    void panTriggered(QPanGesture *);
+    void pinchTriggered(QPinchGesture *);
+    void swipeTriggered(QSwipeGesture *);
 
     QPoint _pressBeginPos;
     QPoint _recordMovePos;
@@ -461,24 +468,9 @@ public slots:
     void slotOnTextSelectAll();
 
     /**
-     * @brief slotOnTextTopAlignment 文字顶对齐
+     * @brief slotSetTextAlignment 设置文字对齐方式
      */
-    void slotOnTextTopAlignment();
-
-    /**
-     * @brief slotOnTextRightAlignment 文字右对齐
-     */
-    void slotOnTextRightAlignment();
-
-    /**
-     * @brief slotOnTextLeftAlignment 文字左对齐
-     */
-    void slotOnTextLeftAlignment();
-
-    /**
-     * @brief slotOnTextCenterAlignment 文字中心对齐
-     */
-    void slotOnTextCenterAlignment();
+    void slotSetTextAlignment(const Qt::Alignment &align);
 
     /**
      * @brief slotOnTextUndo  文字撤消
@@ -489,6 +481,11 @@ public slots:
      * @brief slotOnTextRedo 文字重做
      */
     void slotOnTextRedo();
+
+    /**
+     * @brief slotOnTextDelete 文字删除
+     */
+    void slotOnTextDelete();
 
     /**
      * @brief slotRestContextMenuAfterQuitCut 退出裁剪重置右键菜单
@@ -521,6 +518,8 @@ private:
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;             //撤销
     QAction *m_redoAct;             //重做
+
+    DMenu *m_layerMenu;             //图层菜单
     QAction *m_oneLayerUpAct;       //向上一层
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
@@ -544,19 +543,19 @@ private:
 
     QAction *m_cutScence;          //裁剪
 
-    ///文字图元右键菜单
-    DMenu *m_textMenu;
-    QAction *m_textCutAction;
-    QAction *m_textCopyAction;
-    QAction *m_textPasteAction;
-    QAction *m_textSelectAllAction;
-    QAction *m_textLeftAlignAct;
-    QAction *m_textTopAlignAct;
-    QAction *m_textRightAlignAct;
-    QAction *m_textCenterAlignAct;
-    QAction *m_textUndoAct;             //文字撤销
-    QAction *m_textRedoAct;             //文字重做
-    ///
+    //文字图元右键菜单
+    DMenu *m_textMenu;                      //文字菜单
+    QAction *m_textCutAction;            //文字剪切
+    QAction *m_textCopyAction;          //文字复制
+    QAction *m_textPasteAction;         //文字粘贴
+    QAction *m_textSelectAllAction;  //文字全选
+    QAction *m_textDeleteAction;      //文字删除
+    QAction *m_textUndoAct;              //文字撤销
+    QAction *m_textRedoAct;              //文字重做
+    QAction *m_textLeftAlignAct;      //文字左对齐
+    QAction *m_textRightAlignAct;   //文字右对齐
+    QAction *m_textCenterAlignAct; //文字水平垂直居中对齐(目前Qt只支持水平方向的对齐)
+
 
     QUndoStack *m_pUndoStack;
     bool m_visible;

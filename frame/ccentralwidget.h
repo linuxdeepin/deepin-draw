@@ -29,6 +29,8 @@
 #include <QGraphicsItem>
 #include <QStackedLayout>
 
+#include "drawshape/globaldefine.h"
+
 DWIDGET_USE_NAMESPACE
 
 class CLeftToolBar;
@@ -162,6 +164,10 @@ signals:
      * @description: signalScenceViewChanged 当场景被改变后信号
     */
     void signalScenceViewChanged(QString viewName);
+    /**
+     * @description: signalChangeTittlebarWidget 更新顶部菜单控件
+    */
+    void signalChangeTittlebarWidget(int type);
 public slots:
     /**
      * @brief importPicture　导入图片
@@ -270,6 +276,11 @@ public slots:
 
     void closeViewScense(CGraphicsView *view);
 
+    /*
+    * @bref: slotJudgeCutStatusAndPopSaveDialog 判断当前是否需要进行提示保存裁剪状态
+    * @bool: 返回是否需要执行后面的代码
+    */
+    bool slotJudgeCutStatusAndPopSaveDialog();
 private slots:
     /**
      * @brief slotDoSaveImage　执行保存图片

@@ -35,6 +35,9 @@ const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 12;
 
+const int blur_min_width = 5;
+const int blur_max_width = 500;
+
 BlurWidget::BlurWidget(DWidget *parent)
     : DWidget(parent)
 {
@@ -48,17 +51,10 @@ BlurWidget::~BlurWidget()
 
 void BlurWidget::updateBlurWidget()
 {
-    m_pLineWidthSlider->blockSignals(true);
-    m_pLineWidthSlider->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
-    m_pLineWidthSlider->blockSignals(false);
-
     //m_spinboxForLineWidth
     m_spinboxForLineWidth->blockSignals(true);
     m_spinboxForLineWidth->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_spinboxForLineWidth->blockSignals(false);
-
-    m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void BlurWidget::changeButtonTheme()
@@ -77,11 +73,6 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
             break;
         }
         case BlurWidth: {
-            m_pLineWidthSlider->blockSignals(true);
-            m_pLineWidthSlider->setValue(propertys[property].toInt());
-            m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
-            m_pLineWidthSlider->blockSignals(false);
-
             m_spinboxForLineWidth->blockSignals(true);
             m_spinboxForLineWidth->setValue(propertys[property].toInt());
             m_spinboxForLineWidth->blockSignals(false);
@@ -131,21 +122,13 @@ void BlurWidget::initUI()
 
     penWidthLabel->setFont(ft);
 
-    m_pLineWidthSlider = new DSlider(Qt::Horizontal, this);
-
-    m_pLineWidthSlider->setMinimum(20);
-    m_pLineWidthSlider->setMaximum(160);
-    m_pLineWidthSlider->setFixedWidth(160);
-    m_pLineWidthSlider->setMaximumHeight(24);
-    m_pLineWidthSlider->hide();
-
     m_spinboxForLineWidth = new CSpinBox(this);
     m_spinboxForLineWidth->setKeyboardTracking(false);
     m_spinboxForLineWidth->setEnabledEmbedStyle(true);
-    m_spinboxForLineWidth->setMinimum(INT_MIN + 1); //允许输入任何值在槽响应中限制范围(20-160)
-    m_spinboxForLineWidth->setMaximum(INT_MAX - 1); //允许输入任何值在槽响应中限制范围(20-160)
-//    m_spinboxForLineWidth->setMinimum(0); //允许输入任何值在槽响应中限制范围(20-160)
-//    m_spinboxForLineWidth->setMaximum(10000); //允许输入任何值在槽响应中限制范围(20-160)
+//    m_spinboxForLineWidth->setMinimum(INT_MIN + 1); //允许输入任何值在槽响应中限制范围(20-160)
+//    m_spinboxForLineWidth->setMaximum(INT_MAX - 1); //允许输入任何值在槽响应中限制范围(20-160)
+    m_spinboxForLineWidth->setMinimum(blur_min_width); //允许输入任何值在槽响应中限制范围(5-500)
+    m_spinboxForLineWidth->setMaximum(blur_max_width); //允许输入任何值在槽响应中限制范围(5-500)
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
     m_spinboxForLineWidth->setFixedWidth(90);
@@ -156,7 +139,7 @@ void BlurWidget::initUI()
 
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");
-    m_pLineWidthLabel->setText(QString("%1px").arg(m_pLineWidthSlider->value()));
+    m_pLineWidthLabel->setText(QString("%1px").arg(m_spinboxForLineWidth->value()));
     m_pLineWidthLabel->setFont(ft);
     m_pLineWidthLabel->setFixedWidth(60);
     m_pLineWidthLabel->hide();
@@ -166,10 +149,10 @@ void BlurWidget::initUI()
 //        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::BlurWidth, value);
         //1.值检测是否合法符合需求(检测最大值和最小值)
         m_spinboxForLineWidth->blockSignals(true);
-        if (m_spinboxForLineWidth->value() < 20) {
-            m_spinboxForLineWidth->setValue(20);
-        } else if (m_spinboxForLineWidth->value() > 160) {
-            m_spinboxForLineWidth->setValue(160);
+        if (m_spinboxForLineWidth->value() < blur_min_width) {
+            m_spinboxForLineWidth->setValue(blur_min_width);
+        } else if (m_spinboxForLineWidth->value() > blur_max_width) {
+            m_spinboxForLineWidth->setValue(blur_max_width);
         }
         m_spinboxForLineWidth->blockSignals(false);
 
@@ -207,10 +190,10 @@ void BlurWidget::initUI()
             return ;
         }
         m_spinboxForLineWidth->blockSignals(true);
-        if (m_spinboxForLineWidth->value() < 20) {
-            m_spinboxForLineWidth->setValue(20);
-        } else if (m_spinboxForLineWidth->value() > 160) {
-            m_spinboxForLineWidth->setValue(160);
+        if (m_spinboxForLineWidth->value() < blur_min_width) {
+            m_spinboxForLineWidth->setValue(blur_min_width);
+        } else if (m_spinboxForLineWidth->value() > blur_max_width) {
+            m_spinboxForLineWidth->setValue(blur_max_width);
         }
         m_spinboxForLineWidth->blockSignals(false);
 

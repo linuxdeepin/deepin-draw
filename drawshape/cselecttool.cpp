@@ -66,7 +66,6 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
 
 CSelectTool::CSelectTool ()
     : IDrawTool (selection)
-    , m_noShiftSelectItem(nullptr)
     , m_currentSelectItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_bRotateAng(false)
@@ -125,9 +124,11 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             }
         }
         if (altKeyPress && m_currentSelectItem) {
-            CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
-            if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
-                scene->getItemsMgr()->clear();
+            if (m_dragHandle < CSizeHandleRect::LeftTop || m_dragHandle > CSizeHandleRect::Rotation) {
+                CGraphicsItem *itemcast = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+                if (itemcast && !scene->getItemsMgr()->getItems().contains(itemcast)) {
+                    scene->getItemsMgr()->clear();
+                }
             }
         }
         int count = scene->getItemsMgr()->getItems().size();
@@ -196,7 +197,9 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             if (count > 1) {
                 scene->getItemsMgr()->clear();
                 foreach (QGraphicsItem *copyItem, copyItems) {
-                    scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(copyItem));
+                    CGraphicsItem *pGraphicItem = dynamic_cast<CGraphicsItem *>(copyItem);
+                    if (pGraphicItem != nullptr)
+                        scene->getItemsMgr()->addOrRemoveToGroup(pGraphicItem);
                 }
             } else if (copyItems.size() == 1) {
                 scene->clearSelection();
@@ -308,6 +311,7 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                 }
             } else {
                 m_currentSelectItem = nullptr;
+                m_noShiftSelectItem = nullptr;
 
                 //点击空白处时要显示空白select工具的顶层属性界面(也就是一个"画板"标题)
                 emit scene->signalChangeToSelect(true);
@@ -380,7 +384,9 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
-                m_pressItemRect = m_currentSelectItem->boundingRect();
+                m_pressItemRect = m_currentSelectItem->sceneBoundingRect();
+                //记录多选图元的resize前的大小及位置
+                scene->getItemsMgr()->recordItemsRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
                     qApp->setOverrideCursor(m_textEditCursor);
                 } else {
@@ -513,10 +519,11 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     if ( m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
             if (scene->getItemsMgr()->getItems().size() > 1) {
-                QPointF offsetPoint = event->scenePos() - m_sLastPress;
+                //QPointF offsetPoint = event->scenePos() - m_sLastPress;
                 bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-                scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
+                //scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
+                scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), shiftKeyPress, altKeyPress);
                 m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
@@ -575,7 +582,10 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
                 qreal space = 65. / scale;
                 m_initRotateItemPos.setY(centerToScence.y() - static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().height() / 2 - space);
-                m_RotateItem->setPos(m_initRotateItemPos);
+                qreal angleRad = qDegreesToRadians(angle);
+                qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
+                qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
+                m_RotateItem->setPos(x0, y0);
             } else {
                 qreal angleRad = qDegreesToRadians(angle);
 
@@ -584,7 +594,6 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
                 m_RotateItem->updateRotateAngle(angle);
                 m_RotateItem->setPos(x0, y0);
-
             }
 
         } else {
@@ -623,7 +632,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     QList<QGraphicsItem *> Items = scene->items();
     foreach (QGraphicsItem *item, Items) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            //static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
     }
 
@@ -660,25 +669,30 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     //左键按下，出现框选矩形
     if (m_bMousePress && (m_currentSelectItem == nullptr)) {
         QList<QGraphicsItem *> items = scene->items(m_frameSelectItem->rect());
-        foreach (QGraphicsItem *item, items) {
-            if (item == m_frameSelectItem) {
-                continue;
+        items.removeOne(m_frameSelectItem);
+
+        scene->getItemsMgr()->clear();
+        if (items.size() > 1) {
+            foreach (QGraphicsItem *item, items) {
+                CGraphicsItem *selectItem = dynamic_cast<CGraphicsItem *>(item);
+                if (selectItem != nullptr) {
+                    scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
+                }
             }
-            auto selectItem = static_cast<CGraphicsItem *>(item);
-            scene->getItemsMgr()->addOrRemoveToGroup(selectItem);
-        }
-        int count = scene->getItemsMgr()->getItems().size();
-        if (1 == count) {
-            scene->getItemsMgr()->getItems().first()->setSelected(true);
-            scene->getItemsMgr()->hide();
-        } else if (count > 1) {
             scene->getItemsMgr()->show();
             scene->getItemsMgr()->setSelected(true);
+        } else if (items.size() > 0) {
+            CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items.first());
+            if (pItem != nullptr) {
+                pItem->setSelected(true);
+                m_noShiftSelectItem = pItem;
+            }
         }
     }
 
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
     bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
+    Q_UNUSED(altKeyress)
     m_bMousePress = false;
     if (event->button() == Qt::LeftButton) {
         m_sPointRelease = event->scenePos();
@@ -686,10 +700,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         //shift键按下时
         if (shiftKeyPress) {
             if (m_currentSelectItem) {
-                auto currentSelectItem = static_cast<CGraphicsItem *>(m_currentSelectItem);
+                CGraphicsItem *currentSelectItem = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
                 if (currentSelectItem != nullptr) {
                     if (scene->getItemsMgr()->getItems().size() == 0 && m_noShiftSelectItem) {
-                        scene->getItemsMgr()->addOrRemoveToGroup(static_cast<CGraphicsItem *>(m_noShiftSelectItem));
+                        CGraphicsItem *pNoShiftSelectItem = dynamic_cast<CGraphicsItem *>(m_noShiftSelectItem);
+                        if (pNoShiftSelectItem != nullptr)
+                            scene->getItemsMgr()->addOrRemoveToGroup(pNoShiftSelectItem);
                     }
                     if (m_noShiftSelectItem != currentSelectItem) {
                         scene->getItemsMgr()->addOrRemoveToGroup(currentSelectItem);
@@ -900,4 +916,3 @@ double CSelectTool::getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGr
     }
     return min_distance;
 }
-

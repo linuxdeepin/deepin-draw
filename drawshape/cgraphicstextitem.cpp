@@ -171,6 +171,7 @@ void CGraphicsTextItem::makeEditabel()
 void CGraphicsTextItem::updateHandleVisible()
 {
     bool visble = getManResizeFlag();
+    qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
     this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, visble);
     this->setSizeHandleRectFlag(CSizeHandleRect::Top, visble);
     this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, visble);
@@ -270,23 +271,23 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
     //    QFont::Normal  50  QFont::Medium     57  QFont::DemiBold 63
     //    QFont::Bold    75  QFont::ExtraBold  81  QFont::Black 87
     quint8 weight = 0;
-    if (style == QObject::tr("Thin")) {
+    if (style == "Thin") {
         weight = 0;
-    } else if (style == QObject::tr("ExtraLight")) {
+    } else if (style == "ExtraLight") {
         weight = 12;
-    } else if (style == QObject::tr("Light")) {
+    } else if (style == "Light") {
         weight = 25;
-    } else if (style == QObject::tr("Normal") || style == QObject::tr("Regular")) {
+    } else if (style == "Normal" || style == "Regular") {
         weight = 50;
-    } else if (style == QObject::tr("Medium")) {
+    } else if (style == "Medium") {
         weight = 57;
-    } else if (style == QObject::tr("DemiBold")) {
+    } else if (style == "DemiBold") {
         weight = 63;
-    } else if (style == QObject::tr("Bold")) {
+    } else if (style == "Bold") {
         weight = 75;
-    } else if (style == QObject::tr("ExtraBold")) {
+    } else if (style == "ExtraBold") {
         weight = 81;
-    } else if (style == QObject::tr("Black")) {
+    } else if (style == "Black") {
         weight = 87;
     }
 
@@ -302,6 +303,7 @@ void CGraphicsTextItem::setFontSize(qreal size)
     fmt.setFontPointSize(size);
     mergeFormatOnWordOrSelection(fmt);
     m_Font.setPointSizeF(size);
+    m_pTextEdit->setFocus();
 }
 
 qreal CGraphicsTextItem::getFontSize()
@@ -324,6 +326,8 @@ QString CGraphicsTextItem::getFontFamily()
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
     CGraphicsRectItem::resizeTo(dir, point, false, false);
     setManResizeFlag(true);
     updateWidget();
@@ -385,7 +389,13 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     updateGeometry();
+
+    // judge selectool isValid
+    if (!rect().isValid())
+        return;
 
     beginCheckIns(painter);
     drawDocument(painter, m_pTextEdit->document(), this->rect());
@@ -434,6 +444,7 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
                                      const QRectF &r,
                                      const QBrush &brush)
 {
+    Q_UNUSED(brush)
     if (doc->isEmpty())
         return;
 
@@ -443,7 +454,7 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
         painter->setClipRect(r, Qt::IntersectClip);
     }
     painter->translate(r.topLeft());
-    QTextDocument *t_doc = (QTextDocument *)doc;
+    QTextDocument *t_doc = const_cast<QTextDocument *>(doc);
     t_doc->drawContents(painter, QRectF());
     painter->restore();
 }
@@ -717,24 +728,38 @@ void CGraphicsTextItem::doSelectAll()
     m_pTextEdit->selectAll();
 }
 
-void CGraphicsTextItem::doTopAlignment()
+void CGraphicsTextItem::setSelectTextBlockAlign(const Qt::Alignment &align)
 {
-    m_pTextEdit->setAlignment(Qt::AlignJustify);
-}
-
-void CGraphicsTextItem::doRightAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignRight);
-}
-
-void CGraphicsTextItem::doLeftAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignLeft);
-}
-
-void CGraphicsTextItem::doCenterAlignment()
-{
-    m_pTextEdit->setAlignment(Qt::AlignCenter);
+    switch (align) {
+    case Qt::AlignLeft : {
+        m_pTextEdit->setAlignment(Qt::AlignLeft);
+        break;
+    }
+    case Qt::AlignRight : {
+        m_pTextEdit->setAlignment(Qt::AlignRight);
+        break;
+    }
+    case Qt::AlignHCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignHCenter);
+        break;
+    }
+    case Qt::AlignTop : {
+        m_pTextEdit->setAlignment(Qt::AlignTop);
+        break;
+    }
+    case Qt::AlignBottom : {
+        m_pTextEdit->setAlignment(Qt::AlignBottom);
+        break;
+    }
+    case Qt::AlignVCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignVCenter);
+        break;
+    }
+    case Qt::AlignCenter : {
+        m_pTextEdit->setAlignment(Qt::AlignCenter);
+        break;
+    }
+    }
 }
 
 void CGraphicsTextItem::doUndo()
@@ -745,5 +770,10 @@ void CGraphicsTextItem::doUndo()
 void CGraphicsTextItem::doRedo()
 {
     m_pTextEdit->redo();
+}
+
+void CGraphicsTextItem::doDelete()
+{
+    m_pTextEdit->textCursor().deleteChar();
 }
 

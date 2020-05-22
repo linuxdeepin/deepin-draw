@@ -135,6 +135,11 @@ void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &off
 
 }
 
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+{
+
+}
+
 void CGraphicsItem::duplicate(CGraphicsItem *item)
 {
     item->setPos(pos().x(), pos().y());
@@ -240,7 +245,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
 void CGraphicsItem::beginCheckIns(QPainter *painter)
 {
-    if (scene() == nullptr)
+    if (scene() == nullptr || !rect().isValid())
         return;
 
     painter->save();
@@ -255,7 +260,7 @@ void CGraphicsItem::beginCheckIns(QPainter *painter)
 
 void CGraphicsItem::endCheckIns(QPainter *painter)
 {
-    if (scene() == nullptr)
+    if (scene() == nullptr || !rect().isValid())
         return;
     painter->restore();
 }

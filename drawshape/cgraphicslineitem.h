@@ -46,6 +46,7 @@ public:
      * @param yScale y轴放大缩小比例
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress);
 
     QLineF line() const;
     void setLine(const QLineF &line);

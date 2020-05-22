@@ -46,7 +46,7 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     this->setEnabledEmbedStyle(true);
 
     m_rightClickTab = -1;
-//    installEventFilter(this);
+    installEventFilter(this);
 
 
     initConnection();

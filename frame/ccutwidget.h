@@ -53,7 +53,6 @@ public:
      */
     void updateButtonStatus();
 
-
 signals:
     /**
      * @brief signalCutAttributeChanged　裁剪属性改变型号
