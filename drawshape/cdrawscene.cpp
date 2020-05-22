@@ -769,4 +769,58 @@ void CDrawScene::updateAllBlurItem()
         }
     }
 }
+bool CDrawScene::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+
+        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+        QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        if (currentMode != pen) {
+//            if (currentMode == selection) {
+//                return true;
+//            }
+//            return QGraphicsScene::event(event);
+            return true;
+        }
+
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if (nullptr != pTool) {
+            if (evType != QEvent::TouchUpdate)
+                pTool->toolClear();
+        }
+
+        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
+            switch (tp.state() ) {
+            case Qt::TouchPointPressed:
+                //表示触碰按下
+                QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
+                pTool->toolStart(&e);
+                break;
+            case Qt::TouchPointMoved:
+                //触碰移动
+                pTool->toolUpdate(&e);
+                break;
+            case Qt::TouchPointReleased:
+                //触碰离开
+                pTool->toolFinish(&e);
+                break;
+            default:
+                break;
+            }
+        }
+        if (evType == QEvent::TouchEnd && currentMode == pen) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit this->signalChangeToSelect();
+        }
+        event->accept();
+        return true;
+    }
+    return QGraphicsScene::event(event);
+}
 
