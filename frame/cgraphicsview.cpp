@@ -999,10 +999,6 @@ void CGraphicsView::slotOnCut()
 
 void CGraphicsView::slotOnCopy()
 {
-    //    if (scene()->selectedItems().isEmpty()) {
-    //        return;
-    //    }
-
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
@@ -1012,7 +1008,6 @@ void CGraphicsView::slotOnCopy()
                 allItems.push_back(item);
             }
         }
-        curScene->getItemsMgr()->hide();
     } else {
         QList<QGraphicsItem *> curSeleteItems = scene()->selectedItems();
 
