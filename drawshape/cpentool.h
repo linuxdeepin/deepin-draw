@@ -47,6 +47,10 @@ public:
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)Q_DECL_OVERRIDE;
 
+protected:
+    void toolFinish(IDrawTool::CDrawToolEvent *event)Q_DECL_OVERRIDE;
+    void toolUpdate(IDrawTool::CDrawToolEvent *event)Q_DECL_OVERRIDE;
+    void toolStart(IDrawTool::CDrawToolEvent *event)Q_DECL_OVERRIDE;
 private:
     CGraphicsPenItem *m_pPenItem;
 };

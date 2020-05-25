@@ -24,6 +24,10 @@
 #include <QPen>
 #include <QFont>
 
+#include <QDBusReply>
+#include <QDBusInterface>
+#include <QDBusUnixFileDescriptor>
+
 class CDrawParamSigleton
 {
 public:

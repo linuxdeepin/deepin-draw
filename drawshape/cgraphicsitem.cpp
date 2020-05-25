@@ -170,7 +170,11 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 //            }
 //        }
 
-        CDrawScene::GetInstance()->updateBlurItem(this);
+
+        if (nullptr != scene()) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->updateBlurItem(this);
+        }
     }
 
     return value;

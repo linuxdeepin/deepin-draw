@@ -26,6 +26,7 @@
 
 class QGraphicsSceneMouseEvent;
 class CDrawScene;
+class CGraphicsItem;
 
 class IDrawTool
 {
@@ -75,6 +76,74 @@ public:
      * @return
      */
     QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false);
+
+    class CDrawToolEvent
+    {
+    public:
+        enum EPosType {EScenePos, EViewportPos, EGlobelPos, PosTypeCount};
+
+        CDrawToolEvent(const QPointF &vPos      = QPointF(),
+                       const QPointF &scenePos  = QPointF(),
+                       const QPointF &globelPos = QPointF(),
+                       CDrawScene *pScene = nullptr);
+
+        typedef  QMap<int, CDrawToolEvent> CDrawToolEvents;
+
+        static CDrawToolEvents fromQEvent(QEvent *event, CDrawScene *scene);
+        static CDrawToolEvent  fromTouchPoint(const QTouchEvent::TouchPoint &tPos, CDrawScene *scene);
+
+        QPointF                pos(EPosType tp = EScenePos);
+        Qt::MouseButtons       mouseButtons();
+        Qt::KeyboardModifiers  keyboardModifiers();
+        int                    uuid();
+        QEvent                *orgQtEvent();
+        CDrawScene            *scene();
+    private:
+        QPointF                _pos[PosTypeCount] = {QPointF(0, 0)};
+
+        Qt::MouseButtons       _msBtns = Qt::NoButton;
+        Qt::KeyboardModifiers  _kbMods = Qt::NoModifier;
+        CDrawScene            *_scene  = nullptr;
+        int                    _uuid   = 0;
+        QEvent                *_orgEvent = nullptr;
+    };
+
+    /**
+     * @brief toolStart 工具执行的开始
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void toolStart(CDrawToolEvent *event);
+
+    /**
+     * @brief toolUpdate 工具执行的刷新
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void toolUpdate(CDrawToolEvent *event);
+
+    /**
+     * @brief toolFinish 工具执行的结束
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void toolFinish(CDrawToolEvent *event);
+
+
+    void toolClear();
+
+
+    virtual CGraphicsItem *creatItem();
+
+    struct SRecordedStartInfo {
+        QPointF m_sPointPress;
+        QPointF m_sLastPress;
+        QPointF m_sPointRelease;
+        CGraphicsItem *tempItem = nullptr;
+    };
+
+protected:
+    QMap<int, SRecordedStartInfo> allStartInfo;
 
 protected:
     bool m_bMousePress;

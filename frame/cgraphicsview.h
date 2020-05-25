@@ -21,6 +21,7 @@
 #include "drawshape/csizehandlerect.h"
 #include "widgets/cmenu.h"
 #include <DGraphicsView>
+#include <QGestureEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -34,6 +35,8 @@ class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
+
+class QGestureEvent;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -47,6 +50,7 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+    CGraphicsView();
     /**
      * @brief zoomOut 放大
      */
@@ -95,6 +99,9 @@ public:
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
+
+
+    void renderScenePixmap();
 
 
 protected:
@@ -164,6 +171,11 @@ protected:
     virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+    bool viewportEvent(QEvent *event);
+    bool gestureEvent(QGestureEvent *event);
+    void panTriggered(QPanGesture *gesture);
+    void pinchTriggered(QPinchGesture *gesture);
+    void swipeTriggered(QSwipeGesture *gesture);
 signals:
     /**
      * @brief signalSetScale 设置缩放信号
