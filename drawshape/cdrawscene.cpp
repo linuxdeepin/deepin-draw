@@ -462,10 +462,10 @@ bool CDrawScene::event(QEvent *event)
                 break;
             }
         }
-        if (evType == QEvent::TouchEnd && currentMode == pen) {
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-            emit this->signalChangeToSelect();
-        }
+//        if (evType == QEvent::TouchEnd && currentMode == pen) {
+//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+//            emit this->signalChangeToSelect();
+//        }
         event->accept();
         return true;
     }
