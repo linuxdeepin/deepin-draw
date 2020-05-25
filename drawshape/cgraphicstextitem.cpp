@@ -22,6 +22,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <DApplication>
 

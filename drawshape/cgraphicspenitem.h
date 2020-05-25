@@ -27,6 +27,7 @@
 class CGraphicsPenItem : public CGraphicsItem
 {
 public:
+    static CGraphicsPenItem *s_curPenItem;
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
@@ -58,12 +59,24 @@ public:
 
     void calcVertexes();
 
+    QPixmap curPixMap()
+    {
+        return m_tmpPix;
+    }
+    inline QLineF curMayExistPaintLine()
+    {
+        return m_straightLine;
+    }
+
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     QPainterPath m_path;
+    QList<QPointF> m_points;
+    QPointF        m_recordPrePos;
+
     QPolygonF m_arrow; //箭头三角形
     QLineF m_straightLine;
     bool m_isShiftPress;

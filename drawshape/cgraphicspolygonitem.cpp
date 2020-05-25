@@ -19,6 +19,7 @@
 #include "cgraphicspolygonitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPen>
 #include <QPainter>

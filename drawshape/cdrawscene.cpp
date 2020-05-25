@@ -82,6 +82,9 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    if (!CManageViewSigleton::GetInstance()->getCurView()) {
+        return;
+    }
     QGraphicsScene::drawBackground(painter, rect);
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() > 0) {
         if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRenderImage() == 1) {
@@ -242,6 +245,7 @@ void CDrawScene::attributeChanged()
             }
         }
     }
+    CDrawScene::GetInstance()->renderSelfToPixmap();
 }
 
 void CDrawScene::changeAttribute(bool flag, QGraphicsItem *selectedItem)
@@ -381,7 +385,38 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
 
-    QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    if (CGraphicsPenItem::s_curPenItem != nullptr) {
+
+        /*       if (widget == nullptr) {
+                   //证明是外界来获取scen的当前显示位图那么绘制到该位图上去
+                   QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+               } else */{
+            //如果正在绘图，就在辅助画布上绘制
+            painter->setRenderHint(QPainter::SmoothPixmapTransform);
+            //qDebug() << "dx = " << painter->worldTransform().dx() << "dy = " << painter->worldTransform().dy();
+            painter->drawPixmap(sceneRect().topLeft(), CGraphicsPenItem::s_curPenItem->curPixMap());
+            QLineF line = CGraphicsPenItem::s_curPenItem->curMayExistPaintLine();
+            if (!line.isNull()) {
+                QPen p(CGraphicsPenItem::s_curPenItem->pen());
+                QGraphicsView *view = nullptr;
+                if (!views().isEmpty()) {
+                    view = views().first();
+                }
+                p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
+                painter->setPen(p);
+                //line.translate(sceneRect().topLeft());
+                painter->drawLine(line);
+            }
+        }
+
+    } else {
+        QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+    }
+}
+
+void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
+{
+    QGraphicsScene::drawForeground(painter, rect);
 }
 
 void CDrawScene::showCutItem()
@@ -472,6 +507,11 @@ void CDrawScene::drawToolChange(int type)
     this->clearSelection();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     CDrawScene::GetInstance()->updateBlurItem();
+
+
+    if (EDrawToolMode(type) == pen) {
+        renderSelfToPixmap();
+    }
 }
 
 void CDrawScene::changeMouseShape(EDrawToolMode type)
@@ -519,6 +559,23 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
         break;
 
     }
+}
+
+QPixmap &CDrawScene::scenPixMap()
+{
+    return m_scenePixMap;
+}
+
+void CDrawScene::renderSelfToPixmap()
+{
+    m_scenePixMap = QPixmap(sceneRect().size().toSize());
+    QPainter painterd(&m_scenePixMap);
+    painterd.setRenderHint(QPainter::Antialiasing);
+    painterd.setRenderHint(QPainter::SmoothPixmapTransform);
+    if (!views().isEmpty()) {
+        m_scenePixMap.setDevicePixelRatio(views().first()->viewport()->devicePixelRatioF());
+    }
+    this->render(&painterd);
 }
 
 void CDrawScene::setItemDisable(bool canSelecte)

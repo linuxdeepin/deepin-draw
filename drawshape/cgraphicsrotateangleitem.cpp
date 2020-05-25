@@ -19,6 +19,7 @@
 #include "cgraphicsrotateangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
+#include "drawshape/cgraphicspenitem.h"
 
 #include <QPainter>
 

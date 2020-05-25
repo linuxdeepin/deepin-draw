@@ -17,7 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "cdrawparamsigleton.h"
+#include <QDebug>
+#include <DApplication>
 #include <QGuiApplication>
+#include <QObject>
 
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)

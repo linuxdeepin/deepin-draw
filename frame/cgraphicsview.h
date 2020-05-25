@@ -47,6 +47,7 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+    CGraphicsView();
     /**
      * @brief zoomOut 放大
      */
@@ -95,6 +96,9 @@ public:
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
+
+
+    void renderScenePixmap();
 
 
 protected:
