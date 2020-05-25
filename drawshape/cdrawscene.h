@@ -274,6 +274,7 @@ protected:
     virtual void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 
+    bool event(QEvent *event) Q_DECL_OVERRIDE;
 private:
     /**
      * @brief CDrawScene 构造函数

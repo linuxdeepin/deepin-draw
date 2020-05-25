@@ -27,7 +27,7 @@
 class CGraphicsPenItem : public CGraphicsItem
 {
 public:
-    static CGraphicsPenItem *s_curPenItem;
+    static QSet<CGraphicsPenItem *>s_curPenItem;
     explicit CGraphicsPenItem(QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
@@ -53,7 +53,8 @@ public:
     QPainterPath getPath() const;
 
     void updatePenType(const EPenType &currentType);
-    void setPixmap();
+    void setPixmap(QPixmap *pixmap = nullptr);
+    void clearPixmap();
 
     void setDrawFlag(bool flag);
 
@@ -61,7 +62,7 @@ public:
 
     QPixmap curPixMap()
     {
-        return m_tmpPix;
+        return *m_tmpPix;
     }
     inline QLineF curMayExistPaintLine()
     {
@@ -82,7 +83,7 @@ private:
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;
     EPenType m_currentType;
-    QPixmap m_tmpPix;
+    QPixmap *m_tmpPix = nullptr;
     bool m_isDrawing;//是否正在绘图
     int m_drawIndex;
     QPointF m_point4;

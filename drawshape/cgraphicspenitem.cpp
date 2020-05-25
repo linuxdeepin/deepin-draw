@@ -30,7 +30,7 @@
 
 const int SmoothMaxCount = 10;
 
-CGraphicsPenItem *CGraphicsPenItem::s_curPenItem = nullptr;
+QSet<CGraphicsPenItem *> CGraphicsPenItem::s_curPenItem = QSet<CGraphicsPenItem *>();
 
 #include <QtMath>
 
@@ -523,46 +523,13 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 {
     if (m_recordPrePos == endPoint)
         return;
-
-//    QTime ttttt;
-//    ttttt.start();
-//    qDebug() << "updatePenPath begin ------------- ";
-
-    /*prepareGeometryChange();
-
-    if (isShiftPress) {
-        m_straightLine.setP1(m_path.currentPosition());
-        m_straightLine.setP2(endPoint);
-
-        //if (m_currentType == arrow) {
-            calcVertexes(m_straightLine.p1(), m_straightLine.p2());
-        //}
-    } else {
-        m_path.lineTo(endPoint);
-
-        ///
-        m_smoothVector.push_back(endPoint);
-        if (m_smoothVector.count() > SmoothMaxCount) {
-            m_smoothVector.removeFirst();
-        }
-        ///
-
-    //        if (m_currentType == arrow) {
-        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
-    //        }
-    }*/
-
-    //prepareGeometryChange();
     m_isShiftPress = isShiftPress;
 
     QPainterPath   thisTimePath;
     if (isShiftPress) {
         m_straightLine.setP1(m_path.currentPosition());
         m_straightLine.setP2(endPoint);
-
-        //if (m_currentType == arrow) {
         calcVertexes(m_straightLine.p1(), m_straightLine.p2());
-        //}
     } else {
 
         bool isFirstPoint = m_points.isEmpty();
@@ -591,7 +558,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
     }
 
     if (thisTimePath.elementCount() >= 1) {
-        QPainter pp(&m_tmpPix);
+        QPainter pp(m_tmpPix);
 
         pp.setRenderHint(QPainter::SmoothPixmapTransform);
         QPen p(pen());
@@ -611,13 +578,8 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 
     m_recordPrePos = endPoint;
 
-    //updateGeometry();
-
-//    qDebug() << "updatePenPath end ms = " << ttttt.elapsed();
-
     if (scene() != nullptr)
         scene()->update();
-    //qDebug() << "---------------- mouse count = " << m_path.elementCount() << boundingRect().size();
 }
 
 
@@ -700,17 +662,11 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QPen pen = this->pen();
     pen.setJoinStyle(Qt::BevelJoin);
 
-    /*    if (s_curPenItem == this) {
-            //如果正在绘图，就在辅助画布上绘制
-            painter->setRenderHint(QPainter::SmoothPixmapTransform);
-            painter->drawPixmap(0, 0, m_tmpPix);
-        } else */{
-        if (s_curPenItem == nullptr) {
-            painter->setRenderHint(QPainter::Antialiasing);
-            painter->setRenderHint(QPainter::SmoothPixmapTransform);
-            painter->setPen(pen);
-            painter->drawPath(m_path);
-        }
+    if (s_curPenItem.isEmpty()) {
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        painter->setPen(pen);
+        painter->drawPath(m_path);
     }
 
     if (m_isShiftPress) {
@@ -788,30 +744,19 @@ void CGraphicsPenItem::updatePenType(const EPenType &currentType)
     //    }
 }
 
-void CGraphicsPenItem::setPixmap()
+void CGraphicsPenItem::setPixmap(QPixmap *pixmap)
 {
-//    QTime timer;
-//    timer.start();
-//    qDebug() << "creat pixmap begin --------";
+    if (pixmap == nullptr) {
+        m_tmpPix = &(CDrawScene::GetInstance()->scenPixMap());
+        return;
+    }
+    m_tmpPix = pixmap;
 
-//    //qDebug() << "---------------- beginMove count = " << m_path.elementCount();
-//    //QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
-//    QRect rect = CDrawScene::GetInstance()->sceneRect().toRect();
-//    //qDebug() << "creat map = -----------------------------------";
+}
 
-////    QRect viewInSceneRect =  QRect(CDrawScene::GetInstance()->views().first()->mapToScene(QPoint(0, 0)).toPoint(),
-////                                   QSize(CDrawScene::GetInstance()->views().first()->viewport()->size()));
-
-////    viewInSceneRect.adjust(-10, -10, 10, 10);
-
-//    m_tmpPix = QPixmap(rect.width(), rect.height());
-//    QPainter painterd(&m_tmpPix);
-//    painterd.setRenderHint(QPainter::Antialiasing);
-//    //painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-//    CDrawScene::GetInstance()->render(&painterd);
-
-    m_tmpPix = CDrawScene::GetInstance()->scenPixMap();
-    //qDebug() << "creat pixmap end ms = " << timer.elapsed();
+void CGraphicsPenItem::clearPixmap()
+{
+    m_tmpPix = nullptr;
 }
 
 void CGraphicsPenItem::setDrawFlag(bool flag)

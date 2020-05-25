@@ -385,26 +385,21 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
     painter->setClipping(true);
     painter->setClipRect(sceneRect());
 
-    if (CGraphicsPenItem::s_curPenItem != nullptr) {
-
-        /*       if (widget == nullptr) {
-                   //证明是外界来获取scen的当前显示位图那么绘制到该位图上去
-                   QGraphicsScene::drawItems(painter, numItems, items, options, widget);
-               } else */{
-            //如果正在绘图，就在辅助画布上绘制
-            painter->setRenderHint(QPainter::SmoothPixmapTransform);
-            //qDebug() << "dx = " << painter->worldTransform().dx() << "dy = " << painter->worldTransform().dy();
-            painter->drawPixmap(sceneRect().topLeft(), CGraphicsPenItem::s_curPenItem->curPixMap());
-            QLineF line = CGraphicsPenItem::s_curPenItem->curMayExistPaintLine();
+    if (!CGraphicsPenItem::s_curPenItem.isEmpty()) {
+        //如果正在绘图，就在辅助画布上绘制
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
+        painter->drawPixmap(sceneRect().topLeft(), scenPixMap());
+        for (auto it = CGraphicsPenItem::s_curPenItem.begin(); it != CGraphicsPenItem::s_curPenItem.end(); ++it) {
+            CGraphicsPenItem *pPenItem = *it;
+            QLineF line = pPenItem->curMayExistPaintLine();
             if (!line.isNull()) {
-                QPen p(CGraphicsPenItem::s_curPenItem->pen());
+                QPen p(pPenItem->pen());
                 QGraphicsView *view = nullptr;
                 if (!views().isEmpty()) {
                     view = views().first();
                 }
                 p.setWidthF(1.0 / (view == nullptr ? 1.0 : view->transform().m11()));
                 painter->setPen(p);
-                //line.translate(sceneRect().topLeft());
                 painter->drawLine(line);
             }
         }
@@ -417,6 +412,64 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
 void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawForeground(painter, rect);
+}
+bool CDrawScene::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
+
+        QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+        QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+        if (views().isEmpty())
+            return QGraphicsScene::event(event);
+
+        CGraphicsView *pView = qobject_cast<CGraphicsView *>(views().first());
+
+        if (pView == nullptr)
+            return QGraphicsScene::event(event);
+
+        EDrawToolMode currentMode = pView->getDrawParam()->getCurrentDrawToolMode();
+
+//        if (currentMode != pen) {
+//            return QGraphicsScene::event(event);
+//        }
+
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+        if (nullptr != pTool) {
+            if (evType != QEvent::TouchUpdate)
+                pTool->toolClear();
+        }
+
+        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
+            switch (tp.state() ) {
+            case Qt::TouchPointPressed:
+                //表示触碰按下
+                QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
+                pTool->toolStart(&e);
+                break;
+            case Qt::TouchPointMoved:
+                //触碰移动
+                pTool->toolUpdate(&e);
+                break;
+            case Qt::TouchPointReleased:
+                //触碰离开
+                pTool->toolFinish(&e);
+                break;
+            default:
+                break;
+            }
+        }
+        if (evType == QEvent::TouchEnd && currentMode == pen) {
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            emit this->signalChangeToSelect();
+        }
+        event->accept();
+        return true;
+    }
+    return QGraphicsScene::event(event);
 }
 
 void CDrawScene::showCutItem()
