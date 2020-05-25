@@ -249,5 +249,13 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
 
     if (allStartInfo.isEmpty()) {
         CGraphicsPenItem::s_curPenItem.clear();
+        if (event->scene() != nullptr) {
+            if (!event->scene()->views().isEmpty()) {
+                CGraphicsView *pView = qobject_cast<CGraphicsView *>(event->scene()->views().first());
+                if (pView != nullptr) {
+                    pView->renderScenePixmap();
+                }
+            }
+        }
     }
 }
