@@ -256,6 +256,7 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
                     pView->renderScenePixmap();
                 }
             }
+            event->scene()->update();
         }
     }
 }
