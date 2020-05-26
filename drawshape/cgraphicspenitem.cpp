@@ -927,8 +927,10 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(itemPressRect);
+    prepareGeometryChange();
     pressRect = mapRectFromScene(pressRect);
-    QRectF rect = this->rect();
+    //QRectF rect = this->rect();
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
     QTransform transform;

@@ -664,7 +664,8 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
     m_doCopy = false;
 
-    scene->removeItem(m_frameSelectItem);
+    if (m_frameSelectItem->scene() == scene)
+        scene->removeItem(m_frameSelectItem);
     m_frameSelectItem->setVisible(false);
     //左键按下，出现框选矩形
     if (m_bMousePress && (m_currentSelectItem == nullptr)) {
