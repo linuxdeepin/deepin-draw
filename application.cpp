@@ -191,7 +191,7 @@ void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 void Application::showMainWindow(const QStringList &paths)
 {
 #ifdef DEBUSVAILD
-    MainWindow *w = new MainWindow;
+    MainWindow *w = new MainWindow(paths);
 
     this->setActivationWindow(w, true);
 
@@ -200,6 +200,9 @@ void Application::showMainWindow(const QStringList &paths)
     dbus.registerService("com.deepin.Draw");
     dbus.registerObject("/com/deepin/Draw", w);
     new dbusdraw_adaptor(w);
+
+    connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
+
 #else
     MainWindow *w = new MainWindow(paths);
 
