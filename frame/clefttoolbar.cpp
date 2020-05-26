@@ -548,7 +548,7 @@ void CLeftToolBar::slotShortCutCut()
 void CLeftToolBar::initShortCut()
 {
     m_selectAction = new QAction(this);
-    m_selectAction->setShortcut(QKeySequence(Qt::Key_V));
+    //m_selectAction->setShortcut(QKeySequence(Qt::Key_V));
     this->addAction(m_selectAction);
 
     m_pictureAction = new QAction(this);
