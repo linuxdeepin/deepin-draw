@@ -656,11 +656,7 @@ void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        // [0] 当前裁剪处于状态需要提示是否进行保存
-        if (!slotJudgeCutStatusAndPopSaveDialog()) {
-            return;
-        }
-
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
         CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
     } else {
         m_leftToolbar->slotShortCutSelect();
