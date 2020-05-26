@@ -23,6 +23,7 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <DDialog>
+#include <DWidgetUtil>
 
 #include <QMouseEvent>
 

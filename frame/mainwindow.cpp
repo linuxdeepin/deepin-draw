@@ -494,7 +494,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QSettings settings(fileName, QSettings::IniFormat);
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
-
+    settings.setValue("opened", "true");
 
     emit dApp->popupConfirmDialog();
     event->ignore();
@@ -608,8 +608,16 @@ void MainWindow::readSettings()
 {
     QString fileName = Global::configPath() + "/config.conf";
     QSettings settings(fileName, QSettings::IniFormat);
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+
+    // [0] judge is first load draw process
+    bool opened = settings.value("opened").toBool();
+    if (!opened) {
+        Dtk::Widget::moveToCenter(this);
+        this->showMaximized();
+    } else {
+        restoreGeometry(settings.value("geometry").toByteArray());
+        restoreState(settings.value("windowState").toByteArray());
+    }
 }
 
 void MainWindow::openFiles(QStringList filePaths)
@@ -620,7 +628,6 @@ void MainWindow::openFiles(QStringList filePaths)
             filePaths.removeAt(i);
         }
     }
-
 
     m_centralWidget->slotLoadDragOrPasteFile(filePaths);
 }

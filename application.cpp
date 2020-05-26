@@ -212,9 +212,10 @@ void Application::showMainWindow(const QStringList &paths)
     connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
 #endif
 
+    // [BUG 27979]   need call show first otherwise due window max size icon show error
+    w->show();
     w->initScene();
     w->readSettings();
-    w->show();
 }
 
 void Application::noticeFileRightProblem(const QStringList &problemfile, Application::EFileClassEnum classTp, bool checkQuit)
