@@ -623,12 +623,10 @@ ELineType CGraphicsLineItem::getLineEndType() const
 
 void CGraphicsLineItem::updateGeometry()
 {
-    const QRectF &geom = this->boundingRect();
-
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
-        QPointF centerPos = (m_line.p1() + m_line.p2()) / 2;
+        QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
 
         qreal k = 0;
         qreal ang = 0;
@@ -636,31 +634,29 @@ void CGraphicsLineItem::updateGeometry()
         qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
         case CSizeHandleRect::LeftTop:
-            hndl->move(m_line.p1().x() - w / 2, m_line.p1().y() - h / 2);
+            hndl->move(m_dRectline.p1().x() - w / 2, m_dRectline.p1().y() - h / 2);
             break;
         case CSizeHandleRect::RightBottom:
-            hndl->move(m_line.p2().x() - w / 2, m_line.p2().y() - h / 2);
+            hndl->move(m_dRectline.p2().x() - w / 2, m_dRectline.p2().y() - h / 2);
             break;
         case CSizeHandleRect::Rotation:
-
-            //hndl->move(centerPos.x() - w / 2, centerPos.y() - h - h / 2);
-            if (qAbs(m_line.p2().x() - m_line.p1().x()) < 0.0001) {
-                hndl->move(m_line.p1().x() - h - penwidth, centerPos.y());
+            if (qAbs(m_dRectline.p2().x() - m_dRectline.p1().x()) < 0.0001) {
+                hndl->move(m_dRectline.p1().x() - h - penwidth, centerPos.y());
             } else {
-                k = -(m_line.p2().y() - m_line.p1().y()) / (m_line.p2().x() - m_line.p1().x());
+                k = -(m_dRectline.p2().y() - m_dRectline.p1().y()) / (m_dRectline.p2().x() - m_dRectline.p1().x());
                 ang = atan(k);
 
                 //增加线宽的长度防止缩放造成位置不正确
                 qreal x = qAbs((h + penwidth) * sin(ang));
                 qreal y = qAbs((h + penwidth) * cos(ang));
                 //第一象限
-                if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+                if (m_dRectline.p2().x() - m_dRectline.p1().x() > 0.0001 && m_dRectline.p2().y() - m_dRectline.p1().y() < 0.0001) {
                     hndl->move(centerPos.x() - w / 2 - x, centerPos.y() - h / 2 - y);
-                } else if (m_line.p2().x() - m_line.p1().x() > 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+                } else if (m_dRectline.p2().x() - m_dRectline.p1().x() > 0.0001 && m_dRectline.p2().y() - m_dRectline.p1().y() > 0.0001) {
                     hndl->move(centerPos.x() - w / 2 + x, centerPos.y() - h / 2 - y);
-                } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() > 0.0001) {
+                } else if (m_dRectline.p2().x() - m_dRectline.p1().x() < 0.0001 && m_dRectline.p2().y() - m_dRectline.p1().y() > 0.0001) {
                     hndl->move(centerPos.x() - w / 2 + x, centerPos.y() - h / 2 + y);
-                } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
+                } else if (m_dRectline.p2().x() - m_dRectline.p1().x() < 0.0001 && m_dRectline.p2().y() - m_dRectline.p1().y() < 0.0001) {
                     hndl->move(centerPos.x() - w / 2 - x, centerPos.y() - h / 2 + y);
                 }
             }
@@ -706,17 +702,7 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsLineItem::initLine()
 {
     initHandle();
-//    m_handles.reserve(CSizeHandleRect::None);
-
-//    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
-//    m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
-
     calcVertexes();
-//    updateGeometry();
-//    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-//    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-//    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-//    this->setAcceptHoverEvents(true);
 }
 
 void CGraphicsLineItem::initHandle()
@@ -766,6 +752,7 @@ void CGraphicsLineItem::drawStart()
     switch (m_startType) {
     case noneLine: {
         m_startPath = QPainterPath(p1);
+        m_dRectline.setP1(p1);
         break;
     }
     case normalArrow: {
@@ -780,6 +767,7 @@ void CGraphicsLineItem::drawStart()
         QPointF center = (p2 + p3) / 2;
         m_startPath.lineTo(center);
         m_startPath.moveTo(p1);
+        m_dRectline.setP1(p1);
         break;
     }
     case soildArrow: {
@@ -790,6 +778,7 @@ void CGraphicsLineItem::drawStart()
         m_startPath.lineTo(p3);
         m_startPath.lineTo(p2);
         m_startPath.lineTo(p1);
+        m_dRectline.setP1(p1);
         break;
     }
     case normalRing: {
@@ -801,6 +790,7 @@ void CGraphicsLineItem::drawStart()
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_startPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_startPath.arcTo(ecliRect, 0, 360);
+        m_dRectline.setP1(center + QPointF(-xOff, yOff));
         break;
     }
     case soildRing: {
@@ -812,6 +802,7 @@ void CGraphicsLineItem::drawStart()
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_startPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_startPath.arcTo(ecliRect, 0, 360);
+        m_dRectline.setP1(center + QPointF(-xOff, yOff));
         break;
     }
     }
@@ -843,10 +834,12 @@ void CGraphicsLineItem::drawEnd()
     p1 -= diffV;
     p2 -= diffV;
     p3 -= diffV;
+
     // 绘制终点
     switch (m_endType) {
     case noneLine: {
         m_endPath = QPainterPath(p1);
+        m_dRectline.setP2(p1);
         break;
     }
     case normalArrow: {
@@ -861,6 +854,7 @@ void CGraphicsLineItem::drawEnd()
         QPointF center = (p2 + p3) / 2;
         m_endPath.lineTo(center);
         m_endPath.moveTo(p1);
+        m_dRectline.setP2(p1);
         break;
     }
     case soildArrow: {
@@ -871,6 +865,7 @@ void CGraphicsLineItem::drawEnd()
         m_endPath.lineTo(p3);
         m_endPath.lineTo(p2);
         m_endPath.lineTo(p1);
+        m_dRectline.setP2(p1);
         break;
     }
     case normalRing: {
@@ -882,6 +877,7 @@ void CGraphicsLineItem::drawEnd()
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_endPath.arcTo(ecliRect, 0, 360);
+        m_dRectline.setP2(center + + QPointF(xOff, -yOff));
         break;
     }
     case soildRing: {
@@ -893,6 +889,7 @@ void CGraphicsLineItem::drawEnd()
         QRectF ecliRect(center + QPointF(-radioWidth, -radioWidth), QSizeF(2 * radioWidth, 2 * radioWidth));
         m_endPath = QPainterPath(center + QPointF(radioWidth, 0));
         m_endPath.arcTo(ecliRect, 0, 360);
+        m_dRectline.setP2(center + + QPointF(xOff, -yOff));
         break;
     }
     }
