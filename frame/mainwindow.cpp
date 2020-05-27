@@ -568,6 +568,97 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     DMainWindow::wheelEvent(event);
 }
 
+//static void printLab(QWidget *pWidget, QWidget *pMainWindow)
+//{
+//    QList<QObject *> children = pWidget->children();
+//    for (QObject *pObj : children) {
+//        QLabel *pLabel = qobject_cast<QLabel *>(pObj);
+//        bool finish = false;
+//        if (pLabel != nullptr) {
+//            qDebug() << "printLab pLabel text ========= " << pLabel->text() << "object name = " << pLabel->objectName();
+//            finish = true;
+
+//            if (pLabel->objectName() == "WebsiteLabel") {
+//                pLabel->installEventFilter(pMainWindow);
+//            }
+
+//        } else {
+//            QAbstractButton *pBtn = qobject_cast<QAbstractButton *>(pObj);
+//            if (pBtn != nullptr) {
+//                qDebug() << "printLab pBtn text ========= " << pBtn->text();
+//                finish = true;
+//            }
+//        }
+//    }
+//}
+
+bool MainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::ChildAdded) {
+        QChildEvent *addEvent = dynamic_cast<QChildEvent *>(event);
+        if (addEvent != nullptr) {
+            QWidget *pWidget = dynamic_cast<QWidget *>(addEvent->child());
+
+            if (pWidget != nullptr && !pWidget->isModal()) {
+                QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
+                if (pLabe != nullptr) {
+                    m_pWebsiteLabe = pLabe;
+                }
+                pWidget->installEventFilter(this);
+                m_allChilds.insert(pWidget);
+            }
+        }
+
+    } else if (event->type() == QEvent::ChildRemoved) {
+        QChildEvent *addEvent = dynamic_cast<QChildEvent *>(event);
+        if (addEvent != nullptr) {
+            QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
+            if (pWidget != nullptr) {
+                m_allChilds.remove(pWidget);
+            }
+        }
+    }
+    return DMainWindow::event(event);
+}
+
+bool MainWindow::eventFilter(QObject *o, QEvent *e)
+{
+    if (o->isWidgetType()) {
+        QWidget *pWidget = qobject_cast<QWidget *>(o);
+        if (m_pWebsiteLabe == o) {
+            //找到这个东西了
+            static QCursor s_temp;
+            if (e->type() == QEvent::Enter) {
+                s_temp = *qApp->overrideCursor();
+                qApp->setOverrideCursor(Qt::PointingHandCursor);
+            } else if (e->type() == QEvent::Leave) {
+                qApp->setOverrideCursor(s_temp);
+            }
+        } else if (m_allChilds.contains(pWidget)) {
+
+            if (e->type() == QEvent::ChildAdded) {
+                QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
+
+                QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
+                if (pWidget != nullptr) {
+                    QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
+                    if (pLabe != nullptr) {
+                        m_pWebsiteLabe = pLabe;
+                        m_pWebsiteLabe->installEventFilter(this);
+                    }
+                }
+            } else if (e->type() == QEvent::ChildRemoved) {
+                QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
+                if (addEvent != nullptr && addEvent->child() == m_pWebsiteLabe) {
+                    m_pWebsiteLabe->removeEventFilter(this);
+                    m_pWebsiteLabe = nullptr;
+                }
+            }
+        }
+    }
+    return DMainWindow::eventFilter(o, e);
+}
+
 void MainWindow::openImage(QString path, bool isStartByDDF)
 {
     // 此函数是命令行调用进行处理的相关代码
