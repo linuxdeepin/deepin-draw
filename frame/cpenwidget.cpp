@@ -318,6 +318,7 @@ void CPenWidget::updatePenWidget()
     m_sideWidthWidget->blockSignals(false);
 
     // 更新线起点样式
+    m_maskLableStart->setVisible(false);
     m_startLabel->setVisible(true);
     m_lineStartComboBox->blockSignals(true);
     m_lineStartComboBox->setVisible(true);
@@ -325,6 +326,7 @@ void CPenWidget::updatePenWidget()
     m_lineStartComboBox->blockSignals(false);
 
     // 更新线终点样式
+    m_maskLableEnd->setVisible(false);
     m_endLabel->setVisible(true);
     m_lineEndComboBox->blockSignals(true);
     m_lineEndComboBox->setVisible(true);
