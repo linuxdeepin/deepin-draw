@@ -842,6 +842,7 @@ void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawSc
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
     }
+
     //判断当前鼠标下的item是否为空
     if (m_currentSelectItem != nullptr) {
         if (m_currentSelectItem->type() == TextType) {
@@ -851,8 +852,44 @@ void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawSc
                 finished = true;
                 pTextItem->makeEditabel();
             }
+        } else {
+            CGraphicsItem *itemCasted = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+            m_dragHandle = itemCasted != nullptr ? itemCasted->hitTest(event->scenePos()) : CSizeHandleRect::None;
+            finished = true;
+            if (event->button() == Qt::LeftButton) {
+                m_bMousePress = true;
+                m_sPointPress = event->scenePos();
+                m_sLastPress = m_sPointPress;
+            }
+        }
+    } else {
+        QList<QGraphicsItem *> items =  scene->items(event->scenePos());
+
+        if (!items.isEmpty()) {
+            QGraphicsItem *pFirstItem = items.first();
+            bool isNodeItem = !(pFirstItem->type() >= RectType && pFirstItem->type() <= hightLightType);
+            if (isNodeItem) {
+                finished = true;
+                m_dragHandle = CSizeHandleRect::None;
+
+                CGraphicsItem *pItemParent = dynamic_cast<CGraphicsItem *>(pFirstItem->parentItem());
+                if (pItemParent != nullptr) {
+                    bool isBusItem = (pItemParent->type() >= RectType && pItemParent->type() <= hightLightType);
+                    if (isBusItem) {
+                        m_dragHandle = pItemParent->hitTest(event->scenePos());
+                        if (event->button() == Qt::LeftButton) {
+                            m_bMousePress = true;
+                            m_sPointPress = event->scenePos();
+                            m_sLastPress = m_sPointPress;
+                        }
+                    }
+                }
+            }
         }
     }
+
+
+    //qDebug() << "--------------m_dragHandle ============== " << m_dragHandle;
 
     if (!finished) {
         scene->mouseEvent(event);
