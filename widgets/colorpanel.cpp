@@ -140,6 +140,7 @@ void ColorPanel::setConfigColor(QColor color)
         colorName = color.name().split("#").last();
     }
     m_colLineEdit->blockSignals(true);
+    m_colLineEdit->clear();
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
@@ -242,7 +243,7 @@ void ColorPanel::initUI()
     m_colLineEdit->setObjectName("Color Line Edit");
     m_colLineEdit->setFixedSize(180, 36);
     m_colLineEdit->setClearButtonEnabled(false);
-    m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6,8}"), this));
+    m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
     //m_colLineEdit->lineEdit()->setEnabled(false);
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString> > pictureMap;
@@ -311,6 +312,7 @@ void ColorPanel::initConnection()
             colorName = color.name().split("#").last();
         }
         m_colLineEdit->blockSignals(true);
+        m_colLineEdit->clear();
         m_colLineEdit->setText(colorName);
         m_colLineEdit->blockSignals(false);
     });
@@ -420,6 +422,7 @@ void ColorPanel::updateColorPanel(DrawStatus status, QColor color, int alpha)
         colorName = configColor.name().split("#").last();
     }
     m_colLineEdit->blockSignals(true);
+    m_colLineEdit->clear();
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
     /// 颜色Alpha值
