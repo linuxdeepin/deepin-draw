@@ -1,0 +1,6 @@
+{
+       "type": "homebrew",
+       "3rdparty": [],
+       "ignore": ["./CHANGELOG.md","./debian","./deepin-draw.desktop","./draw.pro","./generate_translations.sh","./.git","./.gitignore","./icon","./LICENSE","./logo","./mimetype","./README.md","./.transifexrc","./translate_desktop.sh","./translations","./.tx","update_ts.sh","*.json","*.qrc","*.svg","*.png","*.jpg","*.qm","*.ts","*.pri","*.TXT"],
+       "license": ["GPLv3"]
+}
