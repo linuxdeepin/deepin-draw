@@ -6,7 +6,7 @@ mode = master
 [deepin-draw.deepin-draw]
 file_filter = translations/deepin-draw_<lang>.ts
 source_file = translations/deepin-draw_en_US.ts
-source_lang = en
+source_lang = en_US
 type = QT
 
 [deepin-draw.deepin-draw-desktop]
