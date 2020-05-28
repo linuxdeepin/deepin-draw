@@ -1611,47 +1611,47 @@ CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleR
     m_bResized = false;
     m_listItems = myGraphicsScene->getItemsMgr()->getItems();
 
-    QRectF rect = myGraphicsScene->getItemsMgr()->getMultItemRect();
-    switch (m_handle) {
-    case CSizeHandleRect::Right:
-        m_beginPos = QPointF(rect.right(), 0);
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        break;
-    case CSizeHandleRect::RightTop:
-        m_beginPos = rect.topRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    case CSizeHandleRect::RightBottom:
-        m_beginPos = rect.bottomRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::LeftBottom:
-        m_beginPos = rect.bottomLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::Bottom:
-        m_beginPos = QPointF(0, rect.bottom());
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::LeftTop:
-        m_beginPos = rect.topLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    case CSizeHandleRect::Left:
-        m_beginPos = QPointF(rect.left(), 0);
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        break;
-    case CSizeHandleRect::Top:
-        m_beginPos = QPointF(0, rect.top());
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    default:
-        break;
-    }
+//    QRectF rect = myGraphicsScene->getItemsMgr()->getMultItemRect();
+//    switch (m_handle) {
+//    case CSizeHandleRect::Right:
+//        m_beginPos = QPointF(rect.right(), 0);
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        break;
+//    case CSizeHandleRect::RightTop:
+//        m_beginPos = rect.topRight();
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    case CSizeHandleRect::RightBottom:
+//        m_beginPos = rect.bottomRight();
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::LeftBottom:
+//        m_beginPos = rect.bottomLeft();
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::Bottom:
+//        m_beginPos = QPointF(0, rect.bottom());
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::LeftTop:
+//        m_beginPos = rect.topLeft();
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    case CSizeHandleRect::Left:
+//        m_beginPos = QPointF(rect.left(), 0);
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        break;
+//    case CSizeHandleRect::Top:
+//        m_beginPos = QPointF(0, rect.top());
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    default:
+//        break;
+//    }
 }
 
 void CMultResizeShapeCommand::undo()

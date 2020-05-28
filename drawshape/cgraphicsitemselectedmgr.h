@@ -78,10 +78,10 @@ public:
                           bool bShiftPress,
                           bool bAltPress) Q_DECL_OVERRIDE;
 
-//    void resizeTo(CSizeHandleRect::EDirection dir,
-//                  const QPointF &mousePos,
-//                  const QPointF &offset,
-//                  bool bShiftPress, bool bAltPress);
+    void resizeTo(CSizeHandleRect::EDirection dir,
+                  const QPointF &mousePos,
+                  const QPointF &offset,
+                  bool bShiftPress, bool bAltPress);
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
@@ -124,8 +124,10 @@ private:
      * @brief initRect 初始化矩形的属性和边框小方块
      */
     void initHandle() override;
-    bool couldResize(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
-    QPointF getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
+    bool couldResize(QRectF itemSceneBoundRect, QPointF mousePoint,
+                     CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
+    QPointF getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint,
+                        CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
 
 private:
     QList<CGraphicsItem * > m_listItems;
