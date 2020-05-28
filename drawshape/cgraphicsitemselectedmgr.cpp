@@ -400,11 +400,13 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                 }
                 break;
             case CSizeHandleRect::Right:
-                xScale = offset.x() / geomMult.width();
-                yScale = 0;
-                rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
-                rectCffset.setY(0);
-                item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                if ((mousePos.x() - geomMult.left()) > 20 && (geomMult.bottom() - mousePos.y()) > 20) {
+                    xScale = offset.x() / geomMult.width();
+                    yScale = 0;
+                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
+                    rectCffset.setY(0);
+                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                }
                 break;
             case CSizeHandleRect::RightBottom:
                 if ((mousePos.x() - geomMult.left()) > 20 && (mousePos.y() - geomMult.top()) > 20) {
