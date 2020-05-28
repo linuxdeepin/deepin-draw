@@ -51,6 +51,7 @@ void CGraphicsItemSelectedMgr::clear()
 {
     prepareGeometryChange();
     foreach (QGraphicsItem *item, m_listItems) {
+        //item->setParentItem(nullptr);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
     }
     m_listItems.clear();
@@ -62,7 +63,6 @@ QRectF CGraphicsItemSelectedMgr::boundingRect() const
     QRectF rect;
     foreach (QGraphicsItem *item, m_listItems) {
         rect = rect.united(item->mapRectToScene(item->boundingRect()));
-        //rect = rect.united(item->boundingRect());
     }
 
     rect = mapFromScene(rect).boundingRect();
@@ -129,6 +129,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
 
 void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
+    prepareGeometryChange();
     QRectF pressRect = m_mapItemsRect[this];
     if (!couldResize(pressRect, point, dir, bShiftPress, bAltPress)) {
         return;
@@ -399,7 +400,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                 }
                 break;
             case CSizeHandleRect::Right:
-                if ((mousePos.x() - geomMult.left()) > 20) {
+                if ((mousePos.x() - geomMult.left()) > 20 && (geomMult.bottom() - mousePos.y()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = 0;
                     rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);

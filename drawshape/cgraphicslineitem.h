@@ -102,7 +102,8 @@ private:
 
 
 private:
-    QLineF m_line;
+    QLineF m_line; // 中间直线的位置信息
+    QLineF m_dRectline; // 矩形直线的位置信息
     ELineType m_startType; // 起始点样式
     ELineType m_endType; // 终点样式
 

@@ -85,6 +85,9 @@ private:
     DDialog *m_questionDialog;
 
 
+    int  m_saveBtnId = -1;
+
+
 private:
     void initUI();
     void initConnection();

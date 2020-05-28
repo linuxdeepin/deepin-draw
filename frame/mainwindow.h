@@ -23,6 +23,7 @@
 #include <DWidget>
 #include <DGuiApplicationHelper>
 #include <DDialog>
+#include <DWidgetUtil>
 
 #include <QMouseEvent>
 
@@ -119,6 +120,9 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
+    bool event(QEvent *event) override;
+    bool eventFilter(QObject *o, QEvent *e)override;
+
 
 private slots:
     /**
@@ -177,6 +181,11 @@ private:
      * @brief doCloseOtherDiv　判断是否需要继续关闭页面
      */
     void closeTabViews();
+
+
+    QSet<QWidget *> m_allChilds;
+
+    QLabel *m_pWebsiteLabe = nullptr;
 };
 
 #endif // MAINWINDOW_H

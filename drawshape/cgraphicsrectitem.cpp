@@ -605,11 +605,12 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
+    prepareGeometryChange();
     QRectF rect;// = this->rect();
-    QPointF bottomRight = itemPressRect.bottomRight();
-    QPointF topLeft = itemPressRect.topLeft();
-    QPointF topRight = itemPressRect.topRight();
-    QPointF bottomLeft = itemPressRect.bottomLeft();
+    //QPointF bottomRight = itemPressRect.bottomRight();
+    //QPointF topLeft = itemPressRect.topLeft();
+    //QPointF topRight = itemPressRect.topRight();
+    //QPointF bottomLeft = itemPressRect.bottomLeft();
     rect = itemPressRect;
     qDebug() << "************CGraphicsRectItem rect = " << rect;
     if (!bShiftPress && !bAltPress) {

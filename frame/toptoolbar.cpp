@@ -252,7 +252,6 @@ void TopToolbar::initMenu()
     //画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。
     dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool for users to freely draw and simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
-    //dApp->setApplicationAcknowledgementPage("https://www.chinauos.com/");
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);

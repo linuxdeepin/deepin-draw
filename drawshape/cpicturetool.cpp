@@ -25,6 +25,7 @@
 #include <DMessageBox>
 #include <QGraphicsItem>
 #include <DDialog>
+#include <QImageReader>
 
 #include "service/cmanagerattributeservice.h"
 
@@ -154,7 +155,29 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     QtConcurrent::run([ = ] {
         for (int i = 0; i < filenames.size(); i++)
         {
-            QPixmap pixmap(filenames[i]);
+            //QTime ti;
+            //ti.start();
+
+            auto fOptimalConditions = [ = ](const QImageReader & reader) {
+                QSize orgSz = reader.size();
+                return (orgSz.width() > 1920 && orgSz.height() > 1080);
+            };
+
+            QPixmap pixmap;
+            QImageReader reader(filenames[i]);
+            bool shouldOptimal = fOptimalConditions(reader);
+            qreal radio = shouldOptimal ? 0.5 : 1.0;
+            QSize newSize = reader.size() * radio;
+            reader.setScaledSize(newSize);
+            if (shouldOptimal)
+                reader.setQuality(30);
+
+            if (reader.canRead()) {
+                QImage img = reader.read();
+                pixmap = QPixmap::fromImage(img);
+            }
+
+            //qDebug() << " QImageReader load used ms  ================ " << ti.elapsed();;
 
             QFile f(filenames[i]);
             QByteArray srcBytes;

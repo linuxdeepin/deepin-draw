@@ -31,6 +31,7 @@
 #include <QCloseEvent>
 #include <QDebug>
 #include <QDateTime>
+#include <QAbstractButton>
 
 
 const QSize DIALOG_SIZE = QSize(380, 280);
@@ -173,7 +174,7 @@ void CExportImageDialog::initUI()
     addContent(contentWidget);
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    addButton(tr("Save"), true, DDialog::ButtonRecommend);
+    m_saveBtnId = addButton(tr("Save"), true, DDialog::ButtonRecommend);
 
     m_questionDialog = new DDialog(this);
     m_questionDialog->setIcon(QIcon::fromTheme("dialog-warning"));
@@ -192,7 +193,19 @@ void CExportImageDialog::initConnection()
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
     connect(this, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnDialogButtonClick(int, const QString & )));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
+    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this,
+            SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
+
+    //设置的文件名为空时应该要设置保存按钮为disable
+    connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
+        if (m_saveBtnId != -1) {
+            QAbstractButton *pBtn = getButton(m_saveBtnId);
+
+            if (pBtn != nullptr) {
+                pBtn->setEnabled(!text.isEmpty());
+            }
+        }
+    });
 
 }
 

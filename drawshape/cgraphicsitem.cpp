@@ -132,12 +132,23 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
 
 void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
-
+    Q_UNUSED(dir)
+    Q_UNUSED(offset)
+    Q_UNUSED(xScale)
+    Q_UNUSED(yScale)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
 void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
-
+    Q_UNUSED(dir)
+    Q_UNUSED(itemPressRect)
+    Q_UNUSED(pressRect)
+    Q_UNUSED(xScale)
+    Q_UNUSED(yScale)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
 void CGraphicsItem::duplicate(CGraphicsItem *item)

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
  *
  * Author:     WangXin
@@ -60,7 +60,6 @@ void CTextEdit::slot_textChanged()
     // 文本删除完后重新写入文字需要重置属性
     if (m_resetDefaultProperty && this->document()->toPlainText().length() == 1) {
         m_resetDefaultProperty = false;
-        qDebug() << "reset: " << "999999999999999999999999999999999999999999";
         this->selectAll();
         QTextCharFormat fmt;
         fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
@@ -122,7 +121,6 @@ void CTextEdit::cursorPositionChanged()
     // 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
     if (this->document()->toPlainText().isEmpty()) {
         updatePropertyCache2Cursor();
-        qDebug() << "updatePropertyCache2Cursor: " << "***********************************************";
         return;
     }
 
@@ -156,6 +154,29 @@ void CTextEdit::solveHtml(QString &html)
     // [1] 剔除错误的字符格式并保存数据  得到的数据：
     // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:#000000;\">输入文本
     // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:rgba(0,0,0,0.341176);\">输入文本
+
+    // [2] 28155 solve input chinese,text widget property show error
+    if (!list.size()) {
+        this->selectAll();
+        QTextCharFormat fmt;
+        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->mergeCurrentCharFormat(fmt);
+        this->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+        QSizeF size = this->document()->size();
+        QRectF rect = m_pItem->rect();
+        // 如果是两点的状态高度需要自适应
+        if (!m_pItem->getManResizeFlag()) {
+            QFontMetrics fm(fmt.font());
+            rect.setHeight(fm.height() * 1.4);
+        }
+        rect.setWidth(size.width());
+        return;
+    }
 
     m_allTextInfo.clear();
     for (int i = 0; i < list.size(); i++) {

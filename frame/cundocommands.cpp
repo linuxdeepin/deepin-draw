@@ -137,6 +137,8 @@ CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphic
     myGraphicsScene = scene;
     m_items = items;
     m_oldIndex = -1;
+
+    qDebug() << "CDeleteShapeCommand construct recrod item count = " << items.count();
 }
 
 CDeleteShapeCommand::~CDeleteShapeCommand()
@@ -183,14 +185,12 @@ void CDeleteShapeCommand::redo()
     qDebug() << "CDeleteShapeCommand redo";
     if (m_items.count() == 1) {
         QList<QGraphicsItem *> itemList = myGraphicsScene->items();
-//        for (int i = 0; i < itemList.count(); i++) {
-//            qDebug() << "**********item=" << itemList.at(i)->type() << "zValue=" << "i=" << i << "::" << itemList.at(i)->zValue();
-//        }
         m_oldIndex = itemList.indexOf(m_items.first());
     }
 
     bool remove = false;
     foreach (QGraphicsItem *item, m_items) {
+        //item->setParentItem(nullptr);
         myGraphicsScene->removeItem(item);
         remove = true;
     }
@@ -1611,47 +1611,47 @@ CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleR
     m_bResized = false;
     m_listItems = myGraphicsScene->getItemsMgr()->getItems();
 
-    QRectF rect = myGraphicsScene->getItemsMgr()->getMultItemRect();
-    switch (m_handle) {
-    case CSizeHandleRect::Right:
-        m_beginPos = QPointF(rect.right(), 0);
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        break;
-    case CSizeHandleRect::RightTop:
-        m_beginPos = rect.topRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    case CSizeHandleRect::RightBottom:
-        m_beginPos = rect.bottomRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::LeftBottom:
-        m_beginPos = rect.bottomLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::Bottom:
-        m_beginPos = QPointF(0, rect.bottom());
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
-        break;
-    case CSizeHandleRect::LeftTop:
-        m_beginPos = rect.topLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    case CSizeHandleRect::Left:
-        m_beginPos = QPointF(rect.left(), 0);
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        break;
-    case CSizeHandleRect::Top:
-        m_beginPos = QPointF(0, rect.top());
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
-        break;
-    default:
-        break;
-    }
+//    QRectF rect = myGraphicsScene->getItemsMgr()->getMultItemRect();
+//    switch (m_handle) {
+//    case CSizeHandleRect::Right:
+//        m_beginPos = QPointF(rect.right(), 0);
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        break;
+//    case CSizeHandleRect::RightTop:
+//        m_beginPos = rect.topRight();
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    case CSizeHandleRect::RightBottom:
+//        m_beginPos = rect.bottomRight();
+//        m_beginPos.setX(m_beginPos.rx() - 0.5);
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::LeftBottom:
+//        m_beginPos = rect.bottomLeft();
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::Bottom:
+//        m_beginPos = QPointF(0, rect.bottom());
+//        m_beginPos.setY(m_beginPos.ry() - 0.5);
+//        break;
+//    case CSizeHandleRect::LeftTop:
+//        m_beginPos = rect.topLeft();
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    case CSizeHandleRect::Left:
+//        m_beginPos = QPointF(rect.left(), 0);
+//        m_beginPos.setX(m_beginPos.rx() + 0.5);
+//        break;
+//    case CSizeHandleRect::Top:
+//        m_beginPos = QPointF(0, rect.top());
+//        m_beginPos.setY(m_beginPos.ry() + 0.5);
+//        break;
+//    default:
+//        break;
+//    }
 }
 
 void CMultResizeShapeCommand::undo()
@@ -1682,10 +1682,10 @@ void CMultResizeShapeCommand::redo()
         myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
 
         myGraphicsScene->clearSelection();
-        myGraphicsScene->getItemsMgr()->clear();
-        foreach (CGraphicsItem *item, m_listItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-        }
+//        myGraphicsScene->getItemsMgr()->clear();
+//        foreach (CGraphicsItem *item, m_listItems) {
+//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
+//        }
         if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
             myGraphicsScene->clearSelection();
             myGraphicsScene->getItemsMgr()->setSelected(true);
