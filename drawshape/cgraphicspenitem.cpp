@@ -919,7 +919,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 //        arrow.append(point);
 //    }
 //    m_arrow = arrow;
-    //prepareGeometryChange();
+    prepareGeometryChange();
     m_path = path;
     this->moveBy(offset.x(), offset.y());
     calcVertexes();
