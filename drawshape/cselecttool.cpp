@@ -101,6 +101,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
     bool ctrlKeyPress = scene->getDrawParam()->getCtlKeyStatus();
     scene->getItemHighLight()->setVisible(false);
+
+    // [BUG:26818] 导致相邻两条线会以高亮的线为选择，出现起终点重叠
     if ( m_highlightItem != nullptr ) {
         m_currentSelectItem = m_highlightItem;
     }
