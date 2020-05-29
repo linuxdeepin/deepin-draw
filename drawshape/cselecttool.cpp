@@ -384,7 +384,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
             if (dragHandle != m_dragHandle) {
                 m_dragHandle = dragHandle;
-                m_pressItemRect = m_currentSelectItem->sceneBoundingRect();
+                CGraphicsItem *pCUrItem = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
+                m_pressItemRect = pCUrItem->mapRectToScene(pCUrItem->rect());/*m_currentSelectItem->sceneBoundingRect()*/;
                 //记录多选图元的resize前的大小及位置
                 scene->getItemsMgr()->recordItemsRect();
                 if (m_dragHandle == CSizeHandleRect::InRect && m_currentSelectItem->type() == TextType && static_cast<CGraphicsTextItem *>(m_currentSelectItem)->getTextEdit()->isVisible()) {
