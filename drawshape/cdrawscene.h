@@ -277,7 +277,7 @@ public slots:
      * @brief drawToolChange 切换绘图工具
      * @param type
      */
-    void drawToolChange(int type);
+    void drawToolChange(int type, bool clearSections = true);
 
     /**
      * @brief changeMouseShape 切换鼠标形状

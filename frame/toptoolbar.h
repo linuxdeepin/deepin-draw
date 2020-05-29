@@ -124,8 +124,9 @@ public slots:
     /**
      * @brief updateMiddleWidget　按类型更新工具栏
      * @param type　图元类型
+     * @param showSelfPropreWidget　该标记决定是否显示出空白属性页
      */
-    void updateMiddleWidget(int type);
+    void updateMiddleWidget(int type, bool showSelfPropreWidget = true);
     /**
      * @brief showColorfulPanel　显示调色板
      * @param drawstatus　颜色类型

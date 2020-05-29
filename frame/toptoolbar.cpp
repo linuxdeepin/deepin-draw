@@ -279,13 +279,15 @@ void TopToolbar::changeTopButtonsTheme()
     m_cutWidget->changeButtonTheme();
 }
 
-void TopToolbar::updateMiddleWidget(int type)
+void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
 {
     switch (type) {
     case::selection: {
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-        m_titleWidget->updateTitleWidget();
-        m_stackWidget->setCurrentWidget(m_titleWidget);
+        if (showSelfPropreWidget) {
+            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+            m_titleWidget->updateTitleWidget();
+            m_stackWidget->setCurrentWidget(m_titleWidget);
+        }
         break;
     }
     case::importPicture:

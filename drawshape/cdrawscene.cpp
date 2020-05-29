@@ -380,9 +380,10 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 }
 
-void CDrawScene::drawToolChange(int type)
+void CDrawScene::drawToolChange(int type, bool clearSections)
 {
-    clearMutiSelectedState();
+    if (clearSections)
+        clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
 }
