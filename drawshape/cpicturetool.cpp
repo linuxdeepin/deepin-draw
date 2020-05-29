@@ -155,29 +155,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     QtConcurrent::run([ = ] {
         for (int i = 0; i < filenames.size(); i++)
         {
-            //QTime ti;
-            //ti.start();
-
-            auto fOptimalConditions = [ = ](const QImageReader & reader) {
-                QSize orgSz = reader.size();
-                return (orgSz.width() > 1920 && orgSz.height() > 1080);
-            };
-
-            QPixmap pixmap;
-            QImageReader reader(filenames[i]);
-            bool shouldOptimal = fOptimalConditions(reader);
-            qreal radio = shouldOptimal ? 0.5 : 1.0;
-            QSize newSize = reader.size() * radio;
-            reader.setScaledSize(newSize);
-            if (shouldOptimal)
-                reader.setQuality(30);
-
-            if (reader.canRead()) {
-                QImage img = reader.read();
-                pixmap = QPixmap::fromImage(img);
-            }
-
-            //qDebug() << " QImageReader load used ms  ================ " << ti.elapsed();;
+            QPixmap pixmap = getPixMapQuickly(filenames[i]);
 
             QFile f(filenames[i]);
             QByteArray srcBytes;
@@ -190,6 +168,44 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
     CManagerAttributeService::getInstance()->signalIsAllPictureItem(true, false);
+}
+
+QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
+{
+    //QTime ti;
+    //ti.start();
+
+    auto fOptimalConditions = [ = ](const QImageReader & reader) {
+        QSize orgSz = reader.size();
+        return (orgSz.width() > 1920 && orgSz.height() > 1080);
+    };
+
+    QPixmap pixmap;
+    QImageReader reader(imagePath);
+    bool shouldOptimal = fOptimalConditions(reader);
+    qreal radio = shouldOptimal ? 0.5 : 1.0;
+    QSize orgSize = reader.size();
+    QSize newSize = orgSize * radio;
+    reader.setScaledSize(newSize);
+
+
+    if (shouldOptimal)
+        reader.setQuality(30);
+
+    if (reader.canRead()) {
+        QImage img = reader.read();
+        pixmap = QPixmap::fromImage(img);
+
+        //维持原大小
+        bool haveOptimal = shouldOptimal;
+        if (haveOptimal) {
+            pixmap = pixmap.scaled(orgSize);
+        }
+    }
+
+    //qDebug() << " QImageReader load used ms  ================ " << ti.elapsed();;
+
+    return pixmap;
 }
 
 
