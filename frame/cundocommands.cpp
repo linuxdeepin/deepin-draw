@@ -532,12 +532,12 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
     switch (m_handle) {
     case CSizeHandleRect::Right:
         m_beginPos = QPointF(rect.right(), 0);
-        m_beginPos.setX(m_beginPos.rx()/* - 0.5*/);
+        m_beginPos.setX(m_beginPos.rx());
         break;
     case CSizeHandleRect::RightTop:
         m_beginPos = rect.topRight();
-        m_beginPos.setX(m_beginPos.rx()/* - 0.5*/);
-        m_beginPos.setY(m_beginPos.ry() /*+ 0.5*/);
+        m_beginPos.setX(m_beginPos.rx());
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::RightBottom:
         if (myItem->type() == LineType) {
@@ -545,18 +545,18 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
             m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p2();
         } else {
             m_beginPos = rect.bottomRight();
-            m_beginPos.setX(m_beginPos.rx() - 0.5);
-            m_beginPos.setY(m_beginPos.ry() - 0.5);
+            m_beginPos.setX(m_beginPos.rx());
+            m_beginPos.setY(m_beginPos.ry());
         }
         break;
     case CSizeHandleRect::LeftBottom:
         m_beginPos = rect.bottomLeft();
-        m_beginPos.setX(m_beginPos.rx() /*+ 0.5*/);
-        m_beginPos.setY(m_beginPos.ry() /*- 0.5*/);
+        m_beginPos.setX(m_beginPos.rx());
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::Bottom:
         m_beginPos = QPointF(0, rect.bottom());
-        m_beginPos.setY(m_beginPos.ry() /*- 0.5*/);
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::LeftTop:
         if (myItem->type() == LineType) {
@@ -564,17 +564,17 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
             m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p1();
         } else {
             m_beginPos = rect.topLeft();
-            m_beginPos.setX(m_beginPos.rx() + 0.5);
-            m_beginPos.setY(m_beginPos.ry() + 0.5);
+            m_beginPos.setX(m_beginPos.rx());
+            m_beginPos.setY(m_beginPos.ry());
         }
         break;
     case CSizeHandleRect::Left:
         m_beginPos = QPointF(rect.left(), 0);
-        m_beginPos.setX(m_beginPos.rx() /*+ 0.5*/);
+        m_beginPos.setX(m_beginPos.rx());
         break;
     case CSizeHandleRect::Top:
         m_beginPos = QPointF(0, rect.top());
-        m_beginPos.setY(m_beginPos.ry() /*+ 0.5*/);
+        m_beginPos.setY(m_beginPos.ry());
         break;
     default:
         break;
