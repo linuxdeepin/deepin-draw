@@ -74,7 +74,6 @@ CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SG
     initLine();
 }
 
-
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 
@@ -133,7 +132,7 @@ QRectF CGraphicsLineItem::boundingRect() const
 
 QRectF CGraphicsLineItem::rect() const
 {
-    QRectF rect(m_line.p1(), m_line.p2());
+    QRectF rect(m_dRectline.p1(), m_dRectline.p2());
     return rect.normalized();
 }
 
@@ -559,7 +558,6 @@ void CGraphicsLineItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-
 CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;
@@ -626,10 +624,6 @@ void CGraphicsLineItem::updateGeometry()
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
-        QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
-
-        qreal k = 0;
-        qreal ang = 0;
         qreal w = hndl->boundingRect().width();
         qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
@@ -639,7 +633,12 @@ void CGraphicsLineItem::updateGeometry()
         case CSizeHandleRect::RightBottom:
             hndl->move(m_dRectline.p2().x() - w / 2, m_dRectline.p2().y() - h / 2);
             break;
-        case CSizeHandleRect::Rotation:
+        case CSizeHandleRect::Rotation: {
+            // 以下代码没有实际作用
+            QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
+            qreal k = 0;
+            qreal ang = 0;
+
             if (qAbs(m_dRectline.p2().x() - m_dRectline.p1().x()) < 0.0001) {
                 hndl->move(m_dRectline.p1().x() - h - penwidth, centerPos.y());
             } else {
@@ -661,6 +660,7 @@ void CGraphicsLineItem::updateGeometry()
                 }
             }
             break;
+        }
         default:
             break;
         }

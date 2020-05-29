@@ -219,6 +219,15 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
             } else {
                 qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress, 1));
             }
+
+            // 判断直线记录缩放之前的点
+            if (m_currentSelectItem->type() == LineType) {
+                if (CSizeHandleRect::RightBottom == m_dragHandle) {
+                    m_lineReShapeFirstPress = m_currentSelectItem->mapToScene(dynamic_cast<CGraphicsLineItem *>(m_currentSelectItem)->line().p2());
+                } else if (CSizeHandleRect::LeftTop == m_dragHandle) {
+                    m_lineReShapeFirstPress = m_currentSelectItem->mapToScene(dynamic_cast<CGraphicsLineItem *>(m_currentSelectItem)->line().p1());
+                }
+            }
         }
 
         if (CSizeHandleRect::None == m_dragHandle || CSizeHandleRect::InRect == m_dragHandle) {
@@ -762,7 +771,11 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
                     if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
-                        emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_pressItemRect, m_sPointRelease, shiftKeyPress, altKeyPress);
+                        if (m_currentSelectItem->type() == LineType) {
+                            emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_pressItemRect, m_lineReShapeFirstPress, shiftKeyPress, altKeyPress);
+                        } else {
+                            emit scene->itemResize(static_cast<CGraphicsItem *>(m_currentSelectItem), m_dragHandle, m_pressItemRect, m_sPointRelease, shiftKeyPress, altKeyPress);
+                        }
                     }
                 }
             }

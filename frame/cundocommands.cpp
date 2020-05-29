@@ -540,9 +540,20 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
         m_beginPos.setY(m_beginPos.ry() /*+ 0.5*/);
         break;
     case CSizeHandleRect::RightBottom:
+<<<<<<< Updated upstream
         m_beginPos = rect.bottomRight();
         m_beginPos.setX(m_beginPos.rx() /*- 0.5*/);
         m_beginPos.setY(m_beginPos.ry() /*- 0.5*/);
+=======
+        if (myItem->type() == LineType) {
+            m_beginPos = endPos;
+            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p2();
+        } else {
+            m_beginPos = rect.bottomRight();
+            m_beginPos.setX(m_beginPos.rx() - 0.5);
+            m_beginPos.setY(m_beginPos.ry() - 0.5);
+        }
+>>>>>>> Stashed changes
         break;
     case CSizeHandleRect::LeftBottom:
         m_beginPos = rect.bottomLeft();
@@ -554,9 +565,20 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
         m_beginPos.setY(m_beginPos.ry() /*- 0.5*/);
         break;
     case CSizeHandleRect::LeftTop:
+<<<<<<< Updated upstream
         m_beginPos = rect.topLeft();
         m_beginPos.setX(m_beginPos.rx() /*+ 0.5*/);
         m_beginPos.setY(m_beginPos.ry() /*+ 0.5*/);
+=======
+        if (myItem->type() == LineType) {
+            m_beginPos = endPos;
+            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p1();
+        } else {
+            m_beginPos = rect.topLeft();
+            m_beginPos.setX(m_beginPos.rx() + 0.5);
+            m_beginPos.setY(m_beginPos.ry() + 0.5);
+        }
+>>>>>>> Stashed changes
         break;
     case CSizeHandleRect::Left:
         m_beginPos = QPointF(rect.left(), 0);
@@ -569,7 +591,7 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
     default:
         break;
     }
-    qDebug() << "m_beginPos = " << m_beginPos;
+    qDebug() << "m_beginPos: " << m_beginPos << "m_endPos: " << m_endPos;
     myGraphicsScene = scene;
 }
 
@@ -582,8 +604,8 @@ void CResizeShapeCommand::undo()
         myItem->setSelected(true);
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
+        myGraphicsScene->setModify(true);
     }
-    myGraphicsScene->setModify(true);
 }
 
 void CResizeShapeCommand::redo()
@@ -595,8 +617,8 @@ void CResizeShapeCommand::redo()
         myItem->setSelected(true);
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
+        myGraphicsScene->setModify(true);
     }
-    myGraphicsScene->setModify(true);
 }
 
 /*
