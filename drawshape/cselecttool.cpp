@@ -536,7 +536,12 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
                 scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
                 //scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), shiftKeyPress, altKeyPress);
-                m_doResize = true;
+                //QPointF newMousePos = event->scenePos();
+                //QPointF newOffset = offsetPoint;
+                //scene->getItemsMgr()->resizeTo(m_dragHandle, newMousePos,
+                //                               newOffset, shiftKeyPress, altKeyPress);
+                //m_sLastResizePress = newMousePos;
+                //m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->resizeTo(m_dragHandle, event->scenePos());

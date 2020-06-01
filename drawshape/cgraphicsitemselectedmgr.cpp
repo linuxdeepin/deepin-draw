@@ -730,6 +730,826 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     updateGeometry();
 }
 
+bool CGraphicsItemSelectedMgr::isResizableWithInfo(CSizeHandleRect::EDirection dir,
+                                                   QPointF &mousePos,
+                                                   QPointF &offset,
+                                                   bool bShiftPress,
+                                                   bool bAltPress)
+{
+    bool accept = true;
+    QPointF newMousePos = mousePos;
+    QPointF outOffset   = offset;
+    qreal minLen = 20;
+    QRectF curScenRect = mapRectToScene(this->boundingRect());
+    if (!bShiftPress && !bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (bShiftPress && !bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (!bShiftPress && bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (bShiftPress && bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    mousePos = newMousePos;
+    offset = outOffset;
+    return accept;
+}
 
 void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
 {

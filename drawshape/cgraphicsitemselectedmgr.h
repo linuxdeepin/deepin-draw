@@ -82,6 +82,12 @@ public:
                   const QPointF &mousePos,
                   const QPointF &offset,
                   bool bShiftPress, bool bAltPress);
+
+    bool isResizableWithInfo(CSizeHandleRect::EDirection dir,
+                             QPointF &mousePos,
+                             QPointF &offset,
+                             bool bShiftPress,
+                             bool bAltPress);
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
