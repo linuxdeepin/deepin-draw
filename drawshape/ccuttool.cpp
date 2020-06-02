@@ -113,7 +113,7 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
     } else {
         scene->mouseEvent(event);
     }
-
+    scene->update();
 }
 
 void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
