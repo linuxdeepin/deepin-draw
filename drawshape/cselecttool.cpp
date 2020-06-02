@@ -1005,14 +1005,29 @@ void CSelectTool::updateCursorShape()
                 qApp->setOverrideCursor(Qt::ArrowCursor);
             } else {
                 QGraphicsItem *pFirstItem = posItems.first();
+
                 //CSizeHandleRect的父类QGraphicsSvgItem的类型就是13
-                if (pFirstItem->type() == 13) {
+                if (pFirstItem->type() == QGraphicsSvgItem::Type) {
                     CSizeHandleRect *pHandleItem = dynamic_cast<CSizeHandleRect *>(pFirstItem);
                     if (pHandleItem != nullptr) {
                         qApp->setOverrideCursor(getCursor(pHandleItem->dir(), false));
                     } else {
                         qApp->setOverrideCursor(Qt::ArrowCursor);
                     }
+                } else if (pFirstItem->type() == QGraphicsProxyWidget::Type) {
+                    //QGraphicsProxyWidget的类型就是12
+                    QGraphicsProxyWidget *pProxyWidget = dynamic_cast<QGraphicsProxyWidget *>(pFirstItem);
+                    if (pProxyWidget != nullptr) {
+                        CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pProxyWidget->parentItem());
+                        if (pTextItem != nullptr && pTextItem->isEditable()) {
+                            qApp->setOverrideCursor(m_textEditCursor);
+                        } else {
+                            qApp->setOverrideCursor(Qt::ArrowCursor);
+                        }
+                    } else {
+                        qApp->setOverrideCursor(Qt::ArrowCursor);
+                    }
+
                 } else {
                     qApp->setOverrideCursor(Qt::ArrowCursor);
                 }
