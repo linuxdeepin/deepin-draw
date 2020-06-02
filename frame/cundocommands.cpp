@@ -168,6 +168,20 @@ void CDeleteShapeCommand::undo()
         }
     }
 
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    qreal zvalue = 0;
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > zvalue) {
+            zvalue = allItem->zValue();
+        }
+    }
+    myGraphicsScene->setMaxZValue(zvalue);
+
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -194,6 +208,20 @@ void CDeleteShapeCommand::redo()
         myGraphicsScene->removeItem(item);
         remove = true;
     }
+
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    qreal zvalue = 0;
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > zvalue) {
+            zvalue = allItem->zValue();
+        }
+    }
+    myGraphicsScene->setMaxZValue(zvalue);
 
     if (remove) {
         myGraphicsScene->getItemsMgr()->clear();
