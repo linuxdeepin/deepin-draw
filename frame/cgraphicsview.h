@@ -127,6 +127,8 @@ public:
 
     CDrawScene *drawScene();
 
+    void updateCursorShape();
+
 protected:
     void showEvent(QShowEvent *event)override;
 

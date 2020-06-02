@@ -129,6 +129,11 @@ void CDrawScene::initScene()
     m_pHighLightItem->setZValue(10000);
 }
 
+CGraphicsView *CDrawScene::drawView()
+{
+    return (views().isEmpty() ? nullptr : qobject_cast<CGraphicsView *>(views().first()));
+}
+
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch ( mouseEvent->type() ) {

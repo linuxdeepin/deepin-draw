@@ -56,6 +56,12 @@ public:
      */
     void initScene();
 
+
+    /**
+     * @brief drawView 返回视图指针
+     */
+    CGraphicsView *drawView();
+
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
      * @param keyEvent

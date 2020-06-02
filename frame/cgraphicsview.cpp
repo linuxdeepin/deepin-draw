@@ -43,6 +43,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "drawshape/cdrawtoolmanagersigleton.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -1630,6 +1631,15 @@ CDrawScene *CGraphicsView::drawScene()
     return dynamic_cast<CDrawScene *>(scene());
 }
 
+void CGraphicsView::updateCursorShape()
+{
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
+    if (pSelectTool != nullptr) {
+        pSelectTool->updateCursorShape();
+    }
+}
+
 void CGraphicsView::showEvent(QShowEvent *event)
 {
     this->setTransformationAnchor(AnchorViewCenter);
@@ -2092,7 +2102,8 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = false;
-            qApp->setOverrideCursor(_tempCursor);
+            //qApp->setOverrideCursor(_tempCursor);
+            updateCursorShape();
         }
     }
     QGraphicsView::keyReleaseEvent(event);

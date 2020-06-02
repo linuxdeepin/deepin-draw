@@ -86,7 +86,12 @@ private:
      * @param detectItems 待比较的 QGraphicsItem
      */
     double getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems);
+
+
+public:
+    void updateCursorShape();
 private:
+    QGraphicsItem *m_pressDownItem = nullptr;
     QGraphicsItem *m_currentSelectItem;
     QGraphicsItem *m_highlightItem;
     QGraphicsRectItem *m_frameSelectItem;
