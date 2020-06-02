@@ -567,9 +567,9 @@ void CFileWatcher::doRun()
 
                 if (event.mask & IN_MODIFY) {
                     emit fileChanged(itf.value(), EFileModified);
-                }
-
-                if (event.mask & IN_MOVE_SELF) {
+                } else if (event.mask & IN_MOVE_SELF) {
+                    emit fileChanged(itf.value(), EFileMoved);
+                } else if (event.mask & IN_DELETE_SELF) {
                     emit fileChanged(itf.value(), EFileMoved);
                 }
             }
