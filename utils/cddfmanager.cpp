@@ -231,7 +231,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
         }
 
         QFile readFile(path);
-        if (readFile.open(QIODevice::ReadOnly | QIODevice::WriteOnly))
+        if (readFile.open(QIODevice::ReadOnly))
         {
             QDataStream in(&readFile);
 
