@@ -37,8 +37,6 @@
 #include <QButtonGroup>
 #include <QLineEdit>
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 //DWIDGET_USE_NAMESPACE
 
@@ -64,6 +62,7 @@ void PolygonAttributeWidget::changeButtonTheme()
 
 void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
+    Q_UNUSED(write2Cache)
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(true);

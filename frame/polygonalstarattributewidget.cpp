@@ -40,7 +40,6 @@
 #include <QAction>
 #include <QLineEdit>
 
-const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
 const int TEXT_SIZE = 14;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)
@@ -63,6 +62,7 @@ void PolygonalStarAttributeWidget::changeButtonTheme()
 
 void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
+    Q_UNUSED(write2Cache)
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
@@ -264,8 +264,6 @@ void PolygonalStarAttributeWidget::initConnection()
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         //设置多选图元属性
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, m_anchorNumber->value());
-
-
     });
 
     //半径
@@ -274,6 +272,10 @@ void PolygonalStarAttributeWidget::initConnection()
         emit signalRadiusvalueIsfocus(isFocus);
     });
     connect(m_radiusNumber, &DSpinBox::editingFinished, this, [ = ] () {
+        QString curTextFlag = m_radiusNumber->text();
+        if (curTextFlag == "— —" && m_radiusNumber->value() == -1) {
+            return ;
+        }
         m_radiusNumber->blockSignals(true);
         if (m_radiusNumber->value() < 0) {
             m_radiusNumber->setValue(0);
@@ -291,7 +293,6 @@ void PolygonalStarAttributeWidget::initConnection()
                 return;
         }
         m_radiusNumber->setProperty("preValue", m_radiusNumber->value());
-
 
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(m_radiusNumber->value());
         emit signalPolygonalStarAttributeChanged();
