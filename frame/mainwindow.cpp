@@ -220,14 +220,11 @@ void MainWindow::closeTabViews()
             continue;
         } else {
 
+            // [0] 关闭标签前需要判断是否保存裁剪状态
+            m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
+
             bool editFlag = closeView->getDrawParam()->getModify();
             if (editFlag) {
-
-                // [0] 关闭标签前需要判断是否保存裁剪状态
-                if (!m_centralWidget->slotJudgeCutStatusAndPopSaveDialog()) {
-                    continue;
-                }
-
                 int ret = showSaveQuestionDialog();
                 if (ret <= 0) {
                     //结束关闭，同时结束其他标签页的关闭(因为取消了)
