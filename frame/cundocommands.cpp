@@ -1734,25 +1734,22 @@ void CMultResizeShapeCommand::redo()
     m_bResized = true;
 }
 
-CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
+CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QList<CGraphicsItem *> items, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
     myGraphicsScene = scene;
     m_endPos = endPos;
     m_beginPos = beginPos;
     m_bMoved = false;
     m_listItems.clear();
-    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
+    m_listItems = items;
 }
 
 void CMultMoveShapeCommand::undo()
 {
     qDebug() << "CMultMoveShapeCommand::undo";
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
-    } else {
-        foreach (CGraphicsItem *item, m_listItems) {
-            item->move(m_endPos, m_beginPos);
-        }
+    foreach (CGraphicsItem *item, m_listItems) {
+        item->move(m_endPos, m_beginPos);
     }
 
     if (m_listItems.size() > 1) {
@@ -1767,6 +1764,7 @@ void CMultMoveShapeCommand::undo()
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
     }
+    myGraphicsScene->update();
 }
 
 void CMultMoveShapeCommand::redo()
@@ -1796,6 +1794,7 @@ void CMultMoveShapeCommand::redo()
     }
 
     m_bMoved = true;
+    myGraphicsScene->update();
 }
 
 CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,

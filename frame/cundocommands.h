@@ -126,6 +126,7 @@ class CMultMoveShapeCommand : public QUndoCommand
 {
 public:
     CMultMoveShapeCommand(CDrawScene *scene,
+                          QList<CGraphicsItem * > items,
                           QPointF beginPos,
                           QPointF endPos,
                           QUndoCommand *parent = nullptr );

@@ -811,9 +811,12 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
             }
         } else {
             if (m_isMulItemMoving) {
-                QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, m_sPointPress, m_sPointRelease);
-                CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-                m_isMulItemMoving = false;
+                QList<CGraphicsItem * >  items = scene->getItemsMgr()->getItems();
+                if (items.size()) {
+                    QUndoCommand *addCommand = new CMultMoveShapeCommand(scene, items, m_sPointPress, m_sPointRelease);
+                    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+                    m_isMulItemMoving = false;
+                }
             } else if (m_doResize) {
                 bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
