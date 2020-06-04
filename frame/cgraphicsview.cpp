@@ -72,10 +72,10 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
     return info1->zValue() < info2->zValue();
 }
 //降序排列用
-static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
-{
-    return info1->zValue() > info2->zValue();
-}
+//static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+//{
+//    return info1->zValue() > info2->zValue();
+//}
 
 //水平等间距对齐升序排列
 static bool xValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -189,14 +189,7 @@ qreal CGraphicsView::getScale()
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
-    /*if (CDrawParamSigleton::GetInstance()->getCtlKeyStatus()) {
-        if (event->delta() > 0) {
-            zoomOut();
-
-        } else {
-            zoomIn();
-        }
-    }*/
+    QGraphicsView::wheelEvent(event);
 }
 
 void CGraphicsView::initContextMenu()
@@ -2040,6 +2033,7 @@ void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 
 void CGraphicsView::enterEvent(QEvent *event)
 {
+    Q_UNUSED(event);
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {

@@ -9,7 +9,8 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-CGraphicsItemHighLight::CGraphicsItemHighLight(QGraphicsItem *parent)
+CGraphicsItemHighLight::CGraphicsItemHighLight(QGraphicsItem *parent):
+    QGraphicsPathItem(parent)
 {
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

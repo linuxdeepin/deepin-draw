@@ -1636,6 +1636,9 @@ QRectF CGraphicsItemSelectedMgr::getMultItemRect()
 
 void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
     updateGeometry();
     if (m_listItems.size() > 1) {
         painter->setClipping(false);
@@ -1841,8 +1844,13 @@ bool CGraphicsItemSelectedMgr::couldResize(QRectF itemSceneBoundRect, QPointF mo
     return couldResize;
 }
 
-QPointF CGraphicsItemSelectedMgr::getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress)
+QPointF CGraphicsItemSelectedMgr::getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint,
+                                              CSizeHandleRect::EDirection dragHandle,
+                                              bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+
     QPointF point = mousePoint;
     QRectF rect = itemSceneBoundRect;
     int length = 20;

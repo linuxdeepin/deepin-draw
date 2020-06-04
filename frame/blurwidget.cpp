@@ -62,8 +62,11 @@ void BlurWidget::changeButtonTheme()
 
 }
 
-void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
+void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys,
+                                            bool write2Cache)
 {
+    Q_UNUSED(write2Cache)
+
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {

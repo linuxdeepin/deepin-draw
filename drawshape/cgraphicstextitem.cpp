@@ -572,6 +572,7 @@ qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qre
 
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
+    Q_UNUSED(chf);
     return true;
 }
 

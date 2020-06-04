@@ -134,6 +134,8 @@ void CMoveShapeCommand::redo()
 
 CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
 {
+    Q_UNUSED(parent);
+
     myGraphicsScene = scene;
     m_items = items;
     m_oldIndex = -1;
@@ -1637,8 +1639,13 @@ void CSceneCutCommand::redo()
 }
 
 
-CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bAltPress, QUndoCommand *parent)
+CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle,
+                                                 QPointF beginPos, QPointF endPos,
+                                                 bool bShiftPress, bool bAltPress,
+                                                 QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
+
     myGraphicsScene = scene;
     m_handle = handle;
     m_endPos = endPos;

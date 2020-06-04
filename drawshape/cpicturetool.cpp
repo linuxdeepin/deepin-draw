@@ -209,8 +209,11 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
 }
 
 
-void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData)
+void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
+                             CDrawScene *scene, CCentralwidget *centralWindow,
+                             const QByteArray &fileSrcData)
 {
+    Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
         scene->clearSelection();

@@ -196,7 +196,7 @@ void CGraphicsItem::setState(ESelectionHandleState st)
 
 void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-
+    Q_UNUSED(event);
 }
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
