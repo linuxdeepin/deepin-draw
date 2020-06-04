@@ -160,6 +160,22 @@ QStringList &Application::supDdfStuffix()
     return supDdfSuffixs;
 }
 
+QRegExp Application::fileNameRegExp(bool ill)
+{
+    //实际需要去掉的字符是
+    //版本1      '/' , '\' , ':' , '*'     , '?'   , '"', '<', '>' ，'|'
+
+    //但是在C++代码中，这些字符可能是代码的特殊字符，需要转义一下(用\)
+    //版本2      '/',  '\\',   ':' , '*'   , '?'   ,'\"' '<', '>' '|'
+
+    //但是在正则表达式中，\，*，?，|也是特殊字符，所以还要用\转义一下(写在代码里面就要用\\了)
+    //版本3      '/',  '\\\\', ':' , '\\*' , '\\?' ,'\"' '<', '>' , '\\|'
+
+    QRegExp regExg(QString(ill ? "^" : "") + "([/\\\\:\\*\\?\"<>\\|])*");
+
+    return regExg;
+}
+
 void Application::onMessageRecived(const QString &message)
 {
     activateWindow();

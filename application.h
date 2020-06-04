@@ -55,6 +55,8 @@ public:
     static QStringList &supPictureSuffix();
     static QStringList &supDdfStuffix();
 
+    static QRegExp fileNameRegExp(bool ill = false);
+
 signals:
     void popupConfirmDialog();
 

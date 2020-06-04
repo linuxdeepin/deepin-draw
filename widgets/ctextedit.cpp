@@ -326,7 +326,7 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     m_selectedFontWeight = -1;
     m_selectedColorAlpha = -1;
 
-    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size(); i++) {
+    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size() && i >= 0; i++) {
         // 如果匹配到当前第一个字符
         if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
 

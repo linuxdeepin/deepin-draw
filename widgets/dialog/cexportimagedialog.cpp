@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QAbstractButton>
+#include "application.h"
 
 
 const QSize DIALOG_SIZE = QSize(380, 280);
@@ -198,11 +199,22 @@ void CExportImageDialog::initConnection()
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
+
+        QString newText = text;
+
+        newText.remove(dApp->fileNameRegExp());
+
+        m_fileNameEdit->blockSignals(true);
+        m_fileNameEdit->setText(newText);
+        m_fileNameEdit->blockSignals(false);
+
+        bool isEmpty = newText.isEmpty();
+
         if (m_saveBtnId != -1) {
             QAbstractButton *pBtn = getButton(m_saveBtnId);
 
             if (pBtn != nullptr) {
-                pBtn->setEnabled(!text.isEmpty());
+                pBtn->setEnabled(!isEmpty);
             }
         }
     });
