@@ -85,6 +85,9 @@ public:
      */
     void setModifyFlag(bool flag);
 
+    CGraphicsCutItem *getCurCutItem();
+    CGraphicsCutItem *getCutItem(CDrawScene *scene);
+
 private:
     CGraphicsCutItem *m_pCutItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向

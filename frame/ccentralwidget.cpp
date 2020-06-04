@@ -361,7 +361,7 @@ bool CCentralwidget::slotJudgeCutStatusAndPopSaveDialog()
 
     bool isNowCutStatus = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() == ECutType::cut_done ? false : true;
     if (isNowCutStatus) {
-        CCutDialog dialog;
+        CCutDialog dialog(this);
         dialog.exec();
         auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
         if (CCutDialog::Save == dialog.getCutStatus()) {
