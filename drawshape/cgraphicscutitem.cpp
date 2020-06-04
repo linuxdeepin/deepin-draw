@@ -105,7 +105,7 @@ void CGraphicsCutItem::initHandle()
 
 void CGraphicsCutItem::updateGeometry()
 {
-    const QRectF &geom = this->boundingRect();
+    const QRectF &geom = this->rect();
 
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
@@ -150,10 +150,15 @@ QRectF CGraphicsCutItem::rect() const
 
 QRectF CGraphicsCutItem::boundingRect() const
 {
-    QRectF rect = this->rect();
-    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-                             rect.width() + pen().width(), rect.height() + pen().width());
-    return bounding;
+//    QRectF rect = this->rect();
+//    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+//                             rect.width() + pen().width(), rect.height() + pen().width());
+//    return bounding;
+
+    if (scene() != nullptr) {
+        return scene()->sceneRect();
+    }
+    return QRectF(0, 0, 0, 0);
 }
 
 void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -663,6 +668,29 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     updateGeometry();
 }
 
+void CGraphicsCutItem::move(QPointF beginPoint, QPointF movePoint)
+{
+    QPointF adjust = movePoint - beginPoint;
+    setRect(rect().adjusted(adjust.x(), adjust.y(), adjust.x(), adjust.y()));
+}
+
+CSizeHandleRect::EDirection CGraphicsCutItem::hitTest(const QPointF &point) const
+{
+    const Handles::const_iterator hend =  m_handles.end();
+    for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
+        if ((*it)->hitTest(point) ) {
+            return (*it)->dir();
+        }
+    }
+    //检测是否在矩形内
+    QPointF pt = mapFromScene(point);
+    if (this->rect().contains(pt)) {
+        return CSizeHandleRect::InRect;
+    }
+
+    return CSizeHandleRect::None;
+}
+
 void CGraphicsCutItem::showControlRects(bool flag)
 {
     setState(flag ? SelectionHandleActive : SelectionHandleOff);
@@ -763,7 +791,7 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     updateGeometry();
 
     QColor penColor = QColor("#ffffff");
-    penColor.setAlpha(255 * 0.7);
+    penColor.setAlpha(qRound(255 * 0.7));
     //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
     //    if (themValue == 1) {
     //        //浅色主题
@@ -776,29 +804,20 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     //先绘制一层阴影
     QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
     painter->save();
-    //painter->setClipping(false);
     painter->setPen(Qt::NoPen);
     painter->setBrush(bgColor);
 
     painter->translate(-pos());
 
     QPainterPath fillPath;
-
-    QRectF itemRect = sceneBoundingRect();
-    QRectF unitRct  = scene()->sceneRect();
-
-    fillPath.moveTo(unitRct.topLeft());
-    fillPath.lineTo(unitRct.topRight());
-    fillPath.lineTo(unitRct.bottomRight());
-    fillPath.lineTo(unitRct.bottomLeft());
-    fillPath.lineTo(unitRct.topLeft());
-
-    fillPath.moveTo(itemRect.topLeft());
-    fillPath.lineTo(itemRect.topRight());
-    fillPath.lineTo(itemRect.bottomRight());
-    fillPath.lineTo(itemRect.bottomLeft());
-    fillPath.lineTo(itemRect.topLeft());
+    QRectF itemRect = mapRectToScene(rect());
+    QRectF unitRct  = boundingRect();
+    fillPath.addRect(unitRct);
+    if (unitRct.intersects(itemRect)) {
+        fillPath.addRect(itemRect);
+    }
     painter->drawPath(fillPath);
+
     painter->restore();
 
     qreal penWidth = 1.0 / painter->worldTransform().m11();
