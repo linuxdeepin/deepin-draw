@@ -392,11 +392,11 @@ struct SGraphicsPenUnitData {
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
     {
-        out << penUnitData.end_type;
+        out << penUnitData.start_type;
 
         out << penUnitData.path;
 //        out << penUnitData.arrow;
-        out << penUnitData.start_type;
+        out << penUnitData.end_type;
 
         return out;
     }

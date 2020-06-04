@@ -94,6 +94,7 @@ CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGrap
 //    m_arrow = data->arrow;
     m_path = data->path;
     updateGeometry();
+    updateCoordinate();
 }
 
 CGraphicsPenItem::~CGraphicsPenItem()
