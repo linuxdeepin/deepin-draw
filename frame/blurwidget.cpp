@@ -87,6 +87,7 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 
 void BlurWidget::initUI()
 {
+    setAttribute(Qt::WA_NoMousePropagation, true);
     DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("TypeLabel");
     //penLabel->setText(tr("类型"));

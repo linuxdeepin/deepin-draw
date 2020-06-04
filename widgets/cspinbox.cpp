@@ -12,12 +12,15 @@ CSpinBox::CSpinBox(DWidget *parent)
     : DSpinBox(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
+
     connect(this, QOverload<int>::of(&CSpinBox::valueChanged), this, [ = ](int value) {
         Q_UNUSED(value);
         if (_keepFocus)
             this->setFocus();
     }, Qt::QueuedConnection);
     setValueChangedKeepFocus(true);
+
+    setKeyboardTracking(false);
 }
 
 bool CSpinBox::isTimerRunning()
