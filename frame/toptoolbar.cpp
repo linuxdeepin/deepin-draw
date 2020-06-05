@@ -286,7 +286,11 @@ void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
         if (showSelfPropreWidget) {
             m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
             m_titleWidget->updateTitleWidget();
+
+            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
+            m_stackWidget->setVisible(false);
             m_stackWidget->setCurrentWidget(m_titleWidget);
+            m_stackWidget->setVisible(true);
         }
         break;
     }
