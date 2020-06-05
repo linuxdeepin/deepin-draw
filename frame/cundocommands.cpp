@@ -1334,8 +1334,8 @@ CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraph
         }
     }
     m_selectItems = items;
-    m_isUndoExcuteSuccess = true;
-    m_isRedoExcuteSuccess = false;
+    //m_isUndoExcuteSuccess = true;
+    //m_isRedoExcuteSuccess = false;
 }
 
 CBringToFrontCommand::~CBringToFrontCommand()
@@ -1345,17 +1345,13 @@ CBringToFrontCommand::~CBringToFrontCommand()
 
 void CBringToFrontCommand::undo()
 {
-    if (!m_isRedoExcuteSuccess) {
-        return;
-    }
-
-    m_isUndoExcuteSuccess = false;
+    bool modifyFlag = false;
     int count = m_oldItemZValue.count();
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
         myGraphicsScene->updateBlurItem(item);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
     //重置保存的最大z值
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
@@ -1382,7 +1378,7 @@ void CBringToFrontCommand::undo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isUndoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1390,11 +1386,7 @@ void CBringToFrontCommand::undo()
 
 void CBringToFrontCommand::redo()
 {
-    if (!m_isUndoExcuteSuccess) {
-        return;
-    }
-
-    m_isRedoExcuteSuccess = false;
+    bool modifyFlag = false;
 
     qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortASC);
     qreal maxZValue = myGraphicsScene->getMaxZValue();
@@ -1404,7 +1396,7 @@ void CBringToFrontCommand::redo()
         selectItem->setZValue(maxZValue + 1);
         myGraphicsScene->setMaxZValue(maxZValue + 1);
         myGraphicsScene->updateBlurItem(selectItem);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
 
     myGraphicsScene->getItemsMgr()->clear();
@@ -1420,7 +1412,7 @@ void CBringToFrontCommand::redo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isRedoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1464,8 +1456,6 @@ CSendToBackCommand::CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsI
         }
     }
     m_selectItems = items;
-    m_isUndoExcuteSuccess = true;
-    m_isRedoExcuteSuccess = false;
 }
 
 CSendToBackCommand::~CSendToBackCommand()
@@ -1476,17 +1466,14 @@ CSendToBackCommand::~CSendToBackCommand()
 void CSendToBackCommand::undo()
 {
     qDebug() << "CSendToBackCommand::undo";
-    if (!m_isRedoExcuteSuccess) {
-        return;
-    }
 
-    m_isUndoExcuteSuccess = false;
+    bool modifyFlag = false;
     int count = m_oldItemZValue.count();
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
         myGraphicsScene->updateBlurItem(item);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
     //重置保存的最大z值
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
@@ -1513,7 +1500,8 @@ void CSendToBackCommand::undo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isUndoExcuteSuccess) {
+
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1522,9 +1510,8 @@ void CSendToBackCommand::undo()
 void CSendToBackCommand::redo()
 {
     qDebug() << "CSendToBackCommand::redo";
-    if (!m_isUndoExcuteSuccess) {
-        return;
-    }
+
+    bool modifyFlag = false;
 
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
     for (int i = allItems.size() - 1; i >= 0; i--) {
@@ -1554,7 +1541,8 @@ void CSendToBackCommand::redo()
         m_oldItemZValue[allItem] = allItem->zValue();
         allItem->setZValue(myGraphicsScene->getMaxZValue() + 1);
         myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
-        m_isRedoExcuteSuccess = true;
+
+        modifyFlag = true;
     }
 
     myGraphicsScene->getItemsMgr()->clear();
@@ -1570,7 +1558,7 @@ void CSendToBackCommand::redo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isRedoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
