@@ -140,10 +140,10 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
     QStringList picturePathList;
     for (int i = 0; i < files.size(); i++) {
         QFileInfo info(files[i]);
-        if (info.suffix().toLower() == ("ddf")) {
+        QString fileSuffix = info.suffix().toLower();
+        if (dApp->supDdfStuffix().contains(fileSuffix)) {
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
-
                 bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
                 if (isOpened)
                     continue;
@@ -160,8 +160,7 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
                 slotIsNeedSave();
             }
-        } else if (files[i].endsWith(".png") || files[i].endsWith(".jpg")
-                   || files[i].endsWith(".bmp") || files[i].endsWith(".tif") ) {
+        } else if (dApp->supPictureSuffix().contains(fileSuffix)) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             picturePathList.append(files[i].replace("file://", ""));
         }

@@ -73,5 +73,7 @@ protected:
 
 private:
     void initI18n();
+
+    QString _joinFlag;
 };
 #endif // APPLICATION_H

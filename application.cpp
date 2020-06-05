@@ -55,7 +55,8 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
 
-        QString message = paths.join(' ');
+        QString message = paths.join(_joinFlag);
+
         this->sendMessage(message, 2000);
 
         this->activateWindow();
@@ -150,7 +151,7 @@ QStringList Application::doFileClassification(const QStringList &inFilesPath, Ap
 
 QStringList &Application::supPictureSuffix()
 {
-    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif";
+    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif"/* << "jpeg"*/;
     return supPictureSuffixs;
 }
 
@@ -187,7 +188,7 @@ void Application::onMessageRecived(const QString &message)
 
     if (pWin != nullptr) {
 
-        QStringList files = message.split(' ');
+        QStringList files = message.split(_joinFlag);
 
         if (!files.isEmpty()) {
             pWin->slotLoadDragOrPasteFile(files);
@@ -285,4 +286,6 @@ void Application::handleQuitAction()
 void Application::initI18n()
 {
     loadTranslator(QList<QLocale>() << QLocale::system());
+
+    _joinFlag = "?><:File0a0b0c0d";
 }

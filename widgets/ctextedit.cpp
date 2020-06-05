@@ -29,6 +29,7 @@
 #include <QDebug>
 #include <QTextBlock>
 #include <QTextEdit>
+#include <malloc.h>
 
 #include "service/cmanagerattributeservice.h"
 
