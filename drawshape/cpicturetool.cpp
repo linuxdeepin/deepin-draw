@@ -26,6 +26,7 @@
 #include <QGraphicsItem>
 #include <DDialog>
 #include <QImageReader>
+#include "application.h"
 
 #include "service/cmanagerattributeservice.h"
 
@@ -149,21 +150,36 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     m_progressLayout->setProgressValue(0);
 
     m_progressLayout->showInCenter(centralWindow->window());
-    //progressLayout->show();//此处还需要找个show的zhaiti载体
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
+        QList<QString> failedFiles;
+        QList<QString> successFiles;
         for (int i = 0; i < filenames.size(); i++)
         {
-            QPixmap pixmap = getPixMapQuickly(filenames[i]);
+            QString file = filenames[i];
 
-            QFile f(filenames[i]);
+            QPixmap pixmap = getPixMapQuickly(file);
+
+            if (pixmap.isNull()) {
+                failedFiles.append(file);
+                continue;
+            }
+
+            successFiles.append(file);
+
+            QFile f(file);
             QByteArray srcBytes;
             if (f.open(QFile::ReadOnly)) {
                 srcBytes = f.readAll();
             }
             emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes);
         }
+
+        QMetaObject::invokeMethod(this, "onLoadImageFinished",
+                                  Qt::QueuedConnection,
+                                  Q_ARG(const QStringList &, successFiles),
+                                  Q_ARG(const QStringList &, failedFiles));
     });
 
     // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
@@ -217,33 +233,6 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
         scene->clearSelection();
-        //CPictureItem *pixmapItem = new CPictureItem(QRectF(0, 0, centralWindow->width(), centralWindow->height()), pixmap);
-
-//        //调整图片在画板中显示的大小
-//        qreal width = pixmap.width();
-//        qreal height = pixmap.height();
-//        qreal widgetWidth = scene->width();
-//        qreal widgetHeight = scene->height();
-
-//        if (height == 0) {
-//            return;
-//        }
-//        qreal scale;
-//        scale = ((qreal)pixmap.width() / (qreal)pixmap.height());
-
-
-//        if (pixmap.width() > widgetWidth || pixmap.height() > widgetHeight) {
-//            if (scale >= (widgetWidth /  widgetHeight)) {
-//                width = widgetWidth;
-//                height = (width / scale);
-//            } else {
-//                height = widgetHeight;
-//                width = (height * scale);
-//            }
-
-//        }
-        //qDebug() << "picture size" << scale << pixmap.width() << pixmap.height() << scene->width() << scene->height() << width << height << (double)(widgetWidth / widgetHeight) << endl;
-
 
         pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
@@ -262,6 +251,42 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
         }
         emit signalPicturesImportingFinished();
     }
+}
+
+void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
+                                       const QStringList &failedFiles)
+{
+    Q_UNUSED(successFiles)
+
+    if (m_progressLayout != nullptr) {
+        m_progressLayout->close();
+    }
+
+    if (!failedFiles.isEmpty()) {
+        showLoadFailedFiles(failedFiles);
+    }
+}
+
+void CPictureTool::showLoadFailedFiles(const QStringList &files)
+{
+    if (files.isEmpty())
+        return;
+
+    DDialog dia(dApp->activationWindow());
+    dia.setFixedSize(404, 163);
+    dia.setModal(true);
+
+    if (files.count() == 1) {
+        QFileInfo fInfo(files.first());
+        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
+    } else {
+        dia.setMessage(tr("Unable to open the broken files."));
+    }
+
+    dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+    dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+    dia.exec();
 }
 
 
