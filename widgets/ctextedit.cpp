@@ -116,9 +116,13 @@ void CTextEdit::cursorPositionChanged()
     QTextCursor cursor = this->textCursor();
 
     // 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
-    if (this->document()->toPlainText().isEmpty() || this->document()->toPlainText().startsWith("\n")) {
+    if (this->document()->toPlainText().isEmpty()) {
         updatePropertyCache2Cursor();
         return;
+    }
+
+    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
+        updateCurrentCursorProperty();
     }
 
     // [0] 检测选中文字的属性是否相等
