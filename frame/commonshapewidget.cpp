@@ -56,7 +56,9 @@ void CommonshapeWidget::changeButtonTheme()
 
 void CommonshapeWidget::setRectXRedius(int redius)
 {
-    m_rediusSpinbox->setValue(redius);
+    if (redius != m_rediusSpinbox->value()) {
+        m_rediusSpinbox->setValue(redius);
+    }
 }
 
 void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
@@ -68,7 +70,6 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
 
 void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache)
 {
-    qDebug() << "write2cache: " << write2cache;
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
@@ -201,6 +202,7 @@ void CommonshapeWidget::initUI()
     setLayout(layout);
 
     m_rediusSpinbox->setProperty("preValue", 5);
+    m_rediusSpinbox->setValue(5);
 }
 
 void CommonshapeWidget::initConnection()
