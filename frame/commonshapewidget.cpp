@@ -109,6 +109,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             if (propertys[property].type() == QVariant::Invalid) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
+                m_strokeBtn->setIsMultColorSame(true);
                 m_strokeBtn->setColor(propertys[property].value<QColor>());
                 if (write2cache) {
                     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
