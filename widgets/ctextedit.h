@@ -96,6 +96,9 @@ public slots:
     void slot_textChanged();
     void cursorPositionChanged();
 
+protected:
+    void insertFromMimeData(const QMimeData *source) override;
+
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
@@ -108,8 +111,6 @@ private:
     int m_selectedColorAlpha; //所有选中的文字颜色透明度
 
     QList<QMap<ProperType, QVariant> > m_allTextInfo; //所有的选中的单个文字属性
-
-    bool m_resetDefaultProperty; // 标记是否需要重置属性
 
     /*
     * @bref: solveHtml 解析html文件中的每一个文字的属性
