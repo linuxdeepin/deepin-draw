@@ -192,6 +192,12 @@ QStringList CCentralwidget::getAllTabBarUUID()
     return m_topMutipTabBarWidget->getAllTabBarUUID();
 }
 
+void CCentralwidget::skipOpenedTab(QString filepath)
+{
+    QString filename = filepath.split("/").last().trimmed().split(".").first();
+    m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
+}
+
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
 {
     CGraphicsView *newview = new CGraphicsView(this);

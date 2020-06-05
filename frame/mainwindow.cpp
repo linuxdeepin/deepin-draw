@@ -145,8 +145,10 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
                 bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
-                if (isOpened)
+                if (isOpened) { // 跳转到已打开标签
+                    m_centralWidget->skipOpenedTab(ddfPath);
                     continue;
+                }
 
                 // 创建一个新的窗口用于显示拖拽的图像
                 m_centralWidget->createNewScenseByscencePath(ddfPath);

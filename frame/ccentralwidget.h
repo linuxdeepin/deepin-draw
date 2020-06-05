@@ -103,6 +103,11 @@ public:
      * @description: getAllTabBarUUID 获取当前所有的标签的uuid
     */
     QStringList getAllTabBarUUID();
+
+    /**
+     * @description: skipOpenedTab 跳转到已打开标签页
+    */
+    void skipOpenedTab(QString filepath);
 signals:
 
     /**
