@@ -322,6 +322,16 @@ void CGraphicsView::initContextMenu()
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
+
+
+    //一些操作后需要刷新鼠标指针记得Qt::QueuedConnection方式，保证后执行，才准确
+    QList<QAction *> needUpdateCursorActions;
+    needUpdateCursorActions << m_cutAct << m_deleteAct << m_undoAct << m_redoAct
+                            << m_oneLayerUpAct << m_oneLayerDownAct << m_bringToFrontAct << m_sendTobackAct;
+    for (int i = 0; i < needUpdateCursorActions.size(); ++i) {
+        QAction *pAcion = needUpdateCursorActions[i];
+        connect(pAcion, &QAction::triggered, this, &CGraphicsView::updateCursorShape, Qt::QueuedConnection);
+    }
 }
 
 void CGraphicsView::initContextMenuConnection()

@@ -127,7 +127,7 @@ public:
 
     CDrawScene *drawScene();
 
-    void updateCursorShape();
+    Q_SLOT void updateCursorShape();
 
 protected:
     void showEvent(QShowEvent *event)override;
