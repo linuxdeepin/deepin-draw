@@ -324,155 +324,155 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="200"/>
-        <location filename="../frame/cgraphicsview.cpp" line="490"/>
+        <location filename="../frame/cgraphicsview.cpp" line="199"/>
+        <location filename="../frame/cgraphicsview.cpp" line="489"/>
         <source>Layer</source>
         <translation>图层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="203"/>
-        <location filename="../frame/cgraphicsview.cpp" line="508"/>
+        <location filename="../frame/cgraphicsview.cpp" line="202"/>
+        <location filename="../frame/cgraphicsview.cpp" line="507"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="208"/>
-        <location filename="../frame/cgraphicsview.cpp" line="509"/>
+        <location filename="../frame/cgraphicsview.cpp" line="207"/>
+        <location filename="../frame/cgraphicsview.cpp" line="508"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="213"/>
-        <location filename="../frame/cgraphicsview.cpp" line="510"/>
+        <location filename="../frame/cgraphicsview.cpp" line="212"/>
+        <location filename="../frame/cgraphicsview.cpp" line="509"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="218"/>
-        <location filename="../frame/cgraphicsview.cpp" line="511"/>
+        <location filename="../frame/cgraphicsview.cpp" line="217"/>
+        <location filename="../frame/cgraphicsview.cpp" line="510"/>
         <source>Select All</source>
         <translation>全选</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="225"/>
-        <location filename="../frame/cgraphicsview.cpp" line="517"/>
+        <location filename="../frame/cgraphicsview.cpp" line="224"/>
+        <location filename="../frame/cgraphicsview.cpp" line="516"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="231"/>
-        <location filename="../frame/cgraphicsview.cpp" line="512"/>
+        <location filename="../frame/cgraphicsview.cpp" line="230"/>
+        <location filename="../frame/cgraphicsview.cpp" line="511"/>
         <source>Undo</source>
         <translation>撤销</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="235"/>
-        <location filename="../frame/cgraphicsview.cpp" line="513"/>
+        <location filename="../frame/cgraphicsview.cpp" line="234"/>
+        <location filename="../frame/cgraphicsview.cpp" line="512"/>
         <source>Redo</source>
         <translation>重做</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="241"/>
+        <location filename="../frame/cgraphicsview.cpp" line="240"/>
         <source>Raise Layer</source>
         <translation>向上一层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="246"/>
+        <location filename="../frame/cgraphicsview.cpp" line="245"/>
         <source>Lower Layer</source>
         <translation>向下一层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="251"/>
+        <location filename="../frame/cgraphicsview.cpp" line="250"/>
         <source>Layer to Top</source>
         <translation>置于顶层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="256"/>
+        <location filename="../frame/cgraphicsview.cpp" line="255"/>
         <source>Layer to Bottom</source>
         <translation>置于底层</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="286"/>
+        <location filename="../frame/cgraphicsview.cpp" line="285"/>
         <source>Align</source>
         <translation>对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="290"/>
+        <location filename="../frame/cgraphicsview.cpp" line="289"/>
         <source>Align left</source>
         <translation>左对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="295"/>
+        <location filename="../frame/cgraphicsview.cpp" line="294"/>
         <source>Horizontal centers</source>
         <translation>水平居中</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="300"/>
+        <location filename="../frame/cgraphicsview.cpp" line="299"/>
         <source>Align right</source>
         <translation>右对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="305"/>
+        <location filename="../frame/cgraphicsview.cpp" line="304"/>
         <source>Align top</source>
         <translation>顶对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="310"/>
+        <location filename="../frame/cgraphicsview.cpp" line="309"/>
         <source>Vertical centers</source>
         <translation>垂直居中</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="315"/>
+        <location filename="../frame/cgraphicsview.cpp" line="314"/>
         <source>Align bottom</source>
         <translation>底对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../frame/cgraphicsview.cpp" line="319"/>
         <source>Distribute horizontal space</source>
         <translation>水平等间距</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="321"/>
+        <location filename="../frame/cgraphicsview.cpp" line="320"/>
         <source>Distribute vertical space</source>
         <translation>垂直等间距</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="514"/>
+        <location filename="../frame/cgraphicsview.cpp" line="513"/>
         <source>Text Align Left</source>
         <translation>左对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="515"/>
+        <location filename="../frame/cgraphicsview.cpp" line="514"/>
         <source>Text Align Right</source>
         <translation>右对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="516"/>
+        <location filename="../frame/cgraphicsview.cpp" line="515"/>
         <source>Text Align Center</source>
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1502"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1501"/>
         <source>This file is read-only, please save with another name.</source>
         <translation>该文件已设置为已读。请使用其他文件名重试。</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1511"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1510"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1533"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1532"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1535"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1534"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1560"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1559"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation>不能保存为“%1”，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
@@ -481,8 +481,8 @@
         <translation type="vanished">未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1505"/>
-        <location filename="../frame/cgraphicsview.cpp" line="1563"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1504"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1562"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -640,19 +640,18 @@
     </message>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="139"/>
-        <location filename="../drawshape/cpicturetool.cpp" line="288"/>
+        <location filename="../drawshape/cpicturetool.cpp" line="290"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="282"/>
-        <source>Unable to open the broken file &quot;%1&quot;.</source>
-        <translation type="unfinished">“%1”文件已被破坏，无法打开。</translation>
+        <location filename="../drawshape/cpicturetool.cpp" line="287"/>
+        <source>Damaged file, unable to open it.</source>
+        <translation>文件已损坏，无法打开。</translation>
     </message>
     <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="284"/>
-        <source>Unable to open the broken files.</source>
-        <translation type="unfinished"></translation>
+        <source>Unable to open the broken file &quot;%1&quot;.</source>
+        <translation type="obsolete">“%1”文件已被破坏，无法打开。</translation>
     </message>
 </context>
 <context>
@@ -852,7 +851,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../drawshape/ctexttool.cpp" line="53"/>
+        <location filename="../drawshape/ctexttool.cpp" line="54"/>
         <source>Input text here</source>
         <translation>输入文本</translation>
     </message>

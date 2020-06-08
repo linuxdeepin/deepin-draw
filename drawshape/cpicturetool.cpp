@@ -276,13 +276,15 @@ void CPictureTool::showLoadFailedFiles(const QStringList &files)
     dia.setFixedSize(404, 163);
     dia.setModal(true);
 
-    if (files.count() == 1) {
-        QFileInfo fInfo(files.first());
-        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
-        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
-    } else {
-        dia.setMessage(tr("Unable to open the broken files."));
-    }
+//    if (files.count() == 1) {
+//        QFileInfo fInfo(files.first());
+//        QString shortenFileName = QFontMetrics(dia.font()).elidedText(fInfo.fileName(), Qt::ElideMiddle, dia.width() / 2);
+//        dia.setMessage(tr("Unable to open the broken file \"%1\".").arg(shortenFileName));
+//    } else {
+//        dia.setMessage(tr("Unable to open the broken files."));
+//    }
+
+    dia.setMessage(tr("Damaged file, unable to open it."));
 
     dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
     dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
