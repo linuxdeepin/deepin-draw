@@ -191,7 +191,9 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     }
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
+                                 const QPointF &point,
+                                 bool bShiftPress, bool bAltPress)
 {
     Q_UNUSED(bShiftPress)
     Q_UNUSED(bAltPress)
@@ -199,7 +201,7 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     resizeTo(dir, point);
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
 //    bool shiftKeyPress = bShiftPress;
 //    bool altKeyPress = bAltPress;
@@ -286,7 +288,7 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
     prepareGeometryChange();
     pressRect = mapRectFromScene(pressRect);

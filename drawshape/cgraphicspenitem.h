@@ -37,8 +37,10 @@ public:
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -46,8 +48,13 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress);
+    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                             const double &xScale, const double &yScale,
+                             bool bShiftPress, bool bAltPress)override;
+
+    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect,
+                               QRectF itemPressRect, const qreal &xScale, const qreal &yScale,
+                               bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
 
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
     void updateCoordinate();

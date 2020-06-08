@@ -32,7 +32,9 @@ public:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual  int type() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     /**
      * @brief duplicate 拷贝自己
      * @return
@@ -63,7 +65,7 @@ private:
 
     //区分描边的绘制方式；1.RenderPathLine 把描边的边描述成一个包裹的路径 通过brush方式填充它的颜色
     //                 2.PaintPolyLine  以Qt自带的绘制多边形方式绘制边线(不设置填充色只设置QPen颜色)
-    enum ERenderWay{RenderPathLine,PaintPolyLine};
+    enum ERenderWay {RenderPathLine, PaintPolyLine};
 
     ERenderWay m_renderWay = PaintPolyLine;
     QPolygonF  m_polygonForBrush;

@@ -130,7 +130,9 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     return CSizeHandleRect::None;
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                                const double &xScale, const double &yScale,
+                                bool bShiftPress, bool bAltPress)
 {
     Q_UNUSED(dir)
     Q_UNUSED(offset)
@@ -140,7 +142,10 @@ void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &off
     Q_UNUSED(bAltPress)
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
+                                  QRectF pressRect, QRectF itemPressRect,
+                                  const qreal &xScale, const qreal &yScale,
+                                  bool bShiftPress, bool bAltPress)
 {
     Q_UNUSED(dir)
     Q_UNUSED(itemPressRect)

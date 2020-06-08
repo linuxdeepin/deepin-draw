@@ -79,7 +79,8 @@ public:
      * @param bShiftPress shift键是否按下
      * @param bAltPress alt键是rectCffset否按下
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress ) = 0;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -87,8 +88,14 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress);
+    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                             const double &xScale, const double &yScale,
+                             bool bShiftPress, bool bAltPress);
+
+    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
+                               QRectF pressRect, QRectF itemPressRect,
+                               const qreal &xScale, const qreal &yScale,
+                               bool bShiftPress, bool bAltPress);
 
     /**
      * @brief duplicate 复制this图元到item图元

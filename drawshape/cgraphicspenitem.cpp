@@ -399,7 +399,9 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 }
 
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                                   const double &xScale, const double &yScale,
+                                   bool bShiftPress, bool bAltPress)
 {
     QRectF rect = this->rect();
     bool shiftKeyPress = bShiftPress;
@@ -915,11 +917,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
             break;
         }
     }
-//    for (int i = 0; i < m_arrow.size(); i++) {
-//        QPointF point = mapFromScene(mapToScene(QPointF(m_arrow.at(i).x() + arrowOffset.x(), m_arrow.at(i).y() + arrowOffset.y())));
-//        arrow.append(point);
-//    }
-//    m_arrow = arrow;
+
     prepareGeometryChange();
     m_path = path;
     this->moveBy(offset.x(), offset.y());
@@ -927,12 +925,13 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     updateGeometry();
 }
 
-void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsPenItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect,
+                                     const qreal &xScale, const qreal &yScale,
+                                     bool bShiftPress, bool bAltPress)
 {
     Q_UNUSED(itemPressRect);
     prepareGeometryChange();
     pressRect = mapRectFromScene(pressRect);
-    //QRectF rect = this->rect();
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
     QTransform transform;
@@ -1480,7 +1479,6 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRec
     }
 
     m_path = path;
-    //this->moveBy(offset.x(), offset.y());
     calcVertexes();
     updateGeometry();
 }
@@ -1931,7 +1929,7 @@ void CGraphicsPenItem::calcVertexes()
 {
     qint32 count = m_path.elementCount();
 
-    if (count > 2)
+    if (count >= 2)
         calcVertexes(m_path.elementAt(count - 2), m_path.elementAt(count - 1));
 }
 
