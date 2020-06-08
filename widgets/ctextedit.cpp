@@ -142,6 +142,12 @@ void CTextEdit::insertFromMimeData(const QMimeData *source)
     }
 }
 
+void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
+{
+    //屏蔽自带的菜单
+    e->accept();
+}
+
 void CTextEdit::solveHtml(QString &html)
 {
     // [0] 截取html文件中的文本格式

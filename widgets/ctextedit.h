@@ -99,6 +99,8 @@ public slots:
 protected:
     void insertFromMimeData(const QMimeData *source) override;
 
+    void contextMenuEvent(QContextMenuEvent *e) override;
+
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
