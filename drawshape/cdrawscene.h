@@ -296,6 +296,9 @@ public slots:
      */
     void clearMutiSelectedState();
 
+
+    void doLeave();
+
 protected:
 
     /**
@@ -318,7 +321,6 @@ protected:
 
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-
 
     virtual bool event(QEvent *event) override;
 

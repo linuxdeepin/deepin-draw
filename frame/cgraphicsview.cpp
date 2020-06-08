@@ -117,7 +117,6 @@ CGraphicsView::CGraphicsView(DWidget *parent)
         this->setFocus();
     }, Qt::QueuedConnection);
 
-
     this->acceptDrops();
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
@@ -2079,6 +2078,12 @@ void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
+void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{
+    qDebug() << "------CGraphicsView::mouseReleaseEvent--------";
+    QGraphicsView::mouseReleaseEvent(event);
+}
+
 void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
@@ -2141,6 +2146,10 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     finished = true;
                 }
                 _recordMovePos = event->pos();
+            }
+        } else if (e->type() == QEvent::Leave) {
+            if (drawScene() != nullptr) {
+                drawScene()->doLeave();
             }
         }
         return finished;

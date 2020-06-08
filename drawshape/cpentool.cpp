@@ -65,6 +65,7 @@ void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 //    }
 
     if (event->button() == Qt::LeftButton) {
+        m_bMousePress = true;
         IDrawTool::CDrawToolEvent::CDrawToolEvents e = IDrawTool::CDrawToolEvent::fromQEvent(event, scene);
         toolStart(&e.first());
     }
@@ -111,6 +112,8 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 //    emit scene->signalChangeToSelect();
 
 //   scene->mouseEvent(event);
+
+    m_bMousePress = false;
 
     IDrawTool::CDrawToolEvent::CDrawToolEvents e = IDrawTool::CDrawToolEvent::fromQEvent(event, scene);
     toolFinish(&e.first());
