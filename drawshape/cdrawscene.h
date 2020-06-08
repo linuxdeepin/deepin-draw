@@ -50,7 +50,7 @@ public:
     explicit CDrawScene(CGraphicsView *view = nullptr,
                         const QString &uuid = "",
                         bool isModified = false);
-    ~CDrawScene();
+    ~CDrawScene() override;
     /**
      * @brief initScene 初始化一个新的场景
      */

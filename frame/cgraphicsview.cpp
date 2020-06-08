@@ -188,7 +188,8 @@ qreal CGraphicsView::getScale()
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
-    QGraphicsView::wheelEvent(event);
+    Q_UNUSED(event)
+    //QGraphicsView::wheelEvent(event);
 }
 
 void CGraphicsView::initContextMenu()
