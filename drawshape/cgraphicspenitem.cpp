@@ -921,8 +921,13 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
     prepareGeometryChange();
     m_path = path;
     this->moveBy(offset.x(), offset.y());
+
+    updateCoordinate();
+
     calcVertexes();
+
     updateGeometry();
+
 }
 
 void CGraphicsPenItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect,
@@ -1633,7 +1638,8 @@ void CGraphicsPenItem::drawEnd()
     if (m_isEndWithLine) {
         line = m_straightLine;
     } else {
-        line = QLineF(m_path.elementAt(m_path.elementCount() - 10), m_path.elementAt(m_path.elementCount() - 1));
+        int count = m_path.elementCount();
+        line = QLineF(m_path.elementAt(qMax(count - 10, 0)), m_path.elementAt(count - 1));
     }
 
 

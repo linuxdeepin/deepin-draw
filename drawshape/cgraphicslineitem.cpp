@@ -208,7 +208,11 @@ void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoin
     Q_UNUSED(bShiftPress)
     Q_UNUSED(bAltPress)
 
-    QRectF rect = this->rect();
+    //QRectF rect = this->rect();
+
+    QRectF rect = QRectF(QPointF(qMin(m_line.p1().x(), m_line.p2().x()), qMin(m_line.p1().y(), m_line.p2().y())),
+                         QPointF(qMax(m_line.p1().x(), m_line.p2().x()), qMax(m_line.p1().y(), m_line.p2().y())));
+
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();
     QPointF topRight = rect.topRight();
@@ -283,6 +287,7 @@ void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoin
             p2 = rect.topLeft();
         }
     }
+
     setLine(p1, p2);
     this->moveBy(offset.x(), offset.y());
     updateGeometry();
