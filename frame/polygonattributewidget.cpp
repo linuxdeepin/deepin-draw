@@ -149,7 +149,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSpinBox = new CSpinBox(this);
     m_sideNumSpinBox->setKeyboardTracking(false);
     m_sideNumSpinBox->setFixedWidth(85);
-    m_sideNumSpinBox->setRange(0, 1000);
+    m_sideNumSpinBox->setRange(0, INT_MAX);
     //m_sideNumSlider->setRange(4, 10);//此注释不删，记录边数范围
     m_sideNumSpinBox->setFont(ft);
     m_sideNumSpinBox->setSpecialValueText("— —");

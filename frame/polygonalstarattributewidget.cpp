@@ -164,8 +164,8 @@ void PolygonalStarAttributeWidget::initUI()
     m_anchorNumLabel->setFont(ft1);
     m_anchorNumber = new CSpinBox(this);
     m_anchorNumber->setKeyboardTracking(false);
-    m_anchorNumber->setFixedSize(QSize(/*70*/85, 36));
-    m_anchorNumber->setRange(0, 1000);
+    m_anchorNumber->setFixedSize(QSize(85, 36));
+    m_anchorNumber->setRange(0, INT_MAX);
     m_anchorNumber->setFont(ft);
     m_anchorNumber->setSpecialValueText("— —");
     m_anchorNumber->setEnabledEmbedStyle(true);

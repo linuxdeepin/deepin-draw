@@ -190,7 +190,8 @@ void CommonshapeWidget::initUI()
 
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
-    m_rediusSpinbox->setRange(-1, 1000);
+    //m_rediusSpinbox->setRange(-1, 1000);
+    m_rediusSpinbox->setRange(-1, INT_MAX);
     m_rediusSpinbox->setFixedSize(QSize(85, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");

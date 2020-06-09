@@ -77,7 +77,12 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
         }
         case BlurWidth: {
             m_spinboxForLineWidth->blockSignals(true);
-            m_spinboxForLineWidth->setValue(propertys[property].toInt());
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_spinboxForLineWidth->setValue(0);
+            } else {
+                m_spinboxForLineWidth->setValue(propertys[property].toInt());
+            }
+            m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
             m_spinboxForLineWidth->blockSignals(false);
             break;
         }
@@ -131,8 +136,12 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->setEnabledEmbedStyle(true);
 //    m_spinboxForLineWidth->setMinimum(INT_MIN + 1); //允许输入任何值在槽响应中限制范围(20-160)
 //    m_spinboxForLineWidth->setMaximum(INT_MAX - 1); //允许输入任何值在槽响应中限制范围(20-160)
-    m_spinboxForLineWidth->setMinimum(blur_min_width); //允许输入任何值在槽响应中限制范围(5-500)
-    m_spinboxForLineWidth->setMaximum(blur_max_width); //允许输入任何值在槽响应中限制范围(5-500)
+    //m_spinboxForLineWidth->setMinimum(blur_min_width); //允许输入任何值在槽响应中限制范围(5-500)
+    //m_spinboxForLineWidth->setMaximum(blur_max_width); //允许输入任何值在槽响应中限制范围(5-500)
+
+    m_spinboxForLineWidth->setRange(0, INT_MAX);
+    m_spinboxForLineWidth->setSpecialValueText("— —");
+
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
     m_spinboxForLineWidth->setFixedWidth(90);
