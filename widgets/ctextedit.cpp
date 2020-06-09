@@ -83,22 +83,20 @@ void CTextEdit::slot_textChanged()
     }
     rect.setWidth(size.width());
 
-    //判断是否出界
-    QPointF bottomRight = rect.bottomRight();
-    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
-    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
-        this->setLineWrapMode(WidgetWidth);
-        this->document()->setTextWidth(m_widthF);
-        size = this->document()->size();
-        rect.setHeight(size.height());
-        rect.setWidth(size.width());
-    }
-
-    if (m_pItem != nullptr) {
-        m_pItem->setRect(rect);
-    }
-
-    m_widthF = rect.width();
+    //判断是否出界 [31329] 在画布外绘制文字工具，将文本框调大，去更改颜色，文本框会变化
+//    QPointF bottomRight = rect.bottomRight();
+//    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
+//    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
+//        this->setLineWrapMode(WidgetWidth);
+//        this->document()->setTextWidth(m_widthF);
+//        size = this->document()->size();
+//        rect.setHeight(size.height());
+//        rect.setWidth(size.width());
+//    }
+//    if (m_pItem != nullptr) {
+//        m_pItem->setRect(rect);
+//    }
+//    m_widthF = rect.width();
 
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
