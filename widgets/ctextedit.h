@@ -101,6 +101,8 @@ protected:
 
     void contextMenuEvent(QContextMenuEvent *e) override;
 
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;

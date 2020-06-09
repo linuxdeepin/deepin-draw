@@ -148,6 +148,11 @@ void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
     e->accept();
 }
 
+void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    return QTextEdit::mouseDoubleClickEvent(e);
+}
+
 void CTextEdit::solveHtml(QString &html)
 {
     // [0] 截取html文件中的文本格式

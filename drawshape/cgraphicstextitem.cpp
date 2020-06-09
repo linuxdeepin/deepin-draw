@@ -151,6 +151,9 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
 
 void CGraphicsTextItem::makeEditabel()
 {
+    if (m_bMutiSelectFlag)
+        return;
+
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
@@ -418,6 +421,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
+
 
     makeEditabel();
 //    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
