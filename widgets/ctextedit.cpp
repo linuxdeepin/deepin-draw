@@ -330,7 +330,10 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     }
     selectedString = temp_str;
 
-    // [6] 如果为空则返回当前光标出的属性
+    // [6] 剔除换行符号
+    selectedString = selectedString.replace("\n", "");
+
+    // [7] 如果为空则返回当前光标出的属性
     if (selectedString.isEmpty()) {
         QTextCharFormat fmt = this->currentCharFormat();
         m_selectedColor = fmt.foreground().color();
@@ -340,9 +343,6 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         m_selectedColorAlpha = m_selectedColor.alpha();
         return;
     }
-
-    // [7] 剔除换行符号
-    selectedString = selectedString.replace("\n", "");
 
     // [8] 判断选中的文本属性是否相同
     m_selectedColor = QColor();
