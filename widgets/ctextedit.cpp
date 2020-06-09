@@ -321,18 +321,6 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 
     // [5] 获取鼠标选择的文本并且剔除段落换行符号
     QString selectedString = cursor.selectedText();
-    if (selectedString.isEmpty()) { // 如果为空则返回当前光标出的属性
-        QTextCharFormat fmt = this->currentCharFormat();
-        m_selectedColor = fmt.foreground().color();
-        m_selectedSize = fmt.font().pointSize();
-        m_selectedFamily = fmt.fontFamily();
-        m_selectedFontWeight = fmt.fontWeight();
-        m_selectedColorAlpha = m_selectedColor.alpha();
-        return;
-//        更新整体属性
-//        selectedString = allString;
-//        selected_start_index = 0;
-    }
     QString temp_str;
     for (int i = 0; i < selectedString.length(); i++) {
         if (selectedString.at(i) == "\u2029") {//删除段落符号
@@ -342,10 +330,21 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     }
     selectedString = temp_str;
 
-    // [6] 剔除换行符号
+    // [6] 如果为空则返回当前光标出的属性
+    if (selectedString.isEmpty()) {
+        QTextCharFormat fmt = this->currentCharFormat();
+        m_selectedColor = fmt.foreground().color();
+        m_selectedSize = fmt.font().pointSize();
+        m_selectedFamily = fmt.fontFamily();
+        m_selectedFontWeight = fmt.fontWeight();
+        m_selectedColorAlpha = m_selectedColor.alpha();
+        return;
+    }
+
+    // [7] 剔除换行符号
     selectedString = selectedString.replace("\n", "");
 
-    // [7] 判断选中的文本属性是否相同
+    // [8] 判断选中的文本属性是否相同
     m_selectedColor = QColor();
     m_selectedSize = -1;
     m_selectedFamily.clear();
