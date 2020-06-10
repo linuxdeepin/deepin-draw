@@ -55,7 +55,9 @@ public:
     static QStringList &supPictureSuffix();
     static QStringList &supDdfStuffix();
 
-    static QRegExp fileNameRegExp(bool ill = false);
+    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
+
+    bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
 
 signals:
     void popupConfirmDialog();
