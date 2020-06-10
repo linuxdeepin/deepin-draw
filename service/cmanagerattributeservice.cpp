@@ -347,46 +347,55 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QL
                 }
             }
             break;
-        case TextType://文本
+        case TextType: { //文本
+            CGraphicsTextItem *textItem = dynamic_cast<CGraphicsTextItem *>(item);
+            if (nullptr == textItem) {
+                qDebug() << "static_cast<CGraphicsTextItem *> nullptr";
+                continue;
+            }
+            // [0]  手动调用刷新，否则会出现属性未及时更新导致属性显示异常
+            textItem->getTextEdit()->checkTextProperty();
+
             if (propertys.contains(TextColor)) {
                 mode = EGraphicUserType::TextType;
-                if (propertys[TextColor] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColor()) {
+                if (propertys[TextColor] == textItem->getSelectedTextColor()) {
                     allPropertys[TextColor] = propertys[TextColor];
                 } else {
                     allPropertys[TextColor] = tmpVariant;
                 }
             }
             if (propertys.contains(TextFont)) {
-                QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextFont].value<QFont>().family() == static_cast<CGraphicsTextItem *>(item)->getSelectedFontFamily()) {
+                QFont font = textItem->getFont();
+                if (propertys[TextFont].value<QFont>().family() == textItem->getSelectedFontFamily()) {
                     allPropertys[TextFont] = propertys[TextFont];
                 } else {
                     allPropertys[TextFont] = tmpVariant;
                 }
             }
             if (propertys.contains(TextHeavy)) {
-                QFont font = static_cast<CGraphicsTextItem *>(item)->getFont();
-                if (propertys[TextHeavy] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontStyle()) {
+                QFont font = textItem->getFont();
+                if (propertys[TextHeavy] == textItem->getSelectedFontStyle()) {
                     allPropertys[TextHeavy] = propertys[TextHeavy];
                 } else {
                     allPropertys[TextHeavy] = tmpVariant;
                 }
             }
             if (propertys.contains(TextSize)) {
-                if (propertys[TextSize] == static_cast<CGraphicsTextItem *>(item)->getSelectedFontSize()) {
+                if (propertys[TextSize] == textItem->getSelectedFontSize()) {
                     allPropertys[TextSize] = propertys[TextSize];
                 } else {
                     allPropertys[TextSize] = tmpVariant;
                 }
             }
             if (propertys.contains(TextColorAlpha)) {
-                if (propertys[TextColorAlpha] == static_cast<CGraphicsTextItem *>(item)->getSelectedTextColorAlpha()) {
+                if (propertys[TextColorAlpha] == textItem->getSelectedTextColorAlpha()) {
                     allPropertys[TextColorAlpha] = propertys[TextColorAlpha];
                 } else {
                     allPropertys[TextColorAlpha] = tmpVariant;
                 }
             }
             break;
+        }
         case BlurType://模糊
             if (propertys.contains(Blurtype)) {
                 if (propertys[Blurtype] == static_cast<int>(static_cast<CGraphicsMasicoItem *>(item)->getBlurEffect())) {

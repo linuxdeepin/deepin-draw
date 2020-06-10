@@ -129,6 +129,11 @@ void CDrawScene::initScene()
     m_pHighLightItem->setZValue(10000);
 }
 
+CGraphicsView *CDrawScene::drawView()
+{
+    return (views().isEmpty() ? nullptr : qobject_cast<CGraphicsView *>(views().first()));
+}
+
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch ( mouseEvent->type() ) {
@@ -197,7 +202,10 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool) {
-        pTool->mousePressEvent(mouseEvent, this);
+
+        if (!pTool->isCreating()) {
+            pTool->mousePressEvent(mouseEvent, this);
+        }
     }
 }
 
@@ -220,9 +228,13 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if ( nullptr != pTool) {
+        if (pTool->isCreating() && mouseEvent->button() != Qt::LeftButton) {
+            return;
+        }
         pTool->mouseReleaseEvent(mouseEvent, this);
         if (nullptr != pToolSelect && pTool != pToolSelect) {
             //修改bug26618，不是很合理，后期有优化时再作修正
@@ -243,6 +255,30 @@ void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if ( nullptr != pTool) {
         pTool->mouseDoubleClickEvent(mouseEvent, this);
+    }
+}
+
+void CDrawScene::doLeave()
+{
+    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+    if (pTool != nullptr ) {
+        if (pTool->isCreating()) {
+            QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
+            mouseEvent.setButton(Qt::LeftButton);
+            QPointF pos     =  QCursor::pos();
+            QPointF scenPos = pos;
+            if (drawView() != nullptr) {
+                pos     = drawView()->viewport()->mapFromGlobal(pos.toPoint());
+                scenPos = drawView()->mapToScene(scenPos.toPoint());
+            }
+            mouseEvent.setPos(pos);
+            mouseEvent.setScenePos(scenPos);
+            mouseReleaseEvent(&mouseEvent);
+            pTool->stopCreating();
+        }
     }
 }
 
@@ -380,9 +416,10 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
     CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 }
 
-void CDrawScene::drawToolChange(int type)
+void CDrawScene::drawToolChange(int type, bool clearSections)
 {
-    clearMutiSelectedState();
+    if (clearSections)
+        clearMutiSelectedState();
     changeMouseShape(static_cast<EDrawToolMode>(type));
     updateBlurItem();
 }

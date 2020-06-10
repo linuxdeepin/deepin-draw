@@ -127,7 +127,9 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     }
 }
 
-void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir,
+                                        const QPointF &point,
+                                        bool bShiftPress, bool bAltPress)
 {
     prepareGeometryChange();
     QRectF pressRect = m_mapItemsRect[this];
@@ -354,12 +356,13 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                 break;
             }
         }
-        item->resizeTo(dir, pressRect, m_mapItemsRect[item],  xScale, yScale, bShiftPress, bAltPress);
+        item->resizeToMul_7(dir, pressRect, m_mapItemsRect[item],  xScale, yScale, bShiftPress, bAltPress);
     }
     updateGeometry();
 }
 
-void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset, bool bShiftPress, bool bAltPress)
+void CGraphicsItemSelectedMgr::resizeAll(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
+                                         const QPointF &offset, bool bShiftPress, bool bAltPress)
 {
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
@@ -367,7 +370,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     const QRectF &geomMult = mapRectToScene(this->boundingRect());
     double xScale = 1;
     double yScale = 1;
-    QPointF rectCffset(0, 0);
+    QPointF rectOffset(0, 0);
     foreach (CGraphicsItem *item, m_listItems) {
         const QRectF &itemRect = item->mapToScene(item->boundingRect()).boundingRect();
         if (!shiftKeyPress && !altKeyPress) {
@@ -376,72 +379,72 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                 if ((geomMult.bottom() - mousePos.y()) > 20 && (geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = offset.y() / geomMult.height();
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
                 if ((geomMult.bottom() - mousePos.y()) > 20) {
                     yScale = offset.y() / geomMult.height();
                     xScale = 0;
-                    rectCffset.setX(0);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX(0);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Top, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
                 if ((mousePos.x() - geomMult.left()) > 20 && (geomMult.bottom() - mousePos.y()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = offset.y() / geomMult.height();
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * (xScale ));
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * (yScale));
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * (xScale ));
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * (yScale));
+                    item->resizeToMul(CSizeHandleRect::RightTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
                 if ((mousePos.x() - geomMult.left()) > 20 && (geomMult.bottom() - mousePos.y()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = 0;
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
-                    rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * xScale);
+                    rectOffset.setY(0);
+                    item->resizeToMul(CSizeHandleRect::Right, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
                 if ((mousePos.x() - geomMult.left()) > 20 && (mousePos.y() - geomMult.top()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale =  offset.y() / geomMult.height();
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale );
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * xScale );
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
                 if ((mousePos.y() - geomMult.top()) > 20) {
                     yScale = offset.y() / geomMult.height();
                     xScale = 0;
-                    rectCffset.setX(0);
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX(0);
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Bottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
                 if ((geomMult.right() - mousePos.x()) > 20 && (mousePos.y() - geomMult.top()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = offset.y() / geomMult.height();
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
                 if ((geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = 0;
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY(0);
+                    item->resizeToMul(CSizeHandleRect::Left, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -460,18 +463,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = yScale;
                     }
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
                 if ((geomMult.bottom() - mousePos.y()) > 20) {
                     yScale = offset.y() / geomMult.height();
                     xScale = yScale;
-                    rectCffset.setX(-(itemRect.right() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX(-(itemRect.right() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Top, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -483,18 +486,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = -yScale;
                     }
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
                 if ((mousePos.x() - geomMult.left()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = xScale;
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Right, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -506,18 +509,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = yScale;
                     }
-                    rectCffset.setX((itemRect.left() - geomMult.left()) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left()) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
                 if ((mousePos.y() - geomMult.top()) > 20) {
                     yScale = offset.y() / geomMult.height();
                     xScale = yScale;
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Bottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -529,18 +532,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = -yScale;
                     }
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top()) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top()) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
                 if ((geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() / geomMult.width();
                     yScale = xScale;
-                    rectCffset.setX((geomMult.right() - itemRect.right()) * xScale);
-                    rectCffset.setY(-(itemRect.bottom() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right()) * xScale);
+                    rectOffset.setY(-(itemRect.bottom() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Left, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -554,72 +557,72 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                 if ((geomMult.bottom() - mousePos.y()) > 20 && (geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = offset.y() * 2 / geomMult.height();
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
                 if ((geomMult.bottom() - mousePos.y()) > 20) {
                     yScale = offset.y() * 2 / geomMult.height();
                     xScale = 0;
-                    rectCffset.setX(0);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX(0);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Top, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
                 if ((mousePos.x() - geomMult.left()) > 20 && (geomMult.bottom() - mousePos.y()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = offset.y() * 2 / geomMult.height();
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
                 if ((mousePos.x() - geomMult.left()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = 0;
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY(0);
+                    item->resizeToMul(CSizeHandleRect::Right, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
                 if ((mousePos.x() - geomMult.left()) > 20 && (mousePos.y() - geomMult.top()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = offset.y() * 2 / geomMult.height();
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
                 if ((mousePos.y() - geomMult.top()) > 20) {
                     yScale = offset.y() * 2 / geomMult.height();
                     xScale = 0;
-                    rectCffset.setX(0);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX(0);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Bottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
                 if ((geomMult.right() - mousePos.x()) > 20 && (mousePos.y() - geomMult.top()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = offset.y() * 2 / geomMult.height();
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
                 if ((geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = 0;
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY(0);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY(0);
+                    item->resizeToMul(CSizeHandleRect::Left, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -638,18 +641,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = yScale;
                     }
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Top:
                 if (geomMult.bottom() - mousePos.y() > 20) {
                     yScale = offset.y() * 2 / geomMult.height();
                     xScale = yScale;
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Top, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Top, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightTop:
@@ -661,18 +664,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = -yScale;
                     }
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightTop, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightTop, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Right:
                 if ((mousePos.x() - geomMult.left()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = xScale;
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Right, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Right, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::RightBottom:
@@ -684,18 +687,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = yScale;
                     }
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::RightBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::RightBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Bottom:
                 if ((mousePos.x() - geomMult.left()) > 20) {
                     yScale = offset.y() * 2 / geomMult.height();
                     xScale = yScale;
-                    rectCffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Bottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((itemRect.left() - geomMult.left() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Bottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::LeftBottom:
@@ -707,18 +710,18 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
                     } else {
                         xScale = -yScale;
                     }
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::LeftBottom, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((itemRect.top() - geomMult.top() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::LeftBottom, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             case CSizeHandleRect::Left:
                 if ((geomMult.right() - mousePos.x()) > 20) {
                     xScale = offset.x() * 2 / geomMult.width();
                     yScale = xScale;
-                    rectCffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
-                    rectCffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
-                    item->resizeTo(CSizeHandleRect::Left, rectCffset, xScale, yScale, shiftKeyPress, altKeyPress);
+                    rectOffset.setX((geomMult.right() - itemRect.right() - geomMult.width() / 2) * xScale);
+                    rectOffset.setY((geomMult.bottom() - itemRect.bottom() - geomMult.height() / 2) * yScale);
+                    item->resizeToMul(CSizeHandleRect::Left, rectOffset, xScale, yScale, shiftKeyPress, altKeyPress);
                 }
                 break;
             default:
@@ -730,6 +733,826 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
     updateGeometry();
 }
 
+bool CGraphicsItemSelectedMgr::isResizableWithInfo(CSizeHandleRect::EDirection dir,
+                                                   QPointF &mousePos,
+                                                   QPointF &offset,
+                                                   bool bShiftPress,
+                                                   bool bAltPress)
+{
+    bool accept = true;
+    QPointF newMousePos = mousePos;
+    QPointF outOffset   = offset;
+    qreal minLen = 20;
+    QRectF curScenRect = mapRectToScene(this->boundingRect());
+    if (!bShiftPress && !bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (bShiftPress && !bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - minLen;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + minLen;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + minLen;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (!bShiftPress && bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            }
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    } else if (bShiftPress && bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Top: {
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+            }
+            qreal realMoveY = wantedTop - curTop;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minTop);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightTop: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curTop = curScenRect.top();
+            qreal minTop = curScenRect.bottom() - curScenRect.height() / 2 - minLen / 2;
+            qreal wantedTop = curTop + offset.y();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedTop > minTop) {
+                wantedTop = minTop;
+                accept = false;
+                qreal realMoveY = wantedTop - curTop;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minTop);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Right: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+
+            }
+            qreal realMoveX = wantedRight - curRight;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minRight);
+            }
+            break;
+        }
+        case CSizeHandleRect::RightBottom: {
+            qreal curRight = curScenRect.right();
+            qreal minRight = curScenRect.left() + curScenRect.width() / 2 + minLen / 2;
+            qreal wantedRight = curRight + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+
+            if (wantedRight < minRight) {
+                wantedRight = minRight;
+                accept = false;
+                qreal realMoveX = wantedRight - curRight;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minRight);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Bottom: {
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+            }
+            qreal realMoveY = wantedBottom - curBottom;
+            outOffset.setY(realMoveY);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setY(prePos.y() + outOffset.y());
+            if (!accept) {
+                newMousePos.setY(minBottom);
+            }
+            break;
+        }
+        case CSizeHandleRect::LeftBottom: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - curScenRect.width() / 2 - minLen / 2;
+            qreal wantedLeft = curLeft + offset.x();
+
+            qreal curBottom = curScenRect.bottom();
+            qreal minBottom = curScenRect.top() + curScenRect.height() / 2 + minLen / 2;
+            qreal wantedBottom = curBottom + offset.y();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+                qreal realMoveX = wantedLeft - curLeft;
+                outOffset.setX(realMoveX);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setX(prePos.x() + outOffset.x());
+                if (!accept) {
+                    newMousePos.setX(minLeft);
+                }
+            } else if (wantedBottom < minBottom) {
+                wantedBottom = minBottom;
+                accept = false;
+                qreal realMoveY = wantedBottom - curBottom;
+                outOffset.setY(realMoveY);
+                QPointF prePos = mousePos - offset;
+                newMousePos.setY(prePos.y() + outOffset.y());
+                if (!accept) {
+                    newMousePos.setY(minBottom);
+                }
+            }
+            break;
+        }
+        case CSizeHandleRect::Left: {
+            qreal curLeft = curScenRect.left();
+            qreal minLeft = curScenRect.right() - minLen;
+            qreal wantedLeft = curLeft + offset.x();
+            if (wantedLeft > minLeft) {
+                wantedLeft = minLeft;
+                accept = false;
+            }
+            qreal realMoveX = wantedLeft - curLeft;
+            outOffset.setX(realMoveX);
+            QPointF prePos = mousePos - offset;
+            newMousePos.setX(prePos.x() + outOffset.x());
+            if (!accept) {
+                newMousePos.setX(minLeft);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    mousePos = newMousePos;
+    offset = outOffset;
+    return accept;
+}
 
 void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
 {
@@ -816,6 +1639,9 @@ QRectF CGraphicsItemSelectedMgr::getMultItemRect()
 
 void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
     updateGeometry();
     if (m_listItems.size() > 1) {
         painter->setClipping(false);
@@ -1021,8 +1847,13 @@ bool CGraphicsItemSelectedMgr::couldResize(QRectF itemSceneBoundRect, QPointF mo
     return couldResize;
 }
 
-QPointF CGraphicsItemSelectedMgr::getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint, CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress)
+QPointF CGraphicsItemSelectedMgr::getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint,
+                                              CSizeHandleRect::EDirection dragHandle,
+                                              bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+
     QPointF point = mousePoint;
     QRectF rect = itemSceneBoundRect;
     int length = 20;

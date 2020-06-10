@@ -126,6 +126,7 @@ class CMultMoveShapeCommand : public QUndoCommand
 {
 public:
     CMultMoveShapeCommand(CDrawScene *scene,
+                          QList<CGraphicsItem * > items,
                           QPointF beginPos,
                           QPointF endPos,
                           QUndoCommand *parent = nullptr );
@@ -454,8 +455,8 @@ private:
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     QList<QGraphicsItem *> m_selectItems;
-    bool m_isRedoExcuteSuccess;
-    bool m_isUndoExcuteSuccess;
+//    bool m_isRedoExcuteSuccess;
+//    bool m_isUndoExcuteSuccess;
 };
 
 /**
@@ -477,8 +478,6 @@ private:
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     QList<QGraphicsItem *> m_selectItems;
-    bool m_isRedoExcuteSuccess;
-    bool m_isUndoExcuteSuccess;
     QVector<QGraphicsItem *> m_movedItems;
 };
 

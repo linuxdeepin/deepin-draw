@@ -39,7 +39,8 @@ public:
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
-
+    virtual void move(QPointF beginPoint, QPointF movePoint) override;
+    virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const override;
     void doChangeType(int);
     void doChangeSize(int, int);
 
@@ -58,7 +59,7 @@ private:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块
      */
-    void initHandle();
+    void initHandle() override;
     void drawFourConner(QPainter *painter);
     void drawTrisectorRect(QPainter *painter);
     void showControlRects(bool);

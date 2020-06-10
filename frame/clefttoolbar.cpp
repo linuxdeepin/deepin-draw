@@ -281,12 +281,7 @@ void CLeftToolBar::clearOtherSelections(DToolButton *clickedButton)
 void CLeftToolBar::initConnection()
 {
     connect(m_selectBtn, &DToolButton::clicked, [this]() {
-        m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
-        m_selectBtn->setChecked(true);
-        clearOtherSelections(m_selectBtn);
-        isCutMode();
-        emit setCurrentDrawTool(selection);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+        doSelectToolChanged(true);
     });
 
     connect(m_picBtn, &DToolButton::clicked, [this]() {
@@ -548,7 +543,7 @@ void CLeftToolBar::slotShortCutCut()
 void CLeftToolBar::initShortCut()
 {
     m_selectAction = new QAction(this);
-    //m_selectAction->setShortcut(QKeySequence(Qt::Key_V));
+    m_selectAction->setShortcut(QKeySequence(Qt::Key_V));
     this->addAction(m_selectAction);
 
     m_pictureAction = new QAction(this);
@@ -598,7 +593,14 @@ void CLeftToolBar::initShortCut()
 
 void CLeftToolBar::initShortCutConnection()
 {
-    connect(m_selectAction, SIGNAL(triggered()), this, SLOT(slotShortCutSelect()));
+    //connect(m_selectAction, SIGNAL(triggered()), this, SLOT(slotShortCutSelect()));
+    connect(m_selectAction, &QAction::triggered, this, [ = ]() {
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        bool selectionsIsEmpty = (pView->scene() == nullptr ? true : pView->scene()->selectedItems().isEmpty());
+
+        bool clearProperWidget = (selectionsIsEmpty || pView->getDrawParam()->getCurrentDrawToolMode() == cut);
+        this->doSelectToolChanged(clearProperWidget);
+    });
     connect(m_pictureAction, SIGNAL(triggered()), this, SLOT(slotShortCutPictrue()));
     connect(m_rectAction, SIGNAL(triggered()), this, SLOT(slotShortCutRect()));
     connect(m_roundAction, SIGNAL(triggered()), this, SLOT(slotShortCutRound()));
@@ -622,5 +624,15 @@ void CLeftToolBar::isCutMode()
             curScene->quitCutMode();
         }
     }
+}
+
+void CLeftToolBar::doSelectToolChanged(bool showProperWidget)
+{
+    m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
+    m_selectBtn->setChecked(true);
+    clearOtherSelections(m_selectBtn);
+    isCutMode();
+    emit setCurrentDrawTool(selection, showProperWidget);
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
 }
 

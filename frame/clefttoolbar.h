@@ -48,7 +48,7 @@ signals:
      * @brief setCurrentDrawTool 设置当前画图工具信号
      * @param type　画图工具类型
      */
-    void setCurrentDrawTool(int type);
+    void setCurrentDrawTool(int type, bool showSelfPropreWidget = true);
     /**
      * @brief importPic　导入图片信号
      */
@@ -186,6 +186,10 @@ private:
      * @brief isCutMode 判断当前是不是裁剪模式　如果是先退出裁剪
      */
     void isCutMode();
+
+
+private slots:
+    void doSelectToolChanged(bool showProperWidget);
 };
 
 #endif // RIGHTTOOLBAR_H

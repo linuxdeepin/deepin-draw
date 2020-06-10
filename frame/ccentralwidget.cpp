@@ -192,6 +192,12 @@ QStringList CCentralwidget::getAllTabBarUUID()
     return m_topMutipTabBarWidget->getAllTabBarUUID();
 }
 
+void CCentralwidget::skipOpenedTab(QString filepath)
+{
+    QString filename = filepath.split("/").last().trimmed().split(".").first();
+    m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
+}
+
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
 {
     CGraphicsView *newview = new CGraphicsView(this);
@@ -246,7 +252,7 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     //主菜单栏中点击打开导入图片
     connect(newview, SIGNAL(signalImportPicture(QString)), this, SLOT(openPicture(QString)));
 
-    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int)), curScene, SLOT(drawToolChange(int)));
+    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int, bool)), curScene, SLOT(drawToolChange(int, bool)));
 
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
     connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
@@ -361,7 +367,7 @@ bool CCentralwidget::slotJudgeCutStatusAndPopSaveDialog()
 
     bool isNowCutStatus = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() == ECutType::cut_done ? false : true;
     if (isNowCutStatus) {
-        CCutDialog dialog;
+        CCutDialog dialog(this);
         dialog.exec();
         auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
         if (CCutDialog::Save == dialog.getCutStatus()) {

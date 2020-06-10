@@ -537,10 +537,14 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
+                                    const QPointF &offset,
+                                    const double &xScale, const double &yScale,
+                                    bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = bShiftPress;
-    bool altKeyPress = bAltPress;
+    Q_UNUSED(bShiftPress);
+    Q_UNUSED(bAltPress);
+
     QRectF rect = this->rect();
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();
@@ -603,14 +607,13 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsRectItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
+                                      QRectF pressRect, QRectF itemPressRect,
+                                      const qreal &xScale, const qreal &yScale,
+                                      bool bShiftPress, bool bAltPress)
 {
     prepareGeometryChange();
-    QRectF rect;// = this->rect();
-    //QPointF bottomRight = itemPressRect.bottomRight();
-    //QPointF topLeft = itemPressRect.topLeft();
-    //QPointF topRight = itemPressRect.topRight();
-    //QPointF bottomLeft = itemPressRect.bottomLeft();
+    QRectF rect;
     rect = itemPressRect;
     qDebug() << "************CGraphicsRectItem rect = " << rect;
     if (!bShiftPress && !bAltPress) {

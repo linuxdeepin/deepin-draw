@@ -36,8 +36,12 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -45,8 +49,13 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress);
+    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                     const double &xScale, const double &yScale,
+                     bool bShiftPress, bool bAltPress) override;
+
+    void resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect,
+                       const qreal &xScale, const qreal &yScale,
+                       bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
 
     QLineF line() const;
     void setLine(const QLineF &line);

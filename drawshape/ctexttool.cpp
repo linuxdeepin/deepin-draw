@@ -47,6 +47,7 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 {
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
+        m_bMousePress = true;
         m_sPointPress = event->scenePos();
         QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
@@ -104,5 +105,9 @@ void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         _tempTextItem->makeEditabel();
         _tempTextItem->getTextEdit()->document()->clearUndoRedoStacks();
         _tempTextItem = nullptr;
+    }
+
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = false;
     }
 }

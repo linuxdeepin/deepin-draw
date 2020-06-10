@@ -43,12 +43,19 @@ signals:
     void signalPicturesImportingFinished();
 
 public slots:
-    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData);
+    void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene,
+                   CCentralwidget *centralWindow,
+                   const QByteArray &fileSrcData);
+
+    void onLoadImageFinished(const QStringList &successFiles,
+                             const QStringList &failedFiles);
+
+    void showLoadFailedFiles(const QStringList &files);
 
 public:
-
-    void drawPicture(CDrawScene *scene, CCentralwidget *centralWindow);
     void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow);
+
+    QPixmap getPixMapQuickly(const QString &imagePath);
 private:
     //QList<CPictureItem *> m_picturetItems;
     ProgressLayout *m_progressLayout;

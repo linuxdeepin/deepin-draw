@@ -43,6 +43,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "drawshape/cdrawtoolmanagersigleton.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -71,10 +72,10 @@ static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
     return info1->zValue() < info2->zValue();
 }
 //降序排列用
-static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
-{
-    return info1->zValue() > info2->zValue();
-}
+//static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+//{
+//    return info1->zValue() > info2->zValue();
+//}
 
 //水平等间距对齐升序排列
 static bool xValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
@@ -115,7 +116,6 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     QMetaObject::invokeMethod(this, [ = ]() {
         this->setFocus();
     }, Qt::QueuedConnection);
-
 
     this->acceptDrops();
     this->setAttribute(Qt::WA_AcceptTouchEvents);
@@ -188,14 +188,8 @@ qreal CGraphicsView::getScale()
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
 {
-    /*if (CDrawParamSigleton::GetInstance()->getCtlKeyStatus()) {
-        if (event->delta() > 0) {
-            zoomOut();
-
-        } else {
-            zoomIn();
-        }
-    }*/
+    Q_UNUSED(event)
+    //QGraphicsView::wheelEvent(event);
 }
 
 void CGraphicsView::initContextMenu()
@@ -328,6 +322,16 @@ void CGraphicsView::initContextMenu()
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
+
+
+    //一些操作后需要刷新鼠标指针记得Qt::QueuedConnection方式，保证后执行，才准确
+    QList<QAction *> needUpdateCursorActions;
+    needUpdateCursorActions << m_cutAct << m_deleteAct << m_undoAct << m_redoAct
+                            << m_oneLayerUpAct << m_oneLayerDownAct << m_bringToFrontAct << m_sendTobackAct;
+    for (int i = 0; i < needUpdateCursorActions.size(); ++i) {
+        QAction *pAcion = needUpdateCursorActions[i];
+        connect(pAcion, &QAction::triggered, this, &CGraphicsView::updateCursorShape, Qt::QueuedConnection);
+    }
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -1630,6 +1634,15 @@ CDrawScene *CGraphicsView::drawScene()
     return dynamic_cast<CDrawScene *>(scene());
 }
 
+void CGraphicsView::updateCursorShape()
+{
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
+    if (pSelectTool != nullptr) {
+        pSelectTool->updateCursorShape();
+    }
+}
+
 void CGraphicsView::showEvent(QShowEvent *event)
 {
     this->setTransformationAnchor(AnchorViewCenter);
@@ -2030,6 +2043,7 @@ void CGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 
 void CGraphicsView::enterEvent(QEvent *event)
 {
+    Q_UNUSED(event);
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     if (nullptr != scene()) {
@@ -2075,6 +2089,12 @@ void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
+void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{
+    qDebug() << "------CGraphicsView::mouseReleaseEvent--------";
+    QGraphicsView::mouseReleaseEvent(event);
+}
+
 void CGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Space) {
@@ -2092,7 +2112,8 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = false;
-            qApp->setOverrideCursor(_tempCursor);
+            //qApp->setOverrideCursor(_tempCursor);
+            updateCursorShape();
         }
     }
     QGraphicsView::keyReleaseEvent(event);
@@ -2136,6 +2157,10 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     finished = true;
                 }
                 _recordMovePos = event->pos();
+            }
+        } else if (e->type() == QEvent::Leave) {
+            if (drawScene() != nullptr) {
+                drawScene()->doLeave();
             }
         }
         return finished;

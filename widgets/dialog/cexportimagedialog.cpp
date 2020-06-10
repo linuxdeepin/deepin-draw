@@ -32,7 +32,8 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QAbstractButton>
-
+#include "application.h"
+#include  "dialog.h"
 
 const QSize DIALOG_SIZE = QSize(380, 280);
 const QSize LINE_EDIT_SIZE = QSize(250, 35);
@@ -198,11 +199,22 @@ void CExportImageDialog::initConnection()
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
+
+        QString newText = text;
+
+        newText.remove(dApp->fileNameRegExp());
+
+        m_fileNameEdit->blockSignals(true);
+        m_fileNameEdit->setText(newText);
+        m_fileNameEdit->blockSignals(false);
+
+        bool isEmpty = newText.isEmpty();
+
         if (m_saveBtnId != -1) {
             QAbstractButton *pBtn = getButton(m_saveBtnId);
 
             if (pBtn != nullptr) {
-                pBtn->setEnabled(!text.isEmpty());
+                pBtn->setEnabled(!isEmpty);
             }
         }
     });
@@ -278,6 +290,24 @@ void CExportImageDialog::slotOnDialogButtonClick(int index, const QString &text)
     Q_UNUSED(text)
 
     if (index == 1) {
+        //  [BUG: 30843] 希望在导出时，名字以点开头的图片，也能给到提示：以点开始会被隐藏
+        QString fileName = m_fileNameEdit->text().trimmed();
+        if (fileName.startsWith(".")) {
+            this->hide();
+            Dialog dialog(this);
+            dialog.setModal(true);
+            dialog.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+            dialog.setMessage(tr("This file will be hidden if the file name starts with '.'. Do you want to hide it?"));
+            dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+            dialog.addButton(tr("Confirm"), true, DDialog::ButtonRecommend);
+            dialog.showInCenter(this);
+            int status = dialog.exec();
+            if (status != 1) {
+                this->show();
+                return;
+            }
+        }
+
         QString completePath = getCompleteSavePath();
         // 判断路径是否超过255字符
         if (completePath.toLocal8Bit().length() > 255) {
@@ -358,6 +388,7 @@ bool CExportImageDialog::isHaveSuffix(const QString &src)
 QString CExportImageDialog::getCompleteSavePath()
 {
     QString fileName = m_fileNameEdit->text().trimmed();
+
     if (fileName.isEmpty() || fileName == "") {
         return "";
     }

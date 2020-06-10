@@ -37,8 +37,6 @@
 #include <QButtonGroup>
 #include <QLineEdit>
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 //DWIDGET_USE_NAMESPACE
 
@@ -64,6 +62,7 @@ void PolygonAttributeWidget::changeButtonTheme()
 
 void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
 {
+    Q_UNUSED(write2Cache)
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(true);
@@ -150,7 +149,7 @@ void PolygonAttributeWidget::initUI()
     m_sideNumSpinBox = new CSpinBox(this);
     m_sideNumSpinBox->setKeyboardTracking(false);
     m_sideNumSpinBox->setFixedWidth(85);
-    m_sideNumSpinBox->setRange(0, 1000);
+    m_sideNumSpinBox->setRange(0, INT_MAX);
     //m_sideNumSlider->setRange(4, 10);//此注释不删，记录边数范围
     m_sideNumSpinBox->setFont(ft);
     m_sideNumSpinBox->setSpecialValueText("— —");

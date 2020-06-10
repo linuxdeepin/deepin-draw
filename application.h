@@ -55,6 +55,8 @@ public:
     static QStringList &supPictureSuffix();
     static QStringList &supDdfStuffix();
 
+    static QRegExp fileNameRegExp(bool ill = false);
+
 signals:
     void popupConfirmDialog();
 
@@ -71,5 +73,7 @@ protected:
 
 private:
     void initI18n();
+
+    QString _joinFlag;
 };
 #endif // APPLICATION_H

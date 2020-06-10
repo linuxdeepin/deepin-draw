@@ -29,6 +29,8 @@
 #include <QDebug>
 #include <QTextBlock>
 #include <QTextEdit>
+#include <malloc.h>
+#include <QMimeData>
 
 #include "service/cmanagerattributeservice.h"
 
@@ -36,7 +38,6 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     : QTextEdit(parent)
     , m_pItem(item)
     , m_widthF(0)
-    , m_resetDefaultProperty(false)
 {
     //初始化字体
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
@@ -57,10 +58,8 @@ CTextEdit::~CTextEdit()
 
 void CTextEdit::slot_textChanged()
 {
-    // 文本删除完后重新写入文字需要重置属性
-    if (m_resetDefaultProperty && this->document()->toPlainText().length() == 1) {
-        m_resetDefaultProperty = false;
-        this->selectAll();
+    // 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
+    if (this->document()->toPlainText().isEmpty()) {
         QTextCharFormat fmt;
         fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
         fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
@@ -68,8 +67,7 @@ void CTextEdit::slot_textChanged()
         QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
         color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
         fmt.setForeground(color);
-        this->mergeCurrentCharFormat(fmt);
-        this->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+        this->setCurrentCharFormat(fmt);
     }
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
@@ -83,25 +81,22 @@ void CTextEdit::slot_textChanged()
     if (!m_pItem->getManResizeFlag()) {
         rect.setHeight(size.height());
     }
-
     rect.setWidth(size.width());
 
-    //判断是否出界
-    QPointF bottomRight = rect.bottomRight();
-    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
-    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
-        this->setLineWrapMode(WidgetWidth);
-        this->document()->setTextWidth(m_widthF);
-        size = this->document()->size();
-        rect.setHeight(size.height());
-        rect.setWidth(size.width());
-    }
-
-    if (m_pItem != nullptr) {
-        m_pItem->setRect(rect);
-    }
-
-    m_widthF = rect.width();
+    //判断是否出界 [31329] 在画布外绘制文字工具，将文本框调大，去更改颜色，文本框会变化
+//    QPointF bottomRight = rect.bottomRight();
+//    QPointF bottomRightInScene = m_pItem->mapToScene(bottomRight);
+//    if (m_pItem->scene() != nullptr && !m_pItem->scene()->sceneRect().contains(bottomRightInScene)) {
+//        this->setLineWrapMode(WidgetWidth);
+//        this->document()->setTextWidth(m_widthF);
+//        size = this->document()->size();
+//        rect.setHeight(size.height());
+//        rect.setWidth(size.width());
+//    }
+//    if (m_pItem != nullptr) {
+//        m_pItem->setRect(rect);
+//    }
+//    m_widthF = rect.width();
 
     if (nullptr != m_pItem->scene()) {
         auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
@@ -110,7 +105,7 @@ void CTextEdit::slot_textChanged()
     }
 
     // [0] 编辑文字的时候不会自动刷新属性
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CTextEdit::cursorPositionChanged()
@@ -124,6 +119,10 @@ void CTextEdit::cursorPositionChanged()
         return;
     }
 
+    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
+        updateCurrentCursorProperty();
+    }
+
     // [0] 检测选中文字的属性是否相等
     checkTextProperty(cursor);
 
@@ -132,6 +131,24 @@ void CTextEdit::cursorPositionChanged()
         curScene->updateBlurItem(m_pItem);
     }
     this->setFocus();
+}
+
+void CTextEdit::insertFromMimeData(const QMimeData *source)
+{
+    if (source && source->hasText()) {
+        this->insertPlainText(source->text());
+    }
+}
+
+void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
+{
+    //屏蔽自带的菜单
+    e->accept();
+}
+
+void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    return QTextEdit::mouseDoubleClickEvent(e);
 }
 
 void CTextEdit::solveHtml(QString &html)
@@ -155,9 +172,8 @@ void CTextEdit::solveHtml(QString &html)
     // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:#000000;\">输入文本
     // <span style=\" font-family:'Bitstream Charter'; font-size:14pt; font-weight:0; color:rgba(0,0,0,0.341176);\">输入文本
 
-    // [2] 28155 solve input chinese,text widget property show error
+    // [2] 28155 解决输入中文后删除所有再次输入文字属性错误
     if (!list.size()) {
-        this->selectAll();
         QTextCharFormat fmt;
         fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
         fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
@@ -165,8 +181,7 @@ void CTextEdit::solveHtml(QString &html)
         QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
         color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
         fmt.setForeground(color);
-        this->mergeCurrentCharFormat(fmt);
-        this->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
+        this->setCurrentCharFormat(fmt);
         QSizeF size = this->document()->size();
         QRectF rect = m_pItem->rect();
         // 如果是两点的状态高度需要自适应
@@ -243,6 +258,18 @@ void CTextEdit::solveHtml(QString &html)
 
 void CTextEdit::updateCurrentCursorProperty()
 {
+    // note: 输入中文会显示到输入框中，但是获取的文本是空，要考虑这样的情况
+    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
+        QTextCharFormat fmt;
+        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->setCurrentCharFormat(fmt);
+    }
+
     QTextCharFormat fmt = this->currentCharFormat();
     m_selectedColor = fmt.foreground().color();
     m_selectedSize = fmt.font().pointSize();
@@ -294,18 +321,6 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 
     // [5] 获取鼠标选择的文本并且剔除段落换行符号
     QString selectedString = cursor.selectedText();
-    if (selectedString.isEmpty()) { // 如果为空则返回当前光标出的属性
-        QTextCharFormat fmt = this->currentCharFormat();
-        m_selectedColor = fmt.foreground().color();
-        m_selectedSize = fmt.font().pointSize();
-        m_selectedFamily = fmt.fontFamily();
-        m_selectedFontWeight = fmt.fontWeight();
-        m_selectedColorAlpha = m_selectedColor.alpha();
-        return;
-//        更新整体属性
-//        selectedString = allString;
-//        selected_start_index = 0;
-    }
     QString temp_str;
     for (int i = 0; i < selectedString.length(); i++) {
         if (selectedString.at(i) == "\u2029") {//删除段落符号
@@ -318,7 +333,18 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     // [6] 剔除换行符号
     selectedString = selectedString.replace("\n", "");
 
-    // [7] 判断选中的文本属性是否相同
+    // [7] 如果为空则返回当前光标出的属性
+    if (selectedString.isEmpty()) {
+        QTextCharFormat fmt = this->currentCharFormat();
+        m_selectedColor = fmt.foreground().color();
+        m_selectedSize = fmt.font().pointSize();
+        m_selectedFamily = fmt.fontFamily();
+        m_selectedFontWeight = fmt.fontWeight();
+        m_selectedColorAlpha = m_selectedColor.alpha();
+        return;
+    }
+
+    // [8] 判断选中的文本属性是否相同
     m_selectedColor = QColor();
     m_selectedSize = -1;
     m_selectedFamily.clear();
@@ -326,7 +352,7 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
     m_selectedFontWeight = -1;
     m_selectedColorAlpha = -1;
 
-    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size(); i++) {
+    for (int i = selected_start_index, j = 0; i < m_allTextInfo.size() && i >= 0; i++) {
         // 如果匹配到当前第一个字符
         if (selectedString.at(j) == m_allTextInfo.at(i).value(Text).toString()) {
 
@@ -392,13 +418,11 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
 
 void CTextEdit::checkTextProperty()
 {
-    // 如果为空的时候不再进行属性刷新
-    if (this->document()->toPlainText().isEmpty()) {
-        m_resetDefaultProperty = true;
-        return;
+    if (this->textCursor().hasSelection() && !this->toPlainText().startsWith("\n")) {
+        checkTextProperty(this->textCursor());
+    } else {
+        updateCurrentCursorProperty();
     }
-
-    checkTextProperty(this->textCursor());
 }
 
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
@@ -416,7 +440,6 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
 
 void CTextEdit::setVisible(bool visible)
 {
-
     QTextEdit::setVisible(visible);
     if (!visible) {
         QTextCursor cursor = this->textCursor();

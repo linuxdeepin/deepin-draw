@@ -112,7 +112,8 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 
     // 标签关闭提示框
-    m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    //m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    m_dialog.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     m_dialog.setMessage(tr("Is Close Draw?"));
     m_dialog.addButton(tr("OK"), true, DDialog::ButtonNormal);
     m_dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
@@ -139,13 +140,15 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
     QStringList picturePathList;
     for (int i = 0; i < files.size(); i++) {
         QFileInfo info(files[i]);
-        if (info.suffix().toLower() == ("ddf")) {
+        QString fileSuffix = info.suffix().toLower();
+        if (dApp->supDdfStuffix().contains(fileSuffix)) {
             ddfPath = files[i].replace("file://", "");
             if (!ddfPath.isEmpty()) {
-
                 bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
-                if (isOpened)
+                if (isOpened) { // 跳转到已打开标签
+                    m_centralWidget->skipOpenedTab(ddfPath);
                     continue;
+                }
 
                 // 创建一个新的窗口用于显示拖拽的图像
                 m_centralWidget->createNewScenseByscencePath(ddfPath);
@@ -159,8 +162,7 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
                 CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
                 slotIsNeedSave();
             }
-        } else if (files[i].endsWith(".png") || files[i].endsWith(".jpg")
-                   || files[i].endsWith(".bmp") || files[i].endsWith(".tif") ) {
+        } else if (dApp->supPictureSuffix().contains(fileSuffix)) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             picturePathList.append(files[i].replace("file://", ""));
         }
@@ -220,14 +222,11 @@ void MainWindow::closeTabViews()
             continue;
         } else {
 
+            // [0] 关闭标签前需要判断是否保存裁剪状态
+            m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
+
             bool editFlag = closeView->getDrawParam()->getModify();
             if (editFlag) {
-
-                // [0] 关闭标签前需要判断是否保存裁剪状态
-                if (!m_centralWidget->slotJudgeCutStatusAndPopSaveDialog()) {
-                    continue;
-                }
-
                 int ret = showSaveQuestionDialog();
                 if (ret <= 0) {
                     //结束关闭，同时结束其他标签页的关闭(因为取消了)
@@ -249,7 +248,12 @@ void MainWindow::closeTabViews()
 void MainWindow::initConnection()
 {
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::slotHideColorPanel);
+    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::slotHideColorPanel);
+    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
+        Q_UNUSED(type)
+        Q_UNUSED(showSelfPropreWidget)
+        m_topToolbar->slotHideColorPanel();
+    });
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
@@ -336,7 +340,10 @@ void MainWindow::initConnection()
     connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged, m_topToolbar, &TopToolbar::slotScenceViewChanged);
 
     // 链接剪裁切换场景后需要刷新菜单栏
-    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
+    //connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
+    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [ = ](int type) {
+        m_topToolbar->updateMiddleWidget(type);
+    });
 }
 
 void MainWindow::activeWindow()

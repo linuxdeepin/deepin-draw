@@ -55,7 +55,8 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
 
-        QString message = paths.join(' ');
+        QString message = paths.join(_joinFlag);
+
         this->sendMessage(message, 2000);
 
         this->activateWindow();
@@ -150,7 +151,7 @@ QStringList Application::doFileClassification(const QStringList &inFilesPath, Ap
 
 QStringList &Application::supPictureSuffix()
 {
-    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif";
+    static QStringList supPictureSuffixs = QStringList() << "png" << "jpg" << "bmp" << "tif"/* << "jpeg"*/;
     return supPictureSuffixs;
 }
 
@@ -158,6 +159,22 @@ QStringList &Application::supDdfStuffix()
 {
     static QStringList supDdfSuffixs = QStringList() << "ddf";
     return supDdfSuffixs;
+}
+
+QRegExp Application::fileNameRegExp(bool ill)
+{
+    //实际需要去掉的字符是
+    //版本1      '/' , '\' , ':' , '*'     , '?'   , '"', '<', '>' ，'|'
+
+    //但是在C++代码中，这些字符可能是代码的特殊字符，需要转义一下(用\)
+    //版本2      '/',  '\\',   ':' , '*'   , '?'   ,'\"' '<', '>' '|'
+
+    //但是在正则表达式中，\，*，?，|也是特殊字符，所以还要用\转义一下(写在代码里面就要用\\了)
+    //版本3      '/',  '\\\\', ':' , '\\*' , '\\?' ,'\"' '<', '>' , '\\|'
+
+    QRegExp regExg(QString(ill ? "^" : "") + "([/\\\\:\\*\\?\"<>\\|])*");
+
+    return regExg;
 }
 
 void Application::onMessageRecived(const QString &message)
@@ -171,7 +188,7 @@ void Application::onMessageRecived(const QString &message)
 
     if (pWin != nullptr) {
 
-        QStringList files = message.split(' ');
+        QStringList files = message.split(_joinFlag);
 
         if (!files.isEmpty()) {
             pWin->slotLoadDragOrPasteFile(files);
@@ -269,4 +286,6 @@ void Application::handleQuitAction()
 void Application::initI18n()
 {
     loadTranslator(QList<QLocale>() << QLocale::system());
+
+    _joinFlag = "?><:File0a0b0c0d";
 }

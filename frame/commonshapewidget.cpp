@@ -56,7 +56,9 @@ void CommonshapeWidget::changeButtonTheme()
 
 void CommonshapeWidget::setRectXRedius(int redius)
 {
-    m_rediusSpinbox->setValue(redius);
+    if (redius != m_rediusSpinbox->value()) {
+        m_rediusSpinbox->setValue(redius);
+    }
 }
 
 void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
@@ -68,7 +70,6 @@ void CommonshapeWidget::setRectXRediusSpinboxVisible(bool visible)
 
 void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache)
 {
-    qDebug() << "write2cache: " << write2cache;
     m_fillBtn->setVisible(false);
     m_strokeBtn->setVisible(false);
     m_sepLine->setVisible(false);
@@ -108,6 +109,7 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
             if (propertys[property].type() == QVariant::Invalid) {
                 m_strokeBtn->setIsMultColorSame(false);
             } else {
+                m_strokeBtn->setIsMultColorSame(true);
                 m_strokeBtn->setColor(propertys[property].value<QColor>());
                 if (write2cache) {
                     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(propertys[property].value<QColor>());
@@ -188,7 +190,8 @@ void CommonshapeWidget::initUI()
 
     m_rediusSpinbox = new CSpinBox(this);
     m_rediusSpinbox->setKeyboardTracking(false);
-    m_rediusSpinbox->setRange(-1, 1000);
+    //m_rediusSpinbox->setRange(-1, 1000);
+    m_rediusSpinbox->setRange(-1, INT_MAX);
     m_rediusSpinbox->setFixedSize(QSize(85, 36));
     m_rediusSpinbox->setFont(ft);
     m_rediusSpinbox->setSpecialValueText("— —");
@@ -201,6 +204,7 @@ void CommonshapeWidget::initUI()
     setLayout(layout);
 
     m_rediusSpinbox->setProperty("preValue", 5);
+    m_rediusSpinbox->setValue(5);
 }
 
 void CommonshapeWidget::initConnection()

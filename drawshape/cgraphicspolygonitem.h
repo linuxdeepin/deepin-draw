@@ -43,7 +43,11 @@ public:
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void setPointCount(int num);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
     int nPointsCount() const;
 
     void setListPoints(const QVector<QPointF> &listPoints);
@@ -60,7 +64,7 @@ protected:
 
 private:
     void calcPoints();
-    static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF& rect,qreal offset = 0.0);
+    static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset = 0.0);
 
 private:
     int m_nPointsCount; //点数

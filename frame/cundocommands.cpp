@@ -134,6 +134,8 @@ void CMoveShapeCommand::redo()
 
 CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
 {
+    Q_UNUSED(parent);
+
     myGraphicsScene = scene;
     m_items = items;
     m_oldIndex = -1;
@@ -168,6 +170,20 @@ void CDeleteShapeCommand::undo()
         }
     }
 
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    qreal zvalue = 0;
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > zvalue) {
+            zvalue = allItem->zValue();
+        }
+    }
+    myGraphicsScene->setMaxZValue(zvalue);
+
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
         myGraphicsScene->clearSelection();
@@ -194,6 +210,20 @@ void CDeleteShapeCommand::redo()
         myGraphicsScene->removeItem(item);
         remove = true;
     }
+
+    //重置保存的最大z值
+    QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    qreal zvalue = 0;
+    for (int i = allItems.size() - 1; i >= 0; i--) {
+        QGraphicsItem *allItem = allItems.at(i);
+        if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
+            continue;
+        }
+        if (allItem->zValue() > zvalue) {
+            zvalue = allItem->zValue();
+        }
+    }
+    myGraphicsScene->setMaxZValue(zvalue);
 
     if (remove) {
         myGraphicsScene->getItemsMgr()->clear();
@@ -532,44 +562,54 @@ CResizeShapeCommand::CResizeShapeCommand(CDrawScene *scene, CGraphicsItem *item,
     switch (m_handle) {
     case CSizeHandleRect::Right:
         m_beginPos = QPointF(rect.right(), 0);
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
+        m_beginPos.setX(m_beginPos.rx());
         break;
     case CSizeHandleRect::RightTop:
         m_beginPos = rect.topRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        m_beginPos.setX(m_beginPos.rx());
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::RightBottom:
-        m_beginPos = rect.bottomRight();
-        m_beginPos.setX(m_beginPos.rx() - 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        if (myItem->type() == LineType) {
+            m_beginPos = endPos;
+            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p2();
+        } else {
+            m_beginPos = rect.bottomRight();
+            m_beginPos.setX(m_beginPos.rx());
+            m_beginPos.setY(m_beginPos.ry());
+        }
         break;
     case CSizeHandleRect::LeftBottom:
         m_beginPos = rect.bottomLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        m_beginPos.setX(m_beginPos.rx());
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::Bottom:
         m_beginPos = QPointF(0, rect.bottom());
-        m_beginPos.setY(m_beginPos.ry() - 0.5);
+        m_beginPos.setY(m_beginPos.ry());
         break;
     case CSizeHandleRect::LeftTop:
-        m_beginPos = rect.topLeft();
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        if (myItem->type() == LineType) {
+            m_beginPos = endPos;
+            m_endPos = static_cast<CGraphicsLineItem *>(myItem)->line().p1();
+        } else {
+            m_beginPos = rect.topLeft();
+            m_beginPos.setX(m_beginPos.rx());
+            m_beginPos.setY(m_beginPos.ry());
+        }
         break;
     case CSizeHandleRect::Left:
         m_beginPos = QPointF(rect.left(), 0);
-        m_beginPos.setX(m_beginPos.rx() + 0.5);
+        m_beginPos.setX(m_beginPos.rx());
         break;
     case CSizeHandleRect::Top:
         m_beginPos = QPointF(0, rect.top());
-        m_beginPos.setY(m_beginPos.ry() + 0.5);
+        m_beginPos.setY(m_beginPos.ry());
         break;
     default:
         break;
     }
-    qDebug() << "m_beginPos = " << m_beginPos;
+    qDebug() << "m_beginPos: " << m_beginPos << "m_endPos: " << m_endPos;
     myGraphicsScene = scene;
 }
 
@@ -582,8 +622,8 @@ void CResizeShapeCommand::undo()
         myItem->setSelected(true);
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
+        myGraphicsScene->setModify(true);
     }
-    myGraphicsScene->setModify(true);
 }
 
 void CResizeShapeCommand::redo()
@@ -595,8 +635,8 @@ void CResizeShapeCommand::redo()
         myItem->setSelected(true);
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         myItem->update();
+        myGraphicsScene->setModify(true);
     }
-    myGraphicsScene->setModify(true);
 }
 
 /*
@@ -1294,8 +1334,8 @@ CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraph
         }
     }
     m_selectItems = items;
-    m_isUndoExcuteSuccess = true;
-    m_isRedoExcuteSuccess = false;
+    //m_isUndoExcuteSuccess = true;
+    //m_isRedoExcuteSuccess = false;
 }
 
 CBringToFrontCommand::~CBringToFrontCommand()
@@ -1305,17 +1345,13 @@ CBringToFrontCommand::~CBringToFrontCommand()
 
 void CBringToFrontCommand::undo()
 {
-    if (!m_isRedoExcuteSuccess) {
-        return;
-    }
-
-    m_isUndoExcuteSuccess = false;
+    bool modifyFlag = false;
     int count = m_oldItemZValue.count();
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
         myGraphicsScene->updateBlurItem(item);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
     //重置保存的最大z值
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
@@ -1342,7 +1378,7 @@ void CBringToFrontCommand::undo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isUndoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1350,11 +1386,7 @@ void CBringToFrontCommand::undo()
 
 void CBringToFrontCommand::redo()
 {
-    if (!m_isUndoExcuteSuccess) {
-        return;
-    }
-
-    m_isRedoExcuteSuccess = false;
+    bool modifyFlag = false;
 
     qSort(m_selectItems.begin(), m_selectItems.end(), zValueSortASC);
     qreal maxZValue = myGraphicsScene->getMaxZValue();
@@ -1364,7 +1396,7 @@ void CBringToFrontCommand::redo()
         selectItem->setZValue(maxZValue + 1);
         myGraphicsScene->setMaxZValue(maxZValue + 1);
         myGraphicsScene->updateBlurItem(selectItem);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
 
     myGraphicsScene->getItemsMgr()->clear();
@@ -1380,7 +1412,7 @@ void CBringToFrontCommand::redo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isRedoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1424,8 +1456,6 @@ CSendToBackCommand::CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsI
         }
     }
     m_selectItems = items;
-    m_isUndoExcuteSuccess = true;
-    m_isRedoExcuteSuccess = false;
 }
 
 CSendToBackCommand::~CSendToBackCommand()
@@ -1436,17 +1466,14 @@ CSendToBackCommand::~CSendToBackCommand()
 void CSendToBackCommand::undo()
 {
     qDebug() << "CSendToBackCommand::undo";
-    if (!m_isRedoExcuteSuccess) {
-        return;
-    }
 
-    m_isUndoExcuteSuccess = false;
+    bool modifyFlag = false;
     int count = m_oldItemZValue.count();
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
         myGraphicsScene->updateBlurItem(item);
-        m_isRedoExcuteSuccess = true;
+        modifyFlag = true;
     }
     //重置保存的最大z值
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
@@ -1473,7 +1500,8 @@ void CSendToBackCommand::undo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isUndoExcuteSuccess) {
+
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1482,9 +1510,8 @@ void CSendToBackCommand::undo()
 void CSendToBackCommand::redo()
 {
     qDebug() << "CSendToBackCommand::redo";
-    if (!m_isUndoExcuteSuccess) {
-        return;
-    }
+
+    bool modifyFlag = false;
 
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
     for (int i = allItems.size() - 1; i >= 0; i--) {
@@ -1514,7 +1541,8 @@ void CSendToBackCommand::redo()
         m_oldItemZValue[allItem] = allItem->zValue();
         allItem->setZValue(myGraphicsScene->getMaxZValue() + 1);
         myGraphicsScene->setMaxZValue(myGraphicsScene->getMaxZValue() + 1);
-        m_isRedoExcuteSuccess = true;
+
+        modifyFlag = true;
     }
 
     myGraphicsScene->getItemsMgr()->clear();
@@ -1530,7 +1558,7 @@ void CSendToBackCommand::redo()
 
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
-    if (m_isRedoExcuteSuccess) {
+    if (modifyFlag) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
@@ -1599,8 +1627,13 @@ void CSceneCutCommand::redo()
 }
 
 
-CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bAltPress, QUndoCommand *parent)
+CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle,
+                                                 QPointF beginPos, QPointF endPos,
+                                                 bool bShiftPress, bool bAltPress,
+                                                 QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
+
     myGraphicsScene = scene;
     m_handle = handle;
     m_endPos = endPos;
@@ -1696,25 +1729,22 @@ void CMultResizeShapeCommand::redo()
     m_bResized = true;
 }
 
-CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
+CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QList<CGraphicsItem *> items, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
     myGraphicsScene = scene;
     m_endPos = endPos;
     m_beginPos = beginPos;
     m_bMoved = false;
     m_listItems.clear();
-    m_listItems = myGraphicsScene->getItemsMgr()->getItems();
+    m_listItems = items;
 }
 
 void CMultMoveShapeCommand::undo()
 {
     qDebug() << "CMultMoveShapeCommand::undo";
-    if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
-        myGraphicsScene->getItemsMgr()->move(m_endPos, m_beginPos);
-    } else {
-        foreach (CGraphicsItem *item, m_listItems) {
-            item->move(m_endPos, m_beginPos);
-        }
+    foreach (CGraphicsItem *item, m_listItems) {
+        item->move(m_endPos, m_beginPos);
     }
 
     if (m_listItems.size() > 1) {
@@ -1729,6 +1759,7 @@ void CMultMoveShapeCommand::undo()
             emit myGraphicsScene->signalAttributeChanged(true, QGraphicsItem::UserType);
         }
     }
+    myGraphicsScene->update();
 }
 
 void CMultMoveShapeCommand::redo()
@@ -1758,6 +1789,7 @@ void CMultMoveShapeCommand::redo()
     }
 
     m_bMoved = true;
+    myGraphicsScene->update();
 }
 
 CSetItemsCommonPropertyValueCommand::CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,

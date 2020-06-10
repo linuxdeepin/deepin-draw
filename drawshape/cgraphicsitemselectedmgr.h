@@ -78,10 +78,16 @@ public:
                           bool bShiftPress,
                           bool bAltPress) Q_DECL_OVERRIDE;
 
-    void resizeTo(CSizeHandleRect::EDirection dir,
-                  const QPointF &mousePos,
-                  const QPointF &offset,
-                  bool bShiftPress, bool bAltPress);
+    void resizeAll(CSizeHandleRect::EDirection dir,
+                   const QPointF &mousePos,
+                   const QPointF &offset,
+                   bool bShiftPress, bool bAltPress);
+
+    bool isResizableWithInfo(CSizeHandleRect::EDirection dir,
+                             QPointF &mousePos,
+                             QPointF &offset,
+                             bool bShiftPress,
+                             bool bAltPress);
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点

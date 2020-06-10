@@ -151,6 +151,9 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
 
 void CGraphicsTextItem::makeEditabel()
 {
+    if (m_bMutiSelectFlag)
+        return;
+
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
@@ -405,11 +408,9 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            pen.setColor(QColor(224, 224, 224));
-//        } else {
-//            pen.setColor(QColor(69, 69, 69));
-//        }
+
+        pen.setColor(QColor("#E0E0E0"));
+
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -420,6 +421,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
+
 
     makeEditabel();
 //    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
@@ -574,6 +576,7 @@ qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qre
 
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
+    Q_UNUSED(chf);
     return true;
 }
 

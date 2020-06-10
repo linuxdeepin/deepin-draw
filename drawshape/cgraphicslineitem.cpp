@@ -74,7 +74,6 @@ CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SG
     initLine();
 }
 
-
 CGraphicsLineItem::~CGraphicsLineItem()
 {
 
@@ -133,7 +132,7 @@ QRectF CGraphicsLineItem::boundingRect() const
 
 QRectF CGraphicsLineItem::rect() const
 {
-    QRectF rect(m_line.p1(), m_line.p2());
+    QRectF rect(m_dRectline.p1(), m_dRectline.p2());
     return rect.normalized();
 }
 
@@ -192,7 +191,9 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     }
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir,
+                                 const QPointF &point,
+                                 bool bShiftPress, bool bAltPress)
 {
     Q_UNUSED(bShiftPress)
     Q_UNUSED(bAltPress)
@@ -200,14 +201,18 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     resizeTo(dir, point);
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
 //    bool shiftKeyPress = bShiftPress;
 //    bool altKeyPress = bAltPress;
     Q_UNUSED(bShiftPress)
     Q_UNUSED(bAltPress)
 
-    QRectF rect = this->rect();
+    //QRectF rect = this->rect();
+
+    QRectF rect = QRectF(QPointF(qMin(m_line.p1().x(), m_line.p2().x()), qMin(m_line.p1().y(), m_line.p2().y())),
+                         QPointF(qMax(m_line.p1().x(), m_line.p2().x()), qMax(m_line.p1().y(), m_line.p2().y())));
+
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();
     QPointF topRight = rect.topRight();
@@ -282,12 +287,13 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
             p2 = rect.topLeft();
         }
     }
+
     setLine(p1, p2);
     this->moveBy(offset.x(), offset.y());
     updateGeometry();
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect, const qreal &xScale, const qreal &yScale, bool bShiftPress, bool bAltPress)
 {
     prepareGeometryChange();
     pressRect = mapRectFromScene(pressRect);
@@ -559,7 +565,6 @@ void CGraphicsLineItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-
 CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;
@@ -626,10 +631,6 @@ void CGraphicsLineItem::updateGeometry()
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
-        QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
-
-        qreal k = 0;
-        qreal ang = 0;
         qreal w = hndl->boundingRect().width();
         qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
@@ -639,7 +640,12 @@ void CGraphicsLineItem::updateGeometry()
         case CSizeHandleRect::RightBottom:
             hndl->move(m_dRectline.p2().x() - w / 2, m_dRectline.p2().y() - h / 2);
             break;
-        case CSizeHandleRect::Rotation:
+        case CSizeHandleRect::Rotation: {
+            // 以下代码没有实际作用
+            QPointF centerPos = (m_dRectline.p1() + m_dRectline.p2()) / 2;
+            qreal k = 0;
+            qreal ang = 0;
+
             if (qAbs(m_dRectline.p2().x() - m_dRectline.p1().x()) < 0.0001) {
                 hndl->move(m_dRectline.p1().x() - h - penwidth, centerPos.y());
             } else {
@@ -661,6 +667,7 @@ void CGraphicsLineItem::updateGeometry()
                 }
             }
             break;
+        }
         default:
             break;
         }

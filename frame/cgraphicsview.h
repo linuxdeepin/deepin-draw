@@ -127,6 +127,8 @@ public:
 
     CDrawScene *drawScene();
 
+    Q_SLOT void updateCursorShape();
+
 protected:
     void showEvent(QShowEvent *event)override;
 
@@ -201,6 +203,8 @@ protected:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 
     void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;

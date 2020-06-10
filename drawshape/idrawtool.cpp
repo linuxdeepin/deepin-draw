@@ -54,6 +54,16 @@ void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScen
     scene->mouseEvent(event);
 }
 
+bool IDrawTool::isCreating()
+{
+    return m_bMousePress;
+}
+
+void IDrawTool::stopCreating()
+{
+    m_bMousePress = false;
+}
+
 void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event)
 {
     SRecordedStartInfo info;

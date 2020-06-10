@@ -50,11 +50,17 @@ public:
     explicit CDrawScene(CGraphicsView *view = nullptr,
                         const QString &uuid = "",
                         bool isModified = false);
-    ~CDrawScene();
+    ~CDrawScene() override;
     /**
      * @brief initScene 初始化一个新的场景
      */
     void initScene();
+
+
+    /**
+     * @brief drawView 返回视图指针
+     */
+    CGraphicsView *drawView();
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -277,7 +283,7 @@ public slots:
      * @brief drawToolChange 切换绘图工具
      * @param type
      */
-    void drawToolChange(int type);
+    void drawToolChange(int type, bool clearSections = true);
 
     /**
      * @brief changeMouseShape 切换鼠标形状
@@ -289,6 +295,9 @@ public slots:
      * @brief clearMutiSelectedState 清除多选状态
      */
     void clearMutiSelectedState();
+
+
+    void doLeave();
 
 protected:
 
@@ -312,7 +321,6 @@ protected:
 
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-
 
     virtual bool event(QEvent *event) override;
 

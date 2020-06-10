@@ -154,6 +154,7 @@ void QtSingleApplication::sysInit(const QString &appId)
 QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled)
     : DApplication(argc, argv)
 {
+    Q_UNUSED(GUIenabled);
     sysInit();
 }
 

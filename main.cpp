@@ -107,7 +107,6 @@ int main(int argc, char *argv[])
 #if defined(STATIC_LIB)
     DWIDGET_INIT_RESOURCE();
 #endif
-
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     Application::loadDXcbPlugin();
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);

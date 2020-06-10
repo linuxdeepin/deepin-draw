@@ -62,8 +62,11 @@ void BlurWidget::changeButtonTheme()
 
 }
 
-void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
+void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys,
+                                            bool write2Cache)
 {
+    Q_UNUSED(write2Cache)
+
     for (int i = 0; i < propertys.size(); i++) {
         EDrawProperty property = propertys.keys().at(i);
         switch (property) {
@@ -74,7 +77,12 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
         }
         case BlurWidth: {
             m_spinboxForLineWidth->blockSignals(true);
-            m_spinboxForLineWidth->setValue(propertys[property].toInt());
+            if (propertys[property].type() == QVariant::Invalid) {
+                m_spinboxForLineWidth->setValue(0);
+            } else {
+                m_spinboxForLineWidth->setValue(propertys[property].toInt());
+            }
+            m_spinboxForLineWidth->setProperty("preValue", m_spinboxForLineWidth->value());
             m_spinboxForLineWidth->blockSignals(false);
             break;
         }
@@ -87,6 +95,7 @@ void BlurWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> proper
 
 void BlurWidget::initUI()
 {
+    setAttribute(Qt::WA_NoMousePropagation, true);
     DLabel *penLabel = new DLabel(this);
     penLabel->setObjectName("TypeLabel");
     //penLabel->setText(tr("类型"));
@@ -127,8 +136,12 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->setEnabledEmbedStyle(true);
 //    m_spinboxForLineWidth->setMinimum(INT_MIN + 1); //允许输入任何值在槽响应中限制范围(20-160)
 //    m_spinboxForLineWidth->setMaximum(INT_MAX - 1); //允许输入任何值在槽响应中限制范围(20-160)
-    m_spinboxForLineWidth->setMinimum(blur_min_width); //允许输入任何值在槽响应中限制范围(5-500)
-    m_spinboxForLineWidth->setMaximum(blur_max_width); //允许输入任何值在槽响应中限制范围(5-500)
+    //m_spinboxForLineWidth->setMinimum(blur_min_width); //允许输入任何值在槽响应中限制范围(5-500)
+    //m_spinboxForLineWidth->setMaximum(blur_max_width); //允许输入任何值在槽响应中限制范围(5-500)
+
+    m_spinboxForLineWidth->setRange(0, INT_MAX);
+    m_spinboxForLineWidth->setSpecialValueText("— —");
+
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
     m_spinboxForLineWidth->setFixedWidth(90);

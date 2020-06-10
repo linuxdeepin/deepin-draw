@@ -65,7 +65,8 @@ public:
 
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**
      * @brief duplicate 拷贝自己
