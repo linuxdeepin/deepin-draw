@@ -24,6 +24,8 @@
 #include <DMenu>
 #include <DGraphicsView>
 
+#include <QInputMethodEvent>
+
 DWIDGET_USE_NAMESPACE
 
 class CGraphicsTextItem;
@@ -103,6 +105,9 @@ protected:
 
     void mouseDoubleClickEvent(QMouseEvent *e) override;
 
+    void inputMethodEvent(QInputMethodEvent *e) override;
+    void focusOutEvent(QFocusEvent *e) override;
+
 private:
     CGraphicsTextItem *m_pItem;
     qreal m_widthF;
@@ -115,6 +120,7 @@ private:
     int m_selectedColorAlpha; //所有选中的文字颜色透明度
 
     QList<QMap<ProperType, QVariant> > m_allTextInfo; //所有的选中的单个文字属性
+    QInputMethodEvent m_e;//输入中文的预览文本
 
     /*
     * @bref: solveHtml 解析html文件中的每一个文字的属性

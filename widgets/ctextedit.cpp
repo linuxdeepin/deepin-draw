@@ -136,6 +136,23 @@ void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
     return QTextEdit::mouseDoubleClickEvent(e);
 }
 
+void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
+{
+    m_e = *e;
+    QTextEdit::inputMethodEvent(e);
+}
+
+void CTextEdit::focusOutEvent(QFocusEvent *e)
+{
+    QTextEdit::focusOutEvent(e);
+    QString &pre = const_cast<QString &>(m_e.preeditString() );
+    if (!pre.isEmpty()) {
+        m_e.setCommitString(pre);
+        pre.clear();
+        inputMethodEvent(&m_e);
+    }
+}
+
 void CTextEdit::solveHtml(QString &html)
 {
     // [0] 截取html文件中的文本格式
