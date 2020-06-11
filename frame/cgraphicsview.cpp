@@ -1878,7 +1878,7 @@ bool CGraphicsView::canLayerUp()
         }
 
         qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (selectedItems.first()->zValue() >= allItems.last()->zValue()) {
+        if (selectedItems.last()->zValue() >= allItems.last()->zValue()) {
             return false;
         }
 
@@ -1940,7 +1940,7 @@ bool CGraphicsView::canLayerDown()
         }
 
         qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (allItems.first()->zValue() >= selectedItems.last()->zValue()) {
+        if (allItems.first()->zValue() >= selectedItems.first()->zValue()) {
             return false;
         }
         return true;

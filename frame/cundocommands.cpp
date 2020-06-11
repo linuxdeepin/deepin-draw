@@ -1477,15 +1477,17 @@ void CSendToBackCommand::undo()
     }
     //重置保存的最大z值
     QList<QGraphicsItem *> allItems = myGraphicsScene->items();
+    int maxZvalue = 0;
     for (int i = allItems.size() - 1; i >= 0; i--) {
         QGraphicsItem *allItem = allItems.at(i);
         if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
             continue;
         }
-        if (allItem->zValue() > myGraphicsScene->getMaxZValue()) {
-            myGraphicsScene->setMaxZValue(allItem->zValue());
+        if (allItem->zValue() > maxZvalue ) {
+            maxZvalue = allItem->zValue();
         }
     }
+    myGraphicsScene->setMaxZValue(maxZvalue);
 
     myGraphicsScene->getItemsMgr()->clear();
     myGraphicsScene->clearSelection();
