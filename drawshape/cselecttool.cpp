@@ -545,7 +545,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 //scene->getItemsMgr()->resizeTo(m_dragHandle, newMousePos,
                 //                               newOffset, shiftKeyPress, altKeyPress);
                 //m_sLastResizePress = newMousePos;
-                //m_doResize = true;
+                m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->resizeTo(m_dragHandle, event->scenePos());
