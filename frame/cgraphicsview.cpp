@@ -323,16 +323,6 @@ void CGraphicsView::initContextMenu()
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
-
-
-    //一些操作后需要刷新鼠标指针记得Qt::QueuedConnection方式，保证后执行，才准确
-    QList<QAction *> needUpdateCursorActions;
-    needUpdateCursorActions << m_cutAct << m_deleteAct << m_undoAct << m_redoAct
-                            << m_oneLayerUpAct << m_oneLayerDownAct << m_bringToFrontAct << m_sendTobackAct;
-    for (int i = 0; i < needUpdateCursorActions.size(); ++i) {
-        QAction *pAcion = needUpdateCursorActions[i];
-        connect(pAcion, &QAction::triggered, this, &CGraphicsView::updateCursorShape, Qt::QueuedConnection);
-    }
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -355,9 +345,11 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+        updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+        updateCursorShape();
     });
 
     // 连接图元对齐信号
@@ -1000,6 +992,7 @@ void CGraphicsView::slotOnCut()
     if (!m_pasteAct->isEnabled()) {
         m_pasteAct->setEnabled(true);
     }
+    updateCursorShape();
 }
 
 void CGraphicsView::slotOnCopy()
@@ -1246,6 +1239,8 @@ void CGraphicsView::slotOnDelete()
 
     QUndoCommand *deleteCommand = new CDeleteShapeCommand(curScene, allItems);
     this->pushUndoStack(deleteCommand);
+
+    updateCursorShape();
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -1273,6 +1268,8 @@ void CGraphicsView::slotOneLayerUp()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new COneLayerUpCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1300,6 +1297,8 @@ void CGraphicsView::slotOneLayerDown()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new COneLayerDownCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1328,6 +1327,8 @@ void CGraphicsView::slotBringToFront()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new CBringToFrontCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1355,6 +1356,7 @@ void CGraphicsView::slotSendTobackAct()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new CSendToBackCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+        updateCursorShape();
     }
 }
 
