@@ -38,7 +38,8 @@ public:
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
     virtual void move(QPointF beginPoint, QPointF movePoint) override;
     virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const override;
     void doChangeType(int);
@@ -49,6 +50,12 @@ public:
     void setIsFreeMode(bool isFreeMode);
 
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+
+    void  resizeCutSize(CSizeHandleRect::EDirection dir, const QPointF &prePoint, const QPointF &point,
+                        QPointF *outAcceptPos = nullptr);
+
+    qreal getWHRadio();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
