@@ -229,11 +229,10 @@ QCursor IDrawTool::getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPre
         result =  Qt::ArrowCursor;
         resultCursor = QCursor(result);
         break;
-    //result =  Qt::ClosedHandCursor;
-    default:
-        result =  Qt::ArrowCursor;
-        resultCursor = QCursor(result);
-        break;
+//    default:
+//        result =  Qt::ArrowCursor;
+//        resultCursor = QCursor(result);
+//        break;
     }
 
     return resultCursor;

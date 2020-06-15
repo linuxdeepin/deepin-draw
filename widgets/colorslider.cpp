@@ -143,7 +143,7 @@ void ColorSlider::paintEvent(QPaintEvent *ev)
 
     const int offset = 3;
 
-    const qreal k = (qreal)(value() - minimum()) / (maximum() - minimum());
+    const qreal k = qreal(value() - minimum()) / qreal(maximum() - minimum());
     qreal x = ((rect.width() - 2 * offset) * k) + offset;
 
     QPen pen;

@@ -30,13 +30,13 @@ class ArrowRectangle : public DArrowRectangle
     Q_OBJECT
 public:
     explicit ArrowRectangle(ArrowDirection direction, DWidget *parent = nullptr);
-    ~ArrowRectangle();
+    ~ArrowRectangle() override;
 
 signals:
     void hideWindow();
 
 protected:
-    void hideEvent(QHideEvent *e);
+    void hideEvent(QHideEvent *e) override;
 };
 
 #endif // ARROWRECTANGLE_H

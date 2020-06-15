@@ -39,7 +39,7 @@ class PushButton : public DPushButton
     Q_PROPERTY(QColor disableColor READ disableColor WRITE setDisableColor NOTIFY disableColorChanged)
 
 public:
-    explicit PushButton(DWidget *parent = 0);
+    explicit PushButton(DWidget *parent = nullptr);
 
     QString normalPic() const;
     QString hoverPic() const;
