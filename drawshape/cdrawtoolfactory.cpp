@@ -67,6 +67,7 @@ IDrawTool *CDrawToolFactory::Create(EDrawToolMode mode)
         break;
     case blur:
         pTool = new CMasicoTool();
+        break;
     default:
         break;
     }

@@ -71,7 +71,7 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 protected:
-    void handleQuitAction();
+    void handleQuitAction() override;
 
 private:
     void initI18n();

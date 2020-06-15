@@ -29,7 +29,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 
-const int CORNER_WITH = 20;
+//const int CORNER_WITH = 20;
 
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
