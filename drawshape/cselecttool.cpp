@@ -190,6 +190,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
                     break;
 
                 }
+                if (copy == nullptr)
+                    continue;
 
                 multSelectItem->duplicate(copy);
                 copy->moveBy(10, 10);
@@ -533,7 +535,8 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     }
 
     if ( m_bMousePress) {
-        if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation && m_dragHandle != CSizeHandleRect::InRect) {
+        if (m_dragHandle != CSizeHandleRect::None && m_dragHandle != CSizeHandleRect::Rotation &&
+                m_dragHandle != CSizeHandleRect::InRect) {
             if (scene->getItemsMgr()->getItems().size() > 1) {
                 QPointF offsetPoint = event->scenePos() - m_sLastPress;
                 bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
@@ -545,78 +548,79 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 //scene->getItemsMgr()->resizeTo(m_dragHandle, newMousePos,
                 //                               newOffset, shiftKeyPress, altKeyPress);
                 //m_sLastResizePress = newMousePos;
-                //m_doResize = true;
+                m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
                     static_cast<CGraphicsItem *>(m_currentSelectItem)->resizeTo(m_dragHandle, event->scenePos());
                 }
             }
         } else if (m_dragHandle == CSizeHandleRect::Rotation) {
-            //旋转图形
-            qreal angle = 0;
-            m_bRotateAng = true;
-            QPointF center = static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().center();
-            m_currentSelectItem->setTransformOriginPoint(center);
-            QPointF mousePoint = event->scenePos();
-            QPointF centerToScence = m_currentSelectItem->mapToScene(center);
-            qreal len_y = mousePoint.y() - centerToScence.y();
-            qreal len_x = mousePoint.x() - centerToScence.x();
-            angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
-            qDebug() << "angle" << angle << endl;
-            if ( angle > 360 ) {
-                angle -= 360;
-            }
-            if (m_currentSelectItem->type() != LineType) {
-                m_currentSelectItem->setRotation(angle);
-                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
-            } else {
-                QLineF line = static_cast<CGraphicsLineItem *>(m_currentSelectItem)->line();
-                QPointF vector = line.p2() - line.p1();
-                qreal oriangle = 0;
-                if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
-                    if (line.p2().y() - line.p1().y() > 0.0001) {
-                        oriangle = 90;
-                    } else {
-                        oriangle = -90;
-                    }
-                } else {
-                    oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
-                }
-                angle = angle - oriangle;
+            if (m_currentSelectItem != nullptr) {
+                //旋转图形
+                qreal angle = 0;
+                m_bRotateAng = true;
+                QPointF center = static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().center();
+                m_currentSelectItem->setTransformOriginPoint(center);
+                QPointF mousePoint = event->scenePos();
+                QPointF centerToScence = m_currentSelectItem->mapToScene(center);
+                qreal len_y = mousePoint.y() - centerToScence.y();
+                qreal len_x = mousePoint.x() - centerToScence.x();
+                angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
+                qDebug() << "angle" << angle << endl;
                 if ( angle > 360 ) {
                     angle -= 360;
                 }
-                m_currentSelectItem->setRotation(angle);
-                qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
+                if (m_currentSelectItem->type() != LineType) {
+                    m_currentSelectItem->setRotation(angle);
+                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
+                } else {
+                    QLineF line = static_cast<CGraphicsLineItem *>(m_currentSelectItem)->line();
+                    QPointF vector = line.p2() - line.p1();
+                    qreal oriangle = 0;
+                    if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
+                        if (line.p2().y() - line.p1().y() > 0.0001) {
+                            oriangle = 90;
+                        } else {
+                            oriangle = -90;
+                        }
+                    } else {
+                        oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
+                    }
+                    angle = angle - oriangle;
+                    if ( angle > 360 ) {
+                        angle -= 360;
+                    }
+                    m_currentSelectItem->setRotation(angle);
+                    qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress, 1)));
+                }
+
+                //显示旋转角度
+                if (m_RotateItem == nullptr) {
+
+                    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+
+                    m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
+                    m_RotateItem->setZValue(scene->getMaxZValue() + 1);
+
+                    scene->addItem(m_RotateItem);
+                    m_initRotateItemPos.setX(centerToScence.x());
+
+                    qreal space = 65. / scale;
+                    m_initRotateItemPos.setY(centerToScence.y() - static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().height() / 2 - space);
+                    qreal angleRad = qDegreesToRadians(angle);
+                    qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
+                    qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
+                    m_RotateItem->setPos(x0, y0);
+                } else {
+                    qreal angleRad = qDegreesToRadians(angle);
+
+                    qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
+                    qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
+
+                    m_RotateItem->updateRotateAngle(angle);
+                    m_RotateItem->setPos(x0, y0);
+                }
             }
-
-            //显示旋转角度
-            if (m_RotateItem == nullptr) {
-
-                qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
-
-                m_RotateItem = new CGraphicsRotateAngleItem(angle, scale);
-                m_RotateItem->setZValue(scene->getMaxZValue() + 1);
-
-                scene->addItem(m_RotateItem);
-                m_initRotateItemPos.setX(centerToScence.x());
-
-                qreal space = 65. / scale;
-                m_initRotateItemPos.setY(centerToScence.y() - static_cast<CGraphicsItem *>(m_currentSelectItem)->rect().height() / 2 - space);
-                qreal angleRad = qDegreesToRadians(angle);
-                qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
-                qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
-                m_RotateItem->setPos(x0, y0);
-            } else {
-                qreal angleRad = qDegreesToRadians(angle);
-
-                qreal x0 = (m_initRotateItemPos.x() - centerToScence.x()) * qCos(angleRad) - (m_initRotateItemPos.y() - centerToScence.y()) * qSin(angleRad) + centerToScence.x() ;
-                qreal y0 = (m_initRotateItemPos.x() - centerToScence.x()) * qSin(angleRad) + (m_initRotateItemPos.y() - centerToScence.y()) * qCos(angleRad) + centerToScence.y();
-
-                m_RotateItem->updateRotateAngle(angle);
-                m_RotateItem->setPos(x0, y0);
-            }
-
         } else {
             if (scene->getItemsMgr()->getItems().size() > 1) {
                 //移动

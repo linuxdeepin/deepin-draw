@@ -637,7 +637,7 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
             qreal widthOfLayout = DocWidth - (frame.leftMargin() + frame.rightMargin()) - lastCharWidth;
             qreal widthOfText = line.naturalTextRect().width() - lastCharWidth;
             qreal percentOfSpacing = widthOfLayout / widthOfText * 100;
-            if (percentOfSpacing > 100.0f) {
+            if (percentOfSpacing > 100.0) {
                 // 选择第一个字到最后一个字的前一个字，设置这些字的字间距
                 cursor.setPosition(blocks[idx].position());
                 int pos = blocks[idx].position() + line.textStart() + line.textLength() - 1;

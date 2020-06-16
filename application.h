@@ -55,7 +55,9 @@ public:
     static QStringList &supPictureSuffix();
     static QStringList &supDdfStuffix();
 
-    static QRegExp fileNameRegExp(bool ill = false);
+    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
+
+    bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
 
 signals:
     void popupConfirmDialog();
@@ -69,7 +71,7 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 protected:
-    void handleQuitAction();
+    void handleQuitAction() override;
 
 private:
     void initI18n();

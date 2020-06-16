@@ -28,7 +28,7 @@
 
 #include "utils/baseutils.h"
 
-const QSize COLOR_TIPS_SIZE = QSize(50, 50);
+//const QSize COLOR_TIPS_SIZE = QSize(50, 50);
 
 ColorLabel::ColorLabel(DWidget *parent)
     : DLabel(parent)

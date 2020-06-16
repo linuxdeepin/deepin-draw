@@ -65,7 +65,7 @@ void CCutTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
             } else {
                 qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
             }
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
+            //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
         }
         scene->mouseEvent(event);
     } else {
@@ -77,7 +77,7 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 {
     //碰撞检测
     m_pCutItem = getCurCutItem();
-    if (nullptr != m_pCutItem && m_pCutItem->isFreeMode() && !m_bMousePress) {
+    if (nullptr != m_pCutItem  && !m_bMousePress) {
         CSizeHandleRect::EDirection dragHandle = m_pCutItem->hitTest(event->scenePos());
 
         if (dragHandle != m_dragHandle ) {
@@ -86,15 +86,19 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
         }
     }
 
-    if ( nullptr != m_pCutItem && m_pCutItem->isFreeMode() && m_bMousePress) {
+    if ( nullptr != m_pCutItem  && m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None  && m_dragHandle != CSizeHandleRect::InRect) {
-            m_pCutItem->resizeTo(m_dragHandle, event->scenePos());
+
+            //m_pCutItem->resizeTo(m_dragHandle, event->scenePos());
+
+            m_pCutItem->resizeCutSize(m_dragHandle, m_sLastPress, event->scenePos(), &m_sLastPress);
             m_bModify = true;
             emit static_cast<CDrawScene *>(scene)->signalUpdateCutSize();
         } else {
             if (m_dragHandle == CSizeHandleRect::InRect) {
                 m_bModify = true;
                 m_pCutItem->move(m_sLastPress, event->scenePos());
+                m_sLastPress = event->scenePos();
             }
             scene->mouseEvent(event);
         }
@@ -102,7 +106,6 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
         scene->mouseEvent(event);
     }
     scene->update();
-    m_sLastPress = event->scenePos();
 }
 
 void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
@@ -121,7 +124,6 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             m_pCutItem->setRect(rect);
             m_pCutItem->update();
 
-
             if (CButtonRect::NoneButton != m_buttonType) {
                 qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
@@ -130,7 +132,6 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         }
         scene->mouseEvent(event);
     }
-
 }
 
 void CCutTool::createCutItem(CDrawScene *scene)

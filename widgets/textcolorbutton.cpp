@@ -28,9 +28,9 @@
 
 DWIDGET_USE_NAMESPACE
 
-const qreal COLOR_RADIUS = 4;
-const int BTN_RADIUS = 8;
-const QPoint CENTER_POINT = QPoint(12, 12);
+//const qreal COLOR_RADIUS = 4;
+//const int BTN_RADIUS = 8;
+//const QPoint CENTER_POINT = QPoint(12, 12);
 
 TextColorButton::TextColorButton(DWidget *parent)
     : DPushButton(parent)

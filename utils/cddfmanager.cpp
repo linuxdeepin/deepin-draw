@@ -341,7 +341,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                 ///进度条处理
                 count ++;
                 qDebug() << "countcountcountcountcount ========== " << count;
-                process = (float)count / m_graphics.unitCount * 100;
+                process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
                 emit signalUpdateProcessBar(process, false);
 
 

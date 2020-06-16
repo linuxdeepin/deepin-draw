@@ -29,7 +29,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 
-const int CORNER_WITH = 20;
+//const int CORNER_WITH = 20;
 
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -173,6 +173,7 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     }
 
 
+    //resizeCutSize(dir, point);
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
 }
 
@@ -704,12 +705,303 @@ bool CGraphicsCutItem::isFreeMode() const
 void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
 {
     m_isFreeMode = isFreeMode;
-    showControlRects(isFreeMode);
+    showControlRects(true/*isFreeMode*/);
 }
 
 void CGraphicsCutItem::duplicate(CGraphicsItem *item)
 {
     Q_UNUSED(item)
+}
+
+void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
+                                     const QPointF &prePoint,
+                                     const QPointF &point, QPointF *outAcceptPos)
+{
+    //得到在自身坐标系内的当前鼠标位置
+    QPointF preLocalPos = mapFromScene(prePoint);
+    QPointF curLocalPos = mapFromScene(point);
+    QRectF  curRect     = rect();
+    qreal   qWHRadio    = getWHRadio();
+
+    qreal moveX = (curLocalPos - preLocalPos).x();
+    qreal moveY = (curLocalPos - preLocalPos).y();
+    qreal adjust[4] = {0, 0, 0, 0};
+
+
+    bool getBorder = false;
+    //根据dir的位置判断应该改变到的大小
+    switch (dir) {
+    case CSizeHandleRect::Top: {
+        adjust[1] = moveY;
+
+        //边界检查
+        if (curRect.height() - adjust[1] < 10) {
+            adjust[1] = curRect.height() - 10;
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[2] = -adjust[1] * qWHRadio;
+        }
+        break;
+    }
+
+    case CSizeHandleRect::Bottom: {
+        adjust[3] = moveY;
+
+        //边界检查
+        if (curRect.height() + adjust[3] < 10) {
+            adjust[3] = 10 - curRect.height();
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[2] = adjust[3] * qWHRadio;
+        }
+        break;
+    }
+    case CSizeHandleRect::Left: {
+        adjust[0] = moveX;
+
+        //边界检查
+        if (curRect.width() - adjust[0] < 10) {
+            adjust[0] = curRect.width() - 10;
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[3] = -adjust[0] / qWHRadio;
+        }
+
+        break;
+    }
+    case CSizeHandleRect::Right: {
+        adjust[2] = moveX;
+
+        //边界检查
+        if (curRect.width() + adjust[2] < 10) {
+            adjust[2] = 10 - curRect.width();
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[3] = adjust[2] / qWHRadio;
+            getBorder = true;
+        }
+        break;
+    }
+    case CSizeHandleRect::RightTop: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[2] = moveX;
+
+                //边界检查
+                if (curRect.width() + adjust[2] < 10) {
+                    adjust[2] = 10 - curRect.width();
+                    getBorder = true;
+                }
+
+                adjust[1] = -adjust[2] / qWHRadio;
+            } else {
+                adjust[1] = moveY;
+
+                //边界检查
+                if (curRect.height() - adjust[1] < 10) {
+                    adjust[1] = curRect.height() - 10;
+                    getBorder = true;
+                }
+
+                adjust[2] = -adjust[1] * qWHRadio;
+            }
+        } else {
+
+            adjust[2] = moveX;
+            adjust[1] = moveY;
+
+            //边界检查
+            if (curRect.width() + adjust[2] < 10) {
+                adjust[2] = 10 - curRect.width();
+                getBorder = true;
+            }
+
+            if (curRect.height() - adjust[1] < 10) {
+                adjust[1] = curRect.height() - 10;
+                getBorder = true;
+            }
+        }
+
+        break;
+    }
+    case CSizeHandleRect::LeftTop: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[0] = moveX;
+                //边界检查
+                if (curRect.width() - adjust[0] < 10) {
+                    adjust[0] = curRect.width() - 10;
+                    getBorder = true;
+                }
+                adjust[1] = adjust[0] / qWHRadio;
+            } else {
+                adjust[1] = moveY;
+                //边界检查
+                if (curRect.height() - adjust[1] < 10) {
+                    adjust[1] = curRect.height() - 10;
+                    getBorder = true;
+                }
+                adjust[0] = adjust[1] * qWHRadio;
+            }
+        } else {
+            adjust[0] = moveX;
+            adjust[1] = moveY;
+
+            //边界检查
+            if (curRect.width() - adjust[0] < 10) {
+                adjust[0] = curRect.width() - 10;
+                getBorder = true;
+            }
+
+            if (curRect.height() - adjust[1] < 10) {
+                adjust[1] = curRect.height() - 10;
+                getBorder = true;
+            }
+        }
+        break;
+    }
+
+    case CSizeHandleRect::RightBottom: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[2] = moveX;
+
+                //边界检查
+                if (curRect.width() + adjust[2] < 10) {
+                    adjust[2] = 10 - curRect.width();
+                    getBorder = true;
+                }
+
+                adjust[3] = adjust[2] / qWHRadio;
+            } else {
+                adjust[3] = moveY;
+
+                //边界检查
+                if (curRect.height() + adjust[3] < 10) {
+                    adjust[3] = 10 - curRect.height();
+                    getBorder = true;
+                }
+
+                adjust[2] = adjust[3] * qWHRadio;
+            }
+        } else {
+            adjust[2] = moveX;
+            adjust[3] = moveY;
+
+            //边界检查
+            if (curRect.width() + adjust[2] < 10) {
+                adjust[2] = 10 - curRect.width();
+                getBorder = true;
+            }
+
+            if (curRect.height() + adjust[3] < 10) {
+                adjust[3] = 10 - curRect.height();
+                getBorder = true;
+            }
+        }
+
+        break;
+    }
+
+    case CSizeHandleRect::LeftBottom: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[0] = moveX;
+
+                //边界检查
+                if (curRect.width() - adjust[0] < 10) {
+                    adjust[0] = curRect.width() - 10;
+                    getBorder = true;
+                }
+
+                adjust[3] = -adjust[0] / qWHRadio;
+            } else {
+                adjust[3] = moveY;
+
+                //边界检查
+                if (curRect.height() + adjust[3] < 10) {
+                    adjust[3] = 10 - curRect.height();
+                    getBorder = true;
+                }
+
+                adjust[0] = -adjust[3] * qWHRadio;
+            }
+        } else {
+            adjust[0] = moveX;
+            adjust[3] = moveY;
+
+            //边界检查
+            if (curRect.width() - adjust[0] < 10) {
+                adjust[0] = curRect.width() - 10;
+                getBorder = true;
+            }
+
+            if (curRect.height() + adjust[3] < 10) {
+                adjust[3] = 10 - curRect.height();
+                getBorder = true;
+            }
+
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    if (outAcceptPos != nullptr) {
+        if (getBorder) {
+            *outAcceptPos = (prePoint + QPointF(adjust[0] + adjust[2], adjust[1] + adjust[3]));
+        } else {
+            *outAcceptPos = point;
+        }
+    }
+
+    curRect.adjust(adjust[0], adjust[1], adjust[2], adjust[3]);
+
+    prepareGeometryChange();
+
+    this->setRect(curRect);
+
+    updateGeometry();
+}
+
+qreal CGraphicsCutItem::getWHRadio()
+{
+    qreal   qwhRadio    = -1;
+    CGraphicsView *pView = curView();
+    if (pView != nullptr) {
+        if (!isFreeMode()) {
+            ECutType cutTp = pView->getDrawParam()->getCutType();
+            switch (cutTp) {
+            case cut_1_1:
+                qwhRadio = 1.0;
+                break;
+            case cut_2_3:
+                qwhRadio = 2.0 / 3.0;
+                break;
+            case cut_8_5:
+                qwhRadio = 8.0 / 5.0;
+                break;
+            case cut_16_9:
+                qwhRadio = 16.0 / 9.0;
+                break;
+            case cut_original:
+                qwhRadio = scene()->sceneRect().width() / scene()->sceneRect().height();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    return qwhRadio;
 }
 
 void CGraphicsCutItem::doChangeType(int type)
@@ -765,6 +1057,8 @@ void CGraphicsCutItem::doChangeType(int type)
     topLeft = centerPos - QPointF(bigW / 2, bigH / 2);
     rightBottom = centerPos + QPointF(bigW / 2, bigH / 2);
     this->setRect(QRectF(topLeft, rightBottom));
+
+    setIsFreeMode(false);
 }
 
 void CGraphicsCutItem::doChangeSize(int w, int h)

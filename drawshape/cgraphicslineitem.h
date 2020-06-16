@@ -58,9 +58,9 @@ public:
                        bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
 
     QLineF line() const;
-    void setLine(const QLineF &line);
-    void setLine(const QPointF &p1, const QPointF &p2);
-    inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2);
+    void setLine(const QLineF &line, bool init = false);
+    void setLine(const QPointF &p1, const QPointF &p2, bool init = false);
+    inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool init = false);
 
     /**
      * @brief duplicate 拷贝自己
@@ -100,14 +100,14 @@ public:
     void setLinePenWidth(int width);
 
 protected:
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
-    virtual void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
+    void updateGeometry() Q_DECL_OVERRIDE;
+    void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     void initLine();
 
-    virtual void    initHandle() override;
+    void initHandle() override;
 
 
 private:

@@ -33,7 +33,7 @@ class ColorLabel : public DLabel
 {
     Q_OBJECT
 public:
-    ColorLabel(DWidget *parent = 0);
+    ColorLabel(DWidget *parent = nullptr);
     ~ColorLabel();
 
     //h∈(0, 360), s∈(0, 1), v∈(0, 1)

@@ -65,7 +65,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     }
 
     static const QDate buildDate = QLocale( QLocale::English )
-                                   .toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+                                   .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
 
     // Version Time
@@ -161,7 +161,7 @@ QStringList &Application::supDdfStuffix()
     return supDdfSuffixs;
 }
 
-QRegExp Application::fileNameRegExp(bool ill)
+QRegExp Application::fileNameRegExp(bool ill, bool containDirDelimiter)
 {
     //实际需要去掉的字符是
     //版本1      '/' , '\' , ':' , '*'     , '?'   , '"', '<', '>' ，'|'
@@ -172,9 +172,48 @@ QRegExp Application::fileNameRegExp(bool ill)
     //但是在正则表达式中，\，*，?，|也是特殊字符，所以还要用\转义一下(写在代码里面就要用\\了)
     //版本3      '/',  '\\\\', ':' , '\\*' , '\\?' ,'\"' '<', '>' , '\\|'
 
-    QRegExp regExg(QString(ill ? "^" : "") + "([/\\\\:\\*\\?\"<>\\|])*");
+
+    //最终 ([/\\\\:\\*\\?\"<>\\|])*
+
+    QString exgStr = QString(ill ? "^" : "") + QString("([%1:\\*\\?\"<>\\|])*").arg(containDirDelimiter ? "/\\\\" : "");
+
+    QRegExp regExg(exgStr);
 
     return regExg;
+}
+
+bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
+{
+    QRegExp regExp("[:\\*\\?\"<>\\|]");
+
+    if (path.contains(regExp)) {
+
+        if (outErrorReson != nullptr) {
+            *outErrorReson  = 1;
+        }
+        return false;
+    }
+
+    QRegExp splitExp("[/\\\\]");
+
+
+    int pos = splitExp.indexIn(path, 0);
+
+    while (pos != -1) {
+        QString dirStr = path.left(pos + 1);
+        if (dirStr.count() > 1) {
+            QDir dir(dirStr);
+            if (!dir.exists()) {
+                if (outErrorReson != nullptr) {
+                    *outErrorReson  = 2;
+                }
+                return false;
+            }
+        }
+        pos = splitExp.indexIn(path, pos + 1);
+    }
+
+    return true;
 }
 
 void Application::onMessageRecived(const QString &message)
@@ -251,6 +290,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
     QString message;
 
     switch (classTp) {
+    case ENotFile:
     case EDrawAppNotSup:
         message = (problemfile.size() == 1 ?
                    tr("Unable to open \"%1\", unsupported file format").arg(shortenFileName) :
