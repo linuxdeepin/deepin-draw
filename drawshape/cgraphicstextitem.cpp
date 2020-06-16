@@ -41,7 +41,7 @@
 #include <QTextDocument>
 
 CGraphicsTextItem::CGraphicsTextItem()
-    : CGraphicsRectItem ()
+    : CGraphicsRectItem()
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
@@ -50,7 +50,7 @@ CGraphicsTextItem::CGraphicsTextItem()
 }
 
 CGraphicsTextItem::CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data.rect, head, parent)
+    : CGraphicsRectItem(data.rect, head, parent)
     , m_pTextEdit(nullptr)
     , m_pProxy(nullptr)
     , m_bManResize(false)
@@ -186,7 +186,7 @@ void CGraphicsTextItem::updateHandleVisible()
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
 {
-    m_menu->move (cursor().pos());
+    m_menu->move(cursor().pos());
     m_menu->show();
 }
 

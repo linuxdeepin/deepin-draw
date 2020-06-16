@@ -28,6 +28,8 @@
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
 
+#include <malloc.h>
+
 #include <DLog>
 
 Application::Application(int &argc, char **argv)
@@ -64,7 +66,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
         return EXIT_SUCCESS;
     }
 
-    static const QDate buildDate = QLocale( QLocale::English )
+    static const QDate buildDate = QLocale(QLocale::English)
                                    .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
 
@@ -267,6 +269,11 @@ void Application::showMainWindow(const QStringList &paths)
     //如果没有通过dbus的方式进行进程通信那么这里要绑定指令
     connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
 #endif
+
+    // 手动设置内存优化选项
+//    mallopt(M_MXFAST, 0); // 禁止 fast bins
+//    mallopt(M_MMAP_MAX, 0); // 禁止malloc调用mmap分配内存
+//    mallopt(M_TRIM_THRESHOLD, 0); // 禁止内存缩进，sbrk申请的内存释放后不会归还给操作系统
 
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
