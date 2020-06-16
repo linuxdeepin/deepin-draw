@@ -195,7 +195,7 @@ class CDeleteShapeCommand : public QUndoCommand
 {
 public:
     explicit CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent = nullptr);
-    ~CDeleteShapeCommand();
+    ~CDeleteShapeCommand() override;
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -213,7 +213,7 @@ class CRemoveShapeCommand : public QUndoCommand
 {
 public:
     explicit CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent = nullptr);
-    ~CRemoveShapeCommand();
+    ~CRemoveShapeCommand() override;
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -229,7 +229,7 @@ class CSetPropertyCommand : public QUndoCommand
 {
 public:
     explicit CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent = nullptr);
-    ~CSetPropertyCommand();
+    ~CSetPropertyCommand() override;
 
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
@@ -253,7 +253,7 @@ class CSetRectXRediusCommand : public QUndoCommand
 {
 public:
     explicit CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent = nullptr);
-    ~CSetRectXRediusCommand();
+    ~CSetRectXRediusCommand() override;
 
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;

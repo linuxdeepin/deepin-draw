@@ -106,13 +106,13 @@ void PolygonAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVar
         case SideNumber:
             m_sideNumLabel->setVisible(true);
             m_sideNumSpinBox->setVisible(true);
+            m_sideNumSpinBox->blockSignals(true);
             if (propertys[property].type() == QVariant::Invalid) {
-                m_sideNumSpinBox->blockSignals(true);
                 m_sideNumSpinBox->setValue(0);
-                m_sideNumSpinBox->blockSignals(false);
             } else {
                 m_sideNumSpinBox->setValue(propertys[property].toInt());
             }
+            m_sideNumSpinBox->blockSignals(false);
             m_sideNumSpinBox->setProperty("preValue", m_sideNumSpinBox->value());
             break;
         default:

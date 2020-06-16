@@ -123,6 +123,5 @@ int main(int argc, char *argv[])
     cmdParser.process(a);
 
     QStringList paths = getFilesFromQCommandLineParser(cmdParser);
-
     return a.execDraw(paths, g_appPath);
 }

@@ -52,7 +52,7 @@ CGraphicsLineItem::CGraphicsLineItem(const QPointF &p1, const QPointF &p2, QGrap
     , m_startType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineStartType())
     , m_endType(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineEndType())
 {
-    setLine(p1.x(), p1.y(), p2.x(), p2.y());
+    setLine(p1.x(), p1.y(), p2.x(), p2.y(), true);
     initLine();
 }
 
@@ -68,7 +68,7 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsItem (head, parent)
 {
-    setLine(data->point1, data->point2);
+    setLine(data->point1, data->point2, true);
     m_startType = static_cast<ELineType>(data->start_type);
     m_endType = static_cast<ELineType>(data->end_type);
     initLine();
@@ -99,7 +99,7 @@ QPainterPath CGraphicsLineItem::shape() const
 
     QPen pen = this->pen();
     qreal scale = curView()->getDrawParam()->getScale();
-    if (pen.width() * (int)scale < 20) {
+    if (pen.width() * int(scale) < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
         } else {
@@ -538,22 +538,27 @@ QLineF CGraphicsLineItem::line() const
     return m_line;
 }
 
-void CGraphicsLineItem::setLine(const QLineF &line)
+void CGraphicsLineItem::setLine(const QLineF &line, bool init)
 {
     prepareGeometryChange();
     m_line = line;
     calcVertexes();
-    updateGeometry();
+
+    if (init) {
+        //CGraphicsItem::updateGeometry();
+    } else {
+        updateGeometry();
+    }
 }
 
-void CGraphicsLineItem::setLine(const QPointF &p1, const QPointF &p2)
+void CGraphicsLineItem::setLine(const QPointF &p1, const QPointF &p2, bool init)
 {
-    setLine(p1.x(), p1.y(), p2.x(), p2.y());
+    setLine(p1.x(), p1.y(), p2.x(), p2.y(), init);
 }
 
-void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2)
+void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool init)
 {
-    setLine(QLineF(x1, y1, x2, y2));
+    setLine(QLineF(x1, y1, x2, y2), init);
 }
 
 void CGraphicsLineItem::duplicate(CGraphicsItem *item)
@@ -708,7 +713,7 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
 void CGraphicsLineItem::initLine()
 {
-    initHandle();
+    CGraphicsItem::initHandle();
     calcVertexes();
 }
 
@@ -722,6 +727,7 @@ void CGraphicsLineItem::initHandle()
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
 
     updateGeometry();
+
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

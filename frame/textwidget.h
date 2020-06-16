@@ -36,7 +36,7 @@ class TextWidget : public DWidget
     Q_OBJECT
 public:
     TextWidget(DWidget *parent = nullptr);
-    ~TextWidget();
+    ~TextWidget() override;
 
 public slots:
     /**

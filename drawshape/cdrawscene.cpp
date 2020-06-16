@@ -301,6 +301,8 @@ bool CDrawScene::event(QEvent *event)
         if (nullptr != pTool) {
             if (evType != QEvent::TouchUpdate)
                 pTool->toolClear();
+        } else {
+            return QGraphicsScene::event(event);
         }
 
         foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {

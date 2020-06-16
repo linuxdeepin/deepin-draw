@@ -50,6 +50,8 @@
 #include <QApplication>
 #include <QPdfWriter>
 
+#include <malloc.h>
+
 DGUI_USE_NAMESPACE
 
 CCentralwidget::CCentralwidget(DWidget *parent)
@@ -72,7 +74,7 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 
 }
 
-CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget (parent),
+CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
     m_tabDefaultName(tr("Unnamed"))
 {
     //初始化ui空间
@@ -348,6 +350,9 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
         delete closeView;
         closeView = nullptr;
     }
+
+    // Free optimized memory
+    malloc_trim(0);
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)
@@ -725,7 +730,7 @@ void CCentralwidget::slotQuitApp()
         } else {
 
             // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-            if ( !closeView->getDrawParam()->getModify()
+            if (!closeView->getDrawParam()->getModify()
                     && 1 == m_topMutipTabBarWidget->count()
                     && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
                 emit signalLastTabBarRequestClose();
@@ -839,20 +844,25 @@ void CCentralwidget::slotSetScale(const qreal scale)
 
 QImage CCentralwidget::getSceneImage(int type)
 {
-    QImage image(static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().width(), static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().height(), QImage::Format_ARGB32);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(type);
-    if (type == 2) {
-        image.fill(Qt::transparent);
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(Qt::transparent);
+    QImage image;
+
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pView != nullptr && pView->drawScene() != nullptr) {
+        image = QImage(pView->drawScene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
+        pView->getDrawParam()->setRenderImage(type);
+        if (type == 2) {
+            image.fill(Qt::transparent);
+            pView->drawScene()->setBackgroundBrush(Qt::transparent);
+        }
+        QPainter painter(&image);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        pView->drawScene()->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
+        if (type == 2) {
+            resetSceneBackgroundBrush();
+        }
+        pView->getDrawParam()->setRenderImage(0);
     }
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
-    if (type == 2) {
-        resetSceneBackgroundBrush();
-    }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
 
     return  image;
 }

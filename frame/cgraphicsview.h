@@ -279,7 +279,7 @@ public slots:
      * @param item
      * @param newPosition
      */
-    void itemMoved(QGraphicsItem *item, const QPointF &newPosition );
+    void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
 
     /**
      * @brief itemAdded
@@ -292,7 +292,7 @@ public slots:
      * @param item
      * @param newAngle
      */
-    void itemRotate(QGraphicsItem *item, const qreal newAngle );
+    void itemRotate(QGraphicsItem *item, const qreal newAngle);
 
     /**
      * @brief itemResize
@@ -568,6 +568,8 @@ private:
 
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
+
+    QList<QGraphicsItem *> m_loadFromDDF; //从DDF中加载的图圆
 
 private:
     /**

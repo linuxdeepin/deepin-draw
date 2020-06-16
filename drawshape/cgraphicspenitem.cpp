@@ -61,7 +61,7 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    initHandle();
+    CGraphicsItem::initHandle();
 }
 
 CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -73,7 +73,7 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     , m_penEndType(noneLine)
 
 {
-    initHandle();
+    CGraphicsItem::initHandle();
     m_path.moveTo(startPoint);
 //    m_poitsPath.push_back(startPoint);
     m_smoothVector.push_back(startPoint);
@@ -85,7 +85,7 @@ CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGrap
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    initHandle();
+    CGraphicsItem::initHandle();
 
     prepareGeometryChange();
     m_penStartType = data->start_type;
@@ -93,7 +93,7 @@ CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGrap
 //    m_poitsPath = data->poitsVector;
 //    m_arrow = data->arrow;
     m_path = data->path;
-    updateGeometry();
+    //CGraphicsItem::updateGeometry();
     updateCoordinate();
 }
 

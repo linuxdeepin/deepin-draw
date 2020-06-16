@@ -44,6 +44,7 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 #include "drawshape/cdrawtoolmanagersigleton.h"
+#include "application.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -90,7 +91,7 @@ static bool yValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 }
 
 CGraphicsView::CGraphicsView(DWidget *parent)
-    : DGraphicsView (parent)
+    : DGraphicsView(parent)
     , m_scale(1)
     , m_isShowContext(true)
     , m_isStopContinuousDrawing(false)
@@ -322,16 +323,6 @@ void CGraphicsView::initContextMenu()
 
     // 添加对齐菜单
     m_contextMenu->addMenu(m_layerMenu);
-
-
-    //一些操作后需要刷新鼠标指针记得Qt::QueuedConnection方式，保证后执行，才准确
-    QList<QAction *> needUpdateCursorActions;
-    needUpdateCursorActions << m_cutAct << m_deleteAct << m_undoAct << m_redoAct
-                            << m_oneLayerUpAct << m_oneLayerDownAct << m_bringToFrontAct << m_sendTobackAct;
-    for (int i = 0; i < needUpdateCursorActions.size(); ++i) {
-        QAction *pAcion = needUpdateCursorActions[i];
-        connect(pAcion, &QAction::triggered, this, &CGraphicsView::updateCursorShape, Qt::QueuedConnection);
-    }
 }
 
 void CGraphicsView::initContextMenuConnection()
@@ -354,9 +345,11 @@ void CGraphicsView::initContextMenuConnection()
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+        updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+        updateCursorShape();
     });
 
     // 连接图元对齐信号
@@ -522,7 +515,7 @@ void CGraphicsView::initTextContextMenu()
     m_textUndoAct = new QAction(tr("Undo"));
     m_textRedoAct = new QAction(tr("Redo"));
     m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
-    m_textRightAlignAct = new QAction(tr("Text Align Right" ));            // 右对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right"));             // 右对齐
     m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
     m_textDeleteAction = new QAction(tr("Delete"));
 
@@ -588,7 +581,25 @@ void CGraphicsView::initConnection()
         slotAddItemFromDDF(item, pushToStack);
     });
     connect(m_DDFManager, &CDDFManager::signalSaveFileFinished, this, &CGraphicsView::signalSaveFileStatus);
-    connect(m_DDFManager, SIGNAL(singalEndLoadDDF()), this, SIGNAL(singalTransmitEndLoadDDF()));
+    connect(m_DDFManager, &CDDFManager::singalEndLoadDDF, this, [ = ]() {
+
+        auto curScene = dynamic_cast<CDrawScene *>(scene());
+        qreal tempZ = curScene->getMaxZValue();
+
+        for (QGraphicsItem *item : m_loadFromDDF) {
+            item->setZValue(tempZ + 1);
+            tempZ++;
+            if (item->type() == BlurType) {
+                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            }
+        }
+
+        m_loadFromDDF.clear();
+        curScene->setMaxZValue(tempZ);
+        qDebug() << "all item added";
+
+        emit singalTransmitEndLoadDDF();
+    });
 }
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
@@ -743,7 +754,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         pasteFlag = true;
     }
     if (filePath.isEmpty()) {
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
         if (data) {
             pasteFlag = true;
         }
@@ -830,7 +841,7 @@ void CGraphicsView::leaveEvent(QEvent *event)
 void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    if ( item != nullptr) {
+    if (item != nullptr) {
         QUndoCommand *moveCommand = new CMoveShapeCommand(curScene, item, newPosition);
         this->pushUndoStack(moveCommand);
     } else {
@@ -929,12 +940,9 @@ void CGraphicsView::slotStartLoadDDF(QRectF rect)
 
 void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 {
+    Q_UNUSED(pushToStack)
     scene()->addItem(item);
-    itemAdded(item, pushToStack);
-    if (item->type() == BlurType) {
-        static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-    }
-
+    m_loadFromDDF.append(item);
 }
 
 void CGraphicsView::slotOnCut()
@@ -999,6 +1007,7 @@ void CGraphicsView::slotOnCut()
     if (!m_pasteAct->isEnabled()) {
         m_pasteAct->setEnabled(true);
     }
+    updateCursorShape();
 }
 
 void CGraphicsView::slotOnCopy()
@@ -1034,7 +1043,7 @@ void CGraphicsView::slotOnCopy()
         }
     }
 
-    CShapeMimeData *data = new CShapeMimeData( allItems );
+    CShapeMimeData *data = new CShapeMimeData(allItems);
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
 
@@ -1069,9 +1078,9 @@ void CGraphicsView::slotOnPaste()
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 
         //粘贴画板内部图元
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
         auto curScene = static_cast<CDrawScene *>(scene());
-        if ( data ) {
+        if (data) {
             scene()->clearSelection();
             auto itemMgr = curScene->getItemsMgr();
             itemMgr->clear();
@@ -1080,7 +1089,7 @@ void CGraphicsView::slotOnPaste()
             qSort(allItems.begin(), allItems.end(), zValueSortASC);
             QList<QGraphicsItem *> addItems;
             addItems.clear();
-            foreach (CGraphicsItem *item, allItems ) {
+            foreach (CGraphicsItem *item, allItems) {
                 CGraphicsItem *copy = nullptr;
 
                 switch (item->type()) {
@@ -1121,7 +1130,7 @@ void CGraphicsView::slotOnPaste()
                 }
 
                 item->duplicate(copy);
-                if ( copy ) {
+                if (copy) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
@@ -1245,6 +1254,8 @@ void CGraphicsView::slotOnDelete()
 
     QUndoCommand *deleteCommand = new CDeleteShapeCommand(curScene, allItems);
     this->pushUndoStack(deleteCommand);
+
+    updateCursorShape();
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -1272,6 +1283,8 @@ void CGraphicsView::slotOneLayerUp()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new COneLayerUpCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1299,6 +1312,8 @@ void CGraphicsView::slotOneLayerDown()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new COneLayerDownCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1327,6 +1342,8 @@ void CGraphicsView::slotBringToFront()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new CBringToFrontCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+
+        updateCursorShape();
     }
 }
 
@@ -1354,6 +1371,7 @@ void CGraphicsView::slotSendTobackAct()
     if (!selectedItems.isEmpty()) {
         QUndoCommand *command = new CSendToBackCommand(curScene, selectedItems);
         this->pushUndoStack(command);
+        updateCursorShape();
     }
 }
 
@@ -1556,6 +1574,29 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
+//            if (!dApp->isFileNameLegal(path)) {
+
+//                //不支持的文件名
+//                DDialog dia(this);
+
+//                dia.setFixedSize(404, 163);
+
+//                dia.setModal(true);
+//                dia.setMessage("The file name must not contain \\/:*?\"<>|");
+//                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+
+//                int OK = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+
+//                int result = dia.exec();
+
+//                if (OK == result) {
+//                    QMetaObject::invokeMethod(this, [ = ]() {
+//                        showSaveDDFDialog(type, finishClose, saveFilePath);
+//                    }, Qt::QueuedConnection);
+//                }
+//                return ;
+//            }
+
             if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
                 path = path + ".ddf";
             }
@@ -1852,7 +1893,7 @@ bool CGraphicsView::canLayerUp()
         }
 
         qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (selectedItems.first()->zValue() >= allItems.last()->zValue()) {
+        if (selectedItems.last()->zValue() >= allItems.last()->zValue()) {
             return false;
         }
 
@@ -1914,7 +1955,7 @@ bool CGraphicsView::canLayerDown()
         }
 
         qSort(allItems.begin(), allItems.end(), zValueSortASC);
-        if (allItems.first()->zValue() >= selectedItems.last()->zValue()) {
+        if (allItems.first()->zValue() >= selectedItems.first()->zValue()) {
             return false;
         }
         return true;
@@ -2001,7 +2042,7 @@ bool CGraphicsView::getCouldPaste()
                 couldPaste = true;
             }
         } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif")) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             couldPaste = true;
         }
