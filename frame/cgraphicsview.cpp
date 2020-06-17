@@ -1383,6 +1383,8 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
+    this->getDrawParam()->setCutType(ECutType::cut_done);
+    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
