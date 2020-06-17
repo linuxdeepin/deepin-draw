@@ -27,14 +27,13 @@
 #include <QDebug>
 #include <QApplication>
 
-const QSize DIALOG_SIZE = QSize(422, 160);
+//const QSize DIALOG_SIZE = QSize(422, 160);
 
 DrawDialog::DrawDialog(DWidget *parent)
     : Dialog(parent)
 {
     setModal(true);
-//    setFixedSize(DIALOG_SIZE);
-    setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Discard"), false, DDialog::ButtonNormal);

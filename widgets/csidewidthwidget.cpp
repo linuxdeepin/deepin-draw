@@ -55,7 +55,8 @@ void CSideWidthWidget::setSideWidth(int width)
 
 void CSideWidthWidget::setMenuButtonICon(QString text, QIcon icon)
 {
-//    m_menuComboBox->setMenuButtonICon(text, icon);
+    Q_UNUSED(text)
+    Q_UNUSED(icon)
 }
 
 void CSideWidthWidget::initUI()

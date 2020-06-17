@@ -43,7 +43,7 @@ public:
 
 public:
     ColorPickerInterface(const QString &service, const QString &path,
-                         const QDBusConnection &connection, QObject *parent = 0);
+                         const QDBusConnection &connection, QObject *parent = nullptr);
 
     ~ColorPickerInterface();
 

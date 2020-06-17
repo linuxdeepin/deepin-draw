@@ -48,7 +48,7 @@ public:
      * @param parent
      */
     explicit CDrawScene(CGraphicsView *view = nullptr);
-    ~CDrawScene();
+    ~CDrawScene() override;
     /**
      * @brief initScene 初始化一个新的场景
      */

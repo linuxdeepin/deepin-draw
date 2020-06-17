@@ -125,15 +125,19 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
 
 void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-    //qDebug() << "CGraphicsItemSelectedMgr resizeTo 2" << endl;
     return;
-    prepareGeometryChange();
-    foreach (CGraphicsItem *item, m_listItems) {
-        item->resizeTo(dir, point, bShiftPress, bAltPress);
-    }
+    //    prepareGeometryChange();
+    //    foreach (CGraphicsItem *item, m_listItems) {
+    //        item->resizeTo(dir, point, bShiftPress, bAltPress);
+    //    }
+    Q_UNUSED(dir)
+    Q_UNUSED(point)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
-void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset, bool bShiftPress, bool bAltPress)
+void CGraphicsItemSelectedMgr::resizeAllTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
+                                           const QPointF &offset, bool bShiftPress, bool bAltPress)
 {
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
@@ -586,6 +590,9 @@ void CGraphicsItemSelectedMgr::updateGeometry()
 
 void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
     updateGeometry();
     if (m_listItems.size() > 1) {
         QPen pen;

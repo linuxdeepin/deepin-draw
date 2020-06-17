@@ -30,28 +30,27 @@
 
 const int SmoothMaxCount = 10;
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
 
-}
-
+//}
 
 CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     : CGraphicsItem(parent)
@@ -377,9 +376,7 @@ void CGraphicsPenItem::drawComplete()
 
         QPainterPath vout;
 
-
-
-        int maxIndex = 0;
+        //int maxIndex = 0;
         for (int i = 0; i < m_path.elementCount() - 5; i += 5) {
             QPainterPath::Element p0 = m_path.elementAt(i);
             QPainterPath::Element p1 = m_path.elementAt(i + 1);
@@ -387,7 +384,7 @@ void CGraphicsPenItem::drawComplete()
             QPainterPath::Element p3 = m_path.elementAt(i + 3);
             QPainterPath::Element p4 = m_path.elementAt(i + 4);
             QPainterPath::Element p5 = m_path.elementAt(i + 5);
-            maxIndex = i + 5;
+            //maxIndex = i + 5;
 
             if (0 == i) {
                 QPointF dot1 = GetBezierValue(p0, p1, p2, p3, p4, p5, 0.);
@@ -437,10 +434,10 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
     QRectF rect = this->rect();
-    QPointF bottomRight = rect.bottomRight();
-    QPointF topLeft = rect.topLeft();
-    QPointF topRight = rect.topRight();
-    QPointF bottomLeft = rect.bottomLeft();
+    //    QPointF bottomRight = rect.bottomRight();
+    //    QPointF topLeft = rect.topLeft();
+    //    QPointF topRight = rect.topRight();
+    //    QPointF bottomLeft = rect.bottomLeft();
     bool shiftKeyPress = bShiftPress;
     bool altKeyPress = bAltPress;
     QTransform transform;
@@ -1094,25 +1091,26 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QPen pen = this->pen();
     pen.setJoinStyle(Qt::BevelJoin);
 
-    if (0) { //如果正在绘图，就在辅助画布上绘制
-        QPainter pp(&m_tmpPix);
-        pp.setRenderHint(QPainter::Antialiasing);
-        pp.setRenderHint(QPainter::SmoothPixmapTransform);
-        pp.setPen(pen);
+    /*    if (0) { //如果正在绘图，就在辅助画布上绘制
+            QPainter pp(&m_tmpPix);
+            pp.setRenderHint(QPainter::Antialiasing);
+            pp.setRenderHint(QPainter::SmoothPixmapTransform);
+            pp.setPen(pen);
 
-        if (m_path.elementCount() > 0) {
-            for (int i = m_drawIndex; i != m_path.elementCount() ; i++) {
-                if ( i == 0) {
-                    continue;
+            if (m_path.elementCount() > 0) {
+                for (int i = m_drawIndex; i != m_path.elementCount() ; i++) {
+                    if ( i == 0) {
+                        continue;
+                    }
+                    pp.drawLine(QPointF(m_path.elementAt(i - 1)), QPointF(m_path.elementAt(i)));
                 }
-                pp.drawLine(QPointF(m_path.elementAt(i - 1)), QPointF(m_path.elementAt(i)));
+
+                m_drawIndex = m_path.elementCount() - 1;
             }
 
-            m_drawIndex = m_path.elementCount() - 1;
-        }
-
-        painter->drawPixmap(0, 0, m_tmpPix);
-    } else {
+            painter->drawPixmap(0, 0, m_tmpPix);
+        } else */
+    {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
         painter->setPen(pen);
@@ -1120,7 +1118,6 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->pen());
         painter->drawPath(m_path);
     }
-
 
     if (m_isShiftPress) {
         painter->drawLine(m_straightLine);

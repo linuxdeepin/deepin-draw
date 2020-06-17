@@ -8,8 +8,7 @@ class CMenu : public DMenu
 public:
     explicit CMenu(QWidget *parent = nullptr);
     explicit CMenu(const QString &title, QWidget *parent = nullptr);
-    virtual void setVisible(bool visible);
-
+    virtual void setVisible(bool visible) override;
 
 protected:
     virtual void enterEvent(QEvent *event) Q_DECL_OVERRIDE;

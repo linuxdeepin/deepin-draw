@@ -41,7 +41,7 @@ signals:
     void popupConfirmDialog();
 
 protected:
-    void handleQuitAction();
+    void handleQuitAction() override;
 
 private:
     void initI18n();

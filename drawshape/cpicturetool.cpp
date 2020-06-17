@@ -170,6 +170,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
 void CPictureTool::addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow)
 {
+    Q_UNUSED(centralWindow)
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
         scene->clearSelection();

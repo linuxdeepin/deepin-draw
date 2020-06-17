@@ -32,7 +32,7 @@ class LIBDTKWIDGETSHARED_EXPORT GraphicsGlowEffect : public QGraphicsEffect
 {
     Q_OBJECT
 public:
-    explicit GraphicsGlowEffect(QObject *parent = 0);
+    explicit GraphicsGlowEffect(QObject *parent = nullptr);
 
     void draw(QPainter *painter);
     QRectF boundingRectFor(const QRectF &rect) const;

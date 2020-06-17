@@ -254,6 +254,8 @@ void CGraphicsTextItem::setFontFamily(const QString &family)
 
 void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
     CGraphicsRectItem::resizeTo(dir, point, false, false);
     m_bManResize = true;
     updateWidget();
@@ -301,6 +303,9 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
     updateGeometry();
 
     drawDocument(painter, m_pTextEdit->document(), this->rect());
@@ -387,6 +392,8 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
                                      const QRectF &r,
                                      const QBrush &brush)
 {
+    Q_UNUSED(brush)
+
     if (doc->isEmpty())
         return;
 
@@ -396,7 +403,8 @@ void CGraphicsTextItem::drawDocument(QPainter *painter,
         painter->setClipRect(r, Qt::IntersectClip);
     }
     painter->translate(r.topLeft());
-    QTextDocument *t_doc = (QTextDocument *)doc;
+    //QTextDocument *t_doc = (QTextDocument *)doc;
+    QTextDocument *t_doc = const_cast<QTextDocument *>(doc);
     t_doc->drawContents(painter, QRectF());
     painter->restore();
 }
@@ -514,6 +522,7 @@ qreal CGraphicsTextItem::alignPos(Qt::Alignment a, const qreal &width, const qre
 }
 bool CGraphicsTextItem::needDrawText(const QTextCharFormat &chf)
 {
+    Q_UNUSED(chf)
     return true;
 }
 
@@ -574,7 +583,7 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
             qreal widthOfLayout = DocWidth - (frame.leftMargin() + frame.rightMargin()) - lastCharWidth;
             qreal widthOfText = line.naturalTextRect().width() - lastCharWidth;
             qreal percentOfSpacing = widthOfLayout / widthOfText * 100;
-            if (percentOfSpacing > 100.0f) {
+            if (percentOfSpacing > 100.0) {
                 // 选择第一个字到最后一个字的前一个字，设置这些字的字间距
                 cursor.setPosition(blocks[idx].position());
                 int pos = blocks[idx].position() + line.textStart() + line.textLength() - 1;

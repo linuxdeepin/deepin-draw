@@ -17,27 +17,27 @@
 
 DWIDGET_USE_NAMESPACE
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
 
-}
+//}
 
 /*CGraphicsMasicoItem::CGraphicsMasicoItem(CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
@@ -73,7 +73,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
 CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsPenItem(&(data->data), head, parent)
     , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
-    , m_nBlurEffect((EBlurEffect)data->effect)
+    , m_nBlurEffect(EBlurEffect(data->effect))
 {
     updateBlurPath();
 }
@@ -94,6 +94,9 @@ int CGraphicsMasicoItem::type() const
 
 void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
     updateGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
@@ -324,12 +327,12 @@ void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)
 {
-    int index = 0;
+    //int index = 0;
     qreal thisZValue = this->zValue();
     QList<QGraphicsItem *> retList;
     if (this->scene() != nullptr) {
         QList<QGraphicsItem *> allitems = this->scene()->items();
-        index = allitems.indexOf(this);
+        //index = allitems.indexOf(this);
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效

@@ -54,10 +54,10 @@
 #include <QSvgGenerator>
 #include <QtMath>
 //升序排列用
-static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
-{
-    return info1->zValue() >= info2->zValue();
-}
+//static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+//{
+//    return info1->zValue() >= info2->zValue();
+//}
 //降序排列用
 static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
@@ -471,7 +471,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 QPointF offsetPoint = event->scenePos() - m_sLastPress;
                 bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
                 bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
-                scene->getItemsMgr()->resizeTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
+                scene->getItemsMgr()->resizeAllTo(m_dragHandle, event->scenePos(), offsetPoint, shiftKeyPress, altKeyPress);
                 m_doResize = true;
             } else {
                 if (m_currentSelectItem) {
@@ -622,7 +622,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
     }
 
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
-    bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
+    //bool altKeyress = scene->getDrawParam()->getAltKeyStatus();
     if (event->button() == Qt::LeftButton) {
         m_bMousePress = false;
         m_sPointRelease = event->scenePos();

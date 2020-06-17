@@ -403,12 +403,14 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
 {
     //todo
     return;
-    if (m_currentScence && m_currentScence->getItemsMgr()) {
-        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
-            QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-        }
-    }
+    Q_UNUSED(property)
+    Q_UNUSED(value)
+    //    if (m_currentScence && m_currentScence->getItemsMgr()) {
+    //        if (m_currentScence->getItemsMgr()->getItems().size() > 1) {
+    //            QUndoCommand *addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, m_currentScence->getItemsMgr()->getItems(), property, value);
+    //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+    //        }
+    //    }
 }
 
 CManagerAttributeService::CManagerAttributeService()

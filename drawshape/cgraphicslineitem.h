@@ -45,7 +45,9 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress);
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                          const double &xScale, const double &yScale,
+                          bool bShiftPress, bool bAltPress) override;
 
     QLineF line() const;
     void setLine(const QLineF &line);
@@ -81,7 +83,7 @@ public:
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath();
+    virtual QPainterPath getHighLightPath() override;
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;

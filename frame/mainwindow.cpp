@@ -114,7 +114,7 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 
     // 标签关闭提示框
-    m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
+    m_dialog.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     m_dialog.setMessage(tr("Is Close Draw?"));
     m_dialog.addButton(tr("OK"), true, DDialog::ButtonNormal);
     m_dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);

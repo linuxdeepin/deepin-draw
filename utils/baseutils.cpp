@@ -320,16 +320,16 @@ QString sizeToHuman(const qlonglong bytes)
     if (bytes < sb) {
         return QString::number(bytes) + " B";
     } else if (bytes < sb * sb) {
-        QString vs = QString::number((double)bytes / sb, 'f', 1);
+        QString vs = QString::number(double(bytes) / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number((int)vs.toDouble()) + " KB";
+            return QString::number(int(vs.toDouble())) + " KB";
         } else {
             return vs + " KB";
         }
     } else if (bytes < sb * sb * sb) {
-        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
+        QString vs = QString::number(double(bytes) / sb / sb, 'f', 1);
         if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number((int)vs.toDouble()) + " MB";
+            return QString::number(int(vs.toDouble())) + " MB";
         } else {
             return vs + " MB";
         }

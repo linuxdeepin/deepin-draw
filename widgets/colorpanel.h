@@ -67,7 +67,7 @@ class ColorPanel : public DWidget
     Q_OBJECT
 public:
     ColorPanel(DWidget *parent = nullptr);
-    ~ColorPanel();
+    ~ColorPanel() override;
     /**
      * @brief updateColorPanel 更新调色板
      * @param status　状态

@@ -34,10 +34,8 @@
 #include "widgets/cspinbox.h"
 #include "service/cmanagerattributeservice.h"
 
-
-
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
+//const int BTN_SPACING = 6;
+//const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 
 CommonshapeWidget::CommonshapeWidget(DWidget *parent)
