@@ -1576,6 +1576,14 @@ void CGraphicsItemSelectedMgr::updateGeometry()
 {
     const QRectF &geom = this->boundingRect();
 
+    //如果大小无效了那么就没有显示的必要了
+    if (geom.isValid()) {
+        show();
+    } else {
+        hide();
+        return;
+    }
+
     const Handles::iterator hend =  m_handles.end();
     QPointF pos;
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
