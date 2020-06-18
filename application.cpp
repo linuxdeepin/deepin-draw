@@ -45,6 +45,7 @@ Application::Application(int &argc, char **argv)
     qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
 
+    qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
@@ -216,6 +217,11 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     }
 
     return true;
+}
+
+void Application::setApplicationCursor(const QCursor &cur)
+{
+    qApp->changeOverrideCursor(cur);
 }
 
 void Application::onMessageRecived(const QString &message)

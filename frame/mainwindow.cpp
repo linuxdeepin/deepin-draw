@@ -509,7 +509,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(true);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -533,7 +533,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(false);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -542,7 +542,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     } else if (event->key() == Qt::Key_Control) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(false);
         m_contrlKey = true;
-    }  else {
+    } else {
         ;
     }
     DMainWindow::keyReleaseEvent(event);
@@ -637,9 +637,9 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             static QCursor s_temp;
             if (e->type() == QEvent::Enter) {
                 s_temp = *qApp->overrideCursor();
-                qApp->setOverrideCursor(Qt::PointingHandCursor);
+                dApp->setApplicationCursor(Qt::PointingHandCursor);
             } else if (e->type() == QEvent::Leave) {
-                qApp->setOverrideCursor(s_temp);
+                dApp->setApplicationCursor(s_temp);
             }
         } else if (m_allChilds.contains(pWidget)) {
 

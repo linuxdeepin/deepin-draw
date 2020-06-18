@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
+#include "application.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
@@ -35,9 +36,8 @@
 
 DWIDGET_USE_NAMESPACE
 
-
 CCutTool::CCutTool()
-    : IDrawTool (cut)
+    : IDrawTool(cut)
     , m_pCutItem(nullptr)
     , m_dragHandle(CSizeHandleRect::None)
     , m_buttonType(CButtonRect::NoneButton)
@@ -61,9 +61,9 @@ void CCutTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
         //选中图元
         if (m_pCutItem != nullptr) {
             if (CButtonRect::NoneButton != m_buttonType) {
-                qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
+                dApp->setApplicationCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
-                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                dApp->setApplicationCursor(getCursor(m_dragHandle, m_bMousePress));
             }
             //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
         }
@@ -80,13 +80,13 @@ void CCutTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
     if (nullptr != m_pCutItem  && !m_bMousePress) {
         CSizeHandleRect::EDirection dragHandle = m_pCutItem->hitTest(event->scenePos());
 
-        if (dragHandle != m_dragHandle ) {
+        if (dragHandle != m_dragHandle) {
             m_dragHandle = dragHandle;
-            qApp->setOverrideCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
+            dApp->setApplicationCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
         }
     }
 
-    if ( nullptr != m_pCutItem  && m_bMousePress) {
+    if (nullptr != m_pCutItem && m_bMousePress) {
         if (m_dragHandle != CSizeHandleRect::None  && m_dragHandle != CSizeHandleRect::InRect) {
 
             //m_pCutItem->resizeTo(m_dragHandle, event->scenePos());
@@ -125,9 +125,9 @@ void CCutTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
             m_pCutItem->update();
 
             if (CButtonRect::NoneButton != m_buttonType) {
-                qApp->setOverrideCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
+                dApp->setApplicationCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
             } else {
-                qApp->setOverrideCursor(getCursor(m_dragHandle, m_bMousePress));
+                dApp->setApplicationCursor(getCursor(m_dragHandle, m_bMousePress));
             }
         }
         scene->mouseEvent(event);
@@ -156,7 +156,7 @@ void CCutTool::createCutItem(CDrawScene *scene)
 
 void CCutTool::deleteCutItem(CDrawScene *scene)
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
 
     auto itf = m_cutItems.find(scene);
     if (itf != m_cutItems.end()) {
@@ -199,8 +199,6 @@ void CCutTool::changeCutSize(const CDrawScene *scene, const QSize &size)
 
 QRectF CCutTool::getCutRect(CDrawScene *scene)
 {
-    //qApp->setOverrideCursor(Qt::ArrowCursor);
-
     QRectF rect;
 
     CGraphicsCutItem *pItem = getCutItem(const_cast<CDrawScene *>(scene));
