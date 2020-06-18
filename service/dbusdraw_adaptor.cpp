@@ -28,6 +28,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
 #include <QWidget>
+#include <QDebug>
 
 dbusdraw_adaptor::dbusdraw_adaptor(QObject *parent)
     : QDBusAbstractAdaptor(parent)
@@ -65,5 +66,17 @@ void dbusdraw_adaptor::openImages(QList<QVariant> images)
         QMetaObject::invokeMethod(parent(), "openImage",
                                   Q_ARG(QImage, image), Q_ARG(const QByteArray &, srcData));
     }
+}
+
+bool dbusdraw_adaptor::openFile(QString filePath)
+{
+    if (QFile::exists(filePath)) {
+        QStringList paths;
+        paths.append(filePath);
+        QMetaObject::invokeMethod(parent(), "openFiles",
+                                  Q_ARG(QStringList, paths));
+        return true;
+    }
+    return false;
 }
 
