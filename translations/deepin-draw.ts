@@ -4,27 +4,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../application.cpp" line="256"/>
+        <location filename="../application.cpp" line="296"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../application.cpp" line="257"/>
+        <location filename="../application.cpp" line="297"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../application.cpp" line="261"/>
+        <location filename="../application.cpp" line="301"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../application.cpp" line="262"/>
+        <location filename="../application.cpp" line="302"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../application.cpp" line="270"/>
+        <location filename="../application.cpp" line="310"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,22 +45,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="98"/>
+        <location filename="../frame/blurwidget.cpp" line="103"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="107"/>
+        <location filename="../frame/blurwidget.cpp" line="112"/>
         <source>Blur</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="114"/>
+        <location filename="../frame/blurwidget.cpp" line="119"/>
         <source>Mosaic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/blurwidget.cpp" line="125"/>
+        <location filename="../frame/blurwidget.cpp" line="130"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -315,161 +315,161 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="202"/>
-        <location filename="../frame/cgraphicsview.cpp" line="507"/>
+        <location filename="../frame/cgraphicsview.cpp" line="204"/>
+        <location filename="../frame/cgraphicsview.cpp" line="511"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="207"/>
-        <location filename="../frame/cgraphicsview.cpp" line="508"/>
+        <location filename="../frame/cgraphicsview.cpp" line="209"/>
+        <location filename="../frame/cgraphicsview.cpp" line="512"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="212"/>
-        <location filename="../frame/cgraphicsview.cpp" line="509"/>
+        <location filename="../frame/cgraphicsview.cpp" line="214"/>
+        <location filename="../frame/cgraphicsview.cpp" line="513"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="224"/>
-        <location filename="../frame/cgraphicsview.cpp" line="516"/>
+        <location filename="../frame/cgraphicsview.cpp" line="226"/>
+        <location filename="../frame/cgraphicsview.cpp" line="520"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="230"/>
-        <location filename="../frame/cgraphicsview.cpp" line="511"/>
+        <location filename="../frame/cgraphicsview.cpp" line="232"/>
+        <location filename="../frame/cgraphicsview.cpp" line="515"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="234"/>
-        <location filename="../frame/cgraphicsview.cpp" line="512"/>
+        <location filename="../frame/cgraphicsview.cpp" line="236"/>
+        <location filename="../frame/cgraphicsview.cpp" line="516"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="240"/>
+        <location filename="../frame/cgraphicsview.cpp" line="242"/>
         <source>Raise Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="245"/>
+        <location filename="../frame/cgraphicsview.cpp" line="247"/>
         <source>Lower Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="250"/>
+        <location filename="../frame/cgraphicsview.cpp" line="252"/>
         <source>Layer to Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="255"/>
+        <location filename="../frame/cgraphicsview.cpp" line="257"/>
         <source>Layer to Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1504"/>
-        <location filename="../frame/cgraphicsview.cpp" line="1562"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1518"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1599"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="217"/>
-        <location filename="../frame/cgraphicsview.cpp" line="510"/>
+        <location filename="../frame/cgraphicsview.cpp" line="219"/>
+        <location filename="../frame/cgraphicsview.cpp" line="514"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="199"/>
-        <location filename="../frame/cgraphicsview.cpp" line="489"/>
+        <location filename="../frame/cgraphicsview.cpp" line="201"/>
+        <location filename="../frame/cgraphicsview.cpp" line="493"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="285"/>
+        <location filename="../frame/cgraphicsview.cpp" line="287"/>
         <source>Align</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="289"/>
+        <location filename="../frame/cgraphicsview.cpp" line="291"/>
         <source>Align left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="294"/>
+        <location filename="../frame/cgraphicsview.cpp" line="296"/>
         <source>Horizontal centers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="299"/>
+        <location filename="../frame/cgraphicsview.cpp" line="301"/>
         <source>Align right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="304"/>
+        <location filename="../frame/cgraphicsview.cpp" line="306"/>
         <source>Align top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="309"/>
+        <location filename="../frame/cgraphicsview.cpp" line="311"/>
         <source>Vertical centers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="314"/>
+        <location filename="../frame/cgraphicsview.cpp" line="316"/>
         <source>Align bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="319"/>
+        <location filename="../frame/cgraphicsview.cpp" line="321"/>
         <source>Distribute horizontal space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="320"/>
+        <location filename="../frame/cgraphicsview.cpp" line="322"/>
         <source>Distribute vertical space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="513"/>
+        <location filename="../frame/cgraphicsview.cpp" line="517"/>
         <source>Text Align Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="514"/>
+        <location filename="../frame/cgraphicsview.cpp" line="518"/>
         <source>Text Align Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="515"/>
+        <location filename="../frame/cgraphicsview.cpp" line="519"/>
         <source>Text Align Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1501"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1515"/>
         <source>This file is read-only, please save with another name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1510"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1524"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1532"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1546"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1534"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1548"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../frame/cgraphicsview.cpp" line="1559"/>
+        <location filename="../frame/cgraphicsview.cpp" line="1596"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -611,12 +611,12 @@
     </message>
     <message>
         <location filename="../drawshape/cpicturetool.cpp" line="139"/>
-        <location filename="../drawshape/cpicturetool.cpp" line="290"/>
+        <location filename="../drawshape/cpicturetool.cpp" line="291"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../drawshape/cpicturetool.cpp" line="287"/>
+        <location filename="../drawshape/cpicturetool.cpp" line="288"/>
         <source>Damaged file, unable to open it.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -91,7 +91,7 @@ static bool yValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 }
 
 CGraphicsView::CGraphicsView(DWidget *parent)
-    : DGraphicsView (parent)
+    : DGraphicsView(parent)
     , m_scale(1)
     , m_isShowContext(true)
     , m_isStopContinuousDrawing(false)
@@ -515,7 +515,7 @@ void CGraphicsView::initTextContextMenu()
     m_textUndoAct = new QAction(tr("Undo"));
     m_textRedoAct = new QAction(tr("Redo"));
     m_textLeftAlignAct = new QAction(tr("Text Align Left"));                  // 左对齐
-    m_textRightAlignAct = new QAction(tr("Text Align Right" ));            // 右对齐
+    m_textRightAlignAct = new QAction(tr("Text Align Right")); // 右对齐
     m_textCenterAlignAct = new QAction(tr("Text Align Center"));      //  水平垂直居中对齐
     m_textDeleteAction = new QAction(tr("Delete"));
 
@@ -736,7 +736,7 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
         pasteFlag = true;
     }
     if (filePath.isEmpty()) {
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        CShapeMimeData *data = dynamic_cast<CShapeMimeData *>(mp);
         if (data) {
             pasteFlag = true;
         }
@@ -812,7 +812,7 @@ void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *it
 void CGraphicsView::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
 }
 
 //QPainter *CGraphicsView::sharedPainter() const
@@ -823,7 +823,7 @@ void CGraphicsView::leaveEvent(QEvent *event)
 void CGraphicsView::itemMoved(QGraphicsItem *item, const QPointF &newPosition)
 {
     auto curScene = dynamic_cast<CDrawScene *>(scene());
-    if ( item != nullptr) {
+    if (item != nullptr) {
         QUndoCommand *moveCommand = new CMoveShapeCommand(curScene, item, newPosition);
         this->pushUndoStack(moveCommand);
     } else {
@@ -1028,7 +1028,7 @@ void CGraphicsView::slotOnCopy()
         }
     }
 
-    CShapeMimeData *data = new CShapeMimeData( allItems );
+    CShapeMimeData *data = new CShapeMimeData(allItems);
     data->setText("");
     QApplication::clipboard()->setMimeData(data);
 
@@ -1063,9 +1063,9 @@ void CGraphicsView::slotOnPaste()
         qDebug() << "mp->hasImage()"  << mp->hasImage() << endl;
 
         //粘贴画板内部图元
-        CShapeMimeData *data = dynamic_cast< CShapeMimeData *>( mp );
+        CShapeMimeData *data = dynamic_cast<CShapeMimeData *>(mp);
         auto curScene = static_cast<CDrawScene *>(scene());
-        if ( data ) {
+        if (data) {
             scene()->clearSelection();
             auto itemMgr = curScene->getItemsMgr();
             itemMgr->clear();
@@ -1074,7 +1074,7 @@ void CGraphicsView::slotOnPaste()
             qSort(allItems.begin(), allItems.end(), zValueSortASC);
             QList<QGraphicsItem *> addItems;
             addItems.clear();
-            foreach (CGraphicsItem *item, allItems ) {
+            foreach (CGraphicsItem *item, allItems) {
                 CGraphicsItem *copy = nullptr;
 
                 switch (item->type()) {
@@ -1115,7 +1115,7 @@ void CGraphicsView::slotOnPaste()
                 }
 
                 item->duplicate(copy);
-                if ( copy ) {
+                if (copy) {
                     //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
@@ -1368,6 +1368,8 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
+    this->getDrawParam()->setCutType(ECutType::cut_done);
+    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()
@@ -2027,11 +2029,10 @@ bool CGraphicsView::getCouldPaste()
                 couldPaste = true;
             }
         } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif")) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             couldPaste = true;
         }
-
     }
     return couldPaste;
 }
@@ -2078,7 +2079,7 @@ void CGraphicsView::enterEvent(QEvent *event)
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->changeMouseShape(currentMode);
         } else {
-            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+            dApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
 }
@@ -2127,7 +2128,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = true;
             _tempCursor = *qApp->overrideCursor();
-            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+            dApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
     QGraphicsView::keyPressEvent(event);

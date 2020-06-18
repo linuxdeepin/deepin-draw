@@ -43,6 +43,7 @@ Application::Application(int &argc, char **argv)
     qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
 
+    qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
@@ -64,8 +65,8 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
         return EXIT_SUCCESS;
     }
 
-    static const QDate buildDate = QLocale( QLocale::English )
-                                   .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+    static const QDate buildDate = QLocale(QLocale::English)
+                                       .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
 
     // Version Time
@@ -214,6 +215,11 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     }
 
     return true;
+}
+
+void Application::setApplicationCursor(const QCursor &cur)
+{
+    qApp->changeOverrideCursor(cur);
 }
 
 void Application::onMessageRecived(const QString &message)
