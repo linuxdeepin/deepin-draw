@@ -76,7 +76,7 @@ void TopToolbar::initUI()
     CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
     logoLable->setFixedSize(QSize(32, 32));
 
-    QHBoxLayout *hLayout = new QHBoxLayout (this);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
     hLayout->addSpacing(13);
@@ -595,7 +595,7 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 void TopToolbar::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
 }
 

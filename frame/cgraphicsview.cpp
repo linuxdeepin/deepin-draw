@@ -812,7 +812,7 @@ void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *it
 void CGraphicsView::leaveEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
 }
 
 //QPainter *CGraphicsView::sharedPainter() const
@@ -2079,7 +2079,7 @@ void CGraphicsView::enterEvent(QEvent *event)
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->changeMouseShape(currentMode);
         } else {
-            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+            dApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
 }
@@ -2128,7 +2128,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = true;
             _tempCursor = *qApp->overrideCursor();
-            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+            dApp->setApplicationCursor(Qt::ClosedHandCursor);
         }
     }
     QGraphicsView::keyPressEvent(event);

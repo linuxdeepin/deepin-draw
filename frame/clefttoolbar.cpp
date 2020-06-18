@@ -26,6 +26,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
+#include "application.h"
 
 #include <DFileDialog>
 #include <DWidget>
@@ -70,7 +71,7 @@ void CLeftToolBar::mouseMoveEvent(QMouseEvent *event)
 void CLeftToolBar::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     DWidget::enterEvent(event);
 }
 
@@ -107,7 +108,7 @@ void CLeftToolBar::initUI()
     m_rectBtn->setCheckable(true);
     m_actionButtons.append(m_rectBtn);
 
-    m_roundBtn = new DToolButton( this);
+    m_roundBtn = new DToolButton(this);
     m_roundBtn->setToolTip(tr("Ellipse(O)"));
     m_roundBtn->setIconSize(QSize(48, 48));
     m_roundBtn->setFixedSize(QSize(37, 37));
@@ -121,7 +122,7 @@ void CLeftToolBar::initUI()
     m_triangleBtn->setCheckable(true);
     m_actionButtons.append(m_triangleBtn);
 
-    m_starBtn = new DToolButton( this);
+    m_starBtn = new DToolButton(this);
     m_starBtn->setToolTip(tr("Star(F)"));
     m_starBtn->setIconSize(QSize(48, 48));
     m_starBtn->setFixedSize(QSize(37, 37));
@@ -415,7 +416,7 @@ void CLeftToolBar::initDrawTools()
 
 void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     if (showToolMidWidget) {
         emit m_selectBtn->clicked();
     } else {
@@ -465,77 +466,77 @@ void CLeftToolBar::slotShortCutSelect(bool showToolMidWidget)
 
 void CLeftToolBar::slotShortCutPictrue()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_picBtn->setChecked(true);
     emit m_picBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutRect()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_rectBtn->setChecked(true);
     emit m_rectBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutRound()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_roundBtn->setChecked(true);
     emit m_roundBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutTriangle()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_triangleBtn->setChecked(true);
     emit m_triangleBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutPolygonalStar()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_starBtn->setChecked(true);
     emit m_starBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutPolygon()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_polygonBtn->setChecked(true);
     emit m_polygonBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutLine()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_lineBtn->setChecked(true);
     emit m_lineBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutPen()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_penBtn->setChecked(true);
     emit m_penBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutText()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_textBtn->setChecked(true);
     emit m_textBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutBlur()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_blurBtn->setChecked(true);
     emit m_blurBtn->clicked();
 }
 
 void CLeftToolBar::slotShortCutCut()
 {
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     m_cutBtn->setChecked(true);
     emit m_cutBtn->clicked();
 }

@@ -41,6 +41,7 @@
 #include "frame/cundocommands.h"
 #include "widgets/ctextedit.h"
 #include "service/cmanagerattributeservice.h"
+#include "application.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -77,23 +78,23 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
             view, SLOT(itemAdded(QGraphicsItem *, bool)));
     connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
             view, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )),
-            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool )));
+    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)),
+            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)));
     connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
             view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
     connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
             view, SLOT(itemRectXRediusChange(CGraphicsRectItem *, int, bool)));
 
-    connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int )),
-            view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int )));
-    connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )),
-            view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int )));
+    connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int)),
+            view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int)));
+    connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)),
+            view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)));
 
-    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType )),
+    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)),
             view, SLOT(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)));
 
-    connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int )),
-            view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int )));
+    connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int)),
+            view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int)));
 
     connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)),
             view, SLOT(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)));
@@ -136,7 +137,7 @@ CGraphicsView *CDrawScene::drawView()
 
 void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    switch ( mouseEvent->type() ) {
+    switch (mouseEvent->type()) {
     case QEvent::GraphicsSceneMousePress:
         QGraphicsScene::mousePressEvent(mouseEvent);
         break;
@@ -187,7 +188,7 @@ void CDrawScene::resetSceneBackgroundBrush()
 void CDrawScene::setCursor(const QCursor &cursor)
 {
     QList<QGraphicsView *> views  = this->views();
-    if ( views.count() > 0 ) {
+    if (views.count() > 0) {
         QGraphicsView *view = views.first();
         view->setCursor(cursor);
     }
@@ -201,8 +202,7 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool) {
-
+    if (nullptr != pTool) {
         if (!pTool->isCreating()) {
             pTool->mousePressEvent(mouseEvent, this);
         }
@@ -216,7 +216,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool) {
+    if (nullptr != pTool) {
         pTool->mouseMoveEvent(mouseEvent, this);
     }
 }
@@ -231,7 +231,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
-    if ( nullptr != pTool) {
+    if (nullptr != pTool) {
         if (pTool->isCreating() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
@@ -253,7 +253,7 @@ void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool) {
+    if (nullptr != pTool) {
         pTool->mouseDoubleClickEvent(mouseEvent, this);
     }
 }
@@ -264,7 +264,7 @@ void CDrawScene::doLeave()
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
-    if (pTool != nullptr ) {
+    if (pTool != nullptr) {
         if (pTool->isCreating()) {
             QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
             mouseEvent.setButton(Qt::LeftButton);
@@ -305,9 +305,9 @@ bool CDrawScene::event(QEvent *event)
             return QGraphicsScene::event(event);
         }
 
-        foreach ( const QTouchEvent::TouchPoint tp, touchPoints ) {
+        foreach (const QTouchEvent::TouchPoint tp, touchPoints) {
             IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
-            switch (tp.state() ) {
+            switch (tp.state()) {
             case Qt::TouchPointPressed:
                 //表示触碰按下
                 QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
@@ -366,7 +366,7 @@ void CDrawScene::showCutItem()
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
     setItemDisable(false);
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
-    if ( nullptr != pTool && cut == pTool->getDrawToolMode()) {
+    if (nullptr != pTool && cut == pTool->getDrawToolMode()) {
         static_cast<CCutTool *>(pTool)->createCutItem(this);
         emit signalUpdateCutSize();
     }
@@ -430,34 +430,34 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 {
     switch (type) {
     case selection:
-        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case importPicture:
-        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
     case rectangle:
-        qApp->setOverrideCursor(m_rectangleMouse);
+        dApp->setApplicationCursor(m_rectangleMouse);
         break;
     case ellipse:
-        qApp->setOverrideCursor(m_roundMouse);
+        dApp->setApplicationCursor(m_roundMouse);
         break;
     case triangle:
-        qApp->setOverrideCursor(m_triangleMouse);
+        dApp->setApplicationCursor(m_triangleMouse);
         break;
     case polygonalStar:
-        qApp->setOverrideCursor(m_starMouse);
+        dApp->setApplicationCursor(m_starMouse);
         break;
     case polygon:
-        qApp->setOverrideCursor(m_pengatonMouse);
+        dApp->setApplicationCursor(m_pengatonMouse);
         break;
     case line:
-        qApp->setOverrideCursor(m_lineMouse);
+        dApp->setApplicationCursor(m_lineMouse);
         break;
     case pen:
-        qApp->setOverrideCursor(m_brushMouse);
+        dApp->setApplicationCursor(m_brushMouse);
         break;
     case text:
-        qApp->setOverrideCursor(m_textMouse);
+        dApp->setApplicationCursor(m_textMouse);
         break;
     case blur: {
         // 缩放系数公式： 目的系数 = （1-最大系数）/ （最大值 - 最小值）
@@ -467,15 +467,15 @@ void CDrawScene::changeMouseShape(EDrawToolMode type)
 
         QPixmap pix = QPixmap(":/cursorIcons/smudge_mouse.png");
         pix = pix.scaled(static_cast<int>(pix.width() * scanleRate), static_cast<int>(pix.height() * scanleRate));
-        qApp->setOverrideCursor(pix);
+        dApp->setApplicationCursor(pix);
         break;
     }
     case cut:
-        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     default:
-        qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
+        dApp->setApplicationCursor(QCursor(Qt::ArrowCursor));
         break;
 
     }
@@ -572,7 +572,7 @@ void CDrawScene::switchTheme(int type)
     Q_UNUSED(type);
     QList<QGraphicsItem *> items = this->items();//this->collidingItems();
     //QList<QGraphicsItem *> items = this->collidingItems();
-    for (int i = items.size() - 1; i >= 0; i-- ) {
+    for (int i = items.size() - 1; i >= 0; i--) {
         CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
         if (pItem != nullptr) {
             if (pItem->type() == BlurType) {
