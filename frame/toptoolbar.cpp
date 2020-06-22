@@ -69,7 +69,7 @@ void TopToolbar::initUI()
     CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
     logoLable->setFixedSize(QSize(32, 32));
 
-    QHBoxLayout *hLayout = new QHBoxLayout (this);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
     hLayout->addSpacing(13);
@@ -87,6 +87,8 @@ void TopToolbar::initUI()
 //    setStyleSheet("background-color: rgb(255, 0, 0);");
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    logoLable->hide();
 }
 
 void TopToolbar::initComboBox()

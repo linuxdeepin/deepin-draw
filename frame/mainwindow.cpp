@@ -97,7 +97,7 @@ void MainWindow::initUI()
     m_topToolbar->setFixedHeight(titlebar()->height());
     //qDebug() << "titlebar()->height()" << titlebar()->height() << endl;
 
-//    titlebar()->setIcon(QIcon (QPixmap(":/theme/common/images/logo.svg").scaled(QSize(32, 32))));
+    titlebar()->setIcon(QIcon(QPixmap(":/theme/common/images/logo.svg") /*.scaled(QSize(32, 32))*/));
     titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
     titlebar()->setFocusPolicy(Qt::NoFocus);
@@ -148,7 +148,7 @@ void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
                 slotIsNeedSave();
             }
         } else if (files[i].endsWith(".png") || files[i].endsWith(".jpg")
-                   || files[i].endsWith(".bmp") || files[i].endsWith(".tif") ) {
+                   || files[i].endsWith(".bmp") || files[i].endsWith(".tif")) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             picturePathList.append(files[i].replace("file://", ""));
         }
@@ -469,7 +469,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(true);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -493,7 +493,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(false);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -502,7 +502,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     } else if (event->key() == Qt::Key_Control) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCtlKeyStatus(false);
         m_contrlKey = true;
-    }  else {
+    } else {
         ;
     }
     DMainWindow::keyReleaseEvent(event);
