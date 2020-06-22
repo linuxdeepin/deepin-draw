@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AILORINGWIDGET_H
-#define AILORINGWIDGET_H
+#ifndef CCUTWIDGET_H
+#define CCUTWIDGET_H
 
 #include "widgets/seperatorline.h"
 #include <DWidget>
@@ -99,4 +99,4 @@ private:
     void activeFreeMode();
 };
 
-#endif // AILORINGWIDGET_H
+#endif // CCUTWIDGET_H

@@ -45,20 +45,18 @@
 #include <QLocalSocket>
 #include <QDir>
 
-#include "qtlockedfile.h"
+#include "nouse/qtlockedfile.h"
 
 class QtLocalPeer : public QObject
 {
     Q_OBJECT
 
 public:
-    QtLocalPeer(QObject *parent = nullptr, const QString &appId = QString());
+    QtLocalPeer(QObject *parent = 0, const QString &appId = QString());
     bool isClient();
     bool sendMessage(const QString &message, int timeout);
     QString applicationId() const
-    {
-        return id;
-    }
+    { return id; }
 
 Q_SIGNALS:
     void messageReceived(const QString &message);

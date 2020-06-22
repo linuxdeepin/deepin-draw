@@ -254,7 +254,6 @@ void Application::onThemChanged(DGuiApplicationHelper::ColorType themeType)
 
 void Application::showMainWindow(const QStringList &paths)
 {
-#ifdef DEBUSVAILD
     MainWindow *w = new MainWindow(paths);
 
     this->setActivationWindow(w, true);
@@ -267,14 +266,6 @@ void Application::showMainWindow(const QStringList &paths)
 
     connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
 
-#else
-    MainWindow *w = new MainWindow(paths);
-
-    this->setActivationWindow(w, true);
-
-    //如果没有通过dbus的方式进行进程通信那么这里要绑定指令
-    connect(this, &Application::messageReceived, this, &Application::onMessageRecived, Qt::QueuedConnection);
-#endif
 
     // 手动设置内存优化选项
 //    mallopt(M_MXFAST, 0); // 禁止 fast bins

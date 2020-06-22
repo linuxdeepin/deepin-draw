@@ -57,11 +57,11 @@ static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
 
 namespace QtLP_Private {
-#include "qtlockedfile.cpp"
+#include "nouse/qtlockedfile.cpp"
 #if defined(Q_OS_WIN)
 #include "qtlockedfile_win.cpp"
 #else
-#include "qtlockedfile_unix.cpp"
+#include "nouse/qtlockedfile_unix.cpp"
 #endif
 }
 
@@ -82,7 +82,7 @@ QtLocalPeer::QtLocalPeer(QObject *parent, const QString &appId)
     prefix.truncate(6);
 
     QByteArray idc = id.toUtf8();
-    quint16 idNum = qChecksum(idc.constData(), uint(idc.size()));
+    quint16 idNum = qChecksum(idc.constData(), idc.size());
     socketName = QLatin1String("qtsingleapp-") + prefix
                  + QLatin1Char('-') + QString::number(idNum, 16);
 
@@ -151,7 +151,7 @@ bool QtLocalPeer::sendMessage(const QString &message, int timeout)
         Sleep(DWORD(ms));
 #else
         struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
-        nanosleep(&ts, nullptr);
+        nanosleep(&ts, NULL);
 #endif
     }
     if (!connOk)
@@ -159,7 +159,7 @@ bool QtLocalPeer::sendMessage(const QString &message, int timeout)
 
     QByteArray uMsg(message.toUtf8());
     QDataStream ds(&socket);
-    ds.writeBytes(uMsg.constData(), uint(uMsg.size()));
+    ds.writeBytes(uMsg.constData(), uMsg.size());
     bool res = socket.waitForBytesWritten(timeout);
     if (res) {
         res &= socket.waitForReadyRead(timeout);   // wait for ack
@@ -176,18 +176,18 @@ void QtLocalPeer::receiveConnection()
     if (!socket)
         return;
 
-    while (socket->bytesAvailable() < qint64(sizeof(quint32)))
+    while (socket->bytesAvailable() < (int)sizeof(quint32))
         socket->waitForReadyRead();
     QDataStream ds(socket);
     QByteArray uMsg;
     quint32 remaining;
     ds >> remaining;
-    uMsg.resize(int(remaining));
+    uMsg.resize(remaining);
     int got = 0;
     char *uMsgBuf = uMsg.data();
     do {
-        got = ds.readRawData(uMsgBuf, int(remaining));
-        remaining -= quint32(got);
+        got = ds.readRawData(uMsgBuf, remaining);
+        remaining -= got;
         uMsgBuf += got;
     } while (remaining && got >= 0 && socket->waitForReadyRead(2000));
     if (got < 0) {

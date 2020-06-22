@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CUTWIDGET_H
-#define CUTWIDGET_H
+#ifndef CPICTUREWIDGET_H
+#define CPICTUREWIDGET_H
 
 #include <DWidget>
 
@@ -62,4 +62,4 @@ private:
     void initConnection();
 
 };
-#endif // CUTWIDGET_H
+#endif // CPICTUREWIDGET_H

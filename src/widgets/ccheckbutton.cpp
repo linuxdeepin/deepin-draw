@@ -26,6 +26,7 @@
 #include <DPalette>
 #include <DApplicationHelper>
 
+#include <QMouseEvent>
 
 CCheckButton::CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent, bool isCheckLock) :
     DToolButton(parent),

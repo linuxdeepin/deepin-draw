@@ -27,6 +27,7 @@
 #include <DPalette>
 #include <DApplicationHelper>
 
+#include <QMouseEvent>
 
 CIconButton::CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent, bool isCheckLock) :
     DIconButton(parent),

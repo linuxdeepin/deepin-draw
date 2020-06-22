@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CPUSHBUTTON_H
-#define CPUSHBUTTON_H
+#ifndef CCHECKBUTTON_H
+#define CCHECKBUTTON_H
 
 #include <QMap>
 #include <DToolButton>
@@ -71,4 +71,4 @@ private:
 
 };
 
-#endif // CPUSHBUTTON_H
+#endif // CCHECKBUTTON_H

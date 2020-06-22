@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>theme/light/images/mouse_style/arrow_mouse.png</file>
+        <file>theme/light/images/mouse_style/line_mouse.png</file>
+        <file>theme/light/images/mouse_style/rotate_mouse.png</file>
+        <file>theme/light/images/mouse_style/start_mouse.png</file>
+        <file>theme/light/images/mouse_style/text_mouse.png</file>
+        <file>theme/light/images/mouse_style/pen_mouse.png</file>
+        <file>theme/light/images/mouse_style/bottomleft_mouse.svg</file>
+        <file>theme/light/images/mouse_style/bottomright_mouse.svg</file>
+        <file>theme/light/images/mouse_style/topleft_mouse.svg</file>
+        <file>theme/light/images/mouse_style/topright_mouse.svg</file>
+        <file>theme/light/images/mouse_style/mouse_oval.svg</file>
+        <file>theme/light/images/mouse_style/mouse_rectangle.svg</file>
+    </qresource>
+</RCC>

@@ -9,7 +9,7 @@ class CutWidget : public QWidget
 {
     Q_OBJECT
 public:
-    CutWidget(QWidget *parent = 0);
+    CutWidget(QWidget *parent = nullptr);
     ~CutWidget();
 
 signals:
