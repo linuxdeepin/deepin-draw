@@ -99,8 +99,9 @@ void MainWindow::initUI()
     titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
     titlebar()->setMenu(m_topToolbar->mainMenu());
     titlebar()->setFocusPolicy(Qt::NoFocus);
+    titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
 
-//    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
+    //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
 
     //ESC快捷键功能
     m_quitMode = new QAction(this);
