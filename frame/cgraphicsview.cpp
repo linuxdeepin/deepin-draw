@@ -654,9 +654,14 @@ void CGraphicsView::slotOnCopy()
 
 void CGraphicsView::slotOnPaste()
 {
-
     QPixmap map = QApplication::clipboard()->pixmap();
     QMimeData *mp = const_cast<QMimeData *>(QApplication::clipboard()->mimeData());
+
+    // [24473] 华为 在画板进行一系列操作后，到文件夹复制图片，在画板例粘贴导致系统重启，重启后之前操作并未保存
+    if (mp == nullptr) {
+        return;
+    }
+
     QString filePath = mp->text();
     //qDebug() << "slotOnPaste"  << endl;
 
