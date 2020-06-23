@@ -113,10 +113,10 @@ void CDrawScene::initScene()
     m_pGroupItem->setZValue(10000);
     //m_pGroupItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
+    connect(this, &CDrawScene::signalIsModify, this, [=](bool isModdify) {
+        Q_UNUSED(isModdify)
         CManageViewSigleton::GetInstance()->CheckIsModify();
     });
-
 
     m_pHighLightItem = new CGraphicsItemHighLight();
     this->addItem(m_pHighLightItem);
@@ -286,7 +286,7 @@ void CDrawScene::attributeChanged()
 //                    tmpItem->setBlurEffect(CDrawParamSigleton::GetInstance()->getBlurEffect());
 //                    tmpItem->setBlurWidth(CDrawParamSigleton::GetInstance()->getBlurWidth());
                     //用于撤消
-                    emit itemBlurChange(tmpItem, (int)getDrawParam()->getBlurEffect(), getDrawParam()->getBlurWidth());
+                    emit itemBlurChange(tmpItem, int(getDrawParam()->getBlurEffect()), getDrawParam()->getBlurWidth());
                     tmpItem->update();
                 }
             } else if (item->type() == LineType) {
@@ -681,6 +681,7 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 
 void CDrawScene::switchTheme(int type)
 {
+    Q_UNUSED(type)
     QList<QGraphicsItem *> items = this->items();//this->collidingItems();
     //QList<QGraphicsItem *> items = this->collidingItems();
     for (int i = items.size() - 1; i >= 0; i-- ) {

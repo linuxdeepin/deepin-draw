@@ -135,7 +135,7 @@
 
 void QtSingleApplication::sysInit(const QString &appId)
 {
-    actWin = 0;
+    actWin = nullptr;
     peer = new QtLocalPeer(this, appId);
     connect(peer, SIGNAL(messageReceived(const QString &)), SIGNAL(messageReceived(const QString &)));
 }
@@ -154,6 +154,7 @@ void QtSingleApplication::sysInit(const QString &appId)
 QtSingleApplication::QtSingleApplication(int &argc, char **argv, bool GUIenabled)
     : DApplication(argc, argv)
 {
+    Q_UNUSED(GUIenabled)
     sysInit();
 }
 

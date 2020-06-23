@@ -35,7 +35,7 @@ class CMultipTabBarWidget : public DTabBar
 
 public:
     CMultipTabBarWidget(QWidget *parent = nullptr);
-    ~CMultipTabBarWidget();
+    ~CMultipTabBarWidget() override;
 
     /**
      * @description: closeTabBarItem 关闭标签

@@ -32,7 +32,7 @@ void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
     m_alphaSlider->blockSignals(true);
     m_alphaSlider->setValue(alpha);
     m_alphaSlider->blockSignals(false);
-    m_alphaLabel->setText(QString("%1%").arg((int)(alpha * 100 / 255)));
+    m_alphaLabel->setText(QString("%1%").arg(int(alpha * 100 / 255)));
 }
 
 void CAlphaControlWidget::initUI()
@@ -87,8 +87,8 @@ void CAlphaControlWidget::initUI()
 
 void CAlphaControlWidget::initConnection()
 {
-    connect(m_alphaSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        m_alphaLabel->setText(QString("%1%").arg((int)value * 100 / 255));
+    connect(m_alphaSlider, &DSlider::valueChanged, this, [=](int value) {
+        m_alphaLabel->setText(QString("%1%").arg(int(value * 100 / 255)));
         emit signalAlphaChanged(value);
     });
 

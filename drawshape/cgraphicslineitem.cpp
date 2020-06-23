@@ -96,13 +96,12 @@ QPainterPath CGraphicsLineItem::shape() const
 
     QPen pen = this->pen();
     qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
-    if (pen.width() * (int)scale < 20) {
+    if (pen.width() * int(scale) < 20) {
         if (scale > 1) {
             pen.setWidthF(20 / scale);
         } else {
             pen.setWidth(20);
         }
-
     }
 
     path.addPath(m_startPath);
@@ -136,13 +135,13 @@ QRectF CGraphicsLineItem::rect() const
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-    bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
+    //bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
 
     if (!shiftKeyPress) {
         QPointF local = mapFromScene(point);
         QPointF p1;
         QPointF p2;
-        QPointF pos = this->pos();
+        //QPointF pos = this->pos();
         if (dir == CSizeHandleRect::LeftTop) {
             p1 = local;
             p2 = m_line.p2();
@@ -192,13 +191,20 @@ void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
 {
-
+    Q_UNUSED(dir)
+    Q_UNUSED(point)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
-void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                                 const double &xScale, const double &yScale,
+                                 bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = bShiftPress;
-    bool altKeyPress = bAltPress;
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+    //bool shiftKeyPress = bShiftPress;
+    //bool altKeyPress = bAltPress;
     QRectF rect = this->rect();
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();
@@ -368,7 +374,7 @@ ELineType CGraphicsLineItem::getLineEndType() const
 
 void CGraphicsLineItem::updateGeometry()
 {
-    const QRectF &geom = this->boundingRect();
+    //const QRectF &geom = this->boundingRect();
 
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {

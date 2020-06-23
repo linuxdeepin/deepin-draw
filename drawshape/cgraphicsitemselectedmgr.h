@@ -71,8 +71,11 @@ public:
      * @param bShiftPress
      * @param bAltPress
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
-    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos, const QPointF &offset, bool bShiftPress, bool bAltPress);
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
+    void resizeAllTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
+                     const QPointF &offset, bool bShiftPress, bool bAltPress);
 
     /**
      * @brief move  移动图元

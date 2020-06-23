@@ -45,7 +45,7 @@ class GlobalShortcut : public QObject
 {
     Q_OBJECT
 public:
-    GlobalShortcut(QObject *parent = 0);
+    GlobalShortcut(QObject *parent = nullptr);
     ~GlobalShortcut();
     static GlobalShortcut *instance() ;
 

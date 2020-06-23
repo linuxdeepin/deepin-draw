@@ -125,6 +125,7 @@ void CMoveShapeCommand::redo()
 
 CDeleteShapeCommand::CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
     myGraphicsScene = scene;
     m_items = items;
     m_oldIndex = -1;
@@ -1549,9 +1550,11 @@ void CSceneCutCommand::redo()
     myGraphicsScene->updateBlurItem();
 }
 
-
-CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bAltPress, QUndoCommand *parent)
+CMultResizeShapeCommand::CMultResizeShapeCommand(CDrawScene *scene, CSizeHandleRect::EDirection handle,
+                                                 QPointF beginPos, QPointF endPos, bool bShiftPress,
+                                                 bool bAltPress, QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
     myGraphicsScene = scene;
     m_handle = handle;
     m_endPos = endPos;
@@ -1569,7 +1572,7 @@ void CMultResizeShapeCommand::undo()
     foreach (CGraphicsItem *item, m_listItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
     }
-    myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_offsetPos, m_bShiftPress, m_bAltPress);
+    myGraphicsScene->getItemsMgr()->resizeAllTo(m_handle, m_beginPos, m_offsetPos, m_bShiftPress, m_bAltPress);
 
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
@@ -1588,7 +1591,7 @@ void CMultResizeShapeCommand::redo()
             myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
         }
 
-        myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, -m_offsetPos, m_bShiftPress, m_bAltPress);
+        myGraphicsScene->getItemsMgr()->resizeAllTo(m_handle, m_endPos, -m_offsetPos, m_bShiftPress, m_bAltPress);
 
         myGraphicsScene->clearSelection();
         myGraphicsScene->getItemsMgr()->clear();
@@ -1607,6 +1610,7 @@ void CMultResizeShapeCommand::redo()
 
 CMultMoveShapeCommand::CMultMoveShapeCommand(CDrawScene *scene, QPointF beginPos, QPointF endPos, QUndoCommand *parent)
 {
+    Q_UNUSED(parent)
     myGraphicsScene = scene;
     m_endPos = endPos;
     m_beginPos = beginPos;

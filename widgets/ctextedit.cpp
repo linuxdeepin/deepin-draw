@@ -279,6 +279,7 @@ void CTextEdit::mousePressEvent(QMouseEvent *event)
 
 void CTextEdit::currentCharFormatChanged(const QTextCharFormat &format)
 {
+    Q_UNUSED(format)
     /*if (!this->textCursor().hasSelection()) {
         CDrawParamSigleton::GetInstance()->setSingleFontFlag(true);
         m_pItem->currentCharFormatChanged(format);

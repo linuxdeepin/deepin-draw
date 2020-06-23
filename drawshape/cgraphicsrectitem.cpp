@@ -532,10 +532,14 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                                 const double &xScale, const double &yScale,
+                                 bool bShiftPress, bool bAltPress)
 {
-    bool shiftKeyPress = bShiftPress;
-    bool altKeyPress = bAltPress;
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+    //bool shiftKeyPress = bShiftPress;
+    //bool altKeyPress = bAltPress;
     QRectF rect = this->rect();
     QPointF bottomRight = rect.bottomRight();
     QPointF topLeft = rect.topLeft();

@@ -182,10 +182,10 @@ void CManageViewSigleton::initBlockShutdown()
           << QObject::tr("File not saved")          // why
           << QString("block");                        // mode
 
-    int fd = -1;
+    //int fd = -1;
     m_reply = m_pLoginManager->callWithArgumentList(QDBus::Block, "Inhibit", m_arg);
     if (m_reply.isValid()) {
-        fd = m_reply.value().fileDescriptor();
+        /*fd = */ m_reply.value().fileDescriptor();
     }
     //如果for结束则表示没有发现未保存的tab项，则放开阻塞关机
     if (m_reply.isValid()) {

@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
     QStringList paths;
     QStringList pas = cmdParser.positionalArguments();
     for (int  i = 0; i < pas.count(); i++) {
-        if(QUrl(pas.at(i)).isLocalFile()) {
+        if (QUrl(pas.at(i)).isLocalFile()) {
             paths.append(QUrl(pas.first()).toLocalFile());
         } else {
             paths.append(pas.at(i));
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
     //a.setStyle("chameleon");
 
     // 应用已保存的主题设置
-    DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
+    //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
     //CManageViewSigleton::GetInstance()->setThemeType(type);
     //DGuiApplicationHelper::instance()->setPaletteType(type);
     DApplicationSettings saveTheme;

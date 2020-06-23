@@ -38,8 +38,8 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 
-const int BTN_SPACING = 6;
-const int SEPARATE_SPACING = 5;
+//const int BTN_SPACING = 6;
+//const int SEPARATE_SPACING = 5;
 const int TEXT_SIZE = 14;
 //DWIDGET_USE_NAMESPACE
 
@@ -247,6 +247,7 @@ void PolygonAttributeWidget::updatePolygonWidget()
 
 void PolygonAttributeWidget::slotSideValueChanged(int value)
 {
+    Q_UNUSED(value)
     m_sideNumSlider->blockSignals(true);
     if (m_sideNumSlider->value() < 4) {
         m_sideNumSlider->setValue(4);

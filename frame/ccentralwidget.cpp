@@ -721,20 +721,24 @@ void CCentralwidget::slotSetScale(const qreal scale)
 
 QImage CCentralwidget::getSceneImage(int type)
 {
-    QImage image(static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().width(), static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->sceneRect().height(), QImage::Format_ARGB32);
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(type);
-    if (type == 2) {
-        image.fill(Qt::transparent);
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->setBackgroundBrush(Qt::transparent);
+    QImage image;
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    if (pView != nullptr && pView->drawScene() != nullptr) {
+        image = QImage(pView->drawScene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
+        pView->getDrawParam()->setRenderImage(type);
+        if (type == 2) {
+            image.fill(Qt::transparent);
+            pView->drawScene()->setBackgroundBrush(Qt::transparent);
+        }
+        QPainter painter(&image);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        pView->drawScene()->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
+        if (type == 2) {
+            resetSceneBackgroundBrush();
+        }
+        pView->getDrawParam()->setRenderImage(0);
     }
-    QPainter painter(&image);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->render(&painter, QRect(), QRect(), Qt::IgnoreAspectRatio);
-    if (type == 2) {
-        resetSceneBackgroundBrush();
-    }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
 
     return  image;
 }

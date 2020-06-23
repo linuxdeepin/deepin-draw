@@ -42,7 +42,7 @@
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
 
-const int BTN_SPACING = 5;
+//const int BTN_SPACING = 5;
 const int SEPARATE_SPACING = 4;
 const int TEXT_SIZE = 14;
 PolygonalStarAttributeWidget::PolygonalStarAttributeWidget(DWidget *parent)

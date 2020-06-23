@@ -26,9 +26,9 @@
 #include <QDebug>
 #include <QTextItem>
 
-const qreal COLOR_RADIUS = 4;
-const int BTN_RADIUS_BEGING = 8;
-const QPoint CENTER_POINT = QPoint(12, 12);
+//const qreal COLOR_RADIUS = 4;
+//const int BTN_RADIUS_BEGING = 8;
+//const QPoint CENTER_POINT = QPoint(12, 12);
 
 BigColorButton::BigColorButton(DWidget *parent)
     : DPushButton(parent)

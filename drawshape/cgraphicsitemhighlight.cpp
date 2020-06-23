@@ -10,6 +10,7 @@
 #include <QDebug>
 CGraphicsItemHighLight::CGraphicsItemHighLight(QGraphicsItem *parent)
 {
+    Q_UNUSED(parent)
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setFlag(QGraphicsItem::ItemIsFocusable, false);

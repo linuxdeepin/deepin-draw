@@ -84,7 +84,7 @@ bool CGraphicsItem::getMutiSelect() const
 
 QPainterPath CGraphicsItem::getHighLightPath()
 {
-
+    return QPainterPath();
 }
 
 int CGraphicsItem::type() const
@@ -109,9 +109,15 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     return CSizeHandleRect::None;
 }
 
-void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                             const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
 {
-
+    Q_UNUSED(dir)
+    Q_UNUSED(offset)
+    Q_UNUSED(xScale)
+    Q_UNUSED(yScale)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
 void CGraphicsItem::duplicate(CGraphicsItem *item)
@@ -157,10 +163,8 @@ void CGraphicsItem::setState(ESelectionHandleState st)
     }
 }
 
-void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-
-}
+void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
+    Q_UNUSED(event)}
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {

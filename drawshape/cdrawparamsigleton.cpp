@@ -21,8 +21,9 @@
 
 CDrawParamSigleton::CDrawParamSigleton()
     : m_nlineWidth(2)
-    , m_sLineColor(Qt::black)//black
-    , m_nFillColor(Qt::transparent)//transparent
+    , m_sLineColor(Qt::black) //black
+    , m_nFillColor(Qt::transparent) //transparent
+    , m_rectXRedius(5)
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
@@ -44,11 +45,10 @@ CDrawParamSigleton::CDrawParamSigleton()
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
-    , m_renderImage(0)
-    , m_bSelectAlling(false)
-    , m_rectXRedius(5)
     , m_lineStartType(ELineType::noneLine)
     , m_lineEndType(ELineType::noneLine)
+    , m_renderImage(0)
+    , m_bSelectAlling(false)
 {
     m_textFont.setPointSizeF(14);
 }

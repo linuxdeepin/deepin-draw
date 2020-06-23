@@ -92,7 +92,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene)
         if (writeFile.open(QIODevice::WriteOnly))
         {
             QDataStream out(&writeFile);
-            out << (quint32)0xA0B0C0D0;
+            out << static_cast<quint32>(0xA0B0C0D0);
             out << LineStartAndEndType;
             out << m_graphics.unitCount;
             out << m_graphics.rect;
@@ -173,8 +173,8 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             int version;
             in >> version;
             qDebug() << "loadDDF type = " << type << " version = " << version << endl;
-            qDebug() << "loadDDF type = " << (quint32)0xA0B0C0D0 << " version = " << RoundRect << endl;
-            if (type != (quint32)0xA0B0C0D0) {
+            qDebug() << "loadDDF type = " << static_cast<quint32>(0xA0B0C0D0) << " version = " << RoundRect << endl;
+            if (type != static_cast<quint32>(0xA0B0C0D0)) {
                 in.device()->seek(0);
             }
             in >> m_graphics.unitCount;
@@ -278,7 +278,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
                 ///进度条处理
                 count ++;
-                process = (float)count / m_graphics.unitCount * 100;
+                process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
                 emit signalUpdateProcessBar(process, false);
 
 
