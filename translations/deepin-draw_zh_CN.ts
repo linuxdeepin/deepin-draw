@@ -454,7 +454,7 @@
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="1515"/>
         <source>This file is read-only, please save with another name.</source>
-        <translation>该文件已设置为只读。请使用其他文件名重试。</translation>
+        <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
         <location filename="../frame/cgraphicsview.cpp" line="1524"/>

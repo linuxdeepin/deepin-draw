@@ -42,14 +42,21 @@ class dbusdraw_adaptor: public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", "com.deepin.Draw")
     Q_CLASSINFO("D-Bus Introspection", ""
                 "  <interface name=\"com.deepin.Draw\">\n"
+
                 "    <method name=\"openFiles\">\n"
-                "      <arg direction=\"in\" type=\"QString\" name=\"filePaths\"/>\n"
+                "      <arg direction=\"in\" type=\"none\" name=\"openFiles\"/>\n"
                 "    </method>\n"
+
                 "    <method name=\"openImages\">\n"
-                "      <arg direction=\"in\" type=\"QImage\" name=\"images\"/>\n"
+                "      <arg direction=\"in\" type=\"none\" name=\"openImages\"/>\n"
                 "    </method>\n"
-                "  </interface>\n"
-                "")
+
+                "    <method name=\"openFile\">\n"
+                "      <arg direction=\"in\" type=\"s\" name=\"openFile\"/>\n"
+                "      <arg direction=\"out\" type=\"b\"/>\n"
+                "    </method>\n"
+
+                "  </interface>\n")
 public:
     dbusdraw_adaptor(QObject *parent);
     virtual ~dbusdraw_adaptor();
@@ -57,6 +64,7 @@ public:
 public Q_SLOTS: // METHODS
     void openFiles(QList<QVariant> filePaths);
     void openImages(QList<QVariant> images);
+    bool openFile(QString filePath);
 
 Q_SIGNALS: // SIGNALS
 };

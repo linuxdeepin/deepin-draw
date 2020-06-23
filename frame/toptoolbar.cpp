@@ -91,6 +91,8 @@ void TopToolbar::initUI()
     setLayout(hLayout);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    logoLable->hide();
 }
 
 void TopToolbar::initComboBox()
