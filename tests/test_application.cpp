@@ -12,5 +12,9 @@ TEST(isFileNameLegal, ins2)
 }
 TEST(isFileNameLegal, ins3)
 {
+    ASSERT_EQ(true, dApp->isFileNameLegal("./myfile.txt"));
+}
+TEST(isFileNameLegal, ins4)
+{
     ASSERT_EQ(false, dApp->isFileNameLegal(""));
 }

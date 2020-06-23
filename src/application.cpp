@@ -187,6 +187,13 @@ QRegExp Application::fileNameRegExp(bool ill, bool containDirDelimiter)
 
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 {
+    if (path.isEmpty()) {
+        if (outErrorReson != nullptr) {
+            *outErrorReson = 0;
+        }
+        return false;
+    }
+
     QRegExp regExp("[:\\*\\?\"<>\\|]");
 
     if (path.contains(regExp)) {
@@ -216,7 +223,8 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
         pos = splitExp.indexIn(path, pos + 1);
     }
 
-    return true;
+    bool isdir = (path.endsWith('/') || path.endsWith('\\'));
+    return !isdir;
 }
 
 void Application::setApplicationCursor(const QCursor &cur)
