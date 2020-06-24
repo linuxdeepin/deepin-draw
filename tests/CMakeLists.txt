@@ -8,6 +8,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# 添加gocv覆盖率文件的输出
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+
 # 设置Qt模块
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
 
@@ -80,9 +83,33 @@ set(TargetTsFiles
 
 # 添加需要安装的模块
 add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${allTestSource} ${AllQRC}
-#    ${gmock} ${gmock_main} ${gtest} ${gtest_main}
-#${gtest} ${gmock}
     )
+## Create the gcov target. Run coverage tests with 'make gcov'
+#add_custom_target(gcov
+#    COMMAND mkdir -p coverage
+#    COMMAND ${CMAKE_MAKE_PROGRAM} test
+#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+#    )
+#add_custom_command(TARGET gcov
+#    COMMAND echo "=================== GCOV ===================="
+#    COMMAND gcov -b ${CMAKE_SOURCE_DIR}/*.cpp -o ${OBJECT_DIR}
+#    | grep -A 5 "Adder.cpp" > CoverageSummary.tmp
+#    COMMAND cat CoverageSummary.tmp
+#    COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverage"
+#    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/coverage
+#    )
+#add_dependencies(gcov ${PROJECT_NAME})
+## Make sure to clean up the coverage folder
+#set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES coverage)
+
+## Create the gcov-clean target. This cleans the build as well as generated
+## .gcda and .gcno files.
+#add_custom_target(scrub
+#COMMAND ${CMAKE_MAKE_PROGRAM} clean
+#COMMAND rm -f ${OBJECT_DIR}/*.gcno
+#COMMAND rm -f ${OBJECT_DIR}/*.gcda
+#WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+#)
 
 #------------------------------ 添加第三方库  DTK -------------------------------
 # 使用第三方库需要用到的一个包
@@ -104,10 +131,8 @@ target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main)
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
 
-
-
 # ------------------------------- install script -------------------------------
-
+#execute_process(COMMAND bash ci/lcov.sh)
 #set(PREFIX /usr)
 #set(BinDir ${PREFIX}/bin)
 #set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)

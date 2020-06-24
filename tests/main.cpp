@@ -4,11 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-    Application a(argc, argv);
+    Q_UNUSED(argc)
+    Q_UNUSED(argv)
 
-    int ret = RUN_ALL_TESTS();
-
-    Q_UNUSED(ret)
-
-    a.exec();
+    return RUN_ALL_TESTS();
 }
