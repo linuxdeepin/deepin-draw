@@ -1576,28 +1576,28 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
     if (dialog.exec()) {
         QString path = dialog.selectedFiles().first();
         if (!path.isEmpty()) {
-//            if (!dApp->isFileNameLegal(path)) {
+            if (!dApp->isFileNameLegal(path)) {
+                //不支持的文件名
+                DDialog dia(this);
 
-//                //不支持的文件名
-//                DDialog dia(this);
+                dia.setFixedSize(404, 163);
 
-//                dia.setFixedSize(404, 163);
+                dia.setModal(true);
+                dia.setMessage(tr("The file name must not contain \\/:*?\"<>|"));
+                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
-//                dia.setModal(true);
-//                dia.setMessage("The file name must not contain \\/:*?\"<>|");
-//                dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
+                int OK = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
 
-//                int OK = dia.addButton(tr("OK"), false, DDialog::ButtonNormal);
+                int result = dia.exec();
 
-//                int result = dia.exec();
-
-//                if (OK == result) {
-//                    QMetaObject::invokeMethod(this, [ = ]() {
-//                        showSaveDDFDialog(type, finishClose, saveFilePath);
-//                    }, Qt::QueuedConnection);
-//                }
-//                return ;
-//            }
+                if (OK == result) {
+                    QMetaObject::invokeMethod(this, [=]() {
+                        showSaveDDFDialog(type, finishClose, saveFilePath);
+                    },
+                                              Qt::QueuedConnection);
+                }
+                return;
+            }
 
             if (path.split("/").last() == ".ddf" || QFileInfo(path).suffix().toLower() != ("ddf")) {
                 path = path + ".ddf";
