@@ -219,7 +219,11 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 
 void Application::setApplicationCursor(const QCursor &cur)
 {
-    qApp->changeOverrideCursor(cur);
+    if (qApp->overrideCursor() == nullptr) {
+        qApp->setOverrideCursor(cur);
+    } else {
+        qApp->changeOverrideCursor(cur);
+    }
 }
 
 void Application::onMessageRecived(const QString &message)
