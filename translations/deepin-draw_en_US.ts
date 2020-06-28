@@ -11,27 +11,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="308"/>
+        <location filename="../src/application.cpp" line="312"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="309"/>
+        <location filename="../src/application.cpp" line="313"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="313"/>
+        <location filename="../src/application.cpp" line="317"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="314"/>
+        <location filename="../src/application.cpp" line="318"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="322"/>
+        <location filename="../src/application.cpp" line="326"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
