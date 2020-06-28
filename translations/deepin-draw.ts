@@ -372,7 +372,7 @@
     </message>
     <message>
         <location filename="../src/frame/cgraphicsview.cpp" line="1535"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1590"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1589"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="1616"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
@@ -470,7 +470,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1587"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1586"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation type="unfinished"></translation>
     </message>

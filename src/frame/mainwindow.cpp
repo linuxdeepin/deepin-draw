@@ -637,7 +637,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
             //找到这个东西了
             static QCursor s_temp;
             if (e->type() == QEvent::Enter) {
-                s_temp = *qApp->overrideCursor();
+                s_temp = (qApp->overrideCursor() == nullptr ? QCursor(Qt::ArrowCursor) : *qApp->overrideCursor());
                 dApp->setApplicationCursor(Qt::PointingHandCursor);
             } else if (e->type() == QEvent::Leave) {
                 dApp->setApplicationCursor(s_temp);
