@@ -10,6 +10,9 @@ set(CMAKE_AUTOUIC ON)
 
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
+
+set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)
 
 # 设置Qt模块
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
@@ -80,6 +83,11 @@ set(TargetTsFiles
     translations/deepin-draw_en_US.ts
     translations/deepin-draw.ts
     )
+#message("------------")
+#message(${PROJECT_BINARY_DIR})
+#message(${PROJECT_SOURCE_DIR})
+#message(${CMAKE_MAKE_PROGRAM})
+#message("------------")
 
 # 添加需要安装的模块
 add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${allTestSource} ${AllQRC}
@@ -87,12 +95,14 @@ add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${allTestSource} ${All
 ## Create the gcov target. Run coverage tests with 'make gcov'
 #add_custom_target(gcov
 #    COMMAND mkdir -p coverage
-#    COMMAND ${CMAKE_MAKE_PROGRAM} test
+#    #COMMAND ${CMAKE_MAKE_PROGRAM} test
 #    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 #    )
 #add_custom_command(TARGET gcov
 #    COMMAND echo "=================== GCOV ===================="
+#    COMMAND echo ${CMAKE_SOURCE_DIR}
 #    COMMAND gcov -b ${CMAKE_SOURCE_DIR}/*.cpp -o ${OBJECT_DIR}
+#    #COMMAND gcov -b ${allTestSource} -o ${OBJECT_DIR}
 #    | grep -A 5 "Adder.cpp" > CoverageSummary.tmp
 #    COMMAND cat CoverageSummary.tmp
 #    COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverage"

@@ -142,3 +142,5 @@ install(FILES src/logo/deepin-draw.svg DESTINATION ${AppIconDir})
 
 # install MimeFile
 install(FILES mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})
+
+
