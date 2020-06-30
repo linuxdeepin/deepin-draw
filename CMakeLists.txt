@@ -8,6 +8,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# 添加gocv覆盖率文件的输出
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+
 # 设置Qt模块
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
 
@@ -27,9 +30,13 @@ include_directories(src/utils)
 include_directories(src/widgets)
 include_directories(src/widgets/dialog)
 
+include_directories(libs/googletest)
+include_directories(libs/googletest/googlemock/include)
+include_directories(libs/googletest/googletest/include)
+
 # 定义 source 文件
 FILE (GLOB allSource
-    "./src/*.cpp"  "./src/*.c"
+    "./src/application.cpp"
     "./src/drawshape/*.cpp"  "./src/drawshape/*.c"
     "./src/frame/*.cpp"  "./src/frame/*.c"
     "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
@@ -41,7 +48,7 @@ FILE (GLOB allSource
 
 # 定义 header 文件
 FILE (GLOB allHeaders
-    "./src/*.hpp"  "./src/*.h"
+    "./src/application.h"
     "./src/drawshape/*.hpp"  "./src/drawshape/*.h"
     "./src/frame/*.hpp"  "./src/frame/*.h"
     "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
@@ -77,7 +84,57 @@ qt5_create_translation(LangSrcs ${allSource} ${allHeaders} ${TargetTsFiles})
 qt5_add_translation(${TargetTsFiles})
 
 # 添加需要安装的模块
-add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${AllQRC} ${LangSrcs})
+add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${AllQRC} ${LangSrcs} "./src/main.cpp")
+
+set(PROJECT_NAME_TEST
+    ${PROJECT_NAME}_test)
+
+FILE (GLOB allTestSource
+    "./tests/*.cpp" "./tests/*.c")
+
+add_subdirectory(libs/googletest)
+
+add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
+
+target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
+
+#------------------------------ 创建'make test'指令---------------------------------------
+add_custom_target(test
+    COMMAND mkdir -p coverageResult
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+
+add_custom_command(TARGET test
+    COMMAND echo " =================== CREAT LCOV REPROT BEGIN ==================== "
+
+    #1.清理原先的gcov信息
+    COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME_TEST}.dir --zerocounters
+    COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+    COMMAND ./${PROJECT_NAME_TEST}
+
+    #2.收集gcov信息到.info文件中
+    COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+    #3.过滤一些我们不感兴趣的文件的覆盖率信息
+    COMMAND echo " =================== do filter begin ==================== "
+    COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+    '*/${PROJECT_NAME_TEST}_autogen/*' '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*' '*/googletest/*'
+    -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+    COMMAND echo " =================== do filter end ==================== "
+
+    #3.将.info信息生成报告到reprot文件夹中
+    COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+    COMMAND echo " =================== CREAT LCOV REPROT END ==================== "
+
+    COMMAND echo " Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+
+#'make test'命令依赖与我们的测试程序
+add_dependencies(test ${PROJECT_NAME_TEST})
+#------------------------------ 创建'make test'指令---------------------------------------
 
 #------------------------------ 添加第三方库  DTK -------------------------------
 # 使用第三方库需要用到的一个包
@@ -89,14 +146,16 @@ pkg_check_modules(3rd_lib REQUIRED
         )
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
 #------------------------------添加第三方库end-------------------------------------
 
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
-
+qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
 
 
 # ------------------------------- install script -------------------------------

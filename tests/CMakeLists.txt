@@ -31,11 +31,11 @@ include_directories(../src/utils)
 include_directories(../src/widgets)
 include_directories(../src/widgets/dialog)
 
-include_directories(googletest)
-include_directories(googletest/googlemock/include)
-include_directories(googletest/googletest/include)
+include_directories(../libs/googletest)
+include_directories(../libs/googletest/googlemock/include)
+include_directories(../libs/googletest/googletest/include)
 
-add_subdirectory(googletest)
+add_subdirectory(../libs/googletest)
 
 # 定义 source 文件
 FILE (GLOB allSource
