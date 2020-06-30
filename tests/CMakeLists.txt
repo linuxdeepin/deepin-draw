@@ -10,9 +10,7 @@ set(CMAKE_AUTOUIC ON)
 
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
-
-set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)
+#set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 # 设置Qt模块
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
@@ -80,29 +78,25 @@ set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 # 添加需要安装的模块
 add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${allTestSource} ${AllQRC}
     )
-## Make sure to clean up the coverage folder
-#set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES coverage)
-
-## Create the gcov-clean target. This cleans the build as well as generated
-## .gcda and .gcno files.
-#add_custom_target(scrub
-#COMMAND ${CMAKE_MAKE_PROGRAM} clean
-#COMMAND rm -f ${OBJECT_DIR}/*.gcno
-#COMMAND rm -f ${OBJECT_DIR}/*.gcda
-#WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-#)
 
 add_custom_target(test
     COMMAND mkdir -p coverageResult
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_custom_command(TARGET test
-    COMMAND echo "===================CREAT LCOV REPROT===================="
+    COMMAND echo " ===================CREAT LCOV REPROT==================== "
     COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
     COMMAND ./${PROJECT_NAME}
     COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+    COMMAND echo " =================== do filter begin ==================== "
+    COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+    '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*'
+    -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+    COMMAND echo " =================== do filter end ==================== "
+
     COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
-    COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report"
+    COMMAND echo " -- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 add_dependencies(test ${PROJECT_NAME})
