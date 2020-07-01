@@ -771,8 +771,10 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                         delete m_RotateItem;
                         m_RotateItem = nullptr;
                     }
-                    if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
+
+                    if (m_bRotateAng) {
                         emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
+                        m_bRotateAng = false;
                     }
                 } else if (m_dragHandle == CSizeHandleRect::InRect) {
                     if (qAbs(vectorPoint.x()) > 1 && qAbs(vectorPoint.y()) > 1) {
