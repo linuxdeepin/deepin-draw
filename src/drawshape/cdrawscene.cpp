@@ -525,6 +525,10 @@ void CDrawScene::textFontSizeChanged()
     }
 }
 
+void CDrawScene::blockUpdateBlurItem(bool b)
+{
+    blockMscUpdate = b;
+}
 
 //if (thisZValue > itemZValue) {
 //    retList.push_back(item);
@@ -537,6 +541,9 @@ void CDrawScene::textFontSizeChanged()
 
 void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
+    if (blockMscUpdate)
+        return;
+
     QList<QGraphicsItem *> items = this->items();
     if (changeItem != nullptr) {
         int index = items.indexOf(changeItem);

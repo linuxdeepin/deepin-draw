@@ -586,13 +586,17 @@ void CGraphicsView::initConnection()
         auto curScene = dynamic_cast<CDrawScene *>(scene());
         qreal tempZ = curScene->getMaxZValue();
 
+        this->drawScene()->blockUpdateBlurItem(true);
         for (QGraphicsItem *item : m_loadFromDDF) {
             item->setZValue(tempZ + 1);
             tempZ++;
-            if (item->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-            }
+            //            if (item->type() == BlurType) {
+            //                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            //            }
         }
+        this->drawScene()->blockUpdateBlurItem(false);
+
+        this->drawScene()->updateBlurItem();
 
         m_loadFromDDF.clear();
         curScene->setMaxZValue(tempZ);
@@ -1067,7 +1071,15 @@ void CGraphicsView::slotOnPaste()
 
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
-            emit signalPastePixmap(pixmap, CManageViewSigleton::GetInstance()->getFileSrcData(filePath));
+            QByteArray src = CManageViewSigleton::GetInstance()->getFileSrcData(filePath);
+            //            if (src.isEmpty()) {
+            //                QBuffer buferTemp;
+            //                QDataStream strem(&buferTemp);
+            //                strem << pixmap;
+            //                buferTemp.close();
+            //                src = buferTemp.buffer();
+            //            }
+            emit signalPastePixmap(pixmap, src);
         }
         qDebug() << "imageData" << imageData << endl;
     } else if (filePath != "") {
