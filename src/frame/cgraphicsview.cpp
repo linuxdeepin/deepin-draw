@@ -1072,13 +1072,6 @@ void CGraphicsView::slotOnPaste()
         qDebug() << "entered mp->hasImage()"  << endl;
         if (!pixmap.isNull()) {
             QByteArray src = CManageViewSigleton::GetInstance()->getFileSrcData(filePath);
-            //            if (src.isEmpty()) {
-            //                QBuffer buferTemp;
-            //                QDataStream strem(&buferTemp);
-            //                strem << pixmap;
-            //                buferTemp.close();
-            //                src = buferTemp.buffer();
-            //            }
             emit signalPastePixmap(pixmap, src);
         }
         qDebug() << "imageData" << imageData << endl;
