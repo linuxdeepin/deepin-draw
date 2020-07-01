@@ -185,8 +185,15 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
 
 //    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
 
-
-    unit.data.pPic->srcByteArry = _srcByteArry;
+    if (_srcByteArry.isEmpty()) {
+        QBuffer buferTemp;
+        QDataStream strem(&buferTemp);
+        strem << m_pixmap;
+        buferTemp.close();
+        unit.data.pPic->srcByteArry = buferTemp.buffer();
+    } else {
+        unit.data.pPic->srcByteArry = _srcByteArry;
+    }
 
     return unit;
 }
