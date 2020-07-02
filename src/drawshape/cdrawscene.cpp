@@ -292,10 +292,9 @@ bool CDrawScene::event(QEvent *event)
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-//        if (currentMode != pen) {
-//            return QGraphicsScene::event(event);
-//        }
-
+        if (currentMode != pen) {
+            return QGraphicsScene::event(event);
+        }
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
         if (nullptr != pTool) {
@@ -526,6 +525,10 @@ void CDrawScene::textFontSizeChanged()
     }
 }
 
+void CDrawScene::blockUpdateBlurItem(bool b)
+{
+    blockMscUpdate = b;
+}
 
 //if (thisZValue > itemZValue) {
 //    retList.push_back(item);
@@ -538,6 +541,9 @@ void CDrawScene::textFontSizeChanged()
 
 void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
+    if (blockMscUpdate)
+        return;
+
     QList<QGraphicsItem *> items = this->items();
     if (changeItem != nullptr) {
         int index = items.indexOf(changeItem);

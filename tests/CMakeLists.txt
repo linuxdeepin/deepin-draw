@@ -8,6 +8,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# 添加gocv覆盖率文件的输出
+set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
+
 # 设置Qt模块
 set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
 
@@ -27,11 +31,11 @@ include_directories(../src/utils)
 include_directories(../src/widgets)
 include_directories(../src/widgets/dialog)
 
-include_directories(googletest)
-include_directories(googletest/googlemock/include)
-include_directories(googletest/googletest/include)
+include_directories(../libs/googletest)
+include_directories(../libs/googletest/googlemock/include)
+include_directories(../libs/googletest/googletest/include)
 
-add_subdirectory(googletest)
+add_subdirectory(../libs/googletest)
 
 # 定义 source 文件
 FILE (GLOB allSource
@@ -71,18 +75,31 @@ set(AllQRC
 # 设置不删除生成的文件夹内容文件（设置此项是为了翻译后的文件不被删除）
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-# 定义翻译文件
-set(TargetTsFiles
-    translations/deepin-draw_zh_CN.ts
-    translations/deepin-draw_en_US.ts
-    translations/deepin-draw.ts
-    )
-
 # 添加需要安装的模块
 add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${allTestSource} ${AllQRC}
-#    ${gmock} ${gmock_main} ${gtest} ${gtest_main}
-#${gtest} ${gmock}
     )
+
+add_custom_target(test
+    COMMAND mkdir -p coverageResult
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+add_custom_command(TARGET test
+    COMMAND echo " ===================CREAT LCOV REPROT==================== "
+    COMMAND lcov --directory ./CMakeFiles/${PROJECT_NAME}.dir --zerocounters
+    COMMAND ./${PROJECT_NAME}
+    COMMAND lcov --directory . --capture --output-file ./coverageResult/${PROJECT_NAME}_Coverage.info
+
+    COMMAND echo " =================== do filter begin ==================== "
+    COMMAND lcov --remove ./coverageResult/${PROJECT_NAME}_Coverage.info
+    '*/${PROJECT_NAME}_autogen/*' '*/usr/include/*' '*/tests/*'
+    -o ./coverageResult/${PROJECT_NAME}_Coverage.info
+    COMMAND echo " =================== do filter end ==================== "
+
+    COMMAND genhtml -o ./coverageResult/report ./coverageResult/${PROJECT_NAME}_Coverage.info
+    COMMAND echo " -- Coverage files have been output to ${CMAKE_BINARY_DIR}/coverageResult/report "
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+add_dependencies(test ${PROJECT_NAME})
 
 #------------------------------ 添加第三方库  DTK -------------------------------
 # 使用第三方库需要用到的一个包
@@ -103,49 +120,3 @@ target_link_libraries(${PROJECT_NAME} gmock gmock_main gtest gtest_main)
 
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
-
-
-
-# ------------------------------- install script -------------------------------
-
-#set(PREFIX /usr)
-#set(BinDir ${PREFIX}/bin)
-#set(TranslationDir ${PREFIX}/share/deepin-draw/translations/)
-#set(DbusDir ${PREFIX}/share/dbus-1/services/)
-#set(DesktopDir ${PREFIX}/share/applications/)
-#set(FormatFileDir ${PREFIX}/share/mime/packages/)
-#set(ManIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-#set(AppIconDir ${PREFIX}/share/icons/hicolor/scalable/apps)
-#set(MimeFileDir ${PREFIX}/share/mime/packages)
-
-# install Targets:
-#   * <prefix>/lib/libxxx.so
-#   * header location after install: <prefix>/include/xxx.h
-#   * headers can be included by C++ code `#include <xxx.h>`
-#install(TARGETS ${PROJECT_NAME}
-#        EXPORT ${PROJECT_NAME}Targets
-#        LIBRARY DESTINATION lib
-#        ARCHIVE DESTINATION lib
-#        RUNTIME DESTINATION /usr/bin
-#        INCLUDES DESTINATION allHeaders)
-
-# install Translation files:
-#install(FILES ${LangSrcs} DESTINATION ${TranslationDir})
-
-# install DBus file:
-#install(FILES com.deepin.Draw.service DESTINATION ${DbusDir})
-
-# install Desktop icon
-#install(FILES deepin-draw.desktop DESTINATION ${DesktopDir})
-
-# install FormatFile ---> unused
-#install(FILES src/service/x-ddf.xml DESTINATION ${FormatFileDir})
-
-# install Manual icon
-#install(FILES src/logo/deepin-draw.svg DESTINATION ${ManIconDir})
-
-# install App icon
-#install(FILES src/logo/deepin-draw.svg DESTINATION ${AppIconDir})
-
-# install MimeFile
-#install(FILES mimetype/deepin-draw.xml DESTINATION ${MimeFileDir})

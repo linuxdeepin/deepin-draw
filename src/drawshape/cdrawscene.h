@@ -113,6 +113,7 @@ public:
 
     void textFontSizeChanged();
 
+    void blockUpdateBlurItem(bool b);
     /**
      * @brief updateBlurItem 刷新
      * @param changeItem 引起变化的图元
@@ -184,7 +185,7 @@ signals:
      * @param item
      * @param oldAngle
      */
-    void itemRotate(QGraphicsItem *item, const qreal oldAngle );
+    void itemRotate(QGraphicsItem *item, const qreal oldAngle);
 
     /**
      * @brief itemResize 更改图元大小
@@ -364,6 +365,8 @@ private:
     bool dbCLicked = false;
 
     bool blockMouseMoveEventFlag = false;
+
+    bool blockMscUpdate = false;
 };
 
 #endif // CDRAWSCENE_H

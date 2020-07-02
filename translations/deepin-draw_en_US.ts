@@ -11,27 +11,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="300"/>
+        <location filename="../src/application.cpp" line="312"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="301"/>
+        <location filename="../src/application.cpp" line="313"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="305"/>
+        <location filename="../src/application.cpp" line="317"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="306"/>
+        <location filename="../src/application.cpp" line="318"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="314"/>
+        <location filename="../src/application.cpp" line="326"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -451,27 +451,32 @@
         <translation>Text Align Center</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1532"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1544"/>
         <source>This file is read-only, please save with another name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1541"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1553"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1563"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1565"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1577"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1613"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1598"/>
+        <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1625"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -480,8 +485,9 @@
         <translation type="vanished">Unnamed.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1535"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1616"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -875,22 +881,22 @@
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="117"/>
+        <location filename="../src/frame/mainwindow.cpp" line="118"/>
         <source>Is Close Draw?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="119"/>
+        <location filename="../src/frame/mainwindow.cpp" line="120"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="408"/>
+        <location filename="../src/frame/mainwindow.cpp" line="409"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="119"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -1244,42 +1250,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="211"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="222"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="252"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="253"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>
