@@ -250,7 +250,7 @@ void Application::onMessageRecived(const QString &message)
         QStringList files = message.split(_joinFlag);
 
         if (!files.isEmpty()) {
-            pWin->slotLoadDragOrPasteFile(files);
+            pWin->openFiles(files);
         }
     }
 }

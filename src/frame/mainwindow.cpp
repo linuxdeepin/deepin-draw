@@ -728,7 +728,7 @@ void MainWindow::openFiles(QStringList filePaths)
         }
     }
 
-    m_centralWidget->slotLoadDragOrPasteFile(filePaths);
+    m_centralWidget->loadFilesByCreateTag(filePaths, true);
 }
 
 void MainWindow::openImage(QImage image, const QByteArray &srcData)
