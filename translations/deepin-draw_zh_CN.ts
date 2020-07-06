@@ -103,16 +103,17 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="60"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="70"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="91"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="541"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="258"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="503"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="564"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -647,18 +648,18 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="138"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="142"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>最多可导入30张图片，请重新选择</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="139"/>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="291"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="143"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="319"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="288"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="316"/>
         <source>Damaged file, unable to open it.</source>
         <translation>文件已损坏，无法打开。</translation>
     </message>

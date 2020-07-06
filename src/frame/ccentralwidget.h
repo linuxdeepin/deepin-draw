@@ -108,6 +108,7 @@ public:
      * @description: skipOpenedTab 跳转到已打开标签页
     */
     void skipOpenedTab(QString filepath);
+
 signals:
 
     /**
@@ -245,8 +246,9 @@ public slots:
     /**
      * @brief slotPastePicture　粘贴图片
      * @param picturePathList　图片路径
+     * @param asFirstPictureSize 以第一张图片大小初始化场景
      */
-    void slotPastePicture(QStringList picturePathList);
+    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false);
     /**
      * @brief slotPastePixmap　粘贴图片
      * @param pixmap　图片
@@ -286,6 +288,14 @@ public slots:
     * @bool: 返回是否需要执行后面的代码
     */
     bool slotJudgeCutStatusAndPopSaveDialog();
+
+    /**
+     * @brief loadFilesByCreateTag　创建一个图片大小的标签页
+     * @param imagePaths　[QStringList] 图片路径
+     * @param imageSize　[bool] 是否以打开图片的大小进行设置scence
+     */
+    void loadFilesByCreateTag(QStringList imagePaths, bool isImageSize = true);
+
 private slots:
     /**
      * @brief slotDoSaveImage　执行保存图片

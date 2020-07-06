@@ -22,16 +22,20 @@
 
 #include <QDebug>
 #include <QtConcurrent>
-#include <DMessageBox>
 #include <QGraphicsItem>
-#include <DDialog>
 #include <QImageReader>
+#include <QScreen>
+#include <QGuiApplication>
+
 #include "application.h"
+
+#include <DMessageBox>
+#include <DDialog>
 
 #include "service/cmanagerattributeservice.h"
 
 CPictureTool::CPictureTool(DWidget *parent)
-    : DWidget (parent)
+    : DWidget(parent)
 {
     m_progressLayout = new ProgressLayout();
     connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)));
@@ -112,7 +116,7 @@ CPictureTool::~CPictureTool()
 //}
 
 
-void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow)
+void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize)
 {
     QStringList filenames = filePathList;
     // qDebug() << filenames << endl;
@@ -122,7 +126,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     //获取已导入图片数量
     QList<QGraphicsItem *> items = scene->items();
 
-    if ( items.count() != 0 ) {
+    if (items.count() != 0) {
         for (int i = 0; i < items.size(); i++) {
             if (items[i]->type() == PictureType) {
                 exitPicNum = exitPicNum + 1;
@@ -139,9 +143,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
         warnDlg.addButtons(QStringList() << tr("OK"));
         warnDlg.setDefaultButton(0);
         warnDlg.exec();
-
         return;
-
     }
 
     m_progressLayout->setRange(0, m_picNum);
@@ -150,6 +152,11 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     m_progressLayout->setProgressValue(0);
 
     m_progressLayout->showInCenter(centralWindow->window());
+
+    // 判断当前图片是否需要进行自适应设置
+    if (asFirstImageSize) {
+        setScenceSizeByImporteImage(scene, QPixmap(filePathList.at(0)).size());
+    }
 
     //启动图片导入线程
     QtConcurrent::run([ = ] {
@@ -179,7 +186,8 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
         QMetaObject::invokeMethod(this, "onLoadImageFinished",
                                   Qt::QueuedConnection,
                                   Q_ARG(const QStringList &, successFiles),
-                                  Q_ARG(const QStringList &, failedFiles));
+                                  Q_ARG(const QStringList &, failedFiles),
+                                  Q_ARG(const bool, asFirstImageSize));
     });
 
     // [bug:25615] 第二次导入图片，属性栏中“自适应”按钮置灰
@@ -224,22 +232,36 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
     return pixmap;
 }
 
+void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize)
+{
+    QSize screenSize = QGuiApplication::primaryScreen()->availableSize();
+    if (imageSize.width() > screenSize.width() || imageSize.height() > screenSize.height()) {
+        scene->setSceneRect(0, 0, screenSize.width(), screenSize.height());
+    } else {
+        scene->setSceneRect(0, 0, imageSize.width(), imageSize.height());
+    }
+}
+
 
 void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
                              CDrawScene *scene, CCentralwidget *centralWindow,
-                             const QByteArray &fileSrcData)
+                             const QByteArray &fileSrcData, bool asImageSize)
 {
     Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
         scene->clearSelection();
 
-        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
+        pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
 
         pixmapItem->setSelected(false);
         scene->addItem(pixmapItem);
         emit scene->itemAdded(pixmapItem);
+        // 判断当前图片是否需要进行自适应设置
+        if (asImageSize) {
+            setScenceSizeByImporteImage(scene, pixmap.size());
+        }
     }
     //m_picturetItems << pixmapItem;
     m_progressLayout->setProgressValue(itemNumber);
@@ -255,7 +277,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
 }
 
 void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
-                                       const QStringList &failedFiles)
+                                       const QStringList &failedFiles, const bool clearSelection)
 {
     Q_UNUSED(successFiles)
 
@@ -265,6 +287,12 @@ void CPictureTool::onLoadImageFinished(const QStringList &successFiles,
 
     if (!failedFiles.isEmpty()) {
         showLoadFailedFiles(failedFiles);
+    }
+
+    if (clearSelection) {
+        dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty(false);
+        CManageViewSigleton::GetInstance()->getCurView()->setModify(true);
     }
 }
 

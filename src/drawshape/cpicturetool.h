@@ -45,15 +45,17 @@ signals:
 public slots:
     void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene,
                    CCentralwidget *centralWindow,
-                   const QByteArray &fileSrcData);
+                   const QByteArray &fileSrcData,
+                   bool asImageSize = false);
 
     void onLoadImageFinished(const QStringList &successFiles,
-                             const QStringList &failedFiles);
+                             const QStringList &failedFiles,
+                             const bool clearSelection = false);
 
     void showLoadFailedFiles(const QStringList &files);
 
 public:
-    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow);
+    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false);
 
     QPixmap getPixMapQuickly(const QString &imagePath);
 private:
@@ -61,6 +63,10 @@ private:
     ProgressLayout *m_progressLayout;
     int m_picNum;
 
+    /**
+     * @brief getScenceSizeByImporteImage 获取当前scence应该改变的大小
+     */
+    void setScenceSizeByImporteImage(CDrawScene *scene, const QSize &imageSize);
 };
 
 

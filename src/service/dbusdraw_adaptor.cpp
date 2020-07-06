@@ -70,9 +70,20 @@ void dbusdraw_adaptor::openImages(QList<QVariant> images)
 
 bool dbusdraw_adaptor::openFile(QString filePath)
 {
-    if (QFile::exists(filePath)) {
+    QString _filePath;
+    QFileInfo fInfo(filePath);
+    if (fInfo.exists() && fInfo.isFile()) {
+        _filePath = filePath;
+    } else {
+        QUrl url(filePath);
+        if (url.isLocalFile()) {
+            _filePath = url.toLocalFile();
+        }
+    }
+
+    if (!_filePath.isEmpty()) {
         QStringList paths;
-        paths.append(filePath);
+        paths.append(_filePath);
         QMetaObject::invokeMethod(parent(), "openFiles",
                                   Q_ARG(QStringList, paths));
         return true;
