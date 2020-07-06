@@ -73,26 +73,21 @@ void TopToolbar::initUI()
     initStackWidget();
     initMenu();
 
-    CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
-    logoLable->setFixedSize(QSize(32, 32));
-
     QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-    hLayout->addSpacing(13);
-    hLayout->addWidget(logoLable);
-    hLayout->addSpacing(20);
+
+    m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
     hLayout->addWidget(m_zoomMenuComboBox);
-//    hLayout->addSpacing(20);
-    hLayout->addWidget(m_stackWidget, 0, Qt::AlignHCenter);
-    hLayout->addSpacing(33);
+
+    hLayout->addWidget(m_stackWidget);
+
     hLayout->setContentsMargins(0, 0, 0, 0);
-//    hLayout->addStretch();
+
     setLayout(hLayout);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    logoLable->hide();
 }
 
 void TopToolbar::initComboBox()
@@ -148,10 +143,10 @@ void TopToolbar::initStackWidget()
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
     qApp->setProperty("_d_isDxcb", false);
-    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this->parentWidget());
+    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
     qApp->setProperty("_d_isDxcb", true);
-    m_colorARect->setWindowFlags(Qt::Widget);
-    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, false);
+    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
+    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
     m_colorARect->setArrowWidth(18);
     m_colorARect->setArrowHeight(10);
     m_colorARect->setContent(m_colorPanel);
@@ -207,7 +202,7 @@ void TopToolbar::initStackWidget()
 
 void TopToolbar::initMenu()
 {
-    m_mainMenu = new CMenu(this);
+    m_mainMenu = new CMenu(/*this*/);
     m_mainMenu->setFixedWidth(162);
 
     m_newAction = new QAction(tr("New"), this);
@@ -362,11 +357,7 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
     m_colorARect->raise();
 
     if (visible) {
-
-        QPoint startPos = QPoint(0, 0);
-
-        m_colorARect->show(pos.x() - mapToGlobal(startPos).x(),
-                           pos.y() - mapToGlobal(startPos).y());
+        m_colorARect->show(pos.x(), pos.y());
     } else
         m_colorARect->hide();
 }
@@ -589,6 +580,8 @@ void TopToolbar::slotScenceViewChanged(QString viewname)
 
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
+    qDebug() << "TopToolbar geometry ======== " << this->geometry();
+
     this->updateGeometry();
     m_colorARect->hide();
     QWidget::resizeEvent(event);
