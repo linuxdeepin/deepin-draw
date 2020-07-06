@@ -20,6 +20,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cdrawparamsigleton.h"
 #include "application.h"
 #include <QDebug>
 #include <QKeyEvent>
@@ -48,9 +49,83 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 {
 
 }
+void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+{
+    //鼠标左键按下走和触控统一的逻辑
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = true;
 
+        CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
+        toolStart(&e.first());
+
+        //已经处理完成，不用传递到框架,否则传递给框架继续处理
+        if (!e.first().isAccepted()) {
+            scene->mouseEvent(event);
+        }
+
+        return;
+    }
+
+    //默认是要传递给框架的
+    scene->mouseEvent(event);
+}
+
+void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+{
+    if (event->buttons() == Qt::LeftButton) {
+        CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
+        toolUpdate(&e.first());
+
+        //已经处理完成，不用传递到框架,否则传递给框架继续处理
+        if (!e.first().isAccepted()) {
+            scene->mouseEvent(event);
+        }
+
+        return;
+    }
+
+    //默认是要传递给框架的
+    scene->mouseEvent(event);
+}
+
+void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+{
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = false;
+
+        CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
+
+        toolFinish(&e.first());
+
+        //已经处理完成，不用传递到框架,否则传递给框架继续处理
+        if (!e.first().isAccepted()) {
+            scene->mouseEvent(event);
+        }
+
+        return;
+    }
+
+    //默认是要传递给框架的
+    scene->mouseEvent(event);
+}
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //鼠标左键按下走和触控统一的逻辑
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = true;
+
+        CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
+        toolStart(&e.first());
+
+        //已经处理完成，不用传递到框架,否则传递给框架继续处理
+        if (!e.first().isAccepted()) {
+            scene->mouseEvent(event);
+        }
+
+        return;
+    }
+
+    //默认是要传递给框架的
     scene->mouseEvent(event);
 }
 
@@ -66,37 +141,64 @@ void IDrawTool::stopCreating()
 
 void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event)
 {
-    SRecordedStartInfo info;
-    info.m_sLastPress  = event->pos();
-    info.m_sPointPress = event->pos();
-    info.tempItem      = creatItem();
-    allStartInfo.insert(event->uuid(), info);
+    ITERecordInfo info;
+
+    info._prePos = event->pos();
+    info._startPos = event->pos();
+    info.businessItem = creatItem(event);
+    info.startPosItems = event->scene()->items(event->pos());
+    info._isvaild = true;
+
+    _allITERecordInfo.insert(event->uuid(), info);
+
+    //工具开始创建图元应该清理当前选中情况
+    event->scene()->clearSelection();
+
+    //默认不传递事件给框架
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
 {
-    Q_UNUSED(event)
-    auto it = allStartInfo.find(event->uuid());
-    if (it != allStartInfo.end()) {
-        it.value().m_sLastPress = event->pos();
+    auto it = _allITERecordInfo.find(event->uuid());
+    if (it != _allITERecordInfo.end()) {
+        it.value()._prePos = event->pos();
     } else {
         toolStart(event);
     }
+
+    //默认不传递事件给框架
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event)
 {
+    _allITERecordInfo.remove(event->uuid());
+
+    //默认不传递事件给框架
+    event->setAccepted(true);
+}
+
+void IDrawTool::clearITE()
+{
+    _allITERecordInfo.clear();
+}
+
+void IDrawTool::setViewToSelectionTool(CGraphicsView *pView)
+{
+    if (pView == nullptr) {
+        pView = CManageViewSigleton::GetInstance()->getCurView();
+    }
+
+    if (pView != nullptr) {
+        pView->getDrawParam()->setCurrentDrawToolMode(selection);
+        emit pView->drawScene()->signalChangeToSelect();
+    }
+}
+
+CGraphicsItem *IDrawTool::creatItem(CDrawToolEvent *event)
+{
     Q_UNUSED(event)
-    allStartInfo.remove(event->uuid());
-}
-
-void IDrawTool::toolClear()
-{
-    allStartInfo.clear();
-}
-
-CGraphicsItem *IDrawTool::creatItem()
-{
     return nullptr;
 }
 
@@ -262,6 +364,15 @@ qreal IDrawTool::getCursorRotation()
     return  angle;
 }
 
+IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
+{
+    auto itf = _allITERecordInfo.find(uuid);
+    if (itf != _allITERecordInfo.end()) {
+        return &itf.value();
+    }
+    return nullptr;
+}
+
 IDrawTool::CDrawToolEvent::CDrawToolEvent(const QPointF &vPos,
                                           const QPointF &scenePos,
                                           const QPointF &globelPos,
@@ -286,6 +397,7 @@ IDrawTool::CDrawToolEvent::CDrawToolEvents IDrawTool::CDrawToolEvent::fromQEvent
         e._pos[EViewportPos] = msEvent->pos();
         e._pos[EGlobelPos]   = msEvent->globalPos();
         e._msBtns = msEvent->button() | msEvent->buttons();
+        e._kbMods = msEvent->modifiers();
         e._orgEvent = event;
         e._scene    = scene;
         eList.insert(0, e);
@@ -300,6 +412,7 @@ IDrawTool::CDrawToolEvent::CDrawToolEvents IDrawTool::CDrawToolEvent::fromQEvent
         e._pos[EScenePos]    = msEvent->scenePos();
         e._pos[EGlobelPos]   = msEvent->screenPos();
         e._msBtns = msEvent->button() | msEvent->buttons();
+        e._kbMods = msEvent->modifiers();
         e._orgEvent = event;
         e._scene    = scene;
         eList.insert(0, e);
@@ -366,4 +479,22 @@ QEvent *IDrawTool::CDrawToolEvent::orgQtEvent()
 CDrawScene *IDrawTool::CDrawToolEvent::scene()
 {
     return _scene;
+}
+
+CGraphicsView *IDrawTool::CDrawToolEvent::view()
+{
+    if (_scene != nullptr) {
+        return _scene->drawView();
+    }
+    return nullptr;
+}
+
+bool IDrawTool::CDrawToolEvent::isAccepted()
+{
+    return _accept;
+}
+
+void IDrawTool::CDrawToolEvent::setAccepted(bool b)
+{
+    _accept = b;
 }
