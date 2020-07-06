@@ -8,6 +8,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+option(DOTEST "option for test" ON)
+
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
@@ -30,9 +32,11 @@ include_directories(src/utils)
 include_directories(src/widgets)
 include_directories(src/widgets/dialog)
 
+if(DOTEST)
 include_directories(libs/googletest)
 include_directories(libs/googletest/googlemock/include)
 include_directories(libs/googletest/googletest/include)
+endif()
 
 # 定义 source 文件
 FILE (GLOB allSource
@@ -86,6 +90,7 @@ qt5_add_translation(${TargetTsFiles})
 # 添加需要安装的模块
 add_executable(${PROJECT_NAME} ${allHeaders} ${allSource} ${AllQRC} ${LangSrcs} "./src/main.cpp")
 
+if(DOTEST)
 set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
 
@@ -97,6 +102,8 @@ add_subdirectory(libs/googletest)
 add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
 
 target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
+
+
 
 #------------------------------ 创建'make test'指令---------------------------------------
 add_custom_target(test
@@ -134,6 +141,8 @@ add_custom_command(TARGET test
 
 #'make test'命令依赖与我们的测试程序
 add_dependencies(test ${PROJECT_NAME_TEST})
+
+endif()
 #------------------------------ 创建'make test'指令---------------------------------------
 
 #------------------------------ 添加第三方库  DTK -------------------------------
@@ -146,16 +155,25 @@ pkg_check_modules(3rd_lib REQUIRED
         )
 # 添加第三方库的所有文件夹路径到工程中来(注意 *_INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+
+if(DOTEST)
 target_include_directories(${PROJECT_NAME_TEST} PUBLIC ${3rd_lib_INCLUDE_DIRS})
+endif()
 
 # 将第三方库链接进来(注意 *_LIBRARIES)
 target_link_libraries(${PROJECT_NAME} ${3rd_lib_LIBRARIES})
+
+if(DOTEST)
 target_link_libraries(${PROJECT_NAME_TEST} ${3rd_lib_LIBRARIES})
+endif()
 #------------------------------添加第三方库end-------------------------------------
 
 # 将工程与Qt模块链接起来
 qt5_use_modules(${PROJECT_NAME} ${QtModule})
+
+if(DOTEST)
 qt5_use_modules(${PROJECT_NAME_TEST} ${QtModule})
+endif()
 
 
 # ------------------------------- install script -------------------------------
