@@ -234,9 +234,6 @@ void CCutWidget::initUI()
 
     layout->addStretch();
     setLayout(layout);
-
-    this->setObjectName("_cutwidget");
-    this->setStyleSheet("QWidget#_cutwidget{background-color:blue;}");
 }
 
 void CCutWidget::initConnection()
