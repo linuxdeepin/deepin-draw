@@ -195,7 +195,7 @@ void PolygonAttributeWidget::initConnection()
 
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -203,13 +203,13 @@ void PolygonAttributeWidget::initConnection()
     ///多边形边数
     connect(m_sideNumSpinBox, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
     //m_sideNumSlider->setValue(5);
-    connect(m_sideNumSpinBox, &CSpinBox::focusChanged, this, [ = ] (bool isFocus) {
+    connect(m_sideNumSpinBox, &CSpinBox::focusChanged, this, [=](bool isFocus) {
         emit signalSideValueIsfocus(isFocus);
     });
-    connect(m_sideNumSpinBox, &DSpinBox::editingFinished, this, [ = ] () {
+    connect(m_sideNumSpinBox, &DSpinBox::editingFinished, this, [=]() {
         //等于0时是特殊字符，不做处理
         qDebug() << "m_sideNumSpinBox->value() = " << m_sideNumSpinBox->value();
-        if ( m_sideNumSpinBox->value() == 0) {
+        if (m_sideNumSpinBox->value() == 0) {
             return ;
         }
         m_sideNumSpinBox->blockSignals(true);
@@ -235,8 +235,6 @@ void PolygonAttributeWidget::initConnection()
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
-
-
     });
     m_sideNumSpinBox->setProperty("preValue", 5);
 }
@@ -315,7 +313,7 @@ void PolygonAttributeWidget::slotSideWidthChoosed(int width)
 QPoint PolygonAttributeWidget::getBtnPosition(const DPushButton *btn)
 {
     QPoint btnPos = mapToGlobal(btn->pos());
-    QPoint pos(btnPos.x() + btn->width() / 2,
+    QPoint pos(btnPos.x() + 14,
                btnPos.y() + btn->height());
 
     return pos;
