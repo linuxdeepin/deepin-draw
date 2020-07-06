@@ -222,7 +222,7 @@ void CPenWidget::initConnection()
     // 线颜色
     connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
         QPoint btnPos = mapToGlobal(m_strokeBtn->pos());
-        QPoint pos(btnPos.x() + m_strokeBtn->width() / 2,
+        QPoint pos(btnPos.x() + 14,
                    btnPos.y() + m_strokeBtn->height());
         showColorPanel(DrawStatus::Stroke, pos, show);
     });
@@ -231,10 +231,10 @@ void CPenWidget::initConnection()
     });
 
     // 线宽
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [ = ] () {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [=]() {
         emit signalPenAttributeChanged();
     });
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ] () {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });

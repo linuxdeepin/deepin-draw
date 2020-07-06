@@ -51,7 +51,7 @@ TextWidget::~TextWidget()
 
 void TextWidget::initUI()
 {
-    m_fillBtn = new TextColorButton( this);
+    m_fillBtn = new TextColorButton(this);
     m_fillBtn->setFocusPolicy(Qt::NoFocus);
 
     QFont ft;
@@ -291,7 +291,7 @@ void TextWidget::initConnection()
     connect(m_fillBtn, &TextColorButton::btnCheckStateChanged, this, [ = ](bool show) {
 
         QPoint btnPos = mapToGlobal(m_fillBtn->pos());
-        QPoint pos(btnPos.x() + m_fillBtn->width() / 2,
+        QPoint pos(btnPos.x() + 12,
                    btnPos.y() + m_fillBtn->height());
 
         showColorPanel(DrawStatus::TextFill, pos, show);
