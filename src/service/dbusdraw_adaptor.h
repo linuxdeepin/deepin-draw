@@ -62,7 +62,7 @@ public:
     virtual ~dbusdraw_adaptor();
 
 public Q_SLOTS: // METHODS
-    void openFiles(QList<QVariant> filePaths);
+    bool openFiles(QList<QVariant> filePaths);
     void openImages(QList<QVariant> images);
     bool openFile(QString filePath);
 

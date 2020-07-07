@@ -14,7 +14,7 @@ option(DOTEST "option for test" ON)
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 # 设置Qt模块
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools)
+set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
 
 # 设置工程名字
 project(deepin-draw)
@@ -95,7 +95,10 @@ set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
 
 FILE (GLOB allTestSource
-    "./tests/*.cpp" "./tests/*.c")
+    "./tests/*.cpp" "./tests/*.c"
+    "./tests/service/*.cpp" "./tests/service/*.c"
+    "./tests/widgets/*.cpp" "./tests/widgets/*.c"
+    )
 
 add_subdirectory(libs/googletest)
 
@@ -103,6 +106,10 @@ add_executable(${PROJECT_NAME_TEST} ${allHeaders} ${allSource} ${allTestSource})
 
 target_link_libraries(${PROJECT_NAME_TEST} gmock gmock_main gtest gtest_main)
 
+
+#------------------------------ QTest -----------------------------------#
+# 添加 QTest 测试
+add_test(${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 
 #------------------------------ 创建'make test'指令---------------------------------------

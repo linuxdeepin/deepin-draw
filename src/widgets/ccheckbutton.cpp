@@ -172,3 +172,13 @@ void CCheckButton::setCurrentTheme(int currentTheme)
     updateImage();
 }
 
+int CCheckButton::getCurrentTheme() const
+{
+    return m_currentTheme;
+}
+
+CCheckButton::EButtonSattus CCheckButton::getCurrentStatus()
+{
+    return m_currentStatus;
+}
+

@@ -38,10 +38,14 @@ public:
 
 public:
     explicit CCheckButton(const QMap<int, QMap<EButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr, bool isCheckLock = true);
+
     void setChecked(bool);
     bool isChecked() const;
 
     void setCurrentTheme(int currentTheme);
+    int getCurrentTheme() const;
+
+    EButtonSattus getCurrentStatus();
 
 signals:
     void buttonClick();

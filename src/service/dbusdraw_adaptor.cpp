@@ -42,14 +42,17 @@ dbusdraw_adaptor::~dbusdraw_adaptor()
     // destructor
 }
 
-void dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
+bool dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
 {
     QStringList paths;
+    bool flag = false;
     for (QVariant path : filePaths) {
-        paths << path.toString().toLocal8Bit();
+        flag = openFile(path.toString().toLocal8Bit());
+        if (!flag) {
+            return flag;
+        }
     }
-    QMetaObject::invokeMethod(parent(), "openFiles",
-                              Q_ARG(QStringList, paths));
+    return flag;
 }
 
 void dbusdraw_adaptor::openImages(QList<QVariant> images)

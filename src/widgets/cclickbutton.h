@@ -35,10 +35,13 @@ public:
     };
 
 public:
-    explicit CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr );
+    explicit CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr);
+
     void setDisable(bool);
+    EClickBtnSatus getCurrentStatus()const;
 
     void setCurrentTheme(int currentTheme);
+    int getCurrentTheme()const;
 
 signals:
     void buttonClick();
