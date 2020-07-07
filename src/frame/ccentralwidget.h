@@ -294,7 +294,7 @@ public slots:
      * @param imagePaths　[QStringList] 图片路径
      * @param imageSize　[bool] 是否以打开图片的大小进行设置scence
      */
-    void loadFilesByCreateTag(QStringList imagePaths, bool isImageSize = true);
+    bool loadFilesByCreateTag(QStringList imagePaths, bool isImageSize = true);
 
 private slots:
     /**

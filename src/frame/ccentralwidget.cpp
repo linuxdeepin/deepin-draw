@@ -203,15 +203,18 @@ void CCentralwidget::skipOpenedTab(QString filepath)
     m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
 }
 
-void CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
+bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
 {
     Application *pApp = dynamic_cast<Application *>(qApp);
+
     if (pApp != nullptr) {
         imagePaths = pApp->getRightFiles(imagePaths);
+    } else {
+        return false;
     }
 
     if (imagePaths.isEmpty()) {
-        return;
+        return false;
     }
 
     QString ddfPath = "";
@@ -259,6 +262,7 @@ void CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSi
                                   Q_ARG(QString, CDrawParamSigleton::creatUUID()),
                                   Q_ARG(bool, true));
     }
+    return true;
 }
 
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)

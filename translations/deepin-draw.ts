@@ -96,13 +96,13 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="258"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="602"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="260"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="564"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="567"/>
         <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>

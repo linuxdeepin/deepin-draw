@@ -69,13 +69,13 @@ public:
      * @param filePath　路径
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
-    Q_INVOKABLE void openFiles(QStringList filePaths);
+    Q_INVOKABLE bool openFiles(QStringList filePaths);
     /**
      * @brief openImage　暴露函数接口给其它程序调用，打开多个图像文件
      * @param image　图片
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
-    Q_INVOKABLE void openImage(QImage image, const QByteArray &srcData);
+    Q_INVOKABLE bool openImage(QImage image, const QByteArray &srcData);
 
 signals:
     /**

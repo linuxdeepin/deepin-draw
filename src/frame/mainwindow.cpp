@@ -724,7 +724,7 @@ void MainWindow::readSettings()
     }
 }
 
-void MainWindow::openFiles(QStringList filePaths)
+bool MainWindow::openFiles(QStringList filePaths)
 {
     for (int i = 0; i < filePaths.count(); i++) {
         QFile file(filePaths.at(i));
@@ -733,12 +733,17 @@ void MainWindow::openFiles(QStringList filePaths)
         }
     }
 
-    m_centralWidget->loadFilesByCreateTag(filePaths, true);
+    return m_centralWidget->loadFilesByCreateTag(filePaths, true);
 }
 
-void MainWindow::openImage(QImage image, const QByteArray &srcData)
+bool MainWindow::openImage(QImage image, const QByteArray &srcData)
 {
-    m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData);
+    if (QPixmap::fromImage(image).isNull()) {
+        return false;
+    } else {
+        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData);
+        return true;
+    }
 }
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)

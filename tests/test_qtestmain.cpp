@@ -16,12 +16,29 @@
 */
 #include <QtTest>
 #include <QCoreApplication>
+#include "application.h"
+#include "mainwindow.h"
 
 // add necessary includes here
 #include <QLineEdit>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+
+#define QMYTEST_MAIN(TestObject) \
+    QT_BEGIN_NAMESPACE \
+    QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
+    QT_END_NAMESPACE \
+    int main(int argc, char *argv[]) \
+    { \
+        Application app(argc, argv); \
+        app.setAttribute(Qt::AA_Use96Dpi, true); \
+        QTEST_DISABLE_KEYPAD_NAVIGATION \
+        QTEST_ADD_GPU_BLACKLIST_SUPPORT \
+        TestObject tc; \
+        QTEST_SET_MAIN_SOURCE_PATH \
+        return QTest::qExec(&tc, argc, argv); \
+    }
 
 class QTestMain : public QObject
 {
@@ -31,9 +48,13 @@ public:
     QTestMain();
     ~QTestMain();
 
+    static MainWindow *getMainwindow();
+
 private slots:
     void initTestCase();
     void cleanupTestCase();
+
+    void testGTest();
 
     void testQString_data();
     void testQString();
@@ -47,9 +68,7 @@ private slots:
 
 QTestMain::QTestMain()
 {
-    testing::InitGoogleTest();
-    int ret = RUN_ALL_TESTS();
-    Q_UNUSED(ret)
+
 }
 
 QTestMain::~QTestMain()
@@ -57,14 +76,26 @@ QTestMain::~QTestMain()
 
 }
 
+MainWindow *QTestMain::getMainwindow()
+{
+    static MainWindow *w = new MainWindow;
+    return w;
+}
+
 void QTestMain::initTestCase()
 {
-
 }
 
 void QTestMain::cleanupTestCase()
 {
 
+}
+
+void QTestMain::testGTest()
+{
+    testing::InitGoogleTest();
+    int ret = RUN_ALL_TESTS();
+    Q_UNUSED(ret)
 }
 
 void QTestMain::testQString_data()
@@ -84,6 +115,7 @@ void QTestMain::testQString()
     QBENCHMARK{
         Q_UNUSED(string.toUpper())
     }
+
 }
 
 void QTestMain::testFloat_data()
@@ -127,6 +159,6 @@ void QTestMain::testGui()
     QCOMPARE(lineEdit.text(), result);
 }
 
-QTEST_MAIN(QTestMain)
+QMYTEST_MAIN(QTestMain)
 
 #include "test_qtestmain.moc"
