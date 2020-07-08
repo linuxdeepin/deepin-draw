@@ -11,27 +11,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="312"/>
+        <location filename="../src/application.cpp" line="310"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="313"/>
+        <location filename="../src/application.cpp" line="311"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="317"/>
+        <location filename="../src/application.cpp" line="315"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="318"/>
+        <location filename="../src/application.cpp" line="316"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="326"/>
+        <location filename="../src/application.cpp" line="324"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -99,16 +99,17 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="60"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="70"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="78"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="91"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="541"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="503"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="568"/>
         <source>Import Picture</source>
         <translation>Import Picture</translation>
     </message>
@@ -451,32 +452,32 @@
         <translation>Text Align Center</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1544"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1537"/>
         <source>This file is read-only, please save with another name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1553"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1546"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1568"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1577"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1570"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1598"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1591"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1625"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1618"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,9 +486,9 @@
         <translation type="vanished">Unnamed.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1547"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1601"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1628"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1540"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1594"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1621"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -635,18 +636,18 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="138"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="142"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>You can import up to 30 pictures, please try again!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="139"/>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="291"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="143"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="319"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="288"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="316"/>
         <source>Damaged file, unable to open it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -881,22 +882,22 @@
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="118"/>
+        <location filename="../src/frame/mainwindow.cpp" line="113"/>
         <source>Is Close Draw?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="120"/>
+        <location filename="../src/frame/mainwindow.cpp" line="115"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="409"/>
+        <location filename="../src/frame/mainwindow.cpp" line="404"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="119"/>
+        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -1250,42 +1251,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="208"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="219"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="252"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="247"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>

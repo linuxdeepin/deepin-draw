@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ccentralwidget.h"
+
 #include "clefttoolbar.h"
 #include "cgraphicsview.h"
 #include "mainwindow.h"
+#include "application.h"
 
 #include "widgets/dialog/cexportimagedialog.h"
 #include "widgets/dialog/cprintmanager.h"
@@ -43,6 +45,7 @@
 
 #include <DMenu>
 #include <DGuiApplicationHelper>
+
 #include <QDebug>
 #include <QGraphicsItem>
 #include <QtConcurrent>
@@ -92,7 +95,7 @@ CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(
                                   Q_ARG(QString, CDrawParamSigleton::creatUUID()),
                                   Q_ARG(bool, true));
     } else {
-        QMetaObject::invokeMethod(this, "slotLoadDragOrPasteFile", Qt::QueuedConnection, Q_ARG(QStringList, filepaths));
+        QMetaObject::invokeMethod(this, "loadFilesByCreateTag", Qt::QueuedConnection, Q_ARG(QStringList, filepaths));
     }
 }
 
@@ -128,6 +131,11 @@ void CCentralwidget::switchTheme(int type)
     }
     systemTheme = type;
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->switchTheme(type);
+}
+
+int CCentralwidget::getSystemTheme() const
+{
+    return systemTheme;
 }
 
 void CCentralwidget::resetSceneBackgroundBrush()
@@ -198,6 +206,68 @@ void CCentralwidget::skipOpenedTab(QString filepath)
 {
     QString filename = filepath.split("/").last().trimmed().split(".").first();
     m_topMutipTabBarWidget->setCurrentTabBarWithName(filename);
+}
+
+bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
+{
+    Application *pApp = dynamic_cast<Application *>(qApp);
+
+    if (pApp != nullptr) {
+        imagePaths = pApp->getRightFiles(imagePaths);
+    } else {
+        return false;
+    }
+
+    if (imagePaths.isEmpty()) {
+        return false;
+    }
+
+    QString ddfPath = "";
+    QStringList picturePathList;
+    qDebug() << "imagePaths:" << imagePaths;
+    for (int i = 0; i < imagePaths.size(); i++) {
+        QFileInfo info(imagePaths[i]);
+        QString fileSuffix = info.suffix().toLower();
+        if (dApp->supDdfStuffix().contains(fileSuffix)) {
+            ddfPath = imagePaths[i].replace("file://", "");
+            if (!ddfPath.isEmpty()) {
+                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
+                if (isOpened) { // 跳转到已打开标签
+                    skipOpenedTab(ddfPath);
+                    continue;
+                }
+
+                // 创建一个新的窗口用于显示新的图像
+                slotLoadDragOrPasteFile(ddfPath);
+
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
+            }
+        } else if (dApp->supPictureSuffix().contains(fileSuffix)) {
+            //图片格式："*.png *.jpg *.bmp *.tif"
+            picturePathList.append(imagePaths[i].replace("file://", ""));
+        }
+    }
+
+    if (picturePathList.count() > 0) {
+
+        // 不进行判断当前标签页是否修改来新创建导入的图片标签，因为ddf可能有内容并不一定是空白的ddf
+        QString _filePathName = picturePathList.at(0).split('.').first();
+        _filePathName += ".ddf";
+        createNewScenseByscencePath(_filePathName);
+
+        slotPastePicture(picturePathList, isImageSize);
+    }
+
+    // 判断当前是否有view被创建
+    if (CManageViewSigleton::GetInstance()->isEmpty()) {
+        QMetaObject::invokeMethod(m_topMutipTabBarWidget,
+                                  "addTabBarItem",
+                                  Qt::QueuedConnection,
+                                  Q_ARG(QString, tr("Unnamed")),
+                                  Q_ARG(QString, CDrawParamSigleton::creatUUID()),
+                                  Q_ARG(bool, true));
+    }
+    return true;
 }
 
 CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString &uuid, bool isModified)
@@ -530,7 +600,7 @@ void CCentralwidget::openPicture(QString path)
 }
 
 //导入图片
-void CCentralwidget::slotPastePicture(QStringList picturePathList)
+void CCentralwidget::slotPastePicture(QStringList picturePathList, bool asFirstPictureSize)
 {
     if (picturePathList.isEmpty())
         return;
@@ -542,7 +612,7 @@ void CCentralwidget::slotPastePicture(QStringList picturePathList)
     }
 
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
-        m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this);
+        m_pictureTool->drawPicture(picturePathList, static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()), this, asFirstPictureSize);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     emit static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->signalChangeToSelect();
 }

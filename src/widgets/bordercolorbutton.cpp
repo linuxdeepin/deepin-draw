@@ -134,11 +134,21 @@ void BorderColorButton::setColor(QColor color)
     update();
 }
 
+QColor BorderColorButton::getColor() const
+{
+    return m_color;
+}
+
 void BorderColorButton::setColorIndex(int index)
 {
     m_isMultColorSame = true;
     m_color = colorIndexOf(index);
     update();
+}
+
+QColor BorderColorButton::getColorByIndex() const
+{
+    return m_color;
 }
 
 void BorderColorButton::resetChecked()
@@ -152,12 +162,22 @@ void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
     m_isMultColorSame = isMultColorSame;
 }
 
+bool BorderColorButton::getIsMultColorSame() const
+{
+    return m_isMultColorSame;
+}
+
 void BorderColorButton::setButtonText(QString text)
 {
     QFontMetrics fontMetrics(font());
     m_textWidth = fontMetrics.width(text);
     setFixedSize(35 + m_textWidth, 32);
     m_text = text;
+}
+
+QString BorderColorButton::getButtonText() const
+{
+    return m_text;
 }
 
 void BorderColorButton::enterEvent(QEvent *)
@@ -176,7 +196,7 @@ void BorderColorButton::leaveEvent(QEvent *)
     }
 }
 
-void BorderColorButton::mousePressEvent(QMouseEvent * )
+void BorderColorButton::mousePressEvent(QMouseEvent *)
 {
     m_isChecked = !m_isChecked;
     btnCheckStateChanged(m_isChecked);

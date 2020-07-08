@@ -32,12 +32,21 @@ public:
     ~BorderColorButton();
 
     void setColor(QColor color);
+    QColor getColor() const;
+
     void setColorIndex(int index);
+    QColor getColorByIndex() const;
+
     void updateCheckedStatus();
     void updateConfigColor();
     void resetChecked();
+
     void setIsMultColorSame(bool isMultColorSame);
+    bool getIsMultColorSame() const;
+
     void setButtonText(QString text);
+    QString getButtonText() const;
+
 signals:
     void btnCheckStateChanged(bool checked);
 
@@ -45,7 +54,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent * );
+    void mousePressEvent(QMouseEvent *);
     void paintLookStyle(QPainter *painter, bool isMult = false);
 
 private:

@@ -938,6 +938,25 @@ void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawSc
     }
 }
 
+void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event)
+{
+    IDrawTool::toolStart(event);
+
+    if (event->scene() != nullptr) {
+        QList<QGraphicsItem *> pItems = event->scene()->items(event->pos());
+    }
+}
+
+void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
+{
+    IDrawTool::toolUpdate(event);
+}
+
+void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event)
+{
+    IDrawTool::toolFinish(event);
+}
+
 QRectF CSelectTool::pointToRect(QPointF point1, QPointF point2)
 {
     QRectF rectangle;

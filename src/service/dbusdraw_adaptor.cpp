@@ -42,14 +42,17 @@ dbusdraw_adaptor::~dbusdraw_adaptor()
     // destructor
 }
 
-void dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
+bool dbusdraw_adaptor::openFiles(QList<QVariant> filePaths)
 {
     QStringList paths;
+    bool flag = false;
     for (QVariant path : filePaths) {
-        paths << path.toString().toLocal8Bit();
+        flag = openFile(path.toString().toLocal8Bit());
+        if (!flag) {
+            return flag;
+        }
     }
-    QMetaObject::invokeMethod(parent(), "openFiles",
-                              Q_ARG(QStringList, paths));
+    return flag;
 }
 
 void dbusdraw_adaptor::openImages(QList<QVariant> images)
@@ -70,9 +73,20 @@ void dbusdraw_adaptor::openImages(QList<QVariant> images)
 
 bool dbusdraw_adaptor::openFile(QString filePath)
 {
-    if (QFile::exists(filePath)) {
+    QString _filePath;
+    QFileInfo fInfo(filePath);
+    if (fInfo.exists() && fInfo.isFile()) {
+        _filePath = filePath;
+    } else {
+        QUrl url(filePath);
+        if (url.isLocalFile()) {
+            _filePath = url.toLocalFile();
+        }
+    }
+
+    if (!_filePath.isEmpty()) {
         QStringList paths;
-        paths.append(filePath);
+        paths.append(_filePath);
         QMetaObject::invokeMethod(parent(), "openFiles",
                                   Q_ARG(QStringList, paths));
         return true;

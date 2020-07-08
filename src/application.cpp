@@ -32,6 +32,8 @@
 
 #include <DLog>
 
+#include "config.h"
+
 Application::Application(int &argc, char **argv)
     : QtSingleApplication(argc, argv)
 {
@@ -67,12 +69,8 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
         return EXIT_SUCCESS;
     }
 
-    static const QDate buildDate = QLocale(QLocale::English)
-                                   .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
-    QString t_date = buildDate.toString("MMdd");
-
     // Version Time
-    this->setApplicationVersion(DApplication::buildVersion(t_date));
+    this->setApplicationVersion(VERSION);
 
     //主题设置
     glAppPath = QDir::homePath() + QDir::separator() + "." + qApp->applicationName();
@@ -250,7 +248,7 @@ void Application::onMessageRecived(const QString &message)
         QStringList files = message.split(_joinFlag);
 
         if (!files.isEmpty()) {
-            pWin->slotLoadDragOrPasteFile(files);
+            pWin->openFiles(files);
         }
     }
 }

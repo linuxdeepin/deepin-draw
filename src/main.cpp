@@ -93,10 +93,15 @@ QStringList getFilesFromQCommandLineParser(const QCommandLineParser &parser)
     QStringList files;
     QStringList pas = parser.positionalArguments();
     for (int  i = 0; i < pas.count(); i++) {
-        if (QUrl(pas.at(i)).isLocalFile()) {
-            files.append(QUrl(pas.at(i)).toLocalFile());
+        QString file = pas.at(i);
+        QFileInfo fInfo(file);
+        if (fInfo.exists() && fInfo.isFile()) {
+            files.append(file);
         } else {
-            //files.append(pas.at(i));
+            QUrl url(file);
+            if (url.isLocalFile()) {
+                files.append(url.toLocalFile());
+            }
         }
     }
     return files;

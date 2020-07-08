@@ -67,6 +67,11 @@ public:
      * @param scene 场景句柄
      */
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
+
+    virtual void toolStart(CDrawToolEvent *event) override;
+    virtual void toolUpdate(CDrawToolEvent *event) override;
+    virtual void toolFinish(CDrawToolEvent *event) override;
+
 private:
     /**
      * @brief pintToRect　任意两点确定一个矩形

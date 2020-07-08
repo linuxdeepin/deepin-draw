@@ -75,7 +75,6 @@ void CLeftToolBar::enterEvent(QEvent *event)
     DWidget::enterEvent(event);
 }
 
-
 void CLeftToolBar::initUI()
 {
     //设置颜色

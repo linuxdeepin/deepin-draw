@@ -68,6 +68,8 @@ public:
      */
     virtual void toolFinish(CDrawToolEvent *event)Q_DECL_OVERRIDE;
 
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+
 private:
     CGraphicsPenItem *m_pPenItem;
 };

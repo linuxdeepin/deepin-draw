@@ -61,6 +61,11 @@ void CClickButton::setDisable(bool isDisable)
     setEnabled(!isDisable);
 }
 
+CClickButton::EClickBtnSatus CClickButton::getCurrentStatus() const
+{
+    return m_currentStatus;
+}
+
 
 //void CClickButton::paintEvent(QPaintEvent *e)
 //{
@@ -129,4 +134,9 @@ void CClickButton::setCurrentTheme(int currentTheme)
 {
     m_currentTheme = currentTheme;
     updateImage();
+}
+
+int CClickButton::getCurrentTheme() const
+{
+    return m_currentTheme;
 }

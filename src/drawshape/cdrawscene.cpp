@@ -292,14 +292,14 @@ bool CDrawScene::event(QEvent *event)
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-        if (currentMode != pen) {
-            return QGraphicsScene::event(event);
-        }
+        //        if (currentMode != pen) {
+        //            return QGraphicsScene::event(event);
+        //        }
 
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
         if (nullptr != pTool) {
             if (evType != QEvent::TouchUpdate)
-                pTool->toolClear();
+                pTool->clearITE();
         } else {
             return QGraphicsScene::event(event);
         }
