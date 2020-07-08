@@ -72,6 +72,7 @@ public:
      * @param type
      */
     void switchTheme(int type);
+    int getSystemTheme()const;
     /**
      * @brief initSceneRect　初始化场景矩形
      */

@@ -746,6 +746,16 @@ bool MainWindow::openImage(QImage image, const QByteArray &srcData)
     }
 }
 
+CCentralwidget *MainWindow::getCCentralwidget() const
+{
+    return m_centralWidget;
+}
+
+TopToolbar *MainWindow::getTopToolbar() const
+{
+    return m_topToolbar;
+}
+
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
 {
     CManageViewSigleton::GetInstance()->setThemeType(type);

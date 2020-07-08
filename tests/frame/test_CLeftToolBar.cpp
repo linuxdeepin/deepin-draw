@@ -16,22 +16,30 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include "clefttoolbar.h"
 #include "ccentralwidget.h"
 #include "mainwindow.h"
+#include "global.h"
 
-TEST(CCentralwidget, CCentralwidget_switchTheme)
+TEST(CLeftToolBar, CLeftToolBar_switchTheme)
 {
     MainWindow *w = new MainWindow;
     w->hide();
 
-    CCentralwidget *c = w->getCCentralwidget();
+    CLeftToolBar *c = w->getCCentralwidget()->getLeftToolBar();
 
-    int theme = 1;
-    c->switchTheme(theme);
-    ASSERT_EQ(theme, c->getSystemTheme());
-
-    theme = 2;
-    c->switchTheme(theme);
-    ASSERT_EQ(theme, c->getSystemTheme());
+    c->setCurrentDrawTool(EDrawToolMode::noselected);
+    c->setCurrentDrawTool(EDrawToolMode::selection);
+    c->setCurrentDrawTool(EDrawToolMode::importPicture);
+    c->setCurrentDrawTool(EDrawToolMode::rectangle);
+    c->setCurrentDrawTool(EDrawToolMode::ellipse);
+    c->setCurrentDrawTool(EDrawToolMode::triangle);
+    c->setCurrentDrawTool(EDrawToolMode::polygonalStar);
+    c->setCurrentDrawTool(EDrawToolMode::polygon);
+    c->setCurrentDrawTool(EDrawToolMode::line);
+    c->setCurrentDrawTool(EDrawToolMode::pen);
+    c->setCurrentDrawTool(EDrawToolMode::text);
+    c->setCurrentDrawTool(EDrawToolMode::blur);
+    c->setCurrentDrawTool(EDrawToolMode::cut);
 }
 

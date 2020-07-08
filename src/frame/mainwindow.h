@@ -77,6 +77,16 @@ public:
      */
     Q_INVOKABLE bool openImage(QImage image, const QByteArray &srcData);
 
+    /**
+     * @brief getCCentralwidget 获取CCentralwidget指针用于单列测试
+     */
+    CCentralwidget *getCCentralwidget() const;
+
+    /**
+     * @brief getTopToolbar　获取TopToolbar指针用于单列测试
+     */
+    TopToolbar *getTopToolbar() const;
+
 signals:
     /**
      * @brief signalResetOriginPoint 重置原始点信号

@@ -133,6 +133,11 @@ void CCentralwidget::switchTheme(int type)
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->switchTheme(type);
 }
 
+int CCentralwidget::getSystemTheme() const
+{
+    return systemTheme;
+}
+
 void CCentralwidget::resetSceneBackgroundBrush()
 {
     int themeType = CManageViewSigleton::GetInstance()->getThemeType();

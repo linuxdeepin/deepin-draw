@@ -18,22 +18,20 @@
 #include <gmock/gmock-matchers.h>
 #include "application.h"
 #include "mainwindow.h"
-#include <QDebug>
 
-TEST(MainWindow, MainWindow_openFiles_true)
+TEST(MainWindow, MainWindow_openFiles)
 {
     MainWindow *w = new MainWindow;
     w->hide();
     QStringList filePaths;
+
+    // test case true
     filePaths.append(":/test.png");
     ASSERT_EQ(true, w->openFiles(filePaths));
-}
 
-TEST(MainWindow, MainWindow_openFiles_false)
-{
-    MainWindow *w = new MainWindow;
-    w->hide();
-    QStringList filePaths;
+    // test case false
+    filePaths.clear();
     filePaths.append("asdasdajihhasidhaida");
     ASSERT_EQ(false, w->openFiles(filePaths));
 }
+
