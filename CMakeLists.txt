@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-option(DOTEST "option for test" ON)
+option(DOTEST "option for test" OFF)
 
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
