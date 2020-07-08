@@ -108,6 +108,7 @@ FILE (GLOB allTestSource
     "./tests/service/*.cpp" "./tests/service/*.c"
     "./tests/widgets/*.cpp" "./tests/widgets/*.c"
     "./tests/frame/*.cpp" "./tests/frame/*.c"
+    "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"
     )
 
 # 定义测试资源文件
