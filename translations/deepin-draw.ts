@@ -4,27 +4,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="312"/>
+        <location filename="../src/application.cpp" line="310"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="313"/>
+        <location filename="../src/application.cpp" line="311"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="317"/>
+        <location filename="../src/application.cpp" line="315"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="318"/>
+        <location filename="../src/application.cpp" line="316"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="326"/>
+        <location filename="../src/application.cpp" line="324"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -96,13 +96,13 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="260"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="605"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="261"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="606"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="567"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="568"/>
         <source>Import Picture</source>
         <translation type="unfinished"></translation>
     </message>
