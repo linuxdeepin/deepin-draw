@@ -45,6 +45,7 @@
 #include "service/cmanagerattributeservice.h"
 #include "drawshape/cdrawtoolmanagersigleton.h"
 #include "application.h"
+#include "cundoredocommand.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -228,12 +229,11 @@ void CGraphicsView::initContextMenu()
     m_deleteAct->setShortcut(QKeySequence::Delete);
     this->addAction(m_deleteAct);
 
-    //m_undoAct = m_contextMenu->addAction(tr("Undo"));
-    m_undoAct = m_pUndoStack->createUndoAction(this, tr("Undo"));
+    m_undoAct = /*m_pUndoStack->createUndoAction*/ CUndoRedoCommand::getUndoRedoStack()->createUndoAction(this, tr("Undo"));
     m_contextMenu->addAction(m_undoAct);
     m_undoAct->setShortcut(QKeySequence::Undo);
     this->addAction(m_undoAct);
-    m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
+    m_redoAct = /*m_pUndoStack->createRedoAction*/ CUndoRedoCommand::getUndoRedoStack()->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
     m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
     this->addAction(m_redoAct);

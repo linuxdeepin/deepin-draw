@@ -165,10 +165,12 @@ public:
 
     CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted = false);
 
-    //penalgor表示Penetration algorithm，穿透算法，需要考虑穿透算法过滤
-    //isBzItem表示必须返回的顶层图元需要是业务图元。
-    //seeNodeAsBzItem 将业务图元的子图元node也当做是业务图元的一部分，如果为true将返回其父业务图元
-    //filterMrAndHightLight 过滤掉不参与考虑的图元
+    /*
+     *  penalgor表示Penetration algorithm，穿透算法，需要考虑穿透算法过滤
+        isBzItem表示必须返回的顶层图元需要是业务图元。
+        seeNodeAsBzItem 将业务图元的子图元node也当做是业务图元的一部分，如果为true将返回其父业务图元
+        filterMrAndHightLight 过滤掉不参与考虑的图元
+    */
     QGraphicsItem *firstItem(const QPointF &pos,
                              const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>(),
                              bool isListDesSorted = true,

@@ -38,6 +38,7 @@
 #include "frame/cgraphicsview.h"
 #include "frame/cundocommands.h"
 #include "application.h"
+#include "frame/cundoredocommand.h"
 
 #include "service/cmanagerattributeservice.h"
 
@@ -1052,6 +1053,46 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 
 void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
+    switch (pInfo->_opeTpUpdate) {
+    case ERectSelect: {
+        break;
+    }
+    case EDragMove: {
+        //记录还原点，之后入栈
+        for (int i = 0; i < pInfo->etcItems.size(); ++i) {
+            QGraphicsItem *pItem = pInfo->etcItems[i];
+
+            QList<QVariant> vars;
+            vars << reinterpret_cast<long long>(pItem);
+            vars << pItem->scenePos();
+
+            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EPosChanged, vars);
+        }
+        break;
+    }
+    case EResizeMove: {
+        break;
+    }
+    case ECopyMove: {
+        //记录撤销点
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(event->scene());
+        for (int i = 0; i < pInfo->etcItems.size(); ++i) {
+            QGraphicsItem *pItem = pInfo->etcItems[i];
+            vars << reinterpret_cast<long long>(pItem);
+        }
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::EItemAdded, vars);
+        break;
+    }
+    default:
+        break;
+    }
+
+    //入栈
+    CUndoRedoCommand::finishRecord();
+
     IDrawTool::toolFinish(event, pInfo);
 }
 
@@ -1065,13 +1106,37 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
             tpye = ERectSelect;
         } else {
             if (event->scene()->isBussizeItem(pStartPosTopQtItem)) {
-                tpye = EDragMove;
                 // 业务图元可执行移动可执行复制
                 if (event->keyboardModifiers() == Qt::AltModifier) {
                     //复制移动
                     tpye = ECopyMove;
                     pInfo->etcItems = copyItemsToScene(event->scene()->getBzItems(event->scene()->selectedItems()),
                                                        event->scene());
+
+                    //记录还原点，之后入栈
+                    QList<QVariant> vars;
+                    vars << reinterpret_cast<long long>(event->scene());
+                    for (int i = 0; i < pInfo->etcItems.size(); ++i) {
+                        QGraphicsItem *pItem = pInfo->etcItems[i];
+                        vars << reinterpret_cast<long long>(pItem);
+                    }
+                    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                        CSceneUndoRedoCommand::EItemAdded, vars, true, true);
+                } else {
+                    tpye = EDragMove;
+                    pInfo->etcItems = event->scene()->getBzItems(event->scene()->selectedItems());
+
+                    //记录还原点，之后入栈
+                    for (int i = 0; i < pInfo->etcItems.size(); ++i) {
+                        QGraphicsItem *pItem = pInfo->etcItems[i];
+
+                        QList<QVariant> vars;
+                        vars << reinterpret_cast<long long>(pItem);
+                        vars << pItem->scenePos();
+
+                        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                            CItemUndoRedoCommand::EPosChanged, vars, true, i == 0);
+                    }
                 }
             } else if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
                 tpye = EResizeMove;

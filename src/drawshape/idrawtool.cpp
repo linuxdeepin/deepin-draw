@@ -22,6 +22,8 @@
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "application.h"
+#include "frame/cundoredocommand.h"
+#include "cgraphicsitem.h"
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsSceneEvent>
@@ -139,6 +141,14 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
             event->scene()->clearSelection();
 
             toolCreatItemStart(event, &info);
+
+            QList<QVariant> vars;
+            vars << reinterpret_cast<long long>(event->scene());
+            vars << reinterpret_cast<long long>(info.businessItem);
+
+            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                CSceneUndoRedoCommand::EItemAdded, vars, true, true);
+
         } else {
             toolStart(event, &info);
         }
@@ -185,6 +195,15 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
 
             if (it.value().businessItem != nullptr) {
                 toolCreatItemFinish(event, &it.value());
+
+                QList<QVariant> vars;
+                vars << reinterpret_cast<long long>(event->scene());
+                vars << reinterpret_cast<long long>(it.value().businessItem);
+
+                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                    CSceneUndoRedoCommand::EItemAdded, vars);
+
+                CUndoRedoCommand::finishRecord();
             } else {
                 toolFinish(event, &it.value());
             }

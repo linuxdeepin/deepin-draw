@@ -765,7 +765,8 @@ QList<QGraphicsItem *> CDrawScene::returnSortZItems(const QList<QGraphicsItem *>
 
 CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor)
 {
-    return dynamic_cast<CGraphicsItem *>(firstItem(pos, QList<QGraphicsItem *>(), true, penalgor, true, true));
+    return dynamic_cast<CGraphicsItem *>(firstItem(pos, QList<QGraphicsItem *>(),
+                                                   true, penalgor, true, true));
 }
 
 CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
@@ -853,9 +854,7 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                     if (seeNodeAsBzItem) {
                         CSizeHandleRect *pHandelItem = dynamic_cast<CSizeHandleRect *>(pItem);
                         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pHandelItem->parentItem());
-                        if (!pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos))) {
-                            pResultItem = pBzItem;
-                        }
+                        pResultItem = pBzItem;
                     }
                 }
 
