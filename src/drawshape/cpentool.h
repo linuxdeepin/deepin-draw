@@ -64,8 +64,6 @@ protected:
 
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
 
-private:
-    CGraphicsPenItem *m_pPenItem;
 };
 
 #endif // CPENTOOL_H

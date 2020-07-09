@@ -82,6 +82,7 @@ void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if (!e.first().isAccepted()) {
         scene->mouseEvent(event);
     }
+    setViewToSelectionTool(scene->drawView());
 }
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
@@ -288,12 +289,14 @@ void IDrawTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
     Q_UNUSED(event)
 }
 
-void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) {
+void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+{
     //注意painter是在viewport的坐标系,绘制时需要转换
 
     Q_UNUSED(painter)
-        Q_UNUSED(rect)
-            Q_UNUSED(scene)}
+    Q_UNUSED(rect)
+    Q_UNUSED(scene)
+}
 
 EDrawToolMode IDrawTool::getDrawToolMode() const
 {

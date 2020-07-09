@@ -29,7 +29,6 @@
 
 CPenTool::CPenTool()
     : IDrawTool(pen)
-    , m_pPenItem(nullptr)
 {
 
 }
@@ -52,7 +51,6 @@ void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene
 void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     IDrawTool::mouseReleaseEvent(event, scene);
-    setViewToSelectionTool(scene->drawView());
 }
 
 void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -93,19 +91,23 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
 
 CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
 {
-    CGraphicsPenItem *pPenItem = new CGraphicsPenItem(event->pos());
-    pPenItem->setDrawFlag(true);
+    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+        CGraphicsPenItem *pPenItem = new CGraphicsPenItem(event->pos());
+        pPenItem->setDrawFlag(true);
 
-    CGraphicsView *pView = event->scene()->drawView();
-    QPen pen = pView->getDrawParam()->getPen();
-    pPenItem->setPen(pen);
-    pPenItem->setBrush(pView->getDrawParam()->getBrush());
-    pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
-    pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
-    pPenItem->setPixmap();
-    pPenItem->setZValue(event->scene()->getMaxZValue() + 1);
+        CGraphicsView *pView = event->scene()->drawView();
+        QPen pen = pView->getDrawParam()->getPen();
+        pPenItem->setPen(pen);
+        pPenItem->setBrush(pView->getDrawParam()->getBrush());
+        pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
+        pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
+        pPenItem->setPixmap();
+        pPenItem->setZValue(event->scene()->getMaxZValue() + 1);
 
-    event->scene()->addItem(pPenItem);
+        event->scene()->addItem(pPenItem);
 
-    return pPenItem;
+        return pPenItem;
+    }
+    return nullptr;
 }
