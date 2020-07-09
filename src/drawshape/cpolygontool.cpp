@@ -18,14 +18,10 @@
  */
 #include "cpolygontool.h"
 #include "cdrawscene.h"
-#include "cgraphicsellipseitem.h"
-#include "cdrawparamsigleton.h"
-#include "cdrawtoolmanagersigleton.h"
-#include "frame/cviewmanagement.h"
+#include "cgraphicspolygonitem.h"
+
 #include "frame/cgraphicsview.h"
 
-#include <QGraphicsSceneMouseEvent>
-#include <QGraphicsView>
 #include <QtMath>
 
 CPolygonTool::CPolygonTool()
@@ -39,125 +35,117 @@ CPolygonTool::~CPolygonTool()
 
 }
 
-void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CPolygonTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    if (event->button() == Qt::LeftButton) {
-        scene->clearSelection();
-        m_sPointPress = event->scenePos();
-        int num = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getSideNum();
-        m_pPolygonItem = new CGraphicsPolygonItem(num, m_sPointPress.x(), m_sPointPress.y(), 0, 0);
-        m_pPolygonItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
-        m_pPolygonItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
-        m_pPolygonItem->setZValue(scene->getMaxZValue() + 1);
-        scene->addItem(m_pPolygonItem);
+    if (pInfo != nullptr) {
+        CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
+        if (nullptr != pItem) {
+            QPointF pointMouse = event->pos();
+            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+            bool altKeyPress = event->keyboardModifiers() & Qt::AltModifier;
+            QRectF resultRect;
+            //按下SHIFT键
+            if (shiftKeyPress && !altKeyPress) {
+                QPointF resultPoint = pointMouse;
+                qreal w = resultPoint.x() - pInfo->_startPos.x();
+                qreal h = resultPoint.y() - pInfo->_startPos.y();
+                qreal abslength = abs(w) - abs(h);
+                if (abslength >= 0.1) {
+                    if (h >= 0) {
+                        resultPoint.setY(pInfo->_startPos.y() + abs(w));
+                    } else {
+                        resultPoint.setY(pInfo->_startPos.y() - abs(w));
+                    }
+                } else {
+                    if (w >= 0) {
+                        resultPoint.setX(pInfo->_startPos.x() + abs(h));
+                    } else {
+                        resultPoint.setX(pInfo->_startPos.x() - abs(h));
+                    }
+                }
+                QRectF rectF(pInfo->_startPos, resultPoint);
+                resultRect = rectF.normalized();
+            }
+            //按下ALT键
+            else if (!shiftKeyPress && altKeyPress) {
+                QPointF point1 = pointMouse;
+                QPointF centerPoint = pInfo->_startPos;
+                QPointF point2 = 2 * centerPoint - point1;
+                QRectF rectF(point1, point2);
+                resultRect = rectF.normalized();
+            }
+            //ALT SHIFT都按下
+            else if (shiftKeyPress && altKeyPress) {
+                QPointF resultPoint = pointMouse;
+                qreal w = resultPoint.x() - pInfo->_startPos.x();
+                qreal h = resultPoint.y() - pInfo->_startPos.y();
+                qreal abslength = abs(w) - abs(h);
+                if (abslength >= 0.1) {
+                    if (h >= 0) {
+                        resultPoint.setY(pInfo->_startPos.y() + abs(w));
+                    } else {
+                        resultPoint.setY(pInfo->_startPos.y() - abs(w));
+                    }
+                } else {
+                    if (w >= 0) {
+                        resultPoint.setX(pInfo->_startPos.x() + abs(h));
+                    } else {
+                        resultPoint.setX(pInfo->_startPos.x() - abs(h));
+                    }
+                }
 
-        m_bMousePress = true;
-    } /*else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    } */ else {
-        scene->mouseEvent(event);
+                QPointF point1 = resultPoint;
+                QPointF centerPoint = pInfo->_startPos;
+                QPointF point2 = 2 * centerPoint - point1;
+                QRectF rectF(point1, point2);
+                resultRect = rectF.normalized();
+            }
+            //都没按下
+            else {
+                QPointF resultPoint = pointMouse;
+                QRectF rectF(pInfo->_startPos, resultPoint);
+                resultRect = rectF.normalized();
+            }
+            pItem->setRect(resultRect);
+        }
     }
 }
 
-void CPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CPolygonTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    Q_UNUSED(scene)
-    if (m_bMousePress) {
-        QPointF pointMouse = event->scenePos();
-        QRectF resultRect;
-        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-        bool altKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getAltKeyStatus();
-        //按下SHIFT键
-        if (shiftKeyPress && !altKeyPress) {
-            QPointF resultPoint = pointMouse;
-            qreal w = resultPoint.x() - m_sPointPress.x();
-            qreal h = resultPoint.y() - m_sPointPress.y();
-            qreal abslength = abs(w) - abs(h);
-            if (abslength >= 0.1) {
-                if (h >= 0) {
-                    resultPoint.setY(m_sPointPress.y() + abs(w));
-                } else {
-                    resultPoint.setY(m_sPointPress.y() - abs(w));
-                }
-
+    if (pInfo != nullptr) {
+        CGraphicsPolygonItem *m_pItem = dynamic_cast<CGraphicsPolygonItem *>(pInfo->businessItem);
+        if (nullptr != m_pItem) {
+            if (!pInfo->hasMoved()) {
+                event->scene()->removeItem(m_pItem);
+                delete m_pItem;
             } else {
-                if (w >= 0) {
-                    resultPoint.setX(m_sPointPress.x() + abs(h));
-                } else {
-                    resultPoint.setX(m_sPointPress.x() - abs(h));
+                if (m_pItem->scene() == nullptr) {
+                    emit event->scene()->itemAdded(m_pItem);
                 }
-            }
-            QRectF rectF(m_sPointPress, resultPoint);
-            resultRect = rectF.normalized();
-
-        }
-        //按下ALT键
-        else if (!shiftKeyPress && altKeyPress) {
-
-            QPointF point1 = pointMouse;
-            QPointF centerPoint = m_sPointPress;
-            QPointF point2 = 2 * centerPoint - point1;
-            QRectF rectF(point1, point2);
-            resultRect = rectF.normalized();
-        }
-        //ALT SHIFT都按下
-        else if (shiftKeyPress && altKeyPress) {
-            QPointF resultPoint = pointMouse;
-            qreal w = resultPoint.x() - m_sPointPress.x();
-            qreal h = resultPoint.y() - m_sPointPress.y();
-            qreal abslength = abs(w) - abs(h);
-            if (abslength >= 0.1) {
-                if (h >= 0) {
-                    resultPoint.setY(m_sPointPress.y() + abs(w));
-                } else {
-                    resultPoint.setY(m_sPointPress.y() - abs(w));
-                }
-
-            } else {
-                if (w >= 0) {
-                    resultPoint.setX(m_sPointPress.x() + abs(h));
-                } else {
-                    resultPoint.setX(m_sPointPress.x() - abs(h));
-                }
-            }
-
-            QPointF point1 = resultPoint;
-            QPointF centerPoint = m_sPointPress;
-            QPointF point2 = 2 * centerPoint - point1;
-            QRectF rectF(point1, point2);
-            resultRect = rectF.normalized();
-
-        }
-        //都没按下
-        else {
-            QPointF resultPoint = pointMouse;
-            QRectF rectF(m_sPointPress, resultPoint);
-            resultRect = rectF.normalized();
-        }
-        m_pPolygonItem->setRect(resultRect);
-    }
-}
-
-void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    if (event->button() == Qt::LeftButton) {
-        m_sPointRelease = event->scenePos();
-        //如果鼠标没有移动
-        if ( m_pPolygonItem != nullptr) {
-            if ( event->scenePos() == m_sPointPress ) {
-                scene->removeItem(m_pPolygonItem);
-                delete m_pPolygonItem;
-            } else {
-                emit scene->itemAdded(m_pPolygonItem);
-                m_pPolygonItem->setSelected(true);
+                m_pItem->setSelected(true);
             }
         }
-        m_pPolygonItem = nullptr;
-        m_bMousePress = false;
     }
 
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    emit scene->signalChangeToSelect();
-    //TODO 如果没有拖动的功能   是否删除矩形
+    IDrawTool::toolCreatItemFinish(event, pInfo);
 }
+
+CGraphicsItem *CPolygonTool::creatItem(IDrawTool::CDrawToolEvent *event)
+{
+    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        int num = event->scene()->drawView()->getDrawParam()->getSideNum();
+        CGraphicsPolygonItem *m_pItem =  new CGraphicsPolygonItem(num, event->pos().x(), event->pos().y(), 0, 0);
+        CGraphicsView *pView = event->scene()->drawView();
+        m_pItem->setPen(pView->getDrawParam()->getPen());
+        m_pItem->setBrush(pView->getDrawParam()->getBrush());
+        m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        event->scene()->addItem(m_pItem);
+        return m_pItem;
+    }
+    return nullptr;
+}
+
+
