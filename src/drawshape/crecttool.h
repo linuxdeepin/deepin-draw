@@ -20,7 +20,7 @@
 #define CRECTTOOL_H
 
 #include "idrawtool.h"
-#include "cgraphicsrectitem.h"
+
 class CRectTool : public IDrawTool
 {
 public:

@@ -20,8 +20,6 @@
 #define CTRIANGLETOOL_H
 #include "idrawtool.h"
 
-class CGraphicsTriangleItem;
-
 class CTriangleTool : public IDrawTool
 {
 public:

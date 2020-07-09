@@ -19,7 +19,6 @@
 #ifndef CPENTOOL_H
 #define CPENTOOL_H
 #include "idrawtool.h"
-#include "cgraphicspenitem.h"
 
 class CPenTool : public IDrawTool
 {
