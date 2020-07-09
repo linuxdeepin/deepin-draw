@@ -39,6 +39,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
+    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void updatePolygonalStar(int anchorNum, int innerRadius);

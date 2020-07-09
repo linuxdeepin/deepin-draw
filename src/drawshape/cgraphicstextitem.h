@@ -72,6 +72,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
+    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     CTextEdit *getTextEdit();

@@ -36,7 +36,7 @@ public:
      * @brief CGraphicsItem 构造函数
      * @param parent 父图元
      */
-    CGraphicsItem(QGraphicsItem *parent );
+    CGraphicsItem(QGraphicsItem *parent);
 
     /**
      * @brief CGraphicsItem 构造函数
@@ -63,14 +63,22 @@ public:
      * @param point 鼠标指针
      * @return
      */
-    virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const;
+    virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const;
+
+    virtual bool contains(const QPointF &point) const Q_DECL_OVERRIDE;
+
+    virtual QPainterPath inSideShape();
+    virtual QPainterPath outSideShape();
+
+    /* posLocal 是否可以穿透这个item的 */
+    virtual bool isPosPenetrable(const QPointF &posLocal);
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元
@@ -80,7 +88,7 @@ public:
      * @param bAltPress alt键是rectCffset否按下
      */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress ) = 0;
+                          bool bShiftPress, bool bAltPress) = 0;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -96,6 +104,10 @@ public:
                                QRectF pressRect, QRectF itemPressRect,
                                const qreal &xScale, const qreal &yScale,
                                bool bShiftPress, bool bAltPress);
+
+    CGraphicsItem *creatSameItem();
+
+    virtual CGraphicsItem *duplicateCreatItem();
 
     /**
      * @brief duplicate 复制this图元到item图元
@@ -134,7 +146,8 @@ public:
      * @param pen 画笔
      * @return  转换后的路径
      */
-    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen);
+    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen,
+                                                      bool replace = false);
 
     virtual QRectF rect() const = 0;
 

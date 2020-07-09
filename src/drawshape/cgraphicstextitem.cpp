@@ -337,6 +337,11 @@ void CGraphicsTextItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     m_pTextEdit->resizeDocument();
 }
 
+CGraphicsItem *CGraphicsTextItem::duplicateCreatItem()
+{
+    return new CGraphicsTextItem;
+}
+
 void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsTextItem *>(item)->setManResizeFlag(this->getManResizeFlag());

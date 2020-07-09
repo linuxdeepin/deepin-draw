@@ -28,28 +28,28 @@
 #include <QDebug>
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, CGraphicsItem *parent)
-    : CGraphicsRectItem (parent)
+    : CGraphicsRectItem(parent)
     , m_nPointsCount(count)
 {
 
 }
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem (rect, parent)
+    : CGraphicsRectItem(rect, parent)
     , m_nPointsCount(count)
 {
 
 }
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-    : CGraphicsRectItem (x, y, w, h, parent)
+    : CGraphicsRectItem(x, y, w, h, parent)
     , m_nPointsCount(count)
 {
 
 }
 
 CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+    : CGraphicsRectItem(data->rect, head, parent)
     , m_nPointsCount(data->pointNum)
 {
     calcPoints();
@@ -72,6 +72,11 @@ QRectF CGraphicsPolygonItem::boundingRect() const
 int CGraphicsPolygonItem::type() const
 {
     return PolygonType;
+}
+
+CGraphicsItem *CGraphicsPolygonItem::duplicateCreatItem()
+{
+    return new CGraphicsPolygonItem;
 }
 
 void CGraphicsPolygonItem::duplicate(CGraphicsItem *item)

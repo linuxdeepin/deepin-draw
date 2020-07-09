@@ -28,7 +28,7 @@
 #include <QGraphicsScene>
 #include <QVariant>
 
-QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen, bool replace)
 {
     // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
     // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
@@ -45,7 +45,10 @@ QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &pa
     ps.setJoinStyle(pen.joinStyle());
     ps.setMiterLimit(pen.miterLimit());
     QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
+
+    if (!replace)
+        p.addPath(path);
+
     return p;
 }
 
@@ -117,7 +120,7 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
 {
     const Handles::const_iterator hend =  m_handles.end();
     for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
-        if ((*it)->hitTest(point) ) {
+        if ((*it)->hitTest(point)) {
             return (*it)->dir();
         }
     }
@@ -128,6 +131,38 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     }
 
     return CSizeHandleRect::None;
+}
+
+bool CGraphicsItem::contains(const QPointF &point) const
+{
+    return QAbstractGraphicsShapeItem::contains(point);
+}
+
+QPainterPath CGraphicsItem::inSideShape()
+{
+    QPainterPath path;
+    path.addRect(rect());
+    path.closeSubpath();
+    return path;
+    //return qt_graphicsItem_shapeFromPath(path, pen());
+}
+
+QPainterPath CGraphicsItem::outSideShape()
+{
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
+}
+
+bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
+{
+    bool result = false;
+    bool brushIsTrans = !brush().isOpaque();
+    bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
+    if (inSideShape().contains(posLocal)) {
+        result = brushIsTrans;
+    } else {
+        result = penIsTrans;
+    }
+    return result;
 }
 
 void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
@@ -145,15 +180,26 @@ void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &
 void CGraphicsItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
                                   QRectF pressRect, QRectF itemPressRect,
                                   const qreal &xScale, const qreal &yScale,
-                                  bool bShiftPress, bool bAltPress)
-{
+                                  bool bShiftPress, bool bAltPress) {
     Q_UNUSED(dir)
-    Q_UNUSED(itemPressRect)
-    Q_UNUSED(pressRect)
-    Q_UNUSED(xScale)
-    Q_UNUSED(yScale)
-    Q_UNUSED(bShiftPress)
-    Q_UNUSED(bAltPress)
+        Q_UNUSED(itemPressRect)
+            Q_UNUSED(pressRect)
+                Q_UNUSED(xScale)
+                    Q_UNUSED(yScale)
+                        Q_UNUSED(bShiftPress)
+                            Q_UNUSED(bAltPress)}
+
+CGraphicsItem *CGraphicsItem::creatSameItem()
+{
+    CGraphicsItem *pItem = duplicateCreatItem();
+    if (pItem != nullptr)
+        duplicate(pItem);
+    return pItem;
+}
+
+CGraphicsItem *CGraphicsItem::duplicateCreatItem()
+{
+    return nullptr;
 }
 
 void CGraphicsItem::duplicate(CGraphicsItem *item)
@@ -206,7 +252,7 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
+    if (change == QGraphicsItem::ItemSelectedHasChanged) {
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
     }
 
@@ -243,8 +289,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         }
     }
 
-    if (QGraphicsItem::ItemSceneChange == change ) {
-
+    if (QGraphicsItem::ItemSceneChange == change) {
         if (this->type() >= RectType && this->type() < MgrType) {
             QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
             if (pScene == nullptr) {
@@ -253,7 +298,6 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
                 initHandle();
             }
         }
-
     }
 
     return value;

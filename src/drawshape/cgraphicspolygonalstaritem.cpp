@@ -24,9 +24,8 @@
 #include <QPainter>
 #include <QtMath>
 
-
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent)
-    : CGraphicsRectItem (parent)
+    : CGraphicsRectItem(parent)
     , m_anchorNum(anchorNum)
     , m_innerRadius(innerRadius)
 {
@@ -34,7 +33,7 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem (rect, parent)
+    : CGraphicsRectItem(rect, parent)
     , m_anchorNum(anchorNum)
     , m_innerRadius(innerRadius)
 {
@@ -42,7 +41,7 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-    : CGraphicsRectItem (x, y, w, h, parent)
+    : CGraphicsRectItem(x, y, w, h, parent)
     , m_anchorNum(anchorNum)
     , m_innerRadius(innerRadius)
 {
@@ -50,7 +49,7 @@ CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerR
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+    : CGraphicsRectItem(data->rect, head, parent)
     , m_anchorNum(data->anchorNum)
     , m_innerRadius(data->radius)
 {
@@ -81,6 +80,11 @@ void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const
 {
     CGraphicsRectItem::resizeTo(dir, point, bShiftPress, bAltPress);
     calcPolygon();
+}
+
+CGraphicsItem *CGraphicsPolygonalStarItem::duplicateCreatItem()
+{
+    return new CGraphicsPolygonalStarItem;
 }
 
 void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
@@ -314,7 +318,7 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
                 bool isInter = /*(i%2!=0)*/curLine.angleTo(nextLine) > 180;   //是否这个线条是和内圈点相关
                 qreal inc    = (isInter ? -1 : 1); //内圈点是相反的角度
 
-                qreal finalDegree   =  (180 - curLine.angleTo(nextLine)) * inc; //两条线相交的交角*/
+                qreal finalDegree = (180 - curLine.angleTo(nextLine)) * inc; //两条线相交的交角*/
 
                 qreal sinValue = qSin(qDegreesToRadians(finalDegree / 2.));
 

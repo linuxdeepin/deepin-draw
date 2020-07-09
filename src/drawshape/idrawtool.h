@@ -83,6 +83,10 @@ public:
     public:
         enum EPosType {EScenePos, EViewportPos, EGlobelPos, PosTypeCount};
 
+        enum EEventTp { EMouseEvent,
+                        ETouchEvent,
+                        EEventSimulated,
+                        EEventCount };
         CDrawToolEvent(const QPointF &vPos      = QPointF(),
                        const QPointF &scenePos  = QPointF(),
                        const QPointF &globelPos = QPointF(),
@@ -97,6 +101,7 @@ public:
         Qt::MouseButtons       mouseButtons();
         Qt::KeyboardModifiers  keyboardModifiers();
         int                    uuid();
+        EEventTp eventType();
         QEvent                *orgQtEvent();
         CDrawScene            *scene();
         CGraphicsView *view();
@@ -119,24 +124,40 @@ public:
     };
 
     /**
-     * @brief toolStart 工具执行的开始
+     * @brief toolDoStart 工具执行的开始
      * @param scene 场景
      */
-    virtual void toolStart(CDrawToolEvent *event);
+    void toolDoStart(CDrawToolEvent *event);
 
     /**
-     * @brief toolUpdate 工具执行的刷新
+     * @brief toolDoUpdate 工具执行的刷新
      * @param event 事件
      */
-    virtual void toolUpdate(CDrawToolEvent *event);
+    void toolDoUpdate(CDrawToolEvent *event);
 
     /**
-     * @brief toolFinish 工具执行的结束
+     * @brief toolDoFinish 工具执行的结束
      * @param event 事件
      */
-    virtual void toolFinish(CDrawToolEvent *event);
+    void toolDoFinish(CDrawToolEvent *event);
+
+protected:
+    struct ITERecordInfo;
+
+    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    virtual void toolCreatItemStart(CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
+    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo);
 
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event);
+    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event);
+
+public:
+    virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene);
 
     /**
      * @brief clearITE 清理ITE事件记录
@@ -182,7 +203,19 @@ protected:
         QPointF m_sPointRelease;
         CGraphicsItem *businessItem = nullptr;
         QList<QGraphicsItem *> startPosItems;
+        CGraphicsItem *startPosTopBzItem = nullptr;
+
+        bool _firstCallToolUpdate = true;
         bool _isvaild = false;
+        int _opeTpUpdate = -1;
+        int _etcopeTpUpdate = -1;
+        QList<QGraphicsItem *> etcItems;
+
+        CDrawScene *_scene = nullptr;
+
+        CDrawToolEvent _preEvent;
+        CDrawToolEvent _curEvent;
+
         bool isVaild()
         {
             return _isvaild;

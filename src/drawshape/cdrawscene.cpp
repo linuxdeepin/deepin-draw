@@ -292,10 +292,6 @@ bool CDrawScene::event(QEvent *event)
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
-        //        if (currentMode != pen) {
-        //            return QGraphicsScene::event(event);
-        //        }
-
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
         if (nullptr != pTool) {
             if (evType != QEvent::TouchUpdate)
@@ -310,15 +306,15 @@ bool CDrawScene::event(QEvent *event)
             case Qt::TouchPointPressed:
                 //表示触碰按下
                 QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
-                pTool->toolStart(&e);
+                pTool->toolDoStart(&e);
                 break;
             case Qt::TouchPointMoved:
                 //触碰移动
-                pTool->toolUpdate(&e);
+                pTool->toolDoUpdate(&e);
                 break;
             case Qt::TouchPointReleased:
                 //触碰离开
-                pTool->toolFinish(&e);
+                pTool->toolDoFinish(&e);
                 break;
             default:
                 break;
@@ -340,6 +336,18 @@ void CDrawScene::drawItems(QPainter *painter, int numItems, QGraphicsItem *items
     painter->setClipRect(sceneRect());
 
     QGraphicsScene::drawItems(painter, numItems, items, options, widget);
+}
+
+void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
+{
+    //绘制额外的前景显示，如框选等
+    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+    if (pTool != nullptr) {
+        pTool->drawMore(painter, rect, this);
+    }
 }
 
 void CDrawScene::keyReleaseEvent(QKeyEvent *event)
@@ -612,6 +620,324 @@ void CDrawScene::setModify(bool isModify)
 {
     //m_drawParam->setModify(isModify);
     emit signalIsModify(isModify);
+}
+
+bool CDrawScene::isBussizeItem(QGraphicsItem *pItem)
+{
+    if (pItem == nullptr)
+        return false;
+
+    return (pItem->type() >= RectType && pItem->type() <= BlurType);
+}
+
+bool CDrawScene::isBussizeHandleNodeItem(QGraphicsItem *pItem)
+{
+    if (pItem == nullptr)
+        return false;
+    //CSizeHandleRect的父类QGraphicsSvgItem的类型就是13
+    if (pItem->type() == QGraphicsSvgItem::Type) {
+        CSizeHandleRect *pHandleItem = dynamic_cast<CSizeHandleRect *>(pItem);
+        if (pHandleItem != nullptr) {
+            return true;
+        }
+    } /*else if (pFirstItem->type() == QGraphicsProxyWidget::Type)*/
+
+    return false;
+}
+
+bool CDrawScene::isBzAssicaitedItem(QGraphicsItem *pItem)
+{
+    return (isBussizeItem(pItem) || isBussizeHandleNodeItem(pItem));
+}
+
+CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
+{
+    if (pItem == nullptr)
+        return nullptr;
+
+    if (isBussizeItem(pItem)) {
+        return dynamic_cast<CGraphicsItem *>(pItem);
+    }
+
+    if (isBussizeHandleNodeItem(pItem)) {
+        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
+        return dynamic_cast<CGraphicsItem *>(pHandle->parentItem());
+    }
+    return nullptr;
+}
+
+void CDrawScene::clearMrSelection()
+{
+    clearSelection();
+    m_pGroupItem->clear();
+}
+
+void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem)
+{
+    if (onlyBzItem && isBussizeItem(pItem)) {
+        pItem->setSelected(true);
+        m_pGroupItem->addToGroup(dynamic_cast<CGraphicsItem *>(pItem));
+    } else {
+        pItem->setSelected(true);
+    }
+}
+
+void CDrawScene::notSelectItem(QGraphicsItem *pItem)
+{
+    pItem->setSelected(false);
+
+    if (isBussizeItem(pItem)) {
+        m_pGroupItem->removeFromGroup(dynamic_cast<CGraphicsItem *>(pItem));
+    }
+}
+
+void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBzItem)
+{
+    if (replace)
+        clearMrSelection();
+
+    QList<QGraphicsItem *> itemlists = this->items(rect);
+
+    for (QGraphicsItem *pItem : itemlists) {
+        if (onlyBzItem && isBussizeItem(pItem)) {
+            pItem->setSelected(true);
+            m_pGroupItem->addToGroup(dynamic_cast<CGraphicsItem *>(pItem));
+        } else {
+            pItem->setSelected(true);
+        }
+    }
+}
+
+void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)
+{
+    m_pGroupItem->move(prePos, curPos);
+}
+
+void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction, const QPointF &prePos, const QPointF &curPos, bool keepRadio)
+{
+    m_pGroupItem->resizeAll(direction, curPos,
+                            curPos - prePos,
+                            keepRadio, false);
+}
+
+QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items)
+{
+    QList<QGraphicsItem *> lists = items;
+    if (lists.isEmpty()) {
+        lists = this->items();
+    }
+
+    for (int i = 0; i < lists.count();) {
+        QGraphicsItem *pItem = lists[i];
+        if (!isBussizeItem(pItem)) {
+            lists.removeAt(i);
+            continue;
+        }
+        ++i;
+    }
+    return lists;
+}
+
+//降序排列用
+static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() >= info2->zValue();
+}
+//升序排列用
+static bool zValueSortASC(QGraphicsItem *info1, QGraphicsItem *info2)
+{
+    return info1->zValue() <= info2->zValue();
+}
+
+void CDrawScene::sortZ(QList<QGraphicsItem *> &list, CDrawScene::ESortItemTp tp)
+{
+    auto f = (tp == EAesSort ? zValueSortASC : zValueSortDES);
+
+    qSort(list.begin(), list.end(), f);
+}
+
+QList<QGraphicsItem *> CDrawScene::returnSortZItems(const QList<QGraphicsItem *> &list, CDrawScene::ESortItemTp tp)
+{
+    QList<QGraphicsItem *> sorts = list;
+    sortZ(sorts, tp);
+    return sorts;
+}
+
+CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor)
+{
+    return dynamic_cast<CGraphicsItem *>(firstItem(pos, QList<QGraphicsItem *>(), true, penalgor, true, true));
+}
+
+CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
+{
+    auto fFindBzItem = [=](const QList<QGraphicsItem *> &_list) {
+        CGraphicsItem *pResult = nullptr;
+        for (int i = 0; i < _list.count(); ++i) {
+            QGraphicsItem *it = _list[i];
+            if (isBussizeItem(it)) {
+                pResult = dynamic_cast<CGraphicsItem *>(it);
+                break;
+            }
+        }
+        return pResult;
+    };
+
+    if (!haveDesSorted) {
+        const QList<QGraphicsItem *> &list = returnSortZItems(items);
+        return fFindBzItem(list);
+    }
+    return fFindBzItem(items);
+}
+
+QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
+                                     const QList<QGraphicsItem *> &itemsCus,
+                                     bool isListDesSorted,
+                                     bool penalgor,
+                                     bool isBzItem,
+                                     bool seeNodeAsBzItem,
+                                     bool filterMrAndHightLight)
+{
+    QList<QGraphicsItem *> items = itemsCus.isEmpty() ? this->items(pos) : itemsCus;
+
+    //先去掉多选图元和高亮图元
+    if (filterMrAndHightLight) {
+        for (int i = 0; i < items.count();) {
+            QGraphicsItem *pItem = items[i];
+            if (pItem->type() == hightLightType || pItem->type() == MgrType) {
+                items.removeAt(i);
+                continue;
+            }
+            ++i;
+        }
+    }
+
+    //如果list没有排好序那么要进行先排序
+    if (!isListDesSorted) {
+        sortZ(items);
+    }
+
+    if (items.isEmpty())
+        return nullptr;
+
+    if (penalgor) {
+        QGraphicsItem *pResultItem = nullptr;
+        CGraphicsItem *pPreTransBzItem = nullptr;
+        for (int i = 0; i < items.count(); ++i) {
+            QGraphicsItem *pItem = items[i];
+            if (isBussizeItem(pItem)) {
+                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+                if (!pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos))) {
+                    //在该位置不透明,判定完成
+                    pResultItem = pBzItem;
+                    break;
+                } else {
+                    bool f = true;
+                    if (i == items.count() - 1) {
+                        if (pPreTransBzItem != nullptr) {
+                            if (pBzItem->mapToScene(pBzItem->shape()).contains(pPreTransBzItem->mapToScene(pPreTransBzItem->shape()))) {
+                                f = false;
+                            }
+                        }
+                    }
+                    if (f)
+                        pPreTransBzItem = pBzItem;
+                }
+            } else {
+                //非业务图元无认识不透明的 ，那么就证明找到了，判定完成
+                pResultItem = pItem;
+
+                //将非业务图元的节点图元看作业务图元时的情况
+                if (isBussizeHandleNodeItem(pItem)) {
+                    if (seeNodeAsBzItem) {
+                        CSizeHandleRect *pHandelItem = dynamic_cast<CSizeHandleRect *>(pItem);
+                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pHandelItem->parentItem());
+                        if (!pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos))) {
+                            pResultItem = pBzItem;
+                        }
+                    }
+                }
+
+                //必须返回业务图元的情况
+                if (isBzItem && !isBussizeItem(pResultItem)) {
+                    pResultItem = nullptr;
+                }
+
+                break;
+            }
+        }
+        if (pResultItem == nullptr && pPreTransBzItem != nullptr) {
+            pResultItem = pPreTransBzItem;
+        }
+        return pResultItem;
+    }
+    QGraphicsItem *pRetItem = nullptr;
+    if (isBzItem) {
+        for (auto item : items) {
+            if (isBussizeItem(item)) {
+                pRetItem = item;
+                break;
+            } else {
+                if (seeNodeAsBzItem && isBussizeHandleNodeItem(item)) {
+                    pRetItem = getAssociatedBzItem(item);
+                    break;
+                }
+            }
+        }
+    } else {
+        pRetItem = items.isEmpty() ? nullptr : items.first();
+    }
+    return pRetItem;
+}
+
+QGraphicsItem *CDrawScene::firstNotMrItem(const QList<QGraphicsItem *> items)
+{
+    for (auto it : items) {
+        if (it->type() == MgrType)
+            continue;
+        return it;
+    }
+    return nullptr;
+}
+
+void CDrawScene::moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF &move)
+{
+    for (QGraphicsItem *pItem : itemlist) {
+        pItem->moveBy(move.x(), move.y());
+    }
+}
+
+void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
+{
+    if (pBzItem == nullptr)
+        return;
+
+    QPointF center = pBzItem->rect().center();
+    pBzItem->setTransformOriginPoint(center);
+
+    if (angle > 360) {
+        angle -= 360;
+    }
+    if (pBzItem->type() != LineType) {
+        pBzItem->setRotation(angle);
+    } else {
+        QLineF line = static_cast<CGraphicsLineItem *>(pBzItem)->line();
+        QPointF vector = line.p2() - line.p1();
+        qreal oriangle = 0;
+        if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
+            if (line.p2().y() - line.p1().y() > 0.0001) {
+                oriangle = 90;
+            } else {
+                oriangle = -90;
+            }
+        } else {
+            oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
+        }
+        angle = angle - oriangle;
+        if (angle > 360) {
+            angle -= 360;
+        }
+        pBzItem->setRotation(angle);
+    }
 }
 
 void CDrawScene::setMaxZValue(qreal zValue)

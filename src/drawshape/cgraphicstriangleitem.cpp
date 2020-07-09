@@ -26,25 +26,25 @@
 #include <QtMath>
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(CGraphicsItem *parent)
-    : CGraphicsRectItem (parent)
+    : CGraphicsRectItem(parent)
 {
 
 }
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem (rect, parent)
+    : CGraphicsRectItem(rect, parent)
 {
 
 }
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-    : CGraphicsRectItem (x, y, w, h, parent)
+    : CGraphicsRectItem(x, y, w, h, parent)
 {
 
 }
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+    : CGraphicsRectItem(data->rect, head, parent)
 {
 
 }
@@ -91,6 +91,11 @@ int CGraphicsTriangleItem::type() const
 QRectF CGraphicsTriangleItem::boundingRect() const
 {
     return shape().controlPointRect();
+}
+
+CGraphicsItem *CGraphicsTriangleItem::duplicateCreatItem()
+{
+    return new CGraphicsTriangleItem;
 }
 
 void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)

@@ -37,7 +37,7 @@ public:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir,
                           const QPointF &point,
@@ -66,7 +66,7 @@ public:
      * @brief duplicate 拷贝自己
      * @return
      */
-    //CGraphicsItem *duplicate() const Q_DECL_OVERRIDE;
+    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;

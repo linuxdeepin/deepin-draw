@@ -23,25 +23,25 @@
 #include "frame/cgraphicsview.h"
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(CGraphicsItem *parent)
-    : CGraphicsRectItem (parent)
+    : CGraphicsRectItem(parent)
 {
 
 }
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem (rect, parent)
+    : CGraphicsRectItem(rect, parent)
 {
 
 }
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
-    : CGraphicsRectItem (x, y, w, h, parent)
+    : CGraphicsRectItem(x, y, w, h, parent)
 {
 
 }
 
 CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsRectItem (data->rect, head, parent)
+    : CGraphicsRectItem(data->rect, head, parent)
 {
 
 }
@@ -57,6 +57,11 @@ QPainterPath CGraphicsEllipseItem::shape() const
 int CGraphicsEllipseItem::type() const
 {
     return EllipseType;
+}
+
+CGraphicsItem *CGraphicsEllipseItem::duplicateCreatItem()
+{
+    return new CGraphicsEllipseItem;
 }
 
 void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)

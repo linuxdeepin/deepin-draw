@@ -55,34 +55,25 @@ void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
     setViewToSelectionTool(scene->drawView());
 }
 
-void CPenTool::toolStart(IDrawTool::CDrawToolEvent *event)
+void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    IDrawTool::toolStart(event);
-}
-
-void CPenTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
-{
-    ITERecordInfo *pRInfo = getEventIteInfo(event->uuid());
-
-    if (pRInfo != nullptr) {
-        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pRInfo->businessItem);
+    if (pInfo != nullptr) {
+        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
         if (nullptr != pPenIem) {
             QPointF pointMouse = event->pos();
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pPenIem->updatePenPath(pointMouse, shiftKeyPress);
+            event->setAccepted(true);
         }
     }
-    IDrawTool::toolUpdate(event);
 }
 
-void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
+void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    ITERecordInfo *pRInfo = getEventIteInfo(event->uuid());
-
-    if (pRInfo != nullptr) {
-        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pRInfo->businessItem);
+    if (pInfo != nullptr) {
+        CGraphicsPenItem *pPenIem = dynamic_cast<CGraphicsPenItem *>(pInfo->businessItem);
         if (nullptr != pPenIem) {
-            if (!pRInfo->hasMoved()) {
+            if (!pInfo->hasMoved()) {
                 event->scene()->removeItem(pPenIem);
                 delete pPenIem;
             } else {
@@ -97,7 +88,7 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
         }
     }
 
-    IDrawTool::toolFinish(event);
+    IDrawTool::toolCreatItemFinish(event, pInfo);
 }
 
 CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)

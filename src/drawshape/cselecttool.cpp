@@ -97,6 +97,8 @@ bool CSelectTool::isDragging()
 
 void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    return IDrawTool::mousePressEvent(event, scene);
+
     qDebug() << "mouse press" << endl;
     bool shiftKeyPress = scene->getDrawParam()->getShiftKeyStatus();
     bool altKeyPress = scene->getDrawParam()->getAltKeyStatus();
@@ -369,6 +371,8 @@ void CSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 
 void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    return IDrawTool::mouseMoveEvent(event, scene);
+
     //移动的时候选中多选以外的，加入多选
     if (scene->getItemsMgr()->getItems().size() > 1 && event->modifiers() & Qt::ShiftModifier) {
         CGraphicsItem *pRightItem = dynamic_cast<CGraphicsItem *>(m_currentSelectItem);
@@ -671,6 +675,11 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
 
 void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //    CDrawToolEvent::CDrawToolEvents events = CDrawToolEvent::fromQEvent(event, scene);
+    //    if (!events.isEmpty())
+    //        return toolDoFinish(&events.first());
+    return IDrawTool::mouseReleaseEvent(event, scene);
+
     //记录addOrRemoveToGroup多选图元数量
     int multCount = scene->getItemsMgr()->getItems().size();
     //复制添加动作入撤销返回栈
@@ -938,23 +947,235 @@ void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawSc
     }
 }
 
-void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event)
+void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    IDrawTool::toolStart(event);
+    _hightLight = QPainterPath();
 
-    if (event->scene() != nullptr) {
-        QList<QGraphicsItem *> pItems = event->scene()->items(event->pos());
+    QGraphicsItem *pStartPostTopBzItem = pInfo->startPosTopBzItem;
+    QGraphicsItem *pSelctFirBzItem = event->scene()->firstBzItem(event->scene()->selectedItems());
+
+    bool doSelect = false;
+    bool clearBeforeSelect = true;
+
+    //判断在函数返回前是否要执行选中操作
+    if (event->eventType() == CDrawToolEvent::EMouseEvent) {
+        if (event->mouseButtons() == Qt::LeftButton) {
+            doSelect = true;
+        }
+
+        bool notSameItem = (event->scene()->selectedItems().count() == 1 && pStartPostTopBzItem != pSelctFirBzItem);
+        //只有在没点住shift键和但前选中的个数为1并且不是但前鼠标下的item时才清除当前选中
+        clearBeforeSelect = (event->keyboardModifiers() != Qt::ShiftModifier) && notSameItem;
+
+    } else if (event->eventType() == CDrawToolEvent::ETouchEvent) {
+        doSelect = true;
+    }
+
+    if (clearBeforeSelect) {
+        event->scene()->clearMrSelection();
+    }
+
+    if (doSelect) {
+        if (pStartPostTopBzItem != nullptr) {
+            event->scene()->selectItem(pStartPostTopBzItem);
+            event->setAccepted(true);
+        } else {
+            //点击处是空白的那么清理所有选中
+
+            event->scene()->clearMrSelection();
+
+            event->setAccepted(true);
+        }
     }
 }
 
-void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event)
+void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    IDrawTool::toolUpdate(event);
+    event->setAccepted(false);
+
+    //根据要做的类型去执行相应的操作
+    switch (pInfo->_opeTpUpdate) {
+    case ERectSelect: {
+        QPointF pos0 = pInfo->_startPos;
+        QPointF pos1 = event->pos();
+
+        QPointF topLeft(qMin(pos0.x(), pos1.x()), qMin(pos0.y(), pos1.y()));
+        QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
+
+        event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
+
+        event->scene()->update();
+        break;
+    }
+    case EDragMove: {
+        //执行移动操作
+        QPointF move = event->pos() - pInfo->_prePos;
+        event->scene()->moveItems(event->scene()->selectedItems(), move);
+        event->scene()->update();
+        event->setAccepted(true);
+        break;
+    }
+    case EResizeMove: {
+        CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
+
+        if (dir != CSizeHandleRect::Rotation) {
+            event->scene()->resizeMrItem(dir, pInfo->_prePos, event->pos(),
+                                         event->keyboardModifiers() == Qt::ShiftModifier);
+        } else {
+            if (!pInfo->etcItems.isEmpty()) {
+                CGraphicsItem *pFatherBzItem = event->scene()->getAssociatedBzItem(pInfo->etcItems.first());
+                QPointF center = pFatherBzItem->rect().center();
+                QPointF mousePoint = event->pos();
+                QPointF centerToScence = pFatherBzItem->mapToScene(center);
+                qreal len_y = mousePoint.y() - centerToScence.y();
+                qreal len_x = mousePoint.x() - centerToScence.x();
+                qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
+                event->scene()->rotatBzItem(pFatherBzItem, angle);
+            }
+        }
+        break;
+    }
+    case ECopyMove: {
+        //复制移动
+        if (!pInfo->etcItems.isEmpty()) {
+            QPointF move = event->pos() - pInfo->_prePos;
+            event->scene()->moveItems(pInfo->etcItems, move);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    //IDrawTool::toolUpdate(event, pInfo);
 }
 
-void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event)
+void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
-    IDrawTool::toolFinish(event);
+    IDrawTool::toolFinish(event, pInfo);
+}
+
+int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    int tpye = ENothingDo;
+    if (m_bMousePress) {
+        QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
+                                                                      pInfo->startPosItems, true, true);
+        if (pStartPosTopQtItem == nullptr) {
+            tpye = ERectSelect;
+        } else {
+            if (event->scene()->isBussizeItem(pStartPosTopQtItem)) {
+                tpye = EDragMove;
+                // 业务图元可执行移动可执行复制
+                if (event->keyboardModifiers() == Qt::AltModifier) {
+                    //复制移动
+                    tpye = ECopyMove;
+                    pInfo->etcItems = copyItemsToScene(event->scene()->getBzItems(event->scene()->selectedItems()),
+                                                       event->scene());
+                }
+            } else if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
+                tpye = EResizeMove;
+                CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pStartPosTopQtItem);
+                pInfo->_etcopeTpUpdate = pHandle->dir();
+                pInfo->etcItems.clear();
+                if (pHandle->dir() == CSizeHandleRect::Rotation) {
+                    pInfo->etcItems.append(pStartPosTopQtItem);
+                } else {
+                    pInfo->etcItems.append(event->scene()->getItemsMgr());
+                }
+            }
+        }
+    }
+    return tpye;
+}
+
+void CSelectTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
+{
+    return;
+    _hightLight = QPainterPath();
+    QList<QGraphicsItem *> items = event->scene()->items(event->pos());
+    //处理高亮鼠标央视变化等问题
+    QGraphicsItem *pItem = event->scene()->firstItem(event->pos(), items, false, true, true, true);
+
+    if (event->scene()->isBussizeItem(pItem)) {
+        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+        _hightLight = pBzItem->mapToScene(pBzItem->getHighLightPath());
+    }
+    event->scene()->update();
+}
+
+void CSelectTool::drawMore(QPainter *painter,
+                           const QRectF &rect,
+                           CDrawScene *scene)
+{
+    //注意painter是在scene的坐标系
+
+    Q_UNUSED(rect)
+    painter->save();
+    for (auto it = _allITERecordInfo.begin();
+         it != _allITERecordInfo.end(); ++it) {
+        ITERecordInfo &info = it.value();
+        if (info._opeTpUpdate == ERectSelect) {
+            QPointF pos0 = info._startPos;
+            QPointF pos1 = info._curEvent.pos();
+
+            QPointF topLeft(qMin(pos0.x(), pos1.x()), qMin(pos0.y(), pos1.y()));
+            QPointF bomRight(qMax(pos0.x(), pos1.x()), qMax(pos0.y(), pos1.y()));
+
+            DPalette pa = scene->palette();
+            QPen pen;
+            pen.setWidthF(0.5);
+            QBrush selectBrush = pa.brush(QPalette::Active, DPalette::Highlight);
+            QColor selectColor = selectBrush.color();
+            selectColor.setAlpha(20);
+            selectBrush.setColor(selectColor);
+            selectColor.setAlpha(100);
+            pen.setColor(selectColor);
+
+            painter->setPen(pen);
+            painter->setBrush(selectBrush);
+            painter->drawRect(QRectF(topLeft, bomRight));
+        }
+    }
+
+    if (!_hightLight.isEmpty()) {
+        painter->setBrush(Qt::NoBrush);
+        QPen p(QColor(255, 0, 0));
+        p.setWidthF(2.0);
+        painter->setPen(p);
+        painter->drawPath(_hightLight);
+    }
+    painter->restore();
+}
+
+QList<QGraphicsItem *> CSelectTool::copyItemsToScene(const QList<QGraphicsItem *> &items,
+                                                     CDrawScene *scene)
+{
+    QList<QGraphicsItem *> zItems = scene->returnSortZItems(items);
+
+    qreal minZ = zItems.last()->zValue();
+    qreal maxZ = zItems.first()->zValue();
+
+    //新复制的业务图元基本z值应该是 被复制items里面的最大z值
+    qreal newMin = scene->getMaxZValue();
+
+    scene->blockUpdateBlurItem(true);
+    QList<QGraphicsItem *> createdItems;
+    for (int i = 0; i < zItems.count(); ++i) {
+        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(zItems[i]);
+        if (pBzItem != nullptr) {
+            CGraphicsItem *pOutItem = pBzItem->creatSameItem();
+            if (pOutItem != nullptr) {
+                pOutItem->setZValue(pOutItem->zValue() - minZ + newMin);
+                scene->addItem(pOutItem);
+                createdItems.append(pOutItem);
+            }
+        }
+    }
+    scene->setMaxZValue(newMin + maxZ - minZ);
+    scene->blockUpdateBlurItem(false);
+    scene->updateBlurItem();
+    return createdItems;
 }
 
 QRectF CSelectTool::pointToRect(QPointF point1, QPointF point2)

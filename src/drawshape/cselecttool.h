@@ -68,9 +68,23 @@ public:
      */
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
 
-    virtual void toolStart(CDrawToolEvent *event) override;
-    virtual void toolUpdate(CDrawToolEvent *event) override;
-    virtual void toolFinish(CDrawToolEvent *event) override;
+    enum EOperateType { ENothingDo = -1,
+                        ERectSelect,
+                        EDragMove,
+                        EResizeMove,
+                        ECopyMove,
+                        EOperateCount };
+
+    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+    virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
+
+    QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
+
+    QPainterPath _hightLight;
 
 private:
     /**
@@ -113,6 +127,8 @@ private:
     QRectF m_pressItemRect;       //鼠标在8个方向上单个图元的大小
 
     QPointF m_lineReShapeFirstPress; //记录直线点击起点
+
+    //    EOperateType _updateType = ENothingDo;
 };
 
 #endif // CSELECTTOOL_H

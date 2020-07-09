@@ -308,6 +308,11 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
     return unit;
 }
 
+CGraphicsItem *CGraphicsMasicoItem::duplicateCreatItem()
+{
+    return new CGraphicsMasicoItem;
+}
+
 void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsPenItem::duplicate(item);
@@ -325,8 +330,7 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
-            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType ) {
-
+            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType) {
                 if (item->type() == BlurType && item != this) {
                     retList.push_back(item);
                     continue;

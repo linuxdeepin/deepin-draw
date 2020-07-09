@@ -47,26 +47,20 @@ public:
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)Q_DECL_OVERRIDE;
 
-    /**
-     * @brief toolStart 工具执行的开始
-     * @param event 事件
-     * @param scene 场景
-     */
-    virtual void toolStart(CDrawToolEvent *event)Q_DECL_OVERRIDE;
-
+protected:
     /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件
      * @param scene 场景
      */
-    virtual void toolUpdate(CDrawToolEvent *event)Q_DECL_OVERRIDE;
+    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
 
     /**
      * @brief toolFinish 工具执行的结束
      * @param event 事件
      * @param scene 场景
      */
-    virtual void toolFinish(CDrawToolEvent *event)Q_DECL_OVERRIDE;
+    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
 
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
 

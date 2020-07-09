@@ -66,7 +66,7 @@ CGraphicsLineItem::CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGr
 }
 
 CGraphicsLineItem::CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
-    : CGraphicsItem (head, parent)
+    : CGraphicsItem(head, parent)
 {
     setLine(data->point1, data->point2, true);
     m_startType = static_cast<ELineType>(data->start_type);
@@ -357,7 +357,7 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
         default:
             break;
         }
-    } else if ((bShiftPress && !bAltPress) ) {
+    } else if ((bShiftPress && !bAltPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
@@ -411,7 +411,7 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
         default:
             break;
         }
-    } else if ((!bShiftPress && bAltPress) ) {
+    } else if ((!bShiftPress && bAltPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
@@ -427,15 +427,15 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             break;
         case CSizeHandleRect::Right:
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             break;
         case CSizeHandleRect::RightBottom:
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             break;
@@ -457,7 +457,7 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
         default:
             break;
         }
-    } else if ((bShiftPress && bAltPress) ) {
+    } else if ((bShiftPress && bAltPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
@@ -475,17 +475,17 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             break;
         case CSizeHandleRect::Right:
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             break;
         case CSizeHandleRect::RightBottom:
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             break;
@@ -493,7 +493,7 @@ void CGraphicsLineItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pr
             rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
             rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
             rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
-            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
             break;
         case CSizeHandleRect::LeftBottom:
             rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
@@ -559,6 +559,11 @@ void CGraphicsLineItem::setLine(const QPointF &p1, const QPointF &p2, bool init)
 void CGraphicsLineItem::setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool init)
 {
     setLine(QLineF(x1, y1, x2, y2), init);
+}
+
+CGraphicsItem *CGraphicsLineItem::duplicateCreatItem()
+{
+    return new CGraphicsLineItem;
 }
 
 void CGraphicsLineItem::duplicate(CGraphicsItem *item)
