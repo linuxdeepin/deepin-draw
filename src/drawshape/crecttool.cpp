@@ -19,15 +19,9 @@
 #include "crecttool.h"
 #include "cdrawscene.h"
 #include "cgraphicsrectitem.h"
-#include "cdrawparamsigleton.h"
-#include "cdrawtoolmanagersigleton.h"
-#include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
-#include <QGraphicsSceneMouseEvent>
-#include <QGraphicsView>
 #include <QtMath>
-#include <QGraphicsBlurEffect>
 
 CRectTool::CRectTool()
     : IDrawTool(rectangle)

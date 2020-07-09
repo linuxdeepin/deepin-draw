@@ -19,13 +19,8 @@
 #include "ctriangletool.h"
 #include "cdrawscene.h"
 #include "cgraphicstriangleitem.h"
-#include "cdrawparamsigleton.h"
-#include "cdrawtoolmanagersigleton.h"
-#include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
-#include <QGraphicsSceneMouseEvent>
-#include <QGraphicsView>
 #include <QtMath>
 
 CTriangleTool::CTriangleTool()

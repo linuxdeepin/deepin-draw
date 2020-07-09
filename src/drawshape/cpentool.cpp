@@ -20,12 +20,7 @@
 #include "cpentool.h"
 #include "cdrawscene.h"
 #include "cgraphicspenitem.h"
-#include "cdrawparamsigleton.h"
-#include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
 
 CPenTool::CPenTool()
     : IDrawTool(pen)
@@ -36,21 +31,6 @@ CPenTool::CPenTool()
 CPenTool::~CPenTool()
 {
 
-}
-
-void CPenTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    IDrawTool::mousePressEvent(event, scene);
-}
-
-void CPenTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    IDrawTool::mouseMoveEvent(event, scene);
-}
-
-void CPenTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    IDrawTool::mouseReleaseEvent(event, scene);
 }
 
 void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
