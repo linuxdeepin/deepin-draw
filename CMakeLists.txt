@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-option(DOTEST "option for test" ON)
+option(DOTEST "option for test" OFF)
 
 # 添加gocv覆盖率文件的输出
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
@@ -108,6 +108,7 @@ FILE (GLOB allTestSource
     "./tests/service/*.cpp" "./tests/service/*.c"
     "./tests/widgets/*.cpp" "./tests/widgets/*.c"
     "./tests/frame/*.cpp" "./tests/frame/*.c"
+    "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"
     )
 
 # 定义测试资源文件
