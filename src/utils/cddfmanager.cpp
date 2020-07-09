@@ -55,7 +55,7 @@ CDDFManager::CDDFManager(CGraphicsView *view)
     //connect(this, SIGNAL(signalUpdateProcessBar(int)), m_CProgressDialog, SLOT(slotupDateProcessBar(int)));
     connect(this, SIGNAL(signalUpdateProcessBar(int, bool)), this, SLOT(slotProcessSchedule(int, bool)));
     connect(this, SIGNAL(signalSaveDDFComplete()), this, SLOT(slotSaveDDFComplete()));
-    connect(this, SIGNAL(signalLoadDDFComplete(const QString &, bool )), this, SLOT(slotLoadDDFComplete(const QString &, bool)));
+    connect(this, SIGNAL(signalLoadDDFComplete(const QString &, bool)), this, SLOT(slotLoadDDFComplete(const QString &, bool)));
 }
 
 
@@ -247,7 +247,7 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
+//                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
@@ -340,11 +340,9 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
                 ///进度条处理
                 count ++;
-                qDebug() << "countcountcountcountcount ========== " << count;
+//                qDebug() << "countcountcountcountcount ========== " << count;
                 process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
                 emit signalUpdateProcessBar(process, false);
-
-
             }
             in >> m_graphics.version;
             qDebug() << "loadDDF m_graphics.version = " << m_graphics.version << endl;

@@ -590,9 +590,6 @@ void CGraphicsView::initConnection()
         for (QGraphicsItem *item : m_loadFromDDF) {
             item->setZValue(tempZ + 1);
             tempZ++;
-            //            if (item->type() == BlurType) {
-            //                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-            //            }
         }
         this->drawScene()->blockUpdateBlurItem(false);
 
@@ -600,7 +597,6 @@ void CGraphicsView::initConnection()
 
         m_loadFromDDF.clear();
         curScene->setMaxZValue(tempZ);
-        qDebug() << "all item added";
 
         emit singalTransmitEndLoadDDF();
     });
@@ -862,7 +858,6 @@ void CGraphicsView::itemAdded(QGraphicsItem *item, bool pushToStack)
     addItems.append(item);
     item->setZValue(curScene->getMaxZValue() + 1);
     curScene->setMaxZValue(curScene->getMaxZValue() + 1);
-    qDebug() << "CGraphicsView::itemAdded";
     if (pushToStack) {
         QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
         this->pushUndoStack(addCommand);
@@ -1596,10 +1591,10 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
                 int result = dia.exec();
 
                 if (OK == result) {
-                    QMetaObject::invokeMethod(this, [=]() {
+                    QMetaObject::invokeMethod(this, [ = ]() {
                         showSaveDDFDialog(type, finishClose, saveFilePath);
                     },
-                                              Qt::QueuedConnection);
+                    Qt::QueuedConnection);
                 }
                 return;
             }

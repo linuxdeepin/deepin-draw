@@ -181,13 +181,13 @@
         <translation>正在保存...</translation>
     </message>
     <message>
-        <location filename="../src/utils/cddfmanager.cpp" line="387"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="385"/>
         <source>Unable to open the broken file &quot;%1&quot;.</source>
         <translation>“%1”文件已被破坏，无法打开。</translation>
     </message>
     <message>
         <location filename="../src/utils/cddfmanager.cpp" line="108"/>
-        <location filename="../src/utils/cddfmanager.cpp" line="389"/>
+        <location filename="../src/utils/cddfmanager.cpp" line="387"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -460,32 +460,32 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1537"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1533"/>
         <source>This file is read-only, please save with another name.</source>
         <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1546"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1542"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1568"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1564"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1570"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1566"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1591"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1587"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1618"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1614"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation>不能保存为“%1”，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
@@ -494,9 +494,9 @@
         <translation type="vanished">未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1540"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1594"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1621"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1536"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1590"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1617"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
