@@ -1091,7 +1091,6 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
 void CSelectTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 {
-    return;
     _hightLight = QPainterPath();
     QList<QGraphicsItem *> items = event->scene()->items(event->pos());
     //处理高亮鼠标央视变化等问题
