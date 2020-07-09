@@ -150,13 +150,13 @@ public:
                       const QPointF &curPos,
                       bool keepRadio = false);
 
-    //QList<QGraphicsItem*> itemsApla(const QPointF& pos);
     QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
 
     //EDesSort降序（第一个为最顶层）   EAesSort升序（第一个为最底层）
     enum ESortItemTp { EDesSort,
                        EAesSort,
-                       ESortCount };
+                       ESortCount
+    };
     void sortZ(QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
     QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
 

@@ -73,7 +73,8 @@ public:
                         EDragMove,
                         EResizeMove,
                         ECopyMove,
-                        EOperateCount };
+                        EOperateCount
+    };
 
     virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
     virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;

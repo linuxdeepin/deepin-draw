@@ -831,15 +831,17 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                     pResultItem = pBzItem;
                     break;
                 } else {
-                    bool f = true;
+                    bool replacePreItem = true;
                     if (i == items.count() - 1) {
                         if (pPreTransBzItem != nullptr) {
-                            if (pBzItem->mapToScene(pBzItem->shape()).contains(pPreTransBzItem->mapToScene(pPreTransBzItem->shape()))) {
-                                f = false;
+                            if (pPreTransBzItem->zValue() > pBzItem->zValue()) {
+                                replacePreItem = false;
+                                if (pPreTransBzItem->mapToScene(pPreTransBzItem->shape()).contains(pBzItem->mapToScene(pBzItem->shape())))
+                                    replacePreItem = true;
                             }
                         }
                     }
-                    if (f)
+                    if (replacePreItem)
                         pPreTransBzItem = pBzItem;
                 }
             } else {

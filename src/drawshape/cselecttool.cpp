@@ -1091,15 +1091,26 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 
 void CSelectTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 {
+    //处理高亮，鼠标样式变化等问题
+
     _hightLight = QPainterPath();
     QList<QGraphicsItem *> items = event->scene()->items(event->pos());
-    //处理高亮鼠标央视变化等问题
-    QGraphicsItem *pItem = event->scene()->firstItem(event->pos(), items, false, true, true, true);
 
-    if (event->scene()->isBussizeItem(pItem)) {
-        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+    QGraphicsItem *pItem = event->scene()->firstItem(event->pos(), items, true, true, false, false);
+    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(event->scene()->firstItem(event->pos(), items,
+                                                                                     true, true, true, true));
+
+    if (pBzItem != nullptr) {
         _hightLight = pBzItem->mapToScene(pBzItem->getHighLightPath());
     }
+
+    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
+        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
+        dApp->setApplicationCursor(QCursor(getCursor(pHandle->dir(), false, 1)));
+    } else {
+        dApp->setApplicationCursor(Qt::ArrowCursor);
+    }
+
     event->scene()->update();
 }
 
