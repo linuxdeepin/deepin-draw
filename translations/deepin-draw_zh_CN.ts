@@ -654,12 +654,12 @@
     </message>
     <message>
         <location filename="../src/drawshape/cpicturetool.cpp" line="143"/>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="319"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="322"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="316"/>
+        <location filename="../src/drawshape/cpicturetool.cpp" line="319"/>
         <source>Damaged file, unable to open it.</source>
         <translation>文件已损坏，无法打开。</translation>
     </message>

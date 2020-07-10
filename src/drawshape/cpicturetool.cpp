@@ -205,7 +205,10 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
     };
 
     QPixmap pixmap;
-    QImageReader reader(imagePath);
+    QImageReader reader;
+    reader.setAutoDetectImageFormat(true);
+    reader.setDecideFormatFromContent(true);
+    reader.setFileName(imagePath);
     bool shouldOptimal = fOptimalConditions(reader);
     qreal radio = shouldOptimal ? 0.5 : 1.0;
     QSize orgSize = reader.size();
