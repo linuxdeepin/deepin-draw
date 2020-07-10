@@ -332,37 +332,37 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="201"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="202"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="493"/>
         <source>Layer</source>
         <translation>图层</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="204"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="205"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="511"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="209"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="210"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="512"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="214"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="215"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="513"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="219"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="220"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="514"/>
         <source>Select All</source>
         <translation>全选</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="226"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="227"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="520"/>
         <source>Delete</source>
         <translation>删除</translation>

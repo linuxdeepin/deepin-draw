@@ -46,12 +46,18 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, 
 
 }
 
-QPainterPath CGraphicsEllipseItem::shape() const
+QPainterPath CGraphicsEllipseItem::inSideShape() const
 {
     QPainterPath path;
     path.addEllipse(rect());
     path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path, pen());
+
+    return path;
+}
+
+QPainterPath CGraphicsEllipseItem::shape() const
+{
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
 }
 
 int CGraphicsEllipseItem::type() const

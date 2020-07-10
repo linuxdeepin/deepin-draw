@@ -741,6 +741,18 @@ QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &item
 //降序排列用
 static bool zValueSortDES(QGraphicsItem *info1, QGraphicsItem *info2)
 {
+    //    if(info1->zValue() > info2->zValue())
+    //    {
+    //        return true;
+    //    }
+    //    else if(qFuzzyIsNull( info1->zValue() -info2->zValue()))
+    //    {
+    //        return info1->isObscured()
+    //    }
+    //    return false;
+    if (qFuzzyIsNull(info1->zValue() - info2->zValue())) {
+        qDebug() << "same ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ = " << info1->zValue();
+    }
     return info1->zValue() >= info2->zValue();
 }
 //升序排列用
@@ -823,27 +835,39 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
     if (penalgor) {
         QGraphicsItem *pResultItem = nullptr;
         CGraphicsItem *pPreTransBzItem = nullptr;
+        QList<CGraphicsItem *> allPenetrable;
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *pItem = items[i];
             if (isBussizeItem(pItem)) {
                 CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
                 if (!pBzItem->isPosPenetrable(pBzItem->mapFromScene(pos))) {
                     //在该位置不透明,判定完成
+                    //                    pResultItem = pPreTransBzItem == nullptr ? pBzItem : pPreTransBzItem;
                     pResultItem = pBzItem;
                     break;
                 } else {
-                    bool replacePreItem = true;
-                    if (i == items.count() - 1) {
-                        if (pPreTransBzItem != nullptr) {
-                            if (pPreTransBzItem->zValue() > pBzItem->zValue()) {
-                                replacePreItem = false;
-                                if (pPreTransBzItem->mapToScene(pPreTransBzItem->shape()).contains(pBzItem->mapToScene(pBzItem->shape())))
-                                    replacePreItem = true;
-                            }
-                        }
-                    }
-                    if (replacePreItem)
-                        pPreTransBzItem = pBzItem;
+                    //                    bool replacePreItem = true;
+                    //                    if (i == items.count() - 1) {
+                    //                        if (pPreTransBzItem != nullptr) {
+                    //                            replacePreItem = false;
+                    //                            if (pPreTransBzItem->mapToScene(pPreTransBzItem->shape()).contains(pBzItem->mapToScene(pBzItem->shape())))
+                    //                                replacePreItem = true;
+                    //                        }
+                    //                    }
+                    //                    if (replacePreItem)
+                    //                        pPreTransBzItem = pBzItem;
+
+                    //                    if (pPreTransBzItem == nullptr)
+                    //                        pPreTransBzItem = pBzItem;
+
+                    //                    if (i == items.count() - 1) {
+                    //                        if (pBzItem != pPreTransBzItem &&
+                    //                                pBzItem->isCollidesAreaBiggerThan(pPreTransBzItem)) {
+                    //                            pResultItem = pBzItem;
+                    //                            break;
+                    //                        }
+                    //                    }
+                    allPenetrable.append(pBzItem);
                 }
             } else {
                 //非业务图元无认识不透明的 ，那么就证明找到了，判定完成
@@ -866,8 +890,26 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                 break;
             }
         }
-        if (pResultItem == nullptr && pPreTransBzItem != nullptr) {
-            pResultItem = pPreTransBzItem;
+        //        if (pResultItem == nullptr && pPreTransBzItem != nullptr) {
+        //            pResultItem = pPreTransBzItem;
+        //        }
+        if (pResultItem == nullptr) {
+            if (!allPenetrable.isEmpty()) {
+                QRectF ins = allPenetrable.first()->mapToScene(allPenetrable.first()->boundingRect()).boundingRect();
+                for (auto it : allPenetrable) {
+                    QRectF rect = it->mapToScene(it->boundingRect()).boundingRect();
+                    ins = ins.intersected(rect);
+                }
+                qreal maxRadio = 0;
+                for (auto it : allPenetrable) {
+                    QRectF rect = it->mapToScene(it->boundingRect()).boundingRect();
+                    qreal radio = (ins.width() * ins.height()) / (rect.width() * rect.height());
+                    if (radio > maxRadio) {
+                        maxRadio = radio;
+                        pResultItem = it;
+                    }
+                }
+            }
         }
         return pResultItem;
     }

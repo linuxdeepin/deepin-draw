@@ -138,7 +138,7 @@ bool CGraphicsItem::contains(const QPointF &point) const
     return QAbstractGraphicsShapeItem::contains(point);
 }
 
-QPainterPath CGraphicsItem::inSideShape()
+QPainterPath CGraphicsItem::inSideShape() const
 {
     QPainterPath path;
     path.addRect(rect());
@@ -147,9 +147,32 @@ QPainterPath CGraphicsItem::inSideShape()
     //return qt_graphicsItem_shapeFromPath(path, pen());
 }
 
-QPainterPath CGraphicsItem::outSideShape()
+QPainterPath CGraphicsItem::outSideShape() const
+{
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true);
+}
+
+QPainterPath CGraphicsItem::shape() const
 {
     return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
+}
+
+bool CGraphicsItem::isCollidesAreaBiggerThan(const CGraphicsItem *pOtherBzIt)
+{
+    QRectF rect0 = this->mapToScene(this->boundingRect()).boundingRect();
+    QRectF rect1 = pOtherBzIt->mapToScene(pOtherBzIt->boundingRect()).boundingRect();
+
+    QRectF ins = rect0.intersected(rect1);
+
+    if (ins.isValid()) {
+        qreal valueIns = ins.width() * ins.height();
+        qreal value0 = rect0.width() * rect0.height();
+        qreal value1 = rect1.width() * rect1.height();
+
+        return (valueIns / value0 > valueIns / value1);
+    }
+
+    return false;
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -157,10 +180,10 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
     bool result = false;
     bool brushIsTrans = !brush().isOpaque();
     bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
-    if (inSideShape().contains(posLocal)) {
-        result = brushIsTrans;
-    } else {
+    if (outSideShape().contains(posLocal)) {
         result = penIsTrans;
+    } else {
+        result = brushIsTrans;
     }
     return result;
 }

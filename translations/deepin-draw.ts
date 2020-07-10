@@ -316,25 +316,25 @@
 <context>
     <name>CGraphicsView</name>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="204"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="205"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="511"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="209"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="210"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="512"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="214"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="215"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="513"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="226"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="227"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="520"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
@@ -379,13 +379,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="219"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="220"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="514"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="201"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="202"/>
         <location filename="../src/frame/cgraphicsview.cpp" line="493"/>
         <source>Layer</source>
         <translation type="unfinished"></translation>

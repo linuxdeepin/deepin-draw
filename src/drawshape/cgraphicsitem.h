@@ -67,8 +67,15 @@ public:
 
     virtual bool contains(const QPointF &point) const Q_DECL_OVERRIDE;
 
-    virtual QPainterPath inSideShape();
-    virtual QPainterPath outSideShape();
+    virtual QPainterPath inSideShape() const;
+    virtual QPainterPath outSideShape() const;
+    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief isCollidesAreaBiggerThan 相交的区域是否比另一个占比更大
+     * @param pOtherBzIt 另一个item
+     */
+    bool isCollidesAreaBiggerThan(const CGraphicsItem *pOtherBzIt);
 
     /* posLocal 是否可以穿透这个item的 */
     virtual bool isPosPenetrable(const QPointF &posLocal);
