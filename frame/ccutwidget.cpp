@@ -136,7 +136,7 @@ void CCutWidget::initUI()
     m_heightEdit->setText(QString::number(600));
     m_heightEdit->setClearButtonEnabled(false);
     m_heightEdit->setFixedWidth(60);
-    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this) );
+    m_heightEdit->lineEdit()->setValidator(new CIntValidator(10, 9999, this));
     m_heightEdit->setFont(ft);
 
     m_SizeAddAction = new QAction(this);

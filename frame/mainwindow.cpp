@@ -89,19 +89,14 @@ void MainWindow::initUI()
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_centralWidget);
 
-    m_topToolbar = new TopToolbar(this);
+    m_topToolbar = new TopToolbar(titlebar());
     m_topToolbar->setFrameShape(DFrame::NoFrame);
-    m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
-    m_topToolbar->setFixedHeight(titlebar()->height());
-    //qDebug() << "titlebar()->height()" << titlebar()->height() << endl;
 
-//    titlebar()->setIcon(QIcon (QPixmap(":/theme/common/images/logo.svg").scaled(QSize(32, 32))));
-    titlebar()->addWidget(m_topToolbar, Qt::AlignLeft);
+    titlebar()->installEventFilter(this);
+    titlebar()->setTitle("");
     titlebar()->setMenu(m_topToolbar->mainMenu());
     titlebar()->setFocusPolicy(Qt::NoFocus);
     titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
-
-    //    titlebar()->setStyleSheet("background-color: rgb(0, 255, 0);");
 
     //ESC快捷键功能
     m_quitMode = new QAction(this);
@@ -113,7 +108,6 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 
     // 标签关闭提示框
-    //m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     m_dialog.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
     m_dialog.setMessage(tr("Is Close Draw?"));
     m_dialog.addButton(tr("OK"), true, DDialog::ButtonNormal);
@@ -356,7 +350,7 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
+    //m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
 
     emit signalResetOriginPoint();
 
@@ -633,33 +627,43 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 {
     if (o->isWidgetType()) {
         QWidget *pWidget = qobject_cast<QWidget *>(o);
-        if (m_pWebsiteLabe == o) {
-            //找到这个东西了
-            static QCursor s_temp;
-            if (e->type() == QEvent::Enter) {
-                s_temp = (qApp->overrideCursor() == nullptr ? QCursor(Qt::ArrowCursor) : *qApp->overrideCursor());
-                dApp->setApplicationCursor(Qt::PointingHandCursor);
-            } else if (e->type() == QEvent::Leave) {
-                dApp->setApplicationCursor(s_temp);
-            }
-        } else if (m_allChilds.contains(pWidget)) {
 
-            if (e->type() == QEvent::ChildAdded) {
-                QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
-
-                QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
-                if (pWidget != nullptr) {
-                    QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
-                    if (pLabe != nullptr) {
-                        m_pWebsiteLabe = pLabe;
-                        m_pWebsiteLabe->installEventFilter(this);
-                    }
+        if (titlebar() == o) {
+            //实现m_topToolbar的正确位置放置
+            if (e->type() == QEvent::Resize) {
+                if (m_topToolbar != nullptr) {
+                    m_topToolbar->setGeometry(60, 0, titlebar()->width() - 60 - 200, titlebar()->height());
+                    //m_topToolbar->setFixedWidth(100);
                 }
-            } else if (e->type() == QEvent::ChildRemoved) {
-                QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
-                if (addEvent != nullptr && addEvent->child() == m_pWebsiteLabe) {
-                    m_pWebsiteLabe->removeEventFilter(this);
-                    m_pWebsiteLabe = nullptr;
+            }
+        } else {
+            if (m_pWebsiteLabe == o) {
+                //找到这个东西了
+                static QCursor s_temp;
+                if (e->type() == QEvent::Enter) {
+                    s_temp = (qApp->overrideCursor() == nullptr ? QCursor(Qt::ArrowCursor) : *qApp->overrideCursor());
+                    dApp->setApplicationCursor(Qt::PointingHandCursor);
+                } else if (e->type() == QEvent::Leave) {
+                    dApp->setApplicationCursor(s_temp);
+                }
+            } else if (m_allChilds.contains(pWidget)) {
+                if (e->type() == QEvent::ChildAdded) {
+                    QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
+
+                    QWidget *pWidget = qobject_cast<QWidget *>(addEvent->child());
+                    if (pWidget != nullptr) {
+                        QLabel *pLabe = pWidget->findChild<QLabel *>("WebsiteLabel");
+                        if (pLabe != nullptr) {
+                            m_pWebsiteLabe = pLabe;
+                            m_pWebsiteLabe->installEventFilter(this);
+                        }
+                    }
+                } else if (e->type() == QEvent::ChildRemoved) {
+                    QChildEvent *addEvent = dynamic_cast<QChildEvent *>(e);
+                    if (addEvent != nullptr && addEvent->child() == m_pWebsiteLabe) {
+                        m_pWebsiteLabe->removeEventFilter(this);
+                        m_pWebsiteLabe = nullptr;
+                    }
                 }
             }
         }
