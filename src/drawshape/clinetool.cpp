@@ -20,14 +20,10 @@
 #include "cdrawscene.h"
 #include "cgraphicslineitem.h"
 #include "cdrawparamsigleton.h"
-#include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-
-#include <QGraphicsSceneMouseEvent>
 
 CLineTool::CLineTool()
     : IDrawTool(line)
-    , m_pLineItem(nullptr)
 {
 
 }
@@ -37,55 +33,50 @@ CLineTool::~CLineTool()
 
 }
 
-void CLineTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CLineTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    if (event->button() == Qt::LeftButton) {
-        scene->clearSelection();
-        m_sPointPress = event->scenePos();
-        m_pLineItem = new CGraphicsLineItem(m_sPointPress, m_sPointPress);
-        m_pLineItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
-        m_pLineItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
-        m_pLineItem->setZValue(scene->getMaxZValue() + 1);
-        scene->addItem(m_pLineItem);
-
-        m_bMousePress = true;
-    }/* else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    }*/ else {
-        scene->mouseEvent(event);
+    Q_UNUSED(event)
+    if (pInfo != nullptr) {
+        CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
+        if (nullptr != pItem) {
+            pItem->resizeTo(CSizeHandleRect::RightBottom, pInfo->_prePos);
+        }
     }
 }
 
-void CLineTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    Q_UNUSED(scene)
-    if (m_bMousePress) {
-        QPointF pointMouse = event->scenePos();
-        m_pLineItem->resizeTo(CSizeHandleRect::RightBottom, pointMouse);
-    }
-}
-
-void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    if (event->button() == Qt::LeftButton) {
-        m_sPointRelease = event->scenePos();
-        //如果鼠标没有移动
-        if ( m_pLineItem != nullptr) {
-            if ( event->scenePos() == m_sPointPress ) {
-
-                scene->removeItem(m_pLineItem);
-                delete m_pLineItem;
-
+    if (pInfo != nullptr) {
+        CGraphicsLineItem *m_pItem = dynamic_cast<CGraphicsLineItem *>(pInfo->businessItem);
+        if (nullptr != m_pItem) {
+            if (!pInfo->hasMoved()) {
+                event->scene()->removeItem(m_pItem);
+                delete m_pItem;
             } else {
-                emit scene->itemAdded(m_pLineItem);
-                m_pLineItem->setSelected(true);
+                if (m_pItem->scene() == nullptr) {
+                    emit event->scene()->itemAdded(m_pItem);
+                }
+                m_pItem->setSelected(true);
             }
         }
-
-        m_pLineItem = nullptr;
-        m_bMousePress = false;
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    emit scene->signalChangeToSelect();
+
+    IDrawTool::toolCreatItemFinish(event, pInfo);
 }
+
+CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event)
+{
+    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        CGraphicsView *pView = event->scene()->drawView();
+        CGraphicsLineItem *m_pItem =  new CGraphicsLineItem(event->pos().x(), event->pos().y(), event->pos().x(), event->pos().y());
+        m_pItem->setPen(pView->getDrawParam()->getPen());
+        m_pItem->setBrush(pView->getDrawParam()->getBrush());
+        m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        event->scene()->addItem(m_pItem);
+        return m_pItem;
+    }
+    return nullptr;
+}
+

@@ -19,7 +19,6 @@
 #ifndef CLINETOOL_H
 #define CLINETOOL_H
 #include "idrawtool.h"
-#include "cgraphicslineitem.h"
 
 class CLineTool : public IDrawTool
 {
@@ -27,28 +26,27 @@ public:
     CLineTool();
     virtual ~CLineTool() Q_DECL_OVERRIDE;
 
-public:
+protected:
     /**
-     * @brief mousePressEvent　鼠标点击事件
-     * @param event　场景事件
-     * @param scene　场景句柄
+     * @brief toolUpdate 工具执行的刷新
+     * @param event 事件
+     * @param scene 场景
      */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
-    /**
-     * @brief mouseMoveEvent 鼠标移动事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
-    /**
-     * @brief mouseReleaseEvent　鼠标弹起事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)Q_DECL_OVERRIDE;
+    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
 
-private:
-    CGraphicsLineItem *m_pLineItem;
+    /**
+     * @brief toolFinish 工具执行的结束
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief toolFinish 创建图元
+     * @param event 事件
+     * @param scene 场景
+     */
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // CLINETOOL_H

@@ -950,7 +950,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/drawshape/ctexttool.cpp" line="70"/>
+        <location filename="../src/drawshape/ctexttool.cpp" line="65"/>
         <source>Input text here</source>
         <translation>输入文本</translation>
     </message>
