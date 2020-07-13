@@ -43,71 +43,60 @@ CTextTool::~CTextTool()
 
 }
 
-void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    if (event->button() == Qt::LeftButton) {
-        scene->clearSelection();
-        m_bMousePress = true;
-        m_sPointPress = event->scenePos();
-        QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-        CGraphicsTextItem *item = new CGraphicsTextItem();
-        item->getTextEdit()->setText(QObject::tr("Input text here"));
-        item->getTextEdit()->setAlignment(Qt::AlignLeft );
+    if (pInfo != nullptr) {
+        CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(pInfo->businessItem);
+        if (nullptr != pItem) {
+            if (pItem->scene() == nullptr) {
+                emit event->scene()->itemAdded(pItem);
+            }
+            pItem->makeEditabel();
+            pItem->getTextEdit()->document()->clearUndoRedoStacks();
+            pItem->setSelected(true);
+        }
+    }
 
-        item->getTextEdit()->selectAll();
+    IDrawTool::toolCreatItemFinish(event, pInfo);
+}
 
-        QFontMetrics fm(font);
-        QSizeF size = item->getTextEdit()->document()->size();
+CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
+{
+    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        CGraphicsTextItem *pItem =  new CGraphicsTextItem();
+        pItem->setPos(event->pos().x(), event->pos().y());
+        pItem->getTextEdit()->setText(QObject::tr("Input text here"));
+        pItem->getTextEdit()->setAlignment(Qt::AlignLeft);
+        pItem->getTextEdit()->selectAll();
+
+        CGraphicsView *pView = event->scene()->drawView();
+
+        QFontMetrics fm(pView->getDrawParam()->getTextFont());
+        QSizeF size = pItem->getTextEdit()->document()->size();
         // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
+        pItem->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
 
-        if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
-            item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
+        if (event->scene()->sceneRect().right() - m_sPointPress.x() > 0) {
+            pItem->setLastDocumentWidth(event->scene()->sceneRect().right() - m_sPointPress.x());
         } else {
-            item->setLastDocumentWidth(0);
+            pItem->setLastDocumentWidth(0);
         }
 
         // 设置新建图元属性
-        item->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-        item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-        item->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
+        pItem->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        pItem->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        pItem->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+        pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+        pItem->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
 
-        item->setZValue(scene->getMaxZValue() + 1);
-        scene->addItem(item);
-        emit scene->itemAdded(item);
-        item->setSelected(true);
-        _tempTextItem = item;
-
+        pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        event->scene()->addItem(pItem);
         // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-
-    } else {
-        scene->mouseEvent(event);
+        return pItem;
     }
+    return nullptr;
 }
 
-void CTextTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    Q_UNUSED(scene)
-    scene->mouseEvent(event);
-}
-
-void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    Q_UNUSED(scene)
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    emit scene->signalChangeToSelect();
-    scene->mouseEvent(event);
-
-    if (_tempTextItem != nullptr) {
-        _tempTextItem->makeEditabel();
-        _tempTextItem->getTextEdit()->document()->clearUndoRedoStacks();
-        _tempTextItem = nullptr;
-    }
-
-    if (event->button() == Qt::LeftButton) {
-        m_bMousePress = false;
-    }
-}

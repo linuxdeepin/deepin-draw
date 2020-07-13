@@ -135,13 +135,13 @@ CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event)
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
 
-        CGraphicsTriangleItem *m_pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 0, 0);
+        CGraphicsTriangleItem *pItem =  new CGraphicsTriangleItem(event->pos().x(), event->pos().y(), 0, 0);
         CGraphicsView *pView = event->scene()->drawView();
-        m_pItem->setPen(pView->getDrawParam()->getPen());
-        m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
-        event->scene()->addItem(m_pItem);
-        return m_pItem;
+        pItem->setPen(pView->getDrawParam()->getPen());
+        pItem->setBrush(pView->getDrawParam()->getBrush());
+        pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        event->scene()->addItem(pItem);
+        return pItem;
     }
     return nullptr;
 }
