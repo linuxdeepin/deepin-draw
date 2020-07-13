@@ -19,18 +19,13 @@
 #include "ctexttool.h"
 #include "cdrawscene.h"
 #include "cgraphicstextitem.h"
-#include "cgraphicsproxywidget.h"
 #include "cdrawparamsigleton.h"
 #include "widgets/ctextedit.h"
-#include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
-#include <QGraphicsSceneMouseEvent>
-#include <QTextCursor>
-#include <QWidget>
-#include <QGraphicsView>
-
 #include "service/cmanagerattributeservice.h"
+
+#include <QGraphicsView>
 
 CTextTool::CTextTool()
     : IDrawTool(text)
@@ -85,11 +80,11 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         }
 
         // 设置新建图元属性
-        pItem->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        pItem->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        pItem->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-        pItem->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
-        pItem->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
+        pItem->setFontSize(pView->getDrawParam()->getTextFont().pointSize());
+        pItem->setFontFamily(pView->getDrawParam()->getTextFont().family());
+        pItem->setTextFontStyle(pView->getDrawParam()->getTextFontStyle());
+        pItem->setTextColor(pView->getDrawParam()->getTextColor());
+        pItem->setTextColorAlpha(pView->getDrawParam()->getTextColor().alpha());
 
         pItem->setZValue(event->scene()->getMaxZValue() + 1);
         event->scene()->addItem(pItem);

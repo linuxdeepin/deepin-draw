@@ -29,8 +29,7 @@
 #include <QGraphicsView>
 
 CMasicoTool::CMasicoTool()
-    : IDrawTool (blur)
-    , m_pBlurItem(nullptr)
+    : IDrawTool(blur)
 {
 
 }
@@ -40,64 +39,57 @@ CMasicoTool::~CMasicoTool()
 
 }
 
-void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    if (event->button() == Qt::LeftButton) {
-        scene->clearSelection();
-        m_sPointPress = event->scenePos();
-
-        m_pBlurItem = new CGraphicsMasicoItem(m_sPointPress);
-        QPen pen;
-        pen.setWidth(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
-        QColor color(255, 255, 255, 0);
-        pen.setColor(color);
-        m_pBlurItem->setPen(pen);
-        m_pBlurItem->setBrush(Qt::NoBrush);
-        m_pBlurItem->setZValue(scene->getMaxZValue() + 1);
-        scene->setMaxZValue(scene->getMaxZValue() + 1);
-        scene->addItem(m_pBlurItem);
-
-        m_pBlurItem->setPixmap();
-
-        m_bMousePress = true;
-    } /*else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    } */else {
-        scene->mouseEvent(event);
+    if (pInfo != nullptr) {
+        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
+        if (nullptr != pItem) {
+            QPointF pointMouse = event->pos();
+            bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
+            pItem->updatePenPath(pointMouse, shiftKeyPress);
+            pItem->updateBlurPath();
+            event->setAccepted(true);
+        }
     }
 }
 
-void CMasicoTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
+void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    Q_UNUSED(scene)
-    if (m_bMousePress && nullptr != m_pBlurItem) {
-        QPointF pointMouse = event->scenePos();
-        bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
-        m_pBlurItem->updatePenPath(pointMouse, shiftKeyPress);
-        m_pBlurItem->updateBlurPath();
-    }
-}
-
-void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
-{
-    if (event->button() == Qt::LeftButton) {
-        m_sPointRelease = event->scenePos();
-
-        //如果鼠标没有移动
-        if ( m_pBlurItem != nullptr) {
-            if ( event->scenePos() == m_sPointPress ) {
-                scene->removeItem(m_pBlurItem);
-                delete m_pBlurItem;
+    if (pInfo != nullptr) {
+        CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(pInfo->businessItem);
+        if (nullptr != pItem) {
+            if (!pInfo->hasMoved()) {
+                event->scene()->removeItem(pItem);
+                delete pItem;
             } else {
-                emit scene->itemAdded(m_pBlurItem);
-                m_pBlurItem->setSelected(true);
+                if (pItem->scene() == nullptr) {
+                    emit event->scene()->itemAdded(pItem);
+                }
+                pItem->setSelected(true);
             }
         }
-
-        m_pBlurItem = nullptr;
-        m_bMousePress = false;
     }
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-    emit scene->signalChangeToSelect();
+
+    IDrawTool::toolCreatItemFinish(event, pInfo);
+}
+
+CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
+{
+    if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
+            || event->eventType() == CDrawToolEvent::ETouchEvent) {
+        CGraphicsMasicoItem *pItem = new CGraphicsMasicoItem(event->pos());
+
+        CGraphicsView *pView = event->scene()->drawView();
+        QPen pen;
+        QColor color(255, 255, 255, 0);
+        pen.setColor(color);
+        pen.setWidth(pView->getDrawParam()->getBlurWidth());
+        pItem->setPen(pen);
+        pItem->setBrush(Qt::NoBrush);
+        pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        event->scene()->addItem(pItem);
+        pItem->setPixmap();
+        return pItem;
+    }
+    return nullptr;
 }
