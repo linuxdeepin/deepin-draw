@@ -796,7 +796,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/ctexttool.cpp" line="54"/>
+        <location filename="../src/drawshape/ctexttool.cpp" line="70"/>
         <source>Input text here</source>
         <translation type="unfinished"></translation>
     </message>
