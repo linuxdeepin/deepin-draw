@@ -43,11 +43,11 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
     , m_bAltKeyPress(false)
     , m_noShiftSelectItem(nullptr)
     , m_mode(mode)
-    , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg"))
-    , m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg"))
-    , m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg"))
-    , m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg"))
-    , m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg"))
+    , m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
+    , m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
+    , m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
+    , m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
+    , m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation))
 {
 
 }
