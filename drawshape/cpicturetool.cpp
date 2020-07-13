@@ -31,7 +31,7 @@
 #include "service/cmanagerattributeservice.h"
 
 CPictureTool::CPictureTool(DWidget *parent)
-    : DWidget (parent)
+    : DWidget(parent)
 {
     m_progressLayout = new ProgressLayout();
     connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)));
@@ -122,7 +122,7 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
     //获取已导入图片数量
     QList<QGraphicsItem *> items = scene->items();
 
-    if ( items.count() != 0 ) {
+    if (items.count() != 0) {
         for (int i = 0; i < items.size(); i++) {
             if (items[i]->type() == PictureType) {
                 exitPicNum = exitPicNum + 1;
@@ -197,7 +197,9 @@ QPixmap CPictureTool::getPixMapQuickly(const QString &imagePath)
     };
 
     QPixmap pixmap;
-    QImageReader reader(imagePath);
+    QImageReader reader /*(imagePath)*/;
+    reader.setDecideFormatFromContent(true);
+    reader.setFileName(imagePath);
     bool shouldOptimal = fOptimalConditions(reader);
     qreal radio = shouldOptimal ? 0.5 : 1.0;
     QSize orgSize = reader.size();
@@ -234,7 +236,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
     if (!pixmap.isNull()) {
         scene->clearSelection();
 
-        pixmapItem = new CPictureItem(QRectF( scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
+        pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
 
         pixmapItem->setSelected(false);
