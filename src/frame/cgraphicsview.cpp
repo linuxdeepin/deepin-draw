@@ -1076,48 +1076,8 @@ void CGraphicsView::slotOnPaste()
             QList<QGraphicsItem *> addItems;
             addItems.clear();
             foreach (CGraphicsItem *item, allItems) {
-                CGraphicsItem *copy = nullptr;
-
-                switch (item->type()) {
-                case RectType:
-                    copy = new CGraphicsRectItem();
-                    break;
-                case EllipseType:
-                    copy = new CGraphicsEllipseItem();
-                    break;
-                case TriangleType:
-                    copy = new CGraphicsTriangleItem();
-                    break;
-                case PolygonalStarType:
-                    copy = new CGraphicsPolygonalStarItem();
-                    break;
-
-                case PolygonType:
-                    copy = new CGraphicsPolygonItem();
-                    break;
-                case LineType:
-                    copy = new CGraphicsLineItem();
-                    break;
-
-                case PenType:
-                    copy = new CGraphicsPenItem();
-                    break;
-                case TextType:
-                    copy = new CGraphicsTextItem();
-                    break;
-
-                case PictureType:
-                    copy = new CPictureItem();
-                    break;
-                case BlurType:
-                    copy = new CGraphicsMasicoItem();
-                    break;
-
-                }
-
-                item->duplicate(copy);
+                CGraphicsItem *copy = item->creatSameItem();
                 if (copy) {
-                    //copy->setSelected(true);
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
                     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();

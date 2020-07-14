@@ -49,6 +49,14 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(const SGraphicsTriangleUnitData *da
 
 }
 
+void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pTriangle != nullptr) {
+        loadGraphicsRectUnit(data.data.pTriangle->rect);
+    }
+    loadHeadData(data.head);
+}
+
 CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;

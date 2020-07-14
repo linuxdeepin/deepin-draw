@@ -96,7 +96,8 @@ public:
         typedef  QMap<int, CDrawToolEvent> CDrawToolEvents;
 
         static CDrawToolEvents fromQEvent(QEvent *event, CDrawScene *scene);
-        static CDrawToolEvent  fromTouchPoint(const QTouchEvent::TouchPoint &tPos, CDrawScene *scene);
+        static CDrawToolEvent fromTouchPoint(const QTouchEvent::TouchPoint &tPos,
+                                             CDrawScene *scene, QEvent *e = nullptr);
 
         QPointF                pos(EPosType tp = EScenePos);
         Qt::MouseButtons       mouseButtons();

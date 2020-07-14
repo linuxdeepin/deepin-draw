@@ -160,6 +160,18 @@ void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
     m_polygonForBrush = polygon;
 }
 
+void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pPolygonStar != nullptr) {
+        loadGraphicsRectUnit(data.data.pPolygonStar->rect);
+        m_anchorNum = data.data.pPolygonStar->anchorNum;
+        m_innerRadius = data.data.pPolygonStar->radius;
+        updatePolygonalStar(m_anchorNum, m_innerRadius);
+    }
+
+    loadHeadData(data.head);
+}
+
 int CGraphicsPolygonalStarItem::innerRadius() const
 {
     return m_innerRadius;

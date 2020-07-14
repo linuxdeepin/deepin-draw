@@ -55,10 +55,6 @@ public:
                      const double &xScale, const double &yScale,
                      bool bShiftPress, bool bAltPress) override;
 
-    void resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect,
-                       const qreal &xScale, const qreal &yScale,
-                       bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
-
     QLineF line() const;
     void setLine(const QLineF &line, bool init = false);
     void setLine(const QPointF &p1, const QPointF &p2, bool init = false);

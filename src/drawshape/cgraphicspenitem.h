@@ -37,6 +37,7 @@ public:
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
@@ -52,10 +53,6 @@ public:
     virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
                              const double &xScale, const double &yScale,
                              bool bShiftPress, bool bAltPress)override;
-
-    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect,
-                               QRectF itemPressRect, const qreal &xScale, const qreal &yScale,
-                               bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
 
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
     void updateCoordinate();

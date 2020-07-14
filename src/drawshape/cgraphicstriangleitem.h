@@ -29,6 +29,11 @@ public:
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
 
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 protected:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;

@@ -21,6 +21,9 @@
 #include "cundoredocommand.h"
 #include <QDebug>
 #include <QGraphicsScene>
+#include <QMetaObject>
+#include "cdrawscene.h"
+#include "cgraphicsitemselectedmgr.h"
 
 CUndoRedoCommand::QCommandInfoList CUndoRedoCommand::s_recordedCmdInfoList = CUndoRedoCommand::QCommandInfoList();
 QMap<CUndoRedoCommand::CKey, int> CUndoRedoCommand::s_forFindCoupleMap = QMap<CUndoRedoCommand::CKey, int>();
@@ -228,7 +231,8 @@ CUndoRedoCommand *CUndoRedoCommand::getCmdByCmdInfo(const CUndoRedoCommand::SCom
     return pCmd;
 }
 
-CUndoRedoCommandGroup::CUndoRedoCommandGroup()
+CUndoRedoCommandGroup::CUndoRedoCommandGroup(bool selectObject)
+    : select(selectObject)
 {
 }
 
@@ -254,6 +258,50 @@ void CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &cmd)
     addCommand(pCmd);
 }
 
+void CUndoRedoCommandGroup::doSelect()
+{
+    if (select) {
+        QList<CGraphicsItem *> bzItems;
+        CDrawScene *pScene = nullptr;
+        for (CUndoRedoCommand *pCmd : _allCmds) {
+            CItemUndoRedoCommand *pItemCmd = dynamic_cast<CItemUndoRedoCommand *>(pCmd);
+            if (pItemCmd != nullptr) {
+                QGraphicsItem *pItem = pItemCmd->item();
+                if (pScene == nullptr) {
+                    pScene = qobject_cast<CDrawScene *>(pItem->scene());
+                }
+                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+                if (pBzItem != nullptr) {
+                    bzItems.append(pBzItem);
+                }
+            } else {
+                CSceneUndoRedoCommand *pSceneCmd = dynamic_cast<CSceneUndoRedoCommand *>(pCmd);
+                if (pScene == nullptr) {
+                    pScene = qobject_cast<CDrawScene *>(pSceneCmd->scene());
+                }
+                CSceneItemNumChangedCommand *pNumCmd = dynamic_cast<CSceneItemNumChangedCommand *>(pCmd);
+
+                if (pNumCmd != nullptr) {
+                    QList<QGraphicsItem *> &items = pNumCmd->items();
+                    for (QGraphicsItem *pItem : items) {
+                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(pItem);
+                        if (pBzItem != nullptr && pBzItem->scene() != nullptr) {
+                            bzItems.append(pBzItem);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (pScene != nullptr) {
+            pScene->clearMrSelection();
+            for (CGraphicsItem *pBzItem : bzItems) {
+                pScene->selectItem(pBzItem);
+            }
+        }
+    }
+}
+
 void CUndoRedoCommandGroup::real_undo()
 {
     //撤销要反向执行
@@ -261,6 +309,8 @@ void CUndoRedoCommandGroup::real_undo()
         CUndoRedoCommand *pCmd = _allCmds[i];
         pCmd->real_undo();
     }
+
+    doSelect();
 }
 
 void CUndoRedoCommandGroup::real_redo()
@@ -270,6 +320,7 @@ void CUndoRedoCommandGroup::real_redo()
         CUndoRedoCommand *pCmd = _allCmds[i];
         pCmd->real_redo();
     }
+    doSelect();
 }
 
 CItemUndoRedoCommand::CItemUndoRedoCommand()
@@ -290,6 +341,10 @@ CItemUndoRedoCommand *CItemUndoRedoCommand::getCmdByItemCmdInfo(const CUndoRedoC
     }
     case EPropertyChanged: {
         pCmd = new CItemMoveCommand();
+        break;
+    }
+    case EAllChanged: {
+        pCmd = new CBzItemAllCommand();
         break;
     }
     default:
@@ -396,6 +451,7 @@ CSceneUndoRedoCommand *CSceneUndoRedoCommand::getCmdBySceneCmdInfo(const CUndoRe
     EChangedType expTp = EChangedType(info.expendType());
     switch (expTp) {
     case ESizeChanged: {
+        pCmd = new CSceneBoundingChangedCommand;
         break;
     }
     case EItemAdded:
@@ -459,5 +515,77 @@ void CSceneItemNumChangedCommand::real_redo()
                 scene()->addItem(_Items[i]);
             }
         }
+    }
+}
+
+QList<QGraphicsItem *> &CSceneItemNumChangedCommand::items()
+{
+    return _Items;
+}
+
+CBzItemAllCommand::CBzItemAllCommand()
+{
+}
+
+CGraphicsItem *CBzItemAllCommand::bzItem()
+{
+    return dynamic_cast<CGraphicsItem *>(item());
+}
+
+void CBzItemAllCommand::real_undo()
+{
+    if (bzItem() != nullptr) {
+        bzItem()->loadGraphicsUnit(_itemDate[UndoVar]);
+    }
+}
+
+void CBzItemAllCommand::real_redo()
+{
+    if (bzItem() != nullptr) {
+        bzItem()->loadGraphicsUnit(_itemDate[RedoVar]);
+    }
+}
+
+void CBzItemAllCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+{
+    //保证能获取到操作的item
+    CItemUndoRedoCommand::parsingVars(vars, varTp);
+
+    //是否能解析的判断
+    if (vars.count() < 2) {
+        qWarning() << "do not set pos in CBzItemAllCommand!!!!";
+        return;
+    }
+    _itemDate[varTp] = vars[1].value<CGraphicsUnit>();
+}
+
+CSceneBoundingChangedCommand::CSceneBoundingChangedCommand()
+{
+}
+
+void CSceneBoundingChangedCommand::parsingVars(const QList<QVariant> &vars, CUndoRedoCommand::EVarUndoOrRedo varTp)
+{
+    //保证能获取到操作的scene
+    CSceneUndoRedoCommand::parsingVars(vars, varTp);
+
+    //是否能解析的判断
+    if (vars.count() < 2) {
+        qWarning() << "do not set pos in CSceneBoundingChangedCommand!!!!";
+        return;
+    }
+    _rect[varTp] = vars[1].toRectF();
+}
+
+void CSceneBoundingChangedCommand::real_undo()
+{
+    if (scene() != nullptr) {
+        scene()->setSceneRect(_rect[UndoVar]);
+    }
+}
+
+void CSceneBoundingChangedCommand::real_redo()
+{
+    if (scene() != nullptr) {
+        scene()->setSceneRect(_rect[RedoVar]);
     }
 }

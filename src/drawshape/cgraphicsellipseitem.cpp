@@ -75,6 +75,14 @@ void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
+void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pCircle != nullptr)
+        loadGraphicsRectUnit(data.data.pCircle->rect);
+
+    loadHeadData(data.head);
+}
+
 CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const
 {
     CGraphicsUnit unit;

@@ -48,7 +48,11 @@ public:
 
     void setPolygon(const QPolygonF &polygon);
 
-
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     /**
      * @brief getHighLightPath 获取高亮path

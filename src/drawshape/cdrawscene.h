@@ -205,6 +205,12 @@ public:
     void blockMouseMoveEvent(bool b);
     bool isBlockMouseMoveEvent();
 
+    /**
+     * @brief recordItemsInfoToCmd 记录图元的信息
+     */
+    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo);
+    void finishRecord();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号

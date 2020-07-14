@@ -60,17 +60,18 @@ public:
                              const double &xScale, const double &yScale,
                              bool bShiftPress, bool bAltPress) override;
 
-    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
-                               QRectF pressRect, QRectF itemPressRect,
-                               const qreal &xScale, const qreal &yScale,
-                               bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
-
     /**
      * @brief duplicate 拷贝自己
      * @return
      */
     virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     /**
@@ -89,6 +90,9 @@ public:
      * @return
      */
     virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+
+protected:
+    void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
