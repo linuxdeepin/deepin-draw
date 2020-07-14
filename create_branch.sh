@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "切换分支到：dev/professional/bugfix ..."
+git checkout dev/professional/bugfix
+
 gitstatus=`git status`
 
 current_branch_name=`echo $gitstatus | cut -d " " -f 2`
