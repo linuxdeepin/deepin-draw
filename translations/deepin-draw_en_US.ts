@@ -103,13 +103,13 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="266"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="611"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="271"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="573"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="578"/>
         <source>Import Picture</source>
         <translation>Import Picture</translation>
     </message>

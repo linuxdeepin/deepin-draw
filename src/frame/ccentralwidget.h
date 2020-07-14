@@ -62,6 +62,7 @@ public:
      * @return
      */
     CGraphicsView *getGraphicsView() const;
+    QGraphicsView *getQGraphicsView() const;
     /**
      * @brief getDrawScene　获取场景句柄
      * @return
