@@ -84,7 +84,6 @@ void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
     if (!e.first().isAccepted()) {
         scene->mouseEvent(event);
     }
-    setViewToSelectionTool(scene->drawView());
 }
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
@@ -205,6 +204,9 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                                                     CSceneUndoRedoCommand::EItemAdded, vars);
 
                 CUndoRedoCommand::finishRecord();
+
+                setViewToSelectionTool(event->scene()->drawView());
+
             } else {
                 toolFinish(event, &it.value());
             }
