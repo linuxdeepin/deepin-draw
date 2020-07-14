@@ -163,7 +163,8 @@ public:
     //penalgor表示Penetration algorithm，穿透算法
     CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true);
 
-    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted = false);
+    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
+                               bool haveDesSorted = false);
 
     /*
      *  penalgor表示Penetration algorithm，穿透算法，需要考虑穿透算法过滤

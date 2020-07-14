@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QVariant>
+#include <QtMath>
+#include <QStyleOptionGraphicsItem>
 
 QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen, bool replace)
 {
@@ -188,6 +190,28 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
     return result;
 }
 
+void CGraphicsItem::newResizeTo(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
+                                const QPointF &offset, bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(dir)
+    Q_UNUSED(mousePos)
+    Q_UNUSED(offset)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+}
+
+void CGraphicsItem::rotatAngle(qreal angle)
+{
+    QRectF r = this->rect();
+    if (r.isValid()) {
+        QPointF center = this->rect().center();
+
+        this->setTransformOriginPoint(center);
+
+        this->setRotation(angle);
+    }
+}
+
 void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
                                 const double &xScale, const double &yScale,
                                 bool bShiftPress, bool bAltPress)
@@ -245,7 +269,6 @@ CGraphicsUnit CGraphicsItem::getGraphicsUnit() const
 void CGraphicsItem::move(QPointF beginPoint, QPointF movePoint)
 {
     QPointF Pos = this->pos();
-    //qDebug() << "Pos = " << Pos << "beginPoint" << beginPoint << "movePoint" << movePoint;
     this->setPos(Pos + movePoint - beginPoint);
 }
 
@@ -356,6 +379,24 @@ void CGraphicsItem::clearHandle()
         }
     }
     m_handles.clear();
+}
+void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option)
+{
+    if (this->getMutiSelect()) {
+        painter->setClipping(false);
+        QPen pen;
+
+        painter->setRenderHint(QPainter::Antialiasing, true);
+
+        pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
+
+        pen.setColor(QColor("#E0E0E0"));
+
+        painter->setPen(pen);
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(this->boundingRect());
+        painter->setClipping(true);
+    }
 }
 void CGraphicsItem::initHandle()
 {

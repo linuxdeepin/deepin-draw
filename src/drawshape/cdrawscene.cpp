@@ -117,17 +117,11 @@ void CDrawScene::initScene()
 {
     m_pGroupItem = new CGraphicsItemSelectedMgr();
     this->addItem(m_pGroupItem);
-    m_pGroupItem->setZValue(10000);
-    //m_pGroupItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
+    m_pGroupItem->setZValue(/*10000*/ INT_MAX);
 
-//    connect(this, &CDrawScene::signalIsModify, this,  [ = ](bool isModdify) {
-//        CManageViewSigleton::GetInstance()->updateBlockSystem();
-//    });
-
-
-    m_pHighLightItem = new CGraphicsItemHighLight();
-    this->addItem(m_pHighLightItem);
-    m_pHighLightItem->setZValue(10000);
+    //    m_pHighLightItem = new CGraphicsItemHighLight();
+    //    this->addItem(m_pHighLightItem);
+    //    m_pHighLightItem->setZValue(10000);
 }
 
 CGraphicsView *CDrawScene::drawView()
@@ -354,7 +348,7 @@ void CDrawScene::keyReleaseEvent(QKeyEvent *event)
 {
     // [0] 解决高亮图元删除后一直显示
     if (!event->isAutoRepeat()) {
-        m_pHighLightItem->setVisible(false);
+        //m_pHighLightItem->setVisible(false);
     }
     QGraphicsScene::keyReleaseEvent(event);
 }
@@ -363,7 +357,7 @@ void CDrawScene::keyPressEvent(QKeyEvent *event)
 {
     // [0] 解决高亮图元撤销后一直显示
     if (!event->isAutoRepeat()) {
-        m_pHighLightItem->setVisible(false);
+        //m_pHighLightItem->setVisible(false);
     }
     QGraphicsScene::keyPressEvent(event);
 }
@@ -816,10 +810,27 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
     if (filterMrAndHightLight) {
         for (int i = 0; i < items.count();) {
             QGraphicsItem *pItem = items[i];
-            if (pItem->type() == hightLightType || pItem->type() == MgrType) {
-                items.removeAt(i);
-                continue;
+            bool isAsscMgr = false;
+            if (pItem->type() == MgrType) {
+                isAsscMgr = true;
+            } else if (isBussizeHandleNodeItem(pItem)) {
+                if (seeNodeAsBzItem) {
+                    pItem = getAssociatedBzItem(pItem);
+                    isAsscMgr = (pItem != nullptr && pItem->type() == MgrType);
+                }
             }
+
+            if (isAsscMgr) {
+                CGraphicsItemSelectedMgr *pSelctMrItem = dynamic_cast<CGraphicsItemSelectedMgr *>(pItem);
+                QList<CGraphicsItem *> selects = pSelctMrItem->getItems();
+                if (selects.count() == 1) {
+                    items.replace(i, selects.first());
+                } else {
+                    items.removeAt(i);
+                    continue;
+                }
+            }
+
             ++i;
         }
     }
@@ -834,7 +845,6 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
 
     if (penalgor) {
         QGraphicsItem *pResultItem = nullptr;
-        CGraphicsItem *pPreTransBzItem = nullptr;
         QList<CGraphicsItem *> allPenetrable;
         for (int i = 0; i < items.count(); ++i) {
             QGraphicsItem *pItem = items[i];
@@ -846,27 +856,6 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                     pResultItem = pBzItem;
                     break;
                 } else {
-                    //                    bool replacePreItem = true;
-                    //                    if (i == items.count() - 1) {
-                    //                        if (pPreTransBzItem != nullptr) {
-                    //                            replacePreItem = false;
-                    //                            if (pPreTransBzItem->mapToScene(pPreTransBzItem->shape()).contains(pBzItem->mapToScene(pBzItem->shape())))
-                    //                                replacePreItem = true;
-                    //                        }
-                    //                    }
-                    //                    if (replacePreItem)
-                    //                        pPreTransBzItem = pBzItem;
-
-                    //                    if (pPreTransBzItem == nullptr)
-                    //                        pPreTransBzItem = pBzItem;
-
-                    //                    if (i == items.count() - 1) {
-                    //                        if (pBzItem != pPreTransBzItem &&
-                    //                                pBzItem->isCollidesAreaBiggerThan(pPreTransBzItem)) {
-                    //                            pResultItem = pBzItem;
-                    //                            break;
-                    //                        }
-                    //                    }
                     allPenetrable.append(pBzItem);
                 }
             } else {
@@ -890,9 +879,6 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                 break;
             }
         }
-        //        if (pResultItem == nullptr && pPreTransBzItem != nullptr) {
-        //            pResultItem = pPreTransBzItem;
-        //        }
         if (pResultItem == nullptr) {
             if (!allPenetrable.isEmpty()) {
                 QRectF ins = allPenetrable.first()->mapToScene(allPenetrable.first()->boundingRect()).boundingRect();
@@ -954,39 +940,40 @@ void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
     if (pBzItem == nullptr)
         return;
 
-    QPointF center = pBzItem->rect().center();
-    pBzItem->setTransformOriginPoint(center);
+    pBzItem->rotatAngle(angle);
+    //    QPointF center = pBzItem->rect().center();
+    //    pBzItem->setTransformOriginPoint(center);
 
-    if (angle > 360) {
-        angle -= 360;
-    }
-    if (pBzItem->type() != LineType) {
-        pBzItem->setRotation(angle);
-    } else {
-        QLineF line = static_cast<CGraphicsLineItem *>(pBzItem)->line();
-        QPointF vector = line.p2() - line.p1();
-        qreal oriangle = 0;
-        if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
-            if (line.p2().y() - line.p1().y() > 0.0001) {
-                oriangle = 90;
-            } else {
-                oriangle = -90;
-            }
-        } else {
-            oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
-        }
-        angle = angle - oriangle;
-        if (angle > 360) {
-            angle -= 360;
-        }
-        pBzItem->setRotation(angle);
-    }
+    //    if (angle > 360) {
+    //        angle -= 360;
+    //    }
+    //    if (pBzItem->type() != LineType) {
+    //        pBzItem->setRotation(angle);
+    //    } else {
+    //        QLineF line = static_cast<CGraphicsLineItem *>(pBzItem)->line();
+    //        QPointF vector = line.p2() - line.p1();
+    //        qreal oriangle = 0;
+    //        if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
+    //            if (line.p2().y() - line.p1().y() > 0.0001) {
+    //                oriangle = 90;
+    //            } else {
+    //                oriangle = -90;
+    //            }
+    //        } else {
+    //            oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
+    //        }
+    //        angle = angle - oriangle;
+    //        if (angle > 360) {
+    //            angle -= 360;
+    //        }
+    //        pBzItem->setRotation(angle);
+    //    }
 }
 
 void CDrawScene::setMaxZValue(qreal zValue)
 {
     m_pGroupItem->setZValue(zValue + 10000);
-    m_pHighLightItem->setZValue(zValue + 10001);
+    //m_pHighLightItem->setZValue(zValue + 10001);
     m_maxZValue = zValue;
 }
 

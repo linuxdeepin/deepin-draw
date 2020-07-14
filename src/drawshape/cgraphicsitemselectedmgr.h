@@ -36,6 +36,12 @@ public:
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     /**
+     * @brief boundingRect 边界矩形
+     * @return
+     */
+    void updateBoundingRect();
+
+    /**
      * @brief shape 图元形状
      * @return
      */
@@ -60,11 +66,23 @@ public:
     void removeFromGroup(CGraphicsItem *item);
 
     /**
+     * @brief resizeTo 沿一个方向拉伸图元
+     * @param dir 拉伸方向
+     * @param point 移动距离
+     */
+    virtual void newResizeTo(CSizeHandleRect::EDirection dir,
+                             const QPointF &mousePos,
+                             const QPointF &offset,
+                             bool bShiftPress, bool bAltPress) override;
+
+    virtual void rotatAngle(qreal angle) override;
+
+    /**
      * @brief resizeTo 拉伸图元 所有图元都通过此接口拉伸
      * @param dir
      * @param point
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
 
     /**
      * @brief resizeTo
@@ -73,10 +91,10 @@ public:
      * @param bShiftPress
      * @param bAltPress
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point,
-                          bool bShiftPress,
-                          bool bAltPress) Q_DECL_OVERRIDE;
+    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                                            const QPointF &point,
+                                            bool bShiftPress,
+                                            bool bAltPress) Q_DECL_OVERRIDE;
 
     void resizeAll(CSizeHandleRect::EDirection dir,
                    const QPointF &mousePos,
@@ -138,5 +156,7 @@ private:
 private:
     QList<CGraphicsItem * > m_listItems;
     QMap<CGraphicsItem *, QRectF> m_mapItemsRect;
+
+    QRectF _rct;
 };
 #endif // CGRAPHICSITEMGROUP_H

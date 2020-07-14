@@ -195,6 +195,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             if (it.value().businessItem != nullptr) {
                 toolCreatItemFinish(event, &it.value());
 
+                event->scene()->selectItem(it.value().businessItem);
+
                 QList<QVariant> vars;
                 vars << reinterpret_cast<long long>(event->scene());
                 vars << reinterpret_cast<long long>(it.value().businessItem);

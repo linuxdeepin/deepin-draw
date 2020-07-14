@@ -136,6 +136,35 @@ QRectF CGraphicsLineItem::rect() const
     return rect.normalized();
 }
 
+void CGraphicsLineItem::rotatAngle(qreal angle)
+{
+    QPointF center = this->rect().center();
+
+    this->setTransformOriginPoint(center);
+
+    if (angle > 360) {
+        angle -= 360;
+    }
+
+    QLineF line = static_cast<CGraphicsLineItem *>(this)->line();
+    QPointF vector = line.p2() - line.p1();
+    qreal oriangle = 0;
+    if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
+        if (line.p2().y() - line.p1().y() > 0.0001) {
+            oriangle = 90;
+        } else {
+            oriangle = -90;
+        }
+    } else {
+        oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
+    }
+    angle = angle - oriangle;
+    if (angle > 360) {
+        angle -= 360;
+    }
+    this->setRotation(angle);
+}
+
 void CGraphicsLineItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
 {
     bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();

@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QStyleOptionGraphicsItem>
 CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
@@ -44,7 +45,7 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
         }
     }
 
-    updateGeometry();
+    updateBoundingRect();
 }
 
 void CGraphicsItemSelectedMgr::clear()
@@ -55,18 +56,44 @@ void CGraphicsItemSelectedMgr::clear()
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
     }
     m_listItems.clear();
-    updateGeometry();
+    updateBoundingRect();
 }
 
 QRectF CGraphicsItemSelectedMgr::boundingRect() const
 {
-    QRectF rect;
-    foreach (QGraphicsItem *item, m_listItems) {
-        rect = rect.united(item->mapRectToScene(item->boundingRect()));
+    return _rct;
+}
+
+void CGraphicsItemSelectedMgr::updateBoundingRect()
+{
+    QRectF rect(0, 0, 0, 0);
+
+    if (m_listItems.size() > 1) {
+        CGraphicsItem::rotatAngle(0);
+
+        foreach (QGraphicsItem *item, m_listItems) {
+            rect = rect.united(item->mapRectToScene(item->boundingRect()));
+        }
+
+        rect = mapFromScene(rect).boundingRect();
+
+    } else if (m_listItems.size() == 1) {
+        CGraphicsItem *pItem = m_listItems.first();
+
+        _rct = pItem->boundingRect();
+
+        setPos(pItem->pos());
+
+        CGraphicsItem::rotatAngle(pItem->rotation());
+
+        updateGeometry();
+
+        return;
     }
 
-    rect = mapFromScene(rect).boundingRect();
-    return rect;
+    _rct = rect;
+
+    updateGeometry();
 }
 
 QPainterPath CGraphicsItemSelectedMgr::shape() const
@@ -99,7 +126,7 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
         }
     }
 
-    updateGeometry();
+    updateBoundingRect();
 }
 
 void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
@@ -115,7 +142,23 @@ void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
     if (m_listItems.size() == 1) {
         m_listItems.at(0)->setMutiSelect(false);
     }
-    updateGeometry();
+    updateBoundingRect();
+}
+
+void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
+                                           const QPointF &mousePos,
+                                           const QPointF &offset,
+                                           bool bShiftPress, bool bAltPress)
+{
+    resizeAll(dir, mousePos, offset, bShiftPress, bAltPress);
+}
+
+void CGraphicsItemSelectedMgr::rotatAngle(qreal angle)
+{
+    if (m_listItems.count() == 1) {
+        m_listItems.first()->rotatAngle(angle);
+        updateBoundingRect();
+    }
 }
 
 void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -358,7 +401,7 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir,
         }
         item->resizeToMul_7(dir, pressRect, m_mapItemsRect[item],  xScale, yScale, bShiftPress, bAltPress);
     }
-    updateGeometry();
+    updateBoundingRect();
 }
 
 void CGraphicsItemSelectedMgr::resizeAll(CSizeHandleRect::EDirection dir, const QPointF &mousePos,
@@ -366,6 +409,7 @@ void CGraphicsItemSelectedMgr::resizeAll(CSizeHandleRect::EDirection dir, const 
 {
     if (m_listItems.count() == 1) {
         m_listItems.first()->resizeTo(dir, mousePos);
+        updateBoundingRect();
         return;
     }
 
@@ -734,7 +778,7 @@ void CGraphicsItemSelectedMgr::resizeAll(CSizeHandleRect::EDirection dir, const 
             }
         }
     }
-    updateGeometry();
+    updateBoundingRect();
 }
 
 bool CGraphicsItemSelectedMgr::isResizableWithInfo(CSizeHandleRect::EDirection dir,
@@ -1564,6 +1608,7 @@ void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
     foreach (CGraphicsItem *item, m_listItems) {
         item->move(beginPoint, movePoint);
     }
+    updateBoundingRect();
 }
 
 int CGraphicsItemSelectedMgr::type() const
@@ -1573,7 +1618,7 @@ int CGraphicsItemSelectedMgr::type() const
 
 QRectF CGraphicsItemSelectedMgr::rect() const
 {
-    return QRectF();
+    return _rct;
 }
 
 void CGraphicsItemSelectedMgr::updateGeometry()
@@ -1620,14 +1665,24 @@ void CGraphicsItemSelectedMgr::updateGeometry()
         case CSizeHandleRect::Left:
             hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
             break;
+        case CSizeHandleRect::Rotation: {
+            if (m_listItems.count() > 1) {
+                hndl->hide();
+            } else {
+                hndl->show();
+                hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
+            }
+            break;
+        }
         default:
             break;
         }
     }
-    if (m_listItems.size() == 1) {
-        m_listItems.at(0)->setSelected(true);
-        this->setSelected(false);
-    }
+
+    //    if (m_listItems.size() == 1) {
+    //        m_listItems.at(0)->setSelected(true);
+    //        this->setSelected(false);
+    //    }
 }
 
 void CGraphicsItemSelectedMgr::recordItemsRect()
@@ -1654,21 +1709,19 @@ void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphi
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateGeometry();
-    if (m_listItems.size() > 1) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setColor(QColor("#E0E0E0"));
-        qreal setValue = 1 / painter->worldTransform().m11();
-        painter->setRenderHint(QPainter::Antialiasing, false);
-        pen.setWidthF(setValue);
-        //qDebug() << "finale value0 = " << (setValue * painter->worldTransform().m11());
-        //qDebug() << "finale value1 = " << (pen.widthF() * painter->worldTransform().m11());
-        painter->setPen(pen);
-        painter->setBrush(Qt::NoBrush);
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    painter->setClipping(false);
+    QPen pen;
+
+    painter->setRenderHint(QPainter::Antialiasing, true);
+
+    pen.setWidthF(1 / option->levelOfDetailFromTransform(painter->worldTransform()));
+
+    pen.setColor(QColor("#E0E0E0"));
+
+    painter->setPen(pen);
+    painter->setBrush(QBrush(Qt::NoBrush));
+    painter->drawRect(this->boundingRect());
+    painter->setClipping(true);
 }
 
 void CGraphicsItemSelectedMgr::initHandle()
@@ -1677,18 +1730,18 @@ void CGraphicsItemSelectedMgr::initHandle()
 
     m_handles.reserve(CSizeHandleRect::None);
 
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {
+    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
         CSizeHandleRect *shr = nullptr;
         if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i),
+                                      QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
 
         } else {
             shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
         }
         m_handles.push_back(shr);
-
     }
-    updateGeometry();
+    updateBoundingRect();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

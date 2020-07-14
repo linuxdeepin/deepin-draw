@@ -85,7 +85,19 @@ public:
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
+    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
+
+    /**
+     * @brief resizeTo 沿一个方向拉伸图元
+     * @param dir 拉伸方向
+     * @param point 移动距离
+     */
+    virtual void newResizeTo(CSizeHandleRect::EDirection dir,
+                             const QPointF &mousePos,
+                             const QPointF &offset,
+                             bool bShiftPress, bool bAltPress);
+
+    virtual void rotatAngle(qreal angle);
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元
@@ -94,8 +106,8 @@ public:
      * @param bShiftPress shift键是否按下
      * @param bAltPress alt键是rectCffset否按下
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) = 0;
+    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                                            bool bShiftPress, bool bAltPress) = 0;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -107,10 +119,10 @@ public:
                              const double &xScale, const double &yScale,
                              bool bShiftPress, bool bAltPress);
 
-    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
-                               QRectF pressRect, QRectF itemPressRect,
-                               const qreal &xScale, const qreal &yScale,
-                               bool bShiftPress, bool bAltPress);
+    Q_DECL_DEPRECATED virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
+                                                 QRectF pressRect, QRectF itemPressRect,
+                                                 const qreal &xScale, const qreal &yScale,
+                                                 bool bShiftPress, bool bAltPress);
 
     CGraphicsItem *creatSameItem();
 
@@ -127,7 +139,6 @@ public:
      * @return
      */
     virtual CGraphicsUnit getGraphicsUnit() const;
-
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
@@ -208,6 +219,8 @@ protected:
 
     void  beginCheckIns(QPainter *painter);
     void  endCheckIns(QPainter *painter);
+
+    void paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
 protected:
     typedef QVector<CSizeHandleRect *> Handles;

@@ -946,22 +946,6 @@ void CGraphicsView::slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack)
 
 void CGraphicsView::slotOnCut()
 {
-    //    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    //    if (itemList.isEmpty()) {
-    //        return;
-    //    }
-
-    //    CShapeMimeData *data = new CShapeMimeData(itemList);
-    //    data->setText("");
-    //    QApplication::clipboard()->setMimeData(data);
-
-    //    QUndoCommand *deleteCommand = new CRemoveShapeCommand(this->scene());
-    //    m_pUndoStack->push(deleteCommand);
-
-    //    if (!m_pasteAct->isEnabled()) {
-    //        m_pasteAct->setEnabled(true);
-    //    }
-
     QList<QGraphicsItem *> allItems;
     auto curScene = dynamic_cast<CDrawScene *>(scene());
     QList<CGraphicsItem *> seleteItems = curScene->getItemsMgr()->getItems();
@@ -1007,6 +991,8 @@ void CGraphicsView::slotOnCut()
         m_pasteAct->setEnabled(true);
     }
     updateCursorShape();
+
+    curScene->getItemsMgr()->updateBoundingRect();
 }
 
 void CGraphicsView::slotOnCopy()
