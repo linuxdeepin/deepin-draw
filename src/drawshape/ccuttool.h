@@ -31,25 +31,36 @@ public:
     CCutTool();
     virtual ~CCutTool() Q_DECL_OVERRIDE;
 
+protected:
+    /**
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　 工具刷新事件
+     * @param event       当次事件信息
+     * @param pInfo       记录信息
+     */
+    virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　工具结束事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
+     * @param event      当次事件信息
+     */
+    virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+
+
 public:
-    /**
-     * @brief mousePressEvent　鼠标点击事件
-     * @param event　场景事件
-     * @param scene　场景句柄
-     */
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
-    /**
-     * @brief mouseMoveEvent 鼠标移动事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) Q_DECL_OVERRIDE;
-    /**
-     * @brief mouseReleaseEvent　鼠标弹起事件
-     * @param event 场景事件
-     * @param scene 场景句柄
-     */
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)Q_DECL_OVERRIDE;
     /**
      * @brief createCutItem 创建裁剪图元
      * @param scene　场景句柄

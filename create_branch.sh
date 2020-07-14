@@ -1,6 +1,9 @@
 #!/bin/bash
 
-echo "切换分支到：dev/professional/bugfix ..."
+echo "已经暂存文件，恢复文件使用: git stash pop"
+git stash pop
+
+echo "准备切换分支到：dev/professional/bugfix ..."
 git checkout dev/professional/bugfix
 
 gitstatus=`git status`
