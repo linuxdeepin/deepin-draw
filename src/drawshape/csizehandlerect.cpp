@@ -45,7 +45,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     setParentItem(parent);
     setCacheMode(NoCache);
     setSharedRenderer(&m_lightRenderer);
-    hide();
+    //hide();
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
 }
@@ -59,7 +59,7 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
 {
     setParentItem(parent);
     setCacheMode(NoCache);
-    hide();
+    //hide();
 
     setFlag(ItemIsSelectable, false);
     setFlag(ItemIsMovable, false);
@@ -140,7 +140,7 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 bool CSizeHandleRect::isFatherDragging()
 {
     CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
-    if (pParentItem != nullptr && pParentItem->isSelected()) {
+    if (pParentItem != nullptr) {
         CDrawScene *pDrawScene = qobject_cast<CDrawScene *>(scene());
         if (pDrawScene != nullptr) {
             EDrawToolMode model = pDrawScene->getDrawParam()->getCurrentDrawToolMode();

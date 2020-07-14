@@ -212,8 +212,8 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     if (static_cast<CDrawScene *>(scene()) && static_cast<CDrawScene *>(scene())->selectedItems().size() == 1) {
         CGraphicsItem *item = static_cast<CGraphicsItem *>(static_cast<CDrawScene *>(scene())->selectedItems().at(0));
         if (item && item->type() == TextType) {
-            static_cast<CDrawScene *>(scene())->getItemHighLight()->setPos(QPoint(0, 0));
-            static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
+            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPos(QPoint(0, 0));
+            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
         }
     }
 }
@@ -409,18 +409,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     drawDocument(painter, m_pTextEdit->document(), this->rect());
     endCheckIns(painter);
 
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-
-        pen.setColor(QColor("#E0E0E0"));
-
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    paintMutBoundingLine(painter, option);
 }
 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

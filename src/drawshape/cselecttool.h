@@ -38,22 +38,26 @@ class CSelectTool : public IDrawTool
 public:
     CSelectTool();
     virtual ~CSelectTool() override;
+
     /**
      * @brief isDragging　是否正在进行拖拽操作
      */
     bool isDragging();
+
     /**
      * @brief mousePressEvent　鼠标点击事件
      * @param event　场景事件
      * @param scene　场景句柄
      */
     void mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
+
     /**
      * @brief mouseMoveEvent 鼠标移动事件
      * @param event 场景事件
      * @param scene 场景句柄
      */
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
+
     /**
      * @brief mouseReleaseEvent　鼠标弹起事件
      * @param event 场景事件
@@ -76,60 +80,69 @@ public:
                         EOperateCount
     };
 
+    /**
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　 工具刷新事件
+     * @param event       当次事件信息
+     * @param pInfo       记录信息
+     */
     virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　工具结束事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　判断工具活跃类型
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
+     * @param event      当次事件信息
+     */
     virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event) override;
+
+    /**
+     * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
+     * @param painter  绘制指针
+     * @param rect     矩形大小
+     * @param scene    场景指针
+     */
     virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
+    /**
+     * @brief copyItemsToScene　将items拷贝一份加入到scene中去（实现alt复制）
+     * @param items             源items
+     * @param scene             待加入到的场景
+     */
     QList<QGraphicsItem *> copyItemsToScene(const QList<QGraphicsItem *> &items, CDrawScene *scene);
 
-    QPainterPath _hightLight;
-
-private:
     /**
-     * @brief pintToRect　任意两点确定一个矩形
-     * @param point1 任意一点
-     * @param point2 任意一点
+     * @brief updateCursorShape　刷新鼠标样式
      */
-    QRectF pointToRect(QPointF point1, QPointF point2);
-    /**
-     * @brief getItemByPointToItemMinDistance　获取点到 item 集合中距离最短的item
-     * @param mousePoint 鼠标点
-     * @param detectItems 待比较的 QGraphicsItem
-     */
-    QGraphicsItem *getItemByMousePointToItemMinDistance(QPointF mousePoint, QList<QGraphicsItem *> detectItems);
-    /**
-     * @brief getItemByPointToItemMinDistance　获取点到 item 最短的距离
-     * @param mousePoint 鼠标点
-     * @param detectItems 待比较的 QGraphicsItem
-     */
-    double getItemMinDistanceByMousePointToItem(QPointF mousePoint, QGraphicsItem *detectItems);
-
-
-public:
     void updateCursorShape();
+
 private:
-    QGraphicsItem *m_pressDownItem = nullptr;
-    QGraphicsItem *m_currentSelectItem;
-    QGraphicsItem *m_highlightItem;
-    QGraphicsRectItem *m_frameSelectItem;
-    CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
-    bool m_bRotateAng;
-    qreal m_rotateAng;
-    QPointF m_initRotateItemPos;
-    CGraphicsRotateAngleItem *m_RotateItem;
+    /* 文字可编辑光标 */
     QCursor m_textEditCursor;
-    bool m_doCopy;
-    bool m_isMulItemMoving;       //当前有多个(超过1个)item正在被拖拽移动(注意和m_isItemMoving的区别)
-    bool m_doResize;
-    bool m_isItemMoving = false;  //当前有item正在被拖拽移动(注意和m_isMulItemMoving的区别)
-    QRectF m_pressItemRect;       //鼠标在8个方向上单个图元的大小
 
-    QPointF m_lineReShapeFirstPress; //记录直线点击起点
+    /* 当前有item正在被拖拽移动 */
+    bool m_isItemMoving = false;
 
-    //    EOperateType _updateType = ENothingDo;
+    /* 高亮路径 */
+    QPainterPath _hightLight;
 };
 
 #endif // CSELECTTOOL_H

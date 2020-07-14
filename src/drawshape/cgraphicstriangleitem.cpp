@@ -166,20 +166,5 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     endCheckIns(painter);
 
-    //是否选中的情况
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            pen.setColor(QColor(224, 224, 224));
-//        } else {
-//            pen.setColor(QColor(69, 69, 69));
-//        }
-        pen.setColor(QColor(224, 224, 224));
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    paintMutBoundingLine(painter, option);
 }

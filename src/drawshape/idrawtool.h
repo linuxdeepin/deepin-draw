@@ -86,7 +86,8 @@ public:
         enum EEventTp { EMouseEvent,
                         ETouchEvent,
                         EEventSimulated,
-                        EEventCount };
+                        EEventCount
+        };
         CDrawToolEvent(const QPointF &vPos      = QPointF(),
                        const QPointF &scenePos  = QPointF(),
                        const QPointF &globelPos = QPointF(),
@@ -144,19 +145,75 @@ public:
 protected:
     struct ITERecordInfo;
 
+    /**
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief toolStart　 工具刷新事件
+     * @param event       当次事件信息
+     * @param pInfo       记录信息
+     */
     virtual void toolUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief toolStart　工具结束事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief toolStart　判断工具活跃类型
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
     virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
 
-    virtual void toolCreatItemStart(CDrawToolEvent *event, ITERecordInfo *pInfo);
-    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
-    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo);
-
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event);
+    /**
+     * @brief toolStart　鼠标hover事件（处理高亮，鼠标样式变化等）
+     * @param event      当次事件信息
+     */
     virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event);
 
+    /**
+     * @brief toolCreatItemStart　工具创造业务图元的开始
+     * @param event               当次事件信息
+     * @param pInfo               记录信息
+     */
+    virtual void toolCreatItemStart(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief toolCreatItemUpdate　工具创造业务图元的刷新
+     * @param event                当次事件信息
+     * @param pInfo                记录信息
+     */
+    virtual void toolCreatItemUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief toolCreatItemFinish　工具创造业务图元的结束
+     * @param event                当次事件信息
+     * @param pInfo                记录信息
+     */
+    virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief creatItem　工具创造业务图元指针
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    virtual CGraphicsItem *creatItem(CDrawToolEvent *event);
+
 public:
+    /**
+     * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
+     * @param painter  绘制指针
+     * @param rect     矩形大小
+     * @param scene    场景指针
+     */
     virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene);
 
     /**

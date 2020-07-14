@@ -143,26 +143,6 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     Q_UNUSED(widget)
 
     updateGeometry();
-//先还原成原来的直接绘制所以这里先注释
-//    painter->save();
-//    painter->setClipRect(this->rect());
-//    //绘制填充
-//    painter->setPen(Qt::NoPen);
-//    painter->setBrush(brush());
-//    painter->drawPolygon(m_polygonForBrush);
-//    //再绘制描边
-//    if(m_renderWay == RenderPathLine)
-//    {
-//        painter->setPen(Qt::NoPen);
-//        painter->setBrush(QColor(pen().color()));
-//        painter->drawPath(m_pathForRenderPenLine);
-//    }
-//    else {
-//        painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-//        painter->setBrush(Qt::NoBrush);
-//        painter->drawPolygon(m_polygonPen);
-//    }
-//    painter->restore();
 
     beginCheckIns(painter);
 
@@ -172,21 +152,7 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
     endCheckIns(painter);
 
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            pen.setColor(QColor(224, 224, 224));
-//        } else {
-//            pen.setColor(QColor(69, 69, 69));
-//        }
-        pen.setColor(QColor(224, 224, 224));
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->setPen(pen);
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    paintMutBoundingLine(painter, option);
 }
 
 void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)

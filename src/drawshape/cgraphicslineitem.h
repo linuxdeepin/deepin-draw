@@ -37,6 +37,8 @@ public:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
 
+    virtual void rotatAngle(qreal angle) Q_DECL_OVERRIDE;
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir,

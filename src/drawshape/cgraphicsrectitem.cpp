@@ -96,19 +96,6 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
 void CGraphicsRectItem::initHandle()
 {
     clearHandle();
-    // handles
-    m_handles.reserve(CSizeHandleRect::None);
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = nullptr;
-        if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
-
-        } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
-        }
-        m_handles.push_back(shr);
-
-    }
     updateGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -160,21 +147,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     endCheckIns(painter);
 
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            pen.setColor(QColor(224, 224, 224));
-//        } else {
-//            pen.setColor(QColor(69, 69, 69));
-//        }
-        pen.setColor(QColor(224, 224, 224));
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    //224,224,224
+    paintMutBoundingLine(painter, option);
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
