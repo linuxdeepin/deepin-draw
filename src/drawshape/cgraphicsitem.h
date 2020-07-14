@@ -29,6 +29,8 @@
 
 class CGraphicsView;
 
+class CDrawScene;
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -53,10 +55,40 @@ public:
     CGraphicsView *curView()const;
 
     /**
+     * @brief type 返回当前所处的scene
+     * @return
+     */
+    CDrawScene *drawScene();
+
+    /**
+     * @brief type 返回一个数据一样的同类图元
+     * @return
+     */
+    CGraphicsItem *creatSameItem();
+
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data);
+
+    /**
+     * @brief getGraphicsUnit 获取图元数据
+     * @return
+     */
+    virtual CGraphicsUnit getGraphicsUnit() const;
+
+    /**
      * @brief type 返回当前图元类型
      * @return
      */
     virtual int  type() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief isBzItem 是否是业务图元(不包括多选图元)
+     * @return
+     */
+    bool isBzItem();
 
     /**
      * @brief hitTest 碰撞检测，用来检测鼠标在图元的哪个点位上
@@ -65,32 +97,47 @@ public:
      */
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const;
 
-    virtual bool contains(const QPointF &point) const Q_DECL_OVERRIDE;
-
+    /**
+     * @brief resizeTo 沿一个方向拉伸图元
+     * @param dir 拉伸方向
+     * @param point 移动距离
+     */
     virtual QPainterPath inSideShape() const;
+
+    /**
+     * @brief resizeTo 沿一个方向拉伸图元
+     * @param dir 拉伸方向
+     * @param point 移动距离
+     */
     virtual QPainterPath outSideShape() const;
+
+    /**
+     * @brief resizeTo 沿一个方向拉伸图元
+     * @param dir 拉伸方向
+     * @param point 移动距离
+     */
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /**
-     * @brief isCollidesAreaBiggerThan 相交的区域是否比另一个占比更大
-     * @param pOtherBzIt 另一个item
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）
+     * @param posLocal 该图元坐标系的坐标位置
      */
-    bool isCollidesAreaBiggerThan(const CGraphicsItem *pOtherBzIt);
-
-    /* posLocal 是否可以穿透这个item的 */
     virtual bool isPosPenetrable(const QPointF &posLocal);
 
     /**
-     * @brief resizeTo 沿一个方向拉伸图元
+     * @brief resizeTo 沿一个方向拉伸图元（将被弃用）
      * @param dir 拉伸方向
      * @param point 移动距离
      */
-    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) = 0;
 
     /**
-     * @brief resizeTo 沿一个方向拉伸图元
+     * @brief newResizeTo 沿一个方向拉伸图元
      * @param dir 拉伸方向
-     * @param point 移动距离
+     * @param mousePos 移动到的场景坐标系坐标
+     * @param offset   移动的偏移
+     * @param bShiftPress   是否是按住shift按键
+     * @param bAltPress     是否是按住bAltPress按键
      */
     virtual void newResizeTo(CSizeHandleRect::EDirection dir,
                              const QPointF &mousePos,
@@ -100,16 +147,7 @@ public:
     virtual void rotatAngle(qreal angle);
 
     /**
-     * @brief resizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param point 移动距离
-     * @param bShiftPress shift键是否按下
-     * @param bAltPress alt键是rectCffset否按下
-     */
-    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                                            bool bShiftPress, bool bAltPress) = 0;
-    /**
-     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置（将被弃用）
      * @param dir 8个方向
      * @param offset x，y方向移动距离
      * @param xScale X轴放大缩小比例
@@ -119,26 +157,6 @@ public:
                              const double &xScale, const double &yScale,
                              bool bShiftPress, bool bAltPress);
 
-    Q_DECL_DEPRECATED virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
-                                                 QRectF pressRect, QRectF itemPressRect,
-                                                 const qreal &xScale, const qreal &yScale,
-                                                 bool bShiftPress, bool bAltPress);
-
-    CGraphicsItem *creatSameItem();
-
-    virtual CGraphicsItem *duplicateCreatItem();
-
-    /**
-     * @brief duplicate 复制this图元到item图元
-     * @param item 复制后的图元
-     */
-    virtual void duplicate(CGraphicsItem *item);
-
-    /**
-     * @brief getGraphicsUnit 获取图元数据
-     * @return
-     */
-    virtual CGraphicsUnit getGraphicsUnit() const;
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
@@ -193,9 +211,12 @@ public:
      */
     QRectF  scenRect();
 
-    virtual void    clearHandle();
-    virtual void    initHandle();
 protected:
+    /**
+     * @brief loadHeadData 加载通用数据
+     */
+    void loadHeadData(const SGraphicsUnitHead &head);
+
     /**
      * @brief updateGeometry 更新状态矩形位置
      */
@@ -207,6 +228,10 @@ protected:
      */
     virtual void setState(ESelectionHandleState st);
 
+    /**
+     * @brief contextMenuEvent 显示菜单
+     * @param event 状态
+     */
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) Q_DECL_OVERRIDE;
 
     /**
@@ -217,16 +242,58 @@ protected:
      */
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief clearHandle 清理所有控制节点item
+     */
+    virtual void clearHandle();
+
+    /**
+     * @brief initHandle 初始化控制节点item
+     */
+    virtual void initHandle();
+
+    /**
+     * @brief 创建一个同类型图元
+     */
+    virtual CGraphicsItem *duplicateCreatItem();
+
+    /**
+     * @brief duplicate 复制this图元信息到item图元
+     * @param item 复制后的图元
+     */
+    virtual void duplicate(CGraphicsItem *item);
+
+    /**
+     * @brief beginCheckIns 检查图元是否和场景就交集（必须和endCheckIns成對出现）
+     * @param painter 绘制指针
+     */
     void  beginCheckIns(QPainter *painter);
+
+    /**
+     * @brief endCheckIns 结束检查图元是否和场景就交集（必须和beginCheckIns成對出现）
+     * @param painter 绘制指针
+     */
     void  endCheckIns(QPainter *painter);
 
+    /**
+     * @brief paintMutBoundingLine 显示菜单
+     * @param painter 绘制指针
+     * @param option  绘制信息
+     */
     void paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option);
 
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
-    Handles m_handles;  //选中时 显示的小方框
 
-    bool m_bMutiSelectFlag; //设置选中状态 不用系统的选中方式，由自己管理
+    /* 选中时出现的控制节点 */
+    Handles m_handles;
+
+    /* 设置选中状态 不用系统的选中方式，由自己管理 */
+    bool m_bMutiSelectFlag;
+
+public:
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress);
 };
 
 #endif // CGRAPHICSITEM_H

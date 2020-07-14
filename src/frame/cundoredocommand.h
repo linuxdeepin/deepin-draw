@@ -24,6 +24,9 @@
 #include <QUndoCommand>
 #include <QList>
 #include <QGraphicsItem>
+#include "drawshape/sitemdata.h"
+
+class CGraphicsItem;
 
 //using funForUndoRedo = void(*)();
 /**
@@ -41,7 +44,8 @@ public:
     };
     enum EVarUndoOrRedo { UndoVar,
                           RedoVar,
-                          VarTpCount };
+                          VarTpCount
+    };
 
     /**
      * @brief The CUndoRedoCommand 构造函数
@@ -244,7 +248,7 @@ public:
     /**
      * @brief The CUndoRedoCommandGroup 构造函数
      */
-    CUndoRedoCommandGroup();
+    CUndoRedoCommandGroup(bool selectObject = true);
 
     /**
      * @brief The addCommand 添加一个操作到组
@@ -268,8 +272,12 @@ public:
 private:
     void addCommand(const SCommandInfoCouple &pCmd);
 
+    void doSelect();
+
 private:
     QList<CUndoRedoCommand *> _allCmds;
+
+    bool select = true;
 
     friend class CUndoRedoCommand;
 };
@@ -283,7 +291,9 @@ public:
     enum EChangedType { ESizeChanged,
                         EItemAdded,
                         EItemRemoved,
-                        EChangedCount };
+                        EAllChanged,
+                        EChangedCount
+    };
     CSceneUndoRedoCommand(EChangedType tp = ESizeChanged);
 
     inline QGraphicsScene *scene();
@@ -305,7 +315,8 @@ class CSceneItemNumChangedCommand : public CSceneUndoRedoCommand
 {
 public:
     enum EChangedType { Removed,
-                        Added };
+                        Added
+    };
 
     CSceneItemNumChangedCommand(EChangedType tp);
 
@@ -315,9 +326,26 @@ public:
 
     void real_redo() Q_DECL_OVERRIDE;
 
+    QList<QGraphicsItem *> &items();
+
 private:
     QList<QGraphicsItem *> _Items;
     EChangedType _changedTp;
+};
+
+class CSceneBoundingChangedCommand : public CSceneUndoRedoCommand
+{
+public:
+    CSceneBoundingChangedCommand();
+
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+
+    void real_undo() Q_DECL_OVERRIDE;
+
+    void real_redo() Q_DECL_OVERRIDE;
+
+private:
+    QRectF _rect[VarTpCount];
 };
 
 /**
@@ -332,7 +360,9 @@ public:
     enum EChangedType { EPosChanged,
                         ESizeChanged,
                         EPropertyChanged,
-                        EChangedCount };
+                        EAllChanged,
+                        EChangedCount
+    };
 
     CItemUndoRedoCommand();
 
@@ -348,6 +378,37 @@ public:
 
 private:
     QGraphicsItem *_pItem = nullptr;
+};
+
+/**
+ * @brief The CItemMoveCommand 画板 移动图元
+ */
+class CBzItemAllCommand : public CItemUndoRedoCommand
+{
+public:
+    CBzItemAllCommand();
+
+    inline CGraphicsItem *bzItem();
+
+public:
+    /**
+     * @brief The undo 执行undo
+     */
+    void real_undo() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief The redo 执行redo
+     */
+    void real_redo() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief The parsingVars (默认解析第一个为item 如需更多参数获取记得子类继承自己解析)
+     * @param vars　所有参数数据
+     */
+    void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp) Q_DECL_OVERRIDE;
+
+private:
+    CGraphicsUnit _itemDate[VarTpCount];
 };
 
 /**

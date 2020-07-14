@@ -42,6 +42,7 @@
 #include "widgets/ctextedit.h"
 #include "service/cmanagerattributeservice.h"
 #include "application.h"
+#include "cundoredocommand.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -295,7 +296,7 @@ bool CDrawScene::event(QEvent *event)
         }
 
         foreach (const QTouchEvent::TouchPoint tp, touchPoints) {
-            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this);
+            IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this, event);
             switch (tp.state()) {
             case Qt::TouchPointPressed:
                 //表示触碰按下
@@ -707,11 +708,12 @@ void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)
     m_pGroupItem->move(prePos, curPos);
 }
 
-void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction, const QPointF &prePos, const QPointF &curPos, bool keepRadio)
+void CDrawScene::resizeMrItem(CSizeHandleRect::EDirection direction,
+                              const QPointF &prePos,
+                              const QPointF &curPos,
+                              bool keepRadio)
 {
-    m_pGroupItem->resizeAll(direction, curPos,
-                            curPos - prePos,
-                            keepRadio, false);
+    m_pGroupItem->newResizeTo(direction, prePos, curPos, keepRadio, false);
 }
 
 QList<QGraphicsItem *> CDrawScene::getBzItems(const QList<QGraphicsItem *> &items)
@@ -1020,3 +1022,28 @@ bool CDrawScene::isBlockMouseMoveEvent()
     return blockMouseMoveEventFlag;
 }
 
+void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo)
+{
+    for (int i = 0; i < items.size(); ++i) {
+        CGraphicsItem *pItem = items[i];
+
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(pItem);
+        QVariant varInfo;
+        varInfo.setValue(pItem->getGraphicsUnit());
+        vars << varInfo;
+
+        if (isUndo) {
+            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EAllChanged, vars, true, i == 0);
+        } else {
+            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EAllChanged, vars);
+        }
+    }
+}
+
+void CDrawScene::finishRecord()
+{
+    CUndoRedoCommand::finishRecord();
+}

@@ -36,7 +36,7 @@ public:
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     /**
-     * @brief boundingRect 边界矩形
+     * @brief updateBoundingRect 刷新大小矩形
      * @return
      */
     void updateBoundingRect();
@@ -82,30 +82,9 @@ public:
      * @param dir
      * @param point
      */
-    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point) Q_DECL_OVERRIDE;
 
-    /**
-     * @brief resizeTo
-     * @param dir
-     * @param point
-     * @param bShiftPress
-     * @param bAltPress
-     */
-    Q_DECL_DEPRECATED virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                                            const QPointF &point,
-                                            bool bShiftPress,
-                                            bool bAltPress) Q_DECL_OVERRIDE;
-
-    void resizeAll(CSizeHandleRect::EDirection dir,
-                   const QPointF &mousePos,
-                   const QPointF &offset,
-                   bool bShiftPress, bool bAltPress);
-
-    bool isResizableWithInfo(CSizeHandleRect::EDirection dir,
-                             QPointF &mousePos,
-                             QPointF &offset,
-                             bool bShiftPress,
-                             bool bAltPress);
     /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
@@ -130,10 +109,6 @@ public:
      */
     virtual void updateGeometry() Q_DECL_OVERRIDE;
 
-    void recordItemsRect();
-
-    QRectF getMultItemRect();
-
 protected:
     /**
      * @brief paint 绘制函数
@@ -147,15 +122,11 @@ private:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块
      */
+
     void initHandle() override;
-    bool couldResize(QRectF itemSceneBoundRect, QPointF mousePoint,
-                     CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
-    QPointF getMinPoint(QRectF itemSceneBoundRect, QPointF mousePoint,
-                        CSizeHandleRect::EDirection dragHandle, bool bShiftPress, bool bAltPress);
 
 private:
     QList<CGraphicsItem * > m_listItems;
-    QMap<CGraphicsItem *, QRectF> m_mapItemsRect;
 
     QRectF _rct;
 };

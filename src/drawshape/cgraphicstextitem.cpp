@@ -355,6 +355,22 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
+void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    SGraphicsTextUnitData *pTextData = data.data.pText;
+
+    if (pTextData != nullptr) {
+        loadGraphicsRectUnit(pTextData->rect);
+        m_Font = pTextData->font;
+        m_bManResize = pTextData->manResizeFlag;
+        m_pTextEdit->setHtml(pTextData->content);
+        m_pTextEdit->hide();
+        QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
+        setRect(rect);
+    }
+    loadHeadData(data.head);
+}
+
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
     qDebug() << "Content: " << col;

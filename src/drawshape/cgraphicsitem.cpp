@@ -66,13 +66,7 @@ CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *paren
     : QAbstractGraphicsShapeItem(parent)
     , m_bMutiSelectFlag(false)
 {
-
-    this->setPen(head.pen);
-    this->setBrush(head.brush);
-
-    this->setRotation(head.rotate);
-    this->setPos(head.pos);
-    this->setZValue(head.zValue);
+    loadHeadData(head);
 }
 
 CGraphicsView *CGraphicsItem::curView() const
@@ -84,6 +78,11 @@ CGraphicsView *CGraphicsItem::curView() const
         }
     }
     return parentView;
+}
+
+CDrawScene *CGraphicsItem::drawScene()
+{
+    return qobject_cast<CDrawScene *>(scene());
 }
 
 void CGraphicsItem::setMutiSelect(bool flag)
@@ -113,9 +112,24 @@ QRectF CGraphicsItem::scenRect()
     return sceneBoundingRect();
 }
 
+void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
+{
+    this->setPen(head.pen);
+    this->setBrush(head.brush);
+
+    this->setRotation(head.rotate);
+    this->setPos(head.pos);
+    this->setZValue(head.zValue);
+}
+
 int CGraphicsItem::type() const
 {
     return Type;
+}
+
+bool CGraphicsItem::isBzItem()
+{
+    return (this->type() >= RectType && this->type() <= BlurType);
 }
 
 CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
@@ -135,11 +149,6 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     return CSizeHandleRect::None;
 }
 
-bool CGraphicsItem::contains(const QPointF &point) const
-{
-    return QAbstractGraphicsShapeItem::contains(point);
-}
-
 QPainterPath CGraphicsItem::inSideShape() const
 {
     QPainterPath path;
@@ -157,24 +166,6 @@ QPainterPath CGraphicsItem::outSideShape() const
 QPainterPath CGraphicsItem::shape() const
 {
     return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
-}
-
-bool CGraphicsItem::isCollidesAreaBiggerThan(const CGraphicsItem *pOtherBzIt)
-{
-    QRectF rect0 = this->mapToScene(this->boundingRect()).boundingRect();
-    QRectF rect1 = pOtherBzIt->mapToScene(pOtherBzIt->boundingRect()).boundingRect();
-
-    QRectF ins = rect0.intersected(rect1);
-
-    if (ins.isValid()) {
-        qreal valueIns = ins.width() * ins.height();
-        qreal value0 = rect0.width() * rect0.height();
-        qreal value1 = rect1.width() * rect1.height();
-
-        return (valueIns / value0 > valueIns / value1);
-    }
-
-    return false;
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -224,24 +215,17 @@ void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &
     Q_UNUSED(bAltPress)
 }
 
-void CGraphicsItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
-                                  QRectF pressRect, QRectF itemPressRect,
-                                  const qreal &xScale, const qreal &yScale,
-                                  bool bShiftPress, bool bAltPress) {
-    Q_UNUSED(dir)
-        Q_UNUSED(itemPressRect)
-            Q_UNUSED(pressRect)
-                Q_UNUSED(xScale)
-                    Q_UNUSED(yScale)
-                        Q_UNUSED(bShiftPress)
-                            Q_UNUSED(bAltPress)}
-
 CGraphicsItem *CGraphicsItem::creatSameItem()
 {
     CGraphicsItem *pItem = duplicateCreatItem();
     if (pItem != nullptr)
         duplicate(pItem);
     return pItem;
+}
+
+void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    loadHeadData(data.head);
 }
 
 CGraphicsItem *CGraphicsItem::duplicateCreatItem()
@@ -397,6 +381,16 @@ void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGr
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
+}
+
+void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir,
+                             const QPointF &point,
+                             bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(dir)
+    Q_UNUSED(point)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 void CGraphicsItem::initHandle()
 {

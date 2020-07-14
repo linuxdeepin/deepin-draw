@@ -203,6 +203,7 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
             QPointF move = event->pos() - pInfo->_prePos;
             event->scene()->moveItems(pInfo->etcItems, move);
         }
+        event->scene()->getItemsMgr()->updateBoundingRect();
         break;
     }
     default:
@@ -219,23 +220,13 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         break;
     }
     case EDragMove: {
-        QList<CGraphicsItem *> lists = event->scene()->getItemsMgr()->getItems();
-        lists.push_front(event->scene()->getItemsMgr());
-        //记录还原点，之后入栈
-        for (int i = 0; i < lists.size(); ++i) {
-            QGraphicsItem *pItem = lists[i];
-
-            QList<QVariant> vars;
-            vars << reinterpret_cast<long long>(pItem);
-            vars << pItem->scenePos();
-
-            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EPosChanged, vars);
-        }
+        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), false);
         m_isItemMoving = false;
         break;
     }
     case EResizeMove: {
+        //记录Redo点
+        event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), false);
         break;
     }
     case ECopyMove: {
@@ -277,34 +268,23 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                     pInfo->etcItems = copyItemsToScene(event->scene()->getBzItems(event->scene()->selectedItems()),
                                                        event->scene());
 
+                    event->scene()->clearMrSelection();
+
                     //记录还原点，之后入栈
                     QList<QVariant> vars;
                     vars << reinterpret_cast<long long>(event->scene());
                     for (int i = 0; i < pInfo->etcItems.size(); ++i) {
                         QGraphicsItem *pItem = pInfo->etcItems[i];
+                        event->scene()->selectItem(pItem);
                         vars << reinterpret_cast<long long>(pItem);
                     }
                     CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                         CSceneUndoRedoCommand::EItemAdded, vars, true, true);
                 } else {
                     tpye = EDragMove;
-
                     pInfo->etcItems.append(event->scene()->getItemsMgr());
-
                     QList<CGraphicsItem *> lists = event->scene()->getItemsMgr()->getItems();
-                    lists.push_front(event->scene()->getItemsMgr());
-
-                    //记录还原点，之后入栈
-                    for (int i = 0; i < lists.size(); ++i) {
-                        CGraphicsItem *pItem = lists[i];
-
-                        QList<QVariant> vars;
-                        vars << reinterpret_cast<long long>(pItem);
-                        vars << pItem->scenePos();
-
-                        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                            CItemUndoRedoCommand::EPosChanged, vars, true, i == 0);
-                    }
+                    event->scene()->recordItemsInfoToCmd(lists, true);
                     m_isItemMoving = true;
                 }
             } else if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
@@ -317,6 +297,9 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 } else {
                     pInfo->etcItems.append(event->scene()->getItemsMgr());
                 }
+
+                //记录undo点
+                event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), true);
             }
         }
     }

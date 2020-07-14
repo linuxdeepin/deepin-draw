@@ -80,9 +80,9 @@ CMoveShapeCommand::CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, con
 void CMoveShapeCommand::undo()
 {
     qDebug() << "CMoveShapeCommand undo";
-    if ( myItem )
+    if (myItem)
         myItem->moveBy(-myDelta.x(), -myDelta.y());
-    else if ( myItems.count() > 0 ) {
+    else if (myItems.count() > 0) {
         foreach (QGraphicsItem *item, myItems) {
             item->moveBy(-myDelta.x(), -myDelta.y());
         }
@@ -107,11 +107,11 @@ void CMoveShapeCommand::undo()
 void CMoveShapeCommand::redo()
 {
     qDebug() << "CMoveShapeCommand redo";
-    if ( !bMoved ) {
-        if ( myItem ) {
+    if (!bMoved) {
+        if (myItem) {
             myItem->moveBy(myDelta.x(), myDelta.y());
             myItem->scene()->update();
-        } else if ( myItems.count() > 0 ) {
+        } else if (myItems.count() > 0) {
             foreach (QGraphicsItem *item, myItems) {
                 item->moveBy(myDelta.x(), myDelta.y());
             }
@@ -704,9 +704,8 @@ bool ControlShapeCommand::mergeWith(const QUndoCommand *command)
 }
 */
 
-
 CSetPropertyCommand::CSetPropertyCommand(CDrawScene *scene, CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
     , m_pItem(item)
     , m_newPen(pen)
     , m_newBrush(brush)
@@ -780,9 +779,8 @@ void CSetPropertyCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-
 CSetRectXRediusCommand::CSetRectXRediusCommand(CDrawScene *scene, CGraphicsRectItem *item, int redius, bool bRediusChange, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
     , myGraphicsScene(scene)
     , m_pItem(item)
     , m_newRectXRedius(redius)
@@ -968,9 +966,8 @@ void CSetLineAttributeCommand::redo()
     myGraphicsScene->updateBlurItem(m_pItem);
 }
 
-
 COneLayerUpCommand::COneLayerUpCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
     QList<QGraphicsItem *> curItems;
@@ -1133,7 +1130,7 @@ void COneLayerUpCommand::redo()
 }
 
 COneLayerDownCommand::COneLayerDownCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
     QList<QGraphicsItem *> curItems;
@@ -1301,7 +1298,7 @@ void COneLayerDownCommand::redo()
 }
 
 CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
     for (auto item : scene->items()) {
@@ -1419,7 +1416,7 @@ void CBringToFrontCommand::redo()
 }
 
 CSendToBackCommand::CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
 {
     myGraphicsScene = scene;
     for (auto item : scene->items()) {
@@ -1483,7 +1480,7 @@ void CSendToBackCommand::undo()
         if (allItem->type() <= QGraphicsItem::UserType || allItem->type() >= EGraphicUserType::MgrType) {
             continue;
         }
-        if (allItem->zValue() > maxZvalue ) {
+        if (allItem->zValue() > maxZvalue) {
             maxZvalue = allItem->zValue();
         }
     }
@@ -1599,7 +1596,7 @@ void CSetBlurAttributeCommand::redo()
 }
 
 CSceneCutCommand::CSceneCutCommand(CDrawScene *scene, QRectF rect, QUndoCommand *parent, CGraphicsItem *item)
-    : QUndoCommand (parent)
+    : QUndoCommand(parent)
     , m_newRect(rect)
 {
     myGraphicsScene = scene;
@@ -1695,7 +1692,7 @@ void CMultResizeShapeCommand::undo()
     foreach (CGraphicsItem *item, m_listItems) {
         myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
     }
-    myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_bShiftPress, m_bAltPress);
+    //myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_beginPos, m_bShiftPress, m_bAltPress);
 
     myGraphicsScene->clearSelection();
     if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
@@ -1714,13 +1711,9 @@ void CMultResizeShapeCommand::redo()
             myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
         }
 
-        myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
+        //myGraphicsScene->getItemsMgr()->resizeTo(m_handle, m_endPos, m_bShiftPress, m_bAltPress);
 
         myGraphicsScene->clearSelection();
-//        myGraphicsScene->getItemsMgr()->clear();
-//        foreach (CGraphicsItem *item, m_listItems) {
-//            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(item);
-//        }
         if (myGraphicsScene->getItemsMgr()->getItems().size() > 1) {
             myGraphicsScene->clearSelection();
             myGraphicsScene->getItemsMgr()->setSelected(true);
