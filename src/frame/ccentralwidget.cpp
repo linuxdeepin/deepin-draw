@@ -114,6 +114,11 @@ CGraphicsView *CCentralwidget::getGraphicsView() const
     return CManageViewSigleton::GetInstance()->getCurView();
 }
 
+QGraphicsView *CCentralwidget::getQGraphicsView() const
+{
+    return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
+}
+
 CDrawScene *CCentralwidget::getDrawScene() const
 {
     return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());

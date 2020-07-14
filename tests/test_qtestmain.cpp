@@ -48,8 +48,6 @@ public:
     QTestMain();
     ~QTestMain();
 
-    static MainWindow *getMainwindow();
-
 private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -74,12 +72,6 @@ QTestMain::QTestMain()
 QTestMain::~QTestMain()
 {
 
-}
-
-MainWindow *QTestMain::getMainwindow()
-{
-    static MainWindow *w = new MainWindow;
-    return w;
 }
 
 void QTestMain::initTestCase()
@@ -136,27 +128,27 @@ void QTestMain::testFloat()
 
 void QTestMain::testGui_data()
 {
-    QTest::addColumn<QTestEventList>("event");
-    QTest::addColumn<QString>("result");
+//    QTest::addColumn<QTestEventList>("event");
+//    QTest::addColumn<QString>("result");
 
-    QTestEventList list1;
-    list1.addKeyClicks("hello world");
-    QTest::newRow("item 0 ") << list1 << QString("hello world");
+//    QTestEventList list1;
+//    list1.addKeyClicks("hello world");
+//    QTest::newRow("item 0 ") << list1 << QString("hello world");
 
-    QTestEventList list2;
-    list2.addKeyClicks("abs0");
-    list2.addKeyClick(Qt::Key_Backspace);
-    QTest::newRow("item 1") << list2 << QString("abs");
+//    QTestEventList list2;
+//    list2.addKeyClicks("abs0");
+//    list2.addKeyClick(Qt::Key_Backspace);
+//    QTest::newRow("item 1") << list2 << QString("abs");
 }
 
 void QTestMain::testGui()
 {
-    QFETCH(QTestEventList, event);
-    QFETCH(QString, result);
+//    QFETCH(QTestEventList, event);
+//    QFETCH(QString, result);
 
-    QLineEdit lineEdit;
-    event.simulate(&lineEdit);
-    QCOMPARE(lineEdit.text(), result);
+//    QLineEdit lineEdit;
+//    event.simulate(&lineEdit);
+//    QCOMPARE(lineEdit.text(), result);
 }
 
 QMYTEST_MAIN(QTestMain)

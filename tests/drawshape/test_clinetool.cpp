@@ -20,8 +20,11 @@
 #include "clinetool.h"
 #include "mainwindow.h"
 #include "ccentralwidget.h"
+#include "clefttoolbar.h"
 
-#include <QGraphicsSceneMouseEvent>
+#include <QTestEventList>
+#include <QWidget>
+#include <QGraphicsView>
 
 TEST(CLineTool, CLineTool)
 {
@@ -29,33 +32,16 @@ TEST(CLineTool, CLineTool)
     w->hide();
 
     CCentralwidget *c = w->getCCentralwidget();
-    CDrawScene *scence = c->getDrawScene();
+    QGraphicsView *view = c->getQGraphicsView();
 
-    CLineTool *linetool = new CLineTool();
-    QGraphicsSceneMouseEvent event;
-    event.setPos(QPointF(0, 0));
-    event.setScenePos(QPointF(0, 0));
-    event.setScreenPos(QPoint(0, 0));
-    event.setButtonDownPos(Qt::MouseButton::LeftButton, QPointF(0, 0));
-    event.setButtonDownScenePos(Qt::MouseButton::LeftButton, QPointF(0, 0));
-    event.setButtonDownScreenPos(Qt::MouseButton::LeftButton, QPoint(0, 0));
-    event.setLastPos(QPointF(0, 0));
-    event.setLastScenePos(QPointF(0, 0));
-    event.setLastScreenPos(QPoint(0, 0));
-    event.setButtons(Qt::MouseButton::LeftButton);
-    event.setButton(Qt::MouseButton::LeftButton);
-    event.setModifiers(Qt::NoModifier);
-    event.setSource(Qt::MouseEventSynthesizedByApplication);
-    event.setFlags(Qt::MouseEventCreatedDoubleClick);
-    linetool->mousePressEvent(&event, scence);
+    QTestEventList events;
+    events.addKeyClick(Qt::Key_L);
+    events.addDelay(100);
+    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
 
-    event.setPos(QPointF(400, 400));
-    event.setScenePos(QPointF(400, 400));
-    event.setScreenPos(QPoint(400, 400));
-    event.setButtonDownPos(Qt::MouseButton::LeftButton, QPointF(400, 400));
-    event.setButtonDownScenePos(Qt::MouseButton::LeftButton, QPointF(400, 400));
-    event.setButtonDownScreenPos(Qt::MouseButton::LeftButton, QPoint(400, 400));
-    linetool->mouseMoveEvent(&event, scence);
-
-    linetool->mouseReleaseEvent(&event, scence);
+    events.clear();
+    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 100);
+    events.addMouseMove(QPoint(200, 300), 100);
+    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
+    events.simulate(static_cast<QWidget *>(view));
 }
