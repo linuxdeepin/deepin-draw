@@ -116,9 +116,14 @@ void IDrawTool::stopCreating()
     m_bMousePress = false;
 }
 
+bool IDrawTool::isUpdating()
+{
+    return m_bMousePress;
+}
+
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
-    if (event->mouseButtons() != Qt::NoButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
+    if (event->mouseButtons() == Qt::LeftButton /*!= Qt::NoButton*/ || event->eventType() == CDrawToolEvent::ETouchEvent) {
         m_bMousePress = true;
 
         ITERecordInfo info;
@@ -214,6 +219,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             _allITERecordInfo.erase(it);
         }
         m_bMousePress = false;
+
+        event->scene()->refreshLook(event->pos());
     }
 }
 

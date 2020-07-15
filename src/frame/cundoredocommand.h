@@ -63,8 +63,8 @@ public:
     static void recordUndoCommand(EDrawUndoCmdType tp,
                                   int expendTp,
                                   const QList<QVariant> &datas,
-                                  bool NoNeedRedoVars = true,
-                                  bool init = false);
+                                  bool init = false,
+                                  bool NoNeedRedoVars = true);
 
     /**
      * @brief The recordCommand 记录操作
@@ -77,7 +77,7 @@ public:
     /**
      * @brief The clearCommand 执行记录了的所有操作(执行完成后会调用clearCommand清除)
      */
-    static void finishRecord();
+    static void finishRecord(bool doRedoCmd = false);
 
     /**
      * @brief The clearCommand 清除记录了的所有操作
@@ -142,7 +142,7 @@ protected:
         SCommandInfo redoInfo;
         bool noneedRedoVars = true;
 
-        bool isVaild()
+        bool isVaild() const
         {
             return (undoInfo.tp == redoInfo.tp && undoInfo.tp != EDrawCmdUnknowed);
         }
@@ -270,7 +270,7 @@ public:
     void real_redo() Q_DECL_OVERRIDE;
 
 private:
-    void addCommand(const SCommandInfoCouple &pCmd);
+    bool addCommand(const SCommandInfoCouple &pCmd);
 
     void doSelect();
 

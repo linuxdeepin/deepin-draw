@@ -250,6 +250,15 @@ void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPoint
     updateBlurPath();
 }
 
+void CGraphicsMasicoItem::resizeToMul(CSizeHandleRect::EDirection dir,
+                                      const QPointF &offset,
+                                      const double &xScale, const double &yScale,
+                                      bool bShiftPress, bool bAltPress)
+{
+    CGraphicsPenItem::resizeToMul(dir, offset, xScale, yScale, bShiftPress, bAltPress);
+    updateBlurPath();
+}
+
 void CGraphicsMasicoItem::updateBlurPath()
 {
     QPainterPathStroker t_stroker;

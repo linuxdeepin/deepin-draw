@@ -405,6 +405,9 @@ protected:
 
     virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
+public:
+    void refreshLook(const QPointF &pos = QPointF());
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
@@ -430,6 +433,8 @@ private:
     bool blockMouseMoveEventFlag = false;
 
     bool blockMscUpdate = false;
+
+    QPainterPath _highlight;
 };
 
 #endif // CDRAWSCENE_H

@@ -53,14 +53,16 @@ public:
     CGraphicsView *curView()const;
     void updateCursor();
     void setState(ESelectionHandleState st);
-    bool hitTest( const QPointF &point );
-    void move(qreal x, qreal y );
+    bool hitTest(const QPointF &point);
+    void move(qreal x, qreal y);
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     void setVisible(bool flag);
     bool getVisible() const;
 
 
     void setJustExitLogicAbility(bool b);
+
+    QCursor getCursor();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
@@ -75,6 +77,8 @@ private:
     bool m_isRotation;
     bool m_onlyLogicAblity = false;
 
+private:
+    void initCursor();
 };
 
 

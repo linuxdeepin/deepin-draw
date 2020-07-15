@@ -77,6 +77,7 @@ public:
 
     void stopCreating();
 
+    bool isUpdating();
 
     class CDrawToolEvent
     {
@@ -120,7 +121,7 @@ public:
         CDrawScene            *_scene  = nullptr;
         int                    _uuid   = 0;
         QEvent                *_orgEvent = nullptr;
-        bool _accept = false;
+        bool _accept = true;
 
         friend class IDrawTool;
     };

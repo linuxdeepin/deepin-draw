@@ -342,6 +342,16 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
 
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
+
+        if (currentMode == selection && !pTool->isUpdating()) {
+            if (!_highlight.isEmpty()) {
+                painter->setBrush(Qt::NoBrush);
+                QPen p(QColor(255, 0, 0));
+                p.setWidthF(2.0);
+                painter->setPen(p);
+                painter->drawPath(_highlight);
+            }
+        }
     }
 }
 
@@ -361,6 +371,42 @@ void CDrawScene::keyPressEvent(QKeyEvent *event)
         //m_pHighLightItem->setVisible(false);
     }
     QGraphicsScene::keyPressEvent(event);
+}
+
+void CDrawScene::refreshLook(const QPointF &pos)
+{
+    if (drawView() == nullptr)
+        return;
+
+    QPainterPath hightlightPath;
+
+    QPointF scenePos = pos;
+
+    if (scenePos.isNull()) {
+        QPoint viewPortPos = drawView()->viewport()->mapFromGlobal(QCursor::pos());
+        scenePos = drawView()->mapToScene(viewPortPos);
+    }
+
+    QList<QGraphicsItem *> items = this->items(scenePos);
+
+    QGraphicsItem *pItem = firstItem(scenePos, items, true, true, false, false);
+    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(firstItem(scenePos, items,
+                                                                     true, true, true, true));
+
+    if (pBzItem != nullptr) {
+        hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
+    }
+
+    if (isBussizeHandleNodeItem(pItem)) {
+        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
+        dApp->setApplicationCursor(pHandle->getCursor());
+    } else {
+        dApp->setApplicationCursor(Qt::ArrowCursor);
+    }
+
+    _highlight = hightlightPath;
+
+    update();
 }
 
 void CDrawScene::showCutItem()
@@ -943,33 +989,6 @@ void CDrawScene::rotatBzItem(CGraphicsItem *pBzItem, qreal angle)
         return;
 
     pBzItem->rotatAngle(angle);
-    //    QPointF center = pBzItem->rect().center();
-    //    pBzItem->setTransformOriginPoint(center);
-
-    //    if (angle > 360) {
-    //        angle -= 360;
-    //    }
-    //    if (pBzItem->type() != LineType) {
-    //        pBzItem->setRotation(angle);
-    //    } else {
-    //        QLineF line = static_cast<CGraphicsLineItem *>(pBzItem)->line();
-    //        QPointF vector = line.p2() - line.p1();
-    //        qreal oriangle = 0;
-    //        if (vector.x() - 0 < 0.0001 && vector.x() - 0 > -0.0001) {
-    //            if (line.p2().y() - line.p1().y() > 0.0001) {
-    //                oriangle = 90;
-    //            } else {
-    //                oriangle = -90;
-    //            }
-    //        } else {
-    //            oriangle = (-atan(vector.y() / vector.x())) * 180 / 3.14159 + 180;
-    //        }
-    //        angle = angle - oriangle;
-    //        if (angle > 360) {
-    //            angle -= 360;
-    //        }
-    //        pBzItem->setRotation(angle);
-    //    }
 }
 
 void CDrawScene::setMaxZValue(qreal zValue)
@@ -1035,7 +1054,7 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool 
 
         if (isUndo) {
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars, true, i == 0);
+                                                CItemUndoRedoCommand::EAllChanged, vars, i == 0);
         } else {
             CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
                                                 CItemUndoRedoCommand::EAllChanged, vars);
