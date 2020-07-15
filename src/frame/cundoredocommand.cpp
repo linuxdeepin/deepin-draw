@@ -54,7 +54,7 @@ void CUndoRedoCommand::pushStack(CUndoRedoCommand *pCmd)
     getUndoRedoStack()->push(pCmd);
 }
 
-void CUndoRedoCommand::finishRecord()
+void CUndoRedoCommand::finishRecord(bool doRedoCmd)
 {
     //所有的CmdInfo组成了这样的一个单元操作
 
@@ -63,8 +63,9 @@ void CUndoRedoCommand::finishRecord()
         for (int i = 0; i < s_recordedCmdInfoList.size();) {
             SCommandInfoCouple cmdInfo = s_recordedCmdInfoList[i];
 
-            if (cmdInfo.isVaild()) {
-                pGropCmd->addCommand(cmdInfo);
+            bool success = pGropCmd->addCommand(cmdInfo);
+
+            if (success) {
                 ++i;
             } else {
                 s_recordedCmdInfoList.removeAt(i);
@@ -79,7 +80,7 @@ void CUndoRedoCommand::finishRecord()
             return;
         }
 
-        setBlockRedoWhenPushedToStack(true);
+        setBlockRedoWhenPushedToStack(!doRedoCmd);
         pushStack(pGropCmd);
         setBlockRedoWhenPushedToStack(false);
 
@@ -91,8 +92,8 @@ void CUndoRedoCommand::finishRecord()
 void CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EDrawUndoCmdType tp,
                                          int expendTp,
                                          const QList<QVariant> &datas,
-                                         bool NoNeedRedoVars,
-                                         bool init)
+                                         bool init,
+                                         bool NoNeedRedoVars)
 {
     if (datas.isEmpty())
         return;
@@ -246,16 +247,28 @@ int CUndoRedoCommandGroup::count()
     return _allCmds.count();
 }
 
-void CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &cmd)
+bool CUndoRedoCommandGroup::addCommand(const SCommandInfoCouple &cmd)
 {
+    bool ret = false;
+
     CUndoRedoCommand *pCmd = getCmdByCmdInfo(cmd);
     if (pCmd != nullptr) {
         pCmd->setVar(cmd.undoInfo.vars, UndoVar);
 
-        if (cmd.noneedRedoVars)
+        if (cmd.isVaild()) {
             pCmd->setVar(cmd.redoInfo.vars, RedoVar);
+            ret = true;
+        } else {
+            if (cmd.noneedRedoVars) {
+                pCmd->setVar(cmd.undoInfo.vars, RedoVar);
+                ret = true;
+            }
+        }
     }
-    addCommand(pCmd);
+    if (ret)
+        addCommand(pCmd);
+
+    return ret;
 }
 
 void CUndoRedoCommandGroup::doSelect()
@@ -298,6 +311,7 @@ void CUndoRedoCommandGroup::doSelect()
             for (CGraphicsItem *pBzItem : bzItems) {
                 pScene->selectItem(pBzItem);
             }
+            pScene->refreshLook();
         }
     }
 }

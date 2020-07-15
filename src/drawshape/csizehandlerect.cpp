@@ -153,6 +153,17 @@ bool CSizeHandleRect::isFatherDragging()
     return false;
 }
 
+void CSizeHandleRect::initCursor()
+{
+    QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+}
 
 void CSizeHandleRect::setState(ESelectionHandleState st)
 {
@@ -218,6 +229,47 @@ void CSizeHandleRect::setJustExitLogicAbility(bool b)
     update();
 }
 
+QCursor CSizeHandleRect::getCursor()
+{
+    static QPixmap m_RotateCursor(QPixmap(":/theme/light/images/mouse_style/rotate_mouse.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
+    static QPixmap m_LeftTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_leftup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
+    static QPixmap m_RightTopCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_rightup.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
+    static QPixmap m_LeftRightCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_left.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    static QPixmap m_UpDownCursor(QPixmap(":/theme/light/images/mouse_style/icon_drag_up.svg").scaled(24, 24, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    QCursor cursorResult(Qt::ArrowCursor);
+    QMatrix matrix;
+    qreal rotaAngle = parentItem() == nullptr ? 0 : parentItem()->rotation();
+    matrix.rotate(rotaAngle);
+
+    switch (m_dir) {
+    case Right:
+    case Left:
+        cursorResult = QCursor(m_LeftRightCursor.transformed(matrix, Qt::SmoothTransformation));
+        break;
+    case Top:
+    case Bottom:
+        cursorResult = QCursor(m_UpDownCursor.transformed(matrix, Qt::SmoothTransformation));
+        break;
+    case RightTop:
+    case LeftBottom:
+        cursorResult = QCursor(m_RightTopCursor.transformed(matrix, Qt::SmoothTransformation));
+        break;
+    case LeftTop:
+    case RightBottom:
+        cursorResult = QCursor(m_LeftTopCursor.transformed(matrix, Qt::SmoothTransformation));
+        break;
+
+    case Rotation:
+        cursorResult = QCursor(m_RotateCursor.transformed(matrix, Qt::SmoothTransformation));
+        break;
+
+    default:
+        break;
+    }
+
+    return cursorResult;
+}
