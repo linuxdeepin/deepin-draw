@@ -121,9 +121,15 @@ bool IDrawTool::isUpdating()
     return m_bMousePress;
 }
 
+void IDrawTool::interruptUpdating()
+{
+    clearITE();
+    m_bMousePress = false;
+}
+
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
-    if (event->mouseButtons() == Qt::LeftButton /*!= Qt::NoButton*/ || event->eventType() == CDrawToolEvent::ETouchEvent) {
+    if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
         m_bMousePress = true;
 
         ITERecordInfo info;
@@ -136,6 +142,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._isvaild = true;
         info._curEvent = *event;
         info._scene = event->scene();
+        info.getTimeHandle()->start();
 
         _allITERecordInfo.insert(event->uuid(), info);
 
@@ -163,21 +170,30 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
     if (m_bMousePress) {
         auto it = _allITERecordInfo.find(event->uuid());
         if (it != _allITERecordInfo.end()) {
-            it.value()._preEvent = it.value()._curEvent;
-            it.value()._curEvent = *event;
+            ITERecordInfo &rInfo = it.value();
+            rInfo._preEvent = rInfo._curEvent;
+            rInfo._curEvent = *event;
 
-            if (it.value()._firstCallToolUpdate) {
-                it.value()._opeTpUpdate = decideUpdate(event, &it.value());
-                it.value()._firstCallToolUpdate = false;
+            if (rInfo._firstCallToolUpdate) {
+                //判定移动的幅度很小
+                QRectF rectf(rInfo._startPos - QPointF(10, 10), QSizeF(20, 20));
+                if (!rectf.contains(event->pos())) {
+                    QTime *elTi = rInfo.getTimeHandle();
+                    rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
+                    rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
+                    rInfo._firstCallToolUpdate = false;
+                }
             }
 
-            if (it.value().businessItem != nullptr) {
-                toolCreatItemUpdate(event, &it.value());
-            } else {
-                toolUpdate(event, &it.value());
+            if (rInfo._opeTpUpdate != -1) {
+                if (rInfo.businessItem != nullptr) {
+                    toolCreatItemUpdate(event, &rInfo);
+                } else {
+                    toolUpdate(event, &rInfo);
+                }
             }
 
-            it.value()._prePos = event->pos();
+            rInfo._prePos = event->pos();
 
         } else {
             toolDoStart(event);
@@ -655,4 +671,9 @@ bool IDrawTool::CDrawToolEvent::isAccepted()
 void IDrawTool::CDrawToolEvent::setAccepted(bool b)
 {
     _accept = b;
+}
+
+QTime *IDrawTool::ITERecordInfo::getTimeHandle()
+{
+    return &_elapsedToUpdateTimeHandle;
 }

@@ -124,8 +124,8 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
     viewport()->grabGesture(Qt::PinchGesture);
-    viewport()->grabGesture(Qt::PanGesture);
-    viewport()->grabGesture(Qt::SwipeGesture);
+    //viewport()->grabGesture(Qt::PanGesture);
+    //viewport()->grabGesture(Qt::SwipeGesture);
 }
 
 void CGraphicsView::zoomOut()
@@ -2199,15 +2199,6 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
 
 bool CGraphicsView::viewportEvent(QEvent *event)
 {
-    QEvent::Type evType = event->type();
-    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
-    } else if (event->type() == QEvent::Gesture) {
-        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
-
-        if (currentMode == selection) {
-            return gestureEvent(static_cast<QGestureEvent *>(event));
-        }
-    }
     return DGraphicsView::viewportEvent(event);
 }
 
@@ -2247,6 +2238,8 @@ void CGraphicsView::panTriggered(QPanGesture *gesture)
 void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
 {
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+
+    //qDebug() << "changeFlags ========= " << changeFlags;
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
         qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
         Q_UNUSED(rotationDelta);
@@ -2256,12 +2249,12 @@ void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
         qreal stepScal = (gesture->totalScaleFactor() - 1.0);
         qreal newRadio = getScale() + stepScal / qAbs(stepScal) / 100.0;
         if (newRadio > 0.1 && newRadio < 20.0) {
+            //qDebug() << "pos1 ------------ " << gesture->hotSpot().toPoint() << "curs pos = " << QCursor::pos();
             QCursor::setPos(gesture->hotSpot().toPoint());
+            //qDebug() << "pos2 ------------ " << gesture->hotSpot().toPoint() << "curs pos = " << QCursor::pos();
             setTransformationAnchor(AnchorUnderMouse);
             scale(newRadio);
         }
-
-
     }
     if (gesture->state() == Qt::GestureFinished) {
 //        scaleFactor *= currentStepScaleFactor;
