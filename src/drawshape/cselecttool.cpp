@@ -43,7 +43,7 @@
 #include "service/cmanagerattributeservice.h"
 
 #include <DApplication>
-
+#include <QScrollBar>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QCursor>
@@ -130,8 +130,18 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
 
     } else if (event->eventType() == CDrawToolEvent::ETouchEvent) {
         doSelect = true;
+
+        if (isMrNodeItem) {
+            clearBeforeSelect = false;
+        } else if (pStartPostTopBzItem != nullptr) {
+            if (pStartPostTopBzItem->isSelected()) {
+                //点击的是当前选中了的相等的图元， 也不用清除当前选中
+                clearBeforeSelect = false;
+            }
+        }
     }
 
+    //清理当前选中
     if (clearBeforeSelect) {
         event->scene()->clearMrSelection();
     }
@@ -167,6 +177,22 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         event->scene()->selectItemsByRect(QRectF(topLeft, bomRight));
 
         event->scene()->update();
+        break;
+    }
+    case EDragSceneMove: {
+        //拖拽画布移动
+        QPointF pos0 = pInfo->_startPos;
+        QPointF pos1 = event->pos();
+        QPointF mov = pos1 - pos0;
+
+        QScrollBar *horBar = event->view()->horizontalScrollBar();
+        int horValue = horBar->value() - qRound(mov.x());
+        horBar->setValue(qMin(qMax(0, horValue), horBar->maximum()));
+
+        QScrollBar *verBar = event->view()->verticalScrollBar();
+        int verValue = verBar->value() - qRound(mov.y());
+        verBar->setValue(qMin(qMax(0, verValue), verBar->maximum()));
+
         break;
     }
     case EDragMove: {
@@ -269,7 +295,15 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
         QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
                                                                       pInfo->startPosItems, true, true);
         if (pStartPosTopQtItem == nullptr) {
-            tpye = ERectSelect;
+            if (event->eventType() == CDrawToolEvent::ETouchEvent) {
+                if (pInfo->elapsedFromStartToUpdate() > 200) {
+                    tpye = ERectSelect;
+                } else {
+                    tpye = EDragSceneMove;
+                }
+            } else {
+                tpye = ERectSelect;
+            }
         } else {
             if (event->scene()->isBussizeItem(pStartPosTopQtItem)) {
                 // 业务图元可执行移动可执行复制
@@ -320,27 +354,7 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
 void CSelectTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 {
     //处理高亮，鼠标样式变化等问题
-
     event->scene()->refreshLook(event->pos());
-    //    _hightLight = QPainterPath();
-    //    QList<QGraphicsItem *> items = event->scene()->items(event->pos());
-
-    //    QGraphicsItem *pItem = event->scene()->firstItem(event->pos(), items, true, true, false, false);
-    //    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(event->scene()->firstItem(event->pos(), items,
-    //                                                                                     true, true, true, true));
-
-    //    if (pBzItem != nullptr) {
-    //        _hightLight = pBzItem->mapToScene(pBzItem->getHighLightPath());
-    //    }
-
-    //    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
-    //        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
-    //        dApp->setApplicationCursor(pHandle->getCursor()/*QCursor(getCursor(pHandle->dir(), false, 1))*/);
-    //    } else {
-    //        dApp->setApplicationCursor(Qt::ArrowCursor);
-    //    }
-
-    //    event->scene()->update();
 }
 
 void CSelectTool::drawMore(QPainter *painter,
@@ -376,14 +390,6 @@ void CSelectTool::drawMore(QPainter *painter,
             painter->drawRect(QRectF(topLeft, bomRight));
         }
     }
-
-    //    if (!_hightLight.isEmpty()) {
-    //        painter->setBrush(Qt::NoBrush);
-    //        QPen p(QColor(255, 0, 0));
-    //        p.setWidthF(2.0);
-    //        painter->setPen(p);
-    //        painter->drawPath(_hightLight);
-    //    }
     painter->restore();
 }
 

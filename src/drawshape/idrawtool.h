@@ -24,6 +24,7 @@
 #include <QList>
 #include <QCursor>
 #include <QTouchEvent>
+#include <QTime>
 
 class QGraphicsSceneMouseEvent;
 class CDrawScene;
@@ -78,6 +79,8 @@ public:
     void stopCreating();
 
     bool isUpdating();
+
+    void interruptUpdating();
 
     class CDrawToolEvent
     {
@@ -263,15 +266,13 @@ protected:
         CGraphicsItem *businessItem = nullptr;
         QList<QGraphicsItem *> startPosItems;
         CGraphicsItem *startPosTopBzItem = nullptr;
-
         bool _firstCallToolUpdate = true;
         bool _isvaild = false;
         int _opeTpUpdate = -1;
         int _etcopeTpUpdate = -1;
+        int _elapsedToUpdate = -1;
         QList<QGraphicsItem *> etcItems;
-
         CDrawScene *_scene = nullptr;
-
         CDrawToolEvent _preEvent;
         CDrawToolEvent _curEvent;
 
@@ -283,6 +284,11 @@ protected:
         {
             return (_prePos != _startPos);
         }
+        int elapsedFromStartToUpdate() { return _elapsedToUpdate; }
+        inline QTime *getTimeHandle();
+
+    private:
+        QTime _elapsedToUpdateTimeHandle;
     };
 
     ITERecordInfo *getEventIteInfo(int uuid);

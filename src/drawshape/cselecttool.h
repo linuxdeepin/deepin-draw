@@ -24,6 +24,7 @@
 
 
 #include <QCursor>
+#include <QTime>
 
 class CGraphicsItem;
 class CGraphicsRotateAngleItem;
@@ -77,6 +78,7 @@ public:
                         EDragMove,
                         EResizeMove,
                         ECopyMove,
+                        EDragSceneMove,
                         EOperateCount
     };
 

@@ -212,7 +212,11 @@ protected:
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+
+public:
     bool gestureEvent(QGestureEvent *event);
+
+protected:
     void panTriggered(QPanGesture *);
     void pinchTriggered(QPinchGesture *);
     void swipeTriggered(QSwipeGesture *);
