@@ -16,32 +16,35 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-
-#include "clinetool.h"
+#include "cddfmanager.h"
 #include "mainwindow.h"
 #include "ccentralwidget.h"
-#include "clefttoolbar.h"
+#include "frame/cgraphicsview.h"
+#include "frame/cviewmanagement.h"
+#include "cdrawparamsigleton.h"
+#include "QApplication"
 
-#include <QTestEventList>
-#include <QWidget>
-#include <QGraphicsView>
+TEST(cddfmanager, cddfmanager)
+{
+    MainWindow *w = new MainWindow;
+    w->hide();
 
-//TEST(CLineTool, CLineTool)
-//{
-//    MainWindow *w = new MainWindow;
-//    w->hide();
+    CCentralwidget *c = w->getCCentralwidget();
+    CGraphicsView *view = c->getGraphicsView();
 
-//    CCentralwidget *c = w->getCCentralwidget();
-//    QGraphicsView *view = c->getQGraphicsView();
+    view->signalLoadDragOrPasteFile(":/test.png");
+    view->signalLoadDragOrPasteFile(":/test.ddf");
 
-//    QTestEventList events;
-//    events.addKeyClick(Qt::Key_L);
-//    events.addDelay(100);
-//    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
+    QString path = QApplication::applicationDirPath() + "/test.ddf";
 
-//    events.clear();
-//    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 100);
-//    events.addMouseMove(QPoint(200, 300), 100);
-//    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
-//    events.simulate(static_cast<QWidget *>(view));
-//}
+    QFile file(path);
+    bool flag = file.open(QIODevice::WriteOnly);
+
+    ASSERT_EQ(true, flag);
+    if (flag) {
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
+        c->slotSaveToDDF(false);
+        c->slotSaveToDDF(true);
+    }
+}
+

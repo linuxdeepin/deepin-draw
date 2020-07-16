@@ -37,7 +37,6 @@ CEllipseTool::~CEllipseTool()
 
 void CEllipseTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    qDebug() << "Content:" << "+++++++++++++++++++++++++++++++++";
     if (pInfo != nullptr) {
         CGraphicsEllipseItem *pItem = dynamic_cast<CGraphicsEllipseItem *>(pInfo->businessItem);
         if (nullptr != pItem) {

@@ -200,13 +200,14 @@ protected:
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 
+public:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
-
+protected:
     void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
     void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
 

@@ -26,24 +26,24 @@
 #include <QTestEventList>
 #include <QGraphicsView>
 
-TEST(CCutTool, CCutTool)
-{
-    MainWindow *w = new MainWindow;
-    w->hide();
+//TEST(CCutTool, CCutTool)
+//{
+//    MainWindow *w = new MainWindow;
+//    w->hide();
 
-    CCentralwidget *c = w->getCCentralwidget();
-    QGraphicsView *view = c->getQGraphicsView();
+//    CCentralwidget *c = w->getCCentralwidget();
+//    QGraphicsView *view = c->getQGraphicsView();
 
-    QTestEventList events;
-    events.addKeyClick(Qt::Key_C);
-    events.addDelay(100);
-    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
+//    QTestEventList events;
+//    events.addKeyClick(Qt::Key_C);
+//    events.addDelay(100);
+//    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
 
-    events.clear();
-    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(0, 0), 100);
-    events.addMouseMove(QPoint(200, 300), 100);
-    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
-    events.simulate(static_cast<QWidget *>(view));
+//    events.clear();
+//    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(0, 0), 100);
+//    events.addMouseMove(QPoint(200, 300), 100);
+//    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
+//    events.simulate(static_cast<QWidget *>(view));
 
-    // 还需要继续模拟确认裁剪
-}
+//    // 还需要继续模拟确认裁剪
+//}
