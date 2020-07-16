@@ -26,29 +26,29 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-TEST(CTextTool, CTextTool)
-{
-    MainWindow *w = new MainWindow;
-    w->hide();
+//TEST(CTextTool, CTextTool)
+//{
+//    MainWindow *w = new MainWindow;
+//    w->hide();
 
-    CCentralwidget *c = w->getCCentralwidget();
-    QGraphicsView *view = c->getQGraphicsView();
+//    CCentralwidget *c = w->getCCentralwidget();
+//    QGraphicsView *view = c->getQGraphicsView();
 
-    QTestEventList events;
-    events.addKeyClick(Qt::Key_T);
-    events.addDelay(100);
-    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
+//    QTestEventList events;
+//    events.addKeyClick(Qt::Key_T);
+//    events.addDelay(100);
+//    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
 
-    events.clear();
-    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 100), 100);
-    events.addMouseMove(QPoint(200, 300), 100);
-    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
-    events.simulate(static_cast<QWidget *>(view));
+//    events.clear();
+//    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 100), 100);
+//    events.addMouseMove(QPoint(200, 300), 100);
+//    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
+//    events.simulate(static_cast<QWidget *>(view));
 
-    events.clear();
-    events.addKeyClick('a');
-    events.addKeyClick('b');
-    events.addKeyClick('c');
-    events.simulate(static_cast<QWidget *>(view));
-}
+//    events.clear();
+//    events.addKeyClick('a');
+//    events.addKeyClick('b');
+//    events.addKeyClick('c');
+//    events.simulate(static_cast<QWidget *>(view));
+//}
 

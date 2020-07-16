@@ -19,11 +19,6 @@
 #include <gmock/gmock-matchers.h>
 #include "dbusdraw_adaptor.h"
 
-//bool openFiles(QList<QVariant> filePaths);
-//void openImages(QList<QVariant> images);
-//bool openFile(QString filePath);
-
-
 //TEST(openFiles, ins1)
 //{
 //    dbusdraw_adaptor dbus(nullptr);

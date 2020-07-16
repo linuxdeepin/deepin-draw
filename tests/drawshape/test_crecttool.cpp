@@ -21,27 +21,26 @@
 #include "mainwindow.h"
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
+#include "frame/cgraphicsview.h"
 
 #include <QTestEventList>
 #include <QWidget>
-#include <QGraphicsView>
 
-TEST(CRectTool, CRectTool)
-{
-    MainWindow *w = new MainWindow;
-    w->hide();
+//TEST(CRectTool, CRectTool)
+//{
+//    MainWindow *w = new MainWindow;
+//    w->hide();
 
-    CCentralwidget *c = w->getCCentralwidget();
-    QGraphicsView *view = c->getQGraphicsView();
+//    CCentralwidget *c = w->getCCentralwidget();
+//    CGraphicsView *view = c->getGraphicsView();
 
-    QTestEventList events;
-    events.addKeyClick(Qt::Key_R);
-    events.addDelay(100);
-    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
+//    QMouseEvent *event = new QMouseEvent(QMouseEvent::MouseButtonPress
+//                                         , QPointF(10, 10), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+//    view->mousePressEvent(event);
 
-    events.clear();
-    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(10, 100), 100);
-    events.addMouseMove(QPoint(200, 300), 100);
-    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
-    events.simulate(static_cast<QWidget *>(view));
-}
+//    event = new QMouseEvent(QMouseEvent::MouseButtonPress
+//                            , QPointF(25, 50), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+//    view->mouseMoveEvent(event);
+
+//    view->mouseReleaseEvent(event);
+//}

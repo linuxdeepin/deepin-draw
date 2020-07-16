@@ -16,32 +16,11 @@
 */
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#include "shortcut.h"
 
-#include "clinetool.h"
-#include "mainwindow.h"
-#include "ccentralwidget.h"
-#include "clefttoolbar.h"
+TEST(Shortcut, Shortcut)
+{
+    Shortcut s;
+    s.toStr();
+}
 
-#include <QTestEventList>
-#include <QWidget>
-#include <QGraphicsView>
-
-//TEST(CLineTool, CLineTool)
-//{
-//    MainWindow *w = new MainWindow;
-//    w->hide();
-
-//    CCentralwidget *c = w->getCCentralwidget();
-//    QGraphicsView *view = c->getQGraphicsView();
-
-//    QTestEventList events;
-//    events.addKeyClick(Qt::Key_L);
-//    events.addDelay(100);
-//    events.simulate(static_cast<QWidget *>(c->getLeftToolBar()));
-
-//    events.clear();
-//    events.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 100);
-//    events.addMouseMove(QPoint(200, 300), 100);
-//    events.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 300), 100);
-//    events.simulate(static_cast<QWidget *>(view));
-//}

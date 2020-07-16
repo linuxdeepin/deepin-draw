@@ -106,6 +106,7 @@ add_subdirectory(libs/googletest)
 FILE (GLOB allTestSource
     "./tests/*.cpp" "./tests/*.c"
     "./tests/service/*.cpp" "./tests/service/*.c"
+    "./tests/utils/*.cpp" "./tests/utils/*.c"
     "./tests/widgets/*.cpp" "./tests/widgets/*.c"
     "./tests/frame/*.cpp" "./tests/frame/*.c"
     "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"

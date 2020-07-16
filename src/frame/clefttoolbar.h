@@ -77,7 +77,7 @@ public slots:
      */
     void slotShortCutSelect(bool showToolMidWidget = true);
 
-private slots:
+public slots:
     /**
      * @brief slotShortCutPictrue　选择按钮快捷键
      */
