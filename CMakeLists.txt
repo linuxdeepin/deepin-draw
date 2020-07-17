@@ -14,7 +14,7 @@ option(DOTEST "option for test" OFF)
 set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 
 # 设置Qt模块
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
+set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
 
 # 设置工程名字
 project(deepin-draw)
@@ -95,6 +95,9 @@ if(DOTEST)
 # 设置测试程序名字
 set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
+
+# 添加单元测试库
+find_package(Qt5 REQUIRED Test)
 
 # 设置测试程序的包含目录
 include_directories(libs/googletest)
