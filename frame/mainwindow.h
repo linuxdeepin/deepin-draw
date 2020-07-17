@@ -25,6 +25,7 @@
 
 #include <QMouseEvent>
 
+#include <DWidgetUtil>
 
 DWIDGET_USE_NAMESPACE
 

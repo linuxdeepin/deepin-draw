@@ -279,7 +279,7 @@ void MainWindow::slotLoadDragOrPasteFile(QString files)
             ddfPath = tempfilePathList[i].replace("file://", "");
             break;
         } else if (tempfilePathList[i].endsWith(".png") || tempfilePathList[i].endsWith(".jpg")
-                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif") ) {
+                   || tempfilePathList[i].endsWith(".bmp") || tempfilePathList[i].endsWith(".tif")) {
             //图片格式："*.png *.jpg *.bmp *.tif"
             picturePathList.append(tempfilePathList[i].replace("file://", ""));
         }
@@ -327,6 +327,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QSettings settings(fileName, QSettings::IniFormat);
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
+    settings.setValue("opened", "true");
 
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
     emit dApp->popupConfirmDialog();
@@ -335,7 +336,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(true);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -359,7 +360,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if ( event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setShiftKeyStatus(false);
     }
     //先按下SHIFT再按下ALT 会出现 Key_Meta按键值
@@ -421,8 +422,15 @@ void MainWindow::readSettings()
 {
     QString fileName = Global::configPath() + "/config.conf";
     QSettings settings(fileName, QSettings::IniFormat);
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+    // [0] judge is first load draw process
+    bool opened = settings.value("opened").toBool();
+    if (!opened) {
+        Dtk::Widget::moveToCenter(this);
+        this->showMaximized();
+    } else {
+        restoreGeometry(settings.value("geometry").toByteArray());
+        restoreState(settings.value("windowState").toByteArray());
+    }
 }
 
 void MainWindow::slotOnThemeChanged(DGuiApplicationHelper::ColorType type)
