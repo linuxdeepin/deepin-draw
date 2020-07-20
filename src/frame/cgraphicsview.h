@@ -55,27 +55,45 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+
+    /**
+     * @brief 缩放中心的枚举值，
+     * ESceneCenter   表示以画布中心进行缩放
+     * EMousePos      表示以鼠标的位置进行缩放
+     * ECustomViewPos 表示自定义缩放位置（当前指viewport上的坐标位置）
+     */
+    enum EScaleCenter { EViewCenter,
+                        ESceneCenter,
+                        EMousePos,
+                        ECustomViewPos };
+
     /**
      * @brief zoomOut 放大
      */
-    void zoomOut();
+    void zoomOut(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief zoomIn 缩小
      */
-    void zoomIn();
+    void zoomIn(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 缩放接口
      * @param scale 缩放比例
      */
-    void scale(qreal scale);
+    void scale(qreal scale, EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 获取缩放接口
      * @return scale 缩放比例
      */
     qreal getScale();
+
+    /**
+     * @brief  scaleWithCenter 以某一个中心进行缩放
+     * @return factor 缩放因子
+     */
+    void scaleWithCenter(qreal factor, const QPoint viewPos = QPoint());
 
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
