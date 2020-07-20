@@ -27,10 +27,9 @@ if(DOTEST)
     set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools Test)
     # 查找Qt相关的库链接
     find_package(Qt5 REQUIRED ${QtModule})
-endif()
 
 # 未开启单元测试
-if(!DOTEST)
+else()
     # 设置Qt模块
     set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
     # 查找Qt相关的库链接
