@@ -8,19 +8,34 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-option(DOTEST "option for test" OFF)
-
-# 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-
-# 设置Qt模块
-set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
-
 # 设置工程名字
 project(deepin-draw)
 
-# 查找Qt相关的库链接
-find_package(Qt5 REQUIRED ${QtModule})
+# 加速编译优化参数
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC")
+endif()
+
+# 是否开启单元测试编译
+option(DOTEST "option for test" OFF)
+
+# 开启单元测试
+if(DOTEST)
+    # 添加gocv覆盖率文件的输出
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    # 设置Qt模块
+    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools Test)
+    # 查找Qt相关的库链接
+    find_package(Qt5 REQUIRED ${QtModule})
+endif()
+
+# 未开启单元测试
+if(!DOTEST)
+    # 设置Qt模块
+    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
+    # 查找Qt相关的库链接
+    find_package(Qt5 REQUIRED ${QtModule})
+endif()
 
 # 包含源码文件夹
 include_directories(src)
@@ -95,9 +110,6 @@ if(DOTEST)
 # 设置测试程序名字
 set(PROJECT_NAME_TEST
     ${PROJECT_NAME}_test)
-
-# 添加单元测试库
-find_package(Qt5 REQUIRED Test)
 
 # 设置测试程序的包含目录
 include_directories(libs/googletest)
