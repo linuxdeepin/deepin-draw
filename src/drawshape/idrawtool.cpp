@@ -176,8 +176,8 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
 
             if (rInfo._firstCallToolUpdate) {
                 //判定移动的幅度很小
-                QRectF rectf(rInfo._startPos - QPointF(10, 10), QSizeF(20, 20));
-                if (!rectf.contains(event->pos())) {
+                QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
+                if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
                     QTime *elTi = rInfo.getTimeHandle();
                     rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                     rInfo._opeTpUpdate = decideUpdate(event, &rInfo);

@@ -110,8 +110,6 @@ CGraphicsView::CGraphicsView(DWidget *parent)
 
     initConnection();
 
-    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-
     viewport()->installEventFilter(this);
 
     //初始化后设置自身为焦点
@@ -128,7 +126,7 @@ CGraphicsView::CGraphicsView(DWidget *parent)
     //viewport()->grabGesture(Qt::SwipeGesture);
 }
 
-void CGraphicsView::zoomOut()
+void CGraphicsView::zoomOut(EScaleCenter center, const QPoint &viewPos)
 {
     qreal current_scale = m_scale;
     if (current_scale >= 2.0 && current_scale <= 20.0) {
@@ -142,10 +140,10 @@ void CGraphicsView::zoomOut()
     if (current_scale >= 20.0) {
         current_scale = 20.0;
     }
-    scale(current_scale);
+    scale(current_scale, center, viewPos);
 }
 
-void CGraphicsView::zoomIn()
+void CGraphicsView::zoomIn(EScaleCenter center, const QPoint &viewPos)
 {
     qreal current_scale = m_scale;
     if (current_scale >= 2.0 && current_scale <= 20.0) {
@@ -159,33 +157,63 @@ void CGraphicsView::zoomIn()
     if (current_scale <= 0.1) {
         current_scale = 0.1;
     }
-    scale(current_scale);
+    scale(current_scale, center, viewPos);
 }
 
-void CGraphicsView::scale(qreal scale)
+void CGraphicsView::scale(qreal scale, EScaleCenter center, const QPoint &viewPos)
 {
-//    //当前鼠标在viewport上的位置
-//    QPoint  preCenterViewPos = viewport()->mapFromGlobal(QCursor::pos()); //以这个view点为中心进行缩放
-//    QPointF preCenterScenPos = mapToScene(preCenterViewPos);
-
     qreal multiple = scale / m_scale;
-    DGraphicsView::scale(multiple, multiple);
-    m_scale = scale;
-    getDrawParam()->setScale(m_scale);
-    emit signalSetScale(m_scale);
 
-//    //保证view的中心点色
-//    QMetaObject::invokeMethod(this, [ = ]() {
-//        QPointF nowScenePos = mapToScene(preCenterViewPos);
-//        QPointF disPointF   = nowScenePos - preCenterScenPos;
-//        this->scene()->setSceneRect(this->scene()->sceneRect().x() - disPointF.x(), this->scene()->sceneRect().y() - disPointF.y(),
-//                                    this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
-//    }, Qt::DirectConnection);
+    QPoint centerViewPos = viewPos;
+    switch (center) {
+    case EViewCenter:
+        centerViewPos = viewport()->rect().center();
+        break;
+    case ESceneCenter:
+        centerViewPos = mapFromScene(sceneRect().center());
+        break;
+    case EMousePos:
+        centerViewPos = viewport()->mapFromGlobal(QCursor::pos());
+        break;
+    default:
+        centerViewPos = viewPos;
+        break;
+    }
+    scaleWithCenter(multiple, centerViewPos);
+
+    //    DGraphicsView::scale(multiple, multiple);
+    //    m_scale = scale;
+    //    getDrawParam()->setScale(m_scale);
+    //    emit signalSetScale(m_scale);
 }
 
 qreal CGraphicsView::getScale()
 {
     return m_scale;
+}
+
+void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
+{
+    //最最最完美的方案！！！
+    QPoint centerViewPos = viewPos.isNull() ? viewport()->mapFromGlobal(QCursor::pos()) : viewPos;
+
+    QPointF targetScenePos = mapToScene(centerViewPos);
+    ViewportAnchor oldAnchor = this->transformationAnchor();
+    setTransformationAnchor(QGraphicsView::NoAnchor);
+
+    QTransform matrix = transform();
+    matrix.translate(targetScenePos.x(), targetScenePos.y())
+        .scale(factor, factor)
+        .translate(-targetScenePos.x(), -targetScenePos.y());
+
+    setTransform(matrix);
+
+    setTransformationAnchor(oldAnchor);
+
+    //保存缩放值
+    m_scale *= factor;
+    getDrawParam()->setScale(m_scale);
+    emit signalSetScale(m_scale);
 }
 
 void CGraphicsView::wheelEvent(QWheelEvent *event)
@@ -1085,37 +1113,7 @@ void CGraphicsView::slotOnPaste()
 
         //粘贴画板内部图元
         CShapeMimeData *data = dynamic_cast< CShapeMimeData *>(mp);
-        auto curScene = static_cast<CDrawScene *>(scene());
-        if (data) {
-            //            scene()->clearSelection();
-            //            auto itemMgr = curScene->getItemsMgr();
-            //            itemMgr->clear();
-            //            //升序排列
-            //            QList<CGraphicsItem *> allItems = data->itemList();
-            //            qSort(allItems.begin(), allItems.end(), zValueSortASC);
-            //            QList<QGraphicsItem *> addItems;
-            //            addItems.clear();
-            //            foreach (CGraphicsItem *item, allItems) {
-            //                CGraphicsItem *copy = item->creatSameItem();
-            //                if (copy) {
-            //                    itemMgr->addOrRemoveToGroup(copy);
-            //                    // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
-            //                    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-            //                    copy->moveBy(10, 10);
-            //                    addItems.append(copy);
-            //                }
-            //            }
-            //            QUndoCommand *addCommand = new CAddShapeCommand(curScene, addItems);
-
-            //            this->pushUndoStack(addCommand);
-
-            //            if (!itemMgr->getItems().isEmpty()) {
-            //                itemMgr->show();
-            //                itemMgr->setSelected(true);
-            //            } else {
-            //                itemMgr->hide();
-            //            }
-
+        if (data != nullptr) {
             drawScene()->clearMrSelection();
 
             QList<CGraphicsItem *> allItems = data->itemList();
@@ -1380,14 +1378,12 @@ void CGraphicsView::slotRestContextMenuAfterQuitCut()
 
 void CGraphicsView::slotViewZoomIn()
 {
-    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
-    zoomIn();
+    zoomIn(EViewCenter);
 }
 
 void CGraphicsView::slotViewZoomOut()
 {
-    setTransformationAnchor(QGraphicsView::AnchorViewCenter);
-    zoomOut();
+    zoomOut(EViewCenter);
 }
 
 void CGraphicsView::slotViewOrignal()
@@ -2238,27 +2234,14 @@ void CGraphicsView::panTriggered(QPanGesture *gesture)
 void CGraphicsView::pinchTriggered(QPinchGesture *gesture)
 {
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
-
-    //qDebug() << "changeFlags ========= " << changeFlags;
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
         qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
         Q_UNUSED(rotationDelta);
     }
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
-
-        qreal stepScal = (gesture->totalScaleFactor() - 1.0);
-        qreal newRadio = getScale() + stepScal / qAbs(stepScal) / 100.0;
-        if (newRadio > 0.1 && newRadio < 20.0) {
-            //qDebug() << "pos1 ------------ " << gesture->hotSpot().toPoint() << "curs pos = " << QCursor::pos();
-            QCursor::setPos(gesture->hotSpot().toPoint());
-            //qDebug() << "pos2 ------------ " << gesture->hotSpot().toPoint() << "curs pos = " << QCursor::pos();
-            setTransformationAnchor(AnchorUnderMouse);
-            scale(newRadio);
-        }
+        scaleWithCenter(gesture->scaleFactor(), viewport()->mapFromGlobal(gesture->centerPoint().toPoint()));
     }
     if (gesture->state() == Qt::GestureFinished) {
-//        scaleFactor *= currentStepScaleFactor;
-//        currentStepScaleFactor = 1;
     }
     update();
 }

@@ -148,7 +148,8 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
 
     if (doSelect) {
         if (pStartPostTopBzItem != nullptr) {
-            event->scene()->selectItem(pStartPostTopBzItem);
+            if (!isMrNodeItem)
+                event->scene()->selectItem(pStartPostTopBzItem);
             event->setAccepted(true);
         } else {
             if (!isMrNodeItem) {
@@ -187,11 +188,11 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
 
         QScrollBar *horBar = event->view()->horizontalScrollBar();
         int horValue = horBar->value() - qRound(mov.x());
-        horBar->setValue(qMin(qMax(0, horValue), horBar->maximum()));
+        horBar->setValue(qMin(qMax(horBar->minimum(), horValue), horBar->maximum()));
 
         QScrollBar *verBar = event->view()->verticalScrollBar();
         int verValue = verBar->value() - qRound(mov.y());
-        verBar->setValue(qMin(qMax(0, verValue), verBar->maximum()));
+        verBar->setValue(qMin(qMax(verBar->minimum(), verValue), verBar->maximum()));
 
         break;
     }

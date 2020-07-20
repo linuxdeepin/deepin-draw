@@ -665,8 +665,7 @@ void CCentralwidget::slotZoom(qreal scale)
 {
     //来自toolbar的缩放要以画布中心为缩放中心
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        CManageViewSigleton::GetInstance()->getCurView()->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
-        CManageViewSigleton::GetInstance()->getCurView()->scale(scale);
+        CManageViewSigleton::GetInstance()->getCurView()->scale(scale, CGraphicsView::EViewCenter);
     }
 }
 

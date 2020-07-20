@@ -560,11 +560,9 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         } else if (event->modifiers()& Qt::ControlModifier) {
             //如果按住CTRL那么就是放大缩小
             if (event->delta() > 0) {
-                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-                pCurView->zoomOut();
+                pCurView->zoomOut(CGraphicsView::EMousePos);
             } else {
-                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-                pCurView->zoomIn();
+                pCurView->zoomIn(CGraphicsView::EMousePos);
             }
         }
     }
