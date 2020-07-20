@@ -20,6 +20,7 @@
 #define CCLICKBUTTON_H
 
 #include <DToolButton>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
