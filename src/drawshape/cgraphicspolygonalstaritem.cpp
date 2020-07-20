@@ -142,8 +142,6 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateGeometry();
-
     beginCheckIns(painter);
 
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());

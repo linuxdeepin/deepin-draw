@@ -146,6 +146,14 @@ protected:
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief itemChange 图元变更
+     * @param change 变更属性
+     * @param value 变更的值
+     * @return
+     */
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+
 private slots:
     void slot_textmenu(QPoint);
 private:

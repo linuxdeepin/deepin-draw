@@ -127,6 +127,7 @@ void CGraphicsPolygonItem::setRect(const QRectF &rect)
 void CGraphicsPolygonItem::setPointCount(int num)
 {
     m_nPointsCount = num;
+
     //重新计算
     calcPoints();
 }
@@ -141,8 +142,6 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-
-    updateGeometry();
 
     beginCheckIns(painter);
 
@@ -166,7 +165,6 @@ void CGraphicsPolygonItem::calcPoints()
     prepareGeometryChange();
     calcPoints_helper(m_listPointsForBrush, m_nPointsCount, this->rect(), -(pen().widthF()) / 2.0);
     calcPoints_helper(m_listPoints, m_nPointsCount, this->rect());
-
 }
 
 void CGraphicsPolygonItem::calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset)

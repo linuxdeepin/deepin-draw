@@ -35,15 +35,24 @@ public:
     explicit CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     explicit CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsRectItem()  Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief type 图元的类型
+     * @return
+     */
+    int type() const Q_DECL_OVERRIDE;
+
     /**
      * @brief setRect 创建矩形时，用于设置矩形大小
      * @param rect
      */
     virtual void setRect(const QRectF &rect);
+
+    /**
+     * @brief rect 矩形的大小
+     * @param rect
+     */
     virtual QRectF rect() const Q_DECL_OVERRIDE;
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
 
@@ -61,49 +70,58 @@ public:
                              bool bShiftPress, bool bAltPress) override;
 
     /**
-     * @brief duplicate 拷贝自己
-     * @return
-     */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
-    /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
 
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    /**
+     * @brief getGraphicsUnit 得到图元的数据
+     * @return
+     */
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
     /**
      * @brief setXYRedius 设置矩形圆角半径
      * @param xRedius x方向半径
      * @param yRedius y方向半径
      */
     void setXYRedius(int xRedius, int yRedius);
+
     /**
      * @brief getXYRedius 默认返回一个，返回圆角半径
      * @return
      */
     int getXRedius();
+
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
     void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);
 
 protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
-
-
-protected:
     /**
-     * @brief initRect 初始化矩形的属性和边框小方块
+     * @brief duplicateCreatItem 复制一个一样类型的图元
+     * @return
      */
-    void initHandle() override;
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步数据到item
+     * @return
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief paint 绘制图元
+     * @return
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
 private:
     QPointF m_topLeftPoint; //左上角的点

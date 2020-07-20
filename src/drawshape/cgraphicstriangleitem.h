@@ -27,31 +27,58 @@ public:
     explicit CGraphicsTriangleItem(CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsTriangleItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsTriangleItem(const SGraphicsTriangleUnitData *data, const SGraphicsUnitHead &head,
+                                   CGraphicsItem *parent = nullptr);
+
+    /**
+     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
+     * @return
+     */
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief type 图元的类型
+     * @return
+     */
+    int type() const Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-protected:
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+
     /**
-     * @brief duplicate 拷贝自己
+     * @brief getGraphicsUnit 得到图元数据
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
+protected:
+    /**
+     * @brief duplicateCreatItem 创建一个同类型的图元（只是创建未同步数据信息）
+     * @return
+     */
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步图元信息到item中
+     * @return
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath()Q_DECL_OVERRIDE;
+    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    /**
+     * @brief paint 绘制图元
+     * @return
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) Q_DECL_OVERRIDE;
 };
 
 #endif // CGRAPHICSTRIANGLEITEM_H

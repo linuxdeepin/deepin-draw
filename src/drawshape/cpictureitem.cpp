@@ -66,15 +66,7 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-//    painter->save();
-//    QRectF sceneRct = scene()->sceneRect();
-//    QRectF itemRct  = mapToScene(rect()).boundingRect();
-//    bool hasIntersects = sceneRct.intersects(itemRct);
-//    painter->setClipping(hasIntersects);
     beginCheckIns(painter);
-
-    //保证resize节点图元和旋转节点图元的坐标位置正确
-    updateGeometry();
 
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());

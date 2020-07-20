@@ -31,18 +31,38 @@ public:
     explicit CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsPenItem() Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    /**
+     * @brief rect 重写实现画笔的矩形
+     * @return
+     */
+    QRectF rect() const Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    /**
+     * @brief rect 重写实现画笔的类型
+     * @return
+     */
+    int type() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief getGraphicsUnit 获取图元的信息
+     * @return
+     */
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief resizeTo 重写实现画笔的resize逻辑
+     * @return
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief resizeTo 重写实现画笔的resize逻辑
+     * @return
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -50,50 +70,152 @@ public:
      * @param xScale X轴放大缩小比例
      * @param yScale y轴放大缩小比例
      */
-    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
-                             const double &xScale, const double &yScale,
-                             bool bShiftPress, bool bAltPress)override;
+    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                     const double &xScale, const double &yScale,
+                     bool bShiftPress, bool bAltPress) override;
 
+    /**
+     * @brief updatePenPath 刷新画笔的路径信息（使用场景：toolCreatItemUpdate 创建该item时 刷新路径）
+     * @return
+     */
     void updatePenPath(const QPointF &endPoint, bool isShiftPress);
+
+    /**
+     * @brief updateCoordinate 刷新坐标系
+     * @return
+     */
     void updateCoordinate();
+
+    /**
+     * @brief drawComplete toolCreatItemFinished 绘制完成时调用
+     * @return
+     */
     void drawComplete();
 
+    /**
+     * @brief setPath 设置路径
+     * @return
+     */
     void setPath(const QPainterPath &path);
+
+    /**
+     * @brief getPath 获取路径
+     * @return
+     */
     QPainterPath getPath() const;
 
+    /**
+     * @brief setPenStartpath 设置起点样式
+     * @return
+     */
     void setPenStartpath(const QPainterPath &path);
+
+    /**
+     * @brief getPenStartpath 返回起点样式
+     * @return
+     */
     QPainterPath getPenStartpath() const;
 
+    /**
+     * @brief setPenEndpath 设置终点样式
+     * @return
+     */
     void setPenEndpath(const QPainterPath &path);
+
+    /**
+     * @brief getPenEndpath 获取终点样式
+     * @return
+     */
     QPainterPath getPenEndpath() const;
 
+    /**
+     * @brief updatePenType 刷新设置起终点样式
+     * @return
+     */
     void updatePenType(const ELineType &startType, const ELineType &endType);
+
+    /**
+     * @brief setPixmap 得到一张场景的渲染图
+     * @return
+     */
     void setPixmap();
 
+    /**
+     * @brief setDrawFlag true表示正在绘制，false表示没有
+     * @return
+     */
     void setDrawFlag(bool flag);
-    void savePathBeforResize(QPainterPath path);
 
+    /**
+     * @brief calcVertexes 根据路径计算绘制路径
+     * @return
+     */
     void calcVertexes();
+
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
     virtual QPainterPath getHighLightPath() override;
 
+    /**
+     * @brief getPenStartType 得到起点的样式
+     * @return
+     */
     ELineType getPenStartType() const;
+
+    /**
+     * @brief setPenStartType 设置起点的样式
+     * @return
+     */
     void setPenStartType(const ELineType &penType);
 
+    /**
+     * @brief getPenEndType 得到终点的样式
+     * @return
+     */
     ELineType getPenEndType() const;
+
+    /**
+     * @brief setPenEndType 设置终点的样式
+     * @return
+     */
     void setPenEndType(const ELineType &penType);
 
 protected:
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
-    virtual void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    /**
+     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicateCreatItem 创建一个同类型图元（未同步数据）
+     */
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步数据信息到item
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateHandlesGeometry 刷新孩子节点
+     */
+    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateShape 刷新图元形状
+     */
+    void updateShape() Q_DECL_OVERRIDE { calcVertexes(); }
+
+    /**
+     * @brief paint 绘制图元
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     QPainterPath m_path;
-    QPainterPath m_pathBeforResize;//resize前保存路径信息
     QLineF m_straightLine;
     bool m_isShiftPress;
     QVector<QPointF> m_smoothVector;
@@ -111,7 +233,6 @@ private:
     bool m_isEndWithLine = false; // 用于判断是否是结束以画直线为起点
 
 private:
-    void initHandle() override;
     /**
      * @brief calcVertexes 计算箭头三角形的三个点
      * @param prePoint 前一个点

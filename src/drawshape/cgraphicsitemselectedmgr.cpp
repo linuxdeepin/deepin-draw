@@ -31,6 +31,7 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
     if (m_listItems.size() == 1 && m_listItems.contains(item)) {
         return;
     }
+
     if (m_listItems.contains(item)) {
         this->removeFromGroup(item);
         if (m_listItems.size() == 1) {
@@ -52,7 +53,6 @@ void CGraphicsItemSelectedMgr::clear()
 {
     prepareGeometryChange();
     foreach (QGraphicsItem *item, m_listItems) {
-        //item->setParentItem(nullptr);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
     }
     m_listItems.clear();
@@ -66,6 +66,8 @@ QRectF CGraphicsItemSelectedMgr::boundingRect() const
 
 void CGraphicsItemSelectedMgr::updateBoundingRect()
 {
+    prepareGeometryChange();
+
     QRectF rect(0, 0, 0, 0);
 
     if (m_listItems.size() > 1) {
@@ -80,32 +82,37 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     } else if (m_listItems.size() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
 
-        _rct = pItem->boundingRect();
+        //不存在节点的图元就需要多选图元进行管理
+        if (!pItem->isSizeHandleExisted()) {
+            _rct = pItem->rect();
 
-        setPos(pItem->pos());
+            CGraphicsItem::rotatAngle(pItem->rotation());
 
-        CGraphicsItem::rotatAngle(pItem->rotation());
+            setPos(pItem->pos());
 
-        updateGeometry();
+            updateHandlesGeometry();
 
-        return;
+            return;
+        }
     }
 
     _rct = rect;
 
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 QPainterPath CGraphicsItemSelectedMgr::shape() const
 {
     QPainterPath path;
-//    foreach (QGraphicsItem *item, m_listItems) {
-//        path = path.united(item->mapToScene(item->shape()));
-//    }
 
     path.addRect(this->boundingRect());
 
     return path;
+}
+
+int CGraphicsItemSelectedMgr::count()
+{
+    return m_listItems.count();
 }
 
 QList<CGraphicsItem *> CGraphicsItemSelectedMgr::getItems() const
@@ -118,7 +125,7 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
     //防止添加自己
     if (item == this)
         return;
-    prepareGeometryChange();
+
     if (!m_listItems.contains(item)) {
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
             m_listItems.push_back(item);
@@ -134,7 +141,7 @@ void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
     //防止删除自己
     if (item == this)
         return;
-    prepareGeometryChange();
+
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
@@ -521,6 +528,7 @@ void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,
             }
         }
     }
+
     updateBoundingRect();
 }
 
@@ -528,6 +536,7 @@ void CGraphicsItemSelectedMgr::rotatAngle(qreal angle)
 {
     if (m_listItems.count() == 1) {
         m_listItems.first()->rotatAngle(angle);
+        prepareGeometryChange();
         updateBoundingRect();
     }
 }
@@ -542,7 +551,6 @@ void CGraphicsItemSelectedMgr::resizeTo(CSizeHandleRect::EDirection dir, const Q
 
 void CGraphicsItemSelectedMgr::move(QPointF beginPoint, QPointF movePoint)
 {
-    prepareGeometryChange();
     foreach (CGraphicsItem *item, m_listItems) {
         item->move(beginPoint, movePoint);
     }
@@ -559,7 +567,7 @@ QRectF CGraphicsItemSelectedMgr::rect() const
     return _rct;
 }
 
-void CGraphicsItemSelectedMgr::updateGeometry()
+void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
 
@@ -616,17 +624,14 @@ void CGraphicsItemSelectedMgr::updateGeometry()
             break;
         }
     }
-
-    //    if (m_listItems.size() == 1) {
-    //        m_listItems.at(0)->setSelected(true);
-    //        this->setSelected(false);
-    //    }
 }
 
 void CGraphicsItemSelectedMgr::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    updateHandlesGeometry();
 
     painter->setClipping(false);
     QPen pen;

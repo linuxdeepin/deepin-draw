@@ -116,17 +116,6 @@ QPainterPath CGraphicsLineItem::shape() const
 
 QRectF CGraphicsLineItem::boundingRect() const
 {
-//    if (this->pen().widthF() == 0.0) {
-//        const qreal x1 = m_line.p1().x();
-//        const qreal x2 = m_line.p2().x();
-//        const qreal y1 = m_line.p1().y();
-//        const qreal y2 = m_line.p2().y();
-//        qreal lx = qMin(x1, x2);
-//        qreal rx = qMax(x1, x2);
-//        qreal ty = qMin(y1, y2);
-//        qreal by = qMax(y1, y2);
-//        return QRectF(lx, ty, rx - lx, by - ty);
-//    }
     return shape().controlPointRect();
 }
 
@@ -319,7 +308,7 @@ void CGraphicsLineItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoin
 
     setLine(p1, p2);
     this->moveBy(offset.x(), offset.y());
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 QLineF CGraphicsLineItem::line() const
@@ -336,7 +325,7 @@ void CGraphicsLineItem::setLine(const QLineF &line, bool init)
     if (init) {
         //CGraphicsItem::updateGeometry();
     } else {
-        updateGeometry();
+        updateHandlesGeometry();
     }
 }
 
@@ -397,7 +386,6 @@ int CGraphicsLineItem::getQuadrant() const
     } else if (m_line.p2().x() - m_line.p1().x() < 0.0001 && m_line.p2().y() - m_line.p1().y() < 0.0001) {
         nRet = 4;
     }
-
     return nRet;
 }
 
@@ -405,7 +393,6 @@ void CGraphicsLineItem::setLineStartType(ELineType type)
 {
     m_startType = type;
     calcVertexes();
-    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineStartType() const
@@ -417,7 +404,6 @@ void CGraphicsLineItem::setLineEndType(ELineType type)
 {
     m_endType = type;
     calcVertexes();
-    updateGeometry();
 }
 
 ELineType CGraphicsLineItem::getLineEndType() const
@@ -425,11 +411,19 @@ ELineType CGraphicsLineItem::getLineEndType() const
     return m_endType;
 }
 
-void CGraphicsLineItem::updateGeometry()
+void CGraphicsLineItem::updateHandlesGeometry()
 {
     qreal penwidth = this->pen().widthF();
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
+
+        if (!this->isSelected()) {
+            hndl->hide();
+            continue;
+        }
+
+        hndl->show();
+
         qreal w = hndl->boundingRect().width();
         qreal h = hndl->boundingRect().height();
         switch (hndl->dir()) {
@@ -478,7 +472,6 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateGeometry();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
 
@@ -505,9 +498,25 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     endCheckIns(painter);
 }
 
+QVariant CGraphicsLineItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemSelectedHasChanged) {
+        updateHandlesGeometry();
+    }
+    return CGraphicsItem::itemChange(change, value);
+}
+
 void CGraphicsLineItem::initLine()
 {
-    CGraphicsItem::initHandle();
+    //CGraphicsItem::initHandle();
+
+    updateHandlesGeometry();
+
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
+
     calcVertexes();
 }
 
@@ -520,12 +529,14 @@ void CGraphicsLineItem::initHandle()
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::LeftTop));
     m_handles.push_back(new CSizeHandleRect(this, CSizeHandleRect::RightBottom));
 
-    updateGeometry();
+    updateHandlesGeometry();
 
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
+
+    calcVertexes();
 }
 
 void CGraphicsLineItem::drawStart()
@@ -710,6 +721,8 @@ void CGraphicsLineItem::calcVertexes()
     // 绘制终点
     drawEnd();
 
+    updateHandlesGeometry();
+
     // 更新画布区域
     if (scene() != nullptr)
         scene()->views().first()->viewport()->update();
@@ -728,5 +741,5 @@ void CGraphicsLineItem::setLinePenWidth(int width)
 {
     this->pen().setWidth(width);
     calcVertexes();
-    updateGeometry();
+    updateHandlesGeometry();
 }

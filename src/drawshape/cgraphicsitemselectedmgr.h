@@ -48,6 +48,12 @@ public:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /**
+     * @brief count 选中的业务图元个数
+     * @return
+     */
+    int count();
+
+    /**
      * @brief getItems 获取多选的节点
      * @return
      */
@@ -103,12 +109,6 @@ public:
      * @return
      */
     virtual QRectF rect() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief updateGeometry
-     */
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
-
 protected:
     /**
      * @brief paint 绘制函数
@@ -124,6 +124,11 @@ private:
      */
 
     void initHandle() override;
+
+    /**
+     * @brief updateHandlesGeometry 刷新节点位置
+     */
+    void updateHandlesGeometry() Q_DECL_OVERRIDE;
 
 private:
     QList<CGraphicsItem * > m_listItems;

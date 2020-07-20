@@ -31,43 +31,96 @@ public:
     explicit CGraphicsPolygonItem(int count = 0, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonItem(int count, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
-    CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
+    CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data, const SGraphicsUnitHead &head,
+                         CGraphicsItem *parent = nullptr);
+
     /**
-     * @brief duplicate 拷贝自己
+     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
+     * @return
+     */
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief setRect 创建矩形时，用于设置矩形大小
+     * @param rect
+     */
+    void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief type 图元的类型
+     * @return
+     */
+    int type() const Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-    void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
-    void setPointCount(int num);
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    /**
+     * @brief getGraphicsUnit 得到图元数据
+     * @return
+     */
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
-    int nPointsCount() const;
+    /**
+     * @brief resizeTo 调整图元大小
+     * @return
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir,
+                  const QPointF &point,
+                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
-    void setListPoints(const QVector<QPointF> &listPoints);
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
+    /**
+     * @brief setPointCount 设置侧边数（根据当前rect大小进行自动计算出一个多边形）
+     * @return
+     */
+    void setPointCount(int num);
+
+    /**
+     * @brief setPointCount 侧边数
+     * @return
+     */
+    int nPointsCount() const;
+
+    /**
+     * @brief setListPoints 自定义多边形
+     * @return
+     */
+    void setListPoints(const QVector<QPointF> &listPoints);
 
 protected:
-    virtual void updateShape() Q_DECL_OVERRIDE {calcPoints();}
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    /**
+     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
+     * @return
+     */
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步数据到item
+     * @return
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateShape 刷新图元的形状
+     * @return
+     */
+    void updateShape() Q_DECL_OVERRIDE { calcPoints(); }
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     void calcPoints();

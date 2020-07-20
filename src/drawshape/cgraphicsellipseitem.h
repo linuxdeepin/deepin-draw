@@ -29,31 +29,57 @@ public:
     explicit CGraphicsEllipseItem(const SGraphicsCircleUnitData *data,
                                   const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
 
-    virtual QPainterPath inSideShape() const Q_DECL_OVERRIDE;
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
     /**
-     * @brief duplicate 拷贝自己
+     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item)  Q_DECL_OVERRIDE;
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+
+    int type() const Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief getGraphicsUnit 返回图元数据
+     * @return
+     */
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
-protected:
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
+protected:
+    /**
+     * @brief duplicateCreatItem 创建同类型图元（未同步数据）
+     * @return
+     */
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步数据到item
+     * @return
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief inSideShape 定义了内部形状
+     * @return
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief paint 绘制
+     * @return
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) Q_DECL_OVERRIDE;
 };
 
 #endif // CGRAPHICSELLIPSEITEM_H

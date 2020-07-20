@@ -49,22 +49,38 @@ public:
     enum {Type = UserType};
 
     /**
-     * @brief type 返回当前所处的view
+     * @brief curView 返回当前所处的view
      * @return
      */
     CGraphicsView *curView()const;
 
     /**
-     * @brief type 返回当前所处的scene
+     * @brief drawScene 返回当前所处的scene
      * @return
      */
     CDrawScene *drawScene();
 
     /**
-     * @brief type 返回一个数据一样的同类图元
+     * @brief creatSameItem 返回一个数据一样的同类图元
      * @return
      */
     CGraphicsItem *creatSameItem();
+
+    /**
+     * @brief rect 基于一个矩形范围的图元，所以必须实现该虚函数
+     */
+    virtual QRectF rect() const = 0;
+
+    /**
+     * @brief boundingRect 自身坐标系的包围矩形（一般返回shape().controlPointRect()）
+     * @return
+     */
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief shape 返回图元的形状
+     */
+    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -91,6 +107,18 @@ public:
     bool isBzItem();
 
     /**
+     * @brief isMrItem 是否是多选管理图元
+     * @return
+     */
+    bool isMrItem();
+
+    /**
+     * @brief isSizeHandleExisted 是否自身存在resize节点
+     * @return
+     */
+    bool isSizeHandleExisted();
+
+    /**
      * @brief hitTest 碰撞检测，用来检测鼠标在图元的哪个点位上
      * @param point 鼠标指针
      * @return
@@ -98,28 +126,7 @@ public:
     virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const;
 
     /**
-     * @brief resizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param point 移动距离
-     */
-    virtual QPainterPath inSideShape() const;
-
-    /**
-     * @brief resizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param point 移动距离
-     */
-    virtual QPainterPath outSideShape() const;
-
-    /**
-     * @brief resizeTo 沿一个方向拉伸图元
-     * @param dir 拉伸方向
-     * @param point 移动距离
-     */
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
      * @param posLocal 该图元坐标系的坐标位置
      */
     virtual bool isPosPenetrable(const QPointF &posLocal);
@@ -180,12 +187,14 @@ public:
      * @brief qt_graphicsItem_shapeFromPath 根据画笔属性，把图元形状转为路径   此函数为Qt源码中自带的
      * @param path 形状路径
      * @param pen 画笔
+     * @param replace 为true表示替换path，false表示与path结合组合
+     * @param incW 线宽增量(可能的应用场景：虚拟提升线宽使更好选中)
      * @return  转换后的路径
      */
-    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen,
-                                                      bool replace = false);
-
-    virtual QRectF rect() const = 0;
+    static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path,
+                                                      const QPen &pen,
+                                                      bool replace = false,
+                                                      const qreal incW = 5);
 
     /**
      * @brief setMutiSelect 设置图元选中状态
@@ -218,9 +227,34 @@ protected:
     void loadHeadData(const SGraphicsUnitHead &head);
 
     /**
-     * @brief updateGeometry 更新状态矩形位置
+     * @brief beginCheckIns 检查图元是否和场景就交集（必须和endCheckIns成對出现）
+     * @param painter 绘制指针
      */
-    virtual void updateGeometry() = 0;
+    void beginCheckIns(QPainter *painter);
+
+    /**
+     * @brief endCheckIns 结束检查图元是否和场景就交集（必须和beginCheckIns成對出现）
+     * @param painter 绘制指针
+     */
+    void endCheckIns(QPainter *painter);
+
+    /**
+     * @brief paintMutBoundingLine 显示菜单
+     * @param painter 绘制指针
+     * @param option  绘制信息
+     */
+    void paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option);
+
+protected:
+    /**
+     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     */
+    virtual QPainterPath inSideShape() const;
+
+    /**
+     * @brief outSideShape 图元外围形状（边线所组成的形状）
+     */
+    virtual QPainterPath outSideShape() const;
 
     /**
      * @brief setState 设置图元外接矩形状态
@@ -243,14 +277,19 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
     /**
-     * @brief clearHandle 清理所有控制节点item
-     */
-    virtual void clearHandle();
-
-    /**
      * @brief initHandle 初始化控制节点item
      */
     virtual void initHandle();
+
+    /**
+     * @brief    updateHandlesGeometry 更新孩子节点们的位置
+     */
+    virtual void updateHandlesGeometry();
+
+    /**
+     * @brief clearHandle 清理所有控制节点item
+     */
+    virtual void clearHandle();
 
     /**
      * @brief 创建一个同类型图元
@@ -263,25 +302,6 @@ protected:
      */
     virtual void duplicate(CGraphicsItem *item);
 
-    /**
-     * @brief beginCheckIns 检查图元是否和场景就交集（必须和endCheckIns成對出现）
-     * @param painter 绘制指针
-     */
-    void  beginCheckIns(QPainter *painter);
-
-    /**
-     * @brief endCheckIns 结束检查图元是否和场景就交集（必须和beginCheckIns成對出现）
-     * @param painter 绘制指针
-     */
-    void  endCheckIns(QPainter *painter);
-
-    /**
-     * @brief paintMutBoundingLine 显示菜单
-     * @param painter 绘制指针
-     * @param option  绘制信息
-     */
-    void paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option);
-
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
 
@@ -292,6 +312,7 @@ protected:
     bool m_bMutiSelectFlag;
 
 public:
+    /* 将被弃用 */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                           bool bShiftPress, bool bAltPress);
 };

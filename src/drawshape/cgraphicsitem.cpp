@@ -23,6 +23,7 @@
 #include "cdrawscene.h"
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cgraphicsitemselectedmgr.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -30,7 +31,10 @@
 #include <QtMath>
 #include <QStyleOptionGraphicsItem>
 
-QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen, bool replace)
+QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path,
+                                                          const QPen &pen,
+                                                          bool replace,
+                                                          const qreal incW)
 {
     // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
     // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
@@ -43,7 +47,7 @@ QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &pa
     if (pen.widthF() <= 0.0)
         ps.setWidth(penWidthZero);
     else
-        ps.setWidth(pen.widthF());
+        ps.setWidth(pen.widthF() + incW);
     ps.setJoinStyle(pen.joinStyle());
     ps.setMiterLimit(pen.miterLimit());
     QPainterPath p = ps.createStroke(path);
@@ -122,6 +126,10 @@ void CGraphicsItem::loadHeadData(const SGraphicsUnitHead &head)
     this->setZValue(head.zValue);
 }
 
+void CGraphicsItem::updateHandlesGeometry()
+{
+}
+
 int CGraphicsItem::type() const
 {
     return Type;
@@ -130,6 +138,16 @@ int CGraphicsItem::type() const
 bool CGraphicsItem::isBzItem()
 {
     return (this->type() >= RectType && this->type() <= BlurType);
+}
+
+bool CGraphicsItem::isMrItem()
+{
+    return (this->type() == MgrType);
+}
+
+bool CGraphicsItem::isSizeHandleExisted()
+{
+    return !m_handles.isEmpty();
 }
 
 CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
@@ -155,12 +173,16 @@ QPainterPath CGraphicsItem::inSideShape() const
     path.addRect(rect());
     path.closeSubpath();
     return path;
-    //return qt_graphicsItem_shapeFromPath(path, pen());
 }
 
 QPainterPath CGraphicsItem::outSideShape() const
 {
     return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true);
+}
+
+QRectF CGraphicsItem::boundingRect() const
+{
+    return shape().controlPointRect();
 }
 
 QPainterPath CGraphicsItem::shape() const
@@ -173,9 +195,12 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
     bool result = false;
     bool brushIsTrans = !brush().isOpaque();
     bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
+
     if (outSideShape().contains(posLocal)) {
+        //qDebug() << "at outSideShape -------- " << posLocal;
         result = penIsTrans;
     } else {
+        //qDebug() << "at inSideShape -------- " << posLocal;
         result = brushIsTrans;
     }
     return result;
@@ -282,44 +307,24 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if (change == QGraphicsItem::ItemSelectedHasChanged) {
-        setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
-    }
+    //    if (change == QGraphicsItem::ItemSelectedHasChanged) {
+    //        setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
+    //    }
 
-    if (change == QGraphicsItem::ItemSelectedHasChanged &&  this->type() == TextType && value.toBool() == false) {
-        static_cast<CGraphicsTextItem *>(this)->getTextEdit()->hide();
-    }
-
-    //change != QGraphicsItem::ItemVisibleChange 避免循环嵌套 引起死循环
-    /*if (this->type() != BlurType && this->scene() != nullptr && change != QGraphicsItem::ItemVisibleChange &&
-            change != QGraphicsItem::ItemVisibleHasChanged && change != QGraphicsItem::ItemSelectedChange &&
-            change != QGraphicsItem::ItemSelectedHasChanged )*/
+    //    if (change == QGraphicsItem::ItemSelectedHasChanged &&  this->type() == TextType && value.toBool() == false) {
+    //        static_cast<CGraphicsTextItem *>(this)->getTextEdit()->hide();
+    //    }
 
     //未来做多选操作，需要把刷新功能做到undoredo来统一管理
     //全选的由其它地方处理刷新 否则会出现卡顿
-    if (/*(change == QGraphicsItem::ItemSelectedHasChanged && !CDrawParamSigleton::GetInstance()->getSelectAllFlag())  ||*/
-        change == QGraphicsItem::ItemPositionHasChanged ||
-        change == QGraphicsItem::ItemMatrixChange ||
-        change == QGraphicsItem::ItemZValueHasChanged ||
-        change == QGraphicsItem::ItemOpacityHasChanged ||
-        change == QGraphicsItem::ItemRotationHasChanged ||
-        change == QGraphicsItem::ItemTransformOriginPointHasChanged /*||
-                                     (change == QGraphicsItem::ItemSceneHasChanged && this->scene() == nullptr)*/) {
-//        QList<QGraphicsItem *> items = CDrawScene::GetInstance()->items();//this->collidingItems();
-//        //QList<QGraphicsItem *> items = this->collidingItems();
-//        foreach (QGraphicsItem *item, items) {
-//            if (item->type() == BlurType) {
-//                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-//            }
-//        }
-
+    if (change == QGraphicsItem::ItemPositionHasChanged || change == QGraphicsItem::ItemMatrixChange || change == QGraphicsItem::ItemZValueHasChanged || change == QGraphicsItem::ItemOpacityHasChanged || change == QGraphicsItem::ItemRotationHasChanged || change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
         if (nullptr != scene()) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->updateBlurItem(this);
         }
     }
 
-    if (QGraphicsItem::ItemSceneChange == change) {
+    if (QGraphicsItem::ItemSceneHasChanged == change) {
         if (this->type() >= RectType && this->type() < MgrType) {
             QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
             if (pScene == nullptr) {
@@ -366,7 +371,7 @@ void CGraphicsItem::clearHandle()
 }
 void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
-    if (this->getMutiSelect()) {
+    if (this->isSelected() && scene() != nullptr && drawScene()->getItemsMgr()->count() > 1) {
         painter->setClipping(false);
         QPen pen;
 
@@ -395,20 +400,7 @@ void CGraphicsItem::resizeTo(CSizeHandleRect::EDirection dir,
 void CGraphicsItem::initHandle()
 {
     clearHandle();
-    // handles
-    m_handles.reserve(CSizeHandleRect::None);
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = nullptr;
-        if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
-
-        } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
-        }
-        m_handles.push_back(shr);
-
-    }
-    updateGeometry();
+    updateHandlesGeometry();
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
