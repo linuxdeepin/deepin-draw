@@ -31,19 +31,43 @@ public:
     explicit CGraphicsLineItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent = nullptr);
     CGraphicsLineItem(const SGraphicsLineUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual ~CGraphicsLineItem() Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
 
-    QPainterPath shape() const Q_DECL_OVERRIDE;
+    /**
+     * @brief rect 基于一个矩形范围的图元，重写实现该图元的矩形范围
+     */
+    QRectF rect() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief boundingRect 包围矩形
+     */
     QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
 
-    virtual void rotatAngle(qreal angle) Q_DECL_OVERRIDE;
+    /**
+     * @brief shape 图元形状
+     */
+    QPainterPath shape() const Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    /**
+     * @brief type 图元类型
+     */
+    int type() const Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    /**
+     * @brief rotatAngle 重写以实现线条图元旋转的逻辑
+     */
+    void rotatAngle(qreal angle) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief rotatAngle 重写以实现线条图元的resize逻辑
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief rotatAngle 重写以实现线条图元的resize逻辑
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir,
+                  const QPointF &point,
+                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -55,58 +79,120 @@ public:
                      const double &xScale, const double &yScale,
                      bool bShiftPress, bool bAltPress) override;
 
+    /**
+     * @brief line  返回线条
+     */
     QLineF line() const;
+
+    /**
+     * @brief setLine  设置直线条
+     */
     void setLine(const QLineF &line, bool init = false);
+    /**
+     * @brief setLine  设置直线条
+     */
     void setLine(const QPointF &p1, const QPointF &p2, bool init = false);
+
+    /**
+     * @brief setLine  设置直线条
+     */
     inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool init = false);
 
     /**
-     * @brief duplicate 拷贝自己
-     * @return
+     * @brief getGraphicsUnit  返回图元的信息
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-
-    //判断直线第二个点在第一个点的第几象限内
-
+    /**
+     * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内
+     */
     int getQuadrant() const;
 
+    /**
+     * @brief setLineStartType  设置线开始点的样式
+     */
     void setLineStartType(ELineType type);
+
+    /**
+     * @brief getLineStartType  返回当前线开始点的样式
+     */
     ELineType getLineStartType() const;
 
+    /**
+     * @brief setLineEndType  设置线结束点的样式
+     */
     void setLineEndType(ELineType type);
+
+    /**
+     * @brief getLineEndType  返回当前线结束点的样式
+     */
     ELineType getLineEndType() const;
 
     /**
      * @brief calcVertexes  计算箭头
-     * @param prePoint
-     * @param currentPoint
      */
     void calcVertexes();
+
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
      */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
-    /*
-    * @bref: setLinePenWidth 设置线的宽度
-    * @param: width 宽度
-    */
+    /**
+     * @brief setLinePenWidth 设置线宽
+     * @return
+     */
     void setLinePenWidth(int width);
 
 protected:
-    void updateGeometry() Q_DECL_OVERRIDE;
+    /**
+     * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
+     * @return
+     */
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步数据到item
+     * @return
+     */
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateHandlesGeometry 刷新子节点位置
+     * @return
+     */
+    void updateHandlesGeometry() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateShape 刷新图元形状
+     * @return
+     */
     void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief paint 绘制图元
+     * @return
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief itemChange 图元变更
+     * @param change 变更属性
+     * @param value 变更的值
+     * @return
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
 private:
     void initLine();
 
     void initHandle() override;
 
+    void drawStart();
+
+    void drawEnd();
 
 private:
     QLineF m_line; // 中间直线的位置信息
@@ -116,9 +202,6 @@ private:
 
     QPainterPath m_startPath; // 绘制起点路径
     QPainterPath m_endPath; // 绘制终点路径
-
-    void drawStart();
-    void drawEnd();
 };
 
 #endif // CGRAPHICSLINEITEM_H

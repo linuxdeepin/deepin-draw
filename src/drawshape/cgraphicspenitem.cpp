@@ -61,7 +61,11 @@ CGraphicsPenItem::CGraphicsPenItem(QGraphicsItem *parent)
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    CGraphicsItem::initHandle();
+    //CGraphicsItem::initHandle();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
 }
 
 CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *parent)
@@ -73,9 +77,13 @@ CGraphicsPenItem::CGraphicsPenItem(const QPointF &startPoint, QGraphicsItem *par
     , m_penEndType(noneLine)
 
 {
-    CGraphicsItem::initHandle();
+    //CGraphicsItem::initHandle();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
+
     m_path.moveTo(startPoint);
-//    m_poitsPath.push_back(startPoint);
     m_smoothVector.push_back(startPoint);
 }
 
@@ -85,15 +93,16 @@ CGraphicsPenItem::CGraphicsPenItem(const SGraphicsPenUnitData *data, const SGrap
     , m_isDrawing(false)
     , m_drawIndex(0)
 {
-    CGraphicsItem::initHandle();
+    //CGraphicsItem::initHandle();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
 
     prepareGeometryChange();
     m_penStartType = data->start_type;
     m_penEndType = data->end_type;
-//    m_poitsPath = data->poitsVector;
-//    m_arrow = data->arrow;
     m_path = data->path;
-    //CGraphicsItem::updateGeometry();
     updateCoordinate();
 }
 
@@ -105,44 +114,6 @@ CGraphicsPenItem::~CGraphicsPenItem()
 int CGraphicsPenItem::type() const
 {
     return PenType;
-}
-
-QPainterPath CGraphicsPenItem::shape() const
-{
-    QPainterPath path;
-    path = m_path;
-    if (m_isShiftPress) {
-        path.lineTo(m_straightLine.p2());
-    }
-
-    path.addPath(m_startPath);
-    path.addPath(m_endPath);
-
-    path.closeSubpath();
-    return  qt_graphicsItem_shapeFromPath(path, pen());
-}
-
-QRectF CGraphicsPenItem::boundingRect() const
-{
-//    QRectF rect;
-//    QPainterPath path;
-//    path = m_path;
-
-//    if (m_isShiftPress) {
-//        path.lineTo(m_straightLine.p2());
-//    }
-//    if (arrow == m_currentType) {
-//        path.addPolygon(m_arrow);
-//        rect = path.controlPointRect();
-//    } else {
-//        rect  = path.controlPointRect();
-//    }
-
-//    return QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-//                  rect.width() + pen().width(), rect.height() + pen().width());
-
-    return shape().controlPointRect();
-
 }
 
 QRectF CGraphicsPenItem::rect() const
@@ -339,7 +310,7 @@ void CGraphicsPenItem::updateCoordinate()
     moveBy(-delta.x(), -delta.y());
     setTransform(transform().translate(-delta.x(), -delta.y()));
 
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 void CGraphicsPenItem::drawComplete()
@@ -931,8 +902,7 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
 
     calcVertexes();
 
-    updateGeometry();
-
+    updateHandlesGeometry();
 }
 
 void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
@@ -954,7 +924,7 @@ void CGraphicsPenItem::updatePenPath(const QPointF &endPoint, bool isShiftPress)
 //        calcVertexes(m_smoothVector.first(), m_smoothVector.last());
     }
 
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 qreal CGraphicsPenItem::GetBezierValue(qreal p0, qreal p1, qreal p2, qreal p3, qreal p4, qreal p5, qreal t)
@@ -1170,7 +1140,7 @@ void CGraphicsPenItem::drawEnd()
     }
 }
 
-void CGraphicsPenItem::updateGeometry()
+void CGraphicsPenItem::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
 
@@ -1217,7 +1187,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
+
     QPen pen = this->pen();
     pen.setJoinStyle(Qt::BevelJoin);
 
@@ -1255,21 +1225,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     endCheckIns(painter);
 
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        QPen pen;
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-//            pen.setColor(QColor(224, 224, 224));
-//        } else {
-//            pen.setColor(QColor(69, 69, 69));
-//        }
-        pen.setColor(QColor(224, 224, 224));
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+    paintMutBoundingLine(painter, option);
 }
 
 QPainterPath CGraphicsPenItem::getPath() const
@@ -1337,33 +1293,6 @@ void CGraphicsPenItem::setDrawFlag(bool flag)
     m_isDrawing = flag;
 }
 
-void CGraphicsPenItem::savePathBeforResize(QPainterPath path)
-{
-    m_pathBeforResize = path;
-}
-
-void CGraphicsPenItem::initHandle()
-{
-    clearHandle();
-    m_handles.reserve(CSizeHandleRect::None);
-    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
-        CSizeHandleRect *shr = nullptr;
-        if (i == CSizeHandleRect::Rotation) {
-            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
-
-        } else {
-            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
-        }
-        m_handles.push_back(shr);
-
-    }
-    updateGeometry();
-    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-    this->setAcceptHoverEvents(true);
-}
-
 void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &currentPoint)
 {
     if (prePoint == currentPoint) {
@@ -1403,7 +1332,7 @@ void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
     m_penStartType = penType;
     calcVertexes();
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 ELineType CGraphicsPenItem::getPenEndType() const
@@ -1415,5 +1344,21 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
     m_penEndType = penType;
     calcVertexes();
-    updateGeometry();
+    updateHandlesGeometry();
+}
+
+QPainterPath CGraphicsPenItem::inSideShape() const
+{
+    QPainterPath path;
+    path = m_path;
+    if (m_isShiftPress) {
+        path.lineTo(m_straightLine.p2());
+    }
+
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
+
+    path.closeSubpath();
+
+    return path;
 }

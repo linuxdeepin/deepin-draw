@@ -415,7 +415,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
+    updateHandlesGeometry();
 
     // judge selectool isValid
     if (!rect().isValid())
@@ -444,11 +444,19 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 ////    m_pTextEdit->cursorPositionChanged();
 //    }
 
-//    if (nullptr != scene()) {
-//        auto curScene = static_cast<CDrawScene *>(scene());
-//        curScene->updateBlurItem(this);
-//    }
-//    m_pTextEdit->setFocus();
+    //    if (nullptr != scene()) {
+    //        auto curScene = static_cast<CDrawScene *>(scene());
+    //        curScene->updateBlurItem(this);
+    //    }
+    //    m_pTextEdit->setFocus();
+}
+
+QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemSelectedHasChanged && value.toBool() == false) {
+        this->getTextEdit()->hide();
+    }
+    return CGraphicsRectItem::itemChange(change, value);
 }
 
 void CGraphicsTextItem::drawDocument(QPainter *painter,

@@ -29,23 +29,61 @@ public:
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent = nullptr);
     explicit CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
-    virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual  int type() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir,
-                          const QPointF &point,
-                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
     /**
-     * @brief duplicate 拷贝自己
+     * @brief boundingRect 自身坐标系的包围矩形（qt框架调用或其他，一般与rect()一致）
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief shape 描述图元的形状路径（qt框架调用或其他）
+     * @return
+     */
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief type  图元类型
+     * @return
+     */
+    int type() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief type  调整图元大小（即将被弃用）
+     * @return
+     */
+    void resizeTo(CSizeHandleRect::EDirection dir,
+                  const QPointF &point,
+                  bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief setRect 设置图元在自身坐标系的包围矩形
+     * @return
+     */
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updatePolygonalStar 刷新设置锚点数和内元半径
+     * @return
+     */
     void updatePolygonalStar(int anchorNum, int innerRadius);
+
+    /**
+     * @brief anchorNum 锚点数(多少个角的星星)
+     * @return
+     */
     int anchorNum() const;
+
+    /**
+     * @brief 内圆半径 （内角到中心的距离）
+     * @return
+     */
     int innerRadius() const;
 
+    /**
+     * @brief 设置多边形路径
+     * @return
+     */
     void setPolygon(const QPolygonF &polygon);
 
     /**
@@ -53,7 +91,13 @@ public:
      * @return
      */
     virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief loadGraphicsUnit 图元的数据
+     * @return
+     */
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+
     /**
      * @brief getHighLightPath 获取高亮path
      * @return
@@ -61,7 +105,28 @@ public:
     virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
+    /**
+     * @brief duplicate 创造一个同类型的图元（数据未同步），由creatSameItem调用
+     * @return
+     */
+    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+
+    /**
+     * @brief duplicate 同步自己数据信息到item，由creatSameItem调用
+     * @return
+     */
+    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief updateShape 刷新图元形状
+     * @return
+     */
     virtual void updateShape() Q_DECL_OVERRIDE {calcPolygon();}
+
+    /**
+     * @brief paint 绘制图元
+     * @return
+     */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:

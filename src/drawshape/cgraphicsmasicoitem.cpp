@@ -17,43 +17,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-//{
-//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-//    const qreal penWidthZero = qreal(0.00000001);
-
-//    if (path == QPainterPath() || pen == Qt::NoPen)
-//        return path;
-//    QPainterPathStroker ps;
-//    ps.setCapStyle(pen.capStyle());
-//    if (pen.widthF() <= 0.0)
-//        ps.setWidth(penWidthZero);
-//    else
-//        ps.setWidth(pen.widthF());
-//    ps.setJoinStyle(pen.joinStyle());
-//    ps.setMiterLimit(pen.miterLimit());
-//    QPainterPath p = ps.createStroke(path);
-//    p.addPath(path);
-//    return p;
-
-//}
-
-/*CGraphicsMasicoItem::CGraphicsMasicoItem(CGraphicsItem *parent)
-    : CGraphicsRectItem(parent)
-    , m_pixmap(1362, 790)
-    , m_nBlurEffect(MasicoEffect)
-{
-
-}
-
-CGraphicsMasicoItem::CGraphicsMasicoItem(const QRectF &rect, CGraphicsItem *parent)
-    : CGraphicsRectItem(rect, parent)
-    , m_pixmap(1362, 790)
-{
-
-}*/
-
 CGraphicsMasicoItem::CGraphicsMasicoItem(QGraphicsItem *parent)
     : CGraphicsPenItem(parent)
     , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
@@ -96,7 +59,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
+    updateHandlesGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
     if (scene != nullptr) {
@@ -235,7 +198,7 @@ void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
 
 QRectF CGraphicsMasicoItem::boundingRect() const
 {
-    QRectF rect = this->shape().boundingRect();;
+    QRectF rect = this->shape().boundingRect();
     return rect;
 }
 

@@ -27,10 +27,11 @@ class CGraphicsRotateAngleItem : public QGraphicsRectItem
 public:
     explicit CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent = nullptr);
     explicit CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent = nullptr);
-
     void updateRotateAngle(qreal rotateAngle);
+
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+               QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
 private:
     qreal m_rotateAngle;

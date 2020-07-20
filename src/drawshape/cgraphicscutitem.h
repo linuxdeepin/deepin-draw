@@ -60,7 +60,7 @@ public:
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
+    virtual void updateHandlesGeometry() Q_DECL_OVERRIDE;
 
 private:
     /**

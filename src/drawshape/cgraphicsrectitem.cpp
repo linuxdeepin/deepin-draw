@@ -90,17 +90,7 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     prepareGeometryChange();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    updateGeometry();
-}
-
-void CGraphicsRectItem::initHandle()
-{
-    clearHandle();
-    updateGeometry();
-    this->setFlag(QGraphicsItem::ItemIsMovable, true);
-    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
-    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
-    this->setAcceptHoverEvents(true);
+    updateHandlesGeometry();
 }
 
 void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius)
@@ -134,8 +124,6 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    updateGeometry();
-
     beginCheckIns(painter);
 
     //先绘制填充
@@ -167,7 +155,8 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
 
 }
 
-void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)
+void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                                 bool bShiftPress, bool bAltPress)
 {
     QPointF local = mapFromScene(point);
     QRectF rect = this->rect();
@@ -517,7 +506,7 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     this->setPos(0, 0);
 
     this->setRect(rect);
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
@@ -585,9 +574,11 @@ void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
     default:
         break;
     }
+
     this->setRect(rect);
+    this->setTransformOriginPoint(rect.center());
     this->moveBy(offset.x(), offset.y());
-    updateGeometry();
+    updateHandlesGeometry();
 }
 
 CGraphicsItem *CGraphicsRectItem::duplicateCreatItem()
@@ -632,79 +623,7 @@ CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
     return unit;
 }
 
-
-void CGraphicsRectItem::updateGeometry()
-{
-    const QRectF &geom = this->boundingRect();
-
-    const Handles::iterator hend =  m_handles.end();
-    QPointF pos;
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
-        CSizeHandleRect *hndl = *it;
-        qreal w = hndl->boundingRect().width();
-        qreal h = hndl->boundingRect().height();
-        switch (hndl->dir()) {
-        case CSizeHandleRect::LeftTop:
-            hndl->move(geom.x() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Top:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::RightTop:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() - h / 2);
-            break;
-        case CSizeHandleRect::Right:
-            pos = QPointF(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::RightBottom:
-            hndl->move(geom.x() + geom.width() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Bottom:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::LeftBottom:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() - h / 2);
-            break;
-        case CSizeHandleRect::Left:
-            hndl->move(geom.x() - w / 2, geom.y() + geom.height() / 2 - h / 2);
-            break;
-        case CSizeHandleRect::Rotation:
-            hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
-            break;
-        default:
-            break;
-        }
-    }
-}
-
 QRectF CGraphicsRectItem::rect() const
 {
     return QRectF(m_topLeftPoint, m_bottomRightPoint);
 }
-
-QPainterPath CGraphicsRectItem::shape() const
-{
-    QPainterPath path;
-    path.addRect(rect());
-    path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path, pen());
-}
-
-QRectF CGraphicsRectItem::boundingRect() const
-{
-//    QRectF rect = this->rect();
-//    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-//                             rect.width() + pen().width(), rect.height() + pen().width());
-//    return bounding;
-
-    return shape().controlPointRect();
-}
-
-//void CGraphicsRectItem::setState(SelectionHandleState st)
-//{
-//    const Handles::iterator hend =  m_handles.end();
-//    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
-//        (*it)->setState(st);
-//    }
-//}

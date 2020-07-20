@@ -49,15 +49,14 @@ CGraphicsEllipseItem::CGraphicsEllipseItem(const SGraphicsCircleUnitData *data, 
 QPainterPath CGraphicsEllipseItem::inSideShape() const
 {
     QPainterPath path;
-    path.addEllipse(rect());
+    path.addEllipse(rect()); //添加矩形的内椭圆
     path.closeSubpath();
-
     return path;
 }
 
 QPainterPath CGraphicsEllipseItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false, 5);
 }
 
 int CGraphicsEllipseItem::type() const
@@ -114,7 +113,6 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
-    updateGeometry();
 
     beginCheckIns(painter);
 
