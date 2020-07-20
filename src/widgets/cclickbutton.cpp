@@ -21,6 +21,7 @@
 #include "frame/cviewmanagement.h"
 
 #include <DApplicationHelper>
+#include <DWidget>
 
 #include <QPainter>
 #include <QDebug>
