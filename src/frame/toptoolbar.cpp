@@ -46,6 +46,7 @@
 #include <QStandardItemModel>
 #include <DApplicationHelper>
 #include <QWidgetAction>
+#include <QTimer>
 
 #include <DLineEdit>
 
@@ -56,7 +57,11 @@ TopToolbar::TopToolbar(DWidget *parent)
 {
     m_propertys.clear();
     initUI();
-    initConnection();
+
+    QMetaObject::invokeMethod(this, [ = ]() {
+        initTopMenuUI();
+        initConnection();
+    });
 }
 
 TopToolbar::~TopToolbar()
@@ -156,18 +161,22 @@ void TopToolbar::initStackWidget()
     m_titleWidget = new CTitleWidget(this);
     m_stackWidget->addWidget(m_titleWidget);
 
-    //picture
-    m_picWidget = new CPictureWidget(this);
-    m_stackWidget->addWidget(m_picWidget);
-
     //rectangle, triangle,oval
     m_commonShapeWidget = new CommonshapeWidget(this);
     m_stackWidget->addWidget(m_commonShapeWidget);
 
+    m_stackWidget->setCurrentWidget(m_titleWidget);
+}
+
+void TopToolbar::initTopMenuUI()
+{
+    //picture
+    m_picWidget = new CPictureWidget(this);
+    m_stackWidget->addWidget(m_picWidget);
+
     ///polygonalStar
     m_polygonalStarWidget = new PolygonalStarAttributeWidget(this);
     m_stackWidget->addWidget(m_polygonalStarWidget);
-
 
     ///polygonalStar
     m_PolygonWidget = new PolygonAttributeWidget(this);
@@ -192,12 +201,6 @@ void TopToolbar::initStackWidget()
 
     m_cutWidget = new CCutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
-
-    //process  artboard's size.
-//    m_adjustsizeWidget = new AdjustsizeWidget(this);
-//    m_stackWidget->addWidget(m_adjustsizeWidget);
-
-    m_stackWidget->setCurrentWidget(m_titleWidget);
 }
 
 void TopToolbar::initMenu()

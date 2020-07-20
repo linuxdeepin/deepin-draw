@@ -742,22 +742,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
-        <source>Is Close Draw?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="115"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/mainwindow.cpp" line="404"/>
+        <location filename="../src/frame/mainwindow.cpp" line="383"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1103,42 +1088,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="208"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="211"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="219"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="247"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="253"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

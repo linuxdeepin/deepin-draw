@@ -265,6 +265,10 @@ private:
      */
     void initStackWidget();
     /**
+     * @brief initTopMenuUI　初始化顶部菜单属性栏
+     */
+    void initTopMenuUI();
+    /**
      * @brief initMenu　初始化主菜单
      */
     void initMenu();
