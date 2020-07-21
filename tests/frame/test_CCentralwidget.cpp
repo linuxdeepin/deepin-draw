@@ -17,11 +17,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "ccentralwidget.h"
-#include "mainwindow.h"
+#include "../getMainWindow.h"
 
 TEST(CCentralwidget, CCentralwidget_switchTheme)
 {
-    MainWindow *w = new MainWindow;
+    MainWindow *w = getMainWindow();
     w->hide();
 
     CCentralwidget *c = w->getCCentralwidget();

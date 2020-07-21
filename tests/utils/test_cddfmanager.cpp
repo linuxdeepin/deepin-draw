@@ -17,7 +17,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "cddfmanager.h"
-#include "mainwindow.h"
+#include "../getMainWindow.h"
 #include "ccentralwidget.h"
 #include "frame/cgraphicsview.h"
 #include "frame/cviewmanagement.h"
@@ -26,7 +26,7 @@
 
 TEST(cddfmanager, cddfmanager)
 {
-    MainWindow *w = new MainWindow;
+    MainWindow *w = getMainWindow();
     w->hide();
 
     CCentralwidget *c = w->getCCentralwidget();

@@ -17,7 +17,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 
-#include "mainwindow.h"
+#include "../getMainWindow.h"
 #include "ccentralwidget.h"
 #include "clefttoolbar.h"
 #include "frame/cgraphicsview.h"
@@ -34,7 +34,7 @@
 
 TEST(ItemTool, ItemTool)
 {
-    MainWindow *w = new MainWindow;
+    MainWindow *w = getMainWindow();
     w->hide();
 
     CCentralwidget *c = w->getCCentralwidget();

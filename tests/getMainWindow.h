@@ -17,4 +17,15 @@
 #ifndef MIANWINDOW_H
 #define MIANWINDOW_H
 
+#include "mainwindow.h"
+
+static MainWindow *getMainWindow()
+{
+    MainWindow *temp_window = nullptr;
+    if (temp_window == nullptr) {
+        temp_window = new MainWindow();
+    }
+    return temp_window;
+}
+
 #endif // MIANWINDOW_H
