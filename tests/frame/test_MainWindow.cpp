@@ -17,11 +17,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "application.h"
-#include "mainwindow.h"
+#include "../getMainWindow.h"
 
 TEST(MainWindow, MainWindow_openFiles)
 {
-    MainWindow *w = new MainWindow;
+    MainWindow *w = getMainWindow();
     w->hide();
     QStringList filePaths;
 
