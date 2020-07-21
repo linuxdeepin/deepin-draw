@@ -27,6 +27,7 @@
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
+#include <QtConcurrent>
 
 #include <malloc.h>
 
@@ -52,10 +53,6 @@ Application::Application(int &argc, char **argv)
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
@@ -68,6 +65,16 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
         return EXIT_SUCCESS;
     }
+
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
+    QtConcurrent::run([]() {
+        QWidget *w = new QWidget;
+        w->setWindowIcon(QIcon::fromTheme("dde-file-manager"));
+        w->winId();
+        w->deleteLater();
+    });
 
     // Version Time
     this->setApplicationVersion(VERSION);
