@@ -612,18 +612,18 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="142"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="142"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="143"/>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="322"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="143"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="322"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cpicturetool.cpp" line="319"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="319"/>
         <source>Damaged file, unable to open it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -796,7 +796,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/ctexttool.cpp" line="65"/>
+        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="65"/>
         <source>Input text here</source>
         <translation type="unfinished"></translation>
     </message>

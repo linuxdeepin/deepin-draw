@@ -94,16 +94,15 @@ public:
      */
     int getXRedius();
 
-    /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
-
 protected:
     void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);
 
 protected:
+    /**
+     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
     /**
      * @brief duplicateCreatItem 复制一个一样类型的图元
      * @return

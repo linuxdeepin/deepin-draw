@@ -41,12 +41,6 @@ public:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     /**
-     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
-     * @return
-     */
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-
-    /**
      * @brief setRect 创建矩形时，用于设置矩形大小
      * @param rect
      */
@@ -79,12 +73,6 @@ public:
                   bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
-
-    /**
      * @brief setPointCount 设置侧边数（根据当前rect大小进行自动计算出一个多边形）
      * @return
      */
@@ -103,6 +91,11 @@ public:
     void setListPoints(const QVector<QPointF> &listPoints);
 
 protected:
+    /**
+     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
     /**
      * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
      * @return

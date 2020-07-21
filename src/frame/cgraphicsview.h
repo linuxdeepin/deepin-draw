@@ -19,7 +19,7 @@
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
 
-#include "drawshape/csizehandlerect.h"
+#include "csizehandlerect.h"
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
@@ -65,7 +65,8 @@ public:
     enum EScaleCenter { EViewCenter,
                         ESceneCenter,
                         EMousePos,
-                        ECustomViewPos };
+                        ECustomViewPos
+    };
 
     /**
      * @brief zoomOut 放大

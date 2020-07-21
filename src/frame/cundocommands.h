@@ -19,7 +19,7 @@
 #ifndef CUNDOCOMMANDS_H
 #define CUNDOCOMMANDS_H
 
-#include "drawshape/csizehandlerect.h"
+#include "drawItems/csizehandlerect.h"
 #include "drawshape/globaldefine.h"
 
 #include <QUndoCommand>
@@ -77,7 +77,7 @@ public:
                         QPointF endPos,
                         bool bShiftPress,
                         bool bAltPress,
-                        QUndoCommand *parent = nullptr );
+                        QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -103,7 +103,7 @@ public:
                             QPointF endPos,
                             bool bShiftPress,
                             bool bAltPress,
-                            QUndoCommand *parent = nullptr );
+                            QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
@@ -126,10 +126,10 @@ class CMultMoveShapeCommand : public QUndoCommand
 {
 public:
     CMultMoveShapeCommand(CDrawScene *scene,
-                          QList<CGraphicsItem * > items,
+                          QList<CGraphicsItem *> items,
                           QPointF beginPos,
                           QPointF endPos,
-                          QUndoCommand *parent = nullptr );
+                          QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 

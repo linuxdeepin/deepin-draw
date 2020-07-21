@@ -114,10 +114,10 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
     return  unit;
 }
 
-QPainterPath CGraphicsPolygonalStarItem::getHighLightPath()
+QPainterPath CGraphicsPolygonalStarItem::inSideShape() const
 {
     QPainterPath path;
-    path.addPolygon(/*m_polygonForBrush*/m_polygonPen);
+    path.addPolygon(m_polygonPen);
     path.closeSubpath();
     return path;
 }

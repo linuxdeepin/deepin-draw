@@ -52,7 +52,7 @@ protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
      */
-    virtual QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
 
     /**
      * @brief duplicateCreatItem 创建一个同类型的图元（只是创建未同步数据信息）
@@ -65,12 +65,6 @@ protected:
      * @return
      */
     void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
-    /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
     /**
      * @brief paint 绘制图元
