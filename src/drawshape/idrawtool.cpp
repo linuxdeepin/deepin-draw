@@ -142,7 +142,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._isvaild = true;
         info._curEvent = *event;
         info._scene = event->scene();
-        info.getTimeHandle()->start();
+        info.getTimeHandle()->restart();
 
         _allITERecordInfo.insert(event->uuid(), info);
 
@@ -196,7 +196,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             rInfo._prePos = event->pos();
 
         } else {
-            toolDoStart(event);
+            //toolDoStart(event);
         }
     } else {
         mouseHoverEvent(event);
