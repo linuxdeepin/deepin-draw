@@ -872,7 +872,9 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
             QGraphicsItem *pItem = items[i];
             bool isAsscMgr = false;
             if (pItem->type() == MgrType) {
-                isAsscMgr = true;
+                //isAsscMgr = true;
+                items.removeAt(i);
+                continue;
             } else if (isBussizeHandleNodeItem(pItem)) {
                 if (seeNodeAsBzItem) {
                     pItem = getAssociatedBzItem(pItem);
