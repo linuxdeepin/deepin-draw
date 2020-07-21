@@ -25,6 +25,7 @@
 #include "qtsingleapplication.h"
 
 class Application;
+class MainWindow;
 
 #if  defined(dApp)
 #undef dApp
@@ -40,6 +41,12 @@ public:
     Application(int &argc, char **argv);
 
     int  execDraw(const QStringList &files, QString &glAppPath);
+
+    /**
+     * @brief topMainWindow 返回顶层mainwindow
+     * @return
+     */
+    MainWindow *topMainWindow();
 
     QStringList getRightFiles(const QStringList &files);
 

@@ -218,7 +218,6 @@ private:
 
     QString m_viewName;//视图名字
 
-
     QString m_keyUUID;      //唯一标识
 };
 

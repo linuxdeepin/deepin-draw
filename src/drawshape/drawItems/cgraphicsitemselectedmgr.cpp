@@ -3,6 +3,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "cgraphicsrotateangleitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
 #include <QGraphicsSceneMouseEvent>
@@ -562,6 +563,23 @@ int CGraphicsItemSelectedMgr::type() const
     return MgrType;
 }
 
+void CGraphicsItemSelectedMgr::operatingBegin(int opTp)
+{
+    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+        rotateItem->show();
+        rotateItem->updateRotateAngle(rotation());
+    }
+    CGraphicsItem::operatingBegin(opTp);
+}
+
+void CGraphicsItemSelectedMgr::operatingEnd(int opTp)
+{
+    if (CSelectTool::EOperateType(opTp) == CSelectTool::ERotateMove) {
+        rotateItem->hide();
+    }
+    CGraphicsItem::operatingEnd(opTp);
+}
+
 QRectF CGraphicsItemSelectedMgr::rect() const
 {
     return _rct;
@@ -579,6 +597,7 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
         return;
     }
 
+    qreal qRoty = 0;
     const Handles::iterator hend =  m_handles.end();
     QPointF pos;
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
@@ -616,13 +635,21 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
                 hndl->hide();
             } else {
                 hndl->show();
-                hndl->move(geom.x() + geom.width() / 2 - w / 2, geom.y() - h - h / 2);
+                qRoty = geom.y() - h - h / 2;
+                hndl->move(geom.x() + geom.width() / 2 - w / 2, qRoty);
             }
             break;
         }
         default:
             break;
         }
+    }
+
+    if (rotateItem != nullptr) {
+        qreal w = rotateItem->boundingRect().width();
+        //qreal h = rotateItem->boundingRect().height();
+        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40);
+        rotateItem->updateRotateAngle(rotation());
     }
 }
 
@@ -665,7 +692,14 @@ void CGraphicsItemSelectedMgr::initHandle()
         }
         m_handles.push_back(shr);
     }
+
+    if (rotateItem == nullptr)
+        rotateItem = new CGraphicsRotateAngleItem(0, 1.0, this);
+
+    rotateItem->hide();
+
     updateBoundingRect();
+
     this->setFlag(QGraphicsItem::ItemIsMovable, true);
     this->setFlag(QGraphicsItem::ItemIsSelectable, true);
     this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

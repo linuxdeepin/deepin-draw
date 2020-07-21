@@ -15,27 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="310"/>
+        <location filename="../src/application.cpp" line="315"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="311"/>
+        <location filename="../src/application.cpp" line="316"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation>多个文件不支持，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="315"/>
+        <location filename="../src/application.cpp" line="320"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation>“%1”文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="316"/>
+        <location filename="../src/application.cpp" line="321"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="324"/>
+        <location filename="../src/application.cpp" line="329"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -575,32 +575,32 @@
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation>%1已经被其他应用修改。你要重新加载吗？</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>reload</source>
         <translation>加载</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="299"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation>文件“%1”已经不存在。是否将此文件保留在画板中？</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
         <source>Keep</source>
         <translation>保留</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
         <translation>不保留</translation>
     </message>
@@ -969,7 +969,7 @@
         <translation type="vanished">文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
         <source>File not saved</source>
         <translation>文件未保存</translation>
     </message>

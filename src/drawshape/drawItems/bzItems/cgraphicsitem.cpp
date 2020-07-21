@@ -240,6 +240,22 @@ void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &
     Q_UNUSED(bAltPress)
 }
 
+int CGraphicsItem::operatingType()
+{
+    return m_operatingType;
+}
+
+void CGraphicsItem::operatingBegin(int opTp)
+{
+    m_operatingType = opTp;
+}
+
+void CGraphicsItem::operatingEnd(int opTp)
+{
+    Q_UNUSED(opTp)
+    m_operatingType = -1;
+}
+
 CGraphicsItem *CGraphicsItem::creatSameItem()
 {
     CGraphicsItem *pItem = duplicateCreatItem();

@@ -92,6 +92,11 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     return exec();
 }
 
+MainWindow *Application::topMainWindow()
+{
+    return qobject_cast<MainWindow *>(activeWindow());
+}
+
 QStringList Application::getRightFiles(const QStringList &files)
 {
     //过滤文件

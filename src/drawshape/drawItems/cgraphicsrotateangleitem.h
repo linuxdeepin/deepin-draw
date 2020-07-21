@@ -27,7 +27,9 @@ class CGraphicsRotateAngleItem : public QGraphicsRectItem
 public:
     explicit CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent = nullptr);
     explicit CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent = nullptr);
+
     void updateRotateAngle(qreal rotateAngle);
+    bool isFatherRotating();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

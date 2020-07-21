@@ -140,14 +140,11 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 bool CSizeHandleRect::isFatherDragging()
 {
     CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
-    if (pParentItem != nullptr) {
-        CDrawScene *pDrawScene = qobject_cast<CDrawScene *>(scene());
-        if (pDrawScene != nullptr) {
-            EDrawToolMode model = pDrawScene->getDrawParam()->getCurrentDrawToolMode();
-            if (model == selection) {
-                CSelectTool *pTool = dynamic_cast<CSelectTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-                return (pTool != nullptr && pTool->isDragging());
-            }
+    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
+        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
+        int operatingTp = pParentItem->operatingType();
+        if (operatingTp == CSelectTool::EDragMove && model == selection) {
+            return true;
         }
     }
     return false;

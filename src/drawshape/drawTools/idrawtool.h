@@ -72,15 +72,11 @@ public:
      */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
 
-
-    bool isCreating();
-
-
-    void stopCreating();
-
     bool isUpdating();
 
     void interruptUpdating();
+
+    int isUpdatingType();
 
     class CDrawToolEvent
     {

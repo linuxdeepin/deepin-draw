@@ -196,7 +196,7 @@ void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if (nullptr != pTool) {
-        if (!pTool->isCreating()) {
+        if (!pTool->isUpdating()) {
             pTool->mousePressEvent(mouseEvent, this);
         }
     }
@@ -225,7 +225,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if (nullptr != pTool) {
-        if (pTool->isCreating() && mouseEvent->button() != Qt::LeftButton) {
+        if (pTool->isUpdating() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
         pTool->mouseReleaseEvent(mouseEvent, this);
@@ -258,7 +258,7 @@ void CDrawScene::doLeave()
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
     if (pTool != nullptr) {
-        if (pTool->isCreating()) {
+        if (pTool->isUpdating()) {
             QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
             mouseEvent.setButton(Qt::LeftButton);
             QPointF pos     =  QCursor::pos();
@@ -270,7 +270,7 @@ void CDrawScene::doLeave()
             mouseEvent.setPos(pos);
             mouseEvent.setScenePos(scenPos);
             mouseReleaseEvent(&mouseEvent);
-            pTool->stopCreating();
+            pTool->interruptUpdating();
         }
     }
 }
@@ -655,6 +655,13 @@ CGraphicsItemSelectedMgr *CDrawScene::getItemsMgr() const
 CGraphicsItemHighLight *CDrawScene::getItemHighLight() const
 {
     return m_pHighLightItem;
+}
+
+qreal CDrawScene::totalScalefactor()
+{
+    if (drawView() != nullptr)
+        return drawView()->getScale();
+    return 1.0;
 }
 
 CDrawParamSigleton *CDrawScene::getDrawParam()

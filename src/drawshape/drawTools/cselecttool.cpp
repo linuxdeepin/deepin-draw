@@ -210,7 +210,6 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     }
     case EResizeMove: {
         CSizeHandleRect::EDirection dir = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
-
         if (dir != CSizeHandleRect::Rotation) {
             for (QGraphicsItem *pItem : pInfo->etcItems) {
                 if (event->scene()->isBussizeItem(pItem) || pItem->type() == MgrType) {
@@ -220,17 +219,21 @@ void CSelectTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
                 }
             }
         } else {
-            if (!pInfo->etcItems.isEmpty()) {
-                QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
-                CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
-                QPointF center = pMrItem->rect().center();
-                QPointF mousePoint = event->pos();
-                QPointF centerToScence = pMrItem->mapToScene(center);
-                qreal len_y = mousePoint.y() - centerToScence.y();
-                qreal len_x = mousePoint.x() - centerToScence.x();
-                qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
-                pMrItem->rotatAngle(angle);
-            }
+            qWarning() << "EResizeMove operating but CSizeHandleRect::EDirection is CSizeHandleRect::Rotation,so do nothing!";
+        }
+        break;
+    }
+    case ERotateMove: {
+        if (!pInfo->etcItems.isEmpty()) {
+            QGraphicsItem *pItem = !pInfo->etcItems.isEmpty() ? pInfo->etcItems.first() : nullptr;
+            CGraphicsItem *pMrItem = dynamic_cast<CGraphicsItem *>(pItem);
+            QPointF center = pMrItem->rect().center();
+            QPointF mousePoint = event->pos();
+            QPointF centerToScence = pMrItem->mapToScene(center);
+            qreal len_y = mousePoint.y() - centerToScence.y();
+            qreal len_x = mousePoint.x() - centerToScence.x();
+            qreal angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
+            pMrItem->rotatAngle(angle);
         }
         break;
     }
@@ -334,18 +337,16 @@ int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERe
                 }
                 m_isItemMoving = true;
             } else if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
-                tpye = EResizeMove;
                 CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pStartPosTopQtItem);
                 pInfo->_etcopeTpUpdate = pHandle->dir();
                 pInfo->etcItems.clear();
-                if (pHandle->dir() == CSizeHandleRect::Rotation) {
-                    pInfo->etcItems.append(event->scene()->getItemsMgr());
-                } else {
-                    pInfo->etcItems.append(event->scene()->getItemsMgr());
-                }
+
+                pInfo->etcItems.append(event->scene()->getItemsMgr());
 
                 //记录undo点
                 event->scene()->recordItemsInfoToCmd(event->scene()->getItemsMgr()->getItems(), true);
+
+                tpye = (pHandle->dir() != CSizeHandleRect::Rotation ? EResizeMove : ERotateMove);
             }
         }
     }
