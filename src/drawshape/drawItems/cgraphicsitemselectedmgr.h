@@ -6,6 +6,7 @@
 #include <QGraphicsItemGroup>
 
 class CGraphicsPenItem;
+class CGraphicsRotateAngleItem;
 /**
  * @brief The CGraphicsItemSelectedMgr class 选中图元管理类
  * 所有的图元操作都通过该类执行。
@@ -102,13 +103,24 @@ public:
      * @brief type 返回图元类型
      * @return
      */
-    virtual int  type() const Q_DECL_OVERRIDE;
+    int type() const Q_DECL_OVERRIDE;
+
+    /**
+     * @brief move  操作开始
+     */
+    void operatingBegin(int opTp) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief move  操作结束
+     */
+    void operatingEnd(int opTp) Q_DECL_OVERRIDE;
 
     /**
      * @brief rect
      * @return
      */
-    virtual QRectF rect() const Q_DECL_OVERRIDE;
+    QRectF rect() const Q_DECL_OVERRIDE;
+
 protected:
     /**
      * @brief paint 绘制函数
@@ -116,7 +128,7 @@ protected:
      * @param option
      * @param widget
      */
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     /**
@@ -132,6 +144,8 @@ private:
 
 private:
     QList<CGraphicsItem * > m_listItems;
+
+    CGraphicsRotateAngleItem *rotateItem = nullptr;
 
     QRectF _rct;
 };

@@ -77,6 +77,7 @@ public:
                         ERectSelect,
                         EDragMove,
                         EResizeMove,
+                        ERotateMove,
                         ECopyMove,
                         EDragSceneMove,
                         EOperateCount

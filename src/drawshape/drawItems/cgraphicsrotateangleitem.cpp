@@ -19,11 +19,14 @@
 #include "cgraphicsrotateangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
+#include "cgraphicsitem.h"
+#include "cselecttool.h"
+#include "cdrawscene.h"
 
 #include <QPainter>
 
 CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent)
-    : QGraphicsRectItem (parent)
+    : QGraphicsRectItem(parent)
     , m_rotateAngle(rotateAngle)
 {
     m_width = 45.;
@@ -35,13 +38,15 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scal
     m_fontSize = m_fontSize / scale;
     m_textFont.setPointSizeF(m_fontSize);
 
-    setRect(-m_width / 2, -m_height / 2, m_width, m_height);
+    //setRect(-m_width / 2, -m_height / 2, m_width, m_height);
+
+    setRect(0, 0, m_width, m_height);
 
     setFlag(ItemIsSelectable, false);
 }
 
 CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rotateAngle, QGraphicsItem *parent)
-    : QGraphicsRectItem (rect, parent)
+    : QGraphicsRectItem(rect, parent)
     , m_rotateAngle(rotateAngle)
 
 {
@@ -52,9 +57,23 @@ void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
 {
     m_rotateAngle =  rotateAngle;
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
+
     QFontMetrics fontMetrics(m_textFont);
     m_width = fontMetrics.width(angle);
-    setRect(-m_width / 2, -m_height / 2, m_width, m_height);
+    setRect(0, 0, m_width, m_height);
+}
+
+bool CGraphicsRotateAngleItem::isFatherRotating()
+{
+    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
+    if (pParentItem != nullptr && pParentItem->scene() != nullptr) {
+        EDrawToolMode model = pParentItem->drawScene()->getDrawParam()->getCurrentDrawToolMode();
+        int operatingTp = pParentItem->operatingType();
+        if (operatingTp == CSelectTool::ERotateMove && model == selection) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

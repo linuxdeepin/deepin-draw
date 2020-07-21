@@ -58,7 +58,9 @@ CManagerAttributeService *CManagerAttributeService::getInstance()
     return instance;
 }
 
-void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence, QList<CGraphicsItem *> items, bool write2Cache)
+void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence,
+                                                          QList<CGraphicsItem *> items,
+                                                          bool write2Cache)
 {
     Q_UNUSED(scence)
     updateCurrentScence();

@@ -56,7 +56,6 @@ public:
      */
     void initScene();
 
-
     /**
      * @brief drawView 返回视图指针
      */
@@ -124,6 +123,8 @@ public:
 
     CGraphicsItemSelectedMgr *getItemsMgr() const;
     CGraphicsItemHighLight *getItemHighLight() const;
+
+    qreal totalScalefactor();
 
     /**
      * @brief getCDrawParam　获取绘制数据

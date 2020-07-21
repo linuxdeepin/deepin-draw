@@ -165,6 +165,21 @@ public:
                              bool bShiftPress, bool bAltPress);
 
     /**
+     * @brief move  操作开始
+     */
+    virtual void operatingBegin(int opTp);
+
+    /**
+     * @brief move  操作结束
+     */
+    virtual void operatingEnd(int opTp);
+
+    /**
+     * @brief operatingType  操作类型
+     */
+    int operatingType();
+
+    /**
      * @brief move  移动图元
      * @param beginPoint 移动起始点
      * @param movePoint 移动终点
@@ -310,6 +325,8 @@ protected:
 
     /* 设置选中状态 不用系统的选中方式，由自己管理 */
     bool m_bMutiSelectFlag;
+
+    int m_operatingType = -1;
 
 public:
     /* 将被弃用 */

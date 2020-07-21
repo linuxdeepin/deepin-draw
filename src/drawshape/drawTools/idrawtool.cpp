@@ -106,16 +106,6 @@ void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScen
     scene->mouseEvent(event);
 }
 
-bool IDrawTool::isCreating()
-{
-    return m_bMousePress;
-}
-
-void IDrawTool::stopCreating()
-{
-    m_bMousePress = false;
-}
-
 bool IDrawTool::isUpdating()
 {
     return m_bMousePress;
@@ -125,6 +115,14 @@ void IDrawTool::interruptUpdating()
 {
     clearITE();
     m_bMousePress = false;
+}
+
+int IDrawTool::isUpdatingType()
+{
+    if (!_allITERecordInfo.isEmpty()) {
+        return _allITERecordInfo.last()._opeTpUpdate;
+    }
+    return -1;
 }
 
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
@@ -181,6 +179,15 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                     QTime *elTi = rInfo.getTimeHandle();
                     rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
                     rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
+                    //调用图元的operatingBegin函数
+                    if (rInfo._opeTpUpdate != -1) {
+                        for (auto it : rInfo.etcItems) {
+                            if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
+                                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                                pBzItem->operatingBegin(rInfo._opeTpUpdate);
+                            }
+                        }
+                    }
                     rInfo._firstCallToolUpdate = false;
                 }
             }
@@ -208,18 +215,29 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
     if (m_bMousePress) {
         auto it = _allITERecordInfo.find(event->uuid());
         if (it != _allITERecordInfo.end()) {
-            it.value()._prePos = event->pos();
-            it.value()._preEvent = it.value()._curEvent;
-            it.value()._curEvent = *event;
+            ITERecordInfo &rInfo = it.value();
+            rInfo._prePos = event->pos();
+            rInfo._preEvent = rInfo._curEvent;
+            rInfo._curEvent = *event;
 
-            if (it.value().businessItem != nullptr) {
-                toolCreatItemFinish(event, &it.value());
+            //调用图元的operatingBegin函数
+            if (rInfo._opeTpUpdate != -1) {
+                for (auto it : rInfo.etcItems) {
+                    if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
+                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                        pBzItem->operatingEnd(rInfo._opeTpUpdate);
+                    }
+                }
+            }
 
-                event->scene()->selectItem(it.value().businessItem);
+            if (rInfo.businessItem != nullptr) {
+                toolCreatItemFinish(event, &rInfo);
+
+                event->scene()->selectItem(rInfo.businessItem);
 
                 QList<QVariant> vars;
                 vars << reinterpret_cast<long long>(event->scene());
-                vars << reinterpret_cast<long long>(it.value().businessItem);
+                vars << reinterpret_cast<long long>(rInfo.businessItem);
 
                 CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                     CSceneUndoRedoCommand::EItemAdded, vars);
@@ -229,7 +247,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 setViewToSelectionTool(event->scene()->drawView());
 
             } else {
-                toolFinish(event, &it.value());
+                toolFinish(event, &rInfo);
             }
 
             _allITERecordInfo.erase(it);
