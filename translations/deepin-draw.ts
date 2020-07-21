@@ -547,32 +547,32 @@
 <context>
     <name>CManageViewSigleton</name>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="296"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
         <source>%1 has been modified in other programs. Do you want to reload it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="297"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
         <source>reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="298"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="299"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="341"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="342"/>
         <source>%1 does not exist any longer. Do you want to keep it here?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="353"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
         <source>Keep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="354"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="355"/>
         <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -801,7 +801,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cviewmanagement.cpp" line="398"/>
+        <location filename="../src/frame/cviewmanagement.cpp" line="399"/>
         <source>File not saved</source>
         <translation type="unfinished"></translation>
     </message>

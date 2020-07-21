@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
 #include "application.h"
+#include <QTimer>
 
 TEST(isFileNameLegal, ins1)
 {
@@ -24,5 +25,8 @@ TEST(execDraw, ins5)
     li.append(":/test.ddf");
     li.append(":/test.png");
     QString path = "";
+    QTimer::singleShot(500, [ = ] {
+        dApp->quit();
+    });
     ASSERT_EQ(0, dApp->execDraw(li, path));
 }
