@@ -55,14 +55,6 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data,
     calcPoints();
 }
 
-QPainterPath CGraphicsPolygonItem::shape() const
-{
-    QPainterPath path;
-    path.addPolygon(m_listPoints);
-    path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path, pen());
-}
-
 QRectF CGraphicsPolygonItem::boundingRect() const
 {
     QRectF rect = shape().controlPointRect();
@@ -219,7 +211,7 @@ void CGraphicsPolygonItem::setListPoints(const QVector<QPointF> &listPoints)
     m_listPoints = listPoints;
 }
 
-QPainterPath CGraphicsPolygonItem::getHighLightPath()
+QPainterPath CGraphicsPolygonItem::inSideShape() const
 {
     QPainterPath path;
     path.addPolygon(m_listPoints);

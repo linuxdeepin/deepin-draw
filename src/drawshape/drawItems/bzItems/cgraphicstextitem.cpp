@@ -18,7 +18,7 @@
  */
 #include "cgraphicstextitem.h"
 #include "cgraphicsproxywidget.h"
-#include "cgraphicsitemhighlight.h"
+//#include "cgraphicsitemhighlight.h"
 #include "cgraphicsitem.h"
 #include "widgets/ctextedit.h"
 #include "cdrawscene.h"

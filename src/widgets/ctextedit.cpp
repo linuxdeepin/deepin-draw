@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "ctextedit.h"
-#include "drawshape/cgraphicstextitem.h"
+#include "bzItems/cgraphicstextitem.h"
 #include "drawshape/cdrawscene.h"
-#include "drawshape/cgraphicsmasicoitem.h"
+#include "bzItems/cgraphicsmasicoitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
@@ -145,7 +145,7 @@ void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
     QTextEdit::focusOutEvent(e);
-    QString &pre = const_cast<QString &>(m_e.preeditString() );
+    QString &pre = const_cast<QString &>(m_e.preeditString());
     if (!pre.isEmpty()) {
         m_e.setCommitString(pre);
         pre.clear();

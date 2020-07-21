@@ -106,21 +106,6 @@ void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
-QPainterPath CGraphicsTriangleItem::getHighLightPath()
-{
-    QPainterPath path;
-    QRectF rc = rect();
-
-    QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
-
-    QPolygonF item;
-    item << rc.bottomLeft() << top << rc.bottomRight();
-    path.addPolygon(item);
-    path.closeSubpath();
-    return path;
-}
-
-
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)

@@ -90,44 +90,43 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
 
     /**
      * @brief loadGraphicsUnit 图元的数据
      * @return
      */
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-
-    /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
 protected:
+    /**
+     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
     /**
      * @brief duplicate 创造一个同类型的图元（数据未同步），由creatSameItem调用
      * @return
      */
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
 
     /**
      * @brief duplicate 同步自己数据信息到item，由creatSameItem调用
      * @return
      */
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     /**
      * @brief updateShape 刷新图元形状
      * @return
      */
-    virtual void updateShape() Q_DECL_OVERRIDE {calcPolygon();}
+    void updateShape() Q_DECL_OVERRIDE { calcPolygon(); }
 
     /**
      * @brief paint 绘制图元
      * @return
      */
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     int m_anchorNum;    //描点数

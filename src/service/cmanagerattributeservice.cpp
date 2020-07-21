@@ -19,22 +19,22 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "cmanagerattributeservice.h"
-#include "drawshape/cdrawtoolmanagersigleton.h"
-#include "drawshape/cgraphicslineitem.h"
-#include "drawshape/cgraphicsrectitem.h"
-#include "drawshape/cgraphicsellipseitem.h"
-#include "drawshape/cgraphicspolygonitem.h"
-#include "drawshape/cgraphicstriangleitem.h"
-#include "drawshape/cgraphicstextitem.h"
-#include "drawshape/cgraphicspolygonalstaritem.h"
-#include "drawshape/cgraphicsitemselectedmgr.h"
-#include "drawshape/cgraphicspenitem.h"
+#include "drawTools/cdrawtoolmanagersigleton.h"
+#include "bzItems/cgraphicslineitem.h"
+#include "bzItems/cgraphicsrectitem.h"
+#include "bzItems/cgraphicsellipseitem.h"
+#include "bzItems/cgraphicspolygonitem.h"
+#include "bzItems/cgraphicstriangleitem.h"
+#include "bzItems/cgraphicstextitem.h"
+#include "bzItems/cgraphicspolygonalstaritem.h"
+#include "drawItems/cgraphicsitemselectedmgr.h"
+#include "bzItems/cgraphicspenitem.h"
 #include "drawshape/cdrawscene.h"
-#include "drawshape/cgraphicslineitem.h"
-#include "drawshape/cgraphicsmasicoitem.h"
-#include "drawshape/ccuttool.h"
+#include "bzItems/cgraphicslineitem.h"
+#include "bzItems/cgraphicsmasicoitem.h"
+#include "drawTools/ccuttool.h"
 
-#include "frame/cundocommands.h"
+//#include "frame/cundocommands.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
@@ -493,31 +493,31 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
         if (allItems.size() <= 0) {
             return;
         }
-        static int i = 0;
-        qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
-                 << ++i << "value = " << value << "pushTostack = " << pushTostack
-                 << "write2Cache:" << write2Cache;
-        CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
-        if (inUndoValues == nullptr) {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
-        } else {
-            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
-        }
-        if (pushTostack) {
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
-            if (outOldValues != nullptr) {
-                *outOldValues = addCommand->undoInfoValues();
-            }
-        } else {
-            addCommand->redo();
+        //        static int i = 0;
+        //        qDebug() << "new CSetItemsCommonPropertyValueCommand i = "
+        //                 << ++i << "value = " << value << "pushTostack = " << pushTostack
+        //                 << "write2Cache:" << write2Cache;
+        //        CSetItemsCommonPropertyValueCommand *addCommand = nullptr;
+        //        if (inUndoValues == nullptr) {
+        //            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, allItems, property, value, write2Cache);
+        //        } else {
+        //            addCommand = new CSetItemsCommonPropertyValueCommand(m_currentScence, *inUndoValues, property, value, write2Cache);
+        //        }
+        //        if (pushTostack) {
+        //            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+        //            if (outOldValues != nullptr) {
+        //                *outOldValues = addCommand->undoInfoValues();
+        //            }
+        //        } else {
+        //            addCommand->redo();
 
-            if (outOldValues != nullptr) {
-                *outOldValues = addCommand->undoInfoValues();
-            }
+        //            if (outOldValues != nullptr) {
+        //                *outOldValues = addCommand->undoInfoValues();
+        //            }
 
-            delete addCommand;
-            addCommand = nullptr;
-        }
+        //            delete addCommand;
+        //            addCommand = nullptr;
+        //        }
     }
 }
 
@@ -665,13 +665,13 @@ void CManagerAttributeService::setPictureRotateOrFlip(ERotationType type)
     updateCurrentScence();
 
     QList<QGraphicsItem *> items = m_currentScence->selectedItems();
-    if ( items.count() != 0 ) {
+    if (items.count() != 0) {
         CGraphicsItem *item = static_cast<CGraphicsItem *>(items.first());
 
         if (item != nullptr) {
-            CItemRotationCommand *addCommand = nullptr;
-            addCommand = new CItemRotationCommand(m_currentScence, item, type);
-            CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
+            //CItemRotationCommand *addCommand = nullptr;
+            //addCommand = new CItemRotationCommand(m_currentScence, item, type);
+            //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(addCommand);
         }
     }
 }

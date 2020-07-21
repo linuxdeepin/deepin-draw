@@ -19,19 +19,19 @@
 #include "cundocommands.h"
 
 #include "drawshape/globaldefine.h"
-#include "drawshape/cgraphicslineitem.h"
-#include "drawshape/cgraphicsrectitem.h"
-#include "drawshape/cgraphicspolygonitem.h"
-#include "drawshape/cgraphicspolygonalstaritem.h"
-#include "drawshape/cgraphicspenitem.h"
+#include "bzItems/cgraphicslineitem.h"
+#include "bzItems/cgraphicsrectitem.h"
+#include "bzItems/cgraphicspolygonitem.h"
+#include "bzItems/cgraphicspolygonalstaritem.h"
+#include "bzItems/cgraphicspenitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawshape/cdrawscene.h"
-#include "drawshape/cgraphicslineitem.h"
-#include "drawshape/cgraphicsmasicoitem.h"
-#include "drawshape/cgraphicsitemselectedmgr.h"
-#include "drawshape/cgraphicstextitem.h"
-#include "drawshape/cgraphicsitemhighlight.h"
-#include "drawshape/cpictureitem.h"
+#include "bzItems/cgraphicslineitem.h"
+#include "bzItems/cgraphicsmasicoitem.h"
+#include "drawItems/cgraphicsitemselectedmgr.h"
+#include "bzItems/cgraphicstextitem.h"
+//#include "drawshape/cgraphicsitemhighlight.h"
+#include "bzItems/cpictureitem.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -2283,7 +2283,7 @@ void CItemRotationCommand::undo()
     }
 
     // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    myGraphicsScene->getItemHighLight()->setVisible(false);
+    //myGraphicsScene->getItemHighLight()->setVisible(false);
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
@@ -2311,6 +2311,6 @@ void CItemRotationCommand::redo()
     }
 
     // 设置高亮图元不显示，此处代码是为了解决图片旋转后高亮图元位置未刷新
-    myGraphicsScene->getItemHighLight()->setVisible(false);
+    //myGraphicsScene->getItemHighLight()->setVisible(false);
     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }

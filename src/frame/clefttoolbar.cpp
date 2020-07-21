@@ -20,8 +20,8 @@
 
 #include "widgets/ccheckbutton.h"
 #include "utils/baseutils.h"
-#include "drawshape/cdrawtoolfactory.h"
-#include "drawshape/cdrawtoolmanagersigleton.h"
+#include "drawTools/cdrawtoolfactory.h"
+#include "drawTools/cdrawtoolmanagersigleton.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
