@@ -104,19 +104,19 @@ int CGraphicsRectItem::getXRedius()
     return  m_xRedius;
 }
 
-QPainterPath CGraphicsRectItem::getHighLightPath()
-{
-    QPainterPath path;
-    path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
-    return path;
-}
-
 void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData)
 {
     this->m_topLeftPoint = rectData.topLeft;
     this->m_bottomRightPoint = rectData.bottomRight;
 
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
+}
+
+QPainterPath CGraphicsRectItem::inSideShape() const
+{
+    QPainterPath path;
+    path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    return path;
 }
 
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

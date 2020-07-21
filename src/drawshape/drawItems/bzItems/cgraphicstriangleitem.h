@@ -31,12 +31,6 @@ public:
                                    CGraphicsItem *parent = nullptr);
 
     /**
-     * @brief shape 描述图元的形状（通过rect()并结合各类型图元确认）
-     * @return
-     */
-    QPainterPath shape() const Q_DECL_OVERRIDE;
-
-    /**
      * @brief type 图元的类型
      * @return
      */
@@ -56,6 +50,11 @@ public:
 
 protected:
     /**
+     * @brief inSideShape 图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
+    /**
      * @brief duplicateCreatItem 创建一个同类型的图元（只是创建未同步数据信息）
      * @return
      */
@@ -66,12 +65,6 @@ protected:
      * @return
      */
     void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
-    /**
-     * @brief getHighLightPath 获取高亮path
-     * @return
-     */
-    QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
     /**
      * @brief paint 绘制图元

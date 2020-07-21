@@ -23,7 +23,7 @@
 #include "cdrawscene.h"
 #include "widgets/ctextedit.h"
 #include "frame/cgraphicsview.h"
-#include "drawshape/cgraphicsitemselectedmgr.h"
+#include "drawItems/cgraphicsitemselectedmgr.h"
 
 #include <QDebug>
 #include <QGraphicsScene>
@@ -105,7 +105,7 @@ bool CGraphicsItem::getMutiSelect() const
 
 QPainterPath CGraphicsItem::getHighLightPath()
 {
-    return QPainterPath();
+    return inSideShape();
 }
 
 QRectF CGraphicsItem::scenRect()

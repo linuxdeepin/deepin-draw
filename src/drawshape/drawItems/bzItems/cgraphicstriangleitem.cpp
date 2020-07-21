@@ -76,8 +76,7 @@ CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit() const
     return  unit;
 }
 
-
-QPainterPath CGraphicsTriangleItem::shape() const
+QPainterPath CGraphicsTriangleItem::inSideShape() const
 {
     QPainterPath path;
     QRectF rc = rect();
@@ -88,7 +87,8 @@ QPainterPath CGraphicsTriangleItem::shape() const
     item << rc.bottomLeft() << top << rc.bottomRight();
     path.addPolygon(item);
     path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path, pen());
+
+    return path;
 }
 
 int CGraphicsTriangleItem::type() const
@@ -105,21 +105,6 @@ void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);
 }
-
-QPainterPath CGraphicsTriangleItem::getHighLightPath()
-{
-    QPainterPath path;
-    QRectF rc = rect();
-
-    QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
-
-    QPolygonF item;
-    item << rc.bottomLeft() << top << rc.bottomRight();
-    path.addPolygon(item);
-    path.closeSubpath();
-    return path;
-}
-
 
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

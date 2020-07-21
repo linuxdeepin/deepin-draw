@@ -34,11 +34,9 @@
 #include "cgraphicslineitem.h"
 #include "cpictureitem.h"
 #include "cgraphicsitemselectedmgr.h"
-#include "cgraphicsitemhighlight.h"
-#include "drawshape/cpictureitem.h"
+#include "cpictureitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "frame/cundocommands.h"
 #include "widgets/ctextedit.h"
 #include "service/cmanagerattributeservice.h"
 #include "application.h"
@@ -474,8 +472,8 @@ void CDrawScene::doCutScene()
 
 void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
 {
-    QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
-    CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
+    //QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
+    //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 }
 
 void CDrawScene::drawToolChange(int type, bool clearSections)
@@ -872,7 +870,9 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
             QGraphicsItem *pItem = items[i];
             bool isAsscMgr = false;
             if (pItem->type() == MgrType) {
-                isAsscMgr = true;
+                //isAsscMgr = true;
+                items.removeAt(i);
+                continue;
             } else if (isBussizeHandleNodeItem(pItem)) {
                 if (seeNodeAsBzItem) {
                     pItem = getAssociatedBzItem(pItem);

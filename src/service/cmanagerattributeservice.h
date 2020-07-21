@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-#include "drawshape/cgraphicsitem.h"
+#include "bzItems/cgraphicsitem.h"
 #include "drawshape/cdrawscene.h"
 
 class QGraphicsScene;

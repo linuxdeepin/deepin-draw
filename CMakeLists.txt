@@ -39,6 +39,9 @@ endif()
 # 包含源码文件夹
 include_directories(src)
 include_directories(src/drawshape)
+include_directories(src/drawshape/drawTools)
+include_directories(src/drawshape/drawItems)
+include_directories(src/drawshape/drawItems/bzItems)
 include_directories(src/frame)
 include_directories(src/qtsingleapplication)
 include_directories(src/service)
@@ -50,6 +53,9 @@ include_directories(src/widgets/dialog)
 FILE (GLOB allSource
     "./src/application.cpp"
     "./src/drawshape/*.cpp"  "./src/drawshape/*.c"
+    "./src/drawshape/drawTools/*.cpp"  "./src/drawshape/drawTools/*.c"
+    "./src/drawshape/drawItems/*.cpp"  "./src/drawshape/drawItems/*.c"
+    "./src/drawshape/drawItems/bzItems/*.cpp"  "./src/drawshape/drawItems/bzItems/*.c"
     "./src/frame/*.cpp"  "./src/frame/*.c"
     "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
     "./src/service/*.cpp"  "./src/service/*.c"
@@ -62,6 +68,9 @@ FILE (GLOB allSource
 FILE (GLOB allHeaders
     "./src/application.h"
     "./src/drawshape/*.hpp"  "./src/drawshape/*.h"
+    "./src/drawshape/drawTools/*.hpp"  "./src/drawshape/drawTools/*.h"
+    "./src/drawshape/drawItems/*.hpp"  "./src/drawshape/drawItems/*.h"
+    "./src/drawshape/drawItems/bzItems/*.hpp"  "./src/drawshape/drawItems/bzItems/*.h"
     "./src/frame/*.hpp"  "./src/frame/*.h"
     "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
     "./src/service/*.hpp"  "./src/service/*.h"
