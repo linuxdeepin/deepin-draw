@@ -898,24 +898,21 @@
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="113"/>
         <source>Is Close Draw?</source>
-        <translation>是否关闭画板？</translation>
+        <translation type="vanished">是否关闭画板？</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="115"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="404"/>
+        <location filename="../src/frame/mainwindow.cpp" line="383"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="114"/>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
 </context>
 <context>
@@ -1271,42 +1268,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="208"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="211"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="219"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="222"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="247"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="253"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>

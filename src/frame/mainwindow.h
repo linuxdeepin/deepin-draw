@@ -164,7 +164,6 @@ private:
     QAction *m_quitMode;
     QAction *m_showCut;
     QString tmpPictruePath;
-    DDialog m_dialog; // 最后一个标签被关闭提示框
     QStringList m_closeViews; //待关闭的标签
     QStringList m_closeUUids; //待关闭的标签uuid
 

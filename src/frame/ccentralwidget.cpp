@@ -63,10 +63,10 @@ CCentralwidget::CCentralwidget(DWidget *parent)
     , m_tabDefaultName(tr("Unnamed"))
 
 {
-    //初始化ui空间
+    //初始化ui控件
     initUI();
 
-    //帮顶信号槽
+    //绑定信号槽
     initConnect();
 
     // 创建一个标签页(标签页生成时会自动创建一个view)
@@ -80,10 +80,10 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
     m_tabDefaultName(tr("Unnamed"))
 {
-    //初始化ui空间
+    //初始化ui控件
     initUI();
 
-    //帮顶信号槽
+    //绑定信号槽
     initConnect();
 
     if (filepaths.count() == 0) {
