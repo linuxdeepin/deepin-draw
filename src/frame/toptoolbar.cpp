@@ -61,7 +61,7 @@ TopToolbar::TopToolbar(DWidget *parent)
     QMetaObject::invokeMethod(this, [ = ]() {
         initTopMenuUI();
         initConnection();
-    });
+    }, Qt::QueuedConnection);
 }
 
 TopToolbar::~TopToolbar()
