@@ -71,7 +71,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     Dtk::Core::DLogManager::registerFileAppender();
     QtConcurrent::run([]() {
         QWidget *w = new QWidget;
-        w->setWindowIcon(QIcon::fromTheme("dde-file-manager"));
+        w->setWindowIcon(QIcon::fromTheme("deepin-draw"));
         w->winId();
         w->deleteLater();
     });
