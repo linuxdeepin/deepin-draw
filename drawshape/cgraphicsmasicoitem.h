@@ -17,7 +17,10 @@ public:
     void setPixmap(const QPixmap &pixmap);
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
+    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                     const double &xScale, const double &yScale,
+                     bool bShiftPress, bool bAltPress)Q_DECL_OVERRIDE;
     void updateBlurPath();
     EBlurEffect getBlurEffect() const;
     void setBlurEffect(EBlurEffect effect);
