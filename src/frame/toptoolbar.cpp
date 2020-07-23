@@ -55,13 +55,15 @@ const int Text_Size = 14;
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
-    m_propertys.clear();
-    initUI();
-
     QMetaObject::invokeMethod(this, [ = ]() {
         initTopMenuUI();
         initConnection();
+        changeTopButtonsTheme();
     }, Qt::QueuedConnection);
+
+
+    m_propertys.clear();
+    initUI();
 }
 
 TopToolbar::~TopToolbar()
@@ -267,16 +269,33 @@ void TopToolbar::initMenu()
 
 void TopToolbar::changeTopButtonsTheme()
 {
-    m_picWidget->changeButtonTheme();
     m_commonShapeWidget->changeButtonTheme();
-    m_polygonalStarWidget->changeButtonTheme();
-    m_PolygonWidget->changeButtonTheme();
-    m_drawLineWidget->changeButtonTheme();
-    m_penWidget->changeButtonTheme();
-    m_drawBlurWidget->changeButtonTheme();
-    m_drawTextWidget->updateTheme();
     m_colorPanel->changeButtonTheme();
-    m_cutWidget->changeButtonTheme();
+
+    if (m_picWidget) {
+        m_picWidget->changeButtonTheme();
+    }
+    if (m_polygonalStarWidget) {
+        m_polygonalStarWidget->changeButtonTheme();
+    }
+    if (m_PolygonWidget) {
+        m_PolygonWidget->changeButtonTheme();
+    }
+    if (m_drawLineWidget) {
+        m_drawLineWidget->changeButtonTheme();
+    }
+    if (m_penWidget) {
+        m_penWidget->changeButtonTheme();
+    }
+    if (m_drawBlurWidget) {
+        m_drawBlurWidget->changeButtonTheme();
+    }
+    if (m_drawTextWidget) {
+        m_drawTextWidget->updateTheme();
+    }
+    if (m_cutWidget) {
+        m_cutWidget->changeButtonTheme();
+    }
 }
 
 void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)

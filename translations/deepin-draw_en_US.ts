@@ -1244,42 +1244,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="211"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="222"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="250"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="252"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="253"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>
