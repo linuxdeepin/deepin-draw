@@ -22,6 +22,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <DWidget>
 
 #include <DPalette>
 #include <DApplicationHelper>
