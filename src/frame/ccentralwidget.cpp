@@ -428,6 +428,9 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
 
     // Free optimized memory
     malloc_trim(0);
+
+    // BUG:39095
+    this->setFocus();
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)
