@@ -538,32 +538,12 @@ void CDrawScene::textFontSizeChanged()
 
 void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
+    Q_UNUSED(changeItem)
     QList<QGraphicsItem *> items = this->items();
-    if (changeItem != nullptr) {
-        int index = items.indexOf(changeItem);
-        qreal zValue = changeItem->zValue();
-        foreach (QGraphicsItem *item, items) {
-            if (item->type() == BlurType) {
-                int blurIndex = items.indexOf(item);
-                qreal blurZValue = item->zValue();
-
-
-                if (blurZValue > zValue) {
-                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-                }
-                //判断在模糊图元下的图元才更新
-                else if ((qFuzzyCompare(blurZValue, zValue) && index > blurIndex) || index == -1) {
-                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-                }
-            }
+    foreach (QGraphicsItem *item, items) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
         }
-    } else {
-        foreach (QGraphicsItem *item, items) {
-            if (item->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-            }
-        }
-
     }
 }
 

@@ -117,7 +117,7 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
 {
     const Handles::const_iterator hend =  m_handles.end();
     for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
-        if ((*it)->hitTest(point) ) {
+        if ((*it)->hitTest(point)) {
             return (*it)->dir();
         }
     }
@@ -206,7 +206,7 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
+    if (change == QGraphicsItem::ItemSelectedHasChanged) {
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
     }
 
@@ -243,7 +243,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         }
     }
 
-    if (QGraphicsItem::ItemSceneChange == change ) {
+    if (QGraphicsItem::ItemSceneChange == change) {
 
         if (this->type() >= RectType && this->type() < MgrType) {
             QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
