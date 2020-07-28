@@ -110,37 +110,37 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="296"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="302"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="499"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="510"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="549"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="594"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="605"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="640"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="651"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="653"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="664"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1126,42 +1126,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="221"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="223"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="242"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="244"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="257"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="258"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="260"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation type="unfinished"></translation>
     </message>

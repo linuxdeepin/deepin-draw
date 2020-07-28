@@ -125,37 +125,37 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="296"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="302"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="499"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="510"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="549"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="594"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="605"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="640"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="651"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="653"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="664"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -1313,42 +1313,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="221"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="223"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="242"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="244"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="257"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="258"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="260"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>
