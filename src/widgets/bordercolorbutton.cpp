@@ -25,6 +25,8 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
+#include "ccolorpickwidget.h"
 
 //const qreal COLOR_RADIUS = 4;
 //const int BTN_RADIUS = 8;
@@ -127,11 +129,15 @@ void BorderColorButton::paintLookStyle(QPainter *painter, bool isMult)
     painter->restore();
 }
 
-void BorderColorButton::setColor(QColor color)
+void BorderColorButton::setColor(QColor color, bool preview)
 {
-    m_isMultColorSame = true;
-    m_color = color;
-    update();
+    if (color != m_color) {
+        m_isMultColorSame = true;
+        m_color = color;
+        update();
+
+        emit colorChanged(color, preview);
+    }
 }
 
 QColor BorderColorButton::getColor() const
@@ -199,7 +205,20 @@ void BorderColorButton::leaveEvent(QEvent *)
 void BorderColorButton::mousePressEvent(QMouseEvent *)
 {
     m_isChecked = !m_isChecked;
-    btnCheckStateChanged(m_isChecked);
 
     update();
+
+    // 显示颜色提取窗口
+    QPoint btnPos = mapToGlobal(QPoint(0, 0));
+    QPoint pos(btnPos.x() + 14,
+               btnPos.y() + this->height());
+
+    CColorPickWidget *pColorPick = dApp->colorPickWidget(true);
+
+    pColorPick->setColor(this->getColor());
+
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, bool preview) {
+        this->setColor(color, preview);
+    });
+    pColorPick->show(pos.x(), pos.y());
 }

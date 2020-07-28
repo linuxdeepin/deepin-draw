@@ -219,25 +219,18 @@ void CPenWidget::initUI()
 
 void CPenWidget::initConnection()
 {
-    // 线颜色
-    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        QPoint btnPos = mapToGlobal(m_strokeBtn->pos());
-        QPoint pos(btnPos.x() + 14,
-                   btnPos.y() + m_strokeBtn->height());
-        showColorPanel(DrawStatus::Stroke, pos, show);
-    });
-    connect(this, &CPenWidget::resetColorBtns, this, [ = ] {
-        m_strokeBtn->resetChecked();
-    });
+    //    connect(this, &CPenWidget::resetColorBtns, this, [ = ] {
+    //        m_strokeBtn->resetChecked();
+    //    });
 
     // 线宽
     connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthChange, this, [=]() {
         emit signalPenAttributeChanged();
     });
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
+    //    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
+    //        //隐藏调色板
+    //        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //    });
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
@@ -269,7 +262,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     // 终点箭头样式
@@ -300,7 +293,7 @@ void CPenWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     m_lineStartComboBox->setCurrentIndex(0);

@@ -96,6 +96,7 @@ void CSideWidthWidget::initConnection()
                 if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
                     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
                     emit signalSideWidthChange();
+                    emit sideWidthChanged(lineWidth);
                 }
             }
         }

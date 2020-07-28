@@ -19,11 +19,13 @@ public:
 
 
 public:
-    explicit CIconButton(const QMap<int, QMap<EIconButtonSattus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr, bool isCheckLock = true);
+    explicit CIconButton(const QMap<int, QMap<EIconButtonSattus, QString>> &pictureMap,
+                         const QSize &size, DWidget *parent = nullptr,
+                         bool isCheckLock = true);
     void setChecked(bool);
     bool isChecked() const;
 
-    void setCurrentTheme(int currentTheme);
+    void setTheme(int currentTheme);
     void setIconMode();
     void setButtonIcon(QIcon t_icon);
 
@@ -37,7 +39,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-//    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
 
 private:
     void updateImage();

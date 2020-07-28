@@ -48,6 +48,8 @@ include_directories(src/service)
 include_directories(src/utils)
 include_directories(src/widgets)
 include_directories(src/widgets/dialog)
+include_directories(src/frame/AttributesWidgets)
+include_directories(src/frame/AttributesWidgets/private)
 
 # 定义 source 文件
 FILE (GLOB allSource
@@ -57,6 +59,8 @@ FILE (GLOB allSource
     "./src/drawshape/drawItems/*.cpp"  "./src/drawshape/drawItems/*.c"
     "./src/drawshape/drawItems/bzItems/*.cpp"  "./src/drawshape/drawItems/bzItems/*.c"
     "./src/frame/*.cpp"  "./src/frame/*.c"
+    "./src/frame/AttributesWidgets/*.cpp"  "./src/frame/AttributesWidgets/*.c"
+    "./src/frame/AttributesWidgets/private/*.cpp"  "./src/frame/AttributesWidgets/private/*.c"
     "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
     "./src/service/*.cpp"  "./src/service/*.c"
     "./src/utils/*.cpp"  "./src/utils/*.c"
@@ -72,6 +76,8 @@ FILE (GLOB allHeaders
     "./src/drawshape/drawItems/*.hpp"  "./src/drawshape/drawItems/*.h"
     "./src/drawshape/drawItems/bzItems/*.hpp"  "./src/drawshape/drawItems/bzItems/*.h"
     "./src/frame/*.hpp"  "./src/frame/*.h"
+    "./src/frame/AttributesWidgets/*.hpp"  "./src/frame/AttributesWidgets/*.h"
+    "./src/frame/AttributesWidgets/private/*.hpp"  "./src/frame/AttributesWidgets/private/*.h"
     "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
     "./src/service/*.hpp"  "./src/service/*.h"
     "./src/utils/*.hpp"  "./src/utils/*.h"

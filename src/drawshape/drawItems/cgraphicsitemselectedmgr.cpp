@@ -6,12 +6,17 @@
 #include "cgraphicsrotateangleitem.h"
 #include "cgraphicsitem.h"
 #include "cgraphicspenitem.h"
+#include "toptoolbar.h"
+#include "citemattriwidget.h"
+#include "application.h"
+
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QStyleOptionGraphicsItem>
+
 CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
@@ -46,7 +51,6 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
             static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
         }
     }
-
     updateBoundingRect();
 }
 
@@ -58,6 +62,7 @@ void CGraphicsItemSelectedMgr::clear()
     }
     m_listItems.clear();
     updateBoundingRect();
+    updateAttributes();
 }
 
 QRectF CGraphicsItemSelectedMgr::boundingRect() const
@@ -131,6 +136,7 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
             m_listItems.push_back(item);
             item->setMutiSelect(true);
+            updateAttributes();
         }
     }
 
@@ -146,6 +152,7 @@ void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
+        updateAttributes();
     }
     if (m_listItems.size() == 1) {
         m_listItems.at(0)->setMutiSelect(false);
@@ -647,9 +654,22 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 
     if (rotateItem != nullptr) {
         qreal w = rotateItem->boundingRect().width();
-        //qreal h = rotateItem->boundingRect().height();
         rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40);
         rotateItem->updateRotateAngle(rotation());
+    }
+}
+
+void CGraphicsItemSelectedMgr::updateAttributes()
+{
+    if (dApp->topToolbar() != nullptr && dApp->topToolbar()->attributWidget() != nullptr) {
+        if (this->count() == 0) {
+            dApp->topToolbar()->attributWidget()->setGraphicItem(nullptr);
+            return;
+        } else if (this->count() == 1) {
+            dApp->topToolbar()->attributWidget()->setGraphicItem(m_listItems.first());
+        } else {
+            dApp->topToolbar()->attributWidget()->setGraphicItem(this);
+        }
     }
 }
 

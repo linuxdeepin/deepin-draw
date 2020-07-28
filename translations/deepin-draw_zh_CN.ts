@@ -15,27 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="322"/>
+        <location filename="../src/application.cpp" line="347"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="323"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation>多个文件不支持，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="327"/>
+        <location filename="../src/application.cpp" line="352"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation>“%1”文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="328"/>
+        <location filename="../src/application.cpp" line="353"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="336"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -43,12 +43,12 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="174"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="183"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="154"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="163"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -79,7 +79,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="40"/>
+        <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
         <source>Stroke</source>
         <translation>描边</translation>
     </message>
@@ -95,7 +95,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/widgets/calphacontrolwidget.cpp" line="53"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
         <source>Alpha</source>
         <translation>不透明度</translation>
     </message>
@@ -120,6 +120,44 @@
     <message>
         <source>Unnamed Draw</source>
         <translation type="vanished">未命名画板</translation>
+    </message>
+</context>
+<context>
+    <name>CComAttrWidget</name>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="296"/>
+        <source>Draw</source>
+        <translation type="unfinished">画板</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="499"/>
+        <source>Radius</source>
+        <translation type="unfinished">圆角</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="549"/>
+        <source>Points</source>
+        <translation type="unfinished">锚点</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <source>Diameter</source>
+        <translation type="unfinished">半径</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="594"/>
+        <source>Sides</source>
+        <translation type="unfinished">侧边数</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="640"/>
+        <source>Start</source>
+        <translation type="unfinished">起点</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="653"/>
+        <source>End</source>
+        <translation type="unfinished">终点</translation>
     </message>
 </context>
 <context>
@@ -608,12 +646,12 @@
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="269"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="268"/>
         <source>Close tab</source>
         <translation>关闭标签页</translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="270"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="269"/>
         <source>Close other tabs</source>
         <translation>关闭其他标签页</translation>
     </message>
@@ -714,6 +752,13 @@
     </message>
 </context>
 <context>
+    <name>CRectItemAttrWidget</name>
+    <message>
+        <source>Radius</source>
+        <translation type="obsolete">圆角</translation>
+    </message>
+</context>
+<context>
     <name>CTitleWidget</name>
     <message>
         <source>Unnamed Drawing</source>
@@ -732,7 +777,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/widgets/colorpanel.cpp" line="239"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -1268,42 +1313,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="221"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="242"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="252"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="258"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。</translation>
     </message>

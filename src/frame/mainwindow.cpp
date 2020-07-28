@@ -232,7 +232,7 @@ void MainWindow::initConnection()
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
         Q_UNUSED(type)
         Q_UNUSED(showSelfPropreWidget)
-        m_topToolbar->slotHideColorPanel();
+        //m_topToolbar->slotHideColorPanel();
     });
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
@@ -447,7 +447,7 @@ void MainWindow::slotLoadDragOrPasteFile(QStringList files)
 
 void MainWindow::slotOnEscButtonClick()
 {
-    m_topToolbar->slotHideColorPanel();
+    //m_topToolbar->slotHideColorPanel();
     m_centralWidget->onEscButtonClick();
 }
 
@@ -462,7 +462,7 @@ void MainWindow::showDrawDialog()
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    m_topToolbar->updateColorPanelVisible(event->pos());
+    //m_topToolbar->updateColorPanelVisible(event->pos());
     DMainWindow::mousePressEvent(event);
 }
 

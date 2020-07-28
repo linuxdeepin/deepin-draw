@@ -26,6 +26,8 @@
 
 class Application;
 class MainWindow;
+class CColorPickWidget;
+class TopToolbar;
 
 #if  defined(dApp)
 #undef dApp
@@ -47,6 +49,14 @@ public:
      * @return
      */
     MainWindow *topMainWindow();
+
+    /**
+     * @brief colorPickWidget 返回顶层colorPickWidget
+     * @return
+     */
+    CColorPickWidget *colorPickWidget(bool creatNew = false);
+
+    TopToolbar *topToolbar();
 
     QStringList getRightFiles(const QStringList &files);
 
@@ -86,5 +96,7 @@ private:
     void initI18n();
 
     QString _joinFlag;
+
+    CColorPickWidget *_colorPickWidget = nullptr;
 };
 #endif // APPLICATION_H

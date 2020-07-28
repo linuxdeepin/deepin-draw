@@ -11,27 +11,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="322"/>
+        <location filename="../src/application.cpp" line="347"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="323"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="327"/>
+        <location filename="../src/application.cpp" line="352"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="328"/>
+        <location filename="../src/application.cpp" line="353"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="336"/>
+        <location filename="../src/application.cpp" line="361"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -39,12 +39,12 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="174"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="183"/>
         <source>Fill</source>
         <translation>Fill</translation>
     </message>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="154"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="163"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -75,7 +75,7 @@
 <context>
     <name>BorderColorButton</name>
     <message>
-        <location filename="../src/widgets/bordercolorbutton.cpp" line="40"/>
+        <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
         <source>Stroke</source>
         <translation>Stroke</translation>
     </message>
@@ -91,7 +91,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/widgets/calphacontrolwidget.cpp" line="53"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
         <source>Alpha</source>
         <translation>Alpha</translation>
     </message>
@@ -112,6 +112,44 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="578"/>
         <source>Import Picture</source>
         <translation>Import Picture</translation>
+    </message>
+</context>
+<context>
+    <name>CComAttrWidget</name>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="296"/>
+        <source>Draw</source>
+        <translation type="unfinished">Draw</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="499"/>
+        <source>Radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="549"/>
+        <source>Points</source>
+        <translation type="unfinished">Points</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
+        <source>Diameter</source>
+        <translation type="unfinished">Diameter</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="594"/>
+        <source>Sides</source>
+        <translation type="unfinished">Sides</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="640"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="653"/>
+        <source>End</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -596,12 +634,12 @@
 <context>
     <name>CMultipTabBarWidget</name>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="269"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="268"/>
         <source>Close tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="270"/>
+        <location filename="../src/frame/cmultiptabbarwidget.cpp" line="269"/>
         <source>Close other tabs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -716,7 +754,7 @@
 <context>
     <name>ColorPanel</name>
     <message>
-        <location filename="../src/widgets/colorpanel.cpp" line="239"/>
+        <location filename="../src/frame/AttributesWidgets/private/colorpanel.cpp" line="162"/>
         <source>Color</source>
         <translation>Color</translation>
     </message>
@@ -1244,42 +1282,42 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="213"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="216"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="221"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="224"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="227"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="237"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="242"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="252"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="255"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="258"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>

@@ -42,7 +42,6 @@ CMultipTabBarWidget::CMultipTabBarWidget(QWidget *parent)
     this->setElideMode(Qt::ElideMiddle);
     this->setFocusPolicy(Qt::NoFocus);
     this->setExpanding(true);
-//    this->setUsesScrollButtons(true);
     this->setEnabledEmbedStyle(true);
 
     m_rightClickTab = -1;

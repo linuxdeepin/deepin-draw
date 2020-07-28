@@ -29,7 +29,7 @@
 #include "blurwidget.h"
 #include "ctitlewidget.h"
 #include "widgets/arrowrectangle.h"
-#include "widgets/colorpanel.h"
+//#include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
@@ -38,6 +38,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "citemattriwidget.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -84,11 +85,15 @@ void TopToolbar::initUI()
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
 
-    m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
     hLayout->addWidget(m_zoomMenuComboBox);
 
-    hLayout->addWidget(m_stackWidget);
+    //m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    //hLayout->addWidget(m_stackWidget);
+
+    m_stackWidget->hide();
+    m_pAtrriWidget = new CComAttrWidget(this);
+    m_pAtrriWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    hLayout->addWidget(m_pAtrriWidget);
 
     hLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -148,16 +153,16 @@ void TopToolbar::initStackWidget()
     m_stackWidget = new DStackedWidget(this);
 
     //colorPanel.
-    m_colorPanel = new ColorPanel(this);
-    qApp->setProperty("_d_isDxcb", false);
-    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
-    qApp->setProperty("_d_isDxcb", true);
-    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
-    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
-    m_colorARect->setArrowWidth(18);
-    m_colorARect->setArrowHeight(10);
-    m_colorARect->setContent(m_colorPanel);
-    m_colorARect->hide();
+    //m_colorPanel = new ColorPanel(this);
+    //    qApp->setProperty("_d_isDxcb", false);
+    //    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
+    //    qApp->setProperty("_d_isDxcb", true);
+    //    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
+    //    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
+    //    m_colorARect->setArrowWidth(18);
+    //    m_colorARect->setArrowHeight(10);
+    //    m_colorARect->setContent(m_colorPanel);
+    //    m_colorARect->hide();
 
     //select
     m_titleWidget = new CTitleWidget(this);
@@ -270,7 +275,16 @@ void TopToolbar::initMenu()
 void TopToolbar::changeTopButtonsTheme()
 {
     m_commonShapeWidget->changeButtonTheme();
-    m_colorPanel->changeButtonTheme();
+    m_polygonalStarWidget->changeButtonTheme();
+    m_PolygonWidget->changeButtonTheme();
+    m_drawLineWidget->changeButtonTheme();
+    m_penWidget->changeButtonTheme();
+    m_drawBlurWidget->changeButtonTheme();
+    m_drawTextWidget->updateTheme();
+    //m_colorPanel->changeButtonTheme();
+    m_cutWidget->changeButtonTheme();
+
+    //m_colorPanel->changeButtonTheme();
 
     if (m_picWidget) {
         m_picWidget->changeButtonTheme();
@@ -362,34 +376,6 @@ void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
         break;
     }
     m_stackWidget->currentWidget()->setVisible(true);
-}
-
-void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
-{
-    Q_UNUSED(pos);
-    QColor color;
-    if (drawstatus == DrawStatus::Fill) {
-        color = m_propertys[FillColor].value<QColor>();
-    } else if (drawstatus == DrawStatus::Stroke) {
-        color = m_propertys[LineColor].value<QColor>();
-    } else if (drawstatus == DrawStatus::TextFill) {
-        color = m_propertys[TextColor].value<QColor>();
-    }
-    m_colorPanel->updateColorPanel(drawstatus, color, CManagerAttributeService::getInstance()->getSelectedColorAlpha(drawstatus));
-    m_colorARect->raise();
-
-    if (visible) {
-        m_colorARect->show(pos.x(), pos.y());
-    } else
-        m_colorARect->hide();
-}
-
-void TopToolbar::updateColorPanelVisible(QPoint pos)
-{
-    QRect colorPanelGeom = m_colorARect->geometry();
-    if (!colorPanelGeom.contains(pos)) {
-        m_colorARect->hide();
-    }
 }
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
@@ -517,8 +503,8 @@ void TopToolbar::slotOnSaveAsAction()
 
 void TopToolbar::slotMenuShow()
 {
-    slotHideColorPanel();
-//    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
+    //slotHideColorPanel();
+    //    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
 
 DMenu *TopToolbar::mainMenu()
@@ -526,12 +512,17 @@ DMenu *TopToolbar::mainMenu()
     return m_mainMenu;
 }
 
-void TopToolbar::slotHideColorPanel()
+CComAttrWidget *TopToolbar::attributWidget()
 {
-    if (!m_colorARect->isHidden()) {
-        m_colorARect->hide();
-    }
+    return m_pAtrriWidget;
 }
+
+//void TopToolbar::slotHideColorPanel()
+//{
+//    if (!m_colorARect->isHidden()) {
+//        m_colorARect->hide();
+//    }
+//}
 
 void TopToolbar::slotRectRediusChanged(int value)
 {
@@ -539,7 +530,9 @@ void TopToolbar::slotRectRediusChanged(int value)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
 }
 
-void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
+void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode,
+                                        QMap<EDrawProperty, QVariant> propertys,
+                                        bool write2Cache)
 {
     if (propertys.size() > 0) {
         m_propertys = propertys;
@@ -603,7 +596,7 @@ void TopToolbar::slotScenceViewChanged(QString viewname)
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
-    m_colorARect->hide();
+    //m_colorARect->hide();
     QWidget::resizeEvent(event);
 }
 
@@ -616,32 +609,29 @@ void TopToolbar::enterEvent(QEvent *event)
 
 void TopToolbar::initConnection()
 {
-    //colorPanel.
-    connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-
     //rectangle, triangle,ellipse
-    connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
+    //connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
     connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
     connect(m_commonShapeWidget, &CommonshapeWidget::signalRectRediusIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygonalStar
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
+    //connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalAnchorvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalRadiusvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygon
-    connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
+    //connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
     connect(m_PolygonWidget, &PolygonAttributeWidget::signalSideValueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     //draw line.
-    connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
+    //connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
     //draw pen.
-    connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
+    //connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
     //draw text.
-    connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
+    //connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 

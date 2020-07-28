@@ -20,6 +20,7 @@
 #include "frame/mainwindow.h"
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
+#include "ccolorpickwidget.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -102,6 +103,30 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 MainWindow *Application::topMainWindow()
 {
     return qobject_cast<MainWindow *>(activeWindow());
+}
+
+CColorPickWidget *Application::colorPickWidget(bool creatNew)
+{
+    if (creatNew) {
+        if (_colorPickWidget != nullptr) {
+            _colorPickWidget->deleteLater();
+            _colorPickWidget = nullptr;
+        }
+    }
+    if (_colorPickWidget == nullptr) {
+        setProperty("_d_isDxcb", false);
+        _colorPickWidget = new CColorPickWidget(topMainWindow());
+        setProperty("_d_isDxcb", true);
+    }
+    return _colorPickWidget;
+}
+
+TopToolbar *Application::topToolbar()
+{
+    if (topMainWindow() != nullptr)
+        return topMainWindow()->getTopToolbar();
+
+    return nullptr;
 }
 
 QStringList Application::getRightFiles(const QStringList &files)

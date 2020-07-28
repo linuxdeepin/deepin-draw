@@ -113,20 +113,15 @@ void CIconButton::mouseReleaseEvent(QMouseEvent *e)
 
 void CIconButton::enterEvent(QEvent *e)
 {
-//    Q_UNUSED(e)
-
     m_isHover = true;
     m_tmpStatus = m_currentStatus;
     m_currentStatus = Hover;
     updateImage();
     DIconButton::enterEvent(e);
-
 }
 
 void CIconButton::leaveEvent(QEvent *e)
 {
-//    Q_UNUSED(e)
-
     m_isHover = false;
 
     if (m_currentStatus == Hover) {
@@ -143,7 +138,7 @@ void CIconButton::updateImage()
     }
 }
 
-void CIconButton::setCurrentTheme(int currentTheme)
+void CIconButton::setTheme(int currentTheme)
 {
     m_currentTheme = currentTheme;
 
