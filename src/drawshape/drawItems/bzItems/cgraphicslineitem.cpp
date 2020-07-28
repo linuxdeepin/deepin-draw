@@ -374,6 +374,19 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
     return  unit;
 }
 
+void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pLine != nullptr) {
+        m_startType = data.data.pLine->start_type;
+        m_endType = data.data.pLine->end_type;
+        m_line = QLineF(data.data.pLine->point1, data.data.pLine->point2);
+    }
+    loadHeadData(data.head);
+
+    calcVertexes();
+    updateHandlesGeometry();
+}
+
 int CGraphicsLineItem::getQuadrant() const
 {
     int nRet = 1;

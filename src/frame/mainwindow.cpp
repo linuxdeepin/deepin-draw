@@ -227,8 +227,7 @@ void MainWindow::closeTabViews()
 
 void MainWindow::initConnection()
 {
-    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::slotHideColorPanel);
+    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
         Q_UNUSED(type)
         Q_UNUSED(showSelfPropreWidget)
@@ -313,8 +312,8 @@ void MainWindow::initConnection()
 
     // 链接剪裁切换场景后需要刷新菜单栏
     //connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [ = ](int type) {
-        m_topToolbar->updateMiddleWidget(type);
+    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [=](int type) {
+        //m_topToolbar->updateMiddleWidget(type);
     });
 }
 

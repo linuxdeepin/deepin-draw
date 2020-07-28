@@ -182,6 +182,12 @@ public:
      */
     void setPenEndType(const ELineType &penType);
 
+    /**
+     * @brief loadGraphicsUnit 加载图元数据
+     * @return
+     */
+    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+
 protected:
     /**
      * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）

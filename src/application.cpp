@@ -21,6 +21,7 @@
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
 #include "ccolorpickwidget.h"
+#include "globaldefine.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -48,6 +49,7 @@ Application::Application(int &argc, char **argv)
 
     qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
+    qRegisterMetaType<EChangedPhase>("EChangedPhase");
 
     qApp->setOverrideCursor(Qt::ArrowCursor);
 }

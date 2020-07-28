@@ -14,7 +14,7 @@ CSpinBox::CSpinBox(DWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
-        emit this->valueChanged(value, isTimerRunning());
+        emit this->valueChanged(value, isTimerRunning() ? EChangedUpdate : EChanged);
     });
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
@@ -103,8 +103,7 @@ void CSpinBox::timerEnd()
 
     //wheel结束时的值变化标记
     _wheelEnd = true;
-    //emit this->DSpinBox::valueChanged(value());
-    //emit this->DSpinBox::valueChanged(text());
+    emit this->valueChanged(value(), EChangedFinished);
     _wheelEnd = false;
     setFocus();
     if (lineEdit() != nullptr) {
@@ -124,7 +123,8 @@ QTimer *CSpinBox::getTimer()
 
 void CSpinBox::timerStart()
 {
-    emit this->DSpinBox::valueChanged(value());
-    emit this->DSpinBox::valueChanged(text());
+    //emit this->DSpinBox::valueChanged(value());
+    //emit this->DSpinBox::valueChanged(text());
+    emit this->valueChanged(value(), EChangedBegin);
     getTimer()->start(300);
 }

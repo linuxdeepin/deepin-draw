@@ -130,7 +130,7 @@ public slots:
      * @param type　图元类型
      * @param showSelfPropreWidget　该标记决定是否显示出空白属性页
      */
-    void updateMiddleWidget(int type, bool showSelfPropreWidget = true);
+    //void updateMiddleWidget(int type, bool showSelfPropreWidget = true);
     /**
      * @brief showColorfulPanel　显示调色板
      * @param drawstatus　颜色类型
@@ -181,7 +181,7 @@ public slots:
      * @param mode　图元类型
      * @param propertys　要显示的公共属性
      */
-    void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache);
+    //void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache);
     /**
      * @brief signalIsAllPictureItem　选中图元图元是否都为图片
      * @param isEnable　自适应按钮是否可用

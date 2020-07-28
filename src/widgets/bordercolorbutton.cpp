@@ -129,14 +129,14 @@ void BorderColorButton::paintLookStyle(QPainter *painter, bool isMult)
     painter->restore();
 }
 
-void BorderColorButton::setColor(QColor color, bool preview)
+void BorderColorButton::setColor(QColor color, EChangedPhase phase)
 {
     if (color != m_color) {
         m_isMultColorSame = true;
         m_color = color;
         update();
 
-        emit colorChanged(color, preview);
+        emit colorChanged(color, phase);
     }
 }
 
@@ -217,8 +217,8 @@ void BorderColorButton::mousePressEvent(QMouseEvent *)
 
     pColorPick->setColor(this->getColor());
 
-    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, bool preview) {
-        this->setColor(color, preview);
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        this->setColor(color, phase);
     });
     pColorPick->show(pos.x(), pos.y());
 }

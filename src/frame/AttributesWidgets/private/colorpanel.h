@@ -69,7 +69,7 @@ public:
     /**
      * @brief updateColor 设置颜色
      */
-    void setColor(const QColor &c, bool internalChanged = true, bool preview = false);
+    void setColor(const QColor &c, bool internalChanged = true, EChangedPhase phase = EChanged);
 
     /**
      * @brief color 当前颜色
@@ -77,7 +77,7 @@ public:
     QColor color();
 
 signals:
-    void colorChanged(const QColor &color, bool preview);
+    void colorChanged(const QColor &color, EChangedPhase phase);
 public slots:
     /**
      * @brief setTheme　改变按钮主题

@@ -3,6 +3,7 @@
 
 #include <DWidget>
 #include <DSpinBox>
+#include "globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -34,7 +35,7 @@ protected:
 signals:
     void focusChanged(bool isFocus);
 
-    void valueChanged(int value, bool preview);
+    void valueChanged(int value, EChangedPhase phase);
 
 private:
     QTimer *getTimer();
