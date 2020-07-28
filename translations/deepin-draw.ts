@@ -1126,7 +1126,7 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="232"/
+        <location filename="../src/frame/toptoolbar.cpp" line="232"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
