@@ -210,7 +210,7 @@ public:
      * @brief recordItemsInfoToCmd 记录图元的信息
      */
     void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo);
-    void finishRecord();
+    void finishRecord(bool doRedoCmd = false);
 
 signals:
     /**

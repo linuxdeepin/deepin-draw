@@ -1081,7 +1081,7 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool 
     }
 }
 
-void CDrawScene::finishRecord()
+void CDrawScene::finishRecord(bool doRedoCmd)
 {
-    CUndoRedoCommand::finishRecord();
+    CUndoRedoCommand::finishRecord(doRedoCmd);
 }

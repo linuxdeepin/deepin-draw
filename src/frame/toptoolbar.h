@@ -49,6 +49,8 @@ class ColorPanel;
 class CMenu;
 class DZoomMenuComboBox;
 
+class CComAttrWidget;
+
 class TopToolbar : public DFrame
 {
     Q_OBJECT
@@ -58,6 +60,8 @@ public:
     ~TopToolbar() Q_DECL_OVERRIDE;
 
     DMenu *mainMenu();
+
+    CComAttrWidget *attributWidget();
 
 signals:
     /**
@@ -133,12 +137,12 @@ public slots:
      * @param pos　显示位置
      * @param visible　是否显示
      */
-    void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    //void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     /**
      * @brief updateColorPanelVisible　更新调色板
      * @param pos　位置
      */
-    void updateColorPanelVisible(QPoint pos);
+    //void updateColorPanelVisible(QPoint pos);
     /**
      * @brief slotChangeAttributeFromScene 根据选中的图元更新属性栏
      * @param flag
@@ -167,7 +171,7 @@ public slots:
     /**
      * @brief slotHideColorPanel　隐藏调色板
      */
-    void slotHideColorPanel();
+    //void slotHideColorPanel();
     /**
      * @brief slotRectRediusChanged　圆角矩形半径
      */
@@ -238,10 +242,6 @@ private:
     BlurWidget *m_drawBlurWidget;
     CPenWidget *m_penWidget;
 
-
-    ArrowRectangle *m_colorARect;
-    ColorPanel *m_colorPanel;
-    DrawStatus  m_drawStatus;
     CMenu *m_mainMenu;
 
     DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
@@ -250,6 +250,8 @@ private:
     QAction *m_saveAction;
     QAction *m_newAction;
     QMap<EDrawProperty, QVariant> m_propertys;//选中图元后传过来的信息
+
+    CComAttrWidget *m_pAtrriWidget = nullptr;
 
 private:
     /**

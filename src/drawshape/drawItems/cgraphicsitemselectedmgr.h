@@ -142,6 +142,8 @@ private:
      */
     void updateHandlesGeometry() Q_DECL_OVERRIDE;
 
+    void updateAttributes();
+
 private:
     QList<CGraphicsItem * > m_listItems;
 

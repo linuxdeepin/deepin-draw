@@ -34,6 +34,8 @@ protected:
 signals:
     void focusChanged(bool isFocus);
 
+    void valueChanged(int value, bool preview);
+
 private:
     QTimer *getTimer();
 

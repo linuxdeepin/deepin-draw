@@ -487,6 +487,7 @@ union CGraphicsItemData {
     CGraphicsItemData() {
         pRect = nullptr;
         pCircle = nullptr;
+        pTriangle = nullptr;
         pPolygon = nullptr;
         pPolygonStar = nullptr;
         pLine = nullptr;
@@ -494,6 +495,60 @@ union CGraphicsItemData {
         pPic = nullptr;
         pPen = nullptr;
         pBlur = nullptr;
+    }
+
+    void release()
+    {
+        if (pRect != nullptr) {
+            delete pRect;
+            pRect = nullptr;
+            return;
+        }
+        if (pCircle != nullptr) {
+            delete pCircle;
+            pCircle = nullptr;
+            return;
+        }
+        if (pTriangle != nullptr) {
+            delete pTriangle;
+            pTriangle = nullptr;
+            return;
+        }
+        if (pPolygon != nullptr) {
+            delete pPolygon;
+            pPolygon = nullptr;
+            return;
+        }
+        if (pPolygonStar != nullptr) {
+            delete pPolygonStar;
+            pPolygonStar = nullptr;
+            return;
+        }
+        if (pLine != nullptr) {
+            delete pLine;
+            pLine = nullptr;
+            return;
+        }
+        if (pText != nullptr) {
+            delete pText;
+            pText = nullptr;
+            return;
+        }
+        if (pPic != nullptr) {
+            delete pPic;
+            pPic = nullptr;
+            return;
+        }
+        if (pPen != nullptr) {
+            delete pPen;
+            pPen = nullptr;
+            return;
+        }
+        if (pBlur != nullptr) {
+            delete pBlur;
+            pBlur = nullptr;
+            return;
+        }
     }
 
 //    friend  QDataStream &operator << (QDataStream &out, const CGraphicsItemData &itemData) {

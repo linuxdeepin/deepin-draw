@@ -140,7 +140,7 @@ void TextWidget::slotFontSizeValueChanged(int size)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(size);
 
     //隐藏调色板
-    showColorPanel(DrawStatus::TextFill, QPoint(), false);
+    //showColorPanel(DrawStatus::TextFill, QPoint(), false);
     CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextSize, size);
 }
 
@@ -294,7 +294,7 @@ void TextWidget::initConnection()
         QPoint pos(btnPos.x() + 12,
                    btnPos.y() + m_fillBtn->height());
 
-        showColorPanel(DrawStatus::TextFill, pos, show);
+        //showColorPanel(DrawStatus::TextFill, pos, show);
     });
 
     connect(this, &TextWidget::resetColorBtns, this, [ = ] {
