@@ -127,37 +127,37 @@
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="296"/>
         <source>Draw</source>
-        <translation type="unfinished">画板</translation>
+        <translation>画板</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="499"/>
         <source>Radius</source>
-        <translation type="unfinished">圆角</translation>
+        <translation>圆角</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="549"/>
         <source>Points</source>
-        <translation type="unfinished">锚点</translation>
+        <translation>锚点</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="562"/>
         <source>Diameter</source>
-        <translation type="unfinished">半径</translation>
+        <translation>半径</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="594"/>
         <source>Sides</source>
-        <translation type="unfinished">侧边数</translation>
+        <translation>侧边数</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="640"/>
         <source>Start</source>
-        <translation type="unfinished">起点</translation>
+        <translation>起点</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="653"/>
         <source>End</source>
-        <translation type="unfinished">终点</translation>
+        <translation>终点</translation>
     </message>
 </context>
 <context>
