@@ -232,7 +232,7 @@ void ColorPanel::initConnection()
 
     //3.pick板颜色预览
     connect(m_pickColWidget, &PickColorWidget::previewedColorChanged, [=](const QColor &color) {
-        this->setColor(color, true, true);
+        this->setColor(color, true, EChangedUpdate);
     });
 
     //4.lineedit颜色设置
@@ -242,10 +242,10 @@ void ColorPanel::initConnection()
     });
 
     //5.设置透明度
-    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [=](int apl, bool preview) {
+    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [=](int apl, EChangedPhase phase) {
         QColor c = color();
         c.setAlpha(apl);
-        this->setColor(c, true, preview);
+        this->setColor(c, true, phase);
     });
 
     //展开按钮
@@ -275,15 +275,15 @@ CColorPickWidget *ColorPanel::parentColorWidget()
     return qobject_cast<CColorPickWidget *>(parent());
 }
 
-void ColorPanel::setColor(const QColor &c, bool internalChanged, bool preview)
+void ColorPanel::setColor(const QColor &c, bool internalChanged, EChangedPhase phase)
 {
-    if (!preview)
+    if (!phase)
         curColor = c;
 
     updateColor(c);
 
     if (internalChanged) {
-        emit colorChanged(c, preview);
+        emit colorChanged(c, phase);
     }
 }
 

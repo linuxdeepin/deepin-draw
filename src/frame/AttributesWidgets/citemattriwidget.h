@@ -35,7 +35,72 @@
 class CDrawScene;
 class CGraphicsItem;
 
-using CSceneDefaultData = QMap<CDrawScene *, CGraphicsUnit>;
+struct SComDefualData {
+    QPen pen; //0
+    QBrush bursh = QColor(0, 0, 0, 0); //1
+    int rectRadius = 5; //2
+    int starAnCount = 5; //3
+    int starInRadiusRadio = 50; //4
+    int polySideCount = 5; //5
+    ELineType lineStartType = noneLine; //6
+    ELineType lineEndType = noneLine; //7
+
+    QColor textColor = QColor(0, 0, 0); //8
+    QFont textFont; //9
+
+    int masicType = 0; //10
+    int masicWidth = 20; //11
+
+    void save(int index, const QVariant &var)
+    {
+        switch (index) {
+        case 0:
+            pen = var.value<QPen>();
+            break;
+        case 1:
+            bursh = var.value<QBrush>();
+            break;
+        case 2:
+            rectRadius = var.toInt();
+            break;
+        case 3:
+            starAnCount = var.toInt();
+            break;
+        case 4:
+            starInRadiusRadio = var.toInt();
+            break;
+        case 5:
+            polySideCount = var.toInt();
+            break;
+        case 6:
+            lineStartType = ELineType(var.toInt());
+            break;
+        case 7:
+            lineEndType = ELineType(var.toInt());
+            break;
+        case 8:
+            textColor = var.value<QColor>();
+            break;
+        case 9:
+            textFont = var.value<QFont>();
+            break;
+        case 10:
+            masicType = var.toInt();
+            break;
+        case 11:
+            masicWidth = var.toInt();
+            break;
+        }
+    }
+
+    SComDefualData()
+    {
+        pen.setWidth(2);
+        pen.setColor(QColor(0, 0, 0));
+    }
+};
+
+using CSceneDefaultData = QMap<CDrawScene *, SComDefualData>;
 
 class CItemAttriWidget : public QWidget
 {
@@ -81,14 +146,15 @@ protected:
     class CCmdBlock
     {
     public:
-        CCmdBlock(CGraphicsItem *pItem);
+        CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged);
         ~CCmdBlock();
 
     private:
         CGraphicsItem *_pItem = nullptr;
+        EChangedPhase _phase = EChangedUpdate;
     };
 
-private:
+protected:
     CGraphicsItem *_pItem = nullptr;
 };
 
@@ -116,6 +182,8 @@ public:
     };
 
     void showByType(EAttriSourceItemType tp);
+
+    QList<CGraphicsItem *> graphicItems();
 
     CSceneDefaultData &defualtData();
 
@@ -173,7 +241,8 @@ private:
     /* -----  特殊的图片图元属性控件 ----- */
 
 private:
-    void updateDefualData(bool isComProperty = false);
+    template<class T>
+    void updateDefualData(int id, const T &var);
 
 protected:
     QHBoxLayout *m_contrlLay = nullptr;

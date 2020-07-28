@@ -24,6 +24,8 @@
 #include <DLabel>
 #include <DLineEdit>
 
+#include "globaldefine.h"
+
 DWIDGET_USE_NAMESPACE
 
 class CAlphaControlWidget : public DWidget
@@ -47,7 +49,7 @@ signals:
     /**
      * @brief alphaChanged　alpha值改变信号
      */
-    void alphaChanged(int apl, bool preview);
+    void alphaChanged(int apl, EChangedPhase phase);
 
 private:
     /**

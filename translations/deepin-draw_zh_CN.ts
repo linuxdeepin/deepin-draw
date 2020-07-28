@@ -15,27 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="347"/>
+        <location filename="../src/application.cpp" line="349"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="348"/>
+        <location filename="../src/application.cpp" line="350"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation>多个文件不支持，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="352"/>
+        <location filename="../src/application.cpp" line="354"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation>“%1”文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="353"/>
+        <location filename="../src/application.cpp" line="355"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="361"/>
+        <location filename="../src/application.cpp" line="363"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -125,37 +125,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="302"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="328"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="401"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="510"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="560"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="678"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="573"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="691"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="605"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="741"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="651"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="836"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="664"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="849"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -951,7 +952,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="380"/>
+        <location filename="../src/frame/mainwindow.cpp" line="379"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>

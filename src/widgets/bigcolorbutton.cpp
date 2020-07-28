@@ -62,13 +62,13 @@ void BigColorButton::paintEvent(QPaintEvent *)
     paintLookStyle(&painter, !m_isMultColorSame);
 }
 
-void BigColorButton::setColor(QColor color, bool preview)
+void BigColorButton::setColor(QColor color, EChangedPhase phase)
 {
     if (color != m_color) {
         m_isMultColorSame = true;
         m_color = color;
         update();
-        emit colorChanged(color, preview);
+        emit colorChanged(color, phase);
     }
 }
 
@@ -107,8 +107,8 @@ void BigColorButton::mousePressEvent(QMouseEvent *)
 
     pColorPick->setColor(this->m_color);
 
-    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, bool preview) {
-        this->setColor(color, preview);
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        this->setColor(color, phase);
     });
 
     pColorPick->show(pos.x(), pos.y());

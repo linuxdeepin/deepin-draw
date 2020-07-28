@@ -24,6 +24,8 @@
 #include <QWidget>
 #include <DArrowRectangle>
 
+#include "globaldefine.h"
+
 DWIDGET_USE_NAMESPACE
 
 class ColorPanel;
@@ -40,7 +42,7 @@ public slots:
     void setTheme(int theme);
 
 signals:
-    void colorChanged(const QColor &color, bool preview);
+    void colorChanged(const QColor &color, EChangedPhase phase);
 
 private:
     ColorPanel *m_colorPanel = nullptr;

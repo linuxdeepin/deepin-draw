@@ -1347,6 +1347,19 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     updateHandlesGeometry();
 }
 
+void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
+{
+    if (data.data.pPen != nullptr) {
+        m_penStartType = data.data.pPen->start_type;
+        m_penEndType = data.data.pPen->end_type;
+        m_path = data.data.pPen->path;
+    }
+    loadHeadData(data.head);
+
+    calcVertexes();
+    updateHandlesGeometry();
+}
+
 QPainterPath CGraphicsPenItem::inSideShape() const
 {
     QPainterPath path;

@@ -108,6 +108,8 @@ void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectDa
 {
     this->m_topLeftPoint = rectData.topLeft;
     this->m_bottomRightPoint = rectData.bottomRight;
+    this->m_xRedius = rectData.xRedius;
+    this->m_yRedius = rectData.yRedius;
 
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 }

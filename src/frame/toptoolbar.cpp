@@ -312,71 +312,71 @@ void TopToolbar::changeTopButtonsTheme()
     }
 }
 
-void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
-{
-    switch (type) {
-    case::selection: {
-        if (showSelfPropreWidget) {
-            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-            m_titleWidget->updateTitleWidget();
+//void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
+//{
+//    switch (type) {
+//    case::selection: {
+//        if (showSelfPropreWidget) {
+//            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//            m_titleWidget->updateTitleWidget();
 
-            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
-            m_stackWidget->setVisible(false);
-            m_stackWidget->setCurrentWidget(m_titleWidget);
-            m_stackWidget->setVisible(true);
-        }
-        break;
-    }
-    case::importPicture:
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-        m_stackWidget->setCurrentWidget(m_picWidget);
-        break;
-    case::rectangle:
-        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
-        m_commonShapeWidget->updateCommonShapWidget();
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::ellipse:
-    case::triangle:
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-        m_commonShapeWidget->updateCommonShapWidget();
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::polygonalStar:
-        m_polygonalStarWidget->updatePolygonalStarWidget();
-        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-        break;
-    case::polygon:
-        m_PolygonWidget->updatePolygonWidget();
-        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-        break;
-    case::line:
-        m_drawLineWidget->updateLineWidget();
-        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-        break;
-    case::pen:
-        m_penWidget->updatePenWidget();
-        m_stackWidget->setCurrentWidget(m_penWidget);
-        break;
-    case::text: {
-        m_drawTextWidget->updateTextWidget();
-        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-        break;
-    }
-    case::blur:
-        m_drawBlurWidget->updateBlurWidget();
-        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-        break;
-    case::cut:
-        m_cutWidget->updateButtonStatus();
-        m_stackWidget->setCurrentWidget(m_cutWidget);
-        break;
-    default:
-        break;
-    }
-    m_stackWidget->currentWidget()->setVisible(true);
-}
+//            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
+//            m_stackWidget->setVisible(false);
+//            m_stackWidget->setCurrentWidget(m_titleWidget);
+//            m_stackWidget->setVisible(true);
+//        }
+//        break;
+//    }
+//    case::importPicture:
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//        m_stackWidget->setCurrentWidget(m_picWidget);
+//        break;
+//    case::rectangle:
+//        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
+//        m_commonShapeWidget->updateCommonShapWidget();
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::ellipse:
+//    case::triangle:
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//        m_commonShapeWidget->updateCommonShapWidget();
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::polygonalStar:
+//        m_polygonalStarWidget->updatePolygonalStarWidget();
+//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+//        break;
+//    case::polygon:
+//        m_PolygonWidget->updatePolygonWidget();
+//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+//        break;
+//    case::line:
+//        m_drawLineWidget->updateLineWidget();
+//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+//        break;
+//    case::pen:
+//        m_penWidget->updatePenWidget();
+//        m_stackWidget->setCurrentWidget(m_penWidget);
+//        break;
+//    case::text: {
+//        m_drawTextWidget->updateTextWidget();
+//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+//        break;
+//    }
+//    case::blur:
+//        m_drawBlurWidget->updateBlurWidget();
+//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+//        break;
+//    case::cut:
+//        m_cutWidget->updateButtonStatus();
+//        m_stackWidget->setCurrentWidget(m_cutWidget);
+//        break;
+//    default:
+//        break;
+//    }
+//    m_stackWidget->currentWidget()->setVisible(true);
+//}
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 {
@@ -420,7 +420,7 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 //            toolType = EDrawToolMode::cut;
 //            break;
         }
-        updateMiddleWidget(toolType);
+        //updateMiddleWidget(toolType);
     }
 }
 
@@ -530,55 +530,55 @@ void TopToolbar::slotRectRediusChanged(int value)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
 }
 
-void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode,
-                                        QMap<EDrawProperty, QVariant> propertys,
-                                        bool write2Cache)
-{
-    if (propertys.size() > 0) {
-        m_propertys = propertys;
-        m_stackWidget->currentWidget()->setVisible(true);
-    } else {
-        if (m_stackWidget->currentWidget() != m_titleWidget &&
-                m_cutWidget != m_stackWidget->currentWidget()) {
-            m_stackWidget->currentWidget()->setVisible(false);
-        }
-    }
-    switch (mode) {
-    case::RectType://矩形
-    case::EllipseType://圆形
-    case::TriangleType://三角形
-        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
-        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::PolygonalStarType://多角星
-        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-        break;
-    case::PolygonType://多边形
-        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-        break;
-    case::LineType://线
-        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-        break;
-    case::PenType://画笔
-        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_penWidget);
-        break;
-    case::TextType://文本
-        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-        break;
-    case::BlurType://模糊
-        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-        break;
-    default:
-        break;
-    }
-}
+//void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode,
+//                                        QMap<EDrawProperty, QVariant> propertys,
+//                                        bool write2Cache)
+//{
+//    if (propertys.size() > 0) {
+//        m_propertys = propertys;
+//        m_stackWidget->currentWidget()->setVisible(true);
+//    } else {
+//        if (m_stackWidget->currentWidget() != m_titleWidget &&
+//                m_cutWidget != m_stackWidget->currentWidget()) {
+//            m_stackWidget->currentWidget()->setVisible(false);
+//        }
+//    }
+//    switch (mode) {
+//    case::RectType://矩形
+//    case::EllipseType://圆形
+//    case::TriangleType://三角形
+//        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
+//        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::PolygonalStarType://多角星
+//        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+//        break;
+//    case::PolygonType://多边形
+//        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+//        break;
+//    case::LineType://线
+//        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+//        break;
+//    case::PenType://画笔
+//        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_penWidget);
+//        break;
+//    case::TextType://文本
+//        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+//        break;
+//    case::BlurType://模糊
+//        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+//        break;
+//    default:
+//        break;
+//    }
+//}
 
 void TopToolbar::slotIsAllPictureItem(bool isEnable, bool single)
 {

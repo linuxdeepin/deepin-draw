@@ -138,4 +138,11 @@ enum ERotationType { //图元旋转枚举
     FlipHorizontal, //水平镜像翻转
     FlipVertical    //垂直镜像翻转
 };
+
+enum EChangedPhase {
+    EChangedBegin,
+    EChangedUpdate,
+    EChangedFinished,
+    EChanged
+};
 #endif // GLODEFINE_H

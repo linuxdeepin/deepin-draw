@@ -90,16 +90,16 @@ void CAlphaControlWidget::initUI()
 
 void CAlphaControlWidget::initConnection()
 {
+    connect(m_alphaSlider, &DSlider::sliderPressed, this, [=]() {
+        emit alphaChanged(m_alphaSlider->value(), EChangedBegin);
+    });
+
     connect(m_alphaSlider, &DSlider::valueChanged, this, [=](int value) {
         m_alphaLabel->setText(QString("%1%").arg(value * 100 / 255));
-        emit alphaChanged(value, true);
+        emit alphaChanged(value, EChangedUpdate);
     });
 
-    connect(m_alphaSlider, &DSlider::sliderPressed, this, [=]() {
-        emit alphaChanged(m_alphaSlider->value(), false);
+    connect(m_alphaSlider, &DSlider::sliderReleased, this, [=]() {
+        emit alphaChanged(m_alphaSlider->value(), EChangedFinished);
     });
-
-    //    connect(m_alphaSlider, &DSlider::sliderReleased, this, [ = ]() {
-    //        emit alphaChanged(m_alphaSlider->value());
-    //    });
 }

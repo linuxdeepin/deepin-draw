@@ -98,6 +98,12 @@ public:
      */
     CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
+    /**
+     * @brief updateShape 刷新图元形状
+     * @return
+     */
+    void updateShape() Q_DECL_OVERRIDE { calcPolygon(); }
+
 protected:
     /**
      * @brief inSideShape 图元内部形状（rect类图元不包括边线）
@@ -115,12 +121,6 @@ protected:
      * @return
      */
     void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
-    /**
-     * @brief updateShape 刷新图元形状
-     * @return
-     */
-    void updateShape() Q_DECL_OVERRIDE { calcPolygon(); }
 
     /**
      * @brief paint 绘制图元
