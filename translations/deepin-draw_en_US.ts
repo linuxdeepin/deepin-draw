@@ -538,62 +538,62 @@
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="89"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="91"/>
         <source>Select(V)</source>
         <translation>Select(V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="97"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="99"/>
         <source>Import(I)</source>
         <translation>Import(I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="104"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="106"/>
         <source>Rectangle(R)</source>
         <translation>Rectangle(R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="111"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="113"/>
         <source>Ellipse(O)</source>
         <translation>Ellipse(O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="118"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="120"/>
         <source>Triangle(S)</source>
         <translation>Triangle(S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="125"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="127"/>
         <source>Star(F)</source>
         <translation>Star(F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="132"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="134"/>
         <source>Polygon(H)</source>
         <translation>Polygon(H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="139"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="141"/>
         <source>Line(L)</source>
         <translation>Line(L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="146"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="148"/>
         <source>Pencil(P)</source>
         <translation>Pencil(P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="155"/>
         <source>Text(T)</source>
         <translation>Text(T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="160"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
         <source>Blur(B)</source>
         <translation>Blur(B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="167"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="169"/>
         <source>Crop(C)</source>
         <translation>Crop(C)</translation>
     </message>

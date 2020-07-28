@@ -550,62 +550,62 @@
 <context>
     <name>CLeftToolBar</name>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="89"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="91"/>
         <source>Select(V)</source>
         <translation>选择 (V)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="97"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="99"/>
         <source>Import(I)</source>
         <translation>导入 (I)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="104"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="106"/>
         <source>Rectangle(R)</source>
         <translation>矩形 (R)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="111"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="113"/>
         <source>Ellipse(O)</source>
         <translation>椭圆 (O)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="118"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="120"/>
         <source>Triangle(S)</source>
         <translation>三角形 (S)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="125"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="127"/>
         <source>Star(F)</source>
         <translation>星形 (F)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="132"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="134"/>
         <source>Polygon(H)</source>
         <translation>多边形 (H)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="139"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="141"/>
         <source>Line(L)</source>
         <translation>直线 (L)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="146"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="148"/>
         <source>Pencil(P)</source>
         <translation>画笔 (P)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="153"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="155"/>
         <source>Text(T)</source>
         <translation>文字 (T)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="160"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="162"/>
         <source>Blur(B)</source>
         <translation>模糊 (B)</translation>
     </message>
     <message>
-        <location filename="../src/frame/clefttoolbar.cpp" line="167"/>
+        <location filename="../src/frame/clefttoolbar.cpp" line="169"/>
         <source>Crop(C)</source>
         <translation>裁剪 (C)</translation>
     </message>
