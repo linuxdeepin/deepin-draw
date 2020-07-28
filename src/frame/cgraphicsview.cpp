@@ -203,8 +203,8 @@ void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
 
     QTransform matrix = transform();
     matrix.translate(targetScenePos.x(), targetScenePos.y())
-        .scale(factor, factor)
-        .translate(-targetScenePos.x(), -targetScenePos.y());
+    .scale(factor, factor)
+    .translate(-targetScenePos.x(), -targetScenePos.y());
 
     setTransform(matrix);
 
@@ -2168,12 +2168,11 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     QPointF mov = event->pos() - _recordMovePos;
                     int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
                     //qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
-                    this->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), this->horizontalScrollBar()->maximum()));
-
+                    this->horizontalScrollBar()->setValue(qMin(qMax(this->horizontalScrollBar()->minimum(), horValue), this->horizontalScrollBar()->maximum()));
 
                     int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
                     qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
-                    this->verticalScrollBar()->setValue(qMin(qMax(0, verValue), this->verticalScrollBar()->maximum()));
+                    this->verticalScrollBar()->setValue(qMin(qMax(this->verticalScrollBar()->minimum(), verValue), this->verticalScrollBar()->maximum()));
 
                     if (pScene != nullptr) {
                         pScene->blockMouseMoveEvent(false);

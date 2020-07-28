@@ -108,12 +108,12 @@
         <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
         <location filename="../src/frame/ccentralwidget.cpp" line="271"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="616"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="619"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="578"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="581"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
