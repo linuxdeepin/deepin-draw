@@ -224,14 +224,7 @@ public slots:
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */
     void slotSaveAs();
-    /**
-     * @brief slotTextFontFamilyChanged　文字图元字体改变
-     */
-    void slotTextFontFamilyChanged();
-    /**
-     * @brief slotTextFontSizeChanged　文字图元字体大小改变
-     */
-    void slotTextFontSizeChanged();
+
     /**
      * @brief openPicture　点击图片进行导入
      * @param path　图片路径
@@ -244,7 +237,7 @@ public slots:
     /**
      * @brief slotCutLineEditeFocusChange　裁剪尺寸输入框焦点改变
      */
-    void slotCutLineEditeFocusChange(bool);
+    //void slotCutLineEditeFocusChange(bool);
     /**
      * @brief slotPastePicture　粘贴图片
      * @param picturePathList　图片路径

@@ -52,24 +52,20 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/blurwidget.cpp" line="103"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation type="vanished">Type</translation>
     </message>
     <message>
-        <location filename="../src/frame/blurwidget.cpp" line="112"/>
         <source>Blur</source>
-        <translation>Blur</translation>
+        <translation type="vanished">Blur</translation>
     </message>
     <message>
-        <location filename="../src/frame/blurwidget.cpp" line="119"/>
         <source>Mosaic</source>
-        <translation>Mosaic</translation>
+        <translation type="vanished">Mosaic</translation>
     </message>
     <message>
-        <location filename="../src/frame/blurwidget.cpp" line="130"/>
         <source>Width</source>
-        <translation>Width</translation>
+        <translation type="vanished">Width</translation>
     </message>
 </context>
 <context>
@@ -117,38 +113,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="328"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="401"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="428"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="501"/>
         <source>Draw</source>
         <translation type="unfinished">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="728"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="678"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="813"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="691"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="826"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="741"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="875"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="836"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="967"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="849"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="980"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -174,29 +170,24 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/ccutwidget.cpp" line="120"/>
         <source>Dimensions</source>
-        <translation>Dimensions</translation>
+        <translation type="vanished">Dimensions</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccutwidget.cpp" line="133"/>
         <source>x</source>
-        <translation>x</translation>
+        <translation type="vanished">x</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccutwidget.cpp" line="151"/>
         <source>Aspect ratio</source>
-        <translation>Aspect ratio</translation>
+        <translation type="vanished">Aspect ratio</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccutwidget.cpp" line="176"/>
         <source>Free</source>
-        <translation>Free</translation>
+        <translation type="vanished">Free</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccutwidget.cpp" line="181"/>
         <source>Original</source>
-        <translation>Original</translation>
+        <translation type="vanished">Original</translation>
     </message>
 </context>
 <context>
@@ -648,20 +639,8 @@
 <context>
     <name>CPenWidget</name>
     <message>
-        <location filename="../src/frame/cpenwidget.cpp" line="148"/>
-        <location filename="../src/frame/cpenwidget.cpp" line="157"/>
         <source>Color</source>
-        <translation type="unfinished">Color</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cpenwidget.cpp" line="161"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cpenwidget.cpp" line="163"/>
-        <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Color</translation>
     </message>
     <message>
         <source>Type</source>
@@ -694,29 +673,20 @@
 <context>
     <name>CPictureWidget</name>
     <message>
-        <location filename="../src/frame/cpicturewidget.cpp" line="76"/>
         <source>Rotate 90° CCW</source>
-        <translation>Rotate 90° CCW</translation>
+        <translation type="vanished">Rotate 90° CCW</translation>
     </message>
     <message>
-        <location filename="../src/frame/cpicturewidget.cpp" line="82"/>
         <source>Rotate 90° CW</source>
-        <translation>Rotate 90° CW</translation>
+        <translation type="vanished">Rotate 90° CW</translation>
     </message>
     <message>
-        <location filename="../src/frame/cpicturewidget.cpp" line="88"/>
         <source>Flip horizontally</source>
-        <translation>Flip horizontally</translation>
+        <translation type="vanished">Flip horizontally</translation>
     </message>
     <message>
-        <location filename="../src/frame/cpicturewidget.cpp" line="94"/>
         <source>Flip vertically</source>
-        <translation>Flip vertically</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/cpicturewidget.cpp" line="100"/>
-        <source>Auto fit</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Flip vertically</translation>
     </message>
 </context>
 <context>
@@ -743,11 +713,6 @@
         <translation type="vanished">Unnamed Drawing</translation>
     </message>
     <message>
-        <location filename="../src/frame/ctitlewidget.cpp" line="31"/>
-        <source>Unnamed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Draw</source>
         <translation type="obsolete">Draw</translation>
     </message>
@@ -765,11 +730,6 @@
     <message>
         <source>Width</source>
         <translation type="vanished">Width</translation>
-    </message>
-    <message>
-        <location filename="../src/frame/commonshapewidget.cpp" line="187"/>
-        <source>Radius</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -872,19 +832,8 @@
         <translation type="vanished">Width</translation>
     </message>
     <message>
-        <location filename="../src/frame/linewidget.cpp" line="147"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/linewidget.cpp" line="149"/>
-        <source>End</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/linewidget.cpp" line="153"/>
         <source>Color</source>
-        <translation type="unfinished">Color</translation>
+        <translation type="obsolete">Color</translation>
     </message>
 </context>
 <context>
@@ -925,7 +874,7 @@
         <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="379"/>
+        <location filename="../src/frame/mainwindow.cpp" line="355"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
@@ -941,9 +890,8 @@
         <translation type="vanished">Width</translation>
     </message>
     <message>
-        <location filename="../src/frame/polygonattributewidget.cpp" line="146"/>
         <source>Sides</source>
-        <translation>Sides</translation>
+        <translation type="vanished">Sides</translation>
     </message>
 </context>
 <context>
@@ -953,14 +901,12 @@
         <translation type="vanished">Width</translation>
     </message>
     <message>
-        <location filename="../src/frame/polygonalstarattributewidget.cpp" line="163"/>
         <source>Points</source>
-        <translation>Points</translation>
+        <translation type="vanished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/polygonalstarattributewidget.cpp" line="176"/>
         <source>Diameter</source>
-        <translation>Diameter</translation>
+        <translation type="vanished">Diameter</translation>
     </message>
 </context>
 <context>
@@ -1220,105 +1166,53 @@
 <context>
     <name>TextWidget</name>
     <message>
-        <location filename="../src/frame/textwidget.cpp" line="63"/>
         <source>Font</source>
-        <translation>Font</translation>
+        <translation type="vanished">Font</translation>
     </message>
     <message>
-        <location filename="../src/frame/textwidget.cpp" line="277"/>
-        <source>Regular</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="381"/>
-        <source>Black</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="383"/>
-        <source>ExtraBold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="387"/>
-        <source>DemiBold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="389"/>
-        <source>Medium</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="391"/>
-        <source>Normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="385"/>
-        <source>Bold</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="393"/>
-        <source>Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="395"/>
-        <source>ExtraLight</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="397"/>
-        <source>Thin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/textwidget.cpp" line="87"/>
         <source>Size</source>
-        <translation>Size</translation>
+        <translation type="vanished">Size</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="218"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="136"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="223"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="141"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="229"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="147"/>
         <source>Export</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="234"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="152"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="239"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="157"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="244"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="162"/>
         <source>Print</source>
         <translation>Print</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="257"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="172"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/toptoolbar.cpp" line="260"/>
+        <location filename="../src/frame/toptoolbar.cpp" line="175"/>
         <source>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </source>
         <translation>Draw is a lightweight drawing tool for users to freely draw and simply edit images. </translation>
     </message>

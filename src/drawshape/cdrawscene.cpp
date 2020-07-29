@@ -25,7 +25,7 @@
 #include "cgraphicspolygonitem.h"
 #include "cgraphicspolygonalstaritem.h"
 #include "cgraphicspenitem.h"
-#include "frame/cpicturewidget.h"
+//#include "frame/cpicturewidget.h"
 #include "cgraphicstextitem.h"
 #include "ccuttool.h"
 #include "cgraphicsmasicoitem.h"

@@ -28,75 +28,89 @@
 #include "seperatorline.h"
 #include "cspinbox.h"
 #include "sitemdata.h"
+#include "globaldefine.h"
 
 #include <QWidget>
 #include <QMap>
 
 class CDrawScene;
 class CGraphicsItem;
+class TextColorButton;
+class CFontComboBox;
 
 struct SComDefualData {
-    QPen pen; //0
-    QBrush bursh = QColor(0, 0, 0, 0); //1
-    int rectRadius = 5; //2
-    int starAnCount = 5; //3
-    int starInRadiusRadio = 50; //4
-    int polySideCount = 5; //5
-    ELineType lineStartType = noneLine; //6
-    ELineType lineEndType = noneLine; //7
+    QColor penColor = QColor(0, 0, 0);
+    int penWidth = 2;
+    QBrush bursh = QColor(0, 0, 0, 0);
+    int rectRadius = 5;
+    int starAnCount = 5;
+    int starInRadiusRadio = 50;
+    int polySideCount = 5;
+    ELineType lineStartType = noneLine;
+    ELineType lineEndType = noneLine;
 
-    QColor textColor = QColor(0, 0, 0); //8
-    QFont textFont; //9
+    QColor textColor = QColor(0, 0, 0);
+    int textFontHeavy = 50;
+    int textFontSize = 14;
 
-    int masicType = 0; //10
-    int masicWidth = 20; //11
+    int masicType = 0;
+    int masicWidth = 20;
 
-    void save(int index, const QVariant &var)
-    {
-        switch (index) {
-        case 0:
-            pen = var.value<QPen>();
-            break;
-        case 1:
-            bursh = var.value<QBrush>();
-            break;
-        case 2:
-            rectRadius = var.toInt();
-            break;
-        case 3:
-            starAnCount = var.toInt();
-            break;
-        case 4:
-            starInRadiusRadio = var.toInt();
-            break;
-        case 5:
-            polySideCount = var.toInt();
-            break;
-        case 6:
-            lineStartType = ELineType(var.toInt());
-            break;
-        case 7:
-            lineEndType = ELineType(var.toInt());
-            break;
-        case 8:
-            textColor = var.value<QColor>();
-            break;
-        case 9:
-            textFont = var.value<QFont>();
-            break;
-        case 10:
-            masicType = var.toInt();
-            break;
-        case 11:
-            masicWidth = var.toInt();
-            break;
-        }
-    }
+    bool comVaild[EDrawPropertyCount] {0};
 
     SComDefualData()
     {
-        pen.setWidth(2);
-        pen.setColor(QColor(0, 0, 0));
+        memset(comVaild, 1, sizeof(comVaild));
+    }
+
+    void save(EDrawProperty property, const QVariant &var)
+    {
+        switch (property) {
+        case LineColor:
+            penColor = var.value<QColor>();
+            break;
+        case LineWidth:
+            penWidth = var.toInt();
+            break;
+        case FillColor:
+            bursh = var.value<QBrush>();
+            break;
+        case RectRadius:
+            rectRadius = var.toInt();
+            break;
+        case Anchors:
+            starAnCount = var.toInt();
+            break;
+        case StarRadius:
+            starInRadiusRadio = var.toInt();
+            break;
+        case SideNumber:
+            polySideCount = var.toInt();
+            break;
+        case LineAndPenStartType:
+            lineStartType = ELineType(var.toInt());
+            break;
+        case LineAndPenEndType:
+            lineEndType = ELineType(var.toInt());
+            break;
+        case TextColor:
+            textColor = var.value<QColor>();
+            break;
+        case TextHeavy:
+            textFontHeavy = var.toInt();
+            break;
+        case TextSize:
+            textFontSize = var.toInt();
+            break;
+        case Blurtype:
+            masicType = var.toInt();
+            break;
+        case BlurWidth:
+            masicWidth = var.toInt();
+            break;
+        default:
+            break;
+        }
     }
 };
 
@@ -186,6 +200,7 @@ public:
     QList<CGraphicsItem *> graphicItems();
 
     CSceneDefaultData &defualtData();
+    SComDefualData defualtSceneData(CDrawScene *pScene = nullptr);
 
 protected:
     void refresh();
@@ -195,10 +210,13 @@ private:
     int getSourceTpByItem(CGraphicsItem *pItem);
     int getSourceTpByItemType(int itemType);
 
+    SComDefualData getGraphicItemsDefualData(int tp);
+
     bool isNeededNothing(int tp);
     bool isBrushColorNeeded(int tp);
     bool isBorderNeeded(int tp);
     bool isSpecialItem(int tp);
+
     void refreshHelper(int tp);
     void refreshDataHelper(int tp);
 
@@ -242,7 +260,7 @@ private:
 
 private:
     template<class T>
-    void updateDefualData(int id, const T &var);
+    void updateDefualData(EDrawProperty id, const T &var);
 
 protected:
     QHBoxLayout *m_contrlLay = nullptr;
@@ -284,6 +302,12 @@ protected:
     DLabel *m_sideNumLabel = nullptr;
 
     //文字图元的属性控件
+    //    TextColorButton *m_fillBtn;
+    //    CFontComboBox *m_fontComBox;
+    //    DComboBox *m_fontHeavy; // 字体的重量
+    //    DComboBox *m_fontSize; // 字体的大小
+    //    DLabel *m_fontFamilyLabel;
+    //    DLabel *m_fontsizeLabel;
 
 private:
     CSceneDefaultData m_defualDatas;

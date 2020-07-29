@@ -59,8 +59,10 @@ public:
     TopToolbar(DWidget *parent = nullptr);
     ~TopToolbar() Q_DECL_OVERRIDE;
 
+    /* 主菜单 */
     DMenu *mainMenu();
 
+    /* 属性widget */
     CComAttrWidget *attributWidget();
 
 signals:
@@ -94,29 +96,9 @@ signals:
     void signalNew();
 
     /**
-     * @brief signalForwardCutTypeChanged　传递裁剪类型信号
-     */
-    void signalForwardCutTypeChanged(int);
-    /**
-     * @brief signalForwardCutSizeChanged　传递裁剪尺寸信号
-     */
-    void signalForwardCutSizeChanged(int, int);
-    /**
-     * @brief signalTextFontFamilyChanged　字体改变信号
-     */
-    void signalTextFontFamilyChanged();
-    /**
-     * @brief signalTextFontSizeChanged　字体大小改变信号
-     */
-    void signalTextFontSizeChanged();
-    /**
      * @brief signalQuitCutModeFromTopBarMenu　点击菜单栏退出裁剪模式信号
      */
     void signalQuitCutModeFromTopBarMenu();
-    /**
-     * @brief signalCutLineEditIsfocus　裁剪尺寸输入框获取焦点信号
-     */
-    void signalCutLineEditIsfocus(bool);
 
 public:
     /**
@@ -125,30 +107,7 @@ public:
     void changeTopButtonsTheme();
 
 public slots:
-    /**
-     * @brief updateMiddleWidget　按类型更新工具栏
-     * @param type　图元类型
-     * @param showSelfPropreWidget　该标记决定是否显示出空白属性页
-     */
-    //void updateMiddleWidget(int type, bool showSelfPropreWidget = true);
-    /**
-     * @brief showColorfulPanel　显示调色板
-     * @param drawstatus　颜色类型
-     * @param pos　显示位置
-     * @param visible　是否显示
-     */
-    //void showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
-    /**
-     * @brief updateColorPanelVisible　更新调色板
-     * @param pos　位置
-     */
-    //void updateColorPanelVisible(QPoint pos);
-    /**
-     * @brief slotChangeAttributeFromScene 根据选中的图元更新属性栏
-     * @param flag
-     * @param primitiveType　图元类型
-     */
-    void slotChangeAttributeFromScene(bool flag, int primitiveType);
+
     /**
      * @brief slotZoom　缩放
      * @param scale　缩放因子
@@ -160,39 +119,21 @@ public slots:
      * @param scale　缩放因子
      */
     void slotSetScale(const qreal scale);
-    /**
-     * @brief slotSetCutSize　更新裁剪尺寸属性栏
-     */
-    void slotSetCutSize();
-    /**
-     * @brief slotSetTextFont　更新文字属性栏
-     */
-    void slotSetTextFont();
-    /**
-     * @brief slotHideColorPanel　隐藏调色板
-     */
-    //void slotHideColorPanel();
-    /**
-     * @brief slotRectRediusChanged　圆角矩形半径
-     */
-    void slotRectRediusChanged(int value);
-    /**
-     * @brief updateMiddleWidgetMult　按类型更新工具栏
-     * @param mode　图元类型
-     * @param propertys　要显示的公共属性
-     */
-    //void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache);
+    //    /**
+    //     * @brief slotSetCutSize　更新裁剪尺寸属性栏
+    //     */
+    //    void slotSetCutSize();
+    //    /**
+    //     * @brief slotSetTextFont　更新文字属性栏
+    //     */
+    //    void slotSetTextFont();
+
     /**
      * @brief signalIsAllPictureItem　选中图元图元是否都为图片
      * @param isEnable　自适应按钮是否可用
      * @param single 是否选中单个图片
      */
-    void slotIsAllPictureItem(bool isEnable, bool single);
-    /**
-     * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
-     * @param QString 场景名字
-     */
-    void slotScenceViewChanged(QString viewname);
+    //void slotIsAllPictureItem(bool isEnable, bool single);
 
 private slots:
     /**
@@ -228,28 +169,14 @@ protected:
 private:
     QString m_path;
     QStringList m_paths;
-    DStackedWidget *m_stackWidget;
     int m_textFontsize = 12;
 
-    CTitleWidget *m_titleWidget;
-    CommonshapeWidget *m_commonShapeWidget;
-    PolygonalStarAttributeWidget *m_polygonalStarWidget;
-    PolygonAttributeWidget *m_PolygonWidget;
-    CCutWidget *m_cutWidget;
-    CPictureWidget *m_picWidget;
-    LineWidget *m_drawLineWidget;
-    TextWidget *m_drawTextWidget;
-    BlurWidget *m_drawBlurWidget;
-    CPenWidget *m_penWidget;
-
     CMenu *m_mainMenu;
-
     DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
     QFont ft; // 全局默认字体
 
     QAction *m_saveAction;
     QAction *m_newAction;
-    QMap<EDrawProperty, QVariant> m_propertys;//选中图元后传过来的信息
 
     CComAttrWidget *m_pAtrriWidget = nullptr;
 
@@ -262,23 +189,16 @@ private:
      * @brief initConnection　初始化连接
      */
     void initConnection();
-    /**
-     * @brief initStackWidget　初始化属性栏
-     */
-    void initStackWidget();
-    /**
-     * @brief initTopMenuUI　初始化顶部菜单属性栏
-     */
-    void initTopMenuUI();
+
     /**
      * @brief initMenu　初始化主菜单
      */
     void initMenu();
+
     /**
      * @brief initComboBox　初始化缩放下拉列表
      */
     void initComboBox();
-
 };
 
 #endif // TOPTOOLBAR_H

@@ -18,18 +18,6 @@
  */
 #include "toptoolbar.h"
 #include "application.h"
-#include "commonshapewidget.h"
-#include "polygonalstarattributewidget.h"
-#include "polygonattributewidget.h"
-#include "ccutwidget.h"
-#include "linewidget.h"
-#include "cpicturewidget.h"
-#include "textwidget.h"
-#include "cpenwidget.h"
-#include "blurwidget.h"
-#include "ctitlewidget.h"
-#include "widgets/arrowrectangle.h"
-//#include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
@@ -57,13 +45,10 @@ TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
     QMetaObject::invokeMethod(this, [ = ]() {
-        initTopMenuUI();
         initConnection();
         changeTopButtonsTheme();
     }, Qt::QueuedConnection);
 
-
-    m_propertys.clear();
     initUI();
 }
 
@@ -78,7 +63,6 @@ void TopToolbar::initUI()
 
     // 初始化缩放菜单
     initComboBox();
-    initStackWidget();
     initMenu();
 
     QHBoxLayout *hLayout = new QHBoxLayout(this);
@@ -87,10 +71,6 @@ void TopToolbar::initUI()
 
     hLayout->addWidget(m_zoomMenuComboBox);
 
-    //m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    //hLayout->addWidget(m_stackWidget);
-
-    m_stackWidget->hide();
     m_pAtrriWidget = new CComAttrWidget(this);
     m_pAtrriWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     hLayout->addWidget(m_pAtrriWidget);
@@ -148,68 +128,6 @@ void TopToolbar::initComboBox()
     });
 }
 
-void TopToolbar::initStackWidget()
-{
-    m_stackWidget = new DStackedWidget(this);
-
-    //colorPanel.
-    //m_colorPanel = new ColorPanel(this);
-    //    qApp->setProperty("_d_isDxcb", false);
-    //    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
-    //    qApp->setProperty("_d_isDxcb", true);
-    //    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
-    //    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
-    //    m_colorARect->setArrowWidth(18);
-    //    m_colorARect->setArrowHeight(10);
-    //    m_colorARect->setContent(m_colorPanel);
-    //    m_colorARect->hide();
-
-    //select
-    m_titleWidget = new CTitleWidget(this);
-    m_stackWidget->addWidget(m_titleWidget);
-
-    //rectangle, triangle,oval
-    m_commonShapeWidget = new CommonshapeWidget(this);
-    m_stackWidget->addWidget(m_commonShapeWidget);
-
-    m_stackWidget->setCurrentWidget(m_titleWidget);
-}
-
-void TopToolbar::initTopMenuUI()
-{
-    //picture
-    m_picWidget = new CPictureWidget(this);
-    m_stackWidget->addWidget(m_picWidget);
-
-    ///polygonalStar
-    m_polygonalStarWidget = new PolygonalStarAttributeWidget(this);
-    m_stackWidget->addWidget(m_polygonalStarWidget);
-
-    ///polygonalStar
-    m_PolygonWidget = new PolygonAttributeWidget(this);
-    m_stackWidget->addWidget(m_PolygonWidget);
-
-    //draw line.
-    m_drawLineWidget = new LineWidget(this);
-    m_stackWidget->addWidget(m_drawLineWidget);
-
-    //draw pen
-    m_penWidget = new CPenWidget(this);
-    m_stackWidget->addWidget(m_penWidget);
-
-
-    //draw text.
-    m_drawTextWidget = new TextWidget(this);
-    m_stackWidget->addWidget(m_drawTextWidget);
-
-    //draw blur widget.
-    m_drawBlurWidget = new BlurWidget(this);
-    m_stackWidget->addWidget(m_drawBlurWidget);
-
-    m_cutWidget = new CCutWidget(this);
-    m_stackWidget->addWidget(m_cutWidget);
-}
-
 void TopToolbar::initMenu()
 {
     m_mainMenu = new CMenu(this);
@@ -248,9 +166,6 @@ void TopToolbar::initMenu()
     m_mainMenu->addSeparator();
 
     QIcon t_icon;
-//    QPixmap pixmap = QIcon::fromTheme("deepin-draw").pixmap(QSize(64, 64) );
-//    t_icon.addPixmap(pixmap);
-
 
     t_icon = QIcon::fromTheme("deepin-draw");
     dApp->setProductIcon(t_icon);
@@ -261,7 +176,6 @@ void TopToolbar::initMenu()
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
-//    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
     connect(m_saveAction, &QAction::triggered, this, &TopToolbar::slotOnSaveAction);
     connect(saveAsAc, &QAction::triggered, this, &TopToolbar::slotOnSaveAsAction);
     connect(printAc, &QAction::triggered, this, &TopToolbar::signalPrint);
@@ -274,154 +188,6 @@ void TopToolbar::initMenu()
 
 void TopToolbar::changeTopButtonsTheme()
 {
-    m_commonShapeWidget->changeButtonTheme();
-    m_polygonalStarWidget->changeButtonTheme();
-    m_PolygonWidget->changeButtonTheme();
-    m_drawLineWidget->changeButtonTheme();
-    m_penWidget->changeButtonTheme();
-    m_drawBlurWidget->changeButtonTheme();
-    m_drawTextWidget->updateTheme();
-    //m_colorPanel->changeButtonTheme();
-    m_cutWidget->changeButtonTheme();
-
-    //m_colorPanel->changeButtonTheme();
-
-    if (m_picWidget) {
-        m_picWidget->changeButtonTheme();
-    }
-    if (m_polygonalStarWidget) {
-        m_polygonalStarWidget->changeButtonTheme();
-    }
-    if (m_PolygonWidget) {
-        m_PolygonWidget->changeButtonTheme();
-    }
-    if (m_drawLineWidget) {
-        m_drawLineWidget->changeButtonTheme();
-    }
-    if (m_penWidget) {
-        m_penWidget->changeButtonTheme();
-    }
-    if (m_drawBlurWidget) {
-        m_drawBlurWidget->changeButtonTheme();
-    }
-    if (m_drawTextWidget) {
-        m_drawTextWidget->updateTheme();
-    }
-    if (m_cutWidget) {
-        m_cutWidget->changeButtonTheme();
-    }
-}
-
-//void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
-//{
-//    switch (type) {
-//    case::selection: {
-//        if (showSelfPropreWidget) {
-//            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-//            m_titleWidget->updateTitleWidget();
-
-//            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
-//            m_stackWidget->setVisible(false);
-//            m_stackWidget->setCurrentWidget(m_titleWidget);
-//            m_stackWidget->setVisible(true);
-//        }
-//        break;
-//    }
-//    case::importPicture:
-//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-//        m_stackWidget->setCurrentWidget(m_picWidget);
-//        break;
-//    case::rectangle:
-//        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
-//        m_commonShapeWidget->updateCommonShapWidget();
-//        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
-//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-//        break;
-//    case::ellipse:
-//    case::triangle:
-//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-//        m_commonShapeWidget->updateCommonShapWidget();
-//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-//        break;
-//    case::polygonalStar:
-//        m_polygonalStarWidget->updatePolygonalStarWidget();
-//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-//        break;
-//    case::polygon:
-//        m_PolygonWidget->updatePolygonWidget();
-//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-//        break;
-//    case::line:
-//        m_drawLineWidget->updateLineWidget();
-//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-//        break;
-//    case::pen:
-//        m_penWidget->updatePenWidget();
-//        m_stackWidget->setCurrentWidget(m_penWidget);
-//        break;
-//    case::text: {
-//        m_drawTextWidget->updateTextWidget();
-//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-//        break;
-//    }
-//    case::blur:
-//        m_drawBlurWidget->updateBlurWidget();
-//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-//        break;
-//    case::cut:
-//        m_cutWidget->updateButtonStatus();
-//        m_stackWidget->setCurrentWidget(m_cutWidget);
-//        break;
-//    default:
-//        break;
-//    }
-//    m_stackWidget->currentWidget()->setVisible(true);
-//}
-
-void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
-{
-    if (primitiveType == QGraphicsItem::UserType) {
-        return;
-    }
-    if (flag) {
-        EDrawToolMode toolType = EDrawToolMode::selection;
-        switch (primitiveType) {
-        case::EGraphicUserType::RectType:
-            toolType = EDrawToolMode::rectangle;
-            break;
-        case::EGraphicUserType::EllipseType:
-            toolType = EDrawToolMode::ellipse;
-            break;
-        case::EGraphicUserType::TriangleType:
-            toolType = EDrawToolMode::triangle;
-            break;
-        case::EGraphicUserType::PolygonalStarType:
-            toolType = EDrawToolMode::polygonalStar;
-            break;
-        case::EGraphicUserType::PolygonType:
-            toolType = EDrawToolMode::polygon;
-            break;
-        case::EGraphicUserType::LineType:
-            toolType = EDrawToolMode::line;
-            break;
-        case::EGraphicUserType::PenType:
-            toolType = EDrawToolMode::pen;
-            break;
-        case::EGraphicUserType::TextType:
-            toolType = EDrawToolMode::text;
-            break;
-        case::EGraphicUserType::PictureType:
-            toolType = EDrawToolMode::importPicture;
-            break;
-        case::EGraphicUserType::BlurType:
-            toolType = EDrawToolMode::blur;
-            break;
-//        case::EGraphicUserType::CutType:
-//            toolType = EDrawToolMode::cut;
-//            break;
-        }
-        //updateMiddleWidget(toolType);
-    }
 }
 
 void TopToolbar::slotZoom(const QString &scale)
@@ -458,21 +224,10 @@ void TopToolbar::slotSetScale(const qreal scale)
     m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
-void TopToolbar::slotSetCutSize()
-{
-    m_cutWidget->updateCutSize();
-}
-
-void TopToolbar::slotSetTextFont()
-{
-    m_drawTextWidget->updateTextWidget();
-}
-
 void TopToolbar::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-//        emit signalQuitCutModeFromTopBarMenu();
     }
 }
 
@@ -503,8 +258,6 @@ void TopToolbar::slotOnSaveAsAction()
 
 void TopToolbar::slotMenuShow()
 {
-    //slotHideColorPanel();
-    //    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
 
 DMenu *TopToolbar::mainMenu()
@@ -517,86 +270,9 @@ CComAttrWidget *TopToolbar::attributWidget()
     return m_pAtrriWidget;
 }
 
-//void TopToolbar::slotHideColorPanel()
-//{
-//    if (!m_colorARect->isHidden()) {
-//        m_colorARect->hide();
-//    }
-//}
-
-void TopToolbar::slotRectRediusChanged(int value)
-{
-    qDebug() << "CTopToolbar::slotRectRediusChanged value = " << value;
-    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
-}
-
-//void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode,
-//                                        QMap<EDrawProperty, QVariant> propertys,
-//                                        bool write2Cache)
-//{
-//    if (propertys.size() > 0) {
-//        m_propertys = propertys;
-//        m_stackWidget->currentWidget()->setVisible(true);
-//    } else {
-//        if (m_stackWidget->currentWidget() != m_titleWidget &&
-//                m_cutWidget != m_stackWidget->currentWidget()) {
-//            m_stackWidget->currentWidget()->setVisible(false);
-//        }
-//    }
-//    switch (mode) {
-//    case::RectType://矩形
-//    case::EllipseType://圆形
-//    case::TriangleType://三角形
-//        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
-//        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-//        break;
-//    case::PolygonalStarType://多角星
-//        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-//        break;
-//    case::PolygonType://多边形
-//        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-//        break;
-//    case::LineType://线
-//        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-//        break;
-//    case::PenType://画笔
-//        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_penWidget);
-//        break;
-//    case::TextType://文本
-//        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-//        break;
-//    case::BlurType://模糊
-//        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
-//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-//        break;
-//    default:
-//        break;
-//    }
-//}
-
-void TopToolbar::slotIsAllPictureItem(bool isEnable, bool single)
-{
-    m_stackWidget->setCurrentWidget(m_picWidget);
-    m_picWidget->setAdjustmentIsEnable(isEnable);
-    m_picWidget->setRotationEnable(single);
-    m_stackWidget->currentWidget()->setVisible(true);
-}
-
-void TopToolbar::slotScenceViewChanged(QString viewname)
-{
-    m_titleWidget->setTittleText(viewname);
-}
-
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
-    //m_colorARect->hide();
     QWidget::resizeEvent(event);
 }
 
@@ -609,39 +285,6 @@ void TopToolbar::enterEvent(QEvent *event)
 
 void TopToolbar::initConnection()
 {
-    //rectangle, triangle,ellipse
-    //connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
-    connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
-    connect(m_commonShapeWidget, &CommonshapeWidget::signalRectRediusIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
-    ///polygonalStar
-    //connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalAnchorvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalRadiusvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
-    ///polygon
-    //connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
-    connect(m_PolygonWidget, &PolygonAttributeWidget::signalSideValueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
-    //draw line.
-    //connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
-    //draw pen.
-    //connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
-    //draw text.
-    //connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
-    connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
-    //draw blur widget.
-
-    //cut
-    connect(m_cutWidget, &CCutWidget::signalCutLineEditIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
-
-    //CManagerAttributeService
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)),
-            this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)));
-    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
-            this, SLOT(slotIsAllPictureItem(bool, bool)));
+    //    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
+    //            this, SLOT(slotIsAllPictureItem(bool, bool)));
 }
-

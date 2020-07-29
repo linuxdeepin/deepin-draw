@@ -592,6 +592,13 @@ QRectF CGraphicsItemSelectedMgr::rect() const
     return _rct;
 }
 
+CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit() const
+{
+    if (m_listItems.count() >= 1)
+        return m_listItems.first()->getGraphicsUnit();
+    return CGraphicsUnit();
+}
+
 void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();

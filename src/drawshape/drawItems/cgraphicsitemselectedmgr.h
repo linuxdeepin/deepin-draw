@@ -121,6 +121,8 @@ public:
      */
     QRectF rect() const Q_DECL_OVERRIDE;
 
+    CGraphicsUnit getGraphicsUnit() const override;
+
 protected:
     /**
      * @brief paint 绘制函数

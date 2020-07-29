@@ -702,20 +702,6 @@ void CCentralwidget::slotSaveAs()
     CManageViewSigleton::GetInstance()->getCurView()->showSaveDDFDialog(false);
 }
 
-void CCentralwidget::slotTextFontFamilyChanged()
-{
-    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->textFontFamilyChanged();
-    }
-}
-
-void CCentralwidget::slotTextFontSizeChanged()
-{
-    if (static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene()) != nullptr) {
-        static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->textFontSizeChanged();
-    }
-}
-
 void CCentralwidget::slotNew()
 {
     m_topMutipTabBarWidget->addTabBarItem();
@@ -753,10 +739,10 @@ void CCentralwidget::onEscButtonClick()
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
 
-void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
-{
-    CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(isFocus);
-}
+//void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
+//{
+//    CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(isFocus);
+//}
 
 void CCentralwidget::slotDoSaveImage(QString completePath)
 {

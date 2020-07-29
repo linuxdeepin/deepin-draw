@@ -34,6 +34,8 @@
 #include "cpictureitem.h"
 #include "cdrawscene.h"
 #include "cundoredocommand.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
 
 #include <DComboBox>
 
@@ -67,7 +69,7 @@ CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase
     if (_pItem == nullptr)
         return;
 
-    if (_phase == EChangedUpdate)
+    if (_phase == EChangedUpdate || _phase == EChangedFinished)
         return;
 
     QList<CGraphicsItem *> items;
@@ -89,33 +91,43 @@ CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase
 
         if (_phase == EChangedBegin || _phase == EChanged) {
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars, _phase == EChangedBegin,
-                                                _phase == EChanged);
-
-        } else if (_phase == EChangedFinished) {
-            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars);
-        }
-    }
-
-    if (_phase == EChangedFinished || _phase == EChanged) {
-        if (_pItem->drawScene() != nullptr) {
-            _pItem->drawScene()->finishRecord(false);
+                                                CItemUndoRedoCommand::EAllChanged, vars, i == 0);
         }
     }
 }
 
 CItemAttriWidget::CCmdBlock::~CCmdBlock()
 {
-    //    if (_pItem == nullptr)
-    //        return;
+    if (_pItem == nullptr)
+        return;
 
-    //    if (_phase == EChangedUpdate)
-    //        return;
+    if (_phase != EChangedFinished && _phase != EChanged)
+        return;
 
-    //    if (_pItem->drawScene() != nullptr) {
-    //        _pItem->drawScene()->finishRecord(false);
-    //    }
+    QList<CGraphicsItem *> items;
+    if (_pItem->type() == MgrType) {
+        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+
+    } else {
+        items.append(_pItem);
+    }
+
+    for (int i = 0; i < items.size(); ++i) {
+        CGraphicsItem *pItem = items[i];
+
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(pItem);
+        QVariant varInfo;
+        varInfo.setValue(pItem->getGraphicsUnit());
+        vars << varInfo;
+
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                            CItemUndoRedoCommand::EAllChanged, vars);
+    }
+
+    if (_pItem->drawScene() != nullptr) {
+        _pItem->drawScene()->finishRecord(false);
+    }
 }
 
 CComAttrWidget::CComAttrWidget(QWidget *parent)
@@ -132,8 +144,10 @@ CComAttrWidget::CComAttrWidget(QWidget *parent)
 
 void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp)
 {
-    setGraphicItem(nullptr);
+    _pItem = nullptr;
+    clearUi();
     refreshHelper(tp);
+    refreshDataHelper(tp);
 }
 
 QList<CGraphicsItem *> CComAttrWidget::graphicItems()
@@ -152,6 +166,13 @@ QList<CGraphicsItem *> CComAttrWidget::graphicItems()
 CSceneDefaultData &CComAttrWidget::defualtData()
 {
     return m_defualDatas;
+}
+
+SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
+{
+    CDrawScene *pScen = (pScene == nullptr ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : pScene);
+    assert(pScen != nullptr);
+    return m_defualDatas[pScen];
 }
 
 void CComAttrWidget::refresh()
@@ -280,13 +301,91 @@ int CComAttrWidget::getSourceTpByItemType(int itemType)
     return retTp;
 }
 
+SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
+{
+    SComDefualData data;
+
+    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit();
+    data.penColor = unitData.head.pen.color();
+    data.penWidth = unitData.head.pen.width();
+    data.bursh = unitData.head.brush;
+
+    data.rectRadius = (tp == Rect ? unitData.data.pRect->xRedius : data.rectRadius);
+    data.polySideCount = (tp == Polygon ? unitData.data.pPolygon->pointNum : data.polySideCount);
+    data.starAnCount = (tp == Star ? unitData.data.pPolygonStar->anchorNum : data.polySideCount);
+    data.starInRadiusRadio = (tp == Star ? unitData.data.pPolygonStar->radius : data.polySideCount);
+
+    data.lineStartType = (tp == Pen ? unitData.data.pPen->start_type : data.lineStartType);
+    data.lineEndType = (tp == Pen ? unitData.data.pPen->end_type : data.lineEndType);
+
+    data.lineStartType = (tp == Line ? unitData.data.pLine->start_type : data.lineStartType);
+    data.lineEndType = (tp == Line ? unitData.data.pLine->end_type : data.lineEndType);
+
+    unitData.data.release();
+
+    QList<CGraphicsItem *> lists = graphicItems();
+
+    if (lists.count() > 1) {
+        //多选时 判断值不同时，应该设置为无效
+        for (CGraphicsItem *pItem : lists) {
+            if (pItem->pen().color() != data.penColor) {
+                data.comVaild[LineColor] = false;
+            }
+            if (pItem->pen().width() != data.penWidth) {
+                data.comVaild[LineWidth] = false;
+            }
+            if (pItem->brush().color() != data.bursh.color()) {
+                data.comVaild[FillColor] = false;
+            }
+            //都是矩形
+            if (tp == Rect) {
+                CGraphicsRectItem *pRect = dynamic_cast<CGraphicsRectItem *>(pItem);
+                if (pRect->getXRedius() != data.rectRadius) {
+                    data.comVaild[RectRadius] = false;
+                }
+            } else if (tp == Star) {
+                CGraphicsPolygonalStarItem *pStar = dynamic_cast<CGraphicsPolygonalStarItem *>(pItem);
+                if (pStar->anchorNum() != data.starAnCount) {
+                    data.comVaild[Anchors] = false;
+                }
+                if (pStar->innerRadius() != data.starInRadiusRadio) {
+                    data.comVaild[StarRadius] = false;
+                }
+            } else if (tp == Polygon) {
+                CGraphicsPolygonItem *polygon = dynamic_cast<CGraphicsPolygonItem *>(pItem);
+                if (polygon->nPointsCount() != data.polySideCount) {
+                    data.comVaild[SideNumber] = false;
+                }
+            } else if (tp == Pen) {
+                CGraphicsPenItem *pPen = dynamic_cast<CGraphicsPenItem *>(pItem);
+                if (pPen->getPenStartType() != data.lineStartType) {
+                    data.comVaild[LineAndPenStartType] = false;
+                }
+                if (pPen->getPenEndType() != data.lineEndType) {
+                    data.comVaild[LineAndPenEndType] = false;
+                }
+            } else if (tp == Line) {
+                CGraphicsLineItem *pLIne = dynamic_cast<CGraphicsLineItem *>(pItem);
+                if (pLIne->getLineStartType() != data.lineStartType) {
+                    data.comVaild[LineAndPenStartType] = false;
+                }
+                if (pLIne->getLineEndType() != data.lineEndType) {
+                    data.comVaild[LineAndPenEndType] = false;
+                }
+            }
+        }
+    }
+
+    return data;
+}
+
 bool CComAttrWidget::isNeededNothing(int tp)
 {
-    if (graphicItem()->type() == MgrType) {
-        if (dynamic_cast<CGraphicsItemSelectedMgr *>(graphicItem())->count() > 1)
-            if (tp & Text || tp & MasicPen || tp & Image) {
-                return true;
-            }
+    int count = graphicItems().count();
+    if (count > 1) {
+        if (tp & Text || tp & MasicPen || tp & Image) {
+            return true;
+        }
     }
     return false;
 }
@@ -297,7 +396,7 @@ bool CComAttrWidget::isBrushColorNeeded(int tp)
         return false;
     }
 
-    if (tp & Rect || tp & Ellipse || tp & Triangle || tp & Polygon) {
+    if (tp & Rect || tp & Ellipse || tp & Triangle || tp & Polygon || tp & Star) {
         return true;
     }
     return false;
@@ -400,42 +499,68 @@ void CComAttrWidget::refreshDataHelper(int tp)
 {
     if (isSpecialItem(tp) || tp == ShowTitle) {
         getTitleLabel()->setText(tr("Draw"));
-        getTitleLabel()->show();
         return;
     }
+
+    SComDefualData data = defualtSceneData();
+    if (graphicItem() != nullptr) {
+        data = getGraphicItemsDefualData(tp);
+    }
+
     if (isBrushColorNeeded(tp)) {
-        //getBrushColorBtn()->setColor();
+        CBlockObjectSig sig(getBrushColorBtn());
+        getBrushColorBtn()->setColor(data.bursh.color());
+        getBrushColorBtn()->setIsMultColorSame(data.comVaild[FillColor]);
     }
 
     if (isBorderNeeded(tp)) {
-        getPenColorBtn()->show();
-        getBorderWidthWidget()->show();
+        CBlockObjectSig sig(getPenColorBtn());
+        CBlockObjectSig sig1(getBorderWidthWidget());
+        getPenColorBtn()->setColor(data.penColor);
+        getPenColorBtn()->setIsMultColorSame(data.comVaild[LineColor]);
+        getBorderWidthWidget()->setSideWidth(data.penWidth);
+        getBorderWidthWidget()->setMenuNoSelected(!data.comVaild[LineWidth]);
     }
-
     switch (tp) {
     case Rect: {
-        getSpinBoxForRectRadiusLabel()->show();
-        getSpinBoxForRectRadius()->show();
+        CBlockObjectSig sig(getSpinBoxForRectRadius());
+        getSpinBoxForRectRadius()->setValue(data.rectRadius);
+        if (!data.comVaild[RectRadius])
+            getSpinBoxForRectRadius()->setValue(-1);
         break;
     }
     case Polygon: {
-        getSpinBoxForPolgonSideNumLabel()->show();
-        getSpinBoxForPolgonSideNum()->show();
+        CBlockObjectSig sig(getSpinBoxForPolgonSideNum());
+        getSpinBoxForPolgonSideNum()->setValue(data.polySideCount);
+        if (!data.comVaild[SideNumber])
+            getSpinBoxForPolgonSideNum()->setValue(-1);
         break;
     }
     case Star: {
-        getSpinBoxForStarAnchorLabel()->show();
-        getSpinBoxForStarAnchor()->show();
-        getSpinBoxForStarinterRadiusLabel()->show();
-        getSpinBoxForStarinterRadius()->show();
+        CBlockObjectSig sig(getSpinBoxForStarAnchor());
+        CBlockObjectSig sig1(getSpinBoxForStarinterRadius());
+
+        getSpinBoxForStarAnchor()->setValue(data.starAnCount);
+        getSpinBoxForStarinterRadius()->setValue(data.starInRadiusRadio);
+
+        if (!data.comVaild[Anchors])
+            getSpinBoxForStarAnchor()->setValue(-1);
+        if (!data.comVaild[StarRadius])
+            getSpinBoxForStarinterRadius()->setValue(-1);
+
         break;
     }
     case Pen:
     case Line: {
-        getLabelForLineStartStyle()->show();
-        getComboxForLineStartStyle()->show();
-        getLabelForLineEndStyle()->show();
-        getComboxForLineEndStyle()->show();
+        CBlockObjectSig sig(getComboxForLineStartStyle());
+        CBlockObjectSig sig1(getComboxForLineEndStyle());
+
+        getComboxForLineStartStyle()->setCurrentIndex(data.lineStartType);
+        getComboxForLineEndStyle()->setCurrentIndex(data.lineEndType);
+        if (!data.comVaild[LineAndPenStartType])
+            getComboxForLineStartStyle()->setCurrentIndex(noneLine);
+        if (!data.comVaild[LineAndPenEndType])
+            getComboxForLineEndStyle()->setCurrentIndex(noneLine);
         break;
     }
     default:
@@ -466,15 +591,19 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
     if (m_strokeBtn == nullptr) {
         m_strokeBtn = new CPenColorBtn(this);
         connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
-            if (this->graphicItem() != nullptr) {
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
-                QPen p = this->graphicItem()->pen();
-                p.setColor(color);
-                QList<CGraphicsItem *> lists = this->graphicItems();
+
                 for (CGraphicsItem *pItem : lists) {
+                    QPen p = pItem->pen();
+                    p.setColor(color);
+                    p.setJoinStyle(Qt::MiterJoin);
+                    p.setStyle(Qt::SolidLine);
+                    p.setCapStyle(Qt::RoundCap);
                     pItem->setPen(p);
                 }
-                this->updateDefualData(0, p);
+                this->updateDefualData(LineColor, color);
             }
         });
     }
@@ -486,17 +615,19 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
     if (m_fillBtn == nullptr) {
         m_fillBtn = new CBrushColorBtn(this);
         connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
-            if (this->graphicItem() != nullptr) {
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
-                QBrush br = this->graphicItem()->brush();
-                br.setColor(color);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *pItem : lists) {
+                    QBrush br = pItem->brush();
+                    br.setStyle(Qt::SolidPattern);
+                    br.setColor(color);
                     pItem->setBrush(br);
                 }
 
-                this->updateDefualData(1, br);
+                this->updateDefualData(FillColor, QBrush(color, Qt::SolidPattern));
             }
         });
     }
@@ -516,18 +647,22 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
         connect(m_sideWidthWidget, &CSideWidthWidget::sideWidthChanged, this,
                 [=](int lineWidth, bool preview) {
                     Q_UNUSED(preview)
-                    if (this->graphicItem() != nullptr) {
+                    QList<CGraphicsItem *> lists = this->graphicItems();
+                    if (!lists.isEmpty()) {
                         CCmdBlock block(this->graphicItem());
-                        QPen p = this->graphicItem()->pen();
-                        p.setWidthF(lineWidth);
 
                         QList<CGraphicsItem *> lists = this->graphicItems();
                         for (CGraphicsItem *pItem : lists) {
+                            QPen p = pItem->pen();
+                            p.setWidthF(lineWidth);
+                            p.setJoinStyle(Qt::MiterJoin);
+                            p.setStyle(Qt::SolidLine);
+                            p.setCapStyle(Qt::RoundCap);
                             pItem->setPen(p);
                             pItem->updateShape();
                         }
 
-                        this->updateDefualData(0, p);
+                        this->updateDefualData(LineWidth, lineWidth);
                     }
                 });
     }
@@ -562,6 +697,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
 
         connect(m_rediusSpinbox, &CSpinBox::valueChanged, this, [=](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
+                //qDebug() << "value = " << value << "phase = " << phase;
                 //要知道这个控件是针对Rect图元的
                 if (getSourceTpByItem(graphicItem()) == Rect) {
                     //记录undo
@@ -574,7 +710,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
                         pItem->updateShape();
                     }
 
-                    this->updateDefualData(2, value);
+                    this->updateDefualData(RectRadius, value);
                 }
             }
         });
@@ -623,7 +759,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
                         pItem->updatePolygonalStar(value, pItem->innerRadius());
                         pItem->updateShape();
                     }
-                    this->updateDefualData(3, value);
+                    this->updateDefualData(Anchors, value);
                 }
             }
         });
@@ -659,7 +795,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
                         pItem->updatePolygonalStar(pItem->anchorNum(), value);
                     }
-                    this->updateDefualData(4, value);
+                    this->updateDefualData(StarRadius, value);
                 }
             }
         });
@@ -721,7 +857,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
                         CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(p);
                         pItem->setPointCount(value);
                     }
-                    this->updateDefualData(5, value);
+                    this->updateDefualData(SideNumber, value);
                 }
             }
         });
@@ -773,7 +909,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                             pItem->setLineStartType(ELineType(index));
                         }
                     }
-                    this->updateDefualData(6, index);
+                    this->updateDefualData(LineAndPenStartType, index);
                 }
             }
         });
@@ -812,7 +948,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                             pItem->setLineEndType(ELineType(index));
                         }
                     }
-                    this->updateDefualData(7, index);
+                    this->updateDefualData(LineAndPenEndType, index);
                 }
             }
         });
@@ -874,7 +1010,7 @@ DLabel *CComAttrWidget::getMaskLabForLineEndStyle()
 }
 
 template<class T>
-void CComAttrWidget::updateDefualData(int id, const T &var)
+void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
 {
     Q_UNUSED(id)
     int ret = getSourceTpByItem(graphicItem());

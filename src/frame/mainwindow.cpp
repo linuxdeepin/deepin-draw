@@ -246,10 +246,6 @@ void MainWindow::initConnection()
             closeTabViews();
         }
     });
-    connect(m_topToolbar, SIGNAL(signalTextFontFamilyChanged()), m_centralWidget, SLOT(slotTextFontFamilyChanged()));
-    connect(m_topToolbar, SIGNAL(signalTextFontSizeChanged()), m_centralWidget, SLOT(slotTextFontSizeChanged()));
-
-    connect(m_centralWidget, &CCentralwidget::signalAttributeChangedFromScene, m_topToolbar, &TopToolbar::slotChangeAttributeFromScene);
 
     connect(m_topToolbar, SIGNAL(signalZoom(qreal)), m_centralWidget, SLOT(slotZoom(qreal)));
     connect(m_centralWidget, SIGNAL(signalSetScale(qreal)), m_topToolbar, SLOT(slotSetScale(qreal)));
@@ -260,15 +256,11 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalNew()), this, SLOT(slotNewDrawScence()));
 
-    connect(m_centralWidget, SIGNAL(signalUpdateCutSize()), m_topToolbar, SLOT(slotSetCutSize()));
-
     connect(m_topToolbar, SIGNAL(signalSaveToDDF()), this, SLOT(slotTopToolBarSaveToDDF()));
 
     connect(m_topToolbar, SIGNAL(signalSaveAs()), m_centralWidget, SLOT(slotSaveAs()));
 
     connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
-
-    connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
 
@@ -276,14 +268,9 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalQuitCutModeFromTopBarMenu()), m_centralWidget, SIGNAL(signalTransmitQuitCutModeFromTopBarMenu()));
 
-    connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
+    //connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
 
     connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
-
-    // 有新的场景创建后需要都进行连接的信号
-    connect(m_centralWidget, &CCentralwidget::signalAddNewScence, this, [ = ](CDrawScene * sence) {
-        connect(sence, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
-    });
 
     // 关闭当前窗口提示是否需要进行保存
     connect(m_centralWidget, &CCentralwidget::signalCloseModifyScence, this, &MainWindow::slotIsNeedSave);
@@ -306,15 +293,6 @@ void MainWindow::initConnection()
         qDebug() << "save status:" << status;
         //doCloseOtherDiv();
     });
-
-    // 连接场景被改变后更新主窗口tittle显示信息
-    connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged, m_topToolbar, &TopToolbar::slotScenceViewChanged);
-
-    // 链接剪裁切换场景后需要刷新菜单栏
-    //connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [=](int type) {
-        //m_topToolbar->updateMiddleWidget(type);
-    });
 }
 
 void MainWindow::activeWindow()
@@ -326,8 +304,6 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    //m_topToolbar->setFixedWidth(width() - TITLBAR_MENU);
-
     emit signalResetOriginPoint();
 
     DMainWindow::resizeEvent(event);

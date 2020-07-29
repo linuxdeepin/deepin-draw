@@ -125,6 +125,9 @@ void CSpinBox::timerStart()
 {
     //emit this->DSpinBox::valueChanged(value());
     //emit this->DSpinBox::valueChanged(text());
-    emit this->valueChanged(value(), EChangedBegin);
+
+    if (!isTimerRunning()) {
+        emit this->valueChanged(value(), EChangedBegin);
+    }
     getTimer()->start(300);
 }
