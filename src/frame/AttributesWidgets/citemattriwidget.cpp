@@ -36,6 +36,7 @@
 #include "cundoredocommand.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
+#include "textwidget.h"
 
 #include <DComboBox>
 
@@ -212,6 +213,8 @@ void CComAttrWidget::clearUi()
     getMaskLabForLineEndStyle()->hide();
     getPenColorBtn()->hide();
 
+    getTextWidgetForText()->hide();
+
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
     for (int i = 0; i < pLay->count();) {
@@ -321,6 +324,12 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.lineStartType = (tp == Line ? unitData.data.pLine->start_type : data.lineStartType);
     data.lineEndType = (tp == Line ? unitData.data.pLine->end_type : data.lineEndType);
 
+    if (tp == Text) {
+        data.textColor = unitData.data.pText->color;
+        data.textFontSize = int(unitData.data.pText->font.pointSizeF());
+        data.textFontFamily = unitData.data.pText->font.family();
+    }
+
     unitData.data.release();
 
     QList<CGraphicsItem *> lists = graphicItems();
@@ -372,6 +381,20 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 if (pLIne->getLineEndType() != data.lineEndType) {
                     data.comVaild[LineAndPenEndType] = false;
                 }
+            } else if (tp == Text) {
+                CGraphicsTextItem *pText = dynamic_cast<CGraphicsTextItem *>(pItem);
+                if (int(pText->getFontSize()) != data.textFontSize) {
+                    data.comVaild[TextSize] = false;
+                }
+                if (pText->getFontFamily() != data.textFontFamily) {
+                    data.comVaild[TextFont] = false;
+                }
+                if (pText->getTextFontStyle() != data.textFontHeavy) {
+                    data.comVaild[TextHeavy] = false;
+                }
+                if (pText->getTextColor() != data.textColor) {
+                    data.comVaild[TextColor] = false;
+                }
             }
         }
     }
@@ -383,7 +406,8 @@ bool CComAttrWidget::isNeededNothing(int tp)
 {
     int count = graphicItems().count();
     if (count > 1) {
-        if (tp & Text || tp & MasicPen || tp & Image) {
+        if ((tp & Text || tp & MasicPen || tp & Image) &&
+                (tp != Text && tp != MasicPen && tp != Image)) {
             return true;
         }
     }
@@ -423,7 +447,20 @@ void CComAttrWidget::refreshHelper(int tp)
 {
     QHBoxLayout *layout = getLayout();
 
-    if (isSpecialItem(tp) || tp == ShowTitle) {
+    if (isSpecialItem(tp)) {
+        if (tp == Text) {
+            layout->addWidget(getTextWidgetForText());
+            getTextWidgetForText()->show();
+        } else if (tp == Image) {
+
+        } else if (tp == Cut) {
+
+        }
+        return;
+    }
+
+
+    if (tp == ShowTitle) {
         layout->addWidget(getTitleLabel());
         getTitleLabel()->setText(tr("Draw"));
         getTitleLabel()->show();
@@ -497,7 +534,7 @@ void CComAttrWidget::refreshHelper(int tp)
 
 void CComAttrWidget::refreshDataHelper(int tp)
 {
-    if (isSpecialItem(tp) || tp == ShowTitle) {
+    if (tp == ShowTitle) {
         getTitleLabel()->setText(tr("Draw"));
         return;
     }
@@ -505,6 +542,21 @@ void CComAttrWidget::refreshDataHelper(int tp)
     SComDefualData data = defualtSceneData();
     if (graphicItem() != nullptr) {
         data = getGraphicItemsDefualData(tp);
+    }
+
+    if (isSpecialItem(tp)) {
+        if (tp == Text) {
+            getTextWidgetForText()->setFontSize(data.textFontSize);
+            getTextWidgetForText()->setTextColor(data.textColor);
+            getTextWidgetForText()->setTextFamilyStyle(data.textFontFamily);
+            getTextWidgetForText()->setVaild(data.comVaild[TextColor], data.comVaild[TextSize],
+                                             data.comVaild[TextFont], data.comVaild[TextHeavy]);
+        } else if (tp == Image) {
+
+        } else if (tp == Cut) {
+
+        }
+        return;
     }
 
     if (isBrushColorNeeded(tp)) {
@@ -590,7 +642,7 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
 {
     if (m_strokeBtn == nullptr) {
         m_strokeBtn = new CPenColorBtn(this);
-        connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
@@ -614,7 +666,7 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
 {
     if (m_fillBtn == nullptr) {
         m_fillBtn = new CBrushColorBtn(this);
-        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
@@ -645,26 +697,26 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
         m_sideWidthWidget->setFont(ft);
 
         connect(m_sideWidthWidget, &CSideWidthWidget::sideWidthChanged, this,
-                [=](int lineWidth, bool preview) {
-                    Q_UNUSED(preview)
-                    QList<CGraphicsItem *> lists = this->graphicItems();
-                    if (!lists.isEmpty()) {
-                        CCmdBlock block(this->graphicItem());
+        [ = ](int lineWidth, bool preview) {
+            Q_UNUSED(preview)
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            if (!lists.isEmpty()) {
+                CCmdBlock block(this->graphicItem());
 
-                        QList<CGraphicsItem *> lists = this->graphicItems();
-                        for (CGraphicsItem *pItem : lists) {
-                            QPen p = pItem->pen();
-                            p.setWidthF(lineWidth);
-                            p.setJoinStyle(Qt::MiterJoin);
-                            p.setStyle(Qt::SolidLine);
-                            p.setCapStyle(Qt::RoundCap);
-                            pItem->setPen(p);
-                            pItem->updateShape();
-                        }
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *pItem : lists) {
+                    QPen p = pItem->pen();
+                    p.setWidthF(lineWidth);
+                    p.setJoinStyle(Qt::MiterJoin);
+                    p.setStyle(Qt::SolidLine);
+                    p.setCapStyle(Qt::RoundCap);
+                    pItem->setPen(p);
+                    pItem->updateShape();
+                }
 
-                        this->updateDefualData(LineWidth, lineWidth);
-                    }
-                });
+                this->updateDefualData(LineWidth, lineWidth);
+            }
+        });
     }
     return m_sideWidthWidget;
 }
@@ -695,7 +747,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         m_rediusSpinbox->setProperty("preValue", 5);
         m_rediusSpinbox->setValue(5);
 
-        connect(m_rediusSpinbox, &CSpinBox::valueChanged, this, [=](int value, EChangedPhase phase) {
+        connect(m_rediusSpinbox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //qDebug() << "value = " << value << "phase = " << phase;
                 //要知道这个控件是针对Rect图元的
@@ -746,7 +798,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber->setEnabledEmbedStyle(true);
         m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
-        connect(m_anchorNumber, &CSpinBox::valueChanged, this, [=](int value, EChangedPhase phase) {
+        connect(m_anchorNumber, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
@@ -783,7 +835,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         m_radiusNumber->setEnabledEmbedStyle(true);
         m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
-        connect(m_radiusNumber, &CSpinBox::valueChanged, this, [=](int value, EChangedPhase phase) {
+        connect(m_radiusNumber, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
@@ -845,7 +897,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox->setEnabledEmbedStyle(true);
         m_sideNumSpinBox->lineEdit()->setClearButtonEnabled(false);
 
-        connect(m_sideNumSpinBox, &CSpinBox::valueChanged, this, [=](int value, EChangedPhase phase) {
+        connect(m_sideNumSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对polgon图元的
                 if (getSourceTpByItem(graphicItem()) == Polygon) {
@@ -891,7 +943,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
         m_lineStartComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
 
-        connect(m_lineStartComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [=](int index) {
+        connect(m_lineStartComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对pen 或者 line图元的
                 int srTp = getSourceTpByItem(graphicItem());
@@ -930,7 +982,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
 
-        connect(m_lineEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [=](int index) {
+        connect(m_lineEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对pen 或者 line图元的
                 int srTp = getSourceTpByItem(graphicItem());
@@ -1009,6 +1061,70 @@ DLabel *CComAttrWidget::getMaskLabForLineEndStyle()
     return m_maskLableEnd;
 }
 
+TextWidget *CComAttrWidget::getTextWidgetForText()
+{
+    if (m_TextWidget == nullptr) {
+        m_TextWidget = new TextWidget(this);
+        m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
+        connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
+            qDebug() << "fontSizeChanged = " << size;
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                //记录undo
+                CCmdBlock block(this->graphicItem());
+
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *p : lists) {
+                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+                    pItem->setFontSize(size);
+                }
+                this->updateDefualData(TextSize, size);
+            }
+        });
+        connect(m_TextWidget, &TextWidget::fontFamilyChanged, this, [ = ](const QString & family, bool preview) {
+            qDebug() << "fontFamilyChanged = " << family << "preview = " << preview;
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                //记录undo
+                CCmdBlock block(preview ? nullptr : this->graphicItem());
+
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *p : lists) {
+                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+                    pItem->setFontFamily(family);
+                }
+                this->updateDefualData(TextFont, family);
+            }
+        });
+        connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {
+            qDebug() << "fontStyleChanged = " << style;
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                //记录undo
+                CCmdBlock block(this->graphicItem());
+
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *p : lists) {
+                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+                    pItem->setTextFontStyle(style);
+                }
+                this->updateDefualData(TextHeavy, style);
+            }
+        });
+        connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
+            if (this->getSourceTpByItem(this->graphicItem()) == Text) {
+                //记录undo
+                CCmdBlock block(this->graphicItem(), phase);
+
+                QList<CGraphicsItem *> lists = this->graphicItems();
+                for (CGraphicsItem *p : lists) {
+                    CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
+                    pItem->setTextColor(color);
+                }
+                this->updateDefualData(TextColor, color);
+            }
+        });
+    }
+    return m_TextWidget;
+}
+
 template<class T>
 void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
 {
@@ -1019,4 +1135,68 @@ void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
     }
     SComDefualData &scDefual = m_defualDatas[graphicItem()->drawScene()];
     scDefual.save(id, var);
+}
+
+void SComDefualData::save(EDrawProperty property, const QVariant &var)
+{
+    switch (property) {
+    case LineColor:
+        penColor = var.value<QColor>();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(penColor);
+        break;
+    case LineWidth:
+        penWidth = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(penWidth);
+        break;
+    case FillColor:
+        bursh = var.value<QBrush>();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBrush(bursh);
+        break;
+    case RectRadius:
+        rectRadius = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(rectRadius);
+        break;
+    case Anchors:
+        starAnCount = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(starAnCount);
+        break;
+    case StarRadius:
+        starInRadiusRadio = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(starInRadiusRadio);
+        break;
+    case SideNumber:
+        polySideCount = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(polySideCount);
+        break;
+    case LineAndPenStartType:
+        lineStartType = ELineType(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineStartType);
+        break;
+    case LineAndPenEndType:
+        lineEndType = ELineType(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineEndType);
+        break;
+    case TextColor:
+        textColor = var.value<QColor>();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(textColor);
+        break;
+    case TextHeavy:
+        textFontHeavy = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle("");
+        break;
+    case TextSize:
+        textFontSize = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(textFontSize);
+        break;
+    case Blurtype:
+        masicType = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(EBlurEffect(masicType));
+        break;
+    case BlurWidth:
+        masicWidth = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(masicWidth);
+        break;
+    default:
+        break;
+    }
 }

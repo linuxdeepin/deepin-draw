@@ -365,6 +365,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
         m_bManResize = pTextData->manResizeFlag;
         m_pTextEdit->setHtml(pTextData->content);
         m_pTextEdit->hide();
+        m_color = pTextData->color;
         QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
         setRect(rect);
     }
@@ -715,6 +716,7 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
     unit.data.pText->content = this->m_pTextEdit->toHtml();
+    unit.data.pText->color = m_color;
 
     return  unit;
 }

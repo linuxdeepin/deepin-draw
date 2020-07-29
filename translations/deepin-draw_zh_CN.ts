@@ -121,38 +121,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="428"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="501"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="728"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="813"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="826"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="875"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="967"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="980"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -1212,12 +1212,12 @@
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="43"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="158"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="177"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -1225,12 +1225,64 @@
 <context>
     <name>TextWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="63"/>
         <source>Font</source>
-        <translation type="vanished">字体</translation>
+        <translation>字体</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="87"/>
         <source>Size</source>
-        <translation type="vanished">字号</translation>
+        <translation>字号</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="171"/>
+        <source>Regular</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="291"/>
+        <source>Black</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="293"/>
+        <source>ExtraBold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="295"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="297"/>
+        <source>DemiBold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="299"/>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="301"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="303"/>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="305"/>
+        <source>ExtraLight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="307"/>
+        <source>Thin</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -321,6 +321,7 @@ struct SGraphicsTextUnitData {
     QFont font;
     bool manResizeFlag;
     QString content;
+    QColor color;  //不用保存到ddf
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsTextUnitData &textUnitData)
     {
@@ -497,8 +498,7 @@ union CGraphicsItemData {
         pBlur = nullptr;
     }
 
-    void release()
-    {
+    void release() {
         if (pRect != nullptr) {
             delete pRect;
             pRect = nullptr;
