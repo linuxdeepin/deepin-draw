@@ -20,8 +20,8 @@
 
 #include "widgets/ccheckbutton.h"
 #include "utils/baseutils.h"
-#include "drawshape/cdrawtoolfactory.h"
-#include "drawshape/cdrawtoolmanagersigleton.h"
+#include "drawTools/cdrawtoolfactory.h"
+#include "drawTools/cdrawtoolmanagersigleton.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -51,10 +51,12 @@ CLeftToolBar::CLeftToolBar(DFrame *parent)
     setMaximumWidth(50);
 
     initUI();
-    initConnection();
-    initDrawTools();
-    initShortCut();
-    initShortCutConnection();
+    QMetaObject::invokeMethod(this, [ = ]() {
+        initConnection();
+        initDrawTools();
+        initShortCut();
+        initShortCutConnection();
+    }, Qt::QueuedConnection);
 }
 
 CLeftToolBar::~CLeftToolBar()

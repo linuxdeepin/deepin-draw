@@ -67,17 +67,6 @@ public slots:
 
 signals:
     /**
-     * @brief resetColorBtns　重置颜色按钮
-     */
-    void resetColorBtns();
-    /**
-     * @brief showColorPanel　显示调色板信号
-     * @param drawstatus　颜色状态
-     * @param pos　位置
-     * @param visible　是否显示
-     */
-    void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
-    /**
      * @brief signalPolygonalStarAttributeChanged　属性变化信号
      */
     void signalPolygonalStarAttributeChanged();

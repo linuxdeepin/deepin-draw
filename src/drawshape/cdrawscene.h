@@ -56,7 +56,6 @@ public:
      */
     void initScene();
 
-
     /**
      * @brief drawView 返回视图指针
      */
@@ -125,6 +124,8 @@ public:
     CGraphicsItemSelectedMgr *getItemsMgr() const;
     CGraphicsItemHighLight *getItemHighLight() const;
 
+    qreal totalScalefactor();
+
     /**
      * @brief getCDrawParam　获取绘制数据
      */
@@ -132,6 +133,61 @@ public:
 
     bool getModify() const;
     void setModify(bool isModify);
+
+    bool isBussizeItem(QGraphicsItem *pItem);
+    bool isBussizeHandleNodeItem(QGraphicsItem *pItem);
+    bool isBzAssicaitedItem(QGraphicsItem *pItem);
+
+    CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
+
+    void clearMrSelection();
+    void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true);
+    void notSelectItem(QGraphicsItem *pItem);
+    void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
+
+    void moveMrItem(const QPointF &prePos, const QPointF &curPos);
+    void resizeMrItem(CSizeHandleRect::EDirection direction,
+                      const QPointF &prePos,
+                      const QPointF &curPos,
+                      bool keepRadio = false);
+
+    QList<QGraphicsItem *> getBzItems(const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>());
+
+    //EDesSort降序（第一个为最顶层）   EAesSort升序（第一个为最底层）
+    enum ESortItemTp { EDesSort,
+                       EAesSort,
+                       ESortCount
+    };
+    void sortZ(QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
+    QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
+
+    //penalgor表示Penetration algorithm，穿透算法
+    CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true);
+
+    CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
+                               bool haveDesSorted = false);
+
+    /*
+     *  penalgor表示Penetration algorithm，穿透算法，需要考虑穿透算法过滤
+        isBzItem表示必须返回的顶层图元需要是业务图元。
+        seeNodeAsBzItem 将业务图元的子图元node也当做是业务图元的一部分，如果为true将返回其父业务图元
+        filterMrAndHightLight 过滤掉不参与考虑的图元
+    */
+    QGraphicsItem *firstItem(const QPointF &pos,
+                             const QList<QGraphicsItem *> &items = QList<QGraphicsItem *>(),
+                             bool isListDesSorted = true,
+                             bool penalgor = false,
+                             bool isBzItem = false,
+                             bool seeNodeAsBzItem = false,
+                             bool filterMrAndHightLight = true);
+
+    //第一个非Mr的item
+    QGraphicsItem *firstNotMrItem(const QList<QGraphicsItem *> items);
+
+    void moveItems(const QList<QGraphicsItem *> &itemlist, const QPointF &move);
+
+    //以图元的中心进行旋转
+    void rotatBzItem(CGraphicsItem *pBzItem, qreal agle);
 
     /**
      * @brief setMaxZValue 记录图元最大z值
@@ -149,6 +205,12 @@ public:
 
     void blockMouseMoveEvent(bool b);
     bool isBlockMouseMoveEvent();
+
+    /**
+     * @brief recordItemsInfoToCmd 记录图元的信息
+     */
+    void recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool isUndo);
+    void finishRecord(bool doRedoCmd = false);
 
 signals:
     /**
@@ -338,9 +400,14 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    virtual void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+
     virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
     virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+public:
+    void refreshLook(const QPointF &pos = QPointF());
 
 private:
     CDrawParamSigleton *m_drawParam;//数据
@@ -367,6 +434,8 @@ private:
     bool blockMouseMoveEventFlag = false;
 
     bool blockMscUpdate = false;
+
+    QPainterPath _highlight;
 };
 
 #endif // CDRAWSCENE_H

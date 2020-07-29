@@ -19,7 +19,7 @@
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
 
-#include "drawshape/csizehandlerect.h"
+#include "csizehandlerect.h"
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
@@ -55,27 +55,46 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+
+    /**
+     * @brief 缩放中心的枚举值，
+     * ESceneCenter   表示以画布中心进行缩放
+     * EMousePos      表示以鼠标的位置进行缩放
+     * ECustomViewPos 表示自定义缩放位置（当前指viewport上的坐标位置）
+     */
+    enum EScaleCenter { EViewCenter,
+                        ESceneCenter,
+                        EMousePos,
+                        ECustomViewPos
+    };
+
     /**
      * @brief zoomOut 放大
      */
-    void zoomOut();
+    void zoomOut(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief zoomIn 缩小
      */
-    void zoomIn();
+    void zoomIn(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 缩放接口
      * @param scale 缩放比例
      */
-    void scale(qreal scale);
+    void scale(qreal scale, EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 获取缩放接口
      * @return scale 缩放比例
      */
     qreal getScale();
+
+    /**
+     * @brief  scaleWithCenter 以某一个中心进行缩放
+     * @return factor 缩放因子
+     */
+    void scaleWithCenter(qreal factor, const QPoint viewPos = QPoint());
 
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
@@ -200,19 +219,24 @@ protected:
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 
+public:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
-
+protected:
     void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
     void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+
+public:
     bool gestureEvent(QGestureEvent *event);
+
+protected:
     void panTriggered(QPanGesture *);
     void pinchTriggered(QPinchGesture *);
     void swipeTriggered(QSwipeGesture *);

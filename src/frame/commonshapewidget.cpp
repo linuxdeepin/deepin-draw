@@ -209,31 +209,29 @@ void CommonshapeWidget::initUI()
 
 void CommonshapeWidget::initConnection()
 {
-    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_strokeBtn->resetChecked();
-        mapToGlobal(QPoint(1, 1));
-//        emit showColorPanel(DrawStatus::Fill, cursor().pos(), show);
-        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
+    //    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+    //        m_strokeBtn->resetChecked();
+    //        mapToGlobal(QPoint(1, 1));
+    //        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
 
+    //    });
+    //    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
+    //        m_fillBtn->resetChecked();
+    //        emit showColorPanel(DrawStatus::Stroke, getBtnPosition(m_strokeBtn), show);
+    //    });
 
-    });
-    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke, getBtnPosition(m_strokeBtn), show);
-    });
-
-    connect(this, &CommonshapeWidget::resetColorBtns, this, [ = ] {
-        m_fillBtn->resetChecked();
-        m_strokeBtn->resetChecked();
-    });
+    //    connect(this, &CommonshapeWidget::resetColorBtns, this, [ = ] {
+    //        m_fillBtn->resetChecked();
+    //        m_strokeBtn->resetChecked();
+    //    });
 
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
+    //    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ]() {
+    //        //隐藏调色板
+    //        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //    });
 
     ///圆角半径
     connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
@@ -242,7 +240,7 @@ void CommonshapeWidget::initConnection()
     });
     connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [=]() {
         //等于0时是特殊字符，不做处理
-        qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
+        //qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
         if (m_rediusSpinbox->value() < 0) {
             return ;
         }
@@ -261,9 +259,11 @@ void CommonshapeWidget::initConnection()
         m_rediusSpinbox->setProperty("preValue", m_rediusSpinbox->value());
 
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
         emit signalRectRediusChanged(m_rediusSpinbox->value());
-        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value(), !m_rediusSpinbox->isTimerRunning());
+
+        CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(RectRadius, m_rediusSpinbox->value(),
+                                                                             !m_rediusSpinbox->isTimerRunning());
     });
 }
 
@@ -305,7 +305,7 @@ void CommonshapeWidget::slotRectRediusChanged(int redius)
     redius = m_rediusSpinbox->value();
 
     //3.隐藏调色板
-    showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //showColorPanel(DrawStatus::Stroke, QPoint(), false);
 
     //4.记录变化并入栈undo/redo(spinbox控件如果滚轮还在滚动那么别入栈以避免过多的入栈操作记录)
     emit signalRectRediusChanged(redius);

@@ -210,21 +210,7 @@ void LineWidget::initUI()
 
 void LineWidget::initConnection()
 {
-    // 线颜色
-    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        QPoint btnPos = mapToGlobal(m_strokeBtn->pos());
-        QPoint pos(btnPos.x() + 14,
-                   btnPos.y() + m_strokeBtn->height());
-        showColorPanel(DrawStatus::Stroke, pos, show);
-    });
-    connect(this, &LineWidget::resetColorBtns, this, [ = ] {
-        m_strokeBtn->resetChecked();
-    });
 
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
@@ -256,7 +242,7 @@ void LineWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenStartType, lineType);
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     // 终点箭头样式
@@ -288,7 +274,7 @@ void LineWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineType);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineAndPenEndType, lineType);
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
         m_maskLableEnd->setVisible(false);
     });
 

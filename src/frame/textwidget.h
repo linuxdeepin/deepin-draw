@@ -74,7 +74,7 @@ signals:
      * @param pos　位置
      * @param visible　是否显示
      */
-    void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
+    //void showColorPanel(DrawStatus drawstatus, QPoint pos, bool visible = true);
     /**
      * @brief resetColorBtns　重置颜色按钮
      */

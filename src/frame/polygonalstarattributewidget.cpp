@@ -207,25 +207,6 @@ void PolygonalStarAttributeWidget::initUI()
 
 void PolygonalStarAttributeWidget::initConnection()
 {
-    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
-
-    });
-    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  getBtnPosition(m_strokeBtn), show);
-    });
-
-    connect(this, &PolygonalStarAttributeWidget::resetColorBtns, this, [ = ] {
-        m_fillBtn->resetChecked();
-        m_strokeBtn->resetChecked();
-    });
-
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
@@ -261,7 +242,7 @@ void PolygonalStarAttributeWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(m_anchorNumber->value());
         emit signalPolygonalStarAttributeChanged();
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
         //设置多选图元属性
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::Anchors, m_anchorNumber->value());
     });
@@ -297,7 +278,7 @@ void PolygonalStarAttributeWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRadiusNum(m_radiusNumber->value());
         emit signalPolygonalStarAttributeChanged();
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
         //设置多选图元属性
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, m_radiusNumber->value());
     });
@@ -370,8 +351,7 @@ void PolygonalStarAttributeWidget::slotAnchorvalueChanged(int value)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setAnchorNum(value);
     emit signalPolygonalStarAttributeChanged();
     //隐藏调色板
-    showColorPanel(DrawStatus::Stroke, QPoint(), false);
-
+    //showColorPanel(DrawStatus::Stroke, QPoint(), false);
 
     //设置多选图元属性
     static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
@@ -418,7 +398,7 @@ void PolygonalStarAttributeWidget::slotRadiusvalueChanged(int value)
     }
 
     //隐藏调色板
-    showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //showColorPanel(DrawStatus::Stroke, QPoint(), false);
     //设置多选图元属性
     //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::StarRadius, value);
     static QMap<CGraphicsItem *, QVariant> s_oldTempValues;

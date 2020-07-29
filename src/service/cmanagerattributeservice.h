@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-#include "drawshape/cgraphicsitem.h"
+#include "bzItems/cgraphicsitem.h"
 #include "drawshape/cdrawscene.h"
 
 class QGraphicsScene;
@@ -89,7 +89,7 @@ public:
      * @bref: getSelectedColorAlpha 获取选中图元的透明度
      * @param: DrawStatus 想要获取的是填充还是描边的透明度
     */
-    int getSelectedColorAlpha(DrawStatus drawstatus);
+    //int getSelectedColorAlpha(DrawStatus drawstatus);
 
     /*
     * @bref: setPictureRotateOrFlip 设置图片图元翻转

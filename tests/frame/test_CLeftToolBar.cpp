@@ -18,12 +18,12 @@
 #include <gmock/gmock-matchers.h>
 #include "clefttoolbar.h"
 #include "ccentralwidget.h"
-#include "mainwindow.h"
+#include "../getMainWindow.h"
 #include "global.h"
 
 TEST(CLeftToolBar, CLeftToolBar_switchTheme)
 {
-    MainWindow *w = new MainWindow;
+    MainWindow *w = getMainWindow();
     w->hide();
 
     CLeftToolBar *c = w->getCCentralwidget()->getLeftToolBar();

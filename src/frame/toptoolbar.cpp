@@ -29,7 +29,7 @@
 #include "blurwidget.h"
 #include "ctitlewidget.h"
 #include "widgets/arrowrectangle.h"
-#include "widgets/colorpanel.h"
+//#include "widgets/colorpanel.h"
 #include "widgets/dialog/drawdialog.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
@@ -38,6 +38,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "service/cmanagerattributeservice.h"
+#include "citemattriwidget.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -46,6 +47,7 @@
 #include <QStandardItemModel>
 #include <DApplicationHelper>
 #include <QWidgetAction>
+#include <QTimer>
 
 #include <DLineEdit>
 
@@ -54,9 +56,15 @@ const int Text_Size = 14;
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
+    QMetaObject::invokeMethod(this, [ = ]() {
+        initTopMenuUI();
+        initConnection();
+        changeTopButtonsTheme();
+    }, Qt::QueuedConnection);
+
+
     m_propertys.clear();
     initUI();
-    initConnection();
 }
 
 TopToolbar::~TopToolbar()
@@ -77,11 +85,15 @@ void TopToolbar::initUI()
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
 
-    m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
     hLayout->addWidget(m_zoomMenuComboBox);
 
-    hLayout->addWidget(m_stackWidget);
+    //m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    //hLayout->addWidget(m_stackWidget);
+
+    m_stackWidget->hide();
+    m_pAtrriWidget = new CComAttrWidget(this);
+    m_pAtrriWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    hLayout->addWidget(m_pAtrriWidget);
 
     hLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -141,33 +153,37 @@ void TopToolbar::initStackWidget()
     m_stackWidget = new DStackedWidget(this);
 
     //colorPanel.
-    m_colorPanel = new ColorPanel(this);
-    qApp->setProperty("_d_isDxcb", false);
-    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
-    qApp->setProperty("_d_isDxcb", true);
-    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
-    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
-    m_colorARect->setArrowWidth(18);
-    m_colorARect->setArrowHeight(10);
-    m_colorARect->setContent(m_colorPanel);
-    m_colorARect->hide();
+    //m_colorPanel = new ColorPanel(this);
+    //    qApp->setProperty("_d_isDxcb", false);
+    //    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
+    //    qApp->setProperty("_d_isDxcb", true);
+    //    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
+    //    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
+    //    m_colorARect->setArrowWidth(18);
+    //    m_colorARect->setArrowHeight(10);
+    //    m_colorARect->setContent(m_colorPanel);
+    //    m_colorARect->hide();
 
     //select
     m_titleWidget = new CTitleWidget(this);
     m_stackWidget->addWidget(m_titleWidget);
 
-    //picture
-    m_picWidget = new CPictureWidget(this);
-    m_stackWidget->addWidget(m_picWidget);
-
     //rectangle, triangle,oval
     m_commonShapeWidget = new CommonshapeWidget(this);
     m_stackWidget->addWidget(m_commonShapeWidget);
 
+    m_stackWidget->setCurrentWidget(m_titleWidget);
+}
+
+void TopToolbar::initTopMenuUI()
+{
+    //picture
+    m_picWidget = new CPictureWidget(this);
+    m_stackWidget->addWidget(m_picWidget);
+
     ///polygonalStar
     m_polygonalStarWidget = new PolygonalStarAttributeWidget(this);
     m_stackWidget->addWidget(m_polygonalStarWidget);
-
 
     ///polygonalStar
     m_PolygonWidget = new PolygonAttributeWidget(this);
@@ -192,12 +208,6 @@ void TopToolbar::initStackWidget()
 
     m_cutWidget = new CCutWidget(this);
     m_stackWidget->addWidget(m_cutWidget);
-
-    //process  artboard's size.
-//    m_adjustsizeWidget = new AdjustsizeWidget(this);
-//    m_stackWidget->addWidget(m_adjustsizeWidget);
-
-    m_stackWidget->setCurrentWidget(m_titleWidget);
 }
 
 void TopToolbar::initMenu()
@@ -264,7 +274,6 @@ void TopToolbar::initMenu()
 
 void TopToolbar::changeTopButtonsTheme()
 {
-    m_picWidget->changeButtonTheme();
     m_commonShapeWidget->changeButtonTheme();
     m_polygonalStarWidget->changeButtonTheme();
     m_PolygonWidget->changeButtonTheme();
@@ -272,103 +281,102 @@ void TopToolbar::changeTopButtonsTheme()
     m_penWidget->changeButtonTheme();
     m_drawBlurWidget->changeButtonTheme();
     m_drawTextWidget->updateTheme();
-    m_colorPanel->changeButtonTheme();
+    //m_colorPanel->changeButtonTheme();
     m_cutWidget->changeButtonTheme();
-}
 
-void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
-{
-    switch (type) {
-    case::selection: {
-        if (showSelfPropreWidget) {
-            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-            m_titleWidget->updateTitleWidget();
+    //m_colorPanel->changeButtonTheme();
 
-            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
-            m_stackWidget->setVisible(false);
-            m_stackWidget->setCurrentWidget(m_titleWidget);
-            m_stackWidget->setVisible(true);
-        }
-        break;
+    if (m_picWidget) {
+        m_picWidget->changeButtonTheme();
     }
-    case::importPicture:
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-        m_stackWidget->setCurrentWidget(m_picWidget);
-        break;
-    case::rectangle:
-        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
-        m_commonShapeWidget->updateCommonShapWidget();
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::ellipse:
-    case::triangle:
-        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
-        m_commonShapeWidget->updateCommonShapWidget();
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::polygonalStar:
-        m_polygonalStarWidget->updatePolygonalStarWidget();
-        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-        break;
-    case::polygon:
-        m_PolygonWidget->updatePolygonWidget();
-        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-        break;
-    case::line:
-        m_drawLineWidget->updateLineWidget();
-        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-        break;
-    case::pen:
-        m_penWidget->updatePenWidget();
-        m_stackWidget->setCurrentWidget(m_penWidget);
-        break;
-    case::text: {
-        m_drawTextWidget->updateTextWidget();
-        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-        break;
+    if (m_polygonalStarWidget) {
+        m_polygonalStarWidget->changeButtonTheme();
     }
-    case::blur:
-        m_drawBlurWidget->updateBlurWidget();
-        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-        break;
-    case::cut:
-        m_cutWidget->updateButtonStatus();
-        m_stackWidget->setCurrentWidget(m_cutWidget);
-        break;
-    default:
-        break;
+    if (m_PolygonWidget) {
+        m_PolygonWidget->changeButtonTheme();
     }
-    m_stackWidget->currentWidget()->setVisible(true);
-}
-
-void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
-{
-    Q_UNUSED(pos);
-    QColor color;
-    if (drawstatus == DrawStatus::Fill) {
-        color = m_propertys[FillColor].value<QColor>();
-    } else if (drawstatus == DrawStatus::Stroke) {
-        color = m_propertys[LineColor].value<QColor>();
-    } else if (drawstatus == DrawStatus::TextFill) {
-        color = m_propertys[TextColor].value<QColor>();
+    if (m_drawLineWidget) {
+        m_drawLineWidget->changeButtonTheme();
     }
-    m_colorPanel->updateColorPanel(drawstatus, color, CManagerAttributeService::getInstance()->getSelectedColorAlpha(drawstatus));
-    m_colorARect->raise();
-
-    if (visible) {
-        m_colorARect->show(pos.x(), pos.y());
-    } else
-        m_colorARect->hide();
-}
-
-void TopToolbar::updateColorPanelVisible(QPoint pos)
-{
-    QRect colorPanelGeom = m_colorARect->geometry();
-    if (!colorPanelGeom.contains(pos)) {
-        m_colorARect->hide();
+    if (m_penWidget) {
+        m_penWidget->changeButtonTheme();
+    }
+    if (m_drawBlurWidget) {
+        m_drawBlurWidget->changeButtonTheme();
+    }
+    if (m_drawTextWidget) {
+        m_drawTextWidget->updateTheme();
+    }
+    if (m_cutWidget) {
+        m_cutWidget->changeButtonTheme();
     }
 }
+
+//void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
+//{
+//    switch (type) {
+//    case::selection: {
+//        if (showSelfPropreWidget) {
+//            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//            m_titleWidget->updateTitleWidget();
+
+//            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
+//            m_stackWidget->setVisible(false);
+//            m_stackWidget->setCurrentWidget(m_titleWidget);
+//            m_stackWidget->setVisible(true);
+//        }
+//        break;
+//    }
+//    case::importPicture:
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//        m_stackWidget->setCurrentWidget(m_picWidget);
+//        break;
+//    case::rectangle:
+//        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
+//        m_commonShapeWidget->updateCommonShapWidget();
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::ellipse:
+//    case::triangle:
+//        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+//        m_commonShapeWidget->updateCommonShapWidget();
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::polygonalStar:
+//        m_polygonalStarWidget->updatePolygonalStarWidget();
+//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+//        break;
+//    case::polygon:
+//        m_PolygonWidget->updatePolygonWidget();
+//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+//        break;
+//    case::line:
+//        m_drawLineWidget->updateLineWidget();
+//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+//        break;
+//    case::pen:
+//        m_penWidget->updatePenWidget();
+//        m_stackWidget->setCurrentWidget(m_penWidget);
+//        break;
+//    case::text: {
+//        m_drawTextWidget->updateTextWidget();
+//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+//        break;
+//    }
+//    case::blur:
+//        m_drawBlurWidget->updateBlurWidget();
+//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+//        break;
+//    case::cut:
+//        m_cutWidget->updateButtonStatus();
+//        m_stackWidget->setCurrentWidget(m_cutWidget);
+//        break;
+//    default:
+//        break;
+//    }
+//    m_stackWidget->currentWidget()->setVisible(true);
+//}
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 {
@@ -412,7 +420,7 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 //            toolType = EDrawToolMode::cut;
 //            break;
         }
-        updateMiddleWidget(toolType);
+        //updateMiddleWidget(toolType);
     }
 }
 
@@ -495,8 +503,8 @@ void TopToolbar::slotOnSaveAsAction()
 
 void TopToolbar::slotMenuShow()
 {
-    slotHideColorPanel();
-//    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
+    //slotHideColorPanel();
+    //    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
 
 DMenu *TopToolbar::mainMenu()
@@ -504,12 +512,17 @@ DMenu *TopToolbar::mainMenu()
     return m_mainMenu;
 }
 
-void TopToolbar::slotHideColorPanel()
+CComAttrWidget *TopToolbar::attributWidget()
 {
-    if (!m_colorARect->isHidden()) {
-        m_colorARect->hide();
-    }
+    return m_pAtrriWidget;
 }
+
+//void TopToolbar::slotHideColorPanel()
+//{
+//    if (!m_colorARect->isHidden()) {
+//        m_colorARect->hide();
+//    }
+//}
 
 void TopToolbar::slotRectRediusChanged(int value)
 {
@@ -517,53 +530,55 @@ void TopToolbar::slotRectRediusChanged(int value)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
 }
 
-void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
-{
-    if (propertys.size() > 0) {
-        m_propertys = propertys;
-        m_stackWidget->currentWidget()->setVisible(true);
-    } else {
-        if (m_stackWidget->currentWidget() != m_titleWidget &&
-                m_cutWidget != m_stackWidget->currentWidget()) {
-            m_stackWidget->currentWidget()->setVisible(false);
-        }
-    }
-    switch (mode) {
-    case::RectType://矩形
-    case::EllipseType://圆形
-    case::TriangleType://三角形
-        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
-        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
-        break;
-    case::PolygonalStarType://多角星
-        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
-        break;
-    case::PolygonType://多边形
-        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_PolygonWidget);
-        break;
-    case::LineType://线
-        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawLineWidget);
-        break;
-    case::PenType://画笔
-        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_penWidget);
-        break;
-    case::TextType://文本
-        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawTextWidget);
-        break;
-    case::BlurType://模糊
-        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
-        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
-        break;
-    default:
-        break;
-    }
-}
+//void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode,
+//                                        QMap<EDrawProperty, QVariant> propertys,
+//                                        bool write2Cache)
+//{
+//    if (propertys.size() > 0) {
+//        m_propertys = propertys;
+//        m_stackWidget->currentWidget()->setVisible(true);
+//    } else {
+//        if (m_stackWidget->currentWidget() != m_titleWidget &&
+//                m_cutWidget != m_stackWidget->currentWidget()) {
+//            m_stackWidget->currentWidget()->setVisible(false);
+//        }
+//    }
+//    switch (mode) {
+//    case::RectType://矩形
+//    case::EllipseType://圆形
+//    case::TriangleType://三角形
+//        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
+//        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+//        break;
+//    case::PolygonalStarType://多角星
+//        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+//        break;
+//    case::PolygonType://多边形
+//        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+//        break;
+//    case::LineType://线
+//        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+//        break;
+//    case::PenType://画笔
+//        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_penWidget);
+//        break;
+//    case::TextType://文本
+//        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+//        break;
+//    case::BlurType://模糊
+//        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
+//        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+//        break;
+//    default:
+//        break;
+//    }
+//}
 
 void TopToolbar::slotIsAllPictureItem(bool isEnable, bool single)
 {
@@ -581,7 +596,7 @@ void TopToolbar::slotScenceViewChanged(QString viewname)
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
-    m_colorARect->hide();
+    //m_colorARect->hide();
     QWidget::resizeEvent(event);
 }
 
@@ -594,32 +609,29 @@ void TopToolbar::enterEvent(QEvent *event)
 
 void TopToolbar::initConnection()
 {
-    //colorPanel.
-    connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-
     //rectangle, triangle,ellipse
-    connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
+    //connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
     connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
     connect(m_commonShapeWidget, &CommonshapeWidget::signalRectRediusIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygonalStar
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
+    //connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalAnchorvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalRadiusvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygon
-    connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
+    //connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
     connect(m_PolygonWidget, &PolygonAttributeWidget::signalSideValueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     //draw line.
-    connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
+    //connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
     //draw pen.
-    connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
+    //connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
     //draw text.
-    connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
-    connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
+    //connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
+    //connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 

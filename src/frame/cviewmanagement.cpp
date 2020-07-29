@@ -21,7 +21,7 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "ddialog.h"
 #include "frame/ccentralwidget.h"
-#include "drawshape/cgraphicstextitem.h"
+#include "bzItems/cgraphicstextitem.h"
 #include "widgets/ctextedit.h"
 #include "application.h"
 
@@ -37,7 +37,8 @@ DWIDGET_USE_NAMESPACE
 
 CManageViewSigleton *CManageViewSigleton::m_pInstance = nullptr;
 
-CManageViewSigleton::CManageViewSigleton(): QObject ()
+CManageViewSigleton::CManageViewSigleton()
+    : QObject()
 {
     m_thremeType = 0;
 
@@ -456,7 +457,8 @@ QByteArray CManageViewSigleton::getFileSrcData(const QString &file)
     }
     return QByteArray();
 }
-CFileWatcher::CFileWatcher(QObject *parent): QThread (parent)
+CFileWatcher::CFileWatcher(QObject *parent)
+    : QThread(parent)
 {
     _handleId = inotify_init();
 }
@@ -554,7 +556,7 @@ void CFileWatcher::doRun()
 
     while (true) {
         inotify_event event;
-        if ( -1 == freadsome(&event, sizeof(event), watcher_file) ) {
+        if (-1 == freadsome(&event, sizeof(event), watcher_file)) {
             qWarning() << "------------- freadsome error !!!!!---------- ";
         }
         if (event.len) {

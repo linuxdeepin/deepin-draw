@@ -20,6 +20,8 @@
 #include "frame/mainwindow.h"
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
+#include "ccolorpickwidget.h"
+#include "globaldefine.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -27,6 +29,7 @@
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
+#include <QtConcurrent>
 
 #include <malloc.h>
 
@@ -46,16 +49,13 @@ Application::Application(int &argc, char **argv)
 
     qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
+    qRegisterMetaType<EChangedPhase>("EChangedPhase");
 
     qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
@@ -68,6 +68,16 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
         return EXIT_SUCCESS;
     }
+
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
+    QtConcurrent::run([]() {
+        QWidget *w = new QWidget;
+        w->setWindowIcon(QIcon::fromTheme("deepin-draw"));
+        w->winId();
+        w->deleteLater();
+    });
 
     // Version Time
     this->setApplicationVersion(VERSION);
@@ -90,6 +100,35 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     showMainWindow(paths);
 
     return exec();
+}
+
+MainWindow *Application::topMainWindow()
+{
+    return qobject_cast<MainWindow *>(activeWindow());
+}
+
+CColorPickWidget *Application::colorPickWidget(bool creatNew)
+{
+    if (creatNew) {
+        if (_colorPickWidget != nullptr) {
+            _colorPickWidget->deleteLater();
+            _colorPickWidget = nullptr;
+        }
+    }
+    if (_colorPickWidget == nullptr) {
+        setProperty("_d_isDxcb", false);
+        _colorPickWidget = new CColorPickWidget(topMainWindow());
+        setProperty("_d_isDxcb", true);
+    }
+    return _colorPickWidget;
+}
+
+TopToolbar *Application::topToolbar()
+{
+    if (topMainWindow() != nullptr)
+        return topMainWindow()->getTopToolbar();
+
+    return nullptr;
 }
 
 QStringList Application::getRightFiles(const QStringList &files)

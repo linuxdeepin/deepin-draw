@@ -45,7 +45,6 @@
 #include <QSettings>
 #include <QScrollBar>
 
-
 //const QSize WINDOW_MINISIZR = QSize(1280, 800);
 
 //const QSize WINDOW_MINISIZR = QSize(1024, 768);
@@ -65,11 +64,9 @@ MainWindow::MainWindow(DWidget *parent)
 MainWindow::MainWindow(QStringList filePaths)
 {
     m_centralWidget = new CCentralwidget(filePaths, this);
-
     initUI();
     initConnection();
 }
-
 
 void MainWindow::initUI()
 {
@@ -84,12 +81,12 @@ void MainWindow::initUI()
     } else {
         setMinimumSize(QSize(1152, 768));
     }
-
     m_centralWidget->setFocusPolicy(Qt::StrongFocus);
     setContentsMargins(QMargins(0, 0, 0, 0));
     setCentralWidget(m_centralWidget);
 
     m_topToolbar = new TopToolbar(titlebar());
+
     m_topToolbar->setFrameShape(DFrame::NoFrame);
 
     titlebar()->installEventFilter(this);
@@ -106,19 +103,6 @@ void MainWindow::initUI()
     m_showCut = new QAction(this);
     m_showCut->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Slash));
     this->addAction(m_showCut);
-
-    // 标签关闭提示框
-    //m_dialog.setIconPixmap(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
-    m_dialog.setIcon(QPixmap(":/theme/common/images/deepin-draw-64.svg"));
-    m_dialog.setMessage(tr("Is Close Draw?"));
-    m_dialog.addButton(tr("OK"), true, DDialog::ButtonNormal);
-    m_dialog.addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    connect(&m_dialog, &DDialog::buttonClicked, this, [ = ](int id) {
-        if (0 == id) {
-            // 此处代码需要严谨，需要判断文件保存，如果需要保存，则需要保存成功后才能退出
-            qApp->quit();
-        }
-    });
 }
 
 void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
@@ -243,12 +227,11 @@ void MainWindow::closeTabViews()
 
 void MainWindow::initConnection()
 {
-    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::slotHideColorPanel);
+    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
     connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
         Q_UNUSED(type)
         Q_UNUSED(showSelfPropreWidget)
-        m_topToolbar->slotHideColorPanel();
+        //m_topToolbar->slotHideColorPanel();
     });
 
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
@@ -285,8 +268,6 @@ void MainWindow::initConnection()
 
     connect(m_topToolbar, SIGNAL(signalImport()), this, SLOT(slotShowOpenFileDialog()));
 
-//    connect(m_quitQuestionDialog, SIGNAL(singalDoNotSaveToDDF()), this, SLOT(slotContinueDoSomeThing()));
-
     connect(m_centralWidget, SIGNAL(signalUpdateTextFont()), m_topToolbar, SLOT(slotSetTextFont()));
 
     connect(m_centralWidget, SIGNAL(signalContinueDoOtherThing()), this, SLOT(slotContinueDoSomeThing()));
@@ -298,12 +279,6 @@ void MainWindow::initConnection()
     connect(m_topToolbar, SIGNAL(signalCutLineEditIsfocus(bool)), m_centralWidget, SLOT(slotCutLineEditeFocusChange(bool)));
 
     connect(m_showCut, SIGNAL(triggered()), this, SLOT(onViewShortcut()));
-
-    //每次添加标签需要连接
-//    if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
-//        auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-//        connect(curScene, SIGNAL(signalUpdateColorPanelVisible(QPoint)), m_topToolbar, SLOT(updateColorPanelVisible(QPoint)));
-//    }
 
     // 有新的场景创建后需要都进行连接的信号
     connect(m_centralWidget, &CCentralwidget::signalAddNewScence, this, [ = ](CDrawScene * sence) {
@@ -337,8 +312,8 @@ void MainWindow::initConnection()
 
     // 链接剪裁切换场景后需要刷新菜单栏
     //connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [ = ](int type) {
-        m_topToolbar->updateMiddleWidget(type);
+    connect(m_centralWidget, &CCentralwidget::signalChangeTittlebarWidget, this, [=](int type) {
+        //m_topToolbar->updateMiddleWidget(type);
     });
 }
 
@@ -440,7 +415,6 @@ void MainWindow::slotLastTabBarRequestClose()
     qDebug() << "slotLastTabBarRequestClose: not show quit dialog";
     // 退出程序
     qApp->quit();
-    //    m_dialog.exec();
 }
 
 void MainWindow::slotNewDrawScence()
@@ -472,7 +446,7 @@ void MainWindow::slotLoadDragOrPasteFile(QStringList files)
 
 void MainWindow::slotOnEscButtonClick()
 {
-    m_topToolbar->slotHideColorPanel();
+    //m_topToolbar->slotHideColorPanel();
     m_centralWidget->onEscButtonClick();
 }
 
@@ -487,7 +461,7 @@ void MainWindow::showDrawDialog()
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    m_topToolbar->updateColorPanelVisible(event->pos());
+    //m_topToolbar->updateColorPanelVisible(event->pos());
     DMainWindow::mousePressEvent(event);
 }
 
@@ -560,11 +534,9 @@ void MainWindow::wheelEvent(QWheelEvent *event)
         } else if (event->modifiers()& Qt::ControlModifier) {
             //如果按住CTRL那么就是放大缩小
             if (event->delta() > 0) {
-                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-                pCurView->zoomOut();
+                pCurView->zoomOut(CGraphicsView::EMousePos);
             } else {
-                pCurView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-                pCurView->zoomIn();
+                pCurView->zoomIn(CGraphicsView::EMousePos);
             }
         }
     }

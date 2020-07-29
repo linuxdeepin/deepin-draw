@@ -102,7 +102,7 @@ struct SGraphicsUnitHead {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsUnitHead &head)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsUnitHead &head)
     {
         in >> head.headCheck[0];
         in >> head.headCheck[1];
@@ -134,7 +134,7 @@ struct SGraphicsUnitTail {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsUnitTail &tail)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsUnitTail &tail)
     {
         in >> tail.tailCheck[0];
         in >> tail.tailCheck[1];
@@ -160,7 +160,7 @@ struct SGraphicsRectUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsRectUnitData &rectUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsRectUnitData &rectUnitData)
     {
         if (getVersion(in) > EDdf5_8_0_Base) {
             in >> rectUnitData.topLeft;
@@ -186,7 +186,7 @@ struct SGraphicsCircleUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsCircleUnitData &cirUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsCircleUnitData &cirUnitData)
     {
         in >> cirUnitData.rect;
         return in;
@@ -203,7 +203,7 @@ struct SGraphicsTriangleUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsTriangleUnitData &triangleUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsTriangleUnitData &triangleUnitData)
     {
         in >> triangleUnitData.rect;
         return in;
@@ -222,7 +222,7 @@ struct SGraphicsPolygonUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsPolygonUnitData &polygonUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsPolygonUnitData &polygonUnitData)
     {
         in >> polygonUnitData.rect;
         in >> polygonUnitData.pointNum;
@@ -244,7 +244,7 @@ struct SGraphicsPolygonStarUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsPolygonStarUnitData &polygonStarUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsPolygonStarUnitData &polygonStarUnitData)
     {
         in >> polygonStarUnitData.rect;
         in >> polygonStarUnitData.anchorNum;
@@ -270,7 +270,7 @@ struct SGraphicsLineUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsLineUnitData &lineUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsLineUnitData &lineUnitData)
     {
 //        quint32 start_type = 0;
 //        quint32 end_type = 0;
@@ -332,7 +332,7 @@ struct SGraphicsTextUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsTextUnitData &textUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsTextUnitData &textUnitData)
     {
         in >> textUnitData.rect;
         in >> textUnitData.font;
@@ -362,7 +362,7 @@ struct SGraphicsPictureUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
     {
         in >> pictureUnitData.rect;
         if (getVersion(in) < EDdf5_8_0_16_1) {
@@ -401,7 +401,7 @@ struct SGraphicsPenUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsPenUnitData &penUnitData)
     {
 //        quint32 start_type = 0;
 //        quint32 end_type = 0;
@@ -463,7 +463,7 @@ struct SGraphicsBlurUnitData {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, SGraphicsBlurUnitData &blurUnitData)
+    friend QDataStream &operator>>(QDataStream &in, SGraphicsBlurUnitData &blurUnitData)
     {
         in >> blurUnitData.data;
         in >> blurUnitData.effect;
@@ -487,6 +487,7 @@ union CGraphicsItemData {
     CGraphicsItemData() {
         pRect = nullptr;
         pCircle = nullptr;
+        pTriangle = nullptr;
         pPolygon = nullptr;
         pPolygonStar = nullptr;
         pLine = nullptr;
@@ -494,6 +495,60 @@ union CGraphicsItemData {
         pPic = nullptr;
         pPen = nullptr;
         pBlur = nullptr;
+    }
+
+    void release()
+    {
+        if (pRect != nullptr) {
+            delete pRect;
+            pRect = nullptr;
+            return;
+        }
+        if (pCircle != nullptr) {
+            delete pCircle;
+            pCircle = nullptr;
+            return;
+        }
+        if (pTriangle != nullptr) {
+            delete pTriangle;
+            pTriangle = nullptr;
+            return;
+        }
+        if (pPolygon != nullptr) {
+            delete pPolygon;
+            pPolygon = nullptr;
+            return;
+        }
+        if (pPolygonStar != nullptr) {
+            delete pPolygonStar;
+            pPolygonStar = nullptr;
+            return;
+        }
+        if (pLine != nullptr) {
+            delete pLine;
+            pLine = nullptr;
+            return;
+        }
+        if (pText != nullptr) {
+            delete pText;
+            pText = nullptr;
+            return;
+        }
+        if (pPic != nullptr) {
+            delete pPic;
+            pPic = nullptr;
+            return;
+        }
+        if (pPen != nullptr) {
+            delete pPen;
+            pPen = nullptr;
+            return;
+        }
+        if (pBlur != nullptr) {
+            delete pBlur;
+            pBlur = nullptr;
+            return;
+        }
     }
 
 //    friend  QDataStream &operator << (QDataStream &out, const CGraphicsItemData &itemData) {
@@ -554,7 +609,7 @@ struct CGraphicsUnit {
         return out;
     }
 
-    friend QDataStream &operator >>( QDataStream &in, CGraphicsUnit &graphicsUnitData)
+    friend QDataStream &operator>>(QDataStream &in, CGraphicsUnit &graphicsUnitData)
     {
 
         in >> graphicsUnitData.head;
@@ -607,6 +662,7 @@ struct CGraphicsUnit {
     }
 
 };
+Q_DECLARE_METATYPE(CGraphicsUnit)
 
 //整个图元数据
 struct CGraphics {

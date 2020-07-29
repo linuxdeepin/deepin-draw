@@ -13,11 +13,17 @@ CSpinBox::CSpinBox(DWidget *parent)
 {
     setFocusPolicy(Qt::StrongFocus);
 
-    connect(this, QOverload<int>::of(&CSpinBox::valueChanged), this, [ = ](int value) {
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+        emit this->valueChanged(value, isTimerRunning() ? EChangedUpdate : EChanged);
+    });
+
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
         Q_UNUSED(value);
         if (_keepFocus)
             this->setFocus();
-    }, Qt::QueuedConnection);
+    },
+            Qt::QueuedConnection);
+
     setValueChangedKeepFocus(true);
 
     setKeyboardTracking(false);
@@ -67,7 +73,7 @@ void CSpinBox::wheelEvent(QWheelEvent *event)
 
 void CSpinBox::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up ) {
+    if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up) {
         //启动定时器
         timerStart();
     } else if (event->key() == Qt::Key_Minus) {
@@ -97,8 +103,7 @@ void CSpinBox::timerEnd()
 
     //wheel结束时的值变化标记
     _wheelEnd = true;
-    emit this->valueChanged(value());
-    emit this->valueChanged(text());
+    emit this->valueChanged(value(), EChangedFinished);
     _wheelEnd = false;
     setFocus();
     if (lineEdit() != nullptr) {
@@ -118,5 +123,8 @@ QTimer *CSpinBox::getTimer()
 
 void CSpinBox::timerStart()
 {
+    //emit this->DSpinBox::valueChanged(value());
+    //emit this->DSpinBox::valueChanged(text());
+    emit this->valueChanged(value(), EChangedBegin);
     getTimer()->start(300);
 }

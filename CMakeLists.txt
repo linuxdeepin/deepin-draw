@@ -8,35 +8,65 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-option(DOTEST "option for test" OFF)
-
-# 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-
-# 设置Qt模块
-set(QtModule Core Gui Widgets Network DBus Sql PrintSupport Svg Concurrent LinguistTools Test)
-
 # 设置工程名字
 project(deepin-draw)
 
-# 查找Qt相关的库链接
-find_package(Qt5 REQUIRED ${QtModule})
+# 加速编译优化参数
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC --as-needed")
+endif()
+
+################### mips ##################
+#if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+#    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC --as-needed -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mmsa -mloongson-ext2 -mloongson-mmi")
+#endif()
+##
+
+# 是否开启单元测试编译
+option(DOTEST "option for test" OFF)
+
+# 开启单元测试
+if(DOTEST)
+    # 添加gocv覆盖率文件的输出
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+    # 设置Qt模块
+    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools Test)
+    # 查找Qt相关的库链接
+    find_package(Qt5 REQUIRED ${QtModule})
+
+# 未开启单元测试
+else()
+    # 设置Qt模块
+    set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
+    # 查找Qt相关的库链接
+    find_package(Qt5 REQUIRED ${QtModule})
+endif()
 
 # 包含源码文件夹
 include_directories(src)
 include_directories(src/drawshape)
+include_directories(src/drawshape/drawTools)
+include_directories(src/drawshape/drawItems)
+include_directories(src/drawshape/drawItems/bzItems)
 include_directories(src/frame)
 include_directories(src/qtsingleapplication)
 include_directories(src/service)
 include_directories(src/utils)
 include_directories(src/widgets)
 include_directories(src/widgets/dialog)
+include_directories(src/frame/AttributesWidgets)
+include_directories(src/frame/AttributesWidgets/private)
 
 # 定义 source 文件
 FILE (GLOB allSource
     "./src/application.cpp"
     "./src/drawshape/*.cpp"  "./src/drawshape/*.c"
+    "./src/drawshape/drawTools/*.cpp"  "./src/drawshape/drawTools/*.c"
+    "./src/drawshape/drawItems/*.cpp"  "./src/drawshape/drawItems/*.c"
+    "./src/drawshape/drawItems/bzItems/*.cpp"  "./src/drawshape/drawItems/bzItems/*.c"
     "./src/frame/*.cpp"  "./src/frame/*.c"
+    "./src/frame/AttributesWidgets/*.cpp"  "./src/frame/AttributesWidgets/*.c"
+    "./src/frame/AttributesWidgets/private/*.cpp"  "./src/frame/AttributesWidgets/private/*.c"
     "./src/qtsingleapplication/*.cpp"  "./src/qtsingleapplication/*.c"
     "./src/service/*.cpp"  "./src/service/*.c"
     "./src/utils/*.cpp"  "./src/utils/*.c"
@@ -48,7 +78,12 @@ FILE (GLOB allSource
 FILE (GLOB allHeaders
     "./src/application.h"
     "./src/drawshape/*.hpp"  "./src/drawshape/*.h"
+    "./src/drawshape/drawTools/*.hpp"  "./src/drawshape/drawTools/*.h"
+    "./src/drawshape/drawItems/*.hpp"  "./src/drawshape/drawItems/*.h"
+    "./src/drawshape/drawItems/bzItems/*.hpp"  "./src/drawshape/drawItems/bzItems/*.h"
     "./src/frame/*.hpp"  "./src/frame/*.h"
+    "./src/frame/AttributesWidgets/*.hpp"  "./src/frame/AttributesWidgets/*.h"
+    "./src/frame/AttributesWidgets/private/*.hpp"  "./src/frame/AttributesWidgets/private/*.h"
     "./src/qtsingleapplication/*.hpp"  "./src/qtsingleapplication/*.h"
     "./src/service/*.hpp"  "./src/service/*.h"
     "./src/utils/*.hpp"  "./src/utils/*.h"
@@ -106,6 +141,7 @@ add_subdirectory(libs/googletest)
 FILE (GLOB allTestSource
     "./tests/*.cpp" "./tests/*.c"
     "./tests/service/*.cpp" "./tests/service/*.c"
+    "./tests/utils/*.cpp" "./tests/utils/*.c"
     "./tests/widgets/*.cpp" "./tests/widgets/*.c"
     "./tests/frame/*.cpp" "./tests/frame/*.c"
     "./tests/drawshape/*.cpp" "./tests/drawshape/*.c"

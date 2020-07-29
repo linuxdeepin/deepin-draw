@@ -178,27 +178,9 @@ void PolygonAttributeWidget::initUI()
 
 void PolygonAttributeWidget::initConnection()
 {
-    connect(m_fillBtn, &BigColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_strokeBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Fill, getBtnPosition(m_fillBtn), show);
-
-    });
-    connect(m_strokeBtn, &BorderColorButton::btnCheckStateChanged, this, [ = ](bool show) {
-        m_fillBtn->resetChecked();
-        emit showColorPanel(DrawStatus::Stroke,  getBtnPosition(m_strokeBtn), show);
-    });
-
-    connect(this, &PolygonAttributeWidget::resetColorBtns, this, [ = ] {
-        m_fillBtn->resetChecked();
-        m_strokeBtn->resetChecked();
-    });
 
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
-        //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
-    });
 
     ///多边形边数
     connect(m_sideNumSpinBox, SIGNAL(valueChanged(int)), this, SLOT(slotSideValueChanged(int)));
@@ -233,7 +215,7 @@ void PolygonAttributeWidget::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(m_sideNumSpinBox->value());
         emit signalPolygonAttributeChanged();
         //隐藏调色板
-        showColorPanel(DrawStatus::Stroke, QPoint(), false);
+        //showColorPanel(DrawStatus::Stroke, QPoint(), false);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::SideNumber, m_sideNumSpinBox->value());
     });
     m_sideNumSpinBox->setProperty("preValue", 5);
@@ -289,7 +271,7 @@ void PolygonAttributeWidget::slotSideValueChanged(int value)
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(value);
     emit signalPolygonAttributeChanged();
     //隐藏调色板
-    showColorPanel(DrawStatus::Stroke, QPoint(), false);
+    //showColorPanel(DrawStatus::Stroke, QPoint(), false);
 
     static QMap<CGraphicsItem *, QVariant> s_oldTempValues;
     bool pushToStack = !m_sideNumSpinBox->isTimerRunning();

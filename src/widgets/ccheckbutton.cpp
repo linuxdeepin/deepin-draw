@@ -25,6 +25,7 @@
 
 #include <DPalette>
 #include <DApplicationHelper>
+#include <DWidget>
 
 #include <QMouseEvent>
 

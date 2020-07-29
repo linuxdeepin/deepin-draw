@@ -29,14 +29,14 @@
 #include "widgets/dialog/ccutdialog.h"
 
 #include "drawshape/cdrawscene.h"
-#include "drawshape/cgraphicsitem.h"
-#include "drawshape/cpictureitem.h"
-#include "drawshape/cpicturetool.h"
-#include "drawshape/cgraphicstextitem.h"
-#include "drawshape/cgraphicsellipseitem.h"
-#include "drawshape/cgraphicstriangleitem.h"
+#include "bzItems/cgraphicsitem.h"
+#include "bzItems/cpictureitem.h"
+#include "drawTools/cpicturetool.h"
+#include "bzItems/cgraphicstextitem.h"
+#include "bzItems/cgraphicsellipseitem.h"
+#include "bzItems/cgraphicstriangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
-#include "drawshape/cpicturetool.h"
+#include "drawTools/cpicturetool.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
@@ -63,10 +63,10 @@ CCentralwidget::CCentralwidget(DWidget *parent)
     , m_tabDefaultName(tr("Unnamed"))
 
 {
-    //初始化ui空间
+    //初始化ui控件
     initUI();
 
-    //帮顶信号槽
+    //绑定信号槽
     initConnect();
 
     // 创建一个标签页(标签页生成时会自动创建一个view)
@@ -80,10 +80,10 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
     m_tabDefaultName(tr("Unnamed"))
 {
-    //初始化ui空间
+    //初始化ui控件
     initUI();
 
-    //帮顶信号槽
+    //绑定信号槽
     initConnect();
 
     if (filepaths.count() == 0) {
@@ -112,6 +112,11 @@ CLeftToolBar *CCentralwidget::getLeftToolBar()
 CGraphicsView *CCentralwidget::getGraphicsView() const
 {
     return CManageViewSigleton::GetInstance()->getCurView();
+}
+
+QGraphicsView *CCentralwidget::getQGraphicsView() const
+{
+    return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
 }
 
 CDrawScene *CCentralwidget::getDrawScene() const
@@ -423,6 +428,9 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
 
     // Free optimized memory
     malloc_trim(0);
+
+    // BUG:39095
+    this->setFocus();
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)
@@ -660,8 +668,7 @@ void CCentralwidget::slotZoom(qreal scale)
 {
     //来自toolbar的缩放要以画布中心为缩放中心
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        CManageViewSigleton::GetInstance()->getCurView()->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
-        CManageViewSigleton::GetInstance()->getCurView()->scale(scale);
+        CManageViewSigleton::GetInstance()->getCurView()->scale(scale, CGraphicsView::EViewCenter);
     }
 }
 
