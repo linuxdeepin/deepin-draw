@@ -72,7 +72,7 @@ CCentralwidget::CCentralwidget(DWidget *parent)
 
 }
 
-CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget (parent),
+CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
     m_tabDefaultName(tr("Unnamed"))
 {
     //初始化ui空间
@@ -348,6 +348,7 @@ void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneClose
         delete closeView;
         closeView = nullptr;
     }
+    this->setFocus();
 }
 
 void CCentralwidget::closeViewScense(CGraphicsView *view)
@@ -725,7 +726,7 @@ void CCentralwidget::slotQuitApp()
         } else {
 
             // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-            if ( !closeView->getDrawParam()->getModify()
+            if (!closeView->getDrawParam()->getModify()
                     && 1 == m_topMutipTabBarWidget->count()
                     && closeView->getDrawParam()->getDdfSavePath().isEmpty()) {
                 emit signalLastTabBarRequestClose();
