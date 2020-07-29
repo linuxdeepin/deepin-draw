@@ -92,18 +92,20 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->setBrush(brush());
     painter->drawPath(getPath());
 
-    if (this->getMutiSelect()) {
-        painter->setClipping(false);
-        // 获取系统活动色的颜色
-        QPalette pa = this->scene()->palette();
-        QPen pen;
-        pen.setColor(QColor(224, 224, 224));
-        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        painter->setPen(pen);
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(this->boundingRect());
-        painter->setClipping(true);
-    }
+
+    paintMutBoundingLine(painter, option);
+//    if (this->getMutiSelect()) {
+//        painter->setClipping(false);
+//        // 获取系统活动色的颜色
+//        QPalette pa = this->scene()->palette();
+//        QPen pen;
+//        pen.setColor(QColor(224, 224, 224));
+//        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
+//        painter->setPen(pen);
+//        painter->setBrush(QBrush(Qt::NoBrush));
+//        painter->drawRect(this->boundingRect());
+//        painter->setClipping(true);
+//    }
 }
 
 void CGraphicsMasicoItem::setPixmap()

@@ -22,6 +22,8 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "frame/mainwindow.h"
+#include "application.h"
+#include "ccolorpickwidget.h"
 
 #include <DGuiApplicationHelper>
 #include <QDebug>
@@ -65,11 +67,14 @@ void TextColorButton::paintEvent(QPaintEvent *)
     paintLookStyle(&painter, !m_isMultColorSame);
 }
 
-void TextColorButton::setColor(QColor &color)
+void TextColorButton::setColor(const QColor &color, EChangedPhase phase)
 {
-    m_isMultColorSame = true;
-    m_color = color;
-    update();
+    if (m_color != color) {
+        m_isMultColorSame = true;
+        m_color = color;
+        update();
+        emit colorChanged(color, phase);
+    }
 }
 
 QColor TextColorButton::getColor()
@@ -99,12 +104,26 @@ void TextColorButton::leaveEvent(QEvent *)
     }
 }
 
-void TextColorButton::mousePressEvent(QMouseEvent * )
+void TextColorButton::mousePressEvent(QMouseEvent *)
 {
     m_isChecked = !m_isChecked;
     update();
 
-    emit btnCheckStateChanged(m_isChecked);
+    //emit btnCheckStateChanged(m_isChecked);
+
+    // 显示颜色提取窗口
+    QPoint btnPos = mapToGlobal(QPoint(0, 0));
+    QPoint pos(btnPos.x() + 14,
+               btnPos.y() + this->height());
+
+    CColorPickWidget *pColorPick = dApp->colorPickWidget(true);
+
+    pColorPick->setColor(this->getColor());
+
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
+        this->setColor(color, phase);
+    });
+    pColorPick->show(pos.x(), pos.y());
 }
 
 void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)

@@ -113,38 +113,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="428"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="501"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
         <source>Draw</source>
         <translation type="unfinished">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="728"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="813"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="826"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="875"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="967"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="980"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1153,12 +1153,12 @@
 <context>
     <name>TextColorButton</name>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="43"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="45"/>
         <source>Color</source>
         <translation>Color</translation>
     </message>
     <message>
-        <location filename="../src/widgets/textcolorbutton.cpp" line="158"/>
+        <location filename="../src/widgets/textcolorbutton.cpp" line="177"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1166,12 +1166,64 @@
 <context>
     <name>TextWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="63"/>
         <source>Font</source>
-        <translation type="vanished">Font</translation>
+        <translation>Font</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="87"/>
         <source>Size</source>
-        <translation type="vanished">Size</translation>
+        <translation>Size</translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="171"/>
+        <source>Regular</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="291"/>
+        <source>Black</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="293"/>
+        <source>ExtraBold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="295"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="297"/>
+        <source>DemiBold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="299"/>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="301"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="303"/>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="305"/>
+        <source>ExtraLight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/textwidget.cpp" line="307"/>
+        <source>Thin</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

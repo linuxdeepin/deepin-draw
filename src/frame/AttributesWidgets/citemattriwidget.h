@@ -38,6 +38,8 @@ class CGraphicsItem;
 class TextColorButton;
 class CFontComboBox;
 
+class TextWidget;
+
 struct SComDefualData {
     QColor penColor = QColor(0, 0, 0);
     int penWidth = 2;
@@ -52,6 +54,7 @@ struct SComDefualData {
     QColor textColor = QColor(0, 0, 0);
     int textFontHeavy = 50;
     int textFontSize = 14;
+    QString textFontFamily;
 
     int masicType = 0;
     int masicWidth = 20;
@@ -63,55 +66,8 @@ struct SComDefualData {
         memset(comVaild, 1, sizeof(comVaild));
     }
 
-    void save(EDrawProperty property, const QVariant &var)
-    {
-        switch (property) {
-        case LineColor:
-            penColor = var.value<QColor>();
-            break;
-        case LineWidth:
-            penWidth = var.toInt();
-            break;
-        case FillColor:
-            bursh = var.value<QBrush>();
-            break;
-        case RectRadius:
-            rectRadius = var.toInt();
-            break;
-        case Anchors:
-            starAnCount = var.toInt();
-            break;
-        case StarRadius:
-            starInRadiusRadio = var.toInt();
-            break;
-        case SideNumber:
-            polySideCount = var.toInt();
-            break;
-        case LineAndPenStartType:
-            lineStartType = ELineType(var.toInt());
-            break;
-        case LineAndPenEndType:
-            lineEndType = ELineType(var.toInt());
-            break;
-        case TextColor:
-            textColor = var.value<QColor>();
-            break;
-        case TextHeavy:
-            textFontHeavy = var.toInt();
-            break;
-        case TextSize:
-            textFontSize = var.toInt();
-            break;
-        case Blurtype:
-            masicType = var.toInt();
-            break;
-        case BlurWidth:
-            masicWidth = var.toInt();
-            break;
-        default:
-            break;
-        }
-    }
+    void save(EDrawProperty property, const QVariant &var);
+
 };
 
 using CSceneDefaultData = QMap<CDrawScene *, SComDefualData>;
@@ -193,7 +149,7 @@ public:
                                 Image = Rect << 9,
                                 Cut = Rect << 10,
                                 ShowTitle = Rect << 11
-    };
+                              };
 
     void showByType(EAttriSourceItemType tp);
 
@@ -251,6 +207,7 @@ private:
     DLabel *getMaskLabForLineEndStyle();
 
     /* -----  特殊的文字图元属性控件 ----- */
+    TextWidget *getTextWidgetForText();
 
     /* -----  特殊的模糊图元属性控件 ----- */
 
@@ -302,12 +259,7 @@ protected:
     DLabel *m_sideNumLabel = nullptr;
 
     //文字图元的属性控件
-    //    TextColorButton *m_fillBtn;
-    //    CFontComboBox *m_fontComBox;
-    //    DComboBox *m_fontHeavy; // 字体的重量
-    //    DComboBox *m_fontSize; // 字体的大小
-    //    DLabel *m_fontFamilyLabel;
-    //    DLabel *m_fontsizeLabel;
+    TextWidget *m_TextWidget = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;
