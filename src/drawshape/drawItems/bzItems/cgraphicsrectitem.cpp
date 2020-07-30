@@ -595,16 +595,19 @@ void CGraphicsRectItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &Data)
+void CGraphicsRectItem::loadGraphicsUnit(const CGraphicsUnit &Data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (Data.data.pRect != nullptr) {
         loadGraphicsRectUnit(*Data.data.pRect);
     }
     loadHeadData(Data.head);
 }
 
-CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsRectItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
+
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();

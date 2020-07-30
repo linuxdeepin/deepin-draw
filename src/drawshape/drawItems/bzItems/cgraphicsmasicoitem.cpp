@@ -258,9 +258,9 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     updateBlurPath();
 }
 
-CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const
 {
-
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -280,6 +280,21 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
     unit.data.pBlur->effect = m_nBlurEffect;
 
     return unit;
+}
+
+void CGraphicsMasicoItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+{
+    Q_UNUSED(allInfo)
+    if (data.data.pBlur != nullptr) {
+        m_penStartType = data.data.pBlur->data.start_type;
+        m_penEndType = data.data.pBlur->data.end_type;
+        setPath(data.data.pPen->path);
+        m_nBlurEffect = EBlurEffect(data.data.pBlur->effect);
+    }
+    loadHeadData(data.head);
+
+    calcVertexes();
+    updateHandlesGeometry();
 }
 
 CGraphicsItem *CGraphicsMasicoItem::duplicateCreatItem()

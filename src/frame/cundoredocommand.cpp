@@ -549,14 +549,14 @@ CGraphicsItem *CBzItemAllCommand::bzItem()
 void CBzItemAllCommand::real_undo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[UndoVar]);
+        bzItem()->loadGraphicsUnit(_itemDate[UndoVar], false);
     }
 }
 
 void CBzItemAllCommand::real_redo()
 {
     if (bzItem() != nullptr) {
-        bzItem()->loadGraphicsUnit(_itemDate[RedoVar]);
+        bzItem()->loadGraphicsUnit(_itemDate[RedoVar], false);
     }
 }
 

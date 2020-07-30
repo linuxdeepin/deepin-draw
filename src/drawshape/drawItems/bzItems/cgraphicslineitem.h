@@ -101,8 +101,8 @@ public:
     /**
      * @brief getGraphicsUnit  返回图元的信息
      */
-    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-    void loadGraphicsUnit(const CGraphicsUnit &data) override;
+    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
 
     /**
      * @brief getQuadrant  返回直线第二个点在第一个点的第几象限内

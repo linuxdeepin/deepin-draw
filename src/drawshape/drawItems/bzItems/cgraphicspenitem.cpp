@@ -145,8 +145,9 @@ void CGraphicsPenItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-CGraphicsUnit CGraphicsPenItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsPenItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -1347,8 +1348,9 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     updateHandlesGeometry();
 }
 
-void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pPen != nullptr) {
         m_penStartType = data.data.pPen->start_type;
         m_penEndType = data.data.pPen->end_type;

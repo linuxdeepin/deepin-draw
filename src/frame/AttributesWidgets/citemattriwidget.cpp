@@ -113,7 +113,7 @@ CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit());
+        varInfo.setValue(pItem->getGraphicsUnit(false));
         vars << varInfo;
 
         if (_phase == EChangedBegin || _phase == EChanged) {
@@ -165,7 +165,7 @@ CItemAttriWidget::CCmdBlock::~CCmdBlock()
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit());
+        varInfo.setValue(pItem->getGraphicsUnit(false));
         vars << varInfo;
 
         CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
@@ -375,7 +375,7 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     //        return data;
     //    }
 
-    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit();
+    CGraphicsUnit unitData = graphicItem()->getGraphicsUnit(false);
     data.penColor = unitData.head.pen.color();
     data.penWidth = unitData.head.pen.width();
     data.bursh = unitData.head.brush;

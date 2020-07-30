@@ -74,16 +74,18 @@ void CGraphicsEllipseItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
-void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsEllipseItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pCircle != nullptr)
         loadGraphicsRectUnit(data.data.pCircle->rect);
 
     loadHeadData(data.head);
 }
 
-CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();

@@ -353,8 +353,9 @@ void CGraphicsLineItem::duplicate(CGraphicsItem *item)
     CGraphicsItem::duplicate(item);
 }
 
-CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsLineItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -374,8 +375,9 @@ CGraphicsUnit CGraphicsLineItem::getGraphicsUnit() const
     return  unit;
 }
 
-void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsLineItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pLine != nullptr) {
         m_startType = data.data.pLine->start_type;
         m_endType = data.data.pLine->end_type;
