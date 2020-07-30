@@ -4,27 +4,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="348"/>
+        <location filename="../src/application.cpp" line="342"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="349"/>
+        <location filename="../src/application.cpp" line="343"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="353"/>
+        <location filename="../src/application.cpp" line="347"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="354"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="362"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -85,38 +85,32 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="788"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="873"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="886"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="935"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1027"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1040"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -642,7 +636,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="57"/>
+        <location filename="../src/frame/mainwindow.cpp" line="58"/>
         <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>

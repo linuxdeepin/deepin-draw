@@ -29,6 +29,7 @@
 #include "frame/cgraphicsview.h"
 #include "utils/shortcut.h"
 #include "utils/global.h"
+#include "frame/AttributesWidgets/citemattriwidget.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -211,13 +212,6 @@ void MainWindow::closeTabViews()
 
 void MainWindow::initConnection()
 {
-    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
-        Q_UNUSED(type)
-        Q_UNUSED(showSelfPropreWidget)
-        //m_topToolbar->slotHideColorPanel();
-    });
-
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         // 关闭所有标签
@@ -273,6 +267,12 @@ void MainWindow::initConnection()
         qDebug() << "save status:" << status;
         //doCloseOtherDiv();
     });
+
+
+    /********************************** 新版本信号属性链接 *******************************/
+    // [0] 连接顶部菜单显示标签名字
+    connect(m_centralWidget, &CCentralwidget::signalScenceViewChanged
+            , m_topToolbar->attributWidget(), &CComAttrWidget::setWindowTittle);
 }
 
 void MainWindow::activeWindow()
