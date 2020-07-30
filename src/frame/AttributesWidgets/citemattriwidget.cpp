@@ -176,6 +176,11 @@ SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
     return m_defualDatas[pScen];
 }
 
+void CComAttrWidget::setWindowTittle(QString tittle)
+{
+    getTitleLabel()->setText(tittle);
+}
+
 void CComAttrWidget::refresh()
 {
     clearUi();
@@ -467,7 +472,6 @@ void CComAttrWidget::refreshHelper(int tp)
 
     if (tp == ShowTitle) {
         layout->addWidget(getTitleLabel());
-        getTitleLabel()->setText(tr("Draw"));
         getTitleLabel()->show();
         return;
     }
@@ -540,7 +544,6 @@ void CComAttrWidget::refreshHelper(int tp)
 void CComAttrWidget::refreshDataHelper(int tp)
 {
     if (tp == ShowTitle) {
-        getTitleLabel()->setText(tr("Draw"));
         return;
     }
 

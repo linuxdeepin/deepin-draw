@@ -15,27 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="348"/>
+        <location filename="../src/application.cpp" line="342"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="349"/>
+        <location filename="../src/application.cpp" line="343"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation>多个文件不支持，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="353"/>
+        <location filename="../src/application.cpp" line="347"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation>“%1”文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="354"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="362"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -119,38 +119,36 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="470"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="543"/>
         <source>Draw</source>
-        <translation>画板</translation>
+        <translation type="vanished">画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="785"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="788"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="870"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="873"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="883"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="886"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="932"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="935"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1027"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1037"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1040"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -914,7 +912,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="57"/>
+        <location filename="../src/frame/mainwindow.cpp" line="58"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
@@ -927,7 +925,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="326"/>
+        <location filename="../src/frame/mainwindow.cpp" line="333"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
