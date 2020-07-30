@@ -474,6 +474,11 @@ void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
 {
     //QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
     //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
+
+    //if (item->drawScene() != nullptr)
+    {
+        this->setSceneRect(rect);
+    }
 }
 
 void CDrawScene::drawToolChange(int type, bool clearSections)

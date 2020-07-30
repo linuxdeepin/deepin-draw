@@ -37,6 +37,10 @@
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "textwidget.h"
+#include "ccutwidget.h"
+#include "cmanagerattributeservice.h"
+#include "cdrawtoolmanagersigleton.h"
+#include "ccuttool.h"
 
 #include <DComboBox>
 
@@ -63,15 +67,35 @@ void CItemAttriWidget::refresh()
 {
 }
 
-CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase)
+CItemAttriWidget::CCmdBlock::CCmdBlock(CDrawScene *pScene)
+    : _pScene(pScene)
+{
+    //记录undo
+    QList<QVariant> vars;
+    vars << reinterpret_cast<long long>(pScene);
+    vars << pScene->sceneRect();
+    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                        CSceneUndoRedoCommand::ESizeChanged, vars, true);
+}
+
+CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
     : _pItem(pItem)
     , _phase(phase)
+    , _doRedo(doRedo)
 {
     if (_pItem == nullptr)
         return;
 
     if (_phase == EChangedUpdate || _phase == EChangedFinished)
         return;
+
+    if (_pItem->type() == CutType) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pItem->drawScene());
+        vars << _pItem->drawScene()->sceneRect();
+        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::ESizeChanged, vars, true);
+    }
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
@@ -99,11 +123,31 @@ CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase
 
 CItemAttriWidget::CCmdBlock::~CCmdBlock()
 {
+    if (_pScene != nullptr) {
+        //记录undo
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pScene);
+        vars << _pScene->sceneRect();
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::ESizeChanged, vars);
+
+        CUndoRedoCommand::finishRecord(false);
+        return;
+    }
+
     if (_pItem == nullptr)
         return;
 
     if (_phase != EChangedFinished && _phase != EChanged)
         return;
+
+    if (_pItem->type() == CutType) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pItem->drawScene());
+        vars << _pItem->drawScene()->sceneRect();
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::ESizeChanged, vars);
+    }
 
     QList<CGraphicsItem *> items;
     if (_pItem->type() == MgrType) {
@@ -127,7 +171,7 @@ CItemAttriWidget::CCmdBlock::~CCmdBlock()
     }
 
     if (_pItem->drawScene() != nullptr) {
-        _pItem->drawScene()->finishRecord(false);
+        _pItem->drawScene()->finishRecord(_doRedo);
     }
 }
 
@@ -143,9 +187,9 @@ CComAttrWidget::CComAttrWidget(QWidget *parent)
     setLayout(lay);
 }
 
-void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp)
+void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp, CGraphicsItem *pItem)
 {
-    _pItem = nullptr;
+    _pItem = pItem;
     clearUi();
     refreshHelper(tp);
     refreshDataHelper(tp);
@@ -214,6 +258,7 @@ void CComAttrWidget::clearUi()
     getPenColorBtn()->hide();
 
     getTextWidgetForText()->hide();
+    getCutWidget()->hide();
 
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
@@ -307,6 +352,12 @@ int CComAttrWidget::getSourceTpByItemType(int itemType)
 SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
 {
     SComDefualData data;
+
+    //    if (tp == Cut) {
+    //        CDrawScene *pScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+    //        data.cutSize = pScene->sceneRect().size().toSize();
+    //        return data;
+    //    }
 
     CGraphicsUnit unitData = graphicItem()->getGraphicsUnit();
     data.penColor = unitData.head.pen.color();
@@ -454,7 +505,8 @@ void CComAttrWidget::refreshHelper(int tp)
         } else if (tp == Image) {
 
         } else if (tp == Cut) {
-
+            layout->addWidget(getCutWidget());
+            getCutWidget()->show();
         }
         return;
     }
@@ -554,7 +606,8 @@ void CComAttrWidget::refreshDataHelper(int tp)
         } else if (tp == Image) {
 
         } else if (tp == Cut) {
-
+            getCutWidget()->setCutSize(data.cutSize, false);
+            getCutWidget()->setCutType(data.cutType, false);
         }
         return;
     }
@@ -655,8 +708,8 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
                     p.setCapStyle(Qt::RoundCap);
                     pItem->setPen(p);
                 }
-                this->updateDefualData(LineColor, color);
             }
+            this->updateDefualData(LineColor, color);
         });
     }
     return m_strokeBtn;
@@ -678,9 +731,8 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
                     br.setColor(color);
                     pItem->setBrush(br);
                 }
-
-                this->updateDefualData(FillColor, QBrush(color, Qt::SolidPattern));
             }
+            this->updateDefualData(FillColor, QBrush(color, Qt::SolidPattern));
         });
     }
     return m_fillBtn;
@@ -713,9 +765,8 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
                     pItem->setPen(p);
                     pItem->updateShape();
                 }
-
-                this->updateDefualData(LineWidth, lineWidth);
             }
+            this->updateDefualData(LineWidth, lineWidth);
         });
     }
     return m_sideWidthWidget;
@@ -749,7 +800,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
 
         connect(m_rediusSpinbox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
-                //qDebug() << "value = " << value << "phase = " << phase;
                 //要知道这个控件是针对Rect图元的
                 if (getSourceTpByItem(graphicItem()) == Rect) {
                     //记录undo
@@ -761,10 +811,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
                         pItem->setXYRedius(value, value);
                         pItem->updateShape();
                     }
-
-                    this->updateDefualData(RectRadius, value);
                 }
             }
+            this->updateDefualData(RectRadius, value);
         });
     }
     return m_rediusSpinbox;
@@ -811,9 +860,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
                         pItem->updatePolygonalStar(value, pItem->innerRadius());
                         pItem->updateShape();
                     }
-                    this->updateDefualData(Anchors, value);
                 }
             }
+            this->updateDefualData(Anchors, value);
         });
     }
     return m_anchorNumber;
@@ -847,9 +896,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
                         pItem->updatePolygonalStar(pItem->anchorNum(), value);
                     }
-                    this->updateDefualData(StarRadius, value);
                 }
             }
+            this->updateDefualData(StarRadius, value);
         });
     }
     return m_radiusNumber;
@@ -909,9 +958,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
                         CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(p);
                         pItem->setPointCount(value);
                     }
-                    this->updateDefualData(SideNumber, value);
                 }
             }
+            this->updateDefualData(SideNumber, value);
         });
     }
     return m_sideNumSpinBox;
@@ -961,9 +1010,9 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                             pItem->setLineStartType(ELineType(index));
                         }
                     }
-                    this->updateDefualData(LineAndPenStartType, index);
                 }
             }
+            this->updateDefualData(LineAndPenStartType, index);
         });
     }
     return m_lineStartComboBox;
@@ -1000,9 +1049,9 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                             pItem->setLineEndType(ELineType(index));
                         }
                     }
-                    this->updateDefualData(LineAndPenEndType, index);
                 }
             }
+            this->updateDefualData(LineAndPenEndType, index);
         });
     }
     return m_lineEndComboBox;
@@ -1077,8 +1126,8 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontSize(size);
                 }
-                this->updateDefualData(TextSize, size);
             }
+            this->updateDefualData(TextSize, size);
         });
         connect(m_TextWidget, &TextWidget::fontFamilyChanged, this, [ = ](const QString & family, bool preview) {
             qDebug() << "fontFamilyChanged = " << family << "preview = " << preview;
@@ -1091,8 +1140,8 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontFamily(family);
                 }
-                this->updateDefualData(TextFont, family);
             }
+            this->updateDefualData(TextFont, family);
         });
         connect(m_TextWidget, &TextWidget::fontStyleChanged, this, [ = ](const QString & style) {
             qDebug() << "fontStyleChanged = " << style;
@@ -1105,8 +1154,8 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setTextFontStyle(style);
                 }
-                this->updateDefualData(TextHeavy, style);
             }
+            this->updateDefualData(TextHeavy, style);
         });
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
@@ -1118,22 +1167,56 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setTextColor(color);
                 }
-                this->updateDefualData(TextColor, color);
             }
+            this->updateDefualData(TextColor, color);
         });
     }
     return m_TextWidget;
 }
 
+CCutWidget *CComAttrWidget::getCutWidget()
+{
+    if (m_cutWidget == nullptr) {
+        m_cutWidget = new CCutWidget(this);
+        m_cutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
+        connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [=](const QSize &sz) {
+            EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+            CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+            if (pTool != nullptr) {
+                pTool->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->drawScene(), sz);
+                this->updateDefualData(PropertyCutSize, sz);
+            }
+        });
+        connect(m_cutWidget, &CCutWidget::cutTypeChanged, this, [=](ECutType tp) {
+            EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+            CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+            if (pTool != nullptr) {
+                pTool->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
+                this->updateDefualData(PropertyCutType, tp);
+            }
+        });
+        connect(m_cutWidget, &CCutWidget::finshed, this, [=](bool accept) {
+            EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+            CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+            if (pTool != nullptr) {
+                pTool->doFinished(accept);
+                if (accept) {
+                    QSize sz = m_cutWidget->cutSize();
+                    ECutType tp = m_cutWidget->cutType();
+                    this->updateDefualData(PropertyCutSize, sz);
+                    this->updateDefualData(PropertyCutType, tp);
+                }
+            }
+        });
+    }
+    return m_cutWidget;
+}
+
 template<class T>
 void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
 {
-    Q_UNUSED(id)
-    int ret = getSourceTpByItem(graphicItem());
-    if (ret == ShowTitle) {
-        return;
-    }
-    SComDefualData &scDefual = m_defualDatas[graphicItem()->drawScene()];
+    CDrawScene *pCurScen = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+    SComDefualData &scDefual = m_defualDatas[pCurScen];
     scDefual.save(id, var);
 }
 
@@ -1195,6 +1278,14 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
     case BlurWidth:
         masicWidth = var.toInt();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(masicWidth);
+        break;
+    case PropertyCutType:
+        cutType = ECutType(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cutType);
+        break;
+    case PropertyCutSize:
+        cutSize = var.toSize();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(cutSize);
         break;
     default:
         break;

@@ -34,6 +34,11 @@
 #include "drawshape/globaldefine.h"
 #include "drawshape/cdrawparamsigleton.h"
 
+#include "application.h"
+#include "toptoolbar.h"
+#include "citemattriwidget.h"
+#include "ccutwidget.h"
+
 DWIDGET_USE_NAMESPACE
 
 CCutTool::CCutTool()
@@ -75,6 +80,7 @@ void CCutTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecord
             m_pCutItem->resizeCutSize(m_dragHandle, pInfo->_prePos, event->pos(), &pInfo->_prePos);
             m_bModify = true;
             emit event->scene()->signalUpdateCutSize();
+            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
         } else {
             if (m_dragHandle == CSizeHandleRect::InRect) {
                 m_bModify = true;
@@ -181,6 +187,21 @@ void CCutTool::changeCutSize(const CDrawScene *scene, const QSize &size)
     if (pItem != nullptr) {
         pItem->doChangeSize(size.width(), size.height());
         m_bModify = true;
+    }
+}
+
+void CCutTool::doFinished(bool accept)
+{
+    CGraphicsCutItem *pCutItem = getCurCutItem();
+
+    if (accept) {
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        pView->drawScene()->doAdjustmentScene(pCutItem->mapRectToScene(pCutItem->rect()));
+    }
+
+    if (pCutItem != nullptr) {
+        pCutItem->hide();
+        IDrawTool::setViewToSelectionTool();
     }
 }
 

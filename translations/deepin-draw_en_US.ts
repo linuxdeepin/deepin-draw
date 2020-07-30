@@ -113,38 +113,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="518"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
         <source>Draw</source>
         <translation type="unfinished">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="830"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="915"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="928"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="977"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1069"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1082"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -170,24 +170,29 @@
 <context>
     <name>CCutWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="119"/>
         <source>Dimensions</source>
-        <translation type="vanished">Dimensions</translation>
+        <translation>Dimensions</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="132"/>
         <source>x</source>
-        <translation type="vanished">x</translation>
+        <translation>x</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="150"/>
         <source>Aspect ratio</source>
-        <translation type="vanished">Aspect ratio</translation>
+        <translation>Aspect ratio</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
         <source>Free</source>
-        <translation type="vanished">Free</translation>
+        <translation>Free</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
         <source>Original</source>
-        <translation type="vanished">Original</translation>
+        <translation>Original</translation>
     </message>
 </context>
 <context>
@@ -874,7 +879,7 @@
         <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="355"/>
+        <location filename="../src/frame/mainwindow.cpp" line="348"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>

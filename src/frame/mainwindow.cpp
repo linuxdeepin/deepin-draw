@@ -227,13 +227,6 @@ void MainWindow::closeTabViews()
 
 void MainWindow::initConnection()
 {
-    //connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, m_topToolbar, &TopToolbar::updateMiddleWidget);
-    connect(m_centralWidget->getLeftToolBar(), &CLeftToolBar::setCurrentDrawTool, this, [ = ](int type, bool showSelfPropreWidget) {
-        Q_UNUSED(type)
-        Q_UNUSED(showSelfPropreWidget)
-        //m_topToolbar->slotHideColorPanel();
-    });
-
     connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);

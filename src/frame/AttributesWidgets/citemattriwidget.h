@@ -39,6 +39,7 @@ class TextColorButton;
 class CFontComboBox;
 
 class TextWidget;
+class CCutWidget;
 
 struct SComDefualData {
     QColor penColor = QColor(0, 0, 0);
@@ -58,6 +59,10 @@ struct SComDefualData {
 
     int masicType = 0;
     int masicWidth = 20;
+
+    //cut info
+    ECutType cutType = cut_free;
+    QSize cutSize = QSize(1920, 1080);
 
     bool comVaild[EDrawPropertyCount] {0};
 
@@ -116,12 +121,16 @@ protected:
     class CCmdBlock
     {
     public:
-        CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged);
+        CCmdBlock(CDrawScene *pScene);
+        CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
         ~CCmdBlock();
 
     private:
         CGraphicsItem *_pItem = nullptr;
         EChangedPhase _phase = EChangedUpdate;
+        bool _doRedo = false;
+
+        CDrawScene *_pScene = nullptr;
     };
 
 protected:
@@ -151,7 +160,7 @@ public:
                                 ShowTitle = Rect << 11
                               };
 
-    void showByType(EAttriSourceItemType tp);
+    void showByType(EAttriSourceItemType tp, CGraphicsItem *pItem = nullptr);
 
     QList<CGraphicsItem *> graphicItems();
 
@@ -206,12 +215,14 @@ private:
     DLabel *getMaskLabForLineStartStyle();
     DLabel *getMaskLabForLineEndStyle();
 
+public:
     /* -----  特殊的文字图元属性控件 ----- */
     TextWidget *getTextWidgetForText();
 
     /* -----  特殊的模糊图元属性控件 ----- */
 
     /* -----  特殊的裁剪图元属性控件 ----- */
+    CCutWidget *getCutWidget();
 
     /* -----  特殊的图片图元属性控件 ----- */
 
@@ -260,6 +271,9 @@ protected:
 
     //文字图元的属性控件
     TextWidget *m_TextWidget = nullptr;
+
+    //裁剪图元的属性控件
+    CCutWidget *m_cutWidget = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;
