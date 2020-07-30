@@ -237,14 +237,29 @@ void ColorPanel::initConnection()
 
     //4.lineedit颜色设置
     connect(m_colLineEdit, &DLineEdit::textChanged, this, [=](const QString &colorStr) {
-        //int v = colorStr.toLong(nullptr,16);
-        Q_UNUSED(colorStr);
+        if (colorStr.size() == 6) {
+            QColor c("#" + colorStr);
+            if (c.isValid()) {
+                this->setColor(c, true, EChangedUpdate);
+            }
+        }
+    });
+    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [=]() {
+        qDebug() << "DLineEdit::editingFinished ------- ";
+        QString colorStr = m_colLineEdit->text();
+        if (colorStr.size() == 6) {
+            QColor c("#" + colorStr);
+            if (c.isValid()) {
+                this->setColor(c, true, EChanged);
+            }
+        }
     });
 
     //5.设置透明度
     connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [=](int apl, EChangedPhase phase) {
         QColor c = color();
         c.setAlpha(apl);
+        qDebug() << "alphaChanged apl = " << c.alpha();
         this->setColor(c, true, phase);
     });
 
@@ -275,9 +290,11 @@ CColorPickWidget *ColorPanel::parentColorWidget()
     return qobject_cast<CColorPickWidget *>(parent());
 }
 
-void ColorPanel::setColor(const QColor &c, bool internalChanged, EChangedPhase phase)
+void ColorPanel::setColor(const QColor &c,
+                          bool internalChanged,
+                          EChangedPhase phase)
 {
-    if (!phase)
+    if (phase == EChangedFinished || phase == EChanged)
         curColor = c;
 
     updateColor(c);
@@ -317,12 +334,8 @@ void ColorPanel::updateColor(const QColor &previewColor)
     if (c.name().contains("#")) {
         colorName = c.name().split("#").last();
     }
+    //qDebug() << "colorName ====== " << colorName << "alpha = " << c.alpha() << "curColor ap = " << curColor.alpha();
     m_colLineEdit->blockSignals(true);
-    //qDebug() << "colorName ======== " << colorName;
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
-
-    //    if (previewColor.isValid()) {
-    //        emit previewedColorChanged(previewColor);
-    //    }
 }
