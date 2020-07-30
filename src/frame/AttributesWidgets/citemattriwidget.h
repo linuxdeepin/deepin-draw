@@ -167,8 +167,16 @@ public:
     CSceneDefaultData &defualtData();
     SComDefualData defualtSceneData(CDrawScene *pScene = nullptr);
 
+public slots:
+    /* @methodName: setWindowTittle
+     * @description: 设置程序顶部菜单显示的标题
+     * @parma: [QString] tittle 标题名字
+    */
+    void setWindowTittle(QString tittle);
+
 protected:
-    void refresh();
+    void refresh() override;
+    void initUiWhenShow() override;
 
 private:
     void clearUi();

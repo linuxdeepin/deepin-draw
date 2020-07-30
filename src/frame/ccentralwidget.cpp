@@ -57,26 +57,6 @@
 
 DGUI_USE_NAMESPACE
 
-CCentralwidget::CCentralwidget(DWidget *parent)
-    : DWidget(parent)
-    , m_isCloseNow(false)
-    , m_tabDefaultName(tr("Unnamed"))
-
-{
-    //初始化ui控件
-    initUI();
-
-    //绑定信号槽
-    initConnect();
-
-    // 创建一个标签页(标签页生成时会自动创建一个view)
-    m_topMutipTabBarWidget->addTabBarItem(tr("Unnamed"), CDrawParamSigleton::creatUUID());
-
-    //刷新标题或者tab标签的名字
-    updateTitle();
-
-}
-
 CCentralwidget::CCentralwidget(QStringList filepaths, DWidget *parent): DWidget(parent),
     m_tabDefaultName(tr("Unnamed"))
 {
@@ -181,10 +161,6 @@ void CCentralwidget::createNewScenseByscencePath(QString scencePath)
 {
     QFileInfo info(scencePath);
     createNewScenseByDragFile(scencePath);
-
-//    if (pCreatedNewView != nullptr) {
-//        m_topMutipTabBarWidget->setTabBarTooltipName(pCreatedNewView->getDrawParam()->uuid(), info.fileName());
-//    }
 }
 
 void CCentralwidget::setCurrentView(QString viewname)
@@ -229,7 +205,6 @@ bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSi
 
     QString ddfPath = "";
     QStringList picturePathList;
-    qDebug() << "imagePaths:" << imagePaths;
     for (int i = 0; i < imagePaths.size(); i++) {
         QFileInfo info(imagePaths[i]);
         QString fileSuffix = info.suffix().toLower();
@@ -254,7 +229,6 @@ bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSi
     }
 
     if (picturePathList.count() > 0) {
-
         // 不进行判断当前标签页是否修改来新创建导入的图片标签，因为ddf可能有内容并不一定是空白的ddf
         QString _filePathName = picturePathList.at(0).split('.').first();
         _filePathName += ".ddf";
@@ -352,37 +326,6 @@ void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool dele
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
 
     closeSceneView(closeView, ifTabOnlyOneCloseAqq, deleteView);
-//    if (nullptr != closeView) {
-//        QString viewname = closeView->getDrawParam()->viewName();
-//        qDebug() << "closeCurrentScenseView:" << viewname;
-
-//        // 如果只剩一个画板并且没有进行修改且不是导入文件则不再创建新的画板
-//        if (1 == m_topMutipTabBarWidget->count() && ifTabOnlyOneCloseAqq) {
-
-//            qDebug() << "closeCurrentScenseView:" << viewname << " not modify";
-//            emit signalLastTabBarRequestClose();
-//            return;
-//        }
-
-//        closeView->setParent(nullptr);
-//        m_stackedLayout->removeWidget(closeView);
-//        CManageViewSigleton::GetInstance()->removeView(closeView);
-//        m_topMutipTabBarWidget->closeTabBarItemByUUID(closeView->getDrawParam()->uuid());
-//    }
-
-//    if (m_topMutipTabBarWidget->count() > 0) {
-//        m_leftToolbar->slotShortCutSelect();
-
-//        if (m_topMutipTabBarWidget->count() == 1) {
-//            m_topMutipTabBarWidget->hide();
-//        } else {
-//            m_topMutipTabBarWidget->show();
-//        }
-//    }
-//    if (deleteView) {
-//        delete closeView;
-//        closeView = nullptr;
-//    }
 }
 
 void CCentralwidget::closeSceneView(CGraphicsView *pView, bool ifTabOnlyOneCloseAqq, bool deleteView)
@@ -556,11 +499,6 @@ void CCentralwidget::slotTransmitEndLoadDDF()
 {
     // [0] 设置左侧工具栏状态
     m_leftToolbar->slotShortCutSelect();
-
-    // [1] 拖拽ddf文件需要删除已有的撤销重做栈
-//    CManageViewSigleton::GetInstance()->getCurView()->cleanUndoStack();
-//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearMutiSelectedState();
-//    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
 
 void CCentralwidget::updateTitle()
@@ -634,8 +572,6 @@ void CCentralwidget::initUI()
 {
     m_stackedLayout = new QStackedLayout();
     m_hLayout = new QHBoxLayout();
-    m_exportImageDialog = new CExportImageDialog(this);
-    m_printManager = new CPrintManager();
     m_pictureTool = new CPictureTool(this);
     m_leftToolbar = new CLeftToolBar();
     m_topMutipTabBarWidget = new CMultipTabBarWidget(this);
@@ -654,14 +590,12 @@ void CCentralwidget::initUI()
     setLayout(m_hLayout);
     m_leftToolbar->raise();
 
-    // 只有一个标签需要隐藏多标签控件
-    m_topMutipTabBarWidget->hide();
-}
-
-void CCentralwidget::slotResetOriginPoint()
-{
-    /*QRect rect = CManageViewSigleton::GetInstance()->getCurView()->viewport()->rect();
-    CManageViewSigleton::GetInstance()->getCurView()->setSceneRect(rect);*/
+    // 延时构造打印和导出窗口
+    QMetaObject::invokeMethod(this, [ = ]() {
+        m_exportImageDialog = new CExportImageDialog(this);
+        m_printManager = new CPrintManager();
+        connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
+    }, Qt::QueuedConnection);
 }
 
 void CCentralwidget::slotZoom(qreal scale)
@@ -689,12 +623,6 @@ void CCentralwidget::slotDoNotSaveToDDF()
 {
     // [0] 关闭当前view
     closeCurrentScenseView();
-
-    //    if ( 1 == m_topMutipTabBarWidget->count()) {
-    //        qDebug() << "close last one ScenseView.";
-    //        emit signalLastTabBarRequestClose();
-    //        return;
-    //    }
 }
 
 void CCentralwidget::slotSaveAs()
@@ -738,11 +666,6 @@ void CCentralwidget::onEscButtonClick()
     ///清空场景中选中图元
     static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
 }
-
-//void CCentralwidget::slotCutLineEditeFocusChange(bool isFocus)
-//{
-//    CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(isFocus);
-//}
 
 void CCentralwidget::slotDoSaveImage(QString completePath)
 {
@@ -935,8 +858,6 @@ void CCentralwidget::initConnect()
     //导入图片信号槽
     connect(m_leftToolbar, SIGNAL(importPic()), this, SLOT(importPicture()));
     connect(m_leftToolbar, SIGNAL(signalBegainCut()), this, SLOT(slotShowCutItem()));
-
-    connect(m_exportImageDialog, SIGNAL(signalDoSave(QString)), this, SLOT(slotDoSaveImage(QString)));
 
     // 连接顶部菜单添加、标签改变、删除信号
     connect(m_topMutipTabBarWidget, &CMultipTabBarWidget::signalNewAddItem, this, &CCentralwidget::addView);

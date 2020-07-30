@@ -49,7 +49,6 @@ class CCentralwidget: public DWidget
 {
     Q_OBJECT
 public:
-    CCentralwidget(DWidget *parent = nullptr);
     CCentralwidget(QStringList filepaths, DWidget *parent = nullptr);
     ~CCentralwidget();
     /**
@@ -181,10 +180,7 @@ public slots:
      * @brief importPicture　导入图片
      */
     void importPicture();
-    /**
-     * @brief slotResetOriginPoint　重置原始点
-     */
-    void slotResetOriginPoint();
+
     /**
      * @brief slotZoom　执行缩放ｖｉｅｗ
      * @param scale　缩放因子

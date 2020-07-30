@@ -32,6 +32,10 @@
 #include "ctexttool.h"
 #include "ctriangletool.h"
 
+#include <QDebug>
+#include <QtTest>
+#include <QTestEventList>
+
 TEST(ItemTool, ItemTool)
 {
     MainWindow *w = getMainWindow();
@@ -40,19 +44,38 @@ TEST(ItemTool, ItemTool)
     CCentralwidget *c = w->getCCentralwidget();
     CGraphicsView *view = c->getGraphicsView();
 
+    int i = 0;
+    while (!view && i++ < 50) {
+        QTest::qWait(200);
+        view = c->getGraphicsView();
+    }
+
+    if (view == nullptr) {
+        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+        return;
+    }
+
     QMouseEvent *pressEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                              , QPointF(10, 10), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-    QMouseEvent *moveEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                             , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-    QMouseEvent *releaseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                                , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+                                              , QPointF(10, 10), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent *moveEvent1 = new QMouseEvent(QMouseEvent::MouseButtonPress
+                                              , QPointF(100, 100), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent *moveEvent2 = new QMouseEvent(QMouseEvent::MouseButtonPress
+                                              , QPointF(200, 200), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent *releaseEvent = new QMouseEvent(QMouseEvent::MouseButtonRelease
+                                                , QPointF(200, 200), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 
     /**
      * @brief slotShortCutRound　矩形按钮快捷键
      */
     c->getLeftToolBar()->slotShortCutRect();
+//    QTestEventList e;
+//    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 10);
+//    e.addMouseMove(QPoint(200, 200), 10);
+//    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 200), 10);
+//    e.simulate(view);
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
+    view->mouseMoveEvent(moveEvent2);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -60,7 +83,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutRound();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -68,7 +91,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutTriangle();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -76,7 +99,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutPolygonalStar();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -84,7 +107,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutPolygon();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -92,7 +115,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutLine();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -100,7 +123,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutPen();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -108,7 +131,7 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutText();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
@@ -116,15 +139,14 @@ TEST(ItemTool, ItemTool)
      */
     c->getLeftToolBar()->slotShortCutBlur();
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 
     /**
      * @brief slotShortCutCut　裁剪按钮快捷键
      */
     c->getLeftToolBar()->slotShortCutCut();
-
     view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
+    view->mouseMoveEvent(moveEvent1);
     view->mouseReleaseEvent(releaseEvent);
 }

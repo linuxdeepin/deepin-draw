@@ -11,27 +11,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="349"/>
+        <location filename="../src/application.cpp" line="342"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="350"/>
+        <location filename="../src/application.cpp" line="343"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="354"/>
+        <location filename="../src/application.cpp" line="347"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="355"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="356"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -95,17 +95,15 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="271"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="619"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="61"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="74"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="245"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="557"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="581"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="519"/>
         <source>Import Picture</source>
         <translation>Import Picture</translation>
     </message>
@@ -116,7 +114,7 @@
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="518"/>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
         <source>Draw</source>
-        <translation type="unfinished">Draw</translation>
+        <translation type="obsolete">Draw</translation>
     </message>
     <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="830"/>
@@ -870,7 +868,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="58"/>
         <source>Draw</source>
         <translation>Draw</translation>
     </message>

@@ -46,5 +46,6 @@ TEST(cddfmanager, cddfmanager)
         c->slotSaveToDDF(false);
         c->slotSaveToDDF(true);
     }
+    file.close();
 }
 

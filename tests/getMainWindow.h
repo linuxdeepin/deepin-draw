@@ -18,12 +18,15 @@
 #define MIANWINDOW_H
 
 #include "mainwindow.h"
+#include "ccentralwidget.h"
+#include "cgraphicsview.h"
 
 static MainWindow *getMainWindow()
 {
     MainWindow *temp_window = nullptr;
     if (temp_window == nullptr) {
-        temp_window = new MainWindow();
+        QStringList li;
+        temp_window = new MainWindow(li);
     }
     return temp_window;
 }

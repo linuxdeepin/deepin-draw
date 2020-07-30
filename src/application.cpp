@@ -72,12 +72,6 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     using namespace Dtk::Core;
     Dtk::Core::DLogManager::registerConsoleAppender();
     Dtk::Core::DLogManager::registerFileAppender();
-    QtConcurrent::run([]() {
-        QWidget *w = new QWidget;
-        w->setWindowIcon(QIcon::fromTheme("deepin-draw"));
-        w->winId();
-        w->deleteLater();
-    });
 
     // Version Time
     this->setApplicationVersion(VERSION);
@@ -323,7 +317,6 @@ void Application::showMainWindow(const QStringList &paths)
 
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
-    w->initScene();
     w->readSettings();
 }
 
