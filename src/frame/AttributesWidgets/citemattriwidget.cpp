@@ -1058,10 +1058,10 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
         m_lineEndComboBox->setIconSize(QSize(34, 20));
 
         m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_none_arrow"), "");
-        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_circle"), "");
-        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_fill_circle"), "");
-        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_arrow"), "");
-        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_right_fill_arrow"), "");
+        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_circle"), "");
+        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_circle"), "");
+        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_arrow"), "");
+        m_lineEndComboBox->addItem(QIcon::fromTheme("ddc_left_fill_arrow"), "");
 
         connect(m_lineEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
             if (this->graphicItem() != nullptr) {
