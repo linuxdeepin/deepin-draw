@@ -38,7 +38,6 @@ class MainWindow: public DMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow(DWidget *parent = nullptr);
     MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
     ~MainWindow() Q_DECL_OVERRIDE;
 
@@ -56,11 +55,6 @@ public:
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
     void openImage(QString path, bool isStartByDDF = false);
-
-    /**
-     * @brief initScene　初始化场景
-     */
-    void initScene();
 
     void readSettings();
 
@@ -86,12 +80,6 @@ public:
      * @brief getTopToolbar　获取TopToolbar指针用于单列测试
      */
     TopToolbar *getTopToolbar() const;
-
-signals:
-    /**
-     * @brief signalResetOriginPoint 重置原始点信号
-     */
-    void signalResetOriginPoint();
 
 public slots:
     /**
@@ -139,10 +127,6 @@ private slots:
      * @brief slotShowOpenFileDialog　显示打开文件对话框
      */
     void slotShowOpenFileDialog();
-    /**
-     * @brief slotDDFFileOpened　显示打开文件对话框
-     */
-    void slotDDFFileOpened(QString filename);
     /**
      * @brief slotTopToolBarSaveToDDF　保存ddf文件
      */

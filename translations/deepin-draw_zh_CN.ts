@@ -15,27 +15,27 @@
         <translation type="vanished">%1 文件已设置为不可读，无法打开!</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="349"/>
+        <location filename="../src/application.cpp" line="348"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation>不支持“%1”的文件格式，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="350"/>
+        <location filename="../src/application.cpp" line="349"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation>多个文件不支持，无法打开</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="354"/>
+        <location filename="../src/application.cpp" line="353"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation>“%1”文件已设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="355"/>
+        <location filename="../src/application.cpp" line="354"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation>多个文件被设置为不可读，无法打开。</translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="363"/>
+        <location filename="../src/application.cpp" line="362"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -99,17 +99,15 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="73"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="81"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="94"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="271"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="619"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="61"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="74"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="245"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="557"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="581"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="519"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -916,7 +914,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="73"/>
+        <location filename="../src/frame/mainwindow.cpp" line="57"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
@@ -929,7 +927,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="355"/>
+        <location filename="../src/frame/mainwindow.cpp" line="333"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
