@@ -56,20 +56,24 @@
 <context>
     <name>BlurWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
         <source>Type</source>
-        <translation type="vanished">类型</translation>
+        <translation>类型</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Blur</source>
-        <translation type="vanished">模糊</translation>
+        <translation>模糊</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
         <source>Mosaic</source>
-        <translation type="vanished">马赛克</translation>
+        <translation>马赛克</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
         <source>Width</source>
-        <translation type="vanished">粗细</translation>
+        <translation>粗细</translation>
     </message>
 </context>
 <context>
@@ -91,7 +95,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
         <source>Alpha</source>
         <translation>不透明度</translation>
     </message>
@@ -123,32 +127,32 @@
         <translation type="vanished">画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="840"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="861"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="925"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="946"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="938"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="987"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1008"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1079"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1100"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1092"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1113"/>
         <source>End</source>
         <translation>终点</translation>
     </message>

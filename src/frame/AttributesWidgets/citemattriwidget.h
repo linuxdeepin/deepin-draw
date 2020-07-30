@@ -40,6 +40,7 @@ class CFontComboBox;
 
 class TextWidget;
 class CCutWidget;
+class BlurWidget;
 
 struct SComDefualData {
     QColor penColor = QColor(0, 0, 0);
@@ -63,6 +64,10 @@ struct SComDefualData {
     //cut info
     ECutType cutType = cut_free;
     QSize cutSize = QSize(1920, 1080);
+
+    // blur info
+    EBlurEffect blurType = EBlurEffect::MasicoEffect;
+    int blurWidth = 20;
 
     bool comVaild[EDrawPropertyCount] {0};
 
@@ -228,6 +233,7 @@ public:
     TextWidget *getTextWidgetForText();
 
     /* -----  特殊的模糊图元属性控件 ----- */
+    BlurWidget  *getBlurWidget();
 
     /* -----  特殊的裁剪图元属性控件 ----- */
     CCutWidget *getCutWidget();
@@ -282,6 +288,9 @@ protected:
 
     //裁剪图元的属性控件
     CCutWidget *m_cutWidget = nullptr;
+
+    //模糊图元属性控件
+    BlurWidget *m_blurWidget = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;

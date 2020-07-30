@@ -43,6 +43,29 @@
     </message>
 </context>
 <context>
+    <name>BlurWidget</name>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
+        <source>Blur</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
+        <source>Mosaic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BorderColorButton</name>
     <message>
         <location filename="../src/widgets/bordercolorbutton.cpp" line="42"/>
@@ -61,7 +84,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
@@ -85,32 +108,32 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="840"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="861"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="925"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="946"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="938"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="987"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1008"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1079"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1100"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1092"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1113"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
