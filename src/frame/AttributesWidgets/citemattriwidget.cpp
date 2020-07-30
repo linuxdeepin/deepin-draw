@@ -189,6 +189,11 @@ void CComAttrWidget::refresh()
     refreshDataHelper(tp);
 }
 
+void CComAttrWidget::initUiWhenShow()
+{
+    refreshHelper(ShowTitle);
+}
+
 void CComAttrWidget::clearUi()
 {
     //1.隐藏所有控件

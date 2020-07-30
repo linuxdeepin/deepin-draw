@@ -111,38 +111,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="470"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="543"/>
         <source>Draw</source>
         <translation type="unfinished">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="785"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="870"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="883"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="932"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1037"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -872,7 +872,7 @@
         <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="333"/>
+        <location filename="../src/frame/mainwindow.cpp" line="326"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>

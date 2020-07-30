@@ -159,7 +159,8 @@ public:
     SComDefualData defualtSceneData(CDrawScene *pScene = nullptr);
 
 protected:
-    void refresh();
+    void refresh() override;
+    void initUiWhenShow() override;
 
 private:
     void clearUi();

@@ -119,38 +119,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="465"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="538"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="470"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="543"/>
         <source>Draw</source>
         <translation>画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="780"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="785"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="865"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="870"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="878"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="883"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="927"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="932"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1019"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1024"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1032"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1037"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -927,7 +927,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="333"/>
+        <location filename="../src/frame/mainwindow.cpp" line="326"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
