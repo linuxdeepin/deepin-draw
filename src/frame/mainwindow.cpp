@@ -45,22 +45,6 @@
 #include <QSettings>
 #include <QScrollBar>
 
-//const QSize WINDOW_MINISIZR = QSize(1280, 800);
-
-//const QSize WINDOW_MINISIZR = QSize(1024, 768);
-
-//const int TITLBAR_MENU = 150;
-//const int TITLEBAR_HEIGHT = 40;
-//const int IMG_ROTATEPOINT_SPACING = 35;
-
-MainWindow::MainWindow(DWidget *parent)
-    : DMainWindow(parent)
-{
-    m_centralWidget = new CCentralwidget(this);
-    initUI();
-    initConnection();
-}
-
 MainWindow::MainWindow(QStringList filePaths)
 {
     m_centralWidget = new CCentralwidget(filePaths, this);
@@ -234,7 +218,6 @@ void MainWindow::initConnection()
         //m_topToolbar->slotHideColorPanel();
     });
 
-    connect(this, &MainWindow::signalResetOriginPoint, m_centralWidget, &CCentralwidget::slotResetOriginPoint);
     connect(dApp, &Application::popupConfirmDialog, this, [ = ] {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::QuitApp);
         // 关闭所有标签
@@ -275,9 +258,6 @@ void MainWindow::initConnection()
     // 关闭当前窗口提示是否需要进行保存
     connect(m_centralWidget, &CCentralwidget::signalCloseModifyScence, this, &MainWindow::slotIsNeedSave);
 
-    // 连接ddf文件已经被打开信号
-    connect(m_centralWidget, &CCentralwidget::signalDDFFileOpened, this, &MainWindow::slotDDFFileOpened);
-
     // 连接最后一个标签被关闭
     connect(m_centralWidget, &CCentralwidget::signalLastTabBarRequestClose, this, &MainWindow::slotLastTabBarRequestClose);
 
@@ -304,8 +284,6 @@ void MainWindow::activeWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    emit signalResetOriginPoint();
-
     DMainWindow::resizeEvent(event);
     this->update();
 }
@@ -366,17 +344,6 @@ void MainWindow::slotShowOpenFileDialog()
         QStringList tempfilePathList = dialog.selectedFiles();
         m_centralWidget->slotLoadDragOrPasteFile(tempfilePathList);
     }
-}
-
-void MainWindow::slotDDFFileOpened(QString filename)
-{
-    Q_UNUSED(filename)
-//    Dtk::Widget::DDialog dialog(this);
-//    dialog.setTextFormat(Qt::RichText);
-//    dialog.addButton(tr("OK"));
-//    dialog.setIcon(QIcon(":/icons/deepin/builtin/Bullet_window_warning.svg"));
-//    dialog.setMessage(filename + tr(" Opened"));
-//    dialog.exec();
 }
 
 void MainWindow::slotTopToolBarSaveToDDF()
@@ -626,33 +593,6 @@ void MainWindow::openImage(QString path, bool isStartByDDF)
     if (!path.isEmpty()) {
         // 新建一个标签页
         showDragOrOpenFile(QStringList(path), isStartByDDF);
-
-//        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-//            m_centralWidget->getGraphicsView()->slotQuitCutMode();
-//        }
-//        if (QFileInfo(path).suffix().toLower()  == "ddf") {
-//            if (isStartByDDF) {
-//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
-//            } else {
-//                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-//            }
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(path);
-//        } else {
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::ImportPictrue);
-//            tmpPictruePath = path;
-//        }
-//        slotIsNeedSave();
-    }
-}
-
-void MainWindow::initScene()
-{
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
-        QSize size = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize();
-        QRectF rect(0, 0, 0, 0);
-        rect.setSize(size);
-        m_centralWidget->getDrawScene()->setSceneRect(rect);
-        emit m_centralWidget->getDrawScene()->signalUpdateCutSize();
     }
 }
 

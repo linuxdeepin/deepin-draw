@@ -32,6 +32,10 @@
 #include "ctexttool.h"
 #include "ctriangletool.h"
 
+#include <QDebug>
+#include <QtTest>
+#include <QTestEventList>
+
 TEST(ItemTool, ItemTool)
 {
     MainWindow *w = getMainWindow();
@@ -40,91 +44,108 @@ TEST(ItemTool, ItemTool)
     CCentralwidget *c = w->getCCentralwidget();
     CGraphicsView *view = c->getGraphicsView();
 
-    QMouseEvent *pressEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                              , QPointF(10, 10), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-    QMouseEvent *moveEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                             , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-    QMouseEvent *releaseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
-                                                , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    int i = 0;
+    while (!view && i++ < 50) {
+        QTest::qWait(200);
+        view = c->getGraphicsView();
+    }
+
+    if (view == nullptr) {
+        qDebug() << __FILE__ << __LINE__ << "get CGraphicsView is nullptr.";
+        return;
+    }
+
+//    QMouseEvent *pressEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
+//                                              , QPointF(10, 10), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+//    QMouseEvent *moveEvent = new QMouseEvent(QMouseEvent::MouseButtonPress
+//                                             , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+//    QMouseEvent *releaseEvent = new QMouseEvent(QMouseEvent::MouseButtonRelease
+//                                                , QPointF(100, 100), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
 
     /**
      * @brief slotShortCutRound　矩形按钮快捷键
      */
     c->getLeftToolBar()->slotShortCutRect();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+    QTestEventList e;
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100, 100), 10);
+    e.addMouseMove(QPoint(200, 200), 10);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(200, 200), 10);
+    e.simulate(view);
 
-    /**
-     * @brief slotShortCutRound　圆形按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutRound();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutTriangle　三角形按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutTriangle();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutRound　圆形按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutRound();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutPolygonalStar　星型按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutPolygonalStar();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutTriangle　三角形按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutTriangle();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutPolygon　多边形按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutPolygon();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutPolygonalStar　星型按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutPolygonalStar();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutLine　线段按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutLine();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutPolygon　多边形按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutPolygon();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutPen　画笔按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutPen();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutLine　线段按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutLine();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutText　文字按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutText();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutPen　画笔按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutPen();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutBlur　模糊按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutBlur();
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutText　文字按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutText();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    /**
-     * @brief slotShortCutCut　裁剪按钮快捷键
-     */
-    c->getLeftToolBar()->slotShortCutCut();
+//    /**
+//     * @brief slotShortCutBlur　模糊按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutBlur();
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 
-    view->mousePressEvent(pressEvent);
-    view->mouseMoveEvent(moveEvent);
-    view->mouseReleaseEvent(releaseEvent);
+//    /**
+//     * @brief slotShortCutCut　裁剪按钮快捷键
+//     */
+//    c->getLeftToolBar()->slotShortCutCut();
+
+//    view->mousePressEvent(pressEvent);
+//    view->mouseMoveEvent(moveEvent);
+//    view->mouseReleaseEvent(releaseEvent);
 }
