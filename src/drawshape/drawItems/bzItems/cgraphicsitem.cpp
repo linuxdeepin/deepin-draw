@@ -89,6 +89,70 @@ CDrawScene *CGraphicsItem::drawScene()
     return qobject_cast<CDrawScene *>(scene());
 }
 
+void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
+{
+    if (isPreview) {
+        m_penPreviewColor = c;
+    } else {
+        QPen p = pen();
+        p.setColor(c);
+        setPen(p);
+    }
+    m_isPreview[0] = isPreview;
+    update();
+}
+
+void CGraphicsItem::setPenWidth(int w, bool isPreview)
+{
+    if (isPreview) {
+        m_penWidth = w;
+    } else {
+        QPen p = pen();
+        p.setWidth(w);
+        p.setJoinStyle(Qt::MiterJoin);
+        p.setStyle(Qt::SolidLine);
+        p.setCapStyle(Qt::RoundCap);
+        setPen(p);
+    }
+    m_isPreview[1] = isPreview;
+    update();
+}
+
+void CGraphicsItem::setBrushColor(const QColor &c, bool isPreview)
+{
+    if (isPreview) {
+        m_brPreviewColor = c;
+    } else {
+        QBrush br = brush();
+        br.setStyle(Qt::SolidPattern);
+        br.setColor(c);
+        setBrush(br);
+    }
+    m_isPreview[2] = isPreview;
+    update();
+}
+
+QBrush CGraphicsItem::paintBrush()
+{
+    QBrush br = brush();
+    if (m_isPreview[2]) {
+        br.setColor(m_brPreviewColor);
+    }
+    return br;
+}
+
+QPen CGraphicsItem::paintPen()
+{
+    QPen p = pen();
+    if (m_isPreview[0]) {
+        p.setColor(m_penPreviewColor);
+    }
+    if (m_isPreview[1]) {
+        p.setWidth(m_penWidth);
+    }
+    return p;
+}
+
 void CGraphicsItem::setMutiSelect(bool flag)
 {
     m_bMutiSelectFlag = flag;

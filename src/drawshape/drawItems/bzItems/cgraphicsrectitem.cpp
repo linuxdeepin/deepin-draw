@@ -129,17 +129,17 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     beginCheckIns(painter);
 
     //先绘制填充
-    QPen curPen = this->pen();
+    QPen curPen = this->paintPen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
     QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
                            rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(brush());
+    painter->setBrush(paintBrush());
     painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
 
     //再绘制描边
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setPen(curPen.width() == 0 ? Qt::NoPen : pen());
     painter->setBrush(Qt::NoBrush);
     painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
 
@@ -614,7 +614,6 @@ CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
     unit.head.pos = this->pos();
     unit.head.rotate = this->rotation();
     unit.head.zValue = this->zValue();
-
 
     unit.data.pRect = new SGraphicsRectUnitData();
     unit.data.pRect->topLeft = this->m_topLeftPoint;

@@ -61,6 +61,36 @@ public:
     CDrawScene *drawScene();
 
     /**
+     * @brief setPenColor 设置线颜色
+     * @return
+     */
+    void setPenColor(const QColor &c, bool isPreview = false);
+
+    /**
+     * @brief setPenWidth 设置线颜色
+     * @return
+     */
+    void setPenWidth(int w, bool isPreview = false);
+
+    /**
+     * @brief setBrushColor 设置线颜色
+     * @return
+     */
+    void setBrushColor(const QColor &c, bool isPreview = false);
+
+    /**
+     * @brief paintBrush 填充信息
+     * @return
+     */
+    QBrush paintBrush();
+
+    /**
+     * @brief setBrushColor 线条信息
+     * @return
+     */
+    QPen paintPen();
+
+    /**
      * @brief creatSameItem 返回一个数据一样的同类图元
      * @return
      */
@@ -327,6 +357,11 @@ protected:
     bool m_bMutiSelectFlag;
 
     int m_operatingType = -1;
+
+    QColor m_penPreviewColor;
+    int m_penWidth;
+    QColor m_brPreviewColor;
+    bool m_isPreview[3] {0};
 
 public:
     /* 将被弃用 */

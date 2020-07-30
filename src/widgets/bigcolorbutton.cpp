@@ -64,7 +64,8 @@ void BigColorButton::paintEvent(QPaintEvent *)
 
 void BigColorButton::setColor(QColor color, EChangedPhase phase)
 {
-    if (color != m_color) {
+    //if (color != m_color)
+    {
         m_isMultColorSame = true;
         m_color = color;
         update();

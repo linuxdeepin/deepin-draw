@@ -734,11 +734,7 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
 
                 for (CGraphicsItem *pItem : lists) {
                     QPen p = pItem->pen();
-                    p.setColor(color);
-                    p.setJoinStyle(Qt::MiterJoin);
-                    p.setStyle(Qt::SolidLine);
-                    p.setCapStyle(Qt::RoundCap);
-                    pItem->setPen(p);
+                    pItem->setPenColor(color, phase == EChangedUpdate || phase == EChangedBegin);
                 }
             }
             this->updateDefualData(LineColor, color);
@@ -751,17 +747,14 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
 {
     if (m_fillBtn == nullptr) {
         m_fillBtn = new CBrushColorBtn(this);
-        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
+        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+            qDebug() << "color = " << color << "phase = " << phase;
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
                 CCmdBlock block(this->graphicItem(), phase);
-
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *pItem : lists) {
-                    QBrush br = pItem->brush();
-                    br.setStyle(Qt::SolidPattern);
-                    br.setColor(color);
-                    pItem->setBrush(br);
+                    pItem->setBrushColor(color, phase == EChangedUpdate || phase == EChangedBegin);
                 }
             }
             this->updateDefualData(FillColor, QBrush(color, Qt::SolidPattern));
