@@ -52,20 +52,24 @@
 <context>
     <name>BlurWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
         <source>Type</source>
-        <translation type="vanished">Type</translation>
+        <translation>Type</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
         <source>Blur</source>
-        <translation type="vanished">Blur</translation>
+        <translation>Blur</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
         <source>Mosaic</source>
-        <translation type="vanished">Mosaic</translation>
+        <translation>Mosaic</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
         <source>Width</source>
-        <translation type="vanished">Width</translation>
+        <translation>Width</translation>
     </message>
 </context>
 <context>
@@ -111,38 +115,36 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="518"/>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
         <source>Draw</source>
         <translation type="obsolete">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="830"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="861"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="915"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="946"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="928"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="977"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1008"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1069"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1100"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1082"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1113"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -168,27 +170,27 @@
 <context>
     <name>CCutWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="119"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="118"/>
         <source>Dimensions</source>
         <translation>Dimensions</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="132"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="131"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="150"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="149"/>
         <source>Aspect ratio</source>
         <translation>Aspect ratio</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="173"/>
         <source>Free</source>
         <translation>Free</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="177"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
@@ -877,7 +879,7 @@
         <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="348"/>
+        <location filename="../src/frame/mainwindow.cpp" line="334"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>

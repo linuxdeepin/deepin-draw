@@ -41,6 +41,8 @@
 #include "cmanagerattributeservice.h"
 #include "cdrawtoolmanagersigleton.h"
 #include "ccuttool.h"
+#include "blurwidget.h"
+#include "cgraphicsmasicoitem.h"
 
 #include <DComboBox>
 
@@ -272,6 +274,7 @@ void CComAttrWidget::clearUi()
 
     getTextWidgetForText()->hide();
     getCutWidget()->hide();
+    getBlurWidget()->hide();
 
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
@@ -388,6 +391,9 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.lineStartType = (tp == Line ? unitData.data.pLine->start_type : data.lineStartType);
     data.lineEndType = (tp == Line ? unitData.data.pLine->end_type : data.lineEndType);
 
+    data.blurType = (tp == MasicPen ? static_cast<EBlurEffect>(unitData.data.pBlur->effect) : data.blurType);
+    data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
+
     if (tp == Text) {
         data.textColor = unitData.data.pText->color;
         data.textFontSize = int(unitData.data.pText->font.pointSizeF());
@@ -459,6 +465,14 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 if (pText->getTextColor() != data.textColor) {
                     data.comVaild[TextColor] = false;
                 }
+            } else if (tp == MasicPen) {
+                CGraphicsMasicoItem *pBlur = dynamic_cast<CGraphicsMasicoItem *>(pItem);
+                if (pBlur->getBlurWidth() != data.blurWidth) {
+                    data.comVaild[BlurWidth] = false;
+                }
+                if (pBlur->getBlurEffect() != data.blurType) {
+                    data.comVaild[Blurtype] = false;
+                }
             }
         }
     }
@@ -520,6 +534,9 @@ void CComAttrWidget::refreshHelper(int tp)
         } else if (tp == Cut) {
             layout->addWidget(getCutWidget());
             getCutWidget()->show();
+        } else if (tp == MasicPen) {
+            layout->addWidget(getBlurWidget());
+            getBlurWidget()->show();
         }
         return;
     }
@@ -619,6 +636,10 @@ void CComAttrWidget::refreshDataHelper(int tp)
         } else if (tp == Cut) {
             getCutWidget()->setCutSize(data.cutSize, false);
             getCutWidget()->setCutType(data.cutType, false);
+        } else if (tp == MasicPen) {
+            getBlurWidget()->setBlurWidth(data.blurWidth, false);
+            getBlurWidget()->setBlurType(data.blurType, false);
+            getBlurWidget()->setSameProperty(data.comVaild[Blurtype], data.comVaild[BlurWidth]);
         }
         return;
     }
@@ -1185,12 +1206,40 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
     return m_TextWidget;
 }
 
+BlurWidget *CComAttrWidget::getBlurWidget()
+{
+    if (m_blurWidget == nullptr) {
+        m_blurWidget = new BlurWidget(this);
+
+        connect(m_blurWidget, &BlurWidget::blurWidthChanged, this, [ = ](int width) {
+            this->updateDefualData(BlurWidth, width);
+            CCmdBlock block(this->graphicItem());
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            for (CGraphicsItem *p : lists) {
+                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
+                pItem->setBlurWidth(width);
+            }
+        });
+
+        connect(m_blurWidget, &BlurWidget::blurTypeChanged, this, [ = ](EBlurEffect type) {
+            this->updateDefualData(Blurtype, type);
+            CCmdBlock block(this->graphicItem());
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            for (CGraphicsItem *p : lists) {
+                CGraphicsMasicoItem *pItem = dynamic_cast<CGraphicsMasicoItem *>(p);
+                pItem->setBlurEffect(type);
+            }
+        });
+    }
+    return m_blurWidget;
+}
+
 CCutWidget *CComAttrWidget::getCutWidget()
 {
     if (m_cutWidget == nullptr) {
         m_cutWidget = new CCutWidget(this);
         m_cutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
-        connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [=](const QSize &sz) {
+        connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
@@ -1198,7 +1247,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
                 this->updateDefualData(PropertyCutSize, sz);
             }
         });
-        connect(m_cutWidget, &CCutWidget::cutTypeChanged, this, [=](ECutType tp) {
+        connect(m_cutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
@@ -1206,7 +1255,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
                 this->updateDefualData(PropertyCutType, tp);
             }
         });
-        connect(m_cutWidget, &CCutWidget::finshed, this, [=](bool accept) {
+        connect(m_cutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
