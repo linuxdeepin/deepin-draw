@@ -80,6 +80,12 @@ public:
      * @brief changeCutSize　改变裁剪尺寸
      */
     void changeCutSize(const CDrawScene *scene, const QSize &);
+
+    /**
+     * @brief changeCutSize　改变裁剪尺寸
+     */
+    void doFinished(bool accept);
+
     /**
      * @brief getCutRect　获取裁剪区域矩形大小
      * @return

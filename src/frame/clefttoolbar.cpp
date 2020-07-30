@@ -384,7 +384,7 @@ void CLeftToolBar::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
-        emit setCurrentDrawTool(cut);
+        //emit setCurrentDrawTool(cut);
         emit signalBegainCut();
     });
 }

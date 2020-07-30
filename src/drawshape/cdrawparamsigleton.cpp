@@ -136,6 +136,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
     if (mode != selection)
         CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearMrSelection();
 
+    CGraphicsItem *pItem = nullptr;
     CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
     switch (mode) {
     case selection: {
@@ -189,7 +190,7 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
     }
 
     if (dApp->topToolbar() != nullptr && dApp->topToolbar()->attributWidget() != nullptr)
-        dApp->topToolbar()->attributWidget()->showByType(tp);
+        dApp->topToolbar()->attributWidget()->showByType(tp, pItem);
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const

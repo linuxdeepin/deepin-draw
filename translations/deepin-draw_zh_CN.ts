@@ -119,36 +119,38 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="518"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="591"/>
         <source>Draw</source>
         <translation type="vanished">画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="788"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="830"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="873"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="915"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="886"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="928"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="935"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="977"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1027"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1069"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1040"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1082"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -174,24 +176,29 @@
 <context>
     <name>CCutWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="119"/>
         <source>Dimensions</source>
-        <translation type="vanished">尺寸</translation>
+        <translation>尺寸</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="132"/>
         <source>x</source>
-        <translation type="vanished">x</translation>
+        <translation>x</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="150"/>
         <source>Aspect ratio</source>
-        <translation type="vanished">比例</translation>
+        <translation>比例</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="174"/>
         <source>Free</source>
-        <translation type="vanished">自由</translation>
+        <translation>自由</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/ccutwidget.cpp" line="178"/>
         <source>Original</source>
-        <translation type="vanished">原始</translation>
+        <translation>原始</translation>
     </message>
 </context>
 <context>
@@ -925,7 +932,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="333"/>
+        <location filename="../src/frame/mainwindow.cpp" line="348"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>

@@ -56,6 +56,9 @@ enum EDrawProperty { // 图片、文字、马赛克根据类型全部显示
     Blurtype, //模糊类型
     BlurWidth, //模糊粗细
 
+    PropertyCutSize,
+    PropertyCutType,
+
     EDrawPropertyCount
 };
 
