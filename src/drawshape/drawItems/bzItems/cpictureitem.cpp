@@ -131,6 +131,11 @@ void CPictureItem::setRotation90(bool leftOrRight)
     }
 }
 
+bool CPictureItem::getAdjustScence()
+{
+    return m_adjustScence;
+}
+
 void CPictureItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);

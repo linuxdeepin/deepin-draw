@@ -43,12 +43,12 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="183"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="184"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="163"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="164"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -95,7 +95,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
         <source>Alpha</source>
         <translation>不透明度</translation>
     </message>
@@ -127,32 +127,32 @@
         <translation type="vanished">画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="861"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="867"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="946"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="965"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1008"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1014"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1100"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1106"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1113"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1119"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -702,24 +702,29 @@
 <context>
     <name>CPictureWidget</name>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="61"/>
         <source>Rotate 90° CCW</source>
-        <translation type="vanished">逆时针旋转</translation>
+        <translation>逆时针旋转</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="67"/>
         <source>Rotate 90° CW</source>
-        <translation type="vanished">顺时针旋转</translation>
+        <translation>顺时针旋转</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="73"/>
         <source>Flip horizontally</source>
-        <translation type="vanished">水平翻转</translation>
+        <translation>水平翻转</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="79"/>
         <source>Flip vertically</source>
-        <translation type="vanished">垂直翻转</translation>
+        <translation>垂直翻转</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="85"/>
         <source>Auto fit</source>
-        <translation type="vanished">画布适应</translation>
+        <translation>画布适应</translation>
     </message>
 </context>
 <context>

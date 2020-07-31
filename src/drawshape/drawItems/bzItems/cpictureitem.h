@@ -22,8 +22,6 @@
 #include <QGraphicsPixmapItem>
 #include "cgraphicsrectitem.h"
 
-
-
 class CPictureItem : public  CGraphicsRectItem
 {
 public:
@@ -34,6 +32,7 @@ public:
     virtual int  type() const Q_DECL_OVERRIDE;
     void setMirror(bool hor, bool ver);
     void setRotation90(bool leftOrRight);
+    bool getAdjustScence();
 
     /**
      * @brief duplicate 拷贝自己
@@ -49,17 +48,14 @@ public:
 
     void setAngle(const qreal &angle);
 
-
-
-
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-
 
 private:
     QPixmap m_pixmap;
     qreal m_angle;
     QByteArray _srcByteArry;
+    bool m_adjustScence = false;
 };
 
 #endif // CPICTUREITEM_H

@@ -55,9 +55,11 @@ enum EDrawProperty { // 图片、文字、马赛克根据类型全部显示
     LineColorAlpha, //描边颜色透明度
     Blurtype, //模糊类型
     BlurWidth, //模糊粗细
-
-    PropertyCutSize,
-    PropertyCutType,
+    PropertyCutSize, // 裁剪图元的大小
+    PropertyCutType, // 裁剪图元的类型
+    PropertyImageAdjustScence, // 图片图元自适应场景
+//    PropertyImageRotationType, // 图片图元旋转类型
+    PropertyImageFlipType,     // 图片图元翻转类型
 
     EDrawPropertyCount
 };
@@ -138,6 +140,7 @@ enum ESaveDDFTriggerAction {
 };
 
 enum ERotationType { //图元旋转枚举
+    NoRotationType,  // 不进行任何操作
     LeftRotate_90,     //左旋转90
     RightRotate_90,    //右旋转90
     FlipHorizontal, //水平镜像翻转

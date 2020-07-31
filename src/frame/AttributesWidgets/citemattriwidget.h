@@ -41,6 +41,7 @@ class CFontComboBox;
 class TextWidget;
 class CCutWidget;
 class BlurWidget;
+class CPictureWidget;
 
 struct SComDefualData {
     QColor penColor = QColor(0, 0, 0);
@@ -68,6 +69,10 @@ struct SComDefualData {
     // blur info
     EBlurEffect blurType = EBlurEffect::MasicoEffect;
     int blurWidth = 20;
+
+    // image info
+    bool adjustScence = false; //自适应场景
+    ERotationType FlipType = ERotationType::NoRotationType; // 镜像翻转
 
     bool comVaild[EDrawPropertyCount] {0};
 
@@ -239,6 +244,7 @@ public:
     CCutWidget *getCutWidget();
 
     /* -----  特殊的图片图元属性控件 ----- */
+    CPictureWidget *getPictureWidget();
 
 private:
     template<class T>
@@ -291,6 +297,9 @@ protected:
 
     //模糊图元属性控件
     BlurWidget *m_blurWidget = nullptr;
+
+    //图片图元属性控件
+    CPictureWidget *m_pictureWidget = nullptr;
 
 private:
     CSceneDefaultData m_defualDatas;
