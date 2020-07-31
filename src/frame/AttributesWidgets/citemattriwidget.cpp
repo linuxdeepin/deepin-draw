@@ -885,7 +885,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber = new CSpinBox(this);
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
-        m_anchorNumber->setRange(0, INT_MAX);
+        m_anchorNumber->setRange(2, 50);
         m_anchorNumber->setFont(ft);
         m_anchorNumber->setSpecialValueText("— —");
         m_anchorNumber->setEnabledEmbedStyle(true);
@@ -895,6 +895,13 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
+
+                    if (value == 2) {
+                        CBlockObjectSig sig(m_anchorNumber);
+                        m_anchorNumber->setValue(3);
+                        return;
+                    }
+
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -904,9 +911,10 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
                         pItem->updatePolygonalStar(value, pItem->innerRadius());
                         pItem->updateShape();
                     }
+
+                    this->updateDefualData(Anchors, value);
                 }
             }
-            this->updateDefualData(Anchors, value);
         });
     }
     return m_anchorNumber;
@@ -920,7 +928,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_radiusNumber = new CSpinBox(this);
         m_radiusNumber->setKeyboardTracking(false);
-        m_radiusNumber->setRange(-1, 1000);
+        m_radiusNumber->setRange(-1, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
         m_radiusNumber->setFont(ft);
@@ -932,6 +940,13 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
+
+                    if (value == -1) {
+                        CBlockObjectSig sig(m_radiusNumber);
+                        m_radiusNumber->setValue(0);
+                        return;
+                    }
+
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -940,9 +955,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
                         pItem->updatePolygonalStar(pItem->anchorNum(), value);
                     }
+                    this->updateDefualData(StarRadius, value);
                 }
             }
-            this->updateDefualData(StarRadius, value);
         });
     }
     return m_radiusNumber;
@@ -983,8 +998,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox = new CSpinBox(this);
         m_sideNumSpinBox->setKeyboardTracking(false);
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
-        m_sideNumSpinBox->setRange(0, INT_MAX);
-        //m_sideNumSlider->setRange(4, 10);//此注释不删，记录边数范围
+        m_sideNumSpinBox->setRange(3, 10);
         m_sideNumSpinBox->setFont(ft);
         m_sideNumSpinBox->setSpecialValueText("— —");
         m_sideNumSpinBox->setEnabledEmbedStyle(true);
@@ -994,6 +1008,12 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对polgon图元的
                 if (getSourceTpByItem(graphicItem()) == Polygon) {
+                    if (value == 3) {
+                        CBlockObjectSig sig(m_sideNumSpinBox);
+                        m_sideNumSpinBox->setValue(4);
+                        return;
+                    }
+
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -1002,9 +1022,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
                         CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(p);
                         pItem->setPointCount(value);
                     }
+                    this->updateDefualData(SideNumber, value);
                 }
             }
-            this->updateDefualData(SideNumber, value);
         });
     }
     return m_sideNumSpinBox;
