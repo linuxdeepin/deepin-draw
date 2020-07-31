@@ -219,7 +219,7 @@ public:
     /**
       * @brief updateShape  刷新图元的形状(属性变化时调用重新计算图元的形状和样式)
       */
-    virtual void updateShape() { update(); }
+    virtual void updateShape();
 
     /**
      * @brief setSizeHandleRectFlag 设置边界各个方向上的矩形是否可见
@@ -239,7 +239,7 @@ public:
     static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path,
                                                       const QPen &pen,
                                                       bool replace = false,
-                                                      const qreal incW = 5);
+                                                      const qreal incW = 0);
 
     /**
      * @brief setMutiSelect 设置图元选中状态

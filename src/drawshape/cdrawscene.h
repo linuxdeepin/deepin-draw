@@ -162,7 +162,7 @@ public:
     QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
 
     //penalgor表示Penetration algorithm，穿透算法
-    CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true);
+    CGraphicsItem *topBzItem(const QPointF &pos, bool penalgor = true, int IncW = 0);
 
     CGraphicsItem *firstBzItem(const QList<QGraphicsItem *> &items,
                                bool haveDesSorted = false);
@@ -179,7 +179,8 @@ public:
                              bool penalgor = false,
                              bool isBzItem = false,
                              bool seeNodeAsBzItem = false,
-                             bool filterMrAndHightLight = true);
+                             bool filterMrAndHightLight = true,
+                             int incW = 0);
 
     //第一个非Mr的item
     QGraphicsItem *firstNotMrItem(const QList<QGraphicsItem *> items);

@@ -844,10 +844,10 @@ QList<QGraphicsItem *> CDrawScene::returnSortZItems(const QList<QGraphicsItem *>
     return sorts;
 }
 
-CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor)
+CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW)
 {
     return dynamic_cast<CGraphicsItem *>(firstItem(pos, QList<QGraphicsItem *>(),
-                                                   true, penalgor, true, true));
+                                                   true, penalgor, true, true, true, IncW));
 }
 
 CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
@@ -877,9 +877,17 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
                                      bool penalgor,
                                      bool isBzItem,
                                      bool seeNodeAsBzItem,
-                                     bool filterMrAndHightLight)
+                                     bool filterMrAndHightLight, int incW)
 {
-    QList<QGraphicsItem *> items = itemsCus.isEmpty() ? this->items(pos) : itemsCus;
+    QList<QGraphicsItem *> items = itemsCus;
+
+    if (itemsCus.isEmpty()) {
+        if (incW == 0) {
+            items = this->items(pos);
+        } else {
+            items = this->items(QRectF(pos - QPoint(incW, incW), 2 * QSize(incW, incW)));
+        }
+    }
 
     //先去掉多选图元和高亮图元
     if (filterMrAndHightLight) {

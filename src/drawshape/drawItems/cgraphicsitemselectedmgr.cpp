@@ -90,8 +90,7 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
 
         //不存在节点的图元就需要多选图元进行管理
         if (!pItem->isSizeHandleExisted()) {
-            _rct = pItem->rect();
-
+            _rct = pItem->boundingRect();
             CGraphicsItem::rotatAngle(pItem->rotation());
 
             setPos(pItem->pos());
