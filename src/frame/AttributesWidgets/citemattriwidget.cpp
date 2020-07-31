@@ -826,7 +826,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_rediusSpinbox = new CSpinBox(this);
         m_rediusSpinbox->setKeyboardTracking(false);
-        m_rediusSpinbox->setRange(-1, INT_MAX);
+        m_rediusSpinbox->setRange(-1, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
         m_rediusSpinbox->setFont(ft);
         m_rediusSpinbox->setSpecialValueText("— —");
@@ -839,6 +839,13 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Rect图元的
                 if (getSourceTpByItem(graphicItem()) == Rect) {
+
+                    if (value == -1) {
+                        CBlockObjectSig sig(m_rediusSpinbox);
+                        m_rediusSpinbox->setValue(0);
+                        return;
+                    }
+
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -848,9 +855,9 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
                         pItem->setXYRedius(value, value);
                         pItem->updateShape();
                     }
+                    this->updateDefualData(RectRadius, value);
                 }
             }
-            this->updateDefualData(RectRadius, value);
         });
     }
     return m_rediusSpinbox;
