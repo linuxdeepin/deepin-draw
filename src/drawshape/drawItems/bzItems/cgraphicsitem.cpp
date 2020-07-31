@@ -160,11 +160,13 @@ void CGraphicsItem::setMutiSelect(bool flag)
 
 bool CGraphicsItem::getMutiSelect() const
 {
-    auto curSelectFlag = m_bMutiSelectFlag;
-    if (isSelected()) {
-        curSelectFlag = isSelected();
-    }
-    return curSelectFlag;
+    //    auto curSelectFlag = m_bMutiSelectFlag;
+    //    if (isSelected()) {
+    //        curSelectFlag = isSelected();
+    //    }
+    //    return curSelectFlag;
+
+    return (this->isSelected() && scene() != nullptr && (qobject_cast<CDrawScene *>(scene()))->getItemsMgr()->count() > 1);
 }
 
 QPainterPath CGraphicsItem::getHighLightPath()

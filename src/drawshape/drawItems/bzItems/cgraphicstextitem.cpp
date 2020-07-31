@@ -151,17 +151,15 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
 
 void CGraphicsTextItem::makeEditabel()
 {
-    if (m_bMutiSelectFlag)
+    if (getMutiSelect())
         return;
 
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
-        //m_pProxy->setFocus();
         QTextCursor textCursor = m_pTextEdit->textCursor();
         textCursor.select(QTextCursor::Document);
         m_pTextEdit->setTextCursor(textCursor);
-//    m_pTextEdit->cursorPositionChanged();
     }
 
     if (nullptr != scene()) {

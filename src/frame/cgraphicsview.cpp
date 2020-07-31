@@ -2116,7 +2116,7 @@ void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
 
 void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    qDebug() << "------CGraphicsView::mouseReleaseEvent--------";
+    //qDebug() << "------CGraphicsView::mouseReleaseEvent--------";
     QGraphicsView::mouseReleaseEvent(event);
 }
 

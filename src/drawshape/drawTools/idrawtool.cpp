@@ -27,7 +27,9 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsSceneEvent>
+#include <QTimer>
 
+QTimer *IDrawTool::s_timerForDoubleClike = nullptr;
 
 IDrawTool::~IDrawTool()
 {
@@ -87,23 +89,13 @@ void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 }
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
-    //鼠标左键按下走和触控统一的逻辑
-    if (event->button() == Qt::LeftButton) {
-        m_bMousePress = true;
+    CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
-        CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
-        toolDoStart(&e.first());
+    dueTouchDoubleClickedStart(&e.first());
 
-        //已经处理完成，不用传递到框架,否则传递给框架继续处理
-        if (!e.first().isAccepted()) {
-            scene->mouseEvent(event);
-        }
-
-        return;
+    if (!e.first().isAccepted()) {
+        scene->mouseEvent(event);
     }
-
-    //默认是要传递给框架的
-    scene->mouseEvent(event);
 }
 
 bool IDrawTool::isUpdating()
@@ -129,6 +121,10 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
         m_bMousePress = true;
+
+        if (dueTouchDoubleClickedStart(event)) {
+            return;
+        }
 
         ITERecordInfo info;
 
@@ -258,6 +254,64 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
     }
 }
 
+bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
+{
+    static int intervalMs = 250;
+    if (event->eventType() == CDrawToolEvent::ETouchEvent) {
+        static QPointF prePos;
+        //touch触控判定是否是双击
+        if (!getTimerForDoubleCliked()->isActive()) {
+            prePos = event->pos();
+            getTimerForDoubleCliked()->start(intervalMs);
+        } else {
+            //判定移动的幅度很小
+            QRectF rectf(event->view()->mapFromScene(prePos) - QPointF(10, 10), QSizeF(20, 20));
+            if (rectf.contains(event->pos())) {
+                m_bMousePress = true;
+
+                ITERecordInfo info;
+
+                info._prePos = event->pos();
+                info._startPos = event->pos();
+                info.startPosItems = event->scene()->items(event->pos());
+                info.startPosTopBzItem = event->scene()->topBzItem(event->pos());
+                info._isvaild = true;
+                info._curEvent = *event;
+                info._scene = event->scene();
+
+                _allITERecordInfo.insert(event->uuid(), info);
+
+                toolDoubleClikedEvent(event, &info);
+
+                getTimerForDoubleCliked()->stop();
+
+                return true;
+            }
+        }
+    } else if (event->eventType() == CDrawToolEvent::EMouseEvent) {
+        m_bMousePress = true;
+        QEvent::Type tp = event->orgQtEvent()->type();
+        if (tp == QEvent::MouseButtonDblClick || tp == QEvent::GraphicsSceneMouseDoubleClick) {
+            ITERecordInfo info;
+
+            info._prePos = event->pos();
+            info._startPos = event->pos();
+            info.startPosItems = event->scene()->items(event->pos());
+            info.startPosTopBzItem = event->scene()->topBzItem(event->pos());
+            info._isvaild = true;
+            info._curEvent = *event;
+            info._scene = event->scene();
+
+            _allITERecordInfo.insert(event->uuid(), info);
+
+            toolDoubleClikedEvent(event, &info);
+
+            return true;
+        }
+    }
+    return false;
+}
+
 void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
@@ -350,6 +404,13 @@ void IDrawTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 {
     // 只有鼠标才存在hover事件
     Q_UNUSED(event)
+}
+
+void IDrawTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+    qDebug() << "IDrawTool::toolDoubleClikedEvent == " << event->pos() << "tp = " << event->eventType();
 }
 
 void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
@@ -530,6 +591,15 @@ IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
         return &itf.value();
     }
     return nullptr;
+}
+
+QTimer *IDrawTool::getTimerForDoubleCliked()
+{
+    if (s_timerForDoubleClike == nullptr) {
+        s_timerForDoubleClike = new QTimer;
+        s_timerForDoubleClike->setSingleShot(true);
+    }
+    return s_timerForDoubleClike;
 }
 
 IDrawTool::CDrawToolEvent::CDrawToolEvent(const QPointF &vPos,
