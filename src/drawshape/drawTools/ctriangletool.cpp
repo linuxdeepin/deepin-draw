@@ -139,7 +139,10 @@ CGraphicsItem *CTriangleTool::creatItem(IDrawTool::CDrawToolEvent *event)
         CGraphicsView *pView = event->scene()->drawView();
         pItem->setPen(pView->getDrawParam()->getPen());
         pItem->setBrush(pView->getDrawParam()->getBrush());
-        pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        //pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        qreal newZ = event->scene()->getMaxZValue() + 1;
+        pItem->setZValue(newZ);
+        event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
         return pItem;
     }

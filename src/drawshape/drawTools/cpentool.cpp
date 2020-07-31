@@ -83,7 +83,10 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
         pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
         pPenItem->setPixmap();
-        pPenItem->setZValue(event->scene()->getMaxZValue() + 1);
+
+        qreal newZ = event->scene()->getMaxZValue() + 1;
+        pPenItem->setZValue(newZ);
+        event->scene()->setMaxZValue(newZ);
 
         event->scene()->addItem(pPenItem);
 

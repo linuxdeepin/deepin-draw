@@ -145,7 +145,10 @@ CGraphicsItem *CRectTool::creatItem(IDrawTool::CDrawToolEvent *event)
         m_pRectItem->setXYRedius(raduis, raduis);
         m_pRectItem->setPen(pView->getDrawParam()->getPen());
         m_pRectItem->setBrush(pView->getDrawParam()->getBrush());
-        m_pRectItem->setZValue(event->scene()->getMaxZValue() + 1);
+        //m_pRectItem->setZValue(event->scene()->getMaxZValue() + 1);
+        qreal newZ = event->scene()->getMaxZValue() + 1;
+        m_pRectItem->setZValue(newZ);
+        event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(m_pRectItem);
         return m_pRectItem;
     }

@@ -141,7 +141,10 @@ CGraphicsItem *CPolygonTool::creatItem(IDrawTool::CDrawToolEvent *event)
         CGraphicsView *pView = event->scene()->drawView();
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
-        m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        //m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        qreal newZ = event->scene()->getMaxZValue() + 1;
+        m_pItem->setZValue(newZ);
+        event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(m_pItem);
         return m_pItem;
     }

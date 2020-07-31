@@ -120,8 +120,8 @@ protected:
     virtual void parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo varTp);
 
 public:
-    static void setUndoRedoStack(QUndoStack *stack);
-    static QUndoStack *getUndoRedoStack();
+    static void setUndoRedoStack(QUndoStack *stack, void *pGraphicsView);
+    static QUndoStack *getUndoRedoStack(void *p = nullptr);
 
 protected:
     struct SCommandInfo {
@@ -191,7 +191,7 @@ protected:
     };
     static QMap<CKey, int> s_forFindCoupleMap;
 
-    static QUndoStack *s_undoStack;
+    static QMap<void *, QUndoStack *> s_undoStacks;
 
     QList<QVariant> _vars[VarTpCount];
 

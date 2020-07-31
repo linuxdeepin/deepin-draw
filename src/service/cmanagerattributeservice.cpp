@@ -462,8 +462,13 @@ void CManagerAttributeService::setItemsCommonPropertyValue(EDrawProperty propert
                                                            QVariant value, bool pushTostack,
                                                            QMap<CGraphicsItem *, QVariant> *outOldValues,
                                                            QMap<CGraphicsItem *, QVariant> *inUndoValues,
-                                                           bool write2Cache)
-{
+                                                           bool write2Cache) {
+    Q_UNUSED(property)
+        Q_UNUSED(value)
+            Q_UNUSED(pushTostack)
+                Q_UNUSED(outOldValues)
+                    Q_UNUSED(inUndoValues)
+                        Q_UNUSED(write2Cache)
     //    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
     //    if (pView != nullptr) {
     //        CDrawScene *pScene = pView->drawScene();
