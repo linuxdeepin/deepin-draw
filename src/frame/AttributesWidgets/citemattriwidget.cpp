@@ -795,11 +795,7 @@ CSideWidthWidget *CComAttrWidget::getBorderWidthWidget()
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *pItem : lists) {
                     QPen p = pItem->pen();
-                    p.setWidthF(lineWidth);
-                    p.setJoinStyle(Qt::MiterJoin);
-                    p.setStyle(Qt::SolidLine);
-                    p.setCapStyle(Qt::RoundCap);
-                    pItem->setPen(p);
+                    pItem->setPenWidth(lineWidth);
                     pItem->updateShape();
                 }
             }

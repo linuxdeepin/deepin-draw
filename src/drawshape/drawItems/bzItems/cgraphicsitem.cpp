@@ -42,14 +42,20 @@ QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &pa
 
     if (path == QPainterPath() || pen == Qt::NoPen)
         return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
+    QPainterPathStroker ps(pen);
+    //    ps.setCapStyle(pen.capStyle());
+    //    if (pen.widthF() <= 0.0)
+    //        ps.setWidth(penWidthZero);
+    //    else
+    //        ps.setWidth(pen.widthF() + incW);
+    //    ps.setJoinStyle(pen.joinStyle());
+    //    ps.setMiterLimit(pen.miterLimit());
+    //    QPainterPath p = ps.createStroke(path);
+
     if (pen.widthF() <= 0.0)
         ps.setWidth(penWidthZero);
     else
         ps.setWidth(pen.widthF() + incW);
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
     QPainterPath p = ps.createStroke(path);
 
     if (!replace)
@@ -253,7 +259,7 @@ QRectF CGraphicsItem::boundingRect() const
 
 QPainterPath CGraphicsItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen());
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false);
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -263,10 +269,8 @@ bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
     bool penIsTrans = (pen().color().alpha() == 0 || pen().width() == 0);
 
     if (outSideShape().contains(posLocal)) {
-        //qDebug() << "at outSideShape -------- " << posLocal;
         result = penIsTrans;
     } else {
-        //qDebug() << "at inSideShape -------- " << posLocal;
         result = brushIsTrans;
     }
     return result;
@@ -363,6 +367,13 @@ void CGraphicsItem::move(QPointF beginPoint, QPointF movePoint)
 {
     QPointF Pos = this->pos();
     this->setPos(Pos + movePoint - beginPoint);
+}
+
+void CGraphicsItem::updateShape()
+{
+    if (drawScene() != nullptr)
+        drawScene()->getItemsMgr()->updateBoundingRect();
+    update();
 }
 
 void CGraphicsItem::setSizeHandleRectFlag(CSizeHandleRect::EDirection dir, bool flag)
