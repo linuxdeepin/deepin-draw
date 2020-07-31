@@ -328,8 +328,9 @@ CGraphicsItem *CGraphicsItem::creatSameItem()
     return pItem;
 }
 
-void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     loadHeadData(data.head);
 }
 
@@ -350,8 +351,9 @@ void CGraphicsItem::duplicate(CGraphicsItem *item)
     item->setZValue(zValue());
 }
 
-CGraphicsUnit CGraphicsItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsItem::getGraphicsUnit(bool allInfo) const
 {
+    Q_UNUSED(allInfo)
     return CGraphicsUnit();
 }
 

@@ -1073,7 +1073,7 @@ void CDrawScene::recordItemsInfoToCmd(const QList<CGraphicsItem *> &items, bool 
         QList<QVariant> vars;
         vars << reinterpret_cast<long long>(pItem);
         QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit());
+        varInfo.setValue(pItem->getGraphicsUnit(false));
         vars << varInfo;
 
         if (isUndo) {

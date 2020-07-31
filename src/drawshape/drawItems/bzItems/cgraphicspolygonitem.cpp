@@ -77,8 +77,9 @@ void CGraphicsPolygonItem::duplicate(CGraphicsItem *item)
     static_cast<CGraphicsPolygonItem *>(item)->setPointCount(m_nPointsCount);
 }
 
-void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pPolygon != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygon->rect);
         m_nPointsCount = data.data.pPolygon->pointNum;
@@ -88,8 +89,10 @@ void CGraphicsPolygonItem::loadGraphicsUnit(const CGraphicsUnit &data)
     loadHeadData(data.head);
 }
 
-CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsPolygonItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
+
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();

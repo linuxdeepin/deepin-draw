@@ -147,7 +147,19 @@ void CPictureItem::duplicate(CGraphicsItem *item)
     pPic->_srcByteArry = _srcByteArry;
 }
 
-CGraphicsUnit CPictureItem::getGraphicsUnit() const
+void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
+{
+    Q_UNUSED(allInfo)
+    if (data.data.pPic != nullptr) {
+        CGraphicsRectItem::loadGraphicsRectUnit(data.data.pPic->rect);
+        if (allInfo) {
+            m_pixmap = QPixmap::fromImage(data.data.pPic->image);
+            _srcByteArry = data.data.pPic->srcByteArry;
+        }
+    }
+    loadHeadData(data.head);
+}
+CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
 {
     CGraphicsUnit unit;
 
@@ -163,35 +175,20 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
     unit.data.pPic->rect.topLeft = this->rect().topLeft();
     unit.data.pPic->rect.bottomRight = this->rect().bottomRight();
 
-//    unit.data.pPic->length =  m_pixmap.toImage().byteCount();
-//    unit.data.pPic->pic = m_pixmap.toImage().bits();
-    unit.data.pPic->image = m_pixmap.toImage();
+    if (all)
+        unit.data.pPic->image = m_pixmap.toImage();
 
-
-
-
-//    QByteArray bytearray;
-//    QBuffer buffer(&bytearray);
-//    buffer.open(QIODevice::WriteOnly);
-//    bool isSuccess = m_pixmap.save(&buffer, "PNG", 10);
-//    if (isSuccess) {
-//        unit.data.pPic->length = bytearray.length();
-//        unit.data.pPic->pic = bytearray;
-//    }
-
-
-//    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
-
-    if (_srcByteArry.isEmpty()) {
-        QBuffer buferTemp;
-        QDataStream strem(&buferTemp);
-        strem << m_pixmap;
-        buferTemp.close();
-        unit.data.pPic->srcByteArry = buferTemp.buffer();
-    } else {
-        unit.data.pPic->srcByteArry = _srcByteArry;
+    if (all) {
+        if (_srcByteArry.isEmpty()) {
+            QBuffer buferTemp;
+            QDataStream strem(&buferTemp);
+            strem << m_pixmap;
+            buferTemp.close();
+            unit.data.pPic->srcByteArry = buferTemp.buffer();
+        } else {
+            unit.data.pPic->srcByteArry = _srcByteArry;
+        }
     }
-
     return unit;
 }
 

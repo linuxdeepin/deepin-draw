@@ -355,7 +355,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
-void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
@@ -363,7 +363,10 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data)
         loadGraphicsRectUnit(pTextData->rect);
         m_Font = pTextData->font;
         m_bManResize = pTextData->manResizeFlag;
-        m_pTextEdit->setHtml(pTextData->content);
+
+        if (allInfo)
+            m_pTextEdit->setHtml(pTextData->content);
+
         m_pTextEdit->hide();
         m_color = pTextData->color;
         QRectF rect(pTextData->rect.topLeft, pTextData->rect.bottomRight);
@@ -698,7 +701,7 @@ void CGraphicsTextItem::setManResizeFlag(bool flag)
         updateHandleVisible();
 }
 
-CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
 {
     CGraphicsUnit unit;
 
@@ -715,7 +718,7 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit() const
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
-    unit.data.pText->content = this->m_pTextEdit->toHtml();
+    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
     unit.data.pText->color = m_color;
 
     return  unit;

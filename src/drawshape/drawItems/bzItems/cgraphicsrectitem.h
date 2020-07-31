@@ -73,13 +73,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
 
     /**
      * @brief getGraphicsUnit 得到图元的数据
      * @return
      */
-    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
 
     /**
      * @brief setXYRedius 设置矩形圆角半径

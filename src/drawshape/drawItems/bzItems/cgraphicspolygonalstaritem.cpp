@@ -93,8 +93,9 @@ void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
     static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum, m_innerRadius);
 }
 
-CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -158,8 +159,9 @@ void CGraphicsPolygonalStarItem::setPolygon(const QPolygonF &polygon)
     m_polygonForBrush = polygon;
 }
 
-void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pPolygonStar != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygonStar->rect);
         m_anchorNum = data.data.pPolygonStar->anchorNum;

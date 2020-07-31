@@ -121,7 +121,7 @@ public:
      */
     QRectF rect() const Q_DECL_OVERRIDE;
 
-    CGraphicsUnit getGraphicsUnit() const override;
+    CGraphicsUnit getGraphicsUnit(bool all) const override;
 
 protected:
     /**

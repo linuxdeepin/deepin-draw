@@ -592,10 +592,10 @@ QRectF CGraphicsItemSelectedMgr::rect() const
     return _rct;
 }
 
-CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit() const
+CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(bool all) const
 {
     if (m_listItems.count() >= 1)
-        return m_listItems.first()->getGraphicsUnit();
+        return m_listItems.first()->getGraphicsUnit(all);
     return CGraphicsUnit();
 }
 

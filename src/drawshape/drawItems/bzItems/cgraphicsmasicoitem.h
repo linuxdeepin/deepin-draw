@@ -27,9 +27,10 @@ public:
     void setBlurEffect(EBlurEffect effect);
     int getBlurWidth() const;
     void setBlurWidth(int width);
-    virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
-    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
-    virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
+    void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     ELineType getPenStartType() const;
     void setPenStartType(const ELineType &penType);

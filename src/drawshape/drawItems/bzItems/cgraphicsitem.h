@@ -116,13 +116,13 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data);
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo);
 
     /**
      * @brief getGraphicsUnit 获取图元数据
      * @return
      */
-    virtual CGraphicsUnit getGraphicsUnit() const;
+    virtual CGraphicsUnit getGraphicsUnit(bool allInfo) const;
 
     /**
      * @brief type 返回当前图元类型

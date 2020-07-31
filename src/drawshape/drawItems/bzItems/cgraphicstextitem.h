@@ -79,8 +79,8 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    virtual void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
-    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    virtual void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
     CTextEdit *getTextEdit();
 
     bool isEditable() const;

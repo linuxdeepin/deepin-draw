@@ -72,7 +72,7 @@ void CDDFManager::saveToDDF(const QString &path, const QGraphicsScene *scene, bo
         CGraphicsItem *tempItem =  static_cast<CGraphicsItem *>(item);
 
         if (tempItem->type() >= RectType && CutType != item->type() && tempItem->type() < MgrType) {
-            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit();
+            CGraphicsUnit graphicsUnit = tempItem->getGraphicsUnit(true);
             m_graphics.vecGraphicsUnit.push_back(graphicsUnit);
             primitiveCount ++;
             streamForCountBytes << graphicsUnit;

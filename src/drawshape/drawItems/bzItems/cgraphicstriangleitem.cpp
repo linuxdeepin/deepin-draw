@@ -49,16 +49,19 @@ CGraphicsTriangleItem::CGraphicsTriangleItem(const SGraphicsTriangleUnitData *da
 
 }
 
-void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data)
+void CGraphicsTriangleItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     if (data.data.pTriangle != nullptr) {
         loadGraphicsRectUnit(data.data.pTriangle->rect);
     }
     loadHeadData(data.head);
 }
 
-CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit() const
+CGraphicsUnit CGraphicsTriangleItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
+
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();

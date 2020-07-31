@@ -48,7 +48,7 @@ public:
      * @brief getGraphicsUnit 获取图元的信息
      * @return
      */
-    CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
 
     /**
      * @brief resizeTo 重写实现画笔的resize逻辑
@@ -186,7 +186,7 @@ public:
      * @brief loadGraphicsUnit 加载图元数据
      * @return
      */
-    void loadGraphicsUnit(const CGraphicsUnit &data) Q_DECL_OVERRIDE;
+    void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) Q_DECL_OVERRIDE;
 
 protected:
     /**
