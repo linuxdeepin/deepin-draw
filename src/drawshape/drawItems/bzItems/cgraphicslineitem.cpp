@@ -121,8 +121,12 @@ QRectF CGraphicsLineItem::boundingRect() const
 
 QRectF CGraphicsLineItem::rect() const
 {
-    QRectF rect(m_dRectline.p1(), m_dRectline.p2());
-    return rect.normalized();
+    QPainterPath path(m_dRectline.p1());
+    path.lineTo(m_dRectline.p2());
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
+
+    return path.controlPointRect().normalized();
 }
 
 void CGraphicsLineItem::rotatAngle(qreal angle)
