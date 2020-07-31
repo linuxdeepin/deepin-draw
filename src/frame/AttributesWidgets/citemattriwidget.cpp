@@ -43,6 +43,8 @@
 #include "ccuttool.h"
 #include "blurwidget.h"
 #include "cgraphicsmasicoitem.h"
+#include "cpicturewidget.h"
+#include "cpictureitem.h"
 
 #include <DComboBox>
 
@@ -275,6 +277,7 @@ void CComAttrWidget::clearUi()
     getTextWidgetForText()->hide();
     getCutWidget()->hide();
     getBlurWidget()->hide();
+    getPictureWidget()->hide();
 
     //2.清理原先的布局内的控件
     QHBoxLayout *pLay = getLayout();
@@ -369,12 +372,6 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
 {
     SComDefualData data;
 
-    //    if (tp == Cut) {
-    //        CDrawScene *pScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
-    //        data.cutSize = pScene->sceneRect().size().toSize();
-    //        return data;
-    //    }
-
     CGraphicsUnit unitData = graphicItem()->getGraphicsUnit();
     data.penColor = unitData.head.pen.color();
     data.penWidth = unitData.head.pen.width();
@@ -398,6 +395,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
         data.textColor = unitData.data.pText->color;
         data.textFontSize = int(unitData.data.pText->font.pointSizeF());
         data.textFontFamily = unitData.data.pText->font.family();
+    } else if (tp == Image) {
+        if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
+            data.comVaild[PropertyImageAdjustScence] = true;
+        } else {
+            data.comVaild[PropertyImageAdjustScence] = false;
+        }
+        data.comVaild[PropertyImageFlipType] = true;
     }
 
     unitData.data.release();
@@ -473,6 +477,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 if (pBlur->getBlurEffect() != data.blurType) {
                     data.comVaild[Blurtype] = false;
                 }
+            } else if (tp == Image) {
+                if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
+                    data.comVaild[PropertyImageAdjustScence] = true;
+                } else {
+                    data.comVaild[PropertyImageAdjustScence] = false;
+                }
+                data.comVaild[PropertyImageFlipType] = false;
             }
         }
     }
@@ -530,7 +541,8 @@ void CComAttrWidget::refreshHelper(int tp)
             layout->addWidget(getTextWidgetForText());
             getTextWidgetForText()->show();
         } else if (tp == Image) {
-
+            layout->addWidget(getPictureWidget());
+            getPictureWidget()->show();
         } else if (tp == Cut) {
             layout->addWidget(getCutWidget());
             getCutWidget()->show();
@@ -632,7 +644,8 @@ void CComAttrWidget::refreshDataHelper(int tp)
             getTextWidgetForText()->setVaild(data.comVaild[TextColor], data.comVaild[TextSize],
                                              data.comVaild[TextFont], data.comVaild[TextHeavy]);
         } else if (tp == Image) {
-
+            getPictureWidget()->setAdjustmentIsEnable(data.comVaild[PropertyImageAdjustScence], false);
+            getPictureWidget()->setRotationEnable(data.comVaild[PropertyImageFlipType]);
         } else if (tp == Cut) {
             getCutWidget()->setCutSize(data.cutSize, false);
             getCutWidget()->setCutType(data.cutType, false);
@@ -747,7 +760,7 @@ CBrushColorBtn *CComAttrWidget::getBrushColorBtn()
 {
     if (m_fillBtn == nullptr) {
         m_fillBtn = new CBrushColorBtn(this);
-        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        connect(m_fillBtn, &CBrushColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             qDebug() << "color = " << color << "phase = " << phase;
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
@@ -1265,6 +1278,48 @@ CCutWidget *CComAttrWidget::getCutWidget()
     return m_cutWidget;
 }
 
+CPictureWidget *CComAttrWidget::getPictureWidget()
+{
+    if (m_pictureWidget == nullptr) {
+        m_pictureWidget = new CPictureWidget(this);
+        connect(m_pictureWidget, &CPictureWidget::imageAdjustScence, this, [ = ]() {
+            this->updateDefualData(PropertyImageAdjustScence, true);
+            CCmdBlock block(this->graphicItem()->drawScene());
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            this->graphicItem()->scene()->setSceneRect(
+                this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRect()));
+        });
+
+        connect(m_pictureWidget, &CPictureWidget::imageFlipChanged, this, [ = ](ERotationType type) {
+            this->updateDefualData(PropertyImageFlipType, type);
+            CCmdBlock block(this->graphicItem());
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            for (CGraphicsItem *p : lists) {
+                CPictureItem *pItem = dynamic_cast<CPictureItem *>(p);
+                if (type == ERotationType::FlipHorizontal) {
+                    pItem->setMirror(true, false);
+                } else if (type == ERotationType::FlipVertical) {
+                    pItem->setMirror(false, true);
+                }
+            }
+        });
+
+        connect(m_pictureWidget, &CPictureWidget::imageRotationChanged, this, [ = ](ERotationType type) {
+            CCmdBlock block(this->graphicItem());
+            QList<CGraphicsItem *> lists = this->graphicItems();
+            for (CGraphicsItem *p : lists) {
+                CPictureItem *pItem = dynamic_cast<CPictureItem *>(p);
+                if (type == ERotationType::LeftRotate_90) {
+                    pItem->setRotation90(true);
+                } else if (type == ERotationType::RightRotate_90) {
+                    pItem->setRotation90(false);
+                }
+            }
+        });
+    }
+    return m_pictureWidget;
+}
+
 template<class T>
 void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
 {
@@ -1339,6 +1394,14 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
     case PropertyCutSize:
         cutSize = var.toSize();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(cutSize);
+        break;
+    case PropertyImageAdjustScence:
+        adjustScence = var.toBool();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageAdjustScence(adjustScence);
+        break;
+    case PropertyImageFlipType:
+        FlipType = static_cast<ERotationType>(var.toUInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageFlipType(FlipType);
         break;
     default:
         break;

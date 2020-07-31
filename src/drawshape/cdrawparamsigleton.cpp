@@ -434,6 +434,26 @@ void CDrawParamSigleton::setCutSize(const QSize &cutSize)
     m_cutSize = cutSize;
 }
 
+bool CDrawParamSigleton::getImageAdjustScence() const
+{
+    return m_imageAdjustScence;
+}
+
+void CDrawParamSigleton::setImageAdjustScence(const bool &adjust)
+{
+    m_imageAdjustScence = adjust;
+}
+
+ERotationType CDrawParamSigleton::getImageFlipType() const
+{
+    return m_imageFlipType;
+}
+
+void CDrawParamSigleton::setImageFlipType(const ERotationType &type)
+{
+    m_imageFlipType = type;
+}
+
 QSize CDrawParamSigleton::getCutDefaultSize() const
 {
     return m_cutDefaultSize;

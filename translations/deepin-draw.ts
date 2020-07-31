@@ -32,12 +32,12 @@
 <context>
     <name>BigColorButton</name>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="183"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="184"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/bigcolorbutton.cpp" line="163"/>
+        <location filename="../src/widgets/bigcolorbutton.cpp" line="164"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -84,7 +84,7 @@
 <context>
     <name>CAlphaControlWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="58"/>
+        <location filename="../src/frame/AttributesWidgets/private/calphacontrolwidget.cpp" line="62"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,32 +108,32 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="861"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="867"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="946"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="952"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="965"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1008"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1014"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1100"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1106"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1113"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1119"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -637,6 +637,34 @@
     <message>
         <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="319"/>
         <source>Damaged file, unable to open it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CPictureWidget</name>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="61"/>
+        <source>Rotate 90° CCW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="67"/>
+        <source>Rotate 90° CW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="73"/>
+        <source>Flip horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="79"/>
+        <source>Flip vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/frame/AttributesWidgets/private/cpicturewidget.cpp" line="85"/>
+        <source>Auto fit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
