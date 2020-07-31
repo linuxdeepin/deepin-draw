@@ -189,7 +189,7 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "---------------CDrawScene::mousePressEvent ---------- ";
+    //qDebug() << "---------------CDrawScene::mousePressEvent ---------- ";
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
@@ -216,7 +216,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "---------------CDrawScene::mouseReleaseEvent ---------- ";
+    //qDebug() << "---------------CDrawScene::mouseReleaseEvent ---------- ";
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -243,6 +243,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    //qDebug() << "mouseDoubleClickEvent ======== " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
@@ -299,6 +300,7 @@ bool CDrawScene::event(QEvent *event)
             return QGraphicsScene::event(event);
         }
 
+        bool accept = true;
         foreach (const QTouchEvent::TouchPoint tp, touchPoints) {
             IDrawTool::CDrawToolEvent e = IDrawTool::CDrawToolEvent::fromTouchPoint(tp, this, event);
             switch (tp.state()) {
@@ -318,13 +320,16 @@ bool CDrawScene::event(QEvent *event)
             default:
                 break;
             }
+            if (!e.isAccepted()) {
+                accept = false;
+            }
         }
         event->accept();
 
         if (evType == QEvent::TouchEnd)
             pTool->clearITE();
 
-        return true;
+        return /*true*/ accept;
     } else if (event->type() == QEvent::Gesture) {
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 

@@ -147,6 +147,12 @@ protected:
     struct ITERecordInfo;
 
     /**
+     * @brief dueTouchDoubleClickedStart　判定工具开始事件是否是一次双击事件，如果是就会转成双击
+     * @param event      当次事件信息
+     */
+    bool dueTouchDoubleClickedStart(CDrawToolEvent *event);
+
+    /**
      * @brief toolStart　工具开始事件
      * @param event      当次事件信息
      * @param pInfo      记录信息
@@ -179,6 +185,12 @@ protected:
      * @param event      当次事件信息
      */
     virtual void mouseHoverEvent(IDrawTool::CDrawToolEvent *event);
+
+    /**
+     * @brief toolDoubleClikedEvent　双击事件
+     * @param event      当次事件信息
+     */
+    virtual void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo);
 
     /**
      * @brief toolCreatItemStart　工具创造业务图元的开始
@@ -300,6 +312,9 @@ private:
     QCursor m_RightTopCursor;
     QCursor m_LeftRightCursor;
     QCursor m_UpDownCursor;
+
+    QTimer *getTimerForDoubleCliked();
+    static QTimer *s_timerForDoubleClike;
 };
 
 #endif // CDRAWTOOL_H

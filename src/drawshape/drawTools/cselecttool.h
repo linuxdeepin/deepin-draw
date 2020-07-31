@@ -105,6 +105,12 @@ public:
     virtual void toolFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
+     * @brief toolDoubleClikedEvent　双击事件
+     * @param event      当次事件信息
+     */
+    virtual void toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
      * @brief toolStart　判断工具活跃类型
      * @param event      当次事件信息
      * @param pInfo      记录信息

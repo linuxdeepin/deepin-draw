@@ -354,7 +354,7 @@ protected:
     Handles m_handles;
 
     /* 设置选中状态 不用系统的选中方式，由自己管理 */
-    bool m_bMutiSelectFlag;
+    bool m_bMutiSelectFlag = false;
 
     int m_operatingType = -1;
 

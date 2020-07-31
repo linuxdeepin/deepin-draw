@@ -92,6 +92,7 @@ void CSelectTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawSc
 {
     Q_UNUSED(event)
     Q_UNUSED(scene)
+    IDrawTool::mouseDoubleClickEvent(event, scene);
 }
 
 void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -99,8 +100,6 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     _hightLight = QPainterPath();
 
     QGraphicsItem *pStartPostTopBzItem = pInfo->startPosTopBzItem;
-    //    int curSelectedCount = event->scene()->selectedItems().count();
-    //    QGraphicsItem *pSelctFirBzItem = event->scene()->firstBzItem(event->scene()->selectedItems(), true);
 
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     bool isMrNodeItem = event->scene()->isBussizeHandleNodeItem(pFirstItem) && (event->scene()->getAssociatedBzItem(pFirstItem)->type() == MgrType);
@@ -290,6 +289,20 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
     CUndoRedoCommand::finishRecord();
 
     IDrawTool::toolFinish(event, pInfo);
+}
+
+void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    IDrawTool::toolDoubleClikedEvent(event, pInfo);
+    qDebug() << "pInfo->startPosTopBzItem = " << pInfo->startPosTopBzItem << "is mrg = " << (pInfo->startPosTopBzItem != nullptr ? pInfo->startPosTopBzItem->type() == MgrType : false);
+    if (pInfo->startPosTopBzItem != nullptr) {
+        qDebug() << "pInfo->startPosTopBzItem type = " << pInfo->startPosTopBzItem->type();
+        if (pInfo->startPosTopBzItem->type() == TextType) {
+            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(pInfo->startPosTopBzItem);
+            pTextItem->makeEditabel();
+        }
+    }
+    event->setAccepted(true);
 }
 
 int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
