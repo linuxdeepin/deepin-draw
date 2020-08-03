@@ -76,7 +76,7 @@ public:
      * @brief setPointCount 设置侧边数（根据当前rect大小进行自动计算出一个多边形）
      * @return
      */
-    void setPointCount(int num);
+    void setPointCount(int num, bool preview = false);
 
     /**
      * @brief setPointCount 侧边数
@@ -112,7 +112,7 @@ protected:
      * @brief updateShape 刷新图元的形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE { calcPoints(); }
+    void updateShape() Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
@@ -120,7 +120,9 @@ private:
     static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset = 0.0);
 
 private:
-    int m_nPointsCount; //点数
+    int m_nPointsCount[2] = {5, 5}; //点数
+    bool m_isPreviewPointCount = false; //点数是否是预览值
+
     QVector<QPointF> m_listPointsForBrush;
     QVector<QPointF> m_listPoints;
 

@@ -305,6 +305,7 @@ protected:
 
 private:
     CSceneDefaultData m_defualDatas;
+    int m_type = 0;
 };
 
 #endif // CITEMATTRIWIDGET_H

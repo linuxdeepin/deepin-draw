@@ -26,34 +26,26 @@
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
-    , m_anchorNum(anchorNum)
-    , m_innerRadius(innerRadius)
 {
-
+    updatePolygonalStar(anchorNum, innerRadius);
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, const QRectF &rect, CGraphicsItem *parent)
     : CGraphicsRectItem(rect, parent)
-    , m_anchorNum(anchorNum)
-    , m_innerRadius(innerRadius)
 {
-
+    updatePolygonalStar(anchorNum, innerRadius);
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(int anchorNum, int innerRadius, qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
     : CGraphicsRectItem(x, y, w, h, parent)
-    , m_anchorNum(anchorNum)
-    , m_innerRadius(innerRadius)
 {
-
+    updatePolygonalStar(anchorNum, innerRadius);
 }
 
 CGraphicsPolygonalStarItem::CGraphicsPolygonalStarItem(const SGraphicsPolygonStarUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsRectItem(data->rect, head, parent)
-    , m_anchorNum(data->anchorNum)
-    , m_innerRadius(data->radius)
 {
-    updatePolygonalStar(m_anchorNum, m_innerRadius);
+    updatePolygonalStar(data->anchorNum, data->radius);
 }
 
 int CGraphicsPolygonalStarItem::type() const
@@ -90,7 +82,7 @@ CGraphicsItem *CGraphicsPolygonalStarItem::duplicateCreatItem()
 void CGraphicsPolygonalStarItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);
-    static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum, m_innerRadius);
+    static_cast<CGraphicsPolygonalStarItem *>(item)->updatePolygonalStar(m_anchorNum[0], m_innerRadius[0]);
 }
 
 CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(bool all) const
@@ -109,10 +101,16 @@ CGraphicsUnit CGraphicsPolygonalStarItem::getGraphicsUnit(bool all) const
     unit.data.pPolygonStar = new SGraphicsPolygonStarUnitData();
     unit.data.pPolygonStar->rect.topLeft = this->rect().topLeft();
     unit.data.pPolygonStar->rect.bottomRight = this->rect().bottomRight();
-    unit.data.pPolygonStar->anchorNum = this->m_anchorNum;
-    unit.data.pPolygonStar->radius = this->m_innerRadius;
+    unit.data.pPolygonStar->anchorNum = this->m_anchorNum[0];
+    unit.data.pPolygonStar->radius = this->m_innerRadius[0];
 
     return  unit;
+}
+
+void CGraphicsPolygonalStarItem::updateShape()
+{
+    calcPolygon();
+    CGraphicsRectItem::updateShape();
 }
 
 QPainterPath CGraphicsPolygonalStarItem::inSideShape() const
@@ -132,9 +130,18 @@ void CGraphicsPolygonalStarItem::setRect(const QRectF &rect)
 
 void CGraphicsPolygonalStarItem::updatePolygonalStar(int anchorNum, int innerRadius)
 {
-    m_anchorNum = anchorNum;
-    m_innerRadius = innerRadius;
+    m_anchorNum[0] = anchorNum;
+    m_innerRadius[0] = innerRadius;
+    m_preview[0] = false;
+    m_preview[1] = false;
 
+    updateShape();
+}
+
+void CGraphicsPolygonalStarItem::setAnchorNum(int num, bool preview)
+{
+    m_preview[0] = preview;
+    m_anchorNum[preview] = num;
     calcPolygon();
 }
 
@@ -164,9 +171,7 @@ void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, boo
     Q_UNUSED(allInfo)
     if (data.data.pPolygonStar != nullptr) {
         loadGraphicsRectUnit(data.data.pPolygonStar->rect);
-        m_anchorNum = data.data.pPolygonStar->anchorNum;
-        m_innerRadius = data.data.pPolygonStar->radius;
-        updatePolygonalStar(m_anchorNum, m_innerRadius);
+        updatePolygonalStar(data.data.pPolygonStar->anchorNum, data.data.pPolygonStar->radius);
     }
 
     loadHeadData(data.head);
@@ -174,31 +179,38 @@ void CGraphicsPolygonalStarItem::loadGraphicsUnit(const CGraphicsUnit &data, boo
 
 int CGraphicsPolygonalStarItem::innerRadius() const
 {
-    return m_innerRadius;
+    return m_innerRadius[m_preview[1]];
 }
 
 int CGraphicsPolygonalStarItem::anchorNum() const
 {
-    return m_anchorNum;
+    return m_anchorNum[m_preview[0]];
+}
+
+void CGraphicsPolygonalStarItem::setInnerRadius(int radius, bool preview)
+{
+    m_preview[1] = preview;
+    m_innerRadius[preview] = radius;
+    updateShape();
 }
 
 void CGraphicsPolygonalStarItem::calcPolygon()
 {
-    bool userSetNoPen = (qFuzzyIsNull(pen().widthF()));
+    bool userSetNoPen = (qFuzzyIsNull(paintPen().widthF()));
     prepareGeometryChange();
 
     //如果用户设置为没有描边或者有描边但锚点个数不大于3那么都以PaintPolyLine的方式绘制边线
     //（锚点为3的时候已经非常特殊(就是一个三角型) 要使用类似CGraphicsPolygonItem的方式绘制三角形）
-    m_renderWay = userSetNoPen ? PaintPolyLine : RenderPathLine/*(m_anchorNum>3?RenderPathLine:PaintPolyLine)*/;
+    m_renderWay = userSetNoPen ? PaintPolyLine : RenderPathLine;
 
     //初始化线的路径
     m_pathForRenderPenLine = QPainterPath();
 
     if (m_renderWay == RenderPathLine) {
-        calcPolygon_helper(m_polygonPen, m_anchorNum);
+        calcPolygon_helper(m_polygonPen, anchorNum());
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
-        calcPolygon_helper(m_polygonForBrush, m_anchorNum, -(pen().widthF()));
+        calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
 
         for (int i = 0; i < m_polygonPen.size(); ++i) {
             if (i == 0) {
@@ -221,12 +233,13 @@ void CGraphicsPolygonalStarItem::calcPolygon()
 
         //CGraphicsPolygonItem::calcPoints_helper(m_polygonPen,m_anchorNum,this->rect());
 
-        calcPolygon_helper(m_polygonPen, m_anchorNum);
+        calcPolygon_helper(m_polygonPen, anchorNum());
 
         //以渲染的方式绘制边线那么填充区域就要偏移整个线条的宽度
-        calcPolygon_helper(m_polygonForBrush, m_anchorNum, -(pen().widthF()));
+        calcPolygon_helper(m_polygonForBrush, anchorNum(), -(paintPen().widthF()));
     }
 
+    CGraphicsItem::updateShape();
 }
 
 void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset)
@@ -246,8 +259,8 @@ void CGraphicsPolygonalStarItem::calcPolygon_helper(QPolygonF &outPolygon, int n
     qreal outer_h = outerEllipseYDiameter / 2.0;
 
     //根据外圆和内圆的关系计算内圆的半径
-    qreal inner_w = outer_w  * m_innerRadius / 100.0;
-    qreal inner_h = outer_h * m_innerRadius / 100.0;
+    qreal inner_w = outer_w * innerRadius() / 100.0;
+    qreal inner_h = outer_h * innerRadius() / 100.0;
 
     if (n > 0) {
         qreal preAngle = qDegreesToRadians(360. / n);

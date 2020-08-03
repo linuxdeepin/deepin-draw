@@ -26,7 +26,7 @@ CGraphicsItemSelectedMgr::CGraphicsItemSelectedMgr(QGraphicsItem *parent)
     initHandle();
 }
 
-void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
+void CGraphicsItemSelectedMgr::reverse(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     if (item == nullptr)
         return;
@@ -39,19 +39,18 @@ void CGraphicsItemSelectedMgr::addOrRemoveToGroup(CGraphicsItem *item)
     }
 
     if (m_listItems.contains(item)) {
-        this->removeFromGroup(item);
+        this->remove(item, updateAttri, updateRect);
         if (m_listItems.size() == 1) {
             m_listItems.at(0)->setMutiSelect(false);
         }
     } else {
-        this->addToGroup(item);
+        this->add(item, updateAttri, updateRect);
     }
     if (m_listItems.size() > 1) {
         foreach (QGraphicsItem *item, m_listItems) {
             static_cast<CGraphicsItem * >(item)->setMutiSelect(true);
         }
     }
-    updateBoundingRect();
 }
 
 void CGraphicsItemSelectedMgr::clear()
@@ -125,7 +124,7 @@ QList<CGraphicsItem *> CGraphicsItemSelectedMgr::getItems() const
     return m_listItems;
 }
 
-void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
+void CGraphicsItemSelectedMgr::add(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     //防止添加自己
     if (item == this)
@@ -135,14 +134,16 @@ void CGraphicsItemSelectedMgr::addToGroup(CGraphicsItem *item)
         if (dynamic_cast<CGraphicsItem *>(item) != nullptr) {
             m_listItems.push_back(item);
             item->setMutiSelect(true);
-            updateAttributes();
+
+            if (updateAttri)
+                updateAttributes();
         }
     }
-
-    updateBoundingRect();
+    if (updateRect)
+        updateBoundingRect();
 }
 
-void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
+void CGraphicsItemSelectedMgr::remove(CGraphicsItem *item, bool updateAttri, bool updateRect)
 {
     //防止删除自己
     if (item == this)
@@ -151,12 +152,14 @@ void CGraphicsItemSelectedMgr::removeFromGroup(CGraphicsItem *item)
     if (m_listItems.contains(item)) {
         m_listItems.removeOne(item);
         static_cast<CGraphicsItem * >(item)->setMutiSelect(false);
-        updateAttributes();
+        if (updateAttri)
+            updateAttributes();
     }
     if (m_listItems.size() == 1) {
         m_listItems.at(0)->setMutiSelect(false);
     }
-    updateBoundingRect();
+    if (updateRect)
+        updateBoundingRect();
 }
 
 void CGraphicsItemSelectedMgr::newResizeTo(CSizeHandleRect::EDirection dir,

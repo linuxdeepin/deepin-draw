@@ -69,10 +69,22 @@ public:
     void updatePolygonalStar(int anchorNum, int innerRadius);
 
     /**
+     * @brief setAnchorNum 设置锚点数
+     * @return
+     */
+    void setAnchorNum(int num, bool preview = false);
+
+    /**
      * @brief anchorNum 锚点数(多少个角的星星)
      * @return
      */
     int anchorNum() const;
+
+    /**
+     * @brief 内圆半径 （内角到中心的距离）
+     * @return
+     */
+    void setInnerRadius(int radius, bool preview = false);
 
     /**
      * @brief 内圆半径 （内角到中心的距离）
@@ -102,7 +114,7 @@ public:
      * @brief updateShape 刷新图元形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE { calcPolygon(); }
+    void updateShape() Q_DECL_OVERRIDE;
 
 protected:
     /**
@@ -129,8 +141,9 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
-    int m_anchorNum;    //描点数
-    int m_innerRadius;  //内接圆半径
+    int m_anchorNum[2] = {5, 5}; //描点数
+    int m_innerRadius[2] = {50, 50}; //内接圆半径
+    bool m_preview[2] = {false, false};
 
     //区分描边的绘制方式；1.RenderPathLine 把描边的边描述成一个包裹的路径 通过brush方式填充它的颜色
     //                 2.PaintPolyLine  以Qt自带的绘制多边形方式绘制边线(不设置填充色只设置QPen颜色)

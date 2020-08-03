@@ -104,7 +104,7 @@ void CGraphicsItem::setPenColor(const QColor &c, bool isPreview)
         p.setColor(c);
         setPen(p);
     }
-    m_isPreview[0] = isPreview;
+    m_isPreviewCom[0] = isPreview;
     update();
 }
 
@@ -120,7 +120,7 @@ void CGraphicsItem::setPenWidth(int w, bool isPreview)
         p.setCapStyle(Qt::RoundCap);
         setPen(p);
     }
-    m_isPreview[1] = isPreview;
+    m_isPreviewCom[1] = isPreview;
     update();
 }
 
@@ -134,14 +134,14 @@ void CGraphicsItem::setBrushColor(const QColor &c, bool isPreview)
         br.setColor(c);
         setBrush(br);
     }
-    m_isPreview[2] = isPreview;
+    m_isPreviewCom[2] = isPreview;
     update();
 }
 
 QBrush CGraphicsItem::paintBrush()
 {
     QBrush br = brush();
-    if (m_isPreview[2]) {
+    if (m_isPreviewCom[2]) {
         br.setColor(m_brPreviewColor);
     }
     return br;
@@ -150,10 +150,10 @@ QBrush CGraphicsItem::paintBrush()
 QPen CGraphicsItem::paintPen()
 {
     QPen p = pen();
-    if (m_isPreview[0]) {
+    if (m_isPreviewCom[0]) {
         p.setColor(m_penPreviewColor);
     }
-    if (m_isPreview[1]) {
+    if (m_isPreviewCom[1]) {
         p.setWidth(m_penWidth);
     }
     return p;

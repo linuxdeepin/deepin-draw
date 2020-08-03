@@ -86,13 +86,19 @@ public:
      * @param xRedius x方向半径
      * @param yRedius y方向半径
      */
-    void setXYRedius(int xRedius, int yRedius);
+    void setXYRedius(int xRedius, int yRedius, bool preview = false);
 
     /**
      * @brief getXYRedius 默认返回一个，返回圆角半径
      * @return
      */
     int getXRedius();
+
+    /**
+     * @brief getXYRedius 默认返回一个，返回圆角半径
+     * @return
+     */
+    int getPaintRedius();
 
 protected:
     void loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData);
@@ -127,6 +133,9 @@ private:
     QPointF m_bottomRightPoint; //右下角的点
     int m_xRedius;
     int m_yRedius;
+
+    int m_rediusForPreview = 5;
+    bool m_isPreviewRedius = false;
 };
 
 #endif // CGRAPHICSRECTITEM_H

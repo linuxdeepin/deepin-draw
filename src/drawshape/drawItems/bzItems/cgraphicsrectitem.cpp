@@ -93,15 +93,28 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     updateHandlesGeometry();
 }
 
-void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius)
+void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius, bool preview)
 {
-    m_xRedius = xRedius;
-    m_yRedius = yRedius;
+    if (!preview) {
+        m_xRedius = xRedius;
+        m_yRedius = yRedius;
+    } else {
+        m_rediusForPreview = xRedius;
+    }
+    m_isPreviewRedius = preview;
 }
 
 int CGraphicsRectItem::getXRedius()
 {
     return  m_xRedius;
+}
+
+int CGraphicsRectItem::getPaintRedius()
+{
+    if (m_isPreviewRedius) {
+        return m_rediusForPreview;
+    }
+    return m_xRedius;
 }
 
 void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectData)
@@ -110,6 +123,8 @@ void CGraphicsRectItem::loadGraphicsRectUnit(const SGraphicsRectUnitData &rectDa
     this->m_bottomRightPoint = rectData.bottomRight;
     this->m_xRedius = rectData.xRedius;
     this->m_yRedius = rectData.yRedius;
+
+    m_isPreviewRedius = false;
 
     this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 }
@@ -130,6 +145,8 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     const QPen curPen = this->paintPen();
 
+    int redius = getPaintRedius();
+
     //先绘制填充
     qreal penWidthOffset = curPen.widthF() / 2.0;
     QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
@@ -137,12 +154,12 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     painter->setPen(Qt::NoPen);
     painter->setBrush(paintBrush());
-    painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
+    painter->drawRoundedRect(rectIn, qMax(redius - penWidthOffset, 0.0), qMax(redius - penWidthOffset, 0.0), Qt::AbsoluteSize);
 
     //再绘制描边
     painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
     painter->setBrush(Qt::NoBrush);
-    painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    painter->drawRoundedRect(rect(), redius, redius, Qt::AbsoluteSize);
 
     endCheckIns(painter);
 

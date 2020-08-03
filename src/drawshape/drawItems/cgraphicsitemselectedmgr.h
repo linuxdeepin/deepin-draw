@@ -20,15 +20,32 @@ public:
     CGraphicsItemSelectedMgr(QGraphicsItem *parent = nullptr);
 
     /**
-     * @brief addOrRemoveToGroup 点击一个图元
+     * @brief add 添加图元到多选
      * @param item
      */
-    void addOrRemoveToGroup(CGraphicsItem *item);
+    void add(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
+
+    /**
+     * @brief removeFromGroup 从多选列表中删除图元
+     * @param item
+     */
+    void remove(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
+
+    /**
+     * @brief reverse 如果图元没有在该管理图元中那么添加，否则去除
+     * @param item
+     */
+    void reverse(CGraphicsItem *item, bool updateAttri = true, bool updateRect = true);
 
     /**
      * @brief clear 清除多选状态
      */
     void clear();
+
+    /**
+     * @brief updateAttributes 刷新属性显示
+     */
+    void updateAttributes();
 
     /**
      * @brief boundingRect 边界矩形
@@ -59,18 +76,6 @@ public:
      * @return
      */
     QList<CGraphicsItem *> getItems() const;
-
-    /**
-     * @brief addToGroup 添加图元到多选
-     * @param item
-     */
-    void addToGroup(CGraphicsItem *item);
-
-    /**
-     * @brief removeFromGroup 从多选列表中删除图元
-     * @param item
-     */
-    void removeFromGroup(CGraphicsItem *item);
 
     /**
      * @brief resizeTo 沿一个方向拉伸图元
@@ -143,8 +148,6 @@ private:
      * @brief updateHandlesGeometry 刷新节点位置
      */
     void updateHandlesGeometry() Q_DECL_OVERRIDE;
-
-    void updateAttributes();
 
 private:
     QList<CGraphicsItem * > m_listItems;
