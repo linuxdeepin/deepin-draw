@@ -92,6 +92,12 @@ void CPictureItem::setAngle(const qreal &angle)
     m_angle = angle;
 }
 
+bool CPictureItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    return false;
+}
+
 void CPictureItem::setPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
@@ -145,6 +151,11 @@ void CPictureItem::duplicate(CGraphicsItem *item)
     pPic->setPixmap(m_pixmap);
 
     pPic->_srcByteArry = _srcByteArry;
+}
+
+CGraphicsItem *CPictureItem::duplicateCreatItem()
+{
+    return (new CPictureItem);
 }
 
 void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)

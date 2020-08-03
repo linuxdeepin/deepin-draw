@@ -470,20 +470,23 @@ void CDrawScene::doCutScene()
 
     foreach (QGraphicsItem *item, items) {
         if (item->type() == BlurType) {
-            static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
+            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
         }
     }
 }
 
 void CDrawScene::doAdjustmentScene(QRectF rect, CGraphicsItem *item)
 {
+    Q_UNUSED(item)
     //QUndoCommand *sceneCutCommand = new CSceneCutCommand(this, rect, nullptr, item);
     //CManageViewSigleton::GetInstance()->getCurView()->pushUndoStack(sceneCutCommand);
 
     //if (item->drawScene() != nullptr)
-    {
-        this->setSceneRect(rect);
-    }
+    //    {
+    //        this->setSceneRect(rect);
+    //    }
+
+    this->setSceneRect(rect.toRect());
 }
 
 void CDrawScene::drawToolChange(int type, bool clearSections)
@@ -612,33 +615,39 @@ void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
     if (blockMscUpdate)
         return;
+    //    QList<QGraphicsItem *> items = this->items();
+    //    if (changeItem != nullptr) {
+    //        int index = items.indexOf(changeItem);
+    //        qreal zValue = changeItem->zValue();
+    //        foreach (QGraphicsItem *item, items) {
+    //            if (item->type() == BlurType) {
+    //                int blurIndex = items.indexOf(item);
+    //                qreal blurZValue = item->zValue();
 
-    QList<QGraphicsItem *> items = this->items();
-    if (changeItem != nullptr) {
-        int index = items.indexOf(changeItem);
-        qreal zValue = changeItem->zValue();
-        foreach (QGraphicsItem *item, items) {
-            if (item->type() == BlurType) {
-                int blurIndex = items.indexOf(item);
-                qreal blurZValue = item->zValue();
+    //                if (blurZValue > zValue) {
+    //                    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
+    //                }
+    //                //判断在模糊图元下的图元才更新
+    //                else if ((qFuzzyCompare(blurZValue, zValue) && index > blurIndex) || index == -1) {
+    //                    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
+    //                }
+    //            }
+    //        }
+    //    } else {
+    //        foreach (QGraphicsItem *item, items) {
+    //            if (item->type() == BlurType) {
+    //                static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
+    //            }
+    //        }
 
+    //    }
 
-                if (blurZValue > zValue) {
-                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-                }
-                //判断在模糊图元下的图元才更新
-                else if ((qFuzzyCompare(blurZValue, zValue) && index > blurIndex) || index == -1) {
-                    static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-                }
-            }
+    Q_UNUSED(changeItem)
+    QList<QGraphicsItem *> lists = getBzItems();
+    foreach (QGraphicsItem *item, lists) {
+        if (item->type() == BlurType) {
+            static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
         }
-    } else {
-        foreach (QGraphicsItem *item, items) {
-            if (item->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(item)->setPixmap();
-            }
-        }
-
     }
 }
 
@@ -651,7 +660,7 @@ void CDrawScene::switchTheme(int type)
         CGraphicsItem *pItem = dynamic_cast<CGraphicsItem *>(items[i]);
         if (pItem != nullptr) {
             if (pItem->type() == BlurType) {
-                static_cast<CGraphicsMasicoItem *>(items[i])->setPixmap();
+                static_cast<CGraphicsMasicoItem *>(items[i])->updateMasicPixmap();
             }
         }
     }

@@ -132,7 +132,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._startPos = event->pos();
         info.businessItem = creatItem(event);
         info.startPosItems = event->scene()->items(event->pos());
-        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true, 10);
+        info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
         info._isvaild = true;
         info._curEvent = *event;
         info._scene = event->scene();

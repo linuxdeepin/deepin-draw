@@ -1126,7 +1126,7 @@ void CGraphicsView::slotOnPaste()
         if (data != nullptr) {
             drawScene()->clearMrSelection();
 
-            QList<CGraphicsItem *> allItems = data->itemList();
+            QList<CGraphicsItem *> allItems = data->creatCopyItems();
 
             QList<QVariant> vars;
             vars << reinterpret_cast<long long>(scene());

@@ -39,6 +39,10 @@ public:
      * @return
      */
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
+    /**
+     * @brief 创建一个同类型图元
+     */
+    virtual CGraphicsItem *duplicateCreatItem() Q_DECL_OVERRIDE;
 
     void loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo) override;
     CGraphicsUnit getGraphicsUnit(bool all) const Q_DECL_OVERRIDE;
@@ -47,6 +51,12 @@ public:
     void setPixmap(const QPixmap &pixmap);
 
     void setAngle(const qreal &angle);
+
+    /**
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
+     * @param posLocal 该图元坐标系的坐标位置
+     */
+    bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;

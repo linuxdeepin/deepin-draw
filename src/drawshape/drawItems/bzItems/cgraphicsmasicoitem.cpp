@@ -108,7 +108,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //    }
 }
 
-void CGraphicsMasicoItem::setPixmap()
+void CGraphicsMasicoItem::updateMasicPixmap()
 {
     if (this->scene() != nullptr) {
         bool flag = this->isSelected();
@@ -193,7 +193,7 @@ void CGraphicsMasicoItem::setPixmap()
     //this->scene()->views()[0]->setFocus();
 }
 
-void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
+void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
 }
@@ -307,7 +307,7 @@ void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
     CGraphicsPenItem::duplicate(item);
     static_cast<CGraphicsMasicoItem *>(item)->setBlurEffect(m_nBlurEffect);
     static_cast<CGraphicsMasicoItem *>(item)->updateBlurPath();
-    static_cast<CGraphicsMasicoItem *>(item)->setPixmap(m_pixmap);
+    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap(m_pixmap);
 }
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)

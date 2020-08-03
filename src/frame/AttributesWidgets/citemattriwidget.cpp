@@ -74,6 +74,9 @@ void CItemAttriWidget::refresh()
 CItemAttriWidget::CCmdBlock::CCmdBlock(CDrawScene *pScene)
     : _pScene(pScene)
 {
+    if (_pScene == nullptr)
+        return;
+
     //记录undo
     QList<QVariant> vars;
     vars << reinterpret_cast<long long>(pScene);
@@ -910,7 +913,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber = new CSpinBox(this);
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
-        m_anchorNumber->setRange(2, 50);
+        //m_anchorNumber->setRange(2, 50);
+        m_anchorNumber->setSpinRange(3, 50);
         m_anchorNumber->setFont(ft);
         m_anchorNumber->setSpecialValueText("— —");
         m_anchorNumber->setEnabledEmbedStyle(true);
@@ -951,7 +955,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_radiusNumber = new CSpinBox(this);
         m_radiusNumber->setKeyboardTracking(false);
-        m_radiusNumber->setRange(-1, 100);
+        //m_radiusNumber->setRange(-1, 100);
+        m_radiusNumber->setSpinRange(0, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
         m_radiusNumber->setFont(ft);
@@ -1021,7 +1026,8 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox = new CSpinBox(this);
         m_sideNumSpinBox->setKeyboardTracking(false);
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
-        m_sideNumSpinBox->setRange(3, 10);
+        //m_sideNumSpinBox->setRange(3, 10);
+        m_sideNumSpinBox->setSpinRange(4, 10);
         m_sideNumSpinBox->setFont(ft);
         m_sideNumSpinBox->setSpecialValueText("— —");
         m_sideNumSpinBox->setEnabledEmbedStyle(true);
@@ -1329,6 +1335,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
+                CCmdBlock block(accept ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : nullptr);
                 pTool->doFinished(accept);
                 if (accept) {
                     QSize sz = m_cutWidget->cutSize();

@@ -34,7 +34,7 @@
 
 ColorLabel::ColorLabel(DWidget *parent)
     : DLabel(parent)
-    , m_workToPick(false)
+    , m_workToPick(/*false*/ true)
     , m_picking(true)
     , m_pressed(false)
     , m_tipPoint(this->rect().center())

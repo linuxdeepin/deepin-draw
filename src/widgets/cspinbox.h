@@ -21,6 +21,8 @@ public:
 
     void setValueChangedKeepFocus(bool b);
 
+    void setSpinRange(int min, int max);
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
@@ -50,6 +52,9 @@ private:
 
     int _s_value = -100;
     int _s_phase = -100;
+
+    int m_min = -1;
+    int m_max = INT_MAX;
 };
 
 #endif // CSPINBOX_H
