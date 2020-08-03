@@ -76,7 +76,7 @@ private:
     DPushButton *m_freeBtn;
     DPushButton *m_originalBtn;
     QButtonGroup *m_scaleBtnGroup = nullptr;
-    const qreal Radio[cut_done] {1.0, 2.0 / 3.0, 8.0 / 5.0, 16.0 / 9.0, -1, -2};
+    const qreal Radio[cut_count] {1.0, 2.0 / 3.0, 8.0 / 5.0, 16.0 / 9.0, -1, -2};
 
     ECutType m_curCutType;
     QSize m_cutCutSize;

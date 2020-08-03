@@ -630,6 +630,11 @@ void CGraphicsView::initConnection()
 
         emit singalTransmitEndLoadDDF();
     });
+
+    // 连接undo redo改变的信号
+    connect(m_pUndoStack, &QUndoStack::canUndoChanged, this, [ = ](bool undo) {
+        this->setModify(undo);
+    });
 }
 
 void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
@@ -1371,7 +1376,6 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     static_cast<CDrawScene *>(scene())->doCutScene();
-    this->getDrawParam()->setCutType(ECutType::cut_done);
     this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
 }
 

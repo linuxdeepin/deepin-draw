@@ -386,6 +386,12 @@ private:
      * @param scenceName 场景名字
      */
     CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isModified = false);
+
+
+    /*
+    * @bref: getCutedStatus 返回裁剪状态
+    */
+    bool getCutedStatus();
 };
 
 #endif // MAINWIDGET_H

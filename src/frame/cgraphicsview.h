@@ -66,7 +66,7 @@ public:
                         ESceneCenter,
                         EMousePos,
                         ECustomViewPos
-    };
+                      };
 
     /**
      * @brief zoomOut 放大

@@ -205,6 +205,25 @@ void CCutTool::doFinished(bool accept)
     }
 }
 
+bool CCutTool::getCutStatus()
+{
+    CGraphicsCutItem *pCutItem = getCurCutItem();
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+
+    if (pCutItem == nullptr || pView == nullptr) {
+        qDebug() << "pCutItem or pView is nullptr";
+        return false;
+    }
+
+    QRectF sceneItemBd = pCutItem->mapRectToScene(pCutItem->rect());
+
+    if (sceneItemBd != pView->sceneRect()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 QRectF CCutTool::getCutRect(CDrawScene *scene)
 {
     QRectF rect;
