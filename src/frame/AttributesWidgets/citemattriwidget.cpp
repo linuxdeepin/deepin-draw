@@ -193,6 +193,8 @@ CComAttrWidget::CComAttrWidget(QWidget *parent)
 
 void CComAttrWidget::showByType(CComAttrWidget::EAttriSourceItemType tp, CGraphicsItem *pItem)
 {
+    m_type = tp;
+
     _pItem = pItem;
     clearUi();
     refreshHelper(tp);
@@ -236,6 +238,8 @@ void CComAttrWidget::refresh()
     int tp = getSourceTpByItem(this->graphicItem());
     if (tp < 0)
         return;
+
+    m_type = tp;
 
     refreshHelper(tp);
 
@@ -873,12 +877,12 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
                     QList<CGraphicsItem *> lists = this->graphicItems();
                     for (CGraphicsItem *p : lists) {
                         CGraphicsRectItem *pItem = dynamic_cast<CGraphicsRectItem *>(p);
-                        pItem->setXYRedius(value, value);
+                        pItem->setXYRedius(value, value, phase == EChangedUpdate || phase == EChangedBegin);
                         pItem->updateShape();
                     }
-                    this->updateDefualData(RectRadius, value);
                 }
             }
+            this->updateDefualData(RectRadius, value);
         });
     }
     return m_rediusSpinbox;
@@ -929,13 +933,11 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
                     QList<CGraphicsItem *> lists = this->graphicItems();
                     for (CGraphicsItem *p : lists) {
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
-                        pItem->updatePolygonalStar(value, pItem->innerRadius());
-                        pItem->updateShape();
+                        pItem->setAnchorNum(value, phase == EChangedBegin || phase == EChangedUpdate);
                     }
-
-                    this->updateDefualData(Anchors, value);
                 }
             }
+            this->updateDefualData(Anchors, value);
         });
     }
     return m_anchorNumber;
@@ -974,11 +976,11 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
                     QList<CGraphicsItem *> lists = this->graphicItems();
                     for (CGraphicsItem *p : lists) {
                         CGraphicsPolygonalStarItem *pItem = dynamic_cast<CGraphicsPolygonalStarItem *>(p);
-                        pItem->updatePolygonalStar(pItem->anchorNum(), value);
+                        pItem->setInnerRadius(value, phase == EChangedBegin || phase == EChangedUpdate);
                     }
-                    this->updateDefualData(StarRadius, value);
                 }
             }
+            this->updateDefualData(StarRadius, value);
         });
     }
     return m_radiusNumber;
@@ -1028,7 +1030,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         connect(m_sideNumSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对polgon图元的
-                if (getSourceTpByItem(graphicItem()) == Polygon) {
+                if (/*getSourceTpByItem(graphicItem())*/ m_type == Polygon) {
                     if (value == 3) {
                         CBlockObjectSig sig(m_sideNumSpinBox);
                         m_sideNumSpinBox->setValue(4);
@@ -1041,11 +1043,11 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
                     QList<CGraphicsItem *> lists = this->graphicItems();
                     for (CGraphicsItem *p : lists) {
                         CGraphicsPolygonItem *pItem = dynamic_cast<CGraphicsPolygonItem *>(p);
-                        pItem->setPointCount(value);
+                        pItem->setPointCount(value, phase == EChangedBegin || phase == EChangedUpdate);
                     }
-                    this->updateDefualData(SideNumber, value);
                 }
             }
+            this->updateDefualData(SideNumber, value);
         });
     }
     return m_sideNumSpinBox;
@@ -1080,32 +1082,27 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
         connect(m_lineStartComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对pen 或者 line图元的
-                int srTp = getSourceTpByItem(graphicItem());
+                int srTp = m_type;
                 if (srTp == Pen || srTp == Line || srTp == (Pen | Line)) {
                     //记录undo
                     CCmdBlock block(this->graphicItem());
-
                     QList<CGraphicsItem *> lists = this->graphicItems();
                     for (CGraphicsItem *p : lists) {
                         if (p->type() == PenType) {
                             CGraphicsPenItem *pItem = dynamic_cast<CGraphicsPenItem *>(p);
                             pItem->setPenStartType(ELineType(index));
-                            this->updateDefualData(PenStartType, index);
                         } else {
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineStartType(ELineType(index));
-                            this->updateDefualData(LineStartType, index);
                         }
                     }
                 }
             }
-            // 需要先记录tp
-//            if (srTp & PenType) {
-//                this->updateDefualData(PenStartType, index);
-//            }
-//            if (srTp & LineType) {
-//                this->updateDefualData(LineStartType, index);
-//            }
+            if (m_type == Pen) {
+                this->updateDefualData(PenStartType, index);
+            } else if (m_type == Line) {
+                this->updateDefualData(LineStartType, index);
+            }
         });
     }
     return m_lineStartComboBox;
@@ -1127,7 +1124,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
         connect(m_lineEndComboBox, QOverload<int>::of(&DComboBox::currentIndexChanged), this, [ = ](int index) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对pen 或者 line图元的
-                int srTp = getSourceTpByItem(graphicItem());
+                int srTp = m_type;
                 if (srTp == Pen || srTp == Line || srTp == (Pen | Line)) {
                     //记录undo
                     CCmdBlock block(this->graphicItem());
@@ -1151,6 +1148,11 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                         this->updateDefualData(LineEndType, index);
                     }
                 }
+            }
+            if (m_type == Pen) {
+                this->updateDefualData(PenEndType, index);
+            } else if (m_type == Line) {
+                this->updateDefualData(LineEndType, index);
             }
         });
     }

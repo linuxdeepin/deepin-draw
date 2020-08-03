@@ -361,7 +361,7 @@ protected:
     QColor m_penPreviewColor;
     int m_penWidth;
     QColor m_brPreviewColor;
-    bool m_isPreview[3] {0};
+    bool m_isPreviewCom[3] {0};
 
 public:
     /* 将被弃用 */

@@ -1028,7 +1028,7 @@ void COneLayerUpCommand::undo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1112,7 +1112,7 @@ void COneLayerUpCommand::redo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1195,7 +1195,7 @@ void COneLayerDownCommand::undo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1283,7 +1283,7 @@ void COneLayerDownCommand::redo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1368,7 +1368,7 @@ void CBringToFrontCommand::undo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1404,7 +1404,7 @@ void CBringToFrontCommand::redo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1495,7 +1495,7 @@ void CSendToBackCommand::undo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
@@ -1554,7 +1554,7 @@ void CSendToBackCommand::redo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->addOrRemoveToGroup(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {

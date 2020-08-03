@@ -40,13 +40,16 @@ signals:
 private:
     QTimer *getTimer();
 
+    void setSpinPhaseValue(int value, EChangedPhase phase);
+
 private:
     QTimer *_wheelTimer = nullptr;
     bool    _wheelbegin = false;
     bool    _wheelEnd   = false;
-
-
     bool    _keepFocus = false;
+
+    int _s_value = -100;
+    int _s_phase = -100;
 };
 
 #endif // CSPINBOX_H

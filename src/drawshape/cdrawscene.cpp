@@ -71,32 +71,32 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     view->setScene(this);
     initScene();
 
-    connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
-            view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
+    //    connect(this, SIGNAL(itemMoved(QGraphicsItem *, QPointF)),
+    //            view, SLOT(itemMoved(QGraphicsItem *, QPointF)));
     connect(this, SIGNAL(itemAdded(QGraphicsItem *, bool)),
             view, SLOT(itemAdded(QGraphicsItem *, bool)));
-    connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
-            view, SLOT(itemRotate(QGraphicsItem *, qreal)));
-    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)),
-            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)));
-    connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
-            view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
-    connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
-            view, SLOT(itemRectXRediusChange(CGraphicsRectItem *, int, bool)));
+    //    connect(this, SIGNAL(itemRotate(QGraphicsItem *, qreal)),
+    //            view, SLOT(itemRotate(QGraphicsItem *, qreal)));
+    //    connect(this, SIGNAL(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)),
+    //            view, SLOT(itemResize(CGraphicsItem *, CSizeHandleRect::EDirection, QRectF, QPointF, bool, bool)));
+    //    connect(this, SIGNAL(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)),
+    //            view, SLOT(itemPropertyChange(CGraphicsItem *, QPen, QBrush, bool, bool)));
+    //    connect(this, SIGNAL(itemRectXRediusChange(CGraphicsRectItem *, int, bool)),
+    //            view, SLOT(itemRectXRediusChange(CGraphicsRectItem *, int, bool)));
 
-    connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int)),
-            view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int)));
-    connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)),
-            view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)));
+    //    connect(this, SIGNAL(itemPolygonPointChange(CGraphicsPolygonItem *, int)),
+    //            view, SLOT(itemPolygonPointChange(CGraphicsPolygonItem *, int)));
+    //    connect(this, SIGNAL(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)),
+    //            view, SLOT(itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *, int, int)));
 
-    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)),
-            view, SLOT(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)));
+    //    connect(this, SIGNAL(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)),
+    //            view, SLOT(itemPenTypeChange(CGraphicsPenItem *, bool, ELineType)));
 
-    connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int)),
-            view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int)));
+    //    connect(this, SIGNAL(itemBlurChange(CGraphicsMasicoItem *, int, int)),
+    //            view, SLOT(itemBlurChange(CGraphicsMasicoItem *, int, int)));
 
-    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)),
-            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)));
+    //    connect(this, SIGNAL(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)),
+    //            view, SLOT(itemLineTypeChange(CGraphicsLineItem *, bool, ELineType)));
 
     connect(this, SIGNAL(signalQuitCutAndChangeToSelect()),
             view, SLOT(slotRestContextMenuAfterQuitCut()));
@@ -744,7 +744,7 @@ void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem)
 {
     if (onlyBzItem && isBussizeItem(pItem)) {
         pItem->setSelected(true);
-        m_pGroupItem->addToGroup(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem));
     } else {
         pItem->setSelected(true);
     }
@@ -755,7 +755,7 @@ void CDrawScene::notSelectItem(QGraphicsItem *pItem)
     pItem->setSelected(false);
 
     if (isBussizeItem(pItem)) {
-        m_pGroupItem->removeFromGroup(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem));
     }
 }
 
@@ -769,11 +769,13 @@ void CDrawScene::selectItemsByRect(const QRectF &rect, bool replace, bool onlyBz
     for (QGraphicsItem *pItem : itemlists) {
         if (onlyBzItem && isBussizeItem(pItem)) {
             pItem->setSelected(true);
-            m_pGroupItem->addToGroup(dynamic_cast<CGraphicsItem *>(pItem));
+            m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), false, false);
         } else {
             pItem->setSelected(true);
         }
     }
+    m_pGroupItem->updateAttributes();
+    m_pGroupItem->updateBoundingRect();
 }
 
 void CDrawScene::moveMrItem(const QPointF &prePos, const QPointF &curPos)

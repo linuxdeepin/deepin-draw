@@ -1158,41 +1158,39 @@ void CGraphicsView::slotOnPaste()
 
 void CGraphicsView::slotOnSelectAll()
 {
+    //    EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+    //    if (currentMode != selection) {
+    //        return;
+    //    }
+    //    scene()->clearSelection();
+
+    //    auto curScene = dynamic_cast<CDrawScene *>(scene());
+    //    foreach (QGraphicsItem *item, scene()->items()) {
+    //        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
+    //            auto curItem = static_cast<CGraphicsItem *>(item);
+    //            curScene->getItemsMgr()->add(curItem);
+    //        }
+    //    }
+    //    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //    if (curScene->getItemsMgr()->getItems().isEmpty()) {
+    //        return;
+    //    }
+    //    curScene->clearSelection();
+    //    curScene->getItemsMgr()->show();
+    //    curScene->getItemsMgr()->setSelected(true);
+
+    //    if (nullptr != scene()) {
+    //        auto curScene = static_cast<CDrawScene *>(scene());
+    //        curScene->updateBlurItem();
+
+    //        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    //    }
+
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
     if (currentMode != selection) {
         return;
     }
-    //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(true);
-    scene()->clearSelection();
-    //    foreach (QGraphicsItem *item, scene()->items()) {
-    //        if (item->type() > QGraphicsItem::UserType) {
-    //            item->setSelected(true);
-    //        }
-    //    }
-
-    auto curScene = dynamic_cast<CDrawScene *>(scene());
-    foreach (QGraphicsItem *item, scene()->items()) {
-        if (item->type() > QGraphicsItem::UserType && item->type() < EGraphicUserType::MgrType) {
-            auto curItem = static_cast<CGraphicsItem *>(item);
-            curScene->getItemsMgr()->addToGroup(curItem);
-        }
-    }
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    if (curScene->getItemsMgr()->getItems().isEmpty()) {
-        return;
-    }
-    curScene->clearSelection();
-    curScene->getItemsMgr()->show();
-    curScene->getItemsMgr()->setSelected(true);
-
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->updateBlurItem();
-
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    }
-
-    //    CDrawParamSigleton::GetInstance()->setSelectAllFlag(false);
+    drawScene()->selectItemsByRect(sceneRect());
 }
 
 void CGraphicsView::slotOnDelete()
