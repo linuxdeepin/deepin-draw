@@ -145,8 +145,8 @@ void CGraphicsPolygonalStarItem::paint(QPainter *painter, const QStyleOptionGrap
 
     beginCheckIns(painter);
 
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
-    painter->setBrush(brush());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
+    painter->setBrush(paintBrush());
     painter->drawPolygon(m_polygonPen);
 
     endCheckIns(painter);

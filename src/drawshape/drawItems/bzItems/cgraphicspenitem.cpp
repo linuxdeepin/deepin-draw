@@ -1198,7 +1198,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    QPen pen = this->pen();
+    QPen pen = this->paintPen();
     pen.setJoinStyle(Qt::BevelJoin);
 
 
@@ -1208,7 +1208,7 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setRenderHint(QPainter::SmoothPixmapTransform);
     painter->setPen(pen);
 
-    painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->pen());
+    painter->setPen(this->pen().width() == 0 ? Qt::NoPen : this->paintPen());
     painter->drawPath(m_path);
 
     if (m_isShiftPress) {
@@ -1218,17 +1218,17 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setRenderHint(QPainter::Antialiasing, true);
 
     painter->setBrush(Qt::NoBrush);
-    if (this->pen().width()) {
+    if (pen.width()) {
         if (m_penStartType == soildArrow || m_penStartType == soildRing) {
-            painter->setBrush(QBrush(QColor(this->pen().color())));
+            painter->setBrush(QBrush(QColor(pen.color())));
         }
     }
     painter->drawPath(m_startPath);
 
     painter->setBrush(Qt::NoBrush);
-    if (this->pen().width()) {
+    if (pen.width()) {
         if (m_penEndType == soildArrow || m_penEndType == soildRing) {
-            painter->setBrush(QBrush(QColor(this->pen().color())));
+            painter->setBrush(QBrush(QColor(pen.color())));
         }
     }
     painter->drawPath(m_endPath);

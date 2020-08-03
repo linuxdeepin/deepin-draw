@@ -118,16 +118,16 @@ void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     beginCheckIns(painter);
 
-    QPen curPen = this->pen();
+    const QPen curPen = this->paintPen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
     QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
                            rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(brush());
+    painter->setBrush(paintBrush());
     painter->drawEllipse(rectIn);
 
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : curPen);
     painter->setBrush(Qt::NoBrush);
     painter->drawEllipse(rect());
 

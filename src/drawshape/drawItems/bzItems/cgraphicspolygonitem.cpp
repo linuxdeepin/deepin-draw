@@ -142,11 +142,11 @@ void CGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     //再绘制填充
     painter->setPen(Qt::NoPen);
-    painter->setBrush(brush());
+    painter->setBrush(paintBrush());
     painter->drawPolygon(m_listPointsForBrush);
 
     //再绘制描边
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : paintPen());
     painter->setBrush(Qt::NoBrush);
     painter->drawPolygon(m_listPoints);
 

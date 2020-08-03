@@ -120,9 +120,10 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
 
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
 
+    const QPen pen = this->paintPen();
     //先绘制填充区域
     QPolygonF polyForBrush;
-    qreal offsetWidth = pen().widthF() / 2.0;
+    qreal offsetWidth = pen.widthF() / 2.0;
     QLineF line1(top, rc.bottomLeft());
     QLineF line2(rc.bottomLeft(), rc.bottomRight());
     QLineF line3(rc.bottomRight(), top);
@@ -141,7 +142,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
         polyForBrush.append(tempLine.p2());
     }
     painter->setPen(Qt::NoPen);
-    painter->setBrush(brush());
+    painter->setBrush(paintBrush());
     painter->drawPolygon(polyForBrush);
 
 
@@ -149,7 +150,7 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     QPolygonF polyForPen;
     polyForPen << rc.bottomLeft() << top << rc.bottomRight();
 
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setPen(pen.width() == 0 ? Qt::NoPen : pen);
     painter->setBrush(Qt::NoBrush);
     painter->drawPolygon(polyForPen);
 

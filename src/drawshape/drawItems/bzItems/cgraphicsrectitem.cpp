@@ -128,8 +128,9 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     beginCheckIns(painter);
 
+    const QPen curPen = this->paintPen();
+
     //先绘制填充
-    QPen curPen = this->paintPen();
     qreal penWidthOffset = curPen.widthF() / 2.0;
     QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
                            rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
@@ -139,7 +140,7 @@ void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
 
     //再绘制描边
-    painter->setPen(curPen.width() == 0 ? Qt::NoPen : pen());
+    painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
     painter->setBrush(Qt::NoBrush);
     painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
 

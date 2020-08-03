@@ -498,22 +498,24 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
 
     painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+
+    const QPen curPen = paintPen();
+    painter->setPen(curPen.width() == 0 ? Qt::NoPen : curPen);
 
     beginCheckIns(painter);
 
     painter->setBrush(Qt::NoBrush);
-    if (this->pen().width()) {
+    if (curPen.width()) {
         if (m_startType == soildArrow || m_startType == soildRing) {
-            painter->setBrush(QBrush(QColor(this->pen().color())));
+            painter->setBrush(QBrush(QColor(curPen.color())));
         }
     }
     painter->drawPath(m_startPath);
 
     painter->setBrush(Qt::NoBrush);
-    if (this->pen().width()) {
+    if (curPen.width()) {
         if (m_endType == soildArrow || m_endType == soildRing) {
-            painter->setBrush(QBrush(QColor(this->pen().color())));
+            painter->setBrush(QBrush(QColor(curPen.color())));
         }
     }
     painter->drawPath(m_endPath);
