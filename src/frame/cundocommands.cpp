@@ -1009,7 +1009,7 @@ void COneLayerUpCommand::undo()
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
-        myGraphicsScene->updateBlurItem(item);
+        //myGraphicsScene->updateBlurItem(item);
         m_isRedoExcuteSuccess = true;
     }
     //重置保存的最大z值
@@ -1043,6 +1043,7 @@ void COneLayerUpCommand::undo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 void COneLayerUpCommand::redo()
@@ -1090,8 +1091,8 @@ void COneLayerUpCommand::redo()
                 qreal tmpZValue = selectItem->zValue();
                 selectItem->setZValue(allItem->zValue());
                 allItem->setZValue(tmpZValue);
-                myGraphicsScene->updateBlurItem(allItem);
-                myGraphicsScene->updateBlurItem(selectItem);
+                //myGraphicsScene->updateBlurItem(allItem);
+                //myGraphicsScene->updateBlurItem(selectItem);
                 break;
             }
         }
@@ -1112,21 +1113,26 @@ void COneLayerUpCommand::redo()
     myGraphicsScene->clearSelection();
     if (m_selectItems.size() > 1) {
         foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item), false, false);
         }
         myGraphicsScene->getItemsMgr()->setSelected(true);
     } else if (m_selectItems.size() == 1) {
         m_selectItems.at(0)->setSelected(true);
     }
 
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
-    CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+    /* 刷新属性展示和多选的大小 */
+    CGraphicsItemSelectedMgr *pMgr = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr();
+    pMgr->updateAttributes();
+    pMgr->updateBoundingRect();
+
+    /* 刷新鼠标和高亮 */
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
     if (m_isRedoExcuteSuccess) {
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 COneLayerDownCommand::COneLayerDownCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
@@ -1176,7 +1182,7 @@ void COneLayerDownCommand::undo()
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
-        myGraphicsScene->updateBlurItem(item);
+        //myGraphicsScene->updateBlurItem(item);
         m_isRedoExcuteSuccess = true;
     }
     //重置保存的最大z值
@@ -1210,6 +1216,7 @@ void COneLayerDownCommand::undo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 void COneLayerDownCommand::redo()
@@ -1261,8 +1268,8 @@ void COneLayerDownCommand::redo()
                 qreal tmpZValue = selectItem->zValue();
                 selectItem->setZValue(allItem->zValue());
                 allItem->setZValue(tmpZValue);
-                myGraphicsScene->updateBlurItem(allItem);
-                myGraphicsScene->updateBlurItem(selectItem);
+                //myGraphicsScene->updateBlurItem(allItem);
+                //myGraphicsScene->updateBlurItem(selectItem);
                 break;
             }
         }
@@ -1298,6 +1305,8 @@ void COneLayerDownCommand::redo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+
+    myGraphicsScene->updateBlurItem();
 }
 
 CBringToFrontCommand::CBringToFrontCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
@@ -1349,7 +1358,7 @@ void CBringToFrontCommand::undo()
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
-        myGraphicsScene->updateBlurItem(item);
+        //myGraphicsScene->updateBlurItem(item);
         modifyFlag = true;
     }
     //重置保存的最大z值
@@ -1383,6 +1392,8 @@ void CBringToFrontCommand::undo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+
+    myGraphicsScene->updateBlurItem();
 }
 
 void CBringToFrontCommand::redo()
@@ -1396,7 +1407,7 @@ void CBringToFrontCommand::redo()
         maxZValue = myGraphicsScene->getMaxZValue();
         selectItem->setZValue(maxZValue + 1);
         myGraphicsScene->setMaxZValue(maxZValue + 1);
-        myGraphicsScene->updateBlurItem(selectItem);
+        //myGraphicsScene->updateBlurItem(selectItem);
         modifyFlag = true;
     }
 
@@ -1419,6 +1430,7 @@ void CBringToFrontCommand::redo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 CSendToBackCommand::CSendToBackCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent)
@@ -1474,7 +1486,7 @@ void CSendToBackCommand::undo()
     for (int i = 0; i < count; i++) {
         QGraphicsItem *item = m_oldItemZValue.keys().at(i);
         item->setZValue(m_oldItemZValue[item]);
-        myGraphicsScene->updateBlurItem(item);
+        //myGraphicsScene->updateBlurItem(item);
         modifyFlag = true;
     }
     //重置保存的最大z值
@@ -1510,6 +1522,7 @@ void CSendToBackCommand::undo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 void CSendToBackCommand::redo()
@@ -1569,6 +1582,7 @@ void CSendToBackCommand::redo()
         myGraphicsScene->update();
         myGraphicsScene->setModify(true);
     }
+    myGraphicsScene->updateBlurItem();
 }
 
 CSetBlurAttributeCommand::CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent)

@@ -90,7 +90,7 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
-        pItem->setPixmap();
+        pItem->updateMasicPixmap();
         return pItem;
     }
     return nullptr;

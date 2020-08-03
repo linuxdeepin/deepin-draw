@@ -14,8 +14,6 @@ CSpinBox::CSpinBox(DWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
 
     connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
-        //emit this->valueChanged(value, isTimerRunning() ? EChangedUpdate : EChanged);
-
         setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
     });
 
@@ -47,6 +45,13 @@ bool CSpinBox::isChangedByWheelEnd()
 void CSpinBox::setValueChangedKeepFocus(bool b)
 {
     _keepFocus = b;
+}
+
+void CSpinBox::setSpinRange(int min, int max)
+{
+    m_min = min;
+    m_max = max;
+    setRange(m_min - 1, m_max);
 }
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
@@ -129,6 +134,18 @@ void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
     if (_s_value != value || _s_phase != phase) {
         _s_value = value;
         _s_phase = phase;
+
+        if (_s_value < m_min) {
+            _s_value = m_min;
+            this->blockSignals(true);
+            setValue(_s_value);
+            this->blockSignals(false);
+        } else if (value > m_max) {
+            _s_value = m_max;
+            this->blockSignals(true);
+            setValue(_s_value);
+            this->blockSignals(false);
+        }
         emit valueChanged(_s_value, EChangedPhase(_s_phase));
     }
 }

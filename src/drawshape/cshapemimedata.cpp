@@ -31,6 +31,7 @@
 
 CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
 {
+    m_itemList.clear();
     foreach (QGraphicsItem *item, items) {
         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
         if (pBzItem != nullptr && pBzItem->isBzItem()) {
@@ -55,5 +56,17 @@ QList<CGraphicsItem *> CShapeMimeData::itemList() const
     return m_itemList;
 }
 
-
-
+QList<CGraphicsItem *> CShapeMimeData::creatCopyItems() const
+{
+    QList<CGraphicsItem *> retList;
+    foreach (QGraphicsItem *item, m_itemList) {
+        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
+        if (pBzItem != nullptr && pBzItem->isBzItem()) {
+            CGraphicsItem *pNew = pBzItem->creatSameItem();
+            if (pNew != nullptr) {
+                retList.append(pNew);
+            }
+        }
+    }
+    return retList;
+}

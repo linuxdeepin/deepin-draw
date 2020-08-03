@@ -199,10 +199,7 @@ void CCutTool::doFinished(bool accept)
         pView->drawScene()->doAdjustmentScene(pCutItem->mapRectToScene(pCutItem->rect()));
     }
 
-    if (pCutItem != nullptr) {
-        pCutItem->hide();
-        IDrawTool::setViewToSelectionTool();
-    }
+    CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
 }
 
 bool CCutTool::getCutStatus()

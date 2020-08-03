@@ -29,7 +29,9 @@ class CShapeMimeData : public QMimeData
 public:
     CShapeMimeData(QList<QGraphicsItem *> items);
     ~CShapeMimeData();
+
     QList<CGraphicsItem *> itemList() const;
+    QList<CGraphicsItem *> creatCopyItems() const;
 
 private:
     QList<CGraphicsItem *> m_itemList;

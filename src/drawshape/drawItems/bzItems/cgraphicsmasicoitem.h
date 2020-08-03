@@ -13,8 +13,8 @@ public:
     explicit CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsItem *parent = nullptr);
     explicit CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     virtual int  type() const Q_DECL_OVERRIDE;
-    void setPixmap();
-    void setPixmap(const QPixmap &pixmap);
+    void updateMasicPixmap();
+    void updateMasicPixmap(const QPixmap &pixmap);
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
