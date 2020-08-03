@@ -53,6 +53,8 @@ struct SComDefualData {
     int polySideCount = 5;
     ELineType lineStartType = noneLine;
     ELineType lineEndType = noneLine;
+    ELineType penStartType = noneLine;
+    ELineType penEndType = noneLine;
 
     QColor textColor = QColor(0, 0, 0);
     int textFontHeavy = 50;

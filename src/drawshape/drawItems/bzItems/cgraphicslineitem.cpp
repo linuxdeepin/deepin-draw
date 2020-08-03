@@ -411,7 +411,7 @@ int CGraphicsLineItem::getQuadrant() const
 void CGraphicsLineItem::setLineStartType(ELineType type)
 {
     m_startType = type;
-    calcVertexes();
+    updateShape();
 }
 
 ELineType CGraphicsLineItem::getLineStartType() const
@@ -422,7 +422,7 @@ ELineType CGraphicsLineItem::getLineStartType() const
 void CGraphicsLineItem::setLineEndType(ELineType type)
 {
     m_endType = type;
-    calcVertexes();
+    updateShape();
 }
 
 ELineType CGraphicsLineItem::getLineEndType() const
@@ -484,6 +484,12 @@ void CGraphicsLineItem::updateHandlesGeometry()
             break;
         }
     }
+}
+
+void CGraphicsLineItem::updateShape()
+{
+    calcVertexes();
+    CGraphicsItem::updateShape();
 }
 
 void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

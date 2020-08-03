@@ -381,11 +381,13 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.starAnCount = (tp == Star ? unitData.data.pPolygonStar->anchorNum : data.polySideCount);
     data.starInRadiusRadio = (tp == Star ? unitData.data.pPolygonStar->radius : data.polySideCount);
 
-    data.lineStartType = (tp == Pen ? unitData.data.pPen->start_type : data.lineStartType);
-    data.lineEndType = (tp == Pen ? unitData.data.pPen->end_type : data.lineEndType);
-
-    data.lineStartType = (tp == Line ? unitData.data.pLine->start_type : data.lineStartType);
-    data.lineEndType = (tp == Line ? unitData.data.pLine->end_type : data.lineEndType);
+    if (tp == Pen) {
+        data.penStartType = (tp == Pen ? unitData.data.pPen->start_type : data.penStartType);
+        data.penEndType = (tp == Pen ? unitData.data.pPen->end_type : data.penEndType);
+    } else if (tp == Line) {
+        data.lineStartType = (tp == Line ? unitData.data.pLine->start_type : data.lineStartType);
+        data.lineEndType = (tp == Line ? unitData.data.pLine->end_type : data.lineEndType);
+    }
 
     data.blurType = (tp == MasicPen ? static_cast<EBlurEffect>(unitData.data.pBlur->effect) : data.blurType);
     data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
@@ -440,19 +442,19 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 }
             } else if (tp == Pen) {
                 CGraphicsPenItem *pPen = dynamic_cast<CGraphicsPenItem *>(pItem);
-                if (pPen->getPenStartType() != data.lineStartType) {
-                    data.comVaild[LineAndPenStartType] = false;
+                if (pPen->getPenStartType() != data.penStartType) {
+                    data.comVaild[PenStartType] = false;
                 }
-                if (pPen->getPenEndType() != data.lineEndType) {
-                    data.comVaild[LineAndPenEndType] = false;
+                if (pPen->getPenEndType() != data.penEndType) {
+                    data.comVaild[PenEndType] = false;
                 }
             } else if (tp == Line) {
                 CGraphicsLineItem *pLIne = dynamic_cast<CGraphicsLineItem *>(pItem);
                 if (pLIne->getLineStartType() != data.lineStartType) {
-                    data.comVaild[LineAndPenStartType] = false;
+                    data.comVaild[LineStartType] = false;
                 }
                 if (pLIne->getLineEndType() != data.lineEndType) {
-                    data.comVaild[LineAndPenEndType] = false;
+                    data.comVaild[LineEndType] = false;
                 }
             } else if (tp == Text) {
                 CGraphicsTextItem *pText = dynamic_cast<CGraphicsTextItem *>(pItem);
@@ -603,7 +605,21 @@ void CComAttrWidget::refreshHelper(int tp)
         getSpinBoxForStarinterRadius()->show();
         break;
     }
-    case Pen:
+    case Pen: {
+        layout->addWidget(getSpLine());
+        layout->addWidget(getLabelForLineStartStyle());
+        layout->addWidget(getComboxForLineStartStyle());
+        getSpLine()->show();
+        getLabelForLineStartStyle()->show();
+        getComboxForLineStartStyle()->show();
+
+        layout->addSpacing(12);
+        layout->addWidget(getLabelForLineEndStyle());
+        layout->addWidget(getComboxForLineEndStyle());
+        getLabelForLineEndStyle()->show();
+        getComboxForLineEndStyle()->show();
+        break;
+    }
     case Line: {
         layout->addWidget(getSpLine());
         layout->addWidget(getLabelForLineStartStyle());
@@ -699,16 +715,25 @@ void CComAttrWidget::refreshDataHelper(int tp)
 
         break;
     }
-    case Pen:
+    case Pen: {
+        CBlockObjectSig sig(getComboxForLineStartStyle());
+        CBlockObjectSig sig1(getComboxForLineEndStyle());
+        getComboxForLineStartStyle()->setCurrentIndex(data.penStartType);
+        getComboxForLineEndStyle()->setCurrentIndex(data.penEndType);
+        if (!data.comVaild[PenStartType])
+            getComboxForLineStartStyle()->setCurrentIndex(noneLine);
+        if (!data.comVaild[PenEndType])
+            getComboxForLineEndStyle()->setCurrentIndex(noneLine);
+        break;
+    }
     case Line: {
         CBlockObjectSig sig(getComboxForLineStartStyle());
         CBlockObjectSig sig1(getComboxForLineEndStyle());
-
         getComboxForLineStartStyle()->setCurrentIndex(data.lineStartType);
         getComboxForLineEndStyle()->setCurrentIndex(data.lineEndType);
-        if (!data.comVaild[LineAndPenStartType])
+        if (!data.comVaild[LineStartType])
             getComboxForLineStartStyle()->setCurrentIndex(noneLine);
-        if (!data.comVaild[LineAndPenEndType])
+        if (!data.comVaild[LineEndType])
             getComboxForLineEndStyle()->setCurrentIndex(noneLine);
         break;
     }
@@ -1065,14 +1090,22 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
                         if (p->type() == PenType) {
                             CGraphicsPenItem *pItem = dynamic_cast<CGraphicsPenItem *>(p);
                             pItem->setPenStartType(ELineType(index));
+                            this->updateDefualData(PenStartType, index);
                         } else {
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineStartType(ELineType(index));
+                            this->updateDefualData(LineStartType, index);
                         }
                     }
                 }
             }
-            this->updateDefualData(LineAndPenStartType, index);
+            // 需要先记录tp
+//            if (srTp & PenType) {
+//                this->updateDefualData(PenStartType, index);
+//            }
+//            if (srTp & LineType) {
+//                this->updateDefualData(LineStartType, index);
+//            }
         });
     }
     return m_lineStartComboBox;
@@ -1104,14 +1137,21 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
                         if (p->type() == PenType) {
                             CGraphicsPenItem *pItem = dynamic_cast<CGraphicsPenItem *>(p);
                             pItem->setPenEndType(ELineType(index));
+                            this->updateDefualData(PenEndType, index);
                         } else {
                             CGraphicsLineItem *pItem = dynamic_cast<CGraphicsLineItem *>(p);
                             pItem->setLineEndType(ELineType(index));
+                            this->updateDefualData(LineEndType, index);
                         }
+                    }
+                    if (srTp & PenType) {
+                        this->updateDefualData(PenEndType, index);
+                    }
+                    if (srTp & LineType) {
+                        this->updateDefualData(LineEndType, index);
                     }
                 }
             }
-            this->updateDefualData(LineAndPenEndType, index);
         });
     }
     return m_lineEndComboBox;
@@ -1381,13 +1421,21 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         polySideCount = var.toInt();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSideNum(polySideCount);
         break;
-    case LineAndPenStartType:
+    case LineStartType:
         lineStartType = ELineType(var.toInt());
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineStartType(lineStartType);
         break;
-    case LineAndPenEndType:
+    case LineEndType:
         lineEndType = ELineType(var.toInt());
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineEndType(lineEndType);
+        break;
+    case PenStartType:
+        penStartType = ELineType(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenStartType(penStartType);
+        break;
+    case PenEndType:
+        penEndType = ELineType(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(penEndType);
         break;
     case TextColor:
         textColor = var.value<QColor>();

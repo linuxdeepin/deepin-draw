@@ -74,6 +74,8 @@ CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event)
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
         m_pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        m_pItem->setLineStartType(event->view()->getDrawParam()->getLineStartType());
+        m_pItem->setLineEndType(event->view()->getDrawParam()->getLineEndType());
         event->scene()->addItem(m_pItem);
         return m_pItem;
     }

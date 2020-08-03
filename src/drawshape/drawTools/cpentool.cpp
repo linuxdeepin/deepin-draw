@@ -84,7 +84,6 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
         pPenItem->setPixmap();
         pPenItem->setZValue(event->scene()->getMaxZValue() + 1);
-
         event->scene()->addItem(pPenItem);
 
         return pPenItem;

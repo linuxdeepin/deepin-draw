@@ -169,7 +169,7 @@ protected:
      * @brief updateShape 刷新图元形状
      * @return
      */
-    void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
+    void updateShape() Q_DECL_OVERRIDE;
 
     /**
      * @brief paint 绘制图元
