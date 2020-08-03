@@ -124,7 +124,7 @@ enum ECutType {
     cut_16_9,       //16:9裁剪
     cut_free,        //自由裁剪
     cut_original,  //裁剪框恢复画板初始大小
-    cut_done        //裁剪完成
+    cut_count        //裁剪方式个数
 };
 
 enum EBlurEffect {

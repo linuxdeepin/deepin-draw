@@ -37,6 +37,8 @@
 #include "bzItems/cgraphicstriangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "drawTools/cpicturetool.h"
+#include "drawTools/ccuttool.h"
+#include "drawTools/cdrawtoolmanagersigleton.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
@@ -321,6 +323,17 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     return newview;
 }
 
+bool CCentralwidget::getCutedStatus()
+{
+    EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+    CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+    if (pTool != nullptr) {
+        return pTool->getCutStatus();
+    } else {
+        return false;
+    }
+}
+
 void CCentralwidget::closeCurrentScenseView(bool ifTabOnlyOneCloseAqq, bool deleteView)
 {
     CGraphicsView *closeView = static_cast<CGraphicsView *>(m_stackedLayout->currentWidget());
@@ -391,19 +404,17 @@ bool CCentralwidget::slotJudgeCutStatusAndPopSaveDialog()
     if (nullptr == CManageViewSigleton::GetInstance()->getCurView()->scene())
         return false;
 
-    bool isNowCutStatus = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() == ECutType::cut_done ? false : true;
+    bool isNowCutStatus = getCutedStatus();
     if (isNowCutStatus) {
         CCutDialog dialog(this);
         dialog.exec();
         auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
         if (CCutDialog::Save == dialog.getCutStatus()) {
             curScene->doCutScene();
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
         } else if (CCutDialog::Cancel == dialog.getCutStatus()) {
             return false;
         } else if (CCutDialog::Discard == dialog.getCutStatus()) {
             curScene->quitCutMode();
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     }
@@ -658,7 +669,6 @@ void CCentralwidget::onEscButtonClick()
 {
     //如果当前是裁剪模式则退出裁剪模式　退出裁剪模式会默认设置工具栏为选中
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
         CManageViewSigleton::GetInstance()->getCurView()->slotQuitCutMode();
     } else {
         m_leftToolbar->slotShortCutSelect();
@@ -752,7 +762,7 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 
     // [2] 处于裁剪的时候切换标签页恢复裁剪状态
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr
-            && CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType() != ECutType::cut_done) {
+            && getCutedStatus()) {
         view->getDrawParam()->setCurrentDrawToolMode(cut);
         emit signalChangeTittlebarWidget(cut);
         m_leftToolbar->slotEnterCut();

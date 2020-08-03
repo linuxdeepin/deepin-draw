@@ -87,6 +87,11 @@ public:
     void doFinished(bool accept);
 
     /**
+     * @brief getCutStatus　获取裁剪状态（移动位置、大小改变都会返回true，否则返回false）
+     */
+    bool getCutStatus();
+
+    /**
      * @brief getCutRect　获取裁剪区域矩形大小
      * @return
      */
