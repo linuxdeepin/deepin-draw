@@ -111,14 +111,14 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence,
         case LineType://线
             propertys[LineWidth] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsLineItem *>(items.at(0))->pen().color();
-            propertys[LineAndPenStartType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineStartType();
-            propertys[LineAndPenEndType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
+            propertys[LineStartType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineStartType();
+            propertys[LineEndType] = static_cast<CGraphicsLineItem *>(items.at(0))->getLineEndType();
             break;
         case PenType://画笔
             propertys[LineWidth] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().width();
             propertys[LineColor] = static_cast<CGraphicsPenItem *>(items.at(0))->pen().color();
-            propertys[LineAndPenStartType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
-            propertys[LineAndPenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
+            propertys[PenStartType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenStartType();
+            propertys[PenEndType] = static_cast<CGraphicsPenItem *>(items.at(0))->getPenEndType();
             break;
         case TextType://文本
             // 刷新文本属性前先调用一次获取属性的函数，有效避免没有选中文字的时候属性不更新等问题
@@ -290,18 +290,18 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence,
             }
             break;
         case LineType://线
-            if (propertys.contains(LineAndPenStartType)) {
-                if (propertys[LineAndPenStartType] == static_cast<CGraphicsLineItem *>(item)->getLineStartType()) {
-                    allPropertys[LineAndPenStartType] = propertys[LineAndPenStartType];
+            if (propertys.contains(LineStartType)) {
+                if (propertys[LineStartType] == static_cast<CGraphicsLineItem *>(item)->getLineStartType()) {
+                    allPropertys[LineStartType] = propertys[LineStartType];
                 } else {
-                    allPropertys[LineAndPenStartType] = tmpVariant;
+                    allPropertys[LineStartType] = tmpVariant;
                 }
             }
-            if (propertys.contains(LineAndPenEndType)) {
-                if (propertys[LineAndPenEndType] == static_cast<CGraphicsLineItem *>(item)->getLineEndType()) {
-                    allPropertys[LineAndPenEndType] = propertys[LineAndPenEndType];
+            if (propertys.contains(LineEndType)) {
+                if (propertys[LineEndType] == static_cast<CGraphicsLineItem *>(item)->getLineEndType()) {
+                    allPropertys[LineEndType] = propertys[LineEndType];
                 } else {
-                    allPropertys[LineAndPenEndType] = tmpVariant;
+                    allPropertys[LineEndType] = tmpVariant;
                 }
             }
             if (propertys.contains(LineWidth)) {
@@ -320,18 +320,18 @@ void CManagerAttributeService::showSelectedCommonProperty(CDrawScene *scence,
             }
             break;
         case PenType://画笔
-            if (propertys.contains(LineAndPenStartType)) {
-                if (propertys[LineAndPenStartType] == static_cast<CGraphicsPenItem *>(item)->getPenStartType()) {
-                    allPropertys[LineAndPenStartType] = propertys[LineAndPenStartType];
+            if (propertys.contains(PenStartType)) {
+                if (propertys[PenStartType] == static_cast<CGraphicsPenItem *>(item)->getPenStartType()) {
+                    allPropertys[PenStartType] = propertys[PenStartType];
                 } else {
-                    allPropertys[LineAndPenStartType] = tmpVariant;
+                    allPropertys[PenStartType] = tmpVariant;
                 }
             }
-            if (propertys.contains(LineAndPenEndType)) {
-                if (propertys[LineAndPenEndType] == static_cast<CGraphicsPenItem *>(item)->getPenEndType()) {
-                    allPropertys[LineAndPenEndType] = propertys[LineAndPenEndType];
+            if (propertys.contains(PenEndType)) {
+                if (propertys[PenEndType] == static_cast<CGraphicsPenItem *>(item)->getPenEndType()) {
+                    allPropertys[PenEndType] = propertys[PenEndType];
                 } else {
-                    allPropertys[LineAndPenEndType] = tmpVariant;
+                    allPropertys[PenEndType] = tmpVariant;
                 }
             }
             if (propertys.contains(LineWidth)) {

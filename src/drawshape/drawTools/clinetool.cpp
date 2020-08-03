@@ -73,6 +73,8 @@ CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event)
         CGraphicsLineItem *m_pItem =  new CGraphicsLineItem(event->pos().x(), event->pos().y(), event->pos().x(), event->pos().y());
         m_pItem->setPen(pView->getDrawParam()->getPen());
         m_pItem->setBrush(pView->getDrawParam()->getBrush());
+        m_pItem->setLineStartType(event->view()->getDrawParam()->getLineStartType());
+        m_pItem->setLineEndType(event->view()->getDrawParam()->getLineEndType());
         qreal newZ = event->scene()->getMaxZValue() + 1;
         m_pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);

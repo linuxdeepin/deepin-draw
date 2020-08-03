@@ -1187,6 +1187,12 @@ void CGraphicsPenItem::updateHandlesGeometry()
     }
 }
 
+void CGraphicsPenItem::updateShape()
+{
+    calcVertexes();
+    CGraphicsItem::updateShape();
+}
+
 void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -1309,6 +1315,7 @@ void CGraphicsPenItem::calcVertexes(const QPointF &prePoint, const QPointF &curr
     // 更新画布区域
     if (scene() != nullptr)
         scene()->views().first()->viewport()->update();
+
 }
 
 void CGraphicsPenItem::calcVertexes()
@@ -1335,7 +1342,7 @@ ELineType CGraphicsPenItem::getPenStartType() const
 void CGraphicsPenItem::setPenStartType(const ELineType &penType)
 {
     m_penStartType = penType;
-    calcVertexes();
+    updateShape();
     updateHandlesGeometry();
 }
 
@@ -1347,7 +1354,7 @@ ELineType CGraphicsPenItem::getPenEndType() const
 void CGraphicsPenItem::setPenEndType(const ELineType &penType)
 {
     m_penEndType = penType;
-    calcVertexes();
+    updateShape();
     updateHandlesGeometry();
 }
 

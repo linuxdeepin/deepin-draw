@@ -227,7 +227,7 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             }
 
             if (rInfo.businessItem != nullptr) {
-                toolCreatItemFinish(event, &rInfo);
+
 
                 event->scene()->selectItem(rInfo.businessItem);
 
@@ -241,6 +241,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 CUndoRedoCommand::finishRecord();
 
                 setViewToSelectionTool(event->scene()->drawView());
+
+                toolCreatItemFinish(event, &rInfo);
 
             } else {
                 toolFinish(event, &rInfo);
