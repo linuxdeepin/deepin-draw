@@ -24,10 +24,11 @@
 #include <QMetaObject>
 #include "cdrawscene.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "cviewmanagement.h"
 
 CUndoRedoCommand::QCommandInfoList CUndoRedoCommand::s_recordedCmdInfoList = CUndoRedoCommand::QCommandInfoList();
 QMap<CUndoRedoCommand::CKey, int> CUndoRedoCommand::s_forFindCoupleMap = QMap<CUndoRedoCommand::CKey, int>();
-QUndoStack *CUndoRedoCommand::s_undoStack = nullptr;
+QMap<void *, QUndoStack *> CUndoRedoCommand::s_undoStacks = QMap<void *, QUndoStack *>();
 bool CUndoRedoCommand::s_blockRedoWhenPushToStack = false;
 CUndoRedoCommand::CUndoRedoCommand()
 {
@@ -201,17 +202,17 @@ void CUndoRedoCommand::parsingVars(const QList<QVariant> &vars, EVarUndoOrRedo v
     Q_UNUSED(varTp)
 }
 
-void CUndoRedoCommand::setUndoRedoStack(QUndoStack *stack)
+void CUndoRedoCommand::setUndoRedoStack(QUndoStack *stack, void *pGraphicsView)
 {
-    s_undoStack = stack;
+    s_undoStacks.insert(pGraphicsView, stack);
 }
 
-QUndoStack *CUndoRedoCommand::getUndoRedoStack()
+QUndoStack *CUndoRedoCommand::getUndoRedoStack(void *p)
 {
-    if (s_undoStack == nullptr) {
-        s_undoStack = new QUndoStack;
+    if (p == nullptr) {
+        p = CManageViewSigleton::GetInstance()->getCurView();
     }
-    return s_undoStack;
+    return s_undoStacks[p];
 }
 
 CUndoRedoCommand *CUndoRedoCommand::getCmdByCmdInfo(const CUndoRedoCommand::SCommandInfoCouple &info)

@@ -86,7 +86,9 @@ CGraphicsItem *CMasicoTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pen.setWidth(pView->getDrawParam()->getBlurWidth());
         pItem->setPen(pen);
         pItem->setBrush(Qt::NoBrush);
-        pItem->setZValue(event->scene()->getMaxZValue() + 1);
+        qreal newZ = event->scene()->getMaxZValue() + 1;
+        pItem->setZValue(newZ);
+        event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
         pItem->setPixmap();
         return pItem;

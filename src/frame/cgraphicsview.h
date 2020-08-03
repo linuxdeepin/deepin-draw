@@ -303,7 +303,7 @@ public slots:
      * @param item
      * @param newPosition
      */
-    void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
+    //void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
 
     /**
      * @brief itemAdded
@@ -316,7 +316,7 @@ public slots:
      * @param item
      * @param newAngle
      */
-    void itemRotate(QGraphicsItem *item, const qreal newAngle);
+    //void itemRotate(QGraphicsItem *item, const qreal newAngle);
 
     /**
      * @brief itemResize
@@ -327,7 +327,7 @@ public slots:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
+    //void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange
@@ -337,7 +337,7 @@ public slots:
      * @param bPenChange
      * @param bBrushChange
      */
-    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
+    //void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
 
     /**
     * @brief itemPropertyChange
@@ -345,14 +345,14 @@ public slots:
     * @param xRedius
     * @param bChange
     */
-    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
+    //void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
 
     /**
      * @brief itemPolygonPointChange
      * @param item
      * @param newNum
      */
-    void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
+    //void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
 
     /**
      * @brief itemPolygonalStarPointChange
@@ -360,21 +360,21 @@ public slots:
      * @param newNum
      * @param newRadius
      */
-    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
+    //void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
 
     /**
      * @brief itemPenTypeChange
      * @param item
      * @param newType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
+    //void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemLineTypeChange
      * @param item
      * @param newType
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
+    //void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemBlurChange
@@ -382,7 +382,7 @@ public slots:
      * @param blurWidth
      * @param effect
      */
-    void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
+    //void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
 
     /**
      * @brief slotStopContinuousDrawing 停止或继续绘制信号
