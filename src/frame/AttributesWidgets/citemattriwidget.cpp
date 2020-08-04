@@ -512,12 +512,14 @@ void CComAttrWidget::refreshHelper(int tp)
         getSpLine()->show();
         getLabelForLineStartStyle()->show();
         getComboxForLineStartStyle()->show();
+        getMaskLabForLineStartStyle()->show();
 
         layout->addSpacing(12);
         layout->addWidget(getLabelForLineEndStyle());
         layout->addWidget(getComboxForLineEndStyle());
         getLabelForLineEndStyle()->show();
         getComboxForLineEndStyle()->show();
+        getMaskLabForLineEndStyle()->show();
         break;
     }
     case Line: {
@@ -527,12 +529,14 @@ void CComAttrWidget::refreshHelper(int tp)
         getSpLine()->show();
         getLabelForLineStartStyle()->show();
         getComboxForLineStartStyle()->show();
+        getMaskLabForLineStartStyle()->show();
 
         layout->addSpacing(12);
         layout->addWidget(getLabelForLineEndStyle());
         layout->addWidget(getComboxForLineEndStyle());
         getLabelForLineEndStyle()->show();
         getComboxForLineEndStyle()->show();
+        getMaskLabForLineEndStyle()->show();
         break;
     }
     default:
@@ -620,10 +624,16 @@ void CComAttrWidget::refreshDataHelper(int tp)
         CBlockObjectSig sig1(getComboxForLineEndStyle());
         getComboxForLineStartStyle()->setCurrentIndex(data.penStartType);
         getComboxForLineEndStyle()->setCurrentIndex(data.penEndType);
-        if (!data.comVaild[PenStartType])
-            getComboxForLineStartStyle()->setCurrentIndex(noneLine);
-        if (!data.comVaild[PenEndType])
-            getComboxForLineEndStyle()->setCurrentIndex(noneLine);
+        if (data.comVaild[PenStartType]) {
+            getMaskLabForLineStartStyle()->hide();
+        } else {
+            getComboxForLineStartStyle()->setCurrentIndex(-1);
+        }
+        if (data.comVaild[PenEndType]) {
+            getMaskLabForLineEndStyle()->hide();
+        } else {
+            getComboxForLineEndStyle()->setCurrentIndex(-1);
+        }
         break;
     }
     case Line: {
@@ -631,10 +641,16 @@ void CComAttrWidget::refreshDataHelper(int tp)
         CBlockObjectSig sig1(getComboxForLineEndStyle());
         getComboxForLineStartStyle()->setCurrentIndex(data.lineStartType);
         getComboxForLineEndStyle()->setCurrentIndex(data.lineEndType);
-        if (!data.comVaild[LineStartType])
-            getComboxForLineStartStyle()->setCurrentIndex(noneLine);
-        if (!data.comVaild[LineEndType])
-            getComboxForLineEndStyle()->setCurrentIndex(noneLine);
+        if (data.comVaild[LineStartType]) {
+            getMaskLabForLineStartStyle()->hide();
+        } else {
+            getComboxForLineStartStyle()->setCurrentIndex(-1);
+        }
+        if (data.comVaild[LineEndType]) {
+            getMaskLabForLineEndStyle()->hide();
+        } else {
+            getComboxForLineEndStyle()->setCurrentIndex(-1);
+        }
         break;
     }
     default:
@@ -747,7 +763,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_rediusSpinbox = new CSpinBox(this);
         m_rediusSpinbox->setKeyboardTracking(false);
-        m_rediusSpinbox->setRange(-1, 1000);
+        m_rediusSpinbox->setSpinRange(0, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
         m_rediusSpinbox->setFont(ft);
         m_rediusSpinbox->setSpecialValueText("— —");
@@ -760,13 +776,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Rect图元的
                 if (getSourceTpByItem(graphicItem()) == Rect) {
-
-                    if (value == -1) {
-                        CBlockObjectSig sig(m_rediusSpinbox);
-                        m_rediusSpinbox->setValue(0);
-                        return;
-                    }
-
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -806,7 +815,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber = new CSpinBox(this);
         m_anchorNumber->setKeyboardTracking(false);
         m_anchorNumber->setFixedSize(QSize(85, 36));
-        //m_anchorNumber->setRange(2, 50);
         m_anchorNumber->setSpinRange(3, 50);
         m_anchorNumber->setFont(ft);
         m_anchorNumber->setSpecialValueText("— —");
@@ -817,13 +825,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
-
-                    if (value == 2) {
-                        CBlockObjectSig sig(m_anchorNumber);
-                        m_anchorNumber->setValue(3);
-                        return;
-                    }
-
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -848,7 +849,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         ft.setPixelSize(TEXT_SIZE);
         m_radiusNumber = new CSpinBox(this);
         m_radiusNumber->setKeyboardTracking(false);
-        //m_radiusNumber->setRange(-1, 100);
         m_radiusNumber->setSpinRange(0, 100);
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
@@ -861,13 +861,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对Star图元的
                 if (getSourceTpByItem(graphicItem()) == Star) {
-
-                    if (value == -1) {
-                        CBlockObjectSig sig(m_radiusNumber);
-                        m_radiusNumber->setValue(0);
-                        return;
-                    }
-
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
@@ -919,7 +912,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox = new CSpinBox(this);
         m_sideNumSpinBox->setKeyboardTracking(false);
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
-        //m_sideNumSpinBox->setRange(3, 10);
         m_sideNumSpinBox->setSpinRange(4, 10);
         m_sideNumSpinBox->setFont(ft);
         m_sideNumSpinBox->setSpecialValueText("— —");
@@ -929,13 +921,7 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         connect(m_sideNumSpinBox, &CSpinBox::valueChanged, this, [ = ](int value, EChangedPhase phase) {
             if (this->graphicItem() != nullptr) {
                 //要知道这个控件是针对polgon图元的
-                if (/*getSourceTpByItem(graphicItem())*/ m_type == Polygon) {
-                    if (value == 3) {
-                        CBlockObjectSig sig(m_sideNumSpinBox);
-                        m_sideNumSpinBox->setValue(4);
-                        return;
-                    }
-
+                if (m_type == Polygon) {
                     //记录undo
                     CCmdBlock block(this->graphicItem(), phase);
 
