@@ -24,6 +24,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
 
 #include <DApplication>
 
@@ -172,14 +173,23 @@ void CGraphicsTextItem::makeEditabel()
 void CGraphicsTextItem::updateHandleVisible()
 {
     bool visble = getManResizeFlag();
-    qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
-    this->setSizeHandleRectFlag(CSizeHandleRect::LeftTop, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Top, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::RightTop, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::RightBottom, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Bottom, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::LeftBottom, visble);
-    this->setSizeHandleRectFlag(CSizeHandleRect::Rotation, visble);
+    //qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
+
+    if (drawScene() != nullptr) {
+        CGraphicsItemSelectedMgr *pMgr = drawScene()->getItemsMgr();
+        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftTop);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::Top);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::RightTop);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::RightBottom);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::Bottom);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
+        pMgr->setHandleVisible(visble, CSizeHandleRect::Rotation);
+    }
+}
+
+bool CGraphicsTextItem::isGrabToolEvent()
+{
+    return isEditable();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -455,8 +465,11 @@ void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if (change == QGraphicsItem::ItemSelectedHasChanged && value.toBool() == false) {
-        this->getTextEdit()->hide();
+    if (change == QGraphicsItem::ItemSelectedHasChanged) {
+        if (value.toBool() == false)
+            this->getTextEdit()->hide();
+
+        updateHandleVisible();
     }
     return CGraphicsRectItem::itemChange(change, value);
 }

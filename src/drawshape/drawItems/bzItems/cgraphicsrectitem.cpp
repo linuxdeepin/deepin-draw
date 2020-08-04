@@ -544,49 +544,49 @@ void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
     QPointF bottomLeft = rect.bottomLeft();
     switch (dir) {
     case CSizeHandleRect::LeftTop:
-        qDebug() << "CSizeHandleRect::LeftTop" <<  endl;
+        //qDebug() << "CSizeHandleRect::LeftTop" <<  endl;
         topLeft.setX(topLeft.x() + rect.width() * xScale);
         topLeft.setY(topLeft.y() + rect.height() * yScale);
         rect.setTopLeft(topLeft);
         break;
     case CSizeHandleRect::Top:
-        qDebug() << "CSizeHandleRect::Top" <<  endl;
+        //qDebug() << "CSizeHandleRect::Top" <<  endl;
         topLeft.setX(topLeft.x() + rect.width() * xScale);
         topLeft.setY(topLeft.y() + rect.height() * yScale);
         rect.setTopLeft(topLeft);
         break;
     case CSizeHandleRect::RightTop:
-        qDebug() << "CSizeHandleRect::RightTop" <<  endl;
+        //qDebug() << "CSizeHandleRect::RightTop" <<  endl;
         topRight.setX(topRight.x() + rect.width() * xScale);
         topRight.setY(topRight.y() + rect.height() * yScale);
         rect.setTopRight(topRight);
         break;
     case CSizeHandleRect::Right:
-        qDebug() << "CSizeHandleRect::Right" <<  endl;
+        //qDebug() << "CSizeHandleRect::Right" <<  endl;
         bottomRight.setX(bottomRight.x() + rect.width()*xScale);
         bottomRight.setY(bottomRight.y() + rect.height()*yScale);
         rect.setBottomRight(bottomRight);
         break;
     case CSizeHandleRect::RightBottom:
-        qDebug() << "CSizeHandleRect::RightBottom" <<  endl;
+        //qDebug() << "CSizeHandleRect::RightBottom" <<  endl;
         bottomRight.setX(bottomRight.x() + rect.width()*xScale);
         bottomRight.setY(bottomRight.y() + rect.height()*yScale);
         rect.setBottomRight(bottomRight);
         break;
     case CSizeHandleRect::Bottom:
-        qDebug() << "CSizeHandleRect::Bottom" <<  endl;
+        //qDebug() << "CSizeHandleRect::Bottom" <<  endl;
         bottomRight.setX(bottomRight.x() + rect.width()*xScale);
         bottomRight.setY(bottomRight.y() + rect.height()*yScale);
         rect.setBottomRight(bottomRight);
         break;
     case CSizeHandleRect::LeftBottom:
-        qDebug() << "CSizeHandleRect::LeftBottom" <<  endl;
+        //qDebug() << "CSizeHandleRect::LeftBottom" <<  endl;
         bottomLeft.setX(bottomLeft.x() + rect.width() * xScale);
         bottomLeft.setY(bottomLeft.y() + rect.height()*yScale);
         rect.setBottomLeft(bottomLeft);
         break;
     case CSizeHandleRect::Left:
-        qDebug() << "CSizeHandleRect::Left" <<  endl;
+        //qDebug() << "CSizeHandleRect::Left" <<  endl;
         topLeft.setX(topLeft.x() + rect.width() * xScale);
         topLeft.setY(topLeft.y() + rect.height() * yScale);
         rect.setTopLeft(topLeft);

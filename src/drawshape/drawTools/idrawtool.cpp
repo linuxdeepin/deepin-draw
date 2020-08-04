@@ -154,6 +154,23 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
                                                 CSceneUndoRedoCommand::EItemAdded, vars, true, true);
 
         } else {
+            //            if (info.startPosTopBzItem != nullptr && info.startPosTopBzItem->type() == TextType) {
+
+            //                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(info.startPosTopBzItem);
+            //                if (pTextItem->isEditable()) {
+            //                    //证明是文字图元
+            //                    event->setAccepted(false);
+            //                    return;
+            //                }
+            //            }
+
+            if (info.startPosTopBzItem != nullptr) {
+                if (info.startPosTopBzItem->isGrabToolEvent()) {
+                    event->setAccepted(false);
+                    return;
+                }
+            }
+
             toolStart(event, &info);
         }
     }
@@ -192,14 +209,18 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                 if (rInfo.businessItem != nullptr) {
                     toolCreatItemUpdate(event, &rInfo);
                 } else {
+                    if (rInfo.startPosTopBzItem != nullptr) {
+                        if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
+                            event->setAccepted(false);
+                            return;
+                        }
+                    }
                     toolUpdate(event, &rInfo);
                 }
             }
 
             rInfo._prePos = event->pos();
 
-        } else {
-            //toolDoStart(event);
         }
     } else {
         mouseHoverEvent(event);
@@ -245,6 +266,13 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 toolCreatItemFinish(event, &rInfo);
 
             } else {
+                if (rInfo.startPosTopBzItem != nullptr) {
+                    if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
+                        m_bMousePress = false;
+                        event->setAccepted(false);
+                        return;
+                    }
+                }
                 toolFinish(event, &rInfo);
             }
 
@@ -267,7 +295,7 @@ bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
             getTimerForDoubleCliked()->start(intervalMs);
         } else {
             //判定移动的幅度很小
-            QRectF rectf(event->view()->mapFromScene(prePos) - QPointF(10, 10), QSizeF(20, 20));
+            QRectF rectf(prePos - QPointF(10, 10), QSizeF(20, 20));
             if (rectf.contains(event->pos())) {
                 m_bMousePress = true;
 

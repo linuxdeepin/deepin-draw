@@ -136,6 +136,12 @@ void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
     return QTextEdit::mouseDoubleClickEvent(e);
 }
 
+void CTextEdit::mousePressEvent(QMouseEvent *event)
+{
+    qDebug() << "CTextEdit::mousePressEvent----";
+    return QTextEdit::mousePressEvent(event);
+}
+
 void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 {
     m_e = *e;

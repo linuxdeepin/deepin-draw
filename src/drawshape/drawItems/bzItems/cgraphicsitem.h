@@ -265,6 +265,11 @@ public:
      */
     QRectF  scenRect();
 
+    /**
+     * @brief isGrabToolEvent 是否独占事件
+     */
+    virtual bool isGrabToolEvent();
+
 protected:
     /**
      * @brief loadHeadData 加载通用数据
@@ -346,6 +351,11 @@ protected:
      * @param item 复制后的图元
      */
     virtual void duplicate(CGraphicsItem *item);
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
