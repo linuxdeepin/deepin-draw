@@ -40,6 +40,17 @@ protected:
     virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
+     * @brief toolStart　判断工具活跃类型
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+
+    enum EOperateType { ENothing,
+                        EDragMove,
+                        EResizeMove };
+    virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
      * @brief toolStart　 工具刷新事件
      * @param event       当次事件信息
      * @param pInfo       记录信息
@@ -82,7 +93,7 @@ public:
     void changeCutSize(const CDrawScene *scene, const QSize &);
 
     /**
-     * @brief changeCutSize　改变裁剪尺寸
+     * @brief doFinished　结束裁剪
      */
     void doFinished(bool accept);
 

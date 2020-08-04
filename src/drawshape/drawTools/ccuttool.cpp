@@ -61,69 +61,71 @@ void CCutTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordI
     Q_UNUSED(pInfo)
     Q_UNUSED(event)
     m_pCutItem = getCurCutItem();
-    m_bMousePress = true;
-    //选中图元
-    if (m_pCutItem != nullptr) {
-        if (CButtonRect::NoneButton != m_buttonType) {
-            dApp->setApplicationCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
-        } else {
-            dApp->setApplicationCursor(getCursor(m_dragHandle, m_bMousePress));
-        }
+
+    QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
+    if (pFirstItem != nullptr) {
+        dApp->setApplicationCursor(Qt::ClosedHandCursor);
     }
+}
+
+int CCutTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    EOperateType ret = ENothing;
+
+    QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
+                                                                  pInfo->startPosItems, true, true);
+    if (event->scene()->isBussizeHandleNodeItem(pStartPosTopQtItem)) {
+        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pStartPosTopQtItem);
+        pInfo->_etcopeTpUpdate = pHandle->dir();
+        pInfo->etcItems.clear();
+
+        pInfo->etcItems.append(m_pCutItem);
+
+        ret = EResizeMove;
+    } else if (pStartPosTopQtItem == m_pCutItem) {
+        ret = EDragMove;
+    }
+
+    pInfo->_opeTpUpdate = ret;
+
+    return pInfo->_opeTpUpdate;
 }
 
 void CCutTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
-    m_pCutItem = getCurCutItem();
-    if (nullptr != m_pCutItem && m_bMousePress) {
-        if (m_dragHandle != CSizeHandleRect::None  && m_dragHandle != CSizeHandleRect::InRect) {
-            m_pCutItem->resizeCutSize(m_dragHandle, pInfo->_prePos, event->pos(), &pInfo->_prePos);
-            m_bModify = true;
-            emit event->scene()->signalUpdateCutSize();
-            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
-        } else {
-            if (m_dragHandle == CSizeHandleRect::InRect) {
-                m_bModify = true;
-                m_pCutItem->move(pInfo->_prePos, event->pos());
-            }
-        }
+    if (pInfo->_opeTpUpdate == EDragMove) {
+        m_pCutItem->move(pInfo->_prePos, event->pos());
+    } else if (pInfo->_opeTpUpdate == EResizeMove) {
+        CSizeHandleRect::EDirection direction = CSizeHandleRect::EDirection(pInfo->_etcopeTpUpdate);
+        m_pCutItem->resizeCutSize(direction, pInfo->_prePos, event->pos(), &pInfo->_prePos);
+        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
+
+    //            emit event->scene()->signalUpdateCutSize();
 }
 
 void CCutTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(pInfo)
     Q_UNUSED(event)
-    m_bMousePress = false;
-
-    m_pCutItem = getCurCutItem();
-    if (m_pCutItem != nullptr) {
-        //重绘矩形
-        QRectF rect = m_pCutItem->rect();
-        QPointF centerPoint = m_pCutItem->mapToScene(m_pCutItem->rect().center());
-        rect.setRect(centerPoint.rx() - rect.width() * 0.5, centerPoint.ry() - rect.height() * 0.5, rect.width(), rect.height());
-        m_pCutItem->setPos(0, 0);
-        m_pCutItem->setRect(rect);
-        m_pCutItem->update();
-
-        if (CButtonRect::NoneButton != m_buttonType) {
-            dApp->setApplicationCursor(getCursor(CSizeHandleRect::None, m_bMousePress));
-        } else {
-            dApp->setApplicationCursor(getCursor(m_dragHandle, m_bMousePress));
-        }
-    }
+    mouseHoverEvent(event);
 }
 
 void CCutTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)
 {
-    m_pCutItem = getCurCutItem();
-    if (nullptr != m_pCutItem  && !m_bMousePress) {
-        CSizeHandleRect::EDirection dragHandle = m_pCutItem->hitTest(event->pos());
+    QPointF scenePos = event->pos();
 
-        if (dragHandle != m_dragHandle) {
-            m_dragHandle = dragHandle;
-            dApp->setApplicationCursor(QCursor(getCursor(m_dragHandle, m_bMousePress)));
-        }
+    QList<QGraphicsItem *> items = event->scene()->items(scenePos);
+
+    QGraphicsItem *pItem = event->scene()->firstItem(scenePos, items, true, true, false, false);
+
+    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
+        CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
+        dApp->setApplicationCursor(pHandle->getCursor());
+    } else if (pItem != nullptr && pItem->type() == CutType) {
+        dApp->setApplicationCursor(Qt::OpenHandCursor);
+    } else {
+        dApp->setApplicationCursor(Qt::ArrowCursor);
     }
 }
 

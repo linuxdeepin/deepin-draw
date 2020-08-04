@@ -687,6 +687,17 @@ CSizeHandleRect::EDirection CGraphicsCutItem::hitTest(const QPointF &point) cons
     return CSizeHandleRect::None;
 }
 
+QPainterPath CGraphicsCutItem::getHighLightPath()
+{
+    return QPainterPath();
+}
+
+bool CGraphicsCutItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    return false;
+}
+
 void CGraphicsCutItem::showControlRects(bool flag)
 {
     setState(flag ? SelectionHandleActive : SelectionHandleOff);

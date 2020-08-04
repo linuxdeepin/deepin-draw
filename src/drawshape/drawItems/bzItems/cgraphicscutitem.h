@@ -37,11 +37,24 @@ public:
     virtual void setRect(const QRectF &rect);
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     virtual void move(QPointF beginPoint, QPointF movePoint) override;
-    virtual CSizeHandleRect::EDirection  hitTest( const QPointF &point ) const override;
+    virtual CSizeHandleRect::EDirection hitTest(const QPointF &point) const override;
+
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() override;
+
+    /**
+     * @brief isPosPenetrable 某一位置在图元上是否是可穿透的（透明的）(基于inSideShape和outSideShape)
+     * @param posLocal 该图元坐标系的坐标位置
+     */
+    virtual bool isPosPenetrable(const QPointF &posLocal) override;
+
     void doChangeType(int);
     void doChangeSize(int, int);
 
