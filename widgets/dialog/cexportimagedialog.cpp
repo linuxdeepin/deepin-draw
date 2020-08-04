@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QAbstractButton>
+#include <QRegExpValidator>
 #include "application.h"
 #include  "dialog.h"
 
@@ -101,30 +102,13 @@ void CExportImageDialog::initUI()
 
     logoLable->move(10, 9);
     logoLable->setAlignment(Qt::AlignLeft);
-//    QFont ft;
-//    ft.setPixelSize(17);
-//    this->setFont(ft);
 
     setWindowTitle(tr("Export"));;
-
-//    DLabel *titleLabel = new DLabel(tr("Export"), this);
-//    titleLabel->setFixedSize(DIALOG_SIZE.width(), 40);
-
-//    QHBoxLayout *titleLayout = new QHBoxLayout(this);
-//    titleLayout->setSpacing(0);
-//    titleLayout->setMargin(0);
-//    titleLayout->addWidget(logoLable, 0, Qt::AlignLeft);
-//    titleLayout->addWidget(titleLabel, 0, Qt::AlignHCenter);
-
-
-//    titleLabel->move(0, 0);
-//    titleLabel->setAlignment(Qt::AlignCenter);
-
 
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-
+    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+")));
 
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
@@ -192,21 +176,15 @@ void CExportImageDialog::initConnection()
 {
     connect(m_savePathCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnSavePathChange(int)));
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
-    connect(this, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnDialogButtonClick(int, const QString & )));
+    connect(this, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnDialogButtonClick(int, const QString &)));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this,
-            SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
+    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString &)), this,
+            SLOT(slotOnQuestionDialogButtonClick(int, const QString &)));
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
 
         QString newText = text;
-
-        newText.remove(dApp->fileNameRegExp());
-
-        m_fileNameEdit->blockSignals(true);
-        m_fileNameEdit->setText(newText);
-        m_fileNameEdit->blockSignals(false);
 
         bool isEmpty = newText.isEmpty();
 
