@@ -103,15 +103,15 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="61"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="74"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="245"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="557"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="76"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="213"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="517"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="519"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="492"/>
         <source>Import Picture</source>
         <translation>导入图片</translation>
     </message>
@@ -127,32 +127,32 @@
         <translation type="vanished">画板</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="869"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="794"/>
         <source>Radius</source>
         <translation>圆角</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="969"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="894"/>
         <source>Points</source>
         <translation>锚点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="982"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="907"/>
         <source>Diameter</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1036"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="962"/>
         <source>Sides</source>
         <translation>侧边数</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1128"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1069"/>
         <source>Start</source>
         <translation>起点</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1141"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1082"/>
         <source>End</source>
         <translation>终点</translation>
     </message>
@@ -495,32 +495,32 @@
         <translation>居中对齐</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1519"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1518"/>
         <source>This file is read-only, please save with another name.</source>
         <translation>该文件已设置为只读，请使用其他文件名重试。</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1528"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1527"/>
         <source>Unnamed</source>
         <translation>未命名</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1549"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1552"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1551"/>
         <source>Save as</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1573"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1572"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation>文件名不得含有\/:*?&quot;&lt;&gt;|</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1600"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation>不能保存为“%1”，因为该文档当前是打开的。请使用不同的名称保存，或关闭文档并重试。</translation>
     </message>
@@ -529,9 +529,9 @@
         <translation type="vanished">未命名.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1522"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1603"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1521"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -679,18 +679,18 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="142"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="73"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>最多可导入30张图片，请重新选择</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="143"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="322"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="74"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="259"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="319"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="256"/>
         <source>Damaged file, unable to open it.</source>
         <translation>文件已损坏，无法打开。</translation>
     </message>
@@ -939,7 +939,7 @@
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="334"/>
+        <location filename="../src/frame/mainwindow.cpp" line="280"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>

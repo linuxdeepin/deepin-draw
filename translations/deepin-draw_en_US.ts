@@ -99,15 +99,15 @@
 <context>
     <name>CCentralwidget</name>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="61"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="74"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="245"/>
-        <location filename="../src/frame/ccentralwidget.cpp" line="557"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="63"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="76"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="213"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="517"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/ccentralwidget.cpp" line="519"/>
+        <location filename="../src/frame/ccentralwidget.cpp" line="492"/>
         <source>Import Picture</source>
         <translation>Import Picture</translation>
     </message>
@@ -119,32 +119,32 @@
         <translation type="obsolete">Draw</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="869"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="794"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="969"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="894"/>
         <source>Points</source>
         <translation type="unfinished">Points</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="982"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="907"/>
         <source>Diameter</source>
         <translation type="unfinished">Diameter</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1036"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="962"/>
         <source>Sides</source>
         <translation type="unfinished">Sides</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1128"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1069"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1141"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1082"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -487,32 +487,32 @@
         <translation>Text Align Center</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1519"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1518"/>
         <source>This file is read-only, please save with another name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1528"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1527"/>
         <source>Unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1550"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1549"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1552"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1551"/>
         <source>Save as</source>
         <translation>Save as</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1573"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1572"/>
         <source>The file name must not contain \/:*?&quot;&lt;&gt;|</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1600"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1599"/>
         <source>Cannot save as &quot;%1&quot; because the document is currently open. Please save it with a different name, or close the document and try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -521,9 +521,9 @@
         <translation type="vanished">Unnamed.ddf</translation>
     </message>
     <message>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1522"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1576"/>
-        <location filename="../src/frame/cgraphicsview.cpp" line="1603"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1521"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1575"/>
+        <location filename="../src/frame/cgraphicsview.cpp" line="1602"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -659,18 +659,18 @@
 <context>
     <name>CPictureTool</name>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="142"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="73"/>
         <source>You can import up to 30 pictures, please try again!</source>
         <translation>You can import up to 30 pictures, please try again!</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="143"/>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="322"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="74"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="259"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="319"/>
+        <location filename="../src/drawshape/drawTools/cpicturetool.cpp" line="256"/>
         <source>Damaged file, unable to open it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -888,7 +888,7 @@
         <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../src/frame/mainwindow.cpp" line="334"/>
+        <location filename="../src/frame/mainwindow.cpp" line="280"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>

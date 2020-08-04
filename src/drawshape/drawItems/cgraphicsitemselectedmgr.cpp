@@ -670,14 +670,19 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 
 void CGraphicsItemSelectedMgr::updateAttributes()
 {
-    if (dApp->topToolbar() != nullptr && dApp->topToolbar()->attributWidget() != nullptr) {
-        if (this->count() == 0) {
-            dApp->topToolbar()->attributWidget()->setGraphicItem(nullptr);
-            return;
-        } else if (this->count() == 1) {
-            dApp->topToolbar()->attributWidget()->setGraphicItem(m_listItems.first());
-        } else {
-            dApp->topToolbar()->attributWidget()->setGraphicItem(this);
+    TopToolbar *pBar    = dApp->topToolbar();
+
+    if (pBar != nullptr) {
+        CComAttrWidget *pAttr = pBar->attributWidget();
+        if (pAttr != nullptr) {
+            if (this->count() == 0) {
+                pAttr->setGraphicItem(nullptr);
+                return;
+            } else if (this->count() == 1) {
+                pAttr->setGraphicItem(m_listItems.first());
+            } else {
+                pAttr->setGraphicItem(this);
+            }
         }
     }
 }

@@ -291,9 +291,8 @@ void CLeftToolBar::initConnection()
         m_picBtn->setChecked(true);
         clearOtherSelections(m_picBtn);
         isCutMode();
-//        emit setCurrentDrawTool(importPicture);//modify to set currentDrawTool
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
         emit importPic();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
     });
 
     connect(m_rectBtn, &DToolButton::clicked, [this]() {

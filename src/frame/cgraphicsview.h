@@ -253,12 +253,6 @@ signals:
     void signalSetScale(const qreal scale);
 
     /**
-     * @brief signalImportPicture 导入图片信号
-     * @param path
-     */
-    void signalImportPicture(QString path);
-
-    /**
      * @brief signalTransmitContinueDoOtherThing 传递继续做事的信号
      */
     void signalTransmitContinueDoOtherThing();
@@ -272,12 +266,12 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool addUndoRedo = true);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
      */
-    void signalLoadDragOrPasteFile(QString);
+    void signalLoadDragOrPasteFile(QString, bool addUndoRedo = true);
 
     /**
      * @brief signalSaveFileStatus 保存文件状态信号

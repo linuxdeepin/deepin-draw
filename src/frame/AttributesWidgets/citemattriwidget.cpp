@@ -71,116 +71,7 @@ void CItemAttriWidget::refresh()
 {
 }
 
-CItemAttriWidget::CCmdBlock::CCmdBlock(CDrawScene *pScene)
-    : _pScene(pScene)
-{
-    if (_pScene == nullptr)
-        return;
 
-    //记录undo
-    QList<QVariant> vars;
-    vars << reinterpret_cast<long long>(pScene);
-    vars << pScene->sceneRect();
-    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                        CSceneUndoRedoCommand::ESizeChanged, vars, true);
-}
-
-CItemAttriWidget::CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
-    : _pItem(pItem)
-    , _phase(phase)
-    , _doRedo(doRedo)
-{
-    if (_pItem == nullptr)
-        return;
-
-    if (_phase == EChangedUpdate || _phase == EChangedFinished)
-        return;
-
-    if (_pItem->type() == CutType) {
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(_pItem->drawScene());
-        vars << _pItem->drawScene()->sceneRect();
-        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                            CSceneUndoRedoCommand::ESizeChanged, vars, true);
-    }
-
-    QList<CGraphicsItem *> items;
-    if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
-
-    } else {
-        items.append(pItem);
-    }
-
-    for (int i = 0; i < items.size(); ++i) {
-        CGraphicsItem *pItem = items[i];
-
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(pItem);
-        QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
-        vars << varInfo;
-
-        if (_phase == EChangedBegin || _phase == EChanged) {
-            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                                CItemUndoRedoCommand::EAllChanged, vars, i == 0);
-        }
-    }
-}
-
-CItemAttriWidget::CCmdBlock::~CCmdBlock()
-{
-    if (_pScene != nullptr) {
-        //记录undo
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(_pScene);
-        vars << _pScene->sceneRect();
-        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                            CSceneUndoRedoCommand::ESizeChanged, vars);
-
-        CUndoRedoCommand::finishRecord(false);
-        return;
-    }
-
-    if (_pItem == nullptr)
-        return;
-
-    if (_phase != EChangedFinished && _phase != EChanged)
-        return;
-
-    if (_pItem->type() == CutType) {
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(_pItem->drawScene());
-        vars << _pItem->drawScene()->sceneRect();
-        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                            CSceneUndoRedoCommand::ESizeChanged, vars);
-    }
-
-    QList<CGraphicsItem *> items;
-    if (_pItem->type() == MgrType) {
-        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
-
-    } else {
-        items.append(_pItem);
-    }
-
-    for (int i = 0; i < items.size(); ++i) {
-        CGraphicsItem *pItem = items[i];
-
-        QList<QVariant> vars;
-        vars << reinterpret_cast<long long>(pItem);
-        QVariant varInfo;
-        varInfo.setValue(pItem->getGraphicsUnit(false));
-        vars << varInfo;
-
-        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
-                                            CItemUndoRedoCommand::EAllChanged, vars);
-    }
-
-    if (_pItem->drawScene() != nullptr) {
-        _pItem->drawScene()->finishRecord(_doRedo);
-    }
-}
 
 CComAttrWidget::CComAttrWidget(QWidget *parent)
     : CItemAttriWidget(parent)
@@ -486,6 +377,8 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                     data.comVaild[Blurtype] = false;
                 }
             } else if (tp == Image) {
+                qDebug() << "graphicItem()->sceneBoundingRect():" << graphicItem()->sceneBoundingRect();
+                qDebug() << "graphicItem()->drawScene()->sceneRect():" << graphicItem()->drawScene()->sceneRect();
                 if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
                     data.comVaild[PropertyImageAdjustScence] = true;
                 } else {
@@ -1359,6 +1252,8 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
             QList<CGraphicsItem *> lists = this->graphicItems();
             this->graphicItem()->scene()->setSceneRect(
                 this->graphicItem()->mapRectToScene(this->graphicItem()->boundingRect()));
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->update();
         });
 
         connect(m_pictureWidget, &CPictureWidget::imageFlipChanged, this, [ = ](ERotationType type) {
@@ -1386,6 +1281,8 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                     pItem->setRotation90(false);
                 }
             }
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
+            refresh();
         });
     }
     return m_pictureWidget;

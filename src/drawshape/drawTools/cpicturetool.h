@@ -39,14 +39,15 @@ public:
     CPictureTool(DWidget *parent = nullptr);
     ~CPictureTool();
 signals:
-    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData);
+    void addImageSignal(QPixmap pixmap, int itemNumber, CDrawScene *scene, CCentralwidget *centralWindow, const QByteArray &fileSrcData, bool asFirstImageSize, bool addUndoRedo);
     void signalPicturesImportingFinished();
 
 public slots:
     void addImages(QPixmap pixmap, int itemNumber, CDrawScene *scene,
                    CCentralwidget *centralWindow,
                    const QByteArray &fileSrcData,
-                   bool asImageSize = false);
+                   bool asImageSize = false,
+                   bool addUndoRedo = false);
 
     void onLoadImageFinished(const QStringList &successFiles,
                              const QStringList &failedFiles,
@@ -55,7 +56,7 @@ public slots:
     void showLoadFailedFiles(const QStringList &files);
 
 public:
-    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false);
+    void drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize = false, bool addUndoRedo = false);
 
     QPixmap getPixMapQuickly(const QString &imagePath);
 private:

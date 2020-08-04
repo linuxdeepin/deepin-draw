@@ -90,60 +90,6 @@ void MainWindow::initUI()
     this->addAction(m_showCut);
 }
 
-void MainWindow::showDragOrOpenFile(QStringList files, bool isOPenFile)
-{
-    Application *pApp = dynamic_cast<Application *>(qApp);
-    if (pApp != nullptr) {
-        files = pApp->getRightFiles(files);
-    }
-
-    if (files.isEmpty()) {
-        return;
-    }
-
-    QString ddfPath = "";
-    QStringList picturePathList;
-    for (int i = 0; i < files.size(); i++) {
-        QFileInfo info(files[i]);
-        QString fileSuffix = info.suffix().toLower();
-        if (dApp->supDdfStuffix().contains(fileSuffix)) {
-            ddfPath = files[i].replace("file://", "");
-            if (!ddfPath.isEmpty()) {
-                bool isOpened = CManageViewSigleton::GetInstance()->isDdfFileOpened(ddfPath);
-                if (isOpened) { // 跳转到已打开标签
-                    m_centralWidget->skipOpenedTab(ddfPath);
-                    continue;
-                }
-
-                // 创建一个新的窗口用于显示拖拽的图像
-                m_centralWidget->createNewScenseByscencePath(ddfPath);
-
-                if (isOPenFile) {
-                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::StartByDDF);
-                } else {
-                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
-                }
-
-                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath(ddfPath);
-                slotIsNeedSave();
-            }
-        } else if (dApp->supPictureSuffix().contains(fileSuffix)) {
-            //图片格式："*.png *.jpg *.bmp *.tif"
-            picturePathList.append(files[i].replace("file://", ""));
-        }
-    }
-
-    if (!CManageViewSigleton::GetInstance()->isEmpty()) {
-        if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-            m_centralWidget->getGraphicsView()->slotQuitCutMode();
-        }
-    }
-
-    if (picturePathList.count() > 0) {
-        m_centralWidget->slotPastePicture(picturePathList);
-    }
-}
-
 int MainWindow::showSaveQuestionDialog()
 {
     //int  ret = 0;  //0 cancel 1 discal 2baocun
@@ -321,7 +267,7 @@ void MainWindow::slotContinueDoSomeThing()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
         m_centralWidget->getGraphicsView()->clearScene();
         m_centralWidget->getLeftToolBar()->slotShortCutSelect();
-        m_centralWidget->openPicture(tmpPictruePath);
+        m_centralWidget->openFiles(QStringList() << tmpPictruePath);
         break;
     default:
         break;
@@ -343,7 +289,7 @@ void MainWindow::slotShowOpenFileDialog()
     QStringList picturePathList;
     if (dialog.exec()) {
         QStringList tempfilePathList = dialog.selectedFiles();
-        m_centralWidget->slotLoadDragOrPasteFile(tempfilePathList);
+        m_centralWidget->openFiles(tempfilePathList, false, true);
     }
 }
 
@@ -381,11 +327,6 @@ void MainWindow::onViewShortcut()
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
-}
-
-void MainWindow::slotLoadDragOrPasteFile(QStringList files)
-{
-    showDragOrOpenFile(files, false);
 }
 
 void MainWindow::slotOnEscButtonClick()
@@ -487,30 +428,6 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     DMainWindow::wheelEvent(event);
 }
 
-//static void printLab(QWidget *pWidget, QWidget *pMainWindow)
-//{
-//    QList<QObject *> children = pWidget->children();
-//    for (QObject *pObj : children) {
-//        QLabel *pLabel = qobject_cast<QLabel *>(pObj);
-//        bool finish = false;
-//        if (pLabel != nullptr) {
-//            qDebug() << "printLab pLabel text ========= " << pLabel->text() << "object name = " << pLabel->objectName();
-//            finish = true;
-
-//            if (pLabel->objectName() == "WebsiteLabel") {
-//                pLabel->installEventFilter(pMainWindow);
-//            }
-
-//        } else {
-//            QAbstractButton *pBtn = qobject_cast<QAbstractButton *>(pObj);
-//            if (pBtn != nullptr) {
-//                qDebug() << "printLab pBtn text ========= " << pBtn->text();
-//                finish = true;
-//            }
-//        }
-//    }
-//}
-
 bool MainWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::ChildAdded) {
@@ -588,15 +505,6 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return DMainWindow::eventFilter(o, e);
 }
 
-void MainWindow::openImage(QString path, bool isStartByDDF)
-{
-    // 此函数是命令行调用进行处理的相关代码
-    if (!path.isEmpty()) {
-        // 新建一个标签页
-        showDragOrOpenFile(QStringList(path), isStartByDDF);
-    }
-}
-
 void MainWindow::readSettings()
 {
     QString fileName = Global::configPath() + "/config.conf";
@@ -630,7 +538,7 @@ bool MainWindow::openImage(QImage image, const QByteArray &srcData)
     if (QPixmap::fromImage(image).isNull()) {
         return false;
     } else {
-        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData);
+        m_centralWidget->slotPastePixmap(QPixmap::fromImage(image), srcData, true, true);
         return true;
     }
 }

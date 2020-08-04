@@ -33,12 +33,14 @@
 #include <DDialog>
 
 #include "service/cmanagerattributeservice.h"
+#include "frame/cundoredocommand.h"
+
 
 CPictureTool::CPictureTool(DWidget *parent)
     : DWidget(parent)
 {
     m_progressLayout = new ProgressLayout();
-    connect(this, SIGNAL(addImageSignal(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)), this, SLOT(addImages(QPixmap, int, CDrawScene *, CCentralwidget *, const QByteArray &)));
+    connect(this, &CPictureTool::addImageSignal, this, &CPictureTool::addImages);
 
 }
 CPictureTool::~CPictureTool()
@@ -46,77 +48,11 @@ CPictureTool::~CPictureTool()
     delete m_progressLayout;
 }
 
-
-//void CPictureTool::drawPicture(CDrawScene *scene, CCentralwidget *centralWindow)
-//{
-//    //告知单例正在画图模式s
-//    // CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(importPicture);
-//    //qDebug() << "importImageSignal" <<  "drawPicture" << endl;
-//    DFileDialog *fileDialog = new DFileDialog();
-//    //设置文件保存对话框的标题
-//    fileDialog->setWindowTitle(tr("导入图片"));
-//    QStringList filters;
-//    filters << "*.png *.jpg *.bmp *.tif";
-//    fileDialog->setNameFilters(filters);
-//    fileDialog->setFileMode(QFileDialog::ExistingFiles);
-
-//    if (fileDialog->exec() ==   QDialog::Accepted) {
-
-
-//        QStringList filenames = fileDialog->selectedFiles();
-//        // qDebug() << filenames << endl;
-//        m_picNum = filenames.size();
-//        int exitPicNum = 0;
-
-//        //获取已导入图片数量
-//        QList<QGraphicsItem *> items = scene->items();
-
-//        if ( items.count() != 0 ) {
-//            for (int i = 0; i < items.size(); i++) {
-//                if (items[i]->type() == PictureType) {
-//                    exitPicNum = exitPicNum + 1;
-//                };
-
-//            }
-
-//        }
-
-//        //大于30张报错，主要是适应各种系统环境，不给内存太大压力
-//        if (exitPicNum + m_picNum > 30) {
-//            // DMessageBox messageBox= new DMessageBox();
-//            DMessageBox::warning(nullptr, tr("Import warning"), tr("30 pictures are allowed to be imported at most, "
-//                                                                   "already imported %1 pictures, please try again").arg(exitPicNum));
-//            return;
-
-//        }
-
-//        m_progressLayout->setRange(0, m_picNum);
-
-//        m_progressLayout->showInCenter(centralWindow->window());
-//        //progressLayout->show();//此处还需要找个show的zhaiti载体
-
-//        //启动图片导入线程
-//        QtConcurrent::run([ = ] {
-//            for (int i = 0; i < m_picNum; i++)
-//            {
-
-//                QPixmap pixmap = QPixmap (filenames[i]);
-
-//                emit addImageSignal(pixmap, i + 1, scene, centralWindow);
-//                // emit loadImageNum(i + 1);
-//                //qDebug() << "importProcessbar" << i + 1 << endl;
-
-//            }
-
-//        });
-
-
-//    }
-
-//}
-
-
-void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCentralwidget *centralWindow, bool asFirstImageSize)
+void CPictureTool::drawPicture(QStringList filePathList
+                               , CDrawScene *scene
+                               , CCentralwidget *centralWindow
+                               , bool asFirstImageSize
+                               , bool addUndoRedo)
 {
     QStringList filenames = filePathList;
     // qDebug() << filenames << endl;
@@ -136,7 +72,6 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     //大于30张报错，主要是适应各种系统环境，不给内存太大压力
     if (exitPicNum + m_picNum > 30) {
-
         Dtk::Widget::DDialog warnDlg(centralWindow);
         warnDlg.setIcon(QIcon::fromTheme("dialog-warning"));
         warnDlg.setTitle(tr("You can import up to 30 pictures, please try again!"));
@@ -153,15 +88,11 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
 
     m_progressLayout->showInCenter(centralWindow->window());
 
-    // 判断当前图片是否需要进行自适应设置
-    if (asFirstImageSize) {
-        setScenceSizeByImporteImage(scene, QPixmap(filePathList.at(0)).size());
-    }
-
     //启动图片导入线程
     QtConcurrent::run([ = ] {
         QList<QString> failedFiles;
         QList<QString> successFiles;
+        bool firestImageAdjustScence = asFirstImageSize;
         for (int i = 0; i < filenames.size(); i++)
         {
             QString file = filenames[i];
@@ -180,7 +111,11 @@ void CPictureTool::drawPicture(QStringList filePathList, CDrawScene *scene, CCen
             if (f.open(QFile::ReadOnly)) {
                 srcBytes = f.readAll();
             }
-            emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes);
+            emit addImageSignal(pixmap, i + 1, scene, centralWindow, srcBytes, firestImageAdjustScence, addUndoRedo);
+            // 多张图片只以第一张图片的大小进行自适应
+            if (firestImageAdjustScence) {
+                firestImageAdjustScence = false;
+            }
         }
 
         QMetaObject::invokeMethod(this, "onLoadImageFinished",
@@ -245,18 +180,24 @@ void CPictureTool::setScenceSizeByImporteImage(CDrawScene *scene, const QSize &i
     }
 }
 
-
 void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
-                             CDrawScene *scene, CCentralwidget *centralWindow,
-                             const QByteArray &fileSrcData, bool asImageSize)
+                             CDrawScene *scene
+                             , CCentralwidget *centralWindow
+                             , const QByteArray &fileSrcData
+                             , bool asImageSize
+                             , bool addUndoRedo)
 {
     Q_UNUSED(centralWindow);
     CPictureItem *pixmapItem = nullptr;
     if (!pixmap.isNull()) {
+
         scene->clearSelection();
 
         pixmapItem = new CPictureItem(QRectF(scene->sceneRect().topLeft().x(), scene->sceneRect().topLeft().y(), pixmap.width(), pixmap.height()),
                                       pixmap, nullptr, fileSrcData);
+
+
+        CCmdBlock cmd(addUndoRedo ? scene : nullptr, CSceneUndoRedoCommand::EItemAdded, QList<QGraphicsItem *>() << pixmapItem);
 
         pixmapItem->setSelected(false);
         scene->addItem(pixmapItem);
@@ -272,8 +213,9 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
         m_progressLayout->close();
         if (!pixmap.isNull()) {
             scene->clearSelection();
-            if (pixmapItem != nullptr)
-                pixmapItem->setSelected(true);
+            if (pixmapItem != nullptr) {
+                pixmapItem->drawScene()->selectItem(pixmapItem);
+            }
         }
         emit signalPicturesImportingFinished();
     }

@@ -49,12 +49,6 @@ public:
      * @brief showDrawDialog　退出询问对话框
      */
     void showDrawDialog();
-    /**
-     * @brief openImage　打开图片或ＤＤＦ文件
-     * @param path　路径
-     * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
-     */
-    void openImage(QString path, bool isStartByDDF = false);
 
     void readSettings();
 
@@ -99,11 +93,6 @@ public slots:
      * @brief onViewShortcut
      */
     void onViewShortcut();
-    /**
-     * @brief slotLoadDragOrPasteFile　粘贴或拖拽文件槽函数
-     * @param files
-     */
-    void slotLoadDragOrPasteFile(QStringList files);
     /**
      * @brief slotOnEscButtonClick　ＥＳＣ按钮槽函数
      */
@@ -160,12 +149,6 @@ private:
      * @brief initUI　初始化ＵＩ
      */
     void initUI();
-    /**
-     * @brief showDragOrOpenFile　显示拖拽或者打开文件
-     * @param files 文件列表路径
-     * @param isOPenFile 是否是打开文件
-     */
-    void showDragOrOpenFile(QStringList files, bool isOPenFile);
     /**
      * @brief showSaveQuestionDialog　显示提示是否保存对话框
      */

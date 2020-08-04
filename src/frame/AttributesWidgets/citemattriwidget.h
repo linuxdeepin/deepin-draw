@@ -130,20 +130,7 @@ protected:
         QObject *_b = nullptr;
     };
 
-    class CCmdBlock
-    {
-    public:
-        CCmdBlock(CDrawScene *pScene);
-        CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
-        ~CCmdBlock();
 
-    private:
-        CGraphicsItem *_pItem = nullptr;
-        EChangedPhase _phase = EChangedUpdate;
-        bool _doRedo = false;
-
-        CDrawScene *_pScene = nullptr;
-    };
 
 protected:
     CGraphicsItem *_pItem = nullptr;

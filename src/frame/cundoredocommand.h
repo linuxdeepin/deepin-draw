@@ -45,7 +45,7 @@ public:
     enum EVarUndoOrRedo { UndoVar,
                           RedoVar,
                           VarTpCount
-    };
+                        };
 
     /**
      * @brief The CUndoRedoCommand 构造函数
@@ -219,8 +219,7 @@ public:
     /**
      * @brief The undo 执行undo
      */
-    void real_undo() Q_DECL_OVERRIDE
-    {
+    void real_undo() Q_DECL_OVERRIDE {
         if (_uf != nullptr)
             _uf();
     }
@@ -228,8 +227,7 @@ public:
     /**
      * @brief The redo 执行redo
      */
-    void real_redo() Q_DECL_OVERRIDE
-    {
+    void real_redo() Q_DECL_OVERRIDE {
         if (_uf != nullptr)
             _rf();
     }
@@ -293,7 +291,7 @@ public:
                         EItemRemoved,
                         EAllChanged,
                         EChangedCount
-    };
+                      };
     CSceneUndoRedoCommand(EChangedType tp = ESizeChanged);
 
     inline QGraphicsScene *scene();
@@ -316,7 +314,7 @@ class CSceneItemNumChangedCommand : public CSceneUndoRedoCommand
 public:
     enum EChangedType { Removed,
                         Added
-    };
+                      };
 
     CSceneItemNumChangedCommand(EChangedType tp);
 
@@ -362,7 +360,7 @@ public:
                         EPropertyChanged,
                         EAllChanged,
                         EChangedCount
-    };
+                      };
 
     CItemUndoRedoCommand();
 
@@ -467,6 +465,26 @@ public:
 
 private:
     QSizeF _sz[VarTpCount];
+};
+
+
+class CDrawScene;
+class CCmdBlock
+{
+public:
+    CCmdBlock(CDrawScene *pScene,
+              CSceneUndoRedoCommand::EChangedType EchangedTp = CSceneUndoRedoCommand::ESizeChanged,
+              const QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
+    CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);
+    ~CCmdBlock();
+
+private:
+    CGraphicsItem *_pItem = nullptr;
+    EChangedPhase _phase = EChangedUpdate;
+    bool _doRedo = false;
+
+    CDrawScene *_pScene = nullptr;
+    CSceneUndoRedoCommand::EChangedType _scenChangedType = CSceneUndoRedoCommand::EChangedCount;
 };
 
 #endif // CDRAWUNDOCOMMAND_H

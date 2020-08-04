@@ -98,7 +98,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
 MainWindow *Application::topMainWindow()
 {
-    return qobject_cast<MainWindow *>(activeWindow());
+    return qobject_cast<MainWindow *>(activationWindow());
 }
 
 CColorPickWidget *Application::colorPickWidget(bool creatNew)
