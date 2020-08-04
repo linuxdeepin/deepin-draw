@@ -281,8 +281,19 @@ void CSelectTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pI
         m_isItemMoving = false;
         break;
     }
+    case ERotateMove: {
+        break;
+    }
     default:
         break;
+    }
+
+    QList<CGraphicsItem *> items = event->scene()->getItemsMgr()->getItems();
+    if (!items.isEmpty()) {
+        QGraphicsItem *pItem = items.first();
+        if (pItem != nullptr && pItem->type() == PictureType) {
+            event->scene()->getItemsMgr()->updateAttributes();
+        }
     }
 
     //入栈
@@ -381,7 +392,7 @@ void CSelectTool::drawMore(QPainter *painter,
     Q_UNUSED(rect)
     painter->save();
     for (auto it = _allITERecordInfo.begin();
-         it != _allITERecordInfo.end(); ++it) {
+            it != _allITERecordInfo.end(); ++it) {
         ITERecordInfo &info = it.value();
         if (info._opeTpUpdate == ERectSelect) {
             QPointF pos0 = info._startPos;

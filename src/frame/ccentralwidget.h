@@ -78,12 +78,6 @@ public:
      */
     void initSceneRect();
     /**
-     * @brief createNewScense　创建一个新的场景
-     * @param scenceName 场景名字
-     */
-    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
-    void           createNewScenseByscencePath(QString scencePath);
-    /**
      * @brief setCurrentView　设置活动场景
      * @param scenceName 场景名字
      */
@@ -106,9 +100,11 @@ public:
     QStringList getAllTabBarUUID();
 
     /**
-     * @description: skipOpenedTab 跳转到已打开标签页
+     * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
+     * @param files 图片路径列表
+     * @param bool  是否加入撤销返回栈
     */
-    void skipOpenedTab(QString filepath);
+    void openFiles(QStringList files, bool asFirstPictureSize = false, bool addUndoRedo = false);
 
 signals:
 
@@ -222,11 +218,6 @@ public slots:
     void slotSaveAs();
 
     /**
-     * @brief openPicture　点击图片进行导入
-     * @param path　图片路径
-     */
-    void openPicture(QString path);
-    /**
      * @brief onEscButtonClick　ＥＳＣ按钮触发槽函数
      */
     void onEscButtonClick();
@@ -239,18 +230,18 @@ public slots:
      * @param picturePathList　图片路径
      * @param asFirstPictureSize 以第一张图片大小初始化场景
      */
-    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false);
+    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false, bool addUndoRedo = true);
     /**
      * @brief slotPastePixmap　粘贴图片
      * @param pixmap　图片
      */
-    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
+    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize = false, bool addUndoRedo = true);
     /**
      * @description: slotLoadDragOrPasteFile 当从拖拽或者粘贴板中加载数据
      * @param:  path 需要加载的路径
     */
     void slotLoadDragOrPasteFile(QString path);
-    void slotLoadDragOrPasteFile(QStringList files);
+
     /**
      * @description: 新增加一个画板视图函数
      * @param:  viewName
@@ -387,6 +378,17 @@ private:
      */
     CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isModified = false);
 
+    /**
+     * @brief createNewScense　创建一个新的场景
+     * @param scenceName 场景名字
+     */
+    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
+    void           createNewScenseByscencePath(QString scencePath);
+
+    /**
+     * @description: skipOpenedTab 跳转到已打开标签页
+    */
+    void skipOpenedTab(QString filepath);
 
     /*
     * @bref: getCutedStatus 返回裁剪状态

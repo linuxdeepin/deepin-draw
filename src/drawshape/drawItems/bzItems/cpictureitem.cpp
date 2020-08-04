@@ -125,11 +125,10 @@ void CPictureItem::setRotation90(bool leftOrRight)
     this->setTransformOriginPoint(center);
     if (leftOrRight == true) {
         m_angle = this->rotation() - 90.0;
-        this->setRotation(m_angle);
     } else {
         m_angle = this->rotation() + 90.0;
-        this->setRotation(m_angle);
     }
+    this->setRotation(m_angle);
 
     if (nullptr != scene()) {
         auto curScene = static_cast<CDrawScene *>(scene());

@@ -604,3 +604,123 @@ void CSceneBoundingChangedCommand::real_redo()
         scene()->setSceneRect(_rect[RedoVar]);
     }
 }
+
+CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
+                     const QList<QGraphicsItem *> list)
+    : _pScene(pScene), _scenChangedType(EchangedTp)
+{
+    if (_pScene == nullptr)
+        return;
+
+    //记录undo
+    QList<QVariant> vars;
+    vars << reinterpret_cast<long long>(pScene);
+    if (EchangedTp == CSceneUndoRedoCommand::ESizeChanged) {
+        vars << pScene->sceneRect();
+    } else if (EchangedTp == CSceneUndoRedoCommand::EItemAdded || EchangedTp == CSceneUndoRedoCommand::EItemRemoved) {
+        for (QGraphicsItem *pItem : list) {
+            vars << reinterpret_cast<long long>(pItem);
+        }
+    }
+    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                        EchangedTp, vars, true);
+}
+
+CCmdBlock::CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase, bool doRedo)
+    : _pItem(pItem)
+    , _phase(phase)
+    , _doRedo(doRedo)
+{
+    if (_pItem == nullptr)
+        return;
+
+    if (_phase == EChangedUpdate || _phase == EChangedFinished)
+        return;
+
+    if (_pItem->type() == CutType) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pItem->drawScene());
+        vars << _pItem->drawScene()->sceneRect();
+        CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::ESizeChanged, vars, true);
+    }
+
+    QList<CGraphicsItem *> items;
+    if (_pItem->type() == MgrType) {
+        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+
+    } else {
+        items.append(pItem);
+    }
+
+    for (int i = 0; i < items.size(); ++i) {
+        CGraphicsItem *pItem = items[i];
+
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(pItem);
+        QVariant varInfo;
+        varInfo.setValue(pItem->getGraphicsUnit(false));
+        vars << varInfo;
+
+        if (_phase == EChangedBegin || _phase == EChanged) {
+            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                                CItemUndoRedoCommand::EAllChanged, vars, i == 0);
+        }
+    }
+}
+
+CCmdBlock::~CCmdBlock()
+{
+    if (_pScene != nullptr) {
+        //记录undo
+        if (_scenChangedType == CSceneUndoRedoCommand::ESizeChanged) {
+            QList<QVariant> vars;
+            vars << reinterpret_cast<long long>(_pScene);
+            vars << _pScene->sceneRect();
+            CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                CSceneUndoRedoCommand::ESizeChanged, vars);
+        }
+        CUndoRedoCommand::finishRecord(false);
+        return;
+    }
+
+    if (_pItem == nullptr)
+        return;
+
+    if (_phase != EChangedFinished && _phase != EChanged)
+        return;
+
+    if (_pItem->type() == CutType) {
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(_pItem->drawScene());
+        vars << _pItem->drawScene()->sceneRect();
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                            CSceneUndoRedoCommand::ESizeChanged, vars);
+    }
+
+    QList<CGraphicsItem *> items;
+    if (_pItem->type() == MgrType) {
+        items = dynamic_cast<CGraphicsItemSelectedMgr *>(_pItem)->getItems();
+
+    } else {
+        items.append(_pItem);
+    }
+
+    for (int i = 0; i < items.size(); ++i) {
+        CGraphicsItem *pItem = items[i];
+
+        QList<QVariant> vars;
+        vars << reinterpret_cast<long long>(pItem);
+        QVariant varInfo;
+        varInfo.setValue(pItem->getGraphicsUnit(false));
+        vars << varInfo;
+
+        CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::EItemChangedCmd,
+                                            CItemUndoRedoCommand::EAllChanged, vars);
+    }
+
+    if (_pItem->drawScene() != nullptr) {
+        _pItem->drawScene()->finishRecord(_doRedo);
+    }
+}
+
