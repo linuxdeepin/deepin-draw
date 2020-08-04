@@ -22,6 +22,8 @@
 #include "service/dbusdraw_adaptor.h"
 #include "ccolorpickwidget.h"
 #include "globaldefine.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -258,8 +260,14 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     return !isdir;
 }
 
-void Application::setApplicationCursor(const QCursor &cur)
+void Application::setApplicationCursor(const QCursor &cur, bool force)
 {
+    if (!force) {
+        bool isPressSpace = CManageViewSigleton::GetInstance()->getCurView()->isKeySpacePressed();
+        if (isPressSpace)
+            return;
+    }
+
     if (qApp->overrideCursor() == nullptr) {
         qApp->setOverrideCursor(cur);
     } else {

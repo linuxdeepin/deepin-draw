@@ -25,6 +25,7 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 #include "cgraphicsitemselectedmgr.h"
+#include "application.h"
 
 #include <DApplication>
 
@@ -224,6 +225,9 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
             //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
         }
     }
+    updateShape();
+    if (drawScene() != nullptr)
+        drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
 void CGraphicsTextItem::initText()

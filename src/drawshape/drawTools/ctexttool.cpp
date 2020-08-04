@@ -98,3 +98,16 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
     return nullptr;
 }
 
+void CTextTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(pInfo)
+
+    toolDoUpdate(event);
+
+    IDrawTool::toolStart(event, pInfo);
+}
+
+int CTextTool::minMoveUpdateDistance()
+{
+    return 0;
+}

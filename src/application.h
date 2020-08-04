@@ -76,7 +76,7 @@ public:
 
     bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
 
-    void setApplicationCursor(const QCursor &cur);
+    void setApplicationCursor(const QCursor &cur, bool force = false);
 
 signals:
     void popupConfirmDialog();

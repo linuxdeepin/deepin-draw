@@ -40,6 +40,19 @@ protected:
      * @param scene 场景
      */
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief toolStart　工具开始事件
+     * @param event      当次事件信息
+     * @param pInfo      记录信息
+     */
+    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
+
+    /**
+     * @brief minMoveUpdateDistance　工具创造业务图元指针
+     */
+
+    virtual int minMoveUpdateDistance() override;
 };
 
 #endif // CTEXTTOOL_H

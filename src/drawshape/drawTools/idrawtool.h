@@ -120,7 +120,7 @@ public:
         CDrawScene            *_scene  = nullptr;
         int                    _uuid   = 0;
         QEvent                *_orgEvent = nullptr;
-        bool _accept = true;
+        bool _accept = false;
 
         friend class IDrawTool;
     };
@@ -220,6 +220,12 @@ protected:
      */
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event);
 
+    /**
+     * @brief minMoveUpdateDistance　工具创造业务图元指针
+     */
+
+    virtual int minMoveUpdateDistance();
+
 public:
     /**
      * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
@@ -267,6 +273,8 @@ protected:
     bool m_bShiftKeyPress;
     bool m_bAltKeyPress;
 
+    enum EToolOperate { EToolCreatItem = -6542,
+                        EToolDoNothing = 0 };
     struct ITERecordInfo {
         QPointF _startPos;
         QPointF _prePos;
@@ -274,9 +282,9 @@ protected:
         CGraphicsItem *businessItem = nullptr;
         QList<QGraphicsItem *> startPosItems;
         CGraphicsItem *startPosTopBzItem = nullptr;
-        bool _firstCallToolUpdate = true;
+        bool haveDecidedOperateType = false;
         bool _isvaild = false;
-        int _opeTpUpdate = -1;
+        int _opeTpUpdate = EToolDoNothing;
         int _etcopeTpUpdate = -1;
         int _elapsedToUpdate = -1;
         QList<QGraphicsItem *> etcItems;

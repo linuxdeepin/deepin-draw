@@ -73,7 +73,7 @@ public:
      */
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene) override;
 
-    enum EOperateType { ENothingDo = -1,
+    enum EOperateType { ENothingDo = 0,
                         ERectSelect,
                         EDragMove,
                         EResizeMove,

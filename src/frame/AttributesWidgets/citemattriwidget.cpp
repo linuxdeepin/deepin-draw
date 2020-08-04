@@ -138,9 +138,6 @@ void CComAttrWidget::refresh()
     refreshHelper(tp);
 
     refreshDataHelper(tp);
-
-    // 解决焦点被移动到菜单位置的问题
-    this->setFocus();
 }
 
 void CComAttrWidget::initUiWhenShow()

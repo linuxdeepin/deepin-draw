@@ -130,7 +130,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 
         info._prePos = event->pos();
         info._startPos = event->pos();
-        info.businessItem = creatItem(event);
+        //info.businessItem = creatItem(event);
         info.startPosItems = event->scene()->items(event->pos());
         info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
         info._isvaild = true;
@@ -140,39 +140,13 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 
         _allITERecordInfo.insert(event->uuid(), info);
 
-        if (info.businessItem != nullptr) {
-            //工具开始创建图元应该清理当前选中情况
-            event->scene()->clearSelection();
-
-            toolCreatItemStart(event, &info);
-
-            QList<QVariant> vars;
-            vars << reinterpret_cast<long long>(event->scene());
-            vars << reinterpret_cast<long long>(info.businessItem);
-
-            CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                CSceneUndoRedoCommand::EItemAdded, vars, true, true);
-
-        } else {
-            //            if (info.startPosTopBzItem != nullptr && info.startPosTopBzItem->type() == TextType) {
-
-            //                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(info.startPosTopBzItem);
-            //                if (pTextItem->isEditable()) {
-            //                    //证明是文字图元
-            //                    event->setAccepted(false);
-            //                    return;
-            //                }
-            //            }
-
-            if (info.startPosTopBzItem != nullptr) {
-                if (info.startPosTopBzItem->isGrabToolEvent()) {
-                    event->setAccepted(false);
-                    return;
-                }
+        if (info.startPosTopBzItem != nullptr) {
+            if (info.startPosTopBzItem->isGrabToolEvent()) {
+                event->setAccepted(false);
+                return;
             }
-
-            toolStart(event, &info);
         }
+        toolStart(event, &info);
     }
 }
 
@@ -185,36 +159,68 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
-            if (rInfo._firstCallToolUpdate) {
-                //判定移动的幅度很小
-                QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
-                if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
-                    QTime *elTi = rInfo.getTimeHandle();
-                    rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
-                    rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
-                    //调用图元的operatingBegin函数
-                    if (rInfo._opeTpUpdate != -1) {
-                        for (auto it : rInfo.etcItems) {
-                            if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
-                                CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
-                                pBzItem->operatingBegin(rInfo._opeTpUpdate);
-                            }
-                        }
-                    }
-                    rInfo._firstCallToolUpdate = false;
+            //1.判定应该做什么，并调用开始函数（operatingBegin）
+            if (!rInfo.haveDecidedOperateType) {
+                //a.首先判断是否是创建一个图元(必须大于一个最短移动距离)
+                int constDis = minMoveUpdateDistance();
+                int curDis = qRound((event->pos() - rInfo._startPos).manhattanLength());
+                qDebug() << "constDis = " << constDis << "curDis = " << curDis;
+                if (curDis >= constDis) {
+                    rInfo.businessItem = creatItem(event);
+                    rInfo._opeTpUpdate = EToolCreatItem;
+                    rInfo.haveDecidedOperateType = true;
                 }
-            }
 
-            if (rInfo._opeTpUpdate != -1) {
-                if (rInfo.businessItem != nullptr) {
-                    toolCreatItemUpdate(event, &rInfo);
-                } else {
+                //b.如果没有创造出图元那么就执行额外的操作判定
+                if (rInfo.businessItem == nullptr) {
+                    //1.是否应该被某个图元的qt事件替代
                     if (rInfo.startPosTopBzItem != nullptr) {
                         if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
                             event->setAccepted(false);
+                            rInfo.haveDecidedOperateType = true;
                             return;
                         }
                     }
+                    //判定移动的幅度很小
+                    QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
+                    if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
+                        QTime *elTi = rInfo.getTimeHandle();
+                        rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
+                        rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
+                        //调用图元的operatingBegin函数
+                        if (rInfo._opeTpUpdate > EToolDoNothing) {
+                            for (auto it : rInfo.etcItems) {
+                                if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
+                                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                                    pBzItem->operatingBegin(rInfo._opeTpUpdate);
+                                }
+                            }
+                            rInfo.haveDecidedOperateType = true;
+                        }
+                    }
+                } else {
+                    //记录添加item的信息到撤销栈中
+                    QList<QVariant> vars;
+                    vars << reinterpret_cast<long long>(event->scene());
+                    vars << reinterpret_cast<long long>(rInfo.businessItem);
+                    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                        CSceneUndoRedoCommand::EItemAdded, vars, true);
+
+                    //工具开始创建图元应该清理当前选中情况
+                    event->scene()->clearSelection();
+
+                    //调用创建图元的开始接口，用于多态实现
+                    toolCreatItemStart(event, &rInfo);
+
+                    rInfo.haveDecidedOperateType = true;
+                }
+            }
+
+            //2.执行操作
+            if (rInfo.haveDecidedOperateType) {
+                if (rInfo._opeTpUpdate == EToolCreatItem) {
+                    toolCreatItemUpdate(event, &rInfo);
+                } else if (rInfo._opeTpUpdate > EToolDoNothing) {
                     toolUpdate(event, &rInfo);
                 }
             }
@@ -238,17 +244,26 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             rInfo._curEvent = *event;
 
             //调用图元的operatingBegin函数
-            if (rInfo._opeTpUpdate != -1) {
+            if (rInfo._opeTpUpdate > EToolDoNothing) {
+                if (rInfo.startPosTopBzItem != nullptr) {
+                    if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
+                        m_bMousePress = false;
+                        event->setAccepted(false);
+                        return;
+                    }
+                }
+
                 for (auto it : rInfo.etcItems) {
                     if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
                         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
                         pBzItem->operatingEnd(rInfo._opeTpUpdate);
                     }
                 }
-            }
 
-            if (rInfo.businessItem != nullptr) {
+                toolFinish(event, &rInfo);
 
+            } else if (rInfo._opeTpUpdate == EToolCreatItem) {
+                toolCreatItemFinish(event, &rInfo);
 
                 event->scene()->selectItem(rInfo.businessItem);
 
@@ -262,18 +277,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 CUndoRedoCommand::finishRecord();
 
                 setViewToSelectionTool(event->scene()->drawView());
-
-                toolCreatItemFinish(event, &rInfo);
-
-            } else {
-                if (rInfo.startPosTopBzItem != nullptr) {
-                    if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
-                        m_bMousePress = false;
-                        event->setAccepted(false);
-                        return;
-                    }
-                }
-                toolFinish(event, &rInfo);
+            } else if (rInfo._opeTpUpdate == EToolDoNothing) {
+                setViewToSelectionTool(event->scene()->drawView());
             }
 
             _allITERecordInfo.erase(it);
@@ -428,6 +433,11 @@ CGraphicsItem *IDrawTool::creatItem(CDrawToolEvent *event)
 {
     Q_UNUSED(event)
     return nullptr;
+}
+
+int IDrawTool::minMoveUpdateDistance()
+{
+    return dApp->startDragDistance();
 }
 
 void IDrawTool::mouseHoverEvent(IDrawTool::CDrawToolEvent *event)

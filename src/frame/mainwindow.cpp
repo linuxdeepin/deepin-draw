@@ -77,7 +77,7 @@ void MainWindow::initUI()
     titlebar()->installEventFilter(this);
     titlebar()->setTitle("");
     titlebar()->setMenu(m_topToolbar->mainMenu());
-    titlebar()->setFocusPolicy(Qt::NoFocus);
+    //titlebar()->setFocusPolicy(Qt::NoFocus);
     titlebar()->setIcon(QIcon(":/theme/common/images/logo.svg"));
 
     //ESC快捷键功能

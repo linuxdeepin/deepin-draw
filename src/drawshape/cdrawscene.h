@@ -410,6 +410,8 @@ protected:
 public:
     void refreshLook(const QPointF &pos = QPointF());
 
+    void setHighlightHelper(const QPainterPath &path);
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 

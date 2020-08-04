@@ -22,6 +22,7 @@
 #include "bzItems/cgraphicsmasicoitem.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
 
 #include <DMenu>
 #include <DApplication>
@@ -138,7 +139,7 @@ void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "CTextEdit::mousePressEvent----";
+    //qDebug() << "CTextEdit::mousePressEvent----";
     return QTextEdit::mousePressEvent(event);
 }
 

@@ -431,6 +431,13 @@ void CDrawScene::refreshLook(const QPointF &pos)
     update();
 }
 
+void CDrawScene::setHighlightHelper(const QPainterPath &path)
+{
+    _highlight = path;
+
+    update();
+}
+
 void CDrawScene::showCutItem()
 {
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();

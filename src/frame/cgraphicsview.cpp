@@ -1665,11 +1665,12 @@ CDrawScene *CGraphicsView::drawScene()
 
 void CGraphicsView::updateCursorShape()
 {
-    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
-    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
-    if (pSelectTool != nullptr) {
-        pSelectTool->updateCursorShape();
-    }
+    //    IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(selection);
+    //    CSelectTool *pSelectTool = dynamic_cast<CSelectTool *>(pTool);
+    //    if (pSelectTool != nullptr) {
+    //        pSelectTool->updateCursorShape();
+    //    }
+    drawScene()->refreshLook();
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)
@@ -2095,32 +2096,11 @@ void CGraphicsView::mousePressEvent(QMouseEvent *event)
 
 void CGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
-//    bool finished = false;
-
-//    if (event->buttons() & Qt::LeftButton) {
-//        //移动卷轴
-//        QPointF mov = event->pos() - _recordMovePos;
-//        int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
-//        qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
-//        this->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), this->horizontalScrollBar()->maximum()));
-
-//        int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
-//        this->verticalScrollBar()->setValue(qMin(qMax(0, verValue), this->verticalScrollBar()->maximum()));
-
-//        finished = true;
-
-//        event->accept();
-//    }
-
-//    _recordMovePos = event->pos();
-
-//    if (!finished)
     QGraphicsView::mouseMoveEvent(event);
 }
 
 void CGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    //qDebug() << "------CGraphicsView::mouseReleaseEvent--------";
     QGraphicsView::mouseReleaseEvent(event);
 }
 
@@ -2130,7 +2110,7 @@ void CGraphicsView::keyPressEvent(QKeyEvent *event)
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = true;
             _tempCursor = *qApp->overrideCursor();
-            dApp->setApplicationCursor(Qt::ClosedHandCursor);
+            dApp->setApplicationCursor(Qt::ClosedHandCursor, true);
         }
     }
     QGraphicsView::keyPressEvent(event);
@@ -2141,7 +2121,6 @@ void CGraphicsView::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         if (!event->isAutoRepeat()) {
             _spaceKeyPressed = false;
-            //qApp->setOverrideCursor(_tempCursor);
             updateCursorShape();
         }
     }
@@ -2175,7 +2154,7 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     this->horizontalScrollBar()->setValue(qMin(qMax(this->horizontalScrollBar()->minimum(), horValue), this->horizontalScrollBar()->maximum()));
 
                     int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
-                    qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
+                    //qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
                     this->verticalScrollBar()->setValue(qMin(qMax(this->verticalScrollBar()->minimum(), verValue), this->verticalScrollBar()->maximum()));
 
                     if (pScene != nullptr) {
