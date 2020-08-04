@@ -132,15 +132,19 @@ void CDrawScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     switch (mouseEvent->type()) {
     case QEvent::GraphicsSceneMousePress:
+        qDebug() << "qt to do SceneMousePress-----";
         QGraphicsScene::mousePressEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseMove:
+        //qDebug() << "qt to do SceneMouseMove----- press = " << mouseEvent->buttons();
         QGraphicsScene::mouseMoveEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseRelease:
+        qDebug() << "qt to do SceneMouseRelease-----";
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
         break;
     case QEvent::GraphicsSceneMouseDoubleClick:
+        qDebug() << "qt to do SceneMouseDoubleClick-----";
         QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
         break;
     default:
@@ -189,14 +193,15 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    //qDebug() << "---------------CDrawScene::mousePressEvent ---------- ";
+    qDebug() << "CDrawScene::mousePressEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if (nullptr != pTool) {
-        if (!pTool->isUpdating()) {
+        //if (!pTool->isUpdating())
+        {
             pTool->mousePressEvent(mouseEvent, this);
         }
     }
@@ -216,7 +221,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    //qDebug() << "---------------CDrawScene::mouseReleaseEvent ---------- ";
+    qDebug() << "CDrawScene::mouseReleaseEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -243,7 +248,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    //qDebug() << "mouseDoubleClickEvent ======== " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+    qDebug() << "CDrawScene::mouseDoubleClickEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
@@ -329,7 +334,9 @@ bool CDrawScene::event(QEvent *event)
         if (evType == QEvent::TouchEnd)
             pTool->clearITE();
 
-        return /*true*/ accept;
+        if (accept)
+            return true;
+
     } else if (event->type() == QEvent::Gesture) {
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -905,7 +912,7 @@ QGraphicsItem *CDrawScene::firstItem(const QPointF &pos,
         for (int i = 0; i < items.count();) {
             QGraphicsItem *pItem = items[i];
             bool isAsscMgr = false;
-            if (pItem->type() == MgrType) {
+            if (pItem->type() == MgrType || pItem->type() == CGraphicsProxyWidget::Type) {
                 //isAsscMgr = true;
                 items.removeAt(i);
                 continue;

@@ -48,6 +48,11 @@ public:
     void updateAttributes();
 
     /**
+     * @brief setHandleVisible 刷新属性显示
+     */
+    void setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle = CSizeHandleRect::InRect);
+
+    /**
      * @brief boundingRect 边界矩形
      * @return
      */

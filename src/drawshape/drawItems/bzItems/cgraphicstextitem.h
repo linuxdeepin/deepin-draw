@@ -141,6 +141,11 @@ public:
 
     void updateHandleVisible();
 
+    /**
+     * @brief isGrabToolEvent 是否独占事件
+     */
+    bool isGrabToolEvent() override;
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 

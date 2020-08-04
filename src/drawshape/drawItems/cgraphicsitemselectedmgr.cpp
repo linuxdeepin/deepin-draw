@@ -76,13 +76,16 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
     QRectF rect(0, 0, 0, 0);
 
     if (m_listItems.size() > 1) {
-        CGraphicsItem::rotatAngle(0);
 
         foreach (QGraphicsItem *item, m_listItems) {
             rect = rect.united(item->mapRectToScene(item->boundingRect()));
         }
 
-        rect = mapFromScene(rect).boundingRect();
+        this->setTransformOriginPoint(rect.center());
+
+        this->setRotation(0);
+
+        _rct = mapFromScene(rect).boundingRect();
 
     } else if (m_listItems.size() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
@@ -93,14 +96,10 @@ void CGraphicsItemSelectedMgr::updateBoundingRect()
             CGraphicsItem::rotatAngle(pItem->rotation());
 
             setPos(pItem->pos());
-
-            updateHandlesGeometry();
-
-            return;
         }
+    } else {
+        _rct = rect;
     }
-
-    _rct = rect;
 
     updateHandlesGeometry();
 }
@@ -678,6 +677,19 @@ void CGraphicsItemSelectedMgr::updateAttributes()
             dApp->topToolbar()->attributWidget()->setGraphicItem(m_listItems.first());
         } else {
             dApp->topToolbar()->attributWidget()->setGraphicItem(this);
+        }
+    }
+}
+
+void CGraphicsItemSelectedMgr::setHandleVisible(bool visble, CSizeHandleRect::EDirection dirHandle)
+{
+    for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
+        CSizeHandleRect *hndl = *it;
+        if (hndl->dir() == dirHandle || dirHandle == CSizeHandleRect::InRect) {
+            hndl->setVisible(visble);
+
+            if (hndl->type() == dirHandle)
+                break;
         }
     }
 }

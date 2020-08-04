@@ -30,6 +30,7 @@
 #include <QVariant>
 #include <QtMath>
 #include <QStyleOptionGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
 
 QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path,
                                                           const QPen &pen,
@@ -355,6 +356,32 @@ void CGraphicsItem::duplicate(CGraphicsItem *item)
     item->setRotation(rotation());
     item->setScale(scale());
     item->setZValue(zValue());
+}
+
+bool CGraphicsItem::isGrabToolEvent()
+{
+    return false;
+}
+
+void CGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->setAccepted(false);
+    //return QAbstractGraphicsShapeItem::mousePressEvent(event);
+}
+
+void CGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->setAccepted(false);
+}
+
+void CGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->setAccepted(false);
+}
+
+void CGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->setAccepted(false);
 }
 
 CGraphicsUnit CGraphicsItem::getGraphicsUnit(bool allInfo) const
