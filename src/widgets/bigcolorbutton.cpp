@@ -22,13 +22,11 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
+#include "ccolorpickwidget.h"
 
 #include <QDebug>
 #include <QTextItem>
-
-//const qreal COLOR_RADIUS = 4;
-//const int BTN_RADIUS_BEGING = 8;
-//const QPoint CENTER_POINT = QPoint(12, 12);
 
 BigColorButton::BigColorButton(DWidget *parent)
     : DPushButton(parent)
@@ -38,8 +36,6 @@ BigColorButton::BigColorButton(DWidget *parent)
 {
     setFixedSize(63, 32);
     setCheckable(false);
-
-    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
 }
 
 void BigColorButton::updateConfigColor()
@@ -66,11 +62,15 @@ void BigColorButton::paintEvent(QPaintEvent *)
     paintLookStyle(&painter, !m_isMultColorSame);
 }
 
-void BigColorButton::setColor(QColor color)
+void BigColorButton::setColor(QColor color, EChangedPhase phase)
 {
-    m_isMultColorSame = true;
-    m_color = color;
-    update();
+    //if (color != m_color)
+    {
+        m_isMultColorSame = true;
+        m_color = color;
+        update();
+        emit colorChanged(color, phase);
+    }
 }
 
 void BigColorButton::setColorIndex(int index)
@@ -95,18 +95,28 @@ void BigColorButton::leaveEvent(QEvent *)
     }
 }
 
-void BigColorButton::mousePressEvent(QMouseEvent * )
+void BigColorButton::mousePressEvent(QMouseEvent *)
 {
     m_isChecked = !m_isChecked;
     update();
 
-    btnCheckStateChanged(m_isChecked);
+    QPoint btnPos = mapToGlobal(QPoint(0, 0));
+    QPoint pos(btnPos.x() + 14,
+               btnPos.y() + this->height());
+
+    CColorPickWidget *pColorPick = dApp->colorPickWidget(true);
+
+    pColorPick->setColor(this->m_color);
+
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+        this->setColor(color, phase);
+    });
+
+    pColorPick->show(pos.x(), pos.y());
 }
 
 void BigColorButton::paintLookStyle(QPainter *painter, bool isMult)
 {
-    //const QColor borderColor(77, 82, 93, int(1.0 * 255));
-    //const QColor borderColor(255, 255, 255, int(0.1 * 255));
     const QColor borderColor = (isMult || m_color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
     painter->save();
     painter->setRenderHints(QPainter::Antialiasing);

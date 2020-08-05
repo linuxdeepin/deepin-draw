@@ -21,6 +21,11 @@
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cdrawscene.h"
+#include "application.h"
+#include "citemattriwidget.h"
+#include "toptoolbar.h"
+#include "cgraphicsitemselectedmgr.h"
 
 CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
@@ -37,7 +42,6 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_bCtlKeyPress(false)
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
-    , m_cutType(ECutType::cut_done)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
     , m_isModify(isModified)
@@ -106,11 +110,11 @@ QPen CDrawParamSigleton::getPen() const
     QPen pen;
     pen.setWidth(m_nlineWidth);
     pen.setColor(m_sLineColor);
+    //SComDefualData data = dApp->topToolbar()->attributWidget()->defualtSceneData();
+
     pen.setJoinStyle(Qt::MiterJoin);
     pen.setStyle(Qt::SolidLine);
     pen.setCapStyle(Qt::RoundCap);
-
-//    pen.setMiterLimit(30);
     return pen;
 }
 
@@ -129,8 +133,63 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
     m_currentDrawToolMode = mode;
 
     if (mode != selection)
-        CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
+        CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearMrSelection();
 
+    CGraphicsItem *pItem = nullptr;
+    CComAttrWidget::EAttriSourceItemType tp = CComAttrWidget::ShowTitle;
+    switch (mode) {
+    case selection: {
+        if (CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->count() > 0) {
+            return;
+        }
+        break;
+    }
+    case rectangle: {
+        tp = CComAttrWidget::Rect;
+        break;
+    }
+    case ellipse: {
+        tp = CComAttrWidget::Ellipse;
+        break;
+    }
+    case triangle: {
+        tp = CComAttrWidget::Triangle;
+        break;
+    }
+    case polygonalStar: {
+        tp = CComAttrWidget::Star;
+        break;
+    }
+    case polygon: {
+        tp = CComAttrWidget::Polygon;
+        break;
+    }
+    case line: {
+        tp = CComAttrWidget::Line;
+        break;
+    }
+    case pen: {
+        tp = CComAttrWidget::Pen;
+        break;
+    }
+    case text: {
+        tp = CComAttrWidget::Text;
+        break;
+    }
+    case blur: {
+        tp = CComAttrWidget::MasicPen;
+        break;
+    }
+    case cut: {
+        tp = CComAttrWidget::Cut;
+        break;
+    }
+    default:
+        break;
+    }
+
+    if (dApp->topToolbar() != nullptr && dApp->topToolbar()->attributWidget() != nullptr)
+        dApp->topToolbar()->attributWidget()->showByType(tp, pItem);
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
@@ -372,6 +431,26 @@ QSize CDrawParamSigleton::getCutSize() const
 void CDrawParamSigleton::setCutSize(const QSize &cutSize)
 {
     m_cutSize = cutSize;
+}
+
+bool CDrawParamSigleton::getImageAdjustScence() const
+{
+    return m_imageAdjustScence;
+}
+
+void CDrawParamSigleton::setImageAdjustScence(const bool &adjust)
+{
+    m_imageAdjustScence = adjust;
+}
+
+ERotationType CDrawParamSigleton::getImageFlipType() const
+{
+    return m_imageFlipType;
+}
+
+void CDrawParamSigleton::setImageFlipType(const ERotationType &type)
+{
+    m_imageFlipType = type;
 }
 
 QSize CDrawParamSigleton::getCutDefaultSize() const

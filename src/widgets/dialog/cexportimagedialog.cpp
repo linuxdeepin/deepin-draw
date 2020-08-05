@@ -124,7 +124,7 @@ void CExportImageDialog::initUI()
     m_fileNameEdit = new DLineEdit(this);
     m_fileNameEdit->setFixedSize(LINE_EDIT_SIZE);
     m_fileNameEdit->setClearButtonEnabled(false);
-
+    m_fileNameEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[^\\\\*\?|<>\"//]+")));
 
     m_savePathCombox = new DComboBox(this);
     m_savePathCombox->insertItem(Pictures, tr("Pictures"));
@@ -192,21 +192,21 @@ void CExportImageDialog::initConnection()
 {
     connect(m_savePathCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnSavePathChange(int)));
     connect(m_formatCombox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotOnFormatChange(int)));
-    connect(this, SIGNAL(buttonClicked(int, const QString & )), this, SLOT(slotOnDialogButtonClick(int, const QString & )));
+    connect(this, SIGNAL(buttonClicked(int, const QString &)), this, SLOT(slotOnDialogButtonClick(int, const QString &)));
     connect(m_qualitySlider, SIGNAL(valueChanged(int)), this, SLOT(slotOnQualityChanged(int)));
-    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString & )), this,
-            SLOT(slotOnQuestionDialogButtonClick(int, const QString & )));
+    connect(m_questionDialog, SIGNAL(buttonClicked(int, const QString &)), this,
+            SLOT(slotOnQuestionDialogButtonClick(int, const QString &)));
 
     //设置的文件名为空时应该要设置保存按钮为disable
     connect(m_fileNameEdit, &DLineEdit::textChanged, this, [ = ](const QString & text) {
 
         QString newText = text;
 
-        newText.remove(dApp->fileNameRegExp());
+        //        newText.remove(dApp->fileNameRegExp());
 
-        m_fileNameEdit->blockSignals(true);
-        m_fileNameEdit->setText(newText);
-        m_fileNameEdit->blockSignals(false);
+        //        m_fileNameEdit->blockSignals(true);
+        //        m_fileNameEdit->setText(newText);
+        //        m_fileNameEdit->blockSignals(false);
 
         bool isEmpty = newText.isEmpty();
 

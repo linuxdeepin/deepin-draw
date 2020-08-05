@@ -49,7 +49,6 @@ class CCentralwidget: public DWidget
 {
     Q_OBJECT
 public:
-    CCentralwidget(DWidget *parent = nullptr);
     CCentralwidget(QStringList filepaths, DWidget *parent = nullptr);
     ~CCentralwidget();
     /**
@@ -62,6 +61,7 @@ public:
      * @return
      */
     CGraphicsView *getGraphicsView() const;
+    QGraphicsView *getQGraphicsView() const;
     /**
      * @brief getDrawScene　获取场景句柄
      * @return
@@ -77,12 +77,6 @@ public:
      * @brief initSceneRect　初始化场景矩形
      */
     void initSceneRect();
-    /**
-     * @brief createNewScense　创建一个新的场景
-     * @param scenceName 场景名字
-     */
-    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
-    void           createNewScenseByscencePath(QString scencePath);
     /**
      * @brief setCurrentView　设置活动场景
      * @param scenceName 场景名字
@@ -106,9 +100,11 @@ public:
     QStringList getAllTabBarUUID();
 
     /**
-     * @description: skipOpenedTab 跳转到已打开标签页
+     * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
+     * @param files 图片路径列表
+     * @param bool  是否加入撤销返回栈
     */
-    void skipOpenedTab(QString filepath);
+    void openFiles(QStringList files, bool asFirstPictureSize = false, bool addUndoRedo = false);
 
 signals:
 
@@ -180,10 +176,7 @@ public slots:
      * @brief importPicture　导入图片
      */
     void importPicture();
-    /**
-     * @brief slotResetOriginPoint　重置原始点
-     */
-    void slotResetOriginPoint();
+
     /**
      * @brief slotZoom　执行缩放ｖｉｅｗ
      * @param scale　缩放因子
@@ -223,19 +216,7 @@ public slots:
      * @brief slotSaveAs　另存为ＤＤＦ文件
      */
     void slotSaveAs();
-    /**
-     * @brief slotTextFontFamilyChanged　文字图元字体改变
-     */
-    void slotTextFontFamilyChanged();
-    /**
-     * @brief slotTextFontSizeChanged　文字图元字体大小改变
-     */
-    void slotTextFontSizeChanged();
-    /**
-     * @brief openPicture　点击图片进行导入
-     * @param path　图片路径
-     */
-    void openPicture(QString path);
+
     /**
      * @brief onEscButtonClick　ＥＳＣ按钮触发槽函数
      */
@@ -243,24 +224,24 @@ public slots:
     /**
      * @brief slotCutLineEditeFocusChange　裁剪尺寸输入框焦点改变
      */
-    void slotCutLineEditeFocusChange(bool);
+    //void slotCutLineEditeFocusChange(bool);
     /**
      * @brief slotPastePicture　粘贴图片
      * @param picturePathList　图片路径
      * @param asFirstPictureSize 以第一张图片大小初始化场景
      */
-    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false);
+    void slotPastePicture(QStringList picturePathList, bool asFirstPictureSize = false, bool addUndoRedo = true);
     /**
      * @brief slotPastePixmap　粘贴图片
      * @param pixmap　图片
      */
-    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
+    void slotPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool asFirstPictureSize = false, bool addUndoRedo = true);
     /**
      * @description: slotLoadDragOrPasteFile 当从拖拽或者粘贴板中加载数据
      * @param:  path 需要加载的路径
     */
     void slotLoadDragOrPasteFile(QString path);
-    void slotLoadDragOrPasteFile(QStringList files);
+
     /**
      * @description: 新增加一个画板视图函数
      * @param:  viewName
@@ -396,6 +377,23 @@ private:
      * @param scenceName 场景名字
      */
     CGraphicsView *createNewScense(QString scenceName, const QString &uuid = "", bool isModified = false);
+
+    /**
+     * @brief createNewScense　创建一个新的场景
+     * @param scenceName 场景名字
+     */
+    CGraphicsView *createNewScenseByDragFile(QString ddfFile);
+    void           createNewScenseByscencePath(QString scencePath);
+
+    /**
+     * @description: skipOpenedTab 跳转到已打开标签页
+    */
+    void skipOpenedTab(QString filepath);
+
+    /*
+    * @bref: getCutedStatus 返回裁剪状态
+    */
+    bool getCutedStatus();
 };
 
 #endif // MAINWIDGET_H

@@ -18,6 +18,7 @@
  */
 #ifndef TEXTCOLORBUTTON_H
 #define TEXTCOLORBUTTON_H
+#include "globaldefine.h"
 
 #include <DPushButton>
 #include <QPainter>
@@ -32,7 +33,7 @@ public:
     TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
-    void setColor(QColor &color);
+    void setColor(const QColor &color, EChangedPhase phase = EChanged);
     QColor getColor();
     void setColorIndex(int index);
     void updateConfigColor();
@@ -42,12 +43,13 @@ public:
 
 signals:
     void btnCheckStateChanged(bool show);
+    void colorChanged(const QColor &color, EChangedPhase phase);
 
 protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent * );
+    void mousePressEvent(QMouseEvent *);
 
     void paintLookStyle(QPainter *painter, bool isMult = false);
 

@@ -19,7 +19,7 @@
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
 
-#include "drawshape/csizehandlerect.h"
+#include "csizehandlerect.h"
 #include "drawshape/globaldefine.h"
 
 #include "widgets/cmenu.h"
@@ -55,27 +55,46 @@ public:
      * @param parent
      */
     CGraphicsView(DWidget *parent = nullptr);
+
+    /**
+     * @brief 缩放中心的枚举值，
+     * ESceneCenter   表示以画布中心进行缩放
+     * EMousePos      表示以鼠标的位置进行缩放
+     * ECustomViewPos 表示自定义缩放位置（当前指viewport上的坐标位置）
+     */
+    enum EScaleCenter { EViewCenter,
+                        ESceneCenter,
+                        EMousePos,
+                        ECustomViewPos
+                      };
+
     /**
      * @brief zoomOut 放大
      */
-    void zoomOut();
+    void zoomOut(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief zoomIn 缩小
      */
-    void zoomIn();
+    void zoomIn(EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 缩放接口
      * @param scale 缩放比例
      */
-    void scale(qreal scale);
+    void scale(qreal scale, EScaleCenter center = EViewCenter, const QPoint &viewPos = QPoint());
 
     /**
      * @brief scale 获取缩放接口
      * @return scale 缩放比例
      */
     qreal getScale();
+
+    /**
+     * @brief  scaleWithCenter 以某一个中心进行缩放
+     * @return factor 缩放因子
+     */
+    void scaleWithCenter(qreal factor, const QPoint viewPos = QPoint());
 
     /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
@@ -200,19 +219,24 @@ protected:
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
 
+public:
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
-
+protected:
     void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
     void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
 
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
     bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+
+public:
     bool gestureEvent(QGestureEvent *event);
+
+protected:
     void panTriggered(QPanGesture *);
     void pinchTriggered(QPinchGesture *);
     void swipeTriggered(QSwipeGesture *);
@@ -229,12 +253,6 @@ signals:
     void signalSetScale(const qreal scale);
 
     /**
-     * @brief signalImportPicture 导入图片信号
-     * @param path
-     */
-    void signalImportPicture(QString path);
-
-    /**
      * @brief signalTransmitContinueDoOtherThing 传递继续做事的信号
      */
     void signalTransmitContinueDoOtherThing();
@@ -248,12 +266,12 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes, bool addUndoRedo = true);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
      */
-    void signalLoadDragOrPasteFile(QString);
+    void signalLoadDragOrPasteFile(QString, bool addUndoRedo = true);
 
     /**
      * @brief signalSaveFileStatus 保存文件状态信号
@@ -279,7 +297,7 @@ public slots:
      * @param item
      * @param newPosition
      */
-    void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
+    //void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
 
     /**
      * @brief itemAdded
@@ -292,7 +310,7 @@ public slots:
      * @param item
      * @param newAngle
      */
-    void itemRotate(QGraphicsItem *item, const qreal newAngle);
+    //void itemRotate(QGraphicsItem *item, const qreal newAngle);
 
     /**
      * @brief itemResize
@@ -303,7 +321,7 @@ public slots:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
+    //void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange
@@ -313,7 +331,7 @@ public slots:
      * @param bPenChange
      * @param bBrushChange
      */
-    void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
+    //void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
 
     /**
     * @brief itemPropertyChange
@@ -321,14 +339,14 @@ public slots:
     * @param xRedius
     * @param bChange
     */
-    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
+    //void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
 
     /**
      * @brief itemPolygonPointChange
      * @param item
      * @param newNum
      */
-    void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
+    //void itemPolygonPointChange(CGraphicsPolygonItem *item, int newNum);
 
     /**
      * @brief itemPolygonalStarPointChange
@@ -336,21 +354,21 @@ public slots:
      * @param newNum
      * @param newRadius
      */
-    void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
+    //void itemPolygonalStarPointChange(CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
 
     /**
      * @brief itemPenTypeChange
      * @param item
      * @param newType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
+    //void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemLineTypeChange
      * @param item
      * @param newType
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
+    //void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemBlurChange
@@ -358,7 +376,7 @@ public slots:
      * @param blurWidth
      * @param effect
      */
-    void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
+    //void itemBlurChange(CGraphicsMasicoItem *item, int blurWidth, int effect);
 
     /**
      * @brief slotStopContinuousDrawing 停止或继续绘制信号

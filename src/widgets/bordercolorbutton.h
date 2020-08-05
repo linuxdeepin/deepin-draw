@@ -21,6 +21,7 @@
 
 #include <DPushButton>
 #include <QWidget>
+#include "globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -31,7 +32,7 @@ public:
     BorderColorButton(DWidget *parent = nullptr);
     ~BorderColorButton();
 
-    void setColor(QColor color);
+    void setColor(QColor color, EChangedPhase phase = EChanged);
     QColor getColor() const;
 
     void setColorIndex(int index);
@@ -48,7 +49,7 @@ public:
     QString getButtonText() const;
 
 signals:
-    void btnCheckStateChanged(bool checked);
+    void colorChanged(const QColor &color, EChangedPhase phase);
 
 protected:
     void paintEvent(QPaintEvent *);

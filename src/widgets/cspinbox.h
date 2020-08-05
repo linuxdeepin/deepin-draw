@@ -3,6 +3,7 @@
 
 #include <DWidget>
 #include <DSpinBox>
+#include "globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
 
@@ -20,6 +21,8 @@ public:
 
     void setValueChangedKeepFocus(bool b);
 
+    void setSpinRange(int min, int max);
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
@@ -34,16 +37,24 @@ protected:
 signals:
     void focusChanged(bool isFocus);
 
+    void valueChanged(int value, EChangedPhase phase);
+
 private:
     QTimer *getTimer();
+
+    void setSpinPhaseValue(int value, EChangedPhase phase);
 
 private:
     QTimer *_wheelTimer = nullptr;
     bool    _wheelbegin = false;
     bool    _wheelEnd   = false;
-
-
     bool    _keepFocus = false;
+
+    int _s_value = -100;
+    int _s_phase = -100;
+
+    int m_min = -1;
+    int m_max = INT_MAX;
 };
 
 #endif // CSPINBOX_H

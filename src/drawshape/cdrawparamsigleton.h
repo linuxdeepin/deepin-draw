@@ -89,6 +89,12 @@ public:
     QSize getCutSize() const;
     void setCutSize(const QSize &cutSize);
 
+    bool getImageAdjustScence()const;
+    void setImageAdjustScence(const bool &adjust);
+
+    ERotationType getImageFlipType()const;
+    void setImageFlipType(const ERotationType &type);
+
     QSize getCutDefaultSize() const;
     void setCutDefaultSize(const QSize &cutSize);
 
@@ -192,7 +198,6 @@ private:
     QSize m_cutSize;
     QSize m_cutDefaultSize;
 
-
     //图元是否有修改
     bool m_isModify;
     //保存DDF文件的触发者
@@ -203,6 +208,10 @@ private:
     //blur
     EBlurEffect m_effect; //模糊效果
     int m_blurWidth;    //模糊半径
+
+    // 图片自适应场景、翻转(旋转由图元本身控制)
+    bool m_imageAdjustScence;
+    ERotationType m_imageFlipType;
 
     //线型
     ELineType m_lineStartType; // 线起点样式
@@ -217,7 +226,6 @@ private:
     bool m_bSelectAlling; //是否正在全选
 
     QString m_viewName;//视图名字
-
 
     QString m_keyUUID;      //唯一标识
 };

@@ -19,7 +19,7 @@
 #ifndef CUNDOCOMMANDS_H
 #define CUNDOCOMMANDS_H
 
-#include "drawshape/csizehandlerect.h"
+#include "csizehandlerect.h"
 #include "drawshape/globaldefine.h"
 
 #include <QUndoCommand>
@@ -27,7 +27,6 @@
 #include <QList>
 #include <QBrush>
 #include <QPen>
-
 
 class QGraphicsScene;
 class QGraphicsItem;
@@ -49,97 +48,97 @@ Q_DECLARE_METATYPE(EPenType);
 /**
  * @brief The CMoveShapeCommand class 移动图元撤消重做命令
  */
-class CMoveShapeCommand : public QUndoCommand
-{
-public:
-    CMoveShapeCommand(CDrawScene *scene, const QPointF &delta, QUndoCommand *parent = nullptr);
-    CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent = nullptr);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
-private:
-    CDrawScene *myGraphicsScene;
-    QGraphicsItem  *myItem;
-    QList<QGraphicsItem *> myItems;
-    QPointF myDelta;
-    bool bMoved;
-};
+//class CMoveShapeCommand : public QUndoCommand
+//{
+//public:
+//    CMoveShapeCommand(CDrawScene *scene, const QPointF &delta, QUndoCommand *parent = nullptr);
+//    CMoveShapeCommand(CDrawScene *scene, QGraphicsItem *item, const QPointF &delta, QUndoCommand *parent = nullptr);
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
+//private:
+//    CDrawScene *myGraphicsScene;
+//    QGraphicsItem  *myItem;
+//    QList<QGraphicsItem *> myItems;
+//    QPointF myDelta;
+//    bool bMoved;
+//};
 
 /**
  * @brief The CResizeShapeCommand class  拉伸图元撤消重做命令
  */
-class CResizeShapeCommand : public QUndoCommand
-{
-public:
-    CResizeShapeCommand(CDrawScene *scene,
-                        CGraphicsItem *item,
-                        CSizeHandleRect::EDirection handle,
-                        QRectF beginRect,
-                        QPointF endPos,
-                        bool bShiftPress,
-                        bool bAltPress,
-                        QUndoCommand *parent = nullptr );
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CResizeShapeCommand : public QUndoCommand
+//{
+//public:
+//    CResizeShapeCommand(CDrawScene *scene,
+//                        CGraphicsItem *item,
+//                        CSizeHandleRect::EDirection handle,
+//                        QRectF beginRect,
+//                        QPointF endPos,
+//                        bool bShiftPress,
+//                        bool bAltPress,
+//                        QUndoCommand *parent = nullptr );
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    CGraphicsItem  *myItem;
-    CSizeHandleRect::EDirection m_handle;
-    QPointF m_beginPos;
-    QPointF m_endPos;
-    bool m_bShiftPress;
-    bool m_bAltPress;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    CGraphicsItem  *myItem;
+//    CSizeHandleRect::EDirection m_handle;
+//    QPointF m_beginPos;
+//    QPointF m_endPos;
+//    bool m_bShiftPress;
+//    bool m_bAltPress;
+//};
 
 /**
  * @brief The CMultResizeShapeCommand class  拉伸多图元撤消重做命令
  */
-class CMultResizeShapeCommand : public QUndoCommand
-{
-public:
-    CMultResizeShapeCommand(CDrawScene *scene,
-                            CSizeHandleRect::EDirection handle,
-                            QPointF beginPos,
-                            QPointF endPos,
-                            bool bShiftPress,
-                            bool bAltPress,
-                            QUndoCommand *parent = nullptr );
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CMultResizeShapeCommand : public QUndoCommand
+//{
+//public:
+//    CMultResizeShapeCommand(CDrawScene *scene,
+//                            CSizeHandleRect::EDirection handle,
+//                            QPointF beginPos,
+//                            QPointF endPos,
+//                            bool bShiftPress,
+//                            bool bAltPress,
+//                            QUndoCommand *parent = nullptr );
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    CSizeHandleRect::EDirection m_handle;
-    QPointF m_beginPos;
-    QPointF m_endPos;
-    QPointF m_offsetPos;
-    bool m_bShiftPress;
-    bool m_bAltPress;
-    bool m_bResized;
-    QList<CGraphicsItem * > m_listItems;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    CSizeHandleRect::EDirection m_handle;
+//    QPointF m_beginPos;
+//    QPointF m_endPos;
+//    QPointF m_offsetPos;
+//    bool m_bShiftPress;
+//    bool m_bAltPress;
+//    bool m_bResized;
+//    QList<CGraphicsItem * > m_listItems;
+//};
 
 /**
  * @brief The CMultMoveShapeCommand class  移动多图元撤消重做命令
  */
-class CMultMoveShapeCommand : public QUndoCommand
-{
-public:
-    CMultMoveShapeCommand(CDrawScene *scene,
-                          QList<CGraphicsItem * > items,
-                          QPointF beginPos,
-                          QPointF endPos,
-                          QUndoCommand *parent = nullptr );
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CMultMoveShapeCommand : public QUndoCommand
+//{
+//public:
+//    CMultMoveShapeCommand(CDrawScene *scene,
+//                          QList<CGraphicsItem * > items,
+//                          QPointF beginPos,
+//                          QPointF endPos,
+//                          QUndoCommand *parent = nullptr );
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    QPointF m_beginPos;
-    QPointF m_endPos;
-    bool m_bMoved;
-    QList<CGraphicsItem * > m_listItems;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    QPointF m_beginPos;
+//    QPointF m_endPos;
+//    bool m_bMoved;
+//    QList<CGraphicsItem * > m_listItems;
+//};
 
 /*
 
@@ -181,6 +180,7 @@ public:
                         QUndoCommand *parent = nullptr);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
+
 private:
     CDrawScene *myGraphicsScene;
     QGraphicsItem *myItem;
@@ -191,36 +191,35 @@ private:
 /**
  * @brief The CDeleteShapeCommand class 全选删除图元撤消重做命令
  */
-class CDeleteShapeCommand : public QUndoCommand
-{
-public:
-    explicit CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent = nullptr);
-    ~CDeleteShapeCommand() override;
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CDeleteShapeCommand : public QUndoCommand
+//{
+//public:
+//    explicit CDeleteShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items, QUndoCommand *parent = nullptr);
+//    ~CDeleteShapeCommand() override;
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    QList<QGraphicsItem *> m_items;
-    int m_oldIndex;
-};
-
+//private:
+//    CDrawScene *myGraphicsScene;
+//    QList<QGraphicsItem *> m_items;
+//    int m_oldIndex;
+//};
 
 /**
  * @brief The CRemoveShapeCommand class 删除单个图元撤消重做命令
  */
-class CRemoveShapeCommand : public QUndoCommand
-{
-public:
-    explicit CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent = nullptr);
-    ~CRemoveShapeCommand() override;
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CRemoveShapeCommand : public QUndoCommand
+//{
+//public:
+//    explicit CRemoveShapeCommand(CDrawScene *scene, QUndoCommand *parent = nullptr);
+//    ~CRemoveShapeCommand() override;
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    QList<QGraphicsItem *> items;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    QList<QGraphicsItem *> items;
+//};
 
 /**
  * @brief The CSetPropertyCommand class 设置图元属性撤消重做命令
@@ -233,7 +232,6 @@ public:
 
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
-
 
 private:
     CDrawScene *myGraphicsScene;
@@ -258,7 +256,6 @@ public:
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;
 
-
 private:
     CDrawScene *myGraphicsScene;
     CGraphicsRectItem *m_pItem;
@@ -267,11 +264,10 @@ private:
     bool m_bRectXRediusChange;
 };
 
-
 /**
  * @brief The CSetPolygonAttributeCommand class 设置多边形撤消重做命令
  */
-class CSetPolygonAttributeCommand: public QUndoCommand
+class CSetPolygonAttributeCommand : public QUndoCommand
 {
 public:
     explicit CSetPolygonAttributeCommand(CDrawScene *scene, CGraphicsPolygonItem *item, int newNum);
@@ -288,7 +284,7 @@ private:
 /**
  * @brief The CSetPolygonStarAttributeCommand class 设置星形属性撤消重做命令
  */
-class CSetPolygonStarAttributeCommand: public QUndoCommand
+class CSetPolygonStarAttributeCommand : public QUndoCommand
 {
 public:
     explicit CSetPolygonStarAttributeCommand(CDrawScene *scene, CGraphicsPolygonalStarItem *item, int newNum, int newRadius);
@@ -307,7 +303,7 @@ private:
 /**
  * @brief The CSetPenAttributeCommand class 设置画笔属性命令
  */
-class CSetPenAttributeCommand: public QUndoCommand
+class CSetPenAttributeCommand : public QUndoCommand
 {
 public:
     explicit CSetPenAttributeCommand(CDrawScene *scene, CGraphicsPenItem *item, bool isStart, ELineType type);
@@ -326,7 +322,7 @@ private:
 /**
  * @brief The CSetLineAttributeCommand class 线属性设置
  */
-class CSetLineAttributeCommand: public QUndoCommand
+class CSetLineAttributeCommand : public QUndoCommand
 {
 public:
     explicit CSetLineAttributeCommand(CDrawScene *scene, CGraphicsLineItem *item, bool isStart, ELineType type);
@@ -342,7 +338,6 @@ private:
     ELineType m_oldEndType; // 终点样式
     bool m_isStart;
 };
-
 
 /*
 class GroupShapeCommand : public QUndoCommand
@@ -375,22 +370,22 @@ private:
 /**
  * @brief The CAddShapeCommand class 新增图元撤消重做命令
  */
-class CAddShapeCommand : public QUndoCommand
-{
-public:
-    CAddShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
-                     QUndoCommand *parent = nullptr);
-    ~CAddShapeCommand() Q_DECL_OVERRIDE;
+//class CAddShapeCommand : public QUndoCommand
+//{
+//public:
+//    CAddShapeCommand(CDrawScene *scene, const QList<QGraphicsItem *> &items,
+//                     QUndoCommand *parent = nullptr);
+//    ~CAddShapeCommand() Q_DECL_OVERRIDE;
 
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-private:
-    CDrawScene *myGraphicsScene;
-    //QGraphicsItem *myDiagramItem;
-    QList<QGraphicsItem *> m_items;
-    QPointF initialPosition;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    //QGraphicsItem *myDiagramItem;
+//    QList<QGraphicsItem *> m_items;
+//    QPointF initialPosition;
+//};
 
 /**
  * @brief The COneLayerUpCommand class 图元向上一层撤消重做命令
@@ -407,7 +402,7 @@ public:
 
 private:
     CDrawScene *myGraphicsScene;
-    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *> > > m_items;
+    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_items;
     QList<QGraphicsItem *> m_selectItems;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     bool m_isRedoExcuteSuccess;
@@ -429,7 +424,7 @@ public:
 
 private:
     CDrawScene *myGraphicsScene;
-    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *> > > m_items;
+    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_items;
     QList<QGraphicsItem *> m_selectItems;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     bool m_isRedoExcuteSuccess;
@@ -451,12 +446,12 @@ public:
 
 private:
     CDrawScene *myGraphicsScene;
-    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *> > > m_changedItems;
+    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_changedItems;
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     QList<QGraphicsItem *> m_selectItems;
-//    bool m_isRedoExcuteSuccess;
-//    bool m_isUndoExcuteSuccess;
+    //    bool m_isRedoExcuteSuccess;
+    //    bool m_isUndoExcuteSuccess;
 };
 
 /**
@@ -474,7 +469,7 @@ public:
 
 private:
     CDrawScene *myGraphicsScene;
-    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *> > > m_changedItems;
+    QList<QPair<QGraphicsItem *, QList<QGraphicsItem *>>> m_changedItems;
     QList<QGraphicsItem *> m_items;
     QMap<QGraphicsItem *, qreal> m_oldItemZValue;
     QList<QGraphicsItem *> m_selectItems;
@@ -484,7 +479,7 @@ private:
 /**
  * @brief The CSetBlurAttributeCommand class 模糊图元撤消重做命令
  */
-class CSetBlurAttributeCommand: public QUndoCommand
+class CSetBlurAttributeCommand : public QUndoCommand
 {
 public:
     explicit CSetBlurAttributeCommand(CDrawScene *scene, CGraphicsMasicoItem *item, int newType, int newRadio, QUndoCommand *parent = nullptr);
@@ -522,26 +517,26 @@ private:
 /**
  * @brief The CSetItemsCommonPropertyValueCommand class 设置多选公共属性
  */
-class CSetItemsCommonPropertyValueCommand: public QUndoCommand
-{
-public:
-    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
-                                                 EDrawProperty property, QVariant value, bool write2Cache = true);
-    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues,
-                                        EDrawProperty property, QVariant value, bool write2Cache = true);
-    void undo() Q_DECL_OVERRIDE;
-    void redo() Q_DECL_OVERRIDE;
+//class CSetItemsCommonPropertyValueCommand: public QUndoCommand
+//{
+//public:
+//    explicit CSetItemsCommonPropertyValueCommand(CDrawScene *scene, QList<CGraphicsItem *> items,
+//                                                 EDrawProperty property, QVariant value, bool write2Cache = true);
+//    CSetItemsCommonPropertyValueCommand(CDrawScene *scene, const QMap<CGraphicsItem *, QVariant> &oldValues,
+//                                        EDrawProperty property, QVariant value, bool write2Cache = true);
+//    void undo() Q_DECL_OVERRIDE;
+//    void redo() Q_DECL_OVERRIDE;
 
-    QMap<CGraphicsItem *, QVariant> undoInfoValues();
+//    QMap<CGraphicsItem *, QVariant> undoInfoValues();
 
-private:
-    CDrawScene *myGraphicsScene;
-    QList<CGraphicsItem *> m_items;
-    EDrawProperty m_property;
-    QVariant m_value;
-    QMap<CGraphicsItem *, QVariant> m_oldValues;
-    bool m_write2Cache;
-};
+//private:
+//    CDrawScene *myGraphicsScene;
+//    QList<CGraphicsItem *> m_items;
+//    EDrawProperty m_property;
+//    QVariant m_value;
+//    QMap<CGraphicsItem *, QVariant> m_oldValues;
+//    bool m_write2Cache;
+//};
 
 /**
  * @brief The CItemsAlignCommand class  设置图元对齐
@@ -573,7 +568,7 @@ public:
     * @param: QMap<CGraphicsItem *, QMap<ERotationType, QVariant>> 单个图元对应的属性
     */
     CItemRotationCommand(CDrawScene *scene, CGraphicsItem *item,
-//                         ERotationType startType,
+                         //                         ERotationType startType,
                          ERotationType endType);
     void undo() Q_DECL_OVERRIDE;
     void redo() Q_DECL_OVERRIDE;

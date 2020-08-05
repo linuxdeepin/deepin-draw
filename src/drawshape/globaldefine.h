@@ -36,25 +36,34 @@ enum EDrawToolMode {
 };
 
 // 显示工具栏所有属性
-enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
-    FillColor = 0,       // 填充颜色
-    LineWidth,           // 线宽
-    LineColor,           // 描边颜色
-    RectRadius,          // 矩形圆角
-    Anchors,             // 锚点
-    StarRadius,          // 五角星圆角
-    SideNumber,          // 侧边数
-    LineAndPenStartType,  // 起点类型
-    LineAndPenEndType,    // 终点类型
-    TextColorAlpha,      //文本颜色透明度,需要放在颜色前面进行更新
-    TextColor,           // 文本颜色
-    TextFont,            // 文本字体
-    TextHeavy,          // 文本自重
-    TextSize,            // 文本大小
-    FillColorAlpha,      //填充颜色透明度
-    LineColorAlpha,      //描边颜色透明度
-    Blurtype,            //模糊类型
-    BlurWidth            //模糊粗细
+enum EDrawProperty { // 图片、文字、马赛克根据类型全部显示
+    FillColor = 0, // 填充颜色
+    LineWidth, // 线宽
+    LineColor, // 描边颜色
+    RectRadius, // 矩形圆角
+    Anchors, // 锚点
+    StarRadius, // 五角星圆角
+    SideNumber, // 侧边数
+    LineStartType, // 线段起点类型
+    LineEndType, // 线段终点类型
+    PenStartType, // 画笔起点类型
+    PenEndType, // 画笔终点类型
+    TextColorAlpha, //文本颜色透明度,需要放在颜色前面进行更新
+    TextColor, // 文本颜色
+    TextFont, // 文本字体
+    TextHeavy, // 文本自重
+    TextSize, // 文本大小
+    FillColorAlpha, //填充颜色透明度
+    LineColorAlpha, //描边颜色透明度
+    Blurtype, //模糊类型
+    BlurWidth, //模糊粗细
+    PropertyCutSize, // 裁剪图元的大小
+    PropertyCutType, // 裁剪图元的类型
+    PropertyImageAdjustScence, // 图片图元自适应场景
+//    PropertyImageRotationType, // 图片图元旋转类型
+    PropertyImageFlipType,     // 图片图元翻转类型
+
+    EDrawPropertyCount
 };
 
 enum ESelectMode {
@@ -115,7 +124,7 @@ enum ECutType {
     cut_16_9,       //16:9裁剪
     cut_free,        //自由裁剪
     cut_original,  //裁剪框恢复画板初始大小
-    cut_done        //裁剪完成
+    cut_count        //裁剪方式个数
 };
 
 enum EBlurEffect {
@@ -133,9 +142,17 @@ enum ESaveDDFTriggerAction {
 };
 
 enum ERotationType { //图元旋转枚举
+    NoRotationType,  // 不进行任何操作
     LeftRotate_90,     //左旋转90
     RightRotate_90,    //右旋转90
     FlipHorizontal, //水平镜像翻转
     FlipVertical    //垂直镜像翻转
+};
+
+enum EChangedPhase {
+    EChangedBegin,
+    EChangedUpdate,
+    EChangedFinished,
+    EChanged
 };
 #endif // GLODEFINE_H

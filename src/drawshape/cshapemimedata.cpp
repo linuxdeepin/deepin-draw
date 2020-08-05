@@ -31,56 +31,20 @@
 
 CShapeMimeData::CShapeMimeData(QList<QGraphicsItem *> items)
 {
-    foreach (QGraphicsItem *item, items ) {
-        //CGraphicsItem *copy = static_cast<CGraphicsItem *>(item)->duplicate();
-        CGraphicsItem *copy = nullptr;
-
-        switch (item->type()) {
-        case RectType:
-            copy = new CGraphicsRectItem();
-            break;
-        case EllipseType:
-            copy = new CGraphicsEllipseItem();
-            break;
-        case TriangleType:
-            copy = new CGraphicsTriangleItem();
-            break;
-        case PolygonalStarType:
-            copy = new CGraphicsPolygonalStarItem();
-            break;
-
-        case PolygonType:
-            copy = new CGraphicsPolygonItem();
-            break;
-        case LineType:
-            copy = new CGraphicsLineItem();
-            break;
-
-        case PenType:
-            copy = new CGraphicsPenItem();
-            break;
-        case TextType:
-            copy = new CGraphicsTextItem();
-            break;
-
-        case PictureType:
-            copy = new CPictureItem();
-            break;
-        case BlurType:
-            copy = new CGraphicsMasicoItem();
-            break;
-
-        }
-
-        static_cast<CGraphicsItem *>(item)->duplicate(copy);
-        if (copy) {
-            m_itemList.append(copy);
+    m_itemList.clear();
+    foreach (QGraphicsItem *item, items) {
+        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
+        if (pBzItem != nullptr && pBzItem->isBzItem()) {
+            CGraphicsItem *pNew = pBzItem->creatSameItem();
+            if (pNew != nullptr) {
+                m_itemList.append(pNew);
+            }
         }
     }
 }
 CShapeMimeData::~CShapeMimeData()
 {
-    foreach (QGraphicsItem *item, m_itemList ) {
+    foreach (QGraphicsItem *item, m_itemList) {
         delete item;
         item = nullptr;
     }
@@ -92,5 +56,17 @@ QList<CGraphicsItem *> CShapeMimeData::itemList() const
     return m_itemList;
 }
 
-
-
+QList<CGraphicsItem *> CShapeMimeData::creatCopyItems() const
+{
+    QList<CGraphicsItem *> retList;
+    foreach (QGraphicsItem *item, m_itemList) {
+        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(item);
+        if (pBzItem != nullptr && pBzItem->isBzItem()) {
+            CGraphicsItem *pNew = pBzItem->creatSameItem();
+            if (pNew != nullptr) {
+                retList.append(pNew);
+            }
+        }
+    }
+    return retList;
+}

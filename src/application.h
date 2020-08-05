@@ -25,6 +25,9 @@
 #include "qtsingleapplication.h"
 
 class Application;
+class MainWindow;
+class CColorPickWidget;
+class TopToolbar;
 
 #if  defined(dApp)
 #undef dApp
@@ -40,6 +43,20 @@ public:
     Application(int &argc, char **argv);
 
     int  execDraw(const QStringList &files, QString &glAppPath);
+
+    /**
+     * @brief topMainWindow 返回顶层mainwindow
+     * @return
+     */
+    MainWindow *topMainWindow();
+
+    /**
+     * @brief colorPickWidget 返回顶层colorPickWidget
+     * @return
+     */
+    CColorPickWidget *colorPickWidget(bool creatNew = false);
+
+    TopToolbar *topToolbar();
 
     QStringList getRightFiles(const QStringList &files);
 
@@ -59,7 +76,7 @@ public:
 
     bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
 
-    void setApplicationCursor(const QCursor &cur);
+    void setApplicationCursor(const QCursor &cur, bool force = false);
 
 signals:
     void popupConfirmDialog();
@@ -79,5 +96,7 @@ private:
     void initI18n();
 
     QString _joinFlag;
+
+    CColorPickWidget *_colorPickWidget = nullptr;
 };
 #endif // APPLICATION_H

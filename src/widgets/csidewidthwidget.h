@@ -53,6 +53,8 @@ signals:
     void signalSideWidthMenuShow();
     void signalSideWidthChoosed(int width);
 
+    void sideWidthChanged(int width, bool preview = false);
+
 public:
     void changeButtonTheme();
 

@@ -20,6 +20,10 @@
 #include "frame/mainwindow.h"
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
+#include "ccolorpickwidget.h"
+#include "globaldefine.h"
+#include "cviewmanagement.h"
+#include "cgraphicsview.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -27,6 +31,7 @@
 
 #include <DGuiApplicationHelper>
 #include <DApplicationSettings>
+#include <QtConcurrent>
 
 #include <malloc.h>
 
@@ -46,16 +51,13 @@ Application::Application(int &argc, char **argv)
 
     qRegisterMetaType<EFileClassEnum>("EFileClassEnum");
     qRegisterMetaType<Application::EFileClassEnum>("Application::EFileClassEnum");
+    qRegisterMetaType<EChangedPhase>("EChangedPhase");
 
     qApp->setOverrideCursor(Qt::ArrowCursor);
 }
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
@@ -68,6 +70,10 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
 
         return EXIT_SUCCESS;
     }
+
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     // Version Time
     this->setApplicationVersion(VERSION);
@@ -90,6 +96,35 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     showMainWindow(paths);
 
     return exec();
+}
+
+MainWindow *Application::topMainWindow()
+{
+    return qobject_cast<MainWindow *>(activationWindow());
+}
+
+CColorPickWidget *Application::colorPickWidget(bool creatNew)
+{
+    if (creatNew) {
+        if (_colorPickWidget != nullptr) {
+            _colorPickWidget->deleteLater();
+            _colorPickWidget = nullptr;
+        }
+    }
+    if (_colorPickWidget == nullptr) {
+        setProperty("_d_isDxcb", false);
+        _colorPickWidget = new CColorPickWidget(topMainWindow());
+        setProperty("_d_isDxcb", true);
+    }
+    return _colorPickWidget;
+}
+
+TopToolbar *Application::topToolbar()
+{
+    if (topMainWindow() != nullptr)
+        return topMainWindow()->getTopToolbar();
+
+    return nullptr;
 }
 
 QStringList Application::getRightFiles(const QStringList &files)
@@ -225,8 +260,14 @@ bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
     return !isdir;
 }
 
-void Application::setApplicationCursor(const QCursor &cur)
+void Application::setApplicationCursor(const QCursor &cur, bool force)
 {
+    if (!force) {
+        bool isPressSpace = CManageViewSigleton::GetInstance()->getCurView()->isKeySpacePressed();
+        if (isPressSpace)
+            return;
+    }
+
     if (qApp->overrideCursor() == nullptr) {
         qApp->setOverrideCursor(cur);
     } else {
@@ -284,7 +325,6 @@ void Application::showMainWindow(const QStringList &paths)
 
     // [BUG 27979]   need call show first otherwise due window max size icon show error
     w->show();
-    w->initScene();
     w->readSettings();
 }
 

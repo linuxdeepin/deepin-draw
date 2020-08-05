@@ -13,11 +13,17 @@ CSpinBox::CSpinBox(DWidget *parent)
 {
     setFocusPolicy(Qt::StrongFocus);
 
-    connect(this, QOverload<int>::of(&CSpinBox::valueChanged), this, [ = ](int value) {
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+        setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
+    });
+
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
         Q_UNUSED(value);
         if (_keepFocus)
             this->setFocus();
-    }, Qt::QueuedConnection);
+    },
+            Qt::QueuedConnection);
+
     setValueChangedKeepFocus(true);
 
     setKeyboardTracking(false);
@@ -39,6 +45,13 @@ bool CSpinBox::isChangedByWheelEnd()
 void CSpinBox::setValueChangedKeepFocus(bool b)
 {
     _keepFocus = b;
+}
+
+void CSpinBox::setSpinRange(int min, int max)
+{
+    m_min = min;
+    m_max = max;
+    setRange(m_min - 1, m_max);
 }
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
@@ -67,7 +80,7 @@ void CSpinBox::wheelEvent(QWheelEvent *event)
 
 void CSpinBox::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up ) {
+    if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up) {
         //启动定时器
         timerStart();
     } else if (event->key() == Qt::Key_Minus) {
@@ -97,8 +110,8 @@ void CSpinBox::timerEnd()
 
     //wheel结束时的值变化标记
     _wheelEnd = true;
-    emit this->valueChanged(value());
-    emit this->valueChanged(text());
+    //emit this->valueChanged(value(), EChangedFinished);
+    setSpinPhaseValue(value(), EChangedFinished);
     _wheelEnd = false;
     setFocus();
     if (lineEdit() != nullptr) {
@@ -116,7 +129,32 @@ QTimer *CSpinBox::getTimer()
     return _wheelTimer;
 }
 
+void CSpinBox::setSpinPhaseValue(int value, EChangedPhase phase)
+{
+    if (_s_value != value || _s_phase != phase) {
+        _s_value = value;
+        _s_phase = phase;
+
+        if (_s_value < m_min) {
+            _s_value = m_min;
+            this->blockSignals(true);
+            setValue(_s_value);
+            this->blockSignals(false);
+        } else if (value > m_max) {
+            _s_value = m_max;
+            this->blockSignals(true);
+            setValue(_s_value);
+            this->blockSignals(false);
+        }
+        emit valueChanged(_s_value, EChangedPhase(_s_phase));
+    }
+}
+
 void CSpinBox::timerStart()
 {
+    if (!isTimerRunning()) {
+        //emit this->valueChanged(value(), EChangedBegin);
+        setSpinPhaseValue(value(), EChangedBegin);
+    }
     getTimer()->start(300);
 }

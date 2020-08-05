@@ -23,6 +23,8 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#include "globaldefine.h"
+
 DWIDGET_USE_NAMESPACE
 
 class BigColorButton : public DPushButton
@@ -32,21 +34,20 @@ public:
     BigColorButton(DWidget *parent = nullptr);
     ~BigColorButton();
 
-    void setColor(QColor color);
+    void setColor(QColor color, EChangedPhase phase = EChanged);
     void setColorIndex(int index);
     void updateConfigColor();
     void resetChecked();
     void setIsMultColorSame(bool isMultColorSame);
 
 signals:
-    void btnCheckStateChanged(bool show);
+    void colorChanged(const QColor &color, EChangedPhase phase);
 
 protected:
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *);
     void leaveEvent(QEvent *);
-    void mousePressEvent(QMouseEvent * );
-
+    void mousePressEvent(QMouseEvent *);
 
     void paintLookStyle(QPainter *painter, bool isMult = false);
 
