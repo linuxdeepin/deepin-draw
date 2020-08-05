@@ -12,15 +12,21 @@ set(CMAKE_AUTOUIC ON)
 project(deepin-draw)
 
 # 加速编译优化参数
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC --as-needed")
-endif()
+#if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+#    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC --as-needed")
+#endif()
 
 ################### mips ##################
 #if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 #    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC --as-needed -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mmsa -mloongson-ext2 -mloongson-mmi")
 #endif()
 ##
+
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "mips64")
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,--as-needed -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi")
+else()
+    SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,--as-needed")
+endif()
 
 # 是否开启单元测试编译
 option(DOTEST "option for test" OFF)
