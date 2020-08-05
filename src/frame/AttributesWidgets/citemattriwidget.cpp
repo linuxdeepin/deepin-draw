@@ -291,6 +291,7 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
         data.textColor = unitData.data.pText->color;
         data.textFontSize = int(unitData.data.pText->font.pointSizeF());
         data.textFontFamily = unitData.data.pText->font.family();
+        data.textFontStyle = unitData.data.pText->font.styleName();
     } else if (tp == Image) {
         if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
             data.comVaild[PropertyImageAdjustScence] = true;
@@ -359,7 +360,7 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 if (pText->getFontFamily() != data.textFontFamily) {
                     data.comVaild[TextFont] = false;
                 }
-                if (pText->getTextFontStyle() != data.textFontHeavy) {
+                if (pText->getTextFontStyle() != data.textFontStyle) {
                     data.comVaild[TextHeavy] = false;
                 }
                 if (pText->getTextColor() != data.textColor) {
@@ -1331,7 +1332,7 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(textColor);
         break;
     case TextHeavy:
-        textFontHeavy = var.toInt();
+        textFontStyle = var.toString();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle("");
         break;
     case TextSize:

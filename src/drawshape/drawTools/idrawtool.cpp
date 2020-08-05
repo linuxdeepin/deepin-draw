@@ -248,16 +248,16 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
+            if (rInfo.startPosTopBzItem != nullptr) {
+                if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
+                    m_bMousePress = false;
+                    event->setAccepted(false);
+                    return;
+                }
+            }
+
             //调用图元的operatingBegin函数
             if (rInfo._opeTpUpdate > EToolDoNothing) {
-                if (rInfo.startPosTopBzItem != nullptr) {
-                    if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
-                        m_bMousePress = false;
-                        event->setAccepted(false);
-                        return;
-                    }
-                }
-
                 for (auto it : rInfo.etcItems) {
                     if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
                         CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
