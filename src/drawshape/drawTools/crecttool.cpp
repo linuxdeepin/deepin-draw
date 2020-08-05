@@ -121,6 +121,7 @@ void CRectTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
             if (!pInfo->hasMoved()) {
                 event->scene()->removeItem(pRectItem);
                 delete pRectItem;
+                pInfo->businessItem = nullptr;
             } else {
                 if (pRectItem->scene() == nullptr) {
                     emit event->scene()->itemAdded(pRectItem);

@@ -178,7 +178,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                 if (curDis >= constDis) {
                     rInfo.businessItem = creatItem(event);
                     if (rInfo.businessItem != nullptr) {
-                        qDebug() << "creat one item type = " << rInfo.businessItem->type();
+                        qDebug() << "creat one item type = " << rInfo.businessItem->type() << "uuid = " << event->uuid();
                     }
                     rInfo._opeTpUpdate = (rInfo.businessItem == nullptr ? EToolDoNothing : EToolCreatItem);
                     rInfo.haveDecidedOperateType = (rInfo.businessItem != nullptr);
@@ -269,22 +269,21 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 toolFinish(event, &rInfo);
 
             } else if (rInfo._opeTpUpdate == EToolCreatItem) {
+
                 toolCreatItemFinish(event, &rInfo);
 
-                event->scene()->selectItem(rInfo.businessItem);
+                if (rInfo.hasMoved() && rInfo.businessItem != nullptr) {
+                    event->scene()->selectItem(rInfo.businessItem);
 
-                QList<QVariant> vars;
-                vars << reinterpret_cast<long long>(event->scene());
-                vars << reinterpret_cast<long long>(rInfo.businessItem);
+                    QList<QVariant> vars;
+                    vars << reinterpret_cast<long long>(event->scene());
+                    vars << reinterpret_cast<long long>(rInfo.businessItem);
 
-                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                    CSceneUndoRedoCommand::EItemAdded, vars);
+                    CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
+                                                        CSceneUndoRedoCommand::EItemAdded, vars);
 
-                CUndoRedoCommand::finishRecord();
-
-                //setViewToSelectionTool(event->scene()->drawView());
-            } else if (rInfo._opeTpUpdate == EToolDoNothing) {
-                //setViewToSelectionTool(event->scene()->drawView());
+                    CUndoRedoCommand::finishRecord();
+                }
             }
 
             if (returnToSelectTool(rInfo._opeTpUpdate)) {
@@ -361,8 +360,8 @@ void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo
 {
     Q_UNUSED(pInfo)
 
-    //默认传递事件给框架
-    event->setAccepted(false);
+    //默认不传递事件给框架
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -370,7 +369,7 @@ void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInf
     Q_UNUSED(pInfo)
 
     //默认传递事件给框架
-    event->setAccepted(false);
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -378,7 +377,7 @@ void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInf
     Q_UNUSED(pInfo)
 
     //默认传递事件给框架
-    event->setAccepted(false);
+    event->setAccepted(true);
 
     event->scene()->update();
 }
