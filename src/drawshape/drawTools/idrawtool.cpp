@@ -159,6 +159,15 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
+            //0.是否应该被某个图元的qt事件替代
+            if (rInfo.startPosTopBzItem != nullptr) {
+                if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
+                    event->setAccepted(false);
+                    rInfo.haveDecidedOperateType = true;
+                    return;
+                }
+            }
+
             //1.判定应该做什么，并调用开始函数（operatingBegin）
             if (!rInfo.haveDecidedOperateType) {
                 //a.首先判断是否是创建一个图元(必须大于一个最短移动距离)
@@ -177,14 +186,6 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
 
                 //b.如果没有创造出图元那么就执行额外的操作判定
                 if (rInfo.businessItem == nullptr) {
-                    //1.是否应该被某个图元的qt事件替代
-                    if (rInfo.startPosTopBzItem != nullptr) {
-                        if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
-                            event->setAccepted(false);
-                            rInfo.haveDecidedOperateType = true;
-                            return;
-                        }
-                    }
                     //判定移动的幅度很小
                     QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
                     //qDebug() << "rectf == " << rectf << "event->pos(CDrawToolEvent::EViewportPos) = " << event->pos(CDrawToolEvent::EViewportPos);
