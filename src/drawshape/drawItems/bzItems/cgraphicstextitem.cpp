@@ -173,19 +173,19 @@ void CGraphicsTextItem::makeEditabel()
 
 void CGraphicsTextItem::updateHandleVisible()
 {
-    bool visble = getManResizeFlag();
+    //bool visble = getManResizeFlag();
     //qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
 
-    if (drawScene() != nullptr) {
-        CGraphicsItemSelectedMgr *pMgr = drawScene()->getItemsMgr();
-        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftTop);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::Top);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::RightTop);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::RightBottom);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::Bottom);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
-        pMgr->setHandleVisible(visble, CSizeHandleRect::Rotation);
-    }
+    //    if (drawScene() != nullptr) {
+    //        CGraphicsItemSelectedMgr *pMgr = drawScene()->getItemsMgr();
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftTop);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Top);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightTop);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightBottom);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Bottom);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
+    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Rotation);
+    //    }
 }
 
 bool CGraphicsTextItem::isGrabToolEvent()
@@ -475,6 +475,7 @@ QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change,
 
         updateHandleVisible();
     }
+
     return CGraphicsRectItem::itemChange(change, value);
 }
 

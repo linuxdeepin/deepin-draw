@@ -8,6 +8,7 @@
 #include "cgraphicspenitem.h"
 #include "toptoolbar.h"
 #include "citemattriwidget.h"
+#include "cgraphicstextitem.h"
 #include "application.h"
 
 #include <QGraphicsSceneMouseEvent>
@@ -664,6 +665,21 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
         qreal w = rotateItem->boundingRect().width();
         rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40);
         rotateItem->updateRotateAngle(rotation());
+    }
+
+    setHandleVisible(true, CSizeHandleRect::InRect);
+    if (m_listItems.count() == 1) {
+        CGraphicsItem *pItem = m_listItems.first();
+        if (pItem->type() == TextType) {
+            bool visble = dynamic_cast<CGraphicsTextItem *>(pItem)->getManResizeFlag();
+            this->setHandleVisible(visble, CSizeHandleRect::LeftTop);
+            this->setHandleVisible(visble, CSizeHandleRect::Top);
+            this->setHandleVisible(visble, CSizeHandleRect::RightTop);
+            this->setHandleVisible(visble, CSizeHandleRect::RightBottom);
+            this->setHandleVisible(visble, CSizeHandleRect::Bottom);
+            this->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
+            this->setHandleVisible(visble, CSizeHandleRect::Rotation);
+        }
     }
 }
 
