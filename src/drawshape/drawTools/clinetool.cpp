@@ -52,6 +52,7 @@ void CLineTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
             if (!pInfo->hasMoved()) {
                 event->scene()->removeItem(m_pItem);
                 delete m_pItem;
+                pInfo->businessItem = nullptr;
             } else {
                 if (m_pItem->scene() == nullptr) {
                     emit event->scene()->itemAdded(m_pItem);

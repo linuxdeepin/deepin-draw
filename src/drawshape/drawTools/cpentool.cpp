@@ -54,6 +54,7 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
             if (!pInfo->hasMoved()) {
                 event->scene()->removeItem(pPenIem);
                 delete pPenIem;
+                pInfo->businessItem = nullptr;
             } else {
                 pPenIem->drawComplete();
                 if (pPenIem->scene() == nullptr) {

@@ -61,6 +61,7 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
             if (!pInfo->hasMoved()) {
                 event->scene()->removeItem(pItem);
                 delete pItem;
+                pInfo->businessItem = nullptr;
             } else {
                 if (pItem->scene() == nullptr) {
                     emit event->scene()->itemAdded(pItem);
