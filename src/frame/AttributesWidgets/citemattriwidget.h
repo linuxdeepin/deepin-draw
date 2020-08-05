@@ -57,7 +57,7 @@ struct SComDefualData {
     ELineType penEndType = noneLine;
 
     QColor textColor = QColor(0, 0, 0);
-    int textFontHeavy = 50;
+    QString textFontStyle = "--";
     int textFontSize = 14;
     QString textFontFamily;
 

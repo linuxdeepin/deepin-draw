@@ -120,7 +120,7 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
             if (!isMrNodeItem && pStartPostTopBzItem != nullptr && pStartPostTopBzItem->isSelected()) {
                 if (event->scene()->getItemsMgr()->count() > 1) {
                     event->scene()->notSelectItem(pStartPostTopBzItem);
-                    event->setAccepted(true);
+                    //event->setAccepted(true);
                     return;
                 }
             }
@@ -157,14 +157,14 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
         if (pStartPostTopBzItem != nullptr) {
             if (!isMrNodeItem)
                 event->scene()->selectItem(pStartPostTopBzItem);
-            event->setAccepted(true);
+            //event->setAccepted(true);
         } else {
             if (!isMrNodeItem) {
                 //点击处是空白的那么清理所有选中
 
                 event->scene()->clearMrSelection();
             }
-            event->setAccepted(true);
+            //event->setAccepted(true);
         }
     }
 }
