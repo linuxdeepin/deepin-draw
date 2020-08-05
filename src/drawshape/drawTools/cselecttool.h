@@ -143,6 +143,9 @@ public:
      */
     void updateCursorShape();
 
+protected:
+    bool returnToSelectTool(int operate) override;
+
 private:
     /* 文字可编辑光标 */
     QCursor m_textEditCursor;

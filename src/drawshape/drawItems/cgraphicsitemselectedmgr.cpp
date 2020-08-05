@@ -668,6 +668,7 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
     }
 
     setHandleVisible(true, CSizeHandleRect::InRect);
+    setHandleVisible(m_listItems.count() == 1, CSizeHandleRect::Rotation);
     if (m_listItems.count() == 1) {
         CGraphicsItem *pItem = m_listItems.first();
         if (pItem->type() == TextType) {

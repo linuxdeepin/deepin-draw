@@ -102,7 +102,10 @@ void CTextTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecord
 {
     Q_UNUSED(pInfo)
 
-    toolDoUpdate(event);
+    //鼠标点下时立刻生成,（触控是会自动生成）
+    if (event->eventType() == CDrawToolEvent::EMouseEvent) {
+        toolDoUpdate(event);
+    }
 
     IDrawTool::toolStart(event, pInfo);
 }

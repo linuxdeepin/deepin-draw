@@ -47,7 +47,8 @@ protected:
 
     enum EOperateType { ENothing,
                         EDragMove,
-                        EResizeMove };
+                        EResizeMove
+    };
     virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
@@ -120,6 +121,9 @@ public:
 
     CGraphicsCutItem *getCurCutItem();
     CGraphicsCutItem *getCutItem(CDrawScene *scene);
+
+protected:
+    bool returnToSelectTool(int operate) override;
 
 private:
     CGraphicsCutItem *m_pCutItem;

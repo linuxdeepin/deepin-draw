@@ -163,12 +163,16 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             if (!rInfo.haveDecidedOperateType) {
                 //a.首先判断是否是创建一个图元(必须大于一个最短移动距离)
                 int constDis = minMoveUpdateDistance();
-                int curDis = qRound((event->pos() - rInfo._startPos).manhattanLength());
-                qDebug() << "constDis = " << constDis << "curDis = " << curDis;
+                QPointF offset = event->pos(CDrawToolEvent::EViewportPos) - event->view()->mapFromScene(rInfo._startPos);
+                int curDis = qRound(offset.manhattanLength());
+                //qDebug() << "constDis = " << constDis << "curDis = " << curDis;
                 if (curDis >= constDis) {
                     rInfo.businessItem = creatItem(event);
-                    rInfo._opeTpUpdate = EToolCreatItem;
-                    rInfo.haveDecidedOperateType = true;
+                    if (rInfo.businessItem != nullptr) {
+                        qDebug() << "creat one item type = " << rInfo.businessItem->type();
+                    }
+                    rInfo._opeTpUpdate = (rInfo.businessItem == nullptr ? EToolDoNothing : EToolCreatItem);
+                    rInfo.haveDecidedOperateType = (rInfo.businessItem != nullptr);
                 }
 
                 //b.如果没有创造出图元那么就执行额外的操作判定
@@ -183,6 +187,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                     }
                     //判定移动的幅度很小
                     QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
+                    //qDebug() << "rectf == " << rectf << "event->pos(CDrawToolEvent::EViewportPos) = " << event->pos(CDrawToolEvent::EViewportPos);
                     if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
                         QTime *elTi = rInfo.getTimeHandle();
                         rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
@@ -276,9 +281,13 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
 
                 CUndoRedoCommand::finishRecord();
 
-                setViewToSelectionTool(event->scene()->drawView());
+                //setViewToSelectionTool(event->scene()->drawView());
             } else if (rInfo._opeTpUpdate == EToolDoNothing) {
-                setViewToSelectionTool(event->scene()->drawView());
+                //setViewToSelectionTool(event->scene()->drawView());
+            }
+
+            if (returnToSelectTool(rInfo._opeTpUpdate)) {
+                setViewToSelectionTool();
             }
 
             _allITERecordInfo.erase(it);
@@ -622,6 +631,12 @@ qreal IDrawTool::getCursorRotation()
         }
     }
     return  angle;
+}
+
+bool IDrawTool::returnToSelectTool(int operate)
+{
+    Q_UNUSED(operate)
+    return true;
 }
 
 IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)

@@ -265,5 +265,8 @@ CGraphicsCutItem *CCutTool::getCutItem(CDrawScene *scene)
     return nullptr;
 }
 
-
-
+bool CCutTool::returnToSelectTool(int operate)
+{
+    Q_UNUSED(operate)
+    return false;
+}

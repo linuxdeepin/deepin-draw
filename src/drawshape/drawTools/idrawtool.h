@@ -265,6 +265,9 @@ public:
     qreal getCursorRotation();
 
 protected:
+    virtual bool returnToSelectTool(int operate);
+
+protected:
     bool m_bMousePress;
     QPointF m_sPointPress;
     QPointF m_sLastPress;
@@ -274,7 +277,8 @@ protected:
     bool m_bAltKeyPress;
 
     enum EToolOperate { EToolCreatItem = -6542,
-                        EToolDoNothing = 0 };
+                        EToolDoNothing = 0
+    };
     struct ITERecordInfo {
         QPointF _startPos;
         QPointF _prePos;

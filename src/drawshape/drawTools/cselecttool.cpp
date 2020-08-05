@@ -116,6 +116,14 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
         if (event->keyboardModifiers() == Qt::ShiftModifier) {
             // 点住shift那么不用清除
             clearBeforeSelect = false;
+
+            if (!isMrNodeItem && pStartPostTopBzItem != nullptr && pStartPostTopBzItem->isSelected()) {
+                if (event->scene()->getItemsMgr()->count() > 1) {
+                    event->scene()->notSelectItem(pStartPostTopBzItem);
+                    event->setAccepted(true);
+                    return;
+                }
+            }
         } else {
             if (isMrNodeItem) {
                 clearBeforeSelect = false;
@@ -495,4 +503,10 @@ void CSelectTool::updateCursorShape()
     //            }
     //        }
     //    }
+}
+
+bool CSelectTool::returnToSelectTool(int operate)
+{
+    Q_UNUSED(operate)
+    return false;
 }
