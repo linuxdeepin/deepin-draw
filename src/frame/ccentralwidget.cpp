@@ -157,6 +157,8 @@ CGraphicsView *CCentralwidget::createNewScenseByDragFile(QString ddfFile)
     m_topMutipTabBarWidget->addTabBarItem(pView->getDrawParam()->getShowViewNameByModifyState(),
                                           pView->getDrawParam()->uuid(), false);
 
+    pView->importData(ddfFile);
+
     return pView;
 }
 

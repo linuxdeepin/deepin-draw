@@ -1196,6 +1196,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
 {
     if (m_cutWidget == nullptr) {
         m_cutWidget = new CCutWidget(this);
+        m_cutWidget->setDefualtRaidoBaseSize(CManageViewSigleton::GetInstance()->getCurView()->sceneRect().size().toSize());
         m_cutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
         connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();

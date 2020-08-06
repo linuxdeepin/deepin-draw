@@ -83,7 +83,7 @@ void CCutWidget::adjustSize(bool emitSig)
 {
     if (m_curCutType < cut_free) {
         qreal rd = Radio[m_curCutType];
-        QSize newSize = m_cutCutSize;
+        QSize newSize = /*m_cutCutSize*//*QSize(1920, 1080)*/m_defultRadioSize;
         int newWidth = qRound(newSize.height() * rd);
         newSize.setWidth(newWidth);
         setCutSize(newSize, emitSig);
@@ -110,6 +110,16 @@ void CCutWidget::setCutType(ECutType current, bool emitSig, bool adjustSz)
 ECutType CCutWidget::cutType()
 {
     return m_curCutType;
+}
+
+void CCutWidget::setDefualtRaidoBaseSize(const QSize &sz)
+{
+    m_defultRadioSize = sz;
+}
+
+QSize CCutWidget::defualtRaidoBaseSize()
+{
+    return m_defultRadioSize;
 }
 
 void CCutWidget::initUI()
@@ -244,11 +254,11 @@ void CCutWidget::initUI()
 void CCutWidget::initConnection()
 {
     connect(m_scaleBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
-            this, [=](int tp, bool checked) {
-                if (checked) {
-                    this->setCutType(ECutType(tp), true);
-                }
-            });
+    this, [ = ](int tp, bool checked) {
+        if (checked) {
+            this->setCutType(ECutType(tp), true);
+        }
+    });
     //    connect(m_scaleBtn1_1, &DPushButton::clicked, this, [ = ]() {
     //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
     //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_1_1);
@@ -322,7 +332,7 @@ void CCutWidget::initConnection()
     //        //emit signalCutLineEditIsfocus(isfocus);
     //    });
 
-    connect(m_widthEdit, &DLineEdit::editingFinished, this, [=]() {
+    connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
         int newWidth = m_widthEdit->text().trimmed().toInt();
         int newHeight = m_heightEdit->text().trimmed().toInt();
 
@@ -363,7 +373,7 @@ void CCutWidget::initConnection()
         //        CManagerAttributeService::getInstance()->doCut();
     });
 
-    connect(m_heightEdit, &DLineEdit::editingFinished, this, [=]() {
+    connect(m_heightEdit, &DLineEdit::editingFinished, this, [ = ]() {
         int newWidth = m_widthEdit->text().trimmed().toInt();
         int newHeight = m_heightEdit->text().trimmed().toInt();
 
@@ -405,7 +415,7 @@ void CCutWidget::initConnection()
         //        CManagerAttributeService::getInstance()->doCut();
     });
 
-    connect(m_doneBtn, &DPushButton::clicked, this, [=]() {
+    connect(m_doneBtn, &DPushButton::clicked, this, [ = ]() {
         if (m_widthEdit->lineEdit()->hasFocus()) {
             m_widthEdit->lineEdit()->clearFocus();
         }
@@ -424,7 +434,7 @@ void CCutWidget::initConnection()
         //        }
     });
 
-    connect(m_cancelBtn, &DPushButton::clicked, this, [=]() {
+    connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
         //        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
         //            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
         //            curScene->quitCutMode();
@@ -435,7 +445,7 @@ void CCutWidget::initConnection()
         emit finshed(false);
     });
 
-    connect(m_SizeAddAction, &QAction::triggered, this, [=](bool) {
+    connect(m_SizeAddAction, &QAction::triggered, this, [ = ](bool) {
         if (m_widthEdit->lineEdit()->hasFocus()) {
             int widthSizeNum = m_widthEdit->lineEdit()->text().trimmed().toInt();
             widthSizeNum++;
@@ -457,7 +467,7 @@ void CCutWidget::initConnection()
         }
     });
 
-    connect(m_SizeReduceAction, &QAction::triggered, this, [=](bool) {
+    connect(m_SizeReduceAction, &QAction::triggered, this, [ = ](bool) {
         if (m_widthEdit->lineEdit()->hasFocus()) {
             int widthSizeNum = m_widthEdit->lineEdit()->text().trimmed().toInt();
             widthSizeNum--;
