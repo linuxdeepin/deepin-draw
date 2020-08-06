@@ -42,17 +42,15 @@ protected:
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
 
     /**
-     * @brief toolStart　工具开始事件
-     * @param event      当次事件信息
-     * @param pInfo      记录信息
-     */
-    virtual void toolStart(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
-
-    /**
      * @brief minMoveUpdateDistance　工具创造业务图元指针
      */
 
     virtual int minMoveUpdateDistance() override;
+
+    /**
+     * @brief isPressEventHandledByQt　鼠标点下是否要交给qt框架处理
+     */
+    virtual bool isPressEventHandledByQt(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 };
 
 #endif // CTEXTTOOL_H

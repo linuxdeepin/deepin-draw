@@ -473,6 +473,9 @@ class CCmdBlock
 {
 public:
     CCmdBlock(CDrawScene *pScene,
+              CSceneUndoRedoCommand::EChangedType EchangedTp,
+              QGraphicsItem *pItem);
+    CCmdBlock(CDrawScene *pScene,
               CSceneUndoRedoCommand::EChangedType EchangedTp = CSceneUndoRedoCommand::ESizeChanged,
               const QList<QGraphicsItem *> list = QList<QGraphicsItem *>());
     CCmdBlock(CGraphicsItem *pItem, EChangedPhase phase = EChanged, bool doRedo = false);

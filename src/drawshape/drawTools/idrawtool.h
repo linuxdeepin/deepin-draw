@@ -87,7 +87,7 @@ public:
                         ETouchEvent,
                         EEventSimulated,
                         EEventCount
-        };
+                      };
         CDrawToolEvent(const QPointF &vPos      = QPointF(),
                        const QPointF &scenePos  = QPointF(),
                        const QPointF &globelPos = QPointF(),
@@ -266,6 +266,7 @@ public:
 
 protected:
     virtual bool returnToSelectTool(int operate);
+    virtual bool isPressEventHandledByQt(CDrawToolEvent *event, ITERecordInfo *pInfo);
 
 protected:
     bool m_bMousePress;
@@ -276,9 +277,9 @@ protected:
     bool m_bShiftKeyPress;
     bool m_bAltKeyPress;
 
-    enum EToolOperate { EToolCreatItem = -6542,
+    enum EToolOperate { EToolCreatItemMove = -6542,
                         EToolDoNothing = 0
-    };
+                      };
     struct ITERecordInfo {
         QPointF _startPos;
         QPointF _prePos;
@@ -293,6 +294,7 @@ protected:
         int _elapsedToUpdate = -1;
         QList<QGraphicsItem *> etcItems;
         CDrawScene *_scene = nullptr;
+        CDrawToolEvent _startEvent;
         CDrawToolEvent _preEvent;
         CDrawToolEvent _curEvent;
 

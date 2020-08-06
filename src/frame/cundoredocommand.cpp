@@ -605,6 +605,12 @@ void CSceneBoundingChangedCommand::real_redo()
     }
 }
 
+CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp, QGraphicsItem *pItem):
+    CCmdBlock(pScene, EchangedTp, QList<QGraphicsItem *>() << pItem)
+{
+
+}
+
 CCmdBlock::CCmdBlock(CDrawScene *pScene, CSceneUndoRedoCommand::EChangedType EchangedTp,
                      const QList<QGraphicsItem *> list)
     : _pScene(pScene), _scenChangedType(EchangedTp)
