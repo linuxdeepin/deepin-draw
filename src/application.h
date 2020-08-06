@@ -28,6 +28,7 @@ class Application;
 class MainWindow;
 class CColorPickWidget;
 class TopToolbar;
+class CLeftToolBar;
 
 #if  defined(dApp)
 #undef dApp
@@ -57,6 +58,7 @@ public:
     CColorPickWidget *colorPickWidget(bool creatNew = false);
 
     TopToolbar *topToolbar();
+    CLeftToolBar *leftToolBar();
 
     QStringList getRightFiles(const QStringList &files);
 

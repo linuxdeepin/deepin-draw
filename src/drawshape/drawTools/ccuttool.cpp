@@ -100,8 +100,6 @@ void CCutTool::toolUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecord
         m_pCutItem->resizeCutSize(direction, pInfo->_prePos, event->pos(), &pInfo->_prePos);
         dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(m_pCutItem->rect().size().toSize(), false);
     }
-
-    //            emit event->scene()->signalUpdateCutSize();
 }
 
 void CCutTool::toolFinish(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
