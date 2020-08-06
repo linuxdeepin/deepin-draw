@@ -22,7 +22,9 @@
 #include "cgraphicsitem.h"
 #include "cselecttool.h"
 #include "cdrawscene.h"
+#include "frame/cgraphicsview.h"
 
+#include <QStyleOptionGraphicsItem>
 #include <QPainter>
 
 CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scale, QGraphicsItem *parent)
@@ -37,8 +39,6 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(qreal rotateAngle, qreal scal
     m_height = m_height / scale;
     m_fontSize = m_fontSize / scale;
     m_textFont.setPointSizeF(m_fontSize);
-
-    //setRect(-m_width / 2, -m_height / 2, m_width, m_height);
 
     setRect(0, 0, m_width, m_height);
 
@@ -55,12 +55,16 @@ CGraphicsRotateAngleItem::CGraphicsRotateAngleItem(const QRectF &rect, qreal rot
 
 void CGraphicsRotateAngleItem::updateRotateAngle(qreal rotateAngle)
 {
+    CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+    qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
+
     m_rotateAngle =  rotateAngle;
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
 
     QFontMetrics fontMetrics(m_textFont);
     m_width = fontMetrics.width(angle);
-    setRect(0, 0, m_width, m_height);
+
+    setRect(0, 0, m_width / scaleTotal, m_height / scaleTotal);
 }
 
 bool CGraphicsRotateAngleItem::isFatherRotating()
@@ -91,7 +95,11 @@ void CGraphicsRotateAngleItem::paint(QPainter *painter, const QStyleOptionGraphi
     QString angle = QString("%1°").arg(QString::number(m_rotateAngle, 'f', 1));
     painter->setPen(Qt::black);
 
-    painter->setFont(m_textFont);
+    QFont f = m_textFont;
+
+    f.setPointSizeF(f.pointSizeF() / option->levelOfDetailFromTransform(painter->worldTransform()));
+
+    painter->setFont(f);
     painter->drawText(rect(), Qt::AlignCenter, angle);
 
     painter->restore();
