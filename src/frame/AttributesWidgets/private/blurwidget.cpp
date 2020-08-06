@@ -33,7 +33,7 @@
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
-const int TEXT_SIZE = 12;
+const int TEXT_SIZE = 14;
 
 const int blur_min_width = 5;
 const int blur_max_width = 500;
@@ -148,6 +148,7 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->setMaximumHeight(36);
     m_spinboxForLineWidth->setSuffix("px");
     m_spinboxForLineWidth->lineEdit()->setClearButtonEnabled(false);
+    m_spinboxForLineWidth->setFont(ft);
 
     m_pLineWidthLabel = new DLabel(this);
     m_pLineWidthLabel->setObjectName("Width Label");

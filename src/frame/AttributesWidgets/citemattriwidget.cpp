@@ -465,6 +465,11 @@ void CComAttrWidget::refreshHelper(int tp)
 
     if (isBorderNeeded(tp)) {
         layout->addWidget(getPenColorBtn());
+        if (tp == Pen || tp == Line || tp == (Pen | Line)) {
+            getPenColorBtn()->setButtonText(tr("StrokeColor"));
+        } else {
+            getPenColorBtn()->setButtonText(tr("Stroke"));
+        }
         layout->addWidget(getBorderWidthWidget());
         getPenColorBtn()->show();
         getBorderWidthWidget()->show();
