@@ -49,6 +49,12 @@ public:
     void setCutType(ECutType current, bool emitSig = true, bool adjustSz = true);
     ECutType cutType();
 
+    /**
+     * @brief setCutType　设置裁剪比例的类型
+     */
+    void setDefualtRaidoBaseSize(const QSize &sz);
+    QSize defualtRaidoBaseSize();
+
 signals:
     void cutSizeChanged(const QSize &sz);
     void cutTypeChanged(ECutType tp);
@@ -80,6 +86,8 @@ private:
 
     ECutType m_curCutType;
     QSize m_cutCutSize;
+
+    QSize m_defultRadioSize;
 
     DLineEdit *m_widthEdit;
     DLineEdit *m_heightEdit;
