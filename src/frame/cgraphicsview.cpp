@@ -196,6 +196,15 @@ qreal CGraphicsView::getScale()
 
 void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
 {
+    qreal wantedTotalScaled = m_scale * factor;
+
+    if (wantedTotalScaled < 0.1) {
+        wantedTotalScaled = 0.1;
+    } else if (wantedTotalScaled > 20) {
+        wantedTotalScaled = 20;
+    }
+    factor = wantedTotalScaled / m_scale;
+
     //最最最完美的方案！！！
     QPoint centerViewPos = viewPos.isNull() ? viewport()->mapFromGlobal(QCursor::pos()) : viewPos;
 
