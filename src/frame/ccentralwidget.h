@@ -167,10 +167,6 @@ signals:
      * @description: signalScenceViewChanged 当场景被改变后信号
     */
     void signalScenceViewChanged(QString viewName);
-    /**
-     * @description: signalChangeTittlebarWidget 更新顶部菜单控件
-    */
-    void signalChangeTittlebarWidget(int type);
 public slots:
     /**
      * @brief importPicture　导入图片

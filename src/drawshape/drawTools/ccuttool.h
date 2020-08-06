@@ -48,7 +48,7 @@ protected:
     enum EOperateType { ENothing,
                         EDragMove,
                         EResizeMove
-    };
+                      };
     virtual int decideUpdate(CDrawToolEvent *event, ITERecordInfo *pInfo) override;
 
     /**
@@ -108,6 +108,13 @@ public:
      * @return
      */
     QRectF getCutRect(CDrawScene *scene);
+
+    /**
+     * @brief getCutType　获取裁剪区域裁剪类型
+     * @return
+     */
+    int getCutType(CDrawScene *scene);
+
     /**
      * @brief getModifyFlag　获取是否修改标识
      * @return

@@ -39,6 +39,9 @@
 #include "drawTools/cpicturetool.h"
 #include "drawTools/ccuttool.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
+#include "citemattriwidget.h"
+#include "ccutwidget.h"
+#include "toptoolbar.h"
 
 #include "frame/cviewmanagement.h"
 #include "frame/cmultiptabbarwidget.h"
@@ -709,9 +712,18 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
     // [2] 处于裁剪的时候切换标签页恢复裁剪状态
     if (CManageViewSigleton::GetInstance()->getCurView() != nullptr
             && getCutedStatus()) {
-        view->getDrawParam()->setCurrentDrawToolMode(cut);
-        emit signalChangeTittlebarWidget(cut);
-        m_leftToolbar->slotEnterCut();
+        EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+        CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+        if (pTool) {
+            // 更新裁剪图元的裁剪大小
+            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
+                pTool->getCutRect(CManageViewSigleton::GetInstance()->getCurView()->drawScene()).size().toSize(), false);
+
+            // 更新裁剪图元的裁剪方式
+            dApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(
+                static_cast<ECutType>(pTool->getCutType(CManageViewSigleton::GetInstance()->getCurView()->drawScene()))
+                , false, false);
+        }
     } else {
         // [3] 鼠标选择工具回到默认状态
         m_leftToolbar->slotShortCutSelect();
@@ -735,9 +747,6 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
         QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
-
-    // [8] 切换标签页后刷新当前选中图元的属性
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)

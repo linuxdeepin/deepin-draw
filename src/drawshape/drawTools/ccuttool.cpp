@@ -233,6 +233,15 @@ QRectF CCutTool::getCutRect(CDrawScene *scene)
     return rect;
 }
 
+int CCutTool::getCutType(CDrawScene *scene)
+{
+    CGraphicsCutItem *pItem = getCutItem(scene);
+    if (pItem != nullptr) {
+        return pItem->getCutType();
+    }
+    return 0;
+}
+
 bool CCutTool::getModifyFlag() const
 {
     return m_bModify;

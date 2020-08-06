@@ -387,6 +387,7 @@ void CLeftToolBar::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
         dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->sceneRect().size().toSize(), false);
+        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(ECutType::cut_free, false, false);
         emit signalBegainCut();
     });
 }
