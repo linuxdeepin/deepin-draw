@@ -27,6 +27,9 @@
 #include "frame/cgraphicsview.h"
 #include "drawshape/cdrawscene.h"
 #include "application.h"
+#include "citemattriwidget.h"
+#include "toptoolbar.h"
+#include "ccutwidget.h"
 
 #include <DFileDialog>
 #include <DWidget>
@@ -382,6 +385,8 @@ void CLeftToolBar::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
+        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->sceneRect().size().toSize(), false);
         emit signalBegainCut();
     });
 }
