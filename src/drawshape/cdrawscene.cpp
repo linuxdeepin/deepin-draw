@@ -772,22 +772,22 @@ void CDrawScene::clearMrSelection()
     m_pGroupItem->clear();
 }
 
-void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem)
+void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
     if (onlyBzItem && isBussizeItem(pItem)) {
         pItem->setSelected(true);
-        m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     } else {
         pItem->setSelected(true);
     }
 }
 
-void CDrawScene::notSelectItem(QGraphicsItem *pItem)
+void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool updateRect)
 {
     pItem->setSelected(false);
 
     if (isBussizeItem(pItem)) {
-        m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     }
 }
 

@@ -236,12 +236,10 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                 //1.根据操作类型决定要做的事情
                 if (rInfo.businessItem != nullptr) {
                     toolCreatItemFinish(event, &rInfo);
-                    if (rInfo._opeTpUpdate == EToolCreatItemMove) {
-                        if (rInfo.hasMoved() && rInfo.businessItem != nullptr) {
-                            if (rInfo.businessItem->scene() == event->scene()) {
-                                CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
-                                event->scene()->selectItem(rInfo.businessItem);
-                            }
+                    if (rInfo.businessItem != nullptr) {
+                        if (rInfo.businessItem->scene() == event->scene()) {
+                            CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
+                            event->scene()->selectItem(rInfo.businessItem);
                         }
                     }
                 } else if (rInfo._opeTpUpdate > EToolDoNothing) {
