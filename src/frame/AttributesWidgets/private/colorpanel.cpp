@@ -57,7 +57,7 @@ ColorButton::ColorButton(const QColor &color, DWidget *parent)
     setFixedSize(COLOR_BORDER_SIZE);
     setCheckable(true);
 
-    connect(this, &ColorButton::clicked, this, [=]() {
+    connect(this, &ColorButton::clicked, this, [ = ]() {
         this->setChecked(true);
     });
 }
@@ -218,33 +218,33 @@ void ColorPanel::initConnection()
 {
     //1.颜色按钮组
     connect(m_colorsButtonGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
-            this, [=](QAbstractButton *pBtn, bool checked) {
-                ColorButton *pColorBtn = qobject_cast<ColorButton *>(pBtn);
-                if (checked) {
-                    this->setColor(pColorBtn->color());
-                }
-            });
+    this, [ = ](QAbstractButton * pBtn, bool checked) {
+        ColorButton *pColorBtn = qobject_cast<ColorButton *>(pBtn);
+        if (checked) {
+            this->setColor(pColorBtn->color());
+        }
+    });
 
     //2.pick板颜色设置完成
-    connect(m_pickColWidget, &PickColorWidget::colorChanged, this, [=](const QColor &color) {
+    connect(m_pickColWidget, &PickColorWidget::colorChanged, this, [ = ](const QColor & color) {
         this->setColor(color);
     });
 
     //3.pick板颜色预览
-    connect(m_pickColWidget, &PickColorWidget::previewedColorChanged, [=](const QColor &color) {
+    connect(m_pickColWidget, &PickColorWidget::previewedColorChanged, [ = ](const QColor & color) {
         this->setColor(color, true, EChangedUpdate);
     });
 
     //4.lineedit颜色设置
-    connect(m_colLineEdit, &DLineEdit::textChanged, this, [=](const QString &colorStr) {
+    connect(m_colLineEdit, &DLineEdit::textChanged, this, [ = ](const QString & colorStr) {
         if (colorStr.size() == 6) {
             QColor c("#" + colorStr);
             if (c.isValid()) {
-                this->setColor(c, true, EChangedUpdate);
+                this->setColor(c, true, EChanged);
             }
         }
     });
-    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [=]() {
+    connect(m_colLineEdit, &DLineEdit::editingFinished, this, [ = ]() {
         qDebug() << "DLineEdit::editingFinished ------- ";
         QString colorStr = m_colLineEdit->text();
         if (colorStr.size() == 6) {
@@ -256,7 +256,7 @@ void ColorPanel::initConnection()
     });
 
     //5.设置透明度
-    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [=](int apl, EChangedPhase phase) {
+    connect(m_alphaControlWidget, &CAlphaControlWidget::alphaChanged, this, [ = ](int apl, EChangedPhase phase) {
         QColor c = color();
         c.setAlpha(apl);
         qDebug() << "alphaChanged apl = " << c.alpha();
@@ -264,20 +264,23 @@ void ColorPanel::initConnection()
     });
 
     //展开按钮
-    connect(m_colorfulBtn, &CIconButton::buttonClick, this, [=] {
-        if (m_expand) {
+    connect(m_colorfulBtn, &CIconButton::buttonClick, this, [ = ] {
+        if (m_expand)
+        {
             m_pickColWidget->hide();
             //m_pickColWidget->setPickedColor(false);
             setFixedHeight(ORIGIN_HEIGHT);
             updateGeometry();
-        } else {
+        } else
+        {
             m_pickColWidget->show();
             //m_pickColWidget->setPickedColor(true);
             setFixedHeight(EXPAND_HEIGHT);
             updateGeometry();
         }
 
-        if (this->parentColorWidget() != nullptr) {
+        if (this->parentColorWidget() != nullptr)
+        {
             this->parentColorWidget()->setContent(this);
         }
 
