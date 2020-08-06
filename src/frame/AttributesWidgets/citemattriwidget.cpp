@@ -76,7 +76,7 @@ void CItemAttriWidget::refresh()
 CComAttrWidget::CComAttrWidget(QWidget *parent)
     : CItemAttriWidget(parent)
 {
-    setAttribute(Qt::WA_NoMousePropagation, true);
+    setAttribute(Qt::WA_NoMousePropagation, false);
     QHBoxLayout *lay = new QHBoxLayout;
     lay->addStretch();
     lay->setMargin(0);
