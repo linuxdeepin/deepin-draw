@@ -368,7 +368,10 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
         if (currentMode == selection && !pTool->isUpdating()) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
-                QPen p(QColor(255, 0, 0));
+                DPalette pa = this->palette();
+                QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
+                QColor selectColor = selectBrush.color();
+                QPen p(selectColor);
                 p.setWidthF(2.0);
                 painter->setPen(p);
                 painter->drawPath(_highlight);
@@ -877,7 +880,7 @@ CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW
 
 CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
 {
-    auto fFindBzItem = [=](const QList<QGraphicsItem *> &_list) {
+    auto fFindBzItem = [ = ](const QList<QGraphicsItem *> &_list) {
         CGraphicsItem *pResult = nullptr;
         for (int i = 0; i < _list.count(); ++i) {
             QGraphicsItem *it = _list[i];
