@@ -434,6 +434,12 @@ void CDrawScene::refreshLook(const QPointF &pos)
     update();
 }
 
+void CDrawScene::clearHighlight()
+{
+    // [41552] 图元移动到属性框下，更改属性图元不需要再高亮
+    setHighlightHelper(QPainterPath());
+}
+
 void CDrawScene::setHighlightHelper(const QPainterPath &path)
 {
     _highlight = path;
