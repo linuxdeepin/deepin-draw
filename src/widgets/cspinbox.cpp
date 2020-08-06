@@ -101,6 +101,12 @@ void CSpinBox::keyReleaseEvent(QKeyEvent *event)
     setFocus();
 }
 
+void CSpinBox::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event)
+    // [41555] spinbox 触摸长按会弹出菜单导致焦点丢失，此处截获弹出菜单事件
+}
+
 void CSpinBox::timerEnd()
 {
     //先结束timer(标志着isTimerRunning返回false)
