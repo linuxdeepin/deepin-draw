@@ -13,20 +13,22 @@ CSpinBox::CSpinBox(DWidget *parent)
 {
     setFocusPolicy(Qt::StrongFocus);
 
-    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
         setSpinPhaseValue(value, isTimerRunning() ? EChangedUpdate : EChanged);
     });
 
-    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [=](int value) {
+    connect(this, QOverload<int>::of(&DSpinBox::valueChanged), this, [ = ](int value) {
         Q_UNUSED(value);
         if (_keepFocus)
             this->setFocus();
     },
-            Qt::QueuedConnection);
+    Qt::QueuedConnection);
 
     setValueChangedKeepFocus(true);
 
     setKeyboardTracking(false);
+
+    setRange(-INT_MAX, INT_MAX);
 }
 
 bool CSpinBox::isTimerRunning()
@@ -51,7 +53,6 @@ void CSpinBox::setSpinRange(int min, int max)
 {
     m_min = min;
     m_max = max;
-    setRange(m_min - 1, m_max);
 }
 
 void CSpinBox::focusInEvent(QFocusEvent *event)
