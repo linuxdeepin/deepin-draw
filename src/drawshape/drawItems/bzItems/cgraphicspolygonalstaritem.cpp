@@ -65,7 +65,8 @@ QPainterPath CGraphicsPolygonalStarItem::shape() const
 QRectF CGraphicsPolygonalStarItem::boundingRect() const
 {
     QRectF rect = shape().controlPointRect();
-    return rect.united(this->rect());
+    return rect;
+    //return rect.united(this->rect());
 }
 
 void CGraphicsPolygonalStarItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress)

@@ -54,7 +54,8 @@ CGraphicsPolygonItem::CGraphicsPolygonItem(const SGraphicsPolygonUnitData *data,
 QRectF CGraphicsPolygonItem::boundingRect() const
 {
     QRectF rect = shape().controlPointRect();
-    return rect.united(this->rect());
+    return rect;
+    //return rect.united(this->rect());
 }
 
 int CGraphicsPolygonItem::type() const
