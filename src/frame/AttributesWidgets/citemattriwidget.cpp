@@ -1278,6 +1278,8 @@ void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
     CDrawScene *pCurScen = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
     SComDefualData &scDefual = m_defualDatas[pCurScen];
     scDefual.save(id, var);
+    // 设置图元属性后清除当前图元的高亮信息
+    pCurScen->clearHighlight();
 }
 
 void SComDefualData::save(EDrawProperty property, const QVariant &var)
