@@ -40,7 +40,7 @@ TextColorButton::TextColorButton(DWidget *parent)
     , m_isChecked(false)
     , m_isMultColorSame(true)
 {
-    setFixedSize(60, 36);
+    setFixedSize(68, 36);
     setCheckable(false);
     setButtonText(tr("Color"));
 }
@@ -194,7 +194,7 @@ void TextColorButton::paintLookStyle(QPainter *painter, bool isMult)
     QFont ft;
     ft.setPixelSize(14);
     painter->setFont(ft);
-    painter->drawText(30, 7, m_textWidth, 22, 0, m_text);
+    painter->drawText(30, 7, TextWidth, 22, 0, m_text);
     painter->restore();
 }
 
