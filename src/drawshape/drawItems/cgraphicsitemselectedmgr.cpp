@@ -662,9 +662,14 @@ void CGraphicsItemSelectedMgr::updateHandlesGeometry()
     }
 
     if (rotateItem != nullptr) {
-        qreal w = rotateItem->boundingRect().width();
-        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40);
         rotateItem->updateRotateAngle(rotation());
+        qreal w = rotateItem->boundingRect().width();
+        qreal h = rotateItem->boundingRect().height();
+        qRoty = geom.y() - h - h / 2;
+
+        CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
+        qreal scaleTotal = pView != nullptr ? pView->getDrawParam()->getScale() : 1.0;
+        rotateItem->setPos(geom.x() + (geom.width() - w) / 2, qRoty - 40 / scaleTotal);
     }
 
     setHandleVisible(true, CSizeHandleRect::InRect);
