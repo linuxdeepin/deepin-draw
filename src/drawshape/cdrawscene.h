@@ -141,8 +141,8 @@ public:
     CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
 
     void clearMrSelection();
-    void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true);
-    void notSelectItem(QGraphicsItem *pItem);
+    void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true, bool updateAttri = true, bool updateRect = true);
+    void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
     void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
 
     void moveMrItem(const QPointF &prePos, const QPointF &curPos);

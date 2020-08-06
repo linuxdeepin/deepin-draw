@@ -1146,7 +1146,10 @@ void CGraphicsView::slotOnPaste()
                 drawScene()->addItem(item);
 
                 item->moveBy(10, 10);
+
+                drawScene()->selectItem(item, true, false, false);
             }
+
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                 CSceneUndoRedoCommand::EItemAdded, vars, true, true);
 
@@ -1155,6 +1158,7 @@ void CGraphicsView::slotOnPaste()
 
             CUndoRedoCommand::finishRecord();
 
+            drawScene()->getItemsMgr()->updateAttributes();
             drawScene()->getItemsMgr()->updateBoundingRect();
         }
     }
