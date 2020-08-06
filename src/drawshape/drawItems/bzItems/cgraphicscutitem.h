@@ -56,6 +56,7 @@ public:
     virtual bool isPosPenetrable(const QPointF &posLocal) override;
 
     void doChangeType(int);
+    int getCutType() const;
     void doChangeSize(int, int);
 
 
@@ -89,6 +90,7 @@ private:
     QPointF m_bottomRightPoint; //右下角的点
     QRectF m_originalRect;
     bool m_isFreeMode;
+    int m_cutType = 0;
 
 };
 

@@ -105,6 +105,37 @@ void CCutWidget::setCutType(ECutType current, bool emitSig, bool adjustSz)
         if (adjustSz)
             adjustSize(emitSig);
     }
+
+    clearAllChecked();
+    // 设置按钮选中状态
+    switch (m_curCutType) {
+
+    case cut_1_1: {
+        m_scaleBtn1_1->setChecked(true);
+        break;
+    }
+    case cut_2_3: {
+        m_scaleBtn2_3->setChecked(true);
+        break;
+    }
+    case cut_8_5: {
+        m_scaleBtn8_5->setChecked(true);
+        break;
+    }
+    case cut_16_9: {
+        m_scaleBtn16_9->setChecked(true);
+        break;
+    }
+    case cut_free: {
+        m_freeBtn->setChecked(true);
+        break;
+    }
+    case cut_original: {
+        m_originalBtn->setChecked(true);
+        break;
+    }
+    default: break;
+    }
 }
 
 ECutType CCutWidget::cutType()
@@ -259,78 +290,6 @@ void CCutWidget::initConnection()
             this->setCutType(ECutType(tp), true);
         }
     });
-    //    connect(m_scaleBtn1_1, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_1_1);
-    //        CManagerAttributeService::getInstance()->doCut();
-
-    //        clearAllChecked();
-    //        m_scaleBtn1_1->setChecked(true);
-
-    //        this->setCutSize();
-    //    });
-
-    //    connect(m_scaleBtn2_3, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_2_3);
-    //        CManagerAttributeService::getInstance()->doCut();
-
-    //        clearAllChecked();
-    //        m_scaleBtn2_3->setChecked(true);
-
-    //        this->setCutSize();
-    //    });
-
-    //    connect(m_scaleBtn8_5, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_8_5);
-    //        CManagerAttributeService::getInstance()->doCut();
-
-    //        clearAllChecked();
-    //        m_scaleBtn8_5->setChecked(true);
-
-    //        this->setCutSize();
-    //    });
-
-    //    connect(m_scaleBtn16_9, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_16_9);
-    //        CManagerAttributeService::getInstance()->doCut();
-
-    //        clearAllChecked();
-    //        m_scaleBtn16_9->setChecked(true);
-
-    //        this->setCutSize();
-    //    });
-
-    //    connect(m_freeBtn, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_free);
-
-    //        clearAllChecked();
-    //        m_freeBtn->setChecked(true);
-
-    //        CManagerAttributeService::getInstance()->doCut();
-    //    });
-
-    //    connect(m_originalBtn, &DPushButton::clicked, this, [ = ]() {
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
-    //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_original);
-    //        CManagerAttributeService::getInstance()->doCut();
-
-    //        clearAllChecked();
-    //        m_originalBtn->setChecked(true);
-
-    //        this->setCutSize();
-    //    });
-
-    //    connect(m_widthEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
-    //        //emit signalCutLineEditIsfocus(isfocus);
-    //    });
-
-    //    connect(m_heightEdit, &DLineEdit::focusChanged, this, [ = ](bool isfocus) {
-    //        //emit signalCutLineEditIsfocus(isfocus);
-    //    });
 
     connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
         int newWidth = m_widthEdit->text().trimmed().toInt();
@@ -354,23 +313,6 @@ void CCutWidget::initConnection()
         }
         this->setCutType(tp, true, false);
         this->setCutSize(QSize(newWidth, newHeight));
-
-        //        if (m_widthEdit->lineEdit()->hasFocus()) {
-        //            m_widthEdit->lineEdit()->clearFocus();
-        //            return ;
-        //        }
-
-        //        activeFreeMode();
-
-        //        int w = m_widthEdit->text().trimmed().toInt();
-        //        int h = m_heightEdit->text().trimmed().toInt();
-        //        if (w > 4096) {
-        //            w = 4096;
-        //            m_widthEdit->setText(QString::number(w));
-        //        }
-        //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
-        //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        //        CManagerAttributeService::getInstance()->doCut();
     });
 
     connect(m_heightEdit, &DLineEdit::editingFinished, this, [ = ]() {
@@ -424,24 +366,9 @@ void CCutWidget::initConnection()
             m_heightEdit->lineEdit()->clearFocus();
         }
         emit finshed(true);
-
-        //        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
-        //            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-        //            curScene->doCutScene();
-        //            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-        //            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
-        //            emit curScene->signalChangeToSelect();
-        //        }
     });
 
     connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
-        //        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
-        //            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
-        //            curScene->quitCutMode();
-        //            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
-        //            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
-        //            emit curScene->signalChangeToSelect();
-        //        }
         emit finshed(false);
     });
 
