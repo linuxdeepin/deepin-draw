@@ -39,19 +39,25 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
 
     //connect(m_colorPanel, &ColorPanel::colorChanged, this, &CColorPickWidget::colorChanged);
     connect(m_colorPanel, &ColorPanel::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
-        qDebug() << "color ===== " << color << "phase = " << phase;        static QColor s_c;
-        static EChangedPhase s_phase = EChangedUpdate;
-        if (s_c != color || s_phase != phase) {
-            s_c = color;
-            s_phase = phase;
+        qDebug() << "color ===== " << color << "phase = " << phase;
+        if (_color != color || _phase != phase) {
+            _color = color;
+            _phase = phase;
             emit colorChanged(color, phase);
         }
     });
 }
 
+QColor CColorPickWidget::color()
+{
+    return _color;
+}
+
 void CColorPickWidget::setColor(const QColor &c)
 {
     m_colorPanel->setColor(c, false);
+    _color = c;
+    _phase = EChanged;
 }
 
 void CColorPickWidget::setTheme(int theme)
