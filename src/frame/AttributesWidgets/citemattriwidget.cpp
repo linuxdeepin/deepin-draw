@@ -375,8 +375,6 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                     data.comVaild[Blurtype] = false;
                 }
             } else if (tp == Image) {
-                qDebug() << "graphicItem()->sceneBoundingRect():" << graphicItem()->sceneBoundingRect();
-                qDebug() << "graphicItem()->drawScene()->sceneRect():" << graphicItem()->drawScene()->sceneRect();
                 if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
                     data.comVaild[PropertyImageAdjustScence] = true;
                 } else {
@@ -1286,6 +1284,9 @@ void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
     scDefual.save(id, var);
     // 设置图元属性后清除当前图元的高亮信息
     pCurScen->clearHighlight();
+
+    // 刷新模糊图元
+    pCurScen->updateBlurItem();
 }
 
 void SComDefualData::save(EDrawProperty property, const QVariant &var)
