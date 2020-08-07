@@ -37,7 +37,7 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
 {
-
+    this->setPen(Qt::NoPen);
 }
 
 CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
@@ -46,8 +46,6 @@ CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphics
     , _srcByteArry(data->srcByteArry)
 {
     m_pixmap = QPixmap::fromImage(data->image);
-//    QByteArray byteArray(unit.data.pPic->pic, unit.data.pPic->length);
-//    m_pixmap.loadFromData(byteArray);
 }
 
 

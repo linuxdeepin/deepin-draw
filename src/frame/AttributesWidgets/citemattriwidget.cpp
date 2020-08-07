@@ -375,8 +375,6 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                     data.comVaild[Blurtype] = false;
                 }
             } else if (tp == Image) {
-                qDebug() << "graphicItem()->sceneBoundingRect():" << graphicItem()->sceneBoundingRect();
-                qDebug() << "graphicItem()->drawScene()->sceneRect():" << graphicItem()->drawScene()->sceneRect();
                 if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
                     data.comVaild[PropertyImageAdjustScence] = true;
                 } else {
