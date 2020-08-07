@@ -102,9 +102,11 @@ public:
     /**
      * @description: openFiles 通过路径打开图片或者ddf文件,新接口，统一使用这个
      * @param files 图片路径列表
+     * @param bool  是否以当前图片大小设置scence的大小
      * @param bool  是否加入撤销返回栈
+     * @param bool  是否在一个新的scence中进行导入,ddf文件会自动创建新的scence
     */
-    void openFiles(QStringList files, bool asFirstPictureSize = false, bool addUndoRedo = false);
+    void openFiles(QStringList files, bool asFirstPictureSize = false, bool addUndoRedo = false, bool newScence = false);
 
 signals:
 

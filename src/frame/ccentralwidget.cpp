@@ -199,17 +199,7 @@ void CCentralwidget::skipOpenedTab(QString filepath)
 
 bool CCentralwidget::loadFilesByCreateTag(QStringList imagePaths, bool isImageSize)
 {
-    openFiles(imagePaths, isImageSize);
-
-    // 判断当前是否有view被创建
-    if (CManageViewSigleton::GetInstance()->isEmpty()) {
-        QMetaObject::invokeMethod(m_topMutipTabBarWidget,
-                                  "addTabBarItem",
-                                  Qt::QueuedConnection,
-                                  Q_ARG(QString, tr("Unnamed")),
-                                  Q_ARG(QString, CDrawParamSigleton::creatUUID()),
-                                  Q_ARG(bool, true));
-    }
+    openFiles(imagePaths, isImageSize, false, true);
     return true;
 }
 
@@ -828,7 +818,7 @@ void CCentralwidget::initConnect()
     });
 }
 
-void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo)
+void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool addUndoRedo, bool newScence)
 {
     // [0] 验证正确的图片路径
     Application *pApp = dynamic_cast<Application *>(qApp);
@@ -869,7 +859,13 @@ void CCentralwidget::openFiles(QStringList files, bool asFirstPictureSize, bool 
     }
 
     if (picturePathList.count() > 0) {
+        if (newScence) {
+            m_topMutipTabBarWidget->addTabBarItem(
+                picturePathList.first().split("/").last().split(".").first()
+                , CDrawParamSigleton::creatUUID(), true);
+        }
         slotPastePicture(picturePathList, asFirstPictureSize, addUndoRedo);
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setDdfSavePath("");
     }
 }
 
