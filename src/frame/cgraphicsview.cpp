@@ -854,7 +854,15 @@ void CGraphicsView::resizeEvent(QResizeEvent *event)
 
 void CGraphicsView::paintEvent(QPaintEvent *event)
 {
-    DGraphicsView::paintEvent(event);
+    //QTime ttt;
+    //ttt.start();
+    if (doPaint)
+        DGraphicsView::paintEvent(event);
+    else {
+        QPainter painter(this->viewport());
+        painter.drawPixmap(QPoint(0, 0), pix);
+    }
+    //qDebug() << "useeee ============== " << ttt.elapsed();
 }
 
 void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
@@ -1684,6 +1692,28 @@ void CGraphicsView::updateCursorShape()
     //        pSelectTool->updateCursorShape();
     //    }
     drawScene()->refreshLook();
+}
+
+void CGraphicsView::setPaintEnable(bool b)
+{
+    doPaint = b;
+    if (!b) {
+
+        pix = QPixmap(this->viewport()->size());
+        //qDebug() << "this->viewport()->size() ===== " << this->viewport()->size();
+        pix.fill(QColor(0, 0, 0, 100));
+        QPainter painter(&pix);
+        painter.setPen(Qt::NoPen);
+        this->scene()->render(&painter, QRectF(0, 0, pix.width(), pix.height()),
+                              QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(pix.size().width(), pix.size().height()))), Qt::IgnoreAspectRatio);
+
+        painter.drawRect(viewport()->rect());
+    }
+}
+
+QPixmap &CGraphicsView::cachPixMap()
+{
+    return pix;
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)

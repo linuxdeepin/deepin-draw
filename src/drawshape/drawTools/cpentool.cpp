@@ -42,6 +42,18 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pPenIem->updatePenPath(pointMouse, shiftKeyPress);
             event->setAccepted(true);
+
+            //QPainter painter(event->view()->viewport());
+            //painter.drawPoint(event->pos(CDrawToolEvent::EViewportPos));
+
+            QPixmap &pix = event->view()->cachPixMap();
+            QPainter painter(&pix);
+            //QTime ti;
+            //ti.start();
+            painter.setPen(pPenIem->pen());
+            painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
+            //qDebug() << "used ==== " << ti.elapsed();
+            event->view()->update();
         }
     }
 }
@@ -65,6 +77,9 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
                 pPenIem->setDrawFlag(false);
             }
         }
+        //1.准备一块缓存画布并且禁止自动刷新
+        event->view()->setPaintEnable(true);
+
     }
 
     IDrawTool::toolCreatItemFinish(event, pInfo);
@@ -74,6 +89,11 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
 {
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
+
+        //为绘制效率做准备工作
+        //1.准备一块缓存画布并且禁止自动刷新
+        event->view()->setPaintEnable(false);
+
         CGraphicsPenItem *pPenItem = new CGraphicsPenItem(event->pos());
         pPenItem->setDrawFlag(true);
 
@@ -83,7 +103,7 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
         pPenItem->setBrush(pView->getDrawParam()->getBrush());
         pPenItem->setPenStartType(pView->getDrawParam()->getPenStartType());
         pPenItem->setPenEndType(pView->getDrawParam()->getPenEndType());
-        pPenItem->setPixmap();
+        //pPenItem->setPixmap();
         qreal newZ = event->scene()->getMaxZValue() + 1;
         pPenItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);

@@ -148,6 +148,11 @@ public:
 
     Q_SLOT void updateCursorShape();
 
+
+    void setPaintEnable(bool b);
+
+    QPixmap &cachPixMap();
+
 protected:
     void showEvent(QShowEvent *event)override;
 
@@ -588,6 +593,10 @@ private:
     bool m_isStopContinuousDrawing;
 
     QList<QGraphicsItem *> m_loadFromDDF; //从DDF中加载的图圆
+
+
+    bool doPaint = true;
+    QPixmap pix;
 
 private:
     /**
