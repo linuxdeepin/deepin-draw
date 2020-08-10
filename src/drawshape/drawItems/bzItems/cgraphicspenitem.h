@@ -220,6 +220,16 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief move  操作开始
+     */
+    virtual void operatingBegin(int opTp) override;
+
+    /**
+     * @brief move  操作结束
+     */
+    virtual void operatingEnd(int opTp) override;
+
 private:
     QPainterPath m_path;
     QLineF m_straightLine;

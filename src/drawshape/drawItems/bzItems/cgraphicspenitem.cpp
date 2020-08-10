@@ -1238,6 +1238,17 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     paintMutBoundingLine(painter, option);
 }
 
+void CGraphicsPenItem::operatingBegin(int opTp)
+{
+    return CGraphicsItem::operatingBegin(opTp);
+}
+
+void CGraphicsPenItem::operatingEnd(int opTp)
+{
+    return CGraphicsItem::operatingEnd(opTp);
+}
+
+
 QPainterPath CGraphicsPenItem::getPath() const
 {
     return m_path;
