@@ -279,7 +279,7 @@ public slots:
      * @param item
      * @param newPosition
      */
-    void itemMoved(QGraphicsItem *item, const QPointF &newPosition );
+    void itemMoved(QGraphicsItem *item, const QPointF &newPosition);
 
     /**
      * @brief itemAdded
@@ -292,7 +292,7 @@ public slots:
      * @param item
      * @param newAngle
      */
-    void itemRotate(QGraphicsItem *item, const qreal newAngle );
+    void itemRotate(QGraphicsItem *item, const qreal newAngle);
 
     /**
      * @brief itemResize
@@ -511,6 +511,21 @@ public slots:
      */
     void slotViewOrignal();
 
+    /**
+     * @brief setPaintEnable 设置是否正常绘制（否则绘制缓存位图）
+     */
+    void setPaintEnable(bool b);
+
+    /**
+     * @brief isPaintEnable 当前是否是正常绘制的模式（否则绘制缓存位图）
+     */
+    bool isPaintEnable();
+
+    /**
+     * @brief cachPixMap 缓存位图
+     */
+    QPixmap &cachPixMap();
+
 private:
     qreal m_scale; //记录当前缩放
 
@@ -568,6 +583,10 @@ private:
 
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
+
+
+    bool doPaint = true;
+    QPixmap pix;
 
 private:
     /**
