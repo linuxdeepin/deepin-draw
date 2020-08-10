@@ -77,9 +77,8 @@ void CPenTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, ITERecordIn
                 pPenIem->setDrawFlag(false);
             }
         }
-        //1.准备一块缓存画布并且禁止自动刷新
+        //1.取消缓存，恢复到正常绘制
         event->view()->setPaintEnable(true);
-
     }
 
     IDrawTool::toolCreatItemFinish(event, pInfo);

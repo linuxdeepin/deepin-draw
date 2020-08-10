@@ -251,6 +251,10 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                     }
                     toolFinish(event, &rInfo);
                 }
+                // 保证恢复到正常绘制
+                if (!event->view()->isPaintEnable()) {
+                    event->view()->setPaintEnable(true);
+                }
             }
             //2.是否要回到select工具模式下去
             if (returnToSelectTool(rInfo._opeTpUpdate)) {

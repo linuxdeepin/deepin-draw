@@ -150,6 +150,7 @@ public:
 
 
     void setPaintEnable(bool b);
+    bool isPaintEnable();
 
     QPixmap &cachPixMap();
 
