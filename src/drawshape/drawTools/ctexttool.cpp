@@ -48,7 +48,7 @@ void CTextTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawTool:
             }
             pItem->makeEditabel();
             pItem->getTextEdit()->document()->clearUndoRedoStacks();
-            pItem->setSelected(true);
+            event->scene()->selectItem(pItem);
         }
     }
 
@@ -59,7 +59,6 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
 {
     if ((event->eventType() == CDrawToolEvent::EMouseEvent && event->mouseButtons() == Qt::LeftButton)
             || event->eventType() == CDrawToolEvent::ETouchEvent) {
-
         CGraphicsTextItem *pItem =  new CGraphicsTextItem();
         pItem->setPos(event->pos().x(), event->pos().y());
         pItem->getTextEdit()->setText(QObject::tr("Input text here"));
@@ -93,24 +92,24 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         event->scene()->addItem(pItem);
         // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
         CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+
         return pItem;
     }
     return nullptr;
 }
 
-void CTextTool::toolStart(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
-{
-    Q_UNUSED(pInfo)
-
-    //鼠标点下时立刻生成,（触控是会自动生成）
-    if (event->eventType() == CDrawToolEvent::EMouseEvent) {
-        toolDoUpdate(event);
-    }
-
-    IDrawTool::toolStart(event, pInfo);
-}
-
 int CTextTool::minMoveUpdateDistance()
 {
     return 0;
+}
+
+bool CTextTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+
+    if (pInfo->businessItem != nullptr) {
+        return false;
+    }
+    return true;
 }

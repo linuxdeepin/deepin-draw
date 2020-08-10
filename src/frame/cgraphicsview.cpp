@@ -196,6 +196,15 @@ qreal CGraphicsView::getScale()
 
 void CGraphicsView::scaleWithCenter(qreal factor, const QPoint viewPos)
 {
+    qreal wantedTotalScaled = m_scale * factor;
+
+    if (wantedTotalScaled < 0.1) {
+        wantedTotalScaled = 0.1;
+    } else if (wantedTotalScaled > 20) {
+        wantedTotalScaled = 20;
+    }
+    factor = wantedTotalScaled / m_scale;
+
     //最最最完美的方案！！！
     QPoint centerViewPos = viewPos.isNull() ? viewport()->mapFromGlobal(QCursor::pos()) : viewPos;
 
@@ -845,7 +854,15 @@ void CGraphicsView::resizeEvent(QResizeEvent *event)
 
 void CGraphicsView::paintEvent(QPaintEvent *event)
 {
-    DGraphicsView::paintEvent(event);
+    //QTime ttt;
+    //ttt.start();
+    if (doPaint)
+        DGraphicsView::paintEvent(event);
+    else {
+        QPainter painter(this->viewport());
+        painter.drawPixmap(QPoint(0, 0), pix);
+    }
+    //qDebug() << "useeee ============== " << ttt.elapsed();
 }
 
 void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
@@ -1137,7 +1154,10 @@ void CGraphicsView::slotOnPaste()
                 drawScene()->addItem(item);
 
                 item->moveBy(10, 10);
+
+                drawScene()->selectItem(item, true, false, false);
             }
+
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
                                                 CSceneUndoRedoCommand::EItemAdded, vars, true, true);
 
@@ -1146,6 +1166,7 @@ void CGraphicsView::slotOnPaste()
 
             CUndoRedoCommand::finishRecord();
 
+            drawScene()->getItemsMgr()->updateAttributes();
             drawScene()->getItemsMgr()->updateBoundingRect();
         }
     }
@@ -1671,6 +1692,33 @@ void CGraphicsView::updateCursorShape()
     //        pSelectTool->updateCursorShape();
     //    }
     drawScene()->refreshLook();
+}
+
+void CGraphicsView::setPaintEnable(bool b)
+{
+    doPaint = b;
+    if (!b) {
+        pix = QPixmap(this->viewport()->size());
+        pix.fill(QColor(0, 0, 0, 100));
+        QPainter painter(&pix);
+        painter.setPen(Qt::NoPen);
+        painter.setRenderHints(QPainter::Antialiasing);
+        this->scene()->render(&painter, QRectF(0, 0, pix.width(), pix.height()),
+                              QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(pix.size().width(), pix.size().height()))), Qt::IgnoreAspectRatio);
+
+        painter.drawRect(viewport()->rect());
+    }
+    viewport()->update();
+}
+
+bool CGraphicsView::isPaintEnable()
+{
+    return doPaint;
+}
+
+QPixmap &CGraphicsView::cachPixMap()
+{
+    return pix;
 }
 
 void CGraphicsView::showEvent(QShowEvent *event)

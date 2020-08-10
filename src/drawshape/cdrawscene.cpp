@@ -368,7 +368,10 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
         if (currentMode == selection && !pTool->isUpdating()) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
-                QPen p(QColor(255, 0, 0));
+                DPalette pa = this->palette();
+                QBrush selectBrush = pa.brush(QPalette::Active, DPalette:: Highlight);
+                QColor selectColor = selectBrush.color();
+                QPen p(selectColor);
                 p.setWidthF(2.0);
                 painter->setPen(p);
                 painter->drawPath(_highlight);
@@ -429,6 +432,12 @@ void CDrawScene::refreshLook(const QPointF &pos)
     _highlight = hightlightPath;
 
     update();
+}
+
+void CDrawScene::clearHighlight()
+{
+    // [41552] 图元移动到属性框下，更改属性图元不需要再高亮
+    setHighlightHelper(QPainterPath());
 }
 
 void CDrawScene::setHighlightHelper(const QPainterPath &path)
@@ -616,47 +625,13 @@ void CDrawScene::blockUpdateBlurItem(bool b)
     blockMscUpdate = b;
 }
 
-//if (thisZValue > itemZValue) {
-//    retList.push_back(item);
-//} else if (thisZValue == itemZValue) {
-//    int indexOther = allitems.indexOf(item);
-//    if (index > indexOther) {
-//        retList.push_back(item);
-//    }
-//}
-
 void CDrawScene::updateBlurItem(QGraphicsItem *changeItem)
 {
+    Q_UNUSED(changeItem)
+
     if (blockMscUpdate)
         return;
-    //    QList<QGraphicsItem *> items = this->items();
-    //    if (changeItem != nullptr) {
-    //        int index = items.indexOf(changeItem);
-    //        qreal zValue = changeItem->zValue();
-    //        foreach (QGraphicsItem *item, items) {
-    //            if (item->type() == BlurType) {
-    //                int blurIndex = items.indexOf(item);
-    //                qreal blurZValue = item->zValue();
 
-    //                if (blurZValue > zValue) {
-    //                    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-    //                }
-    //                //判断在模糊图元下的图元才更新
-    //                else if ((qFuzzyCompare(blurZValue, zValue) && index > blurIndex) || index == -1) {
-    //                    static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-    //                }
-    //            }
-    //        }
-    //    } else {
-    //        foreach (QGraphicsItem *item, items) {
-    //            if (item->type() == BlurType) {
-    //                static_cast<CGraphicsMasicoItem *>(item)->updateMasicPixmap();
-    //            }
-    //        }
-
-    //    }
-
-    Q_UNUSED(changeItem)
     QList<QGraphicsItem *> lists = getBzItems();
     foreach (QGraphicsItem *item, lists) {
         if (item->type() == BlurType) {
@@ -763,22 +738,22 @@ void CDrawScene::clearMrSelection()
     m_pGroupItem->clear();
 }
 
-void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem)
+void CDrawScene::selectItem(QGraphicsItem *pItem, bool onlyBzItem, bool updateAttri, bool updateRect)
 {
     if (onlyBzItem && isBussizeItem(pItem)) {
         pItem->setSelected(true);
-        m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->add(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     } else {
         pItem->setSelected(true);
     }
 }
 
-void CDrawScene::notSelectItem(QGraphicsItem *pItem)
+void CDrawScene::notSelectItem(QGraphicsItem *pItem, bool updateAttri, bool updateRect)
 {
     pItem->setSelected(false);
 
     if (isBussizeItem(pItem)) {
-        m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem));
+        m_pGroupItem->remove(dynamic_cast<CGraphicsItem *>(pItem), updateAttri, updateRect);
     }
 }
 
@@ -877,7 +852,7 @@ CGraphicsItem *CDrawScene::topBzItem(const QPointF &pos, bool penalgor, int IncW
 
 CGraphicsItem *CDrawScene::firstBzItem(const QList<QGraphicsItem *> &items, bool haveDesSorted)
 {
-    auto fFindBzItem = [=](const QList<QGraphicsItem *> &_list) {
+    auto fFindBzItem = [ = ](const QList<QGraphicsItem *> &_list) {
         CGraphicsItem *pResult = nullptr;
         for (int i = 0; i < _list.count(); ++i) {
             QGraphicsItem *it = _list[i];

@@ -35,6 +35,8 @@ class CColorPickWidget : public DArrowRectangle
 public:
     explicit CColorPickWidget(QWidget *parent = nullptr);
 
+    QColor color();
+
 public slots:
 
     void setColor(const QColor &c);
@@ -47,7 +49,8 @@ signals:
 private:
     ColorPanel *m_colorPanel = nullptr;
 
-    QColor _color;
+    QColor        _color;
+    EChangedPhase _phase = EChangedUpdate;
 };
 
 #endif // CCOLORPICKWIDGET_H

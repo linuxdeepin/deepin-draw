@@ -141,8 +141,8 @@ public:
     CGraphicsItem *getAssociatedBzItem(QGraphicsItem *pItem);
 
     void clearMrSelection();
-    void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true);
-    void notSelectItem(QGraphicsItem *pItem);
+    void selectItem(QGraphicsItem *pItem, bool onlyBzItem = true, bool updateAttri = true, bool updateRect = true);
+    void notSelectItem(QGraphicsItem *pItem, bool updateAttri = true, bool updateRect = true);
     void selectItemsByRect(const QRectF &rect, bool replace = true, bool onlyBzItem = true);
 
     void moveMrItem(const QPointF &prePos, const QPointF &curPos);
@@ -157,7 +157,7 @@ public:
     enum ESortItemTp { EDesSort,
                        EAesSort,
                        ESortCount
-    };
+                     };
     void sortZ(QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
     QList<QGraphicsItem *> returnSortZItems(const QList<QGraphicsItem *> &list, ESortItemTp tp = EDesSort);
 
@@ -409,6 +409,10 @@ protected:
 
 public:
     void refreshLook(const QPointF &pos = QPointF());
+    /*
+     * @breaf: clearHighlight 清除高亮图元路径
+    */
+    void clearHighlight();
 
     void setHighlightHelper(const QPainterPath &path);
 

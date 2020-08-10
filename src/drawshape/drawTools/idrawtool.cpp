@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsSceneEvent>
+#include <QGraphicsProxyWidget>
 #include <QTimer>
 
 QTimer *IDrawTool::s_timerForDoubleClike = nullptr;
@@ -128,25 +129,35 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 
         ITERecordInfo info;
 
-        info._prePos = event->pos();
-        info._startPos = event->pos();
-        //info.businessItem = creatItem(event);
+        info._prePos       = event->pos();
+        info._startPos     = event->pos();
+        info.businessItem  = creatItem(event);
         info.startPosItems = event->scene()->items(event->pos());
         info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
-        info._isvaild = true;
+        info._isvaild  = true;
         info._curEvent = *event;
-        info._scene = event->scene();
+        info._scene    = event->scene();
         info.getTimeHandle()->restart();
 
-        _allITERecordInfo.insert(event->uuid(), info);
+        if (isPressEventHandledByQt(event, &info)) {
+            event->setAccepted(false);
+            info._startEvent = *event;
+            _allITERecordInfo.insert(event->uuid(), info);
+        } else {
 
-        if (info.startPosTopBzItem != nullptr) {
-            if (info.startPosTopBzItem->isGrabToolEvent()) {
-                event->setAccepted(false);
-                return;
+            _allITERecordInfo.insert(event->uuid(), info);
+
+            if (info.businessItem != nullptr) {
+
+                //工具开始创建图元应该清理当前选中情况
+                event->scene()->clearSelection();
+
+                toolCreatItemStart(event, &info);
+
+            } else {
+                toolStart(event, &info);
             }
         }
-        toolStart(event, &info);
     }
 }
 
@@ -159,80 +170,49 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
-            //0.是否应该被某个图元的qt事件替代
-            if (rInfo.startPosTopBzItem != nullptr) {
-                if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
-                    event->setAccepted(false);
-                    rInfo.haveDecidedOperateType = true;
-                    return;
-                }
-            }
-
-            //1.判定应该做什么，并调用开始函数（operatingBegin）
-            if (!rInfo.haveDecidedOperateType) {
-                //a.首先判断是否是创建一个图元(必须大于一个最短移动距离)
-                int constDis = minMoveUpdateDistance();
-                QPointF offset = event->pos(CDrawToolEvent::EViewportPos) - event->view()->mapFromScene(rInfo._startPos);
-                int curDis = qRound(offset.manhattanLength());
-                //qDebug() << "constDis = " << constDis << "curDis = " << curDis;
-                if (curDis >= constDis) {
-                    rInfo.businessItem = creatItem(event);
+            //0.如果开始事件是不被接受的（传递给了Qt框架），那么Update也应该不被接受（也应该传递给Qt框架）
+            if (rInfo._startEvent.orgQtEvent() != nullptr && !rInfo._startEvent.isAccepted()) {
+                event->setAccepted(false);
+            } else {
+                if (!rInfo.haveDecidedOperateType) {
+                    //判定应该做什么
                     if (rInfo.businessItem != nullptr) {
-                        qDebug() << "creat one item type = " << rInfo.businessItem->type();
-                    }
-                    rInfo._opeTpUpdate = (rInfo.businessItem == nullptr ? EToolDoNothing : EToolCreatItem);
-                    rInfo.haveDecidedOperateType = (rInfo.businessItem != nullptr);
-                }
-
-                //b.如果没有创造出图元那么就执行额外的操作判定
-                if (rInfo.businessItem == nullptr) {
-                    //判定移动的幅度很小
-                    QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
-                    //qDebug() << "rectf == " << rectf << "event->pos(CDrawToolEvent::EViewportPos) = " << event->pos(CDrawToolEvent::EViewportPos);
-                    if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
-                        QTime *elTi = rInfo.getTimeHandle();
-                        rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
-                        rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
-                        //调用图元的operatingBegin函数
-                        if (rInfo._opeTpUpdate > EToolDoNothing) {
-                            for (auto it : rInfo.etcItems) {
-                                if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
-                                    CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
-                                    pBzItem->operatingBegin(rInfo._opeTpUpdate);
+                        int constDis = minMoveUpdateDistance();
+                        QPointF offset = event->pos(CDrawToolEvent::EViewportPos) - event->view()->mapFromScene(rInfo._startPos);
+                        int curDis = qRound(offset.manhattanLength());
+                        if (curDis >= constDis) {
+                            rInfo._opeTpUpdate = EToolCreatItemMove;
+                            rInfo.haveDecidedOperateType = true;
+                        }
+                    } else {
+                        QRectF rectf(event->view()->mapFromScene(rInfo._startPos) - QPointF(10, 10), QSizeF(20, 20));
+                        if (!rectf.contains(event->pos(CDrawToolEvent::EViewportPos))) {
+                            QTime *elTi = rInfo.getTimeHandle();
+                            rInfo._elapsedToUpdate = (elTi == nullptr ? -1 : elTi->elapsed());
+                            rInfo._opeTpUpdate = decideUpdate(event, &rInfo);
+                            //调用图元的operatingBegin函数
+                            if (rInfo._opeTpUpdate > EToolDoNothing) {
+                                for (auto it : rInfo.etcItems) {
+                                    if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
+                                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                                        pBzItem->operatingBegin(rInfo._opeTpUpdate);
+                                    }
                                 }
                             }
                             rInfo.haveDecidedOperateType = true;
                         }
                     }
-                } else {
-                    //记录添加item的信息到撤销栈中
-                    QList<QVariant> vars;
-                    vars << reinterpret_cast<long long>(event->scene());
-                    vars << reinterpret_cast<long long>(rInfo.businessItem);
-                    CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                        CSceneUndoRedoCommand::EItemAdded, vars, true);
-
-                    //工具开始创建图元应该清理当前选中情况
-                    event->scene()->clearSelection();
-
-                    //调用创建图元的开始接口，用于多态实现
-                    toolCreatItemStart(event, &rInfo);
-
-                    rInfo.haveDecidedOperateType = true;
+                }
+                //2.执行操作
+                if (rInfo.haveDecidedOperateType) {
+                    if (rInfo._opeTpUpdate == EToolCreatItemMove) {
+                        toolCreatItemUpdate(event, &rInfo);
+                    } else if (rInfo._opeTpUpdate > EToolDoNothing) {
+                        toolUpdate(event, &rInfo);
+                    }
                 }
             }
-
-            //2.执行操作
-            if (rInfo.haveDecidedOperateType) {
-                if (rInfo._opeTpUpdate == EToolCreatItem) {
-                    toolCreatItemUpdate(event, &rInfo);
-                } else if (rInfo._opeTpUpdate > EToolDoNothing) {
-                    toolUpdate(event, &rInfo);
-                }
-            }
-
             rInfo._prePos = event->pos();
-
         }
     } else {
         mouseHoverEvent(event);
@@ -249,44 +229,34 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
-            if (rInfo.startPosTopBzItem != nullptr) {
-                if (rInfo.startPosTopBzItem->isGrabToolEvent()) {
-                    m_bMousePress = false;
-                    event->setAccepted(false);
-                    return;
-                }
-            }
-
-            //调用图元的operatingBegin函数
-            if (rInfo._opeTpUpdate > EToolDoNothing) {
-                for (auto it : rInfo.etcItems) {
-                    if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
-                        CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
-                        pBzItem->operatingEnd(rInfo._opeTpUpdate);
+            //0.如果开始事件是不被接受的（传递给了Qt框架），那么finsh也应该不被接受（也应该传递给Qt框架）
+            if (rInfo._startEvent.orgQtEvent() != nullptr && !rInfo._startEvent.isAccepted()) {
+                event->setAccepted(false);
+            } else {
+                //1.根据操作类型决定要做的事情
+                if (rInfo.businessItem != nullptr) {
+                    toolCreatItemFinish(event, &rInfo);
+                    if (rInfo.businessItem != nullptr) {
+                        if (rInfo.businessItem->scene() == event->scene()) {
+                            CCmdBlock block(event->scene(), CSceneUndoRedoCommand::EItemAdded, rInfo.businessItem);
+                            event->scene()->selectItem(rInfo.businessItem);
+                        }
                     }
+                } else if (rInfo._opeTpUpdate > EToolDoNothing) {
+                    for (auto it : rInfo.etcItems) {
+                        if (event->scene()->isBussizeItem(it) || it->type() == MgrType) {
+                            CGraphicsItem *pBzItem = dynamic_cast<CGraphicsItem *>(it);
+                            pBzItem->operatingEnd(rInfo._opeTpUpdate);
+                        }
+                    }
+                    toolFinish(event, &rInfo);
                 }
-
-                toolFinish(event, &rInfo);
-
-            } else if (rInfo._opeTpUpdate == EToolCreatItem) {
-                toolCreatItemFinish(event, &rInfo);
-
-                event->scene()->selectItem(rInfo.businessItem);
-
-                QList<QVariant> vars;
-                vars << reinterpret_cast<long long>(event->scene());
-                vars << reinterpret_cast<long long>(rInfo.businessItem);
-
-                CUndoRedoCommand::recordRedoCommand(CUndoRedoCommand::ESceneChangedCmd,
-                                                    CSceneUndoRedoCommand::EItemAdded, vars);
-
-                CUndoRedoCommand::finishRecord();
-
-                //setViewToSelectionTool(event->scene()->drawView());
-            } else if (rInfo._opeTpUpdate == EToolDoNothing) {
-                //setViewToSelectionTool(event->scene()->drawView());
+                // 保证恢复到正常绘制
+                if (!event->view()->isPaintEnable()) {
+                    event->view()->setPaintEnable(true);
+                }
             }
-
+            //2.是否要回到select工具模式下去
             if (returnToSelectTool(rInfo._opeTpUpdate)) {
                 setViewToSelectionTool();
             }
@@ -296,6 +266,8 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
         m_bMousePress = false;
 
         event->scene()->refreshLook(event->pos());
+    } else {
+        event->setAccepted(false);
     }
 }
 
@@ -361,8 +333,8 @@ void IDrawTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo
 {
     Q_UNUSED(pInfo)
 
-    //默认传递事件给框架
-    event->setAccepted(false);
+    //默认不传递事件给框架
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -370,7 +342,7 @@ void IDrawTool::toolUpdate(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInf
     Q_UNUSED(pInfo)
 
     //默认传递事件给框架
-    event->setAccepted(false);
+    event->setAccepted(true);
 }
 
 void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInfo)
@@ -378,7 +350,7 @@ void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pInf
     Q_UNUSED(pInfo)
 
     //默认传递事件给框架
-    event->setAccepted(false);
+    event->setAccepted(true);
 
     event->scene()->update();
 }
@@ -638,6 +610,14 @@ bool IDrawTool::returnToSelectTool(int operate)
 {
     Q_UNUSED(operate)
     return true;
+}
+
+bool IDrawTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(pInfo)
+    return (event->scene()->focusItem() != nullptr &&
+            event->scene()->focusItem()->type() == QGraphicsProxyWidget::Type);
 }
 
 IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)

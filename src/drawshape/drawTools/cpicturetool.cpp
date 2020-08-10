@@ -212,7 +212,7 @@ void CPictureTool::addImages(QPixmap pixmap, int itemNumber,
     if (itemNumber == m_picNum) {
         m_progressLayout->close();
         if (!pixmap.isNull()) {
-            scene->clearSelection();
+            pixmapItem->drawScene()->clearMrSelection();
             if (pixmapItem != nullptr) {
                 pixmapItem->drawScene()->selectItem(pixmapItem);
             }

@@ -30,6 +30,7 @@ protected:
 
     void keyPressEvent(QKeyEvent *event)override;
     void keyReleaseEvent(QKeyEvent *event)override;
+    void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
 
     Q_SLOT void timerStart();
     Q_SLOT void timerEnd();

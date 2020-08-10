@@ -24,6 +24,7 @@
 #include "globaldefine.h"
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
+#include "ccentralwidget.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -123,7 +124,13 @@ TopToolbar *Application::topToolbar()
 {
     if (topMainWindow() != nullptr)
         return topMainWindow()->getTopToolbar();
+    return nullptr;
+}
 
+CLeftToolBar *Application::leftToolBar()
+{
+    if (topMainWindow() != nullptr)
+        return topMainWindow()->getCCentralwidget()->getLeftToolBar();
     return nullptr;
 }
 

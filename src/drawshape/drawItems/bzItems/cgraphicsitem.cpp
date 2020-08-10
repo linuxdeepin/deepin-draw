@@ -289,9 +289,9 @@ void CGraphicsItem::newResizeTo(CSizeHandleRect::EDirection dir, const QPointF &
 
 void CGraphicsItem::rotatAngle(qreal angle)
 {
-    QRectF r = this->rect();
+    QRectF r = this->boundingRect();
     if (r.isValid()) {
-        QPointF center = this->rect().center();
+        QPointF center = r.center();
 
         this->setTransformOriginPoint(center);
 

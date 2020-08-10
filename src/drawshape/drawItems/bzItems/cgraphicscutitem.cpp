@@ -1012,6 +1012,8 @@ qreal CGraphicsCutItem::getWHRadio()
 
 void CGraphicsCutItem::doChangeType(int type)
 {
+    m_cutType = type;
+
     QRectF rect = this->scene()->sceneRect();
     QPointF centerPos = rect.center();
     qreal w = rect.width();
@@ -1065,6 +1067,11 @@ void CGraphicsCutItem::doChangeType(int type)
     this->setRect(QRectF(topLeft, rightBottom));
 
     setIsFreeMode(false);
+}
+
+int CGraphicsCutItem::getCutType() const
+{
+    return m_cutType;
 }
 
 void CGraphicsCutItem::doChangeSize(int w, int h)

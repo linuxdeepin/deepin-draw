@@ -76,7 +76,7 @@ void CItemAttriWidget::refresh()
 CComAttrWidget::CComAttrWidget(QWidget *parent)
     : CItemAttriWidget(parent)
 {
-    setAttribute(Qt::WA_NoMousePropagation, true);
+    setAttribute(Qt::WA_NoMousePropagation, false);
     QHBoxLayout *lay = new QHBoxLayout;
     lay->addStretch();
     lay->setMargin(0);
@@ -375,8 +375,6 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                     data.comVaild[Blurtype] = false;
                 }
             } else if (tp == Image) {
-                qDebug() << "graphicItem()->sceneBoundingRect():" << graphicItem()->sceneBoundingRect();
-                qDebug() << "graphicItem()->drawScene()->sceneRect():" << graphicItem()->drawScene()->sceneRect();
                 if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
                     data.comVaild[PropertyImageAdjustScence] = true;
                 } else {
@@ -465,6 +463,11 @@ void CComAttrWidget::refreshHelper(int tp)
 
     if (isBorderNeeded(tp)) {
         layout->addWidget(getPenColorBtn());
+        if (tp == Pen || tp == Line || tp == (Pen | Line)) {
+            getPenColorBtn()->setButtonText(tr("StrokeColor"));
+        } else {
+            getPenColorBtn()->setButtonText(tr("Stroke"));
+        }
         layout->addWidget(getBorderWidthWidget());
         getPenColorBtn()->show();
         getBorderWidthWidget()->show();
@@ -1191,6 +1194,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
 {
     if (m_cutWidget == nullptr) {
         m_cutWidget = new CCutWidget(this);
+        m_cutWidget->setDefualtRaidoBaseSize(CManageViewSigleton::GetInstance()->getCurView()->sceneRect().size().toSize());
         m_cutWidget->setAttribute(Qt::WA_NoMousePropagation, true);
         connect(m_cutWidget, &CCutWidget::cutSizeChanged, this, [ = ](const QSize & sz) {
             EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
@@ -1278,6 +1282,11 @@ void CComAttrWidget::updateDefualData(EDrawProperty id, const T &var)
     CDrawScene *pCurScen = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
     SComDefualData &scDefual = m_defualDatas[pCurScen];
     scDefual.save(id, var);
+    // 设置图元属性后清除当前图元的高亮信息
+    pCurScen->clearHighlight();
+
+    // 刷新模糊图元
+    pCurScen->updateBlurItem();
 }
 
 void SComDefualData::save(EDrawProperty property, const QVariant &var)
