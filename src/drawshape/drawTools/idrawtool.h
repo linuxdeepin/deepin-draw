@@ -72,11 +72,20 @@ public:
      */
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene);
 
-    bool isUpdating();
+    /**
+     * @brief isActived 是否是激活正在使用的(有触控或者鼠标左键点住中)
+     */
+    bool isActived();
 
-    void interruptUpdating();
+    /**
+     * @brief interrupt 停止并打断actived状态
+     */
+    void interrupt();
 
-    int isUpdatingType();
+    /**
+     * @brief activedType 激活中的正在执行的操作类型值（根据不同的工具值不同）
+     */
+    int  activedType();
 
     class CDrawToolEvent
     {
@@ -262,11 +271,34 @@ public:
      */
     QCursor getCursor(CSizeHandleRect::EDirection dir, bool bMouseLeftPress = false, char toolType = 0);
 
+
+    /**
+     * @brief getCursorRotation 获取当前旋转角度
+     */
     qreal getCursorRotation();
 
 protected:
-    virtual bool returnToSelectTool(int operate);
+    /**
+     * @brief allowedMaxTouchPointCount 允许的最大触控点数
+     */
+    virtual int  allowedMaxTouchPointCount();
+
+    /**
+     * @brief isPressEventHandledByQt 是否将当前的事件交给qt框架去处理(一般应用于原生的qt控件及代理类，这样才能最大化让qt工作)
+     */
     virtual bool isPressEventHandledByQt(CDrawToolEvent *event, ITERecordInfo *pInfo);
+
+    /**
+     * @brief returnToSelectTool 是否在一次完整的系列事件（点下->移动（可选）->释放）返回到select工具
+     */
+    virtual bool returnToSelectTool(int operate);
+
+private:
+
+    /**
+     * @brief getCurVaildActivedPointCount 得到当前有效的激活的触控数(用于和allowedMaxTouchPointCount对比判断是否已经达到允许的最大触控点数)
+     */
+    int getCurVaildActivedPointCount();
 
 protected:
     bool m_bMousePress;
@@ -277,10 +309,13 @@ protected:
     bool m_bShiftKeyPress;
     bool m_bAltKeyPress;
 
+
+    enum EEventLifeTo {EDoNotthing, EDoQtCoversion, ENormal};
     enum EToolOperate { EToolCreatItemMove = -6542,
                         EToolDoNothing = 0
                       };
     struct ITERecordInfo {
+        EEventLifeTo eventLife = ENormal;
         QPointF _startPos;
         QPointF _prePos;
         QPointF m_sPointRelease;

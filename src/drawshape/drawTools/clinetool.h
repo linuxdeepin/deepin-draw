@@ -47,6 +47,11 @@ protected:
      * @param scene 场景
      */
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+
+    /**
+     * @brief allowedTouchPointCount 最大允许的触控点数
+     */
+    virtual int  allowedMaxTouchPointCount() override;
 };
 
 #endif // CLINETOOL_H

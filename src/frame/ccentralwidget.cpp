@@ -643,7 +643,7 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
 
 void CCentralwidget::addView(QString viewName, const QString &uuid)
 {
-    qDebug() << "addView:" << viewName;
+    //qDebug() << "addView:" << viewName;
     CGraphicsView *pNewView = createNewScense(viewName, uuid);
     CManageViewSigleton::GetInstance()->setCurView(pNewView);
 
@@ -686,7 +686,7 @@ void CCentralwidget::slotQuitApp()
 
 void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 {
-    qDebug() << "viewChanged" << viewName;
+    //qDebug() << "viewChanged" << viewName;
 
     // [0] 判断当前新显示的视图是否为空
     CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByUUID(uuid);

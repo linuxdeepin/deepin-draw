@@ -42,6 +42,9 @@ protected:
     virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
 
     virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+
+
+    virtual int  allowedMaxTouchPointCount() override;
 };
 
 #endif // CPENTOOL_H

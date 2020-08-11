@@ -114,8 +114,9 @@ bool CTextTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawT
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
 
-    if (pInfo->businessItem != nullptr) {
-        return false;
-    }
-    return true;
+//    if (pInfo->businessItem != nullptr) {
+//        return false;
+//    }
+//    return true;
+    return IDrawTool::isPressEventHandledByQt(event, pInfo);
 }
