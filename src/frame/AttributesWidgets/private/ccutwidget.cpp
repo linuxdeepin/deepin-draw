@@ -311,7 +311,8 @@ void CCutWidget::initConnection()
                 break;
             }
         }
-        this->setCutType(tp, true, false);
+
+        this->setFocus();
         this->setCutSize(QSize(newWidth, newHeight));
     });
 
@@ -335,26 +336,9 @@ void CCutWidget::initConnection()
                 break;
             }
         }
-        this->setCutType(tp, true, false);
+
+        this->setFocus();
         this->setCutSize(QSize(newWidth, newHeight));
-
-        //        if (m_heightEdit->lineEdit()->hasFocus()) {
-        //            m_heightEdit->lineEdit()->clearFocus();
-        //            return;
-        //        }
-
-        //        activeFreeMode();
-
-        //        int w = m_widthEdit->text().trimmed().toInt();
-        //        int h = m_heightEdit->text().trimmed().toInt();
-        //        if (h > 4096) {
-        //            h = 4096;
-        //            m_heightEdit->setText(QString::number(h));
-
-        //        }
-        //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
-        //        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        //        CManagerAttributeService::getInstance()->doCut();
     });
 
     connect(m_doneBtn, &DPushButton::clicked, this, [ = ]() {
