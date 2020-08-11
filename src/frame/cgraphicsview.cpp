@@ -274,7 +274,7 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
-    m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
+    m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Y));
     this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
