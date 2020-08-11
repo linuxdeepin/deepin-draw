@@ -67,13 +67,15 @@ void TextColorButton::paintEvent(QPaintEvent *)
     paintLookStyle(&painter, !m_isMultColorSame);
 }
 
-void TextColorButton::setColor(const QColor &color, EChangedPhase phase)
+void TextColorButton::setColor(const QColor &color, EChangedPhase phase, bool emitSig)
 {
     if (m_color != color) {
         m_isMultColorSame = true;
         m_color = color;
         update();
-        emit colorChanged(color, phase);
+        if (emitSig) {
+            emit colorChanged(color, phase);
+        }
     }
 }
 

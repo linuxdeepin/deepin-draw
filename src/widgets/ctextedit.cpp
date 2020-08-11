@@ -178,6 +178,13 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         m_pItem->drawScene()->selectItem(m_pItem);
         m_pItem->drawScene()->getItemsMgr()->updateAttributes();
     }
+    m_editing = false;
+}
+
+void CTextEdit::focusInEvent(QFocusEvent *e)
+{
+    m_editing = true;
+    QTextEdit::focusInEvent(e);
 }
 
 void CTextEdit::solveHtml(QString &html)
@@ -465,6 +472,11 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
     } else {
         this->setPalette(palette);
     }
+}
+
+bool CTextEdit::getEditing()
+{
+    return m_editing;
 }
 
 void CTextEdit::setVisible(bool visible)

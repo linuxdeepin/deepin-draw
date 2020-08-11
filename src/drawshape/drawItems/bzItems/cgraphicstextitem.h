@@ -40,8 +40,6 @@ public:
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
 
-    void initText();
-
     void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
@@ -54,7 +52,7 @@ public:
     void setFontSize(qreal size);
     qreal getFontSize();
 
-    void setFontFamily(const QString &family);
+    void setFontFamily(const QString &family, bool setFoucs = true);
     QString getFontFamily();
 
     void setTextColor(const QColor &col);
@@ -63,7 +61,7 @@ public:
     void setTextColorAlpha(const int &alpha);
     int getTextColorAlpha();
 
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format, bool setFoucs = true);
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                           bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
