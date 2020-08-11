@@ -230,11 +230,6 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
-void CGraphicsTextItem::initText()
-{
-
-}
-
 void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
 {
     m_pProxy = proxy;
@@ -326,11 +321,11 @@ qreal CGraphicsTextItem::getFontSize()
     return m_Font.pointSizeF();
 }
 
-void CGraphicsTextItem::setFontFamily(const QString &family)
+void CGraphicsTextItem::setFontFamily(const QString &family, bool setFoucs)
 {
     QTextCharFormat fmt;
     fmt.setFontFamily(family);
-    mergeFormatOnWordOrSelection(fmt);
+    mergeFormatOnWordOrSelection(fmt, setFoucs);
     m_Font.setFamily(family);
 }
 
@@ -369,6 +364,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
     if (pTextData != nullptr) {
@@ -376,8 +372,8 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
         m_Font = pTextData->font;
         m_bManResize = pTextData->manResizeFlag;
 
-        if (allInfo)
-            m_pTextEdit->setHtml(pTextData->content);
+//        if (allInfo)
+        m_pTextEdit->setHtml(pTextData->content);
 
         m_pTextEdit->hide();
         m_color = pTextData->color;
@@ -414,7 +410,7 @@ int CGraphicsTextItem::getTextColorAlpha()
     return m_color.alpha();
 }
 
-void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format, bool setFoucs)
 {
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
@@ -424,7 +420,14 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     m_pTextEdit->mergeCurrentCharFormat(format);
 
     // [2] 设置焦点
-    m_pTextEdit->setFocus();
+    if (setFoucs) {
+        if (drawScene() != nullptr) {
+            drawScene()->drawView()->setFocus();
+            drawScene()->setFocusItem(this);
+            qDebug() << "setFoucs =====  " << setFoucs << dApp->focusWidget() << drawScene()->focusItem();
+        }
+        m_pTextEdit->setFocus();
+    }
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -719,6 +722,7 @@ void CGraphicsTextItem::setManResizeFlag(bool flag)
 
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -734,7 +738,8 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
-    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
+//    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
+    unit.data.pText->content = this->m_pTextEdit->toHtml();
     unit.data.pText->color = m_color;
 
     return  unit;
@@ -747,7 +752,8 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 
 bool CGraphicsTextItem::isEditable() const
 {
-    return !m_pTextEdit->isHidden();
+//    return !m_pTextEdit->isHidden();
+    return m_pTextEdit->getEditing();
 }
 
 void CGraphicsTextItem::doCut()

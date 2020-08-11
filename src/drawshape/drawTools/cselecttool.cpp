@@ -58,7 +58,6 @@
 
 CSelectTool::CSelectTool()
     : IDrawTool(selection)
-    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
     , m_isItemMoving(false)
 {
 }

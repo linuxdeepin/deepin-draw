@@ -67,6 +67,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
     , m_maxZValue(0)
+    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
     initScene();
@@ -425,6 +426,9 @@ void CDrawScene::refreshLook(const QPointF &pos)
     if (isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
         dApp->setApplicationCursor(pHandle->getCursor());
+    } else if (pBzItem != nullptr && pBzItem->type() == TextType
+               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
+        dApp->changeOverrideCursor(m_textEditCursor);
     } else {
         dApp->setApplicationCursor(Qt::ArrowCursor);
     }

@@ -81,7 +81,7 @@ public:
                         ECopyMove,
                         EDragSceneMove,
                         EOperateCount
-    };
+                      };
 
     /**
      * @brief toolStart　工具开始事件
@@ -147,9 +147,6 @@ protected:
     bool returnToSelectTool(int operate) override;
 
 private:
-    /* 文字可编辑光标 */
-    QCursor m_textEditCursor;
-
     /* 当前有item正在被拖拽移动 */
     bool m_isItemMoving = false;
 

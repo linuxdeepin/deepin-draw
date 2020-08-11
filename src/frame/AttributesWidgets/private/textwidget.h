@@ -44,7 +44,6 @@ public slots:
     void setTextFamilyStyle(const QString &family, const QString &style = "",
                             bool emitSig = false, bool isPreview = false);
 
-
     void setVaild(bool color, bool size, bool Family, bool Style);
     void updateTheme();
 

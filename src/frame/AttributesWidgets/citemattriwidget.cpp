@@ -292,6 +292,10 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
         data.textFontSize = int(unitData.data.pText->font.pointSizeF());
         data.textFontFamily = unitData.data.pText->font.family();
         data.textFontStyle = unitData.data.pText->font.styleName();
+//        data.comVaild[TextSize] = true;
+//        data.comVaild[TextFont] = true;
+//        data.comVaild[TextHeavy] = true;
+//        data.comVaild[TextColor] = true;
     } else if (tp == Image) {
         if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
             data.comVaild[PropertyImageAdjustScence] = true;
@@ -558,9 +562,9 @@ void CComAttrWidget::refreshDataHelper(int tp)
 
     if (isSpecialItem(tp)) {
         if (tp == Text) {
-            getTextWidgetForText()->setFontSize(data.textFontSize);
-            getTextWidgetForText()->setTextColor(data.textColor);
-            getTextWidgetForText()->setTextFamilyStyle(data.textFontFamily);
+            getTextWidgetForText()->setFontSize(data.textFontSize, false);
+            getTextWidgetForText()->setTextColor(data.textColor, false);
+            getTextWidgetForText()->setTextFamilyStyle(data.textFontFamily, data.textFontStyle, false);
             getTextWidgetForText()->setVaild(data.comVaild[TextColor], data.comVaild[TextSize],
                                              data.comVaild[TextFont], data.comVaild[TextHeavy]);
         } else if (tp == Image) {
@@ -1126,7 +1130,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-                    pItem->setFontFamily(family);
+                    pItem->setFontFamily(family, !preview);
                 }
             }
             this->updateDefualData(TextFont, family);
@@ -1147,7 +1151,6 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         });
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                //记录undo
                 CCmdBlock block(this->graphicItem(), phase);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
@@ -1342,7 +1345,7 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         break;
     case TextHeavy:
         textFontStyle = var.toString();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle("");
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(textFontStyle);
         break;
     case TextSize:
         textFontSize = var.toInt();

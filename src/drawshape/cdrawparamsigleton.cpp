@@ -34,7 +34,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
-    , m_textFont(QFont("Bitstream Charter"))
+    , m_textFont(QFont("思源宋体 CN"))
     , m_textColor(Qt::black)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
@@ -60,6 +60,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     m_nFillColor.setAlpha(0);//transparent
     m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
+    m_textFont.setFamily("思源宋体 CN");
     m_textFont.setStyleName("Regular");
 
     if (uuid.isEmpty()) {

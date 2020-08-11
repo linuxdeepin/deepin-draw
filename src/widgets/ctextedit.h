@@ -94,6 +94,12 @@ public:
     /* 刷新背景色 (使用场景:因为不再随主题的变化而变化就要固定背景色)*/
     void updateBgColorTo(const QColor c = QColor(255, 255, 255), bool laterDo = false);
 
+    /*
+    * @bref: getEditing 返回文本当前是否正在编辑
+    * @return:bool
+    */
+    bool getEditing();
+
 public slots:
     void slot_textChanged();
     void cursorPositionChanged();
@@ -108,6 +114,7 @@ protected:
 
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;
+    void focusInEvent(QFocusEvent *e) override;
 
 private:
     CGraphicsTextItem *m_pItem;
@@ -122,6 +129,7 @@ private:
 
     QList<QMap<ProperType, QVariant> > m_allTextInfo; //所有的选中的单个文字属性
     QInputMethodEvent m_e;//输入中文的预览文本
+    bool m_editing;
 
     /*
     * @bref: solveHtml 解析html文件中的每一个文字的属性
