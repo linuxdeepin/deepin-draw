@@ -217,16 +217,8 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
-
-    if (static_cast<CDrawScene *>(scene()) && static_cast<CDrawScene *>(scene())->selectedItems().size() == 1) {
-        CGraphicsItem *item = static_cast<CGraphicsItem *>(static_cast<CDrawScene *>(scene())->selectedItems().at(0));
-        if (item && item->type() == TextType) {
-            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPos(QPoint(0, 0));
-            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
-        }
-    }
     updateShape();
-    if (drawScene() != nullptr)
+    if (drawScene() != nullptr && isSelected())
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
 }
 
@@ -450,24 +442,7 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-
-
     makeEditabel();
-//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
-//        m_pTextEdit->show();
-//        //m_pProxy->setFocus();
-//        QTextCursor textCursor = m_pTextEdit->textCursor();
-//        textCursor.select(QTextCursor::Document);
-//        m_pTextEdit->setTextCursor(textCursor);
-////    m_pTextEdit->cursorPositionChanged();
-//    }
-
-    //    if (nullptr != scene()) {
-    //        auto curScene = static_cast<CDrawScene *>(scene());
-    //        curScene->updateBlurItem(this);
-    //    }
-    //    m_pTextEdit->setFocus();
 }
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -752,8 +727,8 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 
 bool CGraphicsTextItem::isEditable() const
 {
-//    return !m_pTextEdit->isHidden();
-    return m_pTextEdit->getEditing();
+    return !m_pTextEdit->isHidden();
+    //return m_pTextEdit->getEditing();
 }
 
 void CGraphicsTextItem::doCut()

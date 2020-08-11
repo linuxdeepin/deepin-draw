@@ -128,8 +128,8 @@ void CTextEdit::cursorPositionChanged()
     checkTextProperty(cursor);
 
     if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->updateBlurItem(m_pItem);
+        //auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+        //curScene->updateBlurItem(m_pItem);
     }
     this->setFocus();
 }
@@ -154,8 +154,14 @@ void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
-    //qDebug() << "CTextEdit::mousePressEvent----";
+    qDebug() << "CTextEdit::mousePressEvent----";
     return QTextEdit::mousePressEvent(event);
+}
+
+void CTextEdit::mouseMoveEvent(QMouseEvent *event)
+{
+    qDebug() << "CTextEdit::mouseMoveEvent----";
+    return QTextEdit::mouseMoveEvent(event);
 }
 
 void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
@@ -175,8 +181,7 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
     }
     // [0] 编辑文字的时候不会自动刷新属性
     if (m_pItem && m_pItem->drawScene()) {
-        m_pItem->drawScene()->selectItem(m_pItem);
-        m_pItem->drawScene()->getItemsMgr()->updateAttributes();
+        m_pItem->drawScene()->notSelectItem(m_pItem);
     }
     m_editing = false;
 }
@@ -482,15 +487,15 @@ bool CTextEdit::getEditing()
 void CTextEdit::setVisible(bool visible)
 {
     QTextEdit::setVisible(visible);
-    if (!visible) {
-        QTextCursor cursor = this->textCursor();
-        cursor.select(QTextCursor::Document);
-        this->setTextCursor(cursor);
-        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
-            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-            curScene->updateBlurItem(m_pItem);
-        }
-    }
+//    if (!visible) {
+//        QTextCursor cursor = this->textCursor();
+//        cursor.select(QTextCursor::Document);
+//        this->setTextCursor(cursor);
+//        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
+//            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+//            curScene->updateBlurItem(m_pItem);
+//        }
+//    }
 }
 
 void CTextEdit::setLastDocumentWidth(qreal width)
@@ -505,7 +510,6 @@ void CTextEdit::resizeDocument()
     }
 
     QRectF rect = m_pItem->rect();
-    //rect.setHeight(size.height());
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);

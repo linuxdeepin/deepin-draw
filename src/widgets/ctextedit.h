@@ -111,6 +111,7 @@ protected:
 
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;

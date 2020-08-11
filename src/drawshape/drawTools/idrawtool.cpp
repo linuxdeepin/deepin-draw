@@ -120,6 +120,8 @@ int IDrawTool::isUpdatingType()
 
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
+    event->scene()->clearHighlight();
+
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
         m_bMousePress = true;
 
@@ -264,11 +266,10 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             _allITERecordInfo.erase(it);
         }
         m_bMousePress = false;
-
-        event->scene()->refreshLook(event->pos());
     } else {
         event->setAccepted(false);
     }
+    event->scene()->refreshLook(event->pos());
 }
 
 bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
@@ -616,6 +617,13 @@ bool IDrawTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawT
 {
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
+    //1.节点node不用传递给qgraphics的qt框架 自己处理调整图元大小
+    QGraphicsItem *pItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
+    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
+        return false;
+    }
+
+    //2.如果不是节点，那么如果是代理的widget那么传递给qgraphics的qt框架，将事件传递给这个widget
     return (event->scene()->focusItem() != nullptr &&
             event->scene()->focusItem()->type() == QGraphicsProxyWidget::Type);
 }

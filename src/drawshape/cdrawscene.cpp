@@ -428,7 +428,7 @@ void CDrawScene::refreshLook(const QPointF &pos)
         dApp->setApplicationCursor(pHandle->getCursor());
     } else if (pBzItem != nullptr && pBzItem->type() == TextType
                && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
-        dApp->changeOverrideCursor(m_textEditCursor);
+        dApp->setApplicationCursor(m_textEditCursor);
     } else {
         dApp->setApplicationCursor(Qt::ArrowCursor);
     }

@@ -140,8 +140,6 @@ void CGraphicsMasicoItem::updateMasicPixmap()
             filterItems[i]->setVisible(false);
         }
 
-
-
         this->hide();
         QRect rect = this->scene()->sceneRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
@@ -163,10 +161,6 @@ void CGraphicsMasicoItem::updateMasicPixmap()
             itemsMgr->setVisible(true);
         }
 
-//        this->scene()->setBackgroundBrush(Qt::transparent);
-
-        //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
-
         this->show();
         this->setSelected(flag);
 
@@ -175,7 +169,6 @@ void CGraphicsMasicoItem::updateMasicPixmap()
             filterItems[i]->setSelected(filterItemsSelectFlags[i]);
         }
 
-        //qDebug() << "-------------------textItemIndex = " << textItemIndex;
         if (textItemIndex != -1) {
             CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
             if (pTextItem != nullptr) {
@@ -185,12 +178,15 @@ void CGraphicsMasicoItem::updateMasicPixmap()
                 pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
-
-//        qDebug() << "textItemIndex = " << textItemIndex << endl;
-
-
     }
-    //this->scene()->views()[0]->setFocus();
+}
+
+void CGraphicsMasicoItem::updateMasic()
+{
+//    CDrawScene* p
+//    if (this->drawScene() != nullptr) {
+
+//    }
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)
