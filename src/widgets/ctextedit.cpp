@@ -179,10 +179,11 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         pre.clear();
         inputMethodEvent(&m_e);
     }
-    // [0] 编辑文字的时候不会自动刷新属性
-    if (m_pItem && m_pItem->drawScene()) {
-        m_pItem->drawScene()->notSelectItem(m_pItem);
-    }
+
+//    if (m_pItem && m_pItem->drawScene()) {
+//        m_pItem->drawScene()->notSelectItem(m_pItem);
+//    }
+
     m_editing = false;
 }
 
