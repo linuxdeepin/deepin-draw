@@ -112,3 +112,8 @@ CGraphicsItem *CPenTool::creatItem(CDrawToolEvent *event)
     }
     return nullptr;
 }
+
+int CPenTool::allowedMaxTouchPointCount()
+{
+    return 10;
+}

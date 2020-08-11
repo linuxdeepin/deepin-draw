@@ -326,7 +326,7 @@ void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawT
 int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     int tpye = ENothingDo;
-    if (m_bMousePress) {
+    if (isActived()) {
         QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
                                                                       pInfo->startPosItems, true, true);
         if (pStartPosTopQtItem == nullptr) {

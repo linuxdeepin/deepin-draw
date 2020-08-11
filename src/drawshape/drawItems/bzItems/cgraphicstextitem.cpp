@@ -377,7 +377,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << "Content: " << col;
+    //qDebug() << "Content: " << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);

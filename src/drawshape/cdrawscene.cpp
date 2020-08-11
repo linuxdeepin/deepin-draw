@@ -194,17 +194,15 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mousePressEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+    qDebug() << "CDrawScene::mousePressEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if (nullptr != pTool) {
-        //if (!pTool->isUpdating())
-        {
-            pTool->mousePressEvent(mouseEvent, this);
-        }
+        pTool->mousePressEvent(mouseEvent, this);
     }
 }
 
@@ -222,7 +220,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mouseReleaseEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+    qDebug() << "CDrawScene::mouseReleaseEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -231,7 +229,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if (nullptr != pTool) {
-        if (pTool->isUpdating() && mouseEvent->button() != Qt::LeftButton) {
+        if (pTool->isActived() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
         pTool->mouseReleaseEvent(mouseEvent, this);
@@ -265,7 +263,7 @@ void CDrawScene::doLeave()
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
     if (pTool != nullptr) {
-        if (pTool->isUpdating()) {
+        if (pTool->isActived()) {
             QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
             mouseEvent.setButton(Qt::LeftButton);
             QPointF pos     =  QCursor::pos();
@@ -277,7 +275,7 @@ void CDrawScene::doLeave()
             mouseEvent.setPos(pos);
             mouseEvent.setScenePos(scenPos);
             mouseReleaseEvent(&mouseEvent);
-            pTool->interruptUpdating();
+            pTool->interrupt();
         }
     }
 }
@@ -287,12 +285,9 @@ bool CDrawScene::event(QEvent *event)
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
 
+        //qDebug() << "CDrawScene:: touch event  evType = " << evType;
         QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
 
-        //        qDebug() << "touchEvent->touchPointStates() = " << touchEvent->touchPointStates()<<"u id = ";
-        //        if (touchEvent->touchPointStates() == Qt::TouchPointStationary) {
-        //            qDebug() << "--------------Qt::TouchPointStationary--------------";
-        //        }
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
@@ -302,7 +297,7 @@ bool CDrawScene::event(QEvent *event)
         if (nullptr == pTool || (touchPoints.count() > 1 && currentMode == selection)) {
             //是一个手势，那么中断当前的updating操作
             if (pTool != nullptr)
-                pTool->interruptUpdating();
+                pTool->interrupt();
             return QGraphicsScene::event(event);
         }
 
@@ -321,6 +316,7 @@ bool CDrawScene::event(QEvent *event)
                 break;
             case Qt::TouchPointReleased:
                 //触碰离开
+                qDebug() << "Qt::TouchPointReleased id = " << e.uuid();
                 pTool->toolDoFinish(&e);
                 break;
             default:
@@ -366,7 +362,7 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
 
-        if (currentMode == selection && !pTool->isUpdating()) {
+        if (currentMode == selection && !pTool->isActived()) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
                 DPalette pa = this->palette();
