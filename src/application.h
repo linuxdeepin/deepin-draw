@@ -29,6 +29,8 @@ class MainWindow;
 class CColorPickWidget;
 class TopToolbar;
 class CLeftToolBar;
+class CDrawScene;
+class CGraphicsView;
 
 #if  defined(dApp)
 #undef dApp
@@ -59,6 +61,8 @@ public:
 
     TopToolbar *topToolbar();
     CLeftToolBar *leftToolBar();
+    CDrawScene *currentDrawScence();
+    CGraphicsView *currentDrawView();
 
     QStringList getRightFiles(const QStringList &files);
 

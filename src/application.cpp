@@ -25,6 +25,7 @@
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "ccentralwidget.h"
+#include "cdrawscene.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -132,6 +133,19 @@ CLeftToolBar *Application::leftToolBar()
     if (topMainWindow() != nullptr)
         return topMainWindow()->getCCentralwidget()->getLeftToolBar();
     return nullptr;
+}
+
+CDrawScene *Application::currentDrawScence()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        return dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+    }
+    return nullptr;
+}
+
+CGraphicsView *Application::currentDrawView()
+{
+    return CManageViewSigleton::GetInstance()->getCurView();
 }
 
 QStringList Application::getRightFiles(const QStringList &files)
