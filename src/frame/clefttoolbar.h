@@ -45,11 +45,6 @@ protected:
 
 signals:
     /**
-     * @brief setCurrentDrawTool 设置当前画图工具信号
-     * @param type　画图工具类型
-     */
-    void setCurrentDrawTool(int type, bool showSelfPropreWidget = true);
-    /**
      * @brief importPic　导入图片信号
      */
     void importPic();

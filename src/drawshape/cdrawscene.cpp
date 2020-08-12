@@ -415,6 +415,7 @@ void CDrawScene::refreshLook(const QPointF &pos)
                                                                      true, true, true, true));
 
     if (pBzItem != nullptr) {
+        qDebug() << "pBzItem->zValue():" << pBzItem->zValue();
         hightlightPath = pBzItem->mapToScene(pBzItem->getHighLightPath());
     }
 

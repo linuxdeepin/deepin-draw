@@ -55,6 +55,13 @@ void CSpinBox::setSpinRange(int min, int max)
     m_max = max;
 }
 
+void CSpinBox::setSpecialText(QString sp)
+{
+    this->blockSignals(true);
+    this->lineEdit()->setText(sp);
+    this->blockSignals(false);
+}
+
 void CSpinBox::focusInEvent(QFocusEvent *event)
 {
     //emit focusChanged(true);

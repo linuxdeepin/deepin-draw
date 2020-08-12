@@ -149,6 +149,8 @@ protected:
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+
     /**
      * @brief itemChange 图元变更
      * @param change 变更属性

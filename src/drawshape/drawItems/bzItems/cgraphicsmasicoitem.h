@@ -44,7 +44,7 @@ private:
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
-
+    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
 private:
     QPixmap m_pixmap;
     QPainterPath m_blurPath;

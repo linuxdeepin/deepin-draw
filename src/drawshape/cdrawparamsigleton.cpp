@@ -189,8 +189,13 @@ void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
         break;
     }
 
+    // [0] 刷新顶部菜单栏属性显示
     if (dApp->topToolbar() != nullptr && dApp->topToolbar()->attributWidget() != nullptr)
         dApp->topToolbar()->attributWidget()->showByType(tp, pItem);
+
+    // [1] 刷新点击工具栏后改变鼠标样式
+    dApp->currentDrawScence()->changeMouseShape(mode);
+
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
