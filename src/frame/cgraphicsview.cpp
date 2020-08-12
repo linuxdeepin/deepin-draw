@@ -383,11 +383,9 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         updateCursorShape();
     });
 
