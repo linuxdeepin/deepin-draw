@@ -600,14 +600,14 @@ void CComAttrWidget::refreshDataHelper(int tp)
         CBlockObjectSig sig(getSpinBoxForRectRadius());
         getSpinBoxForRectRadius()->setValue(data.rectRadius);
         if (!data.comVaild[RectRadius])
-            getSpinBoxForRectRadius()->setValue(-1);
+            getSpinBoxForRectRadius()->setSpecialText();
         break;
     }
     case Polygon: {
         CBlockObjectSig sig(getSpinBoxForPolgonSideNum());
         getSpinBoxForPolgonSideNum()->setValue(data.polySideCount);
         if (!data.comVaild[SideNumber])
-            getSpinBoxForPolgonSideNum()->setValue(-1);
+            getSpinBoxForPolgonSideNum()->setSpecialText();
         break;
     }
     case Star: {
@@ -618,9 +618,9 @@ void CComAttrWidget::refreshDataHelper(int tp)
         getSpinBoxForStarinterRadius()->setValue(data.starInRadiusRadio);
 
         if (!data.comVaild[Anchors])
-            getSpinBoxForStarAnchor()->setValue(-1);
+            getSpinBoxForStarAnchor()->setSpecialText();
         if (!data.comVaild[StarRadius])
-            getSpinBoxForStarinterRadius()->setValue(-1);
+            getSpinBoxForStarinterRadius()->setSpecialText();
 
         break;
     }
@@ -771,7 +771,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         m_rediusSpinbox->setSpinRange(0, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
         m_rediusSpinbox->setFont(ft);
-        m_rediusSpinbox->setSpecialValueText("— —");
         m_rediusSpinbox->setEnabledEmbedStyle(true);
         m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
         m_rediusSpinbox->setProperty("preValue", 5);
@@ -822,7 +821,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
         m_anchorNumber->setFont(ft);
-        m_anchorNumber->setSpecialValueText("— —");
         m_anchorNumber->setEnabledEmbedStyle(true);
         m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -858,7 +856,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
         m_radiusNumber->setFont(ft);
-        m_radiusNumber->setSpecialValueText("— —");
         m_radiusNumber->setEnabledEmbedStyle(true);
         m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -919,7 +916,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
         m_sideNumSpinBox->setSpinRange(4, 10);
         m_sideNumSpinBox->setFont(ft);
-        m_sideNumSpinBox->setSpecialValueText("— —");
         m_sideNumSpinBox->setEnabledEmbedStyle(true);
         m_sideNumSpinBox->lineEdit()->setClearButtonEnabled(false);
 

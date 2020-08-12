@@ -105,7 +105,13 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //        painter->setBrush(QBrush(Qt::NoBrush));
 //        painter->drawRect(this->boundingRect());
 //        painter->setClipping(true);
-//    }
+    //    }
+}
+
+bool CGraphicsMasicoItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    return false;
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap()
