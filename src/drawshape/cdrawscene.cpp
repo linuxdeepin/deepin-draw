@@ -316,7 +316,6 @@ bool CDrawScene::event(QEvent *event)
                 break;
             case Qt::TouchPointReleased:
                 //触碰离开
-                qDebug() << "Qt::TouchPointReleased id = " << e.uuid();
                 pTool->toolDoFinish(&e);
                 break;
             default:

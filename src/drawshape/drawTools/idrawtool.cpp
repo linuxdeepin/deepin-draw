@@ -777,6 +777,7 @@ IDrawTool::CDrawToolEvent IDrawTool::CDrawToolEvent::fromTouchPoint(const QTouch
     e._pos[EGlobelPos]   = tPos.screenPos();
     e._uuid              = tPos.id();
     e._scene             = scene;
+    e._kbMods            = dApp->keyboardModifiers();
     e._orgEvent = eOrg;
     //qDebug() << "e._pos[EViewportPos] = " << e._pos[EViewportPos] << "e._pos[EScenePos] = " << e._pos[EScenePos] << "e._pos[EGlobelPos] = " << e._pos[EGlobelPos];
     return e;

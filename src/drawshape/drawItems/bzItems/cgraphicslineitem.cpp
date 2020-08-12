@@ -436,7 +436,7 @@ void CGraphicsLineItem::updateHandlesGeometry()
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
 
-        if (!this->isSelected()) {
+        if (!this->isSelected() || this->getMutiSelect()) {
             hndl->hide();
             continue;
         }
@@ -496,6 +496,8 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    updateHandlesGeometry();
 
     painter->setRenderHint(QPainter::Antialiasing, true);
 
