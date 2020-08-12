@@ -535,6 +535,15 @@ QVariant CGraphicsLineItem::itemChange(QGraphicsItem::GraphicsItemChange change,
     return CGraphicsItem::itemChange(change, value);
 }
 
+bool CGraphicsLineItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
+        return true;
+    }
+    return false;
+}
+
 void CGraphicsLineItem::initLine()
 {
     //CGraphicsItem::initHandle();

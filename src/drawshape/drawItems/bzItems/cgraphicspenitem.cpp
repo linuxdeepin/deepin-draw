@@ -1248,6 +1248,14 @@ void CGraphicsPenItem::operatingEnd(int opTp)
     return CGraphicsItem::operatingEnd(opTp);
 }
 
+bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
+        return true;
+    }
+    return false;
+}
 
 QPainterPath CGraphicsPenItem::getPath() const
 {
