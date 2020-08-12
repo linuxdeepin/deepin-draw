@@ -186,6 +186,11 @@ protected:
      */
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
+    /**
+     * @brief isPosPenetrable  是否可以进行穿透
+     */
+    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+
 private:
     void initLine();
 
