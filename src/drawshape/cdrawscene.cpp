@@ -105,6 +105,11 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     connect(this, SIGNAL(signalSceneCut(QRectF)),
             view, SLOT(itemSceneCut(QRectF)));
 
+    connect(this, &CDrawScene::sceneRectChanged, this, [ = ](const QRectF & rect) {
+        Q_UNUSED(rect);
+        this->updateBlurItem();
+    });
+
 }
 
 CDrawScene::~CDrawScene()

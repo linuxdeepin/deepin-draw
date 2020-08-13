@@ -73,11 +73,10 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         int imgHeigth = tmpPixmap.height();
         int radius = 10;
         if (!tmpPixmap.isNull()) {
+            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             if (m_nBlurEffect == BlurEffect) {
-                tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                 tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             } else {
-                tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
                 tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
             }
         }
