@@ -48,6 +48,7 @@ void CMasicoTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, IDrawToo
             bool shiftKeyPress = event->keyboardModifiers() & Qt::ShiftModifier;
             pItem->updatePenPath(pointMouse, shiftKeyPress);
             pItem->updateBlurPath();
+            pItem->updateMasicPixmap();
             event->setAccepted(true);
         }
     }

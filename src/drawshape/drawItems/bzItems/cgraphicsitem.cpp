@@ -439,7 +439,12 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
     //未来做多选操作，需要把刷新功能做到undoredo来统一管理
     //全选的由其它地方处理刷新 否则会出现卡顿
-    if (change == QGraphicsItem::ItemPositionHasChanged || change == QGraphicsItem::ItemMatrixChange || change == QGraphicsItem::ItemZValueHasChanged || change == QGraphicsItem::ItemOpacityHasChanged || change == QGraphicsItem::ItemRotationHasChanged || change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
+    if (change == QGraphicsItem::ItemPositionHasChanged ||
+            change == QGraphicsItem::ItemMatrixChange ||
+            change == QGraphicsItem::ItemZValueHasChanged ||
+            change == QGraphicsItem::ItemOpacityHasChanged ||
+            change == QGraphicsItem::ItemRotationHasChanged /*||
+            change == QGraphicsItem::ItemTransformOriginPointHasChanged*/) {
         if (nullptr != scene()) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->updateBlurItem(this);
