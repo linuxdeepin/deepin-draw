@@ -86,32 +86,7 @@ int CGraphicsLineItem::type() const
 
 QPainterPath CGraphicsLineItem::shape() const
 {
-    QPainterPath path;
-
-    if (this->curView() == nullptr)
-        return path;
-
-    if (m_line == QLineF())
-        return path;
-
-    path.moveTo(m_line.p1());
-    path.lineTo(m_line.p2());
-
-    QPen pen = this->pen();
-    qreal scale = curView()->getDrawParam()->getScale();
-    if (pen.width() * int(scale) < 20) {
-        if (scale > 1) {
-            pen.setWidthF(20 / scale);
-        } else {
-            pen.setWidth(20);
-        }
-
-    }
-
-    path.addPath(m_startPath);
-    path.addPath(m_endPath);
-
-    return qt_graphicsItem_shapeFromPath(path, pen);
+    return CGraphicsItem::shape();
 }
 
 QRectF CGraphicsLineItem::boundingRect() const
@@ -780,4 +755,34 @@ void CGraphicsLineItem::setLinePenWidth(int width)
     this->pen().setWidth(width);
     calcVertexes();
     updateHandlesGeometry();
+}
+
+QPainterPath CGraphicsLineItem::inSideShape() const
+{
+    QPainterPath path;
+
+    if (this->curView() == nullptr)
+        return path;
+
+    if (m_line == QLineF())
+        return path;
+
+    path.moveTo(m_line.p1());
+    path.lineTo(m_line.p2());
+
+    QPen pen = this->pen();
+    qreal scale = curView()->getDrawParam()->getScale();
+    if (pen.width() * int(scale) < 20) {
+        if (scale > 1) {
+            pen.setWidthF(20 / scale);
+        } else {
+            pen.setWidth(20);
+        }
+
+    }
+
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
+
+    return qt_graphicsItem_shapeFromPath(path, pen);
 }

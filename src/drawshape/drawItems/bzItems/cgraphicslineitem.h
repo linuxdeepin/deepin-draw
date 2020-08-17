@@ -148,6 +148,11 @@ public:
 
 protected:
     /**
+     * @brief inSideShape 重写实现画笔的图元内部形状（rect类图元不包括边线）
+     */
+    QPainterPath inSideShape() const Q_DECL_OVERRIDE;
+
+    /**
      * @brief duplicateCreatItem 创建一个同类型的图元（未同步数据）
      * @return
      */
