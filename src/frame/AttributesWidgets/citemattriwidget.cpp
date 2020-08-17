@@ -288,14 +288,19 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
 
     if (tp == Text) {
-        data.textColor = unitData.data.pText->color;
-        data.textFontSize = int(unitData.data.pText->font.pointSizeF());
-        data.textFontFamily = unitData.data.pText->font.family();
-        data.textFontStyle = unitData.data.pText->font.styleName();
-//        data.comVaild[TextSize] = true;
-//        data.comVaild[TextFont] = true;
-//        data.comVaild[TextHeavy] = true;
-//        data.comVaild[TextColor] = true;
+//        data.textColor = unitData.data.pText->color;
+//        data.textFontSize = int(unitData.data.pText->font.pointSizeF());
+//        data.textFontFamily = unitData.data.pText->font.family();
+//        data.textFontStyle = unitData.data.pText->font.styleName();
+        dynamic_cast<CGraphicsTextItem *>(graphicItem())->updateSelectedTextProperty();
+        data.textColor = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedTextColor();
+        data.textFontSize = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontSize();
+        data.textFontFamily = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontFamily();
+        data.textFontStyle = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontStyle();
+        data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
+        data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
+        data.comVaild[TextFont] = data.textFontFamily.isEmpty() ? false : true;
+        data.comVaild[TextHeavy] = data.textFontStyle.isEmpty() ? false : true;
     } else if (tp == Image) {
         if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
             data.comVaild[PropertyImageAdjustScence] = true;
@@ -685,6 +690,7 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
 {
     if (m_strokeBtn == nullptr) {
         m_strokeBtn = new CPenColorBtn(this);
+        m_strokeBtn->setFocusPolicy(Qt::NoFocus);
         connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
@@ -1102,6 +1108,12 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
 {
     if (m_TextWidget == nullptr) {
         m_TextWidget = new TextWidget(this);
+
+        //确定CComAttrWidget才拥有焦点
+        this->parentWidget()->parentWidget()->setFocusPolicy(Qt::NoFocus);
+        this->parentWidget()->setFocusPolicy(Qt::NoFocus);
+        m_TextWidget->setFocusPolicy(Qt::NoFocus);
+
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
         connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
             qDebug() << "fontSizeChanged = " << size;

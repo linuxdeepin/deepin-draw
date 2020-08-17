@@ -41,6 +41,7 @@ BorderColorButton::BorderColorButton(DWidget *parent)
     setCheckable(false);
     setButtonText(tr("Stroke"));
     //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 void BorderColorButton::updateConfigColor()
@@ -218,7 +219,7 @@ void BorderColorButton::mousePressEvent(QMouseEvent *)
 
     pColorPick->setColor(this->getColor());
 
-    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
         this->setColor(color, phase);
     });
     pColorPick->show(pos.x(), pos.y());

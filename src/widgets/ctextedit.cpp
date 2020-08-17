@@ -154,13 +154,13 @@ void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 
 void CTextEdit::mousePressEvent(QMouseEvent *event)
 {
-    qDebug() << "CTextEdit::mousePressEvent----";
+//    qDebug() << "CTextEdit::mousePressEvent----";
     return QTextEdit::mousePressEvent(event);
 }
 
 void CTextEdit::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << "CTextEdit::mouseMoveEvent----";
+//    qDebug() << "CTextEdit::mouseMoveEvent----";
     return QTextEdit::mouseMoveEvent(event);
 }
 
@@ -172,17 +172,27 @@ void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
-    QTextEdit::focusOutEvent(e);
     QString &pre = const_cast<QString &>(m_e.preeditString());
     if (!pre.isEmpty()) {
+        QTextEdit::focusOutEvent(e);
         m_e.setCommitString(pre);
         pre.clear();
         inputMethodEvent(&m_e);
     }
 
-//    if (m_pItem && m_pItem->drawScene()) {
-//        m_pItem->drawScene()->notSelectItem(m_pItem);
-//    }
+    //属性修改导致的widget焦点丢失不应该响应
+    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
+        return;
+    }
+
+    QTextEdit::focusOutEvent(e);
+    if (m_pItem && m_pItem->drawScene()) {
+        m_pItem->drawScene()->notSelectItem(m_pItem);
+    }
+//    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
+//             << (dApp->focusObject() == this)
+//             << "parent = " << this->parent()
+//             << "active widget = " << dApp->activePopupWidget();
 
     m_editing = false;
 }
@@ -465,6 +475,13 @@ void CTextEdit::checkTextProperty()
     } else {
         updateCurrentCursorProperty();
     }
+    qDebug() << " ";
+    qDebug() << "     m_selectedColor: " << m_selectedColor;
+    qDebug() << "      m_selectedSize: " << m_selectedSize;
+    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+    qDebug() << " m_selectedFontStyle: " << m_selectedFontStyle;
+    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+    qDebug() << " ";
 }
 
 void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
