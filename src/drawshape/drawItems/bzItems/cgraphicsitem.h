@@ -58,7 +58,7 @@ public:
      * @brief drawScene 返回当前所处的scene
      * @return
      */
-    CDrawScene *drawScene();
+    CDrawScene *drawScene() const ;
 
     /**
      * @brief setPenColor 设置线颜色
@@ -111,6 +111,13 @@ public:
      * @brief shape 返回图元的形状
      */
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
+
+
+    /**
+     * @brief contains 点是否在图元中（重载实现更好选中，增加用户体验）
+     * @param point在图元本地坐标系的坐标值
+     */
+    bool contains(const QPointF &point) const override;
 
     /**
      * @brief loadGraphicsUnit 加载图元数据
@@ -351,6 +358,12 @@ protected:
      * @param item 复制后的图元
      */
     virtual void duplicate(CGraphicsItem *item);
+
+    /**
+     * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验）
+     * @return 返回额外的线宽（一般与当前的放大值相关）
+     */
+    virtual qreal incLength() const;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

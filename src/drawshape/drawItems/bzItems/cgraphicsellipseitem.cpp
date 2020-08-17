@@ -56,7 +56,8 @@ QPainterPath CGraphicsEllipseItem::inSideShape() const
 
 QPainterPath CGraphicsEllipseItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false, 5);
+    return CGraphicsItem::shape();
+    //return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false, 5);
 }
 
 int CGraphicsEllipseItem::type() const

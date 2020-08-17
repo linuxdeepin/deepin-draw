@@ -32,6 +32,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 
+const int inccW = 10;
 QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path,
                                                           const QPen &pen,
                                                           bool replace,
@@ -91,7 +92,7 @@ CGraphicsView *CGraphicsItem::curView() const
     return parentView;
 }
 
-CDrawScene *CGraphicsItem::drawScene()
+CDrawScene *CGraphicsItem::drawScene() const
 {
     return qobject_cast<CDrawScene *>(scene());
 }
@@ -250,7 +251,7 @@ QPainterPath CGraphicsItem::inSideShape() const
 
 QPainterPath CGraphicsItem::outSideShape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true);
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true, this->incLength());
 }
 
 QRectF CGraphicsItem::boundingRect() const
@@ -260,7 +261,21 @@ QRectF CGraphicsItem::boundingRect() const
 
 QPainterPath CGraphicsItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false);
+    return outSideShape();
+}
+
+bool CGraphicsItem::contains(const QPointF &point) const
+{
+    if (outSideShape().contains(point)) {
+        return true;
+    } else {
+        qreal inLenth = this->incLength();
+        bool isInInSide = inSideShape().intersects(QRectF(point - QPointF(inLenth, inLenth),
+                                                          point + QPointF(inLenth, inLenth)));
+        if (isInInSide)
+            return true;
+    }
+    return false;
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -356,6 +371,12 @@ void CGraphicsItem::duplicate(CGraphicsItem *item)
     item->setRotation(rotation());
     item->setScale(scale());
     item->setZValue(zValue());
+}
+
+qreal CGraphicsItem::incLength()const
+{
+    qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
+    return inccW / scal;
 }
 
 bool CGraphicsItem::isGrabToolEvent()

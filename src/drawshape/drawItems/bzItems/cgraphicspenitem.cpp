@@ -1235,6 +1235,15 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     endCheckIns(painter);
 
+
+//    painter->save();
+//    QPainterPath testPath = this->shape();
+//    painter->setPen(QColor(255, 0, 0, 80));
+//    painter->setBrush(QColor(0, 0, 255, 80));
+//    painter->drawPath(testPath);
+//    painter->restore();
+
+
     paintMutBoundingLine(painter, option);
 }
 
@@ -1402,7 +1411,12 @@ QPainterPath CGraphicsPenItem::inSideShape() const
     path.addPath(m_startPath);
     path.addPath(m_endPath);
 
-    path.closeSubpath();
+    //path.closeSubpath();
 
     return path;
 }
+
+//QPainterPath CGraphicsPenItem::outSideShape() const
+//{
+//    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true, 5);
+//}
