@@ -75,6 +75,7 @@ void CAlphaControlWidget::initUI()
     m_alphaLabel->lineEdit()->setTextMargins(0, 0, 0, 0);
     alphaLabelFont.setPixelSize(14);
     m_alphaLabel->setFont(alphaLabelFont);
+//    m_alphaLabel->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
     m_alphaSlider->slider()->setFocusPolicy(Qt::NoFocus);
@@ -94,17 +95,17 @@ void CAlphaControlWidget::initUI()
 
 void CAlphaControlWidget::initConnection()
 {
-    connect(m_alphaSlider, &DSlider::sliderPressed, this, [=]() {
+    connect(m_alphaSlider, &DSlider::sliderPressed, this, [ = ]() {
         emit alphaChanged(m_alphaSlider->value(), EChangedBegin);
     });
 
-    connect(m_alphaSlider, &DSlider::valueChanged, this, [=](int value) {
+    connect(m_alphaSlider, &DSlider::valueChanged, this, [ = ](int value) {
         value = m_alphaSlider->value();
         m_alphaLabel->setText(QString("%1%").arg(value * 100 / 255));
         emit alphaChanged(value, EChangedUpdate);
     });
 
-    connect(m_alphaSlider, &DSlider::sliderReleased, this, [=]() {
+    connect(m_alphaSlider, &DSlider::sliderReleased, this, [ = ]() {
         emit alphaChanged(m_alphaSlider->value(), EChangedFinished);
     });
 }

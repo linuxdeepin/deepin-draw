@@ -92,8 +92,6 @@ void CGraphicsTextItem::initTextEditWidget()
 
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
 
-    updateHandleVisible();
-
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
@@ -106,7 +104,6 @@ void CGraphicsTextItem::initTextEditWidget()
 void CGraphicsTextItem::initHandle()
 {
     CGraphicsRectItem::initHandle();
-    updateHandleVisible();
 }
 
 void CGraphicsTextItem::setLastDocumentWidth(qreal width)
@@ -171,26 +168,14 @@ void CGraphicsTextItem::makeEditabel()
     m_pTextEdit->setFocus();
 }
 
-void CGraphicsTextItem::updateHandleVisible()
-{
-    //bool visble = getManResizeFlag();
-    //qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
-
-    //    if (drawScene() != nullptr) {
-    //        CGraphicsItemSelectedMgr *pMgr = drawScene()->getItemsMgr();
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftTop);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Top);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightTop);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightBottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Bottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Rotation);
-    //    }
-}
-
 bool CGraphicsTextItem::isGrabToolEvent()
 {
     return isEditable();
+}
+
+void CGraphicsTextItem::updateSelectedTextProperty()
+{
+    this->m_pTextEdit->checkTextProperty();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -291,6 +276,8 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
         weight = 81;
     } else if (style == "Black") {
         weight = 87;
+    } else {
+        weight = 50;
     }
 
     QTextCharFormat fmt;
@@ -411,15 +398,12 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     // [1] 设置 TextEdit 光标处最新的格式
     m_pTextEdit->mergeCurrentCharFormat(format);
 
-    // [2] 设置焦点
-    if (setFoucs) {
-        if (drawScene() != nullptr) {
-            drawScene()->drawView()->setFocus();
-            drawScene()->setFocusItem(this);
-            qDebug() << "setFoucs =====  " << setFoucs << dApp->focusWidget() << drawScene()->focusItem();
-        }
-        m_pTextEdit->setFocus();
-    }
+    // [2] 重新更新当前图元的文字内部属性
+    m_pTextEdit->checkTextProperty();
+
+    // [3] 重新刷新最新合并后的属性
+    if (this->drawScene() != nullptr)
+        this->drawScene()->refreshLook();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -456,8 +440,6 @@ QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change,
     if (change == QGraphicsItem::ItemSelectedHasChanged) {
         if (value.toBool() == false)
             this->getTextEdit()->hide();
-
-        updateHandleVisible();
     }
 
     return CGraphicsRectItem::itemChange(change, value);
@@ -624,6 +606,7 @@ void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
         }
     }
 }
+
 // 将QTextDocument中的指定Block置为发散对其方式，DocWidth为限定宽度,注意本函数会破坏原有的字符间距
 void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum)
 {
@@ -673,20 +656,6 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
     }
 }
 
-void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
-{
-    Q_UNUSED(format)
-    // 此处不再需要向缓存中写入数据了
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
-
-//    //提示更改 TODO
-//    if (this->scene() != nullptr) {
-//        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
-//    }
-}
-
 bool CGraphicsTextItem::getManResizeFlag() const
 {
     return m_bManResize;
@@ -694,11 +663,7 @@ bool CGraphicsTextItem::getManResizeFlag() const
 
 void CGraphicsTextItem::setManResizeFlag(bool flag)
 {
-    bool changed = (flag != m_bManResize);
     m_bManResize = flag;
-
-    if (changed)
-        updateHandleVisible();
 }
 
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
