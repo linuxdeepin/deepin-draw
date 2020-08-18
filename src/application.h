@@ -59,13 +59,70 @@ public:
      */
     CColorPickWidget *colorPickWidget(bool creatNew = false);
 
+
+    /**
+     * @brief topToolbar 返回顶层topToolbar
+     * @return 返回顶层工具块界面指针
+     */
     TopToolbar *topToolbar();
+
+    /**
+     * @brief leftToolBar 返回顶层leftToolBar
+     * @return 返回左侧工具块界面指针
+     */
     CLeftToolBar *leftToolBar();
+
+    /**
+     * @brief currentDrawScence 返回当前显示的画布场景
+     * @return 返回当前显示的画布场景指针
+     */
     CDrawScene *currentDrawScence();
+
+    /**
+     * @brief currentDrawView 返回当前显示的画布视图
+     * @return 返回当前显示的画布视图指针
+     */
     CGraphicsView *currentDrawView();
 
+    /**
+     * @brief getRightFiles 根据输入返回所有合法正确的可加载文件(并且会弹窗提示)
+     * @return 返回所有合法正确的可加载文件
+     */
     QStringList getRightFiles(const QStringList &files);
 
+    /**
+     * @brief isFileNameLegal 判断文件是否合法(是否可加载)
+     * @return 返回文件是否合法
+     */
+    bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
+
+    /**
+     * @brief setApplicationCursor 设置全局鼠标样式
+     */
+    void setApplicationCursor(const QCursor &cur, bool force = false);
+
+    /**
+     * @brief supPictureSuffix 返回支持的所有图片后缀名
+     */
+    static QStringList &supPictureSuffix();
+
+    /**
+     * @brief supDdfStuffix 返回支持的所有ddf后缀名(暂时只有.ddf)
+     */
+    static QStringList &supDdfStuffix();
+
+    /**
+     * @brief fileNameRegExp 返回不要特殊字符(不能用于文件名的字符)的正则表达式的
+     */
+    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
+
+
+    /**
+     * @brief setWidgetAllPosterityNoFocus 将widget的后代都设置为没有焦点
+     */
+    static void  setWidgetAllPosterityNoFocus(QWidget *pW);
+
+private:
     enum EFileClassEnum {ENotFile    = 0,
                          EDrawAppNotSup,
                          EDrawAppSup,
@@ -74,15 +131,6 @@ public:
                         };
     typedef QMap<EFileClassEnum, QStringList> QFileClassedMap;
     QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
-
-    static QStringList &supPictureSuffix();
-    static QStringList &supDdfStuffix();
-
-    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
-
-    bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
-
-    void setApplicationCursor(const QCursor &cur, bool force = false);
 
 signals:
     void popupConfirmDialog();

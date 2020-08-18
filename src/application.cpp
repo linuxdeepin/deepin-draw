@@ -239,6 +239,24 @@ QRegExp Application::fileNameRegExp(bool ill, bool containDirDelimiter)
     return regExg;
 }
 
+void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
+{
+    if (pW == nullptr)
+        return;
+
+    QList<QObject *> list0 = pW->children();
+    for (int i  = 0; i < list0.size(); ++i) {
+        QObject *o = list0[i];
+        if (o->isWidgetType()) {
+            QWidget *pWidget = qobject_cast<QWidget *>(o);
+            if (pWidget != nullptr) {
+                pWidget->setFocusPolicy(Qt::NoFocus);
+                setWidgetAllPosterityNoFocus(pWidget);
+            }
+        }
+    }
+}
+
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)
 {
     if (path.isEmpty()) {
