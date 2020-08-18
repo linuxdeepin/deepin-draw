@@ -47,7 +47,7 @@ public:
     explicit CTextEdit(CGraphicsTextItem *item, QWidget *parent = nullptr);
     ~CTextEdit() override;
 
-    virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
+//    virtual void setVisible(bool visible) Q_DECL_OVERRIDE;
 
     void setLastDocumentWidth(qreal width);
 
@@ -109,9 +109,9 @@ protected:
 
     void contextMenuEvent(QContextMenuEvent *e) override;
 
-    void mouseDoubleClickEvent(QMouseEvent *e) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
+//    void mouseDoubleClickEvent(QMouseEvent *e) override;
+//    void mousePressEvent(QMouseEvent *event) override;
+//    void mouseMoveEvent(QMouseEvent *event) override;
 
     void inputMethodEvent(QInputMethodEvent *e) override;
     void focusOutEvent(QFocusEvent *e) override;

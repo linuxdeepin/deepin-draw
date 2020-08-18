@@ -288,15 +288,10 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
 
     if (tp == Text) {
-//        data.textColor = unitData.data.pText->color;
-//        data.textFontSize = int(unitData.data.pText->font.pointSizeF());
-//        data.textFontFamily = unitData.data.pText->font.family();
-//        data.textFontStyle = unitData.data.pText->font.styleName();
-        dynamic_cast<CGraphicsTextItem *>(graphicItem())->updateSelectedTextProperty();
-        data.textColor = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedTextColor();
-        data.textFontSize = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontSize();
-        data.textFontFamily = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontFamily();
-        data.textFontStyle = dynamic_cast<CGraphicsTextItem *>(graphicItem())->getSelectedFontStyle();
+        data.textColor = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedTextColor();
+        data.textFontSize = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontSize();
+        data.textFontFamily = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontFamily();
+        data.textFontStyle = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontStyle();
         data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
         data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
         data.comVaild[TextFont] = data.textFontFamily.isEmpty() ? false : true;
@@ -363,16 +358,16 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 }
             } else if (tp == Text) {
                 CGraphicsTextItem *pText = dynamic_cast<CGraphicsTextItem *>(pItem);
-                if (int(pText->getFontSize()) != data.textFontSize) {
+                if (int(pText->getSelectedFontSize()) != data.textFontSize) {
                     data.comVaild[TextSize] = false;
                 }
-                if (pText->getFontFamily() != data.textFontFamily) {
+                if (pText->getSelectedFontFamily() != data.textFontFamily) {
                     data.comVaild[TextFont] = false;
                 }
-                if (pText->getTextFontStyle() != data.textFontStyle) {
+                if (pText->getSelectedFontStyle() != data.textFontStyle) {
                     data.comVaild[TextHeavy] = false;
                 }
-                if (pText->getTextColor() != data.textColor) {
+                if (pText->getSelectedTextColor() != data.textColor) {
                     data.comVaild[TextColor] = false;
                 }
             } else if (tp == MasicPen) {
@@ -1138,7 +1133,7 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
                 QList<CGraphicsItem *> lists = this->graphicItems();
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
-                    pItem->setFontFamily(family, !preview);
+                    pItem->setFontFamily(family);
                 }
             }
             this->updateDefualData(TextFont, family);

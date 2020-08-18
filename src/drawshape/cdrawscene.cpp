@@ -739,6 +739,16 @@ CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
 void CDrawScene::clearMrSelection()
 {
     clearSelection();
+
+//    // 在退出选中文本的时候，需要将文本设置为全选状态
+//    // 这样才能避免内部widget只选中了部分，点击更改属性只更改部分属性的bug
+//    QList<CGraphicsItem *> list = m_pGroupItem->getItems();
+//    for (int i = 0; i < list.count(); i++) {
+//        if (list.at(i)->type() == TextType) {
+//            dynamic_cast<CGraphicsTextItem *>(list.at(i))->getTextEdit()->selectAll();
+//        }
+//    }
+
     m_pGroupItem->clear();
 }
 
