@@ -126,33 +126,27 @@ void TextWidget::updateTheme()
 
 void TextWidget::setFontSize(int size, bool emitSig)
 {
-    QVariant preValue = m_fontSize->property("preValue");
+//    QVariant preValue = m_fontSize->property("preValue");
 
-    if (preValue.isValid()) {
-        int preIntValue = preValue.toInt();
-        int curValue    = (size < 0 ? -1 : size);
-        if (preIntValue == curValue)
-            return;
-    }
-    m_fontSize->setProperty("preValue", size);
+//    if (preValue.isValid()) {
+//        int preIntValue = preValue.toInt();
+//        int curValue    = (size < 0 ? -1 : size);
+//        if (preIntValue == curValue)
+//            return;
+//    }
+//    m_fontSize->setProperty("preValue", size);
 
     QString findTex = QString("%1px").arg(size);
 
     int index = m_fontSize->findText(findTex);
 
-    if (emitSig) {
-        m_fontSize->blockSignals(true);
-    }
-
+    m_fontSize->blockSignals(true);
     if (index >= 0) {
         m_fontSize->setCurrentIndex(index);
     } else {
         m_fontSize->setCurrentText(findTex);
     }
-
-    if (emitSig) {
-        m_fontSize->blockSignals(false);
-    }
+    m_fontSize->blockSignals(false);
 
     if (emitSig)
         emit fontSizeChanged(size);

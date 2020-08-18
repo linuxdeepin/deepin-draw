@@ -135,8 +135,13 @@ void CGraphicsItemSelectedMgr::add(CGraphicsItem *item, bool updateAttri, bool u
             m_listItems.push_back(item);
             item->setMutiSelect(true);
 
-            if (updateAttri)
+            if (updateAttri) {
+                // 如果是文字图元，需要单独先进行属性验证后再刷新属性，这样才能保证获取到的属性是正确最新的
+                if (item->type() == TextType) {
+                    dynamic_cast<CGraphicsTextItem *>(item)->updateSelectAllTextProperty();
+                }
                 updateAttributes();
+            }
         }
     }
     if (updateRect)

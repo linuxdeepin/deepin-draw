@@ -173,8 +173,9 @@ bool CGraphicsTextItem::isGrabToolEvent()
     return isEditable();
 }
 
-void CGraphicsTextItem::updateSelectedTextProperty()
+void CGraphicsTextItem::updateSelectAllTextProperty()
 {
+    this->m_pTextEdit->selectAll();
     this->m_pTextEdit->checkTextProperty();
 }
 
@@ -300,11 +301,11 @@ qreal CGraphicsTextItem::getFontSize()
     return m_Font.pointSizeF();
 }
 
-void CGraphicsTextItem::setFontFamily(const QString &family, bool setFoucs)
+void CGraphicsTextItem::setFontFamily(const QString &family)
 {
     QTextCharFormat fmt;
     fmt.setFontFamily(family);
-    mergeFormatOnWordOrSelection(fmt, setFoucs);
+    mergeFormatOnWordOrSelection(fmt);
     m_Font.setFamily(family);
 }
 
@@ -389,7 +390,7 @@ int CGraphicsTextItem::getTextColorAlpha()
     return m_color.alpha();
 }
 
-void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format, bool setFoucs)
+void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
@@ -400,10 +401,6 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
     // [2] 重新更新当前图元的文字内部属性
     m_pTextEdit->checkTextProperty();
-
-    // [3] 重新刷新最新合并后的属性
-    if (this->drawScene() != nullptr)
-        this->drawScene()->refreshLook();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

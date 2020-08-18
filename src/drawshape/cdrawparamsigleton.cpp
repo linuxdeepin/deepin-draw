@@ -18,6 +18,7 @@
  */
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
+#include <QFontDatabase>
 
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
@@ -34,7 +35,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
-    , m_textFont(QFont("思源宋体 CN"))
+    , m_textFont()
     , m_textColor(Qt::black)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
@@ -60,7 +61,15 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     m_nFillColor.setAlpha(0);//transparent
     m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
-    m_textFont.setFamily("思源宋体 CN");
+
+    // 设置默认的字体类型为思源宋体，没有该字体则选择系统第一个默认字体
+    QFontDatabase fontbase;
+    QString sourceHumFont = QObject::tr("思源宋体 CN");
+    if (fontbase.families().contains(sourceHumFont)) {
+        m_textFont.setFamily(sourceHumFont);
+    } else {
+        m_textFont.setFamily(fontbase.families().first());
+    }
     m_textFont.setStyleName("Regular");
 
     if (uuid.isEmpty()) {

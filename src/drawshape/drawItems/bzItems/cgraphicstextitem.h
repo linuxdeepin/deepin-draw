@@ -52,7 +52,7 @@ public:
     void setFontSize(qreal size);
     qreal getFontSize();
 
-    void setFontFamily(const QString &family, bool setFoucs = true);
+    void setFontFamily(const QString &family);
     QString getFontFamily();
 
     void setTextColor(const QColor &col);
@@ -61,7 +61,7 @@ public:
     void setTextColorAlpha(const int &alpha);
     int getTextColorAlpha();
 
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format, bool setFoucs = true);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                           bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
@@ -142,9 +142,9 @@ public:
     bool isGrabToolEvent() override;
 
     /*
-    * @bref: updateSelectedTextProperty 更新文字图元选中文本的属性,这样才能获取到最新的选中文字属性
+    * @bref: updateSelectAllTextProperty 更新文字图元所有文本的属性,这样才能获取到最新的选中文字属性
     */
-    void updateSelectedTextProperty();
+    void updateSelectAllTextProperty();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
