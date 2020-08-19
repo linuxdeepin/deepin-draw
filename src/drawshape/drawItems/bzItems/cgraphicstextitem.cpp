@@ -165,6 +165,13 @@ void CGraphicsTextItem::makeEditabel()
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->updateBlurItem(this);
     }
+
+    //保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
+    if (curView() != nullptr) {
+        curView()->setFocus();
+    }
+
+    //保证自身的焦点
     m_pTextEdit->setFocus();
 }
 
@@ -221,13 +228,7 @@ CGraphicsProxyWidget *CGraphicsTextItem::getCGraphicsProxyWidget() const
 void CGraphicsTextItem::updateWidget()
 {
     const QRectF &geom = this->rect();
-    bool flag = m_pTextEdit->isVisible();
-    m_pTextEdit->show();
-    //m_pTextEdit->resize(int(geom.width()), int(geom.height()));
     m_pProxy->setPos(geom.x(), geom.y());
-    if (!flag) {
-        m_pTextEdit->hide();
-    }
 }
 
 void CGraphicsTextItem::setFont(const QFont &font)
