@@ -270,6 +270,8 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     pen.setWidth(width);
     this->setPen(pen);
     updateBlurPath();
+    updateMasicPixmap();
+    CGraphicsItem::updateShape();
 }
 
 CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const

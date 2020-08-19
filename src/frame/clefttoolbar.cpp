@@ -31,6 +31,7 @@
 #include "toptoolbar.h"
 #include "ccutwidget.h"
 #include "textwidget.h"
+#include "blurwidget.h"
 
 #include <DFileDialog>
 #include <DWidget>
@@ -374,6 +375,11 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_blurBtn);
         isCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(blur);
+        // 需要在设置默认属性后再重新设置属性回去，否则将会刷新为空白
+        dApp->topToolbar()->attributWidget()->getBlurWidget()->setBlurType(
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect());
+        dApp->topToolbar()->attributWidget()->getBlurWidget()->setBlurWidth(
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     });
 
     connect(m_cutBtn, &DToolButton::clicked, [this]() {

@@ -63,6 +63,7 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setPos(event->pos().x(), event->pos().y());
         pItem->getTextEdit()->setText(QObject::tr("Input text here"));
         pItem->getTextEdit()->setAlignment(Qt::AlignLeft);
+        pItem->getTextEdit()->selectAll();
 
         CGraphicsView *pView = event->scene()->drawView();
 
@@ -95,8 +96,6 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
-
-        pItem->getTextEdit()->selectAll();
 
         return pItem;
     }
