@@ -1,11 +1,11 @@
-QT += core gui  printsupport svg dbus concurrent dtkwidget dtkgui
+QT += core gui  printsupport svg dbus concurrent dtkwidget x11extras printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
   qtHaveModule(opengl): QT += opengl
 
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += libexif
+PKGCONFIG += x11 xext libexif dtkwidget
 LIBS += -lfreeimage
 
 TARGET = deepin-draw
@@ -37,7 +37,7 @@ RESOURCES += \
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-draw
 MANDIR = $$PREFIX/share/dman/deepin-draw
-MANICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
+MANICONDIR = $$PREFIX/share/icons/deepin/apps/scalable
 APPICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
 
 DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
@@ -47,7 +47,7 @@ target.path = $$BINDIR
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-draw.desktop
 
-formatFile.path = $$PREFIX/share/mime/packages/
+formatFile.path = $$PREFIX/share/mime/application/
 formatFile.files = service/x-ddf.xml
 
 manual.path = $$MANDIR
