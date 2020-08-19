@@ -247,7 +247,7 @@ QFont CDrawParamSigleton::getTextFont() const
     return m_textFont;
 }
 
-void CDrawParamSigleton::setTextFont(const QString &strFont)
+void CDrawParamSigleton::setTextFontFamily(const QString &strFont)
 {
     m_textFont.setFamily(strFont);
 }

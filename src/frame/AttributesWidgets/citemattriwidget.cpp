@@ -1342,6 +1342,10 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         penEndType = ELineType(var.toInt());
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(penEndType);
         break;
+    case TextFont:
+        textFontFamily = var.value<QString>();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontFamily(textFontFamily);
+        break;
     case TextColor:
         textColor = var.value<QColor>();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(textColor);

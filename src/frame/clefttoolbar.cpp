@@ -363,7 +363,9 @@ void CLeftToolBar::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
         // 需要在设置默认属性后再重新设置属性回去，否则将会刷新为空白
         dApp->topToolbar()->attributWidget()->getTextWidgetForText()->setTextFamilyStyle(
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family()
+            , CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
