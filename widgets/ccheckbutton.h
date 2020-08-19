@@ -21,6 +21,7 @@
 
 #include <QMap>
 #include <DToolButton>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 

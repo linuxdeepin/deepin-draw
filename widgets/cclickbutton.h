@@ -20,6 +20,7 @@
 #define CCLICKBUTTON_H
 
 #include <DToolButton>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -35,7 +36,7 @@ public:
     };
 
 public:
-    explicit CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr );
+    explicit CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent = nullptr);
     void setDisable(bool);
 
     void setCurrentTheme(int currentTheme);

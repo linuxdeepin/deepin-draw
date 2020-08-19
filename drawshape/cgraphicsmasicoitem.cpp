@@ -250,6 +250,12 @@ void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPoint
     updateBlurPath();
 }
 
+void CGraphicsMasicoItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset, const double &xScale, const double &yScale, bool bShiftPress, bool bAltPress)
+{
+    CGraphicsPenItem::resizeToMul(dir, offset, xScale, yScale, bShiftPress, bAltPress);
+    updateBlurPath();
+}
+
 void CGraphicsMasicoItem::updateBlurPath()
 {
     QPainterPathStroker t_stroker;
@@ -325,7 +331,7 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
-            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType ) {
+            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType) {
 
                 if (item->type() == BlurType && item != this) {
                     retList.push_back(item);
