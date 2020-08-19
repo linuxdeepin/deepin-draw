@@ -63,7 +63,6 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setPos(event->pos().x(), event->pos().y());
         pItem->getTextEdit()->setText(QObject::tr("Input text here"));
         pItem->getTextEdit()->setAlignment(Qt::AlignLeft);
-        pItem->getTextEdit()->selectAll();
 
         CGraphicsView *pView = event->scene()->drawView();
 
@@ -96,8 +95,8 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
-        // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+
+        pItem->getTextEdit()->selectAll();
 
         return pItem;
     }
