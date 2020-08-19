@@ -182,6 +182,13 @@ public:
      */
     void setPenEndType(const ELineType &penType);
 
+
+    /**
+     * @brief straightLine 得到绘制过程中的可能存在的直线线条
+     * @return
+     */
+    QLineF straightLine();
+
     /**
      * @brief loadGraphicsUnit 加载图元数据
      * @return

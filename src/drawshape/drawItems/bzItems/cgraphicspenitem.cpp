@@ -1386,6 +1386,11 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     updateHandlesGeometry();
 }
 
+QLineF CGraphicsPenItem::straightLine()
+{
+    return m_straightLine;
+}
+
 void CGraphicsPenItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
     Q_UNUSED(allInfo)

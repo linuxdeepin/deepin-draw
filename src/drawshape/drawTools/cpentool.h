@@ -27,6 +27,9 @@ public:
     virtual ~CPenTool() Q_DECL_OVERRIDE;
 
 protected:
+
+    CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+
     /**
      * @brief toolUpdate 工具执行的刷新
      * @param event 事件
@@ -41,10 +44,16 @@ protected:
      */
     virtual void toolCreatItemFinish(CDrawToolEvent *event, ITERecordInfo *pInfo) Q_DECL_OVERRIDE;
 
-    virtual CGraphicsItem *creatItem(CDrawToolEvent *event) Q_DECL_OVERRIDE;
+    /**
+     * @brief painter　绘制更多的内容（用于绘制shift按住时直线线段）
+     * @param painter  绘制指针
+     * @param rect     矩形大小
+     * @param scene    场景指针
+     */
+    void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene) override;
 
 
-    virtual int  allowedMaxTouchPointCount() override;
+    int  allowedMaxTouchPointCount() override;
 };
 
 #endif // CPENTOOL_H

@@ -859,6 +859,14 @@ void CGraphicsView::paintEvent(QPaintEvent *event)
     else {
         QPainter painter(this->viewport());
         painter.drawPixmap(QPoint(0, 0), pix);
+        //绘制额外的前景显示，如框选等
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+        if (pTool != nullptr) {
+            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), pix.size())).boundingRect(), drawScene());
+        }
     }
     //qDebug() << "useeee ============== " << ttt.elapsed();
 }
