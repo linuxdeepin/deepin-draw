@@ -185,6 +185,8 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 
     QTextEdit::focusOutEvent(e);
     if (m_pItem && m_pItem->drawScene()) {
+        // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
+        this->selectAll();
         m_pItem->drawScene()->notSelectItem(m_pItem);
     }
 //    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
@@ -457,13 +459,13 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
-    qDebug() << "selected_start_index: " << selected_start_index;
-    qDebug() << "      selectedString: " << selectedString;
-    qDebug() << "     m_selectedColor: " << m_selectedColor;
-    qDebug() << "      m_selectedSize: " << m_selectedSize;
-    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+//    qDebug() << "selected_start_index: " << selected_start_index;
+//    qDebug() << "      selectedString: " << selectedString;
+//    qDebug() << "     m_selectedColor: " << m_selectedColor;
+//    qDebug() << "      m_selectedSize: " << m_selectedSize;
+//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+//    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
 }
 
 void CTextEdit::checkTextProperty()

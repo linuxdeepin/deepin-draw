@@ -57,7 +57,7 @@ public:
     void setSideNum(int sideNum);
 
     QFont getTextFont() const;
-    void setTextFont(const QString &strFont);
+    void setTextFontFamily(const QString &strFont);
 
     QString getTextFontStyle() const;
     void setTextFontStyle(const QString &style);
