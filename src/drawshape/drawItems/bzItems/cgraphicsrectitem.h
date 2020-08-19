@@ -110,6 +110,12 @@ protected:
     QPainterPath inSideShape() const Q_DECL_OVERRIDE;
 
     /**
+     * @brief incLength 虚拟的额外线宽宽度（解决选中困难的问题 提升用户体验,但闭合形状很容易选中，所以返回0）
+     * @return 返回额外的线宽（0）
+     */
+    qreal incLength() const override;
+
+    /**
      * @brief duplicateCreatItem 复制一个一样类型的图元
      * @return
      */

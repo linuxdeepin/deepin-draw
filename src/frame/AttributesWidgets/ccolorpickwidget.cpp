@@ -34,6 +34,8 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
     this->setArrowWidth(18);
     this->setArrowHeight(10);
     m_colorPanel = new ColorPanel(this);
+    m_colorPanel->setFocusPolicy(Qt::NoFocus);
+    this->setFocusPolicy(Qt::NoFocus);
     this->setContent(m_colorPanel);
     this->hide();
 

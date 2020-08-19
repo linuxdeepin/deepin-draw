@@ -86,32 +86,7 @@ int CGraphicsLineItem::type() const
 
 QPainterPath CGraphicsLineItem::shape() const
 {
-    QPainterPath path;
-
-    if (this->curView() == nullptr)
-        return path;
-
-    if (m_line == QLineF())
-        return path;
-
-    path.moveTo(m_line.p1());
-    path.lineTo(m_line.p2());
-
-    QPen pen = this->pen();
-    qreal scale = curView()->getDrawParam()->getScale();
-    if (pen.width() * int(scale) < 20) {
-        if (scale > 1) {
-            pen.setWidthF(20 / scale);
-        } else {
-            pen.setWidth(20);
-        }
-
-    }
-
-    path.addPath(m_startPath);
-    path.addPath(m_endPath);
-
-    return qt_graphicsItem_shapeFromPath(path, pen);
+    return CGraphicsItem::shape();
 }
 
 QRectF CGraphicsLineItem::boundingRect() const
@@ -436,7 +411,7 @@ void CGraphicsLineItem::updateHandlesGeometry()
     for (Handles::iterator it = m_handles.begin(); it != m_handles.end(); ++it) {
         CSizeHandleRect *hndl = *it;
 
-        if (!this->isSelected()) {
+        if (!this->isSelected() || this->getMutiSelect()) {
             hndl->hide();
             continue;
         }
@@ -497,6 +472,8 @@ void CGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    updateHandlesGeometry();
+
     painter->setRenderHint(QPainter::Antialiasing, true);
 
     const QPen curPen = paintPen();
@@ -531,6 +508,15 @@ QVariant CGraphicsLineItem::itemChange(QGraphicsItem::GraphicsItemChange change,
         updateHandlesGeometry();
     }
     return CGraphicsItem::itemChange(change, value);
+}
+
+bool CGraphicsLineItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
+        return true;
+    }
+    return false;
 }
 
 void CGraphicsLineItem::initLine()
@@ -769,4 +755,34 @@ void CGraphicsLineItem::setLinePenWidth(int width)
     this->pen().setWidth(width);
     calcVertexes();
     updateHandlesGeometry();
+}
+
+QPainterPath CGraphicsLineItem::inSideShape() const
+{
+    QPainterPath path;
+
+    if (this->curView() == nullptr)
+        return path;
+
+    if (m_line == QLineF())
+        return path;
+
+    path.moveTo(m_line.p1());
+    path.lineTo(m_line.p2());
+
+    QPen pen = this->pen();
+    qreal scale = curView()->getDrawParam()->getScale();
+    if (pen.width() * int(scale) < 20) {
+        if (scale > 1) {
+            pen.setWidthF(20 / scale);
+        } else {
+            pen.setWidth(20);
+        }
+
+    }
+
+    path.addPath(m_startPath);
+    path.addPath(m_endPath);
+
+    return qt_graphicsItem_shapeFromPath(path, pen);
 }

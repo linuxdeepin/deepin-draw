@@ -33,7 +33,7 @@ public:
     TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
-    void setColor(const QColor &color, EChangedPhase phase = EChanged);
+    void setColor(const QColor &color, EChangedPhase phase = EChanged, bool emitSig = true);
     QColor getColor();
     void setColorIndex(int index);
     void updateConfigColor();

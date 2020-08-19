@@ -254,8 +254,6 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
     connect(newview, SIGNAL(signalTransmitContinueDoOtherThing()), this, SIGNAL(signalContinueDoOtherThing()));
     connect(newview, SIGNAL(singalTransmitEndLoadDDF()), this, SLOT(slotTransmitEndLoadDDF()));
 
-    connect(m_leftToolbar, SIGNAL(setCurrentDrawTool(int, bool)), curScene, SLOT(drawToolChange(int, bool)));
-
     //如果是裁剪模式点击左边工具栏按钮则执行裁剪
     connect(m_leftToolbar, SIGNAL(singalDoCutFromLeftToolBar()), newview, SLOT(slotDoCutScene()));
 
@@ -643,7 +641,7 @@ void CCentralwidget::slotDoSaveImage(QString completePath)
 
 void CCentralwidget::addView(QString viewName, const QString &uuid)
 {
-    qDebug() << "addView:" << viewName;
+    //qDebug() << "addView:" << viewName;
     CGraphicsView *pNewView = createNewScense(viewName, uuid);
     CManageViewSigleton::GetInstance()->setCurView(pNewView);
 
@@ -686,7 +684,7 @@ void CCentralwidget::slotQuitApp()
 
 void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
 {
-    qDebug() << "viewChanged" << viewName;
+    //qDebug() << "viewChanged" << viewName;
 
     // [0] 判断当前新显示的视图是否为空
     CGraphicsView *view = CManageViewSigleton::GetInstance()->getViewByUUID(uuid);

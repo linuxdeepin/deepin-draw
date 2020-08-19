@@ -85,3 +85,8 @@ CGraphicsItem *CLineTool::creatItem(IDrawTool::CDrawToolEvent *event)
     return nullptr;
 }
 
+int CLineTool::allowedMaxTouchPointCount()
+{
+    return 10;
+}
+

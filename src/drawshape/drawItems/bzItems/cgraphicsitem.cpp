@@ -32,6 +32,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 
+const int inccW = 10;
 QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path,
                                                           const QPen &pen,
                                                           bool replace,
@@ -91,7 +92,7 @@ CGraphicsView *CGraphicsItem::curView() const
     return parentView;
 }
 
-CDrawScene *CGraphicsItem::drawScene()
+CDrawScene *CGraphicsItem::drawScene() const
 {
     return qobject_cast<CDrawScene *>(scene());
 }
@@ -250,7 +251,7 @@ QPainterPath CGraphicsItem::inSideShape() const
 
 QPainterPath CGraphicsItem::outSideShape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true);
+    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true, this->incLength());
 }
 
 QRectF CGraphicsItem::boundingRect() const
@@ -260,7 +261,21 @@ QRectF CGraphicsItem::boundingRect() const
 
 QPainterPath CGraphicsItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), false);
+    return outSideShape();
+}
+
+bool CGraphicsItem::contains(const QPointF &point) const
+{
+    if (outSideShape().contains(point)) {
+        return true;
+    } else {
+        qreal inLenth = this->incLength();
+        bool isInInSide = inSideShape().intersects(QRectF(point - QPointF(inLenth, inLenth),
+                                                          point + QPointF(inLenth, inLenth)));
+        if (isInInSide)
+            return true;
+    }
+    return false;
 }
 
 bool CGraphicsItem::isPosPenetrable(const QPointF &posLocal)
@@ -358,6 +373,12 @@ void CGraphicsItem::duplicate(CGraphicsItem *item)
     item->setZValue(zValue());
 }
 
+qreal CGraphicsItem::incLength()const
+{
+    qreal scal = drawScene() == nullptr ? 1.0 : drawScene()->drawView()->getScale();
+    return inccW / scal;
+}
+
 bool CGraphicsItem::isGrabToolEvent()
 {
     return false;
@@ -439,7 +460,12 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 
     //未来做多选操作，需要把刷新功能做到undoredo来统一管理
     //全选的由其它地方处理刷新 否则会出现卡顿
-    if (change == QGraphicsItem::ItemPositionHasChanged || change == QGraphicsItem::ItemMatrixChange || change == QGraphicsItem::ItemZValueHasChanged || change == QGraphicsItem::ItemOpacityHasChanged || change == QGraphicsItem::ItemRotationHasChanged || change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
+    if (change == QGraphicsItem::ItemPositionHasChanged ||
+            change == QGraphicsItem::ItemMatrixChange ||
+            change == QGraphicsItem::ItemZValueHasChanged ||
+            change == QGraphicsItem::ItemOpacityHasChanged ||
+            change == QGraphicsItem::ItemRotationHasChanged /*||
+            change == QGraphicsItem::ItemTransformOriginPointHasChanged*/) {
         if (nullptr != scene()) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->updateBlurItem(this);

@@ -136,6 +136,11 @@ QPainterPath CGraphicsRectItem::inSideShape() const
     return path;
 }
 
+qreal CGraphicsRectItem::incLength() const
+{
+    return 0;
+}
+
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -526,6 +531,7 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     this->setPos(0, 0);
 
     this->setRect(rect);
+
     updateHandlesGeometry();
 }
 

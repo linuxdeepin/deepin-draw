@@ -40,8 +40,6 @@ public:
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
 
-    void initText();
-
     void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
@@ -96,7 +94,6 @@ public:
     void doDelete();
 
     //选中后 更改字体和颜色
-    void currentCharFormatChanged(const QTextCharFormat &format);
     bool getManResizeFlag() const;
     void setManResizeFlag(bool flag);
     void setLastDocumentWidth(qreal width);
@@ -139,17 +136,22 @@ public:
 
     void makeEditabel();
 
-    void updateHandleVisible();
-
     /**
      * @brief isGrabToolEvent 是否独占事件
      */
     bool isGrabToolEvent() override;
 
+    /*
+    * @bref: updateSelectAllTextProperty 更新文字图元所有文本的属性,这样才能获取到最新的选中文字属性
+    */
+    void updateSelectAllTextProperty();
+
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+
+    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
 
     /**
      * @brief itemChange 图元变更

@@ -92,8 +92,6 @@ void CGraphicsTextItem::initTextEditWidget()
 
     enum EDirection { LeftTop, Top, RightTop, Right, RightBottom, Bottom, LeftBottom, Left, Rotation, InRect, None};
 
-    updateHandleVisible();
-
     //全选会更改一次字体 所以字体获取要在这之前
     QTextCursor textCursor = m_pTextEdit->textCursor();
     textCursor.select(QTextCursor::Document);
@@ -106,7 +104,6 @@ void CGraphicsTextItem::initTextEditWidget()
 void CGraphicsTextItem::initHandle()
 {
     CGraphicsRectItem::initHandle();
-    updateHandleVisible();
 }
 
 void CGraphicsTextItem::setLastDocumentWidth(qreal width)
@@ -171,26 +168,15 @@ void CGraphicsTextItem::makeEditabel()
     m_pTextEdit->setFocus();
 }
 
-void CGraphicsTextItem::updateHandleVisible()
-{
-    //bool visble = getManResizeFlag();
-    //qDebug() << "CGraphicsTextItem visble = " << visble << "size = " << m_handles.size();
-
-    //    if (drawScene() != nullptr) {
-    //        CGraphicsItemSelectedMgr *pMgr = drawScene()->getItemsMgr();
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftTop);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Top);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightTop);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::RightBottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Bottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::LeftBottom);
-    //        pMgr->setHandleVisible(visble, CSizeHandleRect::Rotation);
-    //    }
-}
-
 bool CGraphicsTextItem::isGrabToolEvent()
 {
     return isEditable();
+}
+
+void CGraphicsTextItem::updateSelectAllTextProperty()
+{
+    this->m_pTextEdit->selectAll();
+    this->m_pTextEdit->checkTextProperty();
 }
 
 void CGraphicsTextItem::slot_textmenu(QPoint)
@@ -217,22 +203,9 @@ void CGraphicsTextItem::setRect(const QRectF &rect)
     }
     CGraphicsRectItem::setRect(rect);
     updateWidget();
-
-    if (static_cast<CDrawScene *>(scene()) && static_cast<CDrawScene *>(scene())->selectedItems().size() == 1) {
-        CGraphicsItem *item = static_cast<CGraphicsItem *>(static_cast<CDrawScene *>(scene())->selectedItems().at(0));
-        if (item && item->type() == TextType) {
-            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPos(QPoint(0, 0));
-            //static_cast<CDrawScene *>(scene())->getItemHighLight()->setPath(item->mapToScene(item->getHighLightPath()));
-        }
-    }
     updateShape();
-    if (drawScene() != nullptr)
+    if (drawScene() != nullptr && isSelected())
         drawScene()->setHighlightHelper(mapToScene(getHighLightPath()));
-}
-
-void CGraphicsTextItem::initText()
-{
-
 }
 
 void CGraphicsTextItem::setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy)
@@ -304,6 +277,8 @@ void CGraphicsTextItem::setTextFontStyle(const QString &style)
         weight = 81;
     } else if (style == "Black") {
         weight = 87;
+    } else {
+        weight = 50;
     }
 
     QTextCharFormat fmt;
@@ -369,6 +344,7 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
 
 void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
 {
+    Q_UNUSED(allInfo)
     SGraphicsTextUnitData *pTextData = data.data.pText;
 
     if (pTextData != nullptr) {
@@ -376,8 +352,8 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
         m_Font = pTextData->font;
         m_bManResize = pTextData->manResizeFlag;
 
-        if (allInfo)
-            m_pTextEdit->setHtml(pTextData->content);
+//        if (allInfo)
+        m_pTextEdit->setHtml(pTextData->content);
 
         m_pTextEdit->hide();
         m_color = pTextData->color;
@@ -389,7 +365,7 @@ void CGraphicsTextItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo
 
 void CGraphicsTextItem::setTextColor(const QColor &col)
 {
-    qDebug() << "Content: " << col;
+    //qDebug() << "Content: " << col;
     QTextCharFormat fmt;
     fmt.setForeground(col);
     mergeFormatOnWordOrSelection(fmt);
@@ -423,8 +399,8 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
     // [1] 设置 TextEdit 光标处最新的格式
     m_pTextEdit->mergeCurrentCharFormat(format);
 
-    // [2] 设置焦点
-    m_pTextEdit->setFocus();
+    // [2] 重新更新当前图元的文字内部属性
+    m_pTextEdit->checkTextProperty();
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -447,24 +423,13 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void CGraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-
-
     makeEditabel();
-//    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
-//            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
-//        m_pTextEdit->show();
-//        //m_pProxy->setFocus();
-//        QTextCursor textCursor = m_pTextEdit->textCursor();
-//        textCursor.select(QTextCursor::Document);
-//        m_pTextEdit->setTextCursor(textCursor);
-////    m_pTextEdit->cursorPositionChanged();
-//    }
+}
 
-    //    if (nullptr != scene()) {
-    //        auto curScene = static_cast<CDrawScene *>(scene());
-    //        curScene->updateBlurItem(this);
-    //    }
-    //    m_pTextEdit->setFocus();
+bool CGraphicsTextItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    return false;
 }
 
 QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -472,8 +437,6 @@ QVariant CGraphicsTextItem::itemChange(QGraphicsItem::GraphicsItemChange change,
     if (change == QGraphicsItem::ItemSelectedHasChanged) {
         if (value.toBool() == false)
             this->getTextEdit()->hide();
-
-        updateHandleVisible();
     }
 
     return CGraphicsRectItem::itemChange(change, value);
@@ -640,6 +603,7 @@ void CGraphicsTextItem::clearLetterSpacing(QTextDocument *doc, int *blockNum)
         }
     }
 }
+
 // 将QTextDocument中的指定Block置为发散对其方式，DocWidth为限定宽度,注意本函数会破坏原有的字符间距
 void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum)
 {
@@ -689,20 +653,6 @@ void CGraphicsTextItem::adjustAlignJustify(QTextDocument *doc, qreal DocWidth, i
     }
 }
 
-void CGraphicsTextItem::currentCharFormatChanged(const QTextCharFormat &format)
-{
-    Q_UNUSED(format)
-    // 此处不再需要向缓存中写入数据了
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(format.font().family());
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(format.font().pointSize());
-//    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(format.foreground().color());
-
-//    //提示更改 TODO
-//    if (this->scene() != nullptr) {
-//        emit static_cast<CDrawScene *>(this->scene())->signalUpdateTextFont();
-//    }
-}
-
 bool CGraphicsTextItem::getManResizeFlag() const
 {
     return m_bManResize;
@@ -710,15 +660,12 @@ bool CGraphicsTextItem::getManResizeFlag() const
 
 void CGraphicsTextItem::setManResizeFlag(bool flag)
 {
-    bool changed = (flag != m_bManResize);
     m_bManResize = flag;
-
-    if (changed)
-        updateHandleVisible();
 }
 
 CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
 {
+    Q_UNUSED(all)
     CGraphicsUnit unit;
 
     unit.head.dataType = this->type();
@@ -734,7 +681,8 @@ CGraphicsUnit CGraphicsTextItem::getGraphicsUnit(bool all) const
     unit.data.pText->rect.bottomRight = this->rect().bottomRight();
     unit.data.pText->font = this->m_Font;
     unit.data.pText->manResizeFlag = this->getManResizeFlag();
-    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
+//    unit.data.pText->content = all ? this->m_pTextEdit->toHtml() : "";
+    unit.data.pText->content = this->m_pTextEdit->toHtml();
     unit.data.pText->color = m_color;
 
     return  unit;
@@ -748,6 +696,7 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 bool CGraphicsTextItem::isEditable() const
 {
     return !m_pTextEdit->isHidden();
+    //return m_pTextEdit->getEditing();
 }
 
 void CGraphicsTextItem::doCut()

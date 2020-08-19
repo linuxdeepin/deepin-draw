@@ -25,6 +25,7 @@
 #include "cviewmanagement.h"
 #include "cgraphicsview.h"
 #include "ccentralwidget.h"
+#include "cdrawscene.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -134,6 +135,19 @@ CLeftToolBar *Application::leftToolBar()
     return nullptr;
 }
 
+CDrawScene *Application::currentDrawScence()
+{
+    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+        return dynamic_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+    }
+    return nullptr;
+}
+
+CGraphicsView *Application::currentDrawView()
+{
+    return CManageViewSigleton::GetInstance()->getCurView();
+}
+
 QStringList Application::getRightFiles(const QStringList &files)
 {
     //过滤文件
@@ -223,6 +237,24 @@ QRegExp Application::fileNameRegExp(bool ill, bool containDirDelimiter)
     QRegExp regExg(exgStr);
 
     return regExg;
+}
+
+void Application::setWidgetAllPosterityNoFocus(QWidget *pW)
+{
+    if (pW == nullptr)
+        return;
+
+    QList<QObject *> list0 = pW->children();
+    for (int i  = 0; i < list0.size(); ++i) {
+        QObject *o = list0[i];
+        if (o->isWidgetType()) {
+            QWidget *pWidget = qobject_cast<QWidget *>(o);
+            if (pWidget != nullptr) {
+                pWidget->setFocusPolicy(Qt::NoFocus);
+                setWidgetAllPosterityNoFocus(pWidget);
+            }
+        }
+    }
 }
 
 bool Application::isFileNameLegal(const QString &path, int *outErrorReson)

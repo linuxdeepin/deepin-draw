@@ -1235,6 +1235,15 @@ void CGraphicsPenItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     endCheckIns(painter);
 
+
+//    painter->save();
+//    QPainterPath testPath = this->shape();
+//    painter->setPen(QColor(255, 0, 0, 80));
+//    painter->setBrush(QColor(0, 0, 255, 80));
+//    painter->drawPath(testPath);
+//    painter->restore();
+
+
     paintMutBoundingLine(painter, option);
 }
 
@@ -1248,6 +1257,14 @@ void CGraphicsPenItem::operatingEnd(int opTp)
     return CGraphicsItem::operatingEnd(opTp);
 }
 
+bool CGraphicsPenItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    if (pen().color().alpha() == 0 || pen().width() == 0 || pen().widthF() == .0) {
+        return true;
+    }
+    return false;
+}
 
 QPainterPath CGraphicsPenItem::getPath() const
 {
@@ -1394,7 +1411,12 @@ QPainterPath CGraphicsPenItem::inSideShape() const
     path.addPath(m_startPath);
     path.addPath(m_endPath);
 
-    path.closeSubpath();
+    //path.closeSubpath();
 
     return path;
 }
+
+//QPainterPath CGraphicsPenItem::outSideShape() const
+//{
+//    return qt_graphicsItem_shapeFromPath(inSideShape(), pen(), true, 5);
+//}

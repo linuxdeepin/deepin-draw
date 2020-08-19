@@ -31,6 +31,7 @@
 #include <QHBoxLayout>
 #include <QFont>
 #include <QLineEdit>
+#include <QAbstractItemView>
 
 const int BTN_SPACING = 6;
 const int SEPARATE_SPACING = 5;
@@ -72,9 +73,6 @@ void TextWidget::initUI()
     m_fontComBox->lineEdit()->setReadOnly(true);
     m_fontComBox->lineEdit()->setFont(ft);
     m_fontComBox->setFocusPolicy(Qt::NoFocus);
-    QString strFont = m_fontComBox->currentText();
-    if (CManageViewSigleton::GetInstance()->getCurView() != nullptr)
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(strFont);
 
     m_fontHeavy = new DComboBox(this); // 字体类型
     m_fontHeavy->setFixedSize(QSize(130, 36));
@@ -92,6 +90,7 @@ void TextWidget::initUI()
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
+    m_fontSize->setFocusPolicy(Qt::NoFocus);
 
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
@@ -127,15 +126,27 @@ void TextWidget::updateTheme()
 
 void TextWidget::setFontSize(int size, bool emitSig)
 {
-    QVariant preValue = m_fontSize->property("preValue");
+//    QVariant preValue = m_fontSize->property("preValue");
 
-    if (preValue.isValid()) {
-        int preIntValue = preValue.toInt();
-        int curValue    = (size < 0 ? -1 : size);
-        if (preIntValue == curValue)
-            return;
+//    if (preValue.isValid()) {
+//        int preIntValue = preValue.toInt();
+//        int curValue    = (size < 0 ? -1 : size);
+//        if (preIntValue == curValue)
+//            return;
+//    }
+//    m_fontSize->setProperty("preValue", size);
+
+    QString findTex = QString("%1px").arg(size);
+
+    int index = m_fontSize->findText(findTex);
+
+    m_fontSize->blockSignals(true);
+    if (index >= 0) {
+        m_fontSize->setCurrentIndex(index);
+    } else {
+        m_fontSize->setCurrentText(findTex);
     }
-    m_fontSize->setProperty("preValue", size);
+    m_fontSize->blockSignals(false);
 
     if (emitSig)
         emit fontSizeChanged(size);
@@ -177,6 +188,9 @@ void TextWidget::setTextFamilyStyle(const QString &family, const QString &style,
 
     m_fontHeavy->blockSignals(false);
 
+    m_fontComBox->blockSignals(true);
+    m_fontComBox->setCurrentIndex(m_fontComBox->findText(family));
+    m_fontComBox->blockSignals(false);
 
     if (emitSig) {
         fontFamilyChanged(family, isPreview);
@@ -188,14 +202,20 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     m_fillBtn->setIsMultColorSame(color);
 
     if (!size) {
-        m_fontSize->lineEdit()->setText("--");
+        m_fontHeavy->blockSignals(true);
+        m_fontSize->lineEdit()->setText("— —");
+        m_fontHeavy->blockSignals(false);
     }
     if (!Family) {
-        m_fontComBox->lineEdit()->setText("--");
+        m_fontHeavy->blockSignals(true);
+        m_fontComBox->lineEdit()->setText("— —");
+        m_fontHeavy->blockSignals(false);
     }
 
     if (!Style) {
-        m_fontHeavy->lineEdit()->setText("--");
+        m_fontHeavy->blockSignals(true);
+        m_fontHeavy->lineEdit()->setText("— —");
+        m_fontHeavy->blockSignals(false);
     }
 }
 
@@ -211,19 +231,15 @@ void TextWidget::initConnection()
 
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::activated), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = false;
-        //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFont(str);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str);
-        setTextFamilyStyle(str, "", true);
+        setTextFamilyStyle(str, m_fontHeavy->currentText(), true);
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = true;
-        setTextFamilyStyle(str, "", true, true);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, str, false);
+        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, true);
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
         if (m_oneItemIsHighlighted) {
-            //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextFont, m_oriFamily, false);
-            setTextFamilyStyle(m_oriFamily, "", true, true);
+            setTextFamilyStyle(m_oriFamily, m_fontHeavy->currentText(), true, true);
             m_oneItemIsHighlighted = false;
         }
     });
@@ -263,7 +279,7 @@ void TextWidget::initConnection()
         m_fontSize->blockSignals(false);
 
         if (flag) {
-            setFontSize(size, true);
+            emit fontSizeChanged(size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -278,7 +294,7 @@ void TextWidget::initConnection()
         bool flag = false;
         int size = str.toInt(&flag);
         if (flag) {
-            setFontSize(size, true);
+            emit fontSizeChanged(size);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -307,15 +323,13 @@ void TextWidget::initConnection()
         } else if (str == tr("Thin")) {
             style = "Thin";
         }
-        //CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(style);
-        //CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextHeavy, style);
         emit fontStyleChanged(style);
     });
 }
 
 void TextWidget::initDefaultSetting()
 {
-    setTextFamilyStyle(m_fontComBox->currentText());
+//    setTextFamilyStyle(m_fontComBox->currentText());
 }
 
 void TextWidget::addFontPointSize()
@@ -335,35 +349,7 @@ void TextWidget::addFontPointSize()
     m_fontSize->addItem("100px");
 }
 
-//void TextWidget::refreshUI()
-//{
-//    m_fillBtn->updateConfigColor();
-//    m_fillBtn->setIsMultColorSame(true);
-
-//    int fontSize = int(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextSize());
-//    if (fontSize != m_fontSize->currentText().replace("px", "").toInt()) {
-//        m_fontSize->blockSignals(true);
-//        m_fontSize->setCurrentText(QString::number(fontSize) + "px");
-//        m_fontSize->blockSignals(false);
-//    }
-
-//    QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
-//    QString Sfont = font.family();
-//    if (Sfont != m_fontComBox->currentFont().family()) {
-//        m_fontComBox->blockSignals(true);
-//        m_fontComBox->setCurrentText(Sfont);
-//        m_fontComBox->blockSignals(false);
-//    }
-
-//    QString fontStyle = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle();
-//    if (fontStyle != m_fontHeavy->currentText()) {
-//        m_fontHeavy->blockSignals(true);
-//        m_fontHeavy->setCurrentText(fontStyle);
-//        m_fontHeavy->blockSignals(false);
-//    }
-//}
-
 void TextWidget::setTextColor(const QColor &color, bool emitSig)
 {
-    m_fillBtn->setColor(color, emitSig ? EChanged : EChangedUpdate);
+    m_fillBtn->setColor(color, emitSig ? EChanged : EChangedUpdate, emitSig);
 }

@@ -168,6 +168,7 @@ void ColorPanel::initUI()
     m_colLineEdit->setClearButtonEnabled(false);
     m_colLineEdit->lineEdit()->setValidator(new QRegExpValidator(QRegExp("[0-9A-Fa-f]{6}"), this));
     m_colLineEdit->setText("ffffff");
+    //m_colLineEdit->lineEdit()->setFocusPolicy(Qt::NoFocus);
 
     QMap<int, QMap<CIconButton::EIconButtonSattus, QString>> pictureMap;
     pictureMap[DGuiApplicationHelper::LightType][CIconButton::Normal] = QString(":/theme/light/images/draw/palette_normal.svg");

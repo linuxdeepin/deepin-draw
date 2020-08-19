@@ -443,6 +443,9 @@ private:
     bool blockMscUpdate = false;
 
     QPainterPath _highlight;
+
+    /* 文字可编辑光标 */
+    QCursor m_textEditCursor;
 };
 
 #endif // CDRAWSCENE_H

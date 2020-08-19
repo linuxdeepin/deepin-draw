@@ -288,10 +288,14 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
     data.blurWidth = (tp == MasicPen ? data.penWidth : data.blurWidth);
 
     if (tp == Text) {
-        data.textColor = unitData.data.pText->color;
-        data.textFontSize = int(unitData.data.pText->font.pointSizeF());
-        data.textFontFamily = unitData.data.pText->font.family();
-        data.textFontStyle = unitData.data.pText->font.styleName();
+        data.textColor = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedTextColor();
+        data.textFontSize = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontSize();
+        data.textFontFamily = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontFamily();
+        data.textFontStyle = dynamic_cast<CGraphicsTextItem *>(graphicItems().first())->getSelectedFontStyle();
+        data.comVaild[TextColor] = data.textColor.isValid() ? true : false;
+        data.comVaild[TextSize] = data.textFontSize > 0 ? true : false;
+        data.comVaild[TextFont] = data.textFontFamily.isEmpty() ? false : true;
+        data.comVaild[TextHeavy] = data.textFontStyle.isEmpty() ? false : true;
     } else if (tp == Image) {
         if (graphicItem()->sceneBoundingRect() != graphicItem()->drawScene()->sceneRect()) {
             data.comVaild[PropertyImageAdjustScence] = true;
@@ -354,16 +358,16 @@ SComDefualData CComAttrWidget::getGraphicItemsDefualData(int tp)
                 }
             } else if (tp == Text) {
                 CGraphicsTextItem *pText = dynamic_cast<CGraphicsTextItem *>(pItem);
-                if (int(pText->getFontSize()) != data.textFontSize) {
+                if (int(pText->getSelectedFontSize()) != data.textFontSize) {
                     data.comVaild[TextSize] = false;
                 }
-                if (pText->getFontFamily() != data.textFontFamily) {
+                if (pText->getSelectedFontFamily() != data.textFontFamily) {
                     data.comVaild[TextFont] = false;
                 }
-                if (pText->getTextFontStyle() != data.textFontStyle) {
+                if (pText->getSelectedFontStyle() != data.textFontStyle) {
                     data.comVaild[TextHeavy] = false;
                 }
-                if (pText->getTextColor() != data.textColor) {
+                if (pText->getSelectedTextColor() != data.textColor) {
                     data.comVaild[TextColor] = false;
                 }
             } else if (tp == MasicPen) {
@@ -558,9 +562,9 @@ void CComAttrWidget::refreshDataHelper(int tp)
 
     if (isSpecialItem(tp)) {
         if (tp == Text) {
-            getTextWidgetForText()->setFontSize(data.textFontSize);
-            getTextWidgetForText()->setTextColor(data.textColor);
-            getTextWidgetForText()->setTextFamilyStyle(data.textFontFamily);
+            getTextWidgetForText()->setFontSize(data.textFontSize, false);
+            getTextWidgetForText()->setTextColor(data.textColor, false);
+            getTextWidgetForText()->setTextFamilyStyle(data.textFontFamily, data.textFontStyle, false);
             getTextWidgetForText()->setVaild(data.comVaild[TextColor], data.comVaild[TextSize],
                                              data.comVaild[TextFont], data.comVaild[TextHeavy]);
         } else if (tp == Image) {
@@ -596,14 +600,14 @@ void CComAttrWidget::refreshDataHelper(int tp)
         CBlockObjectSig sig(getSpinBoxForRectRadius());
         getSpinBoxForRectRadius()->setValue(data.rectRadius);
         if (!data.comVaild[RectRadius])
-            getSpinBoxForRectRadius()->setValue(-1);
+            getSpinBoxForRectRadius()->setSpecialText();
         break;
     }
     case Polygon: {
         CBlockObjectSig sig(getSpinBoxForPolgonSideNum());
         getSpinBoxForPolgonSideNum()->setValue(data.polySideCount);
         if (!data.comVaild[SideNumber])
-            getSpinBoxForPolgonSideNum()->setValue(-1);
+            getSpinBoxForPolgonSideNum()->setSpecialText();
         break;
     }
     case Star: {
@@ -614,9 +618,9 @@ void CComAttrWidget::refreshDataHelper(int tp)
         getSpinBoxForStarinterRadius()->setValue(data.starInRadiusRadio);
 
         if (!data.comVaild[Anchors])
-            getSpinBoxForStarAnchor()->setValue(-1);
+            getSpinBoxForStarAnchor()->setSpecialText();
         if (!data.comVaild[StarRadius])
-            getSpinBoxForStarinterRadius()->setValue(-1);
+            getSpinBoxForStarinterRadius()->setSpecialText();
 
         break;
     }
@@ -681,6 +685,7 @@ CPenColorBtn *CComAttrWidget::getPenColorBtn()
 {
     if (m_strokeBtn == nullptr) {
         m_strokeBtn = new CPenColorBtn(this);
+        m_strokeBtn->setFocusPolicy(Qt::NoFocus);
         connect(m_strokeBtn, &CPenColorBtn::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             QList<CGraphicsItem *> lists = this->graphicItems();
             if (!lists.isEmpty()) {
@@ -767,7 +772,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForRectRadius()
         m_rediusSpinbox->setSpinRange(0, 1000);
         m_rediusSpinbox->setFixedSize(QSize(85, 36));
         m_rediusSpinbox->setFont(ft);
-        m_rediusSpinbox->setSpecialValueText("— —");
         m_rediusSpinbox->setEnabledEmbedStyle(true);
         m_rediusSpinbox->lineEdit()->setClearButtonEnabled(false);
         m_rediusSpinbox->setProperty("preValue", 5);
@@ -818,7 +822,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarAnchor()
         m_anchorNumber->setFixedSize(QSize(85, 36));
         m_anchorNumber->setSpinRange(3, 50);
         m_anchorNumber->setFont(ft);
-        m_anchorNumber->setSpecialValueText("— —");
         m_anchorNumber->setEnabledEmbedStyle(true);
         m_anchorNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -854,7 +857,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForStarinterRadius()
         m_radiusNumber->setFixedSize(QSize(85, 36));
         m_radiusNumber->setSuffix("%");
         m_radiusNumber->setFont(ft);
-        m_radiusNumber->setSpecialValueText("— —");
         m_radiusNumber->setEnabledEmbedStyle(true);
         m_radiusNumber->lineEdit()->setClearButtonEnabled(false);
 
@@ -915,7 +917,6 @@ CSpinBox *CComAttrWidget::getSpinBoxForPolgonSideNum()
         m_sideNumSpinBox->setFixedSize(QSize(85, 36));
         m_sideNumSpinBox->setSpinRange(4, 10);
         m_sideNumSpinBox->setFont(ft);
-        m_sideNumSpinBox->setSpecialValueText("— —");
         m_sideNumSpinBox->setEnabledEmbedStyle(true);
         m_sideNumSpinBox->lineEdit()->setClearButtonEnabled(false);
 
@@ -1102,6 +1103,12 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
 {
     if (m_TextWidget == nullptr) {
         m_TextWidget = new TextWidget(this);
+
+        //确定CComAttrWidget才拥有焦点
+        this->parentWidget()->parentWidget()->setFocusPolicy(Qt::NoFocus);
+        this->parentWidget()->setFocusPolicy(Qt::NoFocus);
+        m_TextWidget->setFocusPolicy(Qt::NoFocus);
+
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
         connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
             qDebug() << "fontSizeChanged = " << size;
@@ -1147,7 +1154,6 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         });
         connect(m_TextWidget, &TextWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
-                //记录undo
                 CCmdBlock block(this->graphicItem(), phase);
 
                 QList<CGraphicsItem *> lists = this->graphicItems();
@@ -1342,7 +1348,7 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         break;
     case TextHeavy:
         textFontStyle = var.toString();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle("");
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontStyle(textFontStyle);
         break;
     case TextSize:
         textFontSize = var.toInt();

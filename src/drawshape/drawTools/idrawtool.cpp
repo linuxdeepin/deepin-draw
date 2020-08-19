@@ -56,6 +56,11 @@ IDrawTool::IDrawTool(EDrawToolMode mode)
 }
 void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoStart（因为在scene的event中已经处理过）
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        return scene->mouseEvent(event);
+    }
+
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     toolDoStart(&e.first());
@@ -67,6 +72,11 @@ void IDrawTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
 void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoUpdate（因为在scene的event中已经处理过）
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        return scene->mouseEvent(event);
+    }
+
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     toolDoUpdate(&e.first());
@@ -79,6 +89,11 @@ void IDrawTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 
 void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //1.如果由qt将触控事件转成的鼠标事件那么不要再调用toolDoFinish（因为在scene的event中已经处理过）
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        return scene->mouseEvent(event);
+    }
+
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     toolDoFinish(&e.first());
@@ -90,6 +105,11 @@ void IDrawTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
 }
 void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
+    //1.如果由qt将触控事件转成的鼠标事件那么不要再调用（因为在scene的event中已经处理过）
+    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+        return scene->mouseEvent(event);
+    }
+
     CDrawToolEvent::CDrawToolEvents e = CDrawToolEvent::fromQEvent(event, scene);
 
     dueTouchDoubleClickedStart(&e.first());
@@ -99,18 +119,17 @@ void IDrawTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, CDrawScen
     }
 }
 
-bool IDrawTool::isUpdating()
+bool IDrawTool::isActived()
 {
-    return m_bMousePress;
+    return !_allITERecordInfo.isEmpty();
 }
 
-void IDrawTool::interruptUpdating()
+void IDrawTool::interrupt()
 {
     clearITE();
-    m_bMousePress = false;
 }
 
-int IDrawTool::isUpdatingType()
+int IDrawTool::activedType()
 {
     if (!_allITERecordInfo.isEmpty()) {
         return _allITERecordInfo.last()._opeTpUpdate;
@@ -120,8 +139,11 @@ int IDrawTool::isUpdatingType()
 
 void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 {
+    event->scene()->clearHighlight();
+
     if (event->mouseButtons() == Qt::LeftButton || event->eventType() == CDrawToolEvent::ETouchEvent) {
-        m_bMousePress = true;
+
+        //m_bMousePress = true;
 
         if (dueTouchDoubleClickedStart(event)) {
             return;
@@ -131,7 +153,6 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 
         info._prePos       = event->pos();
         info._startPos     = event->pos();
-        info.businessItem  = creatItem(event);
         info.startPosItems = event->scene()->items(event->pos());
         info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
         info._isvaild  = true;
@@ -139,11 +160,24 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info._scene    = event->scene();
         info.getTimeHandle()->restart();
 
-        if (isPressEventHandledByQt(event, &info)) {
-            event->setAccepted(false);
-            info._startEvent = *event;
+        if (getCurVaildActivedPointCount() >= allowedMaxTouchPointCount()) {
+            event->setAccepted(true);
+            //超过可支持的点数了
+            info.eventLife = EDoNotthing;
+            qDebug() << "toolDoStart rInfo.eventLife = EDoNotthing id " << event->uuid();
             _allITERecordInfo.insert(event->uuid(), info);
+        } else if (isPressEventHandledByQt(event, &info)) {
+            event->setAccepted(false);
+            info.eventLife = EDoQtCoversion;
+            qDebug() << "toolDoStart rInfo.eventLife = EDoQtCoversion id " << event->uuid();
+            //只有真实的鼠标事件的调用才需要备份该事件信息,之后会调用toolDoUpdate,toolDoFinished，从而在其中通过UUID找到该事件信息以决定再将该事件传递给mouseEvent
+            //触控操作在这里会被转成qt的鼠标事件直接去调用mouseEvent，不会再进入toolDoStart，toolDoUpdate,toolDoFinished，所以不需要备份保存信息
+            if (event->eventType() == CDrawToolEvent::EMouseEvent)
+                _allITERecordInfo.insert(event->uuid(), info);
         } else {
+            info.businessItem  = creatItem(event);
+            info.eventLife     = ENormal;
+            qDebug() << "toolDoStart rInfo.eventLife = ENormal id " << event->uuid();
 
             _allITERecordInfo.insert(event->uuid(), info);
 
@@ -163,15 +197,17 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
 
 void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
 {
-    if (m_bMousePress) {
+    if (!_allITERecordInfo.isEmpty()) {
         auto it = _allITERecordInfo.find(event->uuid());
         if (it != _allITERecordInfo.end()) {
             ITERecordInfo &rInfo = it.value();
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
-            //0.如果开始事件是不被接受的（传递给了Qt框架），那么Update也应该不被接受（也应该传递给Qt框架）
-            if (rInfo._startEvent.orgQtEvent() != nullptr && !rInfo._startEvent.isAccepted()) {
+            if (rInfo.eventLife == EDoNotthing) {
+                event->setAccepted(true);
+            } else if (rInfo.eventLife == EDoQtCoversion) {
+                //0.如果开始事件是不被接受的（传递给了Qt框架），那么Update也应该不被接受（也应该传递给Qt框架）
                 event->setAccepted(false);
             } else {
                 if (!rInfo.haveDecidedOperateType) {
@@ -221,7 +257,8 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
 
 void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
 {
-    if (m_bMousePress) {
+    qDebug() << "toolDoFinish ==== " << event->uuid();
+    if (!_allITERecordInfo.isEmpty()) {
         auto it = _allITERecordInfo.find(event->uuid());
         if (it != _allITERecordInfo.end()) {
             ITERecordInfo &rInfo = it.value();
@@ -229,8 +266,10 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
-            //0.如果开始事件是不被接受的（传递给了Qt框架），那么finsh也应该不被接受（也应该传递给Qt框架）
-            if (rInfo._startEvent.orgQtEvent() != nullptr && !rInfo._startEvent.isAccepted()) {
+            qDebug() << "toolDoFinish rInfo.eventLife = " << rInfo.eventLife;
+            if (rInfo.eventLife == EDoNotthing) {
+                event->setAccepted(true);
+            } else if (rInfo.eventLife == EDoQtCoversion) {
                 event->setAccepted(false);
             } else {
                 //1.根据操作类型决定要做的事情
@@ -256,19 +295,20 @@ void IDrawTool::toolDoFinish(IDrawTool::CDrawToolEvent *event)
                     event->view()->setPaintEnable(true);
                 }
             }
-            //2.是否要回到select工具模式下去
-            if (returnToSelectTool(rInfo._opeTpUpdate)) {
-                setViewToSelectionTool();
-            }
 
             _allITERecordInfo.erase(it);
-        }
-        m_bMousePress = false;
+            qDebug() << "finished uuid ===== " << event->uuid() << "allITERecordInfo count = " << _allITERecordInfo.count();
 
-        event->scene()->refreshLook(event->pos());
+            //2.是否要回到select工具模式下去
+            if (_allITERecordInfo.isEmpty() && returnToSelectTool(rInfo._opeTpUpdate)) {
+                setViewToSelectionTool();
+            }
+        }
     } else {
         event->setAccepted(false);
     }
+    if (event->eventType() == CDrawToolEvent::EMouseEvent)
+        event->scene()->refreshLook(event->pos());
 }
 
 bool IDrawTool::dueTouchDoubleClickedStart(IDrawTool::CDrawToolEvent *event)
@@ -606,18 +646,45 @@ qreal IDrawTool::getCursorRotation()
     return  angle;
 }
 
+int IDrawTool::allowedMaxTouchPointCount()
+{
+    return 1;
+}
+
 bool IDrawTool::returnToSelectTool(int operate)
 {
     Q_UNUSED(operate)
     return true;
 }
 
+int IDrawTool::getCurVaildActivedPointCount()
+{
+    int result = 0;
+    for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
+        if (it.value().eventLife != EDoNotthing) {
+            ++result;
+        }
+    }
+    return result;
+}
+
 bool IDrawTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
-    return (event->scene()->focusItem() != nullptr &&
-            event->scene()->focusItem()->type() == QGraphicsProxyWidget::Type);
+    //1.节点node不用传递给qgraphics的qt框架 自己处理调整图元大小
+    QGraphicsItem *pItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
+    if (event->scene()->isBussizeHandleNodeItem(pItem)) {
+        return false;
+    }
+
+    //2.如果不是节点，那么如果是代理的widget那么传递给qgraphics的qt框架，将事件传递给这个widget
+
+    QGraphicsItem *pFocusItem = event->scene()->focusItem();
+    bool b = (pFocusItem != nullptr &&
+              pFocusItem->type() == QGraphicsProxyWidget::Type);
+    //qDebug() << "event->scene()->focusItem() = " << event->scene()->focusItem() << "event->scene()->focusItem()->type() = " << event->scene()->focusItem()->type() << "b = " << b;
+    return b;
 }
 
 IDrawTool::ITERecordInfo *IDrawTool::getEventIteInfo(int uuid)
@@ -710,6 +777,7 @@ IDrawTool::CDrawToolEvent IDrawTool::CDrawToolEvent::fromTouchPoint(const QTouch
     e._pos[EGlobelPos]   = tPos.screenPos();
     e._uuid              = tPos.id();
     e._scene             = scene;
+    e._kbMods            = dApp->keyboardModifiers();
     e._orgEvent = eOrg;
     //qDebug() << "e._pos[EViewportPos] = " << e._pos[EViewportPos] << "e._pos[EScenePos] = " << e._pos[EScenePos] << "e._pos[EGlobelPos] = " << e._pos[EGlobelPos];
     return e;

@@ -274,7 +274,7 @@ void CGraphicsView::initContextMenu()
     this->addAction(m_undoAct);
     m_redoAct = m_pUndoStack->createRedoAction(this, tr("Redo"));
     m_contextMenu->addAction(m_redoAct);
-    m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z));
+    m_redoAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Y));
     this->addAction(m_redoAct);
     m_contextMenu->addSeparator();
 
@@ -383,11 +383,9 @@ void CGraphicsView::initContextMenuConnection()
     connect(m_viewOriginalAction, SIGNAL(triggered()), this, SLOT(slotViewOrignal()));
 
     connect(m_undoAct, &QAction::triggered, this, [ = ] {
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         updateCursorShape();
     });
     connect(m_redoAct, &QAction::triggered, this, [ = ] {
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
         updateCursorShape();
     });
 
@@ -1392,8 +1390,17 @@ void CGraphicsView::slotQuitCutMode()
 
 void CGraphicsView::slotDoCutScene()
 {
-    static_cast<CDrawScene *>(scene())->doCutScene();
-    this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+    // [42259] 解决处于裁剪的时候编辑输入框裁剪大小回车不响应输入框，因为view设置了全局的快捷键
+    QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
+    if (foucsLIneedit != nullptr) {
+        m_cutScence->setEnabled(false);
+        QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+        dApp->sendEvent(dApp->focusObject(), &event);
+        m_cutScence->setEnabled(true);
+    } else {
+        static_cast<CDrawScene *>(scene())->doCutScene();
+        this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+    }
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()

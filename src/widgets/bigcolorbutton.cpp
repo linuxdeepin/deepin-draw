@@ -108,7 +108,7 @@ void BigColorButton::mousePressEvent(QMouseEvent *)
 
     pColorPick->setColor(this->m_color);
 
-    connect(pColorPick, &CColorPickWidget::colorChanged, this, [=](const QColor &color, EChangedPhase phase) {
+    connect(pColorPick, &CColorPickWidget::colorChanged, this, [ = ](const QColor & color, EChangedPhase phase) {
         this->setColor(color, phase);
     });
 

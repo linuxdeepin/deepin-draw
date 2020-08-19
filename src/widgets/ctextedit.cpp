@@ -111,27 +111,24 @@ void CTextEdit::slot_textChanged()
 
 void CTextEdit::cursorPositionChanged()
 {
-    // 只要鼠标点击后，此函数就会被调用一次
-    QTextCursor cursor = this->textCursor();
-
-    // 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
+    // [0] 当删除所有文字后，格式会被重置为默认的属性，需要从缓存中重新更新格式
     if (this->document()->toPlainText().isEmpty()) {
         updatePropertyCache2Cursor();
-        return;
     }
-
-    if (this->textCursor().selectionStart() == 0 && (this->document()->toPlainText().startsWith("\n") || this->document()->toPlainText().isEmpty())) {
+    // [1] 光标位置在最前面 或者 开始是\n字符 的时候需要更新当前光标处的属性
+    else if (this->textCursor().selectionStart() == 0
+             && (this->document()->toPlainText().startsWith("\n"))) {
         updateCurrentCursorProperty();
+    } else {
+        // [2] 检测选中文字的属性是否相等
+        QTextCursor cursor = this->textCursor();
+        checkTextProperty(cursor);
     }
 
-    // [0] 检测选中文字的属性是否相等
-    checkTextProperty(cursor);
-
-    if (nullptr != m_pItem->scene()) {
-        auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-        curScene->updateBlurItem(m_pItem);
+    // [3] 刷新属性到顶部文字菜单控件中
+    if (m_pItem->drawScene() != nullptr) {
+        m_pItem->drawScene()->getItemsMgr()->updateAttributes();
     }
-    this->setFocus();
 }
 
 void CTextEdit::insertFromMimeData(const QMimeData *source)
@@ -147,16 +144,23 @@ void CTextEdit::contextMenuEvent(QContextMenuEvent *e)
     e->accept();
 }
 
-void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    return QTextEdit::mouseDoubleClickEvent(e);
-}
+//void CTextEdit::mouseDoubleClickEvent(QMouseEvent *e)
+//{
+//    qDebug() << "CTextEdit::mouseDoubleClickEvent+++++++++++++++++++++++++";
+//    return QTextEdit::mouseDoubleClickEvent(e);
+//}
 
-void CTextEdit::mousePressEvent(QMouseEvent *event)
-{
-    //qDebug() << "CTextEdit::mousePressEvent----";
-    return QTextEdit::mousePressEvent(event);
-}
+//void CTextEdit::mousePressEvent(QMouseEvent *event)
+//{
+//    qDebug() << "CTextEdit::mousePressEvent------------------------------";
+//    return QTextEdit::mousePressEvent(event);
+//}
+
+//void CTextEdit::mouseMoveEvent(QMouseEvent *event)
+//{
+////    qDebug() << "CTextEdit::mouseMoveEvent----";
+//    return QTextEdit::mouseMoveEvent(event);
+//}
 
 void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 {
@@ -166,18 +170,35 @@ void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
-    QTextEdit::focusOutEvent(e);
     QString &pre = const_cast<QString &>(m_e.preeditString());
     if (!pre.isEmpty()) {
+        QTextEdit::focusOutEvent(e);
         m_e.setCommitString(pre);
         pre.clear();
         inputMethodEvent(&m_e);
     }
-    // [0] 编辑文字的时候不会自动刷新属性
-    if (m_pItem && m_pItem->drawScene()) {
-        m_pItem->drawScene()->selectItem(m_pItem);
-        m_pItem->drawScene()->getItemsMgr()->updateAttributes();
+
+    //属性修改导致的widget焦点丢失不应该响应
+    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
+        return;
     }
+
+    QTextEdit::focusOutEvent(e);
+    if (m_pItem && m_pItem->drawScene()) {
+        m_pItem->drawScene()->notSelectItem(m_pItem);
+    }
+//    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
+//             << (dApp->focusObject() == this)
+//             << "parent = " << this->parent()
+//             << "active widget = " << dApp->activePopupWidget();
+
+    m_editing = false;
+}
+
+void CTextEdit::focusInEvent(QFocusEvent *e)
+{
+    m_editing = true;
+    QTextEdit::focusInEvent(e);
 }
 
 void CTextEdit::solveHtml(QString &html)
@@ -436,17 +457,23 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
-//    qDebug() << "selected_start_index: " << selected_start_index;
-//    qDebug() << "      selectedString: " << selectedString;
-//    qDebug() << "     m_selectedColor: " << m_selectedColor;
-//    qDebug() << "      m_selectedSize: " << m_selectedSize;
-//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-//    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+    qDebug() << "selected_start_index: " << selected_start_index;
+    qDebug() << "      selectedString: " << selectedString;
+    qDebug() << "     m_selectedColor: " << m_selectedColor;
+    qDebug() << "      m_selectedSize: " << m_selectedSize;
+    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
 }
 
 void CTextEdit::checkTextProperty()
 {
+    /*if (!this->textCursor().hasSelection() &&
+            this->textCursor().selectionStart() == 0 &&
+            this->textCursor().selectionEnd() == this->toPlainText().length() - 1) {
+        this->selectAll();
+        checkTextProperty(this->textCursor());
+    } else */
     if (this->textCursor().hasSelection() && !this->toPlainText().startsWith("\n")) {
         checkTextProperty(this->textCursor());
     } else {
@@ -467,19 +494,15 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
     }
 }
 
-void CTextEdit::setVisible(bool visible)
+bool CTextEdit::getEditing()
 {
-    QTextEdit::setVisible(visible);
-    if (!visible) {
-        QTextCursor cursor = this->textCursor();
-        cursor.select(QTextCursor::Document);
-        this->setTextCursor(cursor);
-        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
-            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-            curScene->updateBlurItem(m_pItem);
-        }
-    }
+    return m_editing;
 }
+
+//void CTextEdit::setVisible(bool visible)
+//{
+//    QTextEdit::setVisible(visible);
+//}
 
 void CTextEdit::setLastDocumentWidth(qreal width)
 {
@@ -493,7 +516,6 @@ void CTextEdit::resizeDocument()
     }
 
     QRectF rect = m_pItem->rect();
-    //rect.setHeight(size.height());
 
     if (m_pItem != nullptr) {
         m_pItem->setRect(rect);

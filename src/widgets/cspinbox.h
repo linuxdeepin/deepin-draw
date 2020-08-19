@@ -23,6 +23,8 @@ public:
 
     void setSpinRange(int min, int max);
 
+    void setSpecialText(QString sp = "— —");
+
 protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;

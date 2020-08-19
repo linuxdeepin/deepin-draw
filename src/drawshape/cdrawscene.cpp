@@ -49,6 +49,7 @@
 #include <QtMath>
 #include <DApplication>
 #include <QScrollBar>
+#include <QWindow>
 
 DWIDGET_USE_NAMESPACE
 
@@ -67,6 +68,7 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
     , m_brushMouse(QPixmap(":/cursorIcons/brush_mouse.svg"), 7, 26)
     , m_blurMouse(QPixmap(":/cursorIcons/smudge_mouse.png"))
     , m_maxZValue(0)
+    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
 {
     view->setScene(this);
     initScene();
@@ -103,6 +105,11 @@ CDrawScene::CDrawScene(CGraphicsView *view, const QString &uuid, bool isModified
 
     connect(this, SIGNAL(signalSceneCut(QRectF)),
             view, SLOT(itemSceneCut(QRectF)));
+
+    connect(this, &CDrawScene::sceneRectChanged, this, [ = ](const QRectF & rect) {
+        Q_UNUSED(rect);
+        this->updateBlurItem();
+    });
 
 }
 
@@ -193,17 +200,15 @@ void CDrawScene::setCursor(const QCursor &cursor)
 
 void CDrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mousePressEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+    qDebug() << "CDrawScene::mousePressEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+
     emit signalUpdateColorPanelVisible(mouseEvent->pos().toPoint());
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
     if (nullptr != pTool) {
-        //if (!pTool->isUpdating())
-        {
-            pTool->mousePressEvent(mouseEvent, this);
-        }
+        pTool->mousePressEvent(mouseEvent, this);
     }
 }
 
@@ -221,7 +226,7 @@ void CDrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "CDrawScene::mouseReleaseEvent flag = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
+    qDebug() << "CDrawScene::mouseReleaseEvent is touch = " << (mouseEvent->source() == Qt::MouseEventSynthesizedByQt);
 
     EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
 
@@ -230,7 +235,7 @@ void CDrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     IDrawTool *pToolSelect = CDrawToolManagerSigleton::GetInstance()->getDrawTool(EDrawToolMode::selection);
     bool shiftKeyPress = this->getDrawParam()->getShiftKeyStatus();
     if (nullptr != pTool) {
-        if (pTool->isUpdating() && mouseEvent->button() != Qt::LeftButton) {
+        if (pTool->isActived() && mouseEvent->button() != Qt::LeftButton) {
             return;
         }
         pTool->mouseReleaseEvent(mouseEvent, this);
@@ -264,7 +269,7 @@ void CDrawScene::doLeave()
     IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
 
     if (pTool != nullptr) {
-        if (pTool->isUpdating()) {
+        if (pTool->isActived()) {
             QGraphicsSceneMouseEvent mouseEvent(QEvent::GraphicsSceneMouseRelease);
             mouseEvent.setButton(Qt::LeftButton);
             QPointF pos     =  QCursor::pos();
@@ -275,8 +280,8 @@ void CDrawScene::doLeave()
             }
             mouseEvent.setPos(pos);
             mouseEvent.setScenePos(scenPos);
-            mouseReleaseEvent(&mouseEvent);
-            pTool->interruptUpdating();
+            //mouseReleaseEvent(&mouseEvent);
+            //pTool->interrupt();
         }
     }
 }
@@ -286,12 +291,9 @@ bool CDrawScene::event(QEvent *event)
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate || evType == QEvent::TouchEnd) {
 
+        //qDebug() << "CDrawScene:: touch event  evType = " << evType;
         QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
 
-        //        qDebug() << "touchEvent->touchPointStates() = " << touchEvent->touchPointStates()<<"u id = ";
-        //        if (touchEvent->touchPointStates() == Qt::TouchPointStationary) {
-        //            qDebug() << "--------------Qt::TouchPointStationary--------------";
-        //        }
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
 
         EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
@@ -301,8 +303,16 @@ bool CDrawScene::event(QEvent *event)
         if (nullptr == pTool || (touchPoints.count() > 1 && currentMode == selection)) {
             //是一个手势，那么中断当前的updating操作
             if (pTool != nullptr)
-                pTool->interruptUpdating();
+                pTool->interrupt();
             return QGraphicsScene::event(event);
+        }
+
+        //解决触屏后鼠标隐藏但还可能鼠标的位置还是高亮的问题
+        if (evType == QEvent::TouchBegin) {
+            if (drawView() != nullptr) {
+                QWindow *pWindow = drawView()->window()->windowHandle();
+                QCursor::setPos(pWindow->position() + QPoint(pWindow->size().width(), pWindow->size().height()));
+            }
         }
 
         bool accept = true;
@@ -311,7 +321,7 @@ bool CDrawScene::event(QEvent *event)
             switch (tp.state()) {
             case Qt::TouchPointPressed:
                 //表示触碰按下
-                QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
+                //QCursor::setPos(e.pos(IDrawTool::CDrawToolEvent::EGlobelPos).toPoint());
                 pTool->toolDoStart(&e);
                 break;
             case Qt::TouchPointMoved:
@@ -365,7 +375,7 @@ void CDrawScene::drawForeground(QPainter *painter, const QRectF &rect)
     if (pTool != nullptr) {
         pTool->drawMore(painter, rect, this);
 
-        if (currentMode == selection && !pTool->isUpdating()) {
+        if (currentMode == selection && !pTool->isActived()) {
             if (!_highlight.isEmpty()) {
                 painter->setBrush(Qt::NoBrush);
                 DPalette pa = this->palette();
@@ -425,6 +435,9 @@ void CDrawScene::refreshLook(const QPointF &pos)
     if (isBussizeHandleNodeItem(pItem)) {
         CSizeHandleRect *pHandle = dynamic_cast<CSizeHandleRect *>(pItem);
         dApp->setApplicationCursor(pHandle->getCursor());
+    } else if (pBzItem != nullptr && pBzItem->type() == TextType
+               && dynamic_cast<CGraphicsTextItem *>(pBzItem)->isEditable()) {
+        dApp->setApplicationCursor(m_textEditCursor);
     } else {
         dApp->setApplicationCursor(Qt::ArrowCursor);
     }
@@ -735,6 +748,16 @@ CGraphicsItem *CDrawScene::getAssociatedBzItem(QGraphicsItem *pItem)
 void CDrawScene::clearMrSelection()
 {
     clearSelection();
+
+//    // 在退出选中文本的时候，需要将文本设置为全选状态
+//    // 这样才能避免内部widget只选中了部分，点击更改属性只更改部分属性的bug
+//    QList<CGraphicsItem *> list = m_pGroupItem->getItems();
+//    for (int i = 0; i < list.count(); i++) {
+//        if (list.at(i)->type() == TextType) {
+//            dynamic_cast<CGraphicsTextItem *>(list.at(i))->getTextEdit()->selectAll();
+//        }
+//    }
+
     m_pGroupItem->clear();
 }
 

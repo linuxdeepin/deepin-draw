@@ -64,12 +64,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     //绘制滤镜
     if (scene != nullptr) {
         //计算交叉矩形的区域
-        QRectF sceneRect = this->scene()->sceneRect();
-        QRectF intersectRect = this->mapRectToScene(this->boundingRect()).intersected(this->scene()->sceneRect());
-        QPointF interTopLeft = intersectRect.topLeft() - sceneRect.topLeft();
-        QPointF interBottomRight = intersectRect.bottomRight() - sceneRect.topLeft();
-        QRectF rectCopy = QRectF(interTopLeft, interBottomRight).normalized();
-        QPixmap tmpPixmap = m_pixmap.copy(rectCopy.toRect());
+        QPixmap tmpPixmap = m_pixmap;
         painter->save();
         painter->setClipPath(m_blurPath, Qt::IntersectClip);
         //判断和他交叉的元素，裁剪出下层的像素
@@ -77,14 +72,15 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
         int radius = 10;
-        if (m_nBlurEffect == BlurEffect) {
+        if (!tmpPixmap.isNull()) {
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        } else {
-            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+            if (m_nBlurEffect == BlurEffect) {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+            }
         }
-        painter->drawPixmap(mapFromScene(intersectRect.topLeft()), tmpPixmap, QRectF());
+        painter->drawPixmap(boundingRect().topLeft(), tmpPixmap);
         painter->restore();
     }
 
@@ -105,7 +101,13 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 //        painter->setBrush(QBrush(Qt::NoBrush));
 //        painter->drawRect(this->boundingRect());
 //        painter->setClipping(true);
-//    }
+    //    }
+}
+
+bool CGraphicsMasicoItem::isPosPenetrable(const QPointF &posLocal)
+{
+    Q_UNUSED(posLocal)
+    return false;
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap()
@@ -132,18 +134,18 @@ void CGraphicsMasicoItem::updateMasicPixmap()
         auto itemsMgr = curScene->getItemsMgr();
         auto itemsMgrFlag = itemsMgr->isVisible();
         if (itemsMgrFlag) {
-            itemsMgr->setVisible(false);
+            //itemsMgr->setVisible(false);
+            itemsMgr->setFlag(ItemHasNoContents, true);
         }
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
-            filterItems[i]->setVisible(false);
+            //filterItems[i]->setVisible(false);
+            filterItems[i]->setFlag(ItemHasNoContents, true);
         }
 
-
-
         this->hide();
-        QRect rect = this->scene()->sceneRect().toRect();
+        QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
         m_pixmap = QPixmap(rect.width(), rect.height());
         m_pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painterd(&m_pixmap);
@@ -154,28 +156,26 @@ void CGraphicsMasicoItem::updateMasicPixmap()
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
-        this->scene()->render(&painterd);
+        this->scene()->render(&painterd, QRectF(0, 0, m_pixmap.width(), m_pixmap.height()),
+                              rect);
 
         curScene->getDrawParam()->setRenderImage(0);
 
         curScene->resetSceneBackgroundBrush();
         if (itemsMgrFlag) {
-            itemsMgr->setVisible(true);
+            //itemsMgr->setVisible(true);
+            itemsMgr->setFlag(ItemHasNoContents, false);
         }
-
-//        this->scene()->setBackgroundBrush(Qt::transparent);
-
-        //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
 
         this->show();
         this->setSelected(flag);
 
         for (int i = 0; i != filterItems.size(); i++) {
-            filterItems[i]->setVisible(true);
+            //filterItems[i]->setVisible(true);
+            filterItems[i]->setFlag(ItemHasNoContents, false);
             filterItems[i]->setSelected(filterItemsSelectFlags[i]);
         }
 
-        //qDebug() << "-------------------textItemIndex = " << textItemIndex;
         if (textItemIndex != -1) {
             CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
             if (pTextItem != nullptr) {
@@ -185,12 +185,15 @@ void CGraphicsMasicoItem::updateMasicPixmap()
                 pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
-
-//        qDebug() << "textItemIndex = " << textItemIndex << endl;
-
-
     }
-    //this->scene()->views()[0]->setFocus();
+}
+
+void CGraphicsMasicoItem::updateMasic()
+{
+//    CDrawScene* p
+//    if (this->drawScene() != nullptr) {
+
+//    }
 }
 
 void CGraphicsMasicoItem::updateMasicPixmap(const QPixmap &pixmap)

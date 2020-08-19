@@ -230,6 +230,11 @@ protected:
      */
     virtual void operatingEnd(int opTp) override;
 
+    /**
+     * @brief isPosPenetrable  是否可以进行穿透
+     */
+    virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
+
 private:
     QPainterPath m_path;
     QLineF m_straightLine;

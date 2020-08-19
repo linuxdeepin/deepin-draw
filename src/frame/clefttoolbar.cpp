@@ -30,6 +30,7 @@
 #include "citemattriwidget.h"
 #include "toptoolbar.h"
 #include "ccutwidget.h"
+#include "textwidget.h"
 
 #include <DFileDialog>
 #include <DWidget>
@@ -303,7 +304,6 @@ void CLeftToolBar::initConnection()
         m_rectBtn->setChecked(true);
         clearOtherSelections(m_rectBtn);
         isCutMode();
-        emit setCurrentDrawTool(rectangle);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(rectangle);
     });
 
@@ -312,7 +312,6 @@ void CLeftToolBar::initConnection()
         m_roundBtn->setChecked(true);
         clearOtherSelections(m_roundBtn);
         isCutMode();
-        emit setCurrentDrawTool(ellipse);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(ellipse);
     });
 
@@ -321,7 +320,6 @@ void CLeftToolBar::initConnection()
         m_triangleBtn->setChecked(true);
         clearOtherSelections(m_triangleBtn);
         isCutMode();
-        emit setCurrentDrawTool(triangle);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(triangle);
     });
 
@@ -330,7 +328,6 @@ void CLeftToolBar::initConnection()
         m_starBtn->setChecked(true);
         clearOtherSelections(m_starBtn);
         isCutMode();
-        emit setCurrentDrawTool(polygonalStar);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(polygonalStar);
     });
 
@@ -339,7 +336,6 @@ void CLeftToolBar::initConnection()
         m_polygonBtn->setChecked(true);
         clearOtherSelections(m_polygonBtn);
         isCutMode();
-        emit setCurrentDrawTool(polygon);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(polygon);
     });
 
@@ -348,7 +344,6 @@ void CLeftToolBar::initConnection()
         m_lineBtn->setChecked(true);
         clearOtherSelections(m_lineBtn);
         isCutMode();
-        emit setCurrentDrawTool(line);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(line);
     });
 
@@ -357,7 +352,6 @@ void CLeftToolBar::initConnection()
         m_penBtn->setChecked(true);
         clearOtherSelections(m_penBtn);
         isCutMode();
-        emit setCurrentDrawTool(pen);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(pen);
     });
 
@@ -366,8 +360,10 @@ void CLeftToolBar::initConnection()
         m_textBtn->setChecked(true);
         clearOtherSelections(m_textBtn);
         isCutMode();
-        emit setCurrentDrawTool(text);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
+        // 需要在设置默认属性后再重新设置属性回去，否则将会刷新为空白
+        dApp->topToolbar()->attributWidget()->getTextWidgetForText()->setTextFamilyStyle(
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
@@ -633,11 +629,11 @@ void CLeftToolBar::isCutMode()
 
 void CLeftToolBar::doSelectToolChanged(bool showProperWidget)
 {
+    Q_UNUSED(showProperWidget)
     m_selectBtn->setIcon(QIcon::fromTheme("ddc_choose tools_active"));
     m_selectBtn->setChecked(true);
     clearOtherSelections(m_selectBtn);
     isCutMode();
-    emit setCurrentDrawTool(selection, showProperWidget);
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
 }
 

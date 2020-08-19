@@ -22,7 +22,6 @@ public:
 
 signals:
     void sendPicPath(QStringList picPath);
-    void setCurrentDrawTool(int type);
 
 public slots:
     void importImage();

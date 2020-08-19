@@ -58,7 +58,6 @@
 
 CSelectTool::CSelectTool()
     : IDrawTool(selection)
-    , m_textEditCursor(QPixmap(":/theme/light/images/mouse_style/text_mouse.svg"))
     , m_isItemMoving(false)
 {
 }
@@ -104,40 +103,21 @@ void CSelectTool::toolStart(IDrawTool::CDrawToolEvent *event, ITERecordInfo *pIn
     QGraphicsItem *pFirstItem = pInfo->startPosItems.isEmpty() ? nullptr : pInfo->startPosItems.first();
     bool isMrNodeItem = event->scene()->isBussizeHandleNodeItem(pFirstItem) && (event->scene()->getAssociatedBzItem(pFirstItem)->type() == MgrType);
 
-    bool doSelect = false;
+    bool doSelect = true;
     bool clearBeforeSelect = true;
 
-    //判断在函数返回前是否要执行选中操作
-    if (event->eventType() == CDrawToolEvent::EMouseEvent) {
-        if (event->mouseButtons() == Qt::LeftButton) {
-            doSelect = true;
-        }
+    if (event->keyboardModifiers() == Qt::ShiftModifier) {
+        // 点住shift那么不用清除
+        clearBeforeSelect = false;
 
-        if (event->keyboardModifiers() == Qt::ShiftModifier) {
-            // 点住shift那么不用清除
-            clearBeforeSelect = false;
-
-            if (!isMrNodeItem && pStartPostTopBzItem != nullptr && pStartPostTopBzItem->isSelected()) {
-                if (event->scene()->getItemsMgr()->count() > 1) {
-                    event->scene()->notSelectItem(pStartPostTopBzItem);
-                    //event->setAccepted(true);
-                    return;
-                }
-            }
-        } else {
-            if (isMrNodeItem) {
-                clearBeforeSelect = false;
-            } else if (pStartPostTopBzItem != nullptr) {
-                if (pStartPostTopBzItem->isSelected()) {
-                    //点击的是当前选中了的相等的图元， 也不用清除当前选中
-                    clearBeforeSelect = false;
-                }
+        if (!isMrNodeItem && pStartPostTopBzItem != nullptr && pStartPostTopBzItem->isSelected()) {
+            if (event->scene()->getItemsMgr()->count() > 1) {
+                event->scene()->notSelectItem(pStartPostTopBzItem);
+                //event->setAccepted(true);
+                return;
             }
         }
-
-    } else if (event->eventType() == CDrawToolEvent::ETouchEvent) {
-        doSelect = true;
-
+    } else {
         if (isMrNodeItem) {
             clearBeforeSelect = false;
         } else if (pStartPostTopBzItem != nullptr) {
@@ -327,7 +307,7 @@ void CSelectTool::toolDoubleClikedEvent(IDrawTool::CDrawToolEvent *event, IDrawT
 int CSelectTool::decideUpdate(IDrawTool::CDrawToolEvent *event, IDrawTool::ITERecordInfo *pInfo)
 {
     int tpye = ENothingDo;
-    if (m_bMousePress) {
+    if (isActived()) {
         QGraphicsItem *pStartPosTopQtItem = event->scene()->firstItem(pInfo->_startPos,
                                                                       pInfo->startPosItems, true, true);
         if (pStartPosTopQtItem == nullptr) {

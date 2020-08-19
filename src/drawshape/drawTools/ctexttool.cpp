@@ -67,6 +67,12 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
 
         CGraphicsView *pView = event->scene()->drawView();
 
+        pItem->setFont(pView->getDrawParam()->getTextFont());
+        pItem->setTextColor(pView->getDrawParam()->getTextColor());
+        pItem->setTextColorAlpha(pView->getDrawParam()->getTextColorAlpha());
+        pItem->setTextFontStyle(pView->getDrawParam()->getTextFontStyle());
+        pItem->setFontSize(pView->getDrawParam()->getTextSize());
+
         QFontMetrics fm(pView->getDrawParam()->getTextFont());
         QSizeF size = pItem->getTextEdit()->document()->size();
         // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
@@ -108,8 +114,9 @@ bool CTextTool::isPressEventHandledByQt(IDrawTool::CDrawToolEvent *event, IDrawT
     Q_UNUSED(event)
     Q_UNUSED(pInfo)
 
-    if (pInfo->businessItem != nullptr) {
-        return false;
-    }
-    return true;
+//    if (pInfo->businessItem != nullptr) {
+//        return false;
+//    }
+//    return true;
+    return IDrawTool::isPressEventHandledByQt(event, pInfo);
 }
