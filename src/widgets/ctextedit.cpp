@@ -183,6 +183,8 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         return;
     }
 
+    qDebug() << "CTextEdit::focusOutEvent ----- ";
+
     QTextEdit::focusOutEvent(e);
     if (m_pItem && m_pItem->drawScene()) {
         // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
