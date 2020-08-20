@@ -1713,11 +1713,12 @@ void CGraphicsView::setPaintEnable(bool b)
 {
     doPaint = b;
     if (!b) {
-        pix = QPixmap(this->viewport()->size());
-        pix.fill(QColor(0, 0, 0, 100));
+        pix = QPixmap(this->viewport()->size() * devicePixelRatioF());
+        pix.fill(QColor(0, 0, 0, 0));
         QPainter painter(&pix);
+        pix.setDevicePixelRatio(devicePixelRatioF());
         painter.setPen(Qt::NoPen);
-        painter.setRenderHints(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::Antialiasing);
         this->scene()->render(&painter, QRectF(0, 0, pix.width(), pix.height()),
                               QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(pix.size().width(), pix.size().height()))), Qt::IgnoreAspectRatio);
 
