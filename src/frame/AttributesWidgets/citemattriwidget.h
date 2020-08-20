@@ -59,10 +59,7 @@ struct SComDefualData {
     QColor textColor = QColor(0, 0, 0);
     QString textFontStyle = "--";
     int textFontSize = 14;
-    QString textFontFamily;
-
-    int masicType = 0;
-    int masicWidth = 20;
+    QString textFontFamily = "Regular";
 
     //cut info
     ECutType cutType = cut_free;

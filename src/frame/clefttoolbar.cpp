@@ -362,11 +362,6 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_textBtn);
         isCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(text);
-        // 需要在设置默认属性后再重新设置属性回去，否则将会刷新为空白
-        dApp->topToolbar()->attributWidget()->getTextWidgetForText()->setTextFamilyStyle(
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family()
-            , CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
-
     });
 
     connect(m_blurBtn, &DToolButton::clicked, [this]() {
@@ -375,11 +370,6 @@ void CLeftToolBar::initConnection()
         clearOtherSelections(m_blurBtn);
         isCutMode();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(blur);
-        // 需要在设置默认属性后再重新设置属性回去，否则将会刷新为空白
-        dApp->topToolbar()->attributWidget()->getBlurWidget()->setBlurType(
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect());
-        dApp->topToolbar()->attributWidget()->getBlurWidget()->setBlurWidth(
-            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     });
 
     connect(m_cutBtn, &DToolButton::clicked, [this]() {
@@ -389,9 +379,6 @@ void CLeftToolBar::initConnection()
         CManageViewSigleton::GetInstance()->getCurView()->disableCutShortcut(false);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(cut);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_free);
-        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutSize(
-            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->sceneRect().size().toSize(), false);
-        dApp->topToolbar()->attributWidget()->getCutWidget()->setCutType(ECutType::cut_free, false, false);
         emit signalBegainCut();
     });
 }
