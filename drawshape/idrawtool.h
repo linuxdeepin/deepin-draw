@@ -130,6 +130,14 @@ public:
      */
     virtual void toolFinish(CDrawToolEvent *event);
 
+    /**
+     * @brief painter　绘制更多的内容（用于绘制框选矩形和高亮路径）
+     * @param painter  绘制指针
+     * @param rect     矩形大小
+     * @param scene    场景指针
+     */
+    virtual void drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene);
+
 
     void toolClear();
 
