@@ -23,6 +23,7 @@
 #include "cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "application.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -200,4 +201,33 @@ void CPenTool::toolFinish(IDrawTool::CDrawToolEvent *event)
         event->scene()->drawView()->setPaintEnable(true);
     }
     IDrawTool::toolFinish(event);
+}
+
+void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+{
+    Q_UNUSED(rect)
+    Q_UNUSED(scene)
+
+    for (auto it = allStartInfo.begin(); it != allStartInfo.end(); ++it) {
+        CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(it->tempItem);
+        if (penItem != nullptr) {
+
+            QPen p = penItem->pen();
+            qreal penW = p.widthF() * scene->drawView()->getScale();
+            p.setWidthF(penW);
+            painter->setPen(p);
+
+            if (dApp->keyboardModifiers() & Qt::ShiftModifier) {
+                //要模拟绘制直线
+                QPoint startPos = scene->drawView()->mapFromScene(penItem->mapToScene(penItem->straightLine().p1()));
+                QPoint endPos = scene->drawView()->mapFromScene(penItem->mapToScene(penItem->straightLine().p2()));
+                painter->drawLine(startPos, endPos);
+            }
+            if (penItem->getPenStartType() != noneLine)
+                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+
+            if (penItem->getPenEndType() != noneLine)
+                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
+        }
+    }
 }

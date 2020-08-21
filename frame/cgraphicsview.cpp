@@ -803,6 +803,14 @@ void CGraphicsView::paintEvent(QPaintEvent *event)
     else {
         QPainter painter(this->viewport());
         painter.drawPixmap(QPoint(0, 0), pix);
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+        if (pTool != nullptr) {
+            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), pix.size())).boundingRect(), drawScene());
+        }
     }
 }
 
@@ -1404,8 +1412,9 @@ void CGraphicsView::setPaintEnable(bool b)
 {
     doPaint = b;
     if (!b) {
-        pix = QPixmap(this->viewport()->size());
-        pix.fill(QColor(0, 0, 0, 100));
+        pix = QPixmap(this->viewport()->size() * devicePixelRatioF());
+        pix.fill(QColor(0, 0, 0, 0));
+        pix.setDevicePixelRatio(devicePixelRatioF());
         QPainter painter(&pix);
         painter.setPen(Qt::NoPen);
         painter.setRenderHints(QPainter::Antialiasing);

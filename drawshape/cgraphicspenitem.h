@@ -38,9 +38,9 @@ public:
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
 
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point) Q_DECL_OVERRIDE;
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
-                          bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     /**
      * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
      * @param dir 8个方向
@@ -87,6 +87,12 @@ public:
 
     ELineType getPenEndType() const;
     void setPenEndType(const ELineType &penType);
+
+    /**
+     * @brief straightLine 得到绘制过程中的可能存在的直线线条
+     * @return
+     */
+    QLineF straightLine();
 
 protected:
     virtual void updateGeometry() Q_DECL_OVERRIDE;
