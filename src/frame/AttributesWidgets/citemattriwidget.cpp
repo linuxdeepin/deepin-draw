@@ -117,6 +117,15 @@ SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
 {
     CDrawScene *pScen = (pScene == nullptr ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : pScene);
     assert(pScen != nullptr);
+
+    // 设置默认的字体类型为思源宋体，没有该字体则选择系统第一个默认字体
+    QFontDatabase fontbase;
+    QString sourceHumFont = QObject::tr("思源宋体 CN");
+    if (!fontbase.families().contains(sourceHumFont)) {
+        sourceHumFont = fontbase.families().first();
+    }
+    m_defualDatas[pScen].textFontFamily = sourceHumFont;
+    m_defualDatas[pScen].textFontSize = 14;
     return m_defualDatas[pScen];
 }
 
@@ -558,17 +567,6 @@ void CComAttrWidget::refreshDataHelper(int tp)
     SComDefualData data = defualtSceneData();
     if (graphicItem() != nullptr) {
         data = getGraphicItemsDefualData(tp);
-    } else {
-        // 设置默认的字体类型为思源宋体，没有该字体则选择系统第一个默认字体
-        QFontDatabase fontbase;
-        QString sourceHumFont = QObject::tr("思源宋体 CN");
-        if (!fontbase.families().contains(sourceHumFont)) {
-            sourceHumFont = fontbase.families().first();
-        }
-        data.textFontFamily = sourceHumFont;
-        data.textFontSize = 14;
-        this->updateDefualData(TextFont, sourceHumFont);
-        this->updateDefualData(TextSize, 14);
     }
 
     if (isSpecialItem(tp)) {
