@@ -90,7 +90,7 @@ void TextWidget::initUI()
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
-    m_fontSize->setFocusPolicy(Qt::NoFocus);
+//    m_fontSize->setFocusPolicy(Qt::NoFocus);
 
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
