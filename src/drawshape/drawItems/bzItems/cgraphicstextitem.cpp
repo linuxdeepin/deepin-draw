@@ -340,6 +340,8 @@ void CGraphicsTextItem::duplicate(CGraphicsItem *item)
     static_cast<CGraphicsTextItem *>(item)->setTextColor(this->getTextColor());
     static_cast<CGraphicsTextItem *>(item)->getTextEdit()->setDocument(
         this->getTextEdit()->document()->clone(static_cast<CGraphicsTextItem *>(item)->getTextEdit()));
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->selectAll();
+    static_cast<CGraphicsTextItem *>(item)->getTextEdit()->checkTextProperty();
     CGraphicsRectItem::duplicate(item);
 }
 

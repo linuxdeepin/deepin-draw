@@ -64,8 +64,7 @@ void CTextEdit::slot_textChanged()
     // 所以在这里需要添加单独的判断
     QString html = this->toHtml();
     QString spanStyle = "<span style=\" font-family";
-    if (!html.contains(spanStyle)
-            || this->document()->toPlainText().isEmpty()) {// 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
+    if (!html.contains(spanStyle)) {
         QTextCharFormat fmt;
         fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
         fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
@@ -73,9 +72,25 @@ void CTextEdit::slot_textChanged()
         QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
         color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
         fmt.setForeground(color);
-        this->selectAll(); // 能够让预览的文字字体的属性现实正常(第一个字除外)
-        this->setCurrentCharFormat(fmt);
+        this->blockSignals(true);
+        this->textCursor().setBlockCharFormat(fmt);
+        this->blockSignals(false);
     }
+
+    // 有预览效果的时候 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
+    if (this->document()->toPlainText().isEmpty()) {
+        QTextCharFormat fmt;
+        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->blockSignals(true);
+        this->setCurrentCharFormat(fmt);
+        this->blockSignals(false);
+    }
+
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
