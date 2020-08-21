@@ -67,6 +67,12 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
 
         CGraphicsView *pView = event->scene()->drawView();
 
+        qDebug() << "getTextFont():" << pView->getDrawParam()->getTextFont();
+        qDebug() << "getTextColor():" << pView->getDrawParam()->getTextColor();
+        qDebug() << "getTextColorAlpha():" << pView->getDrawParam()->getTextColorAlpha();
+        qDebug() << "getTextFontStyle():" << pView->getDrawParam()->getTextFontStyle();
+        qDebug() << "getTextSize():" << pView->getDrawParam()->getTextSize();
+
         pItem->setFont(pView->getDrawParam()->getTextFont());
         pItem->setTextColor(pView->getDrawParam()->getTextColor());
         pItem->setTextColorAlpha(pView->getDrawParam()->getTextColorAlpha());

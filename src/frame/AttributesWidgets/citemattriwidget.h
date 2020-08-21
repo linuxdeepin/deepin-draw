@@ -57,9 +57,9 @@ struct SComDefualData {
     ELineType penEndType = noneLine;
 
     QColor textColor = QColor(0, 0, 0);
-    QString textFontStyle = "--";
+    QString textFontStyle = "Regular";
     int textFontSize = 14;
-    QString textFontFamily = "Regular";
+    QString textFontFamily = "--";
 
     //cut info
     ECutType cutType = cut_free;
