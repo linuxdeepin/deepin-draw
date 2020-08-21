@@ -44,16 +44,13 @@ void CPenTool::toolCreatItemUpdate(IDrawTool::CDrawToolEvent *event, ITERecordIn
             pPenIem->updatePenPath(pointMouse, shiftKeyPress);
             event->setAccepted(true);
 
-            //QPainter painter(event->view()->viewport());
-            //painter.drawPoint(event->pos(CDrawToolEvent::EViewportPos));
-
             QPixmap &pix = event->view()->cachPixMap();
             QPainter painter(&pix);
-            //QTime ti;
-            //ti.start();
-            painter.setPen(pPenIem->pen());
+            QPen p = pPenIem->pen();
+            qreal penW = p.widthF() * event->view()->getScale();
+            p.setWidthF(penW);
+            painter.setPen(p);
             painter.drawPath(event->view()->mapFromScene(pPenIem->mapToScene(pPenIem->getPath())));
-            //qDebug() << "used ==== " << ti.elapsed();
             event->view()->update();
         }
     }
@@ -90,22 +87,31 @@ void CPenTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene
     Q_UNUSED(rect)
     Q_UNUSED(scene)
 
-    if (!(dApp->keyboardModifiers() & Qt::ShiftModifier)) {
-        return;
-    }
+//    if (!(dApp->keyboardModifiers() & Qt::ShiftModifier)) {
+//        return;
+//    }
 
     for (auto it = _allITERecordInfo.begin(); it != _allITERecordInfo.end(); ++it) {
         ITERecordInfo &pInfo = it.value();
         CDrawToolEvent &curEvnt = pInfo._curEvent;
         CGraphicsPenItem *penItem = dynamic_cast<CGraphicsPenItem *>(pInfo.businessItem);
         if (penItem != nullptr) {
+            QPen p = penItem->pen();
+            qreal penW = p.widthF() * scene->drawView()->getScale();
+            p.setWidthF(penW);
+            painter->setPen(p);
             if (curEvnt.keyboardModifiers() == Qt::ShiftModifier) {
                 //要模拟绘制直线
                 QPoint startPos = curEvnt.view()->mapFromScene(penItem->mapToScene(penItem->straightLine().p1()));
                 QPoint endPos = curEvnt.view()->mapFromScene(penItem->mapToScene(penItem->straightLine().p2()));
-                painter->setPen(penItem->pen());
                 painter->drawLine(startPos, endPos);
             }
+
+            if (penItem->getPenStartType() != noneLine)
+                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenStartpath())));
+
+            if (penItem->getPenEndType() != noneLine)
+                painter->drawPath(scene->drawView()->mapFromScene(penItem->mapToScene(penItem->getPenEndpath())));
         }
     }
 }
