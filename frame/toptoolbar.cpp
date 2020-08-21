@@ -143,12 +143,12 @@ void TopToolbar::initStackWidget()
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
     qApp->setProperty("_d_isDxcb", false);
-    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this);
+    m_colorARect = new ArrowRectangle(DArrowRectangle::ArrowTop, this->topLevelWidget());
     qApp->setProperty("_d_isDxcb", true);
-    m_colorARect->setWindowFlags(Qt::Popup /*Widget*/);
-    m_colorARect->setAttribute(Qt::WA_TranslucentBackground, true /*false*/);
+    m_colorARect->setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
     m_colorARect->setArrowWidth(18);
     m_colorARect->setArrowHeight(10);
+
     m_colorARect->setContent(m_colorPanel);
     m_colorARect->hide();
 
@@ -357,6 +357,7 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
     m_colorARect->raise();
 
     if (visible) {
+        pos = m_colorARect->parentWidget()->mapFromGlobal(pos);
         m_colorARect->show(pos.x(), pos.y());
     } else
         m_colorARect->hide();
@@ -502,6 +503,11 @@ void TopToolbar::slotMenuShow()
 DMenu *TopToolbar::mainMenu()
 {
     return m_mainMenu;
+}
+
+ColorPanel *TopToolbar::colorPanel()
+{
+    return m_colorPanel;
 }
 
 void TopToolbar::slotHideColorPanel()
