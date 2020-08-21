@@ -59,6 +59,8 @@ public:
 
     DMenu *mainMenu();
 
+    ColorPanel *colorPanel();
+
 signals:
     /**
      * @brief signalSaveToDDF 保存ＤＤＦ文件信号

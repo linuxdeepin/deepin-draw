@@ -20,6 +20,8 @@
 #include "frame/mainwindow.h"
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
+#include "frame/toptoolbar.h"
+#include "widgets/colorpanel.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -66,7 +68,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     }
 
     static const QDate buildDate = QLocale(QLocale::English)
-                                       .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+                                   .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
 
     // Version Time
@@ -224,6 +226,28 @@ void Application::setApplicationCursor(const QCursor &cur)
     } else {
         qApp->changeOverrideCursor(cur);
     }
+}
+
+bool Application::notify(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress) {
+        if (o->isWidgetType()) {
+            MainWindow *pWin = qobject_cast<MainWindow *>(this->activationWindow());
+            if (pWin->topToolbar() != nullptr) {
+                if (pWin->topToolbar() != nullptr) {
+                    ColorPanel *pColorPanel = pWin->topToolbar()->colorPanel();
+                    if (!pColorPanel->isHidden()) {
+                        if (!(o == pColorPanel ||
+                                pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+                            pWin->topToolbar()->colorPanel()->parentWidget()->hide();
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    return QtSingleApplication::notify(o, e);
 }
 
 void Application::onMessageRecived(const QString &message)

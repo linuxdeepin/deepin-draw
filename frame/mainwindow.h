@@ -64,6 +64,9 @@ public:
 
     void readSettings();
 
+    TopToolbar *topToolbar();
+
+
     /**
      * @brief openFile　暴露函数接口给其它程序调用，打开多个路径文件
      * @param filePath　路径
