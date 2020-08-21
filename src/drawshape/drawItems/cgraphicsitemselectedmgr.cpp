@@ -10,6 +10,8 @@
 #include "citemattriwidget.h"
 #include "cgraphicstextitem.h"
 #include "application.h"
+#include "cdrawtoolmanagersigleton.h"
+#include "ccuttool.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
@@ -701,13 +703,21 @@ void CGraphicsItemSelectedMgr::updateAttributes()
     if (pBar != nullptr) {
         CComAttrWidget *pAttr = pBar->attributWidget();
         if (pAttr != nullptr) {
-            if (this->count() == 0) {
-                pAttr->setGraphicItem(nullptr);
-                return;
-            } else if (this->count() == 1) {
-                pAttr->setGraphicItem(m_listItems.first());
+
+            EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
+            if (model == cut) {
+                CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+                CGraphicsCutItem *pCutItem = pTool->getCutItem(drawScene());
+                pAttr->setGraphicItem(pCutItem);
             } else {
-                pAttr->setGraphicItem(this);
+                if (this->count() == 0) {
+                    pAttr->setGraphicItem(nullptr);
+                    return;
+                } else if (this->count() == 1) {
+                    pAttr->setGraphicItem(m_listItems.first());
+                } else {
+                    pAttr->setGraphicItem(this);
+                }
             }
         }
     }
