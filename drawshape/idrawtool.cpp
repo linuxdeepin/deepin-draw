@@ -90,6 +90,13 @@ void IDrawTool::toolFinish(IDrawTool::CDrawToolEvent *event)
     allStartInfo.remove(event->uuid());
 }
 
+void IDrawTool::drawMore(QPainter *painter, const QRectF &rect, CDrawScene *scene)
+{
+    Q_UNUSED(painter)
+    Q_UNUSED(rect)
+    Q_UNUSED(scene)
+}
+
 void IDrawTool::toolClear()
 {
     allStartInfo.clear();
