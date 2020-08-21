@@ -1216,7 +1216,6 @@ CCutWidget *CComAttrWidget::getCutWidget()
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
                 pTool->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->drawScene(), sz);
-//                this->updateDefualData(PropertyCutSize, sz);
             }
         });
         connect(m_cutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
@@ -1224,7 +1223,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
                 pTool->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
-//                this->updateDefualData(PropertyCutType, tp);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(tp);
             }
         });
         connect(m_cutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {

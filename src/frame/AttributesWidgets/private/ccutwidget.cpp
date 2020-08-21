@@ -313,6 +313,7 @@ void CCutWidget::initConnection()
         }
 
         this->setFocus();
+        this->setCutType(ECutType::cut_free);
         this->setCutSize(QSize(newWidth, newHeight));
     });
 
@@ -338,6 +339,7 @@ void CCutWidget::initConnection()
         }
 
         this->setFocus();
+        this->setCutType(ECutType::cut_free);
         this->setCutSize(QSize(newWidth, newHeight));
     });
 
