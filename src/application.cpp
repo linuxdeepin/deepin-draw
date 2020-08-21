@@ -26,6 +26,7 @@
 #include "cgraphicsview.h"
 #include "ccentralwidget.h"
 #include "cdrawscene.h"
+#include "colorpanel.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -410,7 +411,24 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
         }
     }
 }
-
+bool Application::notify(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress) {
+        if (o->isWidgetType()) {
+            CColorPickWidget *pColor = colorPickWidget();
+            if (pColor != nullptr) {
+                ColorPanel *pColorPanel = pColor->colorPanel();
+                if (!pColor->isHidden()) {
+                    if (!(o == pColorPanel ||
+                            pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+                        pColor->hide();
+                    }
+                }
+            }
+        }
+    }
+    return QtSingleApplication::notify(o, e);
+}
 void Application::handleQuitAction()
 {
     emit popupConfirmDialog();

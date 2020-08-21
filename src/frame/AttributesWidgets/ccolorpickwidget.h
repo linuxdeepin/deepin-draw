@@ -37,6 +37,11 @@ public:
 
     QColor color();
 
+
+    ColorPanel *colorPanel();
+
+    void show(int x, int y) override;
+
 public slots:
 
     void setColor(const QColor &c);

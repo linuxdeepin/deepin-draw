@@ -144,6 +144,7 @@ public slots:
                                 Application::EFileClassEnum classTp = EDrawAppNotSup,
                                 bool checkQuit = true);
 protected:
+    bool notify(QObject *o, QEvent *e) override;
     void handleQuitAction() override;
 
 private:
