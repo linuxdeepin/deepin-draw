@@ -33,6 +33,7 @@
 #include <QTextEdit>
 #include <malloc.h>
 #include <QMimeData>
+#include <QComboBox>
 
 #include "service/cmanagerattributeservice.h"
 
@@ -166,8 +167,14 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         inputMethodEvent(&m_e);
     }
 
+//    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
+//             << (dApp->focusObject() == this)
+//             << "parent = " << this->parent()
+//             << "active widget = " << dApp->activePopupWidget();
+
     //属性修改导致的widget焦点丢失不应该响应
-    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
+    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr ||
+            qobject_cast<QComboBox *>(dApp->focusObject())) {
         return;
     }
 
@@ -179,10 +186,6 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         this->selectAll();
         m_pItem->drawScene()->notSelectItem(m_pItem);
     }
-//    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
-//             << (dApp->focusObject() == this)
-//             << "parent = " << this->parent()
-//             << "active widget = " << dApp->activePopupWidget();
 
     m_editing = false;
 }
