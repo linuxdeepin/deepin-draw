@@ -61,6 +61,8 @@ public:
 
     void setApplicationCursor(const QCursor &cur);
 
+    bool notify(QObject *, QEvent *) override;
+
 signals:
     void popupConfirmDialog();
 
