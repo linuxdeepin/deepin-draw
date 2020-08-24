@@ -56,33 +56,44 @@ CTextEdit::~CTextEdit()
 
 void CTextEdit::slot_textChanged()
 {
+
     // [40550] 百度输入法输入的时候是一次提交所有，没有预览的效果，就不会触发文本为空的时候
     // 所以在这里需要添加单独的判断
     QString html = this->toHtml();
     QString spanStyle = "<span style=\" font-family";
-    if (!html.contains(spanStyle)) {
+
+    // 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
+    if (this->document()->toPlainText().isEmpty()) {
+        QFont font;
+        font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+        quint8 weight = getFontWeigthByStyleName(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+
         QTextCharFormat fmt;
-        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        fmt.setFont(font);
+        // 字体的字重需要通过这种方式设置才会生效
+        fmt.setFontWeight(weight);
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->setCurrentCharFormat(fmt);
+    } else if (!html.contains(spanStyle)) {
+        QFont font;
+        font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
+        quint8 weight = getFontWeigthByStyleName(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+
+        QTextCharFormat fmt;
+        fmt.setFont(font);
+        // 字体的字重需要通过这种方式设置才会生效
+        fmt.setFontWeight(weight);
         QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
         color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
         fmt.setForeground(color);
         this->blockSignals(true);
         this->textCursor().setBlockCharFormat(fmt);
         this->blockSignals(false);
-    }
 
-    // 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
-    if (this->document()->toPlainText().isEmpty()) {
-        QTextCharFormat fmt;
-        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
-        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
-        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
-        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
-        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
-        fmt.setForeground(color);
-        this->setCurrentCharFormat(fmt);
+        // [40551] 编辑文字的时候不会自动刷新属性,会导致点击空白区域百度输入法不消失
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     }
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
@@ -103,9 +114,6 @@ void CTextEdit::slot_textChanged()
         //更新字图元
         curScene->updateBlurItem(m_pItem);
     }
-
-    // [40551] 编辑文字的时候不会自动刷新属性,会导致点击空白区域百度输入法不消失
-    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CTextEdit::cursorPositionChanged()
@@ -302,6 +310,31 @@ void CTextEdit::updatePropertyCache2Cursor()
     m_selectedFamily = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family();
     m_selectedFontWeight = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight();
     m_selectedColorAlpha = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha();
+}
+
+quint8 CTextEdit::getFontWeigthByStyleName(const QString &styleName)
+{
+    quint8 weight = 0;
+    if (styleName == "Thin") {
+        weight = 0;
+    } else if (styleName == "ExtraLight") {
+        weight = 12;
+    } else if (styleName == "Light") {
+        weight = 25;
+    } else if (styleName == "Normal" || styleName == "Regular") {
+        weight = 50;
+    } else if (styleName == "Medium") {
+        weight = 57;
+    } else if (styleName == "DemiBold") {
+        weight = 63;
+    } else if (styleName == "Bold") {
+        weight = 75;
+    } else if (styleName == "ExtraBold") {
+        weight = 81;
+    } else if (styleName == "Black") {
+        weight = 87;
+    }
+    return weight;
 }
 
 void CTextEdit::checkTextProperty(const QTextCursor &cursor)
