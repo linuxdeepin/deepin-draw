@@ -416,6 +416,8 @@ public:
 
     void setHighlightHelper(const QPainterPath &path);
 
+    QPainterPath hightLightPath();
+
 private:
     CDrawParamSigleton *m_drawParam;//数据
 
