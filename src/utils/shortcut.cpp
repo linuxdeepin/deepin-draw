@@ -68,7 +68,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                       ShortcutItem(tr("Paste"), "Ctrl + V") <<
                       ShortcutItem(tr("Delete"), "Delete") <<
                       ShortcutItem(tr("Undo"), "Ctrl + Z") <<
-                      ShortcutItem(tr("Redo"), "Ctrl + Shift + Z") <<
+                      ShortcutItem(tr("Redo"), "Ctrl + Y") <<
                       ShortcutItem(tr("Raise Layer"), "Ctrl + ]") <<
                       ShortcutItem(tr("Lower Layer"), "Ctrl + [") <<
                       ShortcutItem(tr("Layer to Top"), "Ctrl + Shift + ]") <<
