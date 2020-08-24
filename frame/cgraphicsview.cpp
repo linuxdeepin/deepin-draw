@@ -1133,6 +1133,9 @@ void CGraphicsView::slotOnPaste()
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
                     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+                    if (copy->type() == RectType) {
+                        getDrawParam()->setRectXRedius(dynamic_cast<CGraphicsRectItem *>(copy)->getXRedius());
+                    }
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
