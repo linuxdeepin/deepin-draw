@@ -798,7 +798,20 @@ void CGraphicsView::resizeEvent(QResizeEvent *event)
 
 void CGraphicsView::paintEvent(QPaintEvent *event)
 {
-    DGraphicsView::paintEvent(event);
+    if (doPaint)
+        DGraphicsView::paintEvent(event);
+    else {
+        QPainter painter(this->viewport());
+        painter.drawPixmap(QPoint(0, 0), pix);
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+        if (pTool != nullptr) {
+            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), pix.size())).boundingRect(), drawScene());
+        }
+    }
 }
 
 void CGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
@@ -1395,6 +1408,34 @@ void CGraphicsView::slotViewOrignal()
     emit signalSetScale(m_scale);
 }
 
+void CGraphicsView::setPaintEnable(bool b)
+{
+    doPaint = b;
+    if (!b) {
+        pix = QPixmap(this->viewport()->size() * devicePixelRatioF());
+        pix.fill(QColor(0, 0, 0, 0));
+        pix.setDevicePixelRatio(devicePixelRatioF());
+        QPainter painter(&pix);
+        painter.setPen(Qt::NoPen);
+        painter.setRenderHints(QPainter::Antialiasing);
+        this->scene()->render(&painter, QRectF(0, 0, pix.width(), pix.height()),
+                              QRectF(mapToScene(QPoint(0, 0)), mapToScene(QPoint(pix.size().width(), pix.size().height()))), Qt::IgnoreAspectRatio);
+
+        painter.drawRect(viewport()->rect());
+    }
+    viewport()->update();
+}
+
+bool CGraphicsView::isPaintEnable()
+{
+    return doPaint;
+}
+
+QPixmap &CGraphicsView::cachPixMap()
+{
+    return pix;
+}
+
 void CGraphicsView::slotOnTextCut()
 {
     if (!scene()->selectedItems().isEmpty()) {
@@ -1576,10 +1617,10 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
                 int result = dia.exec();
 
                 if (OK == result) {
-                    QMetaObject::invokeMethod(this, [=]() {
+                    QMetaObject::invokeMethod(this, [ = ]() {
                         showSaveDDFDialog(type, finishClose, saveFilePath);
                     },
-                                              Qt::QueuedConnection);
+                    Qt::QueuedConnection);
                 }
                 return;
             }
@@ -2170,12 +2211,12 @@ bool CGraphicsView::eventFilter(QObject *o, QEvent *e)
                     QPointF mov = event->pos() - _recordMovePos;
                     int horValue = this->horizontalScrollBar()->value() - qRound(mov.x());
                     //qDebug() << "old hor value = " << this->horizontalScrollBar()->value() << "new hor value = " << horValue;
-                    this->horizontalScrollBar()->setValue(qMin(qMax(0, horValue), this->horizontalScrollBar()->maximum()));
+                    this->horizontalScrollBar()->setValue(qMin(qMax(this->horizontalScrollBar()->minimum(), horValue), this->horizontalScrollBar()->maximum()));
 
 
                     int verValue = this->verticalScrollBar()->value() - qRound(mov.y());
                     qDebug() << "mov.y() = " << mov.y() << "cur value = " << this->verticalScrollBar()->value() << "wanted value = " << verValue << "max = " << this->verticalScrollBar()->maximum();
-                    this->verticalScrollBar()->setValue(qMin(qMax(0, verValue), this->verticalScrollBar()->maximum()));
+                    this->verticalScrollBar()->setValue(qMin(qMax(this->verticalScrollBar()->minimum(), verValue), this->verticalScrollBar()->maximum()));
 
                     if (pScene != nullptr) {
                         pScene->blockMouseMoveEvent(false);

@@ -204,7 +204,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     switch (dir) {
     case CSizeHandleRect::Right:
         if (local.x() - rect.left() > space) {
-            sx =  (local.x() - rect.left()) / (rect.right() - rect.left());
+            sx = (local.x() - rect.left()) / (rect.right() - rect.left());
 //            qDebug() << "local.x=" << local.x() << "rect.left=" << rect.left() << "!!!=" << local.x() - rect.left()
 //                     << "rect.right=" << rect.right() << "rect.left=" << rect.left() << "@@@=" << rect.right() - rect.left()
 //                     << "rect=" << m_arrow.boundingRect();
@@ -215,7 +215,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     case CSizeHandleRect::RightTop:
         if (local.x() - rect.left() > space && rect.bottom() - local.y() > space) {
-            sx =  (local.x() - rect.left()) / (rect.right() - rect.left());
+            sx = (local.x() - rect.left()) / (rect.right() - rect.left());
             sy = (local.y() - rect.bottom()) / (rect.top() - rect.bottom());
 
             transform.translate(rect.left(), rect.bottom());
@@ -226,7 +226,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     case CSizeHandleRect::RightBottom:
         if (local.x() - rect.left() > space && local.y() - rect.top() > space) {
-            sx =  (local.x() - rect.left()) / (rect.right() - rect.left());
+            sx = (local.x() - rect.left()) / (rect.right() - rect.left());
             sy = (local.y() - rect.top()) / (rect.bottom() - rect.top());
 
             transform.translate(rect.left(), rect.top());
@@ -236,7 +236,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     case CSizeHandleRect::LeftBottom:
         if (rect.right() - local.x() > space && local.y() - rect.top() > space) {
-            sx =  (local.x() - rect.right()) / (rect.left() - rect.right());
+            sx = (local.x() - rect.right()) / (rect.left() - rect.right());
             sy = (local.y() - rect.top()) / (rect.bottom() - rect.top());
 
             transform.translate(rect.right(), rect.top());
@@ -255,7 +255,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     case CSizeHandleRect::LeftTop:
         if (rect.right() - local.x() > space && rect.bottom() - local.y() > space) {
-            sx =  (local.x() - rect.right()) / (rect.left() - rect.right());
+            sx = (local.x() - rect.right()) / (rect.left() - rect.right());
             sy = (local.y() - rect.bottom()) / (rect.top() - rect.bottom());
 
             transform.translate(rect.right(), rect.bottom());
@@ -265,7 +265,7 @@ void CGraphicsPenItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
         break;
     case CSizeHandleRect::Left:
         if (rect.right() - local.x() > space) {
-            sx =  (local.x() - rect.right()) / (rect.left() - rect.right());
+            sx = (local.x() - rect.right()) / (rect.left() - rect.right());
             transform.translate(rect.right(), rect.top());
             transform.scale(sx, sy);
             transform.translate(-rect.right(), -rect.top());
@@ -537,7 +537,7 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
         }
     }
     //按住SHIFT等比拉伸
-    else if ((shiftKeyPress && !altKeyPress) ) {
+    else if ((shiftKeyPress && !altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_path.elementCount(); i++) {
@@ -664,7 +664,7 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
         }
     }
     //中心拉伸
-    else if ((!shiftKeyPress && altKeyPress) ) {
+    else if ((!shiftKeyPress && altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_path.elementCount(); i++) {
@@ -791,7 +791,7 @@ void CGraphicsPenItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPoint
         }
     }
     //等比中心拉伸
-    else if ((shiftKeyPress && altKeyPress) ) {
+    else if ((shiftKeyPress && altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_path.elementCount(); i++) {
@@ -1074,7 +1074,7 @@ void CGraphicsPenItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pre
         }
     }
     //按住SHIFT等比拉伸
-    else if ((shiftKeyPress && !altKeyPress) ) {
+    else if ((shiftKeyPress && !altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
@@ -1209,7 +1209,7 @@ void CGraphicsPenItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pre
         }
     }
     //中心拉伸
-    else if ((!shiftKeyPress && altKeyPress) ) {
+    else if ((!shiftKeyPress && altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
@@ -1340,7 +1340,7 @@ void CGraphicsPenItem::resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pre
         }
     }
     //等比中心拉伸
-    else if ((shiftKeyPress && altKeyPress) ) {
+    else if ((shiftKeyPress && altKeyPress)) {
         switch (dir) {
         case CSizeHandleRect::LeftTop:
             for (int i = 0; i < m_pathBeforResize.elementCount(); i++) {
@@ -1969,4 +1969,9 @@ void CGraphicsPenItem::setPenEndType(const ELineType &penType)
     m_penEndType = penType;
     calcVertexes();
     updateGeometry();
+}
+
+QLineF CGraphicsPenItem::straightLine()
+{
+    return m_straightLine;
 }

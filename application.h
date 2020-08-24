@@ -61,6 +61,10 @@ public:
 
     void setApplicationCursor(const QCursor &cur);
 
+    static bool isWaylandPlatform();
+
+    bool notify(QObject *, QEvent *) override;
+
 signals:
     void popupConfirmDialog();
 

@@ -39,9 +39,7 @@ CTextEdit::CTextEdit(CGraphicsTextItem *item, QWidget *parent)
     , m_pItem(item)
     , m_widthF(0)
 {
-    //初始化字体
     connect(this, SIGNAL(textChanged()), this, SLOT(slot_textChanged()));
-
     connect(this, SIGNAL(cursorPositionChanged()),
             this, SLOT(cursorPositionChanged()));
 
@@ -58,6 +56,23 @@ CTextEdit::~CTextEdit()
 
 void CTextEdit::slot_textChanged()
 {
+    // [40550] 百度输入法输入的时候是一次提交所有，没有预览的效果，就不会触发文本为空的时候
+    // 所以在这里需要添加单独的判断
+    QString html = this->toHtml();
+    QString spanStyle = "<span style=\" font-family";
+    if (!html.contains(spanStyle)) {
+        QTextCharFormat fmt;
+        fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        fmt.setFontPointSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        fmt.setFontWeight(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().weight());
+        QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
+        color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
+        fmt.setForeground(color);
+        this->blockSignals(true);
+        this->textCursor().setBlockCharFormat(fmt);
+        this->blockSignals(false);
+    }
+
     // 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
     if (this->document()->toPlainText().isEmpty()) {
         QTextCharFormat fmt;
@@ -89,8 +104,8 @@ void CTextEdit::slot_textChanged()
         curScene->updateBlurItem(m_pItem);
     }
 
-    // [0] 编辑文字的时候不会自动刷新属性
-//    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+    // [40551] 编辑文字的时候不会自动刷新属性,会导致点击空白区域百度输入法不消失
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CTextEdit::cursorPositionChanged()
@@ -145,7 +160,7 @@ void CTextEdit::inputMethodEvent(QInputMethodEvent *e)
 void CTextEdit::focusOutEvent(QFocusEvent *e)
 {
     QTextEdit::focusOutEvent(e);
-    QString &pre = const_cast<QString &>(m_e.preeditString() );
+    QString &pre = const_cast<QString &>(m_e.preeditString());
     if (!pre.isEmpty()) {
         m_e.setCommitString(pre);
         pre.clear();
@@ -447,10 +462,10 @@ void CTextEdit::setVisible(bool visible)
         QTextCursor cursor = this->textCursor();
         cursor.select(QTextCursor::Document);
         this->setTextCursor(cursor);
-        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
-            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-            curScene->updateBlurItem(m_pItem);
-        }
+//        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
+//            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+//            curScene->updateBlurItem(m_pItem);
+//        }
     }
 }
 
