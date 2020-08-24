@@ -74,10 +74,6 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
         return EXIT_SUCCESS;
     }
 
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     // Version Time
     this->setApplicationVersion(VERSION);
 
@@ -90,6 +86,10 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
     this->setQuitOnLastWindowClosed(true);
+
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     // 应用已保存的主题设置
     //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
