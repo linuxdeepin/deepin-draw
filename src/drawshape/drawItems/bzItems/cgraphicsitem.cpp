@@ -448,6 +448,7 @@ void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     Q_UNUSED(event);
 }
 
+#include "application.h"
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     //    if (change == QGraphicsItem::ItemSelectedHasChanged) {
@@ -464,11 +465,21 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             change == QGraphicsItem::ItemMatrixChange ||
             change == QGraphicsItem::ItemZValueHasChanged ||
             change == QGraphicsItem::ItemOpacityHasChanged ||
-            change == QGraphicsItem::ItemRotationHasChanged /*||
+            change == QGraphicsItem::ItemRotationHasChanged
+            /*||
             change == QGraphicsItem::ItemTransformOriginPointHasChanged*/) {
         if (nullptr != scene()) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->updateBlurItem(this);
+        }
+    }
+
+    if (change == QGraphicsItem::ItemSceneChange) {
+        auto curScene = qobject_cast<CDrawScene *>(scene());
+        if (curScene != nullptr) {
+            QMetaObject::invokeMethod(curScene, [ = ]() {
+                curScene->updateBlurItem();
+            }, Qt::QueuedConnection);
         }
     }
 
@@ -480,6 +491,11 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             } else {
                 initHandle();
             }
+        }
+
+        auto curScene = static_cast<CDrawScene *>(scene());
+        if (curScene != nullptr) {
+            curScene->updateBlurItem();
         }
     }
 
@@ -507,6 +523,7 @@ void CGraphicsItem::endCheckIns(QPainter *painter)
         return;
     painter->restore();
 }
+
 void CGraphicsItem::clearHandle()
 {
     for (CSizeHandleRect *pItem : m_handles) {
@@ -517,6 +534,7 @@ void CGraphicsItem::clearHandle()
     }
     m_handles.clear();
 }
+
 void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
     if (this->isSelected() && scene() != nullptr && drawScene()->getItemsMgr()->count() > 1) {

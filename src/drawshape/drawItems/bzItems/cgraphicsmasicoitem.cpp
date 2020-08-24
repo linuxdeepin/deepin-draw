@@ -117,18 +117,6 @@ void CGraphicsMasicoItem::updateMasicPixmap()
         QList<QGraphicsItem * > items = this->scene()->items();
         QList<QGraphicsItem * > filterItems = this->filterItems(items);
         QList<bool> filterItemsSelectFlags;
-//        int textItemIndex = -1;
-//        QTextCursor textCursor;
-
-//        for (int i = 0; i < items.size(); ++i) {
-//            if (items[i]->type() == TextType) {
-//                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
-//                if (pTextItem->isEditable()) {
-//                    textItemIndex = i;
-//                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
-//                }
-//            }
-//        }
 
         auto curScene = static_cast<CDrawScene *>(scene());
         auto itemsMgr = curScene->getItemsMgr();
@@ -148,6 +136,9 @@ void CGraphicsMasicoItem::updateMasicPixmap()
                 }
             }
         }
+
+        QPainterPath hlPath = drawScene()->hightLightPath();
+        drawScene()->clearHighlight();
 
         this->hide();
         QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
@@ -186,6 +177,8 @@ void CGraphicsMasicoItem::updateMasicPixmap()
                 }
             }
         }
+
+        drawScene()->setHighlightHelper(hlPath);
 
 //        if (textItemIndex != -1) {
 //            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
