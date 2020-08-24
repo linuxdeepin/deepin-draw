@@ -117,6 +117,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="123"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="817"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
@@ -757,14 +762,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="123"/>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
-        <source>思源宋体 CN</source>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="70"/>
+        <source>Regular</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="70"/>
-        <source>Regular</source>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
+        <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
