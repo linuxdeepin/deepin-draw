@@ -280,10 +280,11 @@ void TextWidget::slotUpdateTextFamilyStyle(QString family)
     m_fontHeavy->blockSignals(false);
 }
 
-bool TextWidget::eventFilter(QObject *, QEvent *event)
+bool TextWidget::eventFilter(QObject *o, QEvent *event)
 {
-    event->accept();
-    return true;
+//    event->accept();
+//    return true;
+    return DWidget::eventFilter(o, event);
 }
 
 void TextWidget::initConnection()
