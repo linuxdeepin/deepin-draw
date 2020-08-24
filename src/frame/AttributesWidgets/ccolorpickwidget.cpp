@@ -29,7 +29,7 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
     : DArrowRectangle(ArrowTop, FloatWidget, parent)
 {
     this->setWindowFlag(Qt::FramelessWindowHint);
-    this->setWindowFlag(Qt::Popup);
+    this->setWindowFlag(Qt::/*Popup*/Widget);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setArrowWidth(18);
     this->setArrowHeight(10);
@@ -53,6 +53,20 @@ CColorPickWidget::CColorPickWidget(QWidget *parent)
 QColor CColorPickWidget::color()
 {
     return _color;
+}
+
+ColorPanel *CColorPickWidget::colorPanel()
+{
+    return m_colorPanel;
+}
+
+void CColorPickWidget::show(int x, int y)
+{
+    if (parentWidget() == nullptr || isWindowType()) {
+        return DArrowRectangle::show(x, y);
+    }
+    QPoint pos = this->parentWidget()->mapFromGlobal(QPoint(x, y));
+    DArrowRectangle::show(pos.x(), pos.y());
 }
 
 void CColorPickWidget::setColor(const QColor &c)

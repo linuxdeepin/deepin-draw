@@ -117,31 +117,36 @@ void CGraphicsMasicoItem::updateMasicPixmap()
         QList<QGraphicsItem * > items = this->scene()->items();
         QList<QGraphicsItem * > filterItems = this->filterItems(items);
         QList<bool> filterItemsSelectFlags;
-        int textItemIndex = -1;
-        QTextCursor textCursor;
+//        int textItemIndex = -1;
+//        QTextCursor textCursor;
 
-        for (int i = 0; i < items.size(); ++i) {
-            if (items[i]->type() == TextType) {
-                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
-                if (pTextItem->isEditable()) {
-                    textItemIndex = i;
-                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
-                }
-            }
-        }
+//        for (int i = 0; i < items.size(); ++i) {
+//            if (items[i]->type() == TextType) {
+//                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
+//                if (pTextItem->isEditable()) {
+//                    textItemIndex = i;
+//                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
+//                }
+//            }
+//        }
 
         auto curScene = static_cast<CDrawScene *>(scene());
         auto itemsMgr = curScene->getItemsMgr();
         auto itemsMgrFlag = itemsMgr->isVisible();
         if (itemsMgrFlag) {
-            //itemsMgr->setVisible(false);
             itemsMgr->setFlag(ItemHasNoContents, true);
         }
 
         for (int i = 0; i != filterItems.size(); i++) {
-            filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
-            //filterItems[i]->setVisible(false);
-            filterItems[i]->setFlag(ItemHasNoContents, true);
+            QGraphicsItem *pItem = filterItems[i];
+            filterItemsSelectFlags.push_back(pItem->isSelected());
+            pItem->setFlag(ItemHasNoContents, true);
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, true);
+                }
+            }
         }
 
         this->hide();
@@ -163,7 +168,6 @@ void CGraphicsMasicoItem::updateMasicPixmap()
 
         curScene->resetSceneBackgroundBrush();
         if (itemsMgrFlag) {
-            //itemsMgr->setVisible(true);
             itemsMgr->setFlag(ItemHasNoContents, false);
         }
 
@@ -171,20 +175,27 @@ void CGraphicsMasicoItem::updateMasicPixmap()
         this->setSelected(flag);
 
         for (int i = 0; i != filterItems.size(); i++) {
-            //filterItems[i]->setVisible(true);
-            filterItems[i]->setFlag(ItemHasNoContents, false);
-            filterItems[i]->setSelected(filterItemsSelectFlags[i]);
-        }
+            QGraphicsItem *pItem = filterItems[i];
+            pItem->setFlag(ItemHasNoContents, false);
+            pItem->setSelected(filterItemsSelectFlags[i]);
 
-        if (textItemIndex != -1) {
-            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
-            if (pTextItem != nullptr) {
-                pTextItem->setVisible(true);
-                pTextItem->getTextEdit()->show();
-                pTextItem->getTextEdit()->setTextCursor(textCursor);
-                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, false);
+                }
             }
         }
+
+//        if (textItemIndex != -1) {
+//            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
+//            if (pTextItem != nullptr) {
+//                pTextItem->setVisible(true);
+//                pTextItem->getTextEdit()->show();
+//                pTextItem->getTextEdit()->setTextCursor(textCursor);
+//                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
+//            }
+//        }
     }
 }
 
@@ -259,6 +270,11 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     pen.setWidth(width);
     this->setPen(pen);
     updateBlurPath();
+    if (this->drawScene() != nullptr) {
+        this->drawScene()->getItemsMgr()->updateBoundingRect();
+    }
+    updateMasicPixmap();
+    CGraphicsItem::updateShape();
 }
 
 CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit(bool all) const
@@ -322,7 +338,7 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
-            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType) {
+            if ((item->type() > QGraphicsItem::UserType && item->type() < MgrType)) {
                 if (item->type() == BlurType && item != this) {
                     retList.push_back(item);
                     continue;

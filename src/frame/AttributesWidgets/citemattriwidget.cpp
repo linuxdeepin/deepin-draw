@@ -117,6 +117,15 @@ SComDefualData CComAttrWidget::defualtSceneData(CDrawScene *pScene)
 {
     CDrawScene *pScen = (pScene == nullptr ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : pScene);
     assert(pScen != nullptr);
+
+    // 设置默认的字体类型为思源宋体，没有该字体则选择系统第一个默认字体
+    QFontDatabase fontbase;
+    QString sourceHumFont = QObject::tr("思源宋体 CN");
+    if (!fontbase.families().contains(sourceHumFont)) {
+        sourceHumFont = fontbase.families().first();
+    }
+    m_defualDatas[pScen].textFontFamily = sourceHumFont;
+    m_defualDatas[pScen].textFontSize = 14;
     return m_defualDatas[pScen];
 }
 
@@ -1108,8 +1117,8 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         this->parentWidget()->parentWidget()->setFocusPolicy(Qt::NoFocus);
         this->parentWidget()->setFocusPolicy(Qt::NoFocus);
         m_TextWidget->setFocusPolicy(Qt::NoFocus);
-
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
+
         connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
             qDebug() << "fontSizeChanged = " << size;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
@@ -1207,7 +1216,6 @@ CCutWidget *CComAttrWidget::getCutWidget()
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
                 pTool->changeCutSize(CManageViewSigleton::GetInstance()->getCurView()->drawScene(), sz);
-                this->updateDefualData(PropertyCutSize, sz);
             }
         });
         connect(m_cutWidget, &CCutWidget::cutTypeChanged, this, [ = ](ECutType tp) {
@@ -1215,7 +1223,7 @@ CCutWidget *CComAttrWidget::getCutWidget()
             CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
             if (pTool != nullptr) {
                 pTool->changeCutType(tp, CManageViewSigleton::GetInstance()->getCurView()->drawScene());
-                this->updateDefualData(PropertyCutType, tp);
+                CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(tp);
             }
         });
         connect(m_cutWidget, &CCutWidget::finshed, this, [ = ](bool accept) {
@@ -1224,12 +1232,12 @@ CCutWidget *CComAttrWidget::getCutWidget()
             if (pTool != nullptr) {
                 CCmdBlock block(accept ? CManageViewSigleton::GetInstance()->getCurView()->drawScene() : nullptr);
                 pTool->doFinished(accept);
-                if (accept) {
-                    QSize sz = m_cutWidget->cutSize();
-                    ECutType tp = m_cutWidget->cutType();
-                    this->updateDefualData(PropertyCutSize, sz);
-                    this->updateDefualData(PropertyCutType, tp);
-                }
+//                if (accept) {
+//                    QSize sz = m_cutWidget->cutSize();
+//                    ECutType tp = m_cutWidget->cutType();
+//                    this->updateDefualData(PropertyCutSize, sz);
+//                    this->updateDefualData(PropertyCutType, tp);
+//                }
             }
         });
     }
@@ -1342,6 +1350,10 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         penEndType = ELineType(var.toInt());
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setPenEndType(penEndType);
         break;
+    case TextFont:
+        textFontFamily = var.value<QString>();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextFontFamily(textFontFamily);
+        break;
     case TextColor:
         textColor = var.value<QColor>();
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(textColor);
@@ -1355,12 +1367,12 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextSize(textFontSize);
         break;
     case Blurtype:
-        masicType = var.toInt();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(EBlurEffect(masicType));
+        blurType = static_cast<EBlurEffect>(var.toInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurEffect(EBlurEffect(blurType));
         break;
     case BlurWidth:
-        masicWidth = var.toInt();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(masicWidth);
+        blurWidth = var.toInt();
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setBlurWidth(blurWidth);
         break;
     case PropertyCutType:
         cutType = ECutType(var.toInt());

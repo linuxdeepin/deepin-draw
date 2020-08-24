@@ -33,6 +33,7 @@
 #include <QTextEdit>
 #include <malloc.h>
 #include <QMimeData>
+#include <QComboBox>
 
 #include "service/cmanagerattributeservice.h"
 
@@ -77,7 +78,7 @@ void CTextEdit::slot_textChanged()
         this->blockSignals(false);
     }
 
-    // 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
+    // 有预览效果的时候 文本删除完后重新写入文字需要重置属性,删除完后预览中文需要进行设置
     if (this->document()->toPlainText().isEmpty()) {
         QTextCharFormat fmt;
         fmt.setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
@@ -86,8 +87,11 @@ void CTextEdit::slot_textChanged()
         QColor color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor();
         color.setAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColorAlpha());
         fmt.setForeground(color);
+        this->blockSignals(true);
         this->setCurrentCharFormat(fmt);
+        this->blockSignals(false);
     }
+
 
     if (m_pItem->getManResizeFlag() || this->document()->lineCount() > 1) {
         this->setLineWrapMode(WidgetWidth);
@@ -178,19 +182,25 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         inputMethodEvent(&m_e);
     }
 
-    //属性修改导致的widget焦点丢失不应该响应
-    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
-        return;
-    }
-
-    QTextEdit::focusOutEvent(e);
-    if (m_pItem && m_pItem->drawScene()) {
-        m_pItem->drawScene()->notSelectItem(m_pItem);
-    }
 //    qDebug() << "new focus object = " << dApp->focusObject() << "is same = "
 //             << (dApp->focusObject() == this)
 //             << "parent = " << this->parent()
 //             << "active widget = " << dApp->activePopupWidget();
+
+    //属性修改导致的widget焦点丢失不应该响应
+    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr ||
+            qobject_cast<QComboBox *>(dApp->focusObject())) {
+        return;
+    }
+
+    qDebug() << "CTextEdit::focusOutEvent ----- ";
+
+    QTextEdit::focusOutEvent(e);
+    if (m_pItem && m_pItem->drawScene()) {
+        // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
+        this->selectAll();
+        m_pItem->drawScene()->notSelectItem(m_pItem);
+    }
 
     m_editing = false;
 }
@@ -457,13 +467,13 @@ void CTextEdit::checkTextProperty(const QTextCursor &cursor)
         }
 
     }
-    qDebug() << "selected_start_index: " << selected_start_index;
-    qDebug() << "      selectedString: " << selectedString;
-    qDebug() << "     m_selectedColor: " << m_selectedColor;
-    qDebug() << "      m_selectedSize: " << m_selectedSize;
-    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
-    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
-    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
+//    qDebug() << "selected_start_index: " << selected_start_index;
+//    qDebug() << "      selectedString: " << selectedString;
+//    qDebug() << "     m_selectedColor: " << m_selectedColor;
+//    qDebug() << "      m_selectedSize: " << m_selectedSize;
+//    qDebug() << "    m_selectedFamily: " << m_selectedFamily;
+//    qDebug() << "m_selectedFontWeight: " << m_selectedFontWeight;
+//    qDebug() << "m_selectedColorAlpha: " << m_selectedColorAlpha;
 }
 
 void CTextEdit::checkTextProperty()

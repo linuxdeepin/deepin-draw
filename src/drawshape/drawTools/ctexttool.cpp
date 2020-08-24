@@ -67,6 +67,12 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
 
         CGraphicsView *pView = event->scene()->drawView();
 
+        qDebug() << "getTextFont():" << pView->getDrawParam()->getTextFont();
+        qDebug() << "getTextColor():" << pView->getDrawParam()->getTextColor();
+        qDebug() << "getTextColorAlpha():" << pView->getDrawParam()->getTextColorAlpha();
+        qDebug() << "getTextFontStyle():" << pView->getDrawParam()->getTextFontStyle();
+        qDebug() << "getTextSize():" << pView->getDrawParam()->getTextSize();
+
         pItem->setFont(pView->getDrawParam()->getTextFont());
         pItem->setTextColor(pView->getDrawParam()->getTextColor());
         pItem->setTextColorAlpha(pView->getDrawParam()->getTextColorAlpha());
@@ -96,8 +102,6 @@ CGraphicsItem *CTextTool::creatItem(IDrawTool::CDrawToolEvent *event)
         pItem->setZValue(newZ);
         event->scene()->setMaxZValue(newZ);
         event->scene()->addItem(pItem);
-        // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
-        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 
         return pItem;
     }

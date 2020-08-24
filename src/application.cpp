@@ -26,6 +26,7 @@
 #include "cgraphicsview.h"
 #include "ccentralwidget.h"
 #include "cdrawscene.h"
+#include "colorpanel.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -73,10 +74,6 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
         return EXIT_SUCCESS;
     }
 
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     // Version Time
     this->setApplicationVersion(VERSION);
 
@@ -89,6 +86,10 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
     this->setQuitOnLastWindowClosed(true);
+
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     // 应用已保存的主题设置
     //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
@@ -410,7 +411,24 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
         }
     }
 }
-
+bool Application::notify(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress) {
+        if (o->isWidgetType()) {
+            CColorPickWidget *pColor = colorPickWidget();
+            if (pColor != nullptr) {
+                ColorPanel *pColorPanel = pColor->colorPanel();
+                if (!pColor->isHidden()) {
+                    if (!(o == pColorPanel ||
+                            pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+                        pColor->hide();
+                    }
+                }
+            }
+        }
+    }
+    return QtSingleApplication::notify(o, e);
+}
 void Application::handleQuitAction()
 {
     emit popupConfirmDialog();

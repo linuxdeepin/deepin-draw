@@ -36,6 +36,7 @@
 #include "bzItems/cgraphicsellipseitem.h"
 #include "bzItems/cgraphicstriangleitem.h"
 #include "drawshape/cdrawparamsigleton.h"
+#include "cgraphicsitemselectedmgr.h"
 #include "drawTools/cpicturetool.h"
 #include "drawTools/ccuttool.h"
 #include "drawTools/cdrawtoolmanagersigleton.h"
@@ -273,9 +274,8 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
 bool CCentralwidget::getCutedStatus()
 {
     EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
-    CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-    if (pTool != nullptr) {
-        return pTool->getCutStatus();
+    if (model == EDrawToolMode::cut) {
+        return true;
     } else {
         return false;
     }
@@ -735,6 +735,10 @@ void CCentralwidget::viewChanged(QString viewName, const QString &uuid)
         //修改为队列模式保证初始化时也能正确的执行该信号的操响应(初始化时信号可能未帮顶viewchanged就来了)
         QMetaObject::invokeMethod(this, "signalScenceViewChanged", Qt::QueuedConnection, Q_ARG(QString, ""));
     }
+
+    //[8] 刷新选中状态下的属性界面
+    if (view->drawScene() != nullptr)
+        view->drawScene()->getItemsMgr()->updateAttributes();
 }
 
 void CCentralwidget::tabItemCloseRequested(QString viewName, const QString &uuid)
