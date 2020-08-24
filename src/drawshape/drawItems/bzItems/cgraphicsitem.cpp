@@ -474,6 +474,8 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
         }
     }
 
+
+    // 增加图元刷新模糊
     if (change == QGraphicsItem::ItemSceneChange) {
         auto curScene = qobject_cast<CDrawScene *>(scene());
         if (curScene != nullptr) {
@@ -493,6 +495,7 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             }
         }
 
+        // 删除图元刷新模糊
         auto curScene = static_cast<CDrawScene *>(scene());
         if (curScene != nullptr) {
             curScene->updateBlurItem();
