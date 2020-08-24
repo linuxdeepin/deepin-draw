@@ -113,7 +113,11 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    Application::loadDXcbPlugin();
+
+    //非wayland平台需要添加xcb
+    if (!Application::isWaylandPlatform())
+        Application::loadDXcbPlugin();
+
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
 
