@@ -274,9 +274,8 @@ CGraphicsView *CCentralwidget::createNewScense(QString scenceName, const QString
 bool CCentralwidget::getCutedStatus()
 {
     EDrawToolMode model = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode();
-    CCutTool *pTool = dynamic_cast<CCutTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
-    if (pTool != nullptr) {
-        return pTool->getCutStatus();
+    if (model == EDrawToolMode::cut) {
+        return true;
     } else {
         return false;
     }
