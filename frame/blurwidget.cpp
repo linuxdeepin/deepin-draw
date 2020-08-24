@@ -55,6 +55,17 @@ void BlurWidget::updateBlurWidget()
     m_spinboxForLineWidth->blockSignals(true);
     m_spinboxForLineWidth->setValue(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurWidth());
     m_spinboxForLineWidth->blockSignals(false);
+
+
+    EBlurEffect tp = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBlurEffect();
+
+    m_blurBtn->blockSignals(true);
+    m_masicBtn->blockSignals(true);
+
+    updateIcon(tp == MasicoEffect);
+
+    m_blurBtn->blockSignals(false);
+    m_masicBtn->blockSignals(false);
 }
 
 void BlurWidget::changeButtonTheme()
@@ -196,10 +207,10 @@ void BlurWidget::initUI()
             s_oldTempValues.clear();
         }
     });
-    connect(m_spinboxForLineWidth, &DSpinBox::editingFinished, this, [ = ] () {
+    connect(m_spinboxForLineWidth, &DSpinBox::editingFinished, this, [ = ]() {
         //等于0时是特殊字符，不做处理
         qDebug() << "m_spinboxForLineWidth->value() = " << m_spinboxForLineWidth->value();
-        if ( m_spinboxForLineWidth->value() < 0) {
+        if (m_spinboxForLineWidth->value() < 0) {
             return ;
         }
         m_spinboxForLineWidth->blockSignals(true);
