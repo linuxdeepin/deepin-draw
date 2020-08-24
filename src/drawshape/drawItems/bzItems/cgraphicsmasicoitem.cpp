@@ -270,6 +270,9 @@ void CGraphicsMasicoItem::setBlurWidth(int width)
     pen.setWidth(width);
     this->setPen(pen);
     updateBlurPath();
+    if (this->drawScene() != nullptr) {
+        this->drawScene()->getItemsMgr()->updateBoundingRect();
+    }
     updateMasicPixmap();
     CGraphicsItem::updateShape();
 }
