@@ -228,6 +228,21 @@ void Application::setApplicationCursor(const QCursor &cur)
     }
 }
 
+bool Application::isWaylandPlatform()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
+            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
+                                      Qt::CaseInsensitive)) {
+        return false;
+
+    }
+    return true;
+}
+
 bool Application::notify(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::MouseButtonPress) {
