@@ -137,6 +137,12 @@ private:
     * @bref: updatePropertyCache2Cursor 更新缓存中的属性到变量中
     */
     void updatePropertyCache2Cursor();
+
+    /*
+    * @bref: getFontWeigthByStyleName 根据字体的名字获取字重
+    * 这样做的原因是QTextCharFormat直接设置style没有用(巨坑)
+    */
+    quint8 getFontWeigthByStyleName(const QString &styleName);
 };
 
 #endif // CTEXTEDIT_H
