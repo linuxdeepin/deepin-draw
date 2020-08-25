@@ -235,7 +235,7 @@ void TextWidget::initConnection()
     });
     connect(m_fontComBox, QOverload<const QString &>::of(&DFontComboBox::highlighted), this, [ = ](const QString & str) {
         m_oneItemIsHighlighted = true;
-        setTextFamilyStyle(str, m_fontHeavy->currentText(), true, true);
+        setTextFamilyStyle(str, "Regular", true, true);
     });
     connect(m_fontComBox, &CFontComboBox::signalhidepopup, this, [ = ]() {
         if (m_oneItemIsHighlighted) {

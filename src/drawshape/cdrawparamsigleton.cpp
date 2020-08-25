@@ -60,7 +60,7 @@ CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     m_nFillColor = Qt::white;
     m_nFillColor.setAlpha(0);//transparent
 
-    // 设置默认的字体类型为思源宋体，没有该字体则选择系统第一个默认字体
+    // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
     QFontDatabase fontbase;
     QString sourceHumFont = QObject::tr("Source Han Sans CN");
     if (!fontbase.families().contains(sourceHumFont)) {
