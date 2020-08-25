@@ -735,14 +735,18 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
 
 
     bool getBorder = false;
+
+    qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+    qreal minH = (qWHRadio < 1.0 && qWHRadio > 0.0) ? 10 / qWHRadio : 10;
+
     //根据dir的位置判断应该改变到的大小
     switch (dir) {
     case CSizeHandleRect::Top: {
         adjust[1] = moveY;
 
         //边界检查
-        if (curRect.height() - adjust[1] < 10) {
-            adjust[1] = curRect.height() - 10;
+        if (curRect.height() - adjust[1] < minH) {
+            adjust[1] = curRect.height() - minH;
             getBorder = true;
         }
 
@@ -756,8 +760,8 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
         adjust[3] = moveY;
 
         //边界检查
-        if (curRect.height() + adjust[3] < 10) {
-            adjust[3] = 10 - curRect.height();
+        if (curRect.height() + adjust[3] < minH) {
+            adjust[3] = minH - curRect.height();
             getBorder = true;
         }
 
@@ -770,8 +774,8 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
         adjust[0] = moveX;
 
         //边界检查
-        if (curRect.width() - adjust[0] < 10) {
-            adjust[0] = curRect.width() - 10;
+        if (curRect.width() - adjust[0] < minW) {
+            adjust[0] = curRect.width() - minW;
             getBorder = true;
         }
 
@@ -785,8 +789,8 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
         adjust[2] = moveX;
 
         //边界检查
-        if (curRect.width() + adjust[2] < 10) {
-            adjust[2] = 10 - curRect.width();
+        if (curRect.width() + adjust[2] < minW) {
+            adjust[2] = minW - curRect.width();
             getBorder = true;
         }
 
@@ -802,8 +806,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[2] = moveX;
 
                 //边界检查
-                if (curRect.width() + adjust[2] < 10) {
-                    adjust[2] = 10 - curRect.width();
+                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+                if (curRect.width() + adjust[2] < minW) {
+                    adjust[2] = minW - curRect.width();
                     getBorder = true;
                 }
 
@@ -812,8 +817,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[1] = moveY;
 
                 //边界检查
-                if (curRect.height() - adjust[1] < 10) {
-                    adjust[1] = curRect.height() - 10;
+                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+                if (curRect.height() - adjust[1] < minH) {
+                    adjust[1] = curRect.height() - minH;
                     getBorder = true;
                 }
 
@@ -825,13 +831,15 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
             adjust[1] = moveY;
 
             //边界检查
-            if (curRect.width() + adjust[2] < 10) {
-                adjust[2] = 10 - curRect.width();
+            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+            if (curRect.width() + adjust[2] < minW) {
+                adjust[2] = minW - curRect.width();
                 getBorder = true;
             }
 
-            if (curRect.height() - adjust[1] < 10) {
-                adjust[1] = curRect.height() - 10;
+            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+            if (curRect.height() - adjust[1] < minH) {
+                adjust[1] = curRect.height() - minH;
                 getBorder = true;
             }
         }
@@ -843,16 +851,18 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
             if (qAbs(moveX) > qAbs(moveY)) {
                 adjust[0] = moveX;
                 //边界检查
-                if (curRect.width() - adjust[0] < 10) {
-                    adjust[0] = curRect.width() - 10;
+                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+                if (curRect.width() - adjust[0] < minW) {
+                    adjust[0] = curRect.width() - minW;
                     getBorder = true;
                 }
                 adjust[1] = adjust[0] / qWHRadio;
             } else {
                 adjust[1] = moveY;
                 //边界检查
-                if (curRect.height() - adjust[1] < 10) {
-                    adjust[1] = curRect.height() - 10;
+                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+                if (curRect.height() - adjust[1] < minH) {
+                    adjust[1] = curRect.height() - minH;
                     getBorder = true;
                 }
                 adjust[0] = adjust[1] * qWHRadio;
@@ -862,13 +872,15 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
             adjust[1] = moveY;
 
             //边界检查
-            if (curRect.width() - adjust[0] < 10) {
-                adjust[0] = curRect.width() - 10;
+            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+            if (curRect.width() - adjust[0] < minW) {
+                adjust[0] = curRect.width() - minW;
                 getBorder = true;
             }
 
-            if (curRect.height() - adjust[1] < 10) {
-                adjust[1] = curRect.height() - 10;
+            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+            if (curRect.height() - adjust[1] < minH) {
+                adjust[1] = curRect.height() - minH;
                 getBorder = true;
             }
         }
@@ -881,8 +893,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[2] = moveX;
 
                 //边界检查
-                if (curRect.width() + adjust[2] < 10) {
-                    adjust[2] = 10 - curRect.width();
+                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+                if (curRect.width() + adjust[2] < minW) {
+                    adjust[2] = minW - curRect.width();
                     getBorder = true;
                 }
 
@@ -891,8 +904,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[3] = moveY;
 
                 //边界检查
-                if (curRect.height() + adjust[3] < 10) {
-                    adjust[3] = 10 - curRect.height();
+                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+                if (curRect.height() + adjust[3] < minH) {
+                    adjust[3] = minH - curRect.height();
                     getBorder = true;
                 }
 
@@ -903,13 +917,15 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
             adjust[3] = moveY;
 
             //边界检查
-            if (curRect.width() + adjust[2] < 10) {
-                adjust[2] = 10 - curRect.width();
+            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+            if (curRect.width() + adjust[2] < minW) {
+                adjust[2] = minW - curRect.width();
                 getBorder = true;
             }
 
-            if (curRect.height() + adjust[3] < 10) {
-                adjust[3] = 10 - curRect.height();
+            //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+            if (curRect.height() + adjust[3] < minH) {
+                adjust[3] = minH - curRect.height();
                 getBorder = true;
             }
         }
@@ -923,8 +939,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[0] = moveX;
 
                 //边界检查
-                if (curRect.width() - adjust[0] < 10) {
-                    adjust[0] = curRect.width() - 10;
+                //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+                if (curRect.width() - adjust[0] < minW) {
+                    adjust[0] = curRect.width() - minW;
                     getBorder = true;
                 }
 
@@ -933,8 +950,9 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
                 adjust[3] = moveY;
 
                 //边界检查
-                if (curRect.height() + adjust[3] < 10) {
-                    adjust[3] = 10 - curRect.height();
+                //qreal minH = qWHRadio < 1.0 ? 10 / qWHRadio : 10;
+                if (curRect.height() + adjust[3] < minH) {
+                    adjust[3] = minH - curRect.height();
                     getBorder = true;
                 }
 
@@ -945,13 +963,15 @@ void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
             adjust[3] = moveY;
 
             //边界检查
-            if (curRect.width() - adjust[0] < 10) {
-                adjust[0] = curRect.width() - 10;
+            //qreal minW = qWHRadio > 1.0 ? 10 * qWHRadio : 10;
+            if (curRect.width() - adjust[0] < minW) {
+                adjust[0] = curRect.width() - minW;
                 getBorder = true;
             }
 
-            if (curRect.height() + adjust[3] < 10) {
-                adjust[3] = 10 - curRect.height();
+            //qreal minH = qWHRadio < 1.0 ? 10 * qWHRadio : 10;
+            if (curRect.height() + adjust[3] < minH) {
+                adjust[3] = minH - curRect.height();
                 getBorder = true;
             }
 
