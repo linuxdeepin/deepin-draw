@@ -39,6 +39,9 @@
 #include "colorslider.h"
 #include "pickcolorwidget.h"
 #include "calphacontrolwidget.h"
+#include "application.h"
+#include "frame/mainwindow.h"
+#include "frame/toptoolbar.h"
 
 
 DGUI_USE_NAMESPACE
@@ -158,6 +161,8 @@ void ColorPanel::setConfigColor(QColor color)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColor(color);
         CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColor, color);
     }
+
+    updateEmptySelectBtnColor();
 }
 
 //颜色按钮点击处理
@@ -192,6 +197,23 @@ void ColorPanel::changeButtonTheme()
 void ColorPanel::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
+}
+
+void ColorPanel::updateEmptySelectBtnColor()
+{
+    //当没有选中的图元时也需要刷新调出颜色板按钮的显示颜色
+    CDrawScene *pScene = CManageViewSigleton::GetInstance()->getCurView()->drawScene();
+    if (pScene != nullptr) {
+        QList<QGraphicsItem *> selectItems = pScene->selectedItems();
+        if (selectItems.isEmpty()) {
+
+            MainWindow *pMain = qobject_cast<MainWindow *>(dApp->activationWindow());
+            if (pMain != nullptr) {
+                EDrawToolMode currentMode = pScene->getDrawParam()->getCurrentDrawToolMode();
+                pMain->topToolbar()->updateMiddleWidget(currentMode);
+            }
+        }
+    }
 }
 
 void ColorPanel::slotPickedColorChanged(QColor newColor)
@@ -339,28 +361,36 @@ void ColorPanel::initConnection()
 
 
     // Alpha 值实时改变处理
-    connect(m_alphaControlWidget, &CAlphaControlWidget::signalAlphaChanged, this, [ = ] (int alphaValue) {
+    connect(m_alphaControlWidget, &CAlphaControlWidget::signalAlphaChanged, this, [ = ](int alphaValue) {
         if (m_drawstatus == Fill) {
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
+            QColor c = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getFillColor();
+            c.setAlpha(alphaValue);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setFillColor(c);
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alphaValue, false, nullptr, nullptr, false);
         } else if (m_drawstatus == Stroke) {
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
+            QColor c = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+            c.setAlpha(alphaValue);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineColor(c);
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::LineColorAlpha, alphaValue, false, nullptr, nullptr, false);
         } else if (m_drawstatus == TextFill) {
             if (m_colorsButtonGroup->button(0)->isChecked()) {
                 return;
             }
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setTextColorAlpha(alphaValue);
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::TextColorAlpha, alphaValue, false, nullptr, nullptr, false);
         }
         resetColorBtn();
         update();
+        updateEmptySelectBtnColor();
     });
     // Alpha 值确定改变写入缓存处理
-    connect(m_alphaControlWidget, &CAlphaControlWidget::signalFinishChanged, this, [ = ] () {
+    connect(m_alphaControlWidget, &CAlphaControlWidget::signalFinishChanged, this, [ = ]() {
         int alpha = m_alphaControlWidget->getCurrentAlphaValue();
         if (m_drawstatus == Fill) {
             CManagerAttributeService::getInstance()->setItemsCommonPropertyValue(EDrawProperty::FillColorAlpha, alpha, true);
