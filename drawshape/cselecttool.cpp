@@ -566,7 +566,7 @@ void CSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
                 qreal len_y = mousePoint.y() - centerToScence.y();
                 qreal len_x = mousePoint.x() - centerToScence.x();
                 angle = atan2(-len_x, len_y) * 180 / M_PI + 180;
-                qDebug() << "angle" << angle << endl;
+                //qDebug() << "angle" << angle << endl;
                 if (angle > 360) {
                     angle -= 360;
                 }
@@ -771,7 +771,7 @@ void CSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
                         delete m_RotateItem;
                         m_RotateItem = nullptr;
                     }
-                     if (m_bRotateAng) {
+                    if (m_bRotateAng) {
                         emit scene->itemRotate(m_currentSelectItem, m_rotateAng);
                         m_bRotateAng = false;
                     }
