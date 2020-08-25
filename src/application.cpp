@@ -106,7 +106,7 @@ MainWindow *Application::topMainWindow()
     return qobject_cast<MainWindow *>(activationWindow());
 }
 
-CColorPickWidget *Application::colorPickWidget(bool creatNew)
+CColorPickWidget *Application::colorPickWidget(bool creatNew, QWidget *pCaller)
 {
     if (creatNew) {
         if (_colorPickWidget != nullptr) {
@@ -119,6 +119,8 @@ CColorPickWidget *Application::colorPickWidget(bool creatNew)
         _colorPickWidget = new CColorPickWidget(topMainWindow());
         setProperty("_d_isDxcb", true);
     }
+    if (pCaller != nullptr)
+        _colorPickWidget->setCaller(pCaller);
     return _colorPickWidget;
 }
 
@@ -422,6 +424,11 @@ bool Application::notify(QObject *o, QEvent *e)
                     if (!(o == pColorPanel ||
                             pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
                         pColor->hide();
+
+                        //点击的是调起颜色板的控件那么直接隐藏就好 不再继续传递(因为继续传递会再次显示颜色板)
+                        if (pColor->caller() == o) {
+                            return true;
+                        }
                     }
                 }
             }

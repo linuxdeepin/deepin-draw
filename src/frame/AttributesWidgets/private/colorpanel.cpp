@@ -50,6 +50,7 @@ const int EXPAND_HEIGHT = 475;
 const int RADIUS = 8;
 const QSize COLOR_BORDER_SIZE = QSize(34, 34);
 
+bool ColorPanel::s_expand = false;
 ColorButton::ColorButton(const QColor &color, DWidget *parent)
     : DPushButton(parent)
     , m_color(color)
@@ -110,7 +111,6 @@ ColorButton::~ColorButton()
 
 ColorPanel::ColorPanel(DWidget *parent)
     : DWidget(parent)
-    , m_expand(false)
 {
     initUI();
     initConnection();
@@ -211,8 +211,7 @@ void ColorPanel::initUI()
     layout->addWidget(colorBtnWidget);
     layout->addWidget(m_pickColWidget, 0, Qt::AlignCenter);
 
-    if (!m_expand)
-        m_pickColWidget->hide();
+    this->updateExpendArea();
 }
 
 void ColorPanel::initConnection()
@@ -266,26 +265,8 @@ void ColorPanel::initConnection()
 
     //展开按钮
     connect(m_colorfulBtn, &CIconButton::buttonClick, this, [ = ] {
-        if (m_expand)
-        {
-            m_pickColWidget->hide();
-            //m_pickColWidget->setPickedColor(false);
-            setFixedHeight(ORIGIN_HEIGHT);
-            updateGeometry();
-        } else
-        {
-            m_pickColWidget->show();
-            //m_pickColWidget->setPickedColor(true);
-            setFixedHeight(EXPAND_HEIGHT);
-            updateGeometry();
-        }
-
-        if (this->parentColorWidget() != nullptr)
-        {
-            this->parentColorWidget()->setContent(this);
-        }
-
-        m_expand = !m_expand;
+        s_expand = !s_expand;
+        this->updateExpendArea();
     });
 }
 
@@ -342,4 +323,21 @@ void ColorPanel::updateColor(const QColor &previewColor)
     m_colLineEdit->blockSignals(true);
     m_colLineEdit->setText(colorName);
     m_colLineEdit->blockSignals(false);
+}
+
+void ColorPanel::updateExpendArea()
+{
+    if (!s_expand) {
+        m_pickColWidget->hide();
+        setFixedHeight(ORIGIN_HEIGHT);
+        updateGeometry();
+    } else {
+        m_pickColWidget->show();
+        setFixedHeight(EXPAND_HEIGHT);
+        updateGeometry();
+    }
+
+    if (this->parentColorWidget() != nullptr) {
+        this->parentColorWidget()->setContent(this);
+    }
 }
