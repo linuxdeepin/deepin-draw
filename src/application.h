@@ -57,7 +57,7 @@ public:
      * @brief colorPickWidget 返回顶层colorPickWidget
      * @return
      */
-    CColorPickWidget *colorPickWidget(bool creatNew = false);
+    CColorPickWidget *colorPickWidget(bool creatNew = false, QWidget *pCaller = nullptr);
 
 
     /**
