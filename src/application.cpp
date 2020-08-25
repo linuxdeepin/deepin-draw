@@ -413,7 +413,7 @@ void Application::noticeFileRightProblem(const QStringList &problemfile, Applica
 }
 bool Application::notify(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::MouseButtonPress) {
+    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
         if (o->isWidgetType()) {
             CColorPickWidget *pColor = colorPickWidget();
             if (pColor != nullptr) {
