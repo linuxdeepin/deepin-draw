@@ -1254,6 +1254,9 @@ void CGraphicsView::slotOnDelete()
     this->pushUndoStack(deleteCommand);
 
     updateCursorShape();
+
+    // bug[44313] 删除图元后属性仍旧显示
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CGraphicsView::slotOneLayerUp()
