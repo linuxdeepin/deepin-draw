@@ -50,10 +50,6 @@ Application::Application(int &argc, char **argv)
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
@@ -79,10 +75,15 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     QDir t_appDir;
     t_appDir.mkpath(glAppPath);
 
-
+    //设置应用名
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
     this->setQuitOnLastWindowClosed(true);
+
+    //log注册
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     // 应用已保存的主题设置
     //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
