@@ -333,14 +333,8 @@ protected:
         CDrawToolEvent _preEvent;
         CDrawToolEvent _curEvent;
 
-        bool isVaild()
-        {
-            return _isvaild;
-        }
-        bool hasMoved()
-        {
-            return (_prePos != _startPos);
-        }
+        bool isVaild();
+        bool hasMoved();
         int elapsedFromStartToUpdate() { return _elapsedToUpdate; }
         inline QTime *getTimeHandle();
 
