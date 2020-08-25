@@ -1001,6 +1001,7 @@ DComboBox *CComAttrWidget::getComboxForLineStartStyle()
             } else if (m_type == Line) {
                 this->updateDefualData(LineStartType, index);
             }
+            getMaskLabForLineStartStyle()->hide();
         });
     }
     return m_lineStartComboBox;
@@ -1052,6 +1053,7 @@ DComboBox *CComAttrWidget::getComboxForLineEndStyle()
             } else if (m_type == Line) {
                 this->updateDefualData(LineEndType, index);
             }
+            getMaskLabForLineEndStyle()->hide();
         });
     }
     return m_lineEndComboBox;
