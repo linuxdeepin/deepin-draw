@@ -136,6 +136,11 @@
         <translation>颜色</translation>
     </message>
     <message>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="123"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished">思源黑体 CN</translation>
+    </message>
+    <message>
         <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="817"/>
         <source>Radius</source>
         <translation>圆角</translation>
@@ -1010,15 +1015,14 @@
         <translation>文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="123"/>
-        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
-        <source>思源宋体 CN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="70"/>
         <source>Regular</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/drawshape/cdrawparamsigleton.cpp" line="65"/>
+        <source>Source Han Sans CN</source>
+        <translation type="unfinished">思源黑体 CN</translation>
     </message>
 </context>
 <context>
