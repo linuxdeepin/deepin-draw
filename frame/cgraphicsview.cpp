@@ -1590,7 +1590,7 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
 void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString &saveFilePath)
 {
-    DFileDialog dialog(this);
+    DFileDialog dialog;
     if (type) {
         dialog.setWindowTitle(tr("Save"));
     } else {
