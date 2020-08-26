@@ -140,7 +140,7 @@ void PolygonalStarAttributeWidget::updateMultCommonShapWidget(QMap<EDrawProperty
 
 void PolygonalStarAttributeWidget::initUI()
 {
-    setAttribute(Qt::WA_NoMousePropagation, true);
+    //setAttribute(Qt::WA_NoMousePropagation, true);
     m_fillBtn = new BigColorButton(this);
 
     QFont ft;
@@ -222,7 +222,7 @@ void PolygonalStarAttributeWidget::initConnection()
         m_strokeBtn->resetChecked();
     });
 
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
@@ -231,10 +231,10 @@ void PolygonalStarAttributeWidget::initConnection()
 
     //锚点数
     connect(m_anchorNumber, SIGNAL(valueChanged(int)), this, SLOT(slotAnchorvalueChanged(int)));
-    connect(m_anchorNumber, &CSpinBox::focusChanged, this, [=](bool isFocus) {
+    connect(m_anchorNumber, &CSpinBox::focusChanged, this, [ = ](bool isFocus) {
         emit signalAnchorvalueIsfocus(isFocus);
     });
-    connect(m_anchorNumber, &DSpinBox::editingFinished, this, [=]() {
+    connect(m_anchorNumber, &DSpinBox::editingFinished, this, [ = ]() {
         //等于0时是特殊字符，不做处理
         qDebug() << "m_anchorNumber->value() = " << m_anchorNumber->value();
         if (m_anchorNumber->value() == 0) {
@@ -268,10 +268,10 @@ void PolygonalStarAttributeWidget::initConnection()
 
     //半径
     connect(m_radiusNumber, SIGNAL(valueChanged(int)), this, SLOT(slotRadiusvalueChanged(int)));
-    connect(m_radiusNumber, &CSpinBox::focusChanged, this, [=](bool isFocus) {
+    connect(m_radiusNumber, &CSpinBox::focusChanged, this, [ = ](bool isFocus) {
         emit signalRadiusvalueIsfocus(isFocus);
     });
-    connect(m_radiusNumber, &DSpinBox::editingFinished, this, [=]() {
+    connect(m_radiusNumber, &DSpinBox::editingFinished, this, [ = ]() {
         QString curTextFlag = m_radiusNumber->text();
         if (curTextFlag == "— —" && m_radiusNumber->value() == -1) {
             return ;

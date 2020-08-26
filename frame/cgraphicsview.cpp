@@ -762,25 +762,29 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
 void CGraphicsView::showMenu(DMenu *pMenu)
 {
+    if (pMenu == nullptr)
+        return;
+
     QPoint curPos = QCursor::pos();
 
     QSize menSz = pMenu->size();
 
     QRect menuRect = QRect(curPos, menSz);
+    if (pMenu->windowHandle() != nullptr) {
+        QScreen *pCurScren = pMenu->windowHandle()->screen();
 
-    QScreen *pCurScren = pMenu->windowHandle()->screen();
+        if (pCurScren != nullptr) {
+            QRect geomeRect = pCurScren->geometry();
+            if (!geomeRect.contains(menuRect)) {
+                if (menuRect.right() > geomeRect.right()) {
+                    int move = menuRect.right() - geomeRect.right();
+                    menuRect.adjust(-move, 0, -move, 0);
+                }
 
-    if (pCurScren != nullptr) {
-        QRect geomeRect = pCurScren->geometry();
-        if (!geomeRect.contains(menuRect)) {
-            if (menuRect.right() > geomeRect.right()) {
-                int move = menuRect.right() - geomeRect.right();
-                menuRect.adjust(-move, 0, -move, 0);
-            }
-
-            if (menuRect.bottom() > geomeRect.bottom()) {
-                int move = menuRect.bottom() - geomeRect.bottom();
-                menuRect.adjust(0, -move, 0, -move);
+                if (menuRect.bottom() > geomeRect.bottom()) {
+                    int move = menuRect.bottom() - geomeRect.bottom();
+                    menuRect.adjust(0, -move, 0, -move);
+                }
             }
         }
     }
@@ -1133,6 +1137,9 @@ void CGraphicsView::slotOnPaste()
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
                     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+                    if (copy->type() == RectType) {
+                        getDrawParam()->setRectXRedius(dynamic_cast<CGraphicsRectItem *>(copy)->getXRedius());
+                    }
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -1254,6 +1261,9 @@ void CGraphicsView::slotOnDelete()
     this->pushUndoStack(deleteCommand);
 
     updateCursorShape();
+
+    // bug[44313] 删除图元后属性仍旧显示
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -1584,7 +1594,7 @@ void CGraphicsView::doSaveDDF(bool finishClose)
 
 void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString &saveFilePath)
 {
-    DFileDialog dialog(this);
+    DFileDialog dialog;
     if (type) {
         dialog.setWindowTitle(tr("Save"));
     } else {
