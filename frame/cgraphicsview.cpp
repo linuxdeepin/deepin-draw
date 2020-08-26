@@ -762,25 +762,29 @@ void CGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 
 void CGraphicsView::showMenu(DMenu *pMenu)
 {
+    if (pMenu == nullptr)
+        return;
+
     QPoint curPos = QCursor::pos();
 
     QSize menSz = pMenu->size();
 
     QRect menuRect = QRect(curPos, menSz);
+    if (pMenu->windowHandle() != nullptr) {
+        QScreen *pCurScren = pMenu->windowHandle()->screen();
 
-    QScreen *pCurScren = pMenu->windowHandle()->screen();
+        if (pCurScren != nullptr) {
+            QRect geomeRect = pCurScren->geometry();
+            if (!geomeRect.contains(menuRect)) {
+                if (menuRect.right() > geomeRect.right()) {
+                    int move = menuRect.right() - geomeRect.right();
+                    menuRect.adjust(-move, 0, -move, 0);
+                }
 
-    if (pCurScren != nullptr) {
-        QRect geomeRect = pCurScren->geometry();
-        if (!geomeRect.contains(menuRect)) {
-            if (menuRect.right() > geomeRect.right()) {
-                int move = menuRect.right() - geomeRect.right();
-                menuRect.adjust(-move, 0, -move, 0);
-            }
-
-            if (menuRect.bottom() > geomeRect.bottom()) {
-                int move = menuRect.bottom() - geomeRect.bottom();
-                menuRect.adjust(0, -move, 0, -move);
+                if (menuRect.bottom() > geomeRect.bottom()) {
+                    int move = menuRect.bottom() - geomeRect.bottom();
+                    menuRect.adjust(0, -move, 0, -move);
+                }
             }
         }
     }
