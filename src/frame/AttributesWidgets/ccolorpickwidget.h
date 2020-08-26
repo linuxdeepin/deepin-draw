@@ -37,8 +37,11 @@ public:
 
     QColor color();
 
-
     ColorPanel *colorPanel();
+
+    QWidget *caller();
+
+    void setCaller(QWidget *pCaller);
 
     void show(int x, int y) override;
 
@@ -55,7 +58,10 @@ private:
     ColorPanel *m_colorPanel = nullptr;
 
     QColor        _color;
+
     EChangedPhase _phase = EChangedUpdate;
+
+    QWidget      *_caller = nullptr;
 };
 
 #endif // CCOLORPICKWIDGET_H

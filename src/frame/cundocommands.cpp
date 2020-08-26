@@ -1024,18 +1024,17 @@ void COneLayerUpCommand::undo()
         }
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1109,16 +1108,16 @@ void COneLayerUpCommand::redo()
         }
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item), false, false);
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item), false, false);
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
     /* 刷新属性展示和多选的大小 */
     CGraphicsItemSelectedMgr *pMgr = CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr();
@@ -1197,18 +1196,17 @@ void COneLayerDownCommand::undo()
         }
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1268,8 +1266,6 @@ void COneLayerDownCommand::redo()
                 qreal tmpZValue = selectItem->zValue();
                 selectItem->setZValue(allItem->zValue());
                 allItem->setZValue(tmpZValue);
-                //myGraphicsScene->updateBlurItem(allItem);
-                //myGraphicsScene->updateBlurItem(selectItem);
                 break;
             }
         }
@@ -1286,16 +1282,11 @@ void COneLayerDownCommand::redo()
         }
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+
+//    myGraphicsScene->clearMrSelection();
+//    foreach (QGraphicsItem *item, m_selectItems) {
+//        myGraphicsScene->selectItem(item, true, false, false);
+//    }
 
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
@@ -1373,16 +1364,16 @@ void CBringToFrontCommand::undo()
         }
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
@@ -1411,18 +1402,17 @@ void CBringToFrontCommand::redo()
         modifyFlag = true;
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
-    //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->refreshLook();
 
@@ -1503,16 +1493,16 @@ void CSendToBackCommand::undo()
     }
     myGraphicsScene->setMaxZValue(maxZvalue);
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
@@ -1563,16 +1553,16 @@ void CSendToBackCommand::redo()
         modifyFlag = true;
     }
 
-    myGraphicsScene->getItemsMgr()->clear();
-    myGraphicsScene->clearSelection();
-    if (m_selectItems.size() > 1) {
-        foreach (QGraphicsItem *item, m_selectItems) {
-            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
-        }
-        myGraphicsScene->getItemsMgr()->setSelected(true);
-    } else if (m_selectItems.size() == 1) {
-        m_selectItems.at(0)->setSelected(true);
-    }
+//    myGraphicsScene->getItemsMgr()->clear();
+//    myGraphicsScene->clearSelection();
+//    if (m_selectItems.size() > 1) {
+//        foreach (QGraphicsItem *item, m_selectItems) {
+//            myGraphicsScene->getItemsMgr()->reverse(dynamic_cast<CGraphicsItem *>(item));
+//        }
+//        myGraphicsScene->getItemsMgr()->setSelected(true);
+//    } else if (m_selectItems.size() == 1) {
+//        m_selectItems.at(0)->setSelected(true);
+//    }
 
     //CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
     CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();

@@ -60,6 +60,16 @@ ColorPanel *CColorPickWidget::colorPanel()
     return m_colorPanel;
 }
 
+QWidget *CColorPickWidget::caller()
+{
+    return _caller;
+}
+
+void CColorPickWidget::setCaller(QWidget *pCaller)
+{
+    _caller = pCaller;
+}
+
 void CColorPickWidget::show(int x, int y)
 {
     if (parentWidget() == nullptr || isWindowType()) {

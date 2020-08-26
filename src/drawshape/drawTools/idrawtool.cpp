@@ -865,6 +865,18 @@ void IDrawTool::CDrawToolEvent::setAccepted(bool b)
     _accept = b;
 }
 
+bool IDrawTool::ITERecordInfo::isVaild()
+{
+    return _isvaild;
+}
+
+bool IDrawTool::ITERecordInfo::hasMoved()
+{
+    //return (_prePos != _startPos);
+
+    return (_prePos - _startPos).manhattanLength() > dApp->startDragDistance();
+}
+
 QTime *IDrawTool::ITERecordInfo::getTimeHandle()
 {
     return &_elapsedToUpdateTimeHandle;

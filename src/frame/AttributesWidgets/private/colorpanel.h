@@ -99,6 +99,12 @@ private:
      */
     void updateColor(const QColor &previewColor = QColor());
 
+
+    /**
+     * @brief updateExpendArea 刷新扩展区域
+     */
+    void updateExpendArea();
+
 private:
     /* pick widget 十六进制颜色编辑 */
     DLineEdit *m_colLineEdit;
@@ -118,7 +124,7 @@ private:
     QButtonGroup *m_colorsButtonGroup;
 
     /* 当前 pick widget 是否是展开的标记 */
-    bool m_expand;
+    static bool s_expand;
 
     /* 当前 颜色 */
     QColor curColor;
