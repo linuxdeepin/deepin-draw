@@ -101,12 +101,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     //绘制滤镜
     if (scene != nullptr) {
         //计算交叉矩形的区域
-        QRectF sceneRect = this->scene()->sceneRect();
-        QRectF intersectRect = this->mapRectToScene(this->boundingRect()).intersected(this->scene()->sceneRect());
-        QPointF interTopLeft = intersectRect.topLeft() - sceneRect.topLeft();
-        QPointF interBottomRight = intersectRect.bottomRight() - sceneRect.topLeft();
-        QRectF rectCopy = QRectF(interTopLeft, interBottomRight).normalized();
-        QPixmap tmpPixmap = m_pixmap.copy(rectCopy.toRect());
+        QPixmap tmpPixmap = m_pixmap;
         painter->save();
         painter->setClipPath(m_blurPath, Qt::IntersectClip);
         //判断和他交叉的元素，裁剪出下层的像素
@@ -114,14 +109,15 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
         int radius = 10;
-        if (m_nBlurEffect == BlurEffect) {
+        if (!tmpPixmap.isNull()) {
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        } else {
-            tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+            if (m_nBlurEffect == BlurEffect) {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth);
+            }
         }
-        painter->drawPixmap(mapFromScene(intersectRect.topLeft()), tmpPixmap, QRectF());
+        painter->drawPixmap(boundingRect().topLeft(), tmpPixmap);
         painter->restore();
     }
 
@@ -150,35 +146,28 @@ void CGraphicsMasicoItem::setPixmap()
         QList<QGraphicsItem * > items = this->scene()->items();
         QList<QGraphicsItem * > filterItems = this->filterItems(items);
         QList<bool> filterItemsSelectFlags;
-        int textItemIndex = -1;
-        QTextCursor textCursor;
-
-        for (int i = 0; i < items.size(); ++i) {
-            if (items[i]->type() == TextType) {
-                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
-                if (pTextItem->isEditable()) {
-                    textItemIndex = i;
-                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
-                }
-            }
-        }
 
         auto curScene = static_cast<CDrawScene *>(scene());
         auto itemsMgr = curScene->getItemsMgr();
         auto itemsMgrFlag = itemsMgr->isVisible();
         if (itemsMgrFlag) {
-            itemsMgr->setVisible(false);
+            itemsMgr->setFlag(ItemHasNoContents, true);
         }
 
         for (int i = 0; i != filterItems.size(); i++) {
-            filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
-            filterItems[i]->setVisible(false);
+            QGraphicsItem *pItem = filterItems[i];
+            filterItemsSelectFlags.push_back(pItem->isSelected());
+            pItem->setFlag(ItemHasNoContents, true);
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, true);
+                }
+            }
         }
 
-
-
         this->hide();
-        QRect rect = this->scene()->sceneRect().toRect();
+        QRect rect = this->sceneBoundingRect().toRect()/*this->scene()->sceneRect().toRect()*/;
         m_pixmap = QPixmap(rect.width(), rect.height());
         m_pixmap.fill(QColor(255, 255, 255, 0));
         QPainter painterd(&m_pixmap);
@@ -189,43 +178,42 @@ void CGraphicsMasicoItem::setPixmap()
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
-        this->scene()->render(&painterd);
+        this->scene()->render(&painterd, QRectF(0, 0, m_pixmap.width(), m_pixmap.height()),
+                              rect);
 
         curScene->getDrawParam()->setRenderImage(0);
 
         curScene->resetSceneBackgroundBrush();
         if (itemsMgrFlag) {
-            itemsMgr->setVisible(true);
+            itemsMgr->setFlag(ItemHasNoContents, false);
         }
-
-//        this->scene()->setBackgroundBrush(Qt::transparent);
-
-        //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
 
         this->show();
         this->setSelected(flag);
 
         for (int i = 0; i != filterItems.size(); i++) {
-            filterItems[i]->setVisible(true);
-            filterItems[i]->setSelected(filterItemsSelectFlags[i]);
-        }
+            QGraphicsItem *pItem = filterItems[i];
+            pItem->setFlag(ItemHasNoContents, false);
+            pItem->setSelected(filterItemsSelectFlags[i]);
 
-        //qDebug() << "-------------------textItemIndex = " << textItemIndex;
-        if (textItemIndex != -1) {
-            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
-            if (pTextItem != nullptr) {
-                pTextItem->setVisible(true);
-                pTextItem->getTextEdit()->show();
-                pTextItem->getTextEdit()->setTextCursor(textCursor);
-                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
+            if (pItem->type() == TextType) {
+                if (!pItem->childItems().isEmpty()) {
+                    QGraphicsItem *pChild = pItem->childItems().first();
+                    pChild->setFlag(ItemHasNoContents, false);
+                }
             }
         }
 
-//        qDebug() << "textItemIndex = " << textItemIndex << endl;
-
-
+//        if (textItemIndex != -1) {
+//            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
+//            if (pTextItem != nullptr) {
+//                pTextItem->setVisible(true);
+//                pTextItem->getTextEdit()->show();
+//                pTextItem->getTextEdit()->setTextCursor(textCursor);
+//                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
+//            }
+//        }
     }
-    //this->scene()->views()[0]->setFocus();
 }
 
 void CGraphicsMasicoItem::setPixmap(const QPixmap &pixmap)
