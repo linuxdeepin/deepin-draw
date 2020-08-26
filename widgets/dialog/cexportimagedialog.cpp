@@ -331,7 +331,7 @@ void CExportImageDialog::slotOnQualityChanged(int value)
 
 void CExportImageDialog::showDirChoseDialog()
 {
-    DFileDialog dialog(this);
+    DFileDialog dialog;
     dialog.setDirectory(QStandardPaths::writableLocation(QStandardPaths::HomeLocation));
     dialog.setViewMode(DFileDialog::Detail);
     dialog.setFileMode(DFileDialog::DirectoryOnly);

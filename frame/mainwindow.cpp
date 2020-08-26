@@ -399,7 +399,7 @@ void MainWindow::slotContinueDoSomeThing()
 
 void MainWindow::slotShowOpenFileDialog()
 {
-    DFileDialog dialog(this);
+    DFileDialog dialog;
     dialog.setWindowTitle(tr("Open"));//设置文件保存对话框的标题
     dialog.setAcceptMode(QFileDialog::AcceptOpen);//设置文件对话框为保存模式
     dialog.setViewMode(DFileDialog::List);
