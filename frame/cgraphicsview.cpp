@@ -803,6 +803,14 @@ void CGraphicsView::paintEvent(QPaintEvent *event)
     else {
         QPainter painter(this->viewport());
         painter.drawPixmap(QPoint(0, 0), pix);
+
+        EDrawToolMode currentMode = getDrawParam()->getCurrentDrawToolMode();
+
+        IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(currentMode);
+
+        if (pTool != nullptr) {
+            pTool->drawMore(&painter, mapToScene(QRect(QPoint(0, 0), pix.size())).boundingRect(), drawScene());
+        }
     }
 }
 
@@ -1125,6 +1133,9 @@ void CGraphicsView::slotOnPaste()
                     itemMgr->addOrRemoveToGroup(copy);
                     // bug:21312 解决ctrl+c动作后刷新属性,此处不再进行额外区分单选和多选了
                     CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+                    if (copy->type() == RectType) {
+                        getDrawParam()->setRectXRedius(dynamic_cast<CGraphicsRectItem *>(copy)->getXRedius());
+                    }
                     copy->moveBy(10, 10);
                     addItems.append(copy);
                 }
@@ -1246,6 +1257,9 @@ void CGraphicsView::slotOnDelete()
     this->pushUndoStack(deleteCommand);
 
     updateCursorShape();
+
+    // bug[44313] 删除图元后属性仍旧显示
+    CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
 }
 
 void CGraphicsView::slotOneLayerUp()
@@ -1404,8 +1418,9 @@ void CGraphicsView::setPaintEnable(bool b)
 {
     doPaint = b;
     if (!b) {
-        pix = QPixmap(this->viewport()->size());
-        pix.fill(QColor(0, 0, 0, 100));
+        pix = QPixmap(this->viewport()->size() * devicePixelRatioF());
+        pix.fill(QColor(0, 0, 0, 0));
+        pix.setDevicePixelRatio(devicePixelRatioF());
         QPainter painter(&pix);
         painter.setPen(Qt::NoPen);
         painter.setRenderHints(QPainter::Antialiasing);

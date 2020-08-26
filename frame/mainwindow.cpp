@@ -723,6 +723,11 @@ void MainWindow::readSettings()
     }
 }
 
+TopToolbar *MainWindow::topToolbar()
+{
+    return m_topToolbar;
+}
+
 void MainWindow::openFiles(QStringList filePaths)
 {
     for (int i = 0; i < filePaths.count(); i++) {

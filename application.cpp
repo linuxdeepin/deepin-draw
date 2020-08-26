@@ -20,6 +20,8 @@
 #include "frame/mainwindow.h"
 #include "frame/cviewmanagement.h"
 #include "service/dbusdraw_adaptor.h"
+#include "frame/toptoolbar.h"
+#include "widgets/colorpanel.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -48,10 +50,6 @@ Application::Application(int &argc, char **argv)
 
 int Application::execDraw(const QStringList &paths, QString &glAppPath)
 {
-    using namespace Dtk::Core;
-    Dtk::Core::DLogManager::registerConsoleAppender();
-    Dtk::Core::DLogManager::registerFileAppender();
-
     //判断实例是否已经运行
     if (this->isRunning()) {
         qDebug() << "deepin-draw is already running";
@@ -66,7 +64,7 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     }
 
     static const QDate buildDate = QLocale(QLocale::English)
-                                       .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
+                                   .toDate(QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     QString t_date = buildDate.toString("MMdd");
 
     // Version Time
@@ -77,10 +75,15 @@ int Application::execDraw(const QStringList &paths, QString &glAppPath)
     QDir t_appDir;
     t_appDir.mkpath(glAppPath);
 
-
+    //设置应用名
     this->setOrganizationName("deepin");
     this->setApplicationName("deepin-draw");
     this->setQuitOnLastWindowClosed(true);
+
+    //log注册
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
     // 应用已保存的主题设置
     //DGuiApplicationHelper::ColorType type = getThemeTypeSetting();
@@ -224,6 +227,43 @@ void Application::setApplicationCursor(const QCursor &cur)
     } else {
         qApp->changeOverrideCursor(cur);
     }
+}
+
+bool Application::isWaylandPlatform()
+{
+    auto e = QProcessEnvironment::systemEnvironment();
+    QString XDG_SESSION_TYPE = e.value(QStringLiteral("XDG_SESSION_TYPE"));
+    QString WAYLAND_DISPLAY = e.value(QStringLiteral("WAYLAND_DISPLAY"));
+
+    if (XDG_SESSION_TYPE != QLatin1String("wayland") &&
+            !WAYLAND_DISPLAY.contains(QLatin1String("wayland"),
+                                      Qt::CaseInsensitive)) {
+        return false;
+
+    }
+    return true;
+}
+
+bool Application::notify(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress) {
+        if (o->isWidgetType()) {
+            MainWindow *pWin = qobject_cast<MainWindow *>(this->activationWindow());
+            if (pWin->topToolbar() != nullptr) {
+                if (pWin->topToolbar() != nullptr) {
+                    ColorPanel *pColorPanel = pWin->topToolbar()->colorPanel();
+                    if (!pColorPanel->isHidden()) {
+                        if (!(o == pColorPanel ||
+                                pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+                            pWin->topToolbar()->colorPanel()->parentWidget()->hide();
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    return QtSingleApplication::notify(o, e);
 }
 
 void Application::onMessageRecived(const QString &message)

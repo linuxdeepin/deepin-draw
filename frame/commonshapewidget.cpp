@@ -141,12 +141,9 @@ void CommonshapeWidget::updateMultCommonShapWidget(QMap<EDrawProperty, QVariant>
 
 void CommonshapeWidget::initUI()
 {
-    setAttribute(Qt::WA_NoMousePropagation, true);
-//    DLabel *fillLabel = new DLabel(this);
-//    fillLabel->setText(tr("填充"));
+    //setAttribute(Qt::WA_NoMousePropagation, true);
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
-//    fillLabel->setFont(ft);
 
     m_fillBtn = new BigColorButton(this);
     m_strokeBtn = new BorderColorButton(this);
@@ -229,17 +226,17 @@ void CommonshapeWidget::initConnection()
     //描边粗细
     connect(m_sideWidthWidget, SIGNAL(signalSideWidthChoosed(int)), this, SLOT(slotSideWidthChoosed(int)));
 
-    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [=]() {
+    connect(m_sideWidthWidget, &CSideWidthWidget::signalSideWidthMenuShow, this, [ = ]() {
         //隐藏调色板
         showColorPanel(DrawStatus::Stroke, QPoint(), false);
     });
 
     ///圆角半径
     connect(m_rediusSpinbox, SIGNAL(valueChanged(int)), this, SLOT(slotRectRediusChanged(int)));
-    connect(m_rediusSpinbox, &CSpinBox::focusChanged, this, [=](bool isFocus) {
+    connect(m_rediusSpinbox, &CSpinBox::focusChanged, this, [ = ](bool isFocus) {
         emit signalRectRediusIsfocus(isFocus);
     });
-    connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [=]() {
+    connect(m_rediusSpinbox, &DSpinBox::editingFinished, this, [ = ]() {
         //等于0时是特殊字符，不做处理
         qDebug() << "m_rediusSpinbox->value() = " << m_rediusSpinbox->value();
         if (m_rediusSpinbox->value() < 0) {

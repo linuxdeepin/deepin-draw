@@ -108,6 +108,10 @@ protected:
 
 
 private:
+    void updateEmptySelectBtnColor();
+
+
+private:
     DLineEdit *m_colLineEdit;
     CIconButton *m_colorfulBtn;
     CAlphaControlWidget *m_alphaControlWidget;
