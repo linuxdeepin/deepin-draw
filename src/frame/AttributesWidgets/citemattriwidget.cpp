@@ -1123,16 +1123,27 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         m_TextWidget->setFocusPolicy(Qt::NoFocus);
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
 
-        connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
+        connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size, bool divertFocus) {
             qDebug() << "fontSizeChanged = " << size;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
                 CCmdBlock block(this->graphicItem());
-
+                //CTextEdit *activeSceneTextEdit = nullptr;
                 QList<CGraphicsItem *> lists = this->graphicItems();
+                CGraphicsTextItem *pActiveTextItem = nullptr;
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontSize(size);
+
+                    if (pItem->isEditable()) {
+                        pActiveTextItem = pItem;
+                    }
+                }
+
+                //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
+                //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
+                if (pActiveTextItem != nullptr && divertFocus) {
+                    pActiveTextItem->makeEditabel(false);
                 }
             }
             this->updateDefualData(TextSize, size);

@@ -49,7 +49,7 @@ public slots:
 
 
 signals:
-    void fontSizeChanged(int size);
+    void fontSizeChanged(int size, bool divertFocus = false);
     void fontFamilyChanged(const QString &family, bool preview);
     void fontStyleChanged(const QString &style);
     void colorChanged(const QColor &color, EChangedPhase phase);

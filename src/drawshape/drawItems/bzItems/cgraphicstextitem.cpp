@@ -148,17 +148,20 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
     return m_pTextEdit->getSelectedTextColorAlpha();
 }
 
-void CGraphicsTextItem::makeEditabel()
+void CGraphicsTextItem::makeEditabel(bool selectAll)
 {
     if (getMutiSelect())
         return;
 
+    m_pTextEdit->setReadOnly(false);
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
-        QTextCursor textCursor = m_pTextEdit->textCursor();
-        textCursor.select(QTextCursor::Document);
-        m_pTextEdit->setTextCursor(textCursor);
+        if (selectAll) {
+            QTextCursor textCursor = m_pTextEdit->textCursor();
+            textCursor.select(QTextCursor::Document);
+            m_pTextEdit->setTextCursor(textCursor);
+        }
     }
 
     if (nullptr != scene()) {
