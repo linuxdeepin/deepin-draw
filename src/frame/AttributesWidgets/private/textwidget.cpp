@@ -90,7 +90,9 @@ void TextWidget::initUI()
     m_fontSize->setFixedSize(QSize(100, 36));
     m_fontSize->setFont(ft);
     m_fontSize->setProperty("preValue", 14); //默认大小
-//    m_fontSize->setFocusPolicy(Qt::NoFocus);
+    m_fontSize->setFocusPolicy(Qt::NoFocus);
+    m_fontSize->lineEdit()->setFocusPolicy(Qt::ClickFocus);
+    m_fontSize->installEventFilter(this);
 
     QRegExp regx("[0-9]*p?x?");
     QValidator *validator = new QRegExpValidator(regx, m_fontSize);
@@ -116,7 +118,7 @@ void TextWidget::initUI()
     layout->addStretch();
     setLayout(layout);
 
-    installEventFilter(this);
+    //installEventFilter(this);
 }
 
 void TextWidget::updateTheme()
@@ -219,10 +221,18 @@ void TextWidget::setVaild(bool color, bool size, bool Family, bool Style)
     }
 }
 
-bool TextWidget::eventFilter(QObject *, QEvent *event)
+bool TextWidget::eventFilter(QObject *o, QEvent *event)
 {
-    event->accept();
-    return true;
+    if (o == m_fontSize) {
+        if (event->type() == QEvent::FocusIn) {
+            QFocusEvent *focuEvent = static_cast<QFocusEvent *>(event);
+            qDebug() << "focuEvent->reason() = " << focuEvent->reason();
+            if (focuEvent->reason() != Qt::MouseFocusReason) {
+                return true;
+            }
+        }
+    }
+    return DWidget::eventFilter(o, event);
 }
 
 void TextWidget::initConnection()
@@ -279,7 +289,7 @@ void TextWidget::initConnection()
         m_fontSize->blockSignals(false);
 
         if (flag) {
-            emit fontSizeChanged(size);
+            emit fontSizeChanged(size, true);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
@@ -294,7 +304,7 @@ void TextWidget::initConnection()
         bool flag = false;
         int size = str.toInt(&flag);
         if (flag) {
-            emit fontSizeChanged(size);
+            emit fontSizeChanged(size, true);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
