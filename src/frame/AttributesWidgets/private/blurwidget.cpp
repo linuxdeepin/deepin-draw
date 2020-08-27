@@ -96,8 +96,7 @@ void BlurWidget::setSameProperty(bool sameType, bool sameWidth)
     }
     if (!sameWidth) {
         m_spinboxForLineWidth->blockSignals(true);
-        m_spinboxForLineWidth->setPrefix("--");
-        m_spinboxForLineWidth->setValue(-1);
+        m_spinboxForLineWidth->setSpecialText();
         m_spinboxForLineWidth->blockSignals(false);
     } else {
         m_spinboxForLineWidth->blockSignals(true);
@@ -139,8 +138,7 @@ void BlurWidget::initUI()
     m_spinboxForLineWidth->setKeyboardTracking(false);
     m_spinboxForLineWidth->setEnabledEmbedStyle(true);
 
-    m_spinboxForLineWidth->setRange(0, INT_MAX);
-    m_spinboxForLineWidth->setSpecialValueText("— —");
+    m_spinboxForLineWidth->setSpinRange(5, 500);
 
     m_spinboxForLineWidth->setValue(20);
     m_spinboxForLineWidth->setProperty("preValue", 20);
