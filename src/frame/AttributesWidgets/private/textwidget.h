@@ -69,6 +69,9 @@ private:
     QString m_oriFamily;
     bool    m_oneItemIsHighlighted;
 
+
+    bool    m_keyPressed = false;
+
 private:
     /**
      * @brief initUI 初始化ＵＩ

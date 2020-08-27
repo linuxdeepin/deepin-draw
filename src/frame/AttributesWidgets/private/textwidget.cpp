@@ -226,9 +226,21 @@ bool TextWidget::eventFilter(QObject *o, QEvent *event)
     if (o == m_fontSize) {
         if (event->type() == QEvent::FocusIn) {
             QFocusEvent *focuEvent = static_cast<QFocusEvent *>(event);
-            qDebug() << "focuEvent->reason() = " << focuEvent->reason();
+            //qDebug() << "focuEvent->reason() = " << focuEvent->reason();
             if (focuEvent->reason() != Qt::MouseFocusReason) {
                 return true;
+            }
+        } else if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
+                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
+                m_keyPressed = true;
+            }
+        } else if (event->type() == QEvent::KeyRelease) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (Qt::Key_Up == keyEvent->key() || Qt::Key_Down == keyEvent->key() ||
+                    Qt::Key_PageUp == keyEvent->key() || Qt::Key_PageDown == keyEvent->key()) {
+                m_keyPressed = false;
             }
         }
     }
@@ -304,7 +316,7 @@ void TextWidget::initConnection()
         bool flag = false;
         int size = str.toInt(&flag);
         if (flag) {
-            emit fontSizeChanged(size, true);
+            emit fontSizeChanged(size, !m_keyPressed);
         } else {
             qDebug() << "set error font size with str: " << str;
         }
