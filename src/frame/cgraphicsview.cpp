@@ -463,8 +463,8 @@ void CGraphicsView::initContextMenuConnection()
         }
 
         // [7] 设置出入栈
-        //QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
-        //pushUndoStack(addCommand);
+        QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
+        pushUndoStack(addCommand);
     });
 
     connect(m_itemsHEqulSpaceAlign, &QAction::triggered, this, [ = ] {
