@@ -58,7 +58,8 @@ void CSpinBox::setSpinRange(int min, int max)
 void CSpinBox::setSpecialText(QString sp)
 {
     this->blockSignals(true);
-    this->lineEdit()->setText(sp);
+    this->setValue(this->minimum());
+    this->setSpecialValueText(sp);
     this->blockSignals(false);
 }
 
