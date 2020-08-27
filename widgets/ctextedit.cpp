@@ -244,6 +244,7 @@ void CTextEdit::solveHtml(QString &html)
 //        qDebug() << "formatString: " << formatString; // Bitstream Charter; 14; 0; #000000; / Bitstream Charter; 14; 0; rgba(0,0,0,0.482353);
         QStringList temp = formatString.split(";");
 //        qDebug() << "temp: " << temp;
+
         // [3] 单个字单个字进行保存其对应的属性，方便后面进行属性比较（换行符号不作处理）
         if (temp.size() == 5) {
             for (int i = 0; i < textString.length(); i++) {
