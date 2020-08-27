@@ -169,6 +169,11 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
         curScene->updateBlurItem(this);
     }
 
+    //保证被选中
+    if (drawScene() != nullptr) {
+        drawScene()->selectItem(this);
+    }
+
     //保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
     if (curView() != nullptr) {
         curView()->setFocus();

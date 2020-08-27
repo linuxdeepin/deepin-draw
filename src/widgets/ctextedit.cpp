@@ -194,6 +194,7 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 
     //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
     if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
+        qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
         return;
     }
 
@@ -206,9 +207,11 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
     qDebug() << "CTextEdit::focusOutEvent ----- ";
 
     QTextEdit::focusOutEvent(e);
+
     if (m_pItem && m_pItem->drawScene()) {
         // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
         this->selectAll();
+        hide();
         m_pItem->drawScene()->notSelectItem(m_pItem);
     }
 
