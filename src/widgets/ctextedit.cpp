@@ -192,27 +192,32 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
 //             << "parent = " << this->parent()
 //             << "active widget = " << dApp->activePopupWidget();
 
-    //属性修改导致的widget焦点丢失不应该响应
-    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr ||
-            qobject_cast<QComboBox *>(dApp->focusObject())) {
+    //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
+    if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
+        qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
+        return;
+    }
+
+    //焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
+    if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
+        this->setReadOnly(true);  //隐藏光标
         return;
     }
 
     qDebug() << "CTextEdit::focusOutEvent ----- ";
 
     QTextEdit::focusOutEvent(e);
+
     if (m_pItem && m_pItem->drawScene()) {
         // 需要全选所有文字便于外面单击图元的时候修改的是整体的属性
         this->selectAll();
+        hide();
         m_pItem->drawScene()->notSelectItem(m_pItem);
     }
-
-    m_editing = false;
 }
 
 void CTextEdit::focusInEvent(QFocusEvent *e)
 {
-    m_editing = true;
     QTextEdit::focusInEvent(e);
 }
 
@@ -533,16 +538,6 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
         this->setPalette(palette);
     }
 }
-
-bool CTextEdit::getEditing()
-{
-    return m_editing;
-}
-
-//void CTextEdit::setVisible(bool visible)
-//{
-//    QTextEdit::setVisible(visible);
-//}
 
 void CTextEdit::setLastDocumentWidth(qreal width)
 {

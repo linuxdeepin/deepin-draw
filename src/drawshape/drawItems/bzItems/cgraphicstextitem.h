@@ -134,7 +134,7 @@ public:
     */
     int getSelectedTextColorAlpha();
 
-    void makeEditabel();
+    void makeEditabel(bool selectAll = true);
 
     /**
      * @brief isGrabToolEvent 是否独占事件

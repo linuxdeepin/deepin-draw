@@ -4,27 +4,27 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../src/application.cpp" line="390"/>
+        <location filename="../src/application.cpp" line="392"/>
         <source>Unable to open &quot;%1&quot;, unsupported file format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="391"/>
+        <location filename="../src/application.cpp" line="393"/>
         <source>Several files are unsupported, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="395"/>
+        <location filename="../src/application.cpp" line="397"/>
         <source>&quot;%1&quot; is write-only, thus you cannot open it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="396"/>
+        <location filename="../src/application.cpp" line="398"/>
         <source>Several files are write-only, thus you cannot open them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/application.cpp" line="404"/>
+        <location filename="../src/application.cpp" line="406"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,22 +45,22 @@
 <context>
     <name>BlurWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="115"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="114"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="124"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="123"/>
         <source>Blur</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="130"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="129"/>
         <source>Mosaic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="135"/>
+        <location filename="../src/frame/AttributesWidgets/private/blurwidget.cpp" line="134"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -107,47 +107,47 @@
 <context>
     <name>CComAttrWidget</name>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="482"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="484"/>
         <source>Stroke</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="480"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="482"/>
         <source>StrokeColor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="123"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="124"/>
         <source>Source Han Sans CN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="817"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="819"/>
         <source>Radius</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="899"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="901"/>
         <source>Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="912"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="914"/>
         <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="959"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="961"/>
         <source>Sides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1066"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1070"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1079"/>
+        <location filename="../src/frame/AttributesWidgets/citemattriwidget.cpp" line="1083"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>

@@ -463,8 +463,8 @@ void CGraphicsView::initContextMenuConnection()
         }
 
         // [7] 设置出入栈
-        //QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
-        //pushUndoStack(addCommand);
+        QUndoCommand *addCommand = new CItemsAlignCommand(static_cast<CDrawScene *>(scene()), startPos, endPos);
+        pushUndoStack(addCommand);
     });
 
     connect(m_itemsHEqulSpaceAlign, &QAction::triggered, this, [ = ] {
@@ -1399,16 +1399,36 @@ void CGraphicsView::slotQuitCutMode()
 void CGraphicsView::slotDoCutScene()
 {
     // [42259] 解决处于裁剪的时候编辑输入框裁剪大小回车不响应输入框，因为view设置了全局的快捷键
-    QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
-    if (foucsLIneedit != nullptr) {
-        m_cutScence->setEnabled(false);
-        QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
-        dApp->sendEvent(dApp->focusObject(), &event);
-        m_cutScence->setEnabled(true);
+
+    if (getDrawParam()->getCurrentDrawToolMode() == cut) {
+        QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
+        if (foucsLIneedit != nullptr) {
+            m_cutScence->setEnabled(false);
+            QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+            dApp->sendEvent(foucsLIneedit, &event);
+            m_cutScence->setEnabled(true);
+        } else {
+            static_cast<CDrawScene *>(scene())->doCutScene();
+            this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+        }
     } else {
-        static_cast<CDrawScene *>(scene())->doCutScene();
-        this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+        if (dApp->focusObject() != nullptr) {
+            m_cutScence->setEnabled(false);
+            QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+            dApp->sendEvent(dApp->focusObject(), &event);
+            m_cutScence->setEnabled(true);
+        }
     }
+//    QLineEdit *foucsLIneedit = qobject_cast<QLineEdit *>(dApp->focusObject());
+//    if (foucsLIneedit != nullptr) {
+//        m_cutScence->setEnabled(false);
+//        QKeyEvent event(QEvent::KeyPress, Qt::Key_Return, dApp->keyboardModifiers());
+//        dApp->sendEvent(dApp->focusObject(), &event);
+//        m_cutScence->setEnabled(true);
+//    } else {
+//        static_cast<CDrawScene *>(scene())->doCutScene();
+//        this->getDrawParam()->setCurrentDrawToolMode(EDrawToolMode::selection);
+//    }
 }
 
 void CGraphicsView::slotRestContextMenuAfterQuitCut()

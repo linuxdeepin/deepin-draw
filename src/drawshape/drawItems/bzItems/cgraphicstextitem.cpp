@@ -148,22 +148,30 @@ int CGraphicsTextItem::getSelectedTextColorAlpha()
     return m_pTextEdit->getSelectedTextColorAlpha();
 }
 
-void CGraphicsTextItem::makeEditabel()
+void CGraphicsTextItem::makeEditabel(bool selectAll)
 {
     if (getMutiSelect())
         return;
 
+    m_pTextEdit->setReadOnly(false);
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
         m_pTextEdit->show();
-        QTextCursor textCursor = m_pTextEdit->textCursor();
-        textCursor.select(QTextCursor::Document);
-        m_pTextEdit->setTextCursor(textCursor);
+        if (selectAll) {
+            QTextCursor textCursor = m_pTextEdit->textCursor();
+            textCursor.select(QTextCursor::Document);
+            m_pTextEdit->setTextCursor(textCursor);
+        }
     }
 
     if (nullptr != scene()) {
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->updateBlurItem(this);
+    }
+
+    //保证被选中
+    if (drawScene() != nullptr) {
+        drawScene()->selectItem(this);
     }
 
     //保证按键响应到textedit控件的底层(从而才能将key事件传递给textedit)
@@ -699,7 +707,6 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 bool CGraphicsTextItem::isEditable() const
 {
     return !m_pTextEdit->isHidden();
-    //return m_pTextEdit->getEditing();
 }
 
 void CGraphicsTextItem::doCut()

@@ -469,6 +469,8 @@ void CComAttrWidget::refreshHelper(int tp)
     if (tp == ShowTitle) {
         layout->addWidget(getTitleLabel());
         getTitleLabel()->show();
+        // [BUG:40551] 为了解决输入法输入中文预览的时候，文字图元失去焦点，输入法不消失的bug
+        getTitleLabel()->setFocus();
         return;
     }
     if (isBrushColorNeeded(tp)) {
@@ -1123,16 +1125,27 @@ TextWidget *CComAttrWidget::getTextWidgetForText()
         m_TextWidget->setFocusPolicy(Qt::NoFocus);
         m_TextWidget->setAttribute(Qt::WA_NoMousePropagation, true);
 
-        connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size) {
+        connect(m_TextWidget, &TextWidget::fontSizeChanged, this, [ = ](int size, bool divertFocus) {
             qDebug() << "fontSizeChanged = " << size;
             if (this->getSourceTpByItem(this->graphicItem()) == Text) {
                 //记录undo
                 CCmdBlock block(this->graphicItem());
-
+                //CTextEdit *activeSceneTextEdit = nullptr;
                 QList<CGraphicsItem *> lists = this->graphicItems();
+                CGraphicsTextItem *pActiveTextItem = nullptr;
                 for (CGraphicsItem *p : lists) {
                     CGraphicsTextItem *pItem = dynamic_cast<CGraphicsTextItem *>(p);
                     pItem->setFontSize(size);
+
+                    if (pItem->isEditable()) {
+                        pActiveTextItem = pItem;
+                    }
+                }
+
+                //字体大小是一个lineEdit,设置大小时焦点肯定在这个lineEdit上,
+                //如果图元的文本编辑框是编辑状态的那么在设置字体大小完成后要将焦点转回去
+                if (pActiveTextItem != nullptr && divertFocus) {
+                    pActiveTextItem->makeEditabel(false);
                 }
             }
             this->updateDefualData(TextSize, size);
@@ -1264,7 +1277,6 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
 
         connect(m_pictureWidget, &CPictureWidget::imageFlipChanged, this, [ = ](ERotationType type) {
             this->updateDefualData(PropertyImageFlipType, type);
-            CCmdBlock block(this->graphicItem());
             QList<CGraphicsItem *> lists = this->graphicItems();
             for (CGraphicsItem *p : lists) {
                 CPictureItem *pItem = dynamic_cast<CPictureItem *>(p);
@@ -1274,6 +1286,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                     pItem->setMirror(false, true);
                 }
             }
+            CCmdBlock block(this->graphicItem());
         });
 
         connect(m_pictureWidget, &CPictureWidget::imageRotationChanged, this, [ = ](ERotationType type) {
@@ -1287,6 +1300,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                     pItem->setRotation90(false);
                 }
             }
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearHighlight();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
             refresh();
         });
@@ -1391,8 +1405,8 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageAdjustScence(adjustScence);
         break;
     case PropertyImageFlipType:
-        FlipType = static_cast<ERotationType>(var.toUInt());
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageFlipType(FlipType);
+        flipType = static_cast<ERotationType>(var.toUInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageFlipType(flipType);
         break;
     default:
         break;
