@@ -26,6 +26,8 @@ CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const Q
     , m_pixmap(pixmap)
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
+    , flipHorizontal(false) // 水平翻转
+    , flipVertical(false)  // 垂直翻转
 {
 
 }
@@ -36,6 +38,8 @@ CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsI
     , m_pixmap(pixmap)
     , m_angle(0.0)
     , _srcByteArry(fileSrcData)
+    , flipHorizontal(false) // 水平翻转
+    , flipVertical(false)  // 垂直翻转
 {
     this->setPen(Qt::NoPen);
 }
@@ -44,6 +48,8 @@ CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphics
     : CGraphicsRectItem(data->rect, head, parent)
     , m_angle(0.0)
     , _srcByteArry(data->srcByteArry)
+    , flipHorizontal(false) // 水平翻转
+    , flipVertical(false)  // 垂直翻转
 {
     m_pixmap = QPixmap::fromImage(data->image);
 }
@@ -68,6 +74,14 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
+//    QTransform trans = painter->transform();
+//    if (this->flipHorizontal) {
+
+//        trans.setMatrix(-trans.m11(), trans.m12(), trans.m13(),
+//                        -trans.m21(), trans.m22(), trans.m23(),
+//                        -trans.m31(), trans.m32(), trans.m33());
+//        painter->setTransform(trans);
+//    }
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
 
     endCheckIns(painter);
@@ -102,9 +116,8 @@ void CPictureItem::setPixmap(const QPixmap &pixmap)
 }
 
 //进行翻转，先转化为qimage，翻转后转化为qpixmap
-void CPictureItem::setMirror(bool hor, bool ver)
+void CPictureItem::setMirror(const bool &hor, const bool &ver)
 {
-    //qDebug() << "entered the  setMirror function" << endl;
     QImage image = m_pixmap.toImage();
     QImage mirrorImage = image.mirrored(hor, ver);
     m_pixmap = QPixmap::fromImage(mirrorImage);
@@ -113,8 +126,9 @@ void CPictureItem::setMirror(bool hor, bool ver)
         auto curScene = static_cast<CDrawScene *>(scene());
         curScene->updateBlurItem(this);
     }
+    this->flipHorizontal = hor;
+    this->flipVertical = ver;
 }
-
 
 void CPictureItem::setRotation90(bool leftOrRight)
 {
@@ -164,9 +178,13 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
             m_pixmap = QPixmap::fromImage(data.data.pPic->image);
             _srcByteArry = data.data.pPic->srcByteArry;
         }
+        this->flipHorizontal = data.data.pPic->flipHorizontal;
+        this->flipVertical = data.data.pPic->flipVertical;
+        this->setMirror(this->flipHorizontal, this->flipVertical);
     }
     loadHeadData(data.head);
 }
+
 CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
 {
     CGraphicsUnit unit;
@@ -182,6 +200,8 @@ CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const
     unit.data.pPic = new SGraphicsPictureUnitData();
     unit.data.pPic->rect.topLeft = this->rect().topLeft();
     unit.data.pPic->rect.bottomRight = this->rect().bottomRight();
+    unit.data.pPic->flipHorizontal = this->flipHorizontal;
+    unit.data.pPic->flipVertical = this->flipVertical;
 
     if (all)
         unit.data.pPic->image = m_pixmap.toImage();

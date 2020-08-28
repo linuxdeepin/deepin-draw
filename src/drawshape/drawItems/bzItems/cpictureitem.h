@@ -30,7 +30,7 @@ public:
     explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
-    void setMirror(bool hor, bool ver);
+    void setMirror(const bool &hor, const bool &ver);
     void setRotation90(bool leftOrRight);
     bool getAdjustScence();
 
@@ -66,6 +66,9 @@ private:
     qreal m_angle;
     QByteArray _srcByteArry;
     bool m_adjustScence = false;
+
+    bool flipHorizontal; // 水平翻转
+    bool flipVertical;   // 垂直翻转
 };
 
 #endif // CPICTUREITEM_H

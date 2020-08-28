@@ -1277,7 +1277,6 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
 
         connect(m_pictureWidget, &CPictureWidget::imageFlipChanged, this, [ = ](ERotationType type) {
             this->updateDefualData(PropertyImageFlipType, type);
-            CCmdBlock block(this->graphicItem());
             QList<CGraphicsItem *> lists = this->graphicItems();
             for (CGraphicsItem *p : lists) {
                 CPictureItem *pItem = dynamic_cast<CPictureItem *>(p);
@@ -1287,6 +1286,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                     pItem->setMirror(false, true);
                 }
             }
+            CCmdBlock block(this->graphicItem());
         });
 
         connect(m_pictureWidget, &CPictureWidget::imageRotationChanged, this, [ = ](ERotationType type) {
@@ -1300,6 +1300,7 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
                     pItem->setRotation90(false);
                 }
             }
+            CManageViewSigleton::GetInstance()->getCurView()->drawScene()->clearHighlight();
             CManageViewSigleton::GetInstance()->getCurView()->drawScene()->getItemsMgr()->updateBoundingRect();
             refresh();
         });
@@ -1404,8 +1405,8 @@ void SComDefualData::save(EDrawProperty property, const QVariant &var)
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageAdjustScence(adjustScence);
         break;
     case PropertyImageFlipType:
-        FlipType = static_cast<ERotationType>(var.toUInt());
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageFlipType(FlipType);
+        flipType = static_cast<ERotationType>(var.toUInt());
+        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setImageFlipType(flipType);
         break;
     default:
         break;
