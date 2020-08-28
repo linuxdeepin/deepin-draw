@@ -244,7 +244,15 @@ QStringList CMultipTabBarWidget::getAllTabBarUUID()
     return uuids;
 }
 
-bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
+void CMultipTabBarWidget::clearHoverState()
+{
+    QHoverEvent hoverE(QEvent::HoverLeave, QPointF(-1, -1), QPointF(-1, -1));
+    QWidget *tab = this->childAt(this->rect().center());
+    if (tab != nullptr)
+        qApp->sendEvent(tab, &hoverE);
+}
+
+bool CMultipTabBarWidget::eventFilter(QObject *o, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
@@ -294,12 +302,13 @@ bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
 
                 m_rightMenu->exec(mapToGlobal(position));
 
-                return true;
+                //return true;
             }
         }
-    } else {
+    } /*else {
         event->accept();
-    }
-    return false;
+    }*/
+    //return false;
+    return DTabBar::eventFilter(o, event);
 }
 

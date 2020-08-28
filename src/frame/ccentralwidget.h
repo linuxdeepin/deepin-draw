@@ -62,6 +62,12 @@ public:
      */
     CGraphicsView *getGraphicsView() const;
     QGraphicsView *getQGraphicsView() const;
+
+    /**
+     * @brief multipTabBarWidget　获取CMultipTabBarWidget句柄
+     * @return
+     */
+    CMultipTabBarWidget *multipTabBarWidget();
     /**
      * @brief getDrawScene　获取场景句柄
      * @return
