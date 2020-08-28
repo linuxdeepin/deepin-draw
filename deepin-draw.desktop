@@ -1,6 +1,4 @@
 [Desktop Entry]
-Exec=/usr/bin/deepin-turbo-invoker  --type=dtkwidget deepin-draw %U
-TZ='Asia/Shanghai'
 Categories=Graphics;
 Comment=Deepin Draw is a lightweight drawing tool for users to freely draw and simply edit images.
 Comment[am_ET]=ዲፕኢን መሳያ
@@ -30,7 +28,7 @@ Comment[tr]=Deepin Çizim
 Comment[uk]=Deepin Draw
 Comment[zh_CN]=画板
 Comment[zh_TW]=Deepin 畫板
-Exec=deepin-draw %U
+Exec=/usr/bin/deepin-turbo-invoker  --type=dtkwidget deepin-draw %U
 GenericName=Draw
 GenericName[am_ET]=ዲፕኢን መሳያ
 GenericName[ar]=رسام ديبين
@@ -90,5 +88,6 @@ Name[uk]=Draw
 Name[zh_CN]=画板
 Name[zh_TW]=畫板
 StartupNotify=false
+TZ='Asia/Shanghai'
 Type=Application
 X-Deepin-Vendor=user-custom
