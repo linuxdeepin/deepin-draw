@@ -491,15 +491,15 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
 void CTextEdit::setVisible(bool visible)
 {
     QTextEdit::setVisible(visible);
-//    if (!visible) {
-//        QTextCursor cursor = this->textCursor();
-//        cursor.select(QTextCursor::Document);
-//        this->setTextCursor(cursor);
-//        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
-//            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
-//            curScene->updateBlurItem(m_pItem);
-//        }
-//    }
+    if (!visible) {
+        QTextCursor cursor = this->textCursor();
+        cursor.select(QTextCursor::Document);
+        this->setTextCursor(cursor);
+        if (m_pItem != nullptr && nullptr != m_pItem->scene()) {
+            auto curScene = static_cast<CDrawScene *>(m_pItem->scene());
+            curScene->updateBlurItem(m_pItem);
+        }
+    }
 }
 
 void CTextEdit::setLastDocumentWidth(qreal width)
