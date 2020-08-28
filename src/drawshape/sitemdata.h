@@ -349,6 +349,8 @@ struct SGraphicsPictureUnitData {
     SGraphicsRectUnitData rect;
     QImage image;
     QByteArray srcByteArry;
+    bool flipHorizontal; // 水平翻转
+    bool flipVertical;   // 垂直翻转
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPictureUnitData &pictureUnitData)
     {

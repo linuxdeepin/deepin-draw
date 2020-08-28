@@ -71,7 +71,7 @@ struct SComDefualData {
 
     // image info
     bool adjustScence = false; //自适应场景
-    ERotationType FlipType = ERotationType::NoRotationType; // 镜像翻转
+    ERotationType flipType = ERotationType::NoRotationType; // 镜像翻转
 
     bool comVaild[EDrawPropertyCount] {0};
 
