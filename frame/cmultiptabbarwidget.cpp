@@ -304,3 +304,23 @@ bool CMultipTabBarWidget::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
+void updateAllChildren(QWidget *pWidget)
+{
+    QObjectList children = pWidget->children();
+    for (QObject *o : children) {
+        QWidget *p = qobject_cast<QWidget *>(o);
+        if (p != nullptr) {
+            qDebug() << "CMultipTabBarWidget::leaveEvent ---- p = " << p;
+            p->update();
+            updateAllChildren(p);
+        }
+    }
+}
+void CMultipTabBarWidget::leaveEvent(QEvent *event)
+{
+    qDebug() << "CMultipTabBarWidget::leaveEvent ---- ";
+    updateAllChildren(this);
+    update();
+    DTabBar::leaveEvent(event);
+}
+

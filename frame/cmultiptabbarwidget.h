@@ -158,6 +158,7 @@ signals:
 
 protected:
     bool eventFilter(QObject *, QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     void initConnection();
