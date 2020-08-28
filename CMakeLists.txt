@@ -11,17 +11,6 @@ set(CMAKE_AUTOUIC ON)
 # 设置工程名字
 project(deepin-draw)
 
-# 加速编译优化参数
-if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-else()
-    SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,-as-need -fPIE")
-    SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,-as-need -fPIE")
-    SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
-endif()
-
 # 是否开启单元测试编译
 option(DOTEST "option for test" OFF)
 
@@ -36,6 +25,17 @@ if(DOTEST)
 
 # 未开启单元测试
 else()
+    # 加速编译优化参数，和单元测试在一起会链接失败
+    if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE")
+        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE")
+        SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
+    else()
+        SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,-as-need -fPIE")
+        SET(CMAKE_C_FLAGS "$ENV{CFLAGS} -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -std=c++14 -O3 -DNDEBUG -fPIC -Wl,-as-need -fPIE")
+        SET(CMAKE_EXE_LINKER_FLAGS  "-pie")
+    endif()
+
     # 设置Qt模块
     set(QtModule Core Gui Widgets Network DBus PrintSupport Svg Concurrent LinguistTools)
     # 查找Qt相关的库链接
