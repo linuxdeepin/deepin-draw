@@ -707,7 +707,6 @@ CTextEdit *CGraphicsTextItem::getTextEdit()
 bool CGraphicsTextItem::isEditable() const
 {
     return !m_pTextEdit->isHidden();
-    //return m_pTextEdit->getEditing();
 }
 
 void CGraphicsTextItem::doCut()

@@ -214,13 +214,10 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
         hide();
         m_pItem->drawScene()->notSelectItem(m_pItem);
     }
-
-    m_editing = false;
 }
 
 void CTextEdit::focusInEvent(QFocusEvent *e)
 {
-    m_editing = true;
     QTextEdit::focusInEvent(e);
 }
 
@@ -541,16 +538,6 @@ void CTextEdit::updateBgColorTo(const QColor c, bool laterDo)
         this->setPalette(palette);
     }
 }
-
-bool CTextEdit::getEditing()
-{
-    return m_editing;
-}
-
-//void CTextEdit::setVisible(bool visible)
-//{
-//    QTextEdit::setVisible(visible);
-//}
 
 void CTextEdit::setLastDocumentWidth(qreal width)
 {
