@@ -23,23 +23,23 @@
 
 TEST(CLeftToolBar, CLeftToolBar_switchTheme)
 {
-    MainWindow *w = getMainWindow();
-    w->hide();
+//    MainWindow *w = getMainWindow();
+//    w->hide();
 
-    CLeftToolBar *c = w->getCCentralwidget()->getLeftToolBar();
+//    CLeftToolBar *c = w->getCCentralwidget()->getLeftToolBar();
 
-    c->setCurrentDrawTool(EDrawToolMode::noselected);
-    c->setCurrentDrawTool(EDrawToolMode::selection);
-    c->setCurrentDrawTool(EDrawToolMode::importPicture);
-    c->setCurrentDrawTool(EDrawToolMode::rectangle);
-    c->setCurrentDrawTool(EDrawToolMode::ellipse);
-    c->setCurrentDrawTool(EDrawToolMode::triangle);
-    c->setCurrentDrawTool(EDrawToolMode::polygonalStar);
-    c->setCurrentDrawTool(EDrawToolMode::polygon);
-    c->setCurrentDrawTool(EDrawToolMode::line);
-    c->setCurrentDrawTool(EDrawToolMode::pen);
-    c->setCurrentDrawTool(EDrawToolMode::text);
-    c->setCurrentDrawTool(EDrawToolMode::blur);
-    c->setCurrentDrawTool(EDrawToolMode::cut);
+//    c->setCurrentDrawTool(EDrawToolMode::noselected);
+//    c->setCurrentDrawTool(EDrawToolMode::selection);
+//    c->setCurrentDrawTool(EDrawToolMode::importPicture);
+//    c->setCurrentDrawTool(EDrawToolMode::rectangle);
+//    c->setCurrentDrawTool(EDrawToolMode::ellipse);
+//    c->setCurrentDrawTool(EDrawToolMode::triangle);
+//    c->setCurrentDrawTool(EDrawToolMode::polygonalStar);
+//    c->setCurrentDrawTool(EDrawToolMode::polygon);
+//    c->setCurrentDrawTool(EDrawToolMode::line);
+//    c->setCurrentDrawTool(EDrawToolMode::pen);
+//    c->setCurrentDrawTool(EDrawToolMode::text);
+//    c->setCurrentDrawTool(EDrawToolMode::blur);
+//    c->setCurrentDrawTool(EDrawToolMode::cut);
 }
 
