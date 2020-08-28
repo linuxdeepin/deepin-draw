@@ -88,6 +88,5 @@ Name[uk]=Draw
 Name[zh_CN]=画板
 Name[zh_TW]=畫板
 StartupNotify=false
-TZ='Asia/Shanghai'
 Type=Application
 X-Deepin-Vendor=user-custom
