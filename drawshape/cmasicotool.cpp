@@ -29,7 +29,7 @@
 #include <QGraphicsView>
 
 CMasicoTool::CMasicoTool()
-    : IDrawTool (blur)
+    : IDrawTool(blur)
     , m_pBlurItem(nullptr)
 {
 
@@ -76,6 +76,7 @@ void CMasicoTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sc
         bool shiftKeyPress = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getShiftKeyStatus();
         m_pBlurItem->updatePenPath(pointMouse, shiftKeyPress);
         m_pBlurItem->updateBlurPath();
+        m_pBlurItem->setPixmap();
     }
 }
 
@@ -85,8 +86,8 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_sPointRelease = event->scenePos();
 
         //如果鼠标没有移动
-        if ( m_pBlurItem != nullptr) {
-            if ( event->scenePos() == m_sPointPress ) {
+        if (m_pBlurItem != nullptr) {
+            if (event->scenePos() == m_sPointPress) {
                 scene->removeItem(m_pBlurItem);
                 delete m_pBlurItem;
             } else {
