@@ -28,7 +28,7 @@ Comment[tr]=Deepin Çizim
 Comment[uk]=Deepin Draw
 Comment[zh_CN]=画板
 Comment[zh_TW]=Deepin 畫板
-Exec=/usr/bin/deepin-turbo-invoker  --type=dtkwidget deepin-draw %U
+Exec=deepin-draw %U
 GenericName=Draw
 GenericName[am_ET]=ዲፕኢን መሳያ
 GenericName[ar]=رسام ديبين
