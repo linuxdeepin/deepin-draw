@@ -30,6 +30,7 @@
 #include "utils/shortcut.h"
 #include "utils/global.h"
 #include "frame/AttributesWidgets/citemattriwidget.h"
+#include "cmultiptabbarwidget.h"
 
 #include <DTitlebar>
 #include <DFileDialog>
@@ -133,12 +134,17 @@ void MainWindow::closeTabViews()
             qDebug() << "close error view:" << current_name;
             continue;
         } else {
-
             // [0] 关闭标签前需要判断是否保存裁剪状态
             m_centralWidget->slotJudgeCutStatusAndPopSaveDialog();
-
             bool editFlag = closeView->getDrawParam()->getModify();
             if (editFlag) {
+
+                //qt qtabbar的bug,弹窗响应了leave但是未响应Hoverleave导致某个一个标签的按钮未清理掉高亮,
+                //所以这里手动清理一下以解决 BUG 43546 https://pms.uniontech.com/zentao/bug-view-43546.html
+                if (m_centralWidget->multipTabBarWidget() != nullptr) {
+                    m_centralWidget->multipTabBarWidget()->clearHoverState();
+                }
+
                 int ret = showSaveQuestionDialog();
                 if (ret <= 0) {
                     //结束关闭，同时结束其他标签页的关闭(因为取消了)

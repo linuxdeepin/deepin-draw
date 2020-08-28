@@ -126,6 +126,11 @@ public:
     */
     QStringList getAllTabBarUUID();
 
+    /**
+     * @description: clearHoverState 清理hover状态
+    */
+    void  clearHoverState();
+
 public slots:
     /**
      * @description: addTabBarItem 添加标签

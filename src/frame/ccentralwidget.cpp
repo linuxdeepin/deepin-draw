@@ -106,6 +106,11 @@ QGraphicsView *CCentralwidget::getQGraphicsView() const
     return dynamic_cast<QGraphicsView *>(CManageViewSigleton::GetInstance()->getCurView());
 }
 
+CMultipTabBarWidget *CCentralwidget::multipTabBarWidget()
+{
+    return m_topMutipTabBarWidget;
+}
+
 CDrawScene *CCentralwidget::getDrawScene() const
 {
     return static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
