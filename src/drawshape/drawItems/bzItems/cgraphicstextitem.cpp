@@ -153,10 +153,11 @@ void CGraphicsTextItem::makeEditabel(bool selectAll)
     if (getMutiSelect())
         return;
 
-    m_pTextEdit->setReadOnly(false);
+    m_pTextEdit->setTextInteractionFlags(m_pTextEdit->textInteractionFlags() | (Qt::TextEditable));
     if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == selection ||
             CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode() == text) {
-        m_pTextEdit->show();
+        if (m_pTextEdit->isHidden())
+            m_pTextEdit->show();
         if (selectAll) {
             QTextCursor textCursor = m_pTextEdit->textCursor();
             textCursor.select(QTextCursor::Document);
@@ -403,6 +404,8 @@ int CGraphicsTextItem::getTextColorAlpha()
 
 void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
 {
+    //m_pTextEdit->setUndoRedoEnabled(false);
+
     // [0] 设置当前选中文本都最新格式
     QTextCursor cursor = m_pTextEdit->textCursor();
     cursor.mergeCharFormat(format);
@@ -412,6 +415,8 @@ void CGraphicsTextItem::mergeFormatOnWordOrSelection(const QTextCharFormat &form
 
     // [2] 重新更新当前图元的文字内部属性
     m_pTextEdit->checkTextProperty();
+
+    //m_pTextEdit->setUndoRedoEnabled(true);
 }
 
 void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

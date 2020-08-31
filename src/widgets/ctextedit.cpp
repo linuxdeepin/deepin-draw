@@ -195,12 +195,13 @@ void CTextEdit::focusOutEvent(QFocusEvent *e)
     //字体下拉菜单的属性修改(如字体族,字体style)导致的焦点丢失不应该响应
     if (dApp->focusObject() == this || dApp->activePopupWidget() != nullptr) {
         qDebug() << "return dApp->focusObject() = " << dApp->focusObject() << "dApp->activePopupWidget() = " << dApp->activePopupWidget();
+        m_pItem->makeEditabel(false);
         return;
     }
 
     //焦点移动到了改变字体大小的combox上(准确点其实应该判断那个控件的指针),要隐藏光标,大小修改完成后再显示(参见字体修改后的makeEditabel)
     if (qobject_cast<QComboBox *>(dApp->focusObject()) != nullptr) {
-        this->setReadOnly(true);  //隐藏光标
+        this->setTextInteractionFlags(this->textInteractionFlags() & (~Qt::TextEditable));
         return;
     }
 
