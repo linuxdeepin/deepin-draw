@@ -1162,6 +1162,10 @@ void CGraphicsView::slotOnPaste()
                 item->moveBy(10, 10);
 
                 drawScene()->selectItem(item, true, false, false);
+
+                qreal newZ = this->drawScene()->getMaxZValue() + 1;
+                item->setZValue(newZ);
+                this->drawScene()->setMaxZValue(newZ);
             }
 
             CUndoRedoCommand::recordUndoCommand(CUndoRedoCommand::ESceneChangedCmd,
