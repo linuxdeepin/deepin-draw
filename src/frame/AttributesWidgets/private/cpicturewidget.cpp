@@ -59,30 +59,35 @@ void CPictureWidget::initUI()
     m_leftRotateBtn->setIcon(QIcon::fromTheme("ddc_contrarotate_normal"));
     m_leftRotateBtn->setIconSize(QSize(48, 48));
     m_leftRotateBtn->setToolTip(tr("Rotate 90° CCW"));
+    m_leftRotateBtn->setFocusPolicy(Qt::NoFocus);
 
     m_rightRotateBtn = new DPushButton(this);
     m_rightRotateBtn->setMaximumSize(QSize(38, 38));
     m_rightRotateBtn->setIcon(QIcon::fromTheme("ddc_clockwise rotation_normal"));
     m_rightRotateBtn->setIconSize(QSize(48, 48));
     m_rightRotateBtn->setToolTip(tr("Rotate 90° CW"));
+    m_rightRotateBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipHBtn = new DPushButton(this);
     m_flipHBtn->setMaximumSize(QSize(38, 38));
     m_flipHBtn->setIcon(QIcon::fromTheme("ddc_flip horizontal_normal"));
     m_flipHBtn->setIconSize(QSize(48, 48));
     m_flipHBtn->setToolTip(tr("Flip horizontally"));
+    m_flipHBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipVBtn = new DPushButton(this);
     m_flipVBtn->setMaximumSize(QSize(38, 38));
     m_flipVBtn->setIcon(QIcon::fromTheme("ddc_flip vertical_normal"));
     m_flipVBtn->setIconSize(QSize(48, 48));
     m_flipVBtn->setToolTip(tr("Flip vertically"));
+    m_flipVBtn->setFocusPolicy(Qt::NoFocus);
 
     m_flipAdjustment = new DPushButton(this);
     m_flipAdjustment->setMaximumSize(QSize(38, 38));
     m_flipAdjustment->setIcon(QIcon::fromTheme("ddc_flip_adjustment_normal"));
     m_flipAdjustment->setIconSize(QSize(48, 48));
     m_flipAdjustment->setToolTip(tr("Auto fit"));
+    m_flipAdjustment->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
