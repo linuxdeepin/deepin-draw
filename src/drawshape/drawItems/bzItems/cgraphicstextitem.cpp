@@ -423,6 +423,14 @@ void CGraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+    if (scene() == nullptr) {
+        qWarning() << "----------- scene == nullptr but paint !!!! ";
+        prepareGeometryChange();
+        setRect(QRectF(0, 0, 0, 0));
+        return;
+    }
+
     updateHandlesGeometry();
 
     // judge selectool isValid

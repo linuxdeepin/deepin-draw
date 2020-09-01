@@ -64,6 +64,9 @@ void CMasicoTool::toolCreatItemFinish(IDrawTool::CDrawToolEvent *event, IDrawToo
                 delete pItem;
                 pInfo->businessItem = nullptr;
             } else {
+                pItem->drawComplete();
+                pItem->updateBlurPath();
+                pItem->updateMasicPixmap();
                 if (pItem->scene() == nullptr) {
                     emit event->scene()->itemAdded(pItem);
                 }

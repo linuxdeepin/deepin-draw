@@ -84,24 +84,11 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         painter->restore();
     }
 
-    painter->setPen(pen());
-    painter->setBrush(brush());
-    painter->drawPath(getPath());
-
+//    painter->setPen(pen());
+//    painter->setBrush(brush());
+//    painter->drawPath(getPath());
 
     paintMutBoundingLine(painter, option);
-//    if (this->getMutiSelect()) {
-//        painter->setClipping(false);
-//        // 获取系统活动色的颜色
-//        QPalette pa = this->scene()->palette();
-//        QPen pen;
-//        pen.setColor(QColor(224, 224, 224));
-//        pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-//        painter->setPen(pen);
-//        painter->setBrush(QBrush(Qt::NoBrush));
-//        painter->drawRect(this->boundingRect());
-//        painter->setClipping(true);
-    //    }
 }
 
 bool CGraphicsMasicoItem::isPosPenetrable(const QPointF &posLocal)
@@ -213,7 +200,11 @@ QRectF CGraphicsMasicoItem::boundingRect() const
 
 QPainterPath CGraphicsMasicoItem::shape() const
 {
-    return qt_graphicsItem_shapeFromPath(getPath(), pen());
+    QPainterPath path = getPath();
+    if (m_isShiftPress) {
+        path.lineTo(m_straightLine.p2());
+    }
+    return qt_graphicsItem_shapeFromPath(/*getPath()*/path, pen());
 }
 
 void CGraphicsMasicoItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -235,7 +226,11 @@ void CGraphicsMasicoItem::updateBlurPath()
 {
     QPainterPathStroker t_stroker;
     t_stroker.setWidth(pen().widthF());
-    QPainterPath t_painterPath = t_stroker.createStroke(getPath());
+    QPainterPath path = getPath();
+    if (m_isShiftPress) {
+        path.lineTo(m_straightLine.p2());
+    }
+    QPainterPath t_painterPath = t_stroker.createStroke(path);
     m_blurPath = t_painterPath.simplified();
 }
 

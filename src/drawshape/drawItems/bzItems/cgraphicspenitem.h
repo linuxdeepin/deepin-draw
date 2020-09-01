@@ -242,10 +242,12 @@ protected:
      */
     virtual bool isPosPenetrable(const QPointF &posLocal) Q_DECL_OVERRIDE;
 
-private:
-    QPainterPath m_path;
+protected:
     QLineF m_straightLine;
     bool m_isShiftPress;
+
+private:
+    QPainterPath m_path;
     QVector<QPointF> m_smoothVector;
     QPixmap m_tmpPix;
     bool m_isDrawing;//是否正在绘图
