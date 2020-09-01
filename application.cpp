@@ -22,6 +22,9 @@
 #include "service/dbusdraw_adaptor.h"
 #include "frame/toptoolbar.h"
 #include "widgets/colorpanel.h"
+#include "widgets/bigcolorbutton.h"
+#include "widgets/bordercolorbutton.h"
+#include "widgets/textcolorbutton.h"
 
 #include <QFileInfo>
 #include <QDBusConnection>
@@ -246,17 +249,24 @@ bool Application::isWaylandPlatform()
 
 bool Application::notify(QObject *o, QEvent *e)
 {
-    if (e->type() == QEvent::MouseButtonPress) {
+    if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::TouchBegin) {
         if (o->isWidgetType()) {
             MainWindow *pWin = qobject_cast<MainWindow *>(this->activationWindow());
             if (pWin->topToolbar() != nullptr) {
-                if (pWin->topToolbar() != nullptr) {
-                    ColorPanel *pColorPanel = pWin->topToolbar()->colorPanel();
-                    if (!pColorPanel->isHidden()) {
-                        if (!(o == pColorPanel ||
-                                pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
-                            pWin->topToolbar()->colorPanel()->parentWidget()->hide();
-                        }
+                ColorPanel *pColorPanel = pWin->topToolbar()->colorPanel();
+                if (pColorPanel->isVisible()) {
+                    if (!(o == pColorPanel ||
+                            pColorPanel->isAncestorOf(qobject_cast<QWidget *>(o)))) {
+                        pColorPanel->parentWidget()->hide();
+
+                        if (qobject_cast<BigColorButton *>(o) != nullptr && pColorPanel->callerStatus() == Fill)
+                            return true;
+
+                        if (qobject_cast<BorderColorButton *>(o) != nullptr && pColorPanel->callerStatus() == Stroke)
+                            return true;
+
+                        if (qobject_cast<TextColorButton *>(o) != nullptr && pColorPanel->callerStatus() == TextFill)
+                            return true;
                     }
                 }
             }
