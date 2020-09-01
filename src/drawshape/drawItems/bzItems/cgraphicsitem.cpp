@@ -465,9 +465,9 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
             change == QGraphicsItem::ItemMatrixChange ||
             change == QGraphicsItem::ItemZValueHasChanged ||
             change == QGraphicsItem::ItemOpacityHasChanged ||
-            change == QGraphicsItem::ItemRotationHasChanged
-            /*||
-            change == QGraphicsItem::ItemTransformOriginPointHasChanged*/) {
+            change == QGraphicsItem::ItemRotationHasChanged ||
+            // [BUG:45479] 将图元缩小，模糊附着该图元颜色
+            change == QGraphicsItem::ItemTransformOriginPointHasChanged) {
         if (nullptr != scene()) {
             auto curScene = static_cast<CDrawScene *>(scene());
             curScene->updateBlurItem(this);
