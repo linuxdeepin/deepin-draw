@@ -497,7 +497,8 @@ void CDrawScene::doCutScene()
         IDrawTool *pTool = CDrawToolManagerSigleton::GetInstance()->getDrawTool(mode);
         if (nullptr != pTool) {
             QRectF rect = static_cast<CCutTool *>(pTool)->getCutRect(this);
-            if (!rect.isNull() && static_cast<CCutTool *>(pTool)->getModifyFlag()) {
+            // 注释代码: [BUG:4553] 在裁剪时，关闭应用时选择保存裁剪，无法保存裁剪内容
+            if (!rect.isNull()/* && static_cast<CCutTool *>(pTool)->getModifyFlag()*/) {
                 dynamic_cast<CGraphicsView *>(this->views().first())->itemSceneCut(rect);
             }
             quitCutMode();
