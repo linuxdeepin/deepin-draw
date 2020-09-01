@@ -115,6 +115,13 @@ void CSpinBox::contextMenuEvent(QContextMenuEvent *event)
     // [41555] spinbox 触摸长按会弹出菜单导致焦点丢失，此处截获弹出菜单事件
 }
 
+void CSpinBox::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    // [BUG:45463] 选中两个不同锚点的星形，点击锚点减小按钮，能切换窗口大小
+    DSpinBox::mouseDoubleClickEvent(event);
+    event->accept();
+}
+
 void CSpinBox::timerEnd()
 {
     //先结束timer(标志着isTimerRunning返回false)

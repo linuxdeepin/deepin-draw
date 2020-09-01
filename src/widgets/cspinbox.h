@@ -13,7 +13,7 @@ class CSpinBox : public DSpinBox
 {
     Q_OBJECT
 public:
-    CSpinBox(DWidget *parent = nullptr);
+    explicit CSpinBox(DWidget *parent = nullptr);
 
     bool isTimerRunning();
 
@@ -33,6 +33,7 @@ protected:
     void keyPressEvent(QKeyEvent *event)override;
     void keyReleaseEvent(QKeyEvent *event)override;
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
     Q_SLOT void timerStart();
     Q_SLOT void timerEnd();
