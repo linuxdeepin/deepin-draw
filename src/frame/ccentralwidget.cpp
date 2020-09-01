@@ -596,7 +596,8 @@ void CCentralwidget::slotPrint()
         return;
     }
 
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+
     QImage image = getSceneImage(1);
     m_printManager->showPrintDialog(image, this);
 }
@@ -773,7 +774,7 @@ void CCentralwidget::slotLoadDragOrPasteFile(QString path)
 
 void CCentralwidget::slotShowExportDialog()
 {
-    static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
+    //static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene())->clearSelection();
     m_exportImageDialog->showMe();
 }
 
@@ -788,6 +789,11 @@ QImage CCentralwidget::getSceneImage(int type)
 
     CGraphicsView *pView = CManageViewSigleton::GetInstance()->getCurView();
     if (pView != nullptr && pView->drawScene() != nullptr) {
+
+        //render前屏蔽掉多选框和选中的边线显示(之后恢复)
+        pView->drawScene()->getItemsMgr()->setNoContent(true);
+        CGraphicsItem::paintSelectedBorderLine = false;
+
         image = QImage(pView->drawScene()->sceneRect().size().toSize(), QImage::Format_ARGB32);
         pView->getDrawParam()->setRenderImage(type);
         if (type == 2) {
@@ -802,6 +808,10 @@ QImage CCentralwidget::getSceneImage(int type)
             resetSceneBackgroundBrush();
         }
         pView->getDrawParam()->setRenderImage(0);
+
+        //render后恢复屏蔽掉的多选框和选中的边线显示
+        pView->drawScene()->getItemsMgr()->setNoContent(false);
+        CGraphicsItem::paintSelectedBorderLine = true;
     }
 
     return  image;

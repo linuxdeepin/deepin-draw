@@ -133,6 +133,17 @@ public:
 
     CGraphicsUnit getGraphicsUnit(bool all) const override;
 
+
+    /**
+     * @brief setNoContent  设置是否有内容
+     */
+    void setNoContent(bool b, bool children = true);
+
+    /**
+     * @brief isNoContent  判断是否有内容
+     */
+    bool isNoContent();
+
 protected:
     /**
      * @brief paint 绘制函数

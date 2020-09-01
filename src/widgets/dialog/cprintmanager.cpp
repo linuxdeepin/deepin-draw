@@ -24,13 +24,14 @@
 #include <QFileInfo>
 #include <QPrintPreviewDialog>
 #include <QPainter>
-
 #include <QDebug>
+
+#include <dprintpreviewdialog.h>
 
 DWIDGET_USE_NAMESPACE
 
 CPrintManager::CPrintManager(QObject *parent)
-    : QObject (parent)
+    : QObject(parent)
 {
 
 }
@@ -42,34 +43,81 @@ CPrintManager::~CPrintManager()
 
 void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 {
+//    m_image = image;
+
+//    QPrinter printer;
+//    printer.setOutputFormat(QPrinter::NativeFormat);
+//    printer.setPageSize(QPrinter::A4);
+//    printer.setPaperSize(QPrinter::Custom);
+
+//    QString desktopDir = QStandardPaths::writableLocation(
+//                             QStandardPaths::DesktopLocation);
+//    QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
+
+//    if (QFileInfo(filePath).exists()) {
+//        int num = 0;
+//        while (QFileInfo(filePath).exists()) {
+//            num++;
+//            filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
+//        }
+//    }
+//    printer.setOutputFileName(filePath);
+
+
+//    QPrintPreviewDialog preview(&printer, widget);
+//    preview.setFixedSize(1000, 600);
+//    connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
+//    preview.exec();
+
     m_image = image;
+    DPrintPreviewDialog printDialog2(widget);
+    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, this, [ = ](DPrinter * _printer) {
 
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::NativeFormat);
-    printer.setPageSize(QPrinter::A4);
-    printer.setPaperSize(QPrinter::Custom);
-//    printer.setPaperSize(QSize(m_pixMap.width(), m_pixMap.height()),
-//                         QPrinter::DevicePixel);
-    //printer.setPageMargins(0., 0., 0., 0., QPrinter::DevicePixel);
+        _printer->setOutputFormat(QPrinter::NativeFormat);
+        _printer->setPageSize(QPrinter::A4);
+        _printer->setPaperSize(QPrinter::Custom);
 
-    QString desktopDir = QStandardPaths::writableLocation(
-                             QStandardPaths::DesktopLocation);
-    QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
+        QString desktopDir = QStandardPaths::writableLocation(
+                                 QStandardPaths::DesktopLocation);
+        QString filePath = QString("%1/%2.pdf").arg(desktopDir).arg("DeepIn");
 
-    if (QFileInfo(filePath).exists()) {
-        int num = 0;
-        while (QFileInfo(filePath).exists()) {
-            num++;
-            filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
+        if (QFileInfo(filePath).exists()) {
+            int num = 0;
+            while (QFileInfo(filePath).exists()) {
+                num++;
+                filePath = QString("%1/%2_%3.pdf").arg(desktopDir).arg("DeepIn").arg(num);
+            }
         }
-    }
-    printer.setOutputFileName(filePath);
+        _printer->setOutputFileName(filePath);
 
 
-    QPrintPreviewDialog preview(&printer, widget);
-    preview.setFixedSize(1000, 600);
-    connect(&preview, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
-    preview.exec ();
+        QPainter painter(_printer);
+        QImage img = m_image;
+
+        if (!img.isNull()) {
+            painter.setRenderHints(QPainter::Antialiasing);
+            painter.setRenderHint(QPainter::SmoothPixmapTransform);
+
+            QRect wRect  = _printer->pageRect();
+            QImage tmpMap;
+
+            if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpMap = img;
+            }
+
+            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                      qreal(wRect.height() - tmpMap.height()) / 2,
+                                      tmpMap.width(), tmpMap.height());
+            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                     tmpMap.height()), tmpMap);
+        }
+        painter.end();
+    });
+    printDialog2.setFixedSize(1000, 600);
+    printDialog2.exec();
+
 }
 
 

@@ -33,6 +33,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 const int inccW = 10;
+bool CGraphicsItem::paintSelectedBorderLine = true;
 QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &path,
                                                           const QPen &pen,
                                                           bool replace,
@@ -540,7 +541,11 @@ void CGraphicsItem::clearHandle()
 
 void CGraphicsItem::paintMutBoundingLine(QPainter *painter, const QStyleOptionGraphicsItem *option)
 {
+    if (!paintSelectedBorderLine)
+        return;
+
     if (this->isSelected() && scene() != nullptr && drawScene()->getItemsMgr()->count() > 1) {
+
         painter->setClipping(false);
         QPen pen;
 

@@ -390,6 +390,8 @@ public:
     /* 将被弃用 */
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
                           bool bShiftPress, bool bAltPress);
+
+    static bool paintSelectedBorderLine;
 };
 
 #endif // CGRAPHICSITEM_H

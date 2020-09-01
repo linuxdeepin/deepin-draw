@@ -608,6 +608,23 @@ CGraphicsUnit CGraphicsItemSelectedMgr::getGraphicsUnit(bool all) const
     return CGraphicsUnit();
 }
 
+void CGraphicsItemSelectedMgr::setNoContent(bool b, bool children)
+{
+    setFlag(ItemHasNoContents, b);
+
+    if (children) {
+        QList<QGraphicsItem *> chidren =  childItems();
+        for (QGraphicsItem *pItem : chidren) {
+            pItem->setFlag(ItemHasNoContents, b);
+        }
+    }
+}
+
+bool CGraphicsItemSelectedMgr::isNoContent()
+{
+    return (flags()&ItemHasNoContents);
+}
+
 void CGraphicsItemSelectedMgr::updateHandlesGeometry()
 {
     const QRectF &geom = this->boundingRect();
