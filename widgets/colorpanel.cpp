@@ -461,3 +461,8 @@ void ColorPanel::updateColorPanel(DrawStatus status, QColor color, int alpha)
     ///更新RBG值
     m_pickColWidget->setRgbValue(configColor);
 }
+
+DrawStatus ColorPanel::callerStatus()
+{
+    return m_drawstatus;
+}

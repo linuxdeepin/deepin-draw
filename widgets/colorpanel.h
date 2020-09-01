@@ -74,6 +74,11 @@ public:
      */
     void updateColorPanel(DrawStatus status, QColor color, int alpha);
 
+    /**
+     * @brief callerStatus 返回调用者的颜色类型
+     */
+    DrawStatus callerStatus();
+
 signals:
     /**
      * @brief updateHeight　更新调色板高度信号
