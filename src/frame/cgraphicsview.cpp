@@ -47,6 +47,7 @@
 #include "application.h"
 #include "cundocommands.h"
 #include "cundoredocommand.h"
+#include "mainwindow.h"
 
 #include <DMenu>
 #include <DFileDialog>
@@ -324,7 +325,6 @@ void CGraphicsView::initContextMenu()
 
     // 右键菜单添加对齐方式
     m_alignMenu = new DMenu(tr("Align"), this);
-    m_alignMenu->setFixedWidth(182);
     m_contextMenu->addMenu(m_alignMenu);
 
     m_itemsLeftAlign = new QAction(tr("Align left"), this); //左对齐
@@ -822,7 +822,7 @@ void CGraphicsView::showMenu(DMenu *pMenu)
 
     QRect menuRect = QRect(curPos, menSz);
 
-    QScreen *pCurScren = pMenu->windowHandle()->screen();
+    QScreen *pCurScren = dApp->topMainWindow()->windowHandle()->screen();
 
     if (pCurScren != nullptr) {
         QRect geomeRect = pCurScren->geometry();
@@ -1653,10 +1653,11 @@ void CGraphicsView::showSaveDDFDialog(bool type, bool finishClose, const QString
             if (CManageViewSigleton::GetInstance()->isDdfFileOpened(path)) {
                 DDialog dia(this);
 
-                dia.setFixedSize(404, 163);
+                dia.setFixedSize(404, 183);
 
                 dia.setModal(true);
-                dia.setMessage(tr("Cannot save as \"%1\" because the document is currently open. Please save it with a different name, or close the document and try again.").arg(QFileInfo(path).fileName()));
+                dia.setMessage(tr("Cannot save it as %1, since the file in that name is open now. Please save it in another name or close that file and try again.")
+                               .arg(QFileInfo(path).fileName()));
                 dia.setIcon(QPixmap(":/icons/deepin/builtin/Bullet_window_warning.svg"));
 
                 dia.addButton(tr("OK"), false, DDialog::ButtonNormal);

@@ -126,7 +126,7 @@ void BorderColorButton::paintLookStyle(QPainter *painter, bool isMult)
     QFont ft;
     ft.setPixelSize(14);
     painter->setFont(ft);
-    painter->drawText(32, 6, TextWidth, 22, 1, m_text);
+    painter->drawText(32, 6, m_textWidth, 22, 1, m_text);
     painter->restore();
 }
 
@@ -177,9 +177,12 @@ void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
 
 void BorderColorButton::setButtonText(QString text)
 {
-    QFontMetrics fontMetrics(font());
+    QFont ft;
+    ft.setPixelSize(14);
+    QFontMetrics fontMetrics(ft);
     m_textWidth = fontMetrics.width(text);
-    setFixedSize(35 + TextWidth, 32);
+    qDebug() << "m_textWidth ======== " << m_textWidth;
+    setFixedSize(m_textWidth + 35, 32);
     m_text = text;
 }
 

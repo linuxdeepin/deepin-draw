@@ -24,7 +24,6 @@
 #include "globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
-#define TextWidth 28
 class BorderColorButton : public DPushButton
 {
     Q_OBJECT
