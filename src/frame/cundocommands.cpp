@@ -2289,10 +2289,10 @@ void CItemRotationCommand::undo()
             pictureItem->setRotation90(true);
             break;
         case ERotationType::FlipHorizontal:
-            pictureItem->setMirror(true, false);
+            //pictureItem->setMirror(true, false);
             break;
         case ERotationType::FlipVertical:
-            pictureItem->setMirror(false, true);
+            //pictureItem->setMirror(false, true);
             break;
         default:
             break;
@@ -2323,10 +2323,10 @@ void CItemRotationCommand::redo()
             pictureItem->setRotation90(false);
             break;
         case ERotationType::FlipHorizontal:
-            pictureItem->setMirror(true, false);
+            //pictureItem->setMirror(true, false);
             break;
         case ERotationType::FlipVertical:
-            pictureItem->setMirror(false, true);
+            //pictureItem->setMirror(false, true);
             break;
         default:
             break;

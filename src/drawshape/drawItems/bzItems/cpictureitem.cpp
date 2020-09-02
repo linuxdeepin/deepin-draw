@@ -74,15 +74,19 @@ void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
-//    QTransform trans = painter->transform();
-//    if (this->flipHorizontal) {
+    painter->save();
 
-//        trans.setMatrix(-trans.m11(), trans.m12(), trans.m13(),
-//                        -trans.m21(), trans.m22(), trans.m23(),
-//                        -trans.m31(), trans.m32(), trans.m33());
-//        painter->setTransform(trans);
-//    }
+    //实现图片的翻转
+    painter->translate(boundingRect().center());
+    QTransform trans(this->flipHorizontal ? -1 : 1, 0, 0,
+                     0, this->flipVertical ? -1 : 1, 0,
+                     0, 0, 1);
+    painter->setTransform(trans, true);
+    painter->translate(-boundingRect().center());
+
+    //qDebug() << "this->flipHorizontal = " << this->flipHorizontal << "this->flipVertical  = " << this->flipVertical ;
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
+    painter->restore();
 
     endCheckIns(painter);
 
@@ -115,21 +119,6 @@ void CPictureItem::setPixmap(const QPixmap &pixmap)
     m_pixmap = pixmap;
 }
 
-//进行翻转，先转化为qimage，翻转后转化为qpixmap
-void CPictureItem::setMirror(const bool &hor, const bool &ver)
-{
-    QImage image = m_pixmap.toImage();
-    QImage mirrorImage = image.mirrored(hor, ver);
-    m_pixmap = QPixmap::fromImage(mirrorImage);
-    update();
-    if (nullptr != scene()) {
-        auto curScene = static_cast<CDrawScene *>(scene());
-        curScene->updateBlurItem(this);
-    }
-    this->flipHorizontal = hor;
-    this->flipVertical = ver;
-}
-
 void CPictureItem::setRotation90(bool leftOrRight)
 {
     //旋转图形 有BUG
@@ -151,6 +140,34 @@ void CPictureItem::setRotation90(bool leftOrRight)
 bool CPictureItem::getAdjustScence()
 {
     return m_adjustScence;
+}
+
+void CPictureItem::doFilp(CPictureItem::EFilpDirect dir)
+{
+    if (dir == EFilpHor) {
+        this->flipHorizontal = !this->flipHorizontal;
+    } else if (dir == EFilpVer) {
+        this->flipVertical = !this->flipVertical;
+    }
+    update();
+}
+
+void CPictureItem::setFilpBaseOrg(CPictureItem::EFilpDirect dir, bool b)
+{
+    if (dir == EFilpHor) {
+        if (this->flipHorizontal != b) {
+            doFilp(dir);
+        }
+    } else if (dir == EFilpVer) {
+        if (this->flipVertical != b) {
+            doFilp(dir);
+        }
+    }
+}
+
+bool CPictureItem::isFilped(CPictureItem::EFilpDirect dir)
+{
+    return (dir == EFilpHor ? this->flipHorizontal : this->flipVertical);
 }
 
 void CPictureItem::duplicate(CGraphicsItem *item)
@@ -180,9 +197,11 @@ void CPictureItem::loadGraphicsUnit(const CGraphicsUnit &data, bool allInfo)
         }
         this->flipHorizontal = data.data.pPic->flipHorizontal;
         this->flipVertical = data.data.pPic->flipVertical;
-        this->setMirror(this->flipHorizontal, this->flipVertical);
+        //this->setMirror(this->flipHorizontal, this->flipVertical);
+        //this->setFilpBaseOrg(EFilpHor,)
     }
     loadHeadData(data.head);
+    update();
 }
 
 CGraphicsUnit CPictureItem::getGraphicsUnit(bool all) const

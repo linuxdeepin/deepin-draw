@@ -29,10 +29,28 @@ public:
     explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() Q_DECL_OVERRIDE;
-    virtual int  type() const Q_DECL_OVERRIDE;
-    void setMirror(const bool &hor, const bool &ver);
+    int  type() const Q_DECL_OVERRIDE;
+
     void setRotation90(bool leftOrRight);
     bool getAdjustScence();
+
+    enum EFilpDirect {EFilpHor, EFilpVer};
+
+    /**
+     * @brief doFilp 在当前基础上翻转一下
+     * @return
+     */
+    void doFilp(EFilpDirect dir = EFilpHor);
+
+    /**
+     * @brief setFilpBaseOrg 设置在初始图像上是否翻转,否则和原图一致
+     */
+    void setFilpBaseOrg(EFilpDirect dir, bool b);
+
+    /**
+     * @brief isFilped 图像是否翻转过(相对原图)
+     */
+    bool isFilped(EFilpDirect dir);
 
     /**
      * @brief duplicate 拷贝自己

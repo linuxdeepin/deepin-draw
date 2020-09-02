@@ -247,7 +247,6 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
             for (int i = 0; i < m_graphics.unitCount; i++) {
                 CGraphicsUnit unit;
                 in >> unit;
-//                qDebug() << "i = " << i << "unit.head.dataType = " << unit.head.dataType;
                 if (RectType == unit.head.dataType) {
                     CGraphicsRectItem *item = new CGraphicsRectItem(*(unit.data.pRect), unit.head);
                     item->setXYRedius(unit.data.pRect->xRedius, unit.data.pRect->yRedius);
@@ -275,7 +274,6 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                     }
                 } else if (PolygonType == unit.head.dataType) {
                     CGraphicsPolygonItem *item = new CGraphicsPolygonItem(unit.data.pPolygon, unit.head);
-                    qDebug() << "Content: " << "aaaaaaaaaaaaaaaaaaaaaaaa";
                     emit signalAddItem(item);
 
                     if (unit.data.pPolygon) {
@@ -299,8 +297,6 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pLine = nullptr;
                     }
                 } else if (TextType == unit.head.dataType) {
-                    //CGraphicsTextItem *item = new CGraphicsTextItem(unit.data.pText, unit.head);
-                    //emit signalAddItem(item);
                     emit signalAddTextItem(*unit.data.pText, unit.head);
 
                     if (unit.data.pText) {
@@ -308,7 +304,8 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
                         unit.data.pText = nullptr;
                     }
                 } else if (PictureType == unit.head.dataType) {
-                    CPictureItem *item = new CPictureItem(unit.data.pPic, unit.head);
+                    CPictureItem *item = new CPictureItem(/*unit.data.pPic, unit.head*/);
+                    item->loadGraphicsUnit(unit, true);
                     emit signalAddItem(item);
 
                     if (unit.data.pPic) {
@@ -340,7 +337,6 @@ void CDDFManager::loadDDF(const QString &path, bool isOpenByDDF)
 
                 ///进度条处理
                 count ++;
-//                qDebug() << "countcountcountcountcount ========== " << count;
                 process = int(qreal(count) / qreal(m_graphics.unitCount) * 100.0);
                 emit signalUpdateProcessBar(process, false);
             }

@@ -42,6 +42,8 @@ enum EDdfVersion {
 
     EDdf5_8_0_20,            //添加功能md5校验，以检查ddf文件是否被修改过(ddf破坏过,变脏了那么不再加载或其他处理方式?)
 
+    EDdf5_8_0_48_LATER,      //SP3专业版5_8_0_48版本后将多保存图片图元的翻转信息,以解决翻转信息丢失的问题
+
     EDdfVersionCount,
 
     EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
@@ -349,8 +351,8 @@ struct SGraphicsPictureUnitData {
     SGraphicsRectUnitData rect;
     QImage image;
     QByteArray srcByteArry;
-    bool flipHorizontal; // 水平翻转
-    bool flipVertical;   // 垂直翻转
+    bool flipHorizontal = false; // 水平翻转
+    bool flipVertical = false;   // 垂直翻转
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPictureUnitData &pictureUnitData)
     {
@@ -362,13 +364,19 @@ struct SGraphicsPictureUnitData {
 
         out << pictureUnitData.srcByteArry;
 
+        out << pictureUnitData.flipHorizontal;
+
+        out << pictureUnitData.flipVertical;
+
         return out;
     }
 
     friend QDataStream &operator>>(QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
     {
         in >> pictureUnitData.rect;
-        if (getVersion(in) < EDdf5_8_0_16_1) {
+
+        EDdfVersion curDdfVersion = getVersion(in);
+        if (curDdfVersion < EDdf5_8_0_16_1) {
             in >> pictureUnitData.image;
         } else {
             QByteArray arryData;
@@ -376,6 +384,11 @@ struct SGraphicsPictureUnitData {
             qDebug() << "load arrydata ================== " << "size === " << arryData.size();
             pictureUnitData.srcByteArry = arryData;
             pictureUnitData.image = QImage::fromData(arryData);
+
+            if (curDdfVersion >= EDdf5_8_0_48_LATER) {
+                in >> pictureUnitData.flipHorizontal;
+                in >> pictureUnitData.flipVertical;
+            }
         }
 
         return in;

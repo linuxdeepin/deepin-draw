@@ -1276,17 +1276,18 @@ CPictureWidget *CComAttrWidget::getPictureWidget()
         });
 
         connect(m_pictureWidget, &CPictureWidget::imageFlipChanged, this, [ = ](ERotationType type) {
-            this->updateDefualData(PropertyImageFlipType, type);
+            CCmdBlock block(this->graphicItem());
+
             QList<CGraphicsItem *> lists = this->graphicItems();
             for (CGraphicsItem *p : lists) {
                 CPictureItem *pItem = dynamic_cast<CPictureItem *>(p);
                 if (type == ERotationType::FlipHorizontal) {
-                    pItem->setMirror(true, false);
+                    pItem->doFilp(CPictureItem::EFilpHor);
                 } else if (type == ERotationType::FlipVertical) {
-                    pItem->setMirror(false, true);
+                    pItem->doFilp(CPictureItem::EFilpVer);
                 }
             }
-            CCmdBlock block(this->graphicItem());
+            this->updateDefualData(PropertyImageFlipType, type);
         });
 
         connect(m_pictureWidget, &CPictureWidget::imageRotationChanged, this, [ = ](ERotationType type) {
