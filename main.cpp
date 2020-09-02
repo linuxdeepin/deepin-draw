@@ -115,8 +115,11 @@ int main(int argc, char *argv[])
     //DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     //非wayland平台需要添加xcb
-    if (!Application::isWaylandPlatform())
+    if (!Application::isWaylandPlatform()) {
         Application::loadDXcbPlugin();
+    } else {
+        qputenv("QT_WAYLAND_SHELL_INTEGRATION", "kwayland-shell"); //add wayland parameter
+    }
 
     Application::setAttribute(Qt::AA_UseHighDpiPixmaps);
     Application a(argc, argv);
