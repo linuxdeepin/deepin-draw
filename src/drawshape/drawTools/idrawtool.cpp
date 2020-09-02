@@ -157,6 +157,7 @@ void IDrawTool::toolDoStart(IDrawTool::CDrawToolEvent *event)
         info.startPosTopBzItem = event->scene()->topBzItem(event->pos(), true);
         info._isvaild  = true;
         info._curEvent = *event;
+        info._startEvent = *event;
         info._scene    = event->scene();
         info.getTimeHandle()->restart();
 
@@ -204,6 +205,16 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
             rInfo._preEvent = rInfo._curEvent;
             rInfo._curEvent = *event;
 
+            //判定是否移动过(根据工具不同移动的最小距离值不同可重载minMoveUpdateDistance)
+            if (!rInfo.hasMoved()) {
+                int constDis = minMoveUpdateDistance();
+
+                QPointF offset = event->pos(CDrawToolEvent::EViewportPos) -
+                                 rInfo._startEvent.pos(CDrawToolEvent::EViewportPos)/*event->view()->mapFromScene(rInfo._startPos)*/;
+                int curDis = qRound(offset.manhattanLength());
+                rInfo._moved = (curDis >= constDis);
+            }
+
             if (rInfo.eventLife == EDoNotthing) {
                 event->setAccepted(true);
             } else if (rInfo.eventLife == EDoQtCoversion) {
@@ -213,10 +224,7 @@ void IDrawTool::toolDoUpdate(IDrawTool::CDrawToolEvent *event)
                 if (!rInfo.haveDecidedOperateType) {
                     //判定应该做什么
                     if (rInfo.businessItem != nullptr) {
-                        int constDis = minMoveUpdateDistance();
-                        QPointF offset = event->pos(CDrawToolEvent::EViewportPos) - event->view()->mapFromScene(rInfo._startPos);
-                        int curDis = qRound(offset.manhattanLength());
-                        if (curDis >= constDis) {
+                        if (rInfo.hasMoved()) {
                             rInfo._opeTpUpdate = EToolCreatItemMove;
                             rInfo.haveDecidedOperateType = true;
                         }
@@ -726,7 +734,8 @@ IDrawTool::CDrawToolEvent::CDrawToolEvents IDrawTool::CDrawToolEvent::fromQEvent
     case QEvent::MouseMove:
     case QEvent::MouseButtonDblClick: {
         QMouseEvent *msEvent = dynamic_cast<QMouseEvent *>(event);
-        e._pos[EViewportPos] = msEvent->pos();
+        //e._pos[EViewportPos] = msEvent->pos();
+        e._pos[EViewportPos] = /*msEvent->pos()*/scene->drawView()->viewport()->mapFromGlobal(msEvent->globalPos());
         e._pos[EGlobelPos]   = msEvent->globalPos();
         e._msBtns = msEvent->button() | msEvent->buttons();
         e._kbMods = msEvent->modifiers();
@@ -740,7 +749,7 @@ IDrawTool::CDrawToolEvent::CDrawToolEvents IDrawTool::CDrawToolEvent::fromQEvent
     case QEvent::GraphicsSceneMouseRelease:
     case QEvent::GraphicsSceneMouseDoubleClick: {
         QGraphicsSceneMouseEvent *msEvent = dynamic_cast<QGraphicsSceneMouseEvent *>(event);
-        e._pos[EViewportPos] = msEvent->pos();
+        e._pos[EViewportPos] = /*msEvent->pos()*/scene->drawView()->viewport()->mapFromGlobal(msEvent->screenPos());
         e._pos[EScenePos]    = msEvent->scenePos();
         e._pos[EGlobelPos]   = msEvent->screenPos();
         e._msBtns = msEvent->button() | msEvent->buttons();
@@ -874,7 +883,9 @@ bool IDrawTool::ITERecordInfo::hasMoved()
 {
     //return (_prePos != _startPos);
 
-    return (_prePos - _startPos).manhattanLength() > dApp->startDragDistance();
+    //return (_prePos - _startPos).manhattanLength() > dApp->startDragDistance();
+
+    return _moved;
 }
 
 QTime *IDrawTool::ITERecordInfo::getTimeHandle()

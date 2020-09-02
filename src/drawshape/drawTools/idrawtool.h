@@ -332,6 +332,7 @@ protected:
         CDrawToolEvent _startEvent;
         CDrawToolEvent _preEvent;
         CDrawToolEvent _curEvent;
+        bool _moved = false;
 
         bool isVaild();
         bool hasMoved();
