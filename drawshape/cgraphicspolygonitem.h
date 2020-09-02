@@ -43,22 +43,35 @@ public:
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
     void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
     void setPointCount(int num);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
     int nPointsCount() const;
 
     void setListPoints(const QVector<QPointF> &listPoints);
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 
 protected:
+    virtual void updateShape() Q_DECL_OVERRIDE {calcPoints();}
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
-    void calcPoints(int n);
+    void calcPoints();
+    static void calcPoints_helper(QVector<QPointF> &outVector, int n, const QRectF &rect, qreal offset = 0.0);
 
 private:
     int m_nPointsCount; //点数
+    QVector<QPointF> m_listPointsForBrush;
     QVector<QPointF> m_listPoints;
-    //QPointF m_listPoints[10];
+
+    friend class CGraphicsPolygonalStarItem;
 };
 
 #endif // CGRAPHICSPOLYGONITEM_H

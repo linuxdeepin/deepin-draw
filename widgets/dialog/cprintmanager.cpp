@@ -40,9 +40,9 @@ CPrintManager::~CPrintManager()
 
 }
 
-void CPrintManager::showPrintDialog(const QPixmap &pixmap, DWidget *widget)
+void CPrintManager::showPrintDialog(const QImage &image, DWidget *widget)
 {
-    m_pixMap = pixmap;
+    m_image = image;
 
     QPrinter printer;
     printer.setOutputFormat(QPrinter::NativeFormat);
@@ -80,18 +80,18 @@ void CPrintManager::slotPrintPreview(QPrinter *printerPixmap)
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
 
     QRect wRect  = printerPixmap->pageRect();
-    QPixmap tmpMap;
+    QImage tmpMap;
 
-    if (m_pixMap.width() > wRect.width() || m_pixMap.height() > wRect.height()) {
-        tmpMap = m_pixMap.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    if (m_image.width() > wRect.width() || m_image.height() > wRect.height()) {
+        tmpMap = m_image.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     } else {
-        tmpMap = m_pixMap;
+        tmpMap = m_image;
     }
 
     QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
                               qreal(wRect.height() - tmpMap.height()) / 2,
                               tmpMap.width(), tmpMap.height());
-    painter.drawPixmap(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                       tmpMap.height(), tmpMap);
+    painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                             tmpMap.height()), tmpMap);
 
 }

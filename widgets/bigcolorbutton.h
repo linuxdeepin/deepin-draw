@@ -36,6 +36,7 @@ public:
     void setColorIndex(int index);
     void updateConfigColor();
     void resetChecked();
+    void setIsMultColorSame(bool isMultColorSame);
 
 signals:
     void btnCheckStateChanged(bool show);
@@ -46,12 +47,14 @@ protected:
     void leaveEvent(QEvent *);
     void mousePressEvent(QMouseEvent * );
 
+
+    void paintLookStyle(QPainter *painter, bool isMult = false);
+
 private:
     QColor m_color;
     bool m_isHover;
     bool m_isChecked;
-
-
+    bool m_isMultColorSame;//多选图元，颜色不一致时使用,单选的时候默认为true
 };
 
 #endif // BIGCOLORBUTTON_H

@@ -22,13 +22,14 @@
 #include "frame/cgraphicsview.h"
 
 #include <QHBoxLayout>
-
+#include <QDebug>
 
 CTitleWidget::CTitleWidget(DWidget *parent)
     : DWidget(parent)
 {
     m_title = new DLabel(this);
-    m_title->setText(tr("Unnamed Drawing"));
+    m_text = tr("Unnamed");
+    m_title->setText(m_text);
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -46,13 +47,27 @@ CTitleWidget::~CTitleWidget()
 
 void CTitleWidget::updateTitleWidget()
 {
-    QString path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
-    if (path.isEmpty()) {
-        m_title->setText(tr("Unnamed Drawing"));
+    // 此处标题只显示画板字样
+    if (m_text.isEmpty()) {
+//        m_title->setText(tr("Draw"));
+        m_title->setText("");
     } else {
-        int index = path.lastIndexOf("/");
-        QString name = path.mid(index + 1);
-        m_title->setText(name);
+        m_title->setText(m_text);
     }
+
+//    QString path = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getDdfSavePath();
+//    if (path.isEmpty()) {
+//        m_title->setText(tr("Draw"));
+//    } else {
+//        int index = path.lastIndexOf("/");
+//        QString name = path.mid(index + 1);
+//        m_title->setText(name);
+    //    }
+}
+
+void CTitleWidget::setTittleText(QString tittle)
+{
+    m_text = tittle;
+    updateTitleWidget();
 }
 

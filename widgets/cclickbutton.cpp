@@ -24,6 +24,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <DWidget>
 
 CClickButton::CClickButton(const QMap<int, QMap<EClickBtnSatus, QString> > &pictureMap, const QSize &size, DWidget *parent) :
     DToolButton(parent),

@@ -20,6 +20,8 @@
 #define FILLSHAPEWIDGET_H
 
 #include <DWidget>
+#include <DSpinBox>
+#include <DLabel>
 #include "drawshape/globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
@@ -29,6 +31,8 @@ class BorderColorButton;
 class BigColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
+class CManageViewSigleton;
+class CSpinBox;
 
 class CommonshapeWidget : public DWidget
 {
@@ -40,6 +44,19 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
+    /**
+     * @brief setRectXRedius 设置圆角矩形半径
+     */
+    void setRectXRedius(int redius);
+    /**
+     * @brief setRectXRediusSpinboxVisible 设置圆角矩形半径是否可见
+     */
+    void setRectXRediusSpinboxVisible(bool visible);
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2cache = true);
 
 signals:
     /**
@@ -57,18 +74,37 @@ signals:
      * @brief signalCommonShapeChanged 属性变化信号
      */
     void signalCommonShapeChanged();
+    /**
+     * @brief signalRectRediusChanged 圆角矩形半径变化信号
+     */
+    void signalRectRediusChanged(int);
+    /**
+     * @brief signalRectRediusIsfocus　圆角矩形半径焦点变化信号
+     */
+    void signalRectRediusIsfocus(bool);
 
 public slots:
     /**
      * @brief updateCommonShapWidget 更新属性栏
      */
     void updateCommonShapWidget();
+    /**
+     * @brief slotRectRediusChanged 圆角矩形半径变化信号
+     */
+    void slotRectRediusChanged(int redius);
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
+//    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
     SeperatorLine *m_sepLine;
+    CSpinBox *m_rediusSpinbox;
+    DLabel *m_rediusLable;
 
 private:
     /**

@@ -22,6 +22,8 @@
 #include <DMainWindow>
 #include <DWidget>
 #include <DGuiApplicationHelper>
+#include <DDialog>
+#include <DWidgetUtil>
 
 #include <QMouseEvent>
 
@@ -37,6 +39,7 @@ class MainWindow: public DMainWindow
     Q_OBJECT
 public:
     MainWindow(DWidget *parent = nullptr);
+    MainWindow(QStringList filePaths); // 需要打开多个文件时的构造函数
     ~MainWindow() Q_DECL_OVERRIDE;
 
     /**
@@ -49,10 +52,11 @@ public:
     void showDrawDialog();
     /**
      * @brief openImage　打开图片或ＤＤＦ文件
-     * @param path　路劲
+     * @param path　路径
      * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
      */
     void openImage(QString path, bool isStartByDDF = false);
+
     /**
      * @brief initScene　初始化场景
      */
@@ -60,6 +64,18 @@ public:
 
     void readSettings();
 
+    /**
+     * @brief openFile　暴露函数接口给其它程序调用，打开多个路径文件
+     * @param filePath　路径
+     * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
+     */
+    Q_INVOKABLE void openFiles(QStringList filePaths);
+    /**
+     * @brief openImage　暴露函数接口给其它程序调用，打开多个图像文件
+     * @param image　图片
+     * @param isStartByDDF　是否以打开ＤＤＦ文件方式启动画板软件
+     */
+    Q_INVOKABLE void openImage(QImage image, const QByteArray &srcData);
 
 signals:
     /**
@@ -89,7 +105,7 @@ public slots:
      * @brief slotLoadDragOrPasteFile　粘贴或拖拽文件槽函数
      * @param files
      */
-    void slotLoadDragOrPasteFile(QString files);
+    void slotLoadDragOrPasteFile(QStringList files);
     /**
      * @brief slotOnEscButtonClick　ＥＳＣ按钮槽函数
      */
@@ -104,22 +120,43 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     virtual void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
+    bool event(QEvent *event) override;
+    bool eventFilter(QObject *o, QEvent *e)override;
+
 
 private slots:
     /**
      * @brief slotShowOpenFileDialog　显示打开文件对话框
      */
     void slotShowOpenFileDialog();
+    /**
+     * @brief slotDDFFileOpened　显示打开文件对话框
+     */
+    void slotDDFFileOpened(QString filename);
+    /**
+     * @brief slotTopToolBarSaveToDDF　保存ddf文件
+     */
+    void slotTopToolBarSaveToDDF();
+    /**
+     * @brief slotLastTabBarRequestClose　最后一个标签被关闭
+     */
+    void slotLastTabBarRequestClose();
+    /**
+     * @brief slotNewDrawScence　新建一个标签
+     */
+    void slotNewDrawScence();
+
 private:
     TopToolbar *m_topToolbar;
     CCentralwidget *m_centralWidget;
     int m_titlebarWidth;
     bool m_contrlKey;
-    DrawDialog *m_quitQuestionDialog;
     QAction *m_quitMode;
     QAction *m_showCut;
     QString tmpPictruePath;
-
+    DDialog m_dialog; // 最后一个标签被关闭提示框
+    QStringList m_closeViews; //待关闭的标签
+    QStringList m_closeUUids; //待关闭的标签uuid
 
 private:
     /**
@@ -130,7 +167,25 @@ private:
      * @brief initUI　初始化ＵＩ
      */
     void initUI();
+    /**
+     * @brief showDragOrOpenFile　显示拖拽或者打开文件
+     * @param files 文件列表路径
+     * @param isOPenFile 是否是打开文件
+     */
+    void showDragOrOpenFile(QStringList files, bool isOPenFile);
+    /**
+     * @brief showSaveQuestionDialog　显示提示是否保存对话框
+     */
+    int showSaveQuestionDialog();
+    /**
+     * @brief doCloseOtherDiv　判断是否需要继续关闭页面
+     */
+    void closeTabViews();
 
+
+    QSet<QWidget *> m_allChilds;
+
+    QLabel *m_pWebsiteLabe = nullptr;
 };
 
 #endif // MAINWINDOW_H

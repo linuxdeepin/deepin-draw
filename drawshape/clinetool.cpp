@@ -45,6 +45,7 @@ void CLineTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
         m_pLineItem = new CGraphicsLineItem(m_sPointPress, m_sPointPress);
         m_pLineItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pLineItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pLineItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pLineItem);
 
         m_bMousePress = true;
@@ -85,4 +86,6 @@ void CLineTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pLineItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

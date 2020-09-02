@@ -28,7 +28,9 @@
 
 #include "utils/baseutils.h"
 
-const QSize COLOR_TIPS_SIZE = QSize(50, 50);
+#include "application.h"
+
+//const QSize COLOR_TIPS_SIZE = QSize(50, 50);
 
 ColorLabel::ColorLabel(DWidget *parent)
     : DLabel(parent)
@@ -151,7 +153,7 @@ void ColorLabel::enterEvent(QEvent *e)
         return;
 
     m_lastCursor = this->cursor();
-    qApp->setOverrideCursor(pickColorCursor());
+    dApp->setApplicationCursor(pickColorCursor());
     QLabel::enterEvent(e);
 }
 
@@ -160,7 +162,7 @@ void ColorLabel::leaveEvent(QEvent *e)
     if (!m_workToPick)
         return;
 
-    qApp->setOverrideCursor(m_lastCursor);
+    dApp->setApplicationCursor(m_lastCursor);
     QLabel::leaveEvent(e);
 }
 

@@ -21,9 +21,10 @@
 #include "widgets/toolbutton.h"
 #include "utils/cvalidator.h"
 #include "drawshape/cdrawparamsigleton.h"
-#include "widgets/cclickbutton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "drawshape/cdrawscene.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DLabel>
 #include <QHBoxLayout>
@@ -69,21 +70,53 @@ void CCutWidget::clearAllChecked()
 
 void CCutWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    m_cutBtn->setCurrentTheme(themeType);
-    m_cancelBtn->setCurrentTheme(themeType);
     m_sepLine->updateTheme();
 }
 
 void CCutWidget::updateButtonStatus()
 {
-    activeFreeMode();
+    // [0] update size
+    updateCutSize();
+
+    // [1] set all unchecked button
+    clearAllChecked();
+
+    // [2] set current checked button
+    ECutType current = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutType();
+    switch (current) {
+    case ECutType::cut_1_1: {
+        m_scaleBtn1_1->setChecked(true);
+        break;
+    }
+    case ECutType::cut_2_3: {
+        m_scaleBtn2_3->setChecked(true);
+        break;
+    }
+    case ECutType::cut_8_5: {
+        m_scaleBtn8_5->setChecked(true);
+        break;
+    }
+    case ECutType::cut_16_9: {
+        m_scaleBtn16_9->setChecked(true);
+        break;
+    }
+    case ECutType::cut_free: {
+        m_freeBtn->setChecked(true);
+        break;
+    }
+    case ECutType::cut_original: {
+        m_originalBtn->setChecked(true);
+        break;
+    }
+    default: {
+        m_freeBtn->setChecked(true);
+    }
+    }
 }
 
 void CCutWidget::initUI()
 {
     DLabel *sizeLabel = new DLabel(this);
-    //sizeLabel->setText(tr("尺寸"));
     sizeLabel->setText(tr("Dimensions"));
     QFont ft;
     ft.setPixelSize(TEXT_SIZE);
@@ -114,10 +147,7 @@ void CCutWidget::initUI()
     m_SizeReduceAction->setShortcut(QKeySequence(Qt::Key_Down));
     this->addAction(m_SizeReduceAction);
 
-
-
     DLabel *scaleLabel = new DLabel(this);
-    //scaleLabel->setText(tr("比例"));
     scaleLabel->setText(tr("Aspect ratio"));
 
     scaleLabel->setFont(ft);
@@ -160,41 +190,17 @@ void CCutWidget::initUI()
 
     m_freeBtn->setChecked(true);
 
-
     m_sepLine = new SeperatorLine(this);
 
+    m_cutBtn = new DPushButton(this);
+    m_cutBtn->setMaximumSize(QSize(38, 38));
+    m_cutBtn->setIcon(QIcon::fromTheme("ddc_cutting_normal"));
+    m_cutBtn->setIconSize(QSize(48, 48));
 
-    QMap<int, QMap<CClickButton::EClickBtnSatus, QString> > pictureMap;
-
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cutting_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cutting_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cutting_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cutting_disable.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cutting_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cutting_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cutting_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cutting_disable.svg");
-
-
-    m_cutBtn = new CClickButton(pictureMap, QSize(46, 46), this);
-//    m_cutBtn->setCheckable(false);
-//    m_cutBtn->setFocusPolicy(Qt::ClickFocus);
-
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Normal] = QString(":/theme/light/images/attribute/cancel_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Hover] = QString(":/theme/light/images/attribute/cancel_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Press] = QString(":/theme/light/images/attribute/cancel_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CClickButton::Disable] = QString(":/theme/light/images/attribute/cancel_disable.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Normal] = QString(":/theme/dark/images/attribute/cancel_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Hover] = QString(":/theme/dark/images/attribute/cancel_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Press] = QString(":/theme/dark/images/attribute/cancel_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CClickButton::Disable] = QString(":/theme/dark/images/attribute/cancel_disable.svg");
-
-
-    m_cancelBtn = new CClickButton(pictureMap, QSize(46, 46), this);
-//    m_cancelBtn->setCheckable(false);
-//    m_cancelBtn->setFocusPolicy(Qt::NoFocus);
+    m_cancelBtn = new DPushButton(this);
+    m_cancelBtn->setMaximumSize(QSize(38, 38));
+    m_cancelBtn->setIcon(QIcon::fromTheme("ddc_cancel_normal"));
+    m_cancelBtn->setIconSize(QSize(48, 48));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -223,7 +229,6 @@ void CCutWidget::initUI()
 
     layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_sepLine);
-    //layout->addSpacing(SEPARATE_SPACING);
     layout->addWidget(m_cancelBtn);
     layout->addWidget(m_cutBtn);
 
@@ -236,7 +241,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn1_1, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_1_1);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn1_1->setChecked(true);
@@ -247,7 +252,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn2_3, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_2_3);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn2_3->setChecked(true);
@@ -258,7 +263,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn8_5, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_8_5);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn8_5->setChecked(true);
@@ -269,7 +274,7 @@ void CCutWidget::initConnection()
     connect(m_scaleBtn16_9, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_16_9);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_scaleBtn16_9->setChecked(true);
@@ -284,13 +289,13 @@ void CCutWidget::initConnection()
         clearAllChecked();
         m_freeBtn->setChecked(true);
 
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
     });
 
     connect(m_originalBtn, &DPushButton::clicked, this, [ = ]() {
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(ButtonClickAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(cut_original);
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
         clearAllChecked();
         m_originalBtn->setChecked(true);
@@ -306,7 +311,6 @@ void CCutWidget::initConnection()
 //        qDebug() << "@@@@@@@@@@@@@HeightFocus=" << isfocus;
         emit signalCutLineEditIsfocus(isfocus);
     });
-
 
     connect(m_widthEdit, &DLineEdit::editingFinished, this, [ = ]() {
 
@@ -325,7 +329,7 @@ void CCutWidget::initConnection()
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
     });
 
@@ -347,7 +351,7 @@ void CCutWidget::initConnection()
         }
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutAttributeType(LineEditeAttribute);
         CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(QSize(w, h));
-        emit signalCutAttributeChanged();
+        CManagerAttributeService::getInstance()->doCut();
 
     });
 
@@ -361,12 +365,23 @@ void CCutWidget::initConnection()
             m_heightEdit->lineEdit()->clearFocus();
         }
 
-        CDrawScene::GetInstance()->doCutScene();
+        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+            curScene->doCutScene();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
+            emit curScene->signalChangeToSelect();
+        }
     });
 
     connect(m_cancelBtn, &DPushButton::clicked, this, [ = ]() {
-
-        CDrawScene::GetInstance()->quitCutMode();
+        if (nullptr != CManageViewSigleton::GetInstance()->getCurView()->scene()) {
+            auto curScene = static_cast<CDrawScene *>(CManageViewSigleton::GetInstance()->getCurView()->scene());
+            curScene->quitCutMode();
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+            CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutType(ECutType::cut_done);
+            emit curScene->signalChangeToSelect();
+        }
     });
 
     connect(m_SizeAddAction, &QAction::triggered, this, [ = ](bool) {
@@ -412,8 +427,6 @@ void CCutWidget::initConnection()
             emit m_heightEdit->lineEdit()->textEdited(text);
         }
     });
-
-
 }
 
 void CCutWidget::activeFreeMode()

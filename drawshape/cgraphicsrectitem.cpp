@@ -25,12 +25,13 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QDebug>
 #include <QGraphicsBlurEffect>
 
 CGraphicsRectItem::CGraphicsRectItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
 {
-    initRect();
+    CGraphicsItem::initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
@@ -38,7 +39,7 @@ CGraphicsRectItem::CGraphicsRectItem(const QRectF &rect, CGraphicsItem *parent)
 {
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    initRect();
+    CGraphicsItem::initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphicsItem *parent)
@@ -48,7 +49,7 @@ CGraphicsRectItem::CGraphicsRectItem(qreal x, qreal y, qreal w, qreal h, CGraphi
     rect = rect.normalized();
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-    initRect();
+    CGraphicsItem::initHandle();
 }
 
 CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, const SGraphicsUnitHead &head, CGraphicsItem *parent)
@@ -68,10 +69,10 @@ CGraphicsRectItem::CGraphicsRectItem(const SGraphicsRectUnitData &rectData, cons
 
     this->m_topLeftPoint = rectData.topLeft;
     this->m_bottomRightPoint =  rectData.bottomRight;
-    this->setTransformOriginPoint(this->rect().center());
+    //this->setTransformOriginPoint(this->rect().center());
+    this->setTransformOriginPoint(QRectF(m_topLeftPoint, m_bottomRightPoint).center());
 
-
-    initRect();
+    CGraphicsItem::initHandle();
 }
 
 CGraphicsRectItem::~CGraphicsRectItem()
@@ -92,8 +93,9 @@ void CGraphicsRectItem::setRect(const QRectF &rect)
     updateGeometry();
 }
 
-void CGraphicsRectItem::initRect()
+void CGraphicsRectItem::initHandle()
 {
+    clearHandle();
     // handles
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
@@ -114,71 +116,65 @@ void CGraphicsRectItem::initRect()
     this->setAcceptHoverEvents(true);
 }
 
+void CGraphicsRectItem::setXYRedius(int xRedius, int yRedius)
+{
+    m_xRedius = xRedius;
+    m_yRedius = yRedius;
+}
+
+int CGraphicsRectItem::getXRedius()
+{
+    return  m_xRedius;
+}
+
+QPainterPath CGraphicsRectItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRoundedRect(this->rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+    return path;
+}
+
 void CGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
     updateGeometry();
-    painter->setPen(pen());
-    painter->setBrush(brush());
-    painter->drawRect(rect());
 
-    if (this->isSelected()) {
+    beginCheckIns(painter);
+
+    //先绘制填充
+    QPen curPen = this->pen();
+    qreal penWidthOffset = curPen.widthF() / 2.0;
+    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
+                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(brush());
+    painter->drawRoundedRect(rectIn, qMax(m_xRedius - penWidthOffset, 0.0), qMax(m_yRedius - penWidthOffset, 0.0), Qt::AbsoluteSize);
+
+    //再绘制描边
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
+    painter->drawRoundedRect(rect(), m_xRedius, m_yRedius, Qt::AbsoluteSize);
+
+    endCheckIns(painter);
+
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
         painter->setClipping(true);
     }
-
-    /*QGraphicsScene *scene = this->scene();
-    //绘制滤镜
-    if (scene != nullptr) {
-        //QPixmap pixmap(int(this->scene()->width()), int(this->scene()->height()));
-        //pixmap.fill();
-
-        QPixmap pixmap(this->scene()->sceneRect().width(), this->scene()->sceneRect().height());
-
-        QPainter painterd(&pixmap);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-        this->scene()->render(&painterd);
-        painter->drawPixmap(this->rect(), pixmap, QRectF());
-
-
-
-
-
-        QPainter painterd(&pixmap);
-        painterd.setRenderHint(QPainter::Antialiasing);
-        painterd.setRenderHint(QPainter::SmoothPixmapTransform);
-        //painterd.setClipRect(this->mapRectToScene(this->rect()));
-
-        bool flag = this->isSelected();
-        //this->setVisible(false);
-        scene->render(&painterd);
-        //this->setVisible(true);
-        this->setSelected(flag);
-
-        QPixmap tmpPixmap = pixmap.copy(this->mapRectToScene(this->rect()).toRect());
-        int imgWidth = tmpPixmap.width();
-        int imgHeigth = tmpPixmap.height();
-        int radius = 5;
-        tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        painter->drawPixmap(this->rect(), tmpPixmap, QRectF());
-
-        //        painter->drawPixmap(this->rect(), pixmap, this->rect());
-    }*/
-
 }
 
 void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -542,9 +538,301 @@ void CGraphicsRectItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF 
     updateGeometry();
 }
 
+void CGraphicsRectItem::resizeToMul(CSizeHandleRect::EDirection dir,
+                                    const QPointF &offset,
+                                    const double &xScale, const double &yScale,
+                                    bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(bShiftPress);
+    Q_UNUSED(bAltPress);
+
+    QRectF rect = this->rect();
+    QPointF bottomRight = rect.bottomRight();
+    QPointF topLeft = rect.topLeft();
+    QPointF topRight = rect.topRight();
+    QPointF bottomLeft = rect.bottomLeft();
+    switch (dir) {
+    case CSizeHandleRect::LeftTop:
+        qDebug() << "CSizeHandleRect::LeftTop" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::Top:
+        qDebug() << "CSizeHandleRect::Top" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    case CSizeHandleRect::RightTop:
+        qDebug() << "CSizeHandleRect::RightTop" <<  endl;
+        topRight.setX(topRight.x() + rect.width() * xScale);
+        topRight.setY(topRight.y() + rect.height() * yScale);
+        rect.setTopRight(topRight);
+        break;
+    case CSizeHandleRect::Right:
+        qDebug() << "CSizeHandleRect::Right" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::RightBottom:
+        qDebug() << "CSizeHandleRect::RightBottom" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::Bottom:
+        qDebug() << "CSizeHandleRect::Bottom" <<  endl;
+        bottomRight.setX(bottomRight.x() + rect.width()*xScale);
+        bottomRight.setY(bottomRight.y() + rect.height()*yScale);
+        rect.setBottomRight(bottomRight);
+        break;
+    case CSizeHandleRect::LeftBottom:
+        qDebug() << "CSizeHandleRect::LeftBottom" <<  endl;
+        bottomLeft.setX(bottomLeft.x() + rect.width() * xScale);
+        bottomLeft.setY(bottomLeft.y() + rect.height()*yScale);
+        rect.setBottomLeft(bottomLeft);
+        break;
+    case CSizeHandleRect::Left:
+        qDebug() << "CSizeHandleRect::Left" <<  endl;
+        topLeft.setX(topLeft.x() + rect.width() * xScale);
+        topLeft.setY(topLeft.y() + rect.height() * yScale);
+        rect.setTopLeft(topLeft);
+        break;
+    default:
+        break;
+    }
+    this->setRect(rect);
+    this->moveBy(offset.x(), offset.y());
+    updateGeometry();
+}
+
+void CGraphicsRectItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
+                                      QRectF pressRect, QRectF itemPressRect,
+                                      const qreal &xScale, const qreal &yScale,
+                                      bool bShiftPress, bool bAltPress)
+{
+    prepareGeometryChange();
+    QRectF rect;
+    rect = itemPressRect;
+    qDebug() << "************CGraphicsRectItem rect = " << rect;
+    if (!bShiftPress && !bAltPress) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            qDebug() << "CSizeHandleRect::LeftTop" <<  endl;
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            break;
+        case CSizeHandleRect::Top:
+            qDebug() << "CSizeHandleRect::Top" <<  endl;
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            break;
+        case CSizeHandleRect::RightTop:
+            qDebug() << "CSizeHandleRect::RightTop" <<  endl;
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            break;
+        case CSizeHandleRect::Right:
+            qDebug() << "CSizeHandleRect::Right" <<  endl;
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            break;
+        case CSizeHandleRect::RightBottom:
+            qDebug() << "CSizeHandleRect::RightBottom" <<  endl;
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            break;
+        case CSizeHandleRect::Bottom:
+            qDebug() << "CSizeHandleRect::Bottom" <<  endl;
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            break;
+        case CSizeHandleRect::LeftBottom:
+            qDebug() << "CSizeHandleRect::LeftBottom" <<  endl;
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            break;
+        case CSizeHandleRect::Left:
+            qDebug() << "CSizeHandleRect::Left" <<  endl;
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            break;
+        default:
+            break;
+        }
+    } else if ((bShiftPress && !bAltPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            break;
+        case CSizeHandleRect::Top:
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            break;
+        case CSizeHandleRect::RightTop:
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            rect.setTop(pressRect.bottom() - (pressRect.bottom() - itemPressRect.top()) * yScale);
+            rect.setBottom(pressRect.bottom() - (pressRect.bottom() - itemPressRect.bottom()) * yScale);
+            break;
+        case CSizeHandleRect::Right:
+            qDebug() << "CGraphicsRectItem CSizeHandleRect::Right bShiftPress" <<  endl;
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            rect.setTop(itemPressRect.top() + (pressRect.top() + pressRect.height() / 2 - itemPressRect.top()) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.top() + pressRect.height() / 2 - itemPressRect.bottom()) * (1 - yScale));
+            break;
+        case CSizeHandleRect::RightBottom:
+            rect.setLeft(pressRect.left() + (itemPressRect.left() - pressRect.left())*xScale);
+            rect.setRight(pressRect.left() + (itemPressRect.right() - pressRect.left())*xScale);
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            break;
+        case CSizeHandleRect::Bottom:
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.right()) * (1 - yScale));
+            break;
+        case CSizeHandleRect::LeftBottom:
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            rect.setTop(pressRect.top() + (itemPressRect.top() - pressRect.top()) * yScale);
+            rect.setBottom(pressRect.top() + (itemPressRect.bottom() - pressRect.top()) * yScale);
+            break;
+        case CSizeHandleRect::Left:
+            rect.setLeft(pressRect.right() - (pressRect.right() - itemPressRect.left()) * xScale);
+            rect.setRight(pressRect.right() - (pressRect.right() - itemPressRect.right()) * xScale);
+            rect.setTop(itemPressRect.top() + (pressRect.top() + pressRect.height() / 2 - itemPressRect.top()) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.top() + pressRect.height() / 2 - itemPressRect.bottom()) * (1 - yScale));
+            break;
+        default:
+            break;
+        }
+    } else if ((!bShiftPress && bAltPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Top:
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::RightTop:
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            break;
+        case CSizeHandleRect::Right:
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            break;
+        case CSizeHandleRect::RightBottom:
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Bottom:
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::LeftBottom:
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Left:
+            qDebug() << "CGraphicsRectItem CSizeHandleRect::Right bAltPress" <<  endl;
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            break;
+        default:
+            break;
+        }
+    } else if ((bShiftPress && bAltPress) ) {
+        switch (dir) {
+        case CSizeHandleRect::LeftTop:
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Top:
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::RightTop:
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            break;
+        case CSizeHandleRect::Right:
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::RightBottom:
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Bottom:
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            rect.setLeft(itemPressRect.left() - (itemPressRect.left() - pressRect.left() - pressRect.width() / 2) * (1 - xScale));
+            rect.setRight(itemPressRect.right() - (itemPressRect.right() - pressRect.left() - pressRect.width() / 2 ) * (1 - xScale));
+            break;
+        case CSizeHandleRect::LeftBottom:
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        case CSizeHandleRect::Left:
+            qDebug() << "CGraphicsRectItem CSizeHandleRect::Right bAltPress" <<  endl;
+            rect.setLeft(itemPressRect.left() + (pressRect.left() + pressRect.width() / 2 - itemPressRect.left()) * (1 - xScale));
+            rect.setRight(itemPressRect.right() + (pressRect.right() - pressRect.width() / 2 - itemPressRect.right()) * (1 - xScale));
+            rect.setTop(itemPressRect.top() + (pressRect.bottom() - itemPressRect.top() - pressRect.height() / 2) * (1 - yScale));
+            rect.setBottom(itemPressRect.bottom() + (pressRect.bottom() - itemPressRect.bottom() - pressRect.height() / 2) * (1 - yScale));
+            break;
+        default:
+            break;
+        }
+    }
+    this->setRect(this->mapRectFromScene(rect));
+    updateGeometry();
+}
+
 void CGraphicsRectItem::duplicate(CGraphicsItem *item)
 {
     static_cast<CGraphicsRectItem * >(item)->setRect(this->rect());
+    static_cast<CGraphicsRectItem * >(item)->setXYRedius(m_xRedius, m_yRedius);
     CGraphicsItem::duplicate(item);
 }
 
@@ -564,6 +852,8 @@ CGraphicsUnit CGraphicsRectItem::getGraphicsUnit() const
     unit.data.pRect = new SGraphicsRectUnitData();
     unit.data.pRect->topLeft = this->m_topLeftPoint;
     unit.data.pRect->bottomRight = this->m_bottomRightPoint;
+    unit.data.pRect->xRedius = this->m_xRedius;
+    unit.data.pRect->yRedius = this->m_yRedius;
 
     return unit;
 }

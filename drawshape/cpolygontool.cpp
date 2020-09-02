@@ -48,6 +48,7 @@ void CPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *
         m_pPolygonItem = new CGraphicsPolygonItem(num, m_sPointPress.x(), m_sPointPress.y(), 0, 0);
         m_pPolygonItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pPolygonItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pPolygonItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pPolygonItem);
 
         m_bMousePress = true;
@@ -156,6 +157,7 @@ void CPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene
         m_bMousePress = false;
     }
 
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
     //TODO 如果没有拖动的功能   是否删除矩形
 }

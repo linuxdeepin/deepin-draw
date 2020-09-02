@@ -21,6 +21,11 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
+#include "cdrawtoolmanagersigleton.h"
+#include "cdrawscene.h"
+#include "cselecttool.h"
+#include "cgraphicsitem.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
@@ -41,7 +46,8 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, EDirection d)
     setCacheMode(NoCache);
     setSharedRenderer(&m_lightRenderer);
     hide();
-
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
 }
 
 CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirection d, const QString &filename)
@@ -54,6 +60,20 @@ CSizeHandleRect::CSizeHandleRect(QGraphicsItem *parent, CSizeHandleRect::EDirect
     setParentItem(parent);
     setCacheMode(NoCache);
     hide();
+
+    setFlag(ItemIsSelectable, false);
+    setFlag(ItemIsMovable, false);
+}
+
+CGraphicsView *CSizeHandleRect::curView() const
+{
+    CGraphicsView *parentView = nullptr;
+    if (scene() != nullptr) {
+        if (!scene()->views().isEmpty()) {
+            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+        }
+    }
+    return parentView;
 }
 
 void CSizeHandleRect::updateCursor()
@@ -89,18 +109,24 @@ void CSizeHandleRect::updateCursor()
     setCursor(Qt::ArrowCursor);
 }
 
-
 void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
+    //如果仅存在功能那么什么都不用绘制了
+    if (m_onlyLogicAblity)
+        return;
+
+    if (isFatherDragging())
+        return;
+
     if (!m_isRotation) {
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1 && renderer() != &m_lightRenderer) {
+        if (/* CManageViewSigleton::GetInstance()->getThemeType() == 1 && */renderer() != &m_lightRenderer) {
             setSharedRenderer(&m_lightRenderer);
-        } else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
+        } /*else if (CManageViewSigleton::GetInstance()->getThemeType() == 2 && renderer() != &m_darkRenderer) {
             setSharedRenderer(&m_darkRenderer);
-        }
+        }*/
     }
 
     painter->setClipping(false);
@@ -109,9 +135,22 @@ void CSizeHandleRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     this->renderer()->render(painter, rect);
     painter->setClipping(true);
 
-//    painter->setClipping(true);
-//    QGraphicsSvgItem::paint(painter, option, widget);
+}
 
+bool CSizeHandleRect::isFatherDragging()
+{
+    CGraphicsItem *pParentItem = dynamic_cast<CGraphicsItem *>(parentItem());
+    if (pParentItem != nullptr && pParentItem->isSelected()) {
+        CDrawScene *pDrawScene = qobject_cast<CDrawScene *>(scene());
+        if (pDrawScene != nullptr) {
+            EDrawToolMode model = pDrawScene->getDrawParam()->getCurrentDrawToolMode();
+            if (model == selection) {
+                CSelectTool *pTool = dynamic_cast<CSelectTool *>(CDrawToolManagerSigleton::GetInstance()->getDrawTool(model));
+                return (pTool != nullptr && pTool->isDragging());
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -150,7 +189,10 @@ void CSizeHandleRect::move(qreal x, qreal y)
 
 QRectF CSizeHandleRect::boundingRect() const
 {
-    qreal scale = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale();
+    if (curView() == nullptr)
+        return QRectF();
+
+    qreal scale = curView()->getDrawParam()->getScale();
     QRectF rect = QGraphicsSvgItem::boundingRect();
     rect.setWidth(rect.width() / scale);
     rect.setHeight(rect.height() / scale);
@@ -160,11 +202,20 @@ QRectF CSizeHandleRect::boundingRect() const
 void CSizeHandleRect::setVisible(bool flag)
 {
     m_bVisible = flag;
+    if (parentItem() != nullptr && parentItem()->isSelected()) {
+        m_bVisible ? show() : hide();
+    }
 }
 
 bool CSizeHandleRect::getVisible() const
 {
     return m_bVisible;
+}
+
+void CSizeHandleRect::setJustExitLogicAbility(bool b)
+{
+    m_onlyLogicAblity = b;
+    update();
 }
 
 

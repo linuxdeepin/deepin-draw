@@ -27,8 +27,8 @@
 class CPictureItem : public  CGraphicsRectItem
 {
 public:
-    explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr);
-    explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr);
+    explicit CPictureItem(const QPixmap &pixmap = QPixmap(), CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
+    explicit CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent = nullptr, const QByteArray &fileSrcData = QByteArray());
     explicit CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CPictureItem() Q_DECL_OVERRIDE;
     virtual int  type() const Q_DECL_OVERRIDE;
@@ -42,6 +42,7 @@ public:
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    virtual QPainterPath  getHighLightPath() Q_DECL_OVERRIDE;
 
     void setPixmap(const QPixmap &pixmap);
 
@@ -53,9 +54,11 @@ public:
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
+
 private:
     QPixmap m_pixmap;
     qreal m_angle;
+    QByteArray _srcByteArry;
 };
 
 #endif // CPICTUREITEM_H

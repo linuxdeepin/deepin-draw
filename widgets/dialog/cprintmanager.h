@@ -33,12 +33,12 @@ public:
     explicit CPrintManager(QObject *parent = nullptr);
     ~CPrintManager();
 
-    void showPrintDialog(const QPixmap &pixmap, QWidget *widget);
+    void showPrintDialog(const QImage &image, QWidget *widget);
 
 private slots:
     void slotPrintPreview(QPrinter *printerPixmap);
 private:
-    QPixmap m_pixMap;
+    QImage m_image;
 };
 
 #endif // CPRINTMANAGER_H

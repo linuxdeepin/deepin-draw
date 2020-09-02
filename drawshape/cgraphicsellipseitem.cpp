@@ -84,24 +84,46 @@ CGraphicsUnit CGraphicsEllipseItem::getGraphicsUnit() const
     return unit;
 }
 
+QPainterPath CGraphicsEllipseItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addEllipse(rect());
+    return path;
+}
+
 void CGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
     Q_UNUSED(widget)
     updateGeometry();
-    painter->setPen(pen());
+
+    beginCheckIns(painter);
+
+    QPen curPen = this->pen();
+    qreal penWidthOffset = curPen.widthF() / 2.0;
+    QRectF rectIn = QRectF(rect().topLeft() + QPointF(penWidthOffset, penWidthOffset),
+                           rect().size() - QSizeF(2 * penWidthOffset, 2 * penWidthOffset));
+
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
+    painter->drawEllipse(rectIn);
+
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
     painter->drawEllipse(rect());
-//    painter->drawRect(rect());
-    if (this->isSelected()) {
+
+    endCheckIns(painter);
+
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

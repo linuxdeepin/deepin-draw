@@ -67,22 +67,18 @@ class ColorPanel : public DWidget
     Q_OBJECT
 public:
     ColorPanel(DWidget *parent = nullptr);
-    ~ColorPanel();
+    ~ColorPanel() override;
     /**
      * @brief updateColorPanel 更新调色板
      * @param status　状态
      */
-    void updateColorPanel(DrawStatus status);
+    void updateColorPanel(DrawStatus status, QColor color, int alpha);
 
 signals:
     /**
      * @brief updateHeight　更新调色板高度信号
      */
     void updateHeight();
-    /**
-     * @brief signalColorChanged　发送调色改变信号
-     */
-    void signalColorChanged();
     /**
      * @brief signalChangeFinished　发送改变结束信号
      */

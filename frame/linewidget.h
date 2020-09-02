@@ -20,15 +20,16 @@
 #define LINEWIDGET_H
 
 #include <DWidget>
+#include <DLabel>
 
 #include "drawshape/globaldefine.h"
-
 
 class CSideWidthWidget;
 class BorderColorButton;
 class SeperatorLine;
-class CCheckButton;
+//class DMenuComboBox;
 
+Q_DECLARE_METATYPE(ELineType);
 DWIDGET_USE_NAMESPACE
 
 class LineWidget : public DWidget
@@ -41,13 +42,20 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
 public slots:
     /**
      * @brief updateLineWidget　更新属性栏
      */
     void updateLineWidget();
-
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 signals:
     /**
      * @brief resetColorBtns　重置颜色按钮
@@ -66,12 +74,19 @@ signals:
     void signalLineAttributeChanged();
 
 private:
-    CSideWidthWidget *m_sideWidthWidget;
-    BorderColorButton *m_strokeBtn;
-    SeperatorLine *m_sep1Line;
-    CCheckButton *m_straightline;
-    CCheckButton *m_arrowline;
-    QList<CCheckButton *> m_actionButtons;
+    CSideWidthWidget *m_sideWidthWidget; // 线宽
+    BorderColorButton *m_strokeBtn; // 线颜色
+    SeperatorLine *m_sep1Line; // 竖线
+
+//    DMenuComboBox *m_lineStartComboBox; // 线段起点样式
+//    DMenuComboBox *m_lineEndComboBox; // 线段终点样式
+    DComboBox *m_lineStartComboBox; // 线段起点样式
+    DComboBox *m_lineEndComboBox; // 线段终点样式
+    DLabel *m_startLabel;
+    DLabel *m_endLabel;
+
+    DLabel *m_maskLableStart;
+    DLabel *m_maskLableEnd;
 
 private:
     /**
@@ -82,11 +97,6 @@ private:
      * @brief initConnection　初始化连接
      */
     void initConnection();
-    /**
-     * @brief clearOtherSelections　清除其他按钮选中状态
-     * @param clickedButton
-     */
-    void clearOtherSelections(CCheckButton *clickedButton);
 };
 
 #endif // LINEWIDGET_H

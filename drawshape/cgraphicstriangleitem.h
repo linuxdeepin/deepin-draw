@@ -39,7 +39,11 @@ protected:
      * @return
      */
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
-
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath()Q_DECL_OVERRIDE;
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 };

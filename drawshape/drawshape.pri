@@ -34,7 +34,9 @@ HEADERS += \
     $$PWD/cbuttonrect.h \
     $$PWD/sitemdata.h \
     $$PWD/cgraphicsmasicoitem.h \
-    $$PWD/cmasicotool.h
+    $$PWD/cmasicotool.h \
+    $$PWD/cgraphicsitemselectedmgr.h \
+    $$PWD/cgraphicsitemhighlight.h
 
 SOURCES += \
     $$PWD/cdrawtoolmanagersigleton.cpp \
@@ -70,7 +72,9 @@ SOURCES += \
     $$PWD/cgraphicscutitem.cpp \
     $$PWD/cbuttonrect.cpp \
     $$PWD/cgraphicsmasicoitem.cpp \
-    $$PWD/cmasicotool.cpp
+    $$PWD/cmasicotool.cpp \
+    $$PWD/cgraphicsitemselectedmgr.cpp \
+    $$PWD/cgraphicsitemhighlight.cpp
 
 
 
@@ -79,4 +83,4 @@ SOURCES += \
 
 RESOURCES += \
     $$PWD/images.qrc \
-    $$PWD/icons.qrc
+    $$PWD/cursorIcons.qrc

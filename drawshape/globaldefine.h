@@ -20,6 +20,7 @@
 #define GLODEFINE_H
 #include <QGraphicsItem>
 enum EDrawToolMode {
+    noselected,     //未选中或无公共属性不显示
     selection,      //选择
     importPicture,  //导入图片
     rectangle,      //矩形
@@ -31,7 +32,29 @@ enum EDrawToolMode {
     pen,            //画笔
     text,           //文本
     blur,           //模糊
-    cut            //裁剪画板
+    cut             //裁剪画板
+};
+
+// 显示工具栏所有属性
+enum EDrawProperty {     // 图片、文字、马赛克根据类型全部显示
+    FillColor = 0,       // 填充颜色
+    LineWidth,           // 线宽
+    LineColor,           // 描边颜色
+    RectRadius,          // 矩形圆角
+    Anchors,             // 锚点
+    StarRadius,          // 五角星圆角
+    SideNumber,          // 侧边数
+    LineAndPenStartType,  // 起点类型
+    LineAndPenEndType,    // 终点类型
+    TextColorAlpha,      //文本颜色透明度,需要放在颜色前面进行更新
+    TextColor,           // 文本颜色
+    TextFont,            // 文本字体
+    TextHeavy,          // 文本自重
+    TextSize,            // 文本大小
+    FillColorAlpha,      //填充颜色透明度
+    LineColorAlpha,      //描边颜色透明度
+    Blurtype,            //模糊类型
+    BlurWidth            //模糊粗细
 };
 
 enum ESelectMode {
@@ -54,12 +77,17 @@ enum EPenType {
 };
 
 enum ELineType {
-    straightType,   // 直线
-    arrowType      // 箭头
+    noneLine,     // 无
+    normalRing,   // 空心圆
+    soildRing,     // 实心圆
+    normalArrow,  // 普通箭头
+    soildArrow   // 实心箭头
+
 };
 
 enum EGraphicUserType {
-    RectType = QGraphicsItem::UserType + 1,      //矩形
+    NoType = QGraphicsItem::UserType,      //公共选择没有公共属性的时候用
+    RectType,      //矩形
     EllipseType,        //圆形
     TriangleType,       //三角形
     PolygonalStarType,  //多角星
@@ -69,7 +97,9 @@ enum EGraphicUserType {
     TextType,           //文本
     PictureType,        //图片
     CutType,            //裁剪
-    BlurType            //模糊
+    BlurType,           //模糊
+    MgrType =  QGraphicsItem::UserType + 100,    //多选管理图元
+    hightLightType      //高亮图元
 };
 
 enum ECutAttributeType {
@@ -84,7 +114,8 @@ enum ECutType {
     cut_8_5,        //8:5裁剪
     cut_16_9,       //16:9裁剪
     cut_free,        //自由裁剪
-    cut_original     //裁剪框恢复画板初始大小
+    cut_original,  //裁剪框恢复画板初始大小
+    cut_done        //裁剪完成
 };
 
 enum EBlurEffect {
@@ -99,5 +130,12 @@ enum ESaveDDFTriggerAction {
     NewDrawingBoard,     //保存完后新建画板
     ImportPictrue,       //保存完后打开图片文件
     SaveAction           //正常保存,保存完后不做任何事
+};
+
+enum ERotationType { //图元旋转枚举
+    LeftRotate_90,     //左旋转90
+    RightRotate_90,    //右旋转90
+    FlipHorizontal, //水平镜像翻转
+    FlipVertical    //垂直镜像翻转
 };
 #endif // GLODEFINE_H

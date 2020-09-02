@@ -36,9 +36,16 @@ public:
      * @param alpha　颜色ａｌｐｈａ值
      */
     void updateAlphaControlWidget(int alpha);
+
+    /*
+    * @bref:getCurrentAlphaValue 获取当前alpha值
+    * @return: int alpha值
+    */
+    int getCurrentAlphaValue();
+
 signals:
     /**
-     * @brief signalAlphaChanged　ａｌｐｈａ值改变信号
+     * @brief signalAlphaChanged　alpha值改变信号
      */
     void signalAlphaChanged(int);
     /**

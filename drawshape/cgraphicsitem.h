@@ -27,6 +27,8 @@
 #include <QAbstractGraphicsShapeItem>
 #include <QCursor>
 
+class CGraphicsView;
+
 class CGraphicsItem : public QAbstractGraphicsShapeItem
 {
 public:
@@ -43,6 +45,12 @@ public:
      */
     CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent);
     enum {Type = UserType};
+
+    /**
+     * @brief type 返回当前所处的view
+     * @return
+     */
+    CGraphicsView *curView()const;
 
     /**
      * @brief type 返回当前图元类型
@@ -69,9 +77,25 @@ public:
      * @param dir 拉伸方向
      * @param point 移动距离
      * @param bShiftPress shift键是否按下
-     * @param bAltPress alt键是否按下
+     * @param bAltPress alt键是rectCffset否按下
      */
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) = 0;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress ) = 0;
+    /**
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @param dir 8个方向
+     * @param offset x，y方向移动距离
+     * @param xScale X轴放大缩小比例
+     * @param yScale y轴放大缩小比例
+     */
+    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                             const double &xScale, const double &yScale,
+                             bool bShiftPress, bool bAltPress);
+
+    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
+                               QRectF pressRect, QRectF itemPressRect,
+                               const qreal &xScale, const qreal &yScale,
+                               bool bShiftPress, bool bAltPress);
 
     /**
      * @brief duplicate 复制this图元到item图元
@@ -93,6 +117,11 @@ public:
     virtual void move(QPointF beginPoint, QPointF movePoint);
 
     /**
+      * @brief updateShape  刷新图元的形状(属性变化时调用重新计算图元的形状和样式)
+      */
+    virtual void updateShape() {}
+
+    /**
      * @brief setSizeHandleRectFlag 设置边界各个方向上的矩形是否可见
      * @param dir 方向
      * @param flag true: 显示  false:不显示
@@ -109,6 +138,32 @@ public:
 
     virtual QRectF rect() const = 0;
 
+    /**
+     * @brief setMutiSelect 设置图元选中状态
+     * @param flag
+     */
+    void setMutiSelect(bool flag);
+
+    /**
+     * @brief getMutiSelect 获取图元选中状态
+     * @return
+     */
+    bool getMutiSelect() const;
+
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath();
+
+    /**
+     * @brief scenRect 图元相对scen左上角的准确位置rect
+     * @return
+     */
+    QRectF  scenRect();
+
+    virtual void    clearHandle();
+    virtual void    initHandle();
 protected:
     /**
      * @brief updateGeometry 更新状态矩形位置
@@ -131,9 +186,14 @@ protected:
      */
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 
+    void  beginCheckIns(QPainter *painter);
+    void  endCheckIns(QPainter *painter);
+
 protected:
     typedef QVector<CSizeHandleRect *> Handles;
     Handles m_handles;  //选中时 显示的小方框
+
+    bool m_bMutiSelectFlag; //设置选中状态 不用系统的选中方式，由自己管理
 };
 
 #endif // CGRAPHICSITEM_H

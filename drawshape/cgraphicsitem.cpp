@@ -22,6 +22,8 @@
 #include "cgraphicsproxywidget.h"
 #include "cdrawscene.h"
 #include "widgets/ctextedit.h"
+#include "frame/cgraphicsview.h"
+
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QVariant>
@@ -45,18 +47,19 @@ QPainterPath CGraphicsItem::qt_graphicsItem_shapeFromPath(const QPainterPath &pa
     QPainterPath p = ps.createStroke(path);
     p.addPath(path);
     return p;
-
 }
 
 
 CGraphicsItem::CGraphicsItem(QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
+    , m_bMutiSelectFlag(false)
 {
 
 }
 
 CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *parent)
     : QAbstractGraphicsShapeItem(parent)
+    , m_bMutiSelectFlag(false)
 {
 
     this->setPen(head.pen);
@@ -65,6 +68,44 @@ CGraphicsItem::CGraphicsItem(const SGraphicsUnitHead &head, QGraphicsItem *paren
     this->setRotation(head.rotate);
     this->setPos(head.pos);
     this->setZValue(head.zValue);
+}
+
+CGraphicsView *CGraphicsItem::curView() const
+{
+    CGraphicsView *parentView = nullptr;
+    if (scene() != nullptr) {
+        if (!scene()->views().isEmpty()) {
+            parentView = dynamic_cast<CGraphicsView *>(scene()->views().first());
+        }
+    }
+    return parentView;
+}
+
+void CGraphicsItem::setMutiSelect(bool flag)
+{
+    m_bMutiSelectFlag = flag;
+}
+
+bool CGraphicsItem::getMutiSelect() const
+{
+    auto curSelectFlag = m_bMutiSelectFlag;
+    if (isSelected()) {
+        curSelectFlag = isSelected();
+    }
+    return curSelectFlag;
+}
+
+QPainterPath CGraphicsItem::getHighLightPath()
+{
+    return QPainterPath();
+}
+
+QRectF CGraphicsItem::scenRect()
+{
+    if (scene() != nullptr) {
+        return sceneBoundingRect().translated(-scene()->sceneRect().topLeft());
+    }
+    return sceneBoundingRect();
 }
 
 int CGraphicsItem::type() const
@@ -87,6 +128,32 @@ CSizeHandleRect::EDirection CGraphicsItem::hitTest(const QPointF &point) const
     }
 
     return CSizeHandleRect::None;
+}
+
+void CGraphicsItem::resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                                const double &xScale, const double &yScale,
+                                bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(dir)
+    Q_UNUSED(offset)
+    Q_UNUSED(xScale)
+    Q_UNUSED(yScale)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
+}
+
+void CGraphicsItem::resizeToMul_7(CSizeHandleRect::EDirection dir,
+                                  QRectF pressRect, QRectF itemPressRect,
+                                  const qreal &xScale, const qreal &yScale,
+                                  bool bShiftPress, bool bAltPress)
+{
+    Q_UNUSED(dir)
+    Q_UNUSED(itemPressRect)
+    Q_UNUSED(pressRect)
+    Q_UNUSED(xScale)
+    Q_UNUSED(yScale)
+    Q_UNUSED(bShiftPress)
+    Q_UNUSED(bAltPress)
 }
 
 void CGraphicsItem::duplicate(CGraphicsItem *item)
@@ -134,7 +201,7 @@ void CGraphicsItem::setState(ESelectionHandleState st)
 
 void CGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-
+    Q_UNUSED(event);
 }
 
 QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -170,10 +237,78 @@ QVariant CGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, con
 //            }
 //        }
 
-        CDrawScene::GetInstance()->updateBlurItem(this);
+        if (nullptr != scene()) {
+            auto curScene = static_cast<CDrawScene *>(scene());
+            curScene->updateBlurItem(this);
+        }
+    }
+
+    if (QGraphicsItem::ItemSceneChange == change ) {
+
+        if (this->type() >= RectType && this->type() < MgrType) {
+            QGraphicsScene *pScene = qvariant_cast<QGraphicsScene *>(value);
+            if (pScene == nullptr) {
+                clearHandle();
+            } else {
+                initHandle();
+            }
+        }
+
     }
 
     return value;
 }
 
+void CGraphicsItem::beginCheckIns(QPainter *painter)
+{
+    if (scene() == nullptr || !rect().isValid())
+        return;
 
+    painter->save();
+    QRectF sceneRct = scene()->sceneRect();
+    QRectF itemRct  = mapToScene(rect()).boundingRect();
+    bool hasIntersects = sceneRct.intersects(itemRct);
+    if (!hasIntersects) {
+        painter->setOpacity(0.2);//透明度设置
+    }
+    painter->setClipping(hasIntersects);
+}
+
+void CGraphicsItem::endCheckIns(QPainter *painter)
+{
+    if (scene() == nullptr || !rect().isValid())
+        return;
+    painter->restore();
+}
+void CGraphicsItem::clearHandle()
+{
+    for (CSizeHandleRect *pItem : m_handles) {
+        pItem->setParentItem(nullptr);
+        if (pItem->scene() != nullptr) {
+            pItem->scene()->removeItem(pItem);
+        }
+    }
+    m_handles.clear();
+}
+void CGraphicsItem::initHandle()
+{
+    clearHandle();
+    // handles
+    m_handles.reserve(CSizeHandleRect::None);
+    for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Rotation; ++i) {
+        CSizeHandleRect *shr = nullptr;
+        if (i == CSizeHandleRect::Rotation) {
+            shr   = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i), QString(":/theme/light/images/mouse_style/icon_rotate.svg"));
+
+        } else {
+            shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
+        }
+        m_handles.push_back(shr);
+
+    }
+    updateGeometry();
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setAcceptHoverEvents(true);
+}

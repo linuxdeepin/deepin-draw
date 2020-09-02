@@ -19,36 +19,50 @@
 #include "cdrawparamsigleton.h"
 #include <QGuiApplication>
 
-CDrawParamSigleton::CDrawParamSigleton()
+#include "frame/cviewmanagement.h"
+#include "frame/cgraphicsview.h"
+
+CDrawParamSigleton::CDrawParamSigleton(const QString &uuid, bool isModified)
     : m_nlineWidth(2)
     , m_sLineColor(Qt::black)//black
-    , m_nFillColor(Qt::transparent)//transparent
+    , m_rectXRedius(5)
     , m_radiusNum(50)
     , m_anchorNum(5)
     , m_sideNum(5)
-    , m_currentPenType(EPenType::straight)
-    , m_textFont(QFont())
+    , m_textFont(QFont("Bitstream Charter"))
     , m_textColor(Qt::black)
-    , m_singleFontFlag(true)
     , m_currentDrawToolMode(selection)
     , m_bShiftKeyPress(false)
     , m_bAltKeyPress(false)
     , m_bCtlKeyPress(false)
     , m_Scale(1)
     , m_cutAttributeType(ECutAttributeType::NoneAttribute)
-    , m_cutType(ECutType::cut_free)
+    , m_cutType(ECutType::cut_done)
     , m_cutSize(1362, 790)
     , m_cutDefaultSize(1362, 790)
-    , m_isModify(false)
+    , m_isModify(isModified)
     , m_saveDDFTriggerAction(ESaveDDFTriggerAction::SaveAction)
     , m_ddfSavePath("")
     , m_effect(MasicoEffect)
     , m_blurWidth(20)
-    , m_lineType(straightType)
+    , m_lineStartType(ELineType::noneLine)
+    , m_lineEndType(ELineType::noneLine)
+    , m_penStartType(ELineType::noneLine)
+    , m_penEndType(ELineType::noneLine)
     , m_renderImage(0)
     , m_bSelectAlling(false)
 {
+    m_nFillColor = Qt::white;
+    m_nFillColor.setAlpha(0);//transparent
+    m_textFont.setPointSize(14);
     m_textFont.setPointSizeF(14);
+    m_textFont.setStyleName("Regular");
+
+    if (uuid.isEmpty()) {
+        m_keyUUID = creatUUID();
+    } else {
+        m_keyUUID = uuid;
+    }
 }
 
 void CDrawParamSigleton::setLineWidth(int lineWidth)
@@ -113,6 +127,10 @@ QBrush CDrawParamSigleton::getBrush() const
 void CDrawParamSigleton::setCurrentDrawToolMode(EDrawToolMode mode)
 {
     m_currentDrawToolMode = mode;
+
+    if (mode != selection)
+        CManageViewSigleton::GetInstance()->getCurView()->scene()->clearSelection();
+
 }
 
 EDrawToolMode CDrawParamSigleton::getCurrentDrawToolMode() const
@@ -150,16 +168,6 @@ void CDrawParamSigleton::setSideNum(int sideNum)
     m_sideNum = sideNum;
 }
 
-EPenType CDrawParamSigleton::getCurrentPenType() const
-{
-    return m_currentPenType;
-}
-
-void CDrawParamSigleton::setCurrentPenType(const EPenType &currentPenType)
-{
-    m_currentPenType = currentPenType;
-}
-
 QFont CDrawParamSigleton::getTextFont() const
 {
     return m_textFont;
@@ -168,6 +176,16 @@ QFont CDrawParamSigleton::getTextFont() const
 void CDrawParamSigleton::setTextFont(const QString &strFont)
 {
     m_textFont.setFamily(strFont);
+}
+
+QString CDrawParamSigleton::getTextFontStyle() const
+{
+    return m_textFont.styleName();
+}
+
+void CDrawParamSigleton::setTextFontStyle(const QString &style)
+{
+    m_textFont.setStyleName(style);
 }
 
 void CDrawParamSigleton::setShiftKeyStatus(bool flag)
@@ -245,14 +263,14 @@ QColor CDrawParamSigleton::getTextColor() const
     return m_textColor;
 }
 
-void CDrawParamSigleton::setSingleFontFlag(bool flag)
+void CDrawParamSigleton::setTextColorAlpha(const int &alpha)
 {
-    m_singleFontFlag = flag;
+    m_textColor.setAlpha(alpha);
 }
 
-bool CDrawParamSigleton::getSingleFontFlag() const
+int CDrawParamSigleton::getTextColorAlpha() const
 {
-    return m_singleFontFlag;
+    return m_textColor.alpha();
 }
 
 QString CDrawParamSigleton::getDdfSavePath() const
@@ -263,16 +281,47 @@ QString CDrawParamSigleton::getDdfSavePath() const
 void CDrawParamSigleton::setDdfSavePath(const QString &ddfSavePath)
 {
     m_ddfSavePath = ddfSavePath;
+    CManageViewSigleton::GetInstance()->wacthFile(m_ddfSavePath);
 }
 
-ELineType CDrawParamSigleton::getLineType() const
+ELineType CDrawParamSigleton::getLineStartType() const
 {
-    return m_lineType;
+    return m_lineStartType;
 }
 
-void CDrawParamSigleton::setLineType(const ELineType &lineType)
+void CDrawParamSigleton::setLineStartType(const ELineType &lineType)
 {
-    m_lineType = lineType;
+    m_lineStartType = lineType;
+}
+
+ELineType CDrawParamSigleton::getLineEndType() const
+{
+    return m_lineEndType;
+}
+
+void CDrawParamSigleton::setLineEndType(const ELineType &lineType)
+{
+    m_lineEndType = lineType;
+}
+
+ELineType CDrawParamSigleton::getPenStartType() const
+{
+    return m_penStartType;
+}
+
+void CDrawParamSigleton::setPenStartType(const ELineType &penType)
+{
+    m_penStartType = penType;
+}
+
+ELineType CDrawParamSigleton::getPenEndType() const
+{
+    return m_penEndType;
+}
+
+void CDrawParamSigleton::setPenEndType(const ELineType &penType)
+{
+    m_penEndType = penType;
 }
 
 ESaveDDFTriggerAction CDrawParamSigleton::getSaveDDFTriggerAction() const
@@ -346,12 +395,12 @@ void CDrawParamSigleton::setCutAttributeType(const ECutAttributeType &cutAttribu
 }
 
 
-bool CDrawParamSigleton::getIsModify() const
+bool CDrawParamSigleton::getModify() const
 {
     return m_isModify;
 }
 
-void CDrawParamSigleton::setIsModify(bool isModify)
+void CDrawParamSigleton::setModify(bool isModify)
 {
     m_isModify = isModify;
 }
@@ -375,5 +424,48 @@ int CDrawParamSigleton::getBlurWidth() const
 void CDrawParamSigleton::setBlurWidth(const int width)
 {
     m_blurWidth = width;
+}
+
+QString CDrawParamSigleton::viewName() const
+{
+    return m_viewName;
+}
+
+void CDrawParamSigleton::setViewName(QString name)
+{
+    m_viewName = name;
+}
+
+int CDrawParamSigleton::getRectXRedius() const
+{
+    return m_rectXRedius;
+}
+
+void CDrawParamSigleton::setRectXRedius(int redius)
+{
+    m_rectXRedius = redius;
+}
+
+QString CDrawParamSigleton::getShowViewNameByModifyState()
+{
+    //只有保存成文件了的，且和文件内容一致才显示原名 否则都加*
+    if (!getModify() /*&& !getDdfSavePath().isEmpty()*/) {
+        return viewName();
+    }
+    QString vName = "* " + viewName();
+    return vName;
+}
+
+QString CDrawParamSigleton::uuid()
+{
+    return m_keyUUID;
+}
+
+QString CDrawParamSigleton::creatUUID()
+{
+    static int uuidKey = 0;
+    QString uuid = QString("uuid_%1").arg(uuidKey);
+    ++uuidKey;
+    return uuid;
 }
 

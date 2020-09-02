@@ -30,6 +30,8 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+#include "service/cmanagerattributeservice.h"
+
 CTextTool::CTextTool()
     : IDrawTool(text)
 {
@@ -45,40 +47,43 @@ void CTextTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 {
     if (event->button() == Qt::LeftButton) {
         scene->clearSelection();
+        m_bMousePress = true;
         m_sPointPress = event->scenePos();
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSingleFontFlag(true);
         QFont font = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont();
         CGraphicsTextItem *item = new CGraphicsTextItem();
-        //item->getTextEdit()->setText(tr("输入文本"));
         item->getTextEdit()->setText(QObject::tr("Input text here"));
-        item->getTextEdit()->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        item->getTextEdit()->setAlignment(Qt::AlignLeft );
+
         item->getTextEdit()->selectAll();
-//        item->setFont(font);
 
         QFontMetrics fm(font);
-        QRect rect = fm.boundingRect(item->getTextEdit()->document()->toPlainText());
+        QSizeF size = item->getTextEdit()->document()->size();
+        // 设置默认的高度会显示不全,需要设置为字体高度的1.4倍
+        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), size.width(), fm.height() * 1.4));
 
-
-        item->setRect(QRectF(m_sPointPress.x(), m_sPointPress.y(), rect.width() * 1.2, rect.height() * 1.2));
-        //item->setFont(CDrawParamSigleton::GetInstance()->getTextFont());
-//        item->setTextColor(CDrawParamSigleton::GetInstance()->getTextColor());
         if (scene->sceneRect().right() - m_sPointPress.x() > 0) {
             item->setLastDocumentWidth(scene->sceneRect().right() - m_sPointPress.x());
         } else {
             item->setLastDocumentWidth(0);
         }
 
+        // 设置新建图元属性
+        item->setFontSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().pointSize());
+        item->setFontFamily(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFont().family());
+        item->setTextFontStyle(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextFontStyle());
+        item->setTextColor(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor());
+        item->setTextColorAlpha(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getTextColor().alpha());
+
+        item->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(item);
         emit scene->itemAdded(item);
         item->setSelected(true);
-//        scene->views()[0]->setFocus();
-//        item->getTextEdit()->setFocus();
-        //item->getCGraphicsProxyWidget()->setFocus();
-        //
-    } /*else if (event->button() == Qt::RightButton) {
-        CDrawParamSigleton::GetInstance()->setCurrentDrawToolMode(selection);
-        emit scene->signalChangeToSelect();
-    } */else {
+        _tempTextItem = item;
+
+        // [0] 手动更新自重属性，当前新建文字图元后不会立即刷新文字字重的
+        CManagerAttributeService::getInstance()->refreshSelectedCommonProperty();
+
+    } else {
         scene->mouseEvent(event);
     }
 }
@@ -92,5 +97,17 @@ void CTextTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scen
 void CTextTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *scene)
 {
     Q_UNUSED(scene)
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
     scene->mouseEvent(event);
+
+    if (_tempTextItem != nullptr) {
+        _tempTextItem->makeEditabel();
+        _tempTextItem->getTextEdit()->document()->clearUndoRedoStacks();
+        _tempTextItem = nullptr;
+    }
+
+    if (event->button() == Qt::LeftButton) {
+        m_bMousePress = false;
+    }
 }

@@ -47,6 +47,7 @@ class CTitleWidget;
 class ArrowRectangle;
 class ColorPanel;
 class CMenu;
+class DZoomMenuComboBox;
 
 class TopToolbar : public DFrame
 {
@@ -57,8 +58,6 @@ public:
     ~TopToolbar() Q_DECL_OVERRIDE;
 
     DMenu *mainMenu();
-
-
 
 signals:
     /**
@@ -77,14 +76,6 @@ signals:
      * @brief signalImport　导入信号
      */
     void signalImport();
-    /**
-     * @brief signalAttributeChanged　图元属性改变信号
-     */
-    void signalAttributeChanged();
-    /**
-     * @brief signalPassPictureOperation   传递图片的旋转和翻转信号
-     */
-    void signalPassPictureOperation(int);
     /**
      * @brief signalZoom　放大缩小信号
      */
@@ -123,7 +114,6 @@ signals:
      */
     void signalCutLineEditIsfocus(bool);
 
-
 public:
     /**
      * @brief changeTopButtonsTheme　改变属性栏所有按钮的主题
@@ -134,8 +124,9 @@ public slots:
     /**
      * @brief updateMiddleWidget　按类型更新工具栏
      * @param type　图元类型
+     * @param showSelfPropreWidget　该标记决定是否显示出空白属性页
      */
-    void updateMiddleWidget(int type);
+    void updateMiddleWidget(int type, bool showSelfPropreWidget = true);
     /**
      * @brief showColorfulPanel　显示调色板
      * @param drawstatus　颜色类型
@@ -159,6 +150,7 @@ public slots:
      * @param scale　缩放因子
      */
     void slotZoom(const QString &scale);
+    void slotZoom(const qreal &scale);
     /**
      * @brief slotSetScale　显示缩放比例
      * @param scale　缩放因子
@@ -176,6 +168,28 @@ public slots:
      * @brief slotHideColorPanel　隐藏调色板
      */
     void slotHideColorPanel();
+    /**
+     * @brief slotRectRediusChanged　圆角矩形半径
+     */
+    void slotRectRediusChanged(int value);
+    /**
+     * @brief updateMiddleWidgetMult　按类型更新工具栏
+     * @param mode　图元类型
+     * @param propertys　要显示的公共属性
+     */
+    void updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache);
+    /**
+     * @brief signalIsAllPictureItem　选中图元图元是否都为图片
+     * @param isEnable　自适应按钮是否可用
+     * @param single 是否选中单个图片
+     */
+    void slotIsAllPictureItem(bool isEnable, bool single);
+    /**
+     * @brief slotScenceViewChanged　当场景被改变后执行的槽函数
+     * @param QString 场景名字
+     */
+    void slotScenceViewChanged(QString viewname);
+
 private slots:
     /**
      * @brief slotIsCutMode　判断是否为裁剪模式
@@ -202,10 +216,6 @@ private slots:
      * @brief slotMenuShow　显示主菜单触发函数
      */
     void slotMenuShow();
-    /**
-     * @brief slotUpdateCurrentAttributeBar　更新属性栏
-     */
-    void slotUpdateCurrentAttributeBar();
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
@@ -232,12 +242,14 @@ private:
     ArrowRectangle *m_colorARect;
     ColorPanel *m_colorPanel;
     DrawStatus  m_drawStatus;
-    //DComboBox  *m_scaleComboBox;
-    CPushButton  *m_scaleComboBox;
     CMenu *m_mainMenu;
+
+    DZoomMenuComboBox *m_zoomMenuComboBox; // 缩放菜单组件
+    QFont ft; // 全局默认字体
 
     QAction *m_saveAction;
     QAction *m_newAction;
+    QMap<EDrawProperty, QVariant> m_propertys;//选中图元后传过来的信息
 
 private:
     /**

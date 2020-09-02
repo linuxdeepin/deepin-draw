@@ -38,6 +38,7 @@ private:
     qreal m_height;
     qreal m_fontSize;
     QFont m_textFont;
+    qreal m_scale;
 };
 
 #endif // CGRAPHICSROTATEANGLEITEM_H

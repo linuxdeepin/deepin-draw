@@ -29,7 +29,11 @@ HEADERS += \
     $$PWD/csvglabel.h \
     $$PWD/cfontcombobox.h \
     $$PWD/cpushbutton.h \
-    $$PWD/ciconbutton.h
+    $$PWD/ciconbutton.h \
+    $$PWD/dmenucombobox.h \
+    $$PWD/cspinbox.h \
+    $$PWD/dzoommenucombobox.h \
+    $$PWD/dialog/ccutdialog.h
 
 
 SOURCES += \
@@ -61,7 +65,11 @@ SOURCES += \
     $$PWD/csvglabel.cpp \
     $$PWD/cfontcombobox.cpp \
     $$PWD/cpushbutton.cpp \
-    $$PWD/ciconbutton.cpp
+    $$PWD/ciconbutton.cpp \
+    $$PWD/dmenucombobox.cpp \
+    $$PWD/cspinbox.cpp \
+    $$PWD/dzoommenucombobox.cpp \
+    $$PWD/dialog/ccutdialog.cpp
 
 
 #RESOURCES += \

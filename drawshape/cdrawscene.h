@@ -22,13 +22,20 @@
 #include <QGraphicsScene>
 #include <QObject>
 
+#include "drawshape/globaldefine.h"
+
 class QGraphicsSceneMouseEvent;
 class QKeyEvent;
+class CGraphicsRectItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
+class CGraphicsItemSelectedMgr;
+class CGraphicsItemHighLight;
+class CDrawParamSigleton;
+class CGraphicsView;
 
 class CDrawScene : public QGraphicsScene
 {
@@ -36,8 +43,24 @@ class CDrawScene : public QGraphicsScene
     friend CSelectTool;
 
 public:
-    static CDrawScene *m_pInstance;
-    static CDrawScene *GetInstance();
+    /**
+     * @brief CDrawScene 构造函数
+     * @param parent
+     */
+    explicit CDrawScene(CGraphicsView *view = nullptr,
+                        const QString &uuid = "",
+                        bool isModified = false);
+    ~CDrawScene() override;
+    /**
+     * @brief initScene 初始化一个新的场景
+     */
+    void initScene();
+
+
+    /**
+     * @brief drawView 返回视图指针
+     */
+    CGraphicsView *drawView();
 
     /**
      * @brief keyEvent 从绘图工具返回键盘事件
@@ -49,16 +72,6 @@ public:
      * @param cursor
      */
     void setCursor(const QCursor &cursor);
-
-    /**
-     * @brief attributeChanged 画笔画刷属性更改
-     */
-    void attributeChanged();
-
-    /**
-     * @brief changeAttribute 根据选中的图元修改当前画笔画刷属性
-     */
-    void changeAttribute(bool flag, QGraphicsItem *selectedItem);
 
     /**
      * @brief mouseEvent 鼠标事件
@@ -84,7 +97,15 @@ public:
      * @brief quitCutMode 退出裁剪
      */
     void quitCutMode();
+    /**
+     * @brief doCutScene 进行裁剪
+     */
     void doCutScene();
+    /**
+     * @brief doAdjustmentScene 自适应
+     * @param rect scene大小
+     */
+    void doAdjustmentScene(QRectF rect, CGraphicsItem *item = nullptr);
 
     void setItemDisable(bool canSelecte);
 
@@ -99,6 +120,35 @@ public:
     void updateBlurItem(QGraphicsItem *changeItem = nullptr);
 
     void switchTheme(int type);
+
+    CGraphicsItemSelectedMgr *getItemsMgr() const;
+    CGraphicsItemHighLight *getItemHighLight() const;
+
+    /**
+     * @brief getCDrawParam　获取绘制数据
+     */
+    CDrawParamSigleton *getDrawParam();
+
+    bool getModify() const;
+    void setModify(bool isModify);
+
+    /**
+     * @brief setMaxZValue 记录图元最大z值
+     * @param zValue 图元z值
+     */
+    void setMaxZValue(qreal zValue);
+
+    /**
+     * @brief getMaxZValue　获取图元最大z值
+     */
+    qreal getMaxZValue();
+
+    void updateItemsMgr();
+
+
+    void blockMouseMoveEvent(bool b);
+    bool isBlockMouseMoveEvent();
+
 signals:
     /**
      * @brief signalAttributeChanged 发送属性栏更改的信号
@@ -108,8 +158,9 @@ signals:
     void signalAttributeChanged(bool flag, int primitiveType);
     /**
      * @brief signalChangeToSelect 发送工具栏切换为选择的信号
+     * @param showTitle 是否显示select工具的顶层标题(也就是"画板"标题文字)
      */
-    void signalChangeToSelect();
+    void signalChangeToSelect(bool showTitle = false);
     /**
      * @brief signalQuitCutMode 退出裁剪模式
      */
@@ -126,9 +177,9 @@ signals:
      * @brief itemAdded 增加图元
      * @param item
      */
-    void itemAdded(QGraphicsItem *item);
+    void itemAdded(QGraphicsItem *item, bool pushToStack = true);
 
-    /**
+    /**signalItemAdded
      * @brief itemRotate 旋转图元
      * @param item
      * @param oldAngle
@@ -144,7 +195,7 @@ signals:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange 图元属性修改
@@ -156,6 +207,12 @@ signals:
      */
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
 
+    /**
+     * @brief itemRectXRediusChange 矩形圆角属性修改
+     * @param xRedius 圆角半径
+     * @param bChange
+     */
+    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
     /**
      * @brief itemPolygonPointChange 多边形边数更改
      * @param item
@@ -184,14 +241,14 @@ signals:
      * @param item
      * @param oldType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, int oldType);
+    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType oldType);
 
     /**
      * @brief itemLineTypeChange 线图元属性更改
      * @param item
      * @param type
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, int type);
+    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType endType);
 
     /**
      * @brief signalUpdateCutSize 更新裁剪的大小
@@ -215,25 +272,32 @@ signals:
      */
     void signalSceneCut(QRectF newRect);
 
-public slots:
-
     /**
-     * @brief picOperation 图片操作
-     * @param enumstyle 操作方式
+     * @brief signalIsModify 是否更改
+     * @param newRect
      */
-    void picOperation(int enumstyle);
+    void signalIsModify(bool isModify);
 
+public slots:
     /**
      * @brief drawToolChange 切换绘图工具
      * @param type
      */
-    void drawToolChange(int type);
+    void drawToolChange(int type, bool clearSections = true);
 
     /**
      * @brief changeMouseShape 切换鼠标形状
      * @param type
      */
     void changeMouseShape(EDrawToolMode type);
+
+    /**
+     * @brief clearMutiSelectedState 清除多选状态
+     */
+    void clearMutiSelectedState();
+
+
+    void doLeave();
 
 protected:
 
@@ -255,6 +319,11 @@ protected:
      */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
 
+
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
+
+    virtual bool event(QEvent *event) override;
+
     /**
      * @brief drawItems 绘制所有图元
      * @param painter
@@ -268,16 +337,13 @@ protected:
                            const QStyleOptionGraphicsItem options[],
                            QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
+    virtual void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
-
-private:
-    /**
-     * @brief CDrawScene 构造函数
-     * @param parent
-     */
-    explicit CDrawScene(QObject *parent = nullptr);
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 private:
+    CDrawParamSigleton *m_drawParam;//数据
+
     bool m_bIsEditTextFlag;
 
     QCursor m_drawMouse;
@@ -290,9 +356,14 @@ private:
     QCursor m_textMouse;
     QCursor m_brushMouse;
     QCursor m_blurMouse;
+    qreal m_maxZValue;
 
+    CGraphicsItemSelectedMgr *m_pGroupItem;
+    CGraphicsItemHighLight *m_pHighLightItem;
 
+    bool dbCLicked = false;
 
+    bool blockMouseMoveEventFlag = false;
 };
 
 #endif // CDRAWSCENE_H

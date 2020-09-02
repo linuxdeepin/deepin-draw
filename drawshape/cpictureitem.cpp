@@ -21,26 +21,29 @@
 #include <QPainter>
 #include <QDebug>
 
-CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)
     : CGraphicsRectItem(parent)
     , m_pixmap(pixmap)
     , m_angle(0.0)
+    , _srcByteArry(fileSrcData)
 {
 
 }
 
 
-CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const QRectF &rect, const QPixmap &pixmap, CGraphicsItem *parent, const QByteArray &fileSrcData)
     : CGraphicsRectItem(rect, parent)
     , m_pixmap(pixmap)
     , m_angle(0.0)
+    , _srcByteArry(fileSrcData)
 {
 
 }
 
-CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent )
+CPictureItem::CPictureItem(const SGraphicsPictureUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsRectItem(data->rect, head, parent)
     , m_angle(0.0)
+    , _srcByteArry(data->srcByteArry)
 {
     m_pixmap = QPixmap::fromImage(data->image);
 //    QByteArray byteArray(unit.data.pPic->pic, unit.data.pPic->length);
@@ -60,13 +63,24 @@ int  CPictureItem::type() const
 
 void CPictureItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-
     Q_UNUSED(option)
     Q_UNUSED(widget)
+
+//    painter->save();
+//    QRectF sceneRct = scene()->sceneRect();
+//    QRectF itemRct  = mapToScene(rect()).boundingRect();
+//    bool hasIntersects = sceneRct.intersects(itemRct);
+//    painter->setClipping(hasIntersects);
+    beginCheckIns(painter);
+
+    //保证resize节点图元和旋转节点图元的坐标位置正确
+    updateGeometry();
+
     //获取原始图片大小
     QRectF pictureRect = QRectF(0, 0, m_pixmap.width(), m_pixmap.height());
     painter->drawPixmap(rect(), m_pixmap, pictureRect);
+
+    endCheckIns(painter);
 
     if (this->isSelected()) {
         painter->setClipping(false);
@@ -99,7 +113,10 @@ void CPictureItem::setMirror(bool hor, bool ver)
     QImage mirrorImage = image.mirrored(hor, ver);
     m_pixmap = QPixmap::fromImage(mirrorImage);
     update();
-    CDrawScene::GetInstance()->updateBlurItem(this);
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
 }
 
 
@@ -109,20 +126,28 @@ void CPictureItem::setRotation90(bool leftOrRight)
     QPointF center = this->rect().center();
     this->setTransformOriginPoint(center);
     if (leftOrRight == true) {
-        m_angle = m_angle - 90.0;
+        m_angle = this->rotation() - 90.0;
         this->setRotation(m_angle);
     } else {
-        m_angle = m_angle + 90.0;
+        m_angle = this->rotation() + 90.0;
         this->setRotation(m_angle);
     }
 
-    CDrawScene::GetInstance()->updateBlurItem(this);
+    if (nullptr != scene()) {
+        auto curScene = static_cast<CDrawScene *>(scene());
+        curScene->updateBlurItem(this);
+    }
 }
 
 void CPictureItem::duplicate(CGraphicsItem *item)
 {
     CGraphicsRectItem::duplicate(item);
-    static_cast<CPictureItem *>(item)->setPixmap(m_pixmap);
+
+    CPictureItem *pPic = dynamic_cast<CPictureItem *>(item);
+
+    pPic->setPixmap(m_pixmap);
+
+    pPic->_srcByteArry = _srcByteArry;
 }
 
 CGraphicsUnit CPictureItem::getGraphicsUnit() const
@@ -160,6 +185,23 @@ CGraphicsUnit CPictureItem::getGraphicsUnit() const
 
 //    qDebug() << "!!!!!!!!!!!!!!!" << unit.data.pPic->length;
 
+    if (_srcByteArry.isEmpty()) {
+        QBuffer buferTemp;
+        QDataStream strem(&buferTemp);
+        strem << m_pixmap;
+        buferTemp.close();
+        unit.data.pPic->srcByteArry = buferTemp.buffer();
+    } else {
+        unit.data.pPic->srcByteArry = _srcByteArry;
+    }
+
     return unit;
+}
+
+QPainterPath CPictureItem::getHighLightPath()
+{
+    QPainterPath path;
+    path.addRect(this->rect());
+    return path;
 }
 

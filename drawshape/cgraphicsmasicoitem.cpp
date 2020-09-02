@@ -7,6 +7,7 @@
 #include "cdrawscene.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "cgraphicsitemselectedmgr.h"
 
 #include <DApplication>
 #include <QGraphicsScene>
@@ -16,27 +17,27 @@
 
 DWIDGET_USE_NAMESPACE
 
-static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
-{
-    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
-    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
-    const qreal penWidthZero = qreal(0.00000001);
+//static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen)
+//{
+//    // We unfortunately need this hack as QPainterPathStroker will set a width of 1.0
+//    // if we pass a value of 0.0 to QPainterPathStroker::setWidth()
+//    const qreal penWidthZero = qreal(0.00000001);
 
-    if (path == QPainterPath() || pen == Qt::NoPen)
-        return path;
-    QPainterPathStroker ps;
-    ps.setCapStyle(pen.capStyle());
-    if (pen.widthF() <= 0.0)
-        ps.setWidth(penWidthZero);
-    else
-        ps.setWidth(pen.widthF());
-    ps.setJoinStyle(pen.joinStyle());
-    ps.setMiterLimit(pen.miterLimit());
-    QPainterPath p = ps.createStroke(path);
-    p.addPath(path);
-    return p;
+//    if (path == QPainterPath() || pen == Qt::NoPen)
+//        return path;
+//    QPainterPathStroker ps;
+//    ps.setCapStyle(pen.capStyle());
+//    if (pen.widthF() <= 0.0)
+//        ps.setWidth(penWidthZero);
+//    else
+//        ps.setWidth(pen.widthF());
+//    ps.setJoinStyle(pen.joinStyle());
+//    ps.setMiterLimit(pen.miterLimit());
+//    QPainterPath p = ps.createStroke(path);
+//    p.addPath(path);
+//    return p;
 
-}
+//}
 
 /*CGraphicsMasicoItem::CGraphicsMasicoItem(CGraphicsItem *parent)
     : CGraphicsRectItem(parent)
@@ -72,7 +73,7 @@ CGraphicsMasicoItem::CGraphicsMasicoItem(const QPointF &startPoint, QGraphicsIte
 CGraphicsMasicoItem::CGraphicsMasicoItem(const SGraphicsBlurUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent)
     : CGraphicsPenItem(&(data->data), head, parent)
     , m_pixmap(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutSize())
-    , m_nBlurEffect((EBlurEffect)data->effect)
+    , m_nBlurEffect(EBlurEffect(data->effect))
 {
     updateBlurPath();
 }
@@ -93,6 +94,8 @@ int CGraphicsMasicoItem::type() const
 
 void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     updateGeometry();
     QGraphicsScene *scene = this->scene();
     //绘制滤镜
@@ -110,7 +113,7 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
         //下层有图元才显示
         int imgWidth = tmpPixmap.width();
         int imgHeigth = tmpPixmap.height();
-        int radius = 5;
+        int radius = 10;
         if (m_nBlurEffect == BlurEffect) {
             tmpPixmap = tmpPixmap.scaled(imgWidth / radius, imgHeigth / radius, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpPixmap = tmpPixmap.scaled(imgWidth, imgHeigth, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -126,15 +129,13 @@ void CGraphicsMasicoItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->setBrush(brush());
     painter->drawPath(getPath());
 
-    if (this->isSelected()) {
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
+        // 获取系统活动色的颜色
+        QPalette pa = this->scene()->palette();
         QPen pen;
+        pen.setColor(QColor(224, 224, 224));
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());
@@ -152,18 +153,30 @@ void CGraphicsMasicoItem::setPixmap()
         int textItemIndex = -1;
         QTextCursor textCursor;
 
+        for (int i = 0; i < items.size(); ++i) {
+            if (items[i]->type() == TextType) {
+                CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[i]);
+                if (pTextItem->isEditable()) {
+                    textItemIndex = i;
+                    textCursor = static_cast<CGraphicsTextItem *>(items[i])->getTextEdit()->textCursor();
+                }
+            }
+        }
+
+        auto curScene = static_cast<CDrawScene *>(scene());
+        auto itemsMgr = curScene->getItemsMgr();
+        auto itemsMgrFlag = itemsMgr->isVisible();
+        if (itemsMgrFlag) {
+            itemsMgr->setVisible(false);
+        }
 
         for (int i = 0; i != filterItems.size(); i++) {
             filterItemsSelectFlags.push_back(filterItems[i]->isSelected());
-
-            if (filterItems[i]->type() == TextType) {
-                if (static_cast<CGraphicsTextItem *>(filterItems[i])->isEditable()) {
-                    textItemIndex = i;
-                    textCursor = static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->textCursor();
-                }
-            }
             filterItems[i]->setVisible(false);
         }
+
+
+
         this->hide();
         QRect rect = this->scene()->sceneRect().toRect();
         m_pixmap = QPixmap(rect.width(), rect.height());
@@ -172,14 +185,19 @@ void CGraphicsMasicoItem::setPixmap()
         painterd.setRenderHint(QPainter::Antialiasing);
         painterd.setRenderHint(QPainter::SmoothPixmapTransform);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(2);
+        curScene->getDrawParam()->setRenderImage(2);
 
         this->scene()->setBackgroundBrush(Qt::transparent);
 
         this->scene()->render(&painterd);
 
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRenderImage(0);
-        CDrawScene::GetInstance()->resetSceneBackgroundBrush();
+        curScene->getDrawParam()->setRenderImage(0);
+
+        curScene->resetSceneBackgroundBrush();
+        if (itemsMgrFlag) {
+            itemsMgr->setVisible(true);
+        }
+
 //        this->scene()->setBackgroundBrush(Qt::transparent);
 
         //m_pixmap.save("/home/wang/Desktop/wang.png", "PNG");
@@ -190,12 +208,16 @@ void CGraphicsMasicoItem::setPixmap()
         for (int i = 0; i != filterItems.size(); i++) {
             filterItems[i]->setVisible(true);
             filterItems[i]->setSelected(filterItemsSelectFlags[i]);
-            if (textItemIndex == i) {
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->show();
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setTextCursor(textCursor);
-                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->setFocus(Qt::MouseFocusReason);
-//                static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->activateWindow();
-                //static_cast<CGraphicsTextItem *>(filterItems[i])->getTextEdit()->grabKeyboard();
+        }
+
+        //qDebug() << "-------------------textItemIndex = " << textItemIndex;
+        if (textItemIndex != -1) {
+            CGraphicsTextItem *pTextItem = dynamic_cast<CGraphicsTextItem *>(items[textItemIndex]) ;
+            if (pTextItem != nullptr) {
+                pTextItem->setVisible(true);
+                pTextItem->getTextEdit()->show();
+                pTextItem->getTextEdit()->setTextCursor(textCursor);
+                pTextItem->getTextEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
 
@@ -276,9 +298,10 @@ CGraphicsUnit CGraphicsMasicoItem::getGraphicsUnit() const
     unit.head.zValue = this->zValue();
 
     unit.data.pBlur = new SGraphicsBlurUnitData();
-    unit.data.pBlur->data.penType = this->currentType();
+    unit.data.pBlur->data.start_type = this->getPenStartType();
+    unit.data.pBlur->data.end_type = this->getPenEndType();
     unit.data.pBlur->data.path = this->getPath();
-    unit.data.pBlur->data.arrow = this->getArrow();
+//    unit.data.pBlur->data.arrow = this->getArrow();
 
     unit.data.pBlur->effect = m_nBlurEffect;
 
@@ -295,29 +318,22 @@ void CGraphicsMasicoItem::duplicate(CGraphicsItem *item)
 
 QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> items)
 {
-    int index = 0;
     qreal thisZValue = this->zValue();
     QList<QGraphicsItem *> retList;
     if (this->scene() != nullptr) {
         QList<QGraphicsItem *> allitems = this->scene()->items();
-        index = allitems.indexOf(this);
 
         foreach (QGraphicsItem *item, items) {
             //只对自定义的图元生效
-            if (item->type() > QGraphicsItem::UserType) {
+            if (item->type() > QGraphicsItem::UserType && item->type() < MgrType ) {
 
                 if (item->type() == BlurType && item != this) {
                     retList.push_back(item);
                     continue;
                 }
                 qreal itemZValue = item->zValue();
-                if (thisZValue > itemZValue) {
+                if (thisZValue < itemZValue) {
                     retList.push_back(item);
-                } else if (qFuzzyCompare(thisZValue, itemZValue)) {
-                    int indexOther = allitems.indexOf(item);
-                    if (index > indexOther) {
-                        retList.push_back(item);
-                    }
                 }
             }
         }
@@ -326,3 +342,22 @@ QList<QGraphicsItem *> CGraphicsMasicoItem::filterItems(QList<QGraphicsItem *> i
     return retList;
 }
 
+ELineType CGraphicsMasicoItem::getPenStartType() const
+{
+    return m_penStartType;
+}
+
+void CGraphicsMasicoItem::setPenStartType(const ELineType &penType)
+{
+    m_penStartType = penType;
+}
+
+ELineType CGraphicsMasicoItem::getPenEndType() const
+{
+    return m_penEndType;
+}
+
+void CGraphicsMasicoItem::setPenEndType(const ELineType &penType)
+{
+    m_penEndType = penType;
+}

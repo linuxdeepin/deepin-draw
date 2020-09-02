@@ -26,13 +26,13 @@
 
 class CTextEdit;
 class CGraphicsProxyWidget;
-
+class CGraphicsItemHighLight;
 
 class CGraphicsTextItem : public CGraphicsRectItem
 {
 public:
     explicit CGraphicsTextItem();
-    explicit CGraphicsTextItem(const SGraphicsTextUnitData *data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
+    explicit CGraphicsTextItem(const SGraphicsTextUnitData &data, const SGraphicsUnitHead &head, CGraphicsItem *parent = nullptr);
     ~CGraphicsTextItem() Q_DECL_OVERRIDE;
 
     CTextEdit *getTextEdit() const;
@@ -40,15 +40,33 @@ public:
 
     virtual void setRect(const QRectF &rect) Q_DECL_OVERRIDE;
 
+    void initText();
+
     void setCGraphicsProxyWidget(CGraphicsProxyWidget *proxy);
     CGraphicsProxyWidget *getCGraphicsProxyWidget() const;
     void updateWidget();
     void setFont(const QFont &font);
+    QFont getFont();
+
+    QString getTextFontStyle();
+    void setTextFontStyle(const QString &style);
+
     void setFontSize(qreal size);
+    qreal getFontSize();
+
     void setFontFamily(const QString &family);
+    QString getFontFamily();
+
     void setTextColor(const QColor &col);
+    QColor getTextColor();
+
+    void setTextColorAlpha(const int &alpha);
+    int getTextColorAlpha();
+
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
 
     /**
      * @brief duplicate 拷贝自己
@@ -65,25 +83,61 @@ public:
     void doCopy();
     void doPaste();
     void doSelectAll();
-    void doTopAlignment();
-    void doRightAlignment();
-    void doLeftAlignment();
-    void doCenterAlignment();
+    void setSelectTextBlockAlign(const Qt::Alignment &align);
     void doUndo();
     void doRedo();
-
+    void doDelete();
 
     //选中后 更改字体和颜色
     void currentCharFormatChanged(const QTextCharFormat &format);
     bool getManResizeFlag() const;
     void setManResizeFlag(bool flag);
     void setLastDocumentWidth(qreal width);
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+
+    /*
+    * @bref: getSelectedTextColor 返回文本当前点击后是否所有文字颜色一致
+    * @return:QColor
+    */
+    QColor getSelectedTextColor();
+
+    /*
+    * @bref: getSelectedFontSize 返回文本当前点击后是否所有文字大小一致
+    * @return:int
+    */
+    int getSelectedFontSize();
+
+    /*
+    * @bref: getSelectedFontFamily 返回文本当前点击后是否所有字体一致
+    * @return:QString
+    */
+    QString getSelectedFontFamily();
+
+    /*
+    * @bref: getSelectedFontStyle 返回文本当前点击后是否所有自重大小一致
+    * @return:QString
+    */
+    QString getSelectedFontStyle();
+    int getSelectedFontWeight();
+
+    /*
+    * @bref: getSelectedTextColorAlpha 返回文本当前点击后是否所有透明度大小一致
+    * @return:int
+    */
+    int getSelectedTextColorAlpha();
+
+    void makeEditabel();
+
+    void updateHandleVisible();
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
 
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
 
 private slots:
     void slot_textmenu(QPoint);
@@ -112,7 +166,7 @@ private:
     void adjustAlignJustify(QTextDocument *doc, qreal DocWidth, int *blockNum = nullptr);
     void initTextEditWidget();
 
-
+    void initHandle() override;
 
 private:
     CTextEdit *m_pTextEdit;

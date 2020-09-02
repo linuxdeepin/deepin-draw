@@ -34,8 +34,10 @@
 #include "drawshape/cdrawparamsigleton.h"
 #include "widgets/csvglabel.h"
 #include "widgets/cmenu.h"
+#include "widgets/dzoommenucombobox.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
+#include "service/cmanagerattributeservice.h"
 
 #include <DComboBox>
 #include <DApplication>
@@ -47,9 +49,12 @@
 
 #include <DLineEdit>
 
+const int Text_Size = 14;
+
 TopToolbar::TopToolbar(DWidget *parent)
     : DFrame(parent)
 {
+    m_propertys.clear();
     initUI();
     initConnection();
 }
@@ -61,6 +66,9 @@ TopToolbar::~TopToolbar()
 
 void TopToolbar::initUI()
 {
+    ft.setPixelSize(Text_Size);
+
+    // 初始化缩放菜单
     initComboBox();
     initStackWidget();
     initMenu();
@@ -68,13 +76,13 @@ void TopToolbar::initUI()
     CSvgLabel *logoLable = new CSvgLabel(":/theme/common/images/logo.svg", this);
     logoLable->setFixedSize(QSize(32, 32));
 
-    QHBoxLayout *hLayout = new QHBoxLayout (this);
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
     hLayout->addSpacing(13);
     hLayout->addWidget(logoLable);
     hLayout->addSpacing(20);
-    hLayout->addWidget(m_scaleComboBox);
+    hLayout->addWidget(m_zoomMenuComboBox);
 //    hLayout->addSpacing(20);
     hLayout->addWidget(m_stackWidget, 0, Qt::AlignHCenter);
     hLayout->addSpacing(33);
@@ -82,89 +90,60 @@ void TopToolbar::initUI()
 //    hLayout->addStretch();
     setLayout(hLayout);
 
-//    m_stackWidget->setStyleSheet("background-color: blue;");
-//    setStyleSheet("background-color: rgb(255, 0, 0);");
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    logoLable->hide();
 }
 
 void TopToolbar::initComboBox()
 {
-
-    m_scaleComboBox = new CPushButton("75%", this);
-    m_scaleComboBox->setFocusPolicy(Qt::NoFocus);
-
-    DMenu *scaleMenu = new DMenu(m_scaleComboBox);
-    scaleMenu->setFixedWidth(162);
-
-    QAction *scale200 = scaleMenu->addAction("200%");
-    QAction *scale100 = scaleMenu->addAction("100%");
-    QAction *scale75 = scaleMenu->addAction("75%");
-    QAction *scale50 = scaleMenu->addAction("50%");
-    QAction *scale25 = scaleMenu->addAction("25%");
-
-
-    connect(scale200, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("200%");
-        slotZoom("200%");
+    m_zoomMenuComboBox = new DZoomMenuComboBox(this);
+    m_zoomMenuComboBox->setFont(ft);
+    m_zoomMenuComboBox->setMenuFlat(false);
+    m_zoomMenuComboBox->setFixedWidth(162);
+    m_zoomMenuComboBox->addItem("200%");
+    m_zoomMenuComboBox->addItem("100%");
+    m_zoomMenuComboBox->addItem("75%");
+    m_zoomMenuComboBox->addItem("50%");
+    m_zoomMenuComboBox->addItem("25%");
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalCurrentTextChanged, this, [ = ](QString item) {
+        slotZoom(item);
     });
-    connect(scale100, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("100%");
-        slotZoom("100%");
+    // 初始化大小为 100%
+    m_zoomMenuComboBox->setCurrentText("100%");
+
+    // 放大缩小范围10%-2000% ，点击放大缩小，如区间在200%-2000%，则每次点+/-100%；如区间在10%-199%，则每次点击+/-10%
+    // 左侧按钮点击信号 (-)
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalLeftBtnClicked, this, [ = ]() {
+        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+        if (current_scale >= 2.0 && current_scale <= 20.0) {
+            current_scale -= 1.0;
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
+            current_scale -= 0.1;
+        }
+        if (current_scale <= 0.1) {
+            current_scale = 0.1;
+        }
+        slotZoom(current_scale);
     });
-    connect(scale75, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("75%");
-        slotZoom("75%");
+    // 右侧按钮点击信号 (+)
+    connect(m_zoomMenuComboBox, &DZoomMenuComboBox::signalRightBtnClicked, this, [ = ]() {
+        qreal current_scale = CManageViewSigleton::GetInstance()->getCurView()->getScale();
+        if (current_scale >= 2.0 && current_scale <= 20.0) {
+            current_scale += 1.0;
+        } else if (current_scale >= 0.1 && current_scale <= 1.999) {
+            current_scale += 0.1;
+        }
+        if (current_scale >= 20.0) {
+            current_scale = 20.0;
+        }
+        slotZoom(current_scale);
     });
-    connect(scale50, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("50%");
-        slotZoom("50%");
-    });
-    connect(scale25, &QAction::triggered, this, [ = ]() {
-        m_scaleComboBox->setText("25%");
-        slotZoom("25%");
-    });
-
-    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-        slotHideColorPanel();
-    });
-
-
-    m_scaleComboBox->setMenu(scaleMenu);
-    m_scaleComboBox->setFixedWidth(70);
-
-    //设置字体大小
-    QFont ft;
-    ft.setPixelSize(12);
-    m_scaleComboBox->setFont(ft);
-    m_scaleComboBox->setFlat(true);
-
-//    connect(scaleMenu, &DMenu::aboutToShow, this, [ = ]() {
-//        //设置编辑时颜色
-////        DPalette pa1 = m_scaleComboBox->palette();
-////        pa1.setColor(DPalette::ButtonText, "#0081FF"); //QColor("#000000")
-////        m_scaleComboBox->setPalette(pa1);
-//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-
-//        m_scaleComboBox->setForegroundRole(DPalette::Highlight);
-//        //m_scaleComboBox->setBackgroundRole(DPalette::Base);
-
-//    });
-//    connect(scaleMenu, &DMenu::aboutToHide, this, [ = ]() {
-//        //设置编辑时颜色
-////        DPalette pa1 = m_scaleComboBox->palette();
-////        pa1.setColor(DPalette::ButtonText, "#000000"); //QColor("#000000")
-////        m_scaleComboBox->setPalette(pa1);
-//        //qDebug() << "pa1.setColor(DPalette::Text,Qt::red )" << endl;
-//        setScaleTextColor();
-//    });
-
 }
 
 void TopToolbar::initStackWidget()
 {
     m_stackWidget = new DStackedWidget(this);
-
 
     //colorPanel.
     m_colorPanel = new ColorPanel(this);
@@ -228,12 +207,8 @@ void TopToolbar::initStackWidget()
 
 void TopToolbar::initMenu()
 {
-
     m_mainMenu = new CMenu(this);
     m_mainMenu->setFixedWidth(162);
-    //m_mainMenu->setWindowFlags(Qt::Popup | Qt::FramelessWindowHint);
-    //m_mainMenu->setWindowFlags(Qt::FramelessWindowHint);
-    //m_mainMenu->setBackgroundColor(QColor(248, 168, 0));
 
     m_newAction = new QAction(tr("New"), this);
     m_newAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
@@ -279,7 +254,6 @@ void TopToolbar::initMenu()
     //画板是一款轻量级的绘图工具，支持在画板上自由绘图和简单的图片编辑。
     dApp->setApplicationDescription(tr("Draw is a lightweight drawing tool for users to freely draw and simply edit images. "));
     dApp->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-draw/");
-    //dApp->setApplicationAcknowledgementPage("https://www.chinauos.com/");
 
     connect(importAc, &QAction::triggered, this, &TopToolbar::slotOnImportAction);
 //    connect(dApp, &Application::popupConfirmDialog, this, &TopToolbar::showDrawDialog);
@@ -293,8 +267,6 @@ void TopToolbar::initMenu()
     connect(m_mainMenu, &DMenu::aboutToShow, this, &TopToolbar::slotMenuShow);
 }
 
-
-
 void TopToolbar::changeTopButtonsTheme()
 {
     m_picWidget->changeButtonTheme();
@@ -307,24 +279,36 @@ void TopToolbar::changeTopButtonsTheme()
     m_drawTextWidget->updateTheme();
     m_colorPanel->changeButtonTheme();
     m_cutWidget->changeButtonTheme();
-
 }
 
-
-
-void TopToolbar::updateMiddleWidget(int type)
+void TopToolbar::updateMiddleWidget(int type, bool showSelfPropreWidget)
 {
     switch (type) {
-    case::selection:
-        m_titleWidget->updateTitleWidget();
-        m_stackWidget->setCurrentWidget(m_titleWidget);
+    case::selection: {
+        if (showSelfPropreWidget) {
+            m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
+            m_titleWidget->updateTitleWidget();
+
+            //先隐藏后显示(底层有一个显示BUG，这样规避一下)
+            m_stackWidget->setVisible(false);
+            m_stackWidget->setCurrentWidget(m_titleWidget);
+            m_stackWidget->setVisible(true);
+        }
         break;
+    }
     case::importPicture:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_stackWidget->setCurrentWidget(m_picWidget);
         break;
     case::rectangle:
+        m_commonShapeWidget->setRectXRedius(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius());
+        m_commonShapeWidget->updateCommonShapWidget();
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(true);
+        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+        break;
     case::ellipse:
     case::triangle:
+        m_commonShapeWidget->setRectXRediusSpinboxVisible(false);
         m_commonShapeWidget->updateCommonShapWidget();
         m_stackWidget->setCurrentWidget(m_commonShapeWidget);
         break;
@@ -344,10 +328,11 @@ void TopToolbar::updateMiddleWidget(int type)
         m_penWidget->updatePenWidget();
         m_stackWidget->setCurrentWidget(m_penWidget);
         break;
-    case::text:
+    case::text: {
         m_drawTextWidget->updateTextWidget();
         m_stackWidget->setCurrentWidget(m_drawTextWidget);
         break;
+    }
     case::blur:
         m_drawBlurWidget->updateBlurWidget();
         m_stackWidget->setCurrentWidget(m_drawBlurWidget);
@@ -359,13 +344,21 @@ void TopToolbar::updateMiddleWidget(int type)
     default:
         break;
     }
+    m_stackWidget->currentWidget()->setVisible(true);
 }
 
 void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visible)
 {
     Q_UNUSED(pos);
-
-    m_colorPanel->updateColorPanel(drawstatus);
+    QColor color;
+    if (drawstatus == DrawStatus::Fill) {
+        color = m_propertys[FillColor].value<QColor>();
+    } else if (drawstatus == DrawStatus::Stroke) {
+        color = m_propertys[LineColor].value<QColor>();
+    } else if (drawstatus == DrawStatus::TextFill) {
+        color = m_propertys[TextColor].value<QColor>();
+    }
+    m_colorPanel->updateColorPanel(drawstatus, color, CManagerAttributeService::getInstance()->getSelectedColorAlpha(drawstatus));
     m_colorARect->raise();
 
     if (visible) {
@@ -378,7 +371,6 @@ void TopToolbar::showColorfulPanel(DrawStatus drawstatus, QPoint pos, bool visib
         m_colorARect->hide();
 }
 
-
 void TopToolbar::updateColorPanelVisible(QPoint pos)
 {
     QRect colorPanelGeom = m_colorARect->geometry();
@@ -389,6 +381,9 @@ void TopToolbar::updateColorPanelVisible(QPoint pos)
 
 void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 {
+    if (primitiveType == QGraphicsItem::UserType) {
+        return;
+    }
     if (flag) {
         EDrawToolMode toolType = EDrawToolMode::selection;
         switch (primitiveType) {
@@ -433,28 +428,35 @@ void TopToolbar::slotChangeAttributeFromScene(bool flag, int primitiveType)
 void TopToolbar::slotZoom(const QString &scale)
 {
     qreal fScale = 0.0;
-    if (scale == "200%") {
-        fScale = 2;
-    } else if (scale == "100%") {
-        fScale = 1;
-    } else if (scale == "75%") {
-        fScale = 0.75;
-    } else if (scale == "50%") {
-        fScale = 0.5;
-    } else if (scale == "25%") {
-        fScale = 0.25;
-    } else {
-        fScale = 1;
-    }
 
-    emit signalZoom(fScale);
+    QString scale_num_str = scale;
+    scale_num_str = scale_num_str.replace("%", "");
+
+    int scale_num = 1;
+    bool flag = false;
+
+    scale_num = scale_num_str.toInt(&flag);
+
+    if (flag) {
+        fScale = scale_num / 100.0;
+    } else {
+        fScale = 1.0;
+    }
+    slotZoom(fScale);
+}
+
+void TopToolbar::slotZoom(const qreal &scale)
+{
+    emit signalZoom(scale);
+
+    // 更新当前缩放的比例
+    slotSetScale(scale);
 }
 
 void TopToolbar::slotSetScale(const qreal scale)
 {
-    QString strScale = QString::number(int(scale * 100)) + "%";
-
-    m_scaleComboBox->setText(strScale);
+    QString strScale = QString::number(scale * 100) + "%";
+    m_zoomMenuComboBox->setMenuButtonTextAndIcon(strScale, QIcon());
 }
 
 void TopToolbar::slotSetCutSize()
@@ -471,9 +473,10 @@ void TopToolbar::slotIsCutMode(QAction *action)
 {
     Q_UNUSED(action)
     if (cut == CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCurrentDrawToolMode()) {
-        emit signalQuitCutModeFromTopBarMenu();
+//        emit signalQuitCutModeFromTopBarMenu();
     }
 }
+
 void TopToolbar::slotOnImportAction()
 {
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::LoadDDF);
@@ -482,10 +485,9 @@ void TopToolbar::slotOnImportAction()
 
 void TopToolbar::slotOnNewConstructAction()
 {
-    if (CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify()) {
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
-        emit signalNew();
-    }
+
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setSaveDDFTriggerAction(ESaveDDFTriggerAction::NewDrawingBoard);
+    emit signalNew();
 }
 
 void TopToolbar::slotOnSaveAction()
@@ -503,9 +505,8 @@ void TopToolbar::slotOnSaveAsAction()
 void TopToolbar::slotMenuShow()
 {
     slotHideColorPanel();
-    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getIsModify());
+//    m_newAction->setEnabled(CManageViewSigleton::GetInstance()->getCurView()->getModify());
 }
-
 
 DMenu *TopToolbar::mainMenu()
 {
@@ -519,6 +520,73 @@ void TopToolbar::slotHideColorPanel()
     }
 }
 
+void TopToolbar::slotRectRediusChanged(int value)
+{
+    qDebug() << "CTopToolbar::slotRectRediusChanged value = " << value;
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setRectXRedius(value);
+}
+
+void TopToolbar::updateMiddleWidgetMult(EGraphicUserType mode, QMap<EDrawProperty, QVariant> propertys, bool write2Cache)
+{
+    if (propertys.size() > 0) {
+        m_propertys = propertys;
+        m_stackWidget->currentWidget()->setVisible(true);
+    } else {
+        if (m_stackWidget->currentWidget() != m_titleWidget &&
+                m_cutWidget != m_stackWidget->currentWidget()) {
+            m_stackWidget->currentWidget()->setVisible(false);
+        }
+    }
+    switch (mode) {
+    case::RectType://矩形
+    case::EllipseType://圆形
+    case::TriangleType://三角形
+        // 25039 解决设置图元alpha值后会不断刷新缓存，因此需要一个标记进行提示是否需要写入缓存
+        m_commonShapeWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_commonShapeWidget);
+        break;
+    case::PolygonalStarType://多角星
+        m_polygonalStarWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_polygonalStarWidget);
+        break;
+    case::PolygonType://多边形
+        m_PolygonWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_PolygonWidget);
+        break;
+    case::LineType://线
+        m_drawLineWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_drawLineWidget);
+        break;
+    case::PenType://画笔
+        m_penWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_penWidget);
+        break;
+    case::TextType://文本
+        m_drawTextWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_drawTextWidget);
+        break;
+    case::BlurType://模糊
+        m_drawBlurWidget->updateMultCommonShapWidget(propertys, write2Cache);
+        m_stackWidget->setCurrentWidget(m_drawBlurWidget);
+        break;
+    default:
+        break;
+    }
+}
+
+void TopToolbar::slotIsAllPictureItem(bool isEnable, bool single)
+{
+    m_stackWidget->setCurrentWidget(m_picWidget);
+    m_picWidget->setAdjustmentIsEnable(isEnable);
+    m_picWidget->setRotationEnable(single);
+    m_stackWidget->currentWidget()->setVisible(true);
+}
+
+void TopToolbar::slotScenceViewChanged(QString viewname)
+{
+    m_titleWidget->setTittleText(viewname);
+}
+
 void TopToolbar::resizeEvent(QResizeEvent *event)
 {
     this->updateGeometry();
@@ -529,73 +597,48 @@ void TopToolbar::resizeEvent(QResizeEvent *event)
 void TopToolbar::enterEvent(QEvent *event)
 {
     Q_UNUSED(event)
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    dApp->setApplicationCursor(Qt::ArrowCursor);
     DFrame::enterEvent(event);
-}
-
-void TopToolbar::slotUpdateCurrentAttributeBar()
-{
-    QWidget *currentWidget = m_stackWidget->currentWidget();
-    if (currentWidget == m_commonShapeWidget) {
-        m_commonShapeWidget->updateCommonShapWidget();
-    } else if (currentWidget == m_polygonalStarWidget) {
-        m_polygonalStarWidget->updatePolygonalStarWidget();
-    } else if (currentWidget == m_PolygonWidget) {
-        m_PolygonWidget->updatePolygonWidget();
-    } else if (currentWidget == m_drawLineWidget) {
-        m_drawLineWidget->updateLineWidget();
-    } else if (currentWidget == m_penWidget) {
-        m_penWidget->updatePenWidget();
-    } else if (currentWidget == m_drawTextWidget) {
-        m_drawTextWidget->updateTextColor();
-    }
 }
 
 void TopToolbar::initConnection()
 {
     //colorPanel.
     connect(m_colorPanel, &ColorPanel::updateHeight, this, [ = ] {m_colorARect->setContent(m_colorPanel);});
-    //connect(m_colorPanel, &ColorPanel::signalChangeFinished, this, [ = ] {m_colorARect->hide();});
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::signalAttributeChanged);
-    connect(m_colorPanel, &ColorPanel::signalColorChanged, this, &TopToolbar::slotUpdateCurrentAttributeBar);
-
-
-    /////传递图片的旋转和翻转信号
-    connect(m_picWidget, &CPictureWidget::signalBtnClick, this, &TopToolbar::signalPassPictureOperation);
 
     //rectangle, triangle,ellipse
     connect(m_commonShapeWidget, &CommonshapeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_commonShapeWidget, &CommonshapeWidget::resetColorBtns);
-    connect(m_commonShapeWidget, &CommonshapeWidget::signalCommonShapeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_commonShapeWidget, SIGNAL(signalRectRediusChanged(int)), this, SLOT(slotRectRediusChanged(int)));
+    connect(m_commonShapeWidget, &CommonshapeWidget::signalRectRediusIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygonalStar
     connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_polygonalStarWidget, &PolygonalStarAttributeWidget::resetColorBtns);
-    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalPolygonalStarAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalAnchorvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
+    connect(m_polygonalStarWidget, &PolygonalStarAttributeWidget::signalRadiusvalueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     ///polygon
     connect(m_PolygonWidget, &PolygonAttributeWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_PolygonWidget, &PolygonAttributeWidget::resetColorBtns);
-    connect(m_PolygonWidget, &PolygonAttributeWidget::signalPolygonAttributeChanged, this, &TopToolbar::signalAttributeChanged);
+    connect(m_PolygonWidget, &PolygonAttributeWidget::signalSideValueIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
     //draw line.
     connect(m_drawLineWidget, &LineWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawLineWidget, &LineWidget::resetColorBtns);
-    connect(m_drawLineWidget, &LineWidget::signalLineAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw pen.
     connect(m_penWidget, &CPenWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_penWidget, &CPenWidget::resetColorBtns);
-    connect(m_penWidget, &CPenWidget::signalPenAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     //draw text.
     connect(m_drawTextWidget, &TextWidget::showColorPanel, this, &TopToolbar::showColorfulPanel);
     connect(m_colorARect, &ArrowRectangle::hideWindow, m_drawTextWidget, &TextWidget::resetColorBtns);
-    connect(m_drawTextWidget, &TextWidget::signalTextAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-    connect(m_drawTextWidget, &TextWidget::signalTextFontFamilyChanged, this, &TopToolbar::signalTextFontFamilyChanged);
     connect(m_drawTextWidget, &TextWidget::signalTextFontSizeChanged, this, &TopToolbar::signalTextFontSizeChanged);
     //draw blur widget.
 
-    connect(m_drawBlurWidget, &BlurWidget::signalBlurAttributeChanged, this, &TopToolbar::signalAttributeChanged);
-
     //cut
-    connect(m_cutWidget, &CCutWidget::signalCutAttributeChanged, this, &TopToolbar::signalAttributeChanged);
     connect(m_cutWidget, &CCutWidget::signalCutLineEditIsfocus, this, &TopToolbar::signalCutLineEditIsfocus);
 
+    //CManagerAttributeService
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalShowWidgetCommonProperty(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)),
+            this, SLOT(updateMiddleWidgetMult(EGraphicUserType, QMap<EDrawProperty, QVariant>, bool)));
+    connect(CManagerAttributeService::getInstance(), SIGNAL(signalIsAllPictureItem(bool, bool)),
+            this, SLOT(slotIsAllPictureItem(bool, bool)));
 }
 

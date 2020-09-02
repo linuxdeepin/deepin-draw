@@ -48,6 +48,8 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 
         m_sPointPress = event->scenePos();
         m_pRectItem = new CGraphicsRectItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
+        int redius = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getRectXRedius();
+        m_pRectItem->setXYRedius(redius, redius);
         m_pRectItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pRectItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
 //    QGraphicsBlurEffect *e0 = new QGraphicsBlurEffect();
@@ -55,6 +57,7 @@ void CRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *sce
 //    e0->setBlurRadius(20);
 
 //    m_pRectItem->setGraphicsEffect(e0);
+        m_pRectItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pRectItem);
 
         m_bMousePress = true;
@@ -164,7 +167,8 @@ void CRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         m_pRectItem = nullptr;
         m_bMousePress = false;
     }
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
     //TODO 如果没有拖动的功能   是否删除矩形
 }
 

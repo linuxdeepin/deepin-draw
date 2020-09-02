@@ -20,8 +20,8 @@
 #define POLYGONALSTARATTRIBUTEWIDGET_H
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
+#include <DSpinBox>
+#include <DLabel>
 #include "drawshape/globaldefine.h"
 
 DWIDGET_USE_NAMESPACE
@@ -30,6 +30,7 @@ class BigColorButton;
 class BorderColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
+class CSpinBox;
 
 class PolygonalStarAttributeWidget : public DWidget
 {
@@ -41,12 +42,28 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
 public slots:
     /**
      * @brief updatePolygonalStarWidget　更新属性栏
      */
     void updatePolygonalStarWidget();
+    /**
+     * @brief slotAnchorvalueChanged　锚点值改变处理
+     */
+    void slotAnchorvalueChanged(int value);
+    /**
+     * @brief slotRadiusvalueChanged　半径值改变处理
+     */
+    void slotRadiusvalueChanged(int value);
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 
 signals:
     /**
@@ -64,19 +81,25 @@ signals:
      * @brief signalPolygonalStarAttributeChanged　属性变化信号
      */
     void signalPolygonalStarAttributeChanged();
+    /**
+     * @brief signalAnchorvalueIsfocus　锚点焦点变化信号
+     */
+    void signalAnchorvalueIsfocus(bool);
+    /**
+     * @brief signalRadiusvalueIsfocus　半径焦点变化信号
+     */
+    void signalRadiusvalueIsfocus(bool);
 
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
+//    DLabel *m_lwLabel;
     CSideWidthWidget *m_sideWidthWidget;
-    DSlider *m_anchorNumSlider; //锚点数滑块
-    DLineEdit *m_anchorNumEdit;//锚点数编辑框
-    DSlider *m_radiusNumSlider;//半径滑块
-    DLineEdit *m_radiusNumEdit;//半径编辑框
+    DLabel *m_anchorNumLabel;
+    CSpinBox *m_anchorNumber; //锚点数
+    CSpinBox *m_radiusNumber; //半径
+    DLabel *m_radiusLabel;
     SeperatorLine *m_sepLine;
-    QAction *m_addAction;
-    QAction *m_reduceAction;
-
 
 private:
     /**

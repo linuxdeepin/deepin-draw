@@ -26,25 +26,28 @@
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
 
-const qreal COLOR_RADIUS = 4;
-const int BTN_RADIUS = 8;
-const QPoint CENTER_POINT = QPoint(12, 12);
+//const qreal COLOR_RADIUS = 4;
+//const int BTN_RADIUS = 8;
+//const QPoint CENTER_POINT = QPoint(12, 12);
 
 BorderColorButton::BorderColorButton(DWidget *parent)
     : DPushButton(parent)
     , m_isHover(false)
     , m_isChecked(false)
+    , m_isMultColorSame(false)
 {
-    setFixedSize(62, 36);
     setCheckable(false);
-    m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
+    setButtonText(tr("Stroke"));
+    //m_color = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 }
 
 void BorderColorButton::updateConfigColor()
 {
+    m_isMultColorSame = true;
     QColor configColor = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineColor();
 
     if (m_color == configColor) {
+        update();
         return;
     }
 
@@ -60,75 +63,80 @@ BorderColorButton::~BorderColorButton()
 void BorderColorButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing
-                           | QPainter::SmoothPixmapTransform);
-    painter.setPen(Qt::transparent);
 
-    QColor drawColor = m_color;
+    //绘制looking
+    paintLookStyle(&painter, !m_isMultColorSame);
+}
 
-//    if (m_isChecked || m_isHover) {
-//        painter.setBrush(QBrush(QColor(0, 0, 0, 25)));
-//        painter.drawRoundedRect(rect(), 6, 6);
-//    } else if (m_isChecked) {
-//        drawColor = QColor(m_color.red(), m_color.green(), m_color.black(), 25);
-//    } else {
-//        painter.setBrush(Qt::transparent);
-//        painter.drawRoundedRect(rect(), 6, 6);
-//    }
+void BorderColorButton::paintLookStyle(QPainter *painter, bool isMult)
+{
+    //const QColor borderColor(77, 82, 93, int(1.0 * 255));
+    //const QColor borderColor(255, 255, 255, int(0.1 * 255));
+    const QColor borderColor = (isMult || m_color.alpha() == 0) ? QColor(77, 82, 93, int(0.8 * 255)) : QColor(255, 255, 255, int(0.1 * 255));
+    painter->save();
+    painter->setRenderHints(QPainter::Antialiasing);
 
-    QPen pen;
-    pen.setWidth(2);
-    pen.setColor(drawColor);
-    painter.setPen(pen);
-    // painter.setBrush(Qt::transparent);
-    //painter.drawEllipse(CENTER_POINT, BTN_RADIUS, BTN_RADIUS);
-    painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
+    const QSizeF btSz = QSizeF(20, 20);
 
-    QPen borderPen;
-    borderPen.setWidth(1);
-    //borderPen.setColor(QColor(0, 0, 0, 15));
-    if (m_color == Qt::transparent || m_color == QColor("#ffffff")) {
-        borderPen.setColor(Qt::gray);
-    } else {
-        borderPen.setColor(Qt::transparent);
+    QPointF topLeft = QPointF(4, 8);;
+
+    QPen pen(painter->pen());
+
+    bool   darkTheme = (CManageViewSigleton::GetInstance()->getThemeType() == 2);
+    QColor penColor  = darkTheme ? borderColor : QColor(0, 0, 0, int(0.1 * 255));
+
+    pen.setColor(penColor);
+
+    pen.setWidthF(1.5);    //多加0.5宽度弥补防走样的误差
+
+    painter->setPen(pen);
+
+    painter->translate(topLeft);
+
+    QPainterPath path;
+
+    QRectF outerct(QPointF(0, 0), btSz);
+    QRectF inerrct(QPointF(3, 3), btSz - QSizeF(2 * 3, 2 * 3));
+
+    path.addRoundedRect(outerct, 8, 8);
+    path.addRoundedRect(inerrct, 5, 5);
+
+    //线条的颜色用path的填充色来表示(如果是选中了多个图元那么有默认的颜色(该默认颜色与主题相关))
+    painter->setBrush((isMult || m_color.alpha() == 0) ?
+                      (darkTheme ? QColor(8, 15, 21, int(0.7 * 255)) : QColor(0, 0, 0, int(0.05 * 255))) : m_color);
+
+    painter->drawPath(path);
+
+    //如果颜色是透明的要绘制一条斜线表示没有填充色
+    if (!isMult && m_color.alpha() == 0) {
+        QPen pen(QColor(255, 67, 67, 153));
+        pen.setWidthF(2.0);
+        painter->setPen(pen);
+        painter->drawLine(QLineF(inerrct.bottomLeft(), inerrct.topRight()));
     }
-    if (m_color.alpha() == 0) {
-        borderPen.setColor(Qt::gray);
-    }
-    //borderPen.setColor(Qt::gray);
-    painter.setPen(borderPen);
-    //painter.drawEllipse(CENTER_POINT, BTN_RADIUS + 1, BTN_RADIUS + 1);
-    painter.drawRoundedRect(QRect(4, 10, 16, 16), 6, 6);
 
-    if (m_isChecked) {
-        //painter.setBrush(QColor(0, 0, 0, 35));
-        //painter.drawEllipse(CENTER_POINT, BTN_RADIUS - 1, BTN_RADIUS - 1);
-        painter.drawRoundedRect(QRect(5, 11, 14, 14), 6, 6);
-    }
+    painter->restore();
 
-    QPen textPen;
-    if (CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-        textPen.setColor(QColor("#414D68"));
-    } else {
-        textPen.setColor(QColor("#C0C6D4"));
-    }
-
-    painter.setPen(textPen);
+    //绘制常量文字("描边")
+    painter->save();
+    painter->setPen(darkTheme ? QColor("#C0C6D4") : QColor("#414D68"));
     QFont ft;
-    ft.setPixelSize(12);
-    painter.setFont(ft);
-
-    painter.drawText(26, 9, 38, 16, 1, tr("Stroke"));
+    ft.setPixelSize(14);
+    painter->setFont(ft);
+    painter->drawText(32, 6, m_textWidth, 22, 1, m_text);
+    painter->restore();
 }
 
 void BorderColorButton::setColor(QColor color)
 {
+    m_isMultColorSame = true;
     m_color = color;
     update();
 }
 
 void BorderColorButton::setColorIndex(int index)
 {
+    m_isMultColorSame = true;
     m_color = colorIndexOf(index);
     update();
 }
@@ -137,6 +145,19 @@ void BorderColorButton::resetChecked()
 {
     m_isChecked = false;
     update();
+}
+
+void BorderColorButton::setIsMultColorSame(bool isMultColorSame)
+{
+    m_isMultColorSame = isMultColorSame;
+}
+
+void BorderColorButton::setButtonText(QString text)
+{
+    QFontMetrics fontMetrics(font());
+    m_textWidth = fontMetrics.width(text);
+    setFixedSize(35 + m_textWidth, 32);
+    m_text = text;
 }
 
 void BorderColorButton::enterEvent(QEvent *)

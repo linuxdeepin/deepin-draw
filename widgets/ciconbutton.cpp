@@ -103,7 +103,10 @@ void CIconButton::mouseReleaseEvent(QMouseEvent *e)
 
     updateImage();
 
-    emit mouseRelease();
+    if (e->button() == Qt::LeftButton) {
+        emit mouseRelease();
+    }
+
     DIconButton::mouseReleaseEvent(e);
 }
 

@@ -21,6 +21,7 @@
 
 #include <QMap>
 #include <DToolButton>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -52,6 +53,7 @@ protected:
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 //    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
 
 private:

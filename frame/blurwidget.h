@@ -18,13 +18,14 @@
  */
 #ifndef BLURWIDGET_H
 #define BLURWIDGET_H
+#include "service/cmanagerattributeservice.h"
 
 #include <DWidget>
 #include <DSlider>
 #include <DLabel>
+#include <DToolButton>
 
-
-class CCheckButton;
+class CSpinBox;
 
 DWIDGET_USE_NAMESPACE
 
@@ -43,13 +44,13 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
 
 private:
-    /**
-     * @brief clearOtherSelections　清除按钮选中状态
-     * @param clickedButton
-     */
-    void clearOtherSelections(CCheckButton *clickedButton);
     /**
      * @brief initUI 初始化ＵＩ
      */
@@ -59,18 +60,14 @@ private:
      */
     void initConnection();
 
-signals:
-    /**
-     * @brief signalBlurAttributeChanged 属性变化信号
-     */
-    void signalBlurAttributeChanged();
-
 private:
-    QList<CCheckButton *> m_actionButtons;
-    CCheckButton *m_blurBtn;
-    CCheckButton *m_masicBtn;
+    QList<DToolButton *> m_actionButtons;
+    DToolButton *m_blurBtn;
+    DToolButton *m_masicBtn;
     DLabel *m_pLineWidthLabel;
-    DSlider *m_pLineWidthSlider;
+    CSpinBox *m_spinboxForLineWidth = nullptr;
+
+    void updateIcon(bool masic);
 };
 
 #endif // BLURWIDGET_H

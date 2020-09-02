@@ -27,8 +27,8 @@ GraphicsGlowEffect::GraphicsGlowEffect(QObject *parent) :
     QGraphicsEffect(parent),
     m_xOffset(0),
     m_yOffset(0),
-    m_distance(4.0f),
-    m_blurRadius(10.0f),
+    m_distance(4.0),
+    m_blurRadius(10.0),
     m_color(0, 0, 0, 80)
 {
 }
@@ -41,7 +41,7 @@ QT_END_NAMESPACE
 void GraphicsGlowEffect::cachePixmap(const QPixmap &sourcePx)
 {
     // Calculate size for the background image
-    QSize scaleSize(sourcePx.size().width() + 2 * distance(), sourcePx.size().height() + 2 * distance());
+    QSize scaleSize(int(sourcePx.size().width() + 2 * distance()), int(sourcePx.size().height() + 2 * distance()));
 
     if (cacheBlurPixmap.size() == scaleSize) {
         return;

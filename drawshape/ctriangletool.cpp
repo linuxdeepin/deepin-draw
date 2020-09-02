@@ -49,6 +49,7 @@ void CTriangleTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_pTriangleItem = new CGraphicsTriangleItem(m_sPointPress.x(), m_sPointPress.y(), 0, 0);
         m_pTriangleItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pTriangleItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pTriangleItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pTriangleItem);
 
         m_bMousePress = true;
@@ -309,4 +310,6 @@ void CTriangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScen
         m_pTriangleItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

@@ -29,11 +29,15 @@ CAlphaControlWidget::CAlphaControlWidget(DWidget *parent)
 
 void CAlphaControlWidget::updateAlphaControlWidget(int alpha)
 {
-    int percentValue = (float)alpha / 255 * 100;
     m_alphaSlider->blockSignals(true);
-    m_alphaSlider->setValue(percentValue);
+    m_alphaSlider->setValue(alpha);
     m_alphaSlider->blockSignals(false);
-    m_alphaLabel->setText(QString("%1%").arg(percentValue));
+    m_alphaLabel->setText(QString("%1%").arg(int(alpha * 100 / 255)));
+}
+
+int CAlphaControlWidget::getCurrentAlphaValue()
+{
+    return m_alphaSlider->value();
 }
 
 void CAlphaControlWidget::initUI()
@@ -70,7 +74,7 @@ void CAlphaControlWidget::initUI()
     m_alphaSlider = new DSlider(Qt::Horizontal, this);
     m_alphaSlider->slider()->setFocusPolicy(Qt::NoFocus);
     m_alphaSlider->setMinimum(0);
-    m_alphaSlider->setMaximum(100);
+    m_alphaSlider->setMaximum(255);
 
 
     m_alphaSlider->setFixedWidth(157);
@@ -89,9 +93,8 @@ void CAlphaControlWidget::initUI()
 void CAlphaControlWidget::initConnection()
 {
     connect(m_alphaSlider, &DSlider::valueChanged, this, [ = ](int value) {
-        int trueValue =  (float)value * 255 / 100;
-        m_alphaLabel->setText(QString("%1%").arg(value));
-        emit signalAlphaChanged(trueValue);
+        m_alphaLabel->setText(QString("%1%").arg(value * 100 / 255));
+        emit signalAlphaChanged(value);
     });
 
     connect(m_alphaSlider, &DSlider::sliderReleased, this, &CAlphaControlWidget::signalFinishChanged);

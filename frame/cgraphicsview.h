@@ -18,15 +18,22 @@
  */
 #ifndef CGRAPHICSVIEW_H
 #define CGRAPHICSVIEW_H
+
 #include "drawshape/csizehandlerect.h"
+#include "drawshape/globaldefine.h"
+
 #include "widgets/cmenu.h"
+
 #include <DGraphicsView>
+#include <QGestureEvent>
 
 DWIDGET_USE_NAMESPACE
 
 class QUndoStack;
+class QUndoCommand;
 class CDDFManager;
 class CGraphicsItem;
+class CGraphicsRectItem;
 class CGraphicsPolygonItem;
 class CGraphicsPolygonalStarItem;
 class CGraphicsPenItem;
@@ -34,6 +41,7 @@ class CMenu;
 class CGraphicsLineItem;
 class CGraphicsMasicoItem;
 class CDrawParamSigleton;
+class CDrawScene;
 /**
  * @brief The CGraphicsView class 图元显示VIEW 类
  *
@@ -64,14 +72,20 @@ public:
     void scale(qreal scale);
 
     /**
+     * @brief scale 获取缩放接口
+     * @return scale 缩放比例
+     */
+    qreal getScale();
+
+    /**
      * @brief showSaveDDFDialog 显示保存DDF对话框
      */
-    void showSaveDDFDialog(bool);
+    void showSaveDDFDialog(bool, bool finishClose = false, const QString &saveFilePath = "");
 
     /**
      * @brief doSaveDDF保存DDFRR
      */
-    void doSaveDDF();
+    void doSaveDDF(bool finishClose = false);
 
     /**
      * @brief setContextMenuAndActionEnable 设置菜单项是否可用
@@ -95,9 +109,29 @@ public:
      * @brief getCDrawParam　获取绘制数据
      */
     CDrawParamSigleton *getDrawParam();
+    /**
+     * @brief pushUndoStack　入撤销栈
+     */
+    void pushUndoStack(QUndoCommand *cmd);
 
+    /**
+     * @brief cleanUndoStack　清空撤销重做栈
+     */
+    void cleanUndoStack();
+
+    bool getModify() const;
+    void setModify(bool isModify);
+
+
+    bool isKeySpacePressed();
+
+    CDrawScene *drawScene();
+
+    Q_SLOT void updateCursorShape();
 
 protected:
+    void showEvent(QShowEvent *event)override;
+
     /**
      * @brief wheelEvent 鼠标滚轮事件响应函数
      * @param event 鼠标滚轮事件
@@ -109,6 +143,7 @@ protected:
      * @param event 右键菜单
      */
     void contextMenuEvent(QContextMenuEvent *event) Q_DECL_OVERRIDE;
+    void showMenu(DMenu *pMenu);
 
     /**
      * @brief resizeEvent 窗口大小更改响应事件函数
@@ -164,6 +199,28 @@ protected:
     virtual  void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     //virtual QPainter *sharedPainter() const Q_DECL_OVERRIDE;
+
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+
+
+    void keyPressEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *event)Q_DECL_OVERRIDE;
+
+    bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
+    bool viewportEvent(QEvent *event)Q_DECL_OVERRIDE;
+    bool gestureEvent(QGestureEvent *event);
+    void panTriggered(QPanGesture *);
+    void pinchTriggered(QPinchGesture *);
+    void swipeTriggered(QSwipeGesture *);
+
+    QPoint _pressBeginPos;
+    QPoint _recordMovePos;
+    bool   _spaceKeyPressed = false;
+    QCursor _tempCursor;
 signals:
     /**
      * @brief signalSetScale 设置缩放信号
@@ -191,12 +248,29 @@ signals:
      * @brief signalPastePixmap 粘贴图片
      * @param pixmap
      */
-    void signalPastePixmap(QPixmap pixmap);
+    void signalPastePixmap(QPixmap pixmap, const QByteArray &srcBytes);
 
     /**
      * @brief signalLoadDragOrPasteFile 加载或粘贴文件信号
      */
     void signalLoadDragOrPasteFile(QString);
+
+    /**
+     * @brief signalSaveFileStatus 保存文件状态信号
+     * @param bool 保存状态
+     * @param QString 错误字符串
+     * @param FileError 错误类型
+     */
+    void signalSaveFileStatus(const QString &savedFile,
+                              bool status,
+                              QString errorString,
+                              QFileDevice::FileError error,
+                              bool needClose);
+
+    /**
+     * @brief signalSaveFileNameTooLong 保存文件名字过长信号
+     */
+    void signalSaveFileNameTooLong();
 
 public slots:
 
@@ -211,7 +285,7 @@ public slots:
      * @brief itemAdded
      * @param item
      */
-    void itemAdded(QGraphicsItem *item );
+    void itemAdded(QGraphicsItem *item, bool pushToStack);
 
     /**
      * @brief itemRotate
@@ -229,7 +303,7 @@ public slots:
      * @param bShiftPress
      * @param bALtPress
      */
-    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QPointF beginPos, QPointF endPos, bool bShiftPress, bool bALtPress);
+    void itemResize(CGraphicsItem *item, CSizeHandleRect::EDirection handle, QRectF beginRect, QPointF endPos, bool bShiftPress, bool bALtPress);
 
     /**
      * @brief itemPropertyChange
@@ -240,6 +314,14 @@ public slots:
      * @param bBrushChange
      */
     void itemPropertyChange(CGraphicsItem *item, QPen pen, QBrush brush, bool bPenChange, bool bBrushChange);
+
+    /**
+    * @brief itemPropertyChange
+    * @param item
+    * @param xRedius
+    * @param bChange
+    */
+    void itemRectXRediusChange(CGraphicsRectItem *item, int xRedius, bool bChange);
 
     /**
      * @brief itemPolygonPointChange
@@ -261,14 +343,14 @@ public slots:
      * @param item
      * @param newType
      */
-    void itemPenTypeChange(CGraphicsPenItem *item, int newType);
+    void itemPenTypeChange(CGraphicsPenItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemLineTypeChange
      * @param item
      * @param newType
      */
-    void itemLineTypeChange(CGraphicsLineItem *item, int newType);
+    void itemLineTypeChange(CGraphicsLineItem *item, bool isStart, ELineType newOldType);
 
     /**
      * @brief itemBlurChange
@@ -293,7 +375,7 @@ public slots:
      * @brief slotAddItemFromDDF 添加图元到DDF
      * @param item
      */
-    void slotAddItemFromDDF(QGraphicsItem *item );
+    void slotAddItemFromDDF(QGraphicsItem *item, bool pushToStack = true);
 
     /**
      * @brief slotQuitCutMode 退出裁剪模式
@@ -311,7 +393,13 @@ public slots:
      */
     void itemSceneCut(QRectF newRect);
 
-private slots:
+    /*
+    * @bref: updateSelectedItemsAlignment 更新选中图元的对齐方式
+    * @param: Qt::AlignmentFlag align 对齐方式
+    */
+    void updateSelectedItemsAlignment(Qt::AlignmentFlag align);
+
+public slots:
 
     /**
      * @brief slotOnCut 剪切图元
@@ -384,24 +472,9 @@ private slots:
     void slotOnTextSelectAll();
 
     /**
-     * @brief slotOnTextTopAlignment 文字顶对齐
+     * @brief slotSetTextAlignment 设置文字对齐方式
      */
-    void slotOnTextTopAlignment();
-
-    /**
-     * @brief slotOnTextRightAlignment 文字右对齐
-     */
-    void slotOnTextRightAlignment();
-
-    /**
-     * @brief slotOnTextLeftAlignment 文字左对齐
-     */
-    void slotOnTextLeftAlignment();
-
-    /**
-     * @brief slotOnTextCenterAlignment 文字中心对齐
-     */
-    void slotOnTextCenterAlignment();
+    void slotSetTextAlignment(const Qt::Alignment &align);
 
     /**
      * @brief slotOnTextUndo  文字撤消
@@ -412,6 +485,11 @@ private slots:
      * @brief slotOnTextRedo 文字重做
      */
     void slotOnTextRedo();
+
+    /**
+     * @brief slotOnTextDelete 文字删除
+     */
+    void slotOnTextDelete();
 
     /**
      * @brief slotRestContextMenuAfterQuitCut 退出裁剪重置右键菜单
@@ -444,35 +522,44 @@ private:
     QAction *m_deleteAct;           //删除
     QAction *m_undoAct;             //撤销
     QAction *m_redoAct;             //重做
+
+    DMenu *m_layerMenu;             //图层菜单
     QAction *m_oneLayerUpAct;       //向上一层
     QAction *m_oneLayerDownAct;     //向下一层
     QAction *m_bringToFrontAct;     //置于最顶层
     QAction *m_sendTobackAct;       //置于最底层
-//    QAction *m_leftAlignAct;
-//    QAction *m_topAlignAct;
-//    QAction *m_rightAlignAct;
-//    QAction *m_centerAlignAct;
 
-    QAction *m_viewZoomInAction;
-    QAction *m_viewZoomOutAction;
+    DMenu *m_alignMenu;
+    QAction *m_itemsLeftAlign;      //左对齐
+    QAction *m_itemsHCenterAlign;   //水平居中对齐
+    QAction *m_itemsRightAlign;     //右对齐
+    QAction *m_itemsTopAlign;       //顶对齐
+    QAction *m_itemsVCenterAlign;   //垂直居中对齐
+    QAction *m_itemsBottomAlign;    //底对齐
+    QAction *m_itemsHEqulSpaceAlign;//水平等间距对齐
+    QAction *m_itemsVEqulSpaceAlign;//垂直等间距对齐
+
+    QAction *m_viewZoomInAction;  // 缩小快捷键
+    QAction *m_viewZoomOutAction; // 放大快捷键 ctrl + +
+    QAction *m_viewZoomOutAction1; // 放大快捷键 ctrl + =
     QAction *m_viewOriginalAction;
 
 
     QAction *m_cutScence;          //裁剪
 
-    ///文字图元右键菜单
-    DMenu *m_textMenu;
-    QAction *m_textCutAction;
-    QAction *m_textCopyAction;
-    QAction *m_textPasteAction;
-    QAction *m_textSelectAllAction;
-    QAction *m_textLeftAlignAct;
-    QAction *m_textTopAlignAct;
-    QAction *m_textRightAlignAct;
-    QAction *m_textCenterAlignAct;
-    QAction *m_textUndoAct;             //文字撤销
-    QAction *m_textRedoAct;             //文字重做
-    ///
+    //文字图元右键菜单
+    DMenu *m_textMenu;                      //文字菜单
+    QAction *m_textCutAction;            //文字剪切
+    QAction *m_textCopyAction;          //文字复制
+    QAction *m_textPasteAction;         //文字粘贴
+    QAction *m_textSelectAllAction;  //文字全选
+    QAction *m_textDeleteAction;      //文字删除
+    QAction *m_textUndoAct;              //文字撤销
+    QAction *m_textRedoAct;              //文字重做
+    QAction *m_textLeftAlignAct;      //文字左对齐
+    QAction *m_textRightAlignAct;   //文字右对齐
+    QAction *m_textCenterAlignAct; //文字水平垂直居中对齐(目前Qt只支持水平方向的对齐)
+
 
     QUndoStack *m_pUndoStack;
     bool m_visible;
@@ -481,8 +568,6 @@ private:
 
     bool m_isShowContext;
     bool m_isStopContinuousDrawing;
-
-    CDrawParamSigleton *m_drawParam;//数据
 
 private:
     /**
@@ -521,6 +606,18 @@ private:
      * @return
      */
     bool canLayerDown();
+
+    /**
+    * @bref: getValidSelectedItems 获取当前选中的有效图元
+    * @return: QList<CGraphicsItem *> 有效图元集合
+    */
+    QList<CGraphicsItem *> getSelectedValidItems();
+
+    /**
+     * @brief getCouldPaste 判断当前是否可粘贴
+     * @return
+     */
+    bool getCouldPaste();
 };
 
 #endif // CGRAPHICSVIEW_H

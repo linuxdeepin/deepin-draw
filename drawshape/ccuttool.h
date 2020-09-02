@@ -68,12 +68,12 @@ public:
     /**
      * @brief changeCutSize　改变裁剪尺寸
      */
-    void changeCutSize(const QSize &);
+    void changeCutSize(const CDrawScene *scene, const QSize &);
     /**
      * @brief getCutRect　获取裁剪区域矩形大小
      * @return
      */
-    QRectF getCutRect();
+    QRectF getCutRect(CDrawScene *scene);
     /**
      * @brief getModifyFlag　获取是否修改标识
      * @return
@@ -85,6 +85,9 @@ public:
      */
     void setModifyFlag(bool flag);
 
+    CGraphicsCutItem *getCurCutItem();
+    CGraphicsCutItem *getCutItem(CDrawScene *scene);
+
 private:
     CGraphicsCutItem *m_pCutItem;
     CSizeHandleRect::EDirection m_dragHandle; //选中的方块方向
@@ -92,6 +95,8 @@ private:
 
     bool m_bModify;
 
+    // 用于保存剪裁图元避免多个场景有裁剪的时候其它场景不显示
+    QMap<CDrawScene *, CGraphicsCutItem *> m_cutItems;
 };
 
 #endif // CCUTTOOL_H

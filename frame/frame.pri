@@ -15,7 +15,8 @@ HEADERS += \
     $$PWD/cgraphicsview.h \
     $$PWD/cundocommands.h \
     $$PWD/ctitlewidget.h \
-    $$PWD/cviewmanagement.h
+    $$PWD/cviewmanagement.h \
+    $$PWD/cmultiptabbarwidget.h
 
 SOURCES += \
     $$PWD/blurwidget.cpp \
@@ -34,7 +35,8 @@ SOURCES += \
     $$PWD/cgraphicsview.cpp \
     $$PWD/cundocommands.cpp \
     $$PWD/ctitlewidget.cpp \
-    $$PWD/cviewmanagement.cpp
+    $$PWD/cviewmanagement.cpp \
+    $$PWD/cmultiptabbarwidget.cpp
 
 RESOURCES += \
     $$PWD/frameRes.qrc

@@ -23,6 +23,7 @@
 #include <QPainter>
 
 #include <QDebug>
+#include <QtMath>
 
 CGraphicsTriangleItem::CGraphicsTriangleItem(CGraphicsItem *parent)
     : CGraphicsRectItem (parent)
@@ -97,6 +98,20 @@ void CGraphicsTriangleItem::duplicate(CGraphicsItem *item)
     CGraphicsRectItem::duplicate(item);
 }
 
+QPainterPath CGraphicsTriangleItem::getHighLightPath()
+{
+    QPainterPath path;
+    QRectF rc = rect();
+
+    QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
+
+    QPolygonF item;
+    item << rc.bottomLeft() << top << rc.bottomRight();
+    path.addPolygon(item);
+    path.closeSubpath();
+    return path;
+}
+
 
 void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -104,26 +119,59 @@ void CGraphicsTriangleItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(widget)
 
     updateGeometry();
+
+    beginCheckIns(painter);
+
     QRectF rc = rect();
 
     QPointF top = QPointF((rc.x() + rc.width() / 2), rc.y());
 
-    QPolygonF item;
-    item << rc.bottomLeft() << top << rc.bottomRight();
+    //先绘制填充区域
+    QPolygonF polyForBrush;
+    qreal offsetWidth = pen().widthF() / 2.0;
+    QLineF line1(top, rc.bottomLeft());
+    QLineF line2(rc.bottomLeft(), rc.bottomRight());
+    QLineF line3(rc.bottomRight(), top);
+    QVector<QLineF> lines;
+    lines << line3 << line1 << line2;
+    for (int i = 0; i < lines.size(); ++i) {
+        QLineF ln1  = lines.at(i);
+        QLineF ln2  = (i == lines.size() - 1 ? lines[0] : lines[i + 1]);
+        qreal angle = 180 - ln1.angleTo(ln2);
 
-    painter->setPen(pen());
+        qreal offsetLen = offsetWidth / qSin(qDegreesToRadians(angle / 2.0));
+        QLineF tempLine(ln2);
+        tempLine.setAngle(tempLine.angle() + angle / 2.0);
+        tempLine.setLength(offsetLen);
+
+        polyForBrush.append(tempLine.p2());
+    }
+    painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
-    painter->drawPolygon(item);
+    painter->drawPolygon(polyForBrush);
 
-    if (this->isSelected()) {
+
+    //再绘制描边
+    QPolygonF polyForPen;
+    polyForPen << rc.bottomLeft() << top << rc.bottomRight();
+
+    painter->setPen(pen().width() == 0 ? Qt::NoPen : pen());
+    painter->setBrush(Qt::NoBrush);
+    painter->drawPolygon(polyForPen);
+
+    endCheckIns(painter);
+
+    //是否选中的情况
+    if (this->getMutiSelect()) {
         painter->setClipping(false);
         QPen pen;
         pen.setWidthF(1 / CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getScale());
-        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
-            pen.setColor(QColor(224, 224, 224));
-        } else {
-            pen.setColor(QColor(69, 69, 69));
-        }
+//        if ( CManageViewSigleton::GetInstance()->getThemeType() == 1) {
+//            pen.setColor(QColor(224, 224, 224));
+//        } else {
+//            pen.setColor(QColor(69, 69, 69));
+//        }
+        pen.setColor(QColor(224, 224, 224));
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(this->boundingRect());

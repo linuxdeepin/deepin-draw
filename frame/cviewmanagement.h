@@ -20,11 +20,24 @@
 #define CMANAGEVIEWSIGLETON_H
 
 #include <QList>
+#include <QDBusReply>
+#include <QDBusInterface>
+#include <QDBusUnixFileDescriptor>
+#include <QFileSystemWatcher>
+#include <QAtomicInt>
+#include <QDebug>
+#include <DDialog>
+#include <QThread>
+#include <QMutex>
+
+DWIDGET_USE_NAMESPACE
 
 class CGraphicsView;
+class CFileWatcher;
 
-class CManageViewSigleton
+class CManageViewSigleton: public QObject
 {
+    Q_OBJECT
 private :
     static CManageViewSigleton *m_pInstance;
     CManageViewSigleton();
@@ -41,6 +54,16 @@ public:
      * @brief setThemeType 设置主题
      */
     void setThemeType(const int type);
+
+    /**
+     * @brief updateTheme 主题值变化后要刷新
+     */
+    void updateTheme();
+
+    /**
+     * @brief isEmpty 是否是空的(是否没有view)
+     */
+    bool isEmpty();
     /**
      * @brief getCurView 获取窗口
      */
@@ -57,6 +80,65 @@ public:
      * @brief setCurView 删除窗口
      */
     void removeView(CGraphicsView *view);
+    /**
+     * @brief CheckIsModify 检测是否修改
+     */
+    void updateBlockSystem();
+    /**
+     * @brief getViewByViewName
+     */
+    CGraphicsView *getViewByViewName(QString name);
+
+    /**
+     * @brief getViewByViewModifyStateName
+     */
+    CGraphicsView *getViewByViewModifyStateName(QString name);
+    /**
+     * @brief getViewByFilePath
+     */
+    CGraphicsView *getViewByFilePath(QString path);
+
+
+    CGraphicsView *getViewByUUID(QString uuid);
+
+
+    bool  isDdfFileOpened(const QString &path);
+
+
+    bool wacthFile(const QString &file);
+    bool removeWacthedFile(const QString &file);
+
+
+    Q_SLOT void onDDfFileChanged(const QString &ddfFile);
+
+    Q_SLOT void onDdfFileChanged(const QString &ddfFile, int tp);
+
+    int  viewCount();
+
+    void quitIfEmpty();
+
+    QByteArray getFileSrcData(const QString &file);
+
+
+private:
+
+    /**
+     * @brief initBlockShutdown 柱塞关机
+     */
+    void initBlockShutdown();
+
+    /**
+     * @brief getNoticeFileDialog
+     */
+    DDialog *getNoticeFileDialog(const QString &file);
+
+    /**
+     * @brief getNoticeFileDialog
+     */
+    DDialog *creatOneNoticeFileDialog(const QString &file, QWidget *parent = nullptr);
+
+
+    void     removeNoticeFileDialog(DDialog *dialog);
 
 private:
     //当前主题
@@ -65,7 +147,53 @@ private:
     QList<CGraphicsView *> m_allViews;
     //当前索引
     int m_curIndex = -1;
+
+    QDBusReply<QDBusUnixFileDescriptor> m_reply;
+    QDBusInterface *m_pLoginManager = nullptr;
+    QList<QVariant> m_arg;
+
+    QFileSystemWatcher m_ddfWatcher;
+
+    QList<DDialog *> m_noticeFileDialogs;
+    DDialog       *m_pNoticeFileDialog = nullptr;
+
+
+    CFileWatcher *_ddfWatcher;
 };
 
+class CFileWatcher: public QThread
+{
+    Q_OBJECT
+public:
+    enum EFileChangedType {EFileModified, EFileMoved, EFileCount};
+
+    CFileWatcher(QObject *parent = nullptr);
+    ~CFileWatcher();
+
+    bool isVaild();
+
+    void addWather(const QString &path);
+    void removePath(const QString &path);
+
+    void clear();
+
+signals:
+    void fileChanged(const QString &path, int tp);
+
+protected:
+    void run();
+
+private:
+    void doRun();
+
+    int  _handleId = -1;
+    bool _running = false;
+
+
+    QMap<QString, int> watchedFiles;
+    QMap<int, QString> watchedFilesId;
+
+    QMutex _mutex;
+};
 
 #endif // CDRAWPARAMSIGLETON_H

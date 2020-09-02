@@ -51,6 +51,7 @@ void CPolygonalStarTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawS
                                                               m_sPointPress.x(), m_sPointPress.y(), 0, 0);
         m_pPolygonalStarItem->setPen(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getPen());
         m_pPolygonalStarItem->setBrush(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getBrush());
+        m_pPolygonalStarItem->setZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pPolygonalStarItem);
 
 
@@ -159,5 +160,6 @@ void CPolygonalStarTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDra
         m_pPolygonalStarItem = nullptr;
         m_bMousePress = false;
     }
-
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

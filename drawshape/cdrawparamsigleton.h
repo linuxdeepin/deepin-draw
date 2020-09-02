@@ -27,7 +27,7 @@
 class CDrawParamSigleton
 {
 public:
-    CDrawParamSigleton();
+    CDrawParamSigleton(const QString &uuid = "", bool isModified = false);
 
     void setLineWidth(int lineWidth);
     int getLineWidth() const;
@@ -44,7 +44,6 @@ public:
     void setBrush(const QBrush &brush);
     QBrush getBrush() const;
 
-
     void setCurrentDrawToolMode(EDrawToolMode mode);
     EDrawToolMode getCurrentDrawToolMode() const;
 
@@ -57,11 +56,11 @@ public:
     int getSideNum() const;
     void setSideNum(int sideNum);
 
-    EPenType getCurrentPenType() const;
-    void setCurrentPenType(const EPenType &currentPenType);
-
     QFont getTextFont() const;
     void setTextFont(const QString &strFont);
+
+    QString getTextFontStyle() const;
+    void setTextFontStyle(const QString &style);
 
     void setShiftKeyStatus(bool flag);
     bool getShiftKeyStatus();
@@ -81,6 +80,9 @@ public:
     void setTextColor(const QColor &fillColor);
     QColor getTextColor() const;
 
+    void setTextColorAlpha(const int &alpha);
+    int getTextColorAlpha() const;
+
     ECutType getCutType() const;
     void setCutType(const ECutType &cutType);
 
@@ -93,9 +95,8 @@ public:
     ECutAttributeType getCutAttributeType() const;
     void setCutAttributeType(const ECutAttributeType &cutAttributeType);
 
-
-    bool getIsModify() const;
-    void setIsModify(bool isModify);
+    bool getModify() const;
+    void setModify(bool isModify);
 
     EBlurEffect getBlurEffect() const;
     void setBlurEffect(const EBlurEffect &blurEffect);
@@ -103,14 +104,20 @@ public:
     int getBlurWidth() const;
     void setBlurWidth(const int width);
 
-    void setSingleFontFlag(bool flag);
-    bool getSingleFontFlag() const;
-
     QString getDdfSavePath() const;
     void setDdfSavePath(const QString &ddfSavePath);
 
-    ELineType getLineType() const;
-    void setLineType(const ELineType &lineType);
+    ELineType getLineStartType() const;
+    void setLineStartType(const ELineType &lineType);
+
+    ELineType getLineEndType() const;
+    void setLineEndType(const ELineType &lineType);
+
+    ELineType getPenStartType() const;
+    void setPenStartType(const ELineType &penType);
+
+    ELineType getPenEndType() const;
+    void setPenEndType(const ELineType &penType);
 
     ESaveDDFTriggerAction getSaveDDFTriggerAction() const;
     void setSaveDDFTriggerAction(const ESaveDDFTriggerAction &saveDDFTriggerAction);
@@ -121,22 +128,53 @@ public:
     bool getSelectAllFlag() const;
     void setSelectAllFlag(bool flag);
 
+    /**
+       * @brief viewName　获取视图名字
+       * @return 返回视图名字
+       */
+    QString viewName() const;
+    /**
+        * @brief setViewName　设置视图名字
+        * @param name 视图名字
+        */
+    void setViewName(QString name);
+
+    /**
+       * @brief getRectXRedius　获取矩形圆角半径
+       * @return 矩形圆角半径
+       */
+    int getRectXRedius() const;
+    /**
+        * @brief setRectXRedius　设置矩形圆角半径
+        * @param redius 矩形圆角半径
+        */
+    void setRectXRedius(int redius);
+
+    /**
+        * @brief getShowViewNameByModifyState　根据当前是否被修改的状态返回显示名字
+        */
+    QString getShowViewNameByModifyState();
+
+
+    QString uuid();
+
+public:
+    static QString creatUUID();
+
 private:
     int m_nlineWidth;
     QColor m_sLineColor;
     QColor m_nFillColor;
+    int m_rectXRedius;//矩形圆角半径,默认x，y相同，后期有需要再添加y
 
     int m_radiusNum; //多角星半径
     int m_anchorNum;//多角星锚点数
 
     int m_sideNum;//多边形边数
 
-    EPenType m_currentPenType; //当前画笔类型
-
     QFont m_textFont; //文本字体
     //qreal m_textSize; //文本大小
     QColor m_textColor;//文本颜色
-    bool m_singleFontFlag; //只包含一个字体
 
     EDrawToolMode m_currentDrawToolMode;
 
@@ -167,11 +205,21 @@ private:
     int m_blurWidth;    //模糊半径
 
     //线型
-    ELineType m_lineType;
+    ELineType m_lineStartType; // 线起点样式
+    ELineType m_lineEndType; // 线终点样式
+
+    // 画笔类型
+    ELineType m_penStartType; // 画笔起点样式
+    ELineType m_penEndType; // 画笔终点样式
 
     int m_renderImage; //是否是将场景渲染到图片上　0否　1是　2是且渲染为透明
 
     bool m_bSelectAlling; //是否正在全选
+
+    QString m_viewName;//视图名字
+
+
+    QString m_keyUUID;      //唯一标识
 };
 
 

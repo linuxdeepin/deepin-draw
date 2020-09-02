@@ -44,8 +44,27 @@ public:
     virtual QRectF rect() const Q_DECL_OVERRIDE;
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point,
+                          bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+    /**
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @param dir 8个方向
+     * @param offset x，y方向移动距离
+     * @param xScale X轴放大缩小比例
+     * @param yScale y轴放大缩小比例
+     */
+    virtual void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                             const double &xScale, const double &yScale,
+                             bool bShiftPress, bool bAltPress) override;
+
+    virtual void resizeToMul_7(CSizeHandleRect::EDirection dir,
+                               QRectF pressRect, QRectF itemPressRect,
+                               const qreal &xScale, const qreal &yScale,
+                               bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
+
     /**
      * @brief duplicate 拷贝自己
      * @return
@@ -53,20 +72,39 @@ public:
     virtual void duplicate(CGraphicsItem *item) Q_DECL_OVERRIDE;
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    /**
+     * @brief setXYRedius 设置矩形圆角半径
+     * @param xRedius x方向半径
+     * @param yRedius y方向半径
+     */
+    void setXYRedius(int xRedius, int yRedius);
+    /**
+     * @brief getXYRedius 默认返回一个，返回圆角半径
+     * @return
+     */
+    int getXRedius();
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) Q_DECL_OVERRIDE;
     virtual void updateGeometry() Q_DECL_OVERRIDE;
 
-private:
+
+protected:
     /**
      * @brief initRect 初始化矩形的属性和边框小方块
      */
-    void initRect();
+    void initHandle() override;
 
 private:
     QPointF m_topLeftPoint; //左上角的点
     QPointF m_bottomRightPoint; //右下角的点
+    int m_xRedius;
+    int m_yRedius;
 };
 
 #endif // CGRAPHICSRECTITEM_H

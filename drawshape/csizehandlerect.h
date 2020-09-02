@@ -31,7 +31,7 @@ class QGraphicsScene;
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
-
+class CGraphicsView;
 enum { SELECTION_HANDLE_SIZE = 15, SELECTION_MARGIN = 10 };
 enum ESelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 
@@ -50,6 +50,7 @@ public:
     {
         return m_dir;
     }
+    CGraphicsView *curView()const;
     void updateCursor();
     void setState(ESelectionHandleState st);
     bool hitTest( const QPointF &point );
@@ -59,9 +60,11 @@ public:
     bool getVisible() const;
 
 
+    void setJustExitLogicAbility(bool b);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    bool isFatherDragging();  //如果为true不会进行绘制
 
 private:
     const EDirection m_dir;
@@ -70,6 +73,7 @@ private:
     QSvgRenderer m_lightRenderer;
     QSvgRenderer m_darkRenderer;
     bool m_isRotation;
+    bool m_onlyLogicAblity = false;
 
 };
 

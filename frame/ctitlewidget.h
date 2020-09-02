@@ -35,8 +35,14 @@ public:
      */
     void updateTitleWidget();
 
+    /**
+     * @brief setTittleText 设置标题栏文字
+     */
+    void setTittleText(QString tittle);
+
 private:
     DLabel *m_title;
+    QString m_text;
 };
 
 #endif // CEMPTYWIDGET_H

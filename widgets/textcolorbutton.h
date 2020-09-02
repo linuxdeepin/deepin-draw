@@ -32,10 +32,13 @@ public:
     TextColorButton(DWidget *parent = nullptr);
     ~TextColorButton();
 
-    void setColor(QColor color);
+    void setColor(QColor &color);
+    QColor getColor();
     void setColorIndex(int index);
     void updateConfigColor();
     void resetChecked();
+    void setIsMultColorSame(bool isMultColorSame);
+    void setButtonText(QString text);
 
 signals:
     void btnCheckStateChanged(bool show);
@@ -46,10 +49,16 @@ protected:
     void leaveEvent(QEvent *);
     void mousePressEvent(QMouseEvent * );
 
+    void paintLookStyle(QPainter *painter, bool isMult = false);
+
 private:
     QColor m_color;
     bool m_isHover;
     bool m_isChecked;
+    bool m_isMultColorSame;//多选图元，颜色不一致时使用,单选的时候默认为true
+
+    QString m_text;
+    int m_textWidth; // 字符的宽度，用于自适应文字的宽度大小
 
 };
 

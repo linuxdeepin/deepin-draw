@@ -23,22 +23,57 @@
 #include <QBrush>
 #include <QPoint>
 #include <QTextDocument>
+#include <QDebug>
+#include <QBuffer>
+#include <QTime>
+#include <QCryptographicHash>
 #include "drawshape/globaldefine.h"
 
 #pragma pack(push, 1)
-//定义图元类型
 
+enum EDdfVersion {
+    EDdfUnknowed = -1,       //未知的版本(ddf被修改过)
 
-////画笔
-//struct SPen {
-//    qint32 width;
-//    QColor col;
-//};
+    EDdf5_8_0_Base = 0,      //最原始的ddf版本
+    EDdf5_8_0_9_1,           //添加了矩形属性的ddf版本
+    EDdf5_8_0_10_1,          //添加了直线起点终点的版本（但这个版本在保存时漏掉保存了pen图元的保存 所以这个版本保存的ddf被加载后pen图元显示会问题）
+    EDdf5_8_0_10_2,          //修复了EDdf5_8_0_10_1版本未保存画笔图元path的问题
+    EDdf5_8_0_16_1,          //为了优化图片的保存速度修改了保存图片时由原先的直接保存QImage该成保存QByteArry
 
-////画刷
-//struct SBrush {
-//    QColor col;
-//};
+    EDdf5_8_0_20,            //添加功能md5校验，以检查ddf文件是否被修改过(ddf破坏过,变脏了那么不再加载或其他处理方式?)
+
+    EDdfVersionCount,
+
+    EDdfCurVersion = EDdfVersionCount - 1  //最新的版本号(添加新的枚举必须添加到EDdfUnknowed和EDdfVersionCount之间)
+};
+
+static EDdfVersion getVersion(QDataStream &stream)
+{
+    EDdfVersion     version = EDdfUnknowed;
+    quint32         headCheckFlag;
+
+    if (stream.device() != nullptr) {
+        int verVar;
+
+        qint64 pos = stream.device()->pos();
+        stream.device()->seek(0);
+
+        stream >> headCheckFlag;
+
+        if (headCheckFlag == static_cast<quint32>(0xA0B0C0D0)) {
+            stream >> verVar;
+            version = EDdfVersion(verVar);
+
+        } else {
+            version = EDdf5_8_0_Base;
+            //version = EDdfUnknowed;
+        }
+        //还原
+        stream.device()->seek(pos);
+    }
+
+    return version;
+}
 
 //图元头部
 struct SGraphicsUnitHead {
@@ -114,17 +149,30 @@ struct SGraphicsUnitTail {
 struct SGraphicsRectUnitData {
     QPointF topLeft;
     QPointF bottomRight;
+    int xRedius;
+    int yRedius;
     friend QDataStream &operator<<(QDataStream &out, const SGraphicsRectUnitData &rectUnitData)
     {
         out << rectUnitData.topLeft;
         out << rectUnitData.bottomRight;
+        out << rectUnitData.xRedius;
+        out << rectUnitData.yRedius;
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsRectUnitData &rectUnitData)
     {
-        in >> rectUnitData.topLeft;
-        in >> rectUnitData.bottomRight;
+        if (getVersion(in) > EDdf5_8_0_Base) {
+            in >> rectUnitData.topLeft;
+            in >> rectUnitData.bottomRight;
+            in >> rectUnitData.xRedius;
+            in >> rectUnitData.yRedius;
+        } else {
+            in >> rectUnitData.topLeft;
+            in >> rectUnitData.bottomRight;
+            rectUnitData.xRedius = 0;
+            rectUnitData.yRedius = 0;
+        }
         return in;
     }
 };
@@ -209,22 +257,60 @@ struct SGraphicsPolygonStarUnitData {
 struct SGraphicsLineUnitData {
     QPointF point1;
     QPointF point2;
-    qint32 type;//0: 无剪头 1: 有前头
+    ELineType start_type; // 起点箭头样式
+    ELineType end_type;   // 终点箭头样式
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsLineUnitData &lineUnitData)
     {
         out << lineUnitData.point1;
         out << lineUnitData.point2;
-        out << lineUnitData.type;
+        out << lineUnitData.start_type;
+        out << lineUnitData.end_type;
 
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsLineUnitData &lineUnitData)
     {
-        in >> lineUnitData.point1;
-        in >> lineUnitData.point2;
-        in >> lineUnitData.type;
+//        quint32 start_type = 0;
+//        quint32 end_type = 0;
+//        qint64 pos = in.device()->pos();
+//        in.device()->seek(0);
+//        quint32 type;
+//        in >> type;
+//        int version;
+//        in >> version;
+//        in.device()->seek(pos);
+//        in >> lineUnitData.point1;
+//        in >> lineUnitData.point2;
+//        in >> start_type;
+//        lineUnitData.start_type = static_cast<ELineType>(start_type);
+//        if (type == (quint32)0xA0B0C0D0 && version >= LineStartAndEndType) {
+//            in >> end_type;
+//            lineUnitData.end_type = static_cast<ELineType>(end_type);
+//        }
+        EDdfVersion ver = getVersion(in);
+        switch (ver) {
+        case EDdf5_8_0_Base:
+        case EDdf5_8_0_9_1: {
+            in >> lineUnitData.point1;
+            in >> lineUnitData.point2;
+            break;
+        }
+        default: {
+            in >> lineUnitData.point1;
+            in >> lineUnitData.point2;
+
+            qint32 startTp, endTp;
+            in >> startTp;
+            in >> endTp;
+
+            lineUnitData.start_type = ELineType(startTp);
+            lineUnitData.end_type   = ELineType(endTp);
+
+            break;
+        }
+        }
         return in;
     }
 };
@@ -261,11 +347,17 @@ struct SGraphicsTextUnitData {
 struct SGraphicsPictureUnitData {
     SGraphicsRectUnitData rect;
     QImage image;
+    QByteArray srcByteArry;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPictureUnitData &pictureUnitData)
     {
         out << pictureUnitData.rect;
-        out << pictureUnitData.image;
+
+        //out << pictureUnitData.image;
+
+        qDebug() << "save pictureUnitData.srcByteArry = size = " << pictureUnitData.srcByteArry.size();
+
+        out << pictureUnitData.srcByteArry;
 
         return out;
     }
@@ -273,7 +365,15 @@ struct SGraphicsPictureUnitData {
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPictureUnitData &pictureUnitData)
     {
         in >> pictureUnitData.rect;
-        in >> pictureUnitData.image;
+        if (getVersion(in) < EDdf5_8_0_16_1) {
+            in >> pictureUnitData.image;
+        } else {
+            QByteArray arryData;
+            in >> arryData;
+            qDebug() << "load arrydata ================== " << "size === " << arryData.size();
+            pictureUnitData.srcByteArry = arryData;
+            pictureUnitData.image = QImage::fromData(arryData);
+        }
 
         return in;
     }
@@ -281,26 +381,72 @@ struct SGraphicsPictureUnitData {
 
 //画笔
 struct SGraphicsPenUnitData {
-    qint8 penType;
+
+    //version 2
+    ELineType start_type; // 起点箭头样式
+    ELineType end_type;   // 终点箭头样式
     QPainterPath path;
+
+    //version 1
     QPolygonF arrow;
 
     friend  QDataStream &operator << (QDataStream &out, const SGraphicsPenUnitData &penUnitData)
     {
-        out << penUnitData.penType;
+        out << penUnitData.start_type;
+
         out << penUnitData.path;
-        out << penUnitData.arrow;
+//        out << penUnitData.arrow;
+        out << penUnitData.end_type;
 
         return out;
     }
 
     friend QDataStream &operator >>( QDataStream &in, SGraphicsPenUnitData &penUnitData)
     {
-        in >> penUnitData.penType;
-        in >> penUnitData.path;
-        in >> penUnitData.arrow;
+//        quint32 start_type = 0;
+//        quint32 end_type = 0;
 
+//        //in >> end_type;
+//        //in >> penUnitData.path;
+////        in >> penUnitData.arrow;
+//        QPolygonF plog;
+//        in >> plog;
+//        //in >> start_type;
 
+//        penUnitData.start_type = static_cast<ELineType>(start_type);
+//        penUnitData.end_type = static_cast<ELineType>(end_type);
+
+//        return in;
+        EDdfVersion ver = getVersion(in);
+
+        switch (ver) {
+        case EDdf5_8_0_Base:
+        case EDdf5_8_0_9_1:
+        case EDdf5_8_0_10_1: {
+            qint8 pentype;
+            in >> pentype;
+            in >> penUnitData.path;
+            in >> penUnitData.arrow;
+
+            //以当前版本的形式保存之前的版本样式
+            if (!penUnitData.arrow.isEmpty()) {
+                penUnitData.start_type = soildArrow;
+            }
+
+            break;
+        }
+        default: {
+            qint32 startTp, endTp;
+            QPainterPath path;
+            in >> startTp;
+            in >> path;
+            in >> endTp;
+            penUnitData.start_type = ELineType(startTp);
+            penUnitData.path       = path;
+            penUnitData.end_type   = ELineType(endTp);
+            break;
+        }
+        }
         return in;
     }
 };
@@ -464,28 +610,58 @@ struct CGraphicsUnit {
 
 //整个图元数据
 struct CGraphics {
-    qint64 unitCount;   //图元数量
-    QRectF rect;    // 画板大小和位置
-    QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合
+    qint32        version = qint64(EDdfCurVersion);             //数据版本 默认给最新的版本枚举值
+    qint64        unitCount;                                    //图元数量
+    QRectF        rect;                                         // 画板大小和位置
+    QVector<CGraphicsUnit> vecGraphicsUnit; //所有图元集合(不用保存到ddf)
 
     friend QDataStream &operator<<(QDataStream &out, const CGraphics &graphics)
     {
+        qDebug() << "save to ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+                 << graphics.unitCount << "raphics.rect = " << graphics.rect;
+
+        out << static_cast<quint32>(0xA0B0C0D0);
+        out << graphics.version;
         out << graphics.unitCount;
         out << graphics.rect;
-        out << graphics.vecGraphicsUnit;
 
         return out;
     }
 
     friend  QDataStream &operator>>(QDataStream &in, CGraphics &graphics)
     {
+        EDdfVersion ver = getVersion(in);
+
+        //兼容最早的版本(那个时候还没有版本标记 所以不用解析versions)
+        if (ver > EDdf5_8_0_Base) {
+            int flag;    //肯定为0xA0B0C0D0
+            in >> flag;
+            in >> graphics.version;
+        } else {
+            graphics.version = EDdf5_8_0_Base;
+        }
         in >> graphics.unitCount;
         in >> graphics.rect;
-        in >> graphics.vecGraphicsUnit;
+        qDebug() << "get from ddf, graphics.version = " << graphics.version << "graphics.unitCount = "
+                 << graphics.unitCount << "raphics.rect = " << graphics.rect;
 
         return in;
     }
+
+//    static void recordMd5(QDataStream &out, const QByteArray &srcBinArry)
+//    {
+//        int srcSize =  srcBinArry.size();
+
+//        //加密得到md5值
+//        QByteArray md5 = QCryptographicHash::hash(srcBinArry, QCryptographicHash::Md5);
+
+//        qDebug() << "---------- md5 size =============== " << md5.size() << " value = " << QString(md5).toUpper();
+
+//        out << md5;
+//    }
 };
+
+
 
 
 #pragma pack(pop)

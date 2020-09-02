@@ -32,7 +32,9 @@ public:
     virtual QPainterPath shape() const Q_DECL_OVERRIDE;
     virtual QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual  int type() const Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
     /**
      * @brief duplicate 拷贝自己
      * @return
@@ -47,19 +49,33 @@ public:
 
 
     virtual CGraphicsUnit getGraphicsUnit() const Q_DECL_OVERRIDE;
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
 
 protected:
+    virtual void updateShape() Q_DECL_OVERRIDE {calcPolygon();}
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
-    int m_anchorNum; //描点数
-    int m_innerRadius; //内接圆半径
-    QPolygonF m_polygon;
+    int m_anchorNum;    //描点数
+    int m_innerRadius;  //内接圆半径
+
+    //区分描边的绘制方式；1.RenderPathLine 把描边的边描述成一个包裹的路径 通过brush方式填充它的颜色
+    //                 2.PaintPolyLine  以Qt自带的绘制多边形方式绘制边线(不设置填充色只设置QPen颜色)
+    enum ERenderWay {RenderPathLine, PaintPolyLine};
+
+    ERenderWay m_renderWay = PaintPolyLine;
+    QPolygonF  m_polygonForBrush;
+    QPolygonF  m_polygonPen;
+
+    QPainterPath m_pathForRenderPenLine;
 
 private:
-    //QPointF rotationPoint(const QPointF &beforPoint, const QPointF &centerPoint, double angle) const;
-    //QPolygonF getPolygon(const QPointF &centerPoint, const qreal &radius) const;
     void calcPolygon();
+    void calcPolygon_helper(QPolygonF &outPolygon, int n, qreal offset = 0.0);
 };
 
 #endif // CGRAPHICSPOLYGONALSTARITEM_H

@@ -1,170 +1,165 @@
 /*
- * Copyright (C) 2019 ~ %YEAR% Deepin Technology Co., Ltd.
- *
- * Author:     RenRan
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
+*
+* Author: Zhang Hao<zhanghao@uniontech.com>
+*
+* Maintainer: Zhang Hao <zhanghao@uniontech.com>
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "csidewidthwidget.h"
 #include "drawshape/cdrawparamsigleton.h"
 #include "frame/cviewmanagement.h"
 #include "frame/cgraphicsview.h"
-#include "ccheckbutton.h"
+//#include "widgets/dmenucombobox.h"
 
 #include <DGuiApplicationHelper>
+#include <DComboBox>
+
+#include <QDebug>
 
 DGUI_USE_NAMESPACE
 
 CSideWidthWidget::CSideWidthWidget(DWidget *parent)
     : DWidget(parent)
+    , m_comboxHeight(28)
 {
     initUI();
     initConnection();
 }
 
+void CSideWidthWidget::updateSideWidth()
+{
+    int lineWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
+    QString current_px = QString::number(lineWidth) + "px";
+    m_menuComboBox->blockSignals(true);
+    m_menuComboBox->setCurrentText(current_px);
+    m_menuComboBox->blockSignals(false);
+    m_maskLable->setVisible(false);
+}
+
+void CSideWidthWidget::setSideWidth(int width)
+{
+    QString current_px = QString::number(width) + "px";
+    m_menuComboBox->setCurrentText(current_px);
+    m_maskLable->setVisible(false);
+}
+
+void CSideWidthWidget::setMenuNoSelected(bool noSelect)
+{
+    if (noSelect) {
+        m_menuComboBox->setCurrentIndex(-1);
+    }
+    m_maskLable->setVisible(noSelect);
+}
 
 void CSideWidthWidget::initUI()
 {
-    m_layout = new QHBoxLayout (this);
-    m_layout->setMargin(0);
-    m_layout->setSpacing(8);
+    m_layout = new QHBoxLayout(this);
+    m_menuComboBox = new DComboBox(this);
+    m_maskLable = new DLabel(m_menuComboBox);
+    m_maskLable->setText("— —");
+    m_maskLable->move(6, 6);
+    m_maskLable->setFixedSize(35, 20);
+    m_maskLable->setVisible(true);
+    m_maskLable->setFont(m_menuComboBox->font());
 
-    QMap<int, QMap<CCheckButton::EButtonSattus, QString> > pictureMap;
+    m_menuComboBox->setMaximumWidth(100);
 
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness01_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness01_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness01_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness01_checked.svg");
+    initLineWidthToCombox();
+    m_layout->addWidget(m_menuComboBox);
 
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness01_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness01_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness01_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness01_checked.svg");
-
-    m_finerButton = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_buttonMap.insert(m_finerButton, Finer);
-
-
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness02_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness02_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness02_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness02_checked.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness02_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness02_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness02_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness02_checked.svg");
-
-    m_fineButton = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_buttonMap.insert(m_fineButton, Fine);
-
-
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness03_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness03_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness03_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness03_checked.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness03_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness03_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness03_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness03_checked.svg");
-
-    m_mediumButton = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_buttonMap.insert(m_mediumButton, Medium);
-
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Normal] = QString(":/theme/light/images/draw/tickness04_normal.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Hover] = QString(":/theme/light/images/draw/tickness04_hover.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Press] = QString(":/theme/light/images/draw/tickness04_press.svg");
-    pictureMap[DGuiApplicationHelper::LightType][CCheckButton::Active] = QString(":/theme/light/images/draw/tickness04_checked.svg");
-
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Normal] = QString(":/theme/dark/images/draw/tickness04_normal.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Hover] = QString(":/theme/dark/images/draw/tickness04_hover.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Press] = QString(":/theme/dark/images/draw/tickness04_press.svg");
-    pictureMap[DGuiApplicationHelper::DarkType][CCheckButton::Active] = QString(":/theme/dark/images/draw/tickness04_checked.svg");
-
-    m_boldButton = new CCheckButton(pictureMap, QSize(36, 36), this);
-    m_buttonMap.insert(m_boldButton, Bold);
-
-    m_layout->addWidget(m_finerButton);
-    m_layout->addWidget(m_fineButton);
-    m_layout->addWidget(m_mediumButton);
-    m_layout->addWidget(m_boldButton);
-
-    setLayout(m_layout);
+    this->setLayout(m_layout);
 }
 
 void CSideWidthWidget::initConnection()
 {
-    connect(m_finerButton, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_finerButton);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_finerButton));
-        emit signalSideWidthChange();
-    });
+    connect(m_menuComboBox, &DComboBox::currentTextChanged, [ = ](QString text) {
+        if (text.contains("px")) {
+            // 判断并且获取当前线宽度
+            bool flag = false;
+            int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
 
-    connect(m_fineButton, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_fineButton);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_fineButton));
-        emit signalSideWidthChange();
-    });
-
-    connect(m_mediumButton, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_mediumButton);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_mediumButton));
-        emit signalSideWidthChange();
-    });
-
-    connect(m_boldButton, &CCheckButton::buttonClick, [this]() {
-        clearOtherSelections(m_boldButton);
-        CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(m_buttonMap.value(m_boldButton));
-        emit signalSideWidthChange();
-    });
-
-}
-
-
-void CSideWidthWidget::clearOtherSelections(CCheckButton *clickedButton)
-{
-    foreach (CCheckButton *button, m_buttonMap.keys()) {
-        if (button->isChecked() && button != clickedButton) {
-            button->setChecked(false);
-            return;
-        }
-    };
-}
-
-void CSideWidthWidget::updateSideWidth()
-{
-    int sideWidth = CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getLineWidth();
-    QMapIterator<CCheckButton *, CLineWidth> i(m_buttonMap);
-    while (i.hasNext()) {
-        i.next();
-        if (i.value() == sideWidth) {
-            if (!i.key()->isChecked()) {
-                i.key()->setChecked(true);
+            if (flag) {
+                if (CManageViewSigleton::GetInstance()->getCurView() != nullptr) {
+                    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setLineWidth(lineWidth);
+                    emit signalSideWidthChange();
+                }
             }
-        } else {
-            i.key()->setChecked(false);
         }
-    }
+    });
+
+    connect(m_menuComboBox, QOverload<const QString &>::of(&DComboBox::currentIndexChanged), [ = ](const QString & text) {
+        if (text.contains("px")) {
+            // 判断并且获取当前线宽度
+            bool flag = false;
+            int lineWidth = text.trimmed().toLower().replace("px", "").toInt(&flag);
+
+            if (flag) {
+                emit signalSideWidthChoosed(lineWidth);
+                this->setMenuNoSelected(false);
+            }
+        }
+    });
+
+    // 设置默认2px的线宽度
+    m_menuComboBox->setCurrentIndex(2);
+}
+
+void CSideWidthWidget::initLineWidthToCombox()
+{
+    m_menuComboBox->addItem("0px");
+    m_menuComboBox->addItem("1px");
+    m_menuComboBox->addItem("2px");
+    m_menuComboBox->addItem("4px");
+    m_menuComboBox->addItem("8px");
+    m_menuComboBox->addItem("10px");
+    changeButtonTheme();
+}
+
+QPixmap CSideWidthWidget::drawLinePixmap(int lineWidth, QColor lineColor, int width, int height)
+{
+    QPixmap pixmap(width, height);
+    pixmap.fill(Qt::transparent);//用透明色填充
+    QPainter painter(&pixmap);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(lineColor, Qt::SolidPattern)); //设置画刷形式
+    painter.drawRect(0, (height - lineWidth) / 2, width, lineWidth);
+    painter.end();
+    return pixmap;
 }
 
 void CSideWidthWidget::changeButtonTheme()
 {
-    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
-    foreach (CCheckButton *button, m_buttonMap.keys()) {
-        button->setCurrentTheme(themeType);
-    }
+//    int themeType = CManageViewSigleton::GetInstance()->getThemeType();
+//    QColor lineColor;
+
+//    if (1 == themeType) {
+//        lineColor.setRgb(0, 0, 0);
+//    } else {
+//        lineColor.setRgb(255, 255, 255);
+//    }
+
+//    m_menuComboBox->blockSignals(true);
+//    m_menuComboBox->setItemIcon(0, QIcon(drawLinePixmap(0, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(1, QIcon(drawLinePixmap(1, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(2, QIcon(drawLinePixmap(2, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(3, QIcon(drawLinePixmap(4, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(4, QIcon(drawLinePixmap(8, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->setItemIcon(5, QIcon(drawLinePixmap(10, lineColor, m_comboxHeight, m_comboxHeight)));
+//    m_menuComboBox->blockSignals(false);
 }
 
 

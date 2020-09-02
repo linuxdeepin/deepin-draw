@@ -20,6 +20,8 @@
 #define APPLICATION_H
 
 #include <DApplication>
+#include <DGuiApplicationHelper>
+
 #include "qtsingleapplication.h"
 
 class Application;
@@ -37,13 +39,45 @@ class Application : public QtSingleApplication
 public:
     Application(int &argc, char **argv);
 
+    int  execDraw(const QStringList &files, QString &glAppPath);
+
+    QStringList getRightFiles(const QStringList &files);
+
+    enum EFileClassEnum {ENotFile    = 0,
+                         EDrawAppNotSup,
+                         EDrawAppSup,
+                         EDrawAppSupAndReadable,
+                         EDrawAppSupButNotReadable
+                        };
+    typedef QMap<EFileClassEnum, QStringList> QFileClassedMap;
+    QStringList doFileClassification(const QStringList &inFilesPath, QFileClassedMap &out);
+
+    static QStringList &supPictureSuffix();
+    static QStringList &supDdfStuffix();
+
+    static QRegExp fileNameRegExp(bool ill = false, bool containDirDelimiter = true);
+
+    bool isFileNameLegal(const QString &path, int *outErrorReson = nullptr);
+
+    void setApplicationCursor(const QCursor &cur);
+
 signals:
     void popupConfirmDialog();
 
+public slots:
+    void onMessageRecived(const QString &message);
+    void onThemChanged(DGuiApplicationHelper::ColorType themeType);
+
+    void showMainWindow(const QStringList &paths);
+    void noticeFileRightProblem(const QStringList &problemfile,
+                                Application::EFileClassEnum classTp = EDrawAppNotSup,
+                                bool checkQuit = true);
 protected:
-    void handleQuitAction();
+    void handleQuitAction() override;
 
 private:
     void initI18n();
+
+    QString _joinFlag;
 };
 #endif // APPLICATION_H

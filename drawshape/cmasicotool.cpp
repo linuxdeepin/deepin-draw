@@ -53,6 +53,8 @@ void CMasicoTool::mousePressEvent(QGraphicsSceneMouseEvent *event, CDrawScene *s
         pen.setColor(color);
         m_pBlurItem->setPen(pen);
         m_pBlurItem->setBrush(Qt::NoBrush);
+        m_pBlurItem->setZValue(scene->getMaxZValue() + 1);
+        scene->setMaxZValue(scene->getMaxZValue() + 1);
         scene->addItem(m_pBlurItem);
 
         m_pBlurItem->setPixmap();
@@ -96,4 +98,6 @@ void CMasicoTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, CDrawScene 
         m_pBlurItem = nullptr;
         m_bMousePress = false;
     }
+    CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCurrentDrawToolMode(selection);
+    emit scene->signalChangeToSelect();
 }

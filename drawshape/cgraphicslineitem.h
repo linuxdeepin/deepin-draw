@@ -36,13 +36,31 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     virtual QRectF rect() const Q_DECL_OVERRIDE;
+
     virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point ) Q_DECL_OVERRIDE;
-    virtual void resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point, bool bShiftPress, bool bAltPress ) Q_DECL_OVERRIDE;
+
+    virtual void resizeTo(CSizeHandleRect::EDirection dir,
+                          const QPointF &point,
+                          bool bShiftPress, bool bAltPress) Q_DECL_OVERRIDE;
+    /**
+     * @brief resizeTo 缩放矩形时，用于设置矩形大小与位置
+     * @param dir 8个方向
+     * @param offset x，y方向移动距离
+     * @param xScale X轴放大缩小比例
+     * @param yScale y轴放大缩小比例
+     */
+    void resizeToMul(CSizeHandleRect::EDirection dir, const QPointF &offset,
+                     const double &xScale, const double &yScale,
+                     bool bShiftPress, bool bAltPress) override;
+
+    void resizeToMul_7(CSizeHandleRect::EDirection dir, QRectF pressRect, QRectF itemPressRect,
+                       const qreal &xScale, const qreal &yScale,
+                       bool bShiftPress, bool bAltPress) override Q_DECL_DEPRECATED;
 
     QLineF line() const;
-    void setLine(const QLineF &line);
-    void setLine(const QPointF &p1, const QPointF &p2);
-    inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2);
+    void setLine(const QLineF &line, bool init = false);
+    void setLine(const QPointF &p1, const QPointF &p2, bool init = false);
+    inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2, bool init = false);
 
     /**
      * @brief duplicate 拷贝自己
@@ -57,9 +75,11 @@ public:
 
     int getQuadrant() const;
 
-    void setLineType(ELineType type);
+    void setLineStartType(ELineType type);
+    ELineType getLineStartType() const;
 
-    ELineType getLineType() const;
+    void setLineEndType(ELineType type);
+    ELineType getLineEndType() const;
 
     /**
      * @brief calcVertexes  计算箭头
@@ -67,22 +87,40 @@ public:
      * @param currentPoint
      */
     void calcVertexes();
+    /**
+     * @brief getHighLightPath 获取高亮path
+     * @return
+     */
+    virtual QPainterPath getHighLightPath() Q_DECL_OVERRIDE;
+
+    /*
+    * @bref: setLinePenWidth 设置线的宽度
+    * @param: width 宽度
+    */
+    void setLinePenWidth(int width);
 
 protected:
-    virtual void updateGeometry() Q_DECL_OVERRIDE;
+    void updateGeometry() Q_DECL_OVERRIDE;
+    void updateShape() Q_DECL_OVERRIDE {calcVertexes();}
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
 private:
     void initLine();
 
+    void initHandle() override;
+
 
 private:
-    QLineF m_line;
-    ELineType m_type;
+    QLineF m_line; // 中间直线的位置信息
+    QLineF m_dRectline; // 矩形直线的位置信息
+    ELineType m_startType; // 起始点样式
+    ELineType m_endType; // 终点样式
 
-    QPolygonF m_arrow; //箭头三角形
-    QPointF m_point4;
+    QPainterPath m_startPath; // 绘制起点路径
+    QPainterPath m_endPath; // 绘制终点路径
 
+    void drawStart();
+    void drawEnd();
 };
 
 #endif // CGRAPHICSLINEITEM_H

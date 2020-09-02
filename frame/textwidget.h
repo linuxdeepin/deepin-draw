@@ -22,11 +22,9 @@
 #include "widgets/cfontcombobox.h"
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
-#include <QAction>
-
-
+#include <DComboBox>
+#include <DSpinBox>
+#include <DLabel>
 
 DWIDGET_USE_NAMESPACE
 
@@ -38,7 +36,7 @@ class TextWidget : public DWidget
     Q_OBJECT
 public:
     TextWidget(DWidget *parent = nullptr);
-    ~TextWidget();
+    ~TextWidget() override;
 
 public slots:
     /**
@@ -53,6 +51,21 @@ public slots:
      * @brief updateTheme　更新主题
      */
     void updateTheme();
+    /**
+     * @brief slotFontSizeValueChanged　字体大小改变
+     */
+    void slotFontSizeValueChanged(int size);
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
+
+    /**
+     * @brief slotUpdateTextFamilyStyle 更新字体样式
+     * @param family 样式名字
+     */
+    void slotUpdateTextFamilyStyle(QString family);
 
 signals:
     /**
@@ -70,27 +83,26 @@ signals:
      * @brief signalTextAttributeChanged 属性变化信号
      */
     void signalTextAttributeChanged();
-    /**
-     * @brief signalTextFontFamilyChanged　字体改变信号
-     */
-    void signalTextFontFamilyChanged();
+
     /**
      * @brief signalTextFontSizeChanged　字体大小改变信号
      */
     void signalTextFontSizeChanged();
 
+protected:
+    bool eventFilter(QObject *, QEvent *event) override;
+
 private:
     TextColorButton *m_fillBtn;
-    DSlider *m_fontSizeSlider;
-    DLineEdit *m_fontSizeEdit;
     CFontComboBox *m_fontComBox;
     SeperatorLine *m_textSeperatorLine;
+    DComboBox *m_fontHeavy; // 字体的重量
+    DComboBox *m_fontSize; // 字体的大小
+    DLabel *m_fontFamilyLabel;
+    DLabel *m_fontsizeLabel;
 
     QString m_oriFamily;
-    bool m_bSelect;
-    QAction *m_fontSizeAddAction;
-    QAction *m_fontSizeReduceAction;
-
+    bool    m_oneItemIsHighlighted;
 
 private:
     /**
@@ -101,6 +113,10 @@ private:
      * @brief initConnection 初始化连接
      */
     void initConnection();
+
+    void initDefaultSetting();
+
+    void addFontPointSize();
 };
 
 #endif // TEXTWIDGET_H

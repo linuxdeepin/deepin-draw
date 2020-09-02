@@ -29,19 +29,13 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 
-
-
-const int CORNER_WITH = 20;
-//const QString PenColorName = "#B5B5B5";
-//const QString PenColorName = "#00BFFF";
-const QString PenColorName = "#ECECF8";
+//const int CORNER_WITH = 20;
 
 CGraphicsCutItem::CGraphicsCutItem(CGraphicsItem *parent)
     : CGraphicsItem(parent)
     , m_isFreeMode(false)
 {
-    initPenAndBrush();
-    initRect();
+    initHandle();
 }
 
 CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
@@ -50,13 +44,11 @@ CGraphicsCutItem::CGraphicsCutItem(const QRectF &rect, CGraphicsItem *parent)
 {
     m_topLeftPoint = rect.topLeft();
     m_bottomRightPoint = rect.bottomRight();
-//    this->setRect(rect);
 
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
 
-    initPenAndBrush();
-    initRect();
+    initHandle();
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
 }
 
@@ -70,8 +62,7 @@ CGraphicsCutItem::CGraphicsCutItem(qreal x, qreal y, qreal w, qreal h, CGraphics
     m_bottomRightPoint = rect.bottomRight();
     m_originalRect = QRectF(0, 0, 0, 0);
     m_originalRect.setSize(CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->getCutDefaultSize());
-    initPenAndBrush();
-    initRect();
+    initHandle();
 }
 
 CGraphicsCutItem::~CGraphicsCutItem()
@@ -92,23 +83,17 @@ void CGraphicsCutItem::setRect(const QRectF &rect)
     updateGeometry();
 
     CManageViewSigleton::GetInstance()->getCurView()->getDrawParam()->setCutSize(rect.size().toSize());
-    //this->scene()->setSceneRect(rect);
 }
 
-void CGraphicsCutItem::initRect()
+void CGraphicsCutItem::initHandle()
 {
-
-//    m_cancelBtn = new QPushButton();
-//    m_cancelBtn->setText("Cancel");
-//    m_cancelBtn->setFixedSize(40, 20);
-
-//    m_proxy = new QGraphicsProxyWidget(this);
-//    m_proxy->setWidget(m_cancelBtn);
-    // handles
+    clearHandle();
+    // 子handles 用于处理重设大小
     m_handles.reserve(CSizeHandleRect::None);
     for (int i = CSizeHandleRect::LeftTop; i <= CSizeHandleRect::Left; ++i) {
         CSizeHandleRect *shr = nullptr;
         shr = new CSizeHandleRect(this, static_cast<CSizeHandleRect::EDirection>(i));
+        shr->setJustExitLogicAbility(true);
         m_handles.push_back(shr);
     }
     updateGeometry();
@@ -118,20 +103,9 @@ void CGraphicsCutItem::initRect()
     this->setAcceptHoverEvents(true);
 }
 
-void CGraphicsCutItem::initPenAndBrush()
-{
-    QPen pen;
-    pen.setColor(QColor(PenColorName));
-    pen.setWidth(1);
-    pen.setStyle(Qt::DashLine);
-
-    setPen(pen);
-    setBrush(Qt::NoBrush);
-}
-
 void CGraphicsCutItem::updateGeometry()
 {
-    const QRectF &geom = this->boundingRect();
+    const QRectF &geom = this->rect();
 
     const Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
@@ -176,10 +150,15 @@ QRectF CGraphicsCutItem::rect() const
 
 QRectF CGraphicsCutItem::boundingRect() const
 {
-    QRectF rect = this->rect();
-    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
-                             rect.width() + pen().width(), rect.height() + pen().width());
-    return bounding;
+//    QRectF rect = this->rect();
+//    QRectF bounding = QRectF(rect.x() - pen().width() / 2, rect.y() - pen().width() / 2,
+//                             rect.width() + pen().width(), rect.height() + pen().width());
+//    return bounding;
+
+    if (scene() != nullptr) {
+        return scene()->sceneRect();
+    }
+    return QRectF(0, 0, 0, 0);
 }
 
 void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &point)
@@ -194,6 +173,7 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     }
 
 
+    //resizeCutSize(dir, point);
     resizeTo(dir, point, shiftKeyPress, altKeyPress);
 }
 
@@ -689,6 +669,29 @@ void CGraphicsCutItem::resizeTo(CSizeHandleRect::EDirection dir, const QPointF &
     updateGeometry();
 }
 
+void CGraphicsCutItem::move(QPointF beginPoint, QPointF movePoint)
+{
+    QPointF adjust = movePoint - beginPoint;
+    setRect(rect().adjusted(adjust.x(), adjust.y(), adjust.x(), adjust.y()));
+}
+
+CSizeHandleRect::EDirection CGraphicsCutItem::hitTest(const QPointF &point) const
+{
+    const Handles::const_iterator hend =  m_handles.end();
+    for (Handles::const_iterator it = m_handles.begin(); it != hend; ++it) {
+        if ((*it)->hitTest(point) ) {
+            return (*it)->dir();
+        }
+    }
+    //检测是否在矩形内
+    QPointF pt = mapFromScene(point);
+    if (this->rect().contains(pt)) {
+        return CSizeHandleRect::InRect;
+    }
+
+    return CSizeHandleRect::None;
+}
+
 void CGraphicsCutItem::showControlRects(bool flag)
 {
     setState(flag ? SelectionHandleActive : SelectionHandleOff);
@@ -702,12 +705,303 @@ bool CGraphicsCutItem::isFreeMode() const
 void CGraphicsCutItem::setIsFreeMode(bool isFreeMode)
 {
     m_isFreeMode = isFreeMode;
-    showControlRects(isFreeMode);
+    showControlRects(true/*isFreeMode*/);
 }
 
 void CGraphicsCutItem::duplicate(CGraphicsItem *item)
 {
+    Q_UNUSED(item)
+}
 
+void CGraphicsCutItem::resizeCutSize(CSizeHandleRect::EDirection dir,
+                                     const QPointF &prePoint,
+                                     const QPointF &point, QPointF *outAcceptPos)
+{
+    //得到在自身坐标系内的当前鼠标位置
+    QPointF preLocalPos = mapFromScene(prePoint);
+    QPointF curLocalPos = mapFromScene(point);
+    QRectF  curRect     = rect();
+    qreal   qWHRadio    = getWHRadio();
+
+    qreal moveX = (curLocalPos - preLocalPos).x();
+    qreal moveY = (curLocalPos - preLocalPos).y();
+    qreal adjust[4] = {0, 0, 0, 0};
+
+
+    bool getBorder = false;
+    //根据dir的位置判断应该改变到的大小
+    switch (dir) {
+    case CSizeHandleRect::Top: {
+        adjust[1] = moveY;
+
+        //边界检查
+        if (curRect.height() - adjust[1] < 10) {
+            adjust[1] = curRect.height() - 10;
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[2] = -adjust[1] * qWHRadio;
+        }
+        break;
+    }
+
+    case CSizeHandleRect::Bottom: {
+        adjust[3] = moveY;
+
+        //边界检查
+        if (curRect.height() + adjust[3] < 10) {
+            adjust[3] = 10 - curRect.height();
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[2] = adjust[3] * qWHRadio;
+        }
+        break;
+    }
+    case CSizeHandleRect::Left: {
+        adjust[0] = moveX;
+
+        //边界检查
+        if (curRect.width() - adjust[0] < 10) {
+            adjust[0] = curRect.width() - 10;
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[3] = -adjust[0] / qWHRadio;
+        }
+
+        break;
+    }
+    case CSizeHandleRect::Right: {
+        adjust[2] = moveX;
+
+        //边界检查
+        if (curRect.width() + adjust[2] < 10) {
+            adjust[2] = 10 - curRect.width();
+            getBorder = true;
+        }
+
+        if (qWHRadio > 0) {
+            adjust[3] = adjust[2] / qWHRadio;
+            getBorder = true;
+        }
+        break;
+    }
+    case CSizeHandleRect::RightTop: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[2] = moveX;
+
+                //边界检查
+                if (curRect.width() + adjust[2] < 10) {
+                    adjust[2] = 10 - curRect.width();
+                    getBorder = true;
+                }
+
+                adjust[1] = -adjust[2] / qWHRadio;
+            } else {
+                adjust[1] = moveY;
+
+                //边界检查
+                if (curRect.height() - adjust[1] < 10) {
+                    adjust[1] = curRect.height() - 10;
+                    getBorder = true;
+                }
+
+                adjust[2] = -adjust[1] * qWHRadio;
+            }
+        } else {
+
+            adjust[2] = moveX;
+            adjust[1] = moveY;
+
+            //边界检查
+            if (curRect.width() + adjust[2] < 10) {
+                adjust[2] = 10 - curRect.width();
+                getBorder = true;
+            }
+
+            if (curRect.height() - adjust[1] < 10) {
+                adjust[1] = curRect.height() - 10;
+                getBorder = true;
+            }
+        }
+
+        break;
+    }
+    case CSizeHandleRect::LeftTop: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[0] = moveX;
+                //边界检查
+                if (curRect.width() - adjust[0] < 10) {
+                    adjust[0] = curRect.width() - 10;
+                    getBorder = true;
+                }
+                adjust[1] = adjust[0] / qWHRadio;
+            } else {
+                adjust[1] = moveY;
+                //边界检查
+                if (curRect.height() - adjust[1] < 10) {
+                    adjust[1] = curRect.height() - 10;
+                    getBorder = true;
+                }
+                adjust[0] = adjust[1] * qWHRadio;
+            }
+        } else {
+            adjust[0] = moveX;
+            adjust[1] = moveY;
+
+            //边界检查
+            if (curRect.width() - adjust[0] < 10) {
+                adjust[0] = curRect.width() - 10;
+                getBorder = true;
+            }
+
+            if (curRect.height() - adjust[1] < 10) {
+                adjust[1] = curRect.height() - 10;
+                getBorder = true;
+            }
+        }
+        break;
+    }
+
+    case CSizeHandleRect::RightBottom: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[2] = moveX;
+
+                //边界检查
+                if (curRect.width() + adjust[2] < 10) {
+                    adjust[2] = 10 - curRect.width();
+                    getBorder = true;
+                }
+
+                adjust[3] = adjust[2] / qWHRadio;
+            } else {
+                adjust[3] = moveY;
+
+                //边界检查
+                if (curRect.height() + adjust[3] < 10) {
+                    adjust[3] = 10 - curRect.height();
+                    getBorder = true;
+                }
+
+                adjust[2] = adjust[3] * qWHRadio;
+            }
+        } else {
+            adjust[2] = moveX;
+            adjust[3] = moveY;
+
+            //边界检查
+            if (curRect.width() + adjust[2] < 10) {
+                adjust[2] = 10 - curRect.width();
+                getBorder = true;
+            }
+
+            if (curRect.height() + adjust[3] < 10) {
+                adjust[3] = 10 - curRect.height();
+                getBorder = true;
+            }
+        }
+
+        break;
+    }
+
+    case CSizeHandleRect::LeftBottom: {
+        if (qWHRadio > 0) {
+            if (qAbs(moveX) > qAbs(moveY)) {
+                adjust[0] = moveX;
+
+                //边界检查
+                if (curRect.width() - adjust[0] < 10) {
+                    adjust[0] = curRect.width() - 10;
+                    getBorder = true;
+                }
+
+                adjust[3] = -adjust[0] / qWHRadio;
+            } else {
+                adjust[3] = moveY;
+
+                //边界检查
+                if (curRect.height() + adjust[3] < 10) {
+                    adjust[3] = 10 - curRect.height();
+                    getBorder = true;
+                }
+
+                adjust[0] = -adjust[3] * qWHRadio;
+            }
+        } else {
+            adjust[0] = moveX;
+            adjust[3] = moveY;
+
+            //边界检查
+            if (curRect.width() - adjust[0] < 10) {
+                adjust[0] = curRect.width() - 10;
+                getBorder = true;
+            }
+
+            if (curRect.height() + adjust[3] < 10) {
+                adjust[3] = 10 - curRect.height();
+                getBorder = true;
+            }
+
+        }
+        break;
+    }
+    default:
+        break;
+    }
+
+    if (outAcceptPos != nullptr) {
+        if (getBorder) {
+            *outAcceptPos = (prePoint + QPointF(adjust[0] + adjust[2], adjust[1] + adjust[3]));
+        } else {
+            *outAcceptPos = point;
+        }
+    }
+
+    curRect.adjust(adjust[0], adjust[1], adjust[2], adjust[3]);
+
+    prepareGeometryChange();
+
+    this->setRect(curRect);
+
+    updateGeometry();
+}
+
+qreal CGraphicsCutItem::getWHRadio()
+{
+    qreal   qwhRadio    = -1;
+    CGraphicsView *pView = curView();
+    if (pView != nullptr) {
+        if (!isFreeMode()) {
+            ECutType cutTp = pView->getDrawParam()->getCutType();
+            switch (cutTp) {
+            case cut_1_1:
+                qwhRadio = 1.0;
+                break;
+            case cut_2_3:
+                qwhRadio = 2.0 / 3.0;
+                break;
+            case cut_8_5:
+                qwhRadio = 8.0 / 5.0;
+                break;
+            case cut_16_9:
+                qwhRadio = 16.0 / 9.0;
+                break;
+            case cut_original:
+                qwhRadio = scene()->sceneRect().width() / scene()->sceneRect().height();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+    return qwhRadio;
 }
 
 void CGraphicsCutItem::doChangeType(int type)
@@ -763,6 +1057,8 @@ void CGraphicsCutItem::doChangeType(int type)
     topLeft = centerPos - QPointF(bigW / 2, bigH / 2);
     rightBottom = centerPos + QPointF(bigW / 2, bigH / 2);
     this->setRect(QRectF(topLeft, rightBottom));
+
+    setIsFreeMode(false);
 }
 
 void CGraphicsCutItem::doChangeSize(int w, int h)
@@ -776,6 +1072,9 @@ void CGraphicsCutItem::doChangeSize(int w, int h)
 QVariant CGraphicsCutItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     Q_UNUSED(change);
+    if (scene() != nullptr && !scene()->views().isEmpty()) {
+        scene()->views().first()->viewport()->update();
+    }
     return value;
 }
 
@@ -785,71 +1084,147 @@ void CGraphicsCutItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     Q_UNUSED(widget)
     updateGeometry();
 
-    painter->setClipping(false);
+    QColor penColor = QColor("#ffffff");
+    penColor.setAlpha(qRound(255 * 0.7));
+    //    int themValue = CManageViewSigleton::GetInstance()->getThemeType();
+    //    if (themValue == 1) {
+    //        //浅色主题
+    //        penColor = QColor("#979797");
+    //    } else if (themValue == 2) {
+    //        //深色主题
+    //        penColor = QColor("#FFFFFF");
+    //    }
+
+    //先绘制一层阴影
+    QColor bgColor(0, 0, 0, int(255.0 * 40.0 / 100.0));
+    painter->save();
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(bgColor);
+
+    painter->translate(-pos());
+
+    QPainterPath fillPath;
+    QRectF itemRect = mapRectToScene(rect());
+    QRectF unitRct  = boundingRect();
+    fillPath.addRect(unitRct);
+    if (unitRct.intersects(itemRect)) {
+        fillPath.addRect(itemRect);
+    }
+    painter->drawPath(fillPath);
+
+    painter->restore();
+
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
     QPen pen;
     pen.setStyle(Qt::SolidLine);
-    pen.setColor(QColor(PenColorName));
+    pen.setColor(penColor);
+    pen.setWidthF(penWidth);
     painter->setPen(pen);
 
-    QPainterPath path;
-    ///画4个角
-    pen.setWidth(5);
-    painter->setPen(pen);
-    drawFourConner(painter, path, pen.width());
+    //画三等分矩形的直线
+    drawTrisectorRect(painter);
 
-    QPainterPath path1;
-    ///画三等分矩形的直线
-    //    pen.setColor(QColor(PenColorName));
-    painter->setPen(pen);
-    pen.setWidth(1);
-    painter->setPen(pen);
-    drawTrisectorRect(painter, path1);
-
-    ///画矩形
-    pen.setStyle(Qt::DashLine);
-    painter->setPen(pen);
+    //画矩形
+    painter->save();
+    QPen rectPen(pen);
+    rectPen.setStyle(Qt::DashLine);
+    painter->setPen(rectPen);
     painter->setBrush(Qt::NoBrush);
-    painter->drawRect(boundingRect());
+    painter->drawRect(rct);
+    painter->restore();
 
-    painter->setClipping(true);
+    drawFourConner(painter);
 }
 
-void CGraphicsCutItem::drawTrisectorRect(QPainter *painter, QPainterPath &path)
+void CGraphicsCutItem::drawTrisectorRect(QPainter *painter)
 {
-    path.moveTo(rect().x(), rect().y() + rect().height() / 3);
-    path.lineTo(rect().x() + rect().width(), rect().y() + rect().height() / 3);
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
+    QPainterPath path;
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
+    path.moveTo(rct.x(), rct.y() + rct.height() / 3);
+    path.lineTo(rct.x() + rct.width(), rct.y() + rct.height() / 3);
 
-    path.moveTo(rect().x(), rect().y() + rect().height() / 3 * 2);
-    path.lineTo(rect().x() + rect().width(), rect().y() + rect().height() / 3 * 2);
+    path.moveTo(rct.x(), rct.y() + rct.height() / 3 * 2);
+    path.lineTo(rct.x() + rct.width(), rct.y() + rct.height() / 3 * 2);
 
-    path.moveTo(rect().x() + rect().width() / 3, rect().y() );
-    path.lineTo(rect().x() + rect().width() / 3, rect().y() + rect().height() );
+    path.moveTo(rct.x() + rct.width() / 3, rct.y() );
+    path.lineTo(rct.x() + rct.width() / 3, rct.y() + rct.height() );
 
-    path.moveTo(rect().x() + rect().width() / 3 * 2, rect().y() );
-    path.lineTo(rect().x() + rect().width() / 3 * 2, rect().y() + rect().height() );
+    path.moveTo(rct.x() + rct.width() / 3 * 2, rct.y() );
+    path.lineTo(rct.x() + rct.width() / 3 * 2, rct.y() + rct.height() );
 
     painter->drawPath(path);
 }
 
-void CGraphicsCutItem::drawFourConner(QPainter *painter, QPainterPath &path, const int penWidth)
+void CGraphicsCutItem::drawFourConner(QPainter *painter/*, QPainterPath &path, const int penWidth*/)
 {
-    //左上角
-    path.moveTo(rect().x() + penWidth / 2, rect().y() + CORNER_WITH);
-    path.lineTo(rect().x() + penWidth / 2, rect().y()  + penWidth / 2);
-    path.lineTo(rect().x() + CORNER_WITH, rect().y()  + penWidth / 2);
-    //右上角
-    path.moveTo(rect().x() + rect().width() - CORNER_WITH, rect().y() + penWidth / 2);
-    path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y()  + penWidth / 2);
-    path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y() + CORNER_WITH);
-    //右下角
-    path.moveTo(rect().x() + rect().width() - penWidth / 2, rect().y() + rect().height() - CORNER_WITH);
-    path.lineTo(rect().x() + rect().width() - penWidth / 2, rect().y()  + rect().height() - penWidth / 2);
-    path.lineTo(rect().x() + rect().width() - CORNER_WITH, rect().y() + rect().height() - penWidth / 2);
+    qreal penWidth = 1.0 / painter->worldTransform().m11();
+    QRectF rct = rect().adjusted(penWidth, penWidth, -penWidth, -penWidth);
+    //QRectF rct = boundingRect();
+    bool isMinSize = (qFuzzyIsNull(rect().width() - 10.0) && qFuzzyIsNull(rect().height() - 10.0));
+    if (isMinSize) {
+        QPen pen(painter->pen());
+        pen.setWidthF(1.0);
+        painter->setPen(pen);
+        pen.setStyle(Qt::SolidLine);
+        painter->setBrush(Qt::gray);
+        painter->drawRect(rct);
 
-    //左下角
-    path.moveTo(rect().x() + CORNER_WITH + penWidth / 2, rect().y() + rect().height() - penWidth / 2);
-    path.lineTo(rect().x() + penWidth / 2, rect().y()  + rect().height() - penWidth / 2);
-    path.lineTo(rect().x() + penWidth / 2, rect().y() + rect().height() - CORNER_WITH);
+        QLineF topLine   = QLineF(rct.topLeft(), rct.topRight());
+        QLineF botLine   = QLineF(rct.bottomLeft(), rct.bottomRight());
+        QLineF leftLine  = QLineF(rct.topLeft(), rct.bottomLeft());
+        QLineF rightLine = QLineF(rct.topRight(), rct.bottomRight());
 
-    painter->drawPath(path);
+        painter->setPen(Qt::gray);
+        painter->drawLine(topLine.p1(), topLine.center());
+        painter->drawLine(rightLine.p1(), rightLine.center());
+        painter->drawLine(botLine.center(), botLine.p2());
+        painter->drawLine(leftLine.center(), leftLine.p2());
+
+        painter->setPen(Qt::black);
+        painter->drawLine(topLine.center(), topLine.p2());
+        painter->drawLine(rightLine.center(), rightLine.p2());
+        painter->drawLine(botLine.center(), botLine.p1());
+        painter->drawLine(leftLine.center(), leftLine.p1());
+    } else {
+        QPainterPath path;
+        QPen pen(painter->pen());
+        pen.setStyle(Qt::SolidLine);
+        pen.setWidthF(2.0 / painter->worldTransform().m11());
+        pen.setColor(Qt::white);
+        painter->setPen(pen);
+        qreal penWidth = 0;
+        const qreal sameLen = 6.0 / painter->worldTransform().m11();
+        qreal CORNER_W = sameLen;
+        qreal CORNER_H = sameLen;
+
+        if (rct.width() < 2 * CORNER_W) {
+            CORNER_W = rct.width() / 2.0;
+        }
+        if (rct.height() < 2 * CORNER_H) {
+            CORNER_H = rct.height() / 2.0;
+        }
+        qreal CORNER_WITH = qMin(CORNER_W, CORNER_H);
+
+        //左上角
+        path.moveTo(rct.x() + penWidth / 2, rct.y() + CORNER_WITH);
+        path.lineTo(rct.x() + penWidth / 2, rct.y()  + penWidth / 2);
+        path.lineTo(rct.x() + CORNER_WITH, rct.y()  + penWidth / 2);
+        //右上角
+        path.moveTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y() + CORNER_WITH);
+        //右下角
+        path.moveTo(rct.x() + rct.width() - penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
+        path.lineTo(rct.x() + rct.width() - penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + rct.width() - CORNER_WITH, rct.y() + rct.height() - penWidth / 2);
+
+        //左下角
+        path.moveTo(rct.x() + CORNER_WITH + penWidth / 2, rct.y() + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + penWidth / 2, rct.y()  + rct.height() - penWidth / 2);
+        path.lineTo(rct.x() + penWidth / 2, rct.y() + rct.height() - CORNER_WITH);
+
+        painter->drawPath(path);
+    }
 }

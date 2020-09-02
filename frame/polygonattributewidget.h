@@ -20,8 +20,8 @@
 #define POLYGONATTRIBUTEWIDGET_H
 
 #include <DWidget>
-#include <DSlider>
-#include <DLineEdit>
+#include <DSpinBox>
+#include <DLabel>
 
 #include "drawshape/globaldefine.h"
 
@@ -31,6 +31,7 @@ class BigColorButton;
 class BorderColorButton;
 class CSideWidthWidget;
 class SeperatorLine;
+class CSpinBox;
 
 class PolygonAttributeWidget : public DWidget
 {
@@ -42,13 +43,24 @@ public:
      * @brief changeButtonTheme 根据主题改变按钮主题
      */
     void changeButtonTheme();
-
+    /**
+     * @brief updateMultCommonShapWidget 更新多选时属性栏
+     * @param propertys 要显示的控件和数值
+     */
+    void updateMultCommonShapWidget(QMap<EDrawProperty, QVariant> propertys, bool write2Cache = true);
 public slots:
     /**
      * @brief updatePolygonWidget　更新属性栏
      */
     void updatePolygonWidget();
-
+    /**
+     * @brief slotRadiusvalueChanged　侧边数值改变处理
+     */
+    void slotSideValueChanged(int value);
+    /**
+     * @brief slotSideWidthChoosed 描边粗细变化信号
+     */
+    void slotSideWidthChoosed(int width);
 signals:
     /**
      * @brief resetColorBtns　重置颜色按钮
@@ -65,16 +77,19 @@ signals:
      * @brief signalPolygonAttributeChanged　属性变化信号
      */
     void signalPolygonAttributeChanged();
+    /**
+     * @brief signalSideValueIsfocus　边数变化信号
+     */
+    void signalSideValueIsfocus(bool);
 
 private:
     BigColorButton *m_fillBtn;
     BorderColorButton *m_strokeBtn;
     CSideWidthWidget *m_sideWidthWidget;
-    DSlider *m_sideNumSlider;
-    DLineEdit *m_sideNumEdit;
+    CSpinBox *m_sideNumSpinBox;
     SeperatorLine *m_sepLine;
-    QAction *m_sideNumAddAction;
-    QAction *m_sideNumReduceAction;
+//    DLabel *m_lwLabel;
+    DLabel *m_sideNumLabel;
 
 private:
     /**
